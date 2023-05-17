@@ -1,0 +1,11 @@
+{
+    "entry": ["./src/main.tsx"],
+    "ignorePatterns": ["**/node_modules/**", "build/**"],
+    "ignoreUnimported": ["**/*.d.ts"],
+    "ignoreUnused": [],
+    "extensions": [".ts", ".js", ".tsx", ".jsx"],
+    "aliases": {
+        "#views/*": ["./src/views/*"],
+        "#utils/*": ["./src/utils/*"]
+    }
+}

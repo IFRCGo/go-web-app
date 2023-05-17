@@ -1,0 +1,62 @@
+:root {
+    --background-color: #242424;
+
+    --text-color: rgba(255, 255, 255, 0.87);
+    --label-color: #666;
+
+    --anchor-color: #646cff;
+    --anchor-hover-color: #535bf2;
+
+    --shadow-color: #646cffaa;
+
+    --padding-small: 1.5em;
+    --padding-medium: 2em;
+
+    background-color: var(--background-color);
+    text-rendering: optimizeLegibility;
+    line-height: 1.5;
+    color: var(--text-color);
+    font-family: 'Nunito', system-ui, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    color-scheme: light dark;
+
+    font-synthesis: none;
+    -webkit-text-size-adjust: 100%;
+}
+
+#webapp-root {
+    margin: 0 auto;
+    padding: 2rem;
+    max-width: 1280px;
+    text-align: center;
+}
+
+a {
+    text-decoration: inherit;
+    color: var(--anchor-color);
+    font-weight: 700;
+
+    &:hover {
+        color: var(--anchor-hover-color);
+    }
+}
+
+body {
+    display: flex;
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    place-items: center;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --background-color: #ffffff;
+        --text-color: #213547;
+        --anchor-color: #646cff;
+        --anchor-hover-color: #747bff;
+    }
+}

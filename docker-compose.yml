@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  react:
+    build: .
+    command: sh -c 'yarn install && yarn dev --host'
+    environment:
+      APP_TITLE: ${APP_TITLE:-React Base App}
+    volumes:
+      - .:/code
+    ports:
+      - '3000:3000'
