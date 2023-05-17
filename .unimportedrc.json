@@ -5,7 +5,12 @@
     "ignoreUnused": [],
     "extensions": [".ts", ".js", ".tsx", ".jsx"],
     "aliases": {
-        "#views/*": ["./src/views/*"],
-        "#utils/*": ["./src/utils/*"]
+        "#assets/*": ["./src/assets/*"],
+        "#components/*": ["./src/components/*"],
+        "#config": ["./src/config"],
+        "#hooks/*": ["./src/hooks/*"],
+        "#types/*": ["./src/types/*"],
+        "#utils/*": ["./src/utils/*"],
+        "#views/*": ["./src/views/*"]
     }
 }

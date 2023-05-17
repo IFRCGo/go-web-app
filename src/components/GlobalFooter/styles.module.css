@@ -1,0 +1,20 @@
+.footer {
+  background-color: var(--go-ui-color-primary-gray);
+  color: var(--go-ui-color-white);
+
+  .content {
+    display: flex;
+    gap: var(--go-ui-spacing-4xl);
+
+    .about,
+    .find-more,
+    .helpful-link,
+    .contact {
+      display: flex;
+      flex-basis: 0;
+      flex-direction: column;
+      flex-grow: 1;
+      gap: var(--go-ui-spacing-xl);
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.input-label {
+  display: inline-block;
+  color: var(--go-ui-color-gray-70);
+  padding: 0 var(--go-ui-spacing-xxs);
+
+  &.disabled {
+    color: var(--go-ui-color-gray-40);
+  }
+
+  .required {
+    color: var(--go-ui-color-primary-red);
+  }
+}

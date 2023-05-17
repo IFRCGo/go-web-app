@@ -1,0 +1,61 @@
+.input-container {
+  position: relative;
+
+  .input-section {
+    display: flex;
+    align-items: center;
+    border-radius: var(--go-ui-border-radius-md);
+    transition: var(--go-ui-duration-transition-medium) var(--go-ui-color-gray-10) ease-in-out;
+    background-color: var(--go-ui-color-gray-10);
+    padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+    border: var(--go-ui-width-separator-thin) solid transparent;
+
+    .internal-input-container {
+      flex-grow: 1;
+
+      &.disabled {
+        cursor: not-allowed;
+      }
+    }
+
+    &:focus-within {
+      border-bottom-color: var(--go-ui-color-primary-red);
+    }
+  }
+
+  .input-hint {
+    font-size: var(--go-ui-font-size-sm);
+    color: var(--go-ui-color-gray-70);
+    padding: var(--go-ui-spacing-xs);
+  }
+
+  &.errored {
+    .input-section {
+      border-color: var(--go-ui-color-red);
+    }
+  }
+
+  &.general {
+    .input-section {
+      border-radius: 0;
+    }
+  }
+
+  .input-error {
+    position: absolute;
+    min-width: var(-go-ui-spacing-8xl);
+    z-index: var(--go-ui-z-index-10);
+  }
+
+  &:hover:enabled {
+    .input-section {
+      border-bottom-color: var(--go-ui-color-primary-red);
+    }
+  }
+
+  &.disabled {
+    background-color: var(--go-ui-color-gray-10);
+    color: var(--go-ui-color-gray-40);
+    cursor: not-allowed;
+  }
+}

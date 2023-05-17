@@ -1,0 +1,16 @@
+.raw-input {
+  margin: unset;
+  outline: unset;
+  border: unset;
+  padding: unset;
+  width: 100%;
+  color: inherit;
+  background-color: unset;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

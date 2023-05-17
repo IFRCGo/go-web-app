@@ -1,62 +1,208 @@
 :root {
-    --background-color: #242424;
+  --go-ui-font-family-sans: Poppins, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --go-ui-font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+  --go-ui-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-    --text-color: rgba(255, 255, 255, 0.87);
-    --label-color: #666;
+  --go-ui-font-size-xs: 0.75rem;
+  --go-ui-font-size-sm: 0.875rem;
+  --go-ui-font-size-md: 1rem;
+  --go-ui-font-size-lg: 1.124rem;
+  --go-ui-font-size-xl: 1.25rem;
+  --go-ui-font-size-2xl: 1.5rem;
+  --go-ui-font-size-3xl: 1.875rem;
+  --go-ui-font-size-4xl: 2.25rem;
+  --go-ui-font-size-5xl: 3rem;
+  --go-ui-font-size-6xl: 3.75rem;
+  --go-ui-font-size-7xl: 4.5rem;
+  --go-ui-font-size-8xl: 6rem;
+  --go-ui-font-size-9xl: 8rem;
 
-    --anchor-color: #646cff;
-    --anchor-hover-color: #535bf2;
+  --go-ui-line-height-none: 1;
+  --go-ui-line-height-tight: 1.25;
+  --go-ui-line-height-snug: 1.375;
+  --go-ui-line-height-normal: 1.5;
+  --go-ui-line-height-relaxed: 1.625;
+  --go-ui-line-height-loose: 2;
 
-    --shadow-color: #646cffaa;
+  --go-ui-font-weight-thin: 100;
+  --go-ui-font-weight-extra-light: 200;
+  --go-ui-font-weight-light: 300;
+  --go-ui-font-weight-normal: 400;
+  --go-ui-font-weight-medium: 500;
+  --go-ui-font-weight-semibold: 600;
+  --go-ui-font-weight-bold: 700;
+  --go-ui-font-weight-extrabold: 800;
+  --go-ui-font-weight-black: 900;
 
-    --padding-small: 1.5em;
-    --padding-medium: 2em;
+  --go-ui-width-screen-sm: 640px;
+  --go-ui-width-screen-md: 768px;
+  --go-ui-width-screen-lg: 1024px;
+  --go-ui-width-screen-xl: 1280px;
+  --go-ui-width-screen-2xl: 1536px;
 
-    background-color: var(--background-color);
-    text-rendering: optimizeLegibility;
-    line-height: 1.5;
-    color: var(--text-color);
-    font-family: 'Poppins', system-ui, sans-serif;
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  --go-ui-spacing-none: 0px;
+  --go-ui-spacing-px: 1px;
+  --go-ui-spacing-xxs: 0.125rem;
+  --go-ui-spacing-xs: 0.25rem;
+  --go-ui-spacing-sm: 0.5rem;
+  --go-ui-spacing-md: 0.75rem;
+  --go-ui-spacing-lg: 1rem;
+  --go-ui-spacing-xl: 1.5rem;
+  --go-ui-spacing-2xl: 2rem;
+  --go-ui-spacing-3xl: 3rem;
+  --go-ui-spacing-4xl: 4rem;
+  --go-ui-spacing-5xl: 5rem;
+  --go-ui-spacing-6xl: 6rem;
+  --go-ui-spacing-7xl: 7rem;
+  --go-ui-spacing-8xl: 8rem;
+  --go-ui-spacing-9xl: 9rem;
 
-    color-scheme: light dark;
+  --go-ui-width-separator-sm: 1px;
+  --go-ui-width-separator-md: 2px;
+  --go-ui-width-separator-lg: 4px;
+  --go-ui-width-separator-xl: 8px;
+  --go-ui-width-separator-thin: 1px;
+  --go-ui-width-separator-small: 2px;
+  --go-ui-width-separator-thick: 4px;
+  --go-ui-width-separator-medium: 6px;
+  --go-ui-width-separator-large: 8px;
+  --go-ui-width-separator-dense: 12px;
+  --go-ui-width-separator-extra-dense: 14px;
 
-    font-synthesis: none;
-    -webkit-text-size-adjust: 100%;
+  --go-ui-border-radius-none: 0px;
+  --go-ui-border-radius-sm: 0.125rem;
+  --go-ui-border-radius-md: 0.25rem;
+  --go-ui-border-radius-lg: 0.5rem;
+  --go-ui-border-radius-xl: 0.75rem;
+  --go-ui-border-radius-2xl: 1rem;
+  --go-ui-border-radius-3xl: 1.5rem;
+  --go-ui-border-radius-full: 9999px;
+
+  --go-ui-box-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --go-ui-box-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --go-ui-box-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --go-ui-box-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --go-ui-box-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --go-ui-box-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --go-ui-box-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --go-ui-box-shadow-none: 0 0 #0000;
+
+  --go-ui-z-index-0: 0;
+  --go-ui-z-index-10: 10;
+  --go-ui-z-index-20: 20;
+  --go-ui-z-index-30: 30;
+  --go-ui-z-index-40: 40;
+  --go-ui-z-index-50: 50;
+  --go-ui-z-index-auto: auto;
+
+  --go-ui-duration-transition-fast: .13s;
+  --go-ui-duration-transition-medium: .3s;
+  --go-ui-duration-transition-slow: .56s;
+  --go-ui-duration-animation-fast: .2s;
+  --go-ui-duration-animation-medium: .5s;
+  --go-ui-duration-animation-slow: 1.2s;
+
+  --go-ui-color-primary-red: #F5333F;
+  --go-ui-color-primary-blue: #011E41;
+  --go-ui-color-primary-gray: #323232;
+  --go-ui-color-primary-white: #ffffff;
+
+  --go-ui-color-green: #7FB845;
+  --go-ui-color-blue: #3FA2F7;
+  --go-ui-color-red: #F75C65;
+  --go-ui-color-yellow: #FFB443;
+  --go-ui-color-black: #000000;
+  --go-ui-color-white: #ffffff;
+
+  --go-ui-color-gray-10: #FAFAFA;
+  --go-ui-color-gray-20: #F2F2F2;
+  --go-ui-color-gray-30: #E0E0E0;
+  --go-ui-color-gray-40: #C6C6C6;
+  --go-ui-color-gray-50: #A8A8A8;
+  --go-ui-color-gray-60: #8D8D8D;
+  --go-ui-color-gray-70: #6F6F6F;
+  --go-ui-color-gray-80: #525252;
+  --go-ui-color-gray-90: #323232;
+
+  --go-ui-color-red-10: #FDD6D9;
+  --go-ui-color-red-20: #FCC2C5;
+  --go-ui-color-red-30: #FBADB2;
+  --go-ui-color-red-40: #FA999F;
+  --go-ui-color-red-50: #F9858C;
+  --go-ui-color-red-60: #F87079;
+  --go-ui-color-red-70: #F75C65;
+  --go-ui-color-red-80: #F64752;
+  --go-ui-color-red-90: #F5333F;
+
+  --go-ui-color-red-hover: #DE2934;
+
+  --go-ui-color-blue-10: #E0E3E7;
+  --go-ui-color-blue-20: #CCD2D9;
+  --go-ui-color-blue-30: #AEB7C2;
+  --go-ui-color-blue-40: #99A5B3;
+  --go-ui-color-blue-50: #7D8B9D;
+  --go-ui-color-blue-60: #67788D;
+  --go-ui-color-blue-70: #4D617A;
+  --go-ui-color-blue-80: #344B67;
+  --go-ui-color-blue-90: #011E41;
+
+  --go-ui-color-positive: var(--go-ui-color-green);
+  --go-ui-color-information: var(--go-ui-color-blue);
+  --go-ui-color-warning: var(--go-ui-color-yellow);
+  --go-ui-color-negative: var(--go-ui-color-red);
+  --go-ui-color-background: #F7F7F7;
+  --go-ui-color-separator: var(--go-ui-color-gray-50);
+  --go-ui-color-background-overlay: rgb(0 0 0 / .6);
+
+  --go-ui-opacity-0: 0;
+  --go-ui-opacity-5: 0.05;
+  --go-ui-opacity-10: 0.1;
+  --go-ui-opacity-20: 0.2;
+  --go-ui-opacity-25: 0.25;
+  --go-ui-opacity-30: 0.3;
+  --go-ui-opacity-40: 0.4;
+  --go-ui-opacity-50: 0.5;
+  --go-ui-opacity-60: 0.6;
+  --go-ui-opacity-70: 0.7;
+  --go-ui-opacity-75: 0.75;
+  --go-ui-opacity-80: 0.8;
+  --go-ui-opacity-90: 0.9;
+  --go-ui-opacity-95: 0.95;
+  --go-ui-opacity-100: 1;
+
+  --go-ui-width-min-modal: 18rem;
+  --go-ui-height-min-height: 11rem;
+
+  --go-ui-width-modal-sm: 32rem;
+  --go-ui-height-modal-sm: 100%;
+
+  --go-ui-width-modal-md: 42rem;
+  --go-ui-height-modal-md: 100%;
+
+  --go-ui-width-modal-lg: 64rem;
+  --go-ui-height-modal-lg: 100%;
+
+  --go-ui-width-modal-xl: 92rem;
+  --go-ui-height-modal-xl: 100%;
+
+  --go-ui-saturate-0: 0;
+  --go-ui-saturate-50: 0.5;
+  --go-ui-saturate-100: 1;
+  --go-ui-saturate-150: 1.5;
+  --go-ui-saturate-200: 2;
+
+  font-family: var(--go-ui-font-family-sans);
+  font-size: var(--go-ui-font-size-sm);
+  font-weight: var(--go-ui-font-weight-normal);
+  line-height: var(--go-ui-line-height-normal);
 }
 
-#webapp-root {
-    margin: 0 auto;
-    padding: 2rem;
-    max-width: 1280px;
-    text-align: center;
+* {
+    box-sizing: border-box;
 }
 
-a {
-    text-decoration: inherit;
-    color: var(--anchor-color);
-    font-weight: 700;
-
-    &:hover {
-        color: var(--anchor-hover-color);
-    }
-}
-
+html,
 body {
-    display: flex;
     margin: 0;
-    min-width: 320px;
-    min-height: 100vh;
-    place-items: center;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        --background-color: #ffffff;
-        --text-color: #213547;
-        --anchor-color: #646cff;
-        --anchor-hover-color: #747bff;
-    }
+    padding: 0;
 }

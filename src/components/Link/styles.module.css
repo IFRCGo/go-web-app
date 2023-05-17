@@ -1,0 +1,43 @@
+.link-container {
+  --color: transparent;
+  --decoration: none;
+  --spacing: var(--go-ui-spacing-xs);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: fit-content;
+  text-decoration: var(--decoration);
+  color: var(--color);
+  gap: var(--spacing);
+
+  &:not(.disabled) {
+    --color: var(--go-ui-color-black);
+    cursor: pointer;
+
+    &:hover {
+      --color: var(--go-ui-color-primary-red);
+      --decoration: underline;
+    }
+  }
+
+  &.disabled {
+    --color: var(--go-ui-color-gray-40);
+    pointer-events: none;
+  }
+
+  &.underline {
+    --decoration: underline;
+  }
+
+  .link {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+
+

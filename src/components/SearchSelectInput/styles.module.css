@@ -1,0 +1,55 @@
+.select-input {
+  padding: 0;
+
+  .input-section {
+    padding: 0 var(--go-ui-spacing-md);
+  }
+  .select {
+    margin: 0 calc(var(--go-ui-spacing-md) * -1);
+
+    .control {
+      border: 0;
+      box-shadow: unset;
+      min-height: unset;
+      background-color: unset;
+      margin: 0;
+      padding: 0 var(--go-ui-spacing-sm);
+
+      &.is-focused {
+        border: 0;
+        box-shadow: unset;
+      }
+
+      &:hover {
+        border: 0;
+        box-shadow: unset;
+      }
+    }
+
+    .value-container {
+      padding: var(--go-ui-spacing-sm);
+      margin: unset;
+
+      >* {
+        margin: unset;
+        padding: unset;
+      }
+    }
+
+    .indicator-container {
+      padding: unset;
+    }
+
+    .indicator-separator {
+      display: none;
+    }
+
+    .dropdown-indicator {
+      padding: unset;
+    }
+
+    .clear-indicator {
+      padding: unset;
+    }
+  }
+}

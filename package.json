@@ -15,10 +15,14 @@
         "css-lint": "stylelint ./src/**/*.css"
     },
     "dependencies": {
+        "@ifrc-go/icons": "^1.1.3",
         "@togglecorp/fujs": "^2.0.0",
+        "@togglecorp/toggle-form": "^2.0.1",
+        "@togglecorp/toggle-request": "^0.0.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-router-dom": "^6.11.1"
+        "react-router-dom": "^6.11.1",
+        "url": "^0.11.0"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^2.0.3",

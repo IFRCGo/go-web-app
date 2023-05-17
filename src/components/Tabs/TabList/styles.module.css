@@ -1,0 +1,41 @@
+.tab-list {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 0;
+
+  .step-border {
+    position: absolute;
+    z-index: -1;
+    top: calc((#{var(--go-ui-spacing-md)} + 1rem) / 2);
+    width: 100%;
+    height: calc(var(--go-ui-spacing-px)*2);
+    background-color: var(--go-ui-color-gray-30);
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background-color: var(--go-ui-color-primary-red);
+      transition: var(--go-ui-duration-transition-medium) width ease-in-out;
+    }
+  }
+
+  .start-dummy-content,
+  .end-dummy-content {
+    border-bottom: var(--go-ui-spacing-px) solid var(--go-ui-color-gray-30);
+    flex-grow: 1;
+    align-self: flex-end;
+  }
+
+  &.disabled {
+    .step-border {
+      opacity: var(--opacity-disabled-element);
+    }
+  }
+
+  &.secondary {
+    width: fit-content;
+    background-color: var(--go-ui-color-background);
+    border-radius: calc(1em + #{var(--go-ui-spacing-md)});
+  }
+}

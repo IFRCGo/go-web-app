@@ -1,0 +1,14 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--go-ui-color-background);
+    border-radius: var(--go-ui-border-radius-sm);
+    box-shadow: var(--go-ui-box-shadow-sm);
+    padding: var(--go-ui-spacing-md);
+    gap: var(--go-ui-spacing-sm);
+    width: 15rem;
+
+    .content {
+        padding: var(--go-ui-spacing-sm);
+    }
+}

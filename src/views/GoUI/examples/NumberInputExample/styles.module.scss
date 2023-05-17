@@ -1,0 +1,13 @@
+.number-box {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-2xl);
+    gap: var(--go-ui-spacing-sm);
+
+    .number-example {
+        padding: var(--go-ui-spacing-sm);
+        background-color: var(--go-ui-color-gray-40);
+        width: 50%;
+    }
+}

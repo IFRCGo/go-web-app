@@ -1,0 +1,67 @@
+.modal-container {
+  display: block;
+  width: 100%;
+
+  &.size-sm {
+    max-width: var(--go-ui-width-modal-sm);
+  }
+
+  &.size-md {
+    max-width: var(--go-ui-width-modal-md);
+  }
+
+  &.size-lg {
+    max-width: var(--go-ui-width-modal-lg);
+  }
+
+  &.size-xl {
+    max-width: var(--go-ui-width-modal-lg);
+  }
+
+  &.size-full {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  &.size-auto {
+    max-width: fit-content;
+  }
+}
+.modal {
+    --spacing: var(--go-ui-spacing-md);
+    display: flex;
+    flex-direction: column;
+    border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+    border-radius: var(--go-ui-border-radius-md);
+    background-color: var(--go-ui-color-background);
+    padding: var(--spacing);
+    min-width: var(--go-ui-width-min-modal);
+    min-height: var(--go-ui-height-min-modal);
+    gap: var(--spacing);
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing);
+
+      .close-button {
+        align-self: flex-end;
+      }
+    }
+
+    .modal-body {
+      display: flex;
+      flex-grow: 1;
+      overflow: auto;
+      gap: var(--spacing);
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: var(--spacing);
+    }
+  }

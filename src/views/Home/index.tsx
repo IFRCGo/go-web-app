@@ -1,45 +1,20 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
-import { wrappedRoutes } from '../../App/routes';
+import Page from '#components/Page';
+import HighlightedOperations from './HighlightedOperations';
 
+import strings from './strings';
 import styles from './styles.module.css';
 
-// FIXME: import is weird will full names
-
-interface Props {
-    // FIXME: remove this issue with prop types
-    name?: string;
-}
-
-// eslint-disable-next-line import/prefer-default-export
-export function Component(props: Props) {
-    const {
-        name = 'Pineapple',
-    } = props;
-    const [count, setCount] = useState(1);
-
+export function Component() {
     return (
-        <>
-            <h1>
-                {`${name} + React v${count}`}
-            </h1>
-            <p className={styles.readTheDocs}>
-                Click on the Pineapple and React logos to learn more
-            </p>
-            <div className={styles.card}>
-                <button
-                    type="button"
-                    onClick={() => setCount((c) => c + 1)}
-                >
-                    Upgrade
-                </button>
-            </div>
-            <Link to={wrappedRoutes.preferences.absolutePath}>
-                Go to preferences
-            </Link>
-        </>
+        <Page
+            title={strings.pageTitle}
+            className={styles.home}
+            heading={strings.pageHeading}
+            description={strings.pageDescription}
+        >
+            <HighlightedOperations />
+        </Page>
     );
 }
-
-Component.displayName = 'Home';

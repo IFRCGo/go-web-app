@@ -1,0 +1,38 @@
+.heading {
+  --font-size: var(--go-ui-font-size-xl);
+  --line-height: var(--go-ui-line-height-snug);
+  display: flex;
+  font-size: var(--font-size);
+  font-weight: var(--go-ui-font-weight-bold);
+  margin: 0;
+
+  &.level-1 {
+    --font-size: var(--go-ui-font-size-4xl);
+    --line-height: var(--go-ui-line-height-none);
+  }
+
+  &.level-2 {
+    --font-size: var(--go-ui-font-size-2xl);
+    --line-height: var(--go-ui-line-height-tight);
+  }
+
+  &.level-3 {
+    --font-size: var(--go-ui-font-size-xl);
+    --line-height: var(--go-ui-line-height-snug);
+  }
+
+  &.level-4 {
+    --font-size: var(--go-ui-font-size-lg);
+    --line-height: var(--go-ui-line-height-normal);
+  }
+
+  &.level-5 {
+    --font-size: var(--go-ui-font-size-md);
+    --line-height: var(--go-ui-line-height-normal);
+  }
+
+  &.level-6 {
+    --font-size: var(--go-ui-font-size-sm);
+    --line-height: var(--go-ui-line-height-normal);
+  }
+}

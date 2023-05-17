@@ -1,0 +1,63 @@
+.main-container {
+  display: flex;
+  width: 100%;
+  gap: var(--go-ui-spacing-lg);
+
+  .component-layout {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    overflow-x: auto;
+    gap: var(--go-ui-spacing-md);
+  }
+
+  .side-content {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-xl);
+    flex-shrink: 0;
+    width: calc(160px + 10vw);
+
+    .option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      font-size: var(--go-ui-font-size-md);
+      padding: var(--go-ui-spacing-sm);
+      background-color: var(--go-ui-color-red-50);
+      border: 1px solid var(--go-ui-color-red-20);
+      border-radius: var(--go-ui-border-radius-md);
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+
+    .selected-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      font-size: var(--go-ui-font-size-md);
+      padding: var(--go-ui-spacing-sm);
+      background-color: var(--go-ui-color-red-hover);
+      border: 1px solid var(--go-ui-color-red-20);
+      border-radius: var(--go-ui-border-radius-md);
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .main-content {
+    font-family: var(--go-ui-font-family-sans);
+    font-size: var(--go-ui-font-size-sm);
+    font-weight: var(--go-ui-font-weight-light);
+    line-height: var(--go-ui-line-height-normal);
+  }
+}

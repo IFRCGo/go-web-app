@@ -1,0 +1,13 @@
+.button-collection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--go-ui-spacing-2xl);
+  gap: var(--go-ui-spacing-2xl);
+
+  .buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+  }
+}

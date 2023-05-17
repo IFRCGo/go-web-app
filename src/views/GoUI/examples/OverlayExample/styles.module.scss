@@ -1,0 +1,10 @@
+.overlay-content {
+  display: flex;
+  padding: var(--go-ui-spacing-2xl);
+
+  .content {
+    display: flex;
+    width: 50vw;
+    padding: var(--go-ui-spacing-lg);
+  }
+}

@@ -1,39 +1,21 @@
 import { Outlet } from 'react-router-dom';
 
-import reactLogo from '../../assets/react.svg';
+import Navbar from '#components/Navbar';
+import GlobalFooter from '#components/GlobalFooter';
+
 import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     return (
-        <>
-            <div>
-                <a
-                    href="https://en.wikipedia.org/wiki/Pineapple"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <img
-                        src="/ifrc-go-logo.svg"
-                        className={styles.logo}
-                        alt="Pineapple logo"
-                    />
-                </a>
-                <a
-                    href="https://react.dev"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <img
-                        src={reactLogo}
-                        className={styles.logo}
-                        alt="React logo"
-                    />
-                </a>
+        <div className={styles.root}>
+            <Navbar className={styles.navbar} />
+            <div className={styles.pageContent}>
+                <Outlet />
             </div>
-            <Outlet />
-        </>
+            <GlobalFooter className={styles.footer} />
+        </div>
     );
 }
 
-Component.displayName = 'App';
+Component.displayName = 'Root';

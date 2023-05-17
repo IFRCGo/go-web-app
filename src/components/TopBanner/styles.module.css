@@ -1,0 +1,19 @@
+.top-banner {
+  padding: var(--go-ui-spacing-md);
+  text-align: center;
+  background-color: var(--go-ui-color-negative);
+  color: var(--go-ui-color-white);
+  font-weight: var(--go-ui-font-weight-medium);
+}
+
+.warning {
+  background-color: var(--go-ui-color-warning);
+}
+
+.positive {
+  background-color: var(--go-ui-color-positive);
+}
+
+.information {
+  background-color: var(--go-ui-color-information);
+}

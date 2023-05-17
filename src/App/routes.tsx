@@ -14,14 +14,14 @@ const home = wrapRoute({
     title: 'Home',
     index: true,
     component: () => import('#views/Home'),
-    componentProps: { name: 'Pine Apple' },
+    componentProps: {},
     parent: root,
 });
 
-const preferences = wrapRoute({
-    title: 'Preferences',
-    path: 'preferences',
-    component: () => import('#views/Preferences'),
+const goUI = wrapRoute({
+    title: 'Go UI',
+    path: 'go-ui',
+    component: () => import('#views/GoUI'),
     componentProps: {},
     parent: root,
 });
@@ -29,7 +29,7 @@ const preferences = wrapRoute({
 export const wrappedRoutes = {
     root,
     home,
-    preferences,
+    goUI,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

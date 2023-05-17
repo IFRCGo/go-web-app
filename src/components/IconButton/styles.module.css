@@ -1,0 +1,90 @@
+.button {
+  --color-border: transparent;
+  --color-text: transparent;
+  --color-background: transparent;
+  --font-size: var(--go-ui-font-size-xl);
+  --border-radius: var(--go-ui-border-radius-md);
+  --text-transform: none;
+  --cursor: default;
+  --spacing: var(--go-ui-spacing-sm);
+  --padding: calc(var(--spacing) / 2);
+
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  background-color: var(--color-background);
+  cursor: var(--cursor);
+  padding: var(--padding);
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+  text-transform: var(--text-transform);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-size);
+  font-weight: var(--go-ui-font-weight-normal);
+  gap: var(--spacing);
+  border: var(--go-ui-width-separator-sm) solid var(--color-border);
+
+  &.round {
+    --border-radius: 50%;
+  }
+  &.primary {
+    --border-color: var(--go-ui-color-primary-red);
+    --color-background: var(--go-ui-color-primary-red);
+    --color-text: var(--go-ui-color-white);
+
+    &:not(:disabled) {
+      &:hover {
+        --color-background: var(--go-ui-color-red-hover);
+      }
+    }
+
+    &:disabled {
+      --border-color: var(--go-ui-color-gray-40);
+      --color-background: var(--go-ui-color-gray-40);
+    }
+  }
+
+  &.secondary {
+    --color-border: var(--go-ui-color-primary-red);
+    --color-background: var(--go-ui-color-primary-white);
+    --color-text: var(--go-ui-color-primary-red);
+
+    &:not(:disabled) {
+      &:hover {
+        --color-text: var(--go-ui-color-white);
+        --color-background: var(--go-ui-color-red-hover);
+      }
+    }
+    &:disabled {
+      --color-text: var(--go-ui-color-gray-40);
+      --color-border: var(--go-ui-color-gray-40);
+    }
+  }
+
+  &.tertiary {
+    --color-background: transparent;
+    --color-text: inherit;
+    &:not(:disabled) {
+      &:hover {
+        --color-background: var(--go-ui-color-gray-20);
+        --color-text: var(--go-ui-color-primary-red);
+      }
+    }
+
+    &:disabled {
+      --color-text: var(--go-ui-color-gray-40);
+    }
+  }
+
+  &:disabled {
+    --cursor: not-allowed;
+  }
+
+  &:not(:disabled) {
+    --cursor: pointer;
+  }
+}
