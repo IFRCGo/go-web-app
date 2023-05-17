@@ -1,31 +1,31 @@
 .input-error {
-  position: relative;
-  margin-top: var(--go-ui-width-separator-medium);
+    position: relative;
+    margin-top: var(--go-ui-width-separator-medium);
 
-  .tip {
-    width: 14px;
-    height: 6px;
-    top: -6px;
-    left: 20px;
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    position: absolute;
-    background-color: var(--go-ui-color-primary-red);
-  }
-
-  .content {
-    border-radius: var(--go-ui-spacing-xs);
-    display: flex;
-    align-items: center;
-    background-color: var(--go-ui-color-primary-red);
-    color: var(--go-ui-color-primary-white);
-    font-size: var(--go-ui-font-size-sm);
-    padding: var(--go-ui-spacing-md);
-
-    .icon {
-      margin-right: var(--go-ui-spacing-md);
-      font-size: var(--go-ui-font-size-md);
-      flex-shrink: 0;
-      align-self: flex-start;
+    .tip {
+        position: absolute;
+        top: -6px;
+        left: 20px;
+        background-color: var(--go-ui-color-primary-red);
+        width: 14px;
+        height: 6px;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     }
-  }
+
+    .content {
+        display: flex;
+        align-items: center;
+        border-radius: var(--go-ui-spacing-xs);
+        background-color: var(--go-ui-color-primary-red);
+        padding: var(--go-ui-spacing-md);
+        color: var(--go-ui-color-primary-white);
+        font-size: var(--go-ui-font-size-sm);
+
+        .icon {
+            align-self: flex-start;
+            flex-shrink: 0;
+            margin-right: var(--go-ui-spacing-md);
+            font-size: var(--go-ui-font-size-md);
+        }
+    }
 }

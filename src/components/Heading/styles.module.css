@@ -1,38 +1,38 @@
 .heading {
-  --font-size: var(--go-ui-font-size-xl);
-  --line-height: var(--go-ui-line-height-snug);
-  display: flex;
-  font-size: var(--font-size);
-  font-weight: var(--go-ui-font-weight-bold);
-  margin: 0;
-
-  &.level1 {
-    --font-size: var(--go-ui-font-size-4xl);
-    --line-height: var(--go-ui-line-height-none);
-  }
-
-  &.level2 {
-    --font-size: var(--go-ui-font-size-2xl);
-    --line-height: var(--go-ui-line-height-tight);
-  }
-
-  &.level3 {
     --font-size: var(--go-ui-font-size-xl);
     --line-height: var(--go-ui-line-height-snug);
-  }
+    display: flex;
+    margin: 0;
+    font-size: var(--font-size);
+    font-weight: var(--go-ui-font-weight-bold);
 
-  &.level4 {
-    --font-size: var(--go-ui-font-size-lg);
-    --line-height: var(--go-ui-line-height-normal);
-  }
+    &.level1 {
+        --font-size: var(--go-ui-font-size-4xl);
+        --line-height: var(--go-ui-line-height-none);
+    }
 
-  &.level5 {
-    --font-size: var(--go-ui-font-size-md);
-    --line-height: var(--go-ui-line-height-normal);
-  }
+    &.level2 {
+        --font-size: var(--go-ui-font-size-2xl);
+        --line-height: var(--go-ui-line-height-tight);
+    }
 
-  &.level6 {
-    --font-size: var(--go-ui-font-size-sm);
-    --line-height: var(--go-ui-line-height-normal);
-  }
+    &.level3 {
+        --font-size: var(--go-ui-font-size-xl);
+        --line-height: var(--go-ui-line-height-snug);
+    }
+
+    &.level4 {
+        --font-size: var(--go-ui-font-size-lg);
+        --line-height: var(--go-ui-line-height-normal);
+    }
+
+    &.level5 {
+        --font-size: var(--go-ui-font-size-md);
+        --line-height: var(--go-ui-line-height-normal);
+    }
+
+    &.level6 {
+        --font-size: var(--go-ui-font-size-sm);
+        --line-height: var(--go-ui-line-height-normal);
+    }
 }

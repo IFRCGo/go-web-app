@@ -1,31 +1,31 @@
 .segment-input {
-  width: fit-content;
-
-  .list {
-    gap: 0;
-    background-color: var(--go-ui-color-background);
     width: fit-content;
-    border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-black);
-    border-radius: calc(#{var(--go-ui-spacing-md)} + 1em);
-    padding: 0;
-  }
 
-  .segment {
-    border-color: transparent;
-    padding: math.div(var(--go-ui-spacing-md), 3) var(--go-ui-spacing-md)*2;
-
-    &.active {
-      background-color: var(--go-ui-color-primary-red);
-      color: var(--go-ui-color-black);
+    .list {
+        border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-black);
+        border-radius: calc(#{var(--go-ui-spacing-md)} + 1em);
+        background-color: var(--go-ui-color-background);
+        padding: 0;
+        width: fit-content;
+        gap: 0;
     }
-  }
 
-  &.secondary-variant {
     .segment {
-      &.active {
-        background-color: var(--go-ui-color-blue-90);
-        color: var(--go-ui-color-black);
-      }
+        border-color: transparent;
+        padding: math.div(var(--go-ui-spacing-md), 3) var(--go-ui-spacing-md)*2;
+
+        &.active {
+            background-color: var(--go-ui-color-primary-red);
+            color: var(--go-ui-color-black);
+        }
     }
-  }
+
+    &.secondary-variant {
+        .segment {
+            &.active {
+                background-color: var(--go-ui-color-blue-90);
+                color: var(--go-ui-color-black);
+            }
+        }
+    }
 }

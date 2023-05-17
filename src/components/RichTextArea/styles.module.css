@@ -1,29 +1,29 @@
 .rich-text-area {
-  position: relative;
-  z-index: 0;
+    position: relative;
+    z-index: 0;
 
-  :global {
-    .tox-tinymce {
-      border: unset;
+    :global {
+        .tox-tinymce {
+            border: unset;
 
-      .tox-editor-container {
-        .tox-editor-header {
-          .tox-toolbar-overlord {
-            .tox-toolbar__primary {
-              background-color: unset;
-              background: unset;
+            .tox-editor-container {
+                .tox-editor-header {
+                    .tox-toolbar-overlord {
+                        .tox-toolbar__primary {
+                            background: unset;
+                            background-color: unset;
+                        }
+                    }
+                }
+
+                .tox-edit-area__iframe {
+                    background-color: unset;
+                }
             }
-          }
-        }
 
-        .tox-edit-area__iframe {
-          background-color: unset;
+            .tox-statusbar {
+                background-color: unset;
+            }
         }
-      }
-
-      .tox-statusbar {
-        background-color: unset;
-      }
     }
-  }
 }

@@ -1,43 +1,43 @@
 .checkbox {
-  display: flex;
-  align-items: flex-start;
-  cursor: pointer;
-  gap: var(--go-ui-spacing-sm);
-
-  .checkmark {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    font-size: var(--go-ui-font-size-2xl);
-    transition: var(--go-ui-duration-transition-medium) color ease-in-out;
-  }
-
-  .input {
-    display: none;
-  }
-
-  &.checked {
-    .checkmark {
-      color: var(--go-ui-color-primary-red);
-    }
-  }
-
-  &:not(:focus),
-  &:not(:hover) {
-    .checkmark {
-      color: var(--go-ui-color-primary-red);
-    }
-  }
-
-  &.disabled-checkbox {
     display: flex;
     align-items: flex-start;
-    cursor: not-allowed;
+    cursor: pointer;
     gap: var(--go-ui-spacing-sm);
-    color: var(--go-ui-color-gray-40);
 
     .checkmark {
-      color: var(--go-ui-color-gray-40);
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        transition: var(--go-ui-duration-transition-medium) color ease-in-out;
+        font-size: var(--go-ui-font-size-2xl);
     }
-  }
+
+    .input {
+        display: none;
+    }
+
+    &.checked {
+        .checkmark {
+            color: var(--go-ui-color-primary-red);
+        }
+    }
+
+    &:not(:focus),
+    &:not(:hover) {
+        .checkmark {
+            color: var(--go-ui-color-primary-red);
+        }
+    }
+
+    &.disabled-checkbox {
+        display: flex;
+        align-items: flex-start;
+        cursor: not-allowed;
+        gap: var(--go-ui-spacing-sm);
+        color: var(--go-ui-color-gray-40);
+
+        .checkmark {
+            color: var(--go-ui-color-gray-40);
+        }
+    }
 }

@@ -1,22 +1,22 @@
 .breadcrumbs {
-  display: flex;
-  align-items: center;
-  color: var(--go-ui-color-gray-40);
-  gap: var(--go-ui-spacing-sm);
-
-  .item {
     display: flex;
+    align-items: center;
+    color: var(--go-ui-color-gray-40);
+    gap: var(--go-ui-spacing-sm);
 
-    &:not(:last-child) {
-      :hover {
-        color: var(--go-ui-color-primary-red);
-        text-decoration: underline;
-      }
-    }
+    .item {
+        display: flex;
 
-    &:last-child {
-      font-weight: var(--go-ui-font-weight-bold);
-      color: var(--go-ui-color-black);
+        &:not(:last-child) {
+            :hover {
+                text-decoration: underline;
+                color: var(--go-ui-color-primary-red);
+            }
+        }
+
+        &:last-child {
+            color: var(--go-ui-color-black);
+            font-weight: var(--go-ui-font-weight-bold);
+        }
     }
-  }
 }

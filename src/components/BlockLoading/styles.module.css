@@ -1,10 +1,10 @@
 .block-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: var(--go-ui-spacing-2xl);
-  border: 2px var(--go-ui-color-gray-40);
-  border-style: dashed;
-  border-radius: var(--go-ui-border-radius-2xl);
-  height: 15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--go-ui-spacing-2xl);
+    border: 2px var(--go-ui-color-gray-40);
+    border-style: dashed;
+    border-radius: var(--go-ui-border-radius-2xl);
+    height: 15rem;
 }

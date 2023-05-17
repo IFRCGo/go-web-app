@@ -1,45 +1,45 @@
 .navbar {
-  border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-20);
-  background-color: var(--go-ui-color-white);
+    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-20);
+    background-color: var(--go-ui-color-white);
 
-  .top {
-    border-bottom: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-red);
+    .top {
+        border-bottom: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-red);
 
-    .top-content {
-      display: flex;
-      align-items: center;
-      gap: var(--go-ui-spacing-xl);
+        .top-content {
+            display: flex;
+            align-items: center;
+            gap: var(--go-ui-spacing-xl);
 
-      .brand {
-        flex-grow: 1;
+            .brand {
+                flex-grow: 1;
 
-        .go-icon {
-          height: var(--go-ui-font-size-5xl);
+                .go-icon {
+                    height: var(--go-ui-font-size-5xl);
+                }
+            }
+
+            .actions {
+                display: flex;
+                align-items: center;
+                gap: var(--go-ui-spacing-xl);
+            }
         }
-      }
+    }
 
-      .actions {
+    .bottom {
         display: flex;
-        align-items: center;
-        gap: var(--go-ui-spacing-xl);
-      }
-    }
-  }
 
-  .bottom {
-    display: flex;
+        .menu-items {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            gap: var(--go-ui-spacing-xl);
+        }
 
-    .menu-items {
-      display: flex;
-      align-items: center;
-      flex-grow: 1;
-      gap: var(--go-ui-spacing-xl);
+        .search-container {
+            background-color: var(--go-ui-color-gray-20);
+            padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+            min-width: 20rem;
+        }
     }
-
-    .search-container {
-      background-color: var(--go-ui-color-gray-20);
-      padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
-      min-width: 20rem;
-    }
-  }
 }

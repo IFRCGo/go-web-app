@@ -1,12 +1,12 @@
 .checklist {
-  .checkbox-list-container {
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: var(--go-ui-spacing-md);
+    .checkbox-list-container {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-md);
 
-    >* {
-      flex-basis: calc(100% / 4 - var(--go-ui-spacing-md));
+        >* {
+            flex-basis: calc(100% / 4 - var(--go-ui-spacing-md));
+        }
     }
-  }
 }

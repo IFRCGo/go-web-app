@@ -1,43 +1,43 @@
 .spinner {
-  font-size: 0;
-  border-radius: var(--go-ui-border-radius-full);
-  background: var(--go-ui-color-gray-40);
-  padding: var(--go-ui-spacing-sm);
+    border-radius: var(--go-ui-border-radius-full);
+    background: var(--go-ui-color-gray-40);
+    padding: var(--go-ui-spacing-sm);
+    font-size: 0;
 }
 
 
 .spinner-bounce {
-  width: 1rem;
-  height: 1rem;
-  background: #fff;
-  border-radius: var(--go-ui-border-radius-full);
-  display: inline-block;
-  margin: 0 var(--go-ui-spacing-xs);
-  animation: spinner-bounce-delay var(--go-ui-duration-animation-slow) infinite ease-in-out both;
+    display: inline-block;
+    margin: 0 var(--go-ui-spacing-xs);
+    border-radius: var(--go-ui-border-radius-full);
+    background: #fff;
+    width: 1rem;
+    height: 1rem;
+    animation: spinner-bounce-delay var(--go-ui-duration-animation-slow) infinite ease-in-out both;
 
-  &:first-child {
-    margin-inline-start: 0;
-  }
+    &:first-child {
+        margin-inline-start: 0;
+    }
 
-  &:not(:first-child):not(:last-child) {
-    animation-delay: var(--go-ui-duration-animation-fast);
-  }
+    &:not(:first-child):not(:last-child) {
+        animation-delay: var(--go-ui-duration-animation-fast);
+    }
 
-  &:last-child {
-    animation-delay: var(--go-ui-duration-animation-medium);
-    margin-inline-end: 0;
-  }
+    &:last-child {
+        animation-delay: var(--go-ui-duration-animation-medium);
+        margin-inline-end: 0;
+    }
 }
 
 @keyframes spinner-bounce-delay {
 
-  0%,
-  80%,
-  100% {
-    transform: scale(0);
-  }
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
 
-  40% {
-    transform: scale(1.0);
-  }
+    40% {
+        transform: scale(1.0);
+    }
 }

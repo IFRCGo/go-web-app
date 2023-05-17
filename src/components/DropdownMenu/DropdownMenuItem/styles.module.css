@@ -1,31 +1,31 @@
 .dropdown-menu-item {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  padding: var(--go-ui-spacing-sm);
-
-  .icon-container {
     display: flex;
-    align-items: center;
-    font-size: var(--go-ui-font-size-md);
-    padding: 0 var(--go-ui-spacing-sm);
-  }
+    justify-content: center;
+    padding: var(--go-ui-spacing-sm);
+    width: 100%;
 
-  .label {
-    display: flex;
-    align-items: center;
-    padding: 0 var(--go-ui-spacing-md);
-    font-weight: var(--go-ui-font-weight-medium);
-  }
+    .icon-container {
+        display: flex;
+        align-items: center;
+        padding: 0 var(--go-ui-spacing-sm);
+        font-size: var(--go-ui-font-size-md);
+    }
 
-  &:hover {
-    background-color: var(--go-ui-color-gray-20);
-    cursor: pointer;
-  }
+    .label {
+        display: flex;
+        align-items: center;
+        padding: 0 var(--go-ui-spacing-md);
+        font-weight: var(--go-ui-font-weight-medium);
+    }
 
-  &.disabled {
-    pointer-events: none;
-    background-color: transparent;
-    opacity: 0.5;
-  }
+    &:hover {
+        background-color: var(--go-ui-color-gray-20);
+        cursor: pointer;
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        background-color: transparent;
+        pointer-events: none;
+    }
 }

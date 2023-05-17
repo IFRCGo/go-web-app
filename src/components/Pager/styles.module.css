@@ -1,24 +1,24 @@
 .pager {
-  .page-list {
-    display: flex;
-    align-items: center;
+    .page-list {
+        display: flex;
+        align-items: center;
 
-    .page-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: var(--go-ui-spacing-2xl);
-      height: var(--go-ui-spacing-2xl);
+        .page-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--go-ui-spacing-2xl);
+            height: var(--go-ui-spacing-2xl);
 
-      &.active {
-        background-color: var(--go-ui-color-primary-red);
-        color: var(--go-ui-color-white);
-        border-radius: 50%;
-      }
+            &.active {
+                border-radius: 50%;
+                background-color: var(--go-ui-color-primary-red);
+                color: var(--go-ui-color-white);
+            }
 
-      &:disabled {
-        opacity: var(--go-ui-opacity-50);
-      }
+            &:disabled {
+                opacity: var(--go-ui-opacity-50);
+            }
+        }
     }
-  }
 }

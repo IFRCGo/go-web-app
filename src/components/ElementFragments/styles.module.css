@@ -1,19 +1,19 @@
 .icons {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: calc(var(--go-ui-spacing-md) * 0.5);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: calc(var(--go-ui-spacing-md) * 0.5);
 }
 
 .children {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 .actions {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: calc(var(--go-ui-spacing-md) * 0.5);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: calc(var(--go-ui-spacing-md) * 0.5);
 }

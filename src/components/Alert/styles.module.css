@@ -1,54 +1,54 @@
 .alert {
-  padding: calc(var(--go-ui-spacing-md) * 0.5);
-  background-color: var(--go-ui-color-gray-80);
-  color: var(--go-ui-color-white);
-  border-radius: var(--go-ui-border-radius-md);
-  width: calc(200px + 16vw);
-
-  .content {
-    display: flex;
-    align-items: center;
-    padding: calc(var(--go-ui-spacing-md) * 0.5);;
-
-    .close-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .icon {
-      font-size: 1.2em;
-    }
+    border-radius: var(--go-ui-border-radius-md);
+    background-color: var(--go-ui-color-gray-80);
+    padding: calc(var(--go-ui-spacing-md) * 0.5);
+    width: calc(200px + 16vw);
+    color: var(--go-ui-color-white);
 
     .content {
-      flex-direction: column;
-      align-items: initial;
-      font-weight: var(--go-ui-font-weight-bold);
+        display: flex;
+        align-items: center;
+        padding: calc(var(--go-ui-spacing-md) * 0.5);;
+
+        .close-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            font-size: 1.2em;
+        }
+
+        .content {
+            align-items: initial;
+            flex-direction: column;
+            font-weight: var(--go-ui-font-weight-bold);
+        }
     }
-  }
 
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    padding: calc(var(--go-ui-spacing-md) * 0.25);
-    font-weight: var(--go-ui-font-weight-bold);
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        padding: calc(var(--go-ui-spacing-md) * 0.25);
+        font-weight: var(--go-ui-font-weight-bold);
 
-    .copy-debug-message-button {
-      padding: calc(var(--go-ui-spacing-md) * 0.25);
-      text-transform: uppercase;
-      font-size: var(--go-ui-font-size-sm);
+        .copy-debug-message-button {
+            padding: calc(var(--go-ui-spacing-md) * 0.25);
+            text-transform: uppercase;
+            font-size: var(--go-ui-font-size-sm);
+        }
     }
-  }
 
-  &.success {
-    background-color: var(--go-ui-color-positive);
-  }
+    &.success {
+        background-color: var(--go-ui-color-positive);
+    }
 
-  &.danger {
-    background-color: var(--go-ui-color-negative);
-  }
+    &.danger {
+        background-color: var(--go-ui-color-negative);
+    }
 
-  &.warning {
-    background-color: var(--go-ui-color-warning);
-  }
+    &.warning {
+        background-color: var(--go-ui-color-warning);
+    }
 }

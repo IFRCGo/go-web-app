@@ -1,10 +1,10 @@
 .breadcrumbs-example {
-  display: flex;
-  flex-direction: column;
-  padding: var(--go-ui-spacing-md);
-  gap: var(--go-ui-spacing-md);
-
-  .breadcrumb {
     display: flex;
-  }
+    flex-direction: column;
+    padding: var(--go-ui-spacing-md);
+    gap: var(--go-ui-spacing-md);
+
+    .breadcrumb {
+        display: flex;
+    }
 }

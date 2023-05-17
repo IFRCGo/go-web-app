@@ -1,11 +1,11 @@
 .raw-button {
-  position: relative;
-  border: 0;
-  cursor: pointer;
-  padding: 0;
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  outline-offset: var(--go-ui-width-separator-lg);
+    position: relative;
+    outline-offset: var(--go-ui-width-separator-lg);
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
 }
