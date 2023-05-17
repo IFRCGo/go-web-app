@@ -1,0 +1,3 @@
+.operation-card {
+    border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+}

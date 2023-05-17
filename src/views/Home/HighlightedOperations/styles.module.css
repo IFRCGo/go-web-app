@@ -1,7 +1,13 @@
 .highlighted-operations {
-  .emergency-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--go-ui-spacing-xl);
-  }
+    .emergency-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-xl);
+
+        .operation {
+            flex-basis: 0;
+            flex-grow: 1;
+            min-width: 20rem;
+        }
+    }
 }

@@ -1,0 +1,18 @@
+.severity-indicator {
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    border-radius: 0.5rem;
+
+    &.yellow {
+        background-color: var(--go-ui-color-yellow);
+    }
+
+    &.red {
+        background-color: var(--go-ui-color-red);
+    }
+
+    &.orange {
+        background-color: var(--go-ui-color-orange);
+    }
+}
