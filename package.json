@@ -1,7 +1,6 @@
 {
-    "name": "react-base-app",
-    "private": true,
-    "version": "0.0.0",
+    "name": "go-frontend",
+    "version": "7.0.0",
     "type": "module",
     "scripts": {
         "start": "vite",

@@ -16,7 +16,7 @@
     text-rendering: optimizeLegibility;
     line-height: 1.5;
     color: var(--text-color);
-    font-family: 'Nunito', system-ui, sans-serif;
+    font-family: 'Poppins', system-ui, sans-serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

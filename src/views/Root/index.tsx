@@ -14,7 +14,7 @@ export function Component() {
                     rel="noreferrer"
                 >
                     <img
-                        src="/pineapple.svg"
+                        src="/ifrc-go-logo.svg"
                         className={styles.logo}
                         alt="Pineapple logo"
                     />
