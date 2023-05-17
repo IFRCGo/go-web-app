@@ -1,7 +1,7 @@
 import {
-  COLOR_RED,
-  COLOR_WHITE,
-  CIRCLE_RADIUS_SUPER_LARGE,
+    COLOR_RED,
+    COLOR_WHITE,
+    CIRCLE_RADIUS_SUPER_LARGE,
 } from '#utils/map';
 import { ImminentHazardTypes } from '#types';
 
@@ -24,35 +24,34 @@ export const imminentHazardTypeToIconMap: {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [key in ImminentHazardTypes]: string;
 } = {
-  EQ: earthquakeIcon,
-  TC: cycloneIcon,
-  CY: cycloneIcon,
-  SS: stormSurgeIcon,
-  FL: floodIcon,
-  DR: droughtIcon,
-  WF: wildfireIcon,
+    EQ: earthquakeIcon,
+    TC: cycloneIcon,
+    CY: cycloneIcon,
+    SS: stormSurgeIcon,
+    FL: floodIcon,
+    DR: droughtIcon,
+    WF: wildfireIcon,
 };
 
 export const hazardKeys: ImminentHazardTypes[] = [
-  'EQ',
-  'CY',
-  'TC',
-  'SS',
-  'FL',
-  'DR',
-  'WF',
+    'EQ',
+    'CY',
+    'TC',
+    'SS',
+    'FL',
+    'DR',
+    'WF',
 ];
 
 export const imminentHazardTypeToColorMap: Record<ImminentHazardTypes, string> = {
-  EQ: COLOR_EARTHQUAKE,
-  CY: COLOR_CYCLONE,
-  TC: COLOR_CYCLONE,
-  SS: COLOR_STORM,
-  FL: COLOR_FLOOD,
-  DR: COLOR_DROUGHT,
-  WF: COLOR_WILDFIRE,
+    EQ: COLOR_EARTHQUAKE,
+    CY: COLOR_CYCLONE,
+    TC: COLOR_CYCLONE,
+    SS: COLOR_STORM,
+    FL: COLOR_FLOOD,
+    DR: COLOR_DROUGHT,
+    WF: COLOR_WILDFIRE,
 };
-
 
 export const pointImageOptions = {
     sdf: true,
@@ -63,36 +62,36 @@ export const geoJsonSourceOptions: mapboxgl.GeoJSONSourceRaw = {
 };
 
 export const pointCirclePaint: mapboxgl.CirclePaint = {
-  'circle-color': [
-    'case',
-    ['boolean', ['feature-state', 'active'], false],
-    COLOR_RED,
-    ['boolean', ['feature-state', 'hovered'], false],
-    COLOR_RED,
-    [
-      'match',
-      ['get', 'hazardType'],
-      ...(hazardKeys.map(hk => [hk, `${imminentHazardTypeToColorMap[hk]}`]).flat(1)),
-      COLOR_WHITE,
+    'circle-color': [
+        'case',
+        ['boolean', ['feature-state', 'active'], false],
+        COLOR_RED,
+        ['boolean', ['feature-state', 'hovered'], false],
+        COLOR_RED,
+        [
+            'match',
+            ['get', 'hazardType'],
+            ...(hazardKeys.map((hk) => [hk, `${imminentHazardTypeToColorMap[hk]}`]).flat(1)),
+            COLOR_WHITE,
+        ],
     ],
-  ],
-  'circle-radius': CIRCLE_RADIUS_SUPER_LARGE,
-  'circle-opacity': 0.8,
-  'circle-stroke-color': [
-    'case',
-    ['boolean', ['feature-state', 'hovered'], false],
-    COLOR_RED,
-    COLOR_WHITE,
-  ],
-  'circle-stroke-width': 1,
-  'circle-stroke-opacity': 0.5,
+    'circle-radius': CIRCLE_RADIUS_SUPER_LARGE,
+    'circle-opacity': 0.8,
+    'circle-stroke-color': [
+        'case',
+        ['boolean', ['feature-state', 'hovered'], false],
+        COLOR_RED,
+        COLOR_WHITE,
+    ],
+    'circle-stroke-width': 1,
+    'circle-stroke-opacity': 0.5,
 };
 
 export const iconPaint: mapboxgl.SymbolPaint = {
-  'icon-color': COLOR_WHITE,
-  'icon-opacity': 0.8,
+    'icon-color': COLOR_WHITE,
+    'icon-opacity': 0.8,
 };
 
 export const hiddenLayout: mapboxgl.LineLayout = {
-  visibility: 'none',
+    visibility: 'none',
 };

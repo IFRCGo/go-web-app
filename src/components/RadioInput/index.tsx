@@ -38,107 +38,107 @@ function RadioInput<
   V extends string | number | boolean,
   RRP extends RadioProps<V, N>,
 >(props: Props<N, O, V, RRP>) {
-  const {
-    className,
-    name,
-    options,
-    value,
-    onChange,
-    keySelector,
-    labelSelector,
-    descriptionSelector,
-    label,
-    labelContainerClassName,
-    listContainerClassName,
-    error,
-    errorContainerClassName,
-    renderer = Radio,
-    rendererParams: radioRendererParamsFromProps,
-    disabled,
-    readOnly,
-    clearable,
-  } = props;
+    const {
+        className,
+        name,
+        options,
+        value,
+        onChange,
+        keySelector,
+        labelSelector,
+        descriptionSelector,
+        label,
+        labelContainerClassName,
+        listContainerClassName,
+        error,
+        errorContainerClassName,
+        renderer = Radio,
+        rendererParams: radioRendererParamsFromProps,
+        disabled,
+        readOnly,
+        clearable,
+    } = props;
 
-  const handleRadioClick = React.useCallback((radioKey: V | undefined) => {
-    if (onChange && !readOnly) {
-      onChange(radioKey, name);
-    }
-  }, [readOnly, onChange, name]);
+    const handleRadioClick = React.useCallback((radioKey: V | undefined) => {
+        if (onChange && !readOnly) {
+            onChange(radioKey, name);
+        }
+    }, [readOnly, onChange, name]);
 
-  const rendererParams: (
+    const rendererParams: (
     k: V,
     i: O,
   ) => RRP = React.useCallback((key: V, item: O) => {
-    const radioProps: Pick<RRP, 'inputName' | 'label' | 'name' | 'onClick' | 'value' | 'disabled' | 'readOnly' | 'description'> = {
-      inputName: name,
-      label: labelSelector(item),
-      description: descriptionSelector ? descriptionSelector(item) : undefined,
-      name: key,
-      onClick: handleRadioClick,
-      value: key === value,
+      const radioProps: Pick<RRP, 'inputName' | 'label' | 'name' | 'onClick' | 'value' | 'disabled' | 'readOnly' | 'description'> = {
+          inputName: name,
+          label: labelSelector(item),
+          description: descriptionSelector ? descriptionSelector(item) : undefined,
+          name: key,
+          onClick: handleRadioClick,
+          value: key === value,
+          disabled,
+          readOnly,
+      };
+
+      const combinedProps = {
+          ...(radioRendererParamsFromProps ? radioRendererParamsFromProps(item) : undefined),
+          ...radioProps,
+      } as RRP;
+
+      return combinedProps;
+  }, [
+      name,
+      labelSelector,
+      value,
+      handleRadioClick,
+      radioRendererParamsFromProps,
       disabled,
       readOnly,
-    };
-
-    const combinedProps = {
-      ...(radioRendererParamsFromProps ? radioRendererParamsFromProps(item) : undefined),
-      ...radioProps,
-    } as RRP;
-
-    return combinedProps;
-  }, [
-    name,
-    labelSelector,
-    value,
-    handleRadioClick,
-    radioRendererParamsFromProps,
-    disabled,
-    readOnly,
-    descriptionSelector,
+      descriptionSelector,
   ]);
 
-  const handleClearButtonClick = React.useCallback(() => {
-    if (onChange) {
-      onChange(undefined, name);
-    }
-  }, [name, onChange]);
+    const handleClearButtonClick = React.useCallback(() => {
+        if (onChange) {
+            onChange(undefined, name);
+        }
+    }, [name, onChange]);
 
-  return (
-    <div
-      className={_cs(
-        styles.radioInput,
-        disabled && styles.disabled,
-        className,
-      )}
-    >
-      {clearable && (
-        <button
-          type="button"
-          className={styles.clearButton}
-          onClick={handleClearButtonClick}
+    return (
+        <div
+            className={_cs(
+                styles.radioInput,
+                disabled && styles.disabled,
+                className,
+            )}
         >
-          <IoTrash />
-        </button>
-      )}
-      <InputLabel
-        className={labelContainerClassName}
-        disabled={disabled}
-      >
-        {label}
-      </InputLabel>
-      <div className={_cs(styles.radioListContainer, listContainerClassName)}>
-        <List<O, RadioProps<V, N> & RRP, V, any, any>
-          data={options}
-          rendererParams={rendererParams}
-          renderer={renderer}
-          keySelector={keySelector}
-        />
-      </div>
-      <InputError className={errorContainerClassName}>
-        {error}
-      </InputError>
-    </div>
-  );
+            {clearable && (
+                <button
+                    type="button"
+                    className={styles.clearButton}
+                    onClick={handleClearButtonClick}
+                >
+                    <IoTrash />
+                </button>
+            )}
+            <InputLabel
+                className={labelContainerClassName}
+                disabled={disabled}
+            >
+                {label}
+            </InputLabel>
+            <div className={_cs(styles.radioListContainer, listContainerClassName)}>
+                <List<O, RadioProps<V, N> & RRP, V, any, any>
+                    data={options}
+                    rendererParams={rendererParams}
+                    renderer={renderer}
+                    keySelector={keySelector}
+                />
+            </div>
+            <InputError className={errorContainerClassName}>
+                {error}
+            </InputError>
+        </div>
+    );
 }
 
 export default RadioInput;

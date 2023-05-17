@@ -9,22 +9,22 @@ export interface SwitchIconProps {
 }
 
 function SwitchIcon(props: SwitchIconProps) {
-  const {
-    className,
-    value,
-  } = props;
-
-  return (
-    <div
-      className={_cs(
-        styles.switchIcon,
+    const {
         className,
-        value ? styles.on : styles.off,
-      )}
-    >
-      <div className={styles.knob} />
-    </div>
-  );
+        value,
+    } = props;
+
+    return (
+        <div
+            className={_cs(
+                styles.switchIcon,
+                className,
+                value ? styles.on : styles.off,
+            )}
+        >
+            <div className={styles.knob} />
+        </div>
+    );
 }
 
 export default SwitchIcon;

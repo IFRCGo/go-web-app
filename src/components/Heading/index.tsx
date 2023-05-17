@@ -9,19 +9,19 @@ export interface Props {
 }
 
 function Heading(props: Props) {
-  const {
-    className,
-    level = 3,
-    children,
-  } = props;
+    const {
+        className,
+        level = 3,
+        children,
+    } = props;
 
-  const levelStyle = styles[`level-${level}`];
-  const HeadingTag = `h${level}` as ElementType;
-  return (
-    <HeadingTag className={_cs(styles.heading, levelStyle, className)}>
-      {children}
-    </HeadingTag>
-  );
+    const levelStyle = styles[`level-${level}`];
+    const HeadingTag = `h${level}` as ElementType;
+    return (
+        <HeadingTag className={_cs(styles.heading, levelStyle, className)}>
+            {children}
+        </HeadingTag>
+    );
 }
 
 export default Heading;

@@ -25,12 +25,12 @@ export type TabContextProps = BaseTabContextProps & (
 );
 
 export const TabContext = React.createContext<TabContextProps>({
-  tabs: [],
-  step: 0,
-  disabled: false,
-  activeTab: '',
-  variant: 'primary',
-  setActiveTab: () => { console.warn('setActiveTab called before it was initialized'); },
-  registerTab: () => { console.warn('registerTab called before it was initialized'); },
-  unregisterTab: () => { console.warn('unregisterTab called before it was initialized'); },
+    tabs: [],
+    step: 0,
+    disabled: false,
+    activeTab: '',
+    variant: 'primary',
+    setActiveTab: () => { console.warn('setActiveTab called before it was initialized'); },
+    registerTab: () => { console.warn('registerTab called before it was initialized'); },
+    unregisterTab: () => { console.warn('unregisterTab called before it was initialized'); },
 });

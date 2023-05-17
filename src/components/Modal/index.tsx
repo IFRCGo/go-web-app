@@ -28,83 +28,83 @@ interface Props {
 }
 
 function Modal(props: Props) {
-  const {
-    bodyClassName,
-    children,
-    className,
-    closeOnClickOutside = true,
-    closeOnEscape = true,
-    footerClassName,
-    footerContent,
-    headerClassName,
-    onCloseButtonClick,
-    opened,
-    overlayClassName,
-    size = 'xl',
-    title,
-    withCloseButton = true,
-  } = props;
+    const {
+        bodyClassName,
+        children,
+        className,
+        closeOnClickOutside = true,
+        closeOnEscape = true,
+        footerClassName,
+        footerContent,
+        headerClassName,
+        onCloseButtonClick,
+        opened,
+        overlayClassName,
+        size = 'xl',
+        title,
+        withCloseButton = true,
+    } = props;
 
-  const hasHeader = !!title || withCloseButton;
-  const sizeStyle = styles[`size-${size}`];
+    const hasHeader = !!title || withCloseButton;
+    const sizeStyle = styles[`size-${size}`];
 
-  const handleClickOutside = useCallback(() => {
-    if (closeOnClickOutside) {
-      onCloseButtonClick();
-    }
-  }, [onCloseButtonClick, closeOnClickOutside]);
+    const handleClickOutside = useCallback(() => {
+        if (closeOnClickOutside) {
+            onCloseButtonClick();
+        }
+    }, [onCloseButtonClick, closeOnClickOutside]);
 
-  const handleEscape = useCallback(() => {
-    if (closeOnEscape) {
-      onCloseButtonClick();
-    }
-  }, [onCloseButtonClick, closeOnEscape]);
+    const handleEscape = useCallback(() => {
+        if (closeOnEscape) {
+            onCloseButtonClick();
+        }
+    }, [onCloseButtonClick, closeOnEscape]);
 
-  return (
-    <>
-      {opened && (
-        <BodyOverlay className={overlayClassName}>
-          <FocusOn
-            className={_cs(styles.modalContainer, sizeStyle)}
-            onClickOutside={handleClickOutside}
-            onEscapeKey={handleEscape}
-          >
-            <div
-              className={_cs(styles.modal, className)}
-              role="dialog"
-              aria-modal={true}
-              aria-labelledby="modalLabel"
-              aria-describedby="modalBody"
-            >
-              {hasHeader && (
-                <Header className={_cs(headerClassName, styles.modalHeader)} id="modalLabel">
-                  {title && (
-                    title
-                  )}
-                  {withCloseButton && (
-                    <IconButton
-                      name={undefined}
-                      onClick={onCloseButtonClick}
-                      ariaLabel="Close"
-                      variant="tertiary"
+    return (
+        <>
+            {opened && (
+                <BodyOverlay className={overlayClassName}>
+                    <FocusOn
+                        className={_cs(styles.modalContainer, sizeStyle)}
+                        onClickOutside={handleClickOutside}
+                        onEscapeKey={handleEscape}
                     >
-                      <IoClose />
-                    </IconButton>
-                  )}
-                </Header>
-              )}
-              <div className={_cs(styles.modalBody, bodyClassName)} id="modalBody">
-                {children}
-              </div>
-              <Footer className={_cs(styles.modalFooter, footerClassName)}>
-                {footerContent}
-              </Footer>
-            </div>
-          </FocusOn>
-        </BodyOverlay>
-      )}
-    </>
-  );
+                        <div
+                            className={_cs(styles.modal, className)}
+                            role="dialog"
+                            aria-modal
+                            aria-labelledby="modalLabel"
+                            aria-describedby="modalBody"
+                        >
+                            {hasHeader && (
+                                <Header className={_cs(headerClassName, styles.modalHeader)} id="modalLabel">
+                                    {title && (
+                                        title
+                                    )}
+                                    {withCloseButton && (
+                                        <IconButton
+                                            name={undefined}
+                                            onClick={onCloseButtonClick}
+                                            ariaLabel="Close"
+                                            variant="tertiary"
+                                        >
+                                            <IoClose />
+                                        </IconButton>
+                                    )}
+                                </Header>
+                            )}
+                            <div className={_cs(styles.modalBody, bodyClassName)} id="modalBody">
+                                {children}
+                            </div>
+                            <Footer className={_cs(styles.modalFooter, footerClassName)}>
+                                {footerContent}
+                            </Footer>
+                        </div>
+                    </FocusOn>
+                </BodyOverlay>
+            )}
+        </>
+    );
 }
 
 export default Modal;

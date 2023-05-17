@@ -10,7 +10,7 @@ import {
     useFloatPlacement,
 } from '#hooks';
 
-import Portal from '../Portal';
+import Portal from '#components/Portal';
 import styles from './styles.module.css';
 
 interface DropdownProps {
@@ -93,7 +93,9 @@ function DropdownMenu(props: DropdownMenuProps) {
                 ref={buttonRef}
                 onClick={handleMenuClick}
             >
-                {label} {conditionalIcons()}
+                {label}
+                {' '}
+                {conditionalIcons()}
             </button>
             {showDropdown && (
                 <Portal>

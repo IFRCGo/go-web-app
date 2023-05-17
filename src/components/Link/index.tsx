@@ -16,68 +16,69 @@ export interface Props extends RouterLinkProps {
 }
 
 function Link(props: Props) {
-  const {
-    actions,
-    actionsContainerClassName,
-    children,
-    className,
-    disabled,
-    external,
-    icons,
-    iconsContainerClassName,
-    linkElementClassName,
-    to,
-    underline,
-    ...otherProps
-  } = props;
+    const {
+        actions,
+        actionsContainerClassName,
+        children,
+        className,
+        disabled,
+        external,
+        icons,
+        iconsContainerClassName,
+        linkElementClassName,
+        to,
+        underline,
+        ...otherProps
+    } = props;
 
     const link = external ? (
-      <a
-        className={_cs(
-          linkElementClassName,
-          styles.link,
-        )}
-        href={to as string}
-        target="_blank"
-        rel="noopener noreferrer"
-        {...otherProps}
-      >
-        {children}
-      </a>
+        <a
+            className={_cs(
+                linkElementClassName,
+                styles.link,
+            )}
+            href={to as string}
+            target="_blank"
+            rel="noopener noreferrer"
+            {...otherProps}
+        >
+            {children}
+        </a>
     ) : (
-    <InternalLink
-      className={_cs(
-        linkElementClassName,
-        styles.link,
-      )}
-      to={to}
-      {...otherProps}
-    >
-      {children}
-    </InternalLink>
-  );
+        <InternalLink
+            className={_cs(
+                linkElementClassName,
+                styles.link,
+            )}
+            to={to}
+            {...otherProps}
+        >
+            {children}
+        </InternalLink>
+    );
 
-  const {
-    content,
-    containerClassName,
-  } = useBasicLayout({
-    className,
-    icons,
-    children: link,
-    actions,
-    iconsContainerClassName,
-    actionsContainerClassName,
-  });
+    const {
+        content,
+        containerClassName,
+    } = useBasicLayout({
+        className,
+        icons,
+        children: link,
+        actions,
+        iconsContainerClassName,
+        actionsContainerClassName,
+    });
 
-  return (
-    <div className={_cs(
-      styles.linkContainer,
-      containerClassName,
-      underline && styles.underline,
-      disabled && styles.disabled,
-    )}>
-      {content}
-    </div>
-  );
+    return (
+        <div className={_cs(
+            styles.linkContainer,
+            containerClassName,
+            underline && styles.underline,
+            disabled && styles.disabled,
+        )}
+        >
+            {content}
+        </div>
+    );
 }
 export default Link;

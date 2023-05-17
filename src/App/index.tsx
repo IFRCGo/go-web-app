@@ -5,19 +5,19 @@ import {
 
 import { RequestContext } from '#utils/restRequest';
 import {
-  processGoUrls,
-  processGoOptions,
-  processGoError,
-  processGoResponse,
+    processGoUrls,
+    processGoOptions,
+    processGoError,
+    processGoResponse,
 } from '#utils/restRequest/go';
 
 import { unwrappedRoutes } from './routes';
 
 const requestContextValue = {
-  transformUrl: processGoUrls,
-  transformOptions: processGoOptions,
-  transformResponse: processGoResponse,
-  transformError: processGoError,
+    transformUrl: processGoUrls,
+    transformOptions: processGoOptions,
+    transformResponse: processGoResponse,
+    transformError: processGoError,
 };
 
 const router = createBrowserRouter(unwrappedRoutes);

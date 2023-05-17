@@ -11,33 +11,33 @@ export interface Props {
 }
 
 function InputLabel(props: Props) {
-  const {
-    children,
-    className,
-    disabled,
-    required,
-  } = props;
-
-  if (!children) {
-    return null;
-  }
-
-  return (
-    <div
-      className={_cs(
-        styles.inputLabel,
-        disabled && styles.disabled,
+    const {
+        children,
         className,
-      )}
-    >
-      {children}
-      {required && (
-        <span aria-hidden className={styles.required}>
-          {' *'}
-        </span>
-      )}
-    </div>
-  );
+        disabled,
+        required,
+    } = props;
+
+    if (!children) {
+        return null;
+    }
+
+    return (
+        <div
+            className={_cs(
+                styles.inputLabel,
+                disabled && styles.disabled,
+                className,
+            )}
+        >
+            {children}
+            {required && (
+                <span aria-hidden className={styles.required}>
+                    {' *'}
+                </span>
+            )}
+        </div>
+    );
 }
 
 export default InputLabel;

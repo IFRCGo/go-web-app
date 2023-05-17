@@ -12,18 +12,18 @@ interface Props {
 }
 
 function BodyOverlay(props: Props) {
-  const {
-    className,
-    children,
-  } = props;
+    const {
+        className,
+        children,
+    } = props;
 
-  return (
-    <Portal>
-      <Overlay className={_cs(className, styles.bodyOverlay)}>
-        {children}
-      </Overlay>
-    </Portal>
-  );
+    return (
+        <Portal>
+            <Overlay className={_cs(className, styles.bodyOverlay)}>
+                {children}
+            </Overlay>
+        </Portal>
+    );
 }
 
 export default BodyOverlay;

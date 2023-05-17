@@ -20,49 +20,49 @@ interface Props {
   progressTotalValue?: number;
 }
 function Card(props: Props) {
-  const {
-    className,
-    children,
-    contentClassName,
-    value,
-    normalize,
-    addSeparator,
-    fixedTo,
-    description,
-    progressBar,
-    title,
-    progressTotalValue = 100,
-  } = props;
-  return (
-    <div
-      className={_cs(
-        styles.card,
+    const {
         className,
-      )}
-    >
-      <FormattedNumber
-        value={value}
-        normalize={normalize}
-        addSeparator={addSeparator}
-        fixedTo={fixedTo}
-      />
-      {progressBar && (
-        <ProgressBar
-          title={title}
-          value={value}
-          totalValue={progressTotalValue}
-        />
-      )}
-      <div className={styles.description}>
-        {description}
-      </div>
-      {children && (
-        <div className={_cs(styles.content, contentClassName)}>
-          {children}
+        children,
+        contentClassName,
+        value,
+        normalize,
+        addSeparator,
+        fixedTo,
+        description,
+        progressBar,
+        title,
+        progressTotalValue = 100,
+    } = props;
+    return (
+        <div
+            className={_cs(
+                styles.card,
+                className,
+            )}
+        >
+            <FormattedNumber
+                value={value}
+                normalize={normalize}
+                addSeparator={addSeparator}
+                fixedTo={fixedTo}
+            />
+            {progressBar && (
+                <ProgressBar
+                    title={title}
+                    value={value}
+                    totalValue={progressTotalValue}
+                />
+            )}
+            <div className={styles.description}>
+                {description}
+            </div>
+            {children && (
+                <div className={_cs(styles.content, contentClassName)}>
+                    {children}
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default Card;

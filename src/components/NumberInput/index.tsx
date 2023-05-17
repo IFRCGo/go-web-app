@@ -19,69 +19,68 @@ export interface Props<T extends NameType> extends InheritedProps<T> {
 }
 
 function NumberInput<T extends NameType>(props: Props<T>) {
-  const {
-    className,
-    actions,
-    icons,
-    error,
-    hint,
-    label,
-    disabled,
-    readOnly,
-    inputClassName,
-    value: valueFromProps,
-    errorOnTooltip,
-    onChange,
-    ...otherInputProps
-  } = props;
+    const {
+        className,
+        actions,
+        icons,
+        error,
+        hint,
+        label,
+        disabled,
+        readOnly,
+        inputClassName,
+        value: valueFromProps,
+        errorOnTooltip,
+        onChange,
+        ...otherInputProps
+    } = props;
 
-  const [tempValue, setTempValue] = React.useState<string | undefined>(String(valueFromProps ?? ''));
+    const [tempValue, setTempValue] = React.useState<string | undefined>(String(valueFromProps ?? ''));
 
-  React.useEffect(() => {
-    setTempValue(String(valueFromProps ?? ''));
-  }, [valueFromProps]);
+    React.useEffect(() => {
+        setTempValue(String(valueFromProps ?? ''));
+    }, [valueFromProps]);
 
-  const handleChange: RawInputProps<T>['onChange'] = React.useCallback(
-    (v, n, e) => {
-      setTempValue(v);
+    const handleChange: RawInputProps<T>['onChange'] = React.useCallback((v, n, e) => {
+        setTempValue(v);
 
-      if (!onChange) {
-        return;
-      }
-
-      if (isDefined(v)) {
-        const floatValue = +v;
-        if (!Number.isNaN(floatValue)) {
-          onChange(floatValue, n, e);
+        if (!onChange) {
+            return;
         }
-      } else {
-        onChange(undefined, n, e);
-      }
+
+        if (isDefined(v)) {
+            const floatValue = +v;
+            if (!Number.isNaN(floatValue)) {
+                onChange(floatValue, n, e);
+            }
+        } else {
+            onChange(undefined, n, e);
+        }
     }, [onChange]);
 
-  return (
-    <InputContainer
-      className={className}
-      actions={actions}
-      icons={icons}
-      error={error}
-      hint={hint}
-      label={label}
-      disabled={disabled}
-      errorOnTooltip={errorOnTooltip}
-      input={(
-        <RawInput
-          {...otherInputProps}
-          readOnly={readOnly}
-          disabled={disabled}
-          className={inputClassName}
-          value={tempValue}
-          onChange={handleChange}
-          type="number"
+    return (
+        <InputContainer
+            className={className}
+            actions={actions}
+            icons={icons}
+            error={error}
+            hint={hint}
+            label={label}
+            disabled={disabled}
+            errorOnTooltip={errorOnTooltip}
+            input={(
+                <RawInput
+                    {...otherInputProps}
+                    readOnly={readOnly}
+                    disabled={disabled}
+                    className={inputClassName}
+                    value={tempValue}
+                    onChange={handleChange}
+                    type="number"
+                />
+            )}
         />
-      )}
-    />
-  );
+    );
 }
 
 export default NumberInput;

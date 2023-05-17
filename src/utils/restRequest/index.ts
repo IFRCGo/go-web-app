@@ -1,14 +1,14 @@
 import {
-  RequestContext,
-  useRequest,
-  useLazyRequest,
-  RequestOptions,
-  LazyRequestOptions,
+    RequestContext,
+    useRequest,
+    useLazyRequest,
+    RequestOptions,
+    LazyRequestOptions,
 } from '@togglecorp/toggle-request';
 
 import {
-  TransformedError,
-  AdditionalOptions,
+    TransformedError,
+    AdditionalOptions,
 } from './go';
 
 export type ListResponse<T> = {
@@ -34,7 +34,7 @@ const useGoRequest: <R>(requestOptions: RequestOptions<R, TransformedError, Addi
 } = useRequest;
 
 export {
-  RequestContext,
-  useGoRequest as useRequest,
-  useGoLazyRequest as useLazyRequest,
+    RequestContext,
+    useGoRequest as useRequest,
+    useGoLazyRequest as useLazyRequest,
 };

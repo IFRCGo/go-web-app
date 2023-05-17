@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  _cs,
-  isDefined,
+    _cs,
+    isDefined,
 } from '@togglecorp/fujs';
 
 import PageContainer from '#components/PageContainer';
@@ -25,88 +25,88 @@ interface Props {
 }
 
 function Page(props: Props) {
-  const {
-    className,
-    title,
-    actions,
-    heading,
-    description,
-    breadCrumbs,
-    info,
-    children,
-    mainSectionClassName,
-    infoContainerClassName,
-    withMainContentBackground,
-    wikiLink,
-  } = props;
-
-  React.useEffect(() => {
-    if (isDefined(title)) {
-      document.title = title;
-    }
-  }, [title]);
-
-  const {
-    containerClassName: headerClassName,
-    content: headerContent,
-  } = useBasicLayout({
-    icons: breadCrumbs,
-    actions: (
-      <>
-        {actions}
-        {wikiLink}
-      </>
-    ),
-    childrenContainerClassName: styles.headingSection,
-    children: (
-      <>
-          <Heading
-            level={1}
-            className={styles.heading}
-          >
-            { heading }
-          </Heading>
-          {description && (
-            <div className={styles.description}>
-              { description }
-            </div>
-          )}
-          <div className={infoContainerClassName}>
-            {info}
-          </div>
-        </>
-    ),
-  });
-
-  return (
-    <div
-      className={_cs(
-        styles.page,
-        withMainContentBackground && styles.withMainContentBackground,
+    const {
         className,
-      )}
-    >
-      <PageContainer
-        contentAs="header"
-        className={_cs(
-          styles.pageHeader,
-          className,
-        )}
-        contentClassName={headerClassName}
-      >
-        {headerContent}
-      </PageContainer>
-      <PageContainer
-        contentAs="main"
-        contentClassName={_cs(
-          styles.mainSection,
-          mainSectionClassName,
-        )}
-      >
-        { children }
-      </PageContainer>
-    </div>
-  );
+        title,
+        actions,
+        heading,
+        description,
+        breadCrumbs,
+        info,
+        children,
+        mainSectionClassName,
+        infoContainerClassName,
+        withMainContentBackground,
+        wikiLink,
+    } = props;
+
+    React.useEffect(() => {
+        if (isDefined(title)) {
+            document.title = title;
+        }
+    }, [title]);
+
+    const {
+        containerClassName: headerClassName,
+        content: headerContent,
+    } = useBasicLayout({
+        icons: breadCrumbs,
+        actions: (
+            <>
+                {actions}
+                {wikiLink}
+            </>
+        ),
+        childrenContainerClassName: styles.headingSection,
+        children: (
+            <>
+                <Heading
+                    level={1}
+                    className={styles.heading}
+                >
+                    { heading }
+                </Heading>
+                {description && (
+                    <div className={styles.description}>
+                        { description }
+                    </div>
+                )}
+                <div className={infoContainerClassName}>
+                    {info}
+                </div>
+            </>
+        ),
+    });
+
+    return (
+        <div
+            className={_cs(
+                styles.page,
+                withMainContentBackground && styles.withMainContentBackground,
+                className,
+            )}
+        >
+            <PageContainer
+                contentAs="header"
+                className={_cs(
+                    styles.pageHeader,
+                    className,
+                )}
+                contentClassName={headerClassName}
+            >
+                {headerContent}
+            </PageContainer>
+            <PageContainer
+                contentAs="main"
+                contentClassName={_cs(
+                    styles.mainSection,
+                    mainSectionClassName,
+                )}
+            >
+                { children }
+            </PageContainer>
+        </div>
+    );
 }
 
 export default Page;

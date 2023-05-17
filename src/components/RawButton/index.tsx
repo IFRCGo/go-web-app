@@ -22,41 +22,41 @@ export interface Props<N> extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref'
  * clickable elements
  */
 function RawButton<N>(props: Props<N>) {
-  const {
-    children,
-    className,
-    disabled,
-    elementRef,
-    name,
-    onClick,
-    ...otherProps
-  } = props;
-
-  const handleClick = React.useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (onClick) {
-        onClick(name, e);
-      }
-    },
-    [onClick, name],
-  );
-
-  return (
-    <button
-      ref={elementRef}
-      name={typeof name === 'string' ? name : undefined}
-      type="button"
-      className={_cs(
-        styles.rawButton,
+    const {
+        children,
         className,
-      )}
-      disabled={disabled}
-      onClick={onClick ? handleClick : undefined}
-      {...otherProps}
-    >
-      { children }
-    </button>
-  );
+        disabled,
+        elementRef,
+        name,
+        onClick,
+        ...otherProps
+    } = props;
+
+    const handleClick = React.useCallback(
+        (e: React.MouseEvent<HTMLButtonElement>) => {
+            if (onClick) {
+                onClick(name, e);
+            }
+        },
+        [onClick, name],
+    );
+
+    return (
+        <button
+            ref={elementRef}
+            name={typeof name === 'string' ? name : undefined}
+            type="button"
+            className={_cs(
+                styles.rawButton,
+                className,
+            )}
+            disabled={disabled}
+            onClick={onClick ? handleClick : undefined}
+            {...otherProps}
+        >
+            { children }
+        </button>
+    );
 }
 
 export default genericMemo(RawButton);

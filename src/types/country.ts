@@ -69,4 +69,3 @@ export interface Region {
   label: string;
   bbox: GeoFeature;
 }
-

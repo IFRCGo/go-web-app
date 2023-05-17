@@ -1,6 +1,6 @@
 import {
-  CountryMini,
-  DistrictMini,
+    CountryMini,
+    DistrictMini,
 } from './country';
 
 interface UserDetails {

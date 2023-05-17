@@ -36,7 +36,6 @@ export interface AdditionalOptions {
     enforceEnglish?: boolean;
 }
 
-
 function transformError(response: ResponseError, fallbackMessage: string): TransformedError['value']['formErrors'] {
     const {
         originalResponse,
@@ -74,7 +73,7 @@ function transformError(response: ResponseError, fallbackMessage: string): Trans
 
             // FIXME: rename error message
             return { [nonFieldError]: 'Response content type mismatch' };
-        } catch(e) {
+        } catch (e) {
             console.error(e);
         }
     }

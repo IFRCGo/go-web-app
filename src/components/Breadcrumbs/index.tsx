@@ -13,46 +13,46 @@ export interface BreadcrumbsProps {
 }
 
 function Breadcrumbs(props: BreadcrumbsProps) {
-  const {
-    className,
-    children,
-    separator = <IoChevronForward />,
-    itemClassName,
-  } = props;
+    const {
+        className,
+        children,
+        separator = <IoChevronForward />,
+        itemClassName,
+    } = props;
 
-  const items = React.Children.toArray(children).reduce<React.ReactNode[]>(
-    (acc, child, index, array) => {
-      const isLastItem = index === array.length - 1;
-      const item = (
-        <div
-          key={index}
-          className={_cs(styles.item, itemClassName)}
-          aria-current={ isLastItem ? 'page' : false}
-        >
-          {child}
-        </div>
-      );
+    const items = React.Children.toArray(children).reduce<React.ReactNode[]>(
+        (acc, child, index, array) => {
+            const isLastItem = index === array.length - 1;
+            const item = (
+                <div
+                    key={index}
+                    className={_cs(styles.item, itemClassName)}
+                    aria-current={isLastItem ? 'page' : false}
+                >
+                    {child}
+                </div>
+            );
 
-      acc.push(item);
+            acc.push(item);
 
-      if (index !== array.length - 1) {
-        acc.push(
-          <span key={`separator-${index}`}>
-            {separator}
-          </span>
-        );
-      }
+            if (index !== array.length - 1) {
+                acc.push(
+                    <span key={`separator-${index}`}>
+                        {separator}
+                    </span>,
+                );
+            }
 
-      return acc;
-    },
-    []
-  );
+            return acc;
+        },
+        [],
+    );
 
-  return (
-    <nav className={_cs(className, styles.breadcrumbs)} aria-label="breadcrumb">
-      {items}
-    </nav>
-  );
+    return (
+        <nav className={_cs(className, styles.breadcrumbs)} aria-label="breadcrumb">
+            {items}
+        </nav>
+    );
 }
 
 export default Breadcrumbs;

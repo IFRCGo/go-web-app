@@ -8,15 +8,15 @@ interface Props {
 }
 
 function Footer(props: Props) {
-  const {
-    className,
-    children,
-  } = props;
-  return (
-    <footer className={_cs(styles.footer, className)}>
-      {children}
-    </footer>
-  );
+    const {
+        className,
+        children,
+    } = props;
+    return (
+        <footer className={_cs(styles.footer, className)}>
+            {children}
+        </footer>
+    );
 }
 
 export default Footer;

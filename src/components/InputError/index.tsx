@@ -12,34 +12,34 @@ export interface Props {
 }
 
 function InputError(props: Props) {
-  const {
-    children,
-    className,
-    disabled,
-    style,
-  } = props;
-
-  if (!children) {
-    return null;
-  }
-
-  return (
-    <div
-      style={style}
-      className={_cs(
-        'go-input-error',
-        styles.inputError,
-        disabled && styles.disabled,
+    const {
+        children,
         className,
-      )}
-    >
-      <div className={styles.tip} />
-      <div className={styles.content}>
-        <FiAlertTriangle className={styles.icon} />
-        {children}
-      </div>
-    </div>
-  );
+        disabled,
+        style,
+    } = props;
+
+    if (!children) {
+        return null;
+    }
+
+    return (
+        <div
+            style={style}
+            className={_cs(
+                'go-input-error',
+                styles.inputError,
+                disabled && styles.disabled,
+                className,
+            )}
+        >
+            <div className={styles.tip} />
+            <div className={styles.content}>
+                <FiAlertTriangle className={styles.icon} />
+                {children}
+            </div>
+        </div>
+    );
 }
 
 export default InputError;

@@ -12,34 +12,34 @@ interface Props {
   color?: string;
 }
 function ProgressBar(props: Props) {
-  const {
-    className,
-    title,
-    totalValue,
-    value,
-    color,
-    barHeight = 8,
-  } = props;
+    const {
+        className,
+        title,
+        totalValue,
+        value,
+        color,
+        barHeight = 8,
+    } = props;
 
-  return (
-    <div className={_cs(styles.progressWrapper, className)}>
-      <div className={styles.progressTitle}>
-        {title}
-      </div>
-      <div
-        className={styles.progressBarWrapper}
-        style={{ height: `${barHeight}px` }}
-      >
-        <div
-          className={styles.progressBar}
-          style={{
-            width: `${(value / totalValue) * 100}%`,
-            backgroundColor: color ?? '#011E41',
-          }}
-        />
-      </div>
-    </div>
-  );
+    return (
+        <div className={_cs(styles.progressWrapper, className)}>
+            <div className={styles.progressTitle}>
+                {title}
+            </div>
+            <div
+                className={styles.progressBarWrapper}
+                style={{ height: `${barHeight}px` }}
+            >
+                <div
+                    className={styles.progressBar}
+                    style={{
+                        width: `${(value / totalValue) * 100}%`,
+                        backgroundColor: color ?? '#011E41',
+                    }}
+                />
+            </div>
+        </div>
+    );
 }
 
 export default ProgressBar;

@@ -6,15 +6,15 @@ export interface Props {
 }
 
 function Portal(props: Props) {
-  const { children } = props;
-  return (
-    <>
-      {createPortal(
-        children,
-        document.body,
-      )}
-    </>
-  );
+    const { children } = props;
+    return (
+        <>
+            {createPortal(
+                children,
+                document.body,
+            )}
+        </>
+    );
 }
 
 export default Portal;

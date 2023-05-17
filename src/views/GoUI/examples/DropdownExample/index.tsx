@@ -1,7 +1,7 @@
 import React from 'react';
 import DropdownMenu from '../../components/DropdownMenu';
 import DropdownMenuItem from '../../components/DropdownMenu/DropdownMenuItem';
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 
 function DropdownExample() {
     return (

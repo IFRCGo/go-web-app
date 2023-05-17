@@ -14,24 +14,24 @@ interface Props {
 }
 
 function PageContainer(props: Props) {
-  const {
-    className,
-    contentClassName,
-    children,
-    contentAs = 'div',
-    containerAs = 'div',
-  } = props;
+    const {
+        className,
+        contentClassName,
+        children,
+        contentAs = 'div',
+        containerAs = 'div',
+    } = props;
 
-  const ContentElement = contentAs as React.ElementType;
-  const ContainerElement = containerAs as React.ElementType;
+    const ContentElement = contentAs as React.ElementType;
+    const ContainerElement = containerAs as React.ElementType;
 
-  return (
-    <ContainerElement className={_cs(styles.pageContainer, className)}>
-      <ContentElement className={_cs(styles.content, contentClassName)}>
-        {children}
-      </ContentElement>
-    </ContainerElement>
-  );
+    return (
+        <ContainerElement className={_cs(styles.pageContainer, className)}>
+            <ContentElement className={_cs(styles.content, contentClassName)}>
+                {children}
+            </ContentElement>
+        </ContainerElement>
+    );
 }
 
 export default PageContainer;

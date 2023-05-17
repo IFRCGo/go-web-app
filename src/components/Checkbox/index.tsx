@@ -22,70 +22,69 @@ export interface Props<N> {
 }
 
 function Checkbox<N>(props: Props<N>) {
-  const {
-    label,
-    tooltip,
-    checkmark: Checkmark = DefaultCheckmark,
-    className: classNameFromProps,
-    value,
-    disabled,
-    readOnly,
-    onChange,
-    checkmarkClassName,
-    labelContainerClassName,
-    indeterminate,
-    name,
-    invertedLogic = false,
-    ...otherProps
-  } = props;
-
-  const handleChange = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      const v = e.currentTarget.checked;
-      onChange(
-        invertedLogic ? !v : v,
+    const {
+        label,
+        tooltip,
+        checkmark: Checkmark = DefaultCheckmark,
+        className: classNameFromProps,
+        value,
+        disabled,
+        readOnly,
+        onChange,
+        checkmarkClassName,
+        labelContainerClassName,
+        indeterminate,
         name,
-      );
-    },
-    [name, onChange, invertedLogic],
-  );
+        invertedLogic = false,
+        ...otherProps
+    } = props;
 
-  const checked = invertedLogic ? !value : value;
+    const handleChange = useCallback(
+        (e: React.FormEvent<HTMLInputElement>) => {
+            const v = e.currentTarget.checked;
+            onChange(
+                invertedLogic ? !v : v,
+                name,
+            );
+        },
+        [name, onChange, invertedLogic],
+    );
 
-  const className = _cs(
-    styles.checkbox,
-    classNameFromProps,
-    indeterminate && styles.indeterminate,
-    !indeterminate && checked && styles.checked,
-    disabled && styles.disabledCheckbox,
-    readOnly && styles.readOnly,
-  );
+    const checked = invertedLogic ? !value : value;
 
+    const className = _cs(
+        styles.checkbox,
+        classNameFromProps,
+        indeterminate && styles.indeterminate,
+        !indeterminate && checked && styles.checked,
+        disabled && styles.disabledCheckbox,
+        readOnly && styles.readOnly,
+    );
 
-  return (
-    <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
-      className={className}
-      title={tooltip}
-    >
-      <Checkmark
-        className={_cs(checkmarkClassName, styles.checkmark)}
-        value={checked ?? false}
-        indeterminate={indeterminate}
-      />
-      <input
-        onChange={handleChange}
-        className={styles.input}
-        type="checkbox"
-        checked={checked ?? false}
-        disabled={disabled || readOnly}
-        {...otherProps}
-        readOnly
-      />
-      <div className={labelContainerClassName}>
-        {label}
-      </div>
-    </label>
-  );
+    return (
+        <label // eslint-disable-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
+            className={className}
+            title={tooltip}
+        >
+            <Checkmark
+                className={_cs(checkmarkClassName, styles.checkmark)}
+                value={checked ?? false}
+                indeterminate={indeterminate}
+            />
+            <input
+                onChange={handleChange}
+                className={styles.input}
+                type="checkbox"
+                checked={checked ?? false}
+                disabled={disabled || readOnly}
+                {...otherProps}
+                readOnly
+            />
+            <div className={labelContainerClassName}>
+                {label}
+            </div>
+        </label>
+    );
 }
 
 export default Checkbox;

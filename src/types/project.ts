@@ -1,10 +1,10 @@
 import {
-  CountryMini,
-  DistrictMini,
+    CountryMini,
+    DistrictMini,
 } from './country';
 
 import {
-  UserMini,
+    UserMini,
 } from './user';
 
 export interface Disaster {

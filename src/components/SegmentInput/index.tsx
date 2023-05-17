@@ -15,33 +15,33 @@ export interface SegmentProps<N, IN> extends RadioProps<N, IN>, ExtraSegmentProp
 }
 
 function Segment<N, IN>(props: SegmentProps<N, IN>) {
-  const {
-    label,
-    name,
-    onClick,
-    value,
-    className,
-    variant = 'primary',
-    inputName, // eslint-disable-line @typescript-eslint/no-unused-vars
-    ...otherProps
-  } = props;
-
-  return (
-    <Button
-      {...otherProps}
-      className={_cs(
-        styles.segment,
-        value && styles.active,
-        variant === 'secondary' && styles.secondaryVariant,
+    const {
+        label,
+        name,
+        onClick,
+        value,
         className,
-      )}
-      name={name}
-      onClick={onClick}
-      variant="tertiary"
-    >
-      {label}
-    </Button>
-  );
+        variant = 'primary',
+        inputName, // eslint-disable-line @typescript-eslint/no-unused-vars
+        ...otherProps
+    } = props;
+
+    return (
+        <Button
+            {...otherProps}
+            className={_cs(
+                styles.segment,
+                value && styles.active,
+                variant === 'secondary' && styles.secondaryVariant,
+                className,
+            )}
+            name={name}
+            onClick={onClick}
+            variant="tertiary"
+        >
+            {label}
+        </Button>
+    );
 }
 
 export interface Props<
@@ -64,26 +64,26 @@ function SegmentInput<
   V extends string | number | boolean,
   RRP extends RadioProps<V, N>,
 >(props: Props<N, O, V, RRP>) {
-  const {
-    rendererParams,
-    listContainerClassName,
-    keySelector,
-    labelSelector,
-    className,
-    ...otherProps
-  } = props;
+    const {
+        rendererParams,
+        listContainerClassName,
+        keySelector,
+        labelSelector,
+        className,
+        ...otherProps
+    } = props;
 
-  return (
-    <RadioInput
-      className={_cs(className, styles.segmentInput)}
-      {...otherProps}
-      renderer={Segment}
-      rendererParams={rendererParams}
-      listContainerClassName={_cs(listContainerClassName, styles.list)}
-      keySelector={keySelector}
-      labelSelector={labelSelector}
-    />
-  );
+    return (
+        <RadioInput
+            className={_cs(className, styles.segmentInput)}
+            {...otherProps}
+            renderer={Segment}
+            rendererParams={rendererParams}
+            listContainerClassName={_cs(listContainerClassName, styles.list)}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
+        />
+    );
 }
 
 export default genericMemo(SegmentInput);

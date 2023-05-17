@@ -36,4 +36,3 @@ export interface Emergency {
   tab_three_title: string | null;
   update_at: string | null;
 }
-

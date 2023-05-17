@@ -20,56 +20,56 @@ interface Props {
 }
 
 function Container(props: Props) {
-  const {
-    className,
-    icons,
-    heading,
-    headingLevel,
-    actions,
-    children,
-    childrenContainerClassName,
-    footerIcons,
-    footerContent,
-    footerActions,
-    withHeaderBorder,
-  } = props;
+    const {
+        className,
+        icons,
+        heading,
+        headingLevel,
+        actions,
+        children,
+        childrenContainerClassName,
+        footerIcons,
+        footerContent,
+        footerActions,
+        withHeaderBorder,
+    } = props;
 
-  const {
-    containerClassName: headerClassName,
-    content: header,
-  } = useBasicLayout({
-    icons,
-    children: (
-      <Heading level={headingLevel}>
-        {heading}
-      </Heading>
-    ),
-    actions,
-  });
+    const {
+        containerClassName: headerClassName,
+        content: header,
+    } = useBasicLayout({
+        icons,
+        children: (
+            <Heading level={headingLevel}>
+                {heading}
+            </Heading>
+        ),
+        actions,
+    });
 
-  const {
-    containerClassName: footerClassName,
-    content: footer,
-  } = useBasicLayout({
-    icons: footerIcons,
-    children: footerContent,
-    actions: footerActions,
-  });
+    const {
+        containerClassName: footerClassName,
+        content: footer,
+    } = useBasicLayout({
+        icons: footerIcons,
+        children: footerContent,
+        actions: footerActions,
+    });
 
-  return (
-    <div className={_cs(styles.container, className)}>
-      <header className={headerClassName}>
-        {header}
-      </header>
-      {withHeaderBorder && <hr className={styles.border} />}
-      <div className={childrenContainerClassName}>
-        {children}
-      </div>
-      <footer className={footerClassName}>
-        {footer}
-      </footer>
-    </div>
-  );
+    return (
+        <div className={_cs(styles.container, className)}>
+            <header className={headerClassName}>
+                {header}
+            </header>
+            {withHeaderBorder && <hr className={styles.border} />}
+            <div className={childrenContainerClassName}>
+                {children}
+            </div>
+            <footer className={footerClassName}>
+                {footer}
+            </footer>
+        </div>
+    );
 }
 
 export default Container;

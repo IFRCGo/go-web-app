@@ -17,41 +17,40 @@ export interface Props<N extends NameType> extends Omit<React.HTMLProps<HTMLInpu
 }
 
 function RawInput<N extends NameType>(props: Props<N>) {
-  const {
-    className,
-    onChange,
-    elementRef,
-    value,
-    name,
-    ...otherProps
-  } = props;
+    const {
+        className,
+        onChange,
+        elementRef,
+        value,
+        name,
+        ...otherProps
+    } = props;
 
-  const handleChange = React.useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      const v = e.currentTarget.value;
+    const handleChange = React.useCallback((e: React.FormEvent<HTMLInputElement>) => {
+        const v = e.currentTarget.value;
 
-      if (onChange) {
-        onChange(
-          v === '' ? undefined : v,
-          name,
-          e,
-        );
-      }
+        if (onChange) {
+            onChange(
+                v === '' ? undefined : v,
+                name,
+                e,
+            );
+        }
     }, [name, onChange]);
 
-  return (
-    <input
-      {...otherProps}
-      ref={elementRef}
-      className={_cs(
-        styles.rawInput,
-        className,
-      )}
-      name={name}
-      onChange={handleChange}
-      value={value ?? ''}
-    />
-  );
+    return (
+        <input
+            {...otherProps}
+            ref={elementRef}
+            className={_cs(
+                styles.rawInput,
+                className,
+            )}
+            name={name}
+            onChange={handleChange}
+            value={value ?? ''}
+        />
+    );
 }
 
 export default RawInput;

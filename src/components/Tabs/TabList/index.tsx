@@ -10,70 +10,70 @@ export interface Props extends React.HTMLProps<HTMLDivElement> {
 }
 
 export default function TabList(props: Props) {
-  const context = React.useContext(TabContext);
-  const {
-    variant,
-    tabs,
-    step: progress,
-    disabled,
-  } = context;
+    const context = React.useContext(TabContext);
+    const {
+        variant,
+        tabs,
+        step: progress,
+        disabled,
+    } = context;
 
-  const {
-    children,
-    className,
-    ...otherProps
-  } = props;
-
-  const steps = tabs.length;
-
-  const progressWidth = React.useMemo(() => {
-    if (!steps || !progress) {
-      return '0';
-    }
-
-    const progressPercentage = Math.max(0, Math.min(100, 100 * (progress - 1) / (steps - 1)));
-
-    return `${progressPercentage}%`;
-  }, [steps, progress]);
-
-  const stepBorderWidth = React.useMemo(() => {
-    if (!steps) {
-      return '0';
-    }
-
-    return `${100 - 100 / steps}%`;
-  }, [steps]);
-
-  return (
-    <div
-      {...otherProps}
-      className={_cs(
+    const {
+        children,
         className,
-        styles.tabList,
-        disabled && styles.disabled,
-        variant === 'primary' && styles.primary,
-        variant === 'secondary' && styles.secondary,
-      )}
-      role="tablist"
-    >
-      {variant === 'step' && (
+        ...otherProps
+    } = props;
+
+    const steps = tabs.length;
+
+    const progressWidth = React.useMemo(() => {
+        if (!steps || !progress) {
+            return '0';
+        }
+
+        const progressPercentage = Math.max(0, Math.min(100, 100 * (progress - 1) / (steps - 1)));
+
+        return `${progressPercentage}%`;
+    }, [steps, progress]);
+
+    const stepBorderWidth = React.useMemo(() => {
+        if (!steps) {
+            return '0';
+        }
+
+        return `${100 - 100 / steps}%`;
+    }, [steps]);
+
+    return (
         <div
-          style={{ width: stepBorderWidth }}
-          className={styles.stepBorder}
+            {...otherProps}
+            className={_cs(
+                className,
+                styles.tabList,
+                disabled && styles.disabled,
+                variant === 'primary' && styles.primary,
+                variant === 'secondary' && styles.secondary,
+            )}
+            role="tablist"
         >
-          <div
-            style={{ width: progressWidth }}
-            className={styles.progress}
-          />
+            {variant === 'step' && (
+                <div
+                    style={{ width: stepBorderWidth }}
+                    className={styles.stepBorder}
+                >
+                    <div
+                        style={{ width: progressWidth }}
+                        className={styles.progress}
+                    />
+                </div>
+            )}
+            {variant === 'primary' && (
+                <div className={styles.startDummyContent} />
+            )}
+            {children}
+            {variant === 'primary' && (
+                <div className={styles.endDummyContent} />
+            )}
         </div>
-      )}
-      {variant === 'primary' && (
-        <div className={styles.startDummyContent} />
-      )}
-      {children}
-      {variant === 'primary' && (
-        <div className={styles.endDummyContent} />
-      )}
-    </div>
-  );
+    );
 }

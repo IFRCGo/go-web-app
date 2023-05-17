@@ -14,31 +14,31 @@ interface Props<N> extends RawButtonProps<N> {
 }
 
 function IconButton<N>(props: Props<N>) {
-  const {
-    ariaLabel,
-    children,
-    className,
-    variant,
-    round = true,
-    ...otherProps
-  } = props;
+    const {
+        ariaLabel,
+        children,
+        className,
+        variant,
+        round = true,
+        ...otherProps
+    } = props;
 
-  const buttonClassName = _cs(
-    styles.button,
-    styles[variant],
-    round && styles.round,
-    className,
-  );
+    const buttonClassName = _cs(
+        styles.button,
+        styles[variant],
+        round && styles.round,
+        className,
+    );
 
-  return (
-    <RawButton
-      className={buttonClassName}
-      aria-label={ariaLabel}
-      {...otherProps}
-    >
-      {children}
-    </RawButton>
-  );
+    return (
+        <RawButton
+            className={buttonClassName}
+            aria-label={ariaLabel}
+            {...otherProps}
+        >
+            {children}
+        </RawButton>
+    );
 }
 
 export default IconButton;

@@ -13,32 +13,32 @@ export interface Props {
 }
 
 function ElementFragments(props: Props) {
-  const {
-    actionsContainerClassName,
-    iconsContainerClassName,
-    childrenContainerClassName,
-    children,
-    icons,
-    actions,
-  } = props;
+    const {
+        actionsContainerClassName,
+        iconsContainerClassName,
+        childrenContainerClassName,
+        children,
+        icons,
+        actions,
+    } = props;
 
-  return (
-    <>
-      {icons && (
-        <div className={_cs(iconsContainerClassName, styles.icons)}>
-          {icons}
-        </div>
-      )}
-      <div className={_cs(childrenContainerClassName, styles.children)}>
-        {children}
-      </div>
-      {actions && (
-        <div className={_cs(actionsContainerClassName, styles.actions)}>
-          {actions}
-        </div>
-      )}
-    </>
-  );
+    return (
+        <>
+            {icons && (
+                <div className={_cs(iconsContainerClassName, styles.icons)}>
+                    {icons}
+                </div>
+            )}
+            <div className={_cs(childrenContainerClassName, styles.children)}>
+                {children}
+            </div>
+            {actions && (
+                <div className={_cs(actionsContainerClassName, styles.actions)}>
+                    {actions}
+                </div>
+            )}
+        </>
+    );
 }
 
 export default ElementFragments;

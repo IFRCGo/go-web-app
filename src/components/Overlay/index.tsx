@@ -8,15 +8,15 @@ interface Props {
 }
 
 const Overlay = forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const {
-    children,
-    className,
-  } = props;
-  return (
-    <div ref={ref} className={_cs(className, styles.overlay)}>
-      {children}
-    </div>
-  );
+    const {
+        children,
+        className,
+    } = props;
+    return (
+        <div ref={ref} className={_cs(className, styles.overlay)}>
+            {children}
+        </div>
+    );
 });
 
 Overlay.displayName = 'Overlay';

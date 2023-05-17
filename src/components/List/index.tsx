@@ -1,6 +1,6 @@
 import React, {
-  useCallback,
-  useMemo,
+    useCallback,
+    useMemo,
 } from 'react';
 
 import { listToGroupList } from '@togglecorp/fujs';
@@ -48,145 +48,145 @@ export type GroupedListProps<D, P, K extends OptionKey, GP, GK extends OptionKey
 );
 
 function hasGroup<D, P, K extends OptionKey, GP, GK extends OptionKey>(
-  props: Props<D, P, K, GP, GK>,
+    props: Props<D, P, K, GP, GK>,
 ): props is (BaseProps<D, P, K> & GroupOptions<D, GP, GK>) {
-  return !!(props as BaseProps<D, P, K> & GroupOptions<D, GP, GK>).grouped;
+    return !!(props as BaseProps<D, P, K> & GroupOptions<D, GP, GK>).grouped;
 }
 
 function GroupedList<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends OptionKey>(
-  props: GroupedListProps<D, P, K, GP, GK>,
+    props: GroupedListProps<D, P, K, GP, GK>,
 ) {
-  const {
-    groupKeySelector,
-    groupComparator,
-    renderer: Renderer,
-    groupRenderer: GroupRenderer,
-    groupRendererClassName,
-    groupRendererParams,
-    data: dataFromProps,
-    keySelector,
-    rendererParams,
-    rendererClassName,
-  } = props;
+    const {
+        groupKeySelector,
+        groupComparator,
+        renderer: Renderer,
+        groupRenderer: GroupRenderer,
+        groupRendererClassName,
+        groupRendererParams,
+        data: dataFromProps,
+        keySelector,
+        rendererParams,
+        rendererClassName,
+    } = props;
 
-  const data = dataFromProps ?? (emptyList as D[]);
+    const data = dataFromProps ?? (emptyList as D[]);
 
-  const renderListItem = useCallback((datum: D, i: number) => {
-    const key = keySelector(datum, i);
-    const extraProps = rendererParams(key, datum, i, data);
+    const renderListItem = useCallback((datum: D, i: number) => {
+        const key = keySelector(datum, i);
+        const extraProps = rendererParams(key, datum, i, data);
 
-    return (
-      <Renderer
-        key={String(key)}
-        className={rendererClassName}
-        {...extraProps}
-      />
-    );
+        return (
+            <Renderer
+                key={String(key)}
+                className={rendererClassName}
+                {...extraProps}
+            />
+        );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Renderer, data, keySelector, rendererClassName, rendererParams]);
+    }, [Renderer, data, keySelector, rendererClassName, rendererParams]);
 
-  const renderGroup = (
-    groupKey: GK,
-    index: number,
-    groupData: D[],
-    children: React.ReactNode,
-  ) => {
-    const extraProps = groupRendererParams(groupKey, index, groupData);
+    const renderGroup = (
+        groupKey: GK,
+        index: number,
+        groupData: D[],
+        children: React.ReactNode,
+    ) => {
+        const extraProps = groupRendererParams(groupKey, index, groupData);
 
-    const finalProps = {
-      ...extraProps,
-      className: groupRendererClassName,
-      children,
+        const finalProps = {
+            ...extraProps,
+            className: groupRendererClassName,
+            children,
+        };
+
+        return (
+            <GroupRenderer
+                key={String(groupKey)}
+                // FIXME: currently typescript is not smart enough to join Omit
+                {...finalProps as GP}
+            />
+        );
     };
 
-    return (
-      <GroupRenderer
-        key={String(groupKey)}
-        // FIXME: currently typescript is not smart enough to join Omit
-        {...finalProps as GP}
-      />
+    const typeSafeGroupKeySelector: (d: D) => string | number = React.useCallback((d) => {
+        const key = groupKeySelector(d);
+
+        if (typeof key === 'number') {
+            return key;
+        }
+
+        return String(key);
+    }, [groupKeySelector]);
+
+    const groups = useMemo(
+        () => listToGroupList(data, typeSafeGroupKeySelector),
+        [data, typeSafeGroupKeySelector],
     );
-  };
 
-  const typeSafeGroupKeySelector: (d: D) => string | number = React.useCallback((d) => {
-    const key = groupKeySelector(d);
+    const sortedGroupKeys = useMemo(
+        () => {
+            const keys = Object.keys(groups) as GK[];
+            return keys.sort(groupComparator);
+        },
+        [groups, groupComparator],
+    );
 
-    if (typeof key === 'number') {
-      return key;
-    }
+    const children: React.ReactNode[] = sortedGroupKeys.map((groupKey, i) => (
+        renderGroup(
+            groupKey,
+            i,
+            groups[String(groupKey)],
+            groups[String(groupKey)].map(renderListItem),
+        )
+    ));
 
-    return String(key);
-  }, [groupKeySelector]);
-
-  const groups = useMemo(
-    () => listToGroupList(data, typeSafeGroupKeySelector),
-    [data, typeSafeGroupKeySelector],
-  );
-
-  const sortedGroupKeys = useMemo(
-    () => {
-      const keys = Object.keys(groups) as GK[];
-      return keys.sort(groupComparator);
-    },
-    [groups, groupComparator],
-  );
-
-  const children: React.ReactNode[] = sortedGroupKeys.map((groupKey, i) => (
-    renderGroup(
-      groupKey,
-      i,
-      groups[String(groupKey)],
-      groups[String(groupKey)].map(renderListItem),
-    )
-  ));
-
-  return (
-    <>
-      {children}
-    </>
-  );
+    return (
+        <>
+            {children}
+        </>
+    );
 }
 
 function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends OptionKey>(
-  props: Props<D, P, K, GP, GK>,
+    props: Props<D, P, K, GP, GK>,
 ) {
-  const {
-    data: dataFromProps,
-    keySelector,
-    renderer: Renderer,
-    rendererClassName,
-    rendererParams,
-  } = props;
+    const {
+        data: dataFromProps,
+        keySelector,
+        renderer: Renderer,
+        rendererClassName,
+        rendererParams,
+    } = props;
 
-  const data = dataFromProps ?? (emptyList as D[]);
+    const data = dataFromProps ?? (emptyList as D[]);
 
-  const renderListItem = useCallback((datum: D, i: number) => {
-    const key = keySelector(datum, i);
-    const extraProps = rendererParams(key, datum, i, data);
+    const renderListItem = useCallback((datum: D, i: number) => {
+        const key = keySelector(datum, i);
+        const extraProps = rendererParams(key, datum, i, data);
 
-    return (
-      <Renderer
-        key={String(key)}
-        className={rendererClassName}
-        {...extraProps}
-      />
-    );
+        return (
+            <Renderer
+                key={String(key)}
+                className={rendererClassName}
+                {...extraProps}
+            />
+        );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keySelector, Renderer, rendererClassName, rendererParams, data]);
+    }, [keySelector, Renderer, rendererClassName, rendererParams, data]);
 
-  if (!hasGroup(props)) {
+    if (!hasGroup(props)) {
+        return (
+            <>
+                {data.map(renderListItem)}
+            </>
+        );
+    }
+
     return (
-      <>
-        {data.map(renderListItem)}
-      </>
+        <GroupedList
+            {...props}
+        />
     );
-  }
-
-  return (
-    <GroupedList
-      {...props}
-    />
-  );
 }
 
 export default genericMemo(List);
