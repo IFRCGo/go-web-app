@@ -1,5 +1,6 @@
 export const api = 'https://goadmin.ifrc.org';
 export const riskApi = 'https://risk-module-api-ifrc.dev.datafriendlyspace.org';
+export const tinyApiKey = ''; //FIXME use api key
 /*
 // NOTE: for some reason, old pipeline doesn't load env.js file and window.appSettings is undefined
 if (!window.appSettings) {
@@ -25,7 +26,7 @@ export const mbtoken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ?? window.appSe
 export const showEnvBanner = process.env.REACT_APP_SHOW_ENV_BANNER ?? window.appSettings.showEnvBanner;
 export const riskApi = process.env.REACT_APP_RISK_API_ENDPOINT ?? window.appSettings.riskApi;
 export const riskAdminUrl = process.env.REACT_APP_RISK_ADMIN_URL ?? window.appSettings.riskAdminUrl;
-export const tinyApiKey = process.env.REACT_APP_TINY_API_KEY ?? window.appSettings.tinyApiKey;
+
 
 // NOTE: New variables required by Sentry
 export const sentryAppDsn = process.env.REACT_APP_SENTRY_DSN;

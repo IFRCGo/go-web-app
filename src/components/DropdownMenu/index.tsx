@@ -5,10 +5,8 @@ import React, {
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { IoCaretDownSharp, IoCaretForward } from 'react-icons/io5';
-import {
-    useBlurEffect,
-    useFloatPlacement,
-} from '#hooks';
+import useBlurEffect from '#hooks/useBlurEffect';
+import useFloatPlacement from '#hooks/useFloatPlacement';
 
 import Portal from '#components/Portal';
 import styles from './styles.module.css';

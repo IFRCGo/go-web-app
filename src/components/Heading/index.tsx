@@ -1,4 +1,4 @@
-import React, { ElementType, ReactNode } from 'react';
+import { ElementType, ReactNode } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import styles from './styles.module.css';
 
@@ -15,7 +15,7 @@ function Heading(props: Props) {
         children,
     } = props;
 
-    const levelStyle = styles[`level-${level}`];
+    const levelStyle = styles[`level${level}`];
     const HeadingTag = `h${level}` as ElementType;
     return (
         <HeadingTag className={_cs(styles.heading, levelStyle, className)}>

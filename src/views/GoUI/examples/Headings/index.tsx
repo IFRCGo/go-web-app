@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '#views/GoUI/components/Header';
-import Heading from '#views/GoUI/components/Heading';
+import Header from '#components/Header';
+import Heading from '#components/Heading';
 
 import styles from './styles.module.css';
 

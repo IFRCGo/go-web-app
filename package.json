@@ -16,12 +16,16 @@
     },
     "dependencies": {
         "@ifrc-go/icons": "^1.1.3",
+        "@tinymce/tinymce-react": "^4.3.0",
         "@togglecorp/fujs": "^2.0.0",
         "@togglecorp/toggle-form": "^2.0.1",
         "@togglecorp/toggle-request": "^0.0.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-focus-on": "^3.8.1",
+        "react-icons": "^4.8.0",
         "react-router-dom": "^6.11.1",
+        "react-select": "^5.7.3",
         "url": "^0.11.0"
     },
     "devDependencies": {

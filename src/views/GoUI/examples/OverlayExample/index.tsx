@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '#components/Header';
-import Overlay from '#views/GoUI/components/Overlay';
+import Overlay from '#components/Overlay';
 import styles from './styles.module.css';
 
 function OverlayExample() {
