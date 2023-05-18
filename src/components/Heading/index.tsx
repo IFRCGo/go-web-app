@@ -1,11 +1,12 @@
 import { ElementType, ReactNode } from 'react';
 import { _cs } from '@togglecorp/fujs';
+
 import styles from './styles.module.css';
 
 export interface Props {
-  className?: string;
-  level?: 1 | 2 | 3 | 4 | 5 | 6;
-  children: ReactNode;
+    className?: string;
+    level?: 1 | 2 | 3 | 4 | 5 | 6;
+    children: ReactNode;
 }
 
 function Heading(props: Props) {
@@ -17,8 +18,14 @@ function Heading(props: Props) {
 
     const levelStyle = styles[`level${level}`];
     const HeadingTag = `h${level}` as ElementType;
+
     return (
-        <HeadingTag className={_cs(styles.heading, levelStyle, className)}>
+        <HeadingTag
+            className={_cs(
+                styles.heading,
+                levelStyle,
+                className,
+            )}>
             {children}
         </HeadingTag>
     );

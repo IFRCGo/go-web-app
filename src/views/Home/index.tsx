@@ -1,20 +1,24 @@
-import React from 'react';
-
 import Page from '#components/Page';
 import HighlightedOperations from './HighlightedOperations';
+import ActiveOperationMap from './ActiveOperationMap';
+import useTranslation from '#hooks/useTranslation';
+import homePageStrings from '#strings/home';
 
-import strings from './strings';
 import styles from './styles.module.css';
 
 export function Component() {
+    const strings = useTranslation('home', homePageStrings);
+
     return (
         <Page
-            title={strings.pageTitle}
+            title={strings.homeTitle}
             className={styles.home}
-            heading={strings.pageHeading}
-            description={strings.pageDescription}
+            heading={strings.homeHeading}
+            description={strings.homeDescription}
+            mainSectionClassName={styles.content}
         >
             <HighlightedOperations />
+            <ActiveOperationMap />
         </Page>
     );
 }

@@ -1,4 +1,13 @@
 interface Appeal {
+    aid: string;
+    amount_funded: string;
+    amount_requested: string;
+    code: string;
+    id: number;
+    num_beneficiaries: number;
+    start_date: string;
+    status: number;
+    status_display: string;
 }
 
 interface Country {
@@ -34,5 +43,5 @@ export interface Emergency {
   tab_one_title: string | null;
   tab_two_title: string | null;
   tab_three_title: string | null;
-  update_at: string | null;
+  updated_at: string | null;
 }

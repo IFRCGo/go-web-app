@@ -1,15 +1,15 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import PageContainer from '#components/PageContainer';
 import Link from '#components/Link';
+import TextInput from '#components/TextInput';
 import goLogo from '#assets/icons/go-logo-2020.svg';
 
 import styles from './styles.module.css';
 
 interface Props {
-  className?: string;
+    className?: string;
 }
 
 function Navbar(props: Props) {
@@ -30,16 +30,19 @@ function Navbar(props: Props) {
                     <img
                         className={styles.goIcon}
                         src={goLogo}
-                        alt="GO | IFRC"
+                        alt='GO | IFRC'
                     />
                 </Link>
                 <div className={styles.actions}>
                     <div className={styles.actionItem}>
                         Resources
                     </div>
-                    <div className={styles.actionItem}>
+                    <Link
+                        to='login'
+                        className={styles.actionItem}
+                    >
                         Login
-                    </div>
+                    </Link>
                     <div className={styles.actionItem}>
                         Register
                     </div>
@@ -59,7 +62,10 @@ function Navbar(props: Props) {
                         </div>
                     </div>
                     <div className={styles.searchContainer}>
-                        Search
+                        <TextInput
+                            placeholder="Search"
+                            name={undefined}
+                        />
                     </div>
                 </div>
             </PageContainer>

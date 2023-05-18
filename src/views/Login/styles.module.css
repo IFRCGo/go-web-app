@@ -1,0 +1,42 @@
+.login {
+    .main-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .form {
+            flex-grow: 1;
+            background-color: var(--go-ui-color-white);
+            padding: var(--go-ui-spacing-3xl);
+            max-width: 50rem;
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-4xl);
+
+            .fields {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-3xl);
+            }
+
+            .utility-links {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-md);
+                align-items: flex-end;
+            }
+
+            .actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: var(--go-ui-spacing-lg);
+
+                .sign-up {
+                    display: flex;
+                    gap: var(--go-ui-spacing-md);
+                }
+            }
+        }
+    }
+}

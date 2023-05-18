@@ -9,6 +9,7 @@
             display: flex;
             align-items: center;
             gap: var(--go-ui-spacing-xl);
+            flex-wrap: wrap;
 
             .brand {
                 flex-grow: 1;
@@ -28,6 +29,8 @@
 
     .bottom {
         display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-xl);
 
         .menu-items {
             display: flex;
@@ -37,8 +40,6 @@
         }
 
         .search-container {
-            background-color: var(--go-ui-color-gray-20);
-            padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
             min-width: 20rem;
         }
     }

@@ -2,9 +2,9 @@
     --font-size: var(--go-ui-font-size-xl);
     --line-height: var(--go-ui-line-height-snug);
     display: flex;
-    margin: 0;
     font-size: var(--font-size);
     font-weight: var(--go-ui-font-weight-bold);
+    margin: 0;
 
     &.level1 {
         --font-size: var(--go-ui-font-size-4xl);

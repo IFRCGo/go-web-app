@@ -1,7 +1,12 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
+import {
+    Link as InternalLink,
+    LinkProps as RouterLinkProps,
+} from 'react-router-dom';
+
 import useBasicLayout from '#hooks/useBasicLayout';
-import { Link as InternalLink, LinkProps as RouterLinkProps } from 'react-router-dom';
+
 import styles from './styles.module.css';
 
 export interface Props extends RouterLinkProps {

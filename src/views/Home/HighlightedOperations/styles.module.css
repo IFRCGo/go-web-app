@@ -4,10 +4,16 @@
         flex-wrap: wrap;
         gap: var(--go-ui-spacing-xl);
 
+        .filler,
         .operation {
-            flex-basis: 0;
+            flex-basis: calc(100% / 3 - var(--go-ui-spacing-xl));
             flex-grow: 1;
-            min-width: 20rem;
+            min-width: 24rem;
+        }
+
+        .filler {
+            --filler-size: 0;
+            flex-grow: var(--filler-size);;
         }
     }
 }

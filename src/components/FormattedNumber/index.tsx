@@ -1,19 +1,17 @@
-import React from 'react';
 import {
     addSeparator as addCommaSeparator,
     formattedNormalize,
-    Lang,
     _cs,
 } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
 interface Props {
-  value: number;
-  normalize?: boolean;
-  addSeparator?: boolean;
-  fixedTo?: number;
-  className?: string;
+    value: number;
+    normalize?: boolean;
+    addSeparator?: boolean;
+    fixedTo?: number;
+    className?: string;
 }
 
 function FormattedNumber(props: Props) {
@@ -34,7 +32,7 @@ function FormattedNumber(props: Props) {
             const {
                 number,
                 normalizeSuffix,
-            } = formattedNormalize(value, 'en' as Lang);
+            } = formattedNormalize(value);
 
             displayNumber = number;
             suffix = normalizeSuffix;

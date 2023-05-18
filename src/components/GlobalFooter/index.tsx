@@ -1,13 +1,16 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import Heading from '#components/Heading';
-import Button from '#components/Button';
+import ButtonLikeLink from '#components/ButtonLikeLink';
+import Link from '#components/Link';
 import PageContainer from '#components/PageContainer';
+import useTranslation from '#hooks/useTranslation';
+import commonStrings from '#strings/common';
+import { resolveToComponent } from '#utils/translation';
 
 import styles from './styles.module.css';
 
 interface Props {
-  className?: string;
+    className?: string;
 }
 
 function GlobalFooter(props: Props) {
@@ -15,43 +18,58 @@ function GlobalFooter(props: Props) {
         className,
     } = props;
 
+    const date = new Date();
+    const year = date.getFullYear();
+    const strings = useTranslation('common', commonStrings);
+    const copyrightText = resolveToComponent(
+        strings.footerIFRC,
+        {
+            year,
+            appVersion: (
+                <span title={import.meta.env.APP_COMMIT_HASH}>
+                    {import.meta.env.APP_VERSION}
+                </span>
+            ),
+        },
+    );
+
     return (
         <PageContainer
             className={_cs(styles.footer, className)}
             contentClassName={styles.content}
         >
-            <div className={styles.about}>
+            <div className={styles.section}>
                 <Heading>
-                    About
+                    {strings.footerAboutGo}
                 </Heading>
                 <div className={styles.description}>
-                    IFRC GO is a Red Cross Red Crescent platform to connect information on emergency needs with the right response.
+                    {strings.footerAboutGoDesc}
                 </div>
                 <div className={styles.copyright}>
-                    © IFRC 2023 v6.5.4
+                    {copyrightText}
                 </div>
             </div>
-            <div className={styles.findMore}>
+            <div className={styles.section}>
                 <Heading>
                     Find out more
                 </Heading>
-                <div className={styles.findMoreLinks}>
-                    <div>
+                <div className={styles.subSection}>
+                    <Link to="https://ifrc.org">
                         ifrc.org
-                    </div>
-                    <div>
+                    </Link>
+                    <Link to="https://rcrcsims.org">
                         rcrcsims.org
-                    </div>
-                    <div>
+                    </Link>
+                    <Link to="data.ifrc.org">
                         data.ifrc.org
-                    </div>
+                    </Link>
                 </div>
             </div>
-            <div className={styles.helpfulLink}>
+            <div className={styles.section}>
                 <Heading>
                     Helpful links
                 </Heading>
-                <div className={styles.links}>
+                <div className={styles.subSection}>
                     <div>
                         Open Source Code
                     </div>
@@ -63,13 +81,15 @@ function GlobalFooter(props: Props) {
                     </div>
                 </div>
             </div>
-            <div className={styles.contact}>
+            <div className={styles.section}>
                 <Heading>
                     Contact Us
                 </Heading>
-                <Button name={undefined}>
+                <ButtonLikeLink
+                    to="mailto:im@ifrc.org"
+                >
                     im@ifrc.org
-                </Button>
+                </ButtonLikeLink>
             </div>
         </PageContainer>
     );

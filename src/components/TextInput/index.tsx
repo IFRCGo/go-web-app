@@ -1,4 +1,3 @@
-import React from 'react';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
 import { NameType } from '#components/types';
@@ -6,8 +5,9 @@ import { NameType } from '#components/types';
 type InheritedProps<T extends NameType> = (Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'type'>);
 
 export interface Props<T extends NameType> extends InheritedProps<T> {
-  inputElementRef?: React.RefObject<HTMLInputElement>;
-  inputClassName?: string;
+    inputElementRef?: React.RefObject<HTMLInputElement>;
+    inputClassName?: string;
+    type?: 'text' | 'password';
 }
 
 function TextInput<T extends NameType>(props: Props<T>) {
@@ -26,6 +26,8 @@ function TextInput<T extends NameType>(props: Props<T>) {
         required,
         variant,
         withAsterisk,
+        type = 'text',
+
         ...otherInputProps
     } = props;
 
@@ -50,7 +52,7 @@ function TextInput<T extends NameType>(props: Props<T>) {
                     readOnly={readOnly}
                     disabled={disabled}
                     className={inputClassName}
-                    type="text"
+                    type={type}
                 />
             )}
         />

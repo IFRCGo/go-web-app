@@ -8,7 +8,9 @@
         "#assets/*": ["./src/assets/*"],
         "#components/*": ["./src/components/*"],
         "#config": ["./src/config"],
+        "#contexts/*": ["./src/contexts/*"],
         "#hooks/*": ["./src/hooks/*"],
+        "#strings/*": ["./src/strings/*"],
         "#types/*": ["./src/types/*"],
         "#utils/*": ["./src/utils/*"],
         "#views/*": ["./src/views/*"]

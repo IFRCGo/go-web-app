@@ -78,12 +78,12 @@
     --go-ui-border-radius-3xl: 1.5rem;
     --go-ui-border-radius-full: 9999px;
 
-    --go-ui-box-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --go-ui-box-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --go-ui-box-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --go-ui-box-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --go-ui-box-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --go-ui-box-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --go-ui-box-shadow-xs: 0 0 2px 0 rgb(0 0 0 / 0.05);
+    --go-ui-box-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    --go-ui-box-shadow-md: 0 1px 5px 0 rgb(0 0 0 / 0.1);
+    --go-ui-box-shadow-lg: 0 3px 10px -2px rgb(0 0 0 / 0.1);
+    --go-ui-box-shadow-xl: 0 6px 15px -5px rgb(0 0 0 / 0.1);
+    --go-ui-box-shadow-2xl: 0 10px 25px -8px rgb(0 0 0 / 0.25);
     --go-ui-box-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
     --go-ui-box-shadow-none: 0 0 #0000;
 
@@ -151,7 +151,7 @@
     --go-ui-color-warning: var(--go-ui-color-yellow);
     --go-ui-color-negative: var(--go-ui-color-red);
     --go-ui-color-background: #F7F7F7;
-    --go-ui-color-separator: var(--go-ui-color-gray-50);
+    --go-ui-color-separator: var(--go-ui-color-gray-30);
     --go-ui-color-background-overlay: rgb(0 0 0 / .6);
 
     --go-ui-opacity-0: 0;

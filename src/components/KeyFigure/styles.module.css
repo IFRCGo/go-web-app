@@ -1,0 +1,14 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-md);
+    gap: var(--go-ui-spacing-sm);
+
+    .value {
+        font-size: var(--go-ui-font-size-2xl);
+    }
+
+    .content {
+        padding: var(--go-ui-spacing-sm);
+    }
+}

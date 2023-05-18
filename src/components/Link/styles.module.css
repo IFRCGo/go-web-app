@@ -1,5 +1,5 @@
 .link-container {
-    --color: transparent;
+    --color: inherit;
     --decoration: none;
     --spacing: var(--go-ui-spacing-xs);
 
@@ -12,7 +12,6 @@
     gap: var(--spacing);
 
     &:not(.disabled) {
-        --color: var(--go-ui-color-black);
         cursor: pointer;
 
         &:hover {

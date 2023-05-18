@@ -1,14 +1,13 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { FiAlertTriangle } from 'react-icons/fi';
+import { AlertLineIcon } from '@ifrc-go/icons';
 
 import styles from './styles.module.css';
 
 export interface Props {
-  className?: string;
-  children?: React.ReactNode;
-  disabled?: boolean;
-  style?: React.CSSProperties;
+    className?: string;
+    children?: React.ReactNode;
+    disabled?: boolean;
+    style?: React.CSSProperties;
 }
 
 function InputError(props: Props) {
@@ -27,7 +26,6 @@ function InputError(props: Props) {
         <div
             style={style}
             className={_cs(
-                'go-input-error',
                 styles.inputError,
                 disabled && styles.disabled,
                 className,
@@ -35,7 +33,7 @@ function InputError(props: Props) {
         >
             <div className={styles.tip} />
             <div className={styles.content}>
-                <FiAlertTriangle className={styles.icon} />
+                <AlertLineIcon className={styles.icon} />
                 {children}
             </div>
         </div>

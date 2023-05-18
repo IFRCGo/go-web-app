@@ -5,14 +5,13 @@
     font-size: 0;
 }
 
-
 .spinner-bounce {
-    display: inline-block;
-    margin: 0 var(--go-ui-spacing-xs);
-    border-radius: var(--go-ui-border-radius-full);
-    background: #fff;
     width: 1rem;
     height: 1rem;
+    background: var(--go-ui-color-white);
+    border-radius: var(--go-ui-border-radius-full);
+    display: inline-block;
+    margin: 0 var(--go-ui-spacing-xs);
     animation: spinner-bounce-delay var(--go-ui-duration-animation-slow) infinite ease-in-out both;
 
     &:first-child {
@@ -30,7 +29,6 @@
 }
 
 @keyframes spinner-bounce-delay {
-
     0%,
     80%,
     100% {

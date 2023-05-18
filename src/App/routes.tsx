@@ -10,6 +10,14 @@ const root = wrapRoute({
     errorElement: <PageError />,
 });
 
+const login = wrapRoute({
+    title: 'Login',
+    path: 'login',
+    component: () => import('#views/Login'),
+    componentProps: {},
+    parent: root,
+});
+
 const home = wrapRoute({
     title: 'Home',
     index: true,
@@ -28,6 +36,7 @@ const goUI = wrapRoute({
 
 export const wrappedRoutes = {
     root,
+    login,
     home,
     goUI,
 };

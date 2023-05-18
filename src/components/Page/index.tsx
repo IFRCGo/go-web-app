@@ -10,18 +10,18 @@ import useBasicLayout from '#hooks/useBasicLayout';
 import styles from './styles.module.css';
 
 interface Props {
-  className?: string;
-  title?: string;
-  actions?: React.ReactNode;
-  heading?: React.ReactNode;
-  description?: React.ReactNode;
-  breadCrumbs?: React.ReactNode;
-  info?: React.ReactNode;
-  children?: React.ReactNode;
-  mainSectionClassName?: string;
-  infoContainerClassName?: string;
-  withMainContentBackground?: boolean;
-  wikiLink?: React.ReactNode;
+    className?: string;
+    title?: string;
+    actions?: React.ReactNode;
+    heading?: React.ReactNode;
+    description?: React.ReactNode;
+    breadCrumbs?: React.ReactNode;
+    info?: React.ReactNode;
+    children?: React.ReactNode;
+    mainSectionClassName?: string;
+    infoContainerClassName?: string;
+    withMainContentBackground?: boolean;
+    wikiLink?: React.ReactNode;
 }
 
 function Page(props: Props) {
@@ -78,6 +78,8 @@ function Page(props: Props) {
         ),
     });
 
+    const showPageContainer = !!breadCrumbs || !!heading || !!description || !!info || !!actions || !!wikiLink;
+
     return (
         <div
             className={_cs(
@@ -96,6 +98,18 @@ function Page(props: Props) {
             >
                 {headerContent}
             </PageContainer>
+            {showPageContainer && (
+                <PageContainer
+                    contentAs="header"
+                    className={_cs(
+                        styles.pageHeader,
+                        className,
+                    )}
+                    contentClassName={headerClassName}
+                >
+                    {headerContent}
+                </PageContainer>
+            )}
             <PageContainer
                 contentAs="main"
                 contentClassName={_cs(

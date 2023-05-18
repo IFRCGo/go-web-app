@@ -1,0 +1,9 @@
+.go-map-disclaimer {
+  font-size: var(--go-ui-font-size-sm);
+  opacity: 0.5;
+}
+
+.attribution {
+  display: flex;
+  gap: var(--go-ui-spacing-sm);
+}

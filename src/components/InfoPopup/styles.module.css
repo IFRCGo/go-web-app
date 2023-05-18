@@ -1,0 +1,20 @@
+.info-popup {
+    display: flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-md);
+
+    .icon {
+        display: flex;
+        font-size: var(--go-ui-font-size-lg);
+    }
+}
+
+.dropdown-container {
+    padding: var(--go-ui-spacing-md);
+    max-width: 24rem;
+
+    .content {
+        padding: var(--go-ui-spacing-md);
+        font-size: var(--go-ui-font-size-sm);
+    }
+}

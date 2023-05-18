@@ -55,12 +55,16 @@ function transformError(response: ResponseError, fallbackMessage: string): Trans
             const json = JSON.parse(responseText);
             if (isObject(json)) {
                 const {
+                    error_message,
                     non_field_errors,
                     ...otherError
                 } = json as Record<string, string[]>;
 
                 const formError = {
-                    [nonFieldError]: non_field_errors?.join(', ') ?? fallbackMessage,
+                    [nonFieldError]: [
+                        error_message,
+                        non_field_errors,
+                    ].filter(Boolean).join(', ') ?? fallbackMessage,
                     ...otherError,
                 };
 

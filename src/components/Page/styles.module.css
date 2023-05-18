@@ -1,14 +1,18 @@
 .page {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
     .page-header {
         background-color: var(--go-ui-color-background);
         padding: var(--go-ui-spacing-2xl);
 
         .heading-section {
             display: flex;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
             gap: var(--go-ui-spacing-xl);
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
 
             .heading {
                 display: flex;
@@ -17,8 +21,17 @@
             }
 
             .description {
-                max-width: 40rem;
+                max-width: 48rem;
             }
         }
+    }
+
+    &.with-main-content-background {
+        background-color: var(--go-ui-color-background);
+    }
+
+    .main-section {
+        flex-grow: 1;
+        padding: var(--go-ui-spacing-4xl) var(--go-ui-spacing-2xl);
     }
 }

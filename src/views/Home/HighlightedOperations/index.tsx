@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 import {
@@ -10,8 +9,9 @@ import Container from '#components/Container';
 import Button from '#components/Button';
 import { Emergency } from '#types/emergency';
 import OperationCard from './OperationCard';
+import useTranslation from '#hooks/useTranslation';
 
-import strings from '../strings';
+import commonStrings from '#strings/common';
 import styles from './styles.module.css';
 
 interface Props {
@@ -23,6 +23,8 @@ function HighlightedOperations(props: Props) {
         className,
     } = props;
 
+    const strings = useTranslation('common', commonStrings);
+
     const {
         response: featuredEmergencyResponse,
     } = useRequest<ListResponse<Emergency>>({
@@ -31,6 +33,9 @@ function HighlightedOperations(props: Props) {
             is_featured: 1,
         },
     });
+
+    const featuredEmergencies = featuredEmergencyResponse?.results;
+    const layoutDifficiencies = 3 - (featuredEmergencies?.length ?? 0) % 3;
 
     return (
         <Container
@@ -43,17 +48,25 @@ function HighlightedOperations(props: Props) {
                     variant="tertiary"
                     actions={<ChevronRightLineIcon />}
                 >
-                    {strings.viewAllEmergenciesLinkTitle}
+                    {strings.highlightedOperationsViewAll}
                 </Button>
             )}
             childrenContainerClassName={styles.emergencyList}
         >
-            {featuredEmergencyResponse?.results.map(
+            {featuredEmergencies?.map(
                 (emergency) => (
                     <OperationCard
                         className={styles.operation}
                         key={emergency.id}
                         data={emergency}
+                    />
+                )
+            )}
+            {Array.from(Array(layoutDifficiencies).keys()).map(
+                (key) => (
+                    <div
+                        key={key}
+                        className={styles.filler}
                     />
                 )
             )}

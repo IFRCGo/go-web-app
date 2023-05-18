@@ -1,0 +1,12 @@
+.number-output {
+  display: inline-flex;
+  font-size: inherit;
+
+  .prefix,
+  .sign,
+  .number,
+  .normalization-suffix,
+  .suffix {
+    white-space: nowrap;
+  }
+}

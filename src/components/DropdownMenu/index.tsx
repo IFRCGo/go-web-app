@@ -4,11 +4,15 @@ import React, {
     useRef,
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { IoCaretDownSharp, IoCaretForward } from 'react-icons/io5';
+import {
+    ArrowDownFillIcon,
+    ArrowUpFillIcon,
+} from '@ifrc-go/icons';
+
+import Portal from '#components/Portal';
 import useBlurEffect from '#hooks/useBlurEffect';
 import useFloatPlacement from '#hooks/useFloatPlacement';
 
-import Portal from '#components/Portal';
 import styles from './styles.module.css';
 
 interface DropdownProps {
@@ -77,7 +81,7 @@ function DropdownMenu(props: DropdownMenuProps) {
     useBlurEffect(showDropdown, handleBlurCallback, dropdownRef, buttonRef);
 
     const conditionalIcons = useCallback(() => {
-        const defaultIcons = showDropdown ? <IoCaretDownSharp /> : <IoCaretForward />;
+        const defaultIcons = showDropdown ? <ArrowDownFillIcon /> : <ArrowUpFillIcon />;
         if (icons) {
             return icons;
         }
