@@ -35,8 +35,8 @@ function InputError(props: Props) {
             <div className={styles.content}>
                 <AlertLineIcon className={styles.icon} />
                 {children}
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 

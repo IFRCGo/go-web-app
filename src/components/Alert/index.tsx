@@ -87,7 +87,7 @@ function Alert<N extends string>(props: Props<N>) {
                             className={styles.closeButton}
                             name={undefined}
                             onClick={handleCloseButtonClick}
-                            variant="action"
+                            variant="tertiary"
                         >
                             <IoClose />
                         </Button>
@@ -102,7 +102,7 @@ function Alert<N extends string>(props: Props<N>) {
                         className={styles.copyDebugMessageButton}
                         name={undefined}
                         onClick={handleCopyDebugMessageButtonClick}
-                        variant="transparent"
+                        variant="tertiary"
                     >
                         <Translate stringId="alertCopyErrorDetails" />
                     </Button>

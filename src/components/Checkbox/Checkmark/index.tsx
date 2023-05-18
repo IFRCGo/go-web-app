@@ -1,13 +1,15 @@
+import React from 'react';
+
 import {
-    MdCheckBox,
-    MdCheckBoxOutlineBlank,
-    MdIndeterminateCheckBox,
-} from 'react-icons/md';
+    CheckboxBlankLineIcon,
+    CheckboxLineIcon,
+    CheckboxIndeterminateLineIcon,
+} from '@ifrc-go/icons';
 
 export interface CheckmarkProps {
-  className?: string;
-  value: boolean | undefined | null;
-  indeterminate?: boolean;
+    className?: string;
+    value: boolean | undefined | null;
+    indeterminate?: boolean;
 }
 
 function Checkmark(props: CheckmarkProps) {
@@ -20,17 +22,17 @@ function Checkmark(props: CheckmarkProps) {
     return (
         <>
             {indeterminate && (
-                <MdIndeterminateCheckBox
+                <CheckboxIndeterminateLineIcon
                     className={className}
                 />
             )}
             {value && !indeterminate && (
-                <MdCheckBox
+                <CheckboxLineIcon
                     className={className}
                 />
             )}
             {!value && !indeterminate && (
-                <MdCheckBoxOutlineBlank
+                <CheckboxBlankLineIcon
                     className={className}
                 />
             )}

@@ -1,21 +1,22 @@
 import { Children } from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { IoChevronForward } from 'react-icons/io5';
+import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
 import styles from './styles.module.css';
 
 export interface BreadcrumbsProps {
-  className?: string;
-  itemClassName?: string;
-  separator?: React.ReactNode;
-  children: React.ReactNode;
+    className?: string;
+    itemClassName?: string;
+    variant?: string;
+    separator?: React.ReactNode;
+    children: React.ReactNode;
 }
 
 function Breadcrumbs(props: BreadcrumbsProps) {
     const {
         className,
         children,
-        separator = <IoChevronForward />,
+        separator = <ChevronRightLineIcon />,
         itemClassName,
     } = props;
 
