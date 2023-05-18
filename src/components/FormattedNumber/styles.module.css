@@ -1,6 +1,5 @@
 .formatted-number {
     display: inline-flex;
-    font-weight: var(--go-ui-font-weight-bold);
     font-size: var(--go-ui-font-size-lg);
     font-weight: var(--go-ui-font-weight-bold);
 }

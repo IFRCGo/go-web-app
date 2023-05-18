@@ -5,8 +5,8 @@
     box-shadow: var(--go-ui-box-shadow-lg);
 
     .header {
-        padding: var(--go-ui-spacing-md);
         flex-grow: 1;
+        padding: var(--go-ui-spacing-md);
     }
 
     .last-updated {
@@ -19,17 +19,17 @@
 
     .divider {
         flex-shrink: 0;
-        height: var(--go-ui-width-separator-sm);
         background-color: var(--go-ui-color-separator);
+        height: var(--go-ui-width-separator-sm);
     }
 
     .figures {
         display: flex;
 
         .separator {
-            width: var(--go-ui-width-separator-sm);
-            background-color: var(--go-ui-color-separator);
             flex-shrink: 0;
+            background-color: var(--go-ui-color-separator);
+            width: var(--go-ui-width-separator-sm);
         }
 
         .figure {

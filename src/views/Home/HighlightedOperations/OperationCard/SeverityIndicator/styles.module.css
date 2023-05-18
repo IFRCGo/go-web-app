@@ -1,8 +1,8 @@
 .severity-indicator {
-    width: 0.75rem;
-    height: 0.75rem;
     display: inline-block;
     border-radius: 0.5rem;
+    width: 0.75rem;
+    height: 0.75rem;
 
     &.yellow {
         background-color: var(--go-ui-color-yellow);
