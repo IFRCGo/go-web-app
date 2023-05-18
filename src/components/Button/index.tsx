@@ -14,15 +14,16 @@ const buttonVariantToStyleMap: Record<ButtonVariant, string> = {
 };
 
 export interface Props<N> extends RawButtonProps<N> {
-  variant?: ButtonVariant;
-  actions?: React.ReactNode;
-  actionsClassName?: string;
-  childrenClassName?: string;
-  disabled?: boolean;
-  icons?: React.ReactNode;
-  iconsClassName?: string;
-  name: N;
-  onClick?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
+    variant?: ButtonVariant;
+    actions?: React.ReactNode;
+    actionsClassName?: string;
+    childrenClassName?: string;
+    disabled?: boolean;
+    icons?: React.ReactNode;
+    iconsClassName?: string;
+    name: N;
+    onClick?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
+    elementRef?: React.Ref<HTMLButtonElement>;
 }
 
 export type ButtonFeatureProps<N> = Omit<Props<N>, 'name' | 'onClick'>;

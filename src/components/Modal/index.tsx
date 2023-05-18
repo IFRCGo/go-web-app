@@ -5,7 +5,7 @@ import Header from '#components/Header';
 import { Props as HeadingProps } from '#components/Heading';
 import Footer from '#components/Footer';
 import IconButton from '#components/IconButton';
-import { IoClose } from 'react-icons/io5';
+import { CloseFillIcon } from '@ifrc-go/icons';
 import { FocusOn } from 'react-focus-on';
 import styles from './styles.module.css';
 
@@ -91,7 +91,7 @@ function Modal(props: Props) {
                                             ariaLabel="Close"
                                             variant="tertiary"
                                         >
-                                            <IoClose />
+                                            <CloseFillIcon />
                                         </IconButton>
                                     )}
                                 />

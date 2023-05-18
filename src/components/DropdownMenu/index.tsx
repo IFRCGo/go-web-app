@@ -9,6 +9,7 @@ import {
     ArrowUpSmallFillIcon,
 } from '@ifrc-go/icons';
 
+import Button from '#components/Button';
 import Portal from '#components/Portal';
 import Button from '#components/Button';
 import useBlurEffect from '#hooks/useBlurEffect';
@@ -85,18 +86,28 @@ function DropdownMenu(props: DropdownMenuProps) {
 
     useBlurEffect(showDropdown, handleBlurCallback, dropdownRef, buttonRef);
 
+    const conditionalIcons = useCallback(() => {
+        const defaultIcons = showDropdown ? <ArrowUpSmallFillIcon /> : <ArrowDownSmallFillIcon />;
+        if (icons) {
+            return icons;
+        }
+        return defaultIcons;
+    }, [icons, showDropdown]);
+
     return (
         <>
             <Button
                 name={undefined}
-                className={_cs(styles.dropdownButton, className, showDropdown && activeClassName)}
+                className={_cs(styles.dropdown,
+                    className,
+                    showDropdown && activeClassName
+                )}
                 elementRef={buttonRef}
                 onClick={handleMenuClick}
             >
                 {label}
-                {icons ?? showDropdown
-                    ? <ArrowUpSmallFillIcon />
-                    : <ArrowDownSmallFillIcon />}
+                {' '}
+                {conditionalIcons()}
             </Button>
             {showDropdown && (
                 <Dropdown

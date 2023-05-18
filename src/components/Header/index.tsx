@@ -11,6 +11,7 @@ interface Props {
     heading: React.ReactNode;
     headingLevel?: HeadingProps['level'];
     className?: string;
+    children?: React.ReactNode;
 }
 
 function Header(props: Props) {
@@ -20,6 +21,7 @@ function Header(props: Props) {
         heading,
         className,
         headingLevel,
+        children,
     } = props;
 
     const {
@@ -43,6 +45,7 @@ function Header(props: Props) {
             className={_cs(styles.header, containerClassName)}
         >
             {content}
+            {children}
         </header>
     );
 }
