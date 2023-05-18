@@ -36,7 +36,7 @@ function Header(props: Props) {
                 {heading}
             </Heading>
         ),
-        className
+        className,
     });
 
     return (

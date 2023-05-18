@@ -7,7 +7,7 @@ export function resolveToString(template: string, params: Record<string, string>
     }
 
     const parts = template.split('{');
-    const resolvedParts = parts.map(part => {
+    const resolvedParts = parts.map((part) => {
         const endIndex = part.indexOf('}');
 
         if (endIndex === -1) {
@@ -27,13 +27,13 @@ export function resolveToString(template: string, params: Record<string, string>
 }
 
 const emptyObject: Record<string, React.ReactNode> = {};
-export function resolveToComponent(template: string, params=emptyObject) {
+export function resolveToComponent(template: string, params = emptyObject) {
     if (!isDefined(template)) {
         return '';
     }
 
     const parts = template.split('{');
-    const resolvedParts = parts.map(part => {
+    const resolvedParts = parts.map((part) => {
         const endIndex = part.indexOf('}');
 
         if (endIndex === -1) {
@@ -47,22 +47,22 @@ export function resolveToComponent(template: string, params=emptyObject) {
         }
 
         return (
-            <Fragment>
+            <>
                 {/* And, replace with associated component */}
                 { params[key] }
                 {/* Remove the key */}
                 { part.replace(`${key}}`, '')}
-            </Fragment>
+            </>
         );
     });
 
     return (
-        <Fragment>
-            {resolvedParts.map((d,i) => (
+        <>
+            {resolvedParts.map((d, i) => (
                 <Fragment key={i}>
                     {d}
                 </Fragment>
             ))}
-        </Fragment>
+        </>
     );
 }

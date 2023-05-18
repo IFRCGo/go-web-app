@@ -30,7 +30,7 @@ function Navbar(props: Props) {
                     <img
                         className={styles.goIcon}
                         src={goLogo}
-                        alt='GO | IFRC'
+                        alt="GO | IFRC"
                     />
                 </Link>
                 <div className={styles.actions}>
@@ -38,7 +38,7 @@ function Navbar(props: Props) {
                         Resources
                     </div>
                     <Link
-                        to='login'
+                        to="login"
                         className={styles.actionItem}
                     >
                         Login

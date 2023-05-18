@@ -12,7 +12,7 @@ function SeverityIndicator(props: Props) {
     const classNameMap: Record<number, string> = {
         1: styles.yellow,
         2: styles.red,
-        3: styles.orange
+        3: styles.orange,
     };
 
     if (!level) {

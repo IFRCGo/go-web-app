@@ -1,6 +1,6 @@
 import React from 'react';
 
- function useBlurEffect(
+function useBlurEffect(
     shouldWatch: boolean, // boolean,
     callback: (clickedInside: boolean, e: Event) => void,
     elementRef: React.RefObject<HTMLElement> | React.MutableRefObject<null>,

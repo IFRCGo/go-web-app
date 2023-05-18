@@ -8,10 +8,10 @@ import {
 import Container from '#components/Container';
 import Button from '#components/Button';
 import { Emergency } from '#types/emergency';
-import OperationCard from './OperationCard';
 import useTranslation from '#hooks/useTranslation';
 
 import commonStrings from '#strings/common';
+import OperationCard from './OperationCard';
 import styles from './styles.module.css';
 
 interface Props {
@@ -60,7 +60,7 @@ function HighlightedOperations(props: Props) {
                         key={emergency.id}
                         data={emergency}
                     />
-                )
+                ),
             )}
             {Array.from(Array(layoutDifficiencies).keys()).map(
                 (key) => (
@@ -68,7 +68,7 @@ function HighlightedOperations(props: Props) {
                         key={key}
                         className={styles.filler}
                     />
-                )
+                ),
             )}
         </Container>
     );

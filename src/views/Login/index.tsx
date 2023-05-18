@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     useForm,
@@ -34,9 +34,9 @@ interface FormFields {
 }
 
 const defaultFormValue: FormFields = {
-}
+};
 
-const formSchema: ObjectSchema<FormFields> =  {
+const formSchema: ObjectSchema<FormFields> = {
     fields: () => ({
         username: {
             required: true,
@@ -45,7 +45,7 @@ const formSchema: ObjectSchema<FormFields> =  {
         password: {
             required: true,
             requiredCondition: requiredStringCondition,
-        }
+        },
     }),
 };
 
@@ -71,14 +71,13 @@ export function Component() {
         }
     }, [navigate, userDetails]);
 
-
     const {
         value: formValue,
         error: formError,
         setFieldValue,
         setError,
         validate,
-    } = useForm(formSchema, { value: defaultFormValue })
+    } = useForm(formSchema, { value: defaultFormValue });
 
     const {
         trigger: login,
@@ -95,7 +94,7 @@ export function Component() {
                 displayName: getDisplayName(
                     response.first,
                     response.last,
-                    response.username
+                    response.username,
                 ),
                 token: response.token,
             });
@@ -123,7 +122,7 @@ export function Component() {
                     {strings.loginSignUp}
                 </Link>
             ),
-        }
+        },
     );
 
     const handleLoginButtonClick = useCallback(() => {
@@ -169,14 +168,14 @@ export function Component() {
                 </div>
                 <div className={styles.utilityLinks}>
                     <Link
-                        to='recover-account'
+                        to="recover-account"
                         title={strings.loginRecoverTitle}
                         underline
                     >
                         {strings.loginForgotUserPass}
                     </Link>
                     <Link
-                        to='resend-validation'
+                        to="resend-validation"
                         title={strings.loginResendValidationTitle}
                         underline
                     >

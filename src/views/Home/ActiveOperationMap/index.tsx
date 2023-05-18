@@ -1,9 +1,9 @@
 import { _cs } from '@togglecorp/fujs';
 import Map, {
-  MapContainer,
-  MapSource,
-  MapLayer,
-  MapTooltip
+    MapContainer,
+    MapSource,
+    MapLayer,
+    MapTooltip,
 } from '@togglecorp/re-map';
 
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
@@ -37,8 +37,8 @@ function ActiveOperationMap(props: Props) {
                 mapOptions={defaultMapOptions}
             >
                 <div className={styles.mapContainerWrapper}>
-                  <MapContainer className={styles.mapContainer} />
-                  <GoMapDisclaimer className={styles.mapDisclaimer}/>
+                    <MapContainer className={styles.mapContainer} />
+                    <GoMapDisclaimer className={styles.mapDisclaimer} />
                 </div>
             </Map>
         </Container>

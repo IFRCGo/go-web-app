@@ -144,49 +144,49 @@ function NumberOutput(props: Props) {
 
         return [formattedNumber, nSuffix];
     }, [
-            value,
-            showSign,
-            normal,
-            precision,
-            separator,
-        ]);
+        value,
+        showSign,
+        normal,
+        precision,
+        separator,
+    ]);
 
     return (
         <div className={_cs(styles.numberOutput, className)}>
             { !isValidNumber(value) ? (
                 invalidText
             ) : (
-                    <>
-                        { isTruthy(prefix) && (
-                            <div className={_cs(styles.prefix, prefixClassName)}>
-                                {prefix}
-                            </div>
-                        )}
-                        { isTruthy(showSign) && value !== 0 && (
-                            <div className={_cs(styles.sign, signClassName)}>
-                                {value > 0 ? '+' : '-'}
-                            </div>
-                        )}
-                        <div className={_cs(styles.number, numberClassName)}>
-                            {valueModifier ? valueModifier(number) : number}
+                <>
+                    { isTruthy(prefix) && (
+                        <div className={_cs(styles.prefix, prefixClassName)}>
+                            {prefix}
                         </div>
-                        { isTruthy(normalizationSuffix) && (
-                            <div
-                                className={_cs(
-                                    styles.normalizationSuffix,
-                                    normalizationSuffixClassName,
-                                )}
-                            >
-                                {normalizationSuffix}
-                            </div>
-                        )}
-                        { isTruthy(suffix) && (
-                            <div className={_cs(styles.suffix, suffixClassName)}>
-                                {suffix}
-                            </div>
-                        )}
-                    </>
-                )}
+                    )}
+                    { isTruthy(showSign) && value !== 0 && (
+                        <div className={_cs(styles.sign, signClassName)}>
+                            {value > 0 ? '+' : '-'}
+                        </div>
+                    )}
+                    <div className={_cs(styles.number, numberClassName)}>
+                        {valueModifier ? valueModifier(number) : number}
+                    </div>
+                    { isTruthy(normalizationSuffix) && (
+                        <div
+                            className={_cs(
+                                styles.normalizationSuffix,
+                                normalizationSuffixClassName,
+                            )}
+                        >
+                            {normalizationSuffix}
+                        </div>
+                    )}
+                    { isTruthy(suffix) && (
+                        <div className={_cs(styles.suffix, suffixClassName)}>
+                            {suffix}
+                        </div>
+                    )}
+                </>
+            )}
         </div>
     );
 }

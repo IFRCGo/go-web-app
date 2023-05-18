@@ -1,8 +1,8 @@
 import Page from '#components/Page';
-import HighlightedOperations from './HighlightedOperations';
-import ActiveOperationMap from './ActiveOperationMap';
 import useTranslation from '#hooks/useTranslation';
 import homePageStrings from '#strings/home';
+import HighlightedOperations from './HighlightedOperations';
+import ActiveOperationMap from './ActiveOperationMap';
 
 import styles from './styles.module.css';
 

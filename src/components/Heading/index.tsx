@@ -25,7 +25,8 @@ function Heading(props: Props) {
                 styles.heading,
                 levelStyle,
                 className,
-            )}>
+            )}
+        >
             {children}
         </HeadingTag>
     );
