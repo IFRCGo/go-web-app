@@ -12,7 +12,7 @@
 
     .segment {
         border-color: transparent;
-        padding: math.div(var(--go-ui-spacing-md), 3) var(--go-ui-spacing-md)*2;
+        padding: calc(var(--go-ui-spacing-md) / 3) var(--go-ui-spacing-md)*2;
 
         &.active {
             background-color: var(--go-ui-color-primary-red);

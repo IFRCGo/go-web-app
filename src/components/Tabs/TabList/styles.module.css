@@ -29,7 +29,7 @@
 
     &.disabled {
         .step-border {
-            opacity: var(--opacity-disabled-element);
+            opacity: var(--go-ui-opacity-5);
         }
     }
 

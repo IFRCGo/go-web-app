@@ -4,12 +4,6 @@
     padding: calc(var(--go-ui-spacing-md)*2);
     gap: calc(var(--go-ui-spacing-md)*2);
 
-    &.full-width-column {
-        .section-title {
-            display: none;
-        }
-    }
-
     .section-title {
         display: flex;
         flex-basis: 30%;
@@ -24,6 +18,12 @@
 
         .description {
             padding: 0;
+        }
+    }
+
+    &.full-width-column {
+        .section-title {
+            display: none;
         }
     }
 

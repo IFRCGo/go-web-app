@@ -51,15 +51,15 @@
         --color-background: var(--go-ui-color-primary-red);
         --color-text: var(--go-ui-color-white);
 
+        &:disabled {
+            --border-color: var(--go-ui-color-gray-40);
+            --color-background: var(--go-ui-color-gray-40);
+        }
+
         &:not(:disabled) {
             &:hover {
                 --color-background: var(--go-ui-color-red-hover);
             }
-        }
-
-        &:disabled {
-            --border-color: var(--go-ui-color-gray-40);
-            --color-background: var(--go-ui-color-gray-40);
         }
     }
 
@@ -68,15 +68,16 @@
         --color-background: var(--go-ui-color-primary-white);
         --color-text: var(--go-ui-color-primary-red);
 
+        &:disabled {
+            --color-text: var(--go-ui-color-gray-40);
+            --color-border: var(--go-ui-color-gray-40);
+        }
+
         &:not(:disabled) {
             &:hover {
                 background-color: var(--go-ui-color-red-hover);
                 color: var(--go-ui-color-white);
             }
-        }
-        &:disabled {
-            --color-text: var(--go-ui-color-gray-40);
-            --color-border: var(--go-ui-color-gray-40);
         }
     }
 
@@ -85,14 +86,14 @@
         --color-background: transparent;
         --color-text: inherit;
 
+        &:disabled {
+            --color-text: var(--go-ui-color-gray-40);
+        }
+
         &:not(:disabled) {
             &:hover {
                 --color-text: var(--go-ui-color-primary-red);
             }
-        }
-
-        &:disabled {
-            --color-text: var(--go-ui-color-gray-40);
         }
     }
 
