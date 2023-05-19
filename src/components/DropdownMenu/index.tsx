@@ -5,11 +5,12 @@ import {
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import {
-    ArrowDownFillIcon,
-    ArrowUpFillIcon,
+    ArrowDownSmallFillIcon,
+    ArrowUpSmallFillIcon,
 } from '@ifrc-go/icons';
 
 import Portal from '#components/Portal';
+import Button from '#components/Button';
 import useBlurEffect from '#hooks/useBlurEffect';
 import useFloatPlacement from '#hooks/useFloatPlacement';
 
@@ -31,15 +32,18 @@ function Dropdown(props: DropdownProps) {
     } = props;
 
     const placement = useFloatPlacement(parentRef);
+    console.info(placement);
 
     return (
-        <div
-            ref={elementRef}
-            style={placement}
-            className={_cs(styles.menuContainer, className)}
-        >
-            {children}
-        </div>
+        <Portal>
+            <div
+                ref={elementRef}
+                style={placement}
+                className={_cs(styles.menuContainer, className)}
+            >
+                {children}
+            </div>
+        </Portal>
     );
 }
 
@@ -75,40 +79,33 @@ function DropdownMenu(props: DropdownMenuProps) {
         if (persistent && insideClick) {
             return;
         }
+
         setShowDropdown(false);
     }, [setShowDropdown, persistent]);
 
     useBlurEffect(showDropdown, handleBlurCallback, dropdownRef, buttonRef);
 
-    const conditionalIcons = useCallback(() => {
-        const defaultIcons = showDropdown ? <ArrowDownFillIcon /> : <ArrowUpFillIcon />;
-        if (icons) {
-            return icons;
-        }
-        return defaultIcons;
-    }, [icons, showDropdown]);
-
     return (
         <>
-            <button
-                className={_cs(styles.dropdown, className, showDropdown && activeClassName)}
-                ref={buttonRef}
+            <Button
+                name={undefined}
+                className={_cs(styles.dropdownButton, className, showDropdown && activeClassName)}
+                elementRef={buttonRef}
                 onClick={handleMenuClick}
             >
                 {label}
-                {' '}
-                {conditionalIcons()}
-            </button>
+                {icons ?? showDropdown
+                    ? <ArrowUpSmallFillIcon />
+                    : <ArrowDownSmallFillIcon />}
+            </Button>
             {showDropdown && (
-                <Portal>
-                    <Dropdown
-                        elementRef={dropdownRef}
-                        className={dropdownContainerClassName}
-                        parentRef={buttonRef}
-                    >
-                        {children}
-                    </Dropdown>
-                </Portal>
+                <Dropdown
+                    elementRef={dropdownRef}
+                    className={dropdownContainerClassName}
+                    parentRef={buttonRef}
+                >
+                    {children}
+                </Dropdown>
             )}
         </>
     );

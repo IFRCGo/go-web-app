@@ -4,7 +4,7 @@
     display: flex;
     margin: 0;
     font-size: var(--font-size);
-    font-weight: var(--go-ui-font-weight-bold);
+    font-weight: var(--go-ui-font-weight-semibold);
 
     &.level1 {
         --font-size: var(--go-ui-font-size-4xl);

@@ -1,26 +1,7 @@
-.dropdown {
-    display: flex;
-    align-items: center;
-    border-radius: var(--go-ui-spacing-md);
-    background-color: var(--go-ui-color-primary-red);
-    padding: calc(var(--go-ui-spacing-xxs)) var(--go-ui-spacing-3xl);
-    width: fit-content;
-    color: var(--go-ui-color-white);
-    font-size: var(--go-ui-font-size-xs);
-    font-weight: var(--go-ui-font-weight-normal);
-    gap: var(--go-ui-spacing-sm);
-
-    &:hover {
-        background-color: var(--go-ui-color-red-hover);
-    }
-}
-
 .menu-container {
-    box-sizing: border-box;
     position: fixed;
     top: 50%;
     left: 50%;
-    z-index: 10;
     border-radius: var(--go-ui-spacing-xs);
     box-shadow: 0 0 0 var(--go-ui-spacing-px) var(--go-ui-color-gray-30), 0 4px 16px 2px var(--go-ui-color-gray-30);
     background: var(--go-ui-color-white);

@@ -18,6 +18,14 @@ const login = wrapRoute({
     parent: root,
 });
 
+const register = wrapRoute({
+    title: 'Register',
+    path: 'register',
+    component: () => import('#views/Register'),
+    componentProps: {},
+    parent: root,
+});
+
 const home = wrapRoute({
     title: 'Home',
     index: true,
@@ -25,6 +33,79 @@ const home = wrapRoute({
     componentProps: {},
     parent: root,
 });
+
+const region = wrapRoute({
+    title: 'Region',
+    path: 'regions/:regionId',
+    component: () => import('#views/Region'),
+    componentProps: {},
+    parent: root,
+});
+
+const country = wrapRoute({
+    title: 'Country',
+    path: 'countries/:countryId',
+    component: () => import('#views/Country'),
+    componentProps: {},
+    parent: root,
+});
+
+const emergencies = wrapRoute({
+    title: 'Emergencies',
+    path: 'emergencies',
+    component: () => import('#views/Emergencies'),
+    componentProps: {},
+    parent: root,
+});
+
+const emergency = wrapRoute({
+    title: 'Emergency',
+    path: 'countries/:emergencyId',
+    component: () => import('#views/Emergency'),
+    componentProps: {},
+    parent: root,
+});
+
+const surge = wrapRoute({
+    title: 'Surge',
+    path: 'surge',
+    component: () => import('#views/Surge'),
+    componentProps: {},
+    parent: root,
+});
+
+const preparedness = wrapRoute({
+    title: 'Preparedness',
+    path: 'preparedness',
+    component: () => import('#views/Preparedness'),
+    componentProps: {},
+    parent: root,
+});
+
+const threeW = wrapRoute({
+    title: 'Three W',
+    path: 'threeW',
+    component: () => import('#views/GlobalThreeW'),
+    componentProps: {},
+    parent: root,
+});
+
+const account = wrapRoute({
+    title: 'Account',
+    path: 'account',
+    component: () => import('#views/Account'),
+    componentProps: {},
+    parent: root,
+});
+
+const resources = wrapRoute({
+    title: 'Resources',
+    path: 'resources',
+    component: () => import('#views/Resources'),
+    componentProps: {},
+    parent: root,
+});
+
 
 const goUI = wrapRoute({
     title: 'Go UI',
@@ -34,11 +115,23 @@ const goUI = wrapRoute({
     parent: root,
 });
 
-export const wrappedRoutes = {
+const wrappedRoutes = {
     root,
     login,
+    register,
     home,
+    region,
+    country,
+    emergencies,
+    emergency,
+    surge,
+    preparedness,
+    threeW,
+    account,
+    resources,
     goUI,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
+
+export default wrappedRoutes;

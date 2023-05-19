@@ -24,7 +24,7 @@ import {
     processGoResponse,
 } from '#utils/restRequest/go';
 
-import { unwrappedRoutes } from './routes';
+import { unwrappedRoutes } from '#routes';
 
 const requestContextValue = {
     transformUrl: processGoUrls,

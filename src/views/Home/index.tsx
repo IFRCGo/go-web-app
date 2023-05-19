@@ -22,3 +22,5 @@ export function Component() {
         </Page>
     );
 }
+
+Component.displayName = 'Home';
