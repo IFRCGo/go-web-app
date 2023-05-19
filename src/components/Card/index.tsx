@@ -1,4 +1,3 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import FormattedNumber from '../FormattedNumber';

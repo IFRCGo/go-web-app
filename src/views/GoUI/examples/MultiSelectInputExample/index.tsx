@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import MultiSelectInput from '#components/MultiSelectInput';
 import Heading from '#components/Heading';
 

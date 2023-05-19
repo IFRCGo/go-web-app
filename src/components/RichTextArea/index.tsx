@@ -1,6 +1,6 @@
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
-import { RawEditorSettings } from 'tinymce';
+import { RawEditorOptions } from 'tinymce';
 import { _cs } from '@togglecorp/fujs';
 import { tinyApiKey } from '#config';
 
@@ -8,7 +8,7 @@ import InputContainer, { Props as InputContainerProps } from '#components/InputC
 
 import styles from './styles.module.css';
 
-const editorSettings: Omit<RawEditorSettings, 'selector' | 'target'> = {
+const editorOptions: Omit<RawEditorOptions, 'selector' | 'target'> = {
     menubar: false, // https://www.tiny.cloud/docs/advanced/available-toolbar-buttons
     statusbar: false,
     plugins: ['advlist autolink code help link lists preview'],
@@ -61,7 +61,7 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
     }, [onChange, name]);
 
     if (props.placeholder !== undefined) {
-        editorSettings.placeholder = props.placeholder;
+        editorOptions.placeholder = props.placeholder;
     }
 
     return (
@@ -76,7 +76,7 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
                 <Editor
                     {...otherInputProps}
                     apiKey={tinyApiKey}
-                    init={editorSettings}
+                    init={editorOptions}
                     value={value}
                     onEditorChange={handleChange}
                 />

@@ -1,11 +1,11 @@
-import React from 'react';
+import { useState } from 'react';
 import Heading from '#components/Heading';
 import Checkbox from '#components/Checkbox';
 
 import styles from './styles.module.css';
 
 function CheckboxExample() {
-    const [toggleSwitch, setToggleCheckbox] = React.useState<boolean>(false);
+    const [toggleSwitch, setToggleCheckbox] = useState<boolean>(false);
 
     const handleSwitch = () => setToggleCheckbox((current) => !current);
 

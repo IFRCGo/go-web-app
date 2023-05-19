@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { unique } from '@togglecorp/fujs';
 import SearchMultiSelectInput from '#components/SearchMultiSelectInput';
 import Heading from '#components/Heading';

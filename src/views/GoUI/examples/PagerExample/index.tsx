@@ -1,11 +1,11 @@
-import React from 'react';
+import { useState } from 'react';
 import Pager from '#components/Pager';
 
 import Heading from '#components/Heading';
 import styles from './styles.module.css';
 
 function PagerExample() {
-    const [activePage, setActivePage] = React.useState(1);
+    const [activePage, setActivePage] = useState(1);
     return (
         <div className={styles.pager}>
             <Heading>

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import {
     addSeparator,
     isTruthy,
@@ -76,7 +76,7 @@ function NumberOutput(props: Props) {
         suffixClassName,
     } = props;
 
-    const [number, normalizationSuffix] = React.useMemo(() => {
+    const [number, normalizationSuffix] = useMemo(() => {
         if (!isValidNumber(value)) {
             return [];
         }

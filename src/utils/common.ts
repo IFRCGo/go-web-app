@@ -10,9 +10,10 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import { Strings } from '#types';
+import { CommonStrings } from '#strings/common';
 
-export const getHashFromBrowser = () => window.location.hash.substr(1);
+export const getHashFromBrowser = () => window.location.hash.substring(1);
+
 export const setHashToBrowser = (hash: string | undefined) => {
     if (hash) {
         window.location.replace(`#${hash}`);
@@ -167,7 +168,7 @@ export function rankedSearchOnList<T>(
         ));
 }
 
-export function getFullMonthNameList(strings: Strings) {
+export function getFullMonthNameList(strings: CommonStrings) {
     return [
         strings.monthNameJanuary,
         strings.monthNameFebruary,
@@ -226,10 +227,10 @@ export function isIfrcUser(user: {
 
     const {
         email,
-        is_ifrc_admin,
+        is_ifrc_admin, // eslint-disable-line camelcase
     } = user;
 
-    if (is_ifrc_admin) {
+    if (is_ifrc_admin) { // eslint-disable-line camelcase
         return true;
     }
 
@@ -271,17 +272,30 @@ export function getPrettyBreakpoints(
     n = 5,
 
     // nonnegative integer giving the minimal number of intervals.
-    minN: number = Math.floor(n / 3),
+    minN = Math.floor(n / 3),
 
-    // positive number, a factor (smaller than one) by which a default scale is shrunk in the case when range is very small
+    /*
+     * positive number, a factor (smaller than one) by which a default scale
+     * is shrunk in the case when range is very small
+     */
+
     shrinkSml = 0.75,
 
-    // [high.u.bias, u5.bias]
-    // high.u.bias -> non-negative numeric, typically > 1 . The interval unit is determined as {1,2,5,10} times b, a power of 10. Larger high.u.bias values favor larger units.
-    // u5.bias -> non-negative numeric multiplier favoring factor 5 over 2. Default and ‘optimal’: u5.bias = .5 + 1.5*high.u.bias.
+    /*
+     * [high.u.bias, u5.bias]
+     * high.u.bias -> non-negative numeric, typically > 1 .
+     * The interval unit is determined as {1,2,5,10} times b, a power of 10.
+     * Larger high.u.bias values favor larger units.
+     * u5.bias -> non-negative numeric multiplier favoring factor 5 over 2.
+     * Default and ‘optimal’: u5.bias = .5 + 1.5*high.u.bias.
+    */
     highUFact: [number, number] = [0.5, 0.5 + 1.5 * 1.5],
 
-    // integer code, one of {0,1,2}. If non-0, an epsilon correction is made at the boundaries such that the result boundaries will be outside range; in the small case, the correction is only done if eps.correct >= 2.
+    /* integer code, one of {0,1,2}. If non-0, an epsilon correction is made at
+     * the boundaries such that the result boundaries will be outside range;
+     * in the small case, the correction is only done if eps.correct >= 2.
+     */
+
     epsCorrection = 0,
 
     returnBounds = true,
@@ -329,10 +343,10 @@ export function getPrettyBreakpoints(
     }
 
     if (cell < 20 * DBL_MIN) {
-        console.warn('very small range.. corrected');
+        console.warn('very small range.. corrected'); // eslint-disable-line no-console
         cell = 20 * DBL_MIN;
     } else if (cell * 10 > DBL_MAX) {
-        console.warn('very large range.. corrected');
+        console.warn('very large range.. corrected'); // eslint-disable-line no-console
         cell = 0.1 * DBL_MAX;
     }
 
@@ -460,7 +474,7 @@ export function isSimilarArray<T extends string | number>(
         return true;
     }
 
-    const aMap = listToMap(aList, (a) => a, (a) => true);
+    const aMap = listToMap(aList, (a) => a, () => true);
     return bList.every((b) => aMap[b]);
 }
 

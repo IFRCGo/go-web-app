@@ -1,4 +1,4 @@
-import React from 'react';
+import { Children } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { IoChevronForward } from 'react-icons/io5';
 
@@ -7,7 +7,6 @@ import styles from './styles.module.css';
 export interface BreadcrumbsProps {
   className?: string;
   itemClassName?: string;
-  variant?: string;
   separator?: React.ReactNode;
   children: React.ReactNode;
 }
@@ -20,7 +19,7 @@ function Breadcrumbs(props: BreadcrumbsProps) {
         itemClassName,
     } = props;
 
-    const items = React.Children.toArray(children).reduce<React.ReactNode[]>(
+    const items = Children.toArray(children).reduce<React.ReactNode[]>(
         (acc, child, index, array) => {
             const isLastItem = index === array.length - 1;
             const item = (

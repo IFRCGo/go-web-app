@@ -1,25 +1,15 @@
-import React from 'react';
 import {
     IoAccessibilityOutline,
     IoAirplane,
     IoArchive,
 } from 'react-icons/io5';
-import Header from '#components/Header';
 import IconButton from '#components/IconButton';
 import styles from './styles.module.css';
 
 function IconButtons() {
     return (
         <div className={styles.buttonCollection}>
-            <Header
-                heading="ICON BUTTON COLLECTION"
-                headingSize="medium"
-            />
             <div className={styles.buttonsContainer}>
-                <Header
-                    heading="Primary IconButton"
-                    headingSize="ultraSmall"
-                />
                 <IconButton
                     name="primary-button"
                     variant="primary"
@@ -45,10 +35,6 @@ function IconButtons() {
                 </IconButton>
             </div>
             <div className={styles.buttonsContainer}>
-                <Header
-                    heading="Secondary IconButton"
-                    headingSize="ultraSmall"
-                />
                 <IconButton
                     name="secondary-button"
                     variant="secondary"
@@ -66,10 +52,6 @@ function IconButtons() {
                 </IconButton>
             </div>
             <div className={styles.buttonsContainer}>
-                <Header
-                    heading="Tertiary IconButton"
-                    headingSize="ultraSmall"
-                />
                 <IconButton
                     name="tertiary-button"
                     variant="tertiary"

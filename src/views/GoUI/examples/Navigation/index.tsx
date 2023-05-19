@@ -1,6 +1,5 @@
-import React from 'react';
+import { useState } from 'react';
 
-import Header from '#components/Header';
 import Tabs from '#components/Tabs';
 import Tab from '#components/Tabs/Tab';
 import TabList from '#components/Tabs/TabList';
@@ -9,18 +8,10 @@ import TabPanel from '#components/Tabs/TabPanel';
 import styles from './styles.module.css';
 
 function Navigation() {
-    const [activeTab, setActiveTab] = React.useState<'tab1' | 'tab2'>('tab1');
+    const [activeTab, setActiveTab] = useState<'tab1' | 'tab2'>('tab1');
 
     return (
         <div className={styles.navigationCollection}>
-            <Header
-                heading="NAVIGATION COLLECTION"
-                headingSize="medium"
-            />
-            <Header
-                heading="PRIMARY"
-                headingSize="small"
-            />
             <div className={styles.navigationContainer}>
                 <Tabs
                     value={activeTab}
@@ -43,10 +34,6 @@ function Navigation() {
                     </TabPanel>
                 </Tabs>
             </div>
-            <Header
-                heading="SECONDARY"
-                headingSize="small"
-            />
             <div className={styles.navigationContainer}>
                 <Tabs
                     value={activeTab}
@@ -69,10 +56,7 @@ function Navigation() {
                     </TabPanel>
                 </Tabs>
             </div>
-            <Header
-                heading="STEP"
-                headingSize="small"
-            />
+
             <div className={styles.navigationContainer}>
                 <Tabs
                     value={activeTab}

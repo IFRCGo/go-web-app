@@ -27,7 +27,7 @@ function FormattedNumber(props: Props) {
     let suffix;
     let displayCommaNumber = '-';
 
-    if (value && !isNaN(value)) {
+    if (value && !Number.isNaN(value)) {
         if (normalize) {
             const {
                 number,
@@ -44,7 +44,8 @@ function FormattedNumber(props: Props) {
 
         if (fixedTo) {
             const shouldFix = ((displayNumber - Math.floor(displayNumber)) !== 0);
-            displayCommaNumber = Number.parseFloat(String(displayNumber)).toFixed(shouldFix ? fixedTo : 0);
+            displayCommaNumber = Number.parseFloat(String(displayNumber))
+                .toFixed(shouldFix ? fixedTo : 0);
         }
     }
 

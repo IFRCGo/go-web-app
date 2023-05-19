@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import styles from './styles.module.css';
 

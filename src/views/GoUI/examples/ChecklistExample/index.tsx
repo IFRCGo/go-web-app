@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useCallback } from 'react';
 import Checklist from '#components/Checklist';
 import Heading from '#components/Heading';
 
@@ -32,9 +32,9 @@ const checklistOption: ChecklistOption[] = [
 ];
 
 function ChecklistExample() {
-    const [checklistNumber, setChecklistNumber] = React.useState<number[]>();
+    const [checklistNumber, setChecklistNumber] = useState<number[]>();
 
-    const handleChecklistChange = React.useCallback((checklistValue: number[] | undefined) => {
+    const handleChecklistChange = useCallback((checklistValue: number[] | undefined) => {
         setChecklistNumber(checklistValue);
     }, []);
 

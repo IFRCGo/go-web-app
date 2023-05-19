@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, useCallback } from 'react';
+
 import RadioInput from '#components/RadioInput';
 import Heading from '#components/Heading';
 
@@ -22,9 +23,9 @@ function labelSelector<T>(d: { label: T }) {
 }
 
 function RadioInputExample() {
-    const [radioInput, setRadioInput] = React.useState('');
+    const [radioInput, setRadioInput] = useState('');
 
-    const handleRadioChange = React.useCallback((value?: string) => {
+    const handleRadioChange = useCallback((value?: string) => {
         setRadioInput(value as string);
     }, [setRadioInput]);
 

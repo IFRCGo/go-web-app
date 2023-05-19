@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, LinkProps } from 'react-router-dom';
 
 import {
@@ -16,7 +15,10 @@ function ButtonLikeLink(props: ButtonFeatureProps<undefined> & {
         ...buttonFeatureProps
     } = props;
 
-    const linkProps = useButtonFeatures(buttonFeatureProps);
+    const {
+        className,
+        children,
+    } = useButtonFeatures(buttonFeatureProps);
 
     if (external) {
         return (
@@ -24,16 +26,20 @@ function ButtonLikeLink(props: ButtonFeatureProps<undefined> & {
                 target="_blank"
                 rel="noopener noreferrer"
                 href={to as string}
-                {...linkProps}
-            />
+                className={className}
+            >
+                {children}
+            </a>
         );
     }
 
     return (
         <Link
             to={to}
-            {...linkProps}
-        />
+            className={className}
+        >
+            {children}
+        </Link>
     );
 }
 

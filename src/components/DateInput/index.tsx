@@ -1,5 +1,3 @@
-import React from 'react';
-
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
 import { NameType } from '#components/types';
@@ -37,7 +35,7 @@ function DateInput<T extends NameType>(props: Props<T>) {
             errorOnTooltip={errorOnTooltip}
             input={(
                 <RawInput
-                    {...otherInputProps}
+                    {...otherInputProps} /* eslint-disable-line react/jsx-props-no-spreading */
                     readOnly={readOnly}
                     disabled={disabled}
                     className={inputClassName}

@@ -1,4 +1,3 @@
-import React from 'react';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenu/DropdownMenuItem';
 import styles from './styles.module.css';

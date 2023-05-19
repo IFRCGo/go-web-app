@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import {
     getHashFromBrowser,
@@ -9,18 +9,18 @@ function useHash(value?: string, use?: boolean) {
     const [initialValue] = useState<string | undefined>(value);
     const [hash, setHash] = useState(getHashFromBrowser());
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (use) {
             setHashToBrowser(initialValue);
             console.info('setting hash', initialValue);
         }
     }, [initialValue, use]);
 
-    const handleHashChange = React.useCallback(() => {
+    const handleHashChange = useCallback(() => {
         setHash(getHashFromBrowser());
     }, [setHash]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         window.addEventListener('hashchange', handleHashChange);
 
         return () => {

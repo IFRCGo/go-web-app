@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import DefaultCheckmark, { CheckmarkProps } from './Checkmark';
@@ -77,7 +77,7 @@ function Checkbox<N>(props: Props<N>) {
                 type="checkbox"
                 checked={checked ?? false}
                 disabled={disabled || readOnly}
-                {...otherProps}
+                {...otherProps} /* eslint-disable-line react/jsx-props-no-spreading */
                 readOnly
             />
             <div className={labelContainerClassName}>

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { _cs } from '@togglecorp/fujs';
 
 import Spinner from '#components/Spinner';

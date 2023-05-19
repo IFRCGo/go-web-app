@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, useEffect, useCallback } from 'react';
+
 import { isDefined } from '@togglecorp/fujs';
 import { NameType } from '#components/types';
 
@@ -35,13 +36,13 @@ function NumberInput<T extends NameType>(props: Props<T>) {
         ...otherInputProps
     } = props;
 
-    const [tempValue, setTempValue] = React.useState<string | undefined>(String(valueFromProps ?? ''));
+    const [tempValue, setTempValue] = useState<string | undefined>(String(valueFromProps ?? ''));
 
-    React.useEffect(() => {
+    useEffect(() => {
         setTempValue(String(valueFromProps ?? ''));
     }, [valueFromProps]);
 
-    const handleChange: RawInputProps<T>['onChange'] = React.useCallback((v, n, e) => {
+    const handleChange: RawInputProps<T>['onChange'] = useCallback((v, n, e) => {
         setTempValue(v);
 
         if (!onChange) {
@@ -70,7 +71,7 @@ function NumberInput<T extends NameType>(props: Props<T>) {
             errorOnTooltip={errorOnTooltip}
             input={(
                 <RawInput
-                    {...otherInputProps}
+                    {...otherInputProps} /* eslint-disable-line react/jsx-props-no-spreading */
                     readOnly={readOnly}
                     disabled={disabled}
                     className={inputClassName}

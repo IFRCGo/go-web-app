@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
@@ -26,6 +26,7 @@ export interface Props<N> extends RawButtonProps<N> {
 }
 
 export type ButtonFeatureProps<N> = Omit<Props<N>, 'name' | 'onClick'>;
+
 export function useButtonFeatures<N>(
     props: ButtonFeatureProps<N>,
 ) {
@@ -106,8 +107,8 @@ function Button<N>(props: Props<N>) {
             name={name}
             type="button"
             onClick={handleButtonClick}
-            {...otherProps}
-            {...buttonProps}
+            {...otherProps} /* eslint-disable-line react/jsx-props-no-spreading */
+            {...buttonProps} /* eslint-disable-line react/jsx-props-no-spreading */
         />
     );
 }

@@ -1,11 +1,11 @@
-import React from 'react';
+import { useState } from 'react';
 import Heading from '#components/Heading';
 import Switch from '#components/Switch';
 
 import styles from './styles.module.css';
 
 function SwitchExample() {
-    const [toggleSwitch, setToggleSwitch] = React.useState<boolean>(false);
+    const [toggleSwitch, setToggleSwitch] = useState<boolean>(false);
 
     const handleSwitch = () => setToggleSwitch((current) => !current);
 

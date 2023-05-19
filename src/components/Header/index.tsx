@@ -1,4 +1,3 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Heading, { Props as HeadingProps } from '#components/Heading';

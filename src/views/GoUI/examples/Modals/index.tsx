@@ -1,8 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import Modal, { SizeType } from '#components/Modal';
 import SegmentInput from '#components/SegmentInput';
 import Button from '#components/Button';
-import Header from '#components/Header';
 import Heading from '#components/Heading';
 import TextInput from '#components/TextInput';
 
@@ -49,9 +48,9 @@ function Modals() {
     const [value, setValue] = useState<string>();
     const [surname, setSurname] = useState<string>();
 
-    const handleChange = useCallback((value: SizeType | undefined) => {
-        if (value) {
-            setOption(value);
+    const handleChange = useCallback((val: SizeType | undefined) => {
+        if (val) {
+            setOption(val);
         }
     }, []);
 
@@ -65,7 +64,7 @@ function Modals() {
 
     return (
         <div className={styles.modals}>
-            <Header>MODALS</Header>
+            <Heading>Modals</Heading>
             <SegmentInput
                 name={undefined}
                 onChange={handleChange}

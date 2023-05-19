@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import Select, { Props as SelectProps, GroupBase } from 'react-select';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import {
     _cs,
     isDefined,
@@ -40,7 +40,7 @@ function Page(props: Props) {
         wikiLink,
     } = props;
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (isDefined(title)) {
             document.title = title;
         }

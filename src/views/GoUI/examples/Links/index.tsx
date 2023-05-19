@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from '#components/Link';
 import Heading from '#components/Heading';
 import { IoChevronForward, IoOpenOutline } from 'react-icons/io5';

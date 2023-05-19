@@ -1,4 +1,3 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
@@ -34,7 +33,7 @@ function IconButton<N>(props: Props<N>) {
         <RawButton
             className={buttonClassName}
             aria-label={ariaLabel}
-            {...otherProps}
+            {...otherProps} /* eslint-disable-line react/jsx-props-no-spreading */
         >
             {children}
         </RawButton>

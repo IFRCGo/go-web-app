@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import TextInput from '#components/TextInput';
 import Heading from '#components/Heading';
 import styles from './styles.module.css';

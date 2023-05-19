@@ -1,11 +1,11 @@
-import React from 'react';
+import { useState } from 'react';
 import PasswordInput from '#components/PasswordInput';
 import Heading from '#components/Heading';
 
 import styles from './styles.module.css';
 
 function PasswordInputExample() {
-    const [passwordInput, setPasswordInput] = React.useState<string | undefined>('');
+    const [passwordInput, setPasswordInput] = useState<string | undefined>('');
     return (
         <div className={styles.passwordInput}>
             <Heading level={3}>

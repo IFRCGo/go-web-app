@@ -1,4 +1,3 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 

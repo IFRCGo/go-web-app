@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useCallback } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
@@ -26,8 +26,8 @@ function PasswordInput<T extends NameType>(props: Props<T>) {
         ...rawInputProps
     } = props;
 
-    const [showPassword, setShowPassword] = React.useState(false);
-    const handleButtonClick = React.useCallback(() => {
+    const [showPassword, setShowPassword] = useState(false);
+    const handleButtonClick = useCallback(() => {
         setShowPassword((show: boolean) => !show);
     }, []);
 

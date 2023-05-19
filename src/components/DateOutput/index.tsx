@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import {
     populateFormat,
     breakFormat,
@@ -20,7 +20,7 @@ function DateOutput(props: Props) {
         className,
     } = props;
 
-    const formattedValueList = React.useMemo(() => {
+    const formattedValueList = useMemo(() => {
         if (!value) {
             return [];
         }

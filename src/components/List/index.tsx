@@ -1,4 +1,4 @@
-import React, {
+import {
     useCallback,
     useMemo,
 } from 'react';
@@ -79,10 +79,10 @@ function GroupedList<D, P, K extends OptionKey, GP extends GroupCommonProps, GK 
             <Renderer
                 key={String(key)}
                 className={rendererClassName}
-                {...extraProps}
+                {...extraProps} /* eslint-disable-line react/jsx-props-no-spreading */
             />
         );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [Renderer, data, keySelector, rendererClassName, rendererParams]);
 
     const renderGroup = (
@@ -102,13 +102,12 @@ function GroupedList<D, P, K extends OptionKey, GP extends GroupCommonProps, GK 
         return (
             <GroupRenderer
                 key={String(groupKey)}
-                // FIXME: currently typescript is not smart enough to join Omit
-                {...finalProps as GP}
+                {...finalProps as GP} /* eslint-disable-line react/jsx-props-no-spreading */
             />
         );
     };
 
-    const typeSafeGroupKeySelector: (d: D) => string | number = React.useCallback((d) => {
+    const typeSafeGroupKeySelector: (d: D) => string | number = useCallback((d) => {
         const key = groupKeySelector(d);
 
         if (typeof key === 'number') {
@@ -131,18 +130,16 @@ function GroupedList<D, P, K extends OptionKey, GP extends GroupCommonProps, GK 
         [groups, groupComparator],
     );
 
-    const children: React.ReactNode[] = sortedGroupKeys.map((groupKey, i) => (
-        renderGroup(
-            groupKey,
-            i,
-            groups[String(groupKey)],
-            groups[String(groupKey)].map(renderListItem),
-        )
-    ));
-
     return (
         <>
-            {children}
+            {sortedGroupKeys.map((groupKey, i) => (
+                renderGroup(
+                    groupKey,
+                    i,
+                    groups[String(groupKey)],
+                    groups[String(groupKey)].map(renderListItem),
+                )
+            ))}
         </>
     );
 }
@@ -168,10 +165,10 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
             <Renderer
                 key={String(key)}
                 className={rendererClassName}
-                {...extraProps}
+                {...extraProps} /* eslint-disable-line react/jsx-props-no-spreading */
             />
         );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [keySelector, Renderer, rendererClassName, rendererParams, data]);
 
     if (!hasGroup(props)) {
@@ -184,7 +181,7 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
 
     return (
         <GroupedList
-            {...props}
+            {...props} /* eslint-disable-line react/jsx-props-no-spreading */
         />
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import InputLabel from '#components/InputLabel';
@@ -17,10 +17,8 @@ export interface Props<V, O, N> {
   onChange: (value: V[] | undefined, name: N) => void;
   value: V[] | undefined | null;
   label?: React.ReactNode;
-  hint?: React.ReactNode;
   error?: string;
   labelContainerClassName?: string;
-  hintContainerClassName?: string;
   errorContainerClassName?: string;
   checkboxListContainerClassName?: string;
   checkboxClassName?: string;
@@ -55,13 +53,13 @@ function Checklist<
         tooltipSelector,
     } = props;
 
-    const valueRef = React.useRef<V[]>(value ?? []);
+    const valueRef = useRef<V[]>(value ?? []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         valueRef.current = value ?? [];
     }, [value]);
 
-    const handleChange = React.useCallback((checked: boolean, key: V) => {
+    const handleChange = useCallback((checked: boolean, key: V) => {
         const i = valueRef.current.findIndex((k) => k === key);
         if (i === -1) {
             if (checked) {
@@ -78,7 +76,7 @@ function Checklist<
         }
     }, [name, onChange]);
 
-    const checkboxRendererParams = React.useCallback((key: V, option: O) => ({
+    const checkboxRendererParams = useCallback((key: V, option: O) => ({
         name: key,
         label: labelSelector(option),
         onChange: handleChange,

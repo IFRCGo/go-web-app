@@ -1,5 +1,3 @@
-import React from 'react';
-import Header from '#components/Header';
 import Heading from '#components/Heading';
 
 import styles from './styles.module.css';
@@ -7,11 +5,9 @@ import styles from './styles.module.css';
 function Headings() {
     return (
         <div className={styles.headings}>
-            <Header>
-                <Heading>
-                    Headings
-                </Heading>
-            </Header>
+            <Heading>
+                Headings
+            </Heading>
             <div>
                 <Heading level={1}>
                     This is Heading 1 (h1)

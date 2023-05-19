@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import AsyncSelect, { AsyncProps } from 'react-select/async';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';

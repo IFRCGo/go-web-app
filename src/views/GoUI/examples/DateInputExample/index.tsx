@@ -1,13 +1,14 @@
-import React from 'react';
+import { useState, useCallback } from 'react';
+
 import Heading from '#components/Heading';
 import DateInput from '#components/DateInput';
 
 import styles from './styles.module.css';
 
 function DateInputExample() {
-    const [dateInput, setDateInput] = React.useState<string | undefined>('');
+    const [dateInput, setDateInput] = useState<string | undefined>('');
 
-    const handleDateChange = React.useCallback((val: string | undefined) => {
+    const handleDateChange = useCallback((val: string | undefined) => {
         setDateInput(val);
     }, [setDateInput]);
 

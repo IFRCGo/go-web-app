@@ -1,4 +1,3 @@
-import React from 'react';
 import Heading from '#components/Heading';
 import Card from '#components/Card';
 

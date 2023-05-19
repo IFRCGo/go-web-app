@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from '#components/Header';
 import TopBanner from '#components/TopBanner';
 
@@ -9,40 +8,39 @@ function TopBannerExample() {
         <div className={styles.topBanner}>
             <Header
                 heading="TOP BANNER COLLECTION"
-                headingSize="medium"
             />
             <Header
                 heading="SUCCESS ALERT"
-                headingSize="small"
             />
             <TopBanner
                 variant="positive"
-                children="This is banner for Success message"
-            />
+            >
+                This is banner for Success message
+            </TopBanner>
             <Header
                 heading="DANGER ALERT WITH ERROR MESSAGE"
-                headingSize="small"
             />
             <TopBanner
                 variant="negative"
-                children="This is banner for Danger message"
-            />
+            >
+                This is banner for Danger message
+            </TopBanner>
             <Header
                 heading="INFO ALERT"
-                headingSize="small"
             />
             <TopBanner
                 variant="information"
-                children="This is banner for Info message"
-            />
+            >
+                This is banner for Info message
+            </TopBanner>
             <Header
                 heading="WARNING ALERT"
-                headingSize="small"
             />
             <TopBanner
                 variant="warning"
-                children="This is banner for Warning message"
-            />
+            >
+                This is banner for Warning message
+            </TopBanner>
         </div>
     );
 }
