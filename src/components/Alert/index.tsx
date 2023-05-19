@@ -5,11 +5,8 @@ import {
     ErrorWarningLineIcon,
     CheckboxCircleLineIcon,
     QuestionLineIcon,
+    CloseLineIcon
 } from '@ifrc-go/icons';
-
-import {
-    IoClose,
-} from 'react-icons/io5';
 
 import ElementFragments from '#components/ElementFragments';
 import Button from '#components/Button';
@@ -95,11 +92,11 @@ function Alert<N extends string>(props: Props<N>) {
                             onClick={handleCloseButtonClick}
                             variant="tertiary"
                         >
-                            <IoClose />
+                            <CloseLineIcon />
                         </Button>
                     )}
                 >
-                    { children }
+                    {children}
                 </ElementFragments>
             </div>
             {debugMessage && (

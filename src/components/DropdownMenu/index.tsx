@@ -49,7 +49,6 @@ function DropdownMenu(props: DropdownMenuProps) {
         if (clickedInside || clickedInParent) {
             return;
         }
-
         setShowDropdown(false);
     }, [setShowDropdown]);
 

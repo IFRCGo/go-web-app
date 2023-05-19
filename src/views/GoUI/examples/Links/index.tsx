@@ -1,6 +1,6 @@
 import Link from '#components/Link';
 import Heading from '#components/Heading';
-import { IoChevronForward, IoOpenOutline } from 'react-icons/io5';
+import { ChevronRightLineIcon, ChevronLeftLineIcon } from '@ifrc-go/icons';
 import styles from './styles.module.css';
 
 function Links() {
@@ -14,7 +14,7 @@ function Links() {
                     to={{
                         pathname: '/emergencies',
                     }}
-                    actions={<IoChevronForward />}
+                    actions={<ChevronRightLineIcon />}
                 >
                     Emergencies
                 </Link>
@@ -27,7 +27,7 @@ function Links() {
                     <Link
                         to="/deployments/overview"
                         underline
-                        actions={<IoChevronForward />}
+                        actions={<ChevronRightLineIcon />}
                     >
                         Surge
                     </Link>
@@ -62,7 +62,7 @@ function Links() {
                 <Link
                     to="https://www.gooogle.com"
                     external
-                    actions={<IoOpenOutline />}
+                    actions={<ChevronLeftLineIcon />}
                 >
                     Google
                 </Link>
@@ -70,7 +70,7 @@ function Links() {
                     to="https://www.gooogle.com"
                     external
                     disabled
-                    actions={<IoOpenOutline />}
+                    actions={<ChevronLeftLineIcon />}
                 >
                     Google
                 </Link>

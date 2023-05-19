@@ -1,6 +1,4 @@
-import {
-    IoChevronForward,
-} from 'react-icons/io5';
+import { ChevronRightLineIcon } from '@ifrc-go/icons';
 import Heading from '#components/Heading';
 import Button from '#components/Button';
 import styles from './styles.module.css';
@@ -21,7 +19,7 @@ function Buttons() {
                 <Button
                     name="primary-button"
                     variant="primary"
-                    actions={<IoChevronForward />}
+                    actions={<ChevronRightLineIcon />}
                 >
                     Countries on ifrc-go
                 </Button>
@@ -29,7 +27,7 @@ function Buttons() {
                     name="primary-button"
                     variant="primary"
                     disabled
-                    actions={<IoChevronForward />}
+                    actions={<ChevronRightLineIcon />}
                 >
                     Countries on ifrc-go
                 </Button>
@@ -47,7 +45,7 @@ function Buttons() {
                 <Button
                     name="secondary-button"
                     variant="secondary"
-                    actions={<IoChevronForward />}
+                    actions={<ChevronRightLineIcon />}
                 >
                     Secondary
                 </Button>
@@ -55,7 +53,7 @@ function Buttons() {
                     name="secondary-button"
                     variant="secondary"
                     disabled
-                    actions={<IoChevronForward />}
+                    actions={<ChevronRightLineIcon />}
                 >
                     Secondary
                 </Button>
@@ -73,7 +71,7 @@ function Buttons() {
                 <Button
                     name="tertiary-button"
                     variant="tertiary"
-                    actions={<IoChevronForward />}
+                    actions={<ChevronRightLineIcon />}
                 >
                     Tertiary
                 </Button>
@@ -81,7 +79,7 @@ function Buttons() {
                     name="tertiary-button"
                     variant="tertiary"
                     disabled
-                    actions={<IoChevronForward />}
+                    actions={<ChevronRightLineIcon />}
                 >
                     Tertiary
                 </Button>

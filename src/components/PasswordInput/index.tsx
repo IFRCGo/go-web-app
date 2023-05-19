@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
+import { EyeFillIcon, EyeOffLineIcon } from '@ifrc-go/icons';
 
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
@@ -50,7 +50,7 @@ function PasswordInput<T extends NameType>(props: Props<T>) {
                         name={undefined}
                         title={showPassword ? 'Hide password' : 'Show password'}
                     >
-                        {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
+                        {showPassword ? <EyeFillIcon /> : <EyeOffLineIcon />}
                     </Button>
                 </>
             )}

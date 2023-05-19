@@ -3,7 +3,7 @@ import Button from '#components/Button';
 import Links from './examples/Links';
 import Buttons from './examples/Buttons';
 import Cards from './examples/Cards';
-// import Alerts from './examples/Alerts';
+import Alerts from './examples/Alerts';
 import OverlayExample from './examples/OverlayExample';
 import Modals from './examples/Modals';
 import Headings from './examples/Headings';
@@ -241,7 +241,7 @@ export function Component() {
             <div className={styles.componentLayout}>
                 {element === 'links' && <Links />}
                 {element === 'cards' && <Cards />}
-                {/* element === "alerts" && <Alerts /> */}
+                {element === "alerts" && <Alerts />}
                 {element === 'overlay' && <OverlayExample />}
                 {element === 'buttons' && <Buttons />}
                 {element === 'headings' && <Headings />}

@@ -1,9 +1,6 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
-import {
-    ImCheckmark,
-    ImCross,
-} from 'react-icons/im';
+import { CheckLineIcon, CloseFillIcon } from '@ifrc-go/icons';
 
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
 import { TabKey, TabContext, TabVariant } from '#components/Tabs/TabContext';
@@ -12,8 +9,8 @@ import { setHashToBrowser } from '#utils/common';
 import styles from './styles.module.css';
 
 const tabVariantToStyleMap: {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [key in TabVariant]: string;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    [key in TabVariant]: string;
 } = {
     primary: styles.primary,
     secondary: styles.secondary,
@@ -21,11 +18,11 @@ const tabVariantToStyleMap: {
 };
 
 export interface Props<T extends TabKey> extends Omit<RawButtonProps<T>, 'onClick' | 'variant'> {
-  name: T;
-  activeClassName?: string;
-  borderWrapperClassName?: string;
-  step?: number;
-  errored?: boolean;
+    name: T;
+    activeClassName?: string;
+    borderWrapperClassName?: string;
+    step?: number;
+    errored?: boolean;
 }
 
 export default function Tab<T extends TabKey>(props: Props<T>) {
@@ -114,8 +111,8 @@ export default function Tab<T extends TabKey>(props: Props<T>) {
             >
                 <div className={styles.stepCircle}>
                     <div className={styles.innerCircle}>
-                        {errored && <ImCross className={styles.icon} />}
-                        {(!errored && completed) && <ImCheckmark className={styles.icon} />}
+                        {errored && <CloseFillIcon className={styles.icon} />}
+                        {(!errored && completed) && <CheckLineIcon className={styles.icon} />}
                     </div>
                 </div>
                 {button}
@@ -141,5 +138,5 @@ export default function Tab<T extends TabKey>(props: Props<T>) {
 }
 
 export interface TabListProps extends React.HTMLProps<HTMLDivElement> {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }

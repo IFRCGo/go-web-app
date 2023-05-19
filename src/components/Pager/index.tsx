@@ -1,5 +1,5 @@
 import { _cs } from '@togglecorp/fujs';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { ChevronRightLineIcon, ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import RawButton from '#components/RawButton';
 
@@ -49,16 +49,16 @@ class Side {
 }
 
 type PaginationItem = {
-  type: 'button';
-  index: number;
+    type: 'button';
+    index: number;
 } | {
-  type: 'span';
-  key: string;
-  label: string;
+    type: 'span';
+    key: string;
+    label: string;
 } | {
-  type: 'fakeButton';
-  key: string;
-  label: string;
+    type: 'fakeButton';
+    key: string;
+    label: string;
 };
 
 function applyPagination(
@@ -139,14 +139,14 @@ function applyPagination(
 }
 
 export type Props = {
-  activePage: number;
-  className?: string;
-  disabled?: boolean;
-  itemsCount: number;
-  maxItemsPerPage: number;
-  onActivePageChange: (pageNumber: number) => void;
-  showAllPages?: boolean;
-  totalCapacity?: number;
+    activePage: number;
+    className?: string;
+    disabled?: boolean;
+    itemsCount: number;
+    maxItemsPerPage: number;
+    onActivePageChange: (pageNumber: number) => void;
+    showAllPages?: boolean;
+    totalCapacity?: number;
 }
 
 function Pager(props: Props) {
@@ -176,7 +176,7 @@ function Pager(props: Props) {
                 className={styles.pageButton}
                 disabled={activePage <= 1 || disabled}
             >
-                <FaChevronLeft />
+                <ChevronLeftLineIcon />
             </RawButton>
             {pages.map((page) => {
                 if (page.type === 'button') {
@@ -221,7 +221,7 @@ function Pager(props: Props) {
                 disabled={activePage >= numPages || disabled}
                 className={styles.pageButton}
             >
-                <FaChevronRight />
+                <ChevronRightLineIcon />
             </RawButton>
         </div>
     );

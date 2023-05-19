@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoTrash } from 'react-icons/io5';
+import { DeleteBinFillIcon } from '@ifrc-go/icons';
 
 import { _cs, isDefined } from '@togglecorp/fujs';
 import List from '#components/List';
@@ -138,7 +138,7 @@ function RadioInput<
                     className={styles.clearButton}
                     onClick={handleRadioClick}
                 >
-                    <IoTrash />
+                    <DeleteBinFillIcon />
                 </Button>
             )}
             <InputLabel

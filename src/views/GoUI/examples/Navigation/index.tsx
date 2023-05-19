@@ -64,7 +64,7 @@ function Navigation() {
                     variant="step"
                 >
                     <TabList>
-                        <Tab name="tab1">
+                        <Tab name="tab1" errored>
                             Tab 1
                         </Tab>
                         <Tab name="tab2">
