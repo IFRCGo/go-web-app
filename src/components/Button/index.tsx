@@ -23,7 +23,6 @@ export interface Props<N> extends RawButtonProps<N> {
     iconsClassName?: string;
     name: N;
     onClick?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
-    elementRef?: React.Ref<HTMLButtonElement>;
 }
 
 export type ButtonFeatureProps<N> = Omit<Props<N>, 'name' | 'onClick'>;

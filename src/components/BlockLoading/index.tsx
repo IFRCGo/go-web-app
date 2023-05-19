@@ -12,7 +12,9 @@ function BlockLoading(props: Props) {
 
     return (
         <div className={_cs(className, styles.blockLoading)}>
-            <Spinner />
+            <div className={styles.inner}>
+                <Spinner />
+            </div>
         </div>
     );
 }

@@ -94,12 +94,17 @@ function Navbar(props: Props) {
                         >
                             {strings.headerMenuHome}
                         </Link>
-                        <div
-                            className={styles.menuItem}
-                            title={strings.menuRegionsTooltip}
+                        <DropdownMenu
+                            label={strings.menuRegions}
+                            variant="tertiary"
                         >
-                            {strings.menuRegions}
-                        </div>
+                            <DropdownMenuItem
+                                label="Asia"
+                            />
+                            <DropdownMenuItem
+                                label="Africa"
+                            />
+                        </DropdownMenu>
                         <Link
                             to={routes.emergencies.absolutePath}
                             className={styles.menuItem}

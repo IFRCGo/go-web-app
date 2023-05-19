@@ -6,9 +6,10 @@ import {
 } from '#utils/restRequest';
 
 import Container from '#components/Container';
-import Button from '#components/Button';
-import { Emergency } from '#types/emergency';
+import Link from '#components/Link';
+import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
+import { Emergency } from '#types/emergency';
 
 import commonStrings from '#strings/common';
 import OperationCard from './OperationCard';
@@ -26,6 +27,7 @@ function HighlightedOperations(props: Props) {
     const strings = useTranslation('common', commonStrings);
 
     const {
+        pending: featuredEmergencyPending,
         response: featuredEmergencyResponse,
     } = useRequest<ListResponse<Emergency>>({
         url: 'api/v2/event/',
@@ -43,16 +45,19 @@ function HighlightedOperations(props: Props) {
             withHeaderBorder
             heading={strings.highlightedOperationsTitle}
             actions={(
-                <Button
-                    name={undefined}
-                    variant="tertiary"
+                <Link
+                    to="/"
                     actions={<ChevronRightLineIcon />}
+                    underline
                 >
                     {strings.highlightedOperationsViewAll}
-                </Button>
+                </Link>
             )}
             childrenContainerClassName={styles.emergencyList}
         >
+            {featuredEmergencyPending && (
+                <BlockLoading />
+            )}
             {featuredEmergencies?.map(
                 (emergency) => (
                     <OperationCard

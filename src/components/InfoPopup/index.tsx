@@ -28,17 +28,19 @@ function InfoPopup(props: Props) {
     return (
         <DropdownMenu
             label={(
-                <>
+                <div className={styles.label}>
                     {infoLabel}
                     {!hideIcon && icon && (
                         <div className={styles.icon}>
                             {icon}
                         </div>
                     )}
-                </>
+                </div>
             )}
             dropdownContainerClassName={styles.dropdownContainer}
             className={_cs(styles.infoPopup, className)}
+            variant="tertiary"
+            hideDropdownIcon
         >
             <Container
                 heading={title}

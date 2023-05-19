@@ -13,6 +13,7 @@ import Map, {
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
+import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
 import {
     useRequest,
@@ -21,6 +22,7 @@ import {
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
+import Link from '#components/Link';
 import useInputState from '#hooks/useInputState';
 import {
     defaultMapStyle,
@@ -167,6 +169,15 @@ function ActiveOperationMap(props: Props) {
             className={_cs(styles.activeOperationMap, className)}
             heading={heading}
             withHeaderBorder
+            actions={(
+                <Link
+                    to="/"
+                    actions={<ChevronRightLineIcon />}
+                    underline
+                >
+                    {strings.highlightedOperationsViewAll}
+                </Link>
+            )}
         >
             <Map
                 mapStyle={defaultMapStyle}

@@ -9,9 +9,8 @@ import {
     ArrowUpSmallFillIcon,
 } from '@ifrc-go/icons';
 
-import Button from '#components/Button';
 import Portal from '#components/Portal';
-import Button from '#components/Button';
+import Button, { Props as ButtonProps } from '#components/Button';
 import useBlurEffect from '#hooks/useBlurEffect';
 import useFloatPlacement from '#hooks/useFloatPlacement';
 
@@ -55,6 +54,9 @@ interface DropdownMenuProps {
     activeClassName?: string;
     persistent?: boolean;
     icons?: React.ReactNode;
+    variant?: ButtonProps<undefined>['variant'];
+    actions?: React.ReactNode;
+    hideDropdownIcon?: boolean;
 }
 
 function DropdownMenu(props: DropdownMenuProps) {
@@ -66,6 +68,9 @@ function DropdownMenu(props: DropdownMenuProps) {
         activeClassName,
         persistent,
         icons,
+        variant,
+        actions,
+        hideDropdownIcon,
     } = props;
 
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -90,28 +95,26 @@ function DropdownMenu(props: DropdownMenuProps) {
         buttonRef,
     );
 
-    const conditionalIcons = useCallback(() => {
-        const defaultIcons = showDropdown ? <ArrowUpSmallFillIcon /> : <ArrowDownSmallFillIcon />;
-        if (icons) {
-            return icons;
-        }
-        return defaultIcons;
-    }, [icons, showDropdown]);
-
     return (
         <>
             <Button
                 name={undefined}
-                className={_cs(styles.dropdown,
-                    className,
-                    showDropdown && activeClassName
-                )}
+                className={_cs(className, showDropdown && activeClassName)}
                 elementRef={buttonRef}
                 onClick={handleMenuClick}
+                variant={variant}
+                actions={
+                    <>
+                        {actions}
+                        {!hideDropdownIcon && (showDropdown
+                            ? <ArrowUpSmallFillIcon />
+                            : <ArrowDownSmallFillIcon />
+                        )}
+                    </>
+                }
+                icons={icons}
             >
                 {label}
-                {' '}
-                {conditionalIcons()}
             </Button>
             {showDropdown && (
                 <Dropdown

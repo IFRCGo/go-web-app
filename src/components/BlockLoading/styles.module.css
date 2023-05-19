@@ -1,8 +1,15 @@
 .block-loading {
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border: var(--go-ui-width-separator-md) dashed var(--go-ui-color-gray-40);
-    border-radius: var(--go-ui-border-radius-2xl);
-    height: 15rem;
+    padding: var(--go-ui-spacing-md);
+    min-height: 15rem;
+
+    .inner {
+        border-radius: var(--go-ui-border-radius-2xl);
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: var(--go-ui-width-separator-md) dashed var(--go-ui-color-gray-40);
+    }
 }
