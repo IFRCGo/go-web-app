@@ -2,12 +2,12 @@
     --color-border: transparent;
     --color-text: transparent;
     --color-background: transparent;
-    --font-size: var(--go-ui-font-size-xl);
+    --font-size: var(--go-ui-font-size-2xl);
     --border-radius: var(--go-ui-border-radius-md);
     --text-transform: none;
     --cursor: default;
     --spacing: var(--go-ui-spacing-sm);
-    --padding: calc(var(--spacing) / 2);
+    --padding: var(--go-ui-spacing-xs);
 
     display: flex;
     position: relative;

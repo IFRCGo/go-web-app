@@ -6,7 +6,7 @@ import {
 import IconButton from '#components/IconButton';
 import styles from './styles.module.css';
 
-function IconButtons() {
+function IconButtonExample() {
     return (
         <div className={styles.buttonCollection}>
             <div className={styles.buttonsContainer}>
@@ -72,4 +72,4 @@ function IconButtons() {
     );
 }
 
-export default IconButtons;
+export default IconButtonExample;

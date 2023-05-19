@@ -8,7 +8,7 @@ import OverlayExample from './examples/OverlayExample';
 import Modals from './examples/Modals';
 import Headings from './examples/Headings';
 import DropdownExample from './examples/DropdownExample';
-// import IconButtons from './examples/IconButtons';
+import IconButtonExample from './examples/IconButtonExample';
 import Navigation from './examples/Navigation';
 import TextAreaExample from './examples/TextAreaExample';
 import TextInputExample from './examples/TextInputExample';
@@ -112,7 +112,7 @@ export function Component() {
                     Headings
                 </Button>
                 <Button
-                    name="iconButton"
+                    name="icon-button"
                     className={element === 'iconButton' ? styles.selectedOption : styles.option}
                     onClick={handleNewComponent}
                 >
@@ -252,7 +252,7 @@ export function Component() {
                 {element === 'text-input' && <TextInputExample />}
                 {element === 'switch' && <SwitchExample />}
                 {element === 'checkbox' && <CheckboxExample />}
-                {/* element === 'iconButton' && <IconButtons /> */}
+                {element === 'icon-button' && <IconButtonExample />}
                 {element === 'number-input' && <NumberInputExample />}
                 {element === 'date-input' && <DateInputExample />}
                 {element === 'rich-text-area' && <RichTextAreaExample />}
