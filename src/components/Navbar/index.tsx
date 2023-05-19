@@ -66,22 +66,28 @@ function Navbar(props: Props) {
                         label={strings.headerCreateAReportLabel}
                     >
                         <DropdownMenuItem
-                            label="New Field Report"
+                            href="/"
+                            label={strings.headerDropdownNewFieldReport}
                         />
                         <DropdownMenuItem
-                            label="COVID-19 Indicator Tracking"
+                            href="https://eenew.ifrc.org/single/y300V3lY?returnURL=https://go.ifrc.org/emergencies/3972#actions"
+                            label={strings.headerDropdownCovid19IndicatorTracking}
                         />
                         <DropdownMenuItem
-                            label="COVID-19 NS Financial Overview"
+                            href="https://eenew.ifrc.org/single/VmcTHDMh?returnURL=https://go.ifrc.org/emergencies/3972#actions"
+                            label={strings.headerDropdownCovid19NSFinancialOverview}
                         />
                         <DropdownMenuItem
-                            label="New 3W Activity"
+                            href="/"
+                            label={strings.headerDropdownNew3WActivity}
                         />
                         <DropdownMenuItem
-                            label="New DREF Application"
+                            href="/"
+                            label={strings.headerDropdownNewDrefApplication}
                         />
                         <DropdownMenuItem
-                            label="New Flash Update"
+                            href="/"
+                            label={strings.headerDropdownNewFlashUpdate}
                         />
                     </DropdownMenu>
                 </div>
@@ -101,10 +107,24 @@ function Navbar(props: Props) {
                             variant="tertiary"
                         >
                             <DropdownMenuItem
-                                label="Asia"
+                                href="/"
+                                label={strings.regionNameAfrica}
                             />
                             <DropdownMenuItem
-                                label="Africa"
+                                href="/"
+                                label={strings.regionNameAmerica}
+                            />
+                            <DropdownMenuItem
+                                href="/"
+                                label={strings.regionNameAsia}
+                            />
+                            <DropdownMenuItem
+                                href="/"
+                                label={strings.regionNameEurope}
+                            />
+                            <DropdownMenuItem
+                                href="/"
+                                label={strings.regionNameMENA}
                             />
                         </DropdownMenu>
                         <Link

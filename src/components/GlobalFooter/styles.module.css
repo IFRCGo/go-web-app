@@ -19,6 +19,11 @@
                 flex-direction: column;
                 gap: var(--go-ui-spacing-md);
             }
+
+            .social-icons {
+                display: flex;
+                gap: var(--go-ui-spacing-md);
+            }
         }
     }
 }

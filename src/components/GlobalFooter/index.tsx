@@ -1,4 +1,12 @@
+import { resolve } from 'url';
 import { _cs } from '@togglecorp/fujs';
+import {
+    ThumbUpLineIcon,
+    LockLineIcon,
+    HeartLineIcon,
+    CheckboxCircleLineIcon,
+} from '@ifrc-go/icons';
+
 import Heading from '#components/Heading';
 import ButtonLikeLink from '#components/ButtonLikeLink';
 import Link from '#components/Link';
@@ -6,6 +14,8 @@ import PageContainer from '#components/PageContainer';
 import useTranslation from '#hooks/useTranslation';
 import commonStrings from '#strings/common';
 import { resolveToComponent } from '#utils/translation';
+import { adminUrl } from '#config';
+import routes from '#routes';
 
 import styles from './styles.module.css';
 
@@ -60,7 +70,7 @@ function GlobalFooter(props: Props) {
                     <Link to="https://rcrcsims.org">
                         rcrcsims.org
                     </Link>
-                    <Link to="data.ifrc.org">
+                    <Link to="https://data.ifrc.org">
                         data.ifrc.org
                     </Link>
                 </div>
@@ -70,26 +80,42 @@ function GlobalFooter(props: Props) {
                     Helpful links
                 </Heading>
                 <div className={styles.subSection}>
-                    <div>
-                        Open Source Code
-                    </div>
-                    <div>
-                        API Documentation
-                    </div>
-                    <div>
-                        Other Resources
-                    </div>
+                    <Link to="https://github.com/ifrcgo/go-frontend">
+                        {strings.footerOpenSourceCode}
+                    </Link>
+                    <Link to={resolve(adminUrl, 'docs')}>
+                        {strings.footerApiDocumentation}
+                    </Link>
+                    <Link
+                        to={routes.resources.absolutePath}
+                    >
+                        {strings.footerOtherResources}
+                    </Link>
                 </div>
             </div>
             <div className={styles.section}>
                 <Heading>
-                    Contact Us
+                    {strings.footerContactUs}
                 </Heading>
                 <ButtonLikeLink
                     to="mailto:im@ifrc.org"
                 >
                     im@ifrc.org
                 </ButtonLikeLink>
+                <div className={styles.socialIcons}>
+                    <Link to="https://ifrcgoproject.medium.com">
+                        <ThumbUpLineIcon />
+                    </Link>
+                    <Link to="https://www.facebook.com/IFRC">
+                        <LockLineIcon />
+                    </Link>
+                    <Link to="https://twitter.com/ifrcgo">
+                        <CheckboxCircleLineIcon />
+                    </Link>
+                    <Link to='https://www.youtube.com/watch?v=dwPsQzla9A4'>
+                        <HeartLineIcon />
+                    </Link>
+                </div>
             </div>
         </PageContainer>
     );

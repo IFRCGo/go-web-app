@@ -14,4 +14,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'Home';
+Component.displayName = 'GlobalThreeW';

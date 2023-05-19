@@ -17,11 +17,13 @@ const account = {
     accountDeplyomentMessages: 'Deployment Messages',
     accountsurgeAEM: 'Approaching End of Mission',
     accountPerDueDate: 'PER Due Dates',
+
     accountRegionAfrica: 'Africa',
     accountRegionAsia: 'Asia Pacific',
     accountRegionMENA: 'MENA',
     accountRegionEurope: 'Europe',
     accountRegionAmerica: 'Americas',
+
     accountCouldNotLoad: 'Could not load user profile',
     accountError: 'Error:',
     accountUpdated: 'Profile updated',
