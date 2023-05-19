@@ -1,15 +1,15 @@
 .alert {
     border-radius: var(--go-ui-border-radius-md);
+    box-shadow: var(--go-ui-box-shadow-xl);
     background-color: var(--go-ui-color-gray-80);
     padding: var(--go-ui-spacing-lg);
     width: calc(14rem + 16vw);
     color: var(--go-ui-color-white);
-    box-shadow: var(--go-ui-box-shadow-xl);
 
     .content {
         display: flex;
-        gap: var(--go-ui-spacing-md);
         align-items: flex-start;
+        gap: var(--go-ui-spacing-md);
 
         .close-button {
             display: flex;

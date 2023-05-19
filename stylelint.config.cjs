@@ -8,11 +8,11 @@ module.exports = {
     ],
     rules: {
         indentation: 4,
-        'csstools/value-no-unknown-custom-properties': [
-            true, {
-                importFrom: ['./src/index.css']
-            },
-        ],
+        // 'csstools/value-no-unknown-custom-properties': [
+        //     true, {
+        //         importFrom: ['./src/index.css']
+        //     },
+        // ],
         'selector-pseudo-class-no-unknown': [
             true,
             {

@@ -1,8 +1,8 @@
 .radio-input {
     display: flex;
+    position: relative;
     flex-direction: column;
     gap: var(--go-ui-spacing-md);
-    position: relative;
 
     .radio-list-container {
         display: flex;

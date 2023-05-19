@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React from 'react';
 import Heading from '#components/Heading';
 import Checkbox from '#components/Checkbox';
 
 import styles from './styles.module.css';
 
 function CheckboxExample() {
-    const [toggleSwitch, setToggleCheckbox] = useState<boolean>(false);
+    const [toggleSwitch, setToggleCheckbox] = React.useState<boolean>(false);
 
     const handleSwitch = () => setToggleCheckbox((current) => !current);
 
@@ -14,34 +14,39 @@ function CheckboxExample() {
             <Heading level={3}>
                 Checkbox
             </Heading>
-            <Heading level={5}>
-                Active
-            </Heading>
             <Checkbox
                 label="Detailed Reporting"
-                name="is_simplified_report"
+                name="checkbox"
                 value={toggleSwitch}
                 onChange={handleSwitch}
             />
-            <Heading level={5}>
-                Inverted Logic
-            </Heading>
             <Checkbox
-                label="Detailed Reporting"
-                name="is_simplified_report"
+                label="Disabled"
+                name="checkbox"
+                value={toggleSwitch}
+                onChange={handleSwitch}
+                disabled
+            />
+            <Checkbox
+                label="Read only"
+                name="checkbox"
+                value={toggleSwitch}
+                onChange={handleSwitch}
+                readOnly
+            />
+            <Checkbox
+                label="Indeterminate"
+                name="checkbox"
+                value={toggleSwitch}
+                onChange={handleSwitch}
+                indeterminate
+            />
+            <Checkbox
+                label="Inverted Logic"
+                name="checkbox"
                 value={toggleSwitch}
                 onChange={handleSwitch}
                 invertedLogic
-            />
-            <Heading level={5}>
-                Disabled
-            </Heading>
-            <Checkbox
-                label="Disabled Detailed Reporting"
-                name="is_simplified_report"
-                value={false}
-                onChange={handleSwitch}
-                disabled
             />
         </div>
     );

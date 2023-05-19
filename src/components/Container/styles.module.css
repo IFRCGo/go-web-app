@@ -5,8 +5,8 @@
 
     .border {
         flex-shrink: 0;
+        margin: 0;
         background-color: var(--go-ui-color-separator);
         height: var(--go-ui-width-separator-md);
-        margin: 0;
     }
 }

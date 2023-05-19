@@ -3,8 +3,8 @@
     --inner-gap: var(--go-ui-spacing-sm);
 
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
+    flex-wrap: wrap;
     gap: var(--gap);
 
     .icons-container {

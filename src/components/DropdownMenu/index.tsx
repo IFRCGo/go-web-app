@@ -103,7 +103,7 @@ function DropdownMenu(props: DropdownMenuProps) {
                 elementRef={buttonRef}
                 onClick={handleMenuClick}
                 variant={variant}
-                actions={
+                actions={(
                     <>
                         {actions}
                         {!hideDropdownIcon && (showDropdown
@@ -111,7 +111,7 @@ function DropdownMenu(props: DropdownMenuProps) {
                             : <ArrowDownSmallFillIcon />
                         )}
                     </>
-                }
+                )}
                 icons={icons}
             >
                 {label}

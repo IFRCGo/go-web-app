@@ -6,36 +6,42 @@ import DefaultCheckmark, { CheckmarkProps } from './Checkmark';
 import styles from './styles.module.css';
 
 export interface Props<N> {
-  className?: string;
-  labelContainerClassName?: string;
-  checkmark?: (p: CheckmarkProps) => React.ReactElement;
-  checkmarkClassName?: string;
-  label?: React.ReactNode;
-  disabled?: boolean;
-  readOnly?: boolean;
-  indeterminate?: boolean;
-  tooltip?: string;
-  value: boolean | undefined | null;
-  onChange: (value: boolean, name: N) => void;
-  name: N;
-  invertedLogic?: boolean;
+    className?: string;
+    checkmark?: (p: CheckmarkProps) => React.ReactElement;
+    checkmarkClassName?: string;
+    checkmarkContainerClassName?: string;
+    disabled?: boolean;
+    error?: React.ReactNode;
+    indeterminate?: boolean;
+    inputClassName?: string;
+    invertedLogic?: boolean;
+    label?: React.ReactNode;
+    labelContainerClassName?: string;
+    name: N;
+    onChange: (value: boolean, name: N) => void;
+    readOnly?: boolean;
+    tooltip?: string;
+    value: boolean | undefined | null;
 }
 
 function Checkbox<N>(props: Props<N>) {
     const {
-        label,
-        tooltip,
-        checkmark: Checkmark = DefaultCheckmark,
         className: classNameFromProps,
-        value,
-        disabled,
-        readOnly,
-        onChange,
+        checkmark: Checkmark = DefaultCheckmark,
         checkmarkClassName,
-        labelContainerClassName,
+        checkmarkContainerClassName,
+        disabled,
+        error,
         indeterminate,
-        name,
+        inputClassName,
         invertedLogic = false,
+        label,
+        labelContainerClassName,
+        name,
+        onChange,
+        readOnly,
+        tooltip,
+        value,
         ...otherProps
     } = props;
 
@@ -55,7 +61,6 @@ function Checkbox<N>(props: Props<N>) {
     const className = _cs(
         styles.checkbox,
         classNameFromProps,
-        indeterminate && styles.indeterminate,
         !indeterminate && checked && styles.checked,
         disabled && styles.disabledCheckbox,
         readOnly && styles.readOnly,
@@ -66,23 +71,31 @@ function Checkbox<N>(props: Props<N>) {
             className={className}
             title={tooltip}
         >
-            <Checkmark
-                className={_cs(checkmarkClassName, styles.checkmark)}
-                value={checked ?? false}
-                indeterminate={indeterminate}
-            />
-            <input
-                onChange={handleChange}
-                className={styles.input}
-                type="checkbox"
-                checked={checked ?? false}
-                disabled={disabled || readOnly}
-                {...otherProps} /* eslint-disable-line react/jsx-props-no-spreading */
-                readOnly
-            />
+            <div className={_cs(styles.inner, checkmarkContainerClassName)}>
+                <Checkmark
+                    className={_cs(styles.checkmark, checkmarkClassName)}
+                    value={checked ?? false}
+                    indeterminate={indeterminate}
+                    aria-hidden="true"
+                />
+                <input
+                    onChange={handleChange}
+                    className={_cs(styles.input, inputClassName)}
+                    type="checkbox"
+                    checked={checked ?? false}
+                    disabled={disabled || readOnly}
+                    readOnly={readOnly}
+                    {...otherProps} // eslint-disable-line react/jsx-props-no-spreading
+                />
+            </div>
             <div className={labelContainerClassName}>
                 {label}
             </div>
+            {error && (
+                <div className={labelContainerClassName}>
+                    {error}
+                </div>
+            )}
         </label>
     );
 }

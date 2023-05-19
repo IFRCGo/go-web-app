@@ -2,13 +2,13 @@
     --gap: .05em;
     --border-width: var(--go-ui-width-separator-sm);
     --knob-diameter: calc(1em - 2 * var(--gap) - 2 * var(--border-width));
-    --background-color: var(--go-ui-color-gray-20);
-    --border-color: var(--go-ui-color-gray-10);
+    --background-color: var(--go-ui-color-gray-50);
+    --border-color: var(--go-ui-color-gray-30);
     --knob-color: var(--go-ui-color-white);
 
     display: flex;
     align-items: center;
-    transition: .2s background-color ease-in-out;
+    transition: var(--go-ui-duration-transition-medium) background-color ease-in-out;
     border: var(--border-width) solid var(--border-color);
     border-radius: .5em;
     background-color: var(--background-color);
@@ -17,8 +17,7 @@
     height: 1em;
 
     .knob {
-        transition: .2s transform ease-in-out, .2s background-color ease-in-out;
-        border: var(--border-width) solid var(--go-ui-color-gray-30);
+        transition: var(--go-ui-duration-transition-medium) transform ease-in-out, var(--go-ui-duration-transition-medium) background-color ease-in-out;
         border-radius: calc(calc(1em - var(--gap) * 2) / 2);
         background-color: var(--knob-color);
         width: var(--knob-diameter);
@@ -32,5 +31,4 @@
             transform: translateX(100%);
         }
     }
-
 }

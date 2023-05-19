@@ -1,4 +1,3 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
@@ -21,6 +20,7 @@ function SwitchIcon(props: SwitchIconProps) {
                 className,
                 value ? styles.on : styles.off,
             )}
+            aria-hidden="true"
         >
             <div className={styles.knob} />
         </div>

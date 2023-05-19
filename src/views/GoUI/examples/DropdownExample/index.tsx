@@ -1,5 +1,5 @@
 import DropdownMenu from '#components/DropdownMenu';
-import DropdownMenuItem from '#components/DropdownMenu/DropdownMenuItem';
+import DropdownMenuItem from '#components/DropdownMenuItem';
 import styles from './styles.module.css';
 
 function DropdownExample() {

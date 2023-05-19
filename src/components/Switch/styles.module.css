@@ -1,0 +1,3 @@
+.container {
+    --width: var(--go-ui-font-size-4xl);
+}
