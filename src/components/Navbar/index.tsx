@@ -11,6 +11,7 @@ import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import routes from '#routes';
 
+import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import styles from './styles.module.css';
 
 interface Props {
@@ -60,6 +61,7 @@ function Navbar(props: Props) {
                     >
                         {strings.userMenuRegister}
                     </Link>
+                    <AuthenticatedUserDropdown />
                     <DropdownMenu
                         label={strings.headerCreateAReportLabel}
                     >

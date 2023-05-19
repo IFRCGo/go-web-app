@@ -4,28 +4,33 @@ import BlockLoading from '#components/BlockLoading';
 import styles from './styles.module.css';
 
 export interface Props {
-  className?: string;
-  empty?: boolean;
-  pending?: boolean;
-  errored?: boolean;
-  message?: React.ReactNode;
-  pendingMessage?: React.ReactNode;
-  emptyMessage?: React.ReactNode;
-  erroredMessage?: React.ReactNode;
+    className?: string;
+    empty?: boolean;
+    pending?: boolean;
+    errored?: boolean;
+    message?: React.ReactNode;
+    pendingMessage?: React.ReactNode;
+    emptyMessage?: React.ReactNode;
+    errorMessage?: React.ReactNode;
 }
 
 function Message(props: Props) {
     const {
-        className,
+        className: classNameFromProps,
         empty,
         pending,
         errored,
         message: messageFromProps,
-        emptyMessage = 'Data is not available',
-        erroredMessage = 'Oops! We ran into an issue',
+        emptyMessage = 'Data is not available!',
+        errorMessage = 'Oops! We ran into an issue!',
     } = props;
 
     let message: React.ReactNode = messageFromProps;
+    const className = _cs(
+        styles.message,
+        errored && styles.errored,
+        classNameFromProps,
+    )
 
     if (pending) {
         return (
@@ -38,7 +43,7 @@ function Message(props: Props) {
     }
 
     if (errored) {
-        message = erroredMessage;
+        message = errorMessage;
     }
 
     if (!message) {
@@ -46,7 +51,7 @@ function Message(props: Props) {
     }
 
     return (
-        <div className={_cs(styles.message, className)}>
+        <div className={className}>
             {message}
         </div>
     );

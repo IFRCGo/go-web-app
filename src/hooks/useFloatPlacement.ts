@@ -47,12 +47,12 @@ function useFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
         const handleScroll = calculatePlacement;
         const handleResize = calculatePlacement;
 
-        window.addEventListener('scroll', handleScroll, true);
-        window.addEventListener('resize', handleResize, true);
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleResize);
 
         return () => {
-            window.removeEventListener('scroll', handleScroll, true);
-            window.removeEventListener('resize', handleResize, true);
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
         };
     }, [calculatePlacement]);
 

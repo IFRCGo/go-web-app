@@ -7,13 +7,20 @@ import {
 
 import Container from '#components/Container';
 import Link from '#components/Link';
-import BlockLoading from '#components/BlockLoading';
+import List from '#components/List';
 import useTranslation from '#hooks/useTranslation';
 import { Emergency } from '#types/emergency';
 
 import commonStrings from '#strings/common';
 import OperationCard from './OperationCard';
 import styles from './styles.module.css';
+
+const keySelector = (emergency: Emergency) => emergency.id;
+const rendererParams = (_: Emergency['id'], emergency: Emergency) => ({
+    data: emergency,
+    className: styles.operation
+});
+
 
 interface Props {
     className?: string;
@@ -27,6 +34,7 @@ function HighlightedOperations(props: Props) {
     const strings = useTranslation('common', commonStrings);
 
     const {
+        error: featuredEmergencyResponseError,
         pending: featuredEmergencyPending,
         response: featuredEmergencyResponse,
     } = useRequest<ListResponse<Emergency>>({
@@ -55,18 +63,14 @@ function HighlightedOperations(props: Props) {
             )}
             childrenContainerClassName={styles.emergencyList}
         >
-            {featuredEmergencyPending && (
-                <BlockLoading />
-            )}
-            {featuredEmergencies?.map(
-                (emergency) => (
-                    <OperationCard
-                        className={styles.operation}
-                        key={emergency.id}
-                        data={emergency}
-                    />
-                ),
-            )}
+            <List
+                data={featuredEmergencies}
+                pending={featuredEmergencyPending}
+                errored={!!featuredEmergencyResponseError}
+                keySelector={keySelector}
+                renderer={OperationCard}
+                rendererParams={rendererParams}
+            />
             {Array.from(Array(layoutDifficiencies).keys()).map(
                 (key) => (
                     <div

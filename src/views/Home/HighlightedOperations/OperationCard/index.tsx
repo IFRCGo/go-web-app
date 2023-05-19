@@ -43,13 +43,14 @@ function OperationCard(props: Props) {
         <div className={_cs(styles.operationCard, className)}>
             <Header
                 className={styles.header}
-                icons={(
+                icons={ifrc_severity_level ? (
                     <SeverityIndicator
                         level={ifrc_severity_level}
                     />
-                )}
+                ) : undefined}
                 heading={name}
                 headingLevel={4}
+                ellipsizeHeading
                 actions={(
                     <Button
                         name={undefined}
@@ -58,15 +59,16 @@ function OperationCard(props: Props) {
                         Follow
                     </Button>
                 )}
-            />
-            <div className={styles.lastUpdated}>
-                <div className={styles.label}>
-                    {strings.operationCardLastUpdated}
+            >
+                <div className={styles.lastUpdated}>
+                    <div className={styles.label}>
+                        {strings.operationCardLastUpdated}
+                    </div>
+                    <DateOutput
+                        value={updated_at}
+                    />
                 </div>
-                <DateOutput
-                    value={updated_at}
-                />
-            </div>
+            </Header>
             <div className={styles.divider} />
             <div className={styles.figures}>
                 <KeyFigure

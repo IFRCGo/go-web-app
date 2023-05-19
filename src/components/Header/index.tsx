@@ -12,6 +12,7 @@ interface Props {
     headingLevel?: HeadingProps['level'];
     className?: string;
     children?: React.ReactNode;
+    ellipsizeHeading?: boolean;
 }
 
 function Header(props: Props) {
@@ -22,6 +23,7 @@ function Header(props: Props) {
         className,
         headingLevel,
         children,
+        ellipsizeHeading,
     } = props;
 
     const {
@@ -30,11 +32,17 @@ function Header(props: Props) {
     } = useBasicLayout({
         icons,
         actions,
+        childrenContainerClassName: styles.headingContainer,
         children: (
             <Heading
                 level={headingLevel}
+                className={styles.heading}
             >
-                {heading}
+                {ellipsizeHeading ? (
+                    <div className={styles.overflowWrapper}>
+                        {heading}
+                    </div>
+                ) : heading}
             </Heading>
         ),
         className,
@@ -42,10 +50,17 @@ function Header(props: Props) {
 
     return (
         <header
-            className={_cs(styles.header, containerClassName)}
+            className={_cs(
+                styles.header,
+                ellipsizeHeading && styles.headingEllipsized,
+            )}
         >
-            {content}
-            {children}
+            <div className={_cs(styles.headerContent, containerClassName)}>
+                {content}
+            </div>
+            <div className={styles.description}>
+                {children}
+            </div>
         </header>
     );
 }

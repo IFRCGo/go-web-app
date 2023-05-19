@@ -67,7 +67,7 @@ function DropdownMenuItem<N>(props: Props<N>) {
         if (isExternalLink) {
             return (
                 <a
-                    className={className}
+                    className={_cs(styles.externalLink, className)}
                     href={props.href}
                     target="_blank"
                     rel="noreferrer"
@@ -79,12 +79,12 @@ function DropdownMenuItem<N>(props: Props<N>) {
 
         return (
             <Link
-                className={className}
+                className={_cs(styles.internalLink, className)}
                 to={{
                     pathname: props.href,
-                    state: props.state,
                     hash: props.hash,
                 }}
+                state={props.state}
             >
                 {children}
             </Link>
@@ -94,8 +94,8 @@ function DropdownMenuItem<N>(props: Props<N>) {
     if (props.name) {
         return (
             <RawButton
-                className={className}
                 name={props.name}
+                className={className}
                 onClick={props.onClick}
                 disabled={disabled}
             >
@@ -109,6 +109,7 @@ function DropdownMenuItem<N>(props: Props<N>) {
             name={undefined}
             className={className}
             onClick={props.onClick as RawButtonProps<undefined>['onClick']}
+            disabled={disabled}
         >
             {children}
         </RawButton>

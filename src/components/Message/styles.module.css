@@ -1,0 +1,10 @@
+.message {
+    width: 100%;
+    padding: var(--go-ui-spacing-medium);
+    min-height: 15rem;
+    color: var(--go-ui-color-gray-50);
+
+    &.errored {
+        color: var(--go-ui-color-primary-red);
+    }
+}

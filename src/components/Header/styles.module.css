@@ -1,4 +1,24 @@
 .header {
-    display: flex;
-    align-items: baseline;
+    .header-content {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: unset;
+    }
+    &.heading-ellipsized {
+        .header-content {
+            .heading-container {
+                overflow: auto;
+
+                .heading {
+                    width: 100%;
+
+                    .overflow-wrapper {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+        }
+    }
 }

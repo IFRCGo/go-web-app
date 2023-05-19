@@ -52,7 +52,6 @@ interface DropdownMenuProps {
     children?: React.ReactNode;
     label?: React.ReactNode;
     activeClassName?: string;
-    persistent?: boolean;
     icons?: React.ReactNode;
     variant?: ButtonProps<undefined>['variant'];
     actions?: React.ReactNode;
@@ -66,7 +65,6 @@ function DropdownMenu(props: DropdownMenuProps) {
         children,
         label,
         activeClassName,
-        persistent,
         icons,
         variant,
         actions,
@@ -76,23 +74,23 @@ function DropdownMenu(props: DropdownMenuProps) {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [showDropdown, setShowDropdown] = useState(false);
-    const handleMenuClick = useCallback(() => {
-        setShowDropdown(true);
+    const handleMenuClick = useCallback((_: undefined) => {
+        setShowDropdown((prevValue) => !prevValue);
     }, [setShowDropdown]);
 
-    const handleBlurCallback = useCallback((insideClick: boolean) => {
-        if (persistent && insideClick) {
+    const handleBlurCallback = useCallback((clickedInside: boolean, clickedInParent: boolean) => {
+        if (clickedInside || clickedInParent) {
             return;
         }
 
         setShowDropdown(false);
-    }, [setShowDropdown, persistent]);
+    }, [setShowDropdown]);
 
     useBlurEffect(
         showDropdown,
         handleBlurCallback,
-        dropdownRef,
         buttonRef,
+        dropdownRef,
     );
 
     return (

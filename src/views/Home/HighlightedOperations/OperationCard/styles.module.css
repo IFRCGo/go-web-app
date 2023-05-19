@@ -5,7 +5,6 @@
     box-shadow: var(--go-ui-box-shadow-lg);
 
     .header {
-        flex-grow: 1;
         padding: var(--go-ui-spacing-md);
     }
 
@@ -25,6 +24,7 @@
 
     .figures {
         display: flex;
+        flex-grow: 1;
 
         .separator {
             flex-shrink: 0;

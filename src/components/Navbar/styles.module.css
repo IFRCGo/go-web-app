@@ -22,7 +22,12 @@
             .actions {
                 display: flex;
                 align-items: center;
+                flex-wrap: wrap;
                 gap: var(--go-ui-spacing-xl);
+
+                .action-item {
+                    font-weight: var(--go-ui-font-weight-medium);
+                }
             }
         }
     }
@@ -34,9 +39,11 @@
 
         .menu-items {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             flex-grow: 1;
             gap: var(--go-ui-spacing-xl);
+            font-weight: var(--go-ui-font-weight-medium);
         }
 
         .search-container {

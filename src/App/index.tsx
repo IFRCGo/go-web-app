@@ -38,17 +38,6 @@ const requestContextValue = {
 const router = createBrowserRouter(unwrappedRoutes);
 setMapboxToken(import.meta.env.APP_MAPBOX_ACCESS_TOKEN);
 
-function setUser(userDetails: UserDetails) {
-    setToStorage(
-        USER_STORAGE_KEY,
-        userDetails,
-    );
-}
-
-function removeUser() {
-    removeFromStorage(USER_STORAGE_KEY);
-}
-
 function App() {
     const [userDetails, setUserDetails] = useState<UserDetails>();
     const hydrateUser = useCallback(() => {
@@ -110,6 +99,19 @@ function App() {
         updateAlert,
         removeAlert,
     }), [alerts, addAlert, updateAlert, removeAlert]);
+
+    const removeUser = useCallback(() => {
+        removeFromStorage(USER_STORAGE_KEY);
+        setUserDetails(undefined);
+    }, []);
+
+    const setUser = useCallback((userDetails: UserDetails) => {
+        setToStorage(
+            USER_STORAGE_KEY,
+            userDetails,
+        );
+        setUserDetails(userDetails);
+    }, []);
 
     const userContextValue = useMemo(() => ({
         userDetails,

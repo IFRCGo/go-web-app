@@ -5,46 +5,52 @@ import {
 
 import { listToGroupList } from '@togglecorp/fujs';
 import { genericMemo } from '#utils/common';
+import Message from '#components/Message';
 
 export type OptionKey = string | number | boolean;
 
 const emptyList: unknown[] = [];
 
 export interface GroupCommonProps {
-  className?: string;
-  children: React.ReactNode;
+    className?: string;
+    children: React.ReactNode;
 }
 
 interface BaseProps<D, P, K extends OptionKey> {
-  data: D[] | undefined;
-  keySelector(datum: D, index: number): K;
-  renderer: (props: P) => JSX.Element;
-  rendererClassName?: string;
-  rendererParams: (key: K, datum: D, index: number, data: D[]) => P;
+    data: D[] | undefined;
+    keySelector(datum: D, index: number): K;
+    renderer: (props: P) => JSX.Element;
+    rendererClassName?: string;
+    rendererParams: (key: K, datum: D, index: number, data: D[]) => P;
+    pending: boolean;
+    errored: boolean;
+    emptyMessage?: React.ReactNode;
+    pendingMessage?: React.ReactNode;
+    errorMessage?: React.ReactNode;
 }
 
 interface GroupOptions<D, GP, GK extends OptionKey> {
-  groupComparator?: (a: GK, b: GK) => number;
-  groupKeySelector(datum: D): GK;
+    groupComparator?: (a: GK, b: GK) => number;
+    groupKeySelector(datum: D): GK;
 
-  groupRenderer: (props: GP) => JSX.Element;
-  groupRendererClassName?: string;
-  groupRendererParams: (key: GK, index: number, data: D[]) => Omit<GP, 'children' | 'className'>;
-  grouped: true;
+    groupRenderer: (props: GP) => JSX.Element;
+    groupRendererClassName?: string;
+groupRendererParams: (key: GK, index: number, data: D[]) => Omit<GP, 'children' | 'className'>;
+grouped: true;
 }
 
 interface NoGroupOptions {
-  grouped?: false;
+    grouped?: false;
 }
 
 // eslint-disable-next-line max-len
 export type Props<D, P, K extends OptionKey, GP, GK extends OptionKey> = (
-  BaseProps<D, P, K> & (GroupOptions<D, GP, GK> | NoGroupOptions)
+BaseProps<D, P, K> & (GroupOptions<D, GP, GK> | NoGroupOptions)
 );
 
 // eslint-disable-next-line max-len
 export type GroupedListProps<D, P, K extends OptionKey, GP, GK extends OptionKey> = (
-  BaseProps<D, P, K> & GroupOptions<D, GP, GK>
+BaseProps<D, P, K> & GroupOptions<D, GP, GK>
 );
 
 function hasGroup<D, P, K extends OptionKey, GP, GK extends OptionKey>(
@@ -153,9 +159,15 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
         renderer: Renderer,
         rendererClassName,
         rendererParams,
+        pending,
+        errored,
+        pendingMessage,
+        errorMessage,
+        emptyMessage,
     } = props;
 
     const data = dataFromProps ?? (emptyList as D[]);
+    const empty = !(data?.length && data.length > 0);
 
     const renderListItem = useCallback((datum: D, i: number) => {
         const key = keySelector(datum, i);
@@ -171,18 +183,33 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [keySelector, Renderer, rendererClassName, rendererParams, data]);
 
+    const message = (
+        <Message
+            empty={empty}
+            pending={pending}
+            errored={errored}
+            pendingMessage={pendingMessage}
+            emptyMessage={emptyMessage}
+            errorMessage={errorMessage}
+        />
+    );
+
     if (!hasGroup(props)) {
         return (
             <>
+                {message}
                 {data.map(renderListItem)}
             </>
         );
     }
 
     return (
-        <GroupedList
-            {...props} /* eslint-disable-line react/jsx-props-no-spreading */
-        />
+        <>
+            {message}
+            <GroupedList
+                {...props} /* eslint-disable-line react/jsx-props-no-spreading */
+            />
+        </>
     );
 }
 
