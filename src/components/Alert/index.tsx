@@ -1,10 +1,11 @@
+import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import {
-    AiOutlineInfoCircle,
-    AiOutlineWarning,
-    AiOutlineCheckCircle,
-    AiOutlineQuestionCircle,
-} from 'react-icons/ai';
+    InformationLineIcon,
+    ErrorWarningLineIcon,
+    CheckboxCircleLineIcon,
+    QuestionLineIcon,
+} from '@ifrc-go/icons';
 
 import {
     IoClose,
@@ -12,24 +13,27 @@ import {
 
 import ElementFragments from '#components/ElementFragments';
 import Button from '#components/Button';
-import { AlertVariant } from '#components/AlertContext';
-import Translate from '#components/Translate';
+import { AlertVariant } from '#contexts/alert';
+import useTranslation from '#hooks/useTranslation';
+// import useBasicLayout from '#hooks/useBasicLayout';
+
+import commonStrings from '#strings/common';
 
 import styles from './styles.module.css';
 
 export interface Props<N> {
-  name: N;
-  className?: string;
-  variant?: AlertVariant;
-  children: React.ReactNode;
-  nonDismissable?: boolean;
-  onCloseButtonClick?: (name: N) => void;
-  debugMessage?: string;
+    name: N;
+    className?: string;
+    variant?: AlertVariant;
+    children: React.ReactNode;
+    nonDismissable?: boolean;
+    onCloseButtonClick?: (name: N) => void;
+    debugMessage?: string;
 }
 
 const alertVariantToClassNameMap: {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [key in AlertVariant]: string;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    [key in AlertVariant]: string;
 } = {
     success: styles.success,
     warning: styles.warning,
@@ -48,23 +52,25 @@ function Alert<N extends string>(props: Props<N>) {
         debugMessage,
     } = props;
 
-    const icon: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [key in AlertVariant]: React.ReactNode;
-  } = {
-      success: <AiOutlineCheckCircle className={styles.icon} />,
-      danger: <AiOutlineWarning className={styles.icon} />,
-      info: <AiOutlineInfoCircle className={styles.icon} />,
-      warning: <AiOutlineQuestionCircle className={styles.icon} />,
-  };
+    const strings = useTranslation('common', commonStrings);
 
-    const handleCloseButtonClick = React.useCallback(() => {
+    const icon: {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        [key in AlertVariant]: React.ReactNode;
+    } = {
+            success: <CheckboxCircleLineIcon className={styles.icon} />,
+            danger: <ErrorWarningLineIcon className={styles.icon} />,
+            info: <InformationLineIcon className={styles.icon} />,
+            warning: <QuestionLineIcon className={styles.icon} />,
+        };
+
+    const handleCloseButtonClick = useCallback(() => {
         if (onCloseButtonClick) {
             onCloseButtonClick(name);
         }
     }, [onCloseButtonClick, name]);
 
-    const handleCopyDebugMessageButtonClick = React.useCallback(() => {
+    const handleCopyDebugMessageButtonClick = useCallback(() => {
         if (debugMessage) {
             navigator.clipboard.writeText(debugMessage);
         }
@@ -104,7 +110,7 @@ function Alert<N extends string>(props: Props<N>) {
                         onClick={handleCopyDebugMessageButtonClick}
                         variant="tertiary"
                     >
-                        <Translate stringId="alertCopyErrorDetails" />
+                        {strings.alertCopyErrorDetails}
                     </Button>
                 </div>
             )}

@@ -3,8 +3,8 @@ import React from 'react';
 function useBlurEffect(
     shouldWatch: boolean, // boolean,
     callback: (clickedInside: boolean, e: Event) => void,
-    elementRef: React.RefObject<HTMLElement> | React.MutableRefObject<null>,
-    parentRef: React.RefObject<HTMLElement> | React.MutableRefObject<null>,
+    elementRef: React.RefObject<HTMLElement>,
+    parentRef: React.RefObject<HTMLElement>,
 ) {
     React.useEffect(() => {
         const handleDocumentClick = (e: Event) => {
@@ -25,9 +25,9 @@ function useBlurEffect(
         };
 
         if (shouldWatch) {
-            document.addEventListener('click', handleDocumentClick);
+            document.addEventListener('click', handleDocumentClick, true);
         } else {
-            document.removeEventListener('click', handleDocumentClick);
+            document.removeEventListener('click', handleDocumentClick, true);
         }
 
         return () => { document.removeEventListener('click', handleDocumentClick); };

@@ -1,0 +1,18 @@
+.alert-container {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--go-ui-spacing-4xl) 0;
+    max-height: calc(100vh - 2*var(--go-ui-spacing-4xl));
+    overflow: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    .alert {
+        margin: var(--go-ui-spacing-sm) 0;
+    }
+}

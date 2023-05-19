@@ -19,8 +19,8 @@ import styles from './styles.module.css';
 
 interface DropdownProps {
     className?: string;
-    elementRef: React.MutableRefObject<null>;
-    parentRef: React.MutableRefObject<null>;
+    elementRef: React.RefObject<HTMLElement>;
+    parentRef: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
 }
 
@@ -33,12 +33,11 @@ function Dropdown(props: DropdownProps) {
     } = props;
 
     const placement = useFloatPlacement(parentRef);
-    console.info(placement);
 
     return (
         <Portal>
             <div
-                ref={elementRef}
+                ref={elementRef as React.RefObject<HTMLDivElement>}
                 style={placement}
                 className={_cs(styles.menuContainer, className)}
             >
@@ -69,8 +68,8 @@ function DropdownMenu(props: DropdownMenuProps) {
         icons,
     } = props;
 
-    const buttonRef = useRef(null);
-    const dropdownRef = useRef(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const [showDropdown, setShowDropdown] = useState(false);
     const handleMenuClick = useCallback(() => {
         setShowDropdown(true);
@@ -84,7 +83,12 @@ function DropdownMenu(props: DropdownMenuProps) {
         setShowDropdown(false);
     }, [setShowDropdown, persistent]);
 
-    useBlurEffect(showDropdown, handleBlurCallback, dropdownRef, buttonRef);
+    useBlurEffect(
+        showDropdown,
+        handleBlurCallback,
+        dropdownRef,
+        buttonRef,
+    );
 
     const conditionalIcons = useCallback(() => {
         const defaultIcons = showDropdown ? <ArrowUpSmallFillIcon /> : <ArrowDownSmallFillIcon />;

@@ -1,4 +1,9 @@
-import { useCallback, useContext, useEffect } from 'react';
+import {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     useForm,
@@ -12,6 +17,7 @@ import Link from '#components/Link';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
+import useAlert from '#hooks/useAlert';
 import loginStrings from '#strings/login';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
@@ -64,12 +70,18 @@ export function Component() {
     const strings = useTranslation('login', loginStrings);
     const { userDetails, setUser } = useContext(UserContext);
     const navigate = useNavigate();
+    const alert = useAlert();
+    const alertRef = useRef<string>();
 
     useEffect(() => {
         if (userDetails) {
             navigate('/', { replace: true, relative: 'path' });
+            alertRef.current = alert.show(
+                'Already logged in, redirecting to home...',
+                { name: alertRef.current }
+            );
         }
-    }, [navigate, userDetails]);
+    }, [alert, navigate, userDetails]);
 
     const {
         value: formValue,

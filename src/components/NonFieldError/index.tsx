@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import {
     getErrorObject,
@@ -21,7 +22,7 @@ function NonFieldError<T>(props: Props<T>) {
         message,
     } = props;
 
-    const errorObject = React.useMemo(() => getErrorObject(error), [error]);
+    const errorObject = useMemo(() => getErrorObject(error), [error]);
 
     if (!errorObject) {
         return null;

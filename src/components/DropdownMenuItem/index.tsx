@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
     _cs,
     isValidUrl,
@@ -38,7 +39,7 @@ function DropdownMenuItem<N>(props: Props<N>) {
         disabled,
     } = props;
 
-    const isExternalLink = React.useMemo(() => (
+    const isExternalLink = useMemo(() => (
         props.href
     && typeof props.href === 'string'
     && (isValidUrl(props.href)

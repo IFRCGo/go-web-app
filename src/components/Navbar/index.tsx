@@ -1,10 +1,10 @@
 import { _cs } from '@togglecorp/fujs';
 
-import Button from '#components/Button';
 import PageContainer from '#components/PageContainer';
 import Link from '#components/Link';
 import TextInput from '#components/TextInput';
 import DropdownMenu from '#components/DropdownMenu';
+import DropdownMenuItem from '#components/DropdownMenuItem';
 import goLogo from '#assets/icons/go-logo-2020.svg';
 import commonStrings from '#strings/common';
 import useTranslation from '#hooks/useTranslation';
@@ -63,7 +63,24 @@ function Navbar(props: Props) {
                     <DropdownMenu
                         label={strings.headerCreateAReportLabel}
                     >
-                        Wow
+                        <DropdownMenuItem
+                            label="New Field Report"
+                        />
+                        <DropdownMenuItem
+                            label="COVID-19 Indicator Tracking"
+                        />
+                        <DropdownMenuItem
+                            label="COVID-19 NS Financial Overview"
+                        />
+                        <DropdownMenuItem
+                            label="New 3W Activity"
+                        />
+                        <DropdownMenuItem
+                            label="New DREF Application"
+                        />
+                        <DropdownMenuItem
+                            label="New Flash Update"
+                        />
                     </DropdownMenu>
                 </div>
             </PageContainer>

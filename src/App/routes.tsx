@@ -5,7 +5,7 @@ import PageError from './PageError';
 const root = wrapRoute({
     title: '',
     path: '/',
-    component: () => import('#views/Root'),
+    component: () => import('#views/RootLayout'),
     componentProps: {},
     errorElement: <PageError />,
 });

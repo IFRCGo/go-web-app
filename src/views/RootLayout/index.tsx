@@ -1,7 +1,9 @@
+import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import Navbar from '#components/Navbar';
 import GlobalFooter from '#components/GlobalFooter';
+import AlertContainer from '#components/AlertContainer';
 
 import styles from './styles.module.css';
 
@@ -14,6 +16,7 @@ export function Component() {
                 <Outlet />
             </div>
             <GlobalFooter className={styles.footer} />
+            <AlertContainer />
         </div>
     );
 }

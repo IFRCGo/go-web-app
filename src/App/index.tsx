@@ -14,8 +14,10 @@ import {
     RouterProvider,
 } from 'react-router-dom';
 import { setMapboxToken } from '@togglecorp/re-map';
+import { unique } from '@togglecorp/fujs';
 
 import UserContext, { UserDetails, USER_STORAGE_KEY } from '#contexts/user';
+import AlertContext, { AlertParams, AlertContextProps } from '#contexts/alert';
 import { RequestContext } from '#utils/restRequest';
 import {
     processGoUrls,
@@ -60,6 +62,55 @@ function App() {
         hydrateUser();
     }, []);
 
+    const [alerts, setAlerts] = useState<AlertParams[]>([]);
+
+    const addAlert = useCallback((alert: AlertParams) => {
+        setAlerts((prevAlerts) => unique(
+            [...prevAlerts, alert],
+            a => a.name
+        ) ?? prevAlerts);
+    }, [setAlerts]);
+
+    const removeAlert = useCallback((name: AlertParams['name']) => {
+        setAlerts((prevAlerts) => {
+            const i = prevAlerts.findIndex(a => a.name === name);
+            if (i === -1) {
+                return prevAlerts;
+            }
+
+            const newAlerts = [...prevAlerts];
+            newAlerts.splice(i, 1);
+
+            return newAlerts;
+        });
+    }, [setAlerts]);
+
+    const updateAlert = useCallback((name: AlertParams['name'], paramsWithoutName: Omit<AlertParams, 'name'>) => {
+        setAlerts((prevAlerts) => {
+            const i = prevAlerts.findIndex(a => a.name === name);
+            if (i === -1) {
+                return prevAlerts;
+            }
+
+            const updatedAlert = {
+                ...prevAlerts[i],
+                paramsWithoutName,
+            };
+
+            const newAlerts = [...prevAlerts];
+            newAlerts.splice(i, 1, updatedAlert);
+
+            return newAlerts;
+        });
+    }, [setAlerts]);
+
+    const alertContextValue: AlertContextProps = useMemo(() => ({
+        alerts,
+        addAlert,
+        updateAlert,
+        removeAlert,
+    }), [alerts, addAlert, updateAlert, removeAlert]);
+
     const userContextValue = useMemo(() => ({
         userDetails,
         hydrateUser,
@@ -69,9 +120,11 @@ function App() {
 
     return (
         <UserContext.Provider value={userContextValue}>
-            <RequestContext.Provider value={requestContextValue}>
-                <RouterProvider router={router} />
-            </RequestContext.Provider>
+            <AlertContext.Provider value={alertContextValue}>
+                <RequestContext.Provider value={requestContextValue}>
+                    <RouterProvider router={router} />
+                </RequestContext.Provider>
+            </AlertContext.Provider>
         </UserContext.Provider>
     );
 }

@@ -1,6 +1,5 @@
 .dropdown-menu-item {
     display: flex;
-    justify-content: center;
     padding: var(--go-ui-spacing-sm);
     width: 100%;
 

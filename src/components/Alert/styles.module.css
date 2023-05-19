@@ -1,14 +1,15 @@
 .alert {
     border-radius: var(--go-ui-border-radius-md);
     background-color: var(--go-ui-color-gray-80);
-    padding: calc(var(--go-ui-spacing-md) * 0.5);
-    width: calc(200px + 16vw);
+    padding: var(--go-ui-spacing-lg);
+    width: calc(14rem + 16vw);
     color: var(--go-ui-color-white);
+    box-shadow: var(--go-ui-box-shadow-xl);
 
     .content {
         display: flex;
-        align-items: center;
-        padding: calc(var(--go-ui-spacing-md) * 0.5);;
+        gap: var(--go-ui-spacing-md);
+        align-items: flex-start;
 
         .close-button {
             display: flex;
@@ -17,24 +18,23 @@
         }
 
         .icon {
-            font-size: 1.2em;
+            flex-shrink: 0;
+            font-size: var(--go-ui-font-size-xl);
         }
 
         .content {
             align-items: initial;
             flex-direction: column;
-            font-weight: var(--go-ui-font-weight-bold);
+            font-weight: var(--go-ui-font-weight-medium);
         }
     }
 
     .actions {
         display: flex;
         justify-content: flex-end;
-        padding: calc(var(--go-ui-spacing-md) * 0.25);
-        font-weight: var(--go-ui-font-weight-bold);
+        gap: var(--go-ui-spacing-sm);
 
         .copy-debug-message-button {
-            padding: calc(var(--go-ui-spacing-md) * 0.25);
             text-transform: uppercase;
             font-size: var(--go-ui-font-size-sm);
         }
