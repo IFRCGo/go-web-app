@@ -7,7 +7,6 @@ import styles from './styles.module.css';
 export interface BreadcrumbsProps {
     className?: string;
     itemClassName?: string;
-    variant?: string;
     separator?: React.ReactNode;
     children: React.ReactNode;
 }
@@ -22,12 +21,10 @@ function Breadcrumbs(props: BreadcrumbsProps) {
 
     const items = Children.toArray(children).reduce<React.ReactNode[]>(
         (acc, child, index, array) => {
-            const isLastItem = index === array.length - 1;
             const item = (
                 <div
-                    key={index}
+                    key={`breadcrumb-${index}`} // eslint-disable-line react/no-array-index-key
                     className={_cs(styles.item, itemClassName)}
-                    aria-current={isLastItem ? 'page' : false}
                 >
                     {child}
                 </div>
@@ -37,7 +34,9 @@ function Breadcrumbs(props: BreadcrumbsProps) {
 
             if (index !== array.length - 1) {
                 acc.push(
-                    <span key={`separator-${index}`}>
+                    <span
+                        key={`separator-${index}`} // eslint-disable-line react/no-array-index-key
+                    >
                         {separator}
                     </span>,
                 );

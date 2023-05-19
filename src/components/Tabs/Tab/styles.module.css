@@ -3,7 +3,7 @@
     border-radius: 0;
     padding: var(--go-ui-spacing-md) calc(var(--go-ui-spacing-md)*3);
     color: var(--go-ui-color-black);
-    font-weight: var(--go-ui-font-weight-bold);
+    font-weight: var(--go-ui-font-weight-semibold);
 
     &.disabled {
         pointer-events: none;

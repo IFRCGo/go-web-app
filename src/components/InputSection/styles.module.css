@@ -13,7 +13,7 @@
         gap: var(--go-ui-spacing-md);
 
         .title {
-            font-weight: var(--go-ui-font-weight-bold);
+            font-weight: var(--go-ui-font-weight-semibold);
         }
 
         .description {

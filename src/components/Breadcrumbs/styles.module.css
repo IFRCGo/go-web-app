@@ -16,7 +16,7 @@
 
         &:last-child {
             color: var(--go-ui-color-black);
-            font-weight: var(--go-ui-font-weight-bold);
+            font-weight: var(--go-ui-font-weight-semibold);
         }
     }
 }
