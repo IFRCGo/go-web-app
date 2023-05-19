@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    --min-column-width: 8rem;
+
+    .table {
+        /* NOTE: This will ensure that the z-index in
+         * children elements doesn't affect rest of the page */
+        position: relative;
+        z-index: 0;
+
+        table-layout: fixed;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: inherit;
+
+        .column {
+            min-width: var(--min-column-width);
+        }
+
+        .header-row {
+            .header-cell {
+                overflow: hidden;
+                .header-component {
+                    padding: calc(var(--go-ui-spacing-md) - var(--go-ui-spacing-md));
+                    overflow: hidden;
+                }
+            }
+        }
+
+        .row {
+            &:hover {
+                opacity: 0.6;
+            }
+
+            .cell {
+                overflow: hidden;
+            }
+
+            &:last-child {
+                .cell {
+                    border-bottom: none;
+                }
+
+                .row-header-cell {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}

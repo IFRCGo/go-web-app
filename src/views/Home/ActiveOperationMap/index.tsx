@@ -47,9 +47,9 @@ import {
 } from './utils';
 import styles from './styles.module.css';
 
-const today = new Date().toISOString()
+const today = new Date().toISOString();
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
-  type: 'geojson',
+    type: 'geojson',
 };
 
 interface Props {
@@ -102,14 +102,14 @@ function ActiveOperationMap(props: Props) {
                 (key) => key,
                 (appealList) => {
                     const uniqueAppealList = unique(
-                        appealList.map((appeal) => appeal.atype)
+                        appealList.map((appeal) => appeal.atype),
                     );
 
                     const peopleTargeted = sum(
-                        appealList.map((appeal) => appeal.num_beneficiaries)
+                        appealList.map((appeal) => appeal.num_beneficiaries),
                     );
                     const financialRequirements = sum(
-                        appealList.map((appeal) => +appeal.amount_requested)
+                        appealList.map((appeal) => +appeal.amount_requested),
                     );
 
                     if (uniqueAppealList.length > 1) {
@@ -130,8 +130,8 @@ function ActiveOperationMap(props: Props) {
             );
 
             return {
-                'type': 'FeatureCollection' as const,
-                'features': countryResponse?.results
+                type: 'FeatureCollection' as const,
+                features: countryResponse?.results
                     .filter((country) => country.independent || country.record_type)
                     .map((country) => {
                         if (!country.centroid || !country.iso3) {
@@ -143,7 +143,7 @@ function ActiveOperationMap(props: Props) {
                             return undefined;
                         }
 
-                        return  {
+                        return {
                             type: 'Feature' as const,
                             geometry: country.centroid,
                             properties: {
@@ -152,11 +152,11 @@ function ActiveOperationMap(props: Props) {
                                 peopleTargeted: operation.peopleTargeted,
                                 financialRequirements: operation.financialRequirements,
                             },
-                        }
+                        };
                     }).filter(isDefined) ?? [],
             };
         },
-        [countryResponse],
+        [countryResponse, appealResponse],
     );
 
     const heading = resolveToComponent(

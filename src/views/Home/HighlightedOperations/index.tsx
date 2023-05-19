@@ -45,7 +45,7 @@ function HighlightedOperations(props: Props) {
     });
 
     const featuredEmergencies = featuredEmergencyResponse?.results;
-    const layoutDifficiencies = 3 - (featuredEmergencies?.length ?? 0) % 3;
+    const layoutDifficiencies = 3 - ((featuredEmergencies?.length ?? 0) % 3);
 
     return (
         <Container

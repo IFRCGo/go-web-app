@@ -106,7 +106,6 @@ const resources = wrapRoute({
     parent: root,
 });
 
-
 const goUI = wrapRoute({
     title: 'Go UI',
     path: 'go-ui',

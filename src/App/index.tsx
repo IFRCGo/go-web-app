@@ -56,13 +56,13 @@ function App() {
     const addAlert = useCallback((alert: AlertParams) => {
         setAlerts((prevAlerts) => unique(
             [...prevAlerts, alert],
-            a => a.name
+            (a) => a.name,
         ) ?? prevAlerts);
     }, [setAlerts]);
 
     const removeAlert = useCallback((name: AlertParams['name']) => {
         setAlerts((prevAlerts) => {
-            const i = prevAlerts.findIndex(a => a.name === name);
+            const i = prevAlerts.findIndex((a) => a.name === name);
             if (i === -1) {
                 return prevAlerts;
             }
@@ -76,7 +76,7 @@ function App() {
 
     const updateAlert = useCallback((name: AlertParams['name'], paramsWithoutName: Omit<AlertParams, 'name'>) => {
         setAlerts((prevAlerts) => {
-            const i = prevAlerts.findIndex(a => a.name === name);
+            const i = prevAlerts.findIndex((a) => a.name === name);
             if (i === -1) {
                 return prevAlerts;
             }

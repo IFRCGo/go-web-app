@@ -78,7 +78,6 @@ function RadioInput<
         onChange,
     } = props;
 
-
     const handleRadioClick = React.useCallback((radioKey: V | undefined) => {
         if (readOnly) {
             return;
@@ -91,7 +90,6 @@ function RadioInput<
         if (!isClearableOptions && isDefined(radioKey)) {
             onChange(radioKey, name);
         }
-
     }, [readOnly, props.onChange, name, props.clearable]);
 
     const rendererParams: (
@@ -116,15 +114,15 @@ function RadioInput<
 
         return combinedProps;
     }, [
-            name,
-            labelSelector,
-            value,
-            handleRadioClick,
-            radioRendererParamsFromProps,
-            disabled,
-            readOnly,
-            descriptionSelector,
-        ]);
+        name,
+        labelSelector,
+        value,
+        handleRadioClick,
+        radioRendererParamsFromProps,
+        disabled,
+        readOnly,
+        descriptionSelector,
+    ]);
 
     return (
         <div

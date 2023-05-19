@@ -1,6 +1,6 @@
 import { _cs, isDefined } from '@togglecorp/fujs';
 
-import FormattedNumber from '#components/FormattedNumber';
+import NumberOutput from '#components/NumberOutput';
 import ProgressBar from '#components/ProgressBar';
 
 import styles from './styles.module.css';
@@ -41,12 +41,12 @@ function Card(props: Props) {
                 className,
             )}
         >
-            <FormattedNumber
+            <NumberOutput
                 className={styles.value}
                 value={value}
-                normalize={normalize}
-                addSeparator={addSeparator}
-                fixedTo={fixedTo}
+                normal={normalize}
+                separator={addSeparator ? undefined : null}
+                precision={fixedTo}
             />
             <div className={styles.description}>
                 {description}

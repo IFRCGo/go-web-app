@@ -24,7 +24,9 @@ function GoMapDisclaimer(props: Props) {
                         The maps used do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Society concerning the legal status of a territory or of its authorities.
                     </div>
                     <div>
-                        Map Sources: ICRC, <Link to="https://cod.unocha.org/">UNCODs</Link>
+                        Map Sources: ICRC,
+                        {' '}
+                        <Link to="https://cod.unocha.org/">UNCODs</Link>
                     </div>
                     <div
                         className={_cs(styles.attribution, 'mapboxgl-ctrl-attrib-inner')}

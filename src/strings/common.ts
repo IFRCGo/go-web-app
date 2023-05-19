@@ -498,7 +498,6 @@ const common = {
     // not used -   deploymentsMapScaleGradient: 'Scale Gradient',
     // not used -   mapPopOverDismiss: 'Dismiss',
 
-
     videoCarouselHeading3W: '3W - Who does What, Where.',
     videoCarouselSubHeading3W: 'The "Who does What, Where", or 3W, is a GO platform tool to enhance coordination, improve disaster analysis, and elevate the speed and quality of Red Cross Red Crescent emergency response.',
     videoCarouselHeading3WInstructional: '3W Instructional',
@@ -648,7 +647,6 @@ const common = {
     seasonalCalendarTitle: 'Seasonal calendar',
     socialEventsTitle: 'Social events',
 
-
     VerboseUrlLoadingMessage: 'Loading page...',
 
     breadCrumbLogin: 'Login',
@@ -676,7 +674,6 @@ const common = {
     countriesInactiveLabel: 'Inactive',
     countriesAllOperationExportLink: 'View All Operations For {name}',
     countriesStatisticsTitle: 'Statistics',
-
 
     passwordChangePageTitle: 'IFRC GO - Change Password',
     passwordChangeHeading: 'Change my password',

@@ -78,7 +78,7 @@ export function Component() {
             navigate('/', { replace: true, relative: 'path' });
             alertRef.current = alert.show(
                 'Already logged in, redirecting to home...',
-                { name: alertRef.current }
+                { name: alertRef.current },
             );
         }
     }, [alert, navigate, userDetails]);

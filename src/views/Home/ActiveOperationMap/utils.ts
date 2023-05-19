@@ -76,7 +76,7 @@ export const basePointLayerOptions = {
 const baseOuterCirclePaint = {
     'circle-color': circleColor,
     'circle-opacity': 0.4,
-}
+};
 
 const outerCirclePaintForFinancialRequirements = {
     ...baseOuterCirclePaint,
@@ -93,7 +93,7 @@ const outerCirclePaintForFinancialRequirements = {
         1000000,
         15,
     ],
-}
+};
 
 const outerCirclePaintForPeopleTargeted = {
     ...baseOuterCirclePaint,
@@ -110,7 +110,7 @@ const outerCirclePaintForPeopleTargeted = {
         1000000,
         15,
     ],
-}
+};
 
 export const outerCircleLayerOptionsForFinancialRequirements = {
     type: 'circle',
@@ -143,4 +143,3 @@ export function optionKeySelector(option: ScaleOption) {
 export function optionLabelSelector(option: ScaleOption) {
     return option.label;
 }
-

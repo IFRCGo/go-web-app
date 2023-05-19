@@ -115,17 +115,14 @@ function NumberOutput(props: Props) {
                 if (integer > 100) {
                     // 140.1234M -> 140 M
                     p = 0;
-                } else {
+                } else if (fraction > 0.95) {
                     // 96.96834M -> 97 M
-                    if (fraction > 0.95) {
-                        p = 0;
-                    }
+                    p = 0;
+                } else if (fraction > 0.01) {
                     // 96.0334M -> 96.03 M
-                    else if (fraction > 0.01) {
-                        p = 2;
-                    } else {
-                        p = 0;
-                    }
+                    p = 2;
+                } else {
+                    p = 0;
                 }
             } else {
                 p = precision;

@@ -58,11 +58,11 @@ function Alert<N extends string>(props: Props<N>) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         [key in AlertVariant]: React.ReactNode;
     } = {
-            success: <CheckboxCircleLineIcon className={styles.icon} />,
-            danger: <ErrorWarningLineIcon className={styles.icon} />,
-            info: <InformationLineIcon className={styles.icon} />,
-            warning: <QuestionLineIcon className={styles.icon} />,
-        };
+        success: <CheckboxCircleLineIcon className={styles.icon} />,
+        danger: <ErrorWarningLineIcon className={styles.icon} />,
+        info: <InformationLineIcon className={styles.icon} />,
+        warning: <QuestionLineIcon className={styles.icon} />,
+    };
 
     const handleCloseButtonClick = useCallback(() => {
         if (onCloseButtonClick) {

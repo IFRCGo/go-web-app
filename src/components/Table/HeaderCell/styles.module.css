@@ -1,0 +1,16 @@
+.header-cell {
+    display: flex;
+    flex-direction: column;
+    font-weight: var(--go-ui-font-weight-bold);
+
+    .title-container {
+        display: flex;
+        align-items: center;
+
+        .title {
+            display: flex;
+            flex-grow: 1;
+            text-align: left;
+        }
+    }
+}
