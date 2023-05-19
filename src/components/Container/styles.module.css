@@ -5,7 +5,8 @@
 
     .border {
         flex-shrink: 0;
-        opacity: 0.2;
+        background-color: var(--go-ui-color-separator);
+        height: var(--go-ui-width-separator-md);
         margin: 0;
     }
 }

@@ -85,6 +85,7 @@
         --color-border: transparent;
         --color-background: transparent;
         --color-text: inherit;
+        --padding: 0;
 
         &:disabled {
             --color-text: var(--go-ui-color-gray-40);

@@ -3,6 +3,7 @@
     --inner-gap: var(--go-ui-spacing-sm);
 
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--gap);
 

@@ -1,4 +1,43 @@
-interface Appeal {
+interface Country {
+    id: number;
+    iso3: string;
+}
+
+interface Region {
+}
+
+interface Disaster {
+}
+
+interface FieldReport {
+}
+
+export interface Appeal {
+    aid: string;
+    amount_funded: string;
+    amount_requested: string;
+    atype: number;
+    atype_display: string;
+    code: string;
+    country: Country;
+    created_at: string;
+    dtype: Disaster;
+    end_date: string;
+    event: number | null;
+    id: string;
+    modified_at: string;
+    name: string;
+    needs_confirmation: boolean;
+    num_beneficiaries: number;
+    real_data_update: string;
+    region: Region;
+    sector: string;
+    start_date: string;
+    status: number;
+    status_display: string;
+}
+
+export interface AppealMini {
     aid: string;
     amount_funded: string;
     amount_requested: string;
@@ -10,18 +49,9 @@ interface Appeal {
     status_display: string;
 }
 
-interface Country {
-}
-
-interface Disaster {
-}
-
-interface FieldReport {
-}
-
 export interface Emergency {
   active_deployments: number;
-  appeals: Appeal[];
+  appeals: AppealMini[];
   auto_generated: boolean;
   countries: Country[];
   created_at: string;

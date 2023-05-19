@@ -88,16 +88,6 @@ function Page(props: Props) {
                 className,
             )}
         >
-            <PageContainer
-                contentAs="header"
-                className={_cs(
-                    styles.pageHeader,
-                    className,
-                )}
-                contentClassName={headerClassName}
-            >
-                {headerContent}
-            </PageContainer>
             {showPageContainer && (
                 <PageContainer
                     contentAs="header"

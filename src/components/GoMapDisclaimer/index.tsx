@@ -1,4 +1,3 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import InfoPopup from '#components/InfoPopup';
@@ -21,14 +20,12 @@ function GoMapDisclaimer(props: Props) {
             className={_cs(styles.goMapDisclaimer, className)}
             description={(
                 <>
-                    <p>
+                    <div>
                         The maps used do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Society concerning the legal status of a territory or of its authorities.
-                    </p>
-                    <p>
-                        Map Sources: ICRC,
-                        {' '}
-                        <Link to="https://cod.unocha.org/">UNCODs</Link>
-                    </p>
+                    </div>
+                    <div>
+                        Map Sources: ICRC, <Link to="https://cod.unocha.org/">UNCODs</Link>
+                    </div>
                     <div
                         className={_cs(styles.attribution, 'mapboxgl-ctrl-attrib-inner')}
                         role="list"

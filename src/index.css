@@ -190,6 +190,14 @@
     --go-ui-saturate-100: 1;
     --go-ui-saturate-150: 1.5;
     --go-ui-saturate-200: 2;
+
+    --go-ui-color-map-dot-appeals: #f5333f;
+    --go-ui-color-map-dot-dref: #ff9e00;
+    --go-ui-color-map-dot-fba: #ff6b00;
+    --go-ui-color-map-dot-multiple-types: #4c5d9b;
+
+    --mapbox-icon-width: 88px;
+
     line-height: var(--go-ui-line-height-normal);
 
     font-family: var(--go-ui-font-family-sans);

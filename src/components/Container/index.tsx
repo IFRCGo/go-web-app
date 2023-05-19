@@ -61,7 +61,7 @@ function Container(props: Props) {
             <header className={headerClassName}>
                 {header}
             </header>
-            {withHeaderBorder && <hr className={styles.border} />}
+            {withHeaderBorder && <div className={styles.border} />}
             <div className={childrenContainerClassName}>
                 {children}
             </div>

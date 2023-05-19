@@ -51,7 +51,10 @@ function OperationCard(props: Props) {
                 heading={name}
                 headingLevel={4}
                 actions={(
-                    <Button name={undefined}>
+                    <Button
+                        name={undefined}
+                        variant="secondary"
+                    >
                         Follow
                     </Button>
                 )}

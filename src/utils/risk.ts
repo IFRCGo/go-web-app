@@ -3,7 +3,8 @@ import {
     COLOR_WHITE,
     CIRCLE_RADIUS_SUPER_LARGE,
 } from '#utils/map';
-import { ImminentHazardTypes } from '#types';
+
+import { ImminentHazardTypes } from '#types/risk';
 
 import earthquakeIcon from './risk-icons/earthquake.png';
 import cycloneIcon from './risk-icons/cyclone.png';

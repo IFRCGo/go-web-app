@@ -1,9 +1,4 @@
 import { createContext } from 'react';
-import {
-    set as setToStorage,
-    get as getFromStorage,
-    remove as removeFromStorage,
-} from 'local-storage';
 
 export interface UserDetails {
     id: number;

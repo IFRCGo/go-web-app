@@ -2,11 +2,12 @@
     --cursor: default;
     display: flex;
     align-items: flex-start;
+    gap: var(--go-ui-spacing-sm);
     cursor: var(--cursor);
 
     .icon {
         transition: var(--go-ui-duration-transition-medium) color ease-in-out;
-        font-size: 1.6em;
+        font-size: 1.3em;
     }
 
     .children {

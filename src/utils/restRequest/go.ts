@@ -5,6 +5,8 @@ import {
 } from '@togglecorp/fujs';
 import { ContextInterface } from '@togglecorp/toggle-request';
 import { nonFieldError } from '@togglecorp/toggle-form';
+import { get as getFromLocalStorage } from 'local-storage';
+import { USER_STORAGE_KEY, UserDetails } from '#contexts/user';
 
 import {
     riskApi,
@@ -155,7 +157,8 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     } = extraOptions;
 
     const currentLanguage = 'en';
-    const token = undefined;
+    const user = getFromLocalStorage<UserDetails | undefined>(USER_STORAGE_KEY);
+    const token = user?.token;
 
     const defaultHeaders = {
         Authorization: token ? `Token ${token}` : '',

@@ -1,0 +1,43 @@
+.active-operation-map {
+    .map-container-wrapper {
+        position: relative;
+
+        .map-container {
+            height: 40rem;
+        }
+
+        .map-disclaimer {
+            position: absolute;
+            left: calc(var(--mapbox-icon-width) + var(--go-ui-spacing-md));
+            bottom: var(--go-ui-spacing-sm);
+        }
+    }
+
+    .footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: var(--go-ui-spacing-2xl);
+        padding: var(--go-ui-spacing-lg);
+        background-color: var(--go-ui-color-background);
+
+        .legend {
+            display: flex;
+            gap: var(--go-ui-spacing-md);
+            flex-wrap: wrap;
+
+            .legend-item {
+                display: flex;
+                align-items: center;
+                gap: var(--go-ui-spacing-sm);
+
+                .color {
+                    width: 0.75rem;
+                    height: 0.75rem;
+                    border-radius: 0.5rem;
+                }
+            }
+        }
+    }
+}
