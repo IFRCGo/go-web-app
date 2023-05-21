@@ -72,6 +72,7 @@ const appConfigs = compat.config({
         'import/no-cycle': ['error', { allowUnsafeDynamicCyclicDependency: true }],
 
         'react/react-in-jsx-scope': 'off',
+        'camelcase': 'off',
 
         'react/jsx-indent': ['error', 4],
         'react/jsx-indent-props': ['error', 4],

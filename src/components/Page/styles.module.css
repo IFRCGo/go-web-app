@@ -5,25 +5,6 @@
 
     .page-header {
         background-color: var(--go-ui-color-background);
-        padding: var(--go-ui-spacing-2xl);
-
-        .heading-section {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-            gap: var(--go-ui-spacing-xl);
-
-            .heading {
-                display: flex;
-                justify-content: center;
-                text-align: center;
-            }
-
-            .description {
-                max-width: 48rem;
-            }
-        }
     }
 
     &.with-main-content-background {

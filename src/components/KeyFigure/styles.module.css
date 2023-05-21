@@ -4,11 +4,23 @@
     padding: var(--go-ui-spacing-md);
     gap: var(--go-ui-spacing-sm);
 
+    .icon {
+        color: var(--go-ui-color-parimary);
+        font-size: var(--go-ui-font-size-5xl);
+    }
+
     .value {
         font-size: var(--go-ui-font-size-2xl);
+        font-weight: var(--go-ui-font-weight-medium);
     }
 
     .content {
         padding: var(--go-ui-spacing-sm);
+    }
+
+    &.with-icon {
+        .value {
+            font-size: var(--go-ui-font-size-4xl);
+        }
     }
 }

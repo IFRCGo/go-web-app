@@ -5,8 +5,7 @@ import {
 } from '@togglecorp/fujs';
 
 import PageContainer from '#components/PageContainer';
-import Heading from '#components/Heading';
-import useBasicLayout from '#hooks/useBasicLayout';
+import PageHeader from '#components/PageHeader';
 import styles from './styles.module.css';
 
 interface Props {
@@ -48,39 +47,12 @@ function Page(props: Props) {
         }
     }, [title]);
 
-    const {
-        containerClassName: headerClassName,
-        content: headerContent,
-    } = useBasicLayout({
-        icons: breadCrumbs,
-        actions: (
-            <>
-                {actions}
-                {wikiLink}
-            </>
-        ),
-        childrenContainerClassName: styles.headingSection,
-        children: (
-            <>
-                <Heading
-                    level={1}
-                    className={styles.heading}
-                >
-                    { heading }
-                </Heading>
-                {description && (
-                    <div className={_cs(styles.description, descriptionContainerClassName)}>
-                        { description }
-                    </div>
-                )}
-                <div className={infoContainerClassName}>
-                    {info}
-                </div>
-            </>
-        ),
-    });
-
-    const showPageContainer = !!breadCrumbs || !!heading || !!description || !!info || !!actions || !!wikiLink;
+    const showPageContainer = !!breadCrumbs
+        || !!heading
+        || !!description
+        || !!info
+        || !!actions
+        || !!wikiLink;
 
     return (
         <div
@@ -91,16 +63,19 @@ function Page(props: Props) {
             )}
         >
             {showPageContainer && (
-                <PageContainer
-                    contentAs="header"
+                <PageHeader
                     className={_cs(
                         styles.pageHeader,
                         className,
                     )}
-                    contentClassName={headerClassName}
-                >
-                    {headerContent}
-                </PageContainer>
+                    breadCrumbs={breadCrumbs}
+                    actions={actions}
+                    heading={heading}
+                    description={description}
+                    descriptionContainerClassName={descriptionContainerClassName}
+                    info={info}
+                    infoContainerClassName={infoContainerClassName}
+                />
             )}
             <PageContainer
                 contentAs="main"

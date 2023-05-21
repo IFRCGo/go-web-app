@@ -9,7 +9,7 @@ interface Props {
     className?: string;
     children?: React.ReactNode;
     contentClassName?: string;
-    value: number;
+    value: number | undefined | null;
     normalize?: boolean;
     addSeparator?: boolean;
     fixedTo?: number;
@@ -17,6 +17,7 @@ interface Props {
     progressTitle?: React.ReactNode;
     progress?: number;
     progressDescription?: React.ReactNode;
+    icon?: React.ReactNode;
 }
 
 function Card(props: Props) {
@@ -32,15 +33,22 @@ function Card(props: Props) {
         progress,
         progressTitle,
         progressDescription,
+        icon,
     } = props;
 
     return (
         <div
             className={_cs(
                 styles.card,
+                icon && styles.withIcon,
                 className,
             )}
         >
+            {icon && (
+                <div className={styles.icon}>
+                    {icon}
+                </div>
+            )}
             <NumberOutput
                 className={styles.value}
                 value={value}

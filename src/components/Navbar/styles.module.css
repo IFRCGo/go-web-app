@@ -39,11 +39,11 @@
 
         .menu-items {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
             flex-grow: 1;
-            gap: var(--go-ui-spacing-xl);
+            flex-wrap: wrap;
             font-weight: var(--go-ui-font-weight-medium);
+            gap: var(--go-ui-spacing-xl);
         }
 
         .search-container {

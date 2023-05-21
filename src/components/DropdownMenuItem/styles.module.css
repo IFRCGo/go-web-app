@@ -30,8 +30,8 @@
 
     &.external-link,
     &.internal-link {
-        color: inherit;
         text-decoration: unset;
+        color: inherit;
 
         &:visited {
             color: inherit;

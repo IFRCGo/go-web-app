@@ -5,17 +5,19 @@ import Heading, { Props as HeadingProps } from '#components/Heading';
 import styles from './styles.module.css';
 
 interface Props {
-  className?: string;
-  icons?: React.ReactNode;
-  heading?: React.ReactNode;
-  headingLevel?: HeadingProps['level'],
-  actions?: React.ReactNode;
-  children: React.ReactNode;
-  footerIcons?: React.ReactNode;
-  footerContent?: React.ReactNode;
-  footerActions?: React.ReactNode;
-  childrenContainerClassName?: string,
-  withHeaderBorder?: boolean;
+    className?: string;
+    icons?: React.ReactNode;
+    heading?: React.ReactNode;
+    headingLevel?: HeadingProps['level'],
+    actions?: React.ReactNode;
+    children: React.ReactNode;
+    footerIcons?: React.ReactNode;
+    footerContent?: React.ReactNode;
+    footerContentClassName?: string;
+    footerClassName?: string;
+    footerActions?: React.ReactNode;
+    childrenContainerClassName?: string,
+    withHeaderBorder?: boolean;
 }
 
 function Container(props: Props) {
@@ -29,6 +31,8 @@ function Container(props: Props) {
         childrenContainerClassName,
         footerIcons,
         footerContent,
+        footerContentClassName,
+        footerClassName,
         footerActions,
         withHeaderBorder,
     } = props;
@@ -47,12 +51,14 @@ function Container(props: Props) {
     });
 
     const {
-        containerClassName: footerClassName,
+        containerClassName: footerContainerClassName,
         content: footer,
     } = useBasicLayout({
         icons: footerIcons,
         children: footerContent,
         actions: footerActions,
+        childrenContainerClassName: footerContentClassName,
+        className: footerClassName,
     });
 
     return (
@@ -64,7 +70,7 @@ function Container(props: Props) {
             <div className={childrenContainerClassName}>
                 {children}
             </div>
-            <footer className={footerClassName}>
+            <footer className={footerContainerClassName}>
                 {footer}
             </footer>
         </div>

@@ -2,9 +2,31 @@
     .description {
         display: flex;
         flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
     }
 
     .im-link {
         display: inline-block;
+    }
+
+    .key-figures-container {
+        display: flex;
+        justify-content: center;
+
+        .key-figures {
+            display: flex;
+            padding: var(--go-ui-spacing-md);
+            gap: var(--go-ui-spacing-sm);
+            flex-wrap: wrap;
+
+
+            .key-figure {
+                background-color: var(--go-ui-color-white);
+                min-width: 20rem;
+                flex-basis: 0;
+                flex-grow: 1;
+                padding: var(--go-ui-spacing-md) var(--go-ui-spacing-xl);
+            }
+        }
     }
 }
