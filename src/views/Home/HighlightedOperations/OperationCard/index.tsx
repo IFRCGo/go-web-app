@@ -4,6 +4,7 @@ import Button from '#components/Button';
 import DateOutput from '#components/DateOutput';
 import NumberOutput from '#components/NumberOutput';
 import KeyFigure from '#components/KeyFigure';
+import Tooltip from '#components/Tooltip';
 import { Emergency } from '#types/emergency';
 import useTranslation from '#hooks/useTranslation';
 import commonStrings from '#strings/common';
@@ -33,7 +34,7 @@ function OperationCard(props: Props) {
     const amountRequested = sum(appeals.map((appeal) => +appeal.amount_requested));
     const amountFunded = sum(appeals.map((appeal) => +appeal.amount_funded));
 
-    const coverage = 100 * amountFunded / amountRequested;
+    const coverage = 100 * (amountFunded / amountRequested);
     const fundingCoverageDescription = resolveToComponent(
         strings.operationCardFundingCoverage,
         { coverage: <NumberOutput value={coverage} /> },

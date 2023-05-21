@@ -9,42 +9,9 @@ import {
     ArrowUpSmallFillIcon,
 } from '@ifrc-go/icons';
 
-import Portal from '#components/Portal';
+import Popup from '#components/Popup';
 import Button, { Props as ButtonProps } from '#components/Button';
 import useBlurEffect from '#hooks/useBlurEffect';
-import useFloatPlacement from '#hooks/useFloatPlacement';
-
-import styles from './styles.module.css';
-
-interface DropdownProps {
-    className?: string;
-    elementRef: React.RefObject<HTMLElement>;
-    parentRef: React.RefObject<HTMLElement>;
-    children?: React.ReactNode;
-}
-
-function Dropdown(props: DropdownProps) {
-    const {
-        parentRef,
-        elementRef,
-        children,
-        className,
-    } = props;
-
-    const placement = useFloatPlacement(parentRef);
-
-    return (
-        <Portal>
-            <div
-                ref={elementRef as React.RefObject<HTMLDivElement>}
-                style={placement}
-                className={_cs(styles.menuContainer, className)}
-            >
-                {children}
-            </div>
-        </Portal>
-    );
-}
 
 interface DropdownMenuProps {
     className?: string;
@@ -74,7 +41,7 @@ function DropdownMenu(props: DropdownMenuProps) {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [showDropdown, setShowDropdown] = useState(false);
-    const handleMenuClick = useCallback((_: undefined) => {
+    const handleMenuClick = useCallback(() => {
         setShowDropdown((prevValue) => !prevValue);
     }, [setShowDropdown]);
 
@@ -115,13 +82,13 @@ function DropdownMenu(props: DropdownMenuProps) {
                 {label}
             </Button>
             {showDropdown && (
-                <Dropdown
+                <Popup
                     elementRef={dropdownRef}
                     className={dropdownContainerClassName}
                     parentRef={buttonRef}
                 >
                     {children}
-                </Dropdown>
+                </Popup>
             )}
         </>
     );

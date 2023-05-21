@@ -4,7 +4,7 @@ import useBasicLayout from '#hooks/useBasicLayout';
 import Heading, { Props as HeadingProps } from '#components/Heading';
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     className?: string;
     icons?: React.ReactNode;
     heading?: React.ReactNode;
