@@ -1,13 +1,16 @@
 import {
-    _cs,
-} from '@togglecorp/fujs';
-import {
     COLOR_BLACK,
     COLOR_RED,
     COLOR_YELLOW,
     COLOR_ORANGE,
     COLOR_BLUE,
 } from '#utils/map';
+import type {
+    CirclePaint,
+    CircleLayer,
+    FillLayer,
+    SymbolLayer,
+} from 'mapbox-gl';
 
 import type { CommonStrings } from '#strings/common';
 
@@ -20,6 +23,27 @@ const APPEAL_TYPE_DREF = 0;
 const APPEAL_TYPE_EMERGENCY = 1;
 const APPEAL_TYPE_EAP = 2;
 export const APPEAL_TYPE_MULTIPLE = -1;
+
+export const adminLabelLayerOptions : Omit<SymbolLayer, 'id'> = {
+    type: 'symbol',
+    layout: {
+        'text-offset': [
+            0, 1,
+        ],
+    },
+};
+
+export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
+    type: 'fill',
+    paint: {
+        'fill-color': [
+            'case',
+            ['boolean', ['feature-state', 'hovered'], false],
+            '#EC407A',
+            '#FCE4EC',
+        ],
+    },
+};
 
 export function getLegendOptions(strings: CommonStrings) {
     const legendOptions = [
@@ -48,7 +72,7 @@ export function getLegendOptions(strings: CommonStrings) {
     return legendOptions;
 }
 
-const circleColor = [
+const circleColor: CirclePaint['circle-color'] = [
     'match',
     ['get', 'appealType'],
     APPEAL_TYPE_DREF,
@@ -62,23 +86,23 @@ const circleColor = [
     COLOR_BLACK,
 ];
 
-const basePointPaint = {
+const basePointPaint: CirclePaint = {
     'circle-radius': 5,
     'circle-color': circleColor,
     'circle-opacity': 0.8,
 };
 
-export const basePointLayerOptions = {
-    type: 'circle',
+export const basePointLayerOptions: Omit<CircleLayer, 'id'> = {
+    type: 'circle' as const,
     paint: basePointPaint,
 };
 
-const baseOuterCirclePaint = {
+const baseOuterCirclePaint: CirclePaint = {
     'circle-color': circleColor,
     'circle-opacity': 0.4,
 };
 
-const outerCirclePaintForFinancialRequirements = {
+const outerCirclePaintForFinancialRequirements: CirclePaint = {
     ...baseOuterCirclePaint,
     'circle-radius': [
         'interpolate',
@@ -95,7 +119,7 @@ const outerCirclePaintForFinancialRequirements = {
     ],
 };
 
-const outerCirclePaintForPeopleTargeted = {
+const outerCirclePaintForPeopleTargeted: CirclePaint = {
     ...baseOuterCirclePaint,
     'circle-radius': [
         'interpolate',
@@ -112,12 +136,12 @@ const outerCirclePaintForPeopleTargeted = {
     ],
 };
 
-export const outerCircleLayerOptionsForFinancialRequirements = {
+export const outerCircleLayerOptionsForFinancialRequirements: Omit<CircleLayer, 'id'> = {
     type: 'circle',
     paint: outerCirclePaintForFinancialRequirements,
 };
 
-export const outerCircleLayerOptionsForPeopleTargeted = {
+export const outerCircleLayerOptionsForPeopleTargeted: Omit<CircleLayer, 'id'> = {
     type: 'circle',
     paint: outerCirclePaintForPeopleTargeted,
 };

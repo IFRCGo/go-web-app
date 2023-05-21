@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import {
     _cs,
     isDefined,
@@ -12,6 +12,7 @@ import Map, {
     MapContainer,
     MapSource,
     MapLayer,
+    MapPopup,
 } from '@togglecorp/re-map';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
@@ -44,12 +45,43 @@ import {
     outerCircleLayerOptionsForPeopleTargeted,
     basePointLayerOptions,
     APPEAL_TYPE_MULTIPLE,
+
+    adminFillLayerOptions,
+    adminLabelLayerOptions,
 } from './utils';
 import styles from './styles.module.css';
 
 const today = new Date().toISOString();
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
+};
+
+interface CountryProperties {
+    country_id: number;
+    disputed: boolean;
+    fdrs: string;
+    independent: boolean;
+    is_deprecated: boolean;
+    iso: string;
+    iso3: string;
+    name: string;
+    name_ar: string;
+    name_es: string;
+    name_fr: string;
+    record_type: number;
+    region_id: number;
+}
+
+interface ClickedPoint {
+    feature: GeoJSON.Feature<GeoJSON.Point, CountryProperties>;
+    lngLat: mapboxgl.LngLatLike;
+}
+
+const popupOptions: mapboxgl.PopupOptions = {
+    closeButton: true,
+    closeOnClick: false,
+    closeOnMove: false,
+    offset: 8,
 };
 
 interface Props {
@@ -60,6 +92,11 @@ function ActiveOperationMap(props: Props) {
     const {
         className,
     } = props;
+
+    const [
+        clickedPointProperties,
+        setClickedPointProperties,
+    ] = useState<ClickedPoint| undefined>();
 
     const [scaleBy, setScaleBy] = useInputState<ScaleOption['value']>('peopleTargeted');
     const strings = useTranslation('common', commonStrings);
@@ -91,7 +128,7 @@ function ActiveOperationMap(props: Props) {
     ]), [strings]);
 
     const countryCentroidGeoJson = useMemo(
-        (): GeoJSON.FeatureCollection => {
+        (): GeoJSON.FeatureCollection<GeoJSON.Geometry> => {
             const countryGroupedAppeal = listToGroupList(
                 appealResponse?.results ?? [],
                 (appeal) => appeal.country.iso3,
@@ -164,6 +201,24 @@ function ActiveOperationMap(props: Props) {
         { numAppeals: appealResponse?.count ?? '--' },
     );
 
+    const handleCountryClick = useCallback((
+        feature: mapboxgl.MapboxGeoJSONFeature,
+        lngLat: mapboxgl.LngLatLike,
+    ) => {
+        setClickedPointProperties({
+            feature: feature as unknown as ClickedPoint['feature'],
+            lngLat,
+        });
+        return false;
+    }, []);
+
+    const handlePointClose = useCallback(
+        () => {
+            setClickedPointProperties(undefined);
+        },
+        [setClickedPointProperties],
+    );
+
     return (
         <Container
             className={_cs(styles.activeOperationMap, className)}
@@ -190,6 +245,25 @@ function ActiveOperationMap(props: Props) {
                     <GoMapDisclaimer className={styles.mapDisclaimer} />
                 </div>
                 <MapSource
+                    sourceKey="composite"
+                    managed={false}
+                >
+                    <MapLayer
+                        layerKey="admin-0"
+                        hoverable
+                        layerOptions={adminFillLayerOptions}
+                        onClick={handleCountryClick}
+                    />
+                    <MapLayer
+                        layerKey="admin-0-label"
+                        layerOptions={adminLabelLayerOptions}
+                    />
+                    <MapLayer
+                        layerKey="admin-0-label-priority"
+                        layerOptions={adminLabelLayerOptions}
+                    />
+                </MapSource>
+                <MapSource
                     sourceKey="points"
                     sourceOptions={sourceOptions}
                     geoJson={countryCentroidGeoJson}
@@ -208,6 +282,18 @@ function ActiveOperationMap(props: Props) {
                         }
                     />
                 </MapSource>
+                {clickedPointProperties?.lngLat && (
+                    <MapPopup
+                        coordinates={clickedPointProperties.lngLat}
+                        popupOptions={popupOptions}
+                        onHide={handlePointClose}
+                        hidden={false}
+                    >
+                        <div>
+                            {clickedPointProperties.feature.properties.name}
+                        </div>
+                    </MapPopup>
+                )}
             </Map>
             <div className={styles.footer}>
                 <div className={styles.left}>

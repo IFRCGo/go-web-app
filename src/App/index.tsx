@@ -13,7 +13,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from 'react-router-dom';
-import { setMapboxToken } from '@togglecorp/re-map';
+import mapboxgl from 'mapbox-gl';
 import { unique } from '@togglecorp/fujs';
 
 import UserContext, { UserDetails, USER_STORAGE_KEY } from '#contexts/user';
@@ -36,7 +36,7 @@ const requestContextValue = {
 };
 
 const router = createBrowserRouter(unwrappedRoutes);
-setMapboxToken(import.meta.env.APP_MAPBOX_ACCESS_TOKEN);
+mapboxgl.accessToken = import.meta.env.APP_MAPBOX_ACCESS_TOKEN;
 
 function App() {
     const [userDetails, setUserDetails] = useState<UserDetails>();
@@ -49,7 +49,7 @@ function App() {
 
     useEffect(() => {
         hydrateUser();
-    }, []);
+    }, [hydrateUser]);
 
     const [alerts, setAlerts] = useState<AlertParams[]>([]);
 
@@ -105,12 +105,12 @@ function App() {
         setUserDetails(undefined);
     }, []);
 
-    const setUser = useCallback((userDetails: UserDetails) => {
+    const setUser = useCallback((details: UserDetails) => {
         setToStorage(
             USER_STORAGE_KEY,
-            userDetails,
+            details,
         );
-        setUserDetails(userDetails);
+        setUserDetails(details);
     }, []);
 
     const userContextValue = useMemo(() => ({
