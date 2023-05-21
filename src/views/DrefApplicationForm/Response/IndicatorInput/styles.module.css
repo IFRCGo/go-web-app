@@ -1,0 +1,10 @@
+.indicator {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+    align-items: center;
+
+    .inputs {
+        display: flex;
+        gap: var(--go-ui-spacing-md);
+    }
+}

@@ -1,0 +1,12 @@
+.image-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--go-ui-spacing-medium);
+
+    .caption-input {
+        padding: 0;
+        width: 100%;
+        max-width: 12rem;
+    }
+}

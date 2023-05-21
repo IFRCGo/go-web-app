@@ -62,9 +62,9 @@ const account = {
     accountPerTitle: 'PER Forms',
     accountPerPermission: 'Please Log In',
     accountOperationFollowing: 'Operations following',
-}
+};
 
 export type AccountStrings = typeof account;
 
 export default account;
-kj
+kj;

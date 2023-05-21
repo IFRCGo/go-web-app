@@ -46,8 +46,8 @@ function SearchSelectInput<N extends NameType, O, V extends ValueType>(props: Pr
 
     const handleChange = useCallback((selectedOption: O | null) => {
         if (selectedOption) {
-            const value = keySelector(selectedOption);
-            onChange(value, name);
+            const valueForSelectOption = keySelector(selectedOption);
+            onChange(valueForSelectOption, name);
         } else {
             onChange(undefined, name);
         }
@@ -86,14 +86,19 @@ function SearchSelectInput<N extends NameType, O, V extends ValueType>(props: Pr
             inputSectionClassName={styles.inputSection}
             input={(
                 <AsyncSelect
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...otherProps}
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...readOnlyProps}
                     cacheOptions
                     options={options}
                     value={selectedValue}
                     loadOptions={loadOptions}
                     classNames={{
-                        control: (state) => _cs(styles.control, state.isFocused ? styles.isFocused : undefined),
+                        control: (state) => _cs(
+                            styles.control,
+                            state.isFocused ? styles.isFocused : undefined,
+                        ),
                         valueContainer: () => styles.valueContainer,
                         indicatorsContainer: () => styles.indicatorContainer,
                         indicatorSeparator: () => styles.indicatorSeparator,

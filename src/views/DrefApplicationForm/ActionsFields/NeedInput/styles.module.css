@@ -1,0 +1,19 @@
+@import '~styles/settings/variables';
+
+.content {
+  display: flex;
+  align-items: flex-end;
+
+  >* {
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  .remove-button {
+    flex-basis: unset;
+    flex-grow: unset;
+    flex-shrink: 0;
+    margin-bottom: 0.5em;
+    padding: $spacing*0.5 $spacing;
+  }
+}

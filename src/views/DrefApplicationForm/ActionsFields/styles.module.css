@@ -1,0 +1,10 @@
+@import '~styles/settings/_variables.scss';
+
+.national-society-actions,
+.needs-identified {
+  .actions {
+    display: flex;
+    align-items: flex-end;
+    padding: $spacing*0.5;
+  }
+}

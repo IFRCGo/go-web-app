@@ -1,0 +1,16 @@
+.risk-security-input {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--go-ui-spacing-md);
+
+    >* {
+        flex-basis: 0;
+        flex-grow: 1;
+    }
+
+    .remove-button {
+        flex-basis: unset;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+}

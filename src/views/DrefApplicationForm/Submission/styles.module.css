@@ -1,0 +1,8 @@
+.submission {
+    :global {
+        .go-input-section {
+            margin: var(--go-ui-spacing-md) 0;
+            box-shadow: var(--go-ui-box-shadow-md);
+        }
+    }
+}

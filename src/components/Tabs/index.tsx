@@ -8,25 +8,25 @@ import {
 } from './TabContext';
 
 export interface BaseProps {
-  children: React.ReactNode;
-  variant?: TabVariant;
-  disabled?: boolean;
+    children: React.ReactNode;
+    variant?: TabVariant;
+    disabled?: boolean;
 }
 
 export type Props<T extends TabKey> = BaseProps & (
-  {
-    useHash: true;
-    initialHash?: string;
-    value?: never;
-    onChange?: never;
-  } | {
-    useHash?: false;
-    value: T;
-    onChange: (key: T) => void;
-  }
+    {
+        useHash: true;
+        initialHash?: string;
+        value?: never;
+        onChange?: never;
+    } | {
+        useHash?: false;
+        value: T;
+        onChange: (key: T) => void;
+    }
 );
 
-export function Tabs<T extends TabKey>(props: Props<T>) {
+function Tabs<T extends TabKey>(props: Props<T>) {
     const {
         children,
         variant = 'primary',
@@ -64,12 +64,14 @@ export function Tabs<T extends TabKey>(props: Props<T>) {
     const hash = useHash(props.useHash ? props.initialHash : undefined, !!props.useHash);
 
     const contextValue = React.useMemo(() => {
+        // eslint-disable-next-line react/destructuring-assignment
         if (props.useHash) {
             return {
                 tabs,
                 variant,
                 disabled,
                 hash,
+                // eslint-disable-next-line react/destructuring-assignment
                 useHash: props.useHash,
                 registerTab,
                 unregisterTab,
@@ -84,7 +86,9 @@ export function Tabs<T extends TabKey>(props: Props<T>) {
             tabs,
             variant,
             disabled,
+            // eslint-disable-next-line react/destructuring-assignment
             activeTab: props.value,
+            // eslint-disable-next-line react/destructuring-assignment
             setActiveTab: props.onChange as (key: TabKey | undefined) => void,
             registerTab,
             unregisterTab,
@@ -93,10 +97,13 @@ export function Tabs<T extends TabKey>(props: Props<T>) {
         };
     }, [
         tabs,
+        // eslint-disable-next-line react/destructuring-assignment
         props.value,
+        // eslint-disable-next-line react/destructuring-assignment
         props.onChange,
         variant,
         disabled,
+        // eslint-disable-next-line react/destructuring-assignment
         props.useHash,
         hash,
         registerTab,

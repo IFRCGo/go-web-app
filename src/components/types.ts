@@ -1,2 +1,2 @@
-export type NameType = string | undefined;
+export type NameType = string | number | undefined;
 export type ValueType = string | number;

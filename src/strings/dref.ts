@@ -175,6 +175,10 @@ const dref = {
     drefFormEndDateSubmissionDescription: 'Added by the regional office',
     drefFormMaxThreeHundredCharacters: 'Max 300 characters',
 
+    drefConflictWhileSaving: 'There\'s a newer version of current DREF application which was modified by &nbsp;',
+    drefChangesWillBeOverridden: 'If you continue saving, the previous changes will be overwritten by your changes.',
+    drefChangesWillBeOverriddenNote: '&nbsp;You can open this DREF application in a new tab and verify / merge the changes manually.',
+
     drefFormCopyFRFailureMessage: 'Failed to get details for selected field report',
     drefFormCopyFRSuccessMessage: 'Successfully copied some data from the selected field report',
     drefFormCopyButtonLabel: 'Copy',
@@ -239,6 +243,7 @@ const dref = {
 
     drefFormEssentialInformation: 'Essential Information',
     drefFormNationalSociety: 'Name of National Society',
+    drefFormTypeOfDref: 'Type of DREF',
     drefFormForAssessment: 'Is this the DREF for assessment?',
     drefFormDisasterDetails: 'Disaster Details',
     drefFormImminentDisasterDetails: 'Hazard Details',

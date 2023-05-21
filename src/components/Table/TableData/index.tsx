@@ -3,7 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-export type Props  = Omit<HTMLProps<HTMLTableCellElement>, 'ref'>;
+export type Props = Omit<HTMLProps<HTMLTableCellElement>, 'ref'>;
 
 function TableData(props: Props) {
     const {

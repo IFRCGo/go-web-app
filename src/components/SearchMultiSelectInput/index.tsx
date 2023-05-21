@@ -8,15 +8,15 @@ import { NameType, ValueType } from '#components/types';
 import styles from './styles.module.css';
 
 type InheritedProps<O> = Omit<InputContainerProps, 'input'>
-  & Omit<AsyncProps<O, true, GroupBase<O>>, 'className' | 'onChange' | 'value' | 'isMulti' | 'name' | 'options' | 'isDisabled' | 'classNames' | 'required' | 'isSearchable'>
+    & Omit<AsyncProps<O, true, GroupBase<O>>, 'className' | 'onChange' | 'value' | 'isMulti' | 'name' | 'options' | 'isDisabled' | 'classNames' | 'required' | 'isSearchable'>
 
 type Props<N, O, V extends ValueType> = InheritedProps<O> & {
-  inputClassName?: string;
-  name: N;
-  options: O[];
-  keySelector: (option: O) => V;
-  value: V[] | null | undefined;
-  onChange: (newValue: V[] | undefined, name: N) => void;
+    inputClassName?: string;
+    name: N;
+    options: O[];
+    keySelector: (option: O) => V;
+    value: V[] | null | undefined;
+    onChange: (newValue: V[] | undefined, name: N) => void;
 };
 
 function SearchMultiSelectInput<N extends NameType, O, V extends ValueType>(props: Props<N, O, V>) {
@@ -85,11 +85,16 @@ function SearchMultiSelectInput<N extends NameType, O, V extends ValueType>(prop
             withAsterisk={withAsterisk}
             input={(
                 <AsyncSelect
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...otherProps}
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...readOnlyProps}
                     value={selectedValues}
                     classNames={{
-                        control: (state) => _cs(styles.control, state.isFocused ? styles.isFocused : undefined),
+                        control: (state) => _cs(
+                            styles.control,
+                            state.isFocused ? styles.isFocused : undefined,
+                        ),
                         valueContainer: () => styles.valueContainer,
                         indicatorsContainer: () => styles.indicatorContainer,
                         indicatorSeparator: () => styles.indicatorSeparator,

@@ -30,7 +30,7 @@ function Message(props: Props) {
         styles.message,
         errored && styles.errored,
         classNameFromProps,
-    )
+    );
 
     if (pending) {
         return (

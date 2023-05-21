@@ -23,7 +23,7 @@ const region = {
     regionalTabBox1: 'National Societies in {regionName}',
     regionalTabBox2: 'National Country Clusters',
     regionalTabBoxSource: 'Source: IFRC',
-}
+};
 
 export type RegionStrings = typeof region;
 

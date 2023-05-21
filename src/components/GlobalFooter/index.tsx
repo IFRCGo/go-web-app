@@ -112,7 +112,7 @@ function GlobalFooter(props: Props) {
                     <Link to="https://twitter.com/ifrcgo">
                         <CheckboxCircleLineIcon />
                     </Link>
-                    <Link to='https://www.youtube.com/watch?v=dwPsQzla9A4'>
+                    <Link to="https://www.youtube.com/watch?v=dwPsQzla9A4">
                         <HeartLineIcon />
                     </Link>
                 </div>

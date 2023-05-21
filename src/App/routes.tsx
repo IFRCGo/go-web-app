@@ -114,6 +114,22 @@ const goUI = wrapRoute({
     parent: root,
 });
 
+const newDrefApplicationForm = wrapRoute({
+    title: 'New Dref Application Form',
+    path: '/dref-application/new/',
+    component: () => import('#views/DrefApplicationForm'),
+    componentProps: {},
+    parent: root,
+});
+
+const drefApplicationFormEdit = wrapRoute({
+    title: 'Dref Application Form',
+    path: '/dref-application/:drefId/edit/',
+    component: () => import('#views/DrefApplicationForm'),
+    componentProps: {},
+    parent: root,
+});
+
 const wrappedRoutes = {
     root,
     login,
@@ -129,6 +145,8 @@ const wrappedRoutes = {
     account,
     resources,
     goUI,
+    newDrefApplicationForm,
+    drefApplicationFormEdit,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

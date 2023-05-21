@@ -18,9 +18,8 @@ import styles from './styles.module.css';
 const keySelector = (emergency: Emergency) => emergency.id;
 const rendererParams = (_: Emergency['id'], emergency: Emergency) => ({
     data: emergency,
-    className: styles.operation
+    className: styles.operation,
 });
-
 
 interface Props {
     className?: string;

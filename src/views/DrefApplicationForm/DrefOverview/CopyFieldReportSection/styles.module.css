@@ -1,0 +1,4 @@
+.actions {
+    flex-grow: unset;
+    padding: var(--go-ui-spacing-medium);
+}

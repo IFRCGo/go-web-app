@@ -1,0 +1,32 @@
+.new-field-report-form {
+    padding: 0;
+
+    .tab-list {
+        justify-content: center;
+        margin: var(--go-ui-spacing-2xl) 4vw;
+    }
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--go-ui-spacing-3xl) var(--go-ui-spacing-xl);
+
+    >* {
+        margin: 0 var(--go-ui-spacing-xs);
+    }
+}
+
+.error-message {
+    opacity: 0.7;
+    padding: var(--go-ui-spacing-4xl) var(--go-ui-spacing-2xl) !important;
+
+    h3 {
+        color: var(--go-ui-color-red);
+    }
+
+    p {
+        margin: 0;
+    }
+}

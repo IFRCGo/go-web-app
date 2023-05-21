@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
+
 import BodyOverlay from '#components/BodyOverlay';
 import Header from '#components/Header';
 import { Props as HeadingProps } from '#components/Heading';
-import Footer from '#components/Footer';
+import useBasicLayout from '#hooks/useBasicLayout';
 import IconButton from '#components/IconButton';
 import { CloseFillIcon } from '@ifrc-go/icons';
 import { FocusOn } from 'react-focus-on';
@@ -17,7 +18,9 @@ interface Props {
     closeOnClickOutside?: boolean;
     closeOnEscape?: boolean;
     footerClassName?: string;
+    footerIcons?: React.ReactNode;
     footerContent?: React.ReactNode;
+    footerActions?: React.ReactNode;
     headerClassName?: string;
     onCloseButtonClick: () => void;
     opened: boolean;
@@ -25,7 +28,7 @@ interface Props {
     size?: SizeType;
     title?: React.ReactNode;
     headingLevel?: HeadingProps['level'];
-    withCloseButton?: boolean;
+    hideCloseButton?: boolean;
     bodyClassName?: string;
 }
 
@@ -36,7 +39,9 @@ function Modal(props: Props) {
         className,
         closeOnClickOutside = true,
         closeOnEscape = true,
-        footerClassName,
+        footerClassName: footerClassNameFromProps,
+        footerIcons,
+        footerActions,
         footerContent,
         headerClassName,
         onCloseButtonClick,
@@ -45,10 +50,10 @@ function Modal(props: Props) {
         size = 'xl',
         title,
         headingLevel,
-        withCloseButton = true,
+        hideCloseButton = false,
     } = props;
 
-    const hasHeader = !!title || withCloseButton;
+    const hasHeader = !!title || hideCloseButton;
     const sizeStyle = styles[`size-${size}`];
 
     const handleClickOutside = useCallback(() => {
@@ -62,6 +67,15 @@ function Modal(props: Props) {
             onCloseButtonClick();
         }
     }, [onCloseButtonClick, closeOnEscape]);
+
+    const {
+        containerClassName: footerClassName,
+        content: footer,
+    } = useBasicLayout({
+        icons: footerIcons,
+        children: footerContent,
+        actions: footerActions,
+    });
 
     return (
         <div>
@@ -84,7 +98,7 @@ function Modal(props: Props) {
                                     className={_cs(headerClassName, styles.modalHeader)}
                                     heading={title}
                                     headingLevel={headingLevel}
-                                    actions={withCloseButton && (
+                                    actions={hideCloseButton && (
                                         <IconButton
                                             name={undefined}
                                             onClick={onCloseButtonClick}
@@ -99,9 +113,15 @@ function Modal(props: Props) {
                             <div className={_cs(styles.modalBody, bodyClassName)} id="modalBody">
                                 {children}
                             </div>
-                            <Footer className={_cs(styles.modalFooter, footerClassName)}>
-                                {footerContent}
-                            </Footer>
+                            <footer
+                                className={_cs(
+                                    footerClassName,
+                                    footerClassNameFromProps,
+                                    styles.modalFooter,
+                                )}
+                            >
+                                {footer}
+                            </footer>
                         </div>
                     </FocusOn>
                 </BodyOverlay>

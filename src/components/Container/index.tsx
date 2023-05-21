@@ -17,6 +17,8 @@ export interface Props {
     footerContentClassName?: string;
     footerClassName?: string;
     footerActions?: React.ReactNode;
+    headerDescription?: React.ReactNode;
+    headerDescriptionClassName?: string;
     childrenContainerClassName?: string,
     withHeaderBorder?: boolean;
     ellipsizeHeading?: boolean;
@@ -30,6 +32,8 @@ function Container(props: Props) {
         headingLevel,
         actions,
         children,
+        headerDescription,
+        headerDescriptionClassName,
         childrenContainerClassName,
         footerIcons,
         footerContent,
@@ -63,6 +67,11 @@ function Container(props: Props) {
                 icons={icons}
                 ellipsizeHeading={ellipsizeHeading}
             />
+            {headerDescription && (
+                <div className={_cs(headerDescriptionClassName)}>
+                    {headerDescription}
+                </div>
+            )}
             {withHeaderBorder && <div className={styles.border} />}
             <div className={_cs(styles.content, childrenContainerClassName)}>
                 {children}

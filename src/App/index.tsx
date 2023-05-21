@@ -105,12 +105,12 @@ function App() {
         setUserDetails(undefined);
     }, []);
 
-    const setUser = useCallback((details: UserDetails) => {
+    const setUser = useCallback((newUserDetails: UserDetails) => {
         setToStorage(
             USER_STORAGE_KEY,
-            details,
+            newUserDetails,
         );
-        setUserDetails(details);
+        setUserDetails(newUserDetails);
     }, []);
 
     const userContextValue = useMemo(() => ({
