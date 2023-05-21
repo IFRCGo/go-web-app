@@ -1,16 +1,10 @@
 .header-cell {
     display: flex;
-    flex-direction: column;
-    font-weight: var(--go-ui-font-weight-bold);
+    align-items: center;
+    font-weight: var(--go-ui-font-weight-medium);
+    gap: var(--go-ui-spacing-sm);
 
-    .title-container {
-        display: flex;
-        align-items: center;
-
-        .title {
-            display: flex;
-            flex-grow: 1;
-            text-align: left;
-        }
+    .sort-button {
+        flex-shrink: 0;
     }
 }

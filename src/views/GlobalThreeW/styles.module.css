@@ -1,0 +1,10 @@
+.global-three-w {
+    .description {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .im-link {
+        display: inline-block;
+    }
+}

@@ -12,6 +12,9 @@ import {
     createDateColumn,
 } from '#components/Table/columnShortcuts';
 
+import styles from './styles.module.css';
+
+// This is already defined in #types/emergency
 interface Appeal {
     aid: string;
     name: string;
@@ -83,18 +86,27 @@ const columns = [
         'start_date',
         'Start Date',
         (item) => item.start_date,
-        { sortable: true },
+        {
+            sortable: true,
+            columnClassName: styles.startDate,
+        },
     ),
     createStringColumn<Appeal, string>(
         'atype',
         'Type',
         (item) => item.atype_display,
-        { sortable: true },
+        {
+            sortable: true,
+            columnClassName: styles.appealType,
+        },
     ),
     createStringColumn<Appeal, string>(
         'code',
         'Code',
         (item) => item.code,
+        {
+            columnClassName: styles.code,
+        },
     ),
     createStringColumn<Appeal, string>(
         'operation',
@@ -103,7 +115,7 @@ const columns = [
     ),
     createStringColumn<Appeal, string>(
         'dtype',
-        'DisasterType',
+        'Disaster Type',
         (item) => item.dtype.name,
         { sortable: true },
     ),
@@ -133,8 +145,6 @@ function AppealsTable() {
     const sortState = useSortState('start_date');
     const { sorting } = sortState;
 
-    console.log(sorting);
-
     const {
         pending: appealsPending,
         response: appealsResponse,
@@ -154,14 +164,14 @@ function AppealsTable() {
         },
     });
 
+    /*
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
     } = useRequest<ListResponse<DisasterType>>({
         url: 'api/v2/disaster_type/',
     });
-
-    console.log(disasterTypePending, disasterTypeResponse);
+    */
 
     return (
         <div>
@@ -170,6 +180,7 @@ function AppealsTable() {
             )}
             <SortContext.Provider value={sortState}>
                 <Table
+                    className={styles.appealsTable}
                     columns={columns}
                     keySelector={keySelector}
                     data={appealsResponse?.results}

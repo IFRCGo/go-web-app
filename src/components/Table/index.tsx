@@ -106,6 +106,8 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         headersHidden,
     } = props;
 
+    console.info('fixed column width', fixedColumnWidth);
+
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [tableName] = React.useState(() => randomString());
@@ -167,6 +169,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
             if (!column) {
                 return;
             }
+
             column.style.width = `${width}px`;
 
             if (!fixedColumnWidth) {
@@ -225,7 +228,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                             } = column;
 
                             const columnWidth = columnWidths[id];
-                            const style = { width: `${columnWidth}px` };
+                            const style = fixedColumnWidth ? { width: `${columnWidth}px` } : undefined;
 
                             return (
                                 <col
@@ -277,7 +280,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                                                 ? handleColumnResizeComplete
                                                 : undefined}
                                             className={_cs(
-                                                styles.headerCell,
+                                                styles.headerElement,
                                                 typeof headerCellClassName === 'function'
                                                     ? headerCellClassName(id)
                                                     : headerCellClassName,

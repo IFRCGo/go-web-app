@@ -15,6 +15,7 @@ interface Props {
     actions?: React.ReactNode;
     heading?: React.ReactNode;
     description?: React.ReactNode;
+    descriptionContainerClassName?: string;
     breadCrumbs?: React.ReactNode;
     info?: React.ReactNode;
     children?: React.ReactNode;
@@ -31,6 +32,7 @@ function Page(props: Props) {
         actions,
         heading,
         description,
+        descriptionContainerClassName,
         breadCrumbs,
         info,
         children,
@@ -67,7 +69,7 @@ function Page(props: Props) {
                     { heading }
                 </Heading>
                 {description && (
-                    <div className={styles.description}>
+                    <div className={_cs(styles.description, descriptionContainerClassName)}>
                         { description }
                     </div>
                 )}

@@ -26,7 +26,6 @@ function HeaderCell(props: HeaderCellProps) {
     const {
         className,
         titleClassName,
-        titleContainerClassName,
         title,
         name,
 
@@ -76,28 +75,21 @@ function HeaderCell(props: HeaderCellProps) {
                 styles.headerCell,
             )}
         >
-            <div
-                className={_cs(titleContainerClassName, styles.titleContainer)}
-            >
-                <div
-                    className={_cs(titleClassName, styles.title)}
+            {sortable && (
+                <Button
+                    name={undefined}
+                    variant="tertiary"
+                    onClick={handleSortClick}
+                    title="Sort column"
+                    className={styles.sortButton}
                 >
-                    {sortable && (
-                        <Button
-                            name={undefined}
-                            variant="tertiary"
-                            onClick={handleSortClick}
-                            title="Sort column"
-                        >
-                            {!sortDirection && <FaSort />}
-                            {sortDirection === 'asc' && <FaSortUp />}
-                            {sortDirection === 'dsc' && <FaSortDown />}
-                        </Button>
-                    )}
-                    <div>
-                        {title}
-                    </div>
-                </div>
+                    {!sortDirection && <FaSort />}
+                    {sortDirection === 'asc' && <FaSortUp />}
+                    {sortDirection === 'dsc' && <FaSortDown />}
+                </Button>
+            )}
+            <div className={_cs(titleClassName, styles.title)}>
+                {title}
             </div>
         </div>
     );

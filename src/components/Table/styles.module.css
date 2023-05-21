@@ -1,7 +1,6 @@
 .container {
     display: flex;
     flex-direction: column;
-    --min-column-width: 8rem;
 
     .table {
         /* NOTE: This will ensure that the z-index in
@@ -9,20 +8,18 @@
         position: relative;
         z-index: 0;
 
-        table-layout: fixed;
         border-collapse: separate;
         border-spacing: 0;
         font-size: inherit;
 
-        .column {
-            min-width: var(--min-column-width);
-        }
-
         .header-row {
-            .header-cell {
+            .header-element {
                 overflow: hidden;
+                vertical-align: bottom;
+                text-align: left;
+
                 .header-component {
-                    padding: calc(var(--go-ui-spacing-md) - var(--go-ui-spacing-md));
+                    padding: var(--go-ui-spacing-md);
                     overflow: hidden;
                 }
             }
@@ -34,6 +31,7 @@
             }
 
             .cell {
+                padding: var(--go-ui-spacing-md);
                 overflow: hidden;
             }
 
