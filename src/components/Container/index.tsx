@@ -1,7 +1,8 @@
 import { _cs } from '@togglecorp/fujs';
 
 import useBasicLayout from '#hooks/useBasicLayout';
-import Heading, { Props as HeadingProps } from '#components/Heading';
+import Header from '#components/Header';
+import { Props as HeadingProps } from '#components/Heading';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -18,6 +19,7 @@ export interface Props {
     footerActions?: React.ReactNode;
     childrenContainerClassName?: string,
     withHeaderBorder?: boolean;
+    ellipsizeHeading?: boolean;
 }
 
 function Container(props: Props) {
@@ -35,20 +37,8 @@ function Container(props: Props) {
         footerClassName,
         footerActions,
         withHeaderBorder,
+        ellipsizeHeading,
     } = props;
-
-    const {
-        containerClassName: headerClassName,
-        content: header,
-    } = useBasicLayout({
-        icons,
-        children: (
-            <Heading level={headingLevel}>
-                {heading}
-            </Heading>
-        ),
-        actions,
-    });
 
     const {
         containerClassName: footerContainerClassName,
@@ -61,18 +51,29 @@ function Container(props: Props) {
         className: footerClassName,
     });
 
+    const showFooter = footerIcons || footerContent || footerActions;
+
     return (
         <div className={_cs(styles.container, className)}>
-            <header className={headerClassName}>
-                {header}
-            </header>
+            <Header
+                className={styles.header}
+                headingLevel={headingLevel}
+                heading={heading}
+                actions={actions}
+                icons={icons}
+                ellipsizeHeading={ellipsizeHeading}
+            />
             {withHeaderBorder && <div className={styles.border} />}
-            <div className={childrenContainerClassName}>
+            <div className={_cs(styles.content, childrenContainerClassName)}>
                 {children}
             </div>
-            <footer className={footerContainerClassName}>
-                {footer}
-            </footer>
+            {showFooter && (
+                <footer
+                    className={_cs(styles.footer, footerContainerClassName)}
+                >
+                    {footer}
+                </footer>
+            )}
         </div>
     );
 }

@@ -359,6 +359,7 @@ const common = {
     operationPopoverActivity: 'Activity: {activity}',
     operationPopoverStart: 'Start: {start}',
     operationPopoverEnd: 'End: {end}',
+    operationPopoverEmpty: 'No Current Operations',
 
     // not used -   editPerFormsTitle: 'IFRC GO - Emergencies',
     footerAboutGo: 'About Go',

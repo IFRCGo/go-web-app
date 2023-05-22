@@ -22,6 +22,7 @@ export const ADAM_COLOR_CONES = '#256db6';
 export const COLOR_WHITE = '#ffffff';
 export const COLOR_TEXT = '#707070';
 export const COLOR_LIGHT_GREY = '#e0e0e0';
+export const COLOR_DARK_GREY = '#a5a5a5';
 export const COLOR_BLACK = '#000000';
 export const COLOR_LIGHT_YELLOW = '#ffd470';
 export const COLOR_YELLOW = '#ff9e00';

@@ -1,0 +1,50 @@
+.map-popup {
+    display: flex;
+    width: 20rem;
+    padding: 0;
+    max-height: 20rem;
+    min-height: 10rem;
+    font-size: 1rem;
+    font-family: var(--go-ui-font-family-sans);
+    overflow: auto;
+
+    :global {
+        .mapboxgl-tip {
+            flex-shrink: 0;
+        }
+
+        .mapboxgl-popup-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            flex-grow: 1;
+            overflow: auto;
+
+            >div {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+                overflow: auto;
+            }
+        }
+    }
+
+    .container {
+        flex-grow: 1;
+        width: 100%;
+        height: 100%;
+        gap: var(--go-ui-spacing-sm);
+        padding: var(--go-ui-spacing-md);
+        overflow: auto;
+
+        .close-button {
+            font-size: var(--go-ui-font-size-xl);
+        }
+
+        .content {
+            overflow: auto;
+        }
+    }
+}
+

@@ -4,6 +4,8 @@ import {
     COLOR_YELLOW,
     COLOR_ORANGE,
     COLOR_BLUE,
+    COLOR_LIGHT_GREY,
+    COLOR_DARK_GREY,
 } from '#utils/map';
 import type {
     CirclePaint,
@@ -39,8 +41,8 @@ export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
         'fill-color': [
             'case',
             ['boolean', ['feature-state', 'hovered'], false],
-            '#EC407A',
-            '#FCE4EC',
+            COLOR_DARK_GREY,
+            COLOR_LIGHT_GREY,
         ],
     },
 };

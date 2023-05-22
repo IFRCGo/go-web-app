@@ -1,4 +1,5 @@
 import { useMemo, useCallback, useState } from 'react';
+import { generatePath } from 'react-router-dom';
 import {
     _cs,
     isDefined,
@@ -12,7 +13,6 @@ import Map, {
     MapContainer,
     MapSource,
     MapLayer,
-    MapPopup,
 } from '@togglecorp/re-map';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
@@ -24,6 +24,9 @@ import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
 import Link from '#components/Link';
+import MapPopup from '#components/MapPopup';
+import TextOutput from '#components/TextOutput';
+import Heading from '#components/Heading';
 import useInputState from '#hooks/useInputState';
 import {
     defaultMapStyle,
@@ -34,6 +37,7 @@ import { Country } from '#types/country';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 import commonStrings from '#strings/common';
+import routes from '#routes';
 
 import {
     ScaleOption,
@@ -76,13 +80,6 @@ interface ClickedPoint {
     feature: GeoJSON.Feature<GeoJSON.Point, CountryProperties>;
     lngLat: mapboxgl.LngLatLike;
 }
-
-const popupOptions: mapboxgl.PopupOptions = {
-    closeButton: true,
-    closeOnClick: false,
-    closeOnMove: false,
-    offset: 8,
-};
 
 interface Props {
     className?: string;
@@ -127,13 +124,15 @@ function ActiveOperationMap(props: Props) {
         getLegendOptions(strings),
     ]), [strings]);
 
+    const countryGroupedAppeal = useMemo(() => (
+        listToGroupList(
+            appealResponse?.results ?? [],
+            (appeal) => appeal.country.iso3,
+        )
+    ), [appealResponse]);
+
     const countryCentroidGeoJson = useMemo(
         (): GeoJSON.FeatureCollection<GeoJSON.Geometry> => {
-            const countryGroupedAppeal = listToGroupList(
-                appealResponse?.results ?? [],
-                (appeal) => appeal.country.iso3,
-            );
-
             const countryToOperationTypeMap = mapToMap(
                 countryGroupedAppeal,
                 (key) => key,
@@ -193,7 +192,7 @@ function ActiveOperationMap(props: Props) {
                     }).filter(isDefined) ?? [],
             };
         },
-        [countryResponse, appealResponse],
+        [countryResponse, countryGroupedAppeal],
     );
 
     const heading = resolveToComponent(
@@ -218,6 +217,10 @@ function ActiveOperationMap(props: Props) {
         },
         [setClickedPointProperties],
     );
+
+    const popupDetails = clickedPointProperties
+        ? countryGroupedAppeal[clickedPointProperties.feature.properties.iso3]
+        : undefined;
 
     return (
         <Container
@@ -284,14 +287,52 @@ function ActiveOperationMap(props: Props) {
                 </MapSource>
                 {clickedPointProperties?.lngLat && (
                     <MapPopup
+                        onCloseButtonClick={handlePointClose}
                         coordinates={clickedPointProperties.lngLat}
-                        popupOptions={popupOptions}
-                        onHide={handlePointClose}
-                        hidden={false}
+                        heading={(
+                            <Link
+                                to={
+                                    generatePath(
+                                        routes.country.absolutePath,
+                                        // eslint-disable-next-line max-len
+                                        { countryId: clickedPointProperties.feature.properties.country_id },
+                                    )
+                                }
+                            >
+                                {clickedPointProperties.feature.properties.name}
+                            </Link>
+                        )}
+                        childrenContainerClassName={styles.popupContent}
                     >
-                        <div>
-                            {clickedPointProperties.feature.properties.name}
-                        </div>
+                        {popupDetails?.map(
+                            (appeal) => (
+                                <div
+                                    key={appeal.id}
+                                    className={styles.popupAppealDetail}
+                                >
+                                    <Heading level={5}>
+                                        {appeal.name}
+                                    </Heading>
+                                    <TextOutput
+                                        value={+appeal.num_beneficiaries}
+                                        description={strings.operationPopoverPeopleAffected}
+                                    />
+                                    <TextOutput
+                                        value={+appeal.amount_requested}
+                                        description={strings.operationPopoverAmountRequested}
+                                    />
+                                    <TextOutput
+                                        value={appeal.amount_funded}
+                                        description={strings.operationPopoverAmountFunded}
+                                    />
+                                </div>
+                            ),
+                        )}
+                        {(!popupDetails || popupDetails.length === 0) && (
+                            <div className={styles.empty}>
+                                {strings.operationPopoverEmpty}
+                            </div>
+                        )}
                     </MapPopup>
                 )}
             </Map>

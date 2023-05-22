@@ -4,8 +4,11 @@
         align-items: baseline;
         flex-wrap: unset;
     }
+
     &.heading-ellipsized {
         .header-content {
+            overflow: auto;
+
             .heading-container {
                 overflow: auto;
 

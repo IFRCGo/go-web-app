@@ -20,7 +20,7 @@ interface Props {
     icon?: React.ReactNode;
 }
 
-function Card(props: Props) {
+function KeyFigure(props: Props) {
     const {
         className,
         children,
@@ -40,7 +40,7 @@ function Card(props: Props) {
         <div
             className={_cs(
                 styles.card,
-                icon && styles.withIcon,
+                !!icon && styles.withIcon,
                 className,
             )}
         >
@@ -76,4 +76,4 @@ function Card(props: Props) {
     );
 }
 
-export default Card;
+export default KeyFigure;

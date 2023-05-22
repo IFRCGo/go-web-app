@@ -9,7 +9,7 @@ export function Component() {
         <Page
             title={strings.homeTitle}
         >
-            Page
+            Country Page
         </Page>
     );
 }

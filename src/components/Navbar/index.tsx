@@ -5,6 +5,7 @@ import Link from '#components/Link';
 import TextInput from '#components/TextInput';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import RegionDropdown from '#components/RegionDropdown';
 import goLogo from '#assets/icons/go-logo-2020.svg';
 import commonStrings from '#strings/common';
 import useTranslation from '#hooks/useTranslation';
@@ -102,31 +103,7 @@ function Navbar(props: Props) {
                         >
                             {strings.headerMenuHome}
                         </Link>
-                        <DropdownMenu
-                            label={strings.menuRegions}
-                            variant="tertiary"
-                        >
-                            <DropdownMenuItem
-                                href="/"
-                                label={strings.regionNameAfrica}
-                            />
-                            <DropdownMenuItem
-                                href="/"
-                                label={strings.regionNameAmerica}
-                            />
-                            <DropdownMenuItem
-                                href="/"
-                                label={strings.regionNameAsia}
-                            />
-                            <DropdownMenuItem
-                                href="/"
-                                label={strings.regionNameEurope}
-                            />
-                            <DropdownMenuItem
-                                href="/"
-                                label={strings.regionNameMENA}
-                            />
-                        </DropdownMenu>
+                        <RegionDropdown />
                         <Link
                             to={routes.emergencies.absolutePath}
                             className={styles.menuItem}

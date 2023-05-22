@@ -13,7 +13,7 @@ import Popup from '#components/Popup';
 import Button, { Props as ButtonProps } from '#components/Button';
 import useBlurEffect from '#hooks/useBlurEffect';
 
-interface DropdownMenuProps {
+export interface Props {
     className?: string;
     dropdownContainerClassName?: string;
     children?: React.ReactNode;
@@ -25,7 +25,7 @@ interface DropdownMenuProps {
     hideDropdownIcon?: boolean;
 }
 
-function DropdownMenu(props: DropdownMenuProps) {
+function DropdownMenu(props: Props) {
     const {
         className,
         dropdownContainerClassName,
