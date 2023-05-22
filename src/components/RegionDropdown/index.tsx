@@ -24,6 +24,7 @@ function RegionDropdown(props: Props) {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
+            {/* TODO: Fetch these from server */}
             <DropdownMenuItem
                 href={generatePath(routes.region.absolutePath, { regionId: '0' })}
                 label={strings.regionNameAfrica}
