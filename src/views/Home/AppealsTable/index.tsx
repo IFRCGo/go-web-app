@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
     useRequest,
     ListResponse,
@@ -5,12 +6,14 @@ import {
 import BlockLoading from '#components/BlockLoading';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
-// import type { TableProps, Column } from '#components/Table';
+import SelectInput from '#components/SelectInput';
+import useInputState from '#hooks/useInputState';
 import {
     createStringColumn,
     createNumberColumn,
     createDateColumn,
 } from '#components/Table/columnShortcuts';
+import Pager from '#components/Pager';
 
 import styles from './styles.module.css';
 
@@ -73,8 +76,8 @@ interface AppealType {
     label: string;
 }
 
-const AppealTypeOptions: AppealType[] = [
-    { value: 'all', label: 'All Appeal Types' },
+const appealTypeOptions: AppealType[] = [
+    { value: 'all', label: 'All' },
     { value: '0', label: 'DREF' },
     { value: '1', label: 'Emergency Appeals' },
     { value: '2', label: 'Movement' },
@@ -141,9 +144,20 @@ const columns = [
 
 const keySelector = (item: Appeal) => item.id;
 
+const endDate = (new Date()).toISOString();
+
 function AppealsTable() {
-    const sortState = useSortState('start_date');
+    const sortState = useSortState();
     const { sorting } = sortState;
+
+    let ordering;
+    if (sorting) {
+        ordering = sorting.direction === 'dsc' ? `-${sorting.name}` : sorting.name;
+    }
+
+    const [appealType, setAppealType] = useInputState<string | undefined>('all');
+    const [displacementType, setDisplacementType] = useInputState<number | undefined>(-1);
+    const [page, setPage] = useState(0);
 
     const {
         pending: appealsPending,
@@ -152,32 +166,50 @@ function AppealsTable() {
         url: 'api/v2/appeal/',
         query: {
             limit: 10,
-            offset: 0,
-            // ordering: sorting,
+            offset: page * 10,
+            ordering,
+            atype: appealType === 'all' ? undefined : appealType,
+            dtype: displacementType === -1 ? undefined : displacementType,
+            end_date__gt: endDate,
             /*
-            a_type: 0,
-            d_type: 0,
+            // TODO:
             start_date__gte: undefined,
             start_date__gte: undefined,
-            end_date__gt: now(),
             */
         },
     });
 
-    /*
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
     } = useRequest<ListResponse<DisasterType>>({
         url: 'api/v2/disaster_type/',
     });
-    */
 
     return (
         <div>
             {appealsPending && (
                 <BlockLoading />
             )}
+            <SelectInput
+                label="Appeal Type"
+                name={undefined}
+                value={appealType}
+                onChange={setAppealType}
+                keySelector={(item) => item.value}
+                labelSelector={(item) => item.label}
+                options={appealTypeOptions}
+            />
+            <SelectInput
+                label="Displacement Type"
+                name={undefined}
+                value={displacementType}
+                onChange={setDisplacementType}
+                keySelector={(item) => item.id}
+                labelSelector={(item) => item.name}
+                options={disasterTypeResponse?.results}
+                disabled={disasterTypePending}
+            />
             <SortContext.Provider value={sortState}>
                 <Table
                     className={styles.appealsTable}
@@ -186,6 +218,12 @@ function AppealsTable() {
                     data={appealsResponse?.results}
                 />
             </SortContext.Provider>
+            <Pager
+                activePage={page}
+                itemsCount={appealsResponse?.count ?? 0}
+                maxItemsPerPage={10}
+                onActivePageChange={setPage}
+            />
         </div>
     );
 }

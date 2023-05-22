@@ -12,8 +12,9 @@ type InheritedProps<O> = Omit<InputContainerProps, 'input'>
 type Props<N, O, V extends ValueType> = InheritedProps<O> & {
   inputClassName?: string;
   name: N;
-  options: O[];
+  options: O[] | null | undefined;
   keySelector: (option: O) => V;
+  labelSelector: (option: O) => string;
   value: V | null | undefined;
   onChange: (newValue: V | undefined, name: N) => void;
 };
@@ -38,17 +39,17 @@ function SelectInput<N extends NameType, O, V extends ValueType>(props: Props<N,
         options,
         value,
         keySelector,
+        labelSelector,
         ...otherProps
     } = props;
 
-    const handleChange = useCallback((selectedOption: O | null) => {
+    const handleChange = useCallback((selectedOption: { value: V, label: string } | null) => {
         if (selectedOption) {
-            const value = keySelector(selectedOption);
-            onChange(value, name);
+            onChange(selectedOption.value, name);
         } else {
             onChange(undefined, name);
         }
-    }, [onChange, name, keySelector]);
+    }, [onChange, name]);
 
     const selectedValue = useMemo(() => (
         options?.find((option) => keySelector(option) === value) ?? null
@@ -62,6 +63,14 @@ function SelectInput<N extends NameType, O, V extends ValueType>(props: Props<N,
             menuIsOpen: false,
         } : undefined
     ), [readOnly]);
+
+    const myOptions = useMemo(
+        () => options?.map((option) => ({
+            value: keySelector(option),
+            label: labelSelector(option),
+        })),
+        [keySelector, labelSelector, options],
+    );
 
     return (
         <InputContainer
@@ -94,7 +103,7 @@ function SelectInput<N extends NameType, O, V extends ValueType>(props: Props<N,
                         dropdownIndicator: () => styles.dropdownIndicator,
                         clearIndicator: () => styles.clearIndicator,
                     }}
-                    options={options}
+                    options={myOptions}
                     className={_cs(styles.select, inputClassName)}
                     name={name}
                     isDisabled={disabled}
