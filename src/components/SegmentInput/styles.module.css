@@ -3,7 +3,7 @@
 
     .list {
         border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-black);
-        border-radius: calc(#{var(--go-ui-spacing-md)} + 1em);
+        border-radius: calc(var(--go-ui-spacing-md) + 1em);
         background-color: var(--go-ui-color-background);
         padding: 0;
         width: fit-content;

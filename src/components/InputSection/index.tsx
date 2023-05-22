@@ -3,34 +3,34 @@ import { _cs } from '@togglecorp/fujs';
 import styles from './styles.module.css';
 
 export interface InputBaseProps {
-  className?: string;
-  title?: React.ReactNode;
-  children?: React.ReactNode;
-  description?: React.ReactNode;
-  contentSectionClassName?: string;
-  tooltip?: string;
-  multiRow?: boolean;
-  normalDescription?: boolean;
-  descriptionContainerClassName?: string;
-  fullWidthColumn?: boolean;
+    className?: string;
+    title?: React.ReactNode;
+    children?: React.ReactNode;
+    description?: React.ReactNode;
+    contentSectionClassName?: string;
+    tooltip?: string;
+    multiRow?: boolean;
+    normalDescription?: boolean;
+    descriptionContainerClassName?: string;
+    fullWidthColumn?: boolean;
 }
 
 type Props = InputBaseProps & ({
-  oneColumn: true;
-  twoColumn?: never;
-  threeColumn?: never;
+    oneColumn: true;
+    twoColumn?: never;
+    threeColumn?: never;
 } | {
-  oneColumn?: never;
-  twoColumn: true;
-  threeColumn?: never;
+    oneColumn?: never;
+    twoColumn: true;
+    threeColumn?: never;
 } | {
-  oneColumn?: never;
-  twoColumn?: never;
-  threeColumn: true;
+    oneColumn?: never;
+    twoColumn?: never;
+    threeColumn: true;
 } | {
-  oneColumn?: never;
-  twoColumn?: never;
-  threeColumn?: never;
+    oneColumn?: never;
+    twoColumn?: never;
+    threeColumn?: never;
 });
 
 function InputSection(props: Props) {
@@ -52,8 +52,11 @@ function InputSection(props: Props) {
             className,
             styles.inputSection,
             multiRow && styles.multiRow,
+            // eslint-disable-next-line react/destructuring-assignment
             props.oneColumn && styles.oneColumn,
+            // eslint-disable-next-line react/destructuring-assignment
             props.twoColumn && styles.twoColumn,
+            // eslint-disable-next-line react/destructuring-assignment
             props.threeColumn && styles.threeColumn,
             !normalDescription && styles.specialDescription,
             fullWidthColumn && styles.fullWidthColumn,

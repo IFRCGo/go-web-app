@@ -20,7 +20,7 @@ import {
 } from '@togglecorp/toggle-form';
 // import { IoCloudUploadSharp } from 'react-icons/io5';
 
-// import BlockLoading from '#components/block-loading';
+import BlockLoading from '#components/BlockLoading';
 import Button, { useButtonFeatures } from '#components/Button';
 import Container from '#components/Container';
 import NonFieldError from '#components/NonFieldError';
@@ -41,10 +41,10 @@ import useAlert from '#hooks/useAlert';
 import scrollToTop from '#utils/scrollToTop';
 
 import DrefOverview from './DrefOverview';
-// import EventDetails from './EventDetails';
-// import ActionsFields from './ActionsFields';
-// import Response from './Response';
-// import Submission from './Submission';
+import EventDetails from './EventDetails';
+import ActionsFields from './ActionsFields';
+import Response from './Response';
+import Submission from './Submission';
 import ObsoletePayloadResolutionModal from './ObsoletePayloadResolutionModal';
 import {
     DrefFields,
@@ -685,10 +685,7 @@ export function Component(props: Props) {
             >
                 {pending && (
                     <Container>
-                        Loading
-                        {/*
-                            <BlockLoading />
-                        */}
+                        <BlockLoading />
                     </Container>
                 )}
                 {failedToLoadDref && (
@@ -724,10 +721,7 @@ export function Component(props: Props) {
                                 onsetOptions={onsetOptions}
                                 disasterCategoryOptions={disasterCategoryOptions}
                                 countryOptions={countryOptions}
-                                fetchingCountries={fetchingCountries}
-                                fetchingDisasterTypes={fetchingDisasterTypes}
                                 nationalSocietyOptions={nationalSocietyOptions}
-                                fetchingNationalSociety={fetchingCountries}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 onValueSet={setValue}
@@ -738,7 +732,6 @@ export function Component(props: Props) {
                                 userOptions={userOptions}
                             />
                         </TabPanel>
-                        {/*
                         <TabPanel name="eventDetails">
                             <EventDetails
                                 onsetType={onsetType}
@@ -788,7 +781,6 @@ export function Component(props: Props) {
                                 value={value}
                             />
                         </TabPanel>
-                        */}
                         {drefType !== TYPE_LOAN && (
                             <div className={styles.actions}>
                                 <Button

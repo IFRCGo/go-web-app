@@ -64,9 +64,6 @@ interface Props {
     nationalSocietyOptions: NumericValueOption[];
     disasterCategoryOptions: NumericValueOption[];
     onsetOptions: NumericValueOption[];
-    fetchingCountries?: boolean;
-    fetchingDisasterTypes?: boolean;
-    fetchingNationalSociety?: boolean;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     onValueSet: (value: SetBaseValueArg<Value>) => void;
@@ -88,9 +85,6 @@ function DrefOverview(props: Props) {
 
     const {
         countryOptions,
-        fetchingCountries,
-        fetchingNationalSociety,
-        fetchingDisasterTypes,
         disasterTypeOptions,
         nationalSocietyOptions,
         error: formError,

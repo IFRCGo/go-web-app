@@ -52,6 +52,7 @@ function RawButton<N>(props: Props<N>) {
             )}
             disabled={disabled}
             onClick={onClick ? handleClick : undefined}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
             { children }
@@ -59,4 +60,5 @@ function RawButton<N>(props: Props<N>) {
     );
 }
 
-export default genericMemo(RawButton);
+const MemoizedRawButton = genericMemo(RawButton);
+export default MemoizedRawButton;

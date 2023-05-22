@@ -1,5 +1,5 @@
 import React from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isDefined } from '@togglecorp/fujs';
 import { NameType } from '#components/types';
 
 import styles from './styles.module.css';
@@ -40,13 +40,14 @@ function RawTextArea<N extends NameType>(props: Props<N>) {
 
     return (
         <textarea
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
             ref={elementRef}
             className={_cs(
                 styles.rawInput,
                 className,
             )}
-            name={name}
+            name={isDefined(name) ? String(name) : undefined}
             onChange={handleChange}
             value={value ?? ''}
         />

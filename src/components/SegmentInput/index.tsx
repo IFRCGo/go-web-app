@@ -1,4 +1,3 @@
-import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Button, { Props as ButtonProps } from '#components/Button';
@@ -28,6 +27,7 @@ function Segment<N, IN>(props: SegmentProps<N, IN>) {
 
     return (
         <Button
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
             className={_cs(
                 styles.segment,
@@ -45,24 +45,23 @@ function Segment<N, IN>(props: SegmentProps<N, IN>) {
 }
 
 export interface Props<
-  N,
-  O,
-  V,
-  RRP extends RadioProps<V, N>,
+    N,
+    O,
+    V,
+    RRP extends RadioProps<V, N>,
 > extends Omit<RadioInputProps<N, O, V, RRP>, 'rendererParams' | 'renderer' | 'listContainerClassName' | 'keySelector' | 'labelSelector'> {
-  rendererParams?: RadioInputProps<N, O, V, RRP>['rendererParams'];
-  listContainerClassName?: RadioInputProps<N, O, V, RRP>['listContainerClassName'];
-  keySelector: RadioInputProps<N, O, V, RRP>['keySelector'];
-  labelSelector: RadioInputProps<N, O, V, RRP>['labelSelector'];
+    rendererParams?: RadioInputProps<N, O, V, RRP>['rendererParams'];
+    listContainerClassName?: RadioInputProps<N, O, V, RRP>['listContainerClassName'];
+    keySelector: RadioInputProps<N, O, V, RRP>['keySelector'];
+    labelSelector: RadioInputProps<N, O, V, RRP>['labelSelector'];
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 function SegmentInput<
-  N,
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  O extends object,
-  V extends string | number | boolean,
-  RRP extends RadioProps<V, N>,
+    N,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    O extends object,
+    V extends string | number | boolean,
+    RRP extends RadioProps<V, N>,
 >(props: Props<N, O, V, RRP>) {
     const {
         rendererParams,
@@ -76,6 +75,7 @@ function SegmentInput<
     return (
         <RadioInput
             className={_cs(className, styles.segmentInput)}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
             renderer={Segment}
             rendererParams={rendererParams}
@@ -86,4 +86,5 @@ function SegmentInput<
     );
 }
 
-export default genericMemo(SegmentInput);
+const MemoizedInput = genericMemo(SegmentInput);
+export default MemoizedInput;

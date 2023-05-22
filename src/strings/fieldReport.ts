@@ -121,7 +121,8 @@ const fieldReport = {
     fieldsStep2SituationFieldsEWAffectedPopCenteresLabel: 'Largest Population Centres Likely to be Affected',
     fieldsStep2SituationFieldsEWAffectedPopCenteresDescription: 'Names of large cities or towns which are most at risk',
     fieldsStep2SituationFieldsDateEPILabel: 'Date of Data',
-    // not used -   fieldsStep2SituationFieldsDateEPIEstimationLabel: 'The key figures above are reported as of this date',
+    // not used -   fieldsStep2SituationFieldsDateEPIEstimationLabel: 'The key figures
+    // above are reported as of this date',
     fieldsStep2SituationFieldsDateEPIDescription: 'Date of figures reported.',
     fieldsStep2SituationFieldsEPICasesSinceDesciption: 'Number of registered cases since the last field report',
     fieldsStep2SituationFieldsEPIDeathsSinceDescription: 'Number of confirmed dead since the last field report',
@@ -171,7 +172,8 @@ const fieldReport = {
     fieldsStep3CheckboxSectionsFederationActionsEWDescription: 'Select the early action activities undertaken by the IFRC and give a brief description',
     fieldsStep3CheckboxSectionsFederationActionsEVTEPIEWPlaceholder: 'Brief description of the action',
     fieldsStep3CheckboxSectionsPNSActionsEVTLabel: 'Actions taken by any other RCRC Movement actors',
-    // not used -   fieldsStep3CheckboxSectionsPNSActionsEPILabel: 'Actions taken by other RCRC Movement',
+    // not used -   fieldsStep3CheckboxSectionsPNSActionsEPILabel: 'Actions
+    // taken by other RCRC Movement',
     fieldsStep3CheckboxSectionsPNSActionsEWLabel: 'Early Action Taken by other RCRC Movement',
     fieldsStep3CheckboxSectionsPNSActionsEVTEPIDescription: 'Select the activities undertaken by any other RCRC Movement actor(s) and briefly describe.',
     fieldsStep3CheckboxSectionsPNSActionsEPICOVDescription: `We understand multiple partners may be present so please highlight the main partners you have worked with since the last field report. Below are some guiding questions to help complete this section. These questions are meant to function as a guide only:
@@ -181,10 +183,12 @@ const fieldReport = {
     fieldsStep3CheckboxSectionsPNSActionsEWDescription: 'Select the early action activities undertaken by the RCRC Movement and give a brief description.',
     fieldsStep3CheckboxSectionsPNSActionsEVTEPIEWPlaceholder: 'Brief description of the action',
     fieldsStep3ActionsOthersEVTEPILabel: 'Actions Taken by Others (Governments, UN)',
-    // not used -   fieldsStep3ActionsOthersEWLabel: 'Early Actions Taken by Others (Governments, UN)',
+    // not used -   fieldsStep3ActionsOthersEWLabel: 'Early
+    // Actions Taken by Others (Governments, UN)',
     fieldsStep3ActionsOthersEVTEPIDescription: 'Who else was involved? UN agencies? NGOs? Government? Describe what other actors did. Also mention who the other actors are.',
     fieldsStep3ActionsOthersEPICOVDescription: 'Who else is your National Society working with? UN agencies? NGOs? Government? Since the last field report, outline the main actors your NS has been engaged with. We understand there may be many partners so please just highlight the main ones since the last field report.',
-    // not used -   fieldsStep3ActionsOthersEWDescription: 'List the early action activities undertaken by other actors, mention who the other actors are, and give a brief description.',
+    // not used -   fieldsStep3ActionsOthersEWDescription: 'List the early action activities
+    // undertaken by other actors, mention who the other actors are, and give a brief description.',
     fieldsStep3ActionsNotesPlaceholder: 'If selected any of the activities above, please provide brief details as to how individuals were reached by the activities listed above. We encourage you to consult the previous field report and to note any changes in actions (have new activities started or concluded?). Please highlight any key successes or challenges or unique learnings.',
     // not used -   fieldsStep3ExternalPartnersLabel: 'External partners',
     // not used -   fieldsStep3SupportedActivitiesLabel: 'Supported/partnered activities',
@@ -199,7 +203,8 @@ const fieldReport = {
     fieldsStep4PlannedResponseRowsEmergencyAppealEVTEPIEWLabel: 'Emergency Appeal',
     fieldsStep4PlannedResponseRowsFactValueFieldLabel: 'Number of people',
     fieldsStep4PlannedResponseRowsFactEVTEPIEWLabel: 'Rapid Response Personnel',
-    // not used -   fieldsStep4PlannedResponseRowsFactDescription: 'This is the new name for FACT/RDRT/RIT',
+    // not used -   fieldsStep4PlannedResponseRowsFactDescription: 'This is the new
+    // name for FACT/RDRT/RIT',
     fieldsStep4PlannedResponseRowsIFRCStaffValueFieldLabel: 'Units',
     fieldsStep4PlannedResponseRowsIFRCStaffEVTEPIEWLabel: 'Emergency Response Units',
     fieldsStep4PlannedResponseRowsForecastBasedActionValueFieldLabel: 'Amount CHF',
@@ -208,10 +213,12 @@ const fieldReport = {
     fieldsStep4ContactRowsOriginatorEVTEPIEWDesc: 'NS or IFRC Staff completing the Field Report.',
     fieldsStep4ContactRowsNSContactLabel: 'National Society Contact',
     fieldsStep4ContactRowsNSContactEVTEPIDesc: 'The most senior staff in the National Society responsible and knowledgeable about the disaster event.',
-    // not used -   fieldsStep4ContactRowsNSContactEWDesc: 'The most senior staff in the NS responsible and knowledgeable about the risk.',
+    // not used -   fieldsStep4ContactRowsNSContactEWDesc: 'The most senior staff
+    // in the NS responsible and knowledgeable about the risk.',
     fieldsStep4ContactRowsFederationContactLabel: 'IFRC Focal Point for the Emergency',
     fieldsStep4ContactRowsFederationContactEVTEPIDesc: 'IFRC staff who is overall responsible for supporting the NS in its response to the disaster event.',
-    // not used -   fieldsStep4ContactRowsFederationContactEWDesc: 'IFRC staff who is overall responsible for supporting the NS in its response to the anticipated disaster event',
+    // not used -   fieldsStep4ContactRowsFederationContactEWDesc: 'IFRC staff who is overall
+    // responsible for supporting the NS in its response to the anticipated disaster event',
     fieldsStep4ContactRowsMediaContactLabel: 'Media Contact',
     fieldsStep4ContactRowsMediaContactEVTEPIEWDesc: 'An IFRC secretariat media contact in Geneva/Region or Country.',
 
@@ -230,7 +237,8 @@ const fieldReport = {
     fieldReportConstantVisibilityIFRCSecretariatTooltipTitle: 'Available to only those with an active IFRC account',
     fieldReportConstantVisibilityIFRCandNSTooltipTitle: 'Available to only those with an active IFRC account or NS assignment',
 
-    // not used -   fieldReportEWEPIError: 'Early Warning / Early action cannot be selected when disaster type is Epidemic or vice-versa',
+    // not used -   fieldReportEWEPIError: 'Early Warning / Early action
+    // cannot be selected when disaster type is Epidemic or vice-versa',
     fieldReportFormNonFieldError: 'Please fill in required fields first!',
     // not used -   fieldReportFormSubmitError: 'Could not submit field report',
     fieldReportFormErrorLabel: 'Error:',

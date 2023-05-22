@@ -1,12 +1,13 @@
 import React from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-import { RawEditorOptions } from 'tinymce';
+import { Editor, IAllProps } from '@tinymce/tinymce-react';
 import { _cs } from '@togglecorp/fujs';
 import { tinyApiKey } from '#config';
 
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 
 import styles from './styles.module.css';
+
+type RawEditorOptions = IAllProps['init'];
 
 const editorOptions: Omit<RawEditorOptions, 'selector' | 'target'> = {
     menubar: false, // https://www.tiny.cloud/docs/advanced/available-toolbar-buttons
@@ -21,17 +22,17 @@ const editorOptions: Omit<RawEditorOptions, 'selector' | 'target'> = {
 };
 
 type InheritedProps<T> = Omit<InputContainerProps, 'input'> & {
-  value: string | undefined;
-  name: T;
-  onChange?: (
-    value: string | undefined,
-    name: T,
-  ) => void;
+    value: string | undefined;
+    name: T;
+    onChange?: (
+        value: string | undefined,
+        name: T,
+    ) => void;
 }
 export interface Props<T extends string | undefined> extends InheritedProps<T> {
-  inputElementRef?: React.RefObject<HTMLInputElement>;
-  inputClassName?: string;
-  placeholder?: string;
+    inputElementRef?: React.RefObject<HTMLInputElement>;
+    inputClassName?: string;
+    placeholder?: string;
 }
 
 function RichTextArea<T extends string | undefined>(props: Props<T>) {
@@ -43,7 +44,6 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
         label,
         disabled,
         readOnly,
-        inputClassName,
         name,
         value,
         onChange,
@@ -51,6 +51,9 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
     } = props;
 
     const handleChange = React.useCallback((newValue: string | undefined) => {
+        if (readOnly || disabled) {
+            return;
+        }
         if (onChange) {
             if (newValue === '') {
                 onChange(undefined, name);
@@ -58,9 +61,16 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
                 onChange(newValue, name);
             }
         }
-    }, [onChange, name]);
+    }, [
+        onChange,
+        name,
+        readOnly,
+        disabled,
+    ]);
 
+    // eslint-disable-next-line react/destructuring-assignment
     if (props.placeholder !== undefined) {
+        // eslint-disable-next-line react/destructuring-assignment
         editorOptions.placeholder = props.placeholder;
     }
 
@@ -74,10 +84,12 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
             disabled={disabled}
             input={(
                 <Editor
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...otherInputProps}
                     apiKey={tinyApiKey}
                     init={editorOptions}
                     value={value}
+                    disabled={readOnly || disabled}
                     onEditorChange={handleChange}
                 />
             )}

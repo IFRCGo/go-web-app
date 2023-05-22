@@ -33,6 +33,9 @@ function useRecursiveRequest<D>({
         ...(urlOptions ?? {}),
     }), [offset, urlOptions]);
 
+    const totalRef = useRef(0);
+    const requestCountRef = useRef(1);
+
     const {
         response: currentResponse,
         retrigger: triggerRequestForCount,
@@ -55,9 +58,6 @@ function useRecursiveRequest<D>({
         },
     });
 
-    const totalRef = useRef(0);
-    const requestCountRef = useRef(1);
-
     useEffect(() => {
         if (!currentResponse) {
             return;
@@ -77,7 +77,7 @@ function useRecursiveRequest<D>({
 
         setData((prevData) => [...prevData, ...currentResponse.results]);
 
-        ++requestCountRef.current;
+        requestCountRef.current += 1;
     }, [currentResponse]);
 
     const trigger = useCallback(() => {

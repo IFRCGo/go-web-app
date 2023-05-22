@@ -31,6 +31,7 @@ import SearchMultiSelectInputExample from './examples/SearchMultiSelectInputExam
 
 import styles from './styles.module.css';
 
+// eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const [element, setElement] = useState<string | undefined>('links');
 

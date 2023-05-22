@@ -27,7 +27,6 @@ function TextInput<T extends NameType>(props: Props<T>) {
         variant,
         withAsterisk,
         type = 'text',
-
         ...otherInputProps
     } = props;
 
@@ -47,6 +46,7 @@ function TextInput<T extends NameType>(props: Props<T>) {
             withAsterisk={withAsterisk}
             input={(
                 <RawInput
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...otherInputProps}
                     required={required}
                     readOnly={readOnly}

@@ -1,6 +1,8 @@
 import { _cs } from '@togglecorp/fujs';
 
 import InfoPopup from '#components/InfoPopup';
+import useTranslation from '#hooks/useTranslation';
+import commonStrings from '#strings/common';
 import Link from '#components/Link';
 
 import styles from './styles.module.css';
@@ -10,6 +12,7 @@ interface Props {
 }
 
 function GoMapDisclaimer(props: Props) {
+    const strings = useTranslation('common', commonStrings);
     const {
         className,
     } = props;
@@ -21,7 +24,7 @@ function GoMapDisclaimer(props: Props) {
             description={(
                 <>
                     <div>
-                        The maps used do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Society concerning the legal status of a territory or of its authorities.
+                        {strings.mapDisclaimer}
                     </div>
                     <div>
                         Map Sources: ICRC,

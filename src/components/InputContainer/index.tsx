@@ -10,6 +10,10 @@ import styles from './styles.module.css';
 
 export interface Props {
   actions?: React.ReactNode;
+  actionsContainerClassName?: string;
+  errorContainerClassName?: string;
+  hintContainerClassName?: string;
+  iconsContainerClassName?: string;
   disabled?: boolean;
   error?: React.ReactNode;
   errorOnTooltip?: boolean;
@@ -43,6 +47,10 @@ function InputContainer(props: Props) {
         required,
         variant = 'form',
         withAsterisk,
+        actionsContainerClassName,
+        errorContainerClassName,
+        hintContainerClassName,
+        iconsContainerClassName,
     } = props;
 
     const isRequired = withAsterisk ?? required;
@@ -75,7 +83,7 @@ function InputContainer(props: Props) {
             )}
             >
                 {icons && (
-                    <div className={_cs(styles.iconContainer)}>
+                    <div className={_cs(styles.iconContainer, iconsContainerClassName)}>
                         {icons}
                     </div>
                 )}
@@ -83,20 +91,20 @@ function InputContainer(props: Props) {
                     {input}
                 </div>
                 {actions && (
-                    <div className={styles.actionContainer}>
+                    <div className={_cs(styles.actionContainer, actionsContainerClassName)}>
                         {actions}
                     </div>
                 )}
             </div>
             {hint && (
-                <div className={styles.inputHint}>
+                <div className={_cs(styles.inputHint, hintContainerClassName)}>
                     {hint}
                 </div>
             )}
             {!errorOnTooltip && (
                 <InputError
                     disabled={disabled}
-                    className={styles.inputError}
+                    className={_cs(styles.inputError, errorContainerClassName)}
                 >
                     {error}
                 </InputError>

@@ -67,4 +67,3 @@ const account = {
 export type AccountStrings = typeof account;
 
 export default account;
-kj;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoTrash } from 'react-icons/io5';
 import {
     ArrayError,
@@ -13,9 +12,10 @@ import NumberInput from '#components/NumberInput';
 import TextInput from '#components/TextInput';
 import { SetValueArg } from '#utils/common';
 import { Indicator } from '#views/DrefApplicationForm/common';
-import languageContext from '#root/languageContext';
+import useTranslation from '#hooks/useTranslation';
+import drefPageStrings from '#strings/dref';
 
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 
 const defaultIndicatorValue: PartialForm<Indicator> = {
     clientId: randomString(),
@@ -31,7 +31,7 @@ interface Props {
 }
 
 function IndicatorInput(props: Props) {
-    const { strings } = React.useContext(languageContext);
+    const strings = useTranslation('dref', drefPageStrings);
 
     const {
         error: errorFromProps,
@@ -81,7 +81,7 @@ function IndicatorInput(props: Props) {
                 <Button
                     name={index}
                     onClick={onRemove}
-                    variant="action"
+                    variant="tertiary"
                 >
                     <IoTrash />
                 </Button>

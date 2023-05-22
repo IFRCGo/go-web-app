@@ -18,7 +18,7 @@
             bottom: 0;
             left: calc(var(--go-ui-spacing-md)*0.5);
             background-color: var(--go-ui-color-primary-red);
-            width: calc(100% - #{var(--go-ui-spacing-md)});
+            width: calc(100% - var(--go-ui-spacing-md));
             height: var(--go-ui-spacing-px);
             animation: grow-h var(--go-ui-duration-animation-fast) ease-in;
         }
@@ -38,7 +38,7 @@
     }
 
     &.secondary {
-        border-radius: calc(1em + #{var(--go-ui-spacing-md)});
+        border-radius: calc(1em + var(--go-ui-spacing-md));
         background-color: var(--go-ui-color-background);
         text-transform: uppercase;
 

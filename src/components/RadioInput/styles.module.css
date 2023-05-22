@@ -26,6 +26,12 @@
         inset-block-start: 0;
     }
 
+    .input-hint {
+        padding: var(--go-ui-spacing-xs);
+        color: var(--go-ui-color-gray-70);
+        font-size: var(--go-ui-font-size-sm);
+    }
+
     &:hover {
         .clear-button {
             opacity: 1;

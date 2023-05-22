@@ -7,7 +7,7 @@ const BULLET = '•';
 const KEY_ENTER = 'ENTER';
 
 type InheritedProps<N extends NameType> = (Omit<InputContainerProps, 'input'> & Omit<RawTextAreaProps<N>, 'type'>);
-export interface Props<T extends string | undefined> extends InheritedProps<T> {
+export interface Props<T extends number | string | undefined> extends InheritedProps<T> {
   inputElementRef?: React.RefObject<HTMLInputElement>;
   autoBullets?: boolean;
   inputClassName?: string;

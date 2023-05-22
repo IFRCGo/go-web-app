@@ -10,6 +10,7 @@ interface SearchItem {
   event_id?: string;
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export function loadOptions(input: string, callback: (val: []) => void) {
     if (!input) {
         return Promise.resolve({ options: [] });

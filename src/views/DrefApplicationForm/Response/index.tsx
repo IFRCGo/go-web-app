@@ -77,7 +77,7 @@ function Response(props: Props) {
 
     const error = getErrorObject(formError);
 
-    const [intervention, setIntervention] = React.useState<number | undefined>();
+    const [intervention, setIntervention] = React.useState<string | undefined>();
     const {
         setValue: onInterventionChange,
         removeValue: onInterventionRemove,
@@ -87,7 +87,7 @@ function Response(props: Props) {
     );
 
     type Interventions = typeof value.planned_interventions;
-    const handleInterventionAddButtonClick = React.useCallback((title) => {
+    const handleInterventionAddButtonClick = React.useCallback((title: string | undefined) => {
         const clientId = randomString();
         const newInterventionList: PartialForm<InterventionType> = {
             clientId,

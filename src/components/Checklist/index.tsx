@@ -6,7 +6,7 @@ import InputLabel from '../InputLabel';
 import InputError from '../InputError';
 import InputHint from '../InputHint';
 import List from '../List';
-import Checkbox from '../Checkbox';
+import Checkbox, { Props as CheckboxProps } from '../Checkbox';
 
 import styles from './styles.module.css';
 
@@ -69,7 +69,7 @@ function CheckList<
         }
     }, [value, onChange, name]);
 
-    const optionListRendererParams = useCallback((key: T, data: O) => ({
+    const optionListRendererParams = useCallback((key: T, data: O): CheckboxProps<T> => ({
         name: key,
         value: (value ?? []).some((v) => v === key),
         onChange: handleCheck,
@@ -106,6 +106,8 @@ function CheckList<
                     renderer={Checkbox}
                     rendererParams={optionListRendererParams}
                     rendererClassName={checkboxClassName}
+                    pending={false}
+                    errored={false}
                 />
             </div>
             <InputError className={errorContainerClassName}>

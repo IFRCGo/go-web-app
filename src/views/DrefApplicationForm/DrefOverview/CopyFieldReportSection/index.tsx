@@ -30,7 +30,7 @@ import {
     DrefFields,
     emptyNumericOptionList,
 } from '#views/DrefApplicationForm/common';
-import { FieldReportAPIResponseFields } from '#views/FieldReportForm/common';
+import { FieldReportAPIResponseFields } from '#types/fieldReport';
 import useTranslation from '#hooks/useTranslation';
 import drefPageStrings from '#strings/dref';
 
@@ -109,8 +109,8 @@ function CopyFieldReportSection(props: Props) {
         trigger: triggerDetailRequest,
     } = useLazyRequest<FieldReportAPIResponseFields, number>({
         url: (frId) => `api/v2/field_report/${frId}`,
-        onSuccess: (fieldReport) => {
-            if (!fieldReport) {
+        onSuccess: (fieldReportResponse) => {
+            if (!fieldReportResponse) {
                 alert.show(
                     strings.drefFormCopyFRFailureMessage,
                     { variant: 'danger' },
@@ -118,28 +118,28 @@ function CopyFieldReportSection(props: Props) {
                 return;
             }
 
-            const frDate = fieldReport.created_at?.split('T')[0];
+            const frDate = fieldReportResponse.created_at?.split('T')[0];
             const go_field_report_date = value.go_field_report_date ?? frDate;
-            const disaster_type = value.disaster_type ?? fieldReport.dtype?.id;
-            const event_description = fieldReport.description
+            const disaster_type = value.disaster_type ?? fieldReportResponse.dtype?.id;
+            const event_description = fieldReportResponse.description
                 ? sanitizeHtml(
-                    fieldReport.description,
+                    fieldReportResponse.description,
                     { allowedTags: [] },
                 )
                 : undefined;
-            const un_or_other_actor = value.un_or_other_actor ?? fieldReport.actions_others;
-            const country = value.country ?? fieldReport.countries[0]?.id;
+            const un_or_other_actor = value.un_or_other_actor ?? fieldReportResponse.actions_others;
+            const country = value.country ?? fieldReportResponse.countries[0]?.id;
             const district = (value.district && value.district.length > 0)
-                ? value.district : fieldReport.districts?.map((d) => d.id);
+                ? value.district : fieldReportResponse.districts?.map((d) => d.id);
             const num_affected = value?.num_affected
-                ?? fieldReport.num_affected
-                ?? fieldReport.gov_num_affected
-                ?? fieldReport.other_num_affected;
+                ?? fieldReportResponse.num_affected
+                ?? fieldReportResponse.gov_num_affected
+                ?? fieldReportResponse.other_num_affected;
 
             const partner_national_society = value?.partner_national_society
-                ?? fieldReport.actions_taken?.find((a) => a.organization === 'PNS')?.summary;
-            const ifrc = value?.ifrc ?? fieldReport.actions_taken?.find((a) => a.organization === 'FDRN')?.summary;
-            const icrc = value?.icrc ?? fieldReport.actions_taken?.find((a) => a.organization === 'NTLS')?.summary;
+                ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'PNS')?.summary;
+            const ifrc = value?.ifrc ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'FDRN')?.summary;
+            const icrc = value?.icrc ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'NTLS')?.summary;
 
             let {
                 national_society_contact_name,
@@ -161,7 +161,7 @@ function CopyFieldReportSection(props: Props) {
                     && !national_society_contact_title
                     && !national_society_contact_phone_number
             ) {
-                const contact = fieldReport.contacts?.find((c) => c.ctype === 'NationalSociety');
+                const contact = fieldReportResponse.contacts?.find((c) => c.ctype === 'NationalSociety');
                 if (contact) {
                     national_society_contact_name = contact.name;
                     national_society_contact_email = contact.email;
@@ -175,7 +175,7 @@ function CopyFieldReportSection(props: Props) {
                        && !ifrc_emergency_title
                        && !ifrc_emergency_phone_number
             ) {
-                const contact = fieldReport.contacts?.find((c) => c.ctype === 'Federation');
+                const contact = fieldReportResponse.contacts?.find((c) => c.ctype === 'Federation');
                 if (contact) {
                     ifrc_emergency_name = contact.name;
                     ifrc_emergency_email = contact.email;
@@ -189,7 +189,7 @@ function CopyFieldReportSection(props: Props) {
                           && !media_contact_title
                           && !media_contact_phone_number
             ) {
-                const contact = fieldReport.contacts?.find((c) => c.ctype === 'Media');
+                const contact = fieldReportResponse.contacts?.find((c) => c.ctype === 'Media');
                 if (contact) {
                     media_contact_name = contact.name;
                     media_contact_email = contact.email;
@@ -216,7 +216,7 @@ function CopyFieldReportSection(props: Props) {
                 media_contact_email,
                 media_contact_phone_number,
                 media_contact_title,
-                field_report: fieldReport.id,
+                field_report: fieldReportResponse.id,
                 country,
                 district,
                 num_affected,

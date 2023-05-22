@@ -6,7 +6,7 @@
 
     .step-border {
         position: absolute;
-        top: calc((#{var(--go-ui-spacing-md)} + 1rem) / 2);
+        top: calc((var(--go-ui-spacing-md) + 1rem) / 2);
         z-index: -1;
         background-color: var(--go-ui-color-gray-30);
         width: 100%;
@@ -34,7 +34,7 @@
     }
 
     &.secondary {
-        border-radius: calc(1em + #{var(--go-ui-spacing-md)});
+        border-radius: calc(1em + var(--go-ui-spacing-md));
         background-color: var(--go-ui-color-background);
         width: fit-content;
     }

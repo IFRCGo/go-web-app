@@ -319,7 +319,8 @@ const common = {
     // not used -   perAccountCoordination: 'Area 4: Coordination',
     // not used -   perAccountSupport: 'Area 5: Operations support',
     // not used -   perAccountTitle: 'New PER Forms',
-    // not used -   perAccountDescription: 'Click on the following links to access the PER forms, where you can select individual National Societies.',
+    // not used -   perAccountDescription: 'Click on the following links to access the PER forms
+    // , where you can select individual National Societies.',
     // not used -   perAccountChooseCountry: 'Choose National Society ',
     perAccountOverview: 'Overview',
     perAccountNewAssessment: 'Start a New Assessment',
@@ -340,6 +341,7 @@ const common = {
     mainMapViewFullscreen: 'View in fullscreen',
     mainMapClose: 'Close the Map',
     mainMapPresentation: 'Presentation Mode',
+    mapDisclaimer: 'The maps used do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Society concerning the legal status of a territory or of its authorities.',
     emergencyTypesAll: 'All Emergency Types',
     explanationBubbleScalePoints: 'Scale points by',
     explanationBubblePopulationLabel: '# of people targeted',
@@ -404,7 +406,8 @@ const common = {
     perAssessmentModalMessage: 'You won\'t be able to edit or delete the assessment after you submit it.',
     perAssessmentModalDelete: 'Are you sure you want to delete the assessment?',
     // not used -   overviewFormExit: 'Exit form',
-    // not used -   overviewFormHeading: 'WELCOME TO THE PREPAREDNESS FOR EFFECTIVE RESPONSE - OVERVIEW FORM',
+    // not used -   overviewFormHeading: 'WELCOME TO THE PREPAREDNESS FOR EFFECTIVE RESPONSE
+    // - OVERVIEW FORM',
     // not used -   overviewFormGeneralInfo: 'General Information',
     // not used -   overviewFormNationalSociety: 'National Society:',
     overviewFormStartDate: 'Date of assessment*',
@@ -432,7 +435,8 @@ const common = {
     // not used -   overviewFormSkype: 'Skype address',
     overviewFormDateOfMidReview: 'Estimated date of mid-term review',
     overviewFormDateOfNext: 'Estimated date of next assessment',
-    // not used -   overviewFormPreparednessHeading: 'WELCOME TO THE PREPAREDNESS FOR EFFECTIVE RESPONSE - OVERVIEW FORM',
+    // not used -   overviewFormPreparednessHeading: 'WELCOME TO
+    // THE PREPAREDNESS FOR EFFECTIVE RESPONSE - OVERVIEW FORM',
     // not used -   overviewFormSaveAsDraft: 'Save as draft',
     // not used -   overviewFormDraftInfo: 'Take care, only Drafts can be edited afterwards!',
     // not used -   overviewFormFinalized: 'Finalized',

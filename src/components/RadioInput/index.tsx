@@ -42,11 +42,13 @@ type ClearableProps<V, N> = {
     onChange: (value: V | undefined, name: N) => void;
 }
 
-type Props<N, O, V, RRP extends RadioProps<V, N>> = BaseProps<N, O, V, RRP> & (
+export type Props<N, O, V, RRP extends RadioProps<V, N>> = BaseProps<N, O, V, RRP> & (
     ClearableProps<V, N> | NonClearableProps<V, N>
 )
 
-function isClearable<N, O, V, RRP extends RadioProps<V, N>>(props: Props<N, O, V, RRP>): props is (BaseProps<N, O, V, RRP> & ClearableProps<V, N>) {
+function isClearable<N, O, V, RRP extends RadioProps<V, N>>(
+    props: Props<N, O, V, RRP>,
+): props is (BaseProps<N, O, V, RRP> & ClearableProps<V, N>) {
     return !!props.clearable;
 }
 
@@ -68,6 +70,8 @@ function RadioInput<
         descriptionSelector,
         label,
         labelContainerClassName,
+        hint,
+        hintContainerClassName,
         listContainerClassName,
         error,
         errorContainerClassName,
@@ -84,13 +88,20 @@ function RadioInput<
         }
 
         if (isClearableOptions) {
+            // eslint-disable-next-line react/destructuring-assignment
             props.onChange(radioKey, name);
         }
 
         if (!isClearableOptions && isDefined(radioKey)) {
             onChange(radioKey, name);
         }
-    }, [readOnly, props.onChange, name, props.clearable]);
+    }, [
+        props,
+        onChange,
+        isClearableOptions,
+        readOnly,
+        name,
+    ]);
 
     const rendererParams: (
         k: V,
@@ -132,6 +143,7 @@ function RadioInput<
                 className,
             )}
         >
+            {/* eslint-disable-next-line react/destructuring-assignment */}
             {props.clearable && (
                 <Button
                     name={undefined}
@@ -148,13 +160,20 @@ function RadioInput<
                 {label}
             </InputLabel>
             <div className={_cs(styles.radioListContainer, listContainerClassName)}>
-                <List<O, RadioProps<V, N> & RRP, V, any, any>
+                <List
                     data={options}
                     rendererParams={rendererParams}
                     renderer={renderer}
                     keySelector={keySelector}
+                    errored={false}
+                    pending={false}
                 />
             </div>
+            {hint && (
+                <div className={_cs(styles.inputHint, hintContainerClassName)}>
+                    {hint}
+                </div>
+            )}
             <InputError className={errorContainerClassName}>
                 {error}
             </InputError>

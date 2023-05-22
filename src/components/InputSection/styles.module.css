@@ -60,7 +60,7 @@
     &.one-column {
         .section-content {
             >* {
-                flex-basis: calc(100% - #{var(--go-ui-spacing-md)});
+                flex-basis: calc(100% - var(--go-ui-spacing-md));
             }
         }
     }
@@ -68,7 +68,7 @@
     &.two-column {
         .section-content {
             >* {
-                flex-basis: calc(50% - #{var(--go-ui-spacing-md)});
+                flex-basis: calc(50% - var(--go-ui-spacing-md));
             }
         }
     }
@@ -76,7 +76,7 @@
     &.three-column {
         .section-content {
             >* {
-                flex-basis: calc(100% / 3 - #{var(--go-ui-spacing-md)});
+                flex-basis: calc(100% / 3 - var(--go-ui-spacing-md));
             }
         }
     }

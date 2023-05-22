@@ -9,7 +9,6 @@ export interface Props {
     pending?: boolean;
     errored?: boolean;
     message?: React.ReactNode;
-    pendingMessage?: React.ReactNode;
     emptyMessage?: React.ReactNode;
     errorMessage?: React.ReactNode;
 }

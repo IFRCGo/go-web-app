@@ -44,6 +44,7 @@ function Link(props: Props) {
             href={to as string}
             target="_blank"
             rel="noopener noreferrer"
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
             {children}
@@ -55,6 +56,7 @@ function Link(props: Props) {
                 styles.link,
             )}
             to={to}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
             {children}

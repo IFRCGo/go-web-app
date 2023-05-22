@@ -1,12 +1,10 @@
-@import '~styles/settings/_variables.scss';
-
 .image-input {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  .caption-input {
-    width: 100%;
-    max-width: 12rem;
-    padding: 0;
-  }
+    .caption-input {
+        padding: 0;
+        width: 100%;
+        max-width: 12rem;
+    }
 }

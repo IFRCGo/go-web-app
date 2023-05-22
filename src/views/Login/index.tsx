@@ -55,7 +55,11 @@ const formSchema: ObjectSchema<FormFields> = {
     }),
 };
 
-function getDisplayName(firstName: string | null | undefined, lastName: string | null | undefined, username: string) {
+function getDisplayName(
+    firstName: string | null | undefined,
+    lastName: string | null | undefined,
+    username: string,
+) {
     if (!firstName && !lastName) {
         return username;
     }
@@ -66,6 +70,7 @@ function getDisplayName(firstName: string | null | undefined, lastName: string |
     ].filter(Boolean).join(' ');
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation('login', loginStrings);
     const { userDetails, setUser } = useContext(UserContext);

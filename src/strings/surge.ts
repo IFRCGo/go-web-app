@@ -8,7 +8,8 @@ const surge = {
     operationalToolboxAccordionPanelText4: 'Timeline',
     operationalToolboxAccordionPanelText5: 'click on the icons below to get direct access to the specific tool. When a longer grey bar is represented on the timeline it means that the timeframe can span over a nember of days/weeks. Note that these are indicative context specific timeframes, and are meant to function as a guide only.',
     operationalToolboxAccordionPanelText6: 'The timeline below outlines the expected actions throughout the first four months of the response cycle. This timeline functions as a guide for RCRC operations practitioners and represents key milestones, deliverables and documents linked to them.',
-    // Previously for the next 3: 'If you have any feedback or improvement suggestions, please email:',
+    // Previously for the next 3: 'If you have any
+    // feedback or improvement suggestions, please email:',
     operationalToolboxFooterText1: 'We are looking forward to receiving your feedback and improvement suggestions, please share them with us ',
     operationalToolboxFooterText2: 'HERE',
     operationalToolboxFooterText3: ' For additional questions please email:',

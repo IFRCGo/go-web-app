@@ -41,6 +41,7 @@ function Radio<N, IN>(props: Props<N, IN>) {
     }, [name, onClick]);
 
     return (
+        // eslint-disable-next-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
         <label
             className={_cs(
                 styles.radio,

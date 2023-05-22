@@ -31,7 +31,10 @@ export default function TabList(props: Props) {
             return '0';
         }
 
-        const progressPercentage = Math.max(0, Math.min(100, 100 * (progress - 1) / (steps - 1)));
+        const progressPercentage = Math.max(
+            0,
+            Math.min(100, 100 * ((progress - 1) / (steps - 1))),
+        );
 
         return `${progressPercentage}%`;
     }, [steps, progress]);
@@ -46,6 +49,7 @@ export default function TabList(props: Props) {
 
     return (
         <div
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
             className={_cs(
                 className,

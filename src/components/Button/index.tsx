@@ -68,7 +68,7 @@ export function useButtonFeatures<N>(
     };
 }
 
-function Button<N>(props: Props<N>) {
+function Button<N extends string | number | undefined>(props: Props<N>) {
     const {
         actions,
         actionsClassName,
