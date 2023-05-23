@@ -3,7 +3,7 @@ import { isDefined } from '@togglecorp/fujs';
 import { useRequest } from '#utils/restRequest';
 import Button from '#components/Button';
 import Modal from '#components/Modal';
-// import BlockLoading from '#components/block-loading';
+import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
 import drefPageStrings from '#strings/dref';
 import {
@@ -82,10 +82,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
             opened
         >
             {drefPending && (
-                <>
-                    Loading...
-                    {/* <BlockLoading /> */}
-                </>
+                <BlockLoading />
             )}
             {!drefPending && (
                 <>

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
     PartialForm,
     Error,
@@ -8,7 +8,6 @@ import {
     SetBaseValueArg,
 } from '@togglecorp/toggle-form';
 import {
-    listToMap,
     isNotDefined,
 } from '@togglecorp/fujs';
 import { IoHelpCircle } from 'react-icons/io5';
@@ -19,12 +18,11 @@ import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
 import MultiSelectInput from '#components/MultiSelectInput';
-import SearchMultiSelectInput from '#components/SearchMultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import drefPageStrings from '#strings/dref';
 import RadioInput from '#components/RadioInput';
 import NumberInput from '#components/NumberInput';
-import { rankedSearchOnList, compareLabel } from '#utils/common';
+import { compareLabel } from '#utils/common';
 import {
     useRequest,
     ListResponse,
@@ -34,6 +32,7 @@ import {
     BooleanValueOption,
     NumericValueOption,
 } from '#types/common';
+import UserMultiSelectInput, { User } from '#components/UserMultiSelectInput';
 
 import CopyFieldReportSection from './CopyFieldReportSection';
 import ImageWithCaptionInput from './ImageWithCaptionInput';
@@ -67,7 +66,7 @@ interface Props {
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     onValueSet: (value: SetBaseValueArg<Value>) => void;
-    userOptions: NumericValueOption[];
+    userOptions: User[];
     onCreateAndShareButtonClick: () => void;
     drefTypeOptions: NumericValueOption[];
     onsetType?: number;
@@ -117,34 +116,6 @@ function DrefOverview(props: Props) {
         value.emergency_appeal_planned,
         onValueChange,
     ]);
-
-    const handleUserSearch = React.useCallback((
-        input: string | undefined,
-        callback: (list: NumericValueOption[]) => void,
-    ) => {
-        if (!input) {
-            callback(emptyNumericOptionList);
-        }
-
-        callback(rankedSearchOnList(
-            userOptions,
-            input,
-            (d) => d.label,
-        ));
-    }, [userOptions]);
-
-    const userMap = React.useMemo(() => listToMap(
-        userOptions,
-        (u) => u.value,
-        (u) => u.label,
-    ), [userOptions]);
-
-    const initialOptions = React.useMemo(() => (
-        value.users?.map((u) => ({
-            label: userMap[u],
-            value: u,
-        }))
-    ), [userMap, value.users]);
 
     const handleNSChange = useCallback((ns: number | undefined) => {
         onValueSet({
@@ -198,6 +169,10 @@ function DrefOverview(props: Props) {
         || value?.disaster_type === DISASTER_FLASH_FLOOD
         || value?.disaster_category === DISASTER_FLOOD;
 
+    const [fetchedUsers, setFetechedUsers] = useState<
+        User[] | undefined | null
+    >(userOptions ?? []);
+
     return (
         <>
             <Container
@@ -208,13 +183,14 @@ function DrefOverview(props: Props) {
                     title={strings.drefFormSharingTitle}
                     description={strings.drefFormSharingDescription}
                 >
-                    <SearchMultiSelectInput
+                    <UserMultiSelectInput
                         name="users"
-                        initialOptions={initialOptions}
                         value={value.users}
                         onChange={onValueChange}
-                        loadOptions={handleUserSearch}
-                        keySelector={(d) => d.value}
+                        className={styles.region}
+                        options={fetchedUsers}
+                        onOptionsChange={setFetechedUsers}
+                        placeholder="Select users"
                     />
                     {isNotDefined(value.id) && (
                         <div className={styles.actions}>
@@ -243,6 +219,7 @@ function DrefOverview(props: Props) {
                         error={error?.national_society}
                         name="national_society"
                         keySelector={(d) => d.value}
+                        labelSelector={(d) => d.label}
                         onChange={handleNSChange}
                         options={nationalSocietyOptions}
                         value={value.national_society}
@@ -260,6 +237,7 @@ function DrefOverview(props: Props) {
                         label={strings.drefFormTypeOfDref}
                         name="type_of_dref"
                         keySelector={(d) => d.value}
+                        labelSelector={(d) => d.label}
                         onChange={onValueChange}
                         options={drefTypeOptions}
                         value={value.type_of_dref}
@@ -283,6 +261,7 @@ function DrefOverview(props: Props) {
                         }
                         name="disaster_type"
                         keySelector={(d) => d.value}
+                        labelSelector={(d) => d.label}
                         onChange={onValueChange}
                         options={disasterTypeOptions}
                         value={value.disaster_type}
@@ -293,6 +272,7 @@ function DrefOverview(props: Props) {
                         name="type_of_onset"
                         onChange={onValueChange}
                         keySelector={(d) => d.value}
+                        labelSelector={(d) => d.label}
                         options={onsetOptions}
                         value={value.type_of_onset}
                     />
@@ -330,6 +310,7 @@ function DrefOverview(props: Props) {
                         )}
                         name={'disaster_category' as const}
                         keySelector={(d) => d.value}
+                        labelSelector={(d) => d.label}
                         onChange={onValueChange}
                         options={disasterCategoryOptions}
                         value={value.disaster_category}
@@ -348,6 +329,7 @@ function DrefOverview(props: Props) {
                         error={error?.country}
                         name="country"
                         keySelector={(d) => d.value}
+                        labelSelector={(d) => d.label}
                         onChange={onValueChange}
                         options={countryOptions}
                         value={value.country}
@@ -358,6 +340,7 @@ function DrefOverview(props: Props) {
                         error={getErrorString(error?.district)}
                         name="district"
                         onChange={onValueChange}
+                        labelSelector={(d) => d.label}
                         keySelector={(d) => d.value}
                         options={districtOptions}
                         value={value.district}

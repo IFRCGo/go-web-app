@@ -1,12 +1,10 @@
 import {
     useState,
-    useMemo,
     useCallback,
-    useRef,
 } from 'react';
 import {
-    isNotDefined,
     unique,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import {
     PartialForm,
@@ -15,7 +13,6 @@ import {
 import sanitizeHtml from 'sanitize-html';
 
 import Button from '#components/Button';
-import SearchSelectInput from '#components/SearchSelectInput';
 import InputSection from '#components/InputSection';
 import useInputState from '#hooks/useInputState';
 import useAlert from '#hooks/useAlert';
@@ -23,21 +20,19 @@ import useAlert from '#hooks/useAlert';
 import {
     useRequest,
     useLazyRequest,
-    ListResponse,
 } from '#utils/restRequest';
-import { NumericValueOption } from '#types/common';
 import {
     DrefFields,
-    emptyNumericOptionList,
 } from '#views/DrefApplicationForm/common';
 import { FieldReportAPIResponseFields } from '#types/fieldReport';
 import useTranslation from '#hooks/useTranslation';
 import drefPageStrings from '#strings/dref';
 
+import FieldReportSelectInput, { FieldReportListItem } from '#components/FieldReportSearchSelectInput';
+
 import styles from './styles.module.css';
 
 type Value = PartialForm<DrefFields>;
-type FieldReportListItem = Omit<FieldReportAPIResponseFields, 'districts'> & { districts: number[] };
 interface Props {
     value: Value;
     onValueSet: (value: SetBaseValueArg<Value>) => void;
@@ -52,55 +47,21 @@ function CopyFieldReportSection(props: Props) {
     const strings = useTranslation('dref', drefPageStrings);
     const alert = useAlert();
 
-    type FRCallback = (options: NumericValueOption[]) => void;
     const [fieldReport, setFieldReport] = useInputState<number | undefined>(value?.field_report);
-    const [fieldReportSearch, setFieldReportSearch] = useState<string | undefined>();
-    const [fetchedFieldReports, setFetchedFieldReports] = useState<FieldReportListItem[]>([]);
-    const fieldReportCallbackRef = useRef<FRCallback>();
+    const [fetchedFieldReports, setFetchedFieldReports] = useState<
+        FieldReportListItem[] | undefined | null
+    >([]);
 
-    useRequest<ListResponse<FieldReportListItem>>({
-        skip: (fieldReportSearch?.length ?? 0) === 0,
-        url: 'api/v2/field_report/',
-        query: {
-            summary: fieldReportSearch,
-            limit: 20,
-            countries__in: value?.national_society,
-        },
-        onSuccess: (response) => {
-            if (fieldReportCallbackRef.current) {
-                const frOptions = response?.results?.map((fr) => ({
-                    value: fr.id,
-                    label: fr.summary,
-                }));
-                fieldReportCallbackRef.current(frOptions ?? emptyNumericOptionList);
-                setFetchedFieldReports((oldFieldReports) => {
-                    const newFieldReports = unique(
-                        [
-                            ...oldFieldReports,
-                            ...(response?.results ?? []),
-                        ],
-                        (d) => d.id,
-                    ) ?? [];
-
-                    return newFieldReports;
-                });
-            }
-        },
-    });
-
-    const {
-        trigger: triggerSelectedFrRequest,
-        pending: selectedFrPending,
-    } = useLazyRequest<FieldReportAPIResponseFields, number>({
-        url: (frId) => `api/v2/field_report/${frId}`,
+    useRequest<FieldReportAPIResponseFields>({
+        skip: !value?.field_report,
+        url: `api/v2/field_report/${value?.field_report}`,
         onSuccess: (fr) => {
-            if (fieldReportCallbackRef.current) {
-                const frOption = {
-                    value: fr.id,
-                    label: fr.summary,
-                };
-                fieldReportCallbackRef.current([frOption] ?? emptyNumericOptionList);
+            if (!fr) {
+                return;
             }
+            setFetchedFieldReports(
+                (oldOptions) => unique([...(oldOptions ?? []), fr], (option) => option.id),
+            );
         },
     });
 
@@ -232,22 +193,6 @@ function CopyFieldReportSection(props: Props) {
         },
     });
 
-    const handleFieldReportLoad = useCallback((
-        input: string | undefined,
-        callback: FRCallback,
-    ) => {
-        if (!input) {
-            if (isNotDefined(value.field_report)) {
-                callback(emptyNumericOptionList);
-            } else {
-                triggerSelectedFrRequest(value.field_report);
-            }
-        }
-
-        setFieldReportSearch(input);
-        fieldReportCallbackRef.current = callback;
-    }, [value.field_report, triggerSelectedFrRequest]);
-
     const handleCopyButtonClick = useCallback((fieldReportId: number | undefined) => {
         if (isNotDefined(fieldReportId)) {
             return;
@@ -256,31 +201,23 @@ function CopyFieldReportSection(props: Props) {
         triggerDetailRequest(fieldReportId);
     }, [triggerDetailRequest]);
 
-    const initialOptions = useMemo(() => {
-        const optionList = fetchedFieldReports.map((fr) => ({
-            value: fr.id,
-            label: fr.summary,
-        }));
-
-        return optionList;
-    }, [fetchedFieldReports]);
-
     return (
         <InputSection
             title={strings.drefFormEventDetailsTitle}
             description={strings.drefFormEventDescription}
         >
-            <SearchSelectInput
-                name={undefined}
+            <FieldReportSelectInput
+                className={styles.region}
+                name=""
                 value={fieldReport}
                 onChange={setFieldReport}
-                loadOptions={handleFieldReportLoad}
-                initialOptions={initialOptions}
-                pending={selectedFrPending}
-                keySelector={(d) => d.value}
-                isClearable
-                defaultOptions
+                nationalSociety={value?.national_society}
+                options={fetchedFieldReports}
+                onOptionsChange={setFetchedFieldReports}
+                placeholder="Select field report"
+                nonClearable
             />
+
             <div className={styles.actions}>
                 <Button
                     variant="secondary"

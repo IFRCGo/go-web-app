@@ -42,6 +42,7 @@ import drefPageStrings from '#strings/dref';
 
 // FIXME: this scrollToTop is specific to DREF Form
 import scrollToTop from '#utils/scrollToTop';
+import { User } from '#components/UserMultiSelectInput';
 
 import DrefOverview from './DrefOverview';
 import EventDetails from './EventDetails';
@@ -134,7 +135,6 @@ export function Component(props: Props) {
         onsetOptions,
         yesNoOptions,
         userDetails,
-        userOptions,
         drefTypeOptions,
     } = useDrefFormOptions();
 
@@ -173,9 +173,11 @@ export function Component(props: Props) {
 
         return tabs;
     }, [error]);
+    const [userOptions, setUserOptions] = useState<User[]>([]);
 
     const handleDrefLoad = useCallback((response: DrefApiFields) => {
         lastModifiedAtRef.current = response?.modified_at;
+        setUserOptions(response.users_details ?? []);
 
         setFileIdToUrlMap((prevMap) => {
             const newMap = {
