@@ -214,3 +214,5 @@ export function Component() {
         </Page>
     );
 }
+
+Component.displayName = 'Login';

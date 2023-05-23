@@ -55,12 +55,16 @@ function EventDetails(props: Props) {
         value,
         yesNoOptions,
         fileIdToUrlMap,
+        // FIXME
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         setFileIdToUrlMap,
         drefType,
         onsetType,
     } = props;
 
     const error = getErrorObject(formError);
+    // FIXME
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const imagesValue = React.useMemo(() => (
         value?.images_file?.map((d) => d.id).filter((d) => !!d) as number[] | undefined
     ), [value?.images_file]);
@@ -72,6 +76,9 @@ function EventDetails(props: Props) {
         'images_file',
         onValueChange,
     );
+
+    // FIXME
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleImageInputChange = React.useCallback((newValue: number[] | undefined) => {
         const imageCaptionByIdMap = listToMap(
             value?.images_file ?? [],

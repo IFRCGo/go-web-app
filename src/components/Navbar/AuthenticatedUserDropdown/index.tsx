@@ -9,8 +9,6 @@ import commonStrings from '#strings/common';
 
 import UserContext from '#contexts/user';
 
-// import styles from './styles.module.css';
-
 interface Props {
     className?: string;
 }

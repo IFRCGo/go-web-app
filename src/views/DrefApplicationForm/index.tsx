@@ -21,7 +21,6 @@ import {
 // import { IoCloudUploadSharp } from 'react-icons/io5';
 
 import BlockLoading from '#components/BlockLoading';
-import Button, { useButtonFeatures } from '#components/Button';
 import Container from '#components/Container';
 import NonFieldError from '#components/NonFieldError';
 import Page from '#components/Page';
@@ -29,6 +28,7 @@ import Tab from '#components/Tabs/Tab';
 import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
+import Button from '#components/Button';
 // import FileInput from '#components/FileInput';
 import {
     useLazyRequest,
@@ -36,8 +36,11 @@ import {
 } from '#utils/restRequest';
 import { ymdToDateString } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
-import drefPageStrings from '#strings/dref';
+import useButtonFeatures from '#hooks/useButtonFeatures';
 import useAlert from '#hooks/useAlert';
+import drefPageStrings from '#strings/dref';
+
+// FIXME: this scrollToTop is specific to DREF Form
 import scrollToTop from '#utils/scrollToTop';
 
 import DrefOverview from './DrefOverview';

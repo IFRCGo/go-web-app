@@ -16,9 +16,10 @@ import {
 import mapboxgl from 'mapbox-gl';
 import { unique } from '@togglecorp/fujs';
 
-import UserContext, { UserDetails, USER_STORAGE_KEY } from '#contexts/user';
+import UserContext, { UserDetails } from '#contexts/user';
 import AlertContext, { AlertParams, AlertContextProps } from '#contexts/alert';
 import { RequestContext } from '#utils/restRequest';
+import { USER_STORAGE_KEY } from '#utils/constants';
 import {
     processGoUrls,
     processGoOptions,

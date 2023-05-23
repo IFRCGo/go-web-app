@@ -1,4 +1,5 @@
 const search = {
+    searchPageTitle: 'Search',
     searchIfrcEmergencyOperations: 'IFRC Emergency Operations',
     searchIfrcEmergencies: 'Emergencies',
     searchIfrcEmergencyPlanningAndReportingDocuments: 'Emergency Planning And Reporting Documents',

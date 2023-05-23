@@ -1,7 +1,7 @@
 import { _cs } from '@togglecorp/fujs';
 
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
-import { ButtonVariant } from '#components/Button';
+import { ButtonVariant } from '#hooks/useButtonFeatures';
 
 import styles from './styles.module.css';
 

@@ -6,11 +6,10 @@ import {
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import AlertContext, {
-    DEFAULT_ALERT_DISMISS_DURATION,
-} from '#contexts/alert';
+import AlertContext from '#contexts/alert';
 import Alert from '#components/Alert';
 import Portal from '#components/Portal';
+import { DEFAULT_ALERT_DISMISS_DURATION } from '#utils/constants';
 
 import styles from './styles.module.css';
 

@@ -62,6 +62,10 @@ const account = {
     accountPerTitle: 'PER Forms',
     accountPerPermission: 'Please Log In',
     accountOperationFollowing: 'Operations following',
+    accountReportListLastUpdated: 'Last Updated: {on}',
+    accountProfileFormSubmitButtonTooltip: 'Save',
+    accountUserGreeting: 'Hello {user}',
+
 };
 
 export type AccountStrings = typeof account;
