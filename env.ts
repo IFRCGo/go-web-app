@@ -2,13 +2,14 @@ import { defineConfig, Schema } from '@julr/vite-plugin-validate-env';
 
 export default defineConfig({
     APP_TITLE: Schema.string(),
+    APP_MAPBOX_ACCESS_TOKEN: Schema.string(),
+
     APP_API_ENDPOINT: Schema.string(),
     APP_ADMIN_URL: Schema.string.optional(),
-    APP_FDRS_AUTH: Schema.string.optional(),
-    APP_MAPBOX_ACCESS_TOKEN: Schema.string(),
+    APP_FDRS_AUTH: Schema.string(),
     APP_RISK_API_ENDPOINT: Schema.string(),
     APP_RISK_ADMIN_URL: Schema.string.optional(),
-    APP_TINY_API_KEY: Schema.string.optional(),
+    APP_TINY_API_KEY: Schema.string(),
     APP_SHOW_ENV_BANNER: Schema.boolean.optional(),
     APP_ENVIRONMENT: (key, value) => {
         if (!value) {
