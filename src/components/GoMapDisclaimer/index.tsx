@@ -29,7 +29,9 @@ function GoMapDisclaimer(props: Props) {
                     <div>
                         Map Sources: ICRC,
                         {' '}
-                        <Link to="https://cod.unocha.org/">UNCODs</Link>
+                        <Link to="https://cod.unocha.org/">
+                            UNCODs
+                        </Link>
                     </div>
                     <div
                         className={_cs(styles.attribution, 'mapboxgl-ctrl-attrib-inner')}

@@ -1,0 +1,19 @@
+.group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    .group-header {
+        padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--tui-color-text-label-light);
+        font-weight: var(--tui-font-weight-bold);
+    }
+
+    .group-children {
+        display: flex;
+        flex-direction: column;
+    }
+}

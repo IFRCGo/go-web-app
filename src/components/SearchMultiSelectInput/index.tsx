@@ -1,117 +1,298 @@
-import { useCallback, useMemo } from 'react';
-import { _cs } from '@togglecorp/fujs';
-import { GroupBase } from 'react-select';
-import AsyncSelect, { AsyncProps } from 'react-select/async';
-import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
-import { NameType, ValueType } from '#components/types';
+import { useCallback, useMemo, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import {
+    _cs,
+    listToMap,
+    isDefined,
+    unique,
+} from '@togglecorp/fujs';
 
+import SelectInputContainer, { SelectInputContainerProps } from '#components/SelectInputContainer';
+import { rankedSearchOnList } from '#utils/common';
+
+import Option from './Option';
 import styles from './styles.module.css';
 
-type InheritedProps<O> = Omit<InputContainerProps, 'input'>
-    & Omit<AsyncProps<O, true, GroupBase<O>>, 'className' | 'onChange' | 'value' | 'isMulti' | 'name' | 'options' | 'isDisabled' | 'classNames' | 'required' | 'isSearchable'>
+type Def = { containerClassName?: string, title?: string; };
+type OptionKey = string | number;
 
-type Props<N, O, V extends ValueType> = InheritedProps<O> & {
-    inputClassName?: string;
-    name: N;
-    options: O[];
-    keySelector: (option: O) => V;
-    value: V[] | null | undefined;
-    onChange: (newValue: V[] | undefined, name: N) => void;
-};
+export type SearchMultiSelectInputProps<
+    OPTION_KEY extends OptionKey,
+    NAME,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    OPTION extends object,
+    RENDER_PROPS extends Def,
+    OMISSION extends string,
+> = (
+    Omit<{
+        value: OPTION_KEY[] | undefined | null;
+        onChange: (newValue: OPTION_KEY[], name: NAME) => void;
+        options: OPTION[] | undefined | null;
+        searchOptions?: OPTION[] | undefined | null;
+        keySelector: (option: OPTION) => OPTION_KEY;
+        labelSelector: (option: OPTION) => string;
+        hideOptionFilter?: (option: OPTION) => boolean;
+        name: NAME;
+        disabled?: boolean;
+        readOnly?: boolean;
+        onOptionsChange?: Dispatch<SetStateAction<OPTION[] | undefined | null>>;
+        sortFunction?: (
+            options: OPTION[],
+            search: string | undefined,
+            labelSelector: (option: OPTION) => string,
+        ) => OPTION[];
+        onSearchValueChange?: (value: string | undefined) => void;
+        onShowDropdownChange?: (value: boolean) => void;
+    }, OMISSION>
+    & SelectInputContainerProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS,
+        'name'
+        | 'nonClearable'
+        | 'onClear'
+        | 'onOptionClick'
+        | 'optionKeySelector'
+        | 'optionRenderer'
+        | 'optionRendererParams'
+        | 'optionsFiltered'
+        | 'persistentOptionPopup'
+        | 'valueDisplay'
+        | 'optionContainerClassName'
+        | 'searchText'
+        | 'onSearchTextChange'
+        | 'dropdownShown'
+        | 'onDropdownShownChange'
+        | 'focused'
+        | 'onFocusedChange'
+        | 'focusedKey'
+        | 'onFocusedKeyChange'
+        | 'hasValue'
+        | 'hideOptionFilter'
+    >
+);
+const emptyList: unknown[] = [];
 
-function SearchMultiSelectInput<N extends NameType, O, V extends ValueType>(props: Props<N, O, V>) {
+function SearchMultiSelectInput<
+    OPTION_KEY extends OptionKey,
+    NAME extends string,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    OPTION extends object,
+    RENDER_PROPS extends Def,
+>(
+    props: SearchMultiSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS, never>,
+) {
     const {
-        actions,
-        className,
-        disabled,
-        error,
-        errorOnTooltip,
-        hint,
-        icons,
-        inputClassName,
-        label,
-        readOnly,
-        required,
-        variant,
-        withAsterisk,
-        onChange,
-        name,
-        options,
-        value,
         keySelector,
-        defaultOptions = true,
+        labelSelector,
+        name,
+        onChange,
+        onOptionsChange,
+        options: optionsFromProps,
+        optionsPending,
+        value: valueFromProps,
+        sortFunction,
+        searchOptions: searchOptionsFromProps,
+        onSearchValueChange,
+        onShowDropdownChange,
+        hideOptionFilter,
         ...otherProps
     } = props;
 
-    const handleChange = useCallback((selectedOptions: readonly O[] | null) => {
-        if (selectedOptions) {
-            const values = selectedOptions.map((option) => keySelector(option));
-            onChange(values, name);
-        } else {
-            onChange(undefined, name);
-        }
-    }, [onChange, name, keySelector]);
+    const options = optionsFromProps ?? (emptyList as OPTION[]);
+    const searchOptions = searchOptionsFromProps ?? (emptyList as OPTION[]);
+    const value = valueFromProps ?? (emptyList as OPTION_KEY[]);
 
-    const selectedValues = useMemo(() => (
-        options?.filter((option) => value?.includes(keySelector(option)))
-    ), [options, keySelector, value]);
+    const [searchInputValue, setSearchInputValue] = useState<string | undefined>();
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [focused, setFocused] = useState(false);
+    const [
+        focusedKey,
+        setFocusedKey,
+    ] = useState<{ key: OPTION_KEY, mouse?: boolean } | undefined>();
 
-    const readOnlyProps = useMemo(() => (
-        readOnly ? {
-            isClearable: false,
-            isSearchable: false,
-            openMenuOnClick: false,
-            menuIsOpen: false,
-        } : undefined
-    ), [readOnly]);
+    const [selectedKeys, setSelectedKeys] = useState<{
+        [key: string]: boolean,
+    }>({});
+
+    const optionsMap = useMemo(
+        () => (
+            listToMap(options, keySelector, (i) => i)
+        ),
+        [options, keySelector],
+    );
+
+    const optionsLabelMap = useMemo(
+        () => (
+            listToMap(options, keySelector, labelSelector)
+        ),
+        [options, keySelector, labelSelector],
+    );
+
+    const valueDisplay = useMemo(
+        () => (
+            value.map((v) => optionsLabelMap[v] ?? '?').join(', ')
+        ),
+        [value, optionsLabelMap],
+    );
+
+    // NOTE: we can skip this calculation if optionsShowInitially is false
+    const selectedOptions = useMemo(
+        () => value.map((valueKey) => optionsMap[valueKey]).filter(isDefined),
+        [value, optionsMap],
+    );
+
+    const realOptions = useMemo(
+        () => {
+            const allOptions = unique(
+                [...searchOptions, ...selectedOptions],
+                keySelector,
+            );
+
+            const initiallySelected = allOptions
+                .filter((item) => selectedKeys[keySelector(item)]);
+            const initiallyNotSelected = allOptions
+                .filter((item) => (
+                    !selectedKeys[keySelector(item)]
+                    && (!hideOptionFilter || hideOptionFilter(item))
+                ));
+
+            if (sortFunction) {
+                return [
+                    ...rankedSearchOnList(initiallySelected, searchInputValue, labelSelector),
+                    ...sortFunction(initiallyNotSelected, searchInputValue, labelSelector),
+                ];
+            }
+
+            return [
+                ...rankedSearchOnList(initiallySelected, searchInputValue, labelSelector),
+                ...initiallyNotSelected,
+            ];
+        },
+        [
+            keySelector,
+            labelSelector,
+            searchInputValue,
+            searchOptions,
+            selectedKeys,
+            selectedOptions,
+            sortFunction,
+            hideOptionFilter,
+        ],
+    );
+
+    const handleSearchValueChange = useCallback(
+        (searchValue: string | undefined) => {
+            setSearchInputValue(searchValue);
+            if (onSearchValueChange) {
+                onSearchValueChange(searchValue);
+            }
+        },
+        [onSearchValueChange],
+    );
+
+    const handleChangeDropdown = useCallback(
+        (myVal: boolean) => {
+            setShowDropdown(myVal);
+            if (onShowDropdownChange) {
+                onShowDropdownChange(myVal);
+            }
+            if (myVal) {
+                setSelectedKeys(
+                    listToMap(
+                        value,
+                        (item) => item,
+                        () => true,
+                    ),
+                );
+                setFocusedKey(undefined);
+            } else {
+                setSelectedKeys({});
+                setFocusedKey(undefined);
+                setSearchInputValue(undefined);
+                if (onSearchValueChange) {
+                    onSearchValueChange(undefined);
+                }
+            }
+        },
+        [value, onSearchValueChange, onShowDropdownChange],
+    );
+
+    const optionRendererParams = useCallback(
+        (key: OptionKey, option: OPTION) => {
+            const isActive = value.findIndex((item) => item === key) !== -1;
+
+            return {
+                children: labelSelector(option),
+                containerClassName: _cs(styles.option, isActive && styles.active),
+                title: labelSelector(option),
+                isActive,
+
+                labelClassName: styles.label,
+                iconClassName: styles.icon,
+            };
+        },
+        [labelSelector, value],
+    );
+
+    // FIXME: value should not be on dependency list, also try to pass options like in SelectInput
+    const handleOptionClick = useCallback(
+        (k: OPTION_KEY, v: OPTION) => {
+            const newValue = [...value];
+
+            const optionKeyIndex = value.findIndex((d) => d === k);
+            if (optionKeyIndex !== -1) {
+                newValue.splice(optionKeyIndex, 1);
+            } else {
+                newValue.push(k);
+
+                if (onOptionsChange) {
+                    onOptionsChange(((existingOptions) => {
+                        const safeOptions = existingOptions ?? [];
+                        const opt = safeOptions.find((item) => keySelector(item) === k);
+                        if (opt) {
+                            return existingOptions;
+                        }
+                        return [...safeOptions, v];
+                    }));
+                }
+            }
+
+            onChange(newValue, name);
+        },
+        [value, onChange, name, onOptionsChange, keySelector],
+    );
+
+    const handleClear = useCallback(
+        () => {
+            onChange([], name);
+        },
+        [name, onChange],
+    );
 
     return (
-        <InputContainer
-            className={_cs(
-                styles.searchMultiSelectInput,
-                className,
-            )}
-            actions={actions}
-            disabled={disabled}
-            error={error}
-            errorOnTooltip={errorOnTooltip}
-            hint={hint}
-            icons={icons}
-            inputSectionClassName={styles.inputSection}
-            label={label}
-            readOnly={readOnly}
-            required={required}
-            variant={variant}
-            withAsterisk={withAsterisk}
-            input={(
-                <AsyncSelect
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...otherProps}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...readOnlyProps}
-                    value={selectedValues}
-                    classNames={{
-                        control: (state) => _cs(
-                            styles.control,
-                            state.isFocused ? styles.isFocused : undefined,
-                        ),
-                        valueContainer: () => styles.valueContainer,
-                        indicatorsContainer: () => styles.indicatorContainer,
-                        indicatorSeparator: () => styles.indicatorSeparator,
-                        dropdownIndicator: () => styles.dropdownIndicator,
-                        clearIndicator: () => styles.clearIndicator,
-                        multiValue: () => styles.multiValue,
-                    }}
-                    options={options}
-                    className={_cs(styles.select, inputClassName)}
-                    name={name}
-                    isDisabled={disabled}
-                    required={required}
-                    isMulti
-                    onChange={handleChange}
-                    defaultOptions={defaultOptions}
-                />
-            )}
+        <SelectInputContainer
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherProps}
+            name={name}
+            options={realOptions}
+            optionsPending={optionsPending}
+            optionsFiltered={!!searchInputValue && searchInputValue?.length > 0}
+            optionKeySelector={keySelector}
+            optionRenderer={Option}
+            optionRendererParams={optionRendererParams}
+            optionContainerClassName={styles.optionContainer}
+            onOptionClick={handleOptionClick}
+            valueDisplay={valueDisplay}
+            onClear={handleClear}
+            searchText={searchInputValue}
+            onSearchTextChange={handleSearchValueChange}
+            dropdownShown={showDropdown}
+            onDropdownShownChange={handleChangeDropdown}
+            focused={focused}
+            onFocusedChange={setFocused}
+            focusedKey={focusedKey}
+            onFocusedKeyChange={setFocusedKey}
+            persistentOptionPopup
+            nonClearable={false}
+            hasValue={isDefined(value) && value.length > 0}
         />
     );
 }

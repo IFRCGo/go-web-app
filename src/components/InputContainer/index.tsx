@@ -9,29 +9,33 @@ import InputError from '#components/InputError';
 import styles from './styles.module.css';
 
 export interface Props {
-  actions?: React.ReactNode;
-  actionsContainerClassName?: string;
-  errorContainerClassName?: string;
-  hintContainerClassName?: string;
-  iconsContainerClassName?: string;
-  disabled?: boolean;
-  error?: React.ReactNode;
-  errorOnTooltip?: boolean;
-  hint?: React.ReactNode;
-  icons?: React.ReactNode;
-  input: React.ReactNode;
-  inputSectionClassName?: string;
-  label?: React.ReactNode;
-  labelClassName?: string;
-  readOnly?: boolean;
-  required?: boolean;
-  variant?: 'form' | 'general';
-  withAsterisk?: boolean;
-  className?: string;
+    actions?: React.ReactNode;
+    actionsContainerClassName?: string;
+    errorContainerClassName?: string;
+    hintContainerClassName?: string;
+    iconsContainerClassName?: string;
+    disabled?: boolean;
+    error?: React.ReactNode;
+    errorOnTooltip?: boolean;
+    hint?: React.ReactNode;
+    icons?: React.ReactNode;
+    input: React.ReactNode;
+    inputSectionClassName?: string;
+    label?: React.ReactNode;
+    labelClassName?: string;
+    readOnly?: boolean;
+    required?: boolean;
+    variant?: 'form' | 'general';
+    withAsterisk?: boolean;
+    className?: string;
+    containerRef?: React.RefObject<HTMLDivElement>;
+    inputSectionRef?: React.RefObject<HTMLDivElement>;
 }
 
 function InputContainer(props: Props) {
     const {
+        containerRef,
+        inputSectionRef,
         actions,
         className,
         disabled,
@@ -57,6 +61,7 @@ function InputContainer(props: Props) {
 
     return (
         <div
+            ref={containerRef}
             className={_cs(
                 styles.inputContainer,
                 !!error && styles.errored,
@@ -77,10 +82,12 @@ function InputContainer(props: Props) {
             >
                 {label}
             </InputLabel>
-            <div className={_cs(
-                styles.inputSection,
-                inputSectionClassName,
-            )}
+            <div
+                ref={inputSectionRef}
+                className={_cs(
+                    styles.inputSection,
+                    inputSectionClassName,
+                )}
             >
                 {icons && (
                     <div className={_cs(styles.iconContainer, iconsContainerClassName)}>

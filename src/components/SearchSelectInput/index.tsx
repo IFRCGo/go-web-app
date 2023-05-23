@@ -1,119 +1,288 @@
-import { useCallback, useMemo } from 'react';
-import { _cs } from '@togglecorp/fujs';
-import AsyncSelect, { AsyncProps } from 'react-select/async';
-import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
-import { GroupBase } from 'react-select';
-import { NameType, ValueType } from '#components/types';
+import { useCallback, useMemo, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import {
+    _cs,
+    listToMap,
+    unique,
+    isDefined,
+} from '@togglecorp/fujs';
+
+import { rankedSearchOnList } from '#utils/common';
+import SelectInputContainer, { SelectInputContainerProps } from '#components/SelectInputContainer';
+import Option from './Option';
 
 import styles from './styles.module.css';
 
-type InheritedProps<O> = Omit<InputContainerProps, 'input'>
-  & Omit<AsyncProps<O, false, GroupBase<O>>, 'className' | 'onChange' | 'value' | 'isMulti' | 'name' | 'options' | 'isDisabled' | 'classNames' | 'required' | 'isSearchable'>
+type Def = { containerClassName?: string, title?: string; };
+type OptionKey = string | number;
 
-type Props<N, O, V extends ValueType> = InheritedProps<O> & {
-  inputClassName?: string;
-  name: N;
-  keySelector: (option: O) => V;
-  options: O[];
-  value: V | null | undefined;
-  onChange: (newValue: V | undefined, name: N) => void;
-};
+export type SearchSelectInputProps<
+    OPTION_KEY extends OptionKey,
+    NAME,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    OPTION extends object,
+    RENDER_PROPS extends Def,
+    OMISSION extends string,
+> = (
+    Omit<{
+        value: OPTION_KEY | undefined | null;
+        options: OPTION[] | undefined | null;
+        searchOptions?: OPTION[] | undefined | null;
+        keySelector: (option: OPTION) => OPTION_KEY;
+        labelSelector: (option: OPTION) => string;
+        hideOptionFilter?: (option: OPTION) => boolean;
+        name: NAME;
+        disabled?: boolean;
+        readOnly?: boolean;
+        onOptionsChange?: Dispatch<SetStateAction<OPTION[] | undefined | null>>;
+        sortFunction?: (
+            options: OPTION[],
+            search: string | undefined,
+            labelSelector: (option: OPTION) => string,
+        ) => OPTION[];
+        onSearchValueChange?: (value: string | undefined) => void;
+        onShowDropdownChange?: (value: boolean) => void;
+    }, OMISSION>
+    & SelectInputContainerProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS,
+        'name'
+        | 'nonClearable'
+        | 'onClear'
+        | 'onOptionClick'
+        | 'optionKeySelector'
+        | 'optionRenderer'
+        | 'optionRendererParams'
+        | 'optionsFiltered'
+        | 'persistentOptionPopup'
+        | 'valueDisplay'
+        | 'optionContainerClassName'
+        | 'searchText'
+        | 'onSearchTextChange'
+        | 'dropdownShown'
+        | 'onDropdownShownChange'
+        | 'focused'
+        | 'onFocusedChange'
+        | 'focusedKey'
+        | 'onFocusedKeyChange'
+        | 'hasValue'
+        | 'hideOptionFilter'
+    >
+    & ({
+        nonClearable: true,
+        onChange: (newValue: OPTION_KEY, name: NAME, value: OPTION) => void,
+    } | {
+        nonClearable?: false,
+        onChange: (newValue: OPTION_KEY | undefined, name: NAME, value: OPTION | undefined) => void;
+    })
+);
 
-function SearchSelectInput<N extends NameType, O, V extends ValueType>(props: Props<N, O, V>) {
+const emptyList: unknown[] = [];
+
+function SearchSelectInput<
+    OPTION_KEY extends OptionKey,
+    NAME extends string,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    OPTION extends object,
+    RENDER_PROPS extends Def,
+>(
+    props: SearchSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS, never>,
+) {
     const {
-        actions,
-        className,
-        disabled,
-        error,
-        errorOnTooltip,
-        hint,
-        icons,
-        inputClassName,
-        label,
-        readOnly,
-        required,
-        variant,
-        withAsterisk,
-        onChange,
-        loadOptions,
-        name,
-        options,
-        value,
         keySelector,
-        defaultOptions = true,
+        labelSelector,
+        name,
+        onChange,
+        onOptionsChange,
+        options: optionsFromProps,
+        optionsPending,
+        value,
+        sortFunction,
+        searchOptions: searchOptionsFromProps,
+        onSearchValueChange,
+        onShowDropdownChange,
+        hideOptionFilter,
         ...otherProps
     } = props;
 
-    const handleChange = useCallback((selectedOption: O | null) => {
-        if (selectedOption) {
-            const valueForSelectOption = keySelector(selectedOption);
-            onChange(valueForSelectOption, name);
-        } else {
-            onChange(undefined, name);
-        }
-    }, [onChange, name, keySelector]);
+    const options = optionsFromProps ?? (emptyList as OPTION[]);
+    const searchOptions = searchOptionsFromProps ?? (emptyList as OPTION[]);
 
-    const readOnlyProps = useMemo(() => (
-        readOnly ? {
-            isClearable: false,
-            isSearchable: false,
-            openMenuOnClick: false,
-            menuIsOpen: false,
-        } : undefined
-    ), [readOnly]);
+    const [searchInputValue, setSearchInputValue] = useState<string | undefined>();
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [focused, setFocused] = useState(false);
+    const [
+        focusedKey,
+        setFocusedKey,
+    ] = useState<{ key: OPTION_KEY, mouse?: boolean } | undefined>();
 
-    const selectedValue = useMemo(() => (
-        options?.find((option) => keySelector(option) === value)
-    ), [options, keySelector, value]);
+    const [selectedKeys, setSelectedKeys] = useState<{
+        [key: string]: boolean,
+    }>({});
+
+    const optionsLabelMap = useMemo(
+        () => (
+            listToMap(options, keySelector, labelSelector)
+        ),
+        [options, keySelector, labelSelector],
+    );
+
+    const valueDisplay = isDefined(value) ? optionsLabelMap[value] ?? '?' : '';
+
+    // NOTE: we can skip this calculation if optionsShowInitially is false
+    const selectedOptions = useMemo(
+        () => {
+            const selectedValue = options?.find((item) => keySelector(item) === value);
+            return !selectedValue ? [] : [selectedValue];
+        },
+        [value, options, keySelector],
+    );
+
+    const realOptions = useMemo(
+        () => {
+            const allOptions = unique(
+                [...searchOptions, ...selectedOptions],
+                keySelector,
+            );
+
+            const initiallySelected = allOptions
+                .filter((item) => selectedKeys[keySelector(item)]);
+            const initiallyNotSelected = allOptions
+                .filter((item) => (
+                    !selectedKeys[keySelector(item)]
+                    && (!hideOptionFilter || hideOptionFilter(item))
+                ));
+
+            if (sortFunction) {
+                return [
+                    ...rankedSearchOnList(initiallySelected, searchInputValue, labelSelector),
+                    ...sortFunction(initiallyNotSelected, searchInputValue, labelSelector),
+                ];
+            }
+
+            return [
+                ...rankedSearchOnList(initiallySelected, searchInputValue, labelSelector),
+                ...initiallyNotSelected,
+            ];
+        },
+        [
+            keySelector,
+            labelSelector,
+            searchInputValue,
+            searchOptions,
+            selectedKeys,
+            selectedOptions,
+            sortFunction,
+            hideOptionFilter,
+        ],
+    );
+
+    const handleSearchValueChange = useCallback(
+        (searchValue: string | undefined) => {
+            setSearchInputValue(searchValue);
+            if (onSearchValueChange) {
+                onSearchValueChange(searchValue);
+            }
+        },
+        [onSearchValueChange],
+    );
+
+    const handleChangeDropdown = useCallback(
+        (myVal: boolean) => {
+            setShowDropdown(myVal);
+            if (onShowDropdownChange) {
+                onShowDropdownChange(myVal);
+            }
+            if (myVal) {
+                setSelectedKeys(
+                    listToMap(
+                        value ? [value] : [],
+                        (item) => item,
+                        () => true,
+                    ),
+                );
+                setFocusedKey(value ? { key: value } : undefined);
+            } else {
+                setSelectedKeys({});
+                setFocusedKey(undefined);
+                setSearchInputValue(undefined);
+                if (onSearchValueChange) {
+                    onSearchValueChange(undefined);
+                }
+            }
+        },
+        [value, onSearchValueChange, onShowDropdownChange],
+    );
+
+    const optionRendererParams = useCallback(
+        (key: OptionKey, option: OPTION) => {
+            const isActive = key === value;
+
+            return {
+                children: labelSelector(option),
+                containerClassName: _cs(styles.option, isActive && styles.active),
+                title: labelSelector(option),
+
+                labelClassName: styles.label,
+                iconClassName: styles.icon,
+            };
+        },
+        [value, labelSelector],
+    );
+
+    const handleOptionClick = useCallback(
+        (k: OPTION_KEY, v: OPTION) => {
+            if (onOptionsChange) {
+                onOptionsChange(((existingOptions) => {
+                    const safeOptions = existingOptions ?? [];
+                    const opt = safeOptions.find((item) => keySelector(item) === k);
+                    if (opt) {
+                        return existingOptions;
+                    }
+                    return [...safeOptions, v];
+                }));
+            }
+            onChange(k, name, v);
+        },
+        [onChange, name, onOptionsChange, keySelector],
+    );
+
+    const handleClear = useCallback(
+        () => {
+            // eslint-disable-next-line react/destructuring-assignment
+            if (!props.nonClearable) {
+                // eslint-disable-next-line react/destructuring-assignment
+                const handleChange = props.onChange;
+                handleChange(undefined, name, undefined);
+            }
+        },
+        // eslint-disable-next-line react/destructuring-assignment
+        [name, props.onChange, props.nonClearable],
+    );
 
     return (
-        <InputContainer
-            className={_cs(
-                styles.selectInput,
-                className,
-            )}
-            actions={actions}
-            disabled={disabled}
-            error={error}
-            errorOnTooltip={errorOnTooltip}
-            hint={hint}
-            icons={icons}
-            label={label}
-            required={required}
-            variant={variant}
-            readOnly={readOnly}
-            withAsterisk={withAsterisk}
-            inputSectionClassName={styles.inputSection}
-            input={(
-                <AsyncSelect
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...otherProps}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...readOnlyProps}
-                    cacheOptions
-                    options={options}
-                    value={selectedValue}
-                    loadOptions={loadOptions}
-                    classNames={{
-                        control: (state) => _cs(
-                            styles.control,
-                            state.isFocused ? styles.isFocused : undefined,
-                        ),
-                        valueContainer: () => styles.valueContainer,
-                        indicatorsContainer: () => styles.indicatorContainer,
-                        indicatorSeparator: () => styles.indicatorSeparator,
-                        dropdownIndicator: () => styles.dropdownIndicator,
-                        clearIndicator: () => styles.clearIndicator,
-                    }}
-                    className={_cs(styles.select, inputClassName)}
-                    name={name}
-                    isDisabled={disabled}
-                    required={required}
-                    isMulti={false}
-                    onChange={handleChange}
-                    defaultOptions={defaultOptions}
-                />
-            )}
+        <SelectInputContainer
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherProps}
+            name={name}
+            options={realOptions}
+            optionsPending={optionsPending}
+            optionsFiltered={!!searchInputValue && searchInputValue?.length > 0}
+            optionKeySelector={keySelector}
+            optionRenderer={Option}
+            optionRendererParams={optionRendererParams}
+            optionContainerClassName={styles.optionContainer}
+            onOptionClick={handleOptionClick}
+            valueDisplay={valueDisplay}
+            onClear={handleClear}
+            searchText={searchInputValue}
+            onSearchTextChange={handleSearchValueChange}
+            dropdownShown={showDropdown}
+            onDropdownShownChange={handleChangeDropdown}
+            focused={focused}
+            onFocusedChange={setFocused}
+            focusedKey={focusedKey}
+            onFocusedKeyChange={setFocusedKey}
+            hasValue={isDefined(value)}
+            persistentOptionPopup={false}
         />
     );
 }

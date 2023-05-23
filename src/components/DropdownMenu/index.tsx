@@ -33,7 +33,7 @@ function DropdownMenu(props: Props) {
         label,
         activeClassName,
         icons,
-        variant,
+        variant = 'secondary',
         actions,
         hideDropdownIcon,
     } = props;
@@ -41,22 +41,30 @@ function DropdownMenu(props: Props) {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [showDropdown, setShowDropdown] = useState(false);
-    const handleMenuClick = useCallback(() => {
-        setShowDropdown((prevValue) => !prevValue);
-    }, [setShowDropdown]);
 
-    const handleBlurCallback = useCallback((clickedInside: boolean, clickedInParent: boolean) => {
-        if (clickedInside || clickedInParent) {
-            return;
-        }
-        setShowDropdown(false);
-    }, [setShowDropdown]);
+    const handleMenuClick = useCallback(
+        () => {
+            setShowDropdown((prevValue) => !prevValue);
+        },
+        [setShowDropdown],
+    );
+
+    const handleBlurCallback = useCallback(
+        (clickedInside: boolean, clickedInParent: boolean) => {
+            const isClickedWithin = clickedInside || clickedInParent;
+            if (isClickedWithin) {
+                return;
+            }
+            setShowDropdown(false);
+        },
+        [setShowDropdown],
+    );
 
     useBlurEffect(
         showDropdown,
         handleBlurCallback,
-        buttonRef,
         dropdownRef,
+        buttonRef,
     );
 
     return (
