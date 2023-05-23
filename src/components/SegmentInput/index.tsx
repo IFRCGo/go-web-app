@@ -44,20 +44,20 @@ function Segment<N, IN>(props: SegmentProps<N, IN>) {
     );
 }
 
-export interface Props<
+export type Props<
     N,
     O,
     V,
     RRP extends RadioProps<V, N>,
-> extends Omit<RadioInputProps<N, O, V, RRP>, 'rendererParams' | 'renderer' | 'listContainerClassName' | 'keySelector' | 'labelSelector'> {
-    rendererParams?: RadioInputProps<N, O, V, RRP>['rendererParams'];
-    listContainerClassName?: RadioInputProps<N, O, V, RRP>['listContainerClassName'];
-    keySelector: RadioInputProps<N, O, V, RRP>['keySelector'];
-    labelSelector: RadioInputProps<N, O, V, RRP>['labelSelector'];
+> = RadioInputProps<N, O, V, RRP, 'rendererParams' | 'renderer' | 'listContainerClassName' | 'keySelector' | 'labelSelector'> & {
+    rendererParams?: RadioInputProps<N, O, V, RRP, never>['rendererParams'];
+    listContainerClassName?: RadioInputProps<N, O, V, RRP, never>['listContainerClassName'];
+    keySelector: RadioInputProps<N, O, V, RRP, never>['keySelector'];
+    labelSelector: RadioInputProps<N, O, V, RRP, never>['labelSelector'];
 }
 
 function SegmentInput<
-    N,
+    const N,
     // eslint-disable-next-line @typescript-eslint/ban-types
     O extends object,
     V extends string | number | boolean,

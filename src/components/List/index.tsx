@@ -31,10 +31,16 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
         renderer: Renderer,
         rendererClassName,
         rendererParams,
+
         pending,
         errored,
+        filtered,
+
+        message: messageFromProps,
         errorMessage,
         emptyMessage,
+        pendingMessage,
+        filteredMessage,
     } = props;
 
     const data = dataFromProps ?? (emptyList as D[]);
@@ -59,26 +65,30 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
             empty={empty}
             pending={pending}
             errored={errored}
+            filtered={filtered}
+            message={messageFromProps}
+            pendingMessage={pendingMessage}
             emptyMessage={emptyMessage}
             errorMessage={errorMessage}
+            filteredMessage={filteredMessage}
         />
     );
 
     if (!hasGroup(props)) {
         return (
             <>
-                {message}
                 {data.map(renderListItem)}
+                {message}
             </>
         );
     }
 
     return (
         <>
-            {message}
             <GroupedList
                 {...props} /* eslint-disable-line react/jsx-props-no-spreading */
             />
+            {message}
         </>
     );
 }

@@ -36,8 +36,6 @@ const randomOptions: Option[] = [
     },
 ];
 
-const keySelector = (d: Option) => d.value;
-
 function MultiSelectInputExample() {
     const [selectedOption, setSelectedOption] = useState<number[] | null | undefined>(null);
 
@@ -48,34 +46,18 @@ function MultiSelectInputExample() {
                 label="Basic MultiSelect"
                 name="Country"
                 options={randomOptions}
-                keySelector={keySelector}
                 value={selectedOption}
+                labelSelector={(item) => item.label}
+                keySelector={(item) => item.value}
                 onChange={setSelectedOption}
-            />
-            <MultiSelectInput
-                label="MultiSelect input that is clearable"
-                name="country"
-                options={randomOptions}
-                value={selectedOption}
-                keySelector={keySelector}
-                onChange={setSelectedOption}
-                isClearable
-            />
-            <MultiSelectInput
-                label="MultiSelect input that is searchable"
-                name="country"
-                options={randomOptions}
-                value={selectedOption}
-                keySelector={keySelector}
-                onChange={setSelectedOption}
-                isSearchable
             />
             <MultiSelectInput
                 label="MultiSelect input that is required"
                 name="country"
                 options={randomOptions}
                 value={selectedOption}
-                keySelector={keySelector}
+                labelSelector={(item) => item.label}
+                keySelector={(item) => item.value}
                 onChange={setSelectedOption}
                 required
             />
@@ -84,7 +66,8 @@ function MultiSelectInputExample() {
                 name="country"
                 options={randomOptions}
                 value={selectedOption}
-                keySelector={keySelector}
+                labelSelector={(item) => item.label}
+                keySelector={(item) => item.value}
                 onChange={setSelectedOption}
                 disabled
             />
@@ -93,7 +76,8 @@ function MultiSelectInputExample() {
                 name="country"
                 options={randomOptions}
                 value={selectedOption}
-                keySelector={keySelector}
+                labelSelector={(item) => item.label}
+                keySelector={(item) => item.value}
                 onChange={setSelectedOption}
                 readOnly
             />

@@ -241,7 +241,7 @@ function DrefOverview(props: Props) {
                 >
                     <SelectInput
                         error={error?.national_society}
-                        name={'national_society' as const}
+                        name="national_society"
                         keySelector={(d) => d.value}
                         onChange={handleNSChange}
                         options={nationalSocietyOptions}
@@ -258,7 +258,7 @@ function DrefOverview(props: Props) {
                     <SelectInput
                         error={error?.type_of_dref}
                         label={strings.drefFormTypeOfDref}
-                        name={'type_of_dref' as const}
+                        name="type_of_dref"
                         keySelector={(d) => d.value}
                         onChange={onValueChange}
                         options={drefTypeOptions}
@@ -281,7 +281,7 @@ function DrefOverview(props: Props) {
                                 ? strings.drefFormImminentDisasterTypeLabel
                                 : strings.drefFormDisasterTypeLabel
                         }
-                        name={'disaster_type' as const}
+                        name="disaster_type"
                         keySelector={(d) => d.value}
                         onChange={onValueChange}
                         options={disasterTypeOptions}
@@ -290,7 +290,7 @@ function DrefOverview(props: Props) {
                     <SelectInput
                         error={error?.type_of_onset}
                         label={strings.drefFormTypeOfOnsetLabel}
-                        name={'type_of_onset' as const}
+                        name="type_of_onset"
                         onChange={onValueChange}
                         keySelector={(d) => d.value}
                         options={onsetOptions}
@@ -299,7 +299,7 @@ function DrefOverview(props: Props) {
                     {showManMadeEventInput && (
                         <RadioInput
                             label={strings.drefFormManMadeEvent}
-                            name={'is_man_made_event' as const}
+                            name="is_man_made_event"
                             options={yesNoOptions}
                             keySelector={booleanOptionKeySelector}
                             labelSelector={optionLabelSelector}
@@ -346,7 +346,7 @@ function DrefOverview(props: Props) {
                     <SelectInput
                         label={strings.drefFormAddCountry}
                         error={error?.country}
-                        name={'country' as const}
+                        name="country"
                         keySelector={(d) => d.value}
                         onChange={onValueChange}
                         options={countryOptions}
@@ -493,7 +493,7 @@ function DrefOverview(props: Props) {
                         title={strings.drefFormEmergencyAppealPlanned}
                     >
                         <RadioInput
-                            name={'emergency_appeal_planned' as const}
+                            name="emergency_appeal_planned"
                             options={yesNoOptions}
                             keySelector={booleanOptionKeySelector}
                             labelSelector={optionLabelSelector}
@@ -510,7 +510,7 @@ function DrefOverview(props: Props) {
                         contentSectionClassName={styles.imageInputContent}
                     >
                         <ImageWithCaptionInput
-                            name={'event_map_file' as const}
+                            name="event_map_file"
                             value={value?.event_map_file}
                             onChange={onValueChange}
                             error={error?.event_map_file}
@@ -527,7 +527,7 @@ function DrefOverview(props: Props) {
                         contentSectionClassName={styles.imageInputContent}
                     >
                         <ImageWithCaptionInput
-                            name={'cover_image_file' as const}
+                            name="cover_image_file"
                             value={value?.cover_image_file}
                             onChange={onValueChange}
                             error={error?.cover_image_file}

@@ -1,19 +1,18 @@
 import React from 'react';
-import { NameType } from '#components/types';
 import InputContainer, { Props as InputContainerProps } from '../InputContainer';
 import RawTextArea, { Props as RawTextAreaProps } from '../RawTextArea';
 
 const BULLET = '•';
 const KEY_ENTER = 'ENTER';
 
-type InheritedProps<N extends NameType> = (Omit<InputContainerProps, 'input'> & Omit<RawTextAreaProps<N>, 'type'>);
-export interface Props<T extends number | string | undefined> extends InheritedProps<T> {
+type InheritedProps<N> = (Omit<InputContainerProps, 'input'> & Omit<RawTextAreaProps<N>, 'type'>);
+export interface Props<T> extends InheritedProps<T> {
   inputElementRef?: React.RefObject<HTMLInputElement>;
   autoBullets?: boolean;
   inputClassName?: string;
 }
 
-function TextArea<N extends NameType>(props: Props<N>) {
+function TextArea<const N>(props: Props<N>) {
     const {
         actions,
         className,

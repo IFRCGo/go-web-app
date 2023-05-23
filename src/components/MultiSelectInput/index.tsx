@@ -1,114 +1,42 @@
-import { useCallback, useMemo } from 'react';
-import { _cs } from '@togglecorp/fujs';
-import Select, { Props as SelectProps, GroupBase } from 'react-select';
-import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
-import { NameType, ValueType } from '#components/types';
+import SearchMultiSelectInput, { SearchMultiSelectInputProps } from '#components/SearchMultiSelectInput';
+import { rankedSearchOnList } from '#utils/common';
 
-import styles from './styles.module.css';
+type Def = { containerClassName?: string };
+type OptionKey = string | number;
 
-type InheritedProps<O> = Omit<InputContainerProps, 'input'>
-    & Omit<SelectProps<O, true, GroupBase<O>>, 'className' | 'onChange' | 'value' | 'isMulti' | 'name' | 'options' | 'isDisabled' | 'classNames' | 'required'>
+export type MultiSelectInputProps<
+    OPTION_KEY extends OptionKey,
+    NAME,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    OPTION extends object,
+    RENDER_PROPS extends Def,
+> = SearchMultiSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount'>;
 
-type Props<N, O, V extends ValueType> = InheritedProps<O> & {
-    inputClassName?: string;
-    name: N;
-    options: O[];
-    keySelector: (option: O) => V;
-    value: V[] | null | undefined;
-    onChange: (newValue: V[] | undefined, name: N) => void;
-};
-
-function MultiSelectInput<N extends NameType, O, V extends ValueType>(props: Props<N, O, V>) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+function MultiSelectInput<
+    OPTION_KEY extends OptionKey,
+    const NAME,
+    OPTION extends object,
+    RENDER_PROPS extends Def,
+>(
+    props: MultiSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS>,
+) {
     const {
-        actions,
-        className,
-        disabled,
-        error,
-        errorOnTooltip,
-        hint,
-        icons,
-        inputClassName,
-        label,
-        readOnly,
-        required,
-        variant,
-        withAsterisk,
-        onChange,
         name,
         options,
-        value,
-        keySelector,
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+        totalOptionsCount,
         ...otherProps
     } = props;
 
-    const handleChange = useCallback((selectedOptions: readonly O[] | null) => {
-        if (selectedOptions) {
-            const values = selectedOptions.map((option) => keySelector(option));
-            onChange(values, name);
-        } else {
-            onChange(undefined, name);
-        }
-    }, [onChange, name, keySelector]);
-
-    const selectedValues = useMemo(() => (
-        options?.filter((option) => value?.includes(keySelector(option)))
-    ), [options, keySelector, value]);
-
-    const readOnlyProps = useMemo(() => (
-        readOnly ? {
-            isClearable: false,
-            isSearchable: false,
-            openMenuOnClick: false,
-            menuIsOpen: false,
-        } : undefined
-    ), [readOnly]);
-
     return (
-        <InputContainer
-            className={_cs(
-                styles.multiSelectInput,
-                className,
-            )}
-            actions={actions}
-            disabled={disabled}
-            error={error}
-            errorOnTooltip={errorOnTooltip}
-            hint={hint}
-            icons={icons}
-            inputSectionClassName={styles.inputSection}
-            label={label}
-            readOnly={readOnly}
-            required={required}
-            variant={variant}
-            withAsterisk={withAsterisk}
-            input={(
-                <Select
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...otherProps}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...readOnlyProps}
-                    value={selectedValues}
-                    classNames={{
-                        control: (state) => _cs(
-                            styles.control,
-                            state.isFocused ? styles.isFocused : undefined,
-                        ),
-                        valueContainer: () => styles.valueContainer,
-                        indicatorsContainer: () => styles.indicatorContainer,
-                        indicatorSeparator: () => styles.indicatorSeparator,
-                        dropdownIndicator: () => styles.dropdownIndicator,
-                        clearIndicator: () => styles.clearIndicator,
-                        multiValue: () => styles.multiValue,
-                    }}
-                    options={options}
-                    className={_cs(styles.select, inputClassName)}
-                    name={name}
-                    isDisabled={disabled}
-                    required={required}
-                    isMulti
-                    onChange={handleChange}
-                />
-            )}
+        <SearchMultiSelectInput
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherProps}
+            name={name}
+            options={options}
+            sortFunction={rankedSearchOnList}
+            searchOptions={options}
         />
     );
 }

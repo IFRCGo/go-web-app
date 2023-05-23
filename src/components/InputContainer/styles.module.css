@@ -52,10 +52,4 @@
             border-bottom-color: var(--go-ui-color-primary-red);
         }
     }
-
-    &.disabled {
-        background-color: var(--go-ui-color-gray-10);
-        cursor: not-allowed;
-        color: var(--go-ui-color-gray-40);
-    }
 }

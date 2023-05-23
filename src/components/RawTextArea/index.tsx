@@ -1,10 +1,9 @@
 import React from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
-import { NameType } from '#components/types';
 
 import styles from './styles.module.css';
 
-export interface Props<N extends NameType> extends Omit<React.HTMLProps<HTMLTextAreaElement>, 'ref' | 'onChange' | 'value' | 'name'> {
+export interface Props<N> extends Omit<React.HTMLProps<HTMLTextAreaElement>, 'ref' | 'onChange' | 'value' | 'name'> {
   className?: string;
   name: N;
   value: string | undefined | null;
@@ -16,7 +15,7 @@ export interface Props<N extends NameType> extends Omit<React.HTMLProps<HTMLText
   elementRef?: React.Ref<HTMLTextAreaElement>;
 }
 
-function RawTextArea<N extends NameType>(props: Props<N>) {
+function RawTextArea<N>(props: Props<N>) {
     const {
         className,
         onChange,

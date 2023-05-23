@@ -177,7 +177,7 @@ function ActionsFields(props: Props) {
                   }
               >
                   <RadioInput
-                      name={'did_national_society' as const}
+                      name="did_national_society"
                       options={yesNoOptions}
                       keySelector={booleanOptionKeySelector}
                       labelSelector={optionLabelSelector}
@@ -210,6 +210,7 @@ function ActionsFields(props: Props) {
                       options={filteredNsActionOptions}
                       value={nsAction}
                       keySelector={(d) => d.value}
+                      labelSelector={(d) => d.label}
                       onChange={setNsAction}
                   />
                   <div className={styles.actions}>
@@ -282,7 +283,7 @@ function ActionsFields(props: Props) {
                   title={strings.drefFormInternationalAssistance}
               >
                   <RadioInput
-                      name={'government_requested_assistance' as const}
+                      name="government_requested_assistance"
                       options={yesNoOptions}
                       keySelector={booleanOptionKeySelector}
                       labelSelector={optionLabelSelector}
@@ -321,7 +322,7 @@ function ActionsFields(props: Props) {
                   multiRow
               >
                   <RadioInput
-                      name={'is_there_major_coordination_mechanism' as const}
+                      name="is_there_major_coordination_mechanism"
                       options={yesNoOptions}
                       keySelector={booleanOptionKeySelector}
                       labelSelector={optionLabelSelector}
@@ -382,6 +383,7 @@ function ActionsFields(props: Props) {
                         name={undefined}
                         onChange={setNeed}
                         keySelector={(d) => d.value}
+                        labelSelector={(d) => d.label}
                         options={filteredNeedOptions}
                         value={need}
                     />
