@@ -84,8 +84,16 @@ const preparedness = wrapRoute({
 
 const threeW = wrapRoute({
     title: 'Three W',
-    path: 'threeW',
+    path: 'three-w',
     component: () => import('#views/GlobalThreeW'),
+    componentProps: {},
+    parent: root,
+});
+
+const riskWatch = wrapRoute({
+    title: 'Risk',
+    path: 'risk-watch',
+    component: () => import('#views/GlobalRiskWatch'),
     componentProps: {},
     parent: root,
 });
@@ -106,6 +114,14 @@ const resources = wrapRoute({
     parent: root,
 });
 
+const search = wrapRoute({
+    title: 'Search',
+    path: 'search',
+    component: () => import('#views/Search'),
+    componentProps: {},
+    parent: root,
+});
+
 const goUI = wrapRoute({
     title: 'Go UI',
     path: 'go-ui',
@@ -114,7 +130,7 @@ const goUI = wrapRoute({
     parent: root,
 });
 
-const newDrefApplicationForm = wrapRoute({
+const drefApplicationFormNew = wrapRoute({
     title: 'New Dref Application Form',
     path: '/dref-application/new/',
     component: () => import('#views/DrefApplicationForm'),
@@ -126,6 +142,22 @@ const drefApplicationFormEdit = wrapRoute({
     title: 'Dref Application Form',
     path: '/dref-application/:drefId/edit/',
     component: () => import('#views/DrefApplicationForm'),
+    componentProps: {},
+    parent: root,
+});
+
+const flashUpdateFormNew = wrapRoute({
+    title: 'New Flash Update',
+    path: '/flash-update/new/',
+    component: () => import('#views/FlashUpdateForm'),
+    componentProps: {},
+    parent: root,
+});
+
+const fieldReportFormNew = wrapRoute({
+    title: 'New Field Report Form',
+    path: '/field-report/new/',
+    component: () => import('#views/FieldReportForm'),
     componentProps: {},
     parent: root,
 });
@@ -145,8 +177,12 @@ const wrappedRoutes = {
     account,
     resources,
     goUI,
-    newDrefApplicationForm,
+    drefApplicationFormNew,
     drefApplicationFormEdit,
+    fieldReportFormNew,
+    flashUpdateFormNew,
+    riskWatch,
+    search,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

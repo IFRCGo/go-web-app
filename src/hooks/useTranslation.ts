@@ -1,6 +1,20 @@
 import { useEffect } from 'react';
 
-type PageName = 'home' | 'common' | 'login' | 'threeW' | 'dref';
+type PageName = 'home'
+| 'common'
+| 'login'
+| 'threeW'
+| 'dref'
+| 'resources'
+| 'register'
+| 'region'
+| 'search'
+| 'fieldReport'
+| 'flashUpdate'
+| 'emergency'
+| 'account'
+| 'surge'
+| 'country';
 
 function useTranslation<V extends Record<string, string>>(pageName: PageName, defaultValues: V) {
     useEffect(() => {

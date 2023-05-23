@@ -1,4 +1,5 @@
 const emergency = {
+    emergenciesTitle: 'IFRC GO - Emergencies',
     emergenciesTableError: 'Latest emergencies not available.',
     emergenciesTableDate: 'Start Date',
     emergenciesTableName: 'Name',
@@ -110,8 +111,17 @@ const emergency = {
     emergencyActionCreateThreeWActivityLabel: 'Create 3W Activity',
     emergencyResponseDocumentSearchEmptyMessage: 'No document found for the given search',
     emergencyAddReportButtonLabel: 'Add a Report',
-    emergenciesTitle: 'IFRC GO - Emergencies',
     emergenciesTableTitle: 'Emergencies in the last 30 days',
+    emergenciesLeftMenuHeading: 'Operations by Type',
+    emergenciesLeftMenuTitle: 'IFRC Emergency Operations',
+    emergencyTypesAll: 'All Emergency Types',
+    emergenciesStatsTitle: 'Emergencies',
+    emergenciesStatsAffected: 'Affected People',
+    emergenciesStatsRequested: 'Requested Amount',
+    emergenciesStatsFunding: 'Funding (CHF)',
+    emergenciesDashAllEmergenciesLinkLabel: 'View All Emergencies',
+    emergencySourceMessage: 'Source: {link}',
+    emergencyFieldReportStatsHeading: 'Key Figures',
 };
 
 export type EmergencyStrings = typeof emergency;

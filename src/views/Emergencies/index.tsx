@@ -1,18 +1,18 @@
 import Page from '#components/Page';
 import useTranslation from '#hooks/useTranslation';
-import homePageStrings from '#strings/home';
+import emergencyStrings from '#strings/emergency';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation('home', homePageStrings);
+    const strings = useTranslation('emergency', emergencyStrings);
 
     return (
         <Page
-            title={strings.homeTitle}
+            title={strings.emergenciesTitle}
         >
-            Page
+            Emergencies Page
         </Page>
     );
 }
 
-Component.displayName = 'Home';
+Component.displayName = 'Emergencies';

@@ -1,18 +1,18 @@
 import Page from '#components/Page';
 import useTranslation from '#hooks/useTranslation';
-import commonStrings from '#strings/common';
+import searchPageStrings from '#strings/search';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation('search', searchPageStrings);
 
     return (
         <Page
-            title={strings.riskPageTitle}
+            title={strings.searchPageTitle}
         >
-            Global Risk Watch Page
+            Search Page
         </Page>
     );
 }
 
-Component.displayName = 'GlobalRiskWatch';
+Component.displayName = 'Search';
