@@ -1,0 +1,12 @@
+{
+    "namespace": "common",
+    "strings": {
+        "menuRegions":"Regions",
+        "menuRegionsTooltip":"View Regions",
+        "regionNameAfrica":"Africa",
+        "regionNameAsia":"Asia Pacific",
+        "regionNameMENA":"Middle East & North Africa",
+        "regionNameEurope":"Europe",
+        "regionNameAmerica":"Americas"
+    }
+}

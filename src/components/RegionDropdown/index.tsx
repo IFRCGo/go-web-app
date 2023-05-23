@@ -3,8 +3,9 @@ import { generatePath } from 'react-router-dom';
 import DropdownMenu, { Props as DropdownMenuProps } from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
-import commonStrings from '#strings/common';
 import routes from '#routes';
+
+import i18n from './i18n.json';
 
 type Props = DropdownMenuProps;
 
@@ -14,7 +15,7 @@ function RegionDropdown(props: Props) {
         ...otherProps
     } = props;
 
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
 
     return (
         <DropdownMenu

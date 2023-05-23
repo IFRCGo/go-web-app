@@ -12,11 +12,11 @@ import ButtonLikeLink from '#components/ButtonLikeLink';
 import Link from '#components/Link';
 import PageContainer from '#components/PageContainer';
 import useTranslation from '#hooks/useTranslation';
-import commonStrings from '#strings/common';
 import { resolveToComponent } from '#utils/translation';
 import { adminUrl } from '#config';
 import routes from '#routes';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -30,7 +30,7 @@ function GlobalFooter(props: Props) {
 
     const date = new Date();
     const year = date.getFullYear();
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
     const copyrightText = resolveToComponent(
         strings.footerIFRC,
         {

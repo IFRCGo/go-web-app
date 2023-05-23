@@ -2,9 +2,10 @@ import { _cs } from '@togglecorp/fujs';
 
 import InfoPopup from '#components/InfoPopup';
 import useTranslation from '#hooks/useTranslation';
-import commonStrings from '#strings/common';
 import Link from '#components/Link';
+import { resolveToComponent } from '#utils/translation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -12,10 +13,21 @@ interface Props {
 }
 
 function GoMapDisclaimer(props: Props) {
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
     const {
         className,
     } = props;
+
+    const mapSources = resolveToComponent(
+        strings.mapSourcesLabel,
+        {
+            uncodsLink: (
+                <Link to="https://cod.unocha.org/">
+                    {strings.mapSourceUNCODsLabel}
+                </Link>
+            ),
+        },
+    );
 
     return (
         <InfoPopup
@@ -27,11 +39,7 @@ function GoMapDisclaimer(props: Props) {
                         {strings.mapDisclaimer}
                     </div>
                     <div>
-                        Map Sources: ICRC,
-                        {' '}
-                        <Link to="https://cod.unocha.org/">
-                            UNCODs
-                        </Link>
+                        {mapSources}
                     </div>
                     <div
                         className={_cs(styles.attribution, 'mapboxgl-ctrl-attrib-inner')}
@@ -43,7 +51,7 @@ function GoMapDisclaimer(props: Props) {
                             aria-label="Mapbox"
                             role="listitem"
                         >
-                            © Mapbox
+                            {strings.copyrightMapbox}
                         </Link>
                         <Link
                             to="https://www.openstreetmap.org/about/"
@@ -51,7 +59,7 @@ function GoMapDisclaimer(props: Props) {
                             aria-label="OpenStreetMap"
                             role="listitem"
                         >
-                            © OpenStreetMap
+                            {strings.copyrightOSM}
                         </Link>
                         <Link
                             className="mapbox-improve-map"
@@ -60,7 +68,7 @@ function GoMapDisclaimer(props: Props) {
                             aria-label="Map feedback"
                             role="listitem"
                         >
-                            Improve this map
+                            {strings.improveMapLabel}
                         </Link>
                     </div>
                 </>

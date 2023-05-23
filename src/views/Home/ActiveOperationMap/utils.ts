@@ -14,7 +14,7 @@ import type {
     SymbolLayer,
 } from 'mapbox-gl';
 
-import type { CommonStrings } from '#strings/common';
+import i18n from './i18n.json';
 
 const COLOR_EMERGENCY_APPEAL = COLOR_RED;
 const COLOR_DREF = COLOR_YELLOW;
@@ -47,7 +47,7 @@ export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
     },
 };
 
-export function getLegendOptions(strings: CommonStrings) {
+export function getLegendOptions(strings: typeof i18n.strings) {
     const legendOptions = [
         {
             value: APPEAL_TYPE_EMERGENCY,
@@ -153,7 +153,7 @@ export interface ScaleOption {
     value: 'financialRequirements' | 'peopleTargeted';
 }
 
-export function getScaleOptions(strings: CommonStrings) {
+export function getScaleOptions(strings: typeof i18n.strings) {
     const scaleOptions: ScaleOption[] = [
         { value: 'peopleTargeted', label: strings.explanationBubblePopulationLabel },
         { value: 'financialRequirements', label: strings.explanationBubbleAmountLabel },

@@ -11,8 +11,8 @@ import List from '#components/List';
 import useTranslation from '#hooks/useTranslation';
 import { Emergency } from '#types/emergency';
 
-import commonStrings from '#strings/common';
 import OperationCard from './OperationCard';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const keySelector = (emergency: Emergency) => emergency.id;
@@ -30,7 +30,7 @@ function HighlightedOperations(props: Props) {
         className,
     } = props;
 
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
 
     const {
         error: featuredEmergencyResponseError,

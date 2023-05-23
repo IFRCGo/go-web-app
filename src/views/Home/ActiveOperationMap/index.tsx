@@ -36,8 +36,8 @@ import { Appeal } from '#types/emergency';
 import { Country } from '#types/country';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
-import commonStrings from '#strings/common';
 import routes from '#routes';
+import i18n from './i18n.json';
 
 import {
     ScaleOption,
@@ -96,7 +96,7 @@ function ActiveOperationMap(props: Props) {
     ] = useState<ClickedPoint| undefined>();
 
     const [scaleBy, setScaleBy] = useInputState<ScaleOption['value']>('peopleTargeted');
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
     const {
         response: appealResponse,
     } = useRequest<ListResponse<Appeal>>({
@@ -233,7 +233,7 @@ function ActiveOperationMap(props: Props) {
                     actions={<ChevronRightLineIcon />}
                     underline
                 >
-                    {strings.highlightedOperationsViewAll}
+                    {strings.operationMapViewAll}
                 </Link>
             )}
         >

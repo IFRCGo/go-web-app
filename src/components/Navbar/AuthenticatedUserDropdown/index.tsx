@@ -4,10 +4,9 @@ import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
 import routes from '#routes';
-
-import commonStrings from '#strings/common';
-
 import UserContext from '#contexts/user';
+
+import i18n from './i18n.json';
 
 interface Props {
     className?: string;
@@ -18,7 +17,7 @@ function AuthenticatedUserDropdown(props: Props) {
         className,
     } = props;
 
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
 
     const { userDetails, removeUser } = useContext(UserContext);
     const handleLogoutClick = useCallback(() => {

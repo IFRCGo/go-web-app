@@ -1,0 +1,6 @@
+{
+    "namespace": "emergencies",
+    "strings": {
+        "emergencyPageTitle": "IFRC GO - {name}"
+    }
+}

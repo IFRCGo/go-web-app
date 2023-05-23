@@ -7,12 +7,12 @@ import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import RegionDropdown from '#components/RegionDropdown';
 import goLogo from '#assets/icons/go-logo-2020.svg';
-import commonStrings from '#strings/common';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import routes from '#routes';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -24,7 +24,7 @@ function Navbar(props: Props) {
         className,
     } = props;
 
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
     const [searchText, setSearchText] = useInputState<string | undefined>(undefined);
 
     return (

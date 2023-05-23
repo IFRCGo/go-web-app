@@ -1,0 +1,11 @@
+{
+    "namespace": "common",
+    "strings": {
+        "mapDisclaimer":"The maps used do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Society concerning the legal status of a territory or of its authorities.",
+        "copyrightMapbox":"© Mapbox",
+        "copyrightOSM":"© OpenStreetMap",
+        "improveMapLabel": "Improve this map",
+        "mapSourcesLabel": "Map Sources: ICRC, {uncodsLink}",
+        "mapSourceUNCODsLabel": "UNCODs"
+    }
+}
