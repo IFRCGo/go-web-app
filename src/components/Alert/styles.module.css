@@ -20,15 +20,15 @@
 
         .icon {
             flex-shrink: 0;
-            font-size: var(--go-ui-font-size-xl);
             color: var(--go-ui-color-white);
+            font-size: var(--go-ui-font-size-xl);
         }
 
         .content {
             align-items: initial;
             flex-direction: column;
-            font-weight: var(--go-ui-font-weight-medium);
             color: var(--go-ui-color-white);
+            font-weight: var(--go-ui-font-weight-medium);
         }
     }
 

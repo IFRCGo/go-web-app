@@ -7,7 +7,8 @@ module.exports = {
         'stylelint-config-concentric',
     ],
     rules: {
-        indentation: 4,
+        // https://stylelint.io/migration-guide/to-15
+        // indentation: 4,
         // 'csstools/value-no-unknown-custom-properties': [
         //     true, {
         //         importFrom: ['./src/index.css']
