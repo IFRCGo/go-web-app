@@ -1,11 +1,10 @@
 import { Link, LinkProps } from 'react-router-dom';
 
-import {
-    useButtonFeatures,
-    ButtonFeatureProps,
-} from '#components/Button';
+import useButtonFeatures, {
+    Props as ButtonFeatureProps,
+} from '#hooks/useButtonFeatures';
 
-function ButtonLikeLink(props: ButtonFeatureProps<undefined> & {
+function ButtonLikeLink(props: ButtonFeatureProps & {
   to: LinkProps['to'];
   external?: boolean;
 }) {

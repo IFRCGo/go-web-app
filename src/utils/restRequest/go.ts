@@ -6,7 +6,8 @@ import {
 import { ContextInterface } from '@togglecorp/toggle-request';
 import { nonFieldError } from '@togglecorp/toggle-form';
 import { get as getFromLocalStorage } from 'local-storage';
-import { USER_STORAGE_KEY, UserDetails } from '#contexts/user';
+import { UserDetails } from '#contexts/user';
+import { USER_STORAGE_KEY } from '#utils/constants';
 
 import {
     riskApi,

@@ -1,10 +1,8 @@
 import { useContext, useCallback, useMemo } from 'react';
 import { randomString } from '@togglecorp/fujs';
 
-import AlertContext, {
-    AlertVariant,
-    DEFAULT_ALERT_DISMISS_DURATION,
-} from '#contexts/alert';
+import AlertContext, { AlertVariant } from '#contexts/alert';
+import { DEFAULT_ALERT_DISMISS_DURATION } from '#utils/constants';
 
 interface AddAlertOption {
     name?: string;

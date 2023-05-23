@@ -10,12 +10,11 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
+import { DEFAULT_TABLE_COLUMN_WIDTH } from '#utils/constants';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import TableData from './TableData';
 import styles from './styles.module.css';
-
-export const DEFAULT_COLUMN_WIDTH = 108;
 
 export interface Column<D, K, C, H> {
     id: string;
@@ -40,7 +39,7 @@ export interface Column<D, K, C, H> {
 }
 
 function getColumnWidth<D, K, C, H>(column: Column<D, K, C, H>, width: number) {
-    return width ?? column.columnWidth ?? DEFAULT_COLUMN_WIDTH;
+    return width ?? column.columnWidth ?? DEFAULT_TABLE_COLUMN_WIDTH;
 }
 
 type VerifyColumn<T, D, K> = unknown extends (

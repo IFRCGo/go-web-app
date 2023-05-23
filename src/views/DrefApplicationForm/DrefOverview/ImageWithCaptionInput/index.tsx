@@ -31,14 +31,22 @@ function ImageWithCaptionInput<N extends string | number>(props: Props<N>) {
         className,
         name,
         value,
+        // FIXME
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         fileIdToUrlMap,
+        // FIXME
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         setFileIdToUrlMap,
         onChange,
         error: formError,
+        // FIXME
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         label,
     } = props;
 
     const setFieldValue = useFormObject(name, onChange, {});
+    // FIXME
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const error = getErrorObject(formError);
 
     return (

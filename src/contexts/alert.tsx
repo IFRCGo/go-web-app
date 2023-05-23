@@ -2,8 +2,6 @@ import { createContext } from 'react';
 
 export type AlertVariant = 'success' | 'warning' | 'danger' | 'info';
 
-export const DEFAULT_ALERT_DISMISS_DURATION = 4500;
-
 export interface AlertParams {
   name: string;
   variant: AlertVariant;

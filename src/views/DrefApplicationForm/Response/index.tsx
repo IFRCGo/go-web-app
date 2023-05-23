@@ -68,7 +68,11 @@ function Response(props: Props) {
         error: formError,
         onValueChange,
         interventionOptions,
+        // FIXME
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         fileIdToUrlMap,
+        // FIXME
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         setFileIdToUrlMap,
         value,
         yesNoOptions,

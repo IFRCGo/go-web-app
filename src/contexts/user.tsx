@@ -16,8 +16,6 @@ export interface UserContextProps {
     removeUser: () => void;
 }
 
-export const USER_STORAGE_KEY = 'user';
-
 const UserContext = createContext<UserContextProps>({
     setUser: () => {
         // eslint-disable-next-line no-console

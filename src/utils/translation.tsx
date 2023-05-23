@@ -61,6 +61,7 @@ export function resolveToComponent(template: string, params = emptyObject) {
     return (
         <>
             {resolvedParts.map((d, i) => (
+                // eslint-disable-next-line react/no-array-index-key
                 <Fragment key={i}>
                     {d}
                 </Fragment>
