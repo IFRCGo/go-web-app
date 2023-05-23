@@ -162,6 +162,7 @@ function AppealsTable() {
     const [displacementType, setDisplacementType] = useInputState<number | undefined>(-1);
     const [page, setPage] = useState(0);
 
+    const PAGE_SIZE = 10;
     const {
         pending: appealsPending,
         response: appealsResponse,
@@ -169,8 +170,8 @@ function AppealsTable() {
         url: 'api/v2/appeal/',
         preserveResponse: true,
         query: {
-            limit: 10,
-            offset: page * 10,
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * (page - 1),
             ordering,
             atype: appealType === 'all' ? undefined : appealType,
             dtype: displacementType === -1 ? undefined : displacementType,
