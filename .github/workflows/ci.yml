@@ -7,11 +7,18 @@ on:
       - 'develop'
 
 env:
+  APP_API_ENDPOINT: ${{ vars.APP_API_ENDPOINT }}
+  APP_FDRS_AUTH: ${{ vars.APP_FDRS_AUTH }}
+  APP_MAPBOX_ACCESS_TOKEN: ${{ vars.APP_MAPBOX_ACCESS_TOKEN }}
+  APP_RISK_API_ENDPOINT: ${{ vars.APP_RISK_API_ENDPOINT }}
+  APP_TINY_API_KEY: ${{ vars.APP_TINY_API_KEY }}
+  APP_TITLE: ${{ vars.APP_TITLE }}
   GITHUB_WORKFLOW: true
 
 jobs:
   test:
     name: Run tests
+    environment: 'test'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,6 +31,7 @@ jobs:
         run: yarn install --prefer-online
 
       - name: Run test
+
         run: yarn test
   unimported:
     name: Find unimported files
