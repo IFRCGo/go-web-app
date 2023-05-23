@@ -65,7 +65,6 @@ function InputContainer(props: Props) {
             className={_cs(
                 styles.inputContainer,
                 !!error && styles.errored,
-                disabled && styles.disabled,
                 readOnly && styles.readOnly,
                 variant === 'form' && styles.form,
                 variant === 'general' && styles.general,

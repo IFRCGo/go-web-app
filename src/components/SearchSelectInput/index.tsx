@@ -79,7 +79,7 @@ const emptyList: unknown[] = [];
 
 function SearchSelectInput<
     OPTION_KEY extends OptionKey,
-    NAME extends string,
+    const NAME,
     // eslint-disable-next-line @typescript-eslint/ban-types
     OPTION extends object,
     RENDER_PROPS extends Def,
@@ -94,6 +94,7 @@ function SearchSelectInput<
         onOptionsChange,
         options: optionsFromProps,
         optionsPending,
+        optionsErrored,
         value,
         sortFunction,
         searchOptions: searchOptionsFromProps,
@@ -265,6 +266,7 @@ function SearchSelectInput<
             name={name}
             options={realOptions}
             optionsPending={optionsPending}
+            optionsErrored={optionsErrored}
             optionsFiltered={!!searchInputValue && searchInputValue?.length > 0}
             optionKeySelector={keySelector}
             optionRenderer={Option}

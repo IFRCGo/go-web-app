@@ -18,9 +18,12 @@ export interface BaseProps<D, P, K extends OptionKey> {
     rendererParams: (key: K, datum: D, index: number, data: D[]) => P;
     pending: boolean;
     errored: boolean;
+    filtered: boolean;
+    message?: React.ReactNode;
     emptyMessage?: React.ReactNode;
     pendingMessage?: React.ReactNode;
     errorMessage?: React.ReactNode;
+    filteredMessage?: React.ReactNode;
 }
 
 export interface GroupOptions<D, GP, GK extends OptionKey> {

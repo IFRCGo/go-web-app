@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import { NameType, ValueType } from '#components/types';
+import { ValueType } from '#components/types';
 import InputLabel from '../InputLabel';
 import InputError from '../InputError';
 import InputHint from '../InputHint';
@@ -12,7 +12,7 @@ import styles from './styles.module.css';
 
 export interface Props<
     T extends ValueType,
-    K extends NameType,
+    K,
     O extends object,
 > {
     className?: string;
@@ -37,7 +37,7 @@ export interface Props<
 
 function CheckList<
     T extends ValueType,
-    K extends NameType,
+    K,
     O extends object,
 >(props: Props<T, K, O>) {
     const {
@@ -108,6 +108,7 @@ function CheckList<
                     rendererClassName={checkboxClassName}
                     pending={false}
                     errored={false}
+                    filtered={false}
                 />
             </div>
             <InputError className={errorContainerClassName}>

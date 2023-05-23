@@ -1,16 +1,15 @@
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
-import { NameType } from '#components/types';
 
-type InheritedProps<T extends NameType> = (Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'type'>);
+type InheritedProps<T> = (Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'type'>);
 
-export interface Props<T extends NameType> extends InheritedProps<T> {
+export interface Props<T> extends InheritedProps<T> {
     inputElementRef?: React.RefObject<HTMLInputElement>;
     inputClassName?: string;
     type?: 'text' | 'password';
 }
 
-function TextInput<T extends NameType>(props: Props<T>) {
+function TextInput<const T>(props: Props<T>) {
     const {
         actions,
         className,

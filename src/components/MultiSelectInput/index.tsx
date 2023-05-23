@@ -5,16 +5,21 @@ type Def = { containerClassName?: string };
 type OptionKey = string | number;
 
 export type MultiSelectInputProps<
-    T extends OptionKey,
-    K extends string,
+    OPTION_KEY extends OptionKey,
+    NAME,
     // eslint-disable-next-line @typescript-eslint/ban-types
-    O extends object,
-    P extends Def,
-> = SearchMultiSelectInputProps<T, K, O, P, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount'>;
+    OPTION extends object,
+    RENDER_PROPS extends Def,
+> = SearchMultiSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount'>;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-function MultiSelectInput<T extends OptionKey, K extends string, O extends object, P extends Def>(
-    props: MultiSelectInputProps<T, K, O, P>,
+function MultiSelectInput<
+    OPTION_KEY extends OptionKey,
+    const NAME,
+    OPTION extends object,
+    RENDER_PROPS extends Def,
+>(
+    props: MultiSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS>,
 ) {
     const {
         name,

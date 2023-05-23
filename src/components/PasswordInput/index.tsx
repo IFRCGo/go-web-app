@@ -3,15 +3,14 @@ import { EyeFillIcon, EyeOffLineIcon } from '@ifrc-go/icons';
 
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
-import { NameType } from '../types';
 import Button from '../Button';
 
-type InheritedProps<T extends NameType> = (Omit<InputContainerProps, 'input'> & RawInputProps<T>);
-export interface Props<T extends NameType> extends InheritedProps<T> {
+type InheritedProps<T> = (Omit<InputContainerProps, 'input'> & RawInputProps<T>);
+export interface Props<T> extends InheritedProps<T> {
     inputElementRef?: React.RefObject<HTMLInputElement>;
     inputClassName?: string;
 }
-function PasswordInput<T extends NameType>(props: Props<T>) {
+function PasswordInput<const T>(props: Props<T>) {
     const {
         actions,
         className,

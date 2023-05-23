@@ -54,7 +54,7 @@ function ImageWithCaptionInput<N extends string | number>(props: Props<N>) {
             {/*
             <DREFFileInput
                 accept="image/*"
-                name={'id' as const}
+                name="id"
                 value={value?.id}
                 onChange={setFieldValue}
                 error={error?.id}
@@ -67,7 +67,7 @@ function ImageWithCaptionInput<N extends string | number>(props: Props<N>) {
             {value?.id && (
                 <TextInput
                     className={styles.captionInput}
-                    name={'caption' as const}
+                    name="caption"
                     value={value?.caption}
                     onChange={setFieldValue}
                 />

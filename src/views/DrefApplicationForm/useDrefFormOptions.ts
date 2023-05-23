@@ -261,6 +261,7 @@ export const schema: FormSchema = {
             },
         };
 
+        // FIXME: this is still problematic.
         baseSchema = addCondition(
             baseSchema,
             value,

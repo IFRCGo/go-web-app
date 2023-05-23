@@ -490,7 +490,7 @@ function Response(props: Props) {
                     multiRow
                 >
                     <RadioInput
-                        name={'is_surge_personnel_deployed' as const}
+                        name="is_surge_personnel_deployed"
                         options={yesNoOptions}
                         keySelector={booleanOptionKeySelector}
                         labelSelector={optionLabelSelector}

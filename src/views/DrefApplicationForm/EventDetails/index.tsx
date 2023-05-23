@@ -124,7 +124,7 @@ function EventDetails(props: Props) {
                             title={strings.drefFormAffectSameArea}
                         >
                             <RadioInput
-                                name={'did_it_affect_same_area' as const}
+                                name="did_it_affect_same_area"
                                 options={yesNoOptions}
                                 keySelector={booleanOptionKeySelector}
                                 labelSelector={optionLabelSelector}
@@ -137,7 +137,7 @@ function EventDetails(props: Props) {
                             title={strings.drefFormAffectedthePopulationTitle}
                         >
                             <RadioInput
-                                name={'did_it_affect_same_population' as const}
+                                name="did_it_affect_same_population"
                                 options={yesNoOptions}
                                 keySelector={booleanOptionKeySelector}
                                 labelSelector={optionLabelSelector}
@@ -150,7 +150,7 @@ function EventDetails(props: Props) {
                             title={strings.drefFormNsRespond}
                         >
                             <RadioInput
-                                name={'did_ns_respond' as const}
+                                name="did_ns_respond"
                                 options={yesNoOptions}
                                 keySelector={booleanOptionKeySelector}
                                 labelSelector={optionLabelSelector}
@@ -163,7 +163,7 @@ function EventDetails(props: Props) {
                             title={strings.drefFormNsRequestFund}
                         >
                             <RadioInput
-                                name={'did_ns_request_fund' as const}
+                                name="did_ns_request_fund"
                                 options={yesNoOptions}
                                 keySelector={booleanOptionKeySelector}
                                 labelSelector={optionLabelSelector}

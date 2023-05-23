@@ -66,6 +66,7 @@ function HighlightedOperations(props: Props) {
                 data={featuredEmergencies}
                 pending={featuredEmergencyPending}
                 errored={!!featuredEmergencyResponseError}
+                filtered={false}
                 keySelector={keySelector}
                 renderer={OperationCard}
                 rendererParams={rendererParams}

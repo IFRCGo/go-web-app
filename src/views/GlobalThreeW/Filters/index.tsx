@@ -1,7 +1,7 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import SelectInput from '#components/SelectInput';
+import MultiSelectInput from '#components/MultiSelectInput';
 
 import styles from './styles.module.css';
 
@@ -47,39 +47,43 @@ function Filters(props: Props) {
 
     return (
         <div className={_cs(styles.filters, className)}>
-            <SelectInput
+            <MultiSelectInput
                 name="reporting_ns"
                 placeholder="National Societies"
                 options={emptyList}
                 value={value.reporting_ns}
-                isMulti
+                keySelector={(item) => item.value}
+                labelSelector={(item) => item.label}
                 onChange={handleInputChange}
                 disabled={disabled}
             />
-            <SelectInput
+            <MultiSelectInput
                 name="programme_type"
                 placeholder="Programme Types"
                 options={emptyList}
                 value={value.programme_type}
-                isMulti
+                keySelector={(item) => item.value}
+                labelSelector={(item) => item.label}
                 onChange={handleInputChange}
                 disabled={disabled}
             />
-            <SelectInput
+            <MultiSelectInput
                 name="primary_sector"
                 placeholder="Sectors"
                 options={emptyList}
                 value={value.primary_sector}
-                isMulti
+                keySelector={(item) => item.value}
+                labelSelector={(item) => item.label}
                 onChange={handleInputChange}
                 disabled={disabled}
             />
-            <SelectInput
+            <MultiSelectInput
                 name="secondary_sectors"
                 placeholder="Tags"
                 options={emptyList}
                 value={value.secondary_sectors}
-                isMulti
+                keySelector={(item) => item.value}
+                labelSelector={(item) => item.label}
                 onChange={handleInputChange}
                 disabled={disabled}
             />

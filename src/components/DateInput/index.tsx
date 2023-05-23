@@ -1,14 +1,13 @@
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
-import { NameType } from '#components/types';
 
-type InheritedProps<T extends NameType> = (Omit<InputContainerProps, 'input'> & RawInputProps<T>);
-export interface Props<T extends NameType> extends InheritedProps<T> {
+type InheritedProps<T> = (Omit<InputContainerProps, 'input'> & RawInputProps<T>);
+export interface Props<T> extends InheritedProps<T> {
     inputElementRef?: React.RefObject<HTMLInputElement>;
     inputClassName?: string;
 }
 
-function DateInput<T extends NameType>(props: Props<T>) {
+function DateInput<const T>(props: Props<T>) {
     const {
         className,
         actions,

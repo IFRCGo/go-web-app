@@ -28,8 +28,6 @@ const randomOptions: Option[] = [
     },
 ];
 
-const keySelector = (d: Option) => d.value;
-
 function SelectInputExample() {
     const [selectedOption, setSelectedOption] = useState<number | null | undefined>(null);
 
@@ -40,34 +38,18 @@ function SelectInputExample() {
                 label="Basic Single Select"
                 name="Country"
                 options={randomOptions}
-                keySelector={keySelector}
+                keySelector={(item) => item.value}
+                labelSelector={(item) => item.label}
                 value={selectedOption}
                 onChange={setSelectedOption}
-            />
-            <SelectInput
-                label="Single Select input that is clearable"
-                name="country"
-                options={randomOptions}
-                value={selectedOption}
-                keySelector={keySelector}
-                onChange={setSelectedOption}
-                isClearable
-            />
-            <SelectInput
-                label="Single Select input that is searchable"
-                name="country"
-                options={randomOptions}
-                value={selectedOption}
-                keySelector={keySelector}
-                onChange={setSelectedOption}
-                isSearchable
             />
             <SelectInput
                 label="Single Select input that is required"
                 name="country"
                 options={randomOptions}
                 value={selectedOption}
-                keySelector={keySelector}
+                keySelector={(item) => item.value}
+                labelSelector={(item) => item.label}
                 onChange={setSelectedOption}
                 required
             />
@@ -76,7 +58,8 @@ function SelectInputExample() {
                 name="country"
                 options={randomOptions}
                 value={selectedOption}
-                keySelector={keySelector}
+                keySelector={(item) => item.value}
+                labelSelector={(item) => item.label}
                 onChange={setSelectedOption}
                 disabled
             />
@@ -85,7 +68,8 @@ function SelectInputExample() {
                 name="country"
                 options={randomOptions}
                 value={selectedOption}
-                keySelector={keySelector}
+                keySelector={(item) => item.value}
+                labelSelector={(item) => item.label}
                 onChange={setSelectedOption}
                 readOnly
             />

@@ -1,14 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { isDefined } from '@togglecorp/fujs';
-import { NameType } from '#components/types';
 
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
 
-type InheritedProps<T extends NameType> = (Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'onChange' | 'value'>);
+type InheritedProps<T> = (Omit<InputContainerProps, 'input'> & Omit<RawInputProps<T>, 'onChange' | 'value'>);
 
-export interface Props<T extends NameType> extends InheritedProps<T> {
+export interface Props<T> extends InheritedProps<T> {
   inputElementRef?: React.RefObject<HTMLInputElement>;
   inputClassName?: string;
   value: number | undefined | null;
@@ -19,7 +18,7 @@ export interface Props<T extends NameType> extends InheritedProps<T> {
   ) => void;
 }
 
-function NumberInput<T extends NameType>(props: Props<T>) {
+function NumberInput<const T>(props: Props<T>) {
     const {
         className,
         actions,

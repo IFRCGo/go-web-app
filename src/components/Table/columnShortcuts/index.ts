@@ -130,7 +130,6 @@ export function createNumberColumn<D, K>(
         headerCellRendererParams: {
             sortable: options?.sortable,
             titleClassName: styles.title,
-            titleContainerClassName: styles.titleContainer,
         },
         cellRendererClassName: _cs(
             styles.numberCell,

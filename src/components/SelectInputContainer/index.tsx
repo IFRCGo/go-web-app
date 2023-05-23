@@ -12,7 +12,6 @@ import useKeyboard from '#hooks/useKeyboard';
 
 import GenericOption, { ContentBaseProps, OptionKey } from './GenericOption';
 import OptionGroup from './OptionGroup';
-import EmptyOptions from './EmptyOptions';
 import styles from './styles.module.css';
 
 export type SelectInputContainerProps<
@@ -43,6 +42,7 @@ export type SelectInputContainerProps<
         options: OPTION[] | undefined | null;
         optionsPending?: boolean;
         optionsFiltered?: boolean;
+        optionsErrored?: boolean;
         optionsPopupClassName?: string;
         persistentOptionPopup?: boolean;
         placeholder?: string;
@@ -69,7 +69,7 @@ const emptyList: unknown[] = [];
 // eslint-disable-next-line @typescript-eslint/ban-types, max-len
 function SelectInputContainer<
     OPTION_KEY extends OptionKey,
-    NAME extends string,
+    const NAME,
     OPTION extends object,
     RENDER_PROPS extends ContentBaseProps
 >(
@@ -105,15 +105,16 @@ function SelectInputContainer<
         valueDisplay = '',
         nonClearable,
         onClear,
-        optionsPending,
-        optionsFiltered,
+        optionsPending = false,
+        optionsFiltered = false,
+        optionsErrored = false,
         focused,
         focusedKey,
         onFocusedKeyChange,
         onFocusedChange,
         dropdownShown,
         onDropdownShownChange,
-        totalOptionsCount,
+        totalOptionsCount = 0,
         hasValue,
         autoFocus,
     } = props;
@@ -251,6 +252,8 @@ function SelectInputContainer<
         handleOptionClick,
     );
 
+    const optionsCount = options.length;
+
     let popup: React.ReactNode | null;
     // eslint-disable-next-line react/destructuring-assignment
     if (props.grouped) {
@@ -265,8 +268,10 @@ function SelectInputContainer<
                 groupRendererParams={groupRendererParams}
                 // eslint-disable-next-line react/destructuring-assignment
                 groupKeySelector={props.groupKeySelector}
-                pending={false}
-                errored={false}
+                errored={optionsErrored}
+                filtered={optionsFiltered}
+                pending={optionsPending}
+                message={totalOptionsCount - optionsCount > 0 ? `and ${totalOptionsCount - optionsCount} more` : undefined}
             />
         );
     } else {
@@ -276,8 +281,10 @@ function SelectInputContainer<
                 keySelector={optionKeySelector}
                 renderer={GenericOption}
                 rendererParams={optionListRendererParams}
-                pending={false}
-                errored={false}
+                errored={optionsErrored}
+                filtered={optionsFiltered}
+                pending={optionsPending}
+                message={totalOptionsCount - optionsCount > 0 ? `and ${totalOptionsCount - optionsCount} more` : undefined}
             />
         );
     }
@@ -351,12 +358,6 @@ function SelectInputContainer<
                     className={_cs(optionsPopupClassName, styles.popup)}
                 >
                     {popup}
-                    <EmptyOptions
-                        filtered={optionsFiltered}
-                        pending={optionsPending}
-                        optionsCount={options.length}
-                        totalOptionsCount={totalOptionsCount}
-                    />
                 </Popup>
             )}
         </>

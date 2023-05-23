@@ -95,7 +95,7 @@ const basePointPaint: CirclePaint = {
 };
 
 export const basePointLayerOptions: Omit<CircleLayer, 'id'> = {
-    type: 'circle' as const,
+    type: 'circle',
     paint: basePointPaint,
 };
 

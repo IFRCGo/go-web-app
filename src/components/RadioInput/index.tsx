@@ -42,22 +42,26 @@ type ClearableProps<V, N> = {
     onChange: (value: V | undefined, name: N) => void;
 }
 
-export type Props<N, O, V, RRP extends RadioProps<V, N>> = BaseProps<N, O, V, RRP> & (
-    ClearableProps<V, N> | NonClearableProps<V, N>
+export type Props<N, O, V, RRP extends RadioProps<V, N>, OMISSION extends string> = (
+    Omit<BaseProps<N, O, V, RRP>, OMISSION>
+    & (
+        Omit<ClearableProps<V, N>, OMISSION>
+        | Omit<NonClearableProps<V, N>, OMISSION>
+    )
 )
 
 function isClearable<N, O, V, RRP extends RadioProps<V, N>>(
-    props: Props<N, O, V, RRP>,
+    props: Props<N, O, V, RRP, never>,
 ): props is (BaseProps<N, O, V, RRP> & ClearableProps<V, N>) {
     return !!props.clearable;
 }
 
 function RadioInput<
-    N,
+    const N,
     O extends object,
     V extends string | number | boolean,
     RRP extends RadioProps<V, N>,
->(props: Props<N, O, V, RRP>) {
+>(props: Props<N, O, V, RRP, never>) {
     const isClearableOptions = isClearable(props);
 
     const {
@@ -167,6 +171,7 @@ function RadioInput<
                     keySelector={keySelector}
                     errored={false}
                     pending={false}
+                    filtered={false}
                 />
             </div>
             {hint && (
