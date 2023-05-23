@@ -2,31 +2,27 @@
     position: relative;
 
     .input-section {
-        display: flex;
-        align-items: center;
         transition: var(--go-ui-duration-transition-medium) var(--go-ui-color-gray-10) ease-in-out;
-        border: var(--go-ui-width-separator-thin) solid transparent;
+        border-bottom: var(--go-ui-width-separator-thin) solid transparent;
         border-radius: var(--go-ui-border-radius-md);
         background-color: var(--go-ui-color-gray-10);
-        padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+        padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
 
-        .internal-input-container {
-            flex-grow: 1;
-
-            &.disabled {
-                cursor: not-allowed;
-            }
-        }
-
+        &:hover,
         &:focus-within {
             border-bottom-color: var(--go-ui-color-primary-red);
         }
     }
 
     .input-hint {
-        padding: var(--go-ui-spacing-xs);
         color: var(--go-ui-color-gray-70);
         font-size: var(--go-ui-font-size-sm);
+    }
+
+    &.disabled {
+        .input-section {
+            cursor: not-allowed;
+        }
     }
 
     &.errored {
@@ -43,7 +39,6 @@
 
     .input-error {
         position: absolute;
-        z-index: var(--go-ui-z-index-10);
         min-width: var(-go-ui-spacing-8xl);
     }
 

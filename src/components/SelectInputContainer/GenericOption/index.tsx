@@ -23,7 +23,6 @@ export interface Props<
     optionKey: OPTION_KEY;
     onClick: (optionKey: OPTION_KEY, option: OPTION) => void;
     focusedKey?: { key: OPTION_KEY, mouse?: boolean } | undefined;
-    onFocus?: (options: { key: OPTION_KEY, mouse?: boolean }) => void;
 }
 function GenericOption<
     RENDER_PROPS extends ContentBaseProps,
@@ -36,7 +35,6 @@ function GenericOption<
         contentRendererParam,
         option,
         onClick,
-        onFocus,
         optionKey,
         focusedKey,
     } = props;
@@ -48,11 +46,9 @@ function GenericOption<
         ...contentRendererProps
     } = params;
 
-    // const isFocused = focusedKey?.key === optionKey; //  && focusedKey?.mouse;
+    const isFocused = focusedKey?.key === optionKey;
 
     const divRef = useRef<HTMLButtonElement>(null);
-
-    // const focusedByMouse = useRef(false);
 
     useEffect(
         () => {
@@ -73,41 +69,18 @@ function GenericOption<
         [optionKey, option, onClick],
     );
 
-    const handleMouseMove = useCallback(
-        () => {
-            if (onFocus) {
-                onFocus({ key: optionKey, mouse: true });
-            }
-        },
-        [
-            onFocus,
-            optionKey,
-        ],
-    );
-
-    /*
-    const handleMouseLeave = useCallback(
-        () => {
-            focusedByMouse.current = false;
-        },
-        [],
-    );
-    */
-
     return (
         <RawButton
             elementRef={divRef}
             className={_cs(
-                styles.optionRenderer,
+                styles.genericOption,
                 optionContainerClassName,
                 containerClassName,
             )}
             onClick={handleClick}
-            onMouseMove={handleMouseMove}
-            // onMouseLeave={handleMouseLeave}
             title={title}
             name={optionKey}
-            // focused={isFocused}
+            focused={isFocused}
         >
             {contentRenderer(contentRendererProps)}
         </RawButton>

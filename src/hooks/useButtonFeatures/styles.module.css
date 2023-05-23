@@ -26,20 +26,6 @@
     font-weight: var(--go-ui-font-weight-medium);
     gap: var(--go-ui-spacing-xs);
 
-    .icons {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-        font-size: var(--font-size);
-    }
-
-    .actions {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-        font-size: var(--font-size);
-    }
-
     .children {
         display: flex;
         align-items: center;

@@ -1,4 +1,10 @@
-.option-renderer {
-    padding: calc(var(--tui-spacing-large) - var(--tui-spacing-small));
+.generic-option {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+    padding: var(--go-ui-spacing-sm);
     text-align: left;
+
+    &:hover {
+        background-color: var(--go-ui-color-gray-20);
+    }
 }

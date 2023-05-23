@@ -1,5 +1,5 @@
-import { MdCheck } from 'react-icons/md';
 import type { ReactNode } from 'react';
+import { CheckLineIcon } from '@ifrc-go/icons';
 
 interface OptionProps {
     children: ReactNode;
@@ -16,7 +16,7 @@ function Option(props: OptionProps) {
     return (
         <>
             <div className={iconClassName}>
-                <MdCheck />
+                <CheckLineIcon />
             </div>
             <div className={labelClassName}>
                 { children }
