@@ -39,6 +39,7 @@ type MyInputIndexRouteObject<T> = {
     title: string;
     componentProps: T & JSX.IntrinsicAttributes;
     component: () => Promise<{
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Component: (props: T) => React.ReactElement<any, any> | null;
     } & Omit<IndexRouteObject, ImmutableRouteKey | OmitInputRouteObjectKeys>>;
     parent?: MyOutputRouteObject;
@@ -48,6 +49,7 @@ type MyInputNonIndexRouteObject<T> = {
     title: string;
     componentProps: T & JSX.IntrinsicAttributes;
     component: () => Promise<{
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Component: (props: T) => React.ReactElement<any, any> | null;
     } & Omit<IndexRouteObject, ImmutableRouteKey | OmitInputRouteObjectKeys>>;
     parent?: MyOutputRouteObject;

@@ -22,8 +22,11 @@ export interface AlertContextProps {
 
 const AlertContext = createContext<AlertContextProps>({
     alerts: [],
+    // eslint-disable-next-line no-console
     addAlert: () => { console.warn('AlertContext::addAlert called before it was initialized'); },
+    // eslint-disable-next-line no-console
     removeAlert: () => { console.warn('AlertContext::removeAlert called before it was initialized'); },
+    // eslint-disable-next-line no-console
     updateAlert: () => { console.warn('AlertContext::updateAlert called before it was initialized'); },
 });
 

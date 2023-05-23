@@ -15,7 +15,7 @@ function TableData(props: Props) {
     return (
         <td
             className={_cs(className, styles.td)}
-            // eslint-disable-next-line react/jsx-no-props-spreading
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
             {children}

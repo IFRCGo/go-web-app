@@ -80,6 +80,7 @@ function transformError(response: ResponseError, fallbackMessage: string): Trans
             // FIXME: rename error message
             return { [nonFieldError]: 'Response content type mismatch' };
         } catch (e) {
+            // eslint-disable-next-line no-console
             console.error(e);
         }
     }

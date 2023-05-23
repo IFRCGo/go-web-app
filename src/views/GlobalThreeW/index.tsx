@@ -15,7 +15,7 @@ import {
     ListResponse,
 } from '#utils/restRequest';
 
-import { FilterValue } from './Filter';
+import { FilterValue } from './Filters';
 import styles from './styles.module.css';
 
 export interface NSOngoingProjectStat {
@@ -35,7 +35,7 @@ export interface NSOngoingProjectStat {
     }[];
 }
 
-const emptyNsOngoingProjectStats: NSOngoingProjectStat[] = [];
+// const emptyNsOngoingProjectStats: NSOngoingProjectStat[] = [];
 
 interface ProjectPerProgrammeType {
     programme_type: number;
@@ -68,7 +68,10 @@ interface GlobalProjectsOverview {
 export function Component() {
     const strings = useTranslation('threeW', threeWStrings);
 
-    const [filters, setFilters] = useState<FilterValue>({
+    const [
+        filters,
+        // setFilters,
+    ] = useState<FilterValue>({
         reporting_ns: [],
         programme_type: [],
         primary_sector: [],
@@ -77,7 +80,7 @@ export function Component() {
 
     const {
         pending: nsProjectsPending,
-        response: nsProjectsResponse,
+        // response: nsProjectsResponse,
     } = useRequest<ListResponse<NSOngoingProjectStat>>({
         url: 'api/v2/global-project/ns-ongoing-projects-stats/',
         query: {
@@ -85,7 +88,7 @@ export function Component() {
         },
     });
 
-    const ongoingProjectStats = nsProjectsResponse?.results ?? emptyNsOngoingProjectStats;
+    // const ongoingProjectStats = nsProjectsResponse?.results ?? emptyNsOngoingProjectStats;
 
     const {
         pending: projectsOverviewPending,
@@ -100,8 +103,8 @@ export function Component() {
 
     const [
         projectPerSectorChartData,
-        projectPerSecondarySectorChartData,
-        projectPerProgrammeTypeChartData,
+        // projectPerSecondarySectorChartData,
+        // projectPerProgrammeTypeChartData,
     ] = useMemo(() => {
         if (!projectsOverviewResponse) {
             return [[], [], []];
@@ -130,7 +133,7 @@ export function Component() {
                 name: p.programme_type_display,
             })),
         ];
-    }, [projectsOverviewResponse]); 
+    }, [projectsOverviewResponse]);
 
     const pending = nsProjectsPending || projectsOverviewPending;
 

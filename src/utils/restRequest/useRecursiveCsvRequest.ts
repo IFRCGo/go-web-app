@@ -35,6 +35,8 @@ function useRecursiveCSVRequest<D>({
         offset: 0,
         limit: PAGE_SIZE,
     });
+    const totalRef = useRef(0);
+    const requestCountRef = useRef(0);
 
     const {
         response: currentResponse,
@@ -75,9 +77,6 @@ function useRecursiveCSVRequest<D>({
         },
     });
 
-    const totalRef = useRef(0);
-    const requestCountRef = useRef(0);
-
     useEffect(() => {
         if (!currentResponse) {
             return;
@@ -108,7 +107,7 @@ function useRecursiveCSVRequest<D>({
         });
         setData((prevData) => [...prevData, ...rows]);
 
-        ++requestCountRef.current;
+        requestCountRef.current += 1;
     }, [currentResponse]);
 
     const trigger = useCallback(() => {

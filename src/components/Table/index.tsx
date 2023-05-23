@@ -106,8 +106,6 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         headersHidden,
     } = props;
 
-    console.info('fixed column width', fixedColumnWidth);
-
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [tableName] = React.useState(() => randomString());
@@ -257,7 +255,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
 
                                     const children = (
                                         <Renderer
-                                            // eslint-disable-next-line react/jsx-props-no-spread
+                                            // eslint-disable-next-line react/jsx-props-no-spreading
                                             {...headerCellRendererParams}
                                             name={id}
                                             title={title}
@@ -309,6 +307,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                                 const otherProps = cellRendererParams(key, datum, index);
                                 const children = (
                                     <Renderer
+                                        // eslint-disable-next-line react/jsx-props-no-spreading
                                         {...otherProps}
                                         className={cellRendererClassName}
                                         name={id}

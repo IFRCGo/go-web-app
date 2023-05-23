@@ -30,7 +30,10 @@ export const TabContext = React.createContext<TabContextProps>({
     disabled: false,
     activeTab: '',
     variant: 'primary',
+    // eslint-disable-next-line no-console
     setActiveTab: () => { console.warn('setActiveTab called before it was initialized'); },
+    // eslint-disable-next-line no-console
     registerTab: () => { console.warn('registerTab called before it was initialized'); },
+    // eslint-disable-next-line no-console
     unregisterTab: () => { console.warn('unregisterTab called before it was initialized'); },
 });

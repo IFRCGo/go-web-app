@@ -22,9 +22,9 @@ interface Props {
     value: GraphicsType;
     error: ArrayError<FileWithCaption> | undefined;
     onChange: (value: SetValueArg<GraphicsType>, index: number) => void;
-    onRemove: (index: number) => void;
+    // onRemove: (index: number) => void;
     index: number;
-    fileIdToUrlMap: Record<number, string>
+    // fileIdToUrlMap: Record<number, string>
 }
 
 function CaptionInput(props: Props) {

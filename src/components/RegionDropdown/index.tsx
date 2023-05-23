@@ -6,8 +6,7 @@ import useTranslation from '#hooks/useTranslation';
 import commonStrings from '#strings/common';
 import routes from '#routes';
 
-interface Props extends DropdownMenuProps {
-}
+type Props = DropdownMenuProps;
 
 function RegionDropdown(props: Props) {
     const {

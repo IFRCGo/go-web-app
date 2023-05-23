@@ -12,6 +12,7 @@ function useHash(value?: string, use?: boolean) {
     useEffect(() => {
         if (use) {
             setHashToBrowser(initialValue);
+            // eslint-disable-next-line no-console
             console.info('setting hash', initialValue);
         }
     }, [initialValue, use]);

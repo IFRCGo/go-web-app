@@ -20,12 +20,15 @@ export const USER_STORAGE_KEY = 'user';
 
 const UserContext = createContext<UserContextProps>({
     setUser: () => {
+        // eslint-disable-next-line no-console
         console.warn('UserContext::setUser called without provider');
     },
     hydrateUser: () => {
+        // eslint-disable-next-line no-console
         console.warn('UserContext::hydrateUser called without provider');
     },
     removeUser: () => {
+        // eslint-disable-next-line no-console
         console.warn('UserContext::removeUser called without provider');
     },
 });

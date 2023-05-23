@@ -84,7 +84,7 @@ function TableHeader<N extends string | number>(props: Props<N>) {
                 className,
                 styles.th,
             )}
-            // eslint-disable-next-line react/jsx-no-props-spreading
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
             {onResize && (

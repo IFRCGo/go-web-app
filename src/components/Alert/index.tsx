@@ -5,7 +5,7 @@ import {
     ErrorWarningLineIcon,
     CheckboxCircleLineIcon,
     QuestionLineIcon,
-    CloseLineIcon
+    CloseLineIcon,
 } from '@ifrc-go/icons';
 
 import ElementFragments from '#components/ElementFragments';

@@ -1,5 +1,5 @@
 {
-    "entry": ["./src/main.tsx"],
+    "entry": ["./src/index.tsx"],
     "ignorePatterns": ["**/node_modules/**", "build/**"],
     "ignoreUnimported": ["**/*.d.ts"],
     "ignoreUnused": [],
@@ -10,7 +10,7 @@
         "#config": ["./src/config"],
         "#contexts/*": ["./src/contexts/*"],
         "#hooks/*": ["./src/hooks/*"],
-        "#routes": ["./src/routes"],
+        "#routes": ["./src/App/routes"],
         "#strings/*": ["./src/strings/*"],
         "#types/*": ["./src/types/*"],
         "#utils/*": ["./src/utils/*"],

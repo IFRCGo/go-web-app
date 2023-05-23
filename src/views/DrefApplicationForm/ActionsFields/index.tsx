@@ -49,8 +49,8 @@ interface Props {
   yesNoOptions: BooleanValueOption[];
   needOptions: StringValueOption[];
   nsActionOptions: StringValueOption[];
-  fileIdToUrlMap: Record<number, string>;
-  setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+  // fileIdToUrlMap: Record<number, string>;
+  // setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
   drefType?: number;
 }
 
@@ -64,8 +64,8 @@ function ActionsFields(props: Props) {
         yesNoOptions,
         needOptions,
         nsActionOptions,
-        fileIdToUrlMap,
-        setFileIdToUrlMap,
+        // fileIdToUrlMap,
+        // setFileIdToUrlMap,
         drefType,
     } = props;
 

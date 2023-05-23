@@ -3,14 +3,11 @@ interface Country {
     iso3: string;
 }
 
-interface Region {
-}
+type Region = object;
 
-interface Disaster {
-}
+type Disaster = object;
 
-interface FieldReport {
-}
+type FieldReport = object;
 
 export interface Appeal {
     aid: string;

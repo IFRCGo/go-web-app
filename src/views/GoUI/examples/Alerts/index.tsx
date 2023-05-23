@@ -15,33 +15,37 @@ function Alerts() {
             <Alert
                 variant="success"
                 name="Success"
-                children="This is alert for Success message"
-            />
+            >
+                This is alert for Success message
+            </Alert>
             <Heading level={5}>
                 Danger alert example
             </Heading>
             <Alert
                 variant="danger"
                 name="Danger"
-                children="This is alert for Danger message"
-                debugMessage="Error message"
-            />
+                debugMessage="Danger message"
+            >
+                This is alert for Danger message
+            </Alert>
             <Heading level={5}>
                 Info alert example
             </Heading>
             <Alert
                 variant="info"
                 name="Info"
-                children="This is alert for Info message"
-            />
+            >
+                This is alert for Info message
+            </Alert>
             <Heading level={5}>
                 Warning alert example
             </Heading>
             <Alert
                 variant="warning"
                 name="Waring"
-                children="This is alert for Warning message"
-            />
+            >
+                This is alert for Warning message
+            </Alert>
         </div>
     );
 }

@@ -29,14 +29,17 @@ function SearchMultiSelectInputExample() {
         setSearchSelectedOption(value);
     }, []);
 
-    async function callApi(value: string) {
-        const data = await fetch(`https://dummyjson.com/products/search?q=${value}`)
-            .then((response) => response.json())
-            .then((response) => response.products.map(mapResponseToValuesAndLabels));
+    const callApi = useCallback(
+        async (value: string) => {
+            const data = await fetch(`https://dummyjson.com/products/search?q=${value}`)
+                .then((response) => response.json())
+                .then((response) => response.products.map(mapResponseToValuesAndLabels));
 
-        setOptions((prevData) => unique([...prevData, ...data], (d) => d.value));
-        return data;
-    }
+            setOptions((prevData) => unique([...prevData, ...data], (d) => d.value));
+            return data;
+        },
+        [],
+    );
 
     return (
         <div className={styles.searchMultiSelectExample}>

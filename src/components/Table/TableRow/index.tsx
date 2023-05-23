@@ -12,7 +12,7 @@ function TableRow(props: Props) {
     return (
         <tr
             className={className}
-            // eslint-disable-next-line react/jsx-no-props-spreading
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
             {children}

@@ -56,6 +56,7 @@ function PasswordInput<T extends NameType>(props: Props<T>) {
             )}
             input={(
                 <RawInput
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
                     className={inputClassName}
                     elementRef={inputElementRef}

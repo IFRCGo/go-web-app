@@ -92,11 +92,16 @@ function SelectInput<N extends NameType, O, V extends ValueType>(props: Props<N,
             inputSectionClassName={styles.inputSection}
             input={(
                 <Select
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...otherProps}
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...readOnlyProps}
                     value={selectedValue}
                     classNames={{
-                        control: (state) => _cs(styles.control, state.isFocused ? styles.isFocused : undefined),
+                        control: (state) => _cs(
+                            styles.control,
+                            state.isFocused ? styles.isFocused : undefined,
+                        ),
                         valueContainer: () => styles.valueContainer,
                         indicatorsContainer: () => styles.indicatorContainer,
                         indicatorSeparator: () => styles.indicatorSeparator,
