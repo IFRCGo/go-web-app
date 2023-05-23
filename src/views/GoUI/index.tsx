@@ -242,7 +242,7 @@ export function Component() {
             <div className={styles.componentLayout}>
                 {element === 'links' && <Links />}
                 {element === 'cards' && <Cards />}
-                {element === "alerts" && <Alerts />}
+                {element === 'alerts' && <Alerts />}
                 {element === 'overlay' && <OverlayExample />}
                 {element === 'buttons' && <Buttons />}
                 {element === 'headings' && <Headings />}

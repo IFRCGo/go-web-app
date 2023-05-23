@@ -30,43 +30,55 @@ function AlertContainer(props: Props) {
         removeAlert,
     } = useContext(AlertContext);
 
-    console.info(alerts);
-
     const dismissTimeout = useRef<Record<string, number>>({});
 
-    useEffect(() => {
-        alerts.forEach((alert) => {
-            if (!alert.nonDismissable && !dismissTimeout.current[alert.name]) {
-                dismissTimeout.current[alert.name] = window.setTimeout(() => {
-                    removeAlert(alert.name);
-                    delete dismissTimeout.current[alert.name];
-                }, alert.duration ?? DEFAULT_ALERT_DISMISS_DURATION);
-            }
-        });
-    }, [alerts, removeAlert]);
+    useEffect(
+        () => {
+            alerts.filter((alert) => !alert.nonDismissable).forEach((alert) => {
+                // NOTE: skip if there is alreayd a timeout
+                if (dismissTimeout.current[alert.name]) {
+                    return;
+                }
+                dismissTimeout.current[alert.name] = window.setTimeout(
+                    () => {
+                        removeAlert(alert.name);
+                        delete dismissTimeout.current[alert.name];
+                    },
+                    alert.duration ?? DEFAULT_ALERT_DISMISS_DURATION,
+                );
+            });
+        },
+        [alerts, removeAlert],
+    );
 
-    const handleAlertCloseButtonClick = useCallback((name: string) => {
-        window.clearTimeout(dismissTimeout.current[name]);
-        removeAlert(name);
-    }, [removeAlert]);
+    const handleAlertCloseButtonClick = useCallback(
+        (name: string) => {
+            const timeout = dismissTimeout.current[name];
+            window.clearTimeout(timeout);
+
+            removeAlert(name);
+            delete dismissTimeout.current[name];
+        },
+        [removeAlert],
+    );
 
     return (
         <Portal>
             <div className={_cs(styles.alertContainer, className)}>
                 {alerts.map((alert) => (
                     <Alert
+                        key={alert.name}
                         name={alert.name}
                         className={styles.alert}
-                        key={alert.name}
                         nonDismissable={alert.nonDismissable}
                         variant={alert.variant}
                         onCloseButtonClick={handleAlertCloseButtonClick}
                         debugMessage={alert.debugMessage}
                     >
-                        { alert.children }
+                        {alert.children}
                     </Alert>
                 ))}
-                { children }
+                {children}
             </div>
         </Portal>
     );

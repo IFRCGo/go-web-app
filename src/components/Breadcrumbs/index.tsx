@@ -36,6 +36,7 @@ function Breadcrumbs(props: BreadcrumbsProps) {
                 acc.push(
                     <span
                         key={`separator-${index}`} // eslint-disable-line react/no-array-index-key
+                        className={styles.separator}
                     >
                         {separator}
                     </span>,

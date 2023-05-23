@@ -51,6 +51,7 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
     } = props;
 
     const handleChange = React.useCallback((newValue: string | undefined) => {
+        // FIXME: do we even need to pass name?
         if (readOnly || disabled) {
             return;
         }

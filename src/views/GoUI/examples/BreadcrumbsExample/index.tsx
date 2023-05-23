@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom';
 import Breadcrumbs from '#components/Breadcrumbs';
+import Link from '#components/Link';
 import Heading from '#components/Heading';
 
 import styles from './styles.module.css';
@@ -12,12 +12,12 @@ function BreadcrumbsExample() {
             </Heading>
             <div className={styles.breadcrumb}>
                 <Breadcrumbs>
-                    <NavLink to="/">
+                    <Link to="/">
                         Home
-                    </NavLink>
-                    <NavLink to="/about">
+                    </Link>
+                    <Link to="/about">
                         About
-                    </NavLink>
+                    </Link>
                     <div>
                         Contact
                     </div>
@@ -25,12 +25,12 @@ function BreadcrumbsExample() {
             </div>
             <div className={styles.breadcrumb}>
                 <Breadcrumbs separator="/">
-                    <NavLink to="/">
+                    <Link to="/">
                         Home
-                    </NavLink>
-                    <NavLink to="/about">
+                    </Link>
+                    <Link to="/about">
                         About
-                    </NavLink>
+                    </Link>
                     <div>
                         Contact
                     </div>

@@ -1,10 +1,11 @@
 .alert {
+    display: flex;
+    flex-direction: column;
     border-radius: var(--go-ui-border-radius-md);
     box-shadow: var(--go-ui-box-shadow-xl);
-    background-color: var(--go-ui-color-gray-80);
     padding: var(--go-ui-spacing-lg);
     width: calc(14rem + 16vw);
-    color: var(--go-ui-color-white);
+    gap: var(--go-ui-spacing-md);
 
     .content {
         display: flex;
@@ -20,12 +21,14 @@
         .icon {
             flex-shrink: 0;
             font-size: var(--go-ui-font-size-xl);
+            color: var(--go-ui-color-white);
         }
 
         .content {
             align-items: initial;
             flex-direction: column;
             font-weight: var(--go-ui-font-weight-medium);
+            color: var(--go-ui-color-white);
         }
     }
 
@@ -33,11 +36,10 @@
         display: flex;
         justify-content: flex-end;
         gap: var(--go-ui-spacing-sm);
+    }
 
-        .copy-debug-message-button {
-            text-transform: uppercase;
-            font-size: var(--go-ui-font-size-sm);
-        }
+    &.info {
+        background-color: var(--go-ui-color-gray-80);
     }
 
     &.success {

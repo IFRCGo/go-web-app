@@ -1,13 +1,13 @@
 .breadcrumbs {
     display: flex;
     align-items: center;
-    color: var(--go-ui-color-gray-40);
     gap: var(--go-ui-spacing-sm);
 
     .item {
         display: flex;
 
         &:not(:last-child) {
+            font-weight: var(--go-ui-font-weight-light);
             :hover {
                 text-decoration: underline;
                 color: var(--go-ui-color-primary-red);

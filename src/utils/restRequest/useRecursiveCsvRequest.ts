@@ -10,6 +10,8 @@ import {
 
 import { TransformedError } from './go';
 
+// FIXME: let's move this to hooks
+
 const PAGE_SIZE = 500;
 
 const firstQuery = {

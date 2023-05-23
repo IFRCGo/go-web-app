@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
     useRequest,
     ListResponse,
@@ -152,9 +152,12 @@ function AppealsTable() {
 
     let ordering;
     if (sorting) {
-        ordering = sorting.direction === 'dsc' ? `-${sorting.name}` : sorting.name;
+        ordering = sorting.direction === 'dsc'
+            ? `-${sorting.name}`
+            : sorting.name;
     }
 
+    // TODO: clear appealType and displacementType when filter is changed
     const [appealType, setAppealType] = useInputState<string | undefined>('all');
     const [displacementType, setDisplacementType] = useInputState<number | undefined>(-1);
     const [page, setPage] = useState(0);
@@ -164,6 +167,7 @@ function AppealsTable() {
         response: appealsResponse,
     } = useRequest<ListResponse<Appeal>>({
         url: 'api/v2/appeal/',
+        preserveResponse: true,
         query: {
             limit: 10,
             offset: page * 10,
@@ -186,11 +190,19 @@ function AppealsTable() {
         url: 'api/v2/disaster_type/',
     });
 
+    const displacementTypeWithAll = useMemo(
+        () => ([
+            {
+                id: -1,
+                name: 'All',
+            },
+            ...disasterTypeResponse?.results ?? [],
+        ]),
+        [disasterTypeResponse],
+    );
+
     return (
         <div>
-            {appealsPending && (
-                <BlockLoading />
-            )}
             <SelectInput
                 label="Appeal Type"
                 name={undefined}
@@ -207,9 +219,12 @@ function AppealsTable() {
                 onChange={setDisplacementType}
                 keySelector={(item) => item.id}
                 labelSelector={(item) => item.name}
-                options={disasterTypeResponse?.results}
+                options={displacementTypeWithAll}
                 disabled={disasterTypePending}
             />
+            {appealsPending && (
+                <BlockLoading />
+            )}
             <SortContext.Provider value={sortState}>
                 <Table
                     className={styles.appealsTable}

@@ -12,8 +12,6 @@ import ElementFragments from '#components/ElementFragments';
 import Button from '#components/Button';
 import { AlertVariant } from '#contexts/alert';
 import useTranslation from '#hooks/useTranslation';
-// import useBasicLayout from '#hooks/useBasicLayout';
-
 import commonStrings from '#strings/common';
 
 import styles from './styles.module.css';
@@ -29,7 +27,6 @@ export interface Props<N> {
 }
 
 const alertVariantToClassNameMap: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     [key in AlertVariant]: string;
 } = {
     success: styles.success,
@@ -52,7 +49,6 @@ function Alert<N extends string>(props: Props<N>) {
     const strings = useTranslation('common', commonStrings);
 
     const icon: {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         [key in AlertVariant]: React.ReactNode;
     } = {
         success: <CheckboxCircleLineIcon className={styles.icon} />,
@@ -61,23 +57,29 @@ function Alert<N extends string>(props: Props<N>) {
         warning: <QuestionLineIcon className={styles.icon} />,
     };
 
-    const handleCloseButtonClick = useCallback(() => {
-        if (onCloseButtonClick) {
-            onCloseButtonClick(name);
-        }
-    }, [onCloseButtonClick, name]);
+    const handleCloseButtonClick = useCallback(
+        () => {
+            if (onCloseButtonClick) {
+                onCloseButtonClick(name);
+            }
+        },
+        [onCloseButtonClick, name],
+    );
 
-    const handleCopyDebugMessageButtonClick = useCallback(() => {
-        if (debugMessage) {
-            navigator.clipboard.writeText(debugMessage);
-        }
-    }, [debugMessage]);
+    const handleCopyDebugMessageButtonClick = useCallback(
+        () => {
+            if (debugMessage) {
+                navigator.clipboard.writeText(debugMessage);
+            }
+        },
+        [debugMessage],
+    );
 
     return (
         <div
             className={_cs(
-                styles.alert,
                 className,
+                styles.alert,
                 alertVariantToClassNameMap[variant],
             )}
         >
@@ -90,7 +92,7 @@ function Alert<N extends string>(props: Props<N>) {
                             className={styles.closeButton}
                             name={undefined}
                             onClick={handleCloseButtonClick}
-                            variant="tertiary"
+                            variant="tertiary-on-dark"
                         >
                             <CloseLineIcon />
                         </Button>
@@ -102,10 +104,9 @@ function Alert<N extends string>(props: Props<N>) {
             {debugMessage && (
                 <div className={styles.actions}>
                     <Button
-                        className={styles.copyDebugMessageButton}
                         name={undefined}
                         onClick={handleCopyDebugMessageButtonClick}
-                        variant="tertiary"
+                        variant="tertiary-on-dark"
                     >
                         {strings.alertCopyErrorDetails}
                     </Button>

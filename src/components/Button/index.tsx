@@ -5,25 +5,16 @@ import RawButton, { Props as RawButtonProps } from '#components/RawButton';
 import useBasicLayout from '#hooks/useBasicLayout';
 import styles from './styles.module.css';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
+// NOTE:
+// Adding a 'tertiary-on-dark' to use 'tertiary' button on darker backgrounds
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'tertiary-on-dark';
 
 const buttonVariantToStyleMap: Record<ButtonVariant, string> = {
     primary: styles.primary,
     secondary: styles.secondary,
     tertiary: styles.tertiary,
+    'tertiary-on-dark': styles.tertiaryOnDark,
 };
-
-export interface Props<N> extends RawButtonProps<N> {
-    variant?: ButtonVariant;
-    actions?: React.ReactNode;
-    actionsClassName?: string;
-    childrenClassName?: string;
-    disabled?: boolean;
-    icons?: React.ReactNode;
-    iconsClassName?: string;
-    name: N;
-    onClick?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
-}
 
 export type ButtonFeatureProps<N> = Omit<Props<N>, 'name' | 'onClick'>;
 
@@ -68,7 +59,19 @@ export function useButtonFeatures<N>(
     };
 }
 
-function Button<N extends string | number | undefined>(props: Props<N>) {
+export interface Props<N> extends RawButtonProps<N> {
+    variant?: ButtonVariant;
+    actions?: React.ReactNode;
+    actionsClassName?: string;
+    childrenClassName?: string;
+    disabled?: boolean;
+    icons?: React.ReactNode;
+    iconsClassName?: string;
+    name: N;
+    onClick?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+function Button<N>(props: Props<N>) {
     const {
         actions,
         actionsClassName,
@@ -99,7 +102,8 @@ function Button<N extends string | number | undefined>(props: Props<N>) {
         children,
         icons,
         actions,
-        disabled,
+        // NOTE: disabling a button if there is on onClick handler
+        disabled: disabled || !onClick,
     });
 
     return (
@@ -107,8 +111,10 @@ function Button<N extends string | number | undefined>(props: Props<N>) {
             name={name}
             type="button"
             onClick={handleButtonClick}
-            {...otherProps} /* eslint-disable-line react/jsx-props-no-spreading */
-            {...buttonProps} /* eslint-disable-line react/jsx-props-no-spreading */
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherProps}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...buttonProps}
         />
     );
 }

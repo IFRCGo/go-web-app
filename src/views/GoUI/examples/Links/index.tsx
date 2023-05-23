@@ -49,10 +49,10 @@ function Links() {
                     SECONDARY LINK
                 </Heading>
                 <Link
-                    to="www.gooogle.com"
+                    to="https://www.google.com"
                     target="_blank"
                 >
-                    im@ifrc.org
+                    Google
                 </Link>
             </div>
             <div className={styles.linksContainer}>
@@ -60,14 +60,14 @@ function Links() {
                     EXTERNAL LINK
                 </Heading>
                 <Link
-                    to="https://www.gooogle.com"
+                    to="https://www.google.com"
                     external
                     actions={<ChevronLeftLineIcon />}
                 >
                     Google
                 </Link>
                 <Link
-                    to="https://www.gooogle.com"
+                    to="https://www.google.com"
                     external
                     disabled
                     actions={<ChevronLeftLineIcon />}

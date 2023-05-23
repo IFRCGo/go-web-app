@@ -34,6 +34,7 @@ function OperationCard(props: Props) {
     const amountRequested = sum(appeals.map((appeal) => +appeal.amount_requested));
     const amountFunded = sum(appeals.map((appeal) => +appeal.amount_funded));
 
+    // FIXME: let's use progress utility
     const coverage = (100 * amountFunded) / amountRequested;
 
     const fundingCoverageDescription = resolveToComponent(
@@ -85,7 +86,7 @@ function OperationCard(props: Props) {
                     value={amountRequested}
                     description={strings.operationCardFunding}
                     normalize
-                    progress={(100 * amountFunded) / amountRequested}
+                    progress={coverage}
                     progressDescription={fundingCoverageDescription}
                 />
             </div>

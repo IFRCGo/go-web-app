@@ -31,6 +31,7 @@ export default function TabList(props: Props) {
             return '0';
         }
 
+        // FIXME: use bounds and percent helpers
         const progressPercentage = Math.max(
             0,
             Math.min(100, 100 * ((progress - 1) / (steps - 1))),

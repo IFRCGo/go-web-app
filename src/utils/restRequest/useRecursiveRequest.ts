@@ -7,6 +7,8 @@ import { useRequest } from './index';
 
 const PAGE_SIZE = 500;
 
+// FIXME: let's move this to hooks
+
 type ListResponse<T> = {
   count: number;
   results: T[];

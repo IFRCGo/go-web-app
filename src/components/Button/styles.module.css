@@ -89,12 +89,30 @@
         --border-radius: unset;
 
         &:disabled {
-            --color-text: var(--go-ui-color-gray-40);
+            opacity: 0.5;
         }
 
         &:not(:disabled) {
             &:hover {
                 --color-text: var(--go-ui-color-primary-red);
+            }
+        }
+    }
+
+    &.tertiary-on-dark {
+        --color-border: transparent;
+        --color-background: transparent;
+        --color-text: var(--go-ui-color-white);
+        --padding: 0;
+        --border-radius: unset;
+
+        &:disabled {
+            opacity: 0.5;
+        }
+
+        &:not(:disabled) {
+            &:hover {
+                opacity: 0.8;
             }
         }
     }
