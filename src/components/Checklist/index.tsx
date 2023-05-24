@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import { ValueType } from '#components/types';
 import InputLabel from '../InputLabel';
 import InputError from '../InputError';
 import InputHint from '../InputHint';
@@ -11,7 +10,7 @@ import Checkbox, { Props as CheckboxProps } from '../Checkbox';
 import styles from './styles.module.css';
 
 export interface Props<
-    T extends ValueType,
+    T,
     K,
     O extends object,
 > {
@@ -36,7 +35,7 @@ export interface Props<
 }
 
 function CheckList<
-    T extends ValueType,
+    T,
     K,
     O extends object,
 >(props: Props<T, K, O>) {

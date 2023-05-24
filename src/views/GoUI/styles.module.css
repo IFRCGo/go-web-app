@@ -28,7 +28,7 @@
             background-color: var(--go-ui-color-red-10);
             padding: var(--go-ui-spacing-sm);
             width: 100%;
-            color: var(--go-ui-color-text);
+            color: var(--go-ui-color-gray-90);
             font-size: var(--go-ui-font-size-md);
 
             &:hover {

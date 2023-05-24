@@ -1,165 +1,269 @@
-import { wrapRoute, unwrapRoute } from '#utils/routes';
+import {
+    wrapRoute,
+    unwrapRoute,
+} from '#utils/routes';
+import type {
+    MyInputIndexRouteObject,
+    MyInputNonIndexRouteObject,
+    MyOutputIndexRouteObject,
+    MyOutputNonIndexRouteObject,
+} from '#utils/routes';
 
+import Auth from './Auth';
 import PageError from './PageError';
 
-const root = wrapRoute({
-    title: '',
+type ExtendedProps = {
+    title: string,
+    visibility: 'is-authenticated' | 'is-not-authenticated' | 'anything',
+};
+interface MyWrapRoute {
+    <T>(
+        myRouteOptions: MyInputIndexRouteObject<T, ExtendedProps>
+    ): MyOutputIndexRouteObject<ExtendedProps>
+    <T>(
+        myRouteOptions: MyInputNonIndexRouteObject<T, ExtendedProps>
+    ): MyOutputNonIndexRouteObject<ExtendedProps>
+}
+const myWrapRoute: MyWrapRoute = wrapRoute;
+
+const root = myWrapRoute({
     path: '/',
     component: () => import('#views/RootLayout'),
     componentProps: {},
     errorElement: <PageError />,
+    wrapperComponent: Auth,
+    context: {
+        title: '',
+        visibility: 'anything',
+    },
 });
 
-const login = wrapRoute({
-    title: 'Login',
+const login = myWrapRoute({
     path: 'login',
     component: () => import('#views/Login'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Login',
+        visibility: 'is-not-authenticated',
+    },
 });
 
-const register = wrapRoute({
-    title: 'Register',
+const register = myWrapRoute({
     path: 'register',
     component: () => import('#views/Register'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Register',
+        visibility: 'is-not-authenticated',
+    },
 });
 
-const home = wrapRoute({
-    title: 'Home',
+const home = myWrapRoute({
     index: true,
     component: () => import('#views/Home'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Home',
+        visibility: 'anything',
+    },
 });
 
-const region = wrapRoute({
-    title: 'Region',
+const region = myWrapRoute({
     path: 'regions/:regionId',
     component: () => import('#views/Region'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Region',
+        visibility: 'anything',
+    },
 });
 
-const country = wrapRoute({
-    title: 'Country',
+const country = myWrapRoute({
     path: 'countries/:countryId',
     component: () => import('#views/Country'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Country',
+        visibility: 'anything',
+    },
 });
 
-const emergencies = wrapRoute({
-    title: 'Emergencies',
+const emergencies = myWrapRoute({
     path: 'emergencies',
     component: () => import('#views/Emergencies'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergencies',
+        visibility: 'anything',
+    },
 });
 
-const emergency = wrapRoute({
-    title: 'Emergency',
+const emergency = myWrapRoute({
     path: 'countries/:emergencyId',
     component: () => import('#views/Emergency'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency',
+        visibility: 'anything',
+    },
 });
 
-const surge = wrapRoute({
-    title: 'Surge',
+const surge = myWrapRoute({
     path: 'surge',
     component: () => import('#views/Surge'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Surge',
+        visibility: 'anything',
+    },
 });
 
-const preparedness = wrapRoute({
-    title: 'Preparedness',
+const preparedness = myWrapRoute({
     path: 'preparedness',
     component: () => import('#views/Preparedness'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Preparedness',
+        visibility: 'anything',
+    },
 });
 
-const threeW = wrapRoute({
-    title: 'Three W',
+const threeW = myWrapRoute({
     path: 'three-w',
     component: () => import('#views/GlobalThreeW'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Three W',
+        visibility: 'anything',
+    },
 });
 
-const riskWatch = wrapRoute({
-    title: 'Risk',
+const riskWatch = myWrapRoute({
     path: 'risk-watch',
     component: () => import('#views/GlobalRiskWatch'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Risk',
+        visibility: 'anything',
+    },
 });
 
-const account = wrapRoute({
-    title: 'Account',
+const account = myWrapRoute({
     path: 'account',
     component: () => import('#views/Account'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Account',
+        visibility: 'is-authenticated',
+    },
 });
 
-const resources = wrapRoute({
-    title: 'Resources',
+const resources = myWrapRoute({
     path: 'resources',
     component: () => import('#views/Resources'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Resources',
+        visibility: 'anything',
+    },
 });
 
-const search = wrapRoute({
-    title: 'Search',
+const search = myWrapRoute({
     path: 'search',
     component: () => import('#views/Search'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Search',
+        visibility: 'anything',
+    },
 });
 
-const goUI = wrapRoute({
-    title: 'Go UI',
+const goUI = myWrapRoute({
     path: 'go-ui',
     component: () => import('#views/GoUI'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Go UI',
+        visibility: 'anything',
+    },
 });
 
-const drefApplicationFormNew = wrapRoute({
-    title: 'New Dref Application Form',
+const drefApplicationFormNew = myWrapRoute({
     path: '/dref-application/new/',
     component: () => import('#views/DrefApplicationForm'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Dref Application Form',
+        visibility: 'is-authenticated',
+    },
 });
 
-const drefApplicationFormEdit = wrapRoute({
-    title: 'Dref Application Form',
+const drefApplicationFormEdit = myWrapRoute({
     path: '/dref-application/:drefId/edit/',
     component: () => import('#views/DrefApplicationForm'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Dref Application Form',
+        visibility: 'is-authenticated',
+    },
 });
 
-const flashUpdateFormNew = wrapRoute({
-    title: 'New Flash Update',
+const flashUpdateFormNew = myWrapRoute({
     path: '/flash-update/new/',
     component: () => import('#views/FlashUpdateForm'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Flash Update',
+        visibility: 'is-authenticated',
+    },
 });
 
-const fieldReportFormNew = wrapRoute({
-    title: 'New Field Report Form',
+const fieldReportFormNew = myWrapRoute({
     path: '/field-report/new/',
     component: () => import('#views/FieldReportForm'),
     componentProps: {},
     parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Field Report Form',
+        visibility: 'is-authenticated',
+    },
 });
 
 const wrappedRoutes = {
