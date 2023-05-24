@@ -1,0 +1,17 @@
+{
+    "namespace": "home",
+    "strings": {
+        "operationCardLastUpdated":"Last updated:",
+        "operationCardTargetedPopulation":"Targeted Population",
+        "operationCardDepoloyedUnits":"Deployed Emergency Response Units",
+        "operationCardFunding":"Funding Requirements",
+        "operationCardIFRCSurgePersonnel":"IFRC Surge Personnel",
+        "operationCardNSReportingActivities":"NS Reporting Activities",
+        "operationCardDeployed":"Deployed Surge Personnel",
+        "operationCardFundingCoverage":"{coverage}% received",
+        "operationCardFollow":"Follow",
+        "operationCardFollowing":"Following",
+        "operationCardInvolvesMultipleCountries":"Involves multiple countries",
+        "operationCardNoCountryInvolved":"No Country Involved"
+    }
+}

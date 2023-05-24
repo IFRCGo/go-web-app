@@ -7,7 +7,7 @@ import InputContainer, { Props as InputContainerProps } from '#components/InputC
 
 import styles from './styles.module.css';
 
-type RawEditorOptions = IAllProps['init'];
+type RawEditorOptions = NonNullable<IAllProps['init']>;
 
 const editorOptions: Omit<RawEditorOptions, 'selector' | 'target'> = {
     menubar: false, // https://www.tiny.cloud/docs/advanced/available-toolbar-buttons

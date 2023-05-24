@@ -14,7 +14,9 @@ import {
     createDateColumn,
 } from '#components/Table/columnShortcuts';
 import Pager from '#components/Pager';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 // This is already defined in #types/emergency
@@ -76,70 +78,13 @@ interface AppealType {
     label: string;
 }
 
+// FIXME: translate this
 const appealTypeOptions: AppealType[] = [
     { value: 'all', label: 'All' },
     { value: '0', label: 'DREF' },
     { value: '1', label: 'Emergency Appeals' },
     { value: '2', label: 'Movement' },
     { value: '3', label: 'Early Action Protocol (EAP) Activation' },
-];
-
-const columns = [
-    createDateColumn<Appeal, string>(
-        'start_date',
-        'Start Date',
-        (item) => item.start_date,
-        {
-            sortable: true,
-            columnClassName: styles.startDate,
-        },
-    ),
-    createStringColumn<Appeal, string>(
-        'atype',
-        'Type',
-        (item) => item.atype_display,
-        {
-            sortable: true,
-            columnClassName: styles.appealType,
-        },
-    ),
-    createStringColumn<Appeal, string>(
-        'code',
-        'Code',
-        (item) => item.code,
-        {
-            columnClassName: styles.code,
-        },
-    ),
-    createStringColumn<Appeal, string>(
-        'operation',
-        'Operation',
-        (item) => item.name,
-    ),
-    createStringColumn<Appeal, string>(
-        'dtype',
-        'Disaster Type',
-        (item) => item.dtype.name,
-        { sortable: true },
-    ),
-    createNumberColumn<Appeal, string>(
-        'amount_requested',
-        'Requested Amount',
-        (item) => Number(item.amount_requested),
-        { sortable: true },
-    ),
-    createNumberColumn<Appeal, string>(
-        'amount_funded',
-        'Funding',
-        // FIXME: use progress bar here
-        (item) => Number(item.amount_funded),
-        { sortable: true },
-    ),
-    createStringColumn<Appeal, string>(
-        'country',
-        'Country',
-        (item) => item.country.name,
-    ),
 ];
 
 const keySelector = (item: Appeal) => item.id;
@@ -150,6 +95,69 @@ function AppealsTable() {
     const sortState = useSortState();
     const { sorting } = sortState;
 
+    const strings = useTranslation(i18n);
+
+    const columns = useMemo(
+        () => ([
+            createDateColumn<Appeal, string>(
+                'start_date',
+                strings.appealsTableStartDate,
+                (item) => item.start_date,
+                {
+                    sortable: true,
+                    columnClassName: styles.startDate,
+                },
+            ),
+            createStringColumn<Appeal, string>(
+                'atype',
+                strings.appealsTableType,
+                (item) => item.atype_display,
+                {
+                    sortable: true,
+                    columnClassName: styles.appealType,
+                },
+            ),
+            createStringColumn<Appeal, string>(
+                'code',
+                strings.appealsTableCode,
+                (item) => item.code,
+                {
+                    columnClassName: styles.code,
+                },
+            ),
+            createStringColumn<Appeal, string>(
+                'operation',
+                strings.appealsTableOperation,
+                (item) => item.name,
+            ),
+            createStringColumn<Appeal, string>(
+                'dtype',
+                strings.appealsTableDisastertype,
+                (item) => item.dtype.name,
+                { sortable: true },
+            ),
+            createNumberColumn<Appeal, string>(
+                'amount_requested',
+                strings.appealsTableRequestedAmount,
+                (item) => Number(item.amount_requested),
+                { sortable: true },
+            ),
+            createNumberColumn<Appeal, string>(
+                'amount_funded',
+                strings.appealsTableFundedAmount,
+                // FIXME: use progress bar here
+                (item) => Number(item.amount_funded),
+                { sortable: true },
+            ),
+            createStringColumn<Appeal, string>(
+                'country',
+                strings.appealsTableCountry,
+                (item) => item.country.name,
+            ),
+        ]),
+        [strings],
+    );
+
     let ordering;
     if (sorting) {
         ordering = sorting.direction === 'dsc'
@@ -157,7 +165,7 @@ function AppealsTable() {
             : sorting.name;
     }
 
-    // TODO: clear appealType and displacementType when filter is changed
+    // FIXME: clear appealType and displacementType when filter is changed
     const [appealType, setAppealType] = useInputState<string | undefined>('all');
     const [displacementType, setDisplacementType] = useInputState<number | undefined>(-1);
     const [page, setPage] = useState(0);
@@ -194,6 +202,7 @@ function AppealsTable() {
     const displacementTypeWithAll = useMemo(
         () => ([
             {
+                // FIXME: translate this
                 id: -1,
                 name: 'All',
             },
@@ -206,19 +215,21 @@ function AppealsTable() {
         <div className={styles.appealsTable}>
             <div className={styles.filters}>
                 <SelectInput
-                    label="Appeal Type"
+                    label={strings.appealsTableType}
                     name={undefined}
                     value={appealType}
                     onChange={setAppealType}
+                    // FIXME: do no inline functions on render
                     keySelector={(item) => item.value}
                     labelSelector={(item) => item.label}
                     options={appealTypeOptions}
                 />
                 <SelectInput
-                    label="Displacement Type"
+                    label={strings.appealsTableDisastertype}
                     name={undefined}
                     value={displacementType}
                     onChange={setDisplacementType}
+                    // FIXME: do no inline functions on render
                     keySelector={(item) => item.id}
                     labelSelector={(item) => item.name}
                     options={displacementTypeWithAll}
@@ -226,6 +237,7 @@ function AppealsTable() {
                 />
             </div>
             {appealsPending && (
+                // FIXME: use a loading animation inside the Table
                 <BlockLoading />
             )}
             <SortContext.Provider value={sortState}>

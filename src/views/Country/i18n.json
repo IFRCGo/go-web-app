@@ -1,0 +1,6 @@
+{
+    "namespace": "country",
+    "strings": {
+        "countryPageTitle": "IFRC GO - {countryName}"
+    }
+}

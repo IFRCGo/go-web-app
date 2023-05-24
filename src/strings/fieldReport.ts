@@ -1,5 +1,4 @@
 const fieldReport = {
-    fieldReportTitle: 'IFRC GO - Field Report',
     fieldReportResourceNotFound: 'Resource Not Found.',
     fieldReportResourceNotFoundDescr: 'The resource doesn\'t exist – mistyped URL or removed content.',
     fieldReportResourceNotPublic: 'This page is not public.',

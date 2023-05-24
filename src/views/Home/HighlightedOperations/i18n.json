@@ -1,0 +1,7 @@
+{
+    "namespace": "home",
+    "strings": {
+        "highlightedOperationsTitle": "Highlighted Operations",
+        "highlightedOperationsViewAll":"View all emergencies (last 30 days)"
+    }
+}

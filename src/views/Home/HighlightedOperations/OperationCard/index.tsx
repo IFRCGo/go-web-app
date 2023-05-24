@@ -7,10 +7,10 @@ import NumberOutput from '#components/NumberOutput';
 import KeyFigure from '#components/KeyFigure';
 import { Emergency } from '#types/emergency';
 import useTranslation from '#hooks/useTranslation';
-import commonStrings from '#strings/common';
 import { resolveToComponent } from '#utils/translation';
 
 import SeverityIndicator from './SeverityIndicator';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -29,7 +29,7 @@ function OperationCard(props: Props) {
         },
     } = props;
 
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
     const targetedPopulation = sum(appeals.map((appeal) => appeal.num_beneficiaries));
     const amountRequested = sum(appeals.map((appeal) => +appeal.amount_requested));
     const amountFunded = sum(appeals.map((appeal) => +appeal.amount_funded));

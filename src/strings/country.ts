@@ -1,5 +1,4 @@
 const country = {
-    countryPageTitle: 'IFRC GO - {countryName}',
     countryTitle: 'IFRC GO - Country',
     // not used -   countryListInRegion: ' Countries in this Region',
     // not used -   countryListViewActiveOnly: 'View only active operations',

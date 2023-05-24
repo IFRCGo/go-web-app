@@ -1,0 +1,25 @@
+{
+    "namespace": "home",
+    "strings": {
+        "activeOperationsTitle":"Active Operations ({numAppeals})",
+        "operationMapViewAll":"View all emergencies (last 30 days)",
+        "operationPopoverClose":"Close popover",
+        "operationPopoverDismiss":"Dismiss",
+        "operationPopoverPeopleAffected":"People Targeted",
+        "operationPopoverAmountRequested":"Amount Requested (CHF)",
+        "operationPopoverAmountFunded":"Amount Funded (CHF)",
+        "operationPopoverActivity":"Activity: {activity}",
+        "operationPopoverStart":"Start: {start}",
+        "operationPopoverEnd":"End: {end}",
+        "operationPopoverEmpty":"No Current Operations",
+        "explanationBubbleScalePoints":"Scale points by",
+        "explanationBubblePopulationLabel":"# of people targeted",
+        "explanationBubbleAmountLabel":"IFRC financial requirements",
+        "explanationBubbleType":"Type",
+        "explanationBubbleEmergencyAppeal":"Emergency appeal",
+        "explanationBubbleDref":"DREF",
+        "explanationBubbleEAP":"Early Action Protocol Activation",
+        "explanationBubbleMultiple":"Multiple types",
+        "explanationBubbleDeployments":"Deployments"
+    }
+}

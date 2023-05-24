@@ -1,14 +1,15 @@
 import Page from '#components/Page';
 import useTranslation from '#hooks/useTranslation';
-import accountStrings from '#strings/account';
+
+import i18n from './i18n.json';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation('account', accountStrings);
+    const strings = useTranslation(i18n);
 
     return (
         <Page
-            title={strings.accountInformation}
+            title={strings.accountTitle}
         >
             Account Page
         </Page>

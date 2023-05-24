@@ -1,5 +1,4 @@
 const emergency = {
-    emergenciesTitle: 'IFRC GO - Emergencies',
     emergenciesTableError: 'Latest emergencies not available.',
     emergenciesTableDate: 'Start Date',
     emergenciesTableName: 'Name',
@@ -38,7 +37,6 @@ const emergency = {
     emergenciesDashOverTime: 'DREFS and Appeals over time',
     emergencyPageTitleStatic: 'IFRC GO - Emergency',
     // not used -   emergencyPageLabel: 'Emergency',
-    emergencyPageTitle: 'IFRC GO - {name}',
     emergencyTabDetails: 'Emergency Details',
     emergencyTabReports: 'Reports/Documents',
     emergencyTabSurge: 'Surge',

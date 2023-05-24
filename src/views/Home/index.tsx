@@ -1,16 +1,16 @@
 import Page from '#components/Page';
 import useTranslation from '#hooks/useTranslation';
-import homePageStrings from '#strings/home';
 
 import HighlightedOperations from './HighlightedOperations';
 import ActiveOperationMap from './ActiveOperationMap';
 import AppealsTable from './AppealsTable';
+import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation('home', homePageStrings);
+    const strings = useTranslation(i18n);
 
     return (
         <Page

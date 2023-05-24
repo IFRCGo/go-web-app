@@ -12,7 +12,8 @@ import ElementFragments from '#components/ElementFragments';
 import Button from '#components/Button';
 import { AlertVariant } from '#contexts/alert';
 import useTranslation from '#hooks/useTranslation';
-import commonStrings from '#strings/common';
+
+import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
@@ -46,7 +47,7 @@ function Alert<N extends string>(props: Props<N>) {
         debugMessage,
     } = props;
 
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
 
     const icon: {
         [key in AlertVariant]: React.ReactNode;
