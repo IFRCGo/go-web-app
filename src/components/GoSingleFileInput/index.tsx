@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { NameType } from '#components/types';
+import { NameType, ValueType, OptionKey } from '#components/types';
 import { CloseLineIcon } from '@ifrc-go/icons';
 import IconButton, { Props as IconButtonProps } from '#components/IconButton';
 import Button, { ButtonVariant, Props as ButtonProps } from '#components/Button';
@@ -11,32 +11,34 @@ import useAlert from '#hooks/useAlert';
 
 import styles from './styles.module.css';
 
-interface Option {
-    id: number;
-    file: string;
-}
-
-export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'> & {
+export type Props<T extends NameType, O, V extends ValueType, K extends OptionKey> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'> & {
     actions?: React.ReactNode;
+    buttonProps?: ButtonProps<T>;
     children?: React.ReactNode;
     className?: string;
     clearButtonProps?: IconButtonProps<T>;
     clearable?: boolean;
     icons?: React.ReactNode;
     iconsClassName?: string;
-    onChange: (value: number | undefined | null, name: T) => void;
-    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    keySelector: (option: O) => K;
+    onChange: (value: K | undefined | null, name: T) => void;
+    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<K, V>>>;
     url: string;
-    value: number | undefined | null;
-    variant: ButtonVariant;
-    buttonProps: ButtonProps<T>;
+    value: K | undefined | null;
+    valueSelector: (option: O) => V;
+    variant?: ButtonVariant;
 }
 
-function GoSingleFileInput<T extends NameType>(props: Props<T>) {
+function GoSingleFileInput<
+    T extends NameType,
+    O,
+    V extends ValueType,
+    K extends OptionKey,
+>(props: Props<T, O, V, K>) {
     const {
-        icons,
         accept,
         actions: actionsFromProps,
+        buttonProps,
         capture,
         children,
         className,
@@ -44,15 +46,17 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         clearable,
         disabled: disabledFromProps,
         form,
+        icons,
         inputProps,
+        keySelector,
         name,
         onChange,
         readOnly,
         setFileIdToUrlMap,
         url,
         value,
+        valueSelector,
         variant = 'primary',
-        buttonProps,
     } = props;
 
     const alert = useAlert();
@@ -60,13 +64,14 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
     const {
         pending,
         trigger: triggerFileUpload,
-    } = useLazyRequest<Option, { file: File }>({
+    } = useLazyRequest<O, { file: File }>({
         formData: true,
         url,
         method: 'POST',
         body: (body) => body,
         onSuccess: (response) => {
-            const { id, file } = response;
+            const id = keySelector(response);
+            const file = valueSelector(response);
             onChange(id, name);
 
             if (setFileIdToUrlMap) {
