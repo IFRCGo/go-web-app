@@ -22,14 +22,14 @@ export type MultiFileInputProps<N extends NameType> = InheritedProps<N> & {
 }
 
 interface DefaultValueProps {
-    value: File[] | File | null
+    value: File[] | null
 }
 
 function DefaultValue(props: DefaultValueProps) {
     const { value } = props;
     return (
         <div>
-            {Array.isArray(value) ? value?.map((file) => file.name).join(', ') : value?.name}
+            {value?.map((file) => file.name).join(', ')}
         </div>
     );
 }

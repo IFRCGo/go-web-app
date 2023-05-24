@@ -5,7 +5,7 @@ import { ButtonVariant } from '#hooks/useButtonFeatures';
 
 import styles from './styles.module.css';
 
-interface Props<N> extends RawButtonProps<N> {
+export interface Props<N> extends RawButtonProps<N> {
   ariaLabel: string;
   disabled?: boolean;
   round?: boolean;

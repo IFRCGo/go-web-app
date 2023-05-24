@@ -266,13 +266,6 @@ export function Component() {
                 >
                     Go Multi File Input
                 </Button>
-                <Button
-                    name="go-file-input"
-                    className={element === 'file-input' ? styles.selectedOption : styles.option}
-                    onClick={handleNewComponent}
-                >
-                    Go File Input
-                </Button>
             </div>
             <div className={styles.componentLayout}>
                 {element === 'links' && <Links />}

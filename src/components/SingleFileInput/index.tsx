@@ -11,7 +11,7 @@ import styles from './styles.module.css';
 type InheritedProps<N extends NameType> = Omit<InputContainerProps, 'input'> & Omit<RawFileInputProps<N>, 'multiple' | 'onChange' | 'children'>;
 
 export type SingleFileInputProps<N extends NameType> = InheritedProps<N> & {
-    valueComponent?: React.FC<{ value: File[] | File | null }>;
+    valueComponent?: React.FC<{ value: File | null }>;
     clearable?: boolean;
     clearButtonProps?: React.ComponentPropsWithoutRef<'button'>;
     inputClassName?: string;
@@ -22,14 +22,14 @@ export type SingleFileInputProps<N extends NameType> = InheritedProps<N> & {
 }
 
 interface DefaultValueProps {
-    value: File[] | File | null
+    value: | File | null
 }
 
 function DefaultValue(props: DefaultValueProps) {
     const { value } = props;
     return (
         <div>
-            {Array.isArray(value) ? value?.map((file) => file.name).join(', ') : value?.name}
+            {value?.name}
         </div>
     );
 }
@@ -66,13 +66,12 @@ function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
     } = props;
 
     const ValueComponent = valueComponent ?? DefaultValue;
-    const hasValue = Array.isArray(value) ? value.length !== 0 : value !== null;
 
     const handleClear = useCallback(() => {
         onChange(null, name);
     }, [onChange, name]);
 
-    const actions = (clearable && hasValue && !readOnly && !disabled ? (
+    const actions = (clearable && value && !readOnly && !disabled ? (
         <>
             {actionsFromProps}
             <IconButton
@@ -128,7 +127,7 @@ function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
                             aria-disabled={disabled || readOnly}
                             tabIndex={0}
                         >
-                            {hasValue ? (
+                            {value ? (
                                 <ValueComponent value={value} />
                             ) : <div>{placeholder}</div>}
                         </div>

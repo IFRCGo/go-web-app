@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
-import FileInput from '#components/FileInput';
+import SingleFileInput from '#components/SingleFileInput';
 import Heading from '#components/Heading';
 import styles from './styles.module.css';
 
-function FileInputExample() {
+function SingleFileInputExample() {
     const [value, setValue] = useState<File | null>(null);
 
     const handleTextChange = useCallback((val: File | null) => {
@@ -13,7 +13,7 @@ function FileInputExample() {
     return (
         <div className={styles.textInputs}>
             <Heading level={5}>File Input Variations</Heading>
-            <FileInput
+            <SingleFileInput
                 className={styles.textInput}
                 name="file"
                 label="Simple File Input"
@@ -22,7 +22,7 @@ function FileInputExample() {
                 onChange={handleTextChange}
                 placeholder="Select an image"
             />
-            <FileInput
+            <SingleFileInput
                 className={styles.textInput}
                 name="file"
                 label="Simple File Input (Clearable)"
@@ -32,7 +32,7 @@ function FileInputExample() {
                 placeholder="Select an image"
                 clearable
             />
-            <FileInput
+            <SingleFileInput
                 variant="general"
                 className={styles.textInput}
                 name="file"
@@ -42,7 +42,7 @@ function FileInputExample() {
                 required
                 onChange={handleTextChange}
             />
-            <FileInput
+            <SingleFileInput
                 variant="general"
                 className={styles.textInput}
                 name="file"
@@ -52,7 +52,7 @@ function FileInputExample() {
                 onChange={handleTextChange}
                 readOnly
             />
-            <FileInput
+            <SingleFileInput
                 className={styles.textInput}
                 name="file"
                 label="Disabled File Input"
@@ -60,7 +60,7 @@ function FileInputExample() {
                 onChange={handleTextChange}
                 disabled
             />
-            <FileInput
+            <SingleFileInput
                 className={styles.textInput}
                 name="file"
                 label="File Input with error message"
@@ -71,4 +71,4 @@ function FileInputExample() {
         </div>
     );
 }
-export default FileInputExample;
+export default SingleFileInputExample;
