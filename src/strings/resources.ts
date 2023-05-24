@@ -1,5 +1,4 @@
 const about = {
-    aboutTitle: 'IFRC GO - About',
     aboutResources: 'Resources',
     aboutDescription: 'GO is a Red Cross Red Crescent platform to connect information on emergency needs with the right response.',
     aboutUserGuidance: 'Go user guidance',

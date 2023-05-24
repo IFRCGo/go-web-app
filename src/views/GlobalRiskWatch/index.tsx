@@ -1,16 +1,17 @@
 import Page from '#components/Page';
 import useTranslation from '#hooks/useTranslation';
-import commonStrings from '#strings/common';
+
+import i18n from './i18n.json';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
 
     return (
         <Page
             title={strings.riskPageTitle}
         >
-            Global Risk Watch Page
+            Risk Watch Page
         </Page>
     );
 }

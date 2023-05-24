@@ -17,7 +17,6 @@ const common = {
     globalStartDate: 'Start Date',
 
     fieldReportsTableTitle: 'Field Reports in the last 30 days',
-    preparednessTitle: 'IFRC GO - Global Preparedness',
     preparednessHeading: 'Preparedness for Effective Response (PER)',
     preparednessDescription: 'To enable National Societies to fulfil their auxiliary role, in line with the Red Cross and Red Crescent Fundamental Principles, by strengthening local preparedness capacities to ensure timely and effective humanitarian assistance to prevent and alleviate human suffering.',
 
@@ -73,7 +72,6 @@ const common = {
     // not used -   resendValidationUsernameLabel: 'Username',
     resendValidationSubmitText: 'Re-send',
 
-
     keyFiguresHeading: 'IFRC Disaster Response and Preparedness',
     keyFiguresStatsOverall: 'Overall stats',
     keyFiguresActiveDrefs: 'Active DREF Operations',
@@ -87,14 +85,6 @@ const common = {
     keyFigureActiveAppealDescription: 'These are medium to large scale emergency operations funded through a public appeal for funds.',
     appealsTableTitle: 'Operations Overview',
     appealsTableError: 'Operations data not available.',
-    appealsTableStartDate: 'Start Date',
-    appealsTableType: 'Type',
-    appealsTableCode: 'Code',
-    appealsTableOperation: 'Operation',
-    appealsTableDisastertype: 'Disaster Type',
-    appealsTableRequestedAmount: 'Requested Amount',
-    appealsTableFundedAmount: 'Funding',
-    appealsTableCountry: 'Country',
     // not used -   appealsTableRowEvent: 'View Emergency',
     appealsTableViewCountry: 'View Country',
     viewAllOperations: 'View all operations',
@@ -619,8 +609,6 @@ const common = {
     searchSelectTypeToSearch: 'Type to search',
     searchSelectNoOptionsAvailable: 'No options available',
 
-    alertCopyErrorDetails: 'Copy Error Details',
-
     emptyMessage: 'Data is not available.',
     emptyMessageHelpText: 'Please refresh the browser or visit the platform in a little bit.',
 
@@ -633,8 +621,6 @@ const common = {
     riskModulePastAndHistoricEvent: 'Past Events And Historical Impact',
 
     clickToViewEmergencyResponseFramework: 'Click to view Emergency Response Framework',
-
-    riskPageTitle: 'IFRC GO - Risk Watch',
 };
 
 export type CommonStrings = typeof common;

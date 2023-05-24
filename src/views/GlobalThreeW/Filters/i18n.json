@@ -1,0 +1,9 @@
+{
+    "namespace": "threeW",
+    "strings": {
+        "threeWFilterReportingNs": "National Societies",
+        "threeWFilterProgrammeTypes": "Programme Types",
+        "threeWFilterSectors": "Sectors",
+        "threeWFilterTags": "Tags"
+    }
+}

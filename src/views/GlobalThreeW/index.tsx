@@ -8,7 +8,6 @@ import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
-import threeWStrings from '#strings/threeW';
 import { resolveToComponent } from '#utils/translation';
 import {
     useRequest,
@@ -16,6 +15,7 @@ import {
 } from '#utils/restRequest';
 
 import { FilterValue } from './Filters';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface NSOngoingProjectStat {
@@ -66,7 +66,7 @@ interface GlobalProjectsOverview {
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation('threeW', threeWStrings);
+    const strings = useTranslation(i18n);
 
     const [
         filters,

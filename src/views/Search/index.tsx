@@ -1,10 +1,11 @@
 import Page from '#components/Page';
 import useTranslation from '#hooks/useTranslation';
-import searchPageStrings from '#strings/search';
+
+import i18n from './i18n.json';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation('search', searchPageStrings);
+    const strings = useTranslation(i18n);
 
     return (
         <Page

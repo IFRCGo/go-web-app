@@ -1,5 +1,4 @@
 const surge = {
-    deploymentsTitle: 'IFRC GO - Deployments',
     deploymentsSurgeOverViewTab: 'Surge Overview',
     deploymentsOperationalToolboxTab: 'Operational Toolbox',
     deploymentsCatalogueOfSurgeServicesTab: 'Catalogue Of Surge Services',

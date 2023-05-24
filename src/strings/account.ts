@@ -55,7 +55,6 @@ const account = {
     acccountOtherNotification: 'Other Notifications',
     accountUnfollow: 'Unfollow',
     accountCurrentlyFollowing: 'Operations currently following',
-    accountTitle: 'IFRC GO - Account',
     accountSubscriptionError: 'Subscriptions coming soon',
     accountSubscriptionTitle: 'Subscriptions',
     accountPerError: 'Please login to view content',

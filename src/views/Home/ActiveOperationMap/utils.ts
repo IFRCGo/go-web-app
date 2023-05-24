@@ -21,6 +21,7 @@ const COLOR_DREF = COLOR_YELLOW;
 const COLOR_EAP = COLOR_BLUE;
 const COLOR_MULTIPLE_TYPES = COLOR_ORANGE;
 
+// FIXME: these must be a constant defined somewhere else
 const APPEAL_TYPE_DREF = 0;
 const APPEAL_TYPE_EMERGENCY = 1;
 const APPEAL_TYPE_EAP = 2;

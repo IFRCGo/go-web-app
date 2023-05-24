@@ -1,0 +1,13 @@
+{
+    "namespace": "home",
+    "strings": {
+        "appealsTableStartDate": "Start Date",
+        "appealsTableType": "Type",
+        "appealsTableCode": "Code",
+        "appealsTableOperation": "Operation",
+        "appealsTableDisastertype": "Disaster Type",
+        "appealsTableRequestedAmount": "Requested Amount",
+        "appealsTableFundedAmount": "Funding",
+        "appealsTableCountry": "Country"
+    }
+}

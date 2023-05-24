@@ -1,6 +1,15 @@
-export interface GeoFeature {
-    type: string;
-    coordinates: number[]
+interface BBox {
+    type: 'Polygon';
+    coordinates: [
+        [number, number],
+        [number, number],
+        [number, number],
+        [number, number],
+    ],
+}
+interface Centroid {
+    type: 'Point',
+    coordinates: [number, number],
 }
 
 export const RECORD_TYPE_COUNTRY = 1;
@@ -18,8 +27,8 @@ export interface Country {
     url_ifrc: string;
     record_type: number;
     record_type_display: string;
-    bbox: GeoFeature;
-    centroid: GeoFeature | undefined;
+    bbox: BBox;
+    centroid: Centroid | undefined;
 
     independent: boolean;
     is_deprecated: boolean;
@@ -57,8 +66,8 @@ District,
 
 export interface District {
     code: string;
-    bbox: GeoFeature;
-    centroid: GeoFeature | undefined;
+    bbox: BBox;
+    centroid: Centroid | undefined;
     id: number;
     is_deprecated: boolean;
     is_enclave: boolean;
@@ -70,5 +79,5 @@ export interface Region {
     id: number;
     region_name: string;
     label: string;
-    bbox: GeoFeature;
+    bbox: BBox;
 }

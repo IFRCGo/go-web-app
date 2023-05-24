@@ -3,6 +3,9 @@ import { _cs } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';
 
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const emptyList: {
@@ -32,6 +35,8 @@ function Filters(props: Props) {
         disabled,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const handleInputChange = React.useCallback((newValue: number[], name: string) => {
         if (onChange) {
             onChange((oldFilterValue) => {
@@ -49,7 +54,7 @@ function Filters(props: Props) {
         <div className={_cs(styles.filters, className)}>
             <MultiSelectInput
                 name="reporting_ns"
-                placeholder="National Societies"
+                placeholder={strings.threeWFilterReportingNs}
                 options={emptyList}
                 value={value.reporting_ns}
                 keySelector={(item) => item.value}
@@ -59,7 +64,7 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="programme_type"
-                placeholder="Programme Types"
+                placeholder={strings.threeWFilterProgrammeTypes}
                 options={emptyList}
                 value={value.programme_type}
                 keySelector={(item) => item.value}
@@ -69,7 +74,7 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="primary_sector"
-                placeholder="Sectors"
+                placeholder={strings.threeWFilterSectors}
                 options={emptyList}
                 value={value.primary_sector}
                 keySelector={(item) => item.value}
@@ -79,7 +84,7 @@ function Filters(props: Props) {
             />
             <MultiSelectInput
                 name="secondary_sectors"
-                placeholder="Tags"
+                placeholder={strings.threeWFilterTags}
                 options={emptyList}
                 value={value.secondary_sectors}
                 keySelector={(item) => item.value}
