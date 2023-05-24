@@ -1,5 +1,7 @@
 import { _cs } from '@togglecorp/fujs';
 
+import BlockLoading from '#components/BlockLoading';
+
 import styles from './styles.module.css';
 
 export interface Props {
@@ -13,6 +15,7 @@ export interface Props {
     errorMessage?: React.ReactNode;
     pendingMessage?: React.ReactNode;
     filteredMessage?: React.ReactNode;
+    compact?: boolean;
 }
 
 function Message(props: Props) {
@@ -27,6 +30,7 @@ function Message(props: Props) {
         emptyMessage = 'Data is not available!',
         errorMessage = 'Oops! We ran into an issue!',
         filteredMessage = 'No matching data available!',
+        compact,
     } = props;
 
     let message: React.ReactNode = messageFromProps;
@@ -34,11 +38,18 @@ function Message(props: Props) {
     const className = _cs(
         styles.message,
         errored && styles.errored,
+        compact && styles.compact,
         classNameFromProps,
     );
 
     if (pending) {
-        message = pendingMessage;
+        message = (
+            <BlockLoading
+                className={styles.blockLoading}
+                compact={compact}
+                message={pendingMessage}
+            />
+        );
     } else if (errored) {
         message = errorMessage;
     } else if (empty && filtered) {

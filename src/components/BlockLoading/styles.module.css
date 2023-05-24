@@ -1,15 +1,26 @@
 .block-loading {
     display: flex;
-    padding: var(--go-ui-spacing-md);
+    padding: var(--go-ui-spacing-sm);
     width: 100%;
     min-height: 15rem;
 
     .inner {
         display: flex;
         align-items: center;
+        flex-direction: column;
         flex-grow: 1;
         justify-content: center;
         border: var(--go-ui-width-separator-md) dashed var(--go-ui-color-gray-40);
-        border-radius: var(--go-ui-border-radius-2xl);
+        border-radius: var(--go-ui-border-radius-xl);
+        padding: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-md);
+    }
+
+    &.compact {
+        min-height: 8rem;
+
+        .spinner {
+            font-size: 0.5rem;
+        }
     }
 }

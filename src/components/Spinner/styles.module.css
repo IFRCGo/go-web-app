@@ -2,30 +2,32 @@
     border-radius: var(--go-ui-border-radius-full);
     background: var(--go-ui-color-gray-40);
     padding: var(--go-ui-spacing-sm);
-    font-size: 0;
-}
+    line-height: 1;
+    font-size: 1rem;
 
-.spinner-bounce {
-    display: inline-block;
-    margin: 0 var(--go-ui-spacing-xs);
-    border-radius: var(--go-ui-border-radius-full);
-    background: var(--go-ui-color-white);
-    width: 1rem;
-    height: 1rem;
-    animation: spinner-bounce-delay var(--go-ui-duration-animation-slow) infinite ease-in-out both;
+    .spinner-bounce {
+        display: inline-block;
+        margin: 0 var(--go-ui-spacing-xs);
+        border-radius: var(--go-ui-border-radius-full);
+        background: var(--go-ui-color-white);
+        width: 1em;
+        height: 1em;
+        animation: spinner-bounce-delay var(--go-ui-duration-animation-slow) infinite ease-in-out both;
 
-    &:last-child {
-        animation-delay: var(--go-ui-duration-animation-medium);
-        margin-inline-end: 0;
+        &:last-child {
+            animation-delay: var(--go-ui-duration-animation-medium);
+            margin-inline-end: 0;
+        }
+
+        &:first-child {
+            margin-inline-start: 0;
+        }
+
+        &:not(:first-child):not(:last-child) {
+            animation-delay: var(--go-ui-duration-animation-fast);
+        }
     }
 
-    &:first-child {
-        margin-inline-start: 0;
-    }
-
-    &:not(:first-child):not(:last-child) {
-        animation-delay: var(--go-ui-duration-animation-fast);
-    }
 }
 
 @keyframes spinner-bounce-delay {

@@ -1,6 +1,7 @@
 .active-operation-map {
     .map-container-wrapper {
         position: relative;
+        z-index: 0;
 
         .map-container {
             height: 40rem;

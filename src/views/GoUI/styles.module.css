@@ -1,4 +1,4 @@
-.main-container {
+.go-ui {
     display: flex;
     width: 100%;
     gap: var(--go-ui-spacing-lg);
@@ -25,9 +25,10 @@
             flex-direction: column;
             border: 1px solid var(--go-ui-color-red-20);
             border-radius: var(--go-ui-border-radius-md);
-            background-color: var(--go-ui-color-red-50);
+            background-color: var(--go-ui-color-red-10);
             padding: var(--go-ui-spacing-sm);
             width: 100%;
+            color: var(--go-ui-color-text);
             font-size: var(--go-ui-font-size-md);
 
             &:hover {
@@ -52,12 +53,5 @@
                 text-decoration: underline;
             }
         }
-    }
-
-    .main-content {
-        line-height: var(--go-ui-line-height-normal);
-        font-family: var(--go-ui-font-family-sans);
-        font-size: var(--go-ui-font-size-sm);
-        font-weight: var(--go-ui-font-weight-light);
     }
 }
