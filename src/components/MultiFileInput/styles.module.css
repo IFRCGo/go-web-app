@@ -1,0 +1,13 @@
+.button {
+    display: flex;
+    cursor: pointer;
+    min-height: var(--go-ui-font-size-2xl);
+}
+
+.clear-button {
+    --font-size: var(--go-ui-font-size-md);
+}
+
+.disabled {
+    pointer-events: none;
+}
