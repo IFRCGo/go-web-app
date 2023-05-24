@@ -5,15 +5,30 @@ import styles from './styles.module.css';
 
 interface Props {
     className?: string;
+    message?: React.ReactNode;
+    compact?: boolean;
 }
 
 function BlockLoading(props: Props) {
-    const { className } = props;
+    const {
+        className,
+        message,
+        compact,
+    } = props;
 
     return (
-        <div className={_cs(className, styles.blockLoading)}>
+        <div
+            className={
+                _cs(
+                    styles.blockLoading,
+                    compact && styles.compact,
+                    className,
+                )
+            }
+        >
             <div className={styles.inner}>
-                <Spinner />
+                <Spinner className={styles.spinner} />
+                {message}
             </div>
         </div>
     );

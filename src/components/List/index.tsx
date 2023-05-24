@@ -41,6 +41,7 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
         emptyMessage,
         pendingMessage,
         filteredMessage,
+        compact,
     } = props;
 
     const data = dataFromProps ?? (emptyList as D[]);
@@ -71,6 +72,7 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
             emptyMessage={emptyMessage}
             errorMessage={errorMessage}
             filteredMessage={filteredMessage}
+            compact={compact}
         />
     );
 

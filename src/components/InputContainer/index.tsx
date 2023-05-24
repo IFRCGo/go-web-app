@@ -5,6 +5,7 @@ import {
 
 import InputLabel from '#components/InputLabel';
 import InputError from '#components/InputError';
+import useBasicLayout from '#hooks/useBasicLayout';
 
 import styles from './styles.module.css';
 
@@ -58,6 +59,17 @@ function InputContainer(props: Props) {
     } = props;
 
     const isRequired = withAsterisk ?? required;
+    const {
+        content: inputSectionContent,
+        containerClassName: inputSectionContainerClassName,
+    } = useBasicLayout({
+        className: _cs(styles.inputSection, inputSectionClassName),
+        icons,
+        iconsContainerClassName,
+        actions,
+        actionsContainerClassName,
+        children: input,
+    });
 
     return (
         <div
@@ -68,6 +80,7 @@ function InputContainer(props: Props) {
                 readOnly && styles.readOnly,
                 variant === 'form' && styles.form,
                 variant === 'general' && styles.general,
+                disabled && styles.disabled,
                 className,
             )}
             title={(errorOnTooltip && isDefined(error) && typeof error === 'string')
@@ -83,24 +96,9 @@ function InputContainer(props: Props) {
             </InputLabel>
             <div
                 ref={inputSectionRef}
-                className={_cs(
-                    styles.inputSection,
-                    inputSectionClassName,
-                )}
+                className={inputSectionContainerClassName}
             >
-                {icons && (
-                    <div className={_cs(styles.iconContainer, iconsContainerClassName)}>
-                        {icons}
-                    </div>
-                )}
-                <div className={styles.internalInputContainer}>
-                    {input}
-                </div>
-                {actions && (
-                    <div className={_cs(styles.actionContainer, actionsContainerClassName)}>
-                        {actions}
-                    </div>
-                )}
+                {inputSectionContent}
             </div>
             {hint && (
                 <div className={_cs(styles.inputHint, hintContainerClassName)}>

@@ -1,5 +1,8 @@
-import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
 import type { ReactNode } from 'react';
+import {
+    CheckboxBlankLineIcon,
+    CheckboxLineIcon,
+} from '@ifrc-go/icons';
 
 interface OptionProps {
     children: ReactNode;
@@ -18,7 +21,7 @@ function Option(props: OptionProps) {
     return (
         <>
             <div className={iconClassName}>
-                { isActive ? <MdCheckBox /> : <MdCheckBoxOutlineBlank /> }
+                { isActive ? <CheckboxLineIcon /> : <CheckboxBlankLineIcon /> }
             </div>
             <div className={labelClassName}>
                 { children }

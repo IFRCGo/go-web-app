@@ -6,11 +6,12 @@ import { genericMemo } from '#utils/common';
 import styles from './styles.module.css';
 
 export interface Props<N> extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref' | 'onClick' | 'name'>{
-  className?: string;
-  elementRef?: React.Ref<HTMLButtonElement>;
-  name: N;
-  onClick?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
-  type?: 'button' | 'submit' | 'reset';
+    className?: string;
+    elementRef?: React.Ref<HTMLButtonElement>;
+    name: N;
+    onClick?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
+    type?: 'button' | 'submit' | 'reset';
+    focused?: boolean;
 }
 
 /**
@@ -29,6 +30,7 @@ function RawButton<N>(props: Props<N>) {
         elementRef,
         name,
         onClick,
+        focused,
         ...otherProps
     } = props;
 
@@ -48,6 +50,7 @@ function RawButton<N>(props: Props<N>) {
             type="button"
             className={_cs(
                 styles.rawButton,
+                focused && styles.focused,
                 className,
             )}
             disabled={disabled}

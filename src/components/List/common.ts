@@ -24,6 +24,7 @@ export interface BaseProps<D, P, K extends OptionKey> {
     pendingMessage?: React.ReactNode;
     errorMessage?: React.ReactNode;
     filteredMessage?: React.ReactNode;
+    compact?: boolean;
 }
 
 export interface GroupOptions<D, GP, GK extends OptionKey> {

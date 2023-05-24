@@ -203,32 +203,34 @@ function AppealsTable() {
     );
 
     return (
-        <div>
-            <SelectInput
-                label="Appeal Type"
-                name={undefined}
-                value={appealType}
-                onChange={setAppealType}
-                keySelector={(item) => item.value}
-                labelSelector={(item) => item.label}
-                options={appealTypeOptions}
-            />
-            <SelectInput
-                label="Displacement Type"
-                name={undefined}
-                value={displacementType}
-                onChange={setDisplacementType}
-                keySelector={(item) => item.id}
-                labelSelector={(item) => item.name}
-                options={displacementTypeWithAll}
-                disabled={disasterTypePending}
-            />
+        <div className={styles.appealsTable}>
+            <div className={styles.filters}>
+                <SelectInput
+                    label="Appeal Type"
+                    name={undefined}
+                    value={appealType}
+                    onChange={setAppealType}
+                    keySelector={(item) => item.value}
+                    labelSelector={(item) => item.label}
+                    options={appealTypeOptions}
+                />
+                <SelectInput
+                    label="Displacement Type"
+                    name={undefined}
+                    value={displacementType}
+                    onChange={setDisplacementType}
+                    keySelector={(item) => item.id}
+                    labelSelector={(item) => item.name}
+                    options={displacementTypeWithAll}
+                    disabled={disasterTypePending}
+                />
+            </div>
             {appealsPending && (
                 <BlockLoading />
             )}
             <SortContext.Provider value={sortState}>
                 <Table
-                    className={styles.appealsTable}
+                    className={styles.table}
                     columns={columns}
                     keySelector={keySelector}
                     data={appealsResponse?.results}

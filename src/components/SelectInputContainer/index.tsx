@@ -272,6 +272,7 @@ function SelectInputContainer<
                 filtered={optionsFiltered}
                 pending={optionsPending}
                 message={totalOptionsCount - optionsCount > 0 ? `and ${totalOptionsCount - optionsCount} more` : undefined}
+                compact
             />
         );
     } else {
@@ -285,6 +286,7 @@ function SelectInputContainer<
                 filtered={optionsFiltered}
                 pending={optionsPending}
                 message={totalOptionsCount - optionsCount > 0 ? `and ${totalOptionsCount - optionsCount} more` : undefined}
+                compact
             />
         );
     }

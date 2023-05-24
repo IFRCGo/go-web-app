@@ -9,7 +9,7 @@ export interface Props {
     childrenContainerClassName?: string;
 }
 
-function Group(props: Props) {
+function OptionGroup(props: Props) {
     const {
         className,
         title,
@@ -17,8 +17,9 @@ function Group(props: Props) {
         headerContainerClassName,
         childrenContainerClassName,
     } = props;
+
     return (
-        <div className={_cs(className, styles.group)}>
+        <div className={_cs(className, styles.optionGroup)}>
             <header
                 className={_cs(headerContainerClassName, styles.groupHeader)}
                 title={title}
@@ -32,4 +33,4 @@ function Group(props: Props) {
     );
 }
 
-export default Group;
+export default OptionGroup;

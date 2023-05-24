@@ -9,16 +9,20 @@
 
     .icons-container {
         display: flex;
+        align-items: center;
         flex-shrink: 0;
         gap: var(--inner-gap);
     }
 
     .children-container {
+        display: flex;
+        align-items: center;
         flex-grow: 1;
     }
 
     .actions-container {
         display: flex;
+        align-items: center;
         flex-shrink: 0;
         gap: var(--inner-gap);
     }

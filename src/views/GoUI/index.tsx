@@ -40,7 +40,7 @@ export function Component() {
     }, [setElement]);
 
     return (
-        <div className={styles.mainContainer}>
+        <div className={styles.goUi}>
             <div className={styles.sideContent}>
                 <Button
                     name="alerts"
@@ -114,7 +114,7 @@ export function Component() {
                 </Button>
                 <Button
                     name="icon-button"
-                    className={element === 'iconButton' ? styles.selectedOption : styles.option}
+                    className={element === 'icon-button' ? styles.selectedOption : styles.option}
                     onClick={handleNewComponent}
                 >
                     IconButton
