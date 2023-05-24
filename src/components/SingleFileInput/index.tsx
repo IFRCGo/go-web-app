@@ -10,22 +10,16 @@ import styles from './styles.module.css';
 
 type InheritedProps<N extends NameType> = Omit<InputContainerProps, 'input'> & Omit<RawFileInputProps<N>, 'multiple' | 'onChange' | 'children'>;
 
-export type FileInputProps<N extends NameType> = InheritedProps<N> & {
+export type SingleFileInputProps<N extends NameType> = InheritedProps<N> & {
     valueComponent?: React.FC<{ value: File[] | File | null }>;
     clearable?: boolean;
     clearButtonProps?: React.ComponentPropsWithoutRef<'button'>;
     inputClassName?: string;
     fileInputProps?: React.ComponentPropsWithoutRef<'input'>;
     placeholder?: React.ReactNode;
-} & ({
-    multiple: true;
-    value: File[] | null;
-    onChange: (files: File[] | null, name: N) => void;
-} | {
-    multiple?: false;
     value: File | null;
     onChange: (files: File | null, name: N) => void;
-    });
+}
 
 interface DefaultValueProps {
     value: File[] | File | null
@@ -40,7 +34,7 @@ function DefaultValue(props: DefaultValueProps) {
     );
 }
 
-function FileInput<N extends NameType>(props: FileInputProps<N>) {
+function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
     const {
         actions: actionsFromProps,
         className,
@@ -57,7 +51,6 @@ function FileInput<N extends NameType>(props: FileInputProps<N>) {
         variant,
         withAsterisk,
         onChange,
-        multiple,
         accept,
         name,
         form,
@@ -86,7 +79,7 @@ function FileInput<N extends NameType>(props: FileInputProps<N>) {
                 {...clearButtonProps} // eslint-disable-line react/jsx-props-no-spreading
                 name="clear-button"
                 variant="tertiary"
-                ariaLabel="Clear"
+                ariaLabel="clear"
                 onClick={handleClear}
                 className={styles.clearButton}
             >
@@ -94,64 +87,6 @@ function FileInput<N extends NameType>(props: FileInputProps<N>) {
             </IconButton>
         </>
     ) : null);
-
-    const FileInputComponent = multiple ? (
-        <RawFileInput
-            onChange={onChange}
-            multiple={multiple}
-            accept={accept}
-            name={name}
-            form={form}
-            disabled={disabled || readOnly}
-            readOnly={readOnly}
-            capture={capture}
-            inputProps={fileInputProps}
-        >
-            {(fileButtonProps) => (
-                <div
-                    className={_cs(inputClassName, styles.button, disabled && styles.disabled)}
-                    {...fileButtonProps} // eslint-disable-line react/jsx-props-no-spreading
-                    {...inputProps} // eslint-disable-line react/jsx-props-no-spreading
-                    {...others} // eslint-disable-line react/jsx-props-no-spreading
-                    role="button"
-                    aria-disabled={disabled || readOnly}
-                    tabIndex={0}
-                >
-                    {hasValue ? (
-                        <ValueComponent value={value} />
-                    ) : <div>{placeholder}</div>}
-                </div>
-            )}
-        </RawFileInput>
-    ) : (
-        <RawFileInput
-            onChange={onChange}
-            multiple={multiple}
-            accept={accept}
-            name={name}
-            form={form}
-            disabled={disabled || readOnly}
-            readOnly={readOnly}
-            capture={capture}
-            inputProps={fileInputProps}
-        >
-            {(fileButtonProps) => (
-                <div
-                    className={_cs(inputClassName, styles.button, disabled && styles.disabled)}
-                    {...fileButtonProps} // eslint-disable-line react/jsx-props-no-spreading
-                    {...inputProps} // eslint-disable-line react/jsx-props-no-spreading
-                    {...others} // eslint-disable-line react/jsx-props-no-spreading
-                    role="button"
-                    aria-disabled={disabled || readOnly}
-                    tabIndex={0}
-                >
-                    {hasValue ? (
-                        <ValueComponent value={value} />
-                    ) : <div>{placeholder}</div>}
-                </div>
-            )}
-        </RawFileInput>
-    );
 
     return (
         <InputContainer
@@ -168,9 +103,40 @@ function FileInput<N extends NameType>(props: FileInputProps<N>) {
             readOnly={readOnly}
             variant={variant}
             withAsterisk={withAsterisk}
-            input={FileInputComponent}
+            input={(
+                <RawFileInput
+                    onChange={onChange}
+                    accept={accept}
+                    name={name}
+                    form={form}
+                    disabled={disabled || readOnly}
+                    readOnly={readOnly}
+                    capture={capture}
+                    inputProps={fileInputProps}
+                >
+                    {(fileButtonProps) => (
+                        <div
+                            className={_cs(
+                                inputClassName,
+                                styles.button,
+                                disabled && styles.disabled,
+                            )}
+                            {...fileButtonProps} // eslint-disable-line react/jsx-props-no-spreading
+                            {...inputProps} // eslint-disable-line react/jsx-props-no-spreading
+                            {...others} // eslint-disable-line react/jsx-props-no-spreading
+                            role="button"
+                            aria-disabled={disabled || readOnly}
+                            tabIndex={0}
+                        >
+                            {hasValue ? (
+                                <ValueComponent value={value} />
+                            ) : <div>{placeholder}</div>}
+                        </div>
+                    )}
+                </RawFileInput>
+            )}
         />
     );
 }
 
-export default FileInput;
+export default SingleFileInput;

@@ -238,6 +238,41 @@ export function Component() {
                 >
                     Tab Panel
                 </Button>
+                <Button
+                    name="file-button"
+                    className={element === 'file-button' ? styles.selectedOption : styles.option}
+                    onClick={handleNewComponent}
+                >
+                    File Button
+                </Button>
+                <Button
+                    name="single-file-input"
+                    className={element === 'single-file-input' ? styles.selectedOption : styles.option}
+                    onClick={handleNewComponent}
+                >
+                    Single File Input
+                </Button>
+                <Button
+                    name="go-single-file-input"
+                    className={element === 'go-single-file-input' ? styles.selectedOption : styles.option}
+                    onClick={handleNewComponent}
+                >
+                    Go Single File Input
+                </Button>
+                <Button
+                    name="go-multi-file-input"
+                    className={element === 'go-multi-file-input' ? styles.selectedOption : styles.option}
+                    onClick={handleNewComponent}
+                >
+                    Go Multi File Input
+                </Button>
+                <Button
+                    name="go-file-input"
+                    className={element === 'file-input' ? styles.selectedOption : styles.option}
+                    onClick={handleNewComponent}
+                >
+                    Go File Input
+                </Button>
             </div>
             <div className={styles.componentLayout}>
                 {element === 'links' && <Links />}
