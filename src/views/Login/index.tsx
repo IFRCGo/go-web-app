@@ -1,8 +1,6 @@
 import {
     useCallback,
     useContext,
-    useEffect,
-    useRef,
 } from 'react';
 import {
     useForm,
@@ -16,7 +14,6 @@ import Link from '#components/Link';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
-import useAlert from '#hooks/useAlert';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
 import UserContext from '#contexts/user';
