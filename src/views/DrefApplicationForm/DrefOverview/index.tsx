@@ -19,7 +19,6 @@ import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
 import MultiSelectInput from '#components/MultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
-import drefPageStrings from '#strings/dref';
 import RadioInput from '#components/RadioInput';
 import NumberInput from '#components/NumberInput';
 import { compareLabel } from '#utils/common';
@@ -50,6 +49,7 @@ import {
 } from '../common';
 
 import styles from './styles.module.css';
+import i18n from './i18n.json';
 
 type Value = PartialForm<DrefFields>;
 
@@ -80,7 +80,7 @@ const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Sha
 const peopleInNeedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 
 function DrefOverview(props: Props) {
-    const strings = useTranslation('dref', drefPageStrings);
+    const strings = useTranslation(i18n);
 
     const {
         countryOptions,

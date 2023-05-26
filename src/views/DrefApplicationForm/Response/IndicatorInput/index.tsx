@@ -13,8 +13,8 @@ import TextInput from '#components/TextInput';
 import { SetValueArg } from '#utils/common';
 import { Indicator } from '#views/DrefApplicationForm/common';
 import useTranslation from '#hooks/useTranslation';
-import drefPageStrings from '#strings/dref';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const defaultIndicatorValue: PartialForm<Indicator> = {
@@ -31,7 +31,7 @@ interface Props {
 }
 
 function IndicatorInput(props: Props) {
-    const strings = useTranslation('dref', drefPageStrings);
+    const strings = useTranslation(i18n);
 
     const {
         error: errorFromProps,

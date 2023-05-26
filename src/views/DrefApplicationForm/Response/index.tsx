@@ -27,7 +27,6 @@ import {
     StringValueOption,
 } from '#types/common';
 import useTranslation from '#hooks/useTranslation';
-import drefPageStrings from '#strings/dref';
 // import DREFFileInput from '#components/DREFFileInput';
 
 import InterventionInput from './InterventionInput';
@@ -46,6 +45,7 @@ import {
     RiskSecurityType,
 } from '../useDrefFormOptions';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const emptyList: string[] = [];
@@ -62,7 +62,7 @@ interface Props {
 }
 
 function Response(props: Props) {
-    const strings = useTranslation('dref', drefPageStrings);
+    const strings = useTranslation(i18n);
 
     const {
         error: formError,

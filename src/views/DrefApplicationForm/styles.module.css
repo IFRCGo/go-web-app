@@ -1,10 +1,7 @@
-.new-field-report-form {
-    padding: 0;
-
-    .tab-list {
-        justify-content: center;
-        margin: var(--go-ui-spacing-2xl) 4vw;
-    }
+.tab-list {
+    flex-grow: 1;
+    justify-content: center;
+    margin: var(--go-ui-spacing-2xl) 4vw;
 }
 
 .actions {

@@ -1,0 +1,11 @@
+{
+    "namespace": "dref",
+    "strings": {
+        "drefFormInterventionBudgetLabel": "Budget",
+        "drefFormInterventionPersonTargetedLabel": "Persons Targeted",
+        "drefOperationalUpdateIndicatorMaleLabel": "Male",
+        "drefOperationalUpdateIndicatorFemaleLabel": "Female",
+        "drefFormListOfActivities": "List of Activities",
+        "drefOperationalUpdateProgressTowardsOutcome": "Progress Towards Outcome"
+    }
+}

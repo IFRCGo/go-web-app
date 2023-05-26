@@ -26,9 +26,10 @@ import {
 } from '#views/DrefApplicationForm/common';
 import { FieldReportAPIResponseFields } from '#types/fieldReport';
 import useTranslation from '#hooks/useTranslation';
-import drefPageStrings from '#strings/dref';
 
 import FieldReportSelectInput, { FieldReportListItem } from '#components/FieldReportSearchSelectInput';
+
+import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
@@ -44,7 +45,7 @@ function CopyFieldReportSection(props: Props) {
         onValueSet,
     } = props;
 
-    const strings = useTranslation('dref', drefPageStrings);
+    const strings = useTranslation(i18n);
     const alert = useAlert();
 
     const [fieldReport, setFieldReport] = useInputState<number | undefined>(value?.field_report);

@@ -38,7 +38,6 @@ import { ymdToDateString } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
 import useButtonFeatures from '#hooks/useButtonFeatures';
 import useAlert from '#hooks/useAlert';
-import drefPageStrings from '#strings/dref';
 
 // FIXME: this scrollToTop is specific to DREF Form
 import scrollToTop from '#utils/scrollToTop';
@@ -63,12 +62,11 @@ import {
 } from './common';
 
 import useDrefFormOptions, { schema } from './useDrefFormOptions';
-/*
+import i18n from './i18n.json';
 import {
     getImportData,
     transformImport,
 } from './import';
-*/
 
 import styles from './styles.module.css';
 
@@ -110,7 +108,7 @@ export function Component(props: Props) {
 
     const alert = useAlert();
     const { drefId } = useParams();
-    const strings = useTranslation('dref', drefPageStrings);
+    const strings = useTranslation(i18n);
     const {
         value,
         error,
@@ -558,7 +556,6 @@ export function Component(props: Props) {
 
     const failedToLoadDref = !pending && isDefined(drefId) && !drefResponse;
 
-    /*
     const handleDocumentImport = useCallback(async (newValue: File | undefined) => {
         if (!newValue) {
             return;
@@ -589,7 +586,6 @@ export function Component(props: Props) {
         onsetOptions,
         setValue,
     ]);
-    */
 
     const handleObsoletePayloadResolutionOverwiteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
