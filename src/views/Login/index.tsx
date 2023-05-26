@@ -1,10 +1,7 @@
 import {
     useCallback,
     useContext,
-    useEffect,
-    useRef,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
     useForm,
     ObjectSchema,
@@ -17,7 +14,6 @@ import Link from '#components/Link';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
-import useAlert from '#hooks/useAlert';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
 import UserContext from '#contexts/user';
@@ -73,20 +69,7 @@ function getDisplayName(
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { userDetails, setUser } = useContext(UserContext);
-    const navigate = useNavigate();
-    const alert = useAlert();
-    const alertRef = useRef<string>();
-
-    useEffect(() => {
-        if (userDetails) {
-            navigate('/', { replace: true, relative: 'path' });
-            alertRef.current = alert.show(
-                'Already logged in, redirecting to home...',
-                { name: alertRef.current },
-            );
-        }
-    }, [alert, navigate, userDetails]);
+    const { setUser } = useContext(UserContext);
 
     const {
         value: formValue,

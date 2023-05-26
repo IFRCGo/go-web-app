@@ -5,7 +5,7 @@
     gap: var(--go-ui-spacing-sm);
 
     .icon {
-        color: var(--go-ui-color-parimary);
+        color: var(--go-ui-color-gray-90);
         font-size: var(--go-ui-font-size-5xl);
     }
 
