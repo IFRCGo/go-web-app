@@ -1,14 +1,14 @@
 .page-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-xl);
-
     .container {
-        .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-2xl);
+
+        .header {
             display: flex;
             align-items: center;
             flex-direction: column;
-            gap: var(--go-ui-spacing-2xl);
+            gap: var(--go-ui-spacing-xl);
 
             .heading {
                 text-align: center;

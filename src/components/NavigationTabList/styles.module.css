@@ -1,0 +1,18 @@
+.navigation-tab-list {
+    display: flex;
+    position: relative;
+    justify-content: center;
+
+    .start-dummy-content,
+    .end-dummy-content {
+        align-self: flex-end;
+        flex-grow: 1;
+        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
+    }
+
+    &.secondary {
+        border-radius: calc(1em + var(--go-ui-spacing-md));
+        background-color: var(--go-ui-color-background);
+        width: fit-content;
+    }
+}

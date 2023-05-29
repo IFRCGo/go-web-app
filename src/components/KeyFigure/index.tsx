@@ -39,7 +39,7 @@ function KeyFigure(props: Props) {
     return (
         <div
             className={_cs(
-                styles.card,
+                styles.keyFigure,
                 !!icon && styles.withIcon,
                 className,
             )}

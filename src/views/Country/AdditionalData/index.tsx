@@ -2,9 +2,9 @@
 export function Component() {
     return (
         <div>
-            This is country plan
+            This is country Additional Data
         </div>
     );
 }
 
-Component.displayName = 'CountryPlan';
+Component.displayName = 'CountryAdditionalData';

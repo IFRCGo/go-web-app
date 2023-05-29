@@ -57,7 +57,7 @@ function PageHeader(props: Props) {
                 )}
                 footerContent={info}
                 footerContentClassName={infoContainerClassName}
-                childrenContainerClassName={_cs(styles.mainContent, headerClassName)}
+                childrenContainerClassName={_cs(styles.header, headerClassName)}
             >
                 <Heading
                     level={1}

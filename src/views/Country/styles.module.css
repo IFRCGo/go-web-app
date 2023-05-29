@@ -1,0 +1,19 @@
+.country {
+    .key-figure-list {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+        grid-auto-rows: auto-fit;
+
+        .loading {
+            flex-grow: 1;
+        }
+
+        .key-figure {
+            background-color: var(--go-ui-color-white);
+            border-radius: var(--go-ui-border-radius-lg);
+            padding: var(--go-ui-spacing-xl);
+            height: 100%;
+        }
+    }
+}

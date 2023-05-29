@@ -74,11 +74,6 @@ const common = {
 
     keyFiguresHeading: 'IFRC Disaster Response and Preparedness',
     keyFiguresStatsOverall: 'Overall stats',
-    keyFiguresActiveDrefs: 'Active DREF Operations',
-    keyFiguresActiveAppeals: 'Active Emergency Appeals',
-    keyFiguresBudget: 'Funding requirements (CHF)',
-    keyFiguresAppealsFunding: 'Funding coverage',
-    keyFiguresTargetPop: 'Targeted population',
     keyFiguresDrefTitle: 'DREF',
     keyFiguresDrefDescription: 'These are small to medium scale emergency operations funded through the Disaster Relief Emergency Fund (DREF).The DREF provides immediate financial support to National Red Cross and Red Crescent Societies, enabling them to carry out their unique role as first responders after a disaster.',
     keyFigureActiveAppealTitle: 'Emergency Appeal',
