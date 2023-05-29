@@ -1,19 +1,19 @@
 import { useCallback, useState } from 'react';
-import SingleFileInput from '#components/SingleFileInput';
+import MultiFileInput from '#components/MultiFileInput';
 import Heading from '#components/Heading';
 import styles from './styles.module.css';
 
-function SingleFileInputExample() {
-    const [value, setValue] = useState<File | undefined>();
+function MultiFileInputExample() {
+    const [value, setValue] = useState<File[] | undefined>();
 
-    const handleChange = useCallback((val: File | undefined) => {
+    const handleChange = useCallback((val: File[] | undefined) => {
         setValue(val);
     }, [setValue]);
 
     return (
         <div className={styles.fileInputs}>
             <Heading level={5}>File Input Variations</Heading>
-            <SingleFileInput
+            <MultiFileInput
                 className={styles.fileInput}
                 name="file"
                 label="Simple File Input"
@@ -22,7 +22,7 @@ function SingleFileInputExample() {
                 onChange={handleChange}
                 placeholder="Select an image"
             />
-            <SingleFileInput
+            <MultiFileInput
                 className={styles.fileInput}
                 name="file"
                 label="Simple File Input (Clearable)"
@@ -32,7 +32,7 @@ function SingleFileInputExample() {
                 placeholder="Select an image"
                 clearable
             />
-            <SingleFileInput
+            <MultiFileInput
                 variant="general"
                 className={styles.fileInput}
                 name="file"
@@ -42,7 +42,7 @@ function SingleFileInputExample() {
                 required
                 onChange={handleChange}
             />
-            <SingleFileInput
+            <MultiFileInput
                 variant="general"
                 className={styles.fileInput}
                 name="file"
@@ -52,7 +52,7 @@ function SingleFileInputExample() {
                 onChange={handleChange}
                 readOnly
             />
-            <SingleFileInput
+            <MultiFileInput
                 className={styles.fileInput}
                 name="file"
                 label="Disabled File Input"
@@ -60,7 +60,7 @@ function SingleFileInputExample() {
                 onChange={handleChange}
                 disabled
             />
-            <SingleFileInput
+            <MultiFileInput
                 className={styles.fileInput}
                 name="file"
                 label="File Input with error message"
@@ -71,4 +71,4 @@ function SingleFileInputExample() {
         </div>
     );
 }
-export default SingleFileInputExample;
+export default MultiFileInputExample;

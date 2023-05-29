@@ -28,6 +28,11 @@ import SelectInputExample from './examples/SelectInputExample';
 import SearchSelectInputExample from './examples/SearchSelectInputExample';
 import MultiSelectInputExample from './examples/MultiSelectInputExample';
 import SearchMultiSelectInputExample from './examples/SearchMultiSelectInputExample';
+import SingleFileInputExample from './examples/SingleFileInputExample';
+import MultiFileInputExample from './examples/MultiFileInputExample';
+import GoSingleFileInputExample from './examples/GoSingleFileInputExample';
+import GoMultiFileInputExample from './examples/GoMultiFileInputExample';
+import FileButtonExample from './examples/FileButtonExample';
 
 import styles from './styles.module.css';
 
@@ -253,6 +258,13 @@ export function Component() {
                     Single File Input
                 </Button>
                 <Button
+                    name="multi-file-input"
+                    className={element === 'multi-file-input' ? styles.selectedOption : styles.option}
+                    onClick={handleNewComponent}
+                >
+                    Multi File Input
+                </Button>
+                <Button
                     name="go-single-file-input"
                     className={element === 'go-single-file-input' ? styles.selectedOption : styles.option}
                     onClick={handleNewComponent}
@@ -265,6 +277,13 @@ export function Component() {
                     onClick={handleNewComponent}
                 >
                     Go Multi File Input
+                </Button>
+                <Button
+                    name="file-button"
+                    className={element === 'file-button' ? styles.selectedOption : styles.option}
+                    onClick={handleNewComponent}
+                >
+                    File Button
                 </Button>
             </div>
             <div className={styles.componentLayout}>
@@ -296,6 +315,11 @@ export function Component() {
                 {element === 'multi-select-input' && <MultiSelectInputExample />}
                 {element === 'search-select-input' && <SearchSelectInputExample />}
                 {element === 'search-multi-select-input' && <SearchMultiSelectInputExample />}
+                {element === 'single-file-input' && <SingleFileInputExample />}
+                {element === 'multi-file-input' && <MultiFileInputExample />}
+                {element === 'go-single-file-input' && <GoSingleFileInputExample />}
+                {element === 'go-multi-file-input' && <GoMultiFileInputExample />}
+                {element === 'file-button' && <FileButtonExample />}
             </div>
         </div>
     );
