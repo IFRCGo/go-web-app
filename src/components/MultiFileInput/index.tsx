@@ -75,6 +75,13 @@ function MultiFileInput<N extends NameType>(props: MultiFileInputProps<N>) {
         }
     }, [disabled]);
 
+    const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.code === 'Space' || event.code === 'Enter') {
+            event.preventDefault();
+            handleClick();
+        }
+    }, [handleClick]);
+
     const hasValue = isDefined(value) && value.length > 0;
 
     const handleClear = useCallback(() => {
@@ -133,11 +140,11 @@ function MultiFileInput<N extends NameType>(props: MultiFileInputProps<N>) {
                             styles.button,
                             disabled && styles.disabled,
                         )}
-                        onKeyDown={handleClick}
+                        onKeyDown={handleKeyDown}
                         onClick={handleClick}
                         role="button"
                         aria-disabled={disabled || readOnly}
-                        tabIndex={0}
+                        tabIndex={disabled ? -1 : 0}
                     >
                         {hasValue ? (
                             <ValueComponent value={value} />

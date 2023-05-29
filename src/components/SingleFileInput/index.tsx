@@ -77,6 +77,13 @@ function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
         }
     }, [disabled]);
 
+    const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.code === 'Space' || event.code === 'Enter') {
+            event.preventDefault();
+            handleClick();
+        }
+    }, [handleClick]);
+
     const handleClear = useCallback(() => {
         onChange(undefined, name);
     }, [onChange, name]);
@@ -132,11 +139,11 @@ function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
                             styles.button,
                             disabled && styles.disabled,
                         )}
-                        onKeyDown={handleClick}
+                        onKeyDown={handleKeyDown}
                         onClick={handleClick}
                         role="button"
                         aria-disabled={disabled || readOnly}
-                        tabIndex={0}
+                        tabIndex={disabled ? -1 : 0}
                     >
                         {hasValue ? (
                             <ValueComponent value={value} />
