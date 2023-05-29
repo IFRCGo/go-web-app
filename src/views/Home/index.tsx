@@ -4,7 +4,6 @@ import {
     FundingIcon,
     FundingCoverageIcon,
     TargetedPopulationIcon,
-    AppealsTwoIcon,
 } from '@ifrc-go/icons';
 
 import Page from '#components/Page';

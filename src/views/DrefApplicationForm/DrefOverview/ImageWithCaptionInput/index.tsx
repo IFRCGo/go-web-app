@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     PartialForm,
     useFormObject,
@@ -21,9 +20,9 @@ interface Props<N> {
     value: Value | null | undefined;
     onChange: (value: SetValueArg<Value> | undefined, name: N) => void;
     error: Error<Value>;
-    label?: React.ReactNode;
-    fileIdToUrlMap: Record<number, string>;
-    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    // label?: React.ReactNode;
+    // fileIdToUrlMap: Record<number, string>;
+    // setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
 }
 
 function ImageWithCaptionInput<N extends string | number>(props: Props<N>) {
@@ -32,22 +31,20 @@ function ImageWithCaptionInput<N extends string | number>(props: Props<N>) {
         name,
         value,
         // FIXME
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        fileIdToUrlMap,
+        // fileIdToUrlMap,
         // FIXME
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        setFileIdToUrlMap,
+        // setFileIdToUrlMap,
         onChange,
         error: formError,
         // FIXME
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        label,
+        // label,
     } = props;
 
     const setFieldValue = useFormObject(name, onChange, {});
-    // FIXME
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const error = getErrorObject(formError);
+    // eslint-disable-next-line no-console
+    console.info(error);
 
     return (
         <div className={_cs(styles.imageInput, className)}>

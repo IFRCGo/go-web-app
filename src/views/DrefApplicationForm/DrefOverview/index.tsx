@@ -63,8 +63,8 @@ interface Props {
     nationalSocietyOptions: NumericValueOption[];
     disasterCategoryOptions: NumericValueOption[];
     onsetOptions: NumericValueOption[];
-    fileIdToUrlMap: Record<number, string>;
-    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    // fileIdToUrlMap: Record<number, string>;
+    // setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     onValueSet: (value: SetBaseValueArg<Value>) => void;
     userOptions: User[];
     onCreateAndShareButtonClick: () => void;
@@ -92,8 +92,8 @@ function DrefOverview(props: Props) {
         yesNoOptions,
         disasterCategoryOptions,
         onsetOptions,
-        setFileIdToUrlMap,
-        fileIdToUrlMap,
+        // setFileIdToUrlMap,
+        // fileIdToUrlMap,
         onValueSet,
         userOptions,
         onCreateAndShareButtonClick,
@@ -497,9 +497,9 @@ function DrefOverview(props: Props) {
                             value={value?.event_map_file}
                             onChange={onValueChange}
                             error={error?.event_map_file}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.drefFormUploadAnImageLabel}
+                            // fileIdToUrlMap={fileIdToUrlMap}
+                            // setFileIdToUrlMap={setFileIdToUrlMap}
+                            // label={strings.drefFormUploadAnImageLabel}
                         />
                     </InputSection>
                 )}
@@ -514,9 +514,9 @@ function DrefOverview(props: Props) {
                             value={value?.cover_image_file}
                             onChange={onValueChange}
                             error={error?.cover_image_file}
-                            fileIdToUrlMap={fileIdToUrlMap}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
-                            label={strings.drefFormUploadAnImageLabel}
+                            // fileIdToUrlMap={fileIdToUrlMap}
+                            // setFileIdToUrlMap={setFileIdToUrlMap}
+                            // label={strings.drefFormUploadAnImageLabel}
                         />
                     </InputSection>
                 )}

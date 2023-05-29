@@ -55,8 +55,8 @@ interface Props {
     onValueChange: (...entries: EntriesAsList<Value>) => void;
     value: Value;
     interventionOptions: StringValueOption[];
-    fileIdToUrlMap: Record<number, string>;
-    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    // fileIdToUrlMap: Record<number, string>;
+    // setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     yesNoOptions: BooleanValueOption[];
     drefType?: number;
 }
@@ -70,10 +70,10 @@ function Response(props: Props) {
         interventionOptions,
         // FIXME
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        fileIdToUrlMap,
+        // fileIdToUrlMap,
         // FIXME
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        setFileIdToUrlMap,
+        // setFileIdToUrlMap,
         value,
         yesNoOptions,
         drefType,
@@ -439,6 +439,9 @@ function Response(props: Props) {
                     <SelectInput
                         label={strings.drefFormInterventionsLabel}
                         name={undefined}
+                        // FIXME
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
                         onChange={setIntervention}
                         keySelector={(d) => d.value}
                         value={intervention}
