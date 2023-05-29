@@ -1,0 +1,30 @@
+
+.tab-list {
+    justify-content: center;
+    margin: var(--go-ui-spacing-sm);
+    width: 100%;
+}
+
+/* .actions {
+    padding: $spacing $spacing;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    >* {
+        margin: 0 $spacing;
+    }
+}
+
+.error-message {
+    padding: $spacing $spacing !important;
+    opacity: 0.7;
+
+    h3 {
+        color: $danger-color;
+    }
+
+    p {
+        margin: 0;
+    }
+} */

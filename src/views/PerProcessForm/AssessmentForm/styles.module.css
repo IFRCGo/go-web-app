@@ -1,0 +1,23 @@
+.progress-bar {
+  display: flex;
+}
+
+.alert-message {
+  text-align: center;
+
+  /* .alert-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: $spacing;
+  } */
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  >* {
+    margin: var(--go-ui-spacing-md);
+  }
+}

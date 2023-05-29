@@ -1,0 +1,11 @@
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-input {
+  display: flex;
+  position: relative;
+  align-items: center;
+}

@@ -553,6 +553,18 @@ const fieldReportFormNew = customWrapRoute({
     },
 });
 
+const perProcessFormNew = myWrapRoute({
+    path: '/per-process/new/',
+    component: () => import('#views/PerProcessForm'),
+    componentProps: {},
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Per Process Form',
+        visibility: 'is-authenticated',
+    },
+});
+
 const wrappedRoutes = {
     root,
     login,
@@ -592,6 +604,7 @@ const wrappedRoutes = {
     flashUpdateFormNew,
     riskWatch,
     search,
+    perProcessFormNew,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

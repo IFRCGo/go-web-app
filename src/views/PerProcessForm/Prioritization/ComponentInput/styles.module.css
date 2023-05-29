@@ -1,0 +1,46 @@
+.custom-activity {
+  background-color: var(--go-ui-color-background);
+  border-top: 2px solid transparent;
+
+  .improvement-select {
+    width: $global-spacing-table;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dot-connector {
+    border-left: 1px solid grey;
+  }
+
+  .input-section {
+    background-color: $color-background;
+    overflow-y: visible;
+    display: flex;
+
+    .question-content {
+      display: flex;
+      gap: $global-spacing-3;
+      padding-right: 20%;
+      // overflow-y: visible;
+
+      .note-section {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .answers {
+        display: flex;
+        gap: $global-spacing-2;
+      }
+    }
+  }
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  background-color: grey;
+  border-radius: 50%;
+  display: inline-block;
+}

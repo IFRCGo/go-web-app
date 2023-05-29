@@ -1,0 +1,70 @@
+.custom-activity {
+    border-top: 2px solid transparent;
+    background-color: var(--go-ui-color-background);
+
+    /* .improvement-select {
+        width: $global-spacing-table;
+    } */
+
+    .input-section {
+        display: flex;
+        background-color: var(--go-ui-color-background);
+        overflow-y: visible;
+
+        .question-content {
+            display: flex;
+            gap: var(--go-ui-spacing-md);
+
+            .note-section {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+            }
+
+            .answers {
+                display: flex;
+                gap: var(--go-ui-spacing-xs);
+            }
+        }
+    }
+}
+
+.component-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--go-ui-spacing-xl) var(--go-ui-spacing-xs);
+
+    >* {
+        margin: 0 var(--go-ui-spacing-sm);
+    }
+}
+
+.prioritization-table {
+    .content {
+        table {
+            width: 100%;
+
+            th {
+                border-bottom: $base-border-width solid $base-border-color;
+                background-color: var(--go-ui-color-background);
+                padding: 0;
+                text-align: left;
+            }
+
+            td {
+                border-bottom: $base-border-width solid $base-border-color;
+                padding: var(--go-ui-spacing-md);
+
+                >* {
+                    padding: 0!important;
+                }
+            }
+        }
+    }
+}

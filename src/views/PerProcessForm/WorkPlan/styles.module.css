@@ -1,0 +1,24 @@
+.strategic-priorities-table {
+    .content {
+        padding: 0!important;
+
+        table {
+            width: 100%;
+
+            th {
+                border-bottom: $base-border-width solid $base-border-color;
+                background-color: var(--go-ui-color-background);
+                padding: var(--go-ui-spacing-sm);
+                text-align: left;
+            }
+
+            td {
+                border-bottom: $base-border-width solid $base-border-color;
+                padding: var(--go-ui-spacing-md);
+            }
+        }
+    }
+    .responsibility-section {
+        display: flex;
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "namespace": "perAssessment",
+    "strings": {
+        "perFormArea1Tab": "Area 1: Policy strategy and standards",
+        "perFormArea2Tab": "Area 2: Analysis and planning",
+        "perFormArea3Tab": "Area 3: Operational Capacity",
+        "perFormArea4Tab": "Area 4: Coordination",
+        "perFormArea5Tab": "Area 5: Operations Support",
+        "perFormSaveRequestSuccessMessage": "PER Process created/updated successfully",
+        "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
+        "perFormSubmitAssessmentTitle": "Submit PER Assessment Results",
+        "perFormSubmitAssessmentDescription": "You are about to submit the results of the PER Assessment. Once submitted, the results cannot be edited. Click on the Submit to proceed. To go to back and edit, click on Cancel."
+    }
+}

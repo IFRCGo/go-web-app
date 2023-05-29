@@ -1,0 +1,30 @@
+@import '~styles/settings/variables';
+
+.custom-activity {
+  background-color: $color-background;
+  border-top: 2px solid transparent;
+
+  .improvement-select {
+    width: $global-spacing-table;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dot-connector {
+    border-left: 1px solid grey;
+  }
+
+  .input-section {
+    background-color: $color-background;
+    overflow-y: visible;
+    display: flex;
+  }
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  background-color: grey;
+  border-radius: 50%;
+  display: inline-block;
+}

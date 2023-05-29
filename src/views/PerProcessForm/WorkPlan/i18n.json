@@ -1,0 +1,10 @@
+{
+    "namespace": "perWorkPlanForm",
+    "strings": {
+        "perWorkPlanComponents": "Components",
+        "perWorkPlanActions": "Actions",
+        "perWorkPlanDueDate": "Due Date",
+        "perWorkPlanSupportedBy": "Supported by",
+        "perWorkPlanStatus": "Status"
+    }
+}
