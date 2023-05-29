@@ -44,7 +44,6 @@ function HighlightedOperations(props: Props) {
     });
 
     const featuredEmergencies = featuredEmergencyResponse?.results;
-    const layoutDifficiencies = 3 - ((featuredEmergencies?.length ?? 0) % 3);
 
     return (
         <Container
@@ -71,14 +70,6 @@ function HighlightedOperations(props: Props) {
                 renderer={OperationCard}
                 rendererParams={rendererParams}
             />
-            {Array.from(Array(layoutDifficiencies).keys()).map(
-                (key) => (
-                    <div
-                        key={key}
-                        className={styles.filler}
-                    />
-                ),
-            )}
         </Container>
     );
 }

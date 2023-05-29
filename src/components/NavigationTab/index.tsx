@@ -49,6 +49,7 @@ function NavigationTab(props: Props) {
         <NavLink
             to={to}
             className={getClassName}
+            end
         >
             <div className={styles.dummy} />
             <div className={styles.childrenWrapper}>
