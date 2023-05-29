@@ -11,8 +11,8 @@ import Button from '#components/Button';
 import { RiskSecurityType } from '#views/DrefApplicationForm/useDrefFormOptions';
 import TextArea from '#components/TextArea';
 import useTranslation from '#hooks/useTranslation';
-import drefPageStrings from '#strings/dref';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type SetValueArg<T> = T | ((value: T) => T);
@@ -30,7 +30,7 @@ interface Props {
 }
 
 function RiskSecurityInput(props: Props) {
-    const strings = useTranslation('dref', drefPageStrings);
+    const strings = useTranslation(i18n);
 
     const {
         error: errorFromProps,

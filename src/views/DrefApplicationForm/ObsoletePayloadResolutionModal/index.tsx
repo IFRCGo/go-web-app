@@ -3,12 +3,13 @@ import { isDefined } from '@togglecorp/fujs';
 import { useRequest } from '#utils/restRequest';
 import Button from '#components/Button';
 import Modal from '#components/Modal';
-// import BlockLoading from '#components/block-loading';
+import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
-import drefPageStrings from '#strings/dref';
 import {
     DrefApiFields,
 } from '../common';
+
+import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
@@ -44,7 +45,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
         onCancelButtonClick,
     } = props;
 
-    const strings = useTranslation('dref', drefPageStrings);
+    const strings = useTranslation(i18n);
 
     const {
         pending: drefPending,
@@ -82,10 +83,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
             opened
         >
             {drefPending && (
-                <>
-                    Loading...
-                    {/* <BlockLoading /> */}
-                </>
+                <BlockLoading />
             )}
             {!drefPending && (
                 <>

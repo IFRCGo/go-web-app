@@ -1,0 +1,31 @@
+{
+    "namespace": "dref",
+    "strings": {
+        "drefFormAffectedthePopulationTitle": "Did it affect the same population groups?",
+        "drefFormAffectSameArea": "Has a similar event affected the same area(s) in the last 3 years?",
+        "drefFormApproximateDateOfImpact": "Approximate date of impact",
+        "drefFormDescriptionEvent": "Description of the Event",
+        "drefFormEventDate": "Date of the Event",
+        "drefFormImminentDisaster": "Provide any updates in the situation since the field report and explain what is expected to happen.",
+        "drefFormLessonsLearnedDescription": "Specify how the lessons learnt from these previous operations are being used to mitigate similar challenges in the current operation",
+        "drefFormLessonsLearnedTitle": "Lessons learned",
+        "drefFormNsFundingDetail": "If yes, please specify which operations",
+        "drefFormNsFundingDetailDescription": " Enter MDR code and year. Example: MDRXXX YEAR, MDRXXX YEAR",
+        "drefFormNsRequestFund": "Did the National Society request funding from DREF for that event(s)?",
+        "drefFormNsRespond": "Did the National Society respond?",
+        "drefFormPreviousOperations": "Previous Operations",
+        "drefFormRecurrentText": "If you have answered yes to all questions above, justify why the use of DREF for a recurrent event, or how this event should not be considered recurrent",
+        "drefFormScopeAndScaleDescription": "Describe the extent this hazard will produce negative impacts on lives, livelihoods, well-being and infrastructure. Explain which people are most likely to experience the impacts of this hazard? Where do they live, and why are they vulnerable? Please explain which groups (e.g elderly, children, people with disabilities, IDPs, Refugees, etc.) are most likely to be affected? Provide historic information on how communities have been affected by the magnitude of this hazard in the past?",
+        "drefFormScopeAndScaleEvent": "Scope and scale of the event",
+        "drefFormSlowEventDate": "Date when the trigger was met",
+        "drefFormTargetCommunities": "Explain why your National Society is acting now and what criteria is used to launch this operation.",
+        "drefFormTargetCommunitiesDescription": "If the operation uses triggers related to different phases (such as readiness activities and early actions) add your triggers and data sources",
+        "drefFormUploadPhotos": "Upload photos (e.g. impact of the events, NS in the field, assessments)",
+        "drefFormUploadPhotosLimitation": "Add maximum 2 photos",
+        "drefFormUploadSupportingDocument": "Upload any supporting documentation if relevant (Optional)",
+        "drefFormUploadSupportingDocumentButtonLabel": "Upload document",
+        "drefFormUploadSupportingDocumentDescription": "Here the National Society can upload documentation that substantiates their decision to launch this operation now. For example: seasonal outlooks, forecast information, reports from credible sources...etc.",
+        "drefFormWhatWhereWhen": "What happened, where and when?",
+        "drefOperationalLearningPlatformLabel": "To access lessons from previous operations, please visit the DREF Operational Learning Platform"
+    }
+}

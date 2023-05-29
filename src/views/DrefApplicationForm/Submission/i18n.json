@@ -1,0 +1,26 @@
+{
+    "namespace": "dref",
+    "strings": {
+        "drefFormAddedByGeneva": "Added by Geneva",
+        "drefFormAppealCode": "Appeal Code",
+        "drefFormAppealCodeDescription": "Added by the regional PMER",
+        "drefFormAppealManager": "IFRC Appeal Manager:",
+        "drefFormAppealManagerDescription": "Added by the regional office",
+        "drefFormDateOfApproval": "Date of Approval",
+        "drefFormDateSubmissionToGeneva": "Date of Submission to GVA",
+        "drefFormGlideNum": "GLIDE number",
+        "drefFormIfrcEmergency": "IFRC focal point for the emergency:",
+        "drefFormMediaContact": "Media Contact:",
+        "drefFormNationalSocietyContact": "National Society contact:",
+        "drefFormNsRequestDate": "Date of National Society Application",
+        "drefFormOperationalTimeframes": "Operational Timeframes",
+        "drefFormOperationTimeframeSubmission": "Operation timeframe",
+        "drefFormOperationTimeframeSubmissionDescription": "Input number of months",
+        "drefFormProjectManager": "IFRC Project Manager:",
+        "drefFormProjectManagerDescription": "Added by the regional office",
+        "drefFormPublishingDate": "Date of Publishing",
+        "drefFormSubmissionEndDate": "End date of Operation",
+        "drefFormSubmissionEndDateDescription": "Automatically calculated using the Date of Approval + Operation timeframe",
+        "drefFormTrackingData": "Tracking Data and Contacts"
+    }
+}

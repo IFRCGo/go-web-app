@@ -24,7 +24,6 @@ import {
     StringValueOption,
 } from '#types/common';
 import useTranslation from '#hooks/useTranslation';
-import drefPageStrings from '#strings/dref';
 // import DREFFileInput from '#components/DREFFileInput';
 
 import {
@@ -38,6 +37,7 @@ import {
 } from '../common';
 import NeedInput from './NeedInput';
 import NsActionInput from './NSActionInput';
+import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
@@ -55,7 +55,7 @@ interface Props {
 }
 
 function ActionsFields(props: Props) {
-    const strings = useTranslation('dref', drefPageStrings);
+    const strings = useTranslation(i18n);
 
     const {
         error: formError,

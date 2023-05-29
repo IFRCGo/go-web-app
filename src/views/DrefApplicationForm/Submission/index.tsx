@@ -11,9 +11,9 @@ import TextInput from '#components/TextInput';
 import DateInput from '#components/DateInput';
 import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
-import drefPageStrings from '#strings/dref';
 
 import { DrefFields, TYPE_LOAN } from '../common';
+import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
@@ -26,7 +26,7 @@ interface Props {
 }
 
 function Submission(props: Props) {
-    const strings = useTranslation('dref', drefPageStrings);
+    const strings = useTranslation(i18n);
 
     const {
         error: formError,

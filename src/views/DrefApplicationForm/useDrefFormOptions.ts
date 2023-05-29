@@ -34,7 +34,6 @@ import {
 } from '#utils/restRequest';
 import { compareLabel } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
-import commonStrings from '#strings/common';
 
 import {
     emptyNumericOptionList,
@@ -46,6 +45,7 @@ import {
     Intervention,
     NsAction,
 } from './common';
+import i18n from './i18n.json';
 
 export type FormSchema = ObjectSchema<PartialForm<DrefFields>>;
 export type FormSchemaFields = ReturnType<FormSchema['fields']>;
@@ -376,7 +376,7 @@ function transformKeyValueToLabelValue<O extends NumericKeyValuePair | StringKey
 }
 
 function useDrefFormOptions() {
-    const strings = useTranslation('common', commonStrings);
+    const strings = useTranslation(i18n);
 
     const {
         pending: fetchingUserDetails,
