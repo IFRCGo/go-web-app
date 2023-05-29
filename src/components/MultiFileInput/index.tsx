@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { useCallback, useRef } from 'react';
+import { _cs, isDefined } from '@togglecorp/fujs';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import { NameType } from '#components/types';
 
@@ -11,18 +11,18 @@ import styles from './styles.module.css';
 type InheritedProps<N extends NameType> = Omit<InputContainerProps, 'input'> & Omit<RawFileInputProps<N>, 'multiple' | 'onChange' | 'children'>;
 
 export type MultiFileInputProps<N extends NameType> = InheritedProps<N> & {
-    valueComponent?: React.FC<{ value: File[] | File | null }>;
+    valueComponent?: React.FC<{ value: File[] }>;
     clearable?: boolean;
     clearButtonProps?: React.ComponentPropsWithoutRef<'button'>;
     inputClassName?: string;
     fileInputProps?: React.ComponentPropsWithoutRef<'input'>;
     placeholder?: React.ReactNode;
-    value: File[] | null;
-    onChange: (files: File[] | null, name: N) => void;
+    value: File[] | null | undefined;
+    onChange: (files: File[] | undefined, name: N) => void;
 }
 
 interface DefaultValueProps {
-    value: File[] | null
+    value: File[];
 }
 
 function DefaultValue(props: DefaultValueProps) {
@@ -66,10 +66,19 @@ function MultiFileInput<N extends NameType>(props: MultiFileInputProps<N>) {
     } = props;
 
     const ValueComponent = valueComponent ?? DefaultValue;
-    const hasValue = Array.isArray(value) ? value.length !== 0 : value !== null;
+
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const handleClick = useCallback(() => {
+        if (!disabled && typeof inputRef?.current?.click === 'function') {
+            inputRef.current.click();
+        }
+    }, [disabled]);
+
+    const hasValue = isDefined(value) && value.length > 0;
 
     const handleClear = useCallback(() => {
-        onChange(null, name);
+        onChange(undefined, name);
     }, [onChange, name]);
 
     const actions = (clearable && hasValue && !readOnly && !disabled ? (
@@ -114,26 +123,26 @@ function MultiFileInput<N extends NameType>(props: MultiFileInputProps<N>) {
                     capture={capture}
                     inputProps={fileInputProps}
                     multiple
+                    ref={inputRef}
                 >
-                    {(fileButtonProps) => (
-                        <div
-                            className={_cs(
-                                inputClassName,
-                                styles.button,
-                                disabled && styles.disabled,
-                            )}
-                            {...fileButtonProps} // eslint-disable-line react/jsx-props-no-spreading
-                            {...inputProps} // eslint-disable-line react/jsx-props-no-spreading
-                            {...others} // eslint-disable-line react/jsx-props-no-spreading
-                            role="button"
-                            aria-disabled={disabled || readOnly}
-                            tabIndex={0}
-                        >
-                            {hasValue ? (
-                                <ValueComponent value={value} />
-                            ) : <div>{placeholder}</div>}
-                        </div>
-                    )}
+                    <div
+                        {...inputProps} // eslint-disable-line react/jsx-props-no-spreading
+                        {...others} // eslint-disable-line react/jsx-props-no-spreading
+                        className={_cs(
+                            inputClassName,
+                            styles.button,
+                            disabled && styles.disabled,
+                        )}
+                        onKeyDown={handleClick}
+                        onClick={handleClick}
+                        role="button"
+                        aria-disabled={disabled || readOnly}
+                        tabIndex={0}
+                    >
+                        {hasValue ? (
+                            <ValueComponent value={value} />
+                        ) : <div>{placeholder}</div>}
+                    </div>
                 </RawFileInput>
             )}
         />

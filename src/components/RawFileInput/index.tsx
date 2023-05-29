@@ -1,8 +1,8 @@
-import { useRef, useCallback } from 'react';
+import { ReactElement, useCallback } from 'react';
 import { NameType } from '#components/types';
+import { isDefined } from '@togglecorp/fujs';
 
 export type RawFileInputProps<N extends NameType> = {
-    children(props: { onClick(): void }): React.ReactNode;
     accept?: string;
     name: N;
     form?: string;
@@ -10,18 +10,19 @@ export type RawFileInputProps<N extends NameType> = {
     readOnly?: boolean;
     capture?: boolean | 'user' | 'environment';
     inputProps?: React.ComponentPropsWithoutRef<'input'>;
+    ref: React.RefObject<HTMLInputElement>;
+    children: ReactElement;
 } & ({
     multiple: true;
-    onChange: (files: File[] | null, name: N) => void;
+    onChange: (files: File[] | undefined, name: N) => void;
 } | {
     multiple?: false;
-    onChange: (files: File | null, name: N) => void;
+    onChange: (files: File | undefined, name: N) => void;
 });
 
 function RawFileInput<N extends NameType>(props: RawFileInputProps<N>) {
     const {
         onChange,
-        children,
         multiple,
         accept,
         name,
@@ -30,23 +31,17 @@ function RawFileInput<N extends NameType>(props: RawFileInputProps<N>) {
         readOnly,
         capture,
         inputProps,
-        ...others
+        ref,
+        children,
     } = props;
-
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    const onClick = useCallback(() => {
-        if (!disabled && typeof inputRef?.current?.click === 'function') {
-            inputRef.current.click();
-        }
-    }, [disabled]);
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         if (multiple) {
-            const values = event.currentTarget.files ? Array.from(event.currentTarget.files) : null;
+            const values = event.currentTarget.files
+                ? Array.from(event.currentTarget.files) : undefined;
             onChange(values, name);
         } else {
-            onChange(event.currentTarget.files?.[0] || null, name);
+            onChange(event.currentTarget.files?.[0] ?? undefined, name);
         }
         if (event.target.value) {
             event.target.value = ''; // eslint-disable-line no-param-reassign
@@ -55,15 +50,15 @@ function RawFileInput<N extends NameType>(props: RawFileInputProps<N>) {
 
     return (
         <>
-            {children({ onClick, ...others })}
+            {children}
             <input
                 style={{ display: 'none' }}
                 type="file"
                 accept={accept}
                 multiple={multiple}
                 onChange={handleChange}
-                ref={inputRef}
-                name={name}
+                name={isDefined(name) ? String(name) : undefined}
+                ref={ref}
                 form={form}
                 capture={capture}
                 disabled={disabled}

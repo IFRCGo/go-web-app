@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { NameType, ValueType, OptionKey } from '#components/types';
+import { NameType } from '#components/types';
 import { CloseLineIcon } from '@ifrc-go/icons';
 import IconButton, { Props as IconButtonProps } from '#components/IconButton';
 import Button, { Props as ButtonProps } from '#components/Button';
@@ -12,7 +12,15 @@ import useAlert from '#hooks/useAlert';
 
 import styles from './styles.module.css';
 
-export type Props<T extends NameType, O, V extends ValueType, K extends OptionKey> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'> & {
+interface FileUploadResult {
+    id: number;
+    file: string;
+}
+
+const keySelector = (d: FileUploadResult) => d.id;
+const valueSelector = (d: FileUploadResult) => d.file;
+
+export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'> & {
     actions?: React.ReactNode;
     buttonProps?: ButtonProps<T>;
     children?: React.ReactNode;
@@ -21,21 +29,14 @@ export type Props<T extends NameType, O, V extends ValueType, K extends OptionKe
     clearable?: boolean;
     icons?: React.ReactNode;
     iconsClassName?: string;
-    onChange: (value: K[] | undefined | null, name: T) => void;
-    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<K, V>>>;
+    onChange: (value: number[] | undefined, name: T) => void;
+    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     url: string;
-    value: K[] | undefined | null;
-    keySelector: (option: O) => K;
-    valueSelector: (option: O) => V;
+    value: number[] | undefined | null;
     variant?: ButtonVariant;
 }
 
-function GoMultiFileInput<
-    T extends NameType,
-    O,
-    V extends ValueType,
-    K extends OptionKey,
->(props: Props<T, O, V, K>) {
+function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     const {
         accept,
         actions: actionsFromProps,
@@ -49,14 +50,12 @@ function GoMultiFileInput<
         form,
         icons,
         inputProps,
-        keySelector,
         name,
         onChange,
         readOnly,
         setFileIdToUrlMap,
         url,
         value,
-        valueSelector,
         variant = 'primary',
     } = props;
 
@@ -65,7 +64,7 @@ function GoMultiFileInput<
     const {
         pending,
         trigger: triggerFileUpload,
-    } = useLazyRequest<O[], { file: File[] }>({
+    } = useLazyRequest<FileUploadResult[], { files: File[] }>({
         formData: true,
         url,
         method: 'POST',
@@ -98,17 +97,25 @@ function GoMultiFileInput<
         },
     });
 
-    const handleChange = useCallback((file: File[] | null) => {
-        if (file) {
-            triggerFileUpload({ file });
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const handleChange = useCallback((files: File[] | undefined) => {
+        if (files) {
+            triggerFileUpload({ files });
         }
     }, [triggerFileUpload]);
 
     const handleClear = useCallback(() => {
-        onChange(null, name);
+        onChange(undefined, name);
     }, [onChange, name]);
 
     const disabled = disabledFromProps || pending || readOnly;
+
+    const handleClick = useCallback(() => {
+        if (!disabled && typeof inputRef?.current?.click === 'function') {
+            inputRef.current.click();
+        }
+    }, [disabled]);
 
     const actions = (clearable && value && !readOnly && !disabled ? (
         <>
@@ -138,19 +145,18 @@ function GoMultiFileInput<
                 capture={capture}
                 inputProps={inputProps}
                 multiple
+                ref={inputRef}
             >
-                {(fileButtonProps) => (
-                    <Button
-                        {...buttonProps} // eslint-disable-line react/jsx-props-no-spreading
-                        {...fileButtonProps} // eslint-disable-line react/jsx-props-no-spreading
-                        name={undefined}
-                        variant={variant}
-                        disabled={disabled}
-                        icons={icons}
-                    >
-                        {children}
-                    </Button>
-                )}
+                <Button
+                    {...buttonProps} // eslint-disable-line react/jsx-props-no-spreading
+                    name={undefined}
+                    variant={variant}
+                    onClick={handleClick}
+                    disabled={disabled}
+                    icons={icons}
+                >
+                    {children}
+                </Button>
             </RawFileInput>
             {actions}
         </div>
