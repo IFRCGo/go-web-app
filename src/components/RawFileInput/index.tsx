@@ -1,17 +1,18 @@
 import { ReactElement, useCallback } from 'react';
-import { NameType } from '#components/types';
 import { isDefined } from '@togglecorp/fujs';
+
+import { NameType } from '../types';
 
 export type RawFileInputProps<N extends NameType> = {
     accept?: string;
-    name: N;
-    form?: string;
-    disabled?: boolean;
-    readOnly?: boolean;
     capture?: boolean | 'user' | 'environment';
-    inputProps?: React.ComponentPropsWithoutRef<'input'>;
-    ref: React.RefObject<HTMLInputElement>;
     children: ReactElement;
+    disabled?: boolean;
+    form?: string;
+    inputProps?: React.ComponentPropsWithoutRef<'input'>;
+    inputRef: React.RefObject<HTMLInputElement>;
+    name: N;
+    readOnly?: boolean;
 } & ({
     multiple: true;
     onChange: (files: File[] | undefined, name: N) => void;
@@ -22,17 +23,17 @@ export type RawFileInputProps<N extends NameType> = {
 
 function RawFileInput<N extends NameType>(props: RawFileInputProps<N>) {
     const {
-        onChange,
-        multiple,
         accept,
-        name,
-        form,
-        disabled,
-        readOnly,
         capture,
-        inputProps,
-        ref,
         children,
+        disabled,
+        form,
+        inputProps,
+        inputRef,
+        multiple,
+        name,
+        onChange,
+        readOnly,
     } = props;
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +59,7 @@ function RawFileInput<N extends NameType>(props: RawFileInputProps<N>) {
                 multiple={multiple}
                 onChange={handleChange}
                 name={isDefined(name) ? String(name) : undefined}
-                ref={ref}
+                ref={inputRef}
                 form={form}
                 capture={capture}
                 disabled={disabled}

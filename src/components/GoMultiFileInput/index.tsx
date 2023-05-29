@@ -20,7 +20,7 @@ interface FileUploadResult {
 const keySelector = (d: FileUploadResult) => d.id;
 const valueSelector = (d: FileUploadResult) => d.file;
 
-export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'> & {
+export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children' | 'inputRef'> & {
     actions?: React.ReactNode;
     buttonProps?: ButtonProps<T>;
     children?: React.ReactNode;
@@ -145,7 +145,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                 capture={capture}
                 inputProps={inputProps}
                 multiple
-                ref={inputRef}
+                inputRef={inputRef}
             >
                 <Button
                     {...buttonProps} // eslint-disable-line react/jsx-props-no-spreading

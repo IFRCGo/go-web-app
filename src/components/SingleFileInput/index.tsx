@@ -1,24 +1,24 @@
 import { useCallback, useRef } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
-import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
-import { NameType } from '#components/types';
-
 import { CloseLineIcon } from '@ifrc-go/icons';
-import IconButton from '#components/IconButton';
+
+import InputContainer, { Props as InputContainerProps } from '../InputContainer';
+import { NameType } from '../types';
+import IconButton from '../IconButton';
 import RawFileInput, { RawFileInputProps } from '../RawFileInput';
 import styles from './styles.module.css';
 
-type InheritedProps<N extends NameType> = Omit<InputContainerProps, 'input'> & Omit<RawFileInputProps<N>, 'multiple' | 'onChange' | 'children'>;
+type InheritedProps<N extends NameType> = Omit<InputContainerProps, 'input'> & Omit<RawFileInputProps<N>, 'multiple' | 'onChange' | 'children' | 'inputRef'>;
 
 export type SingleFileInputProps<N extends NameType> = InheritedProps<N> & {
-    valueComponent?: React.FC<{ value: File }>;
-    clearable?: boolean;
     clearButtonProps?: React.ComponentPropsWithoutRef<'button'>;
-    inputClassName?: string;
+    clearable?: boolean;
     fileInputProps?: React.ComponentPropsWithoutRef<'input'>;
+    inputClassName?: string;
+    onChange: (files: File | undefined, name: N) => void;
     placeholder?: React.ReactNode;
     value: File | null | undefined;
-    onChange: (files: File | undefined, name: N) => void;
+    valueComponent?: React.FC<{ value: File }>;
 }
 
 interface DefaultValueProps {
@@ -36,32 +36,32 @@ function DefaultValue(props: DefaultValueProps) {
 
 function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
     const {
+        accept,
         actions: actionsFromProps,
+        capture,
         className,
+        clearButtonProps,
+        clearable,
         disabled,
         error,
         errorOnTooltip,
+        fileInputProps,
+        form,
         hint,
         icons,
         inputClassName,
+        inputProps,
         inputSectionClassName,
         label,
+        name,
+        onChange,
+        placeholder,
         readOnly,
         required,
-        variant,
-        withAsterisk,
-        onChange,
-        accept,
-        name,
-        form,
-        capture,
-        inputProps,
-        fileInputProps,
         value,
         valueComponent,
-        placeholder,
-        clearable,
-        clearButtonProps,
+        variant,
+        withAsterisk,
         ...others
     } = props;
 
@@ -72,8 +72,8 @@ function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
     const hasValue = isDefined(value);
 
     const handleClick = useCallback(() => {
-        if (!disabled && typeof inputRef?.current?.click === 'function') {
-            inputRef.current.click();
+        if (!disabled) {
+            inputRef?.current?.click();
         }
     }, [disabled]);
 
@@ -122,7 +122,7 @@ function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
                     readOnly={readOnly}
                     capture={capture}
                     inputProps={fileInputProps}
-                    ref={inputRef}
+                    inputRef={inputRef}
                 >
                     <div
                         {...inputProps} // eslint-disable-line react/jsx-props-no-spreading

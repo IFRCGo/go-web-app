@@ -1,24 +1,24 @@
 import { useCallback, useRef } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
-import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
-import { NameType } from '#components/types';
-
 import { CloseLineIcon } from '@ifrc-go/icons';
-import IconButton from '#components/IconButton';
+
+import InputContainer, { Props as InputContainerProps } from '../InputContainer';
+import { NameType } from '../types';
+import IconButton from '../IconButton';
 import RawFileInput, { RawFileInputProps } from '../RawFileInput';
 import styles from './styles.module.css';
 
-type InheritedProps<N extends NameType> = Omit<InputContainerProps, 'input'> & Omit<RawFileInputProps<N>, 'multiple' | 'onChange' | 'children'>;
+type InheritedProps<N extends NameType> = Omit<InputContainerProps, 'input'> & Omit<RawFileInputProps<N>, 'multiple' | 'onChange' | 'children' | 'inputRef'>;
 
 export type MultiFileInputProps<N extends NameType> = InheritedProps<N> & {
-    valueComponent?: React.FC<{ value: File[] }>;
-    clearable?: boolean;
     clearButtonProps?: React.ComponentPropsWithoutRef<'button'>;
-    inputClassName?: string;
+    clearable?: boolean;
     fileInputProps?: React.ComponentPropsWithoutRef<'input'>;
+    inputClassName?: string;
+    onChange: (files: File[] | undefined, name: N) => void;
     placeholder?: React.ReactNode;
     value: File[] | null | undefined;
-    onChange: (files: File[] | undefined, name: N) => void;
+    valueComponent?: React.FC<{ value: File[] }>;
 }
 
 interface DefaultValueProps {
@@ -123,7 +123,7 @@ function MultiFileInput<N extends NameType>(props: MultiFileInputProps<N>) {
                     capture={capture}
                     inputProps={fileInputProps}
                     multiple
-                    ref={inputRef}
+                    inputRef={inputRef}
                 >
                     <div
                         {...inputProps} // eslint-disable-line react/jsx-props-no-spreading

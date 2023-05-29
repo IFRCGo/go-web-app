@@ -1,5 +1,6 @@
 .button {
     display: flex;
+    flex-grow: 1;
     cursor: pointer;
     min-height: var(--go-ui-font-size-2xl);
 }
