@@ -1,0 +1,12 @@
+.reduced-list-label {
+  text-decoration: underline;
+  font-weight: var(--go-ui-font-weight-medium);
+  color: var(--go-ui-color-blue-90);
+  padding: 0;
+
+  &:hover,
+  &:focus {
+    color: var(--go-ui-color-primary-red);
+    opacity: 1;
+  }
+}

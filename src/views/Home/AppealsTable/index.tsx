@@ -12,7 +12,7 @@ import {
     createStringColumn,
     createNumberColumn,
     createDateColumn,
-} from '#components/Table/columnShortcuts';
+} from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 

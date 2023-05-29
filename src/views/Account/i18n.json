@@ -6,6 +6,8 @@
         "accountNotification":"Notifications",
         "accountPerForms":"PER forms",
         "accountThreeWForms":"3W forms",
-        "accountMyDrefApplications":"My Dref Applications"
+        "accountMyDrefApplications":"My Dref Applications",
+        "projectListTableViewDetails": "View details",
+        "projectListTableEdit": "Edit"
     }
 }
