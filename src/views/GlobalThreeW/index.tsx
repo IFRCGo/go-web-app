@@ -1,5 +1,9 @@
 import { useState, useMemo } from 'react';
-import { ShieldCrossFillIcon } from '@ifrc-go/icons';
+import {
+    ShieldCrossFillIcon,
+    TargetedPopulationIcon,
+    RedCrossNationalSocietyIcon,
+} from '@ifrc-go/icons';
 
 import Page from '#components/Page';
 import Link from '#components/Link';
@@ -173,7 +177,7 @@ export function Component() {
                 </>
             )}
             info={(
-                <div className={styles.keyFigures}>
+                <>
                     <KeyFigure
                         className={styles.keyFigure}
                         icon={<ShieldCrossFillIcon />}
@@ -182,19 +186,19 @@ export function Component() {
                     />
                     <KeyFigure
                         className={styles.keyFigure}
-                        icon={<ShieldCrossFillIcon />}
+                        icon={<RedCrossNationalSocietyIcon />}
                         value={numActiveSocieties}
                         description={strings.globalThreeWKeyFigureActiveNSTitle}
                     />
                     <KeyFigure
                         className={styles.keyFigure}
-                        icon={<ShieldCrossFillIcon />}
+                        icon={<TargetedPopulationIcon />}
                         value={numTargetedPopulation}
                         description={strings.globalThreeWKeyTargetedPopulationTitle}
                     />
-                </div>
+                </>
             )}
-            infoContainerClassName={styles.keyFiguresContainer}
+            infoContainerClassName={styles.keyFiguresList}
         >
             {pending && <BlockLoading />}
             {projectsOverviewResponse && (

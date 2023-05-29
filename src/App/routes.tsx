@@ -86,6 +86,61 @@ const region = myWrapRoute({
     },
 });
 
+const regionOperations = myWrapRoute({
+    path: 'operations',
+    component: () => import('#views/Region/Operations'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region Operations',
+        visibility: 'anything',
+    },
+});
+
+const regionThreeW = myWrapRoute({
+    path: 'three-w',
+    component: () => import('#views/Region/ThreeW'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region 3W',
+        visibility: 'anything',
+    },
+});
+
+const regionRiskWatch = myWrapRoute({
+    path: 'risk-watch',
+    component: () => import('#views/Region/RiskWatch'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region Risk Watch',
+        visibility: 'anything',
+    },
+});
+
+const regionPreparedness = myWrapRoute({
+    path: 'preparedness',
+    component: () => import('#views/Region/Preparedness'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region Preparedness',
+        visibility: 'anything',
+    },
+});
+
+const regionProfile = myWrapRoute({
+    path: 'profile',
+    component: () => import('#views/Region/Profile'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region Profile',
+        visibility: 'anything',
+    },
+});
+
 const country = myWrapRoute({
     path: 'countries/:countryId/',
     component: () => import('#views/Country'),
@@ -338,6 +393,11 @@ const wrappedRoutes = {
     register,
     home,
     region,
+    regionOperations,
+    regionThreeW,
+    regionRiskWatch,
+    regionPreparedness,
+    regionProfile,
     country,
     countryOperations,
     countryThreeW,

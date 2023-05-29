@@ -9,24 +9,16 @@
         display: inline-block;
     }
 
-    .key-figures-container {
-        display: flex;
-        justify-content: center;
+    .key-figures-list {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
 
-        .key-figures {
-            display: flex;
-            flex-wrap: wrap;
-            padding: var(--go-ui-spacing-md);
-            gap: var(--go-ui-spacing-sm);
-
-
-            .key-figure {
-                flex-basis: 0;
-                flex-grow: 1;
-                background-color: var(--go-ui-color-white);
-                padding: var(--go-ui-spacing-md) var(--go-ui-spacing-xl);
-                min-width: 20rem;
-            }
+        .key-figure {
+            border-radius: var(--go-ui-border-radius-lg);
+            background-color: var(--go-ui-color-white);
+            padding: var(--go-ui-spacing-xl);
+            height: 100%;
         }
     }
 }

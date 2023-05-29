@@ -73,6 +73,7 @@ export function Component() {
     const { countryId } = useParams<{ countryId: string }>();
     const strings = useTranslation(i18n);
     const {
+        pending: countryResponsePending,
         response: countryResponse,
     } = useRequest<CountryResponse>({
         skip: !countryId,
@@ -88,6 +89,8 @@ export function Component() {
         query: { country: countryId },
     });
 
+    const pending = countryResponsePending || aggregatedAppealPending;
+
     return (
         <Page
             className={styles.country}
@@ -96,8 +99,8 @@ export function Component() {
             infoContainerClassName={styles.keyFigureList}
             info={(
                 <>
-                    {aggregatedAppealPending && <BlockLoading className={styles.loading} />}
-                    {!aggregatedAppealPending && aggregatedAppealResponse && (
+                    {pending && <BlockLoading />}
+                    {!pending && aggregatedAppealResponse && (
                         <>
                             <KeyFigure
                                 icon={<DrefIcon />}
@@ -132,14 +135,15 @@ export function Component() {
                                 normalize
                                 description={strings.keyFiguresTargetPop}
                             />
-                            <KeyFigure
-                                icon={<AppealsTwoIcon />}
-                                className={styles.keyFigure}
-                                // TODO: add country plan in response
-                                value={undefined}
-                                normalize
-                                description={strings.keyFiguresCountryPlan}
-                            />
+                            {countryResponse?.has_country_plan && (
+                                <KeyFigure
+                                    icon={<AppealsTwoIcon />}
+                                    className={styles.keyFigure}
+                                    value={1}
+                                    normalize
+                                    description={strings.keyFiguresCountryPlan}
+                                />
+                            )}
                         </>
                     )}
                 </>

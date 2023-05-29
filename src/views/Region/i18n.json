@@ -1,6 +1,18 @@
 {
     "namespace": "region",
     "strings": {
-        "regionTitle": "IFRC GO - Region"
+        "regionTitle": "IFRC GO - Region",
+        "regionOperationsTab": "Operations",
+        "region3WTab":"3w",
+        "regionRiskTab":"Risk Watch",
+        "regionProfileTab":"Regional Profile",
+        "regionPreparednessTab":"Preparedness",
+        "regionAdditionalInfoTab":"Additional Data",
+        "regionKeyFiguresCountryPlan": "Active Country Plan",
+        "regionKeyFiguresActiveDrefs":"Active DREF Operations",
+        "regionKeyFiguresActiveAppeals":"Active Emergency Appeals",
+        "regionKeyFiguresBudget":"Funding Requirements (CHF)",
+        "regionKeyFiguresAppealsFunding":"Funding Coverage",
+        "regionKeyFiguresTargetPop":"Targeted Population"
     }
 }

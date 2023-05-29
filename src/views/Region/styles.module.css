@@ -1,4 +1,4 @@
-.country {
+.region {
     .key-figure-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
