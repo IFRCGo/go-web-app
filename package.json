@@ -15,10 +15,9 @@
         "css-lint": "stylelint ./src/**/*.css",
         "deploy-surge": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); cp build/index.html build/200.html; surge -p build/ -d https://ifrc-go-$branch.surge.sh",
         "teardown-surge": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); surge teardown https://ifrc-go-$branch.surge.sh"
-
     },
     "dependencies": {
-        "@ifrc-go/icons": "^1.1.3",
+        "@ifrc-go/icons": "^1.1.4",
         "@mapbox/mapbox-gl-draw": "^1.2.0",
         "@tinymce/tinymce-react": "^4.3.0",
         "@togglecorp/fujs": "^2.0.0",
