@@ -106,34 +106,34 @@ export function Component() {
                                 icon={<DrefIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.active_drefs}
-                                description={strings.keyFiguresActiveDrefs}
+                                description={strings.countryKeyFiguresActiveDrefs}
                             />
                             <KeyFigure
                                 icon={<AppealsIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.active_appeals}
-                                description={strings.keyFiguresActiveAppeals}
+                                description={strings.countryKeyFiguresActiveAppeals}
                             />
                             <KeyFigure
                                 icon={<FundingIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_requested_dref_included}
                                 normalize
-                                description={strings.keyFiguresBudget}
+                                description={strings.countryKeyFiguresBudget}
                             />
                             <KeyFigure
                                 icon={<FundingCoverageIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_funded}
                                 normalize
-                                description={strings.keyFiguresAppealsFunding}
+                                description={strings.countryKeyFiguresAppealsFunding}
                             />
                             <KeyFigure
                                 icon={<TargetedPopulationIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.target_population}
                                 normalize
-                                description={strings.keyFiguresTargetPop}
+                                description={strings.countryKeyFiguresTargetPop}
                             />
                             {countryResponse?.has_country_plan && (
                                 <KeyFigure
@@ -141,7 +141,7 @@ export function Component() {
                                     className={styles.keyFigure}
                                     value={1}
                                     normalize
-                                    description={strings.keyFiguresCountryPlan}
+                                    description={strings.countryKeyFiguresCountryPlan}
                                 />
                             )}
                         </>
