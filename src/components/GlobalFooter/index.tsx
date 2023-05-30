@@ -47,6 +47,7 @@ function GlobalFooter(props: Props) {
         <PageContainer
             className={_cs(styles.footer, className)}
             contentClassName={styles.content}
+            containerAs="footer"
         >
             <div className={styles.section}>
                 <Heading>

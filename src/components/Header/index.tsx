@@ -5,34 +5,41 @@ import useBasicLayout from '#hooks/useBasicLayout';
 
 import styles from './styles.module.css';
 
-interface Props {
-    icons?: React.ReactNode;
+export interface Props {
     actions?: React.ReactNode;
+    actionsContainerClassName?: string;
+    children?: React.ReactNode;
+    childrenContainerClassName?: string;
+    className?: string;
+    elementRef?: React.Ref<HTMLDivElement>;
+    ellipsizeHeading?: boolean;
     heading: React.ReactNode;
     headingLevel?: HeadingProps['level'];
-    className?: string;
-    children?: React.ReactNode;
-    ellipsizeHeading?: boolean;
+    icons?: React.ReactNode;
+    iconsContainerClassName?: string;
 }
 
 function Header(props: Props) {
     const {
-        icons,
         actions,
-        heading,
-        className,
-        headingLevel,
+        actionsContainerClassName,
         children,
+        childrenContainerClassName,
+        className,
+        elementRef,
         ellipsizeHeading,
+        heading,
+        headingLevel,
+        icons,
+        iconsContainerClassName,
     } = props;
 
     const {
         content,
         containerClassName,
     } = useBasicLayout({
-        icons,
         actions,
-        childrenContainerClassName: styles.headingContainer,
+        actionsContainerClassName,
         children: (
             <Heading
                 level={headingLevel}
@@ -45,7 +52,10 @@ function Header(props: Props) {
                 ) : heading}
             </Heading>
         ),
+        childrenContainerClassName: _cs(styles.headingContainer, childrenContainerClassName),
         className,
+        icons,
+        iconsContainerClassName,
     });
 
     return (
@@ -54,6 +64,7 @@ function Header(props: Props) {
                 styles.header,
                 ellipsizeHeading && styles.headingEllipsized,
             )}
+            ref={elementRef}
         >
             <div className={_cs(styles.headerContent, containerClassName)}>
                 {content}
