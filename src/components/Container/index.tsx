@@ -1,6 +1,6 @@
 import { _cs } from '@togglecorp/fujs';
 
-import Header from '#components/Header';
+import Header, { Props as HeaderProps } from '#components/Header';
 import Footer from '#components/Footer';
 import { Props as HeadingProps } from '#components/Heading';
 import styles from './styles.module.css';
@@ -17,8 +17,10 @@ export interface Props {
     footerContentClassName?: string;
     footerClassName?: string;
     footerActions?: React.ReactNode;
+    headerClassName?: string;
     headerDescription?: React.ReactNode;
     headerDescriptionClassName?: string;
+    headerElementRef?: HeaderProps['elementRef'];
     childrenContainerClassName?: string,
     withHeaderBorder?: boolean;
     ellipsizeHeading?: boolean;
@@ -36,8 +38,10 @@ function Container(props: Props) {
         footerContent,
         footerContentClassName,
         footerIcons,
+        headerClassName,
         headerDescription,
         headerDescriptionClassName,
+        headerElementRef,
         heading,
         headingLevel,
         icons,
@@ -49,12 +53,13 @@ function Container(props: Props) {
     return (
         <div className={_cs(styles.container, className)}>
             <Header
-                className={styles.header}
-                headingLevel={headingLevel}
-                heading={heading}
                 actions={actions}
-                icons={icons}
+                className={_cs(styles.header, headerClassName)}
+                elementRef={headerElementRef}
                 ellipsizeHeading={ellipsizeHeading}
+                heading={heading}
+                headingLevel={headingLevel}
+                icons={icons}
             />
             {headerDescription && (
                 <div className={_cs(headerDescriptionClassName)}>
