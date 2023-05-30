@@ -1,4 +1,4 @@
-import ThreeWList from '../ThreeWList';
+import ThreeWList from './ThreeWList';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {

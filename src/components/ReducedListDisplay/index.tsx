@@ -9,48 +9,48 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
-  value?: string[];
-  title?: React.ReactNode;
+    value?: string[];
+    title?: React.ReactNode;
 }
 
-export function ReducedListDisplay(props: Props) {
-  const {
-    value,
-    title,
-  } = props;
+function ReducedListDisplay(props: Props) {
+    const {
+        value,
+        title,
+    } = props;
 
-  const strings = useTranslation(i18n);
+    const strings = useTranslation(i18n);
 
-  if (!value) {
-    return null;
-  }
+    if (!value) {
+        return null;
+    }
 
-  if (value.length < 4) {
-    return (
-      <>
-        {value.join(', ')}
-      </>
+    if (value.length < 4) {
+        return (
+            <>
+                {value.join(', ')}
+            </>
+        );
+    }
+
+    const newList = value.slice(0, 2);
+    const infoLabel = resolveToString(
+        strings.reducedListDisplayMoreLabel,
+        { n: value.length - 2 },
     );
-  }
 
-  const newList = value.slice(0, 2);
-  const infoLabel = resolveToString(
-    strings.reducedListDisplayMoreLabel,
-    { n: value.length - 2 },
-  );
-
-  return (
-    <>
-      {newList.join(', ')}
-      <InfoPopup
-        className={styles.reducedListLabel}
-        infoLabel={infoLabel}
-        hideIcon
-        title={title}
-        description={value.join(', ')}
-      />
-    </>
-  );
+    return (
+        <>
+            {newList.join(', ')}
+            <InfoPopup
+                className={styles.reducedListLabel}
+                infoLabel={infoLabel}
+                hideIcon
+                title={title}
+                description={value.join(', ')}
+            />
+        </>
+    );
 }
 
 export default ReducedListDisplay;
