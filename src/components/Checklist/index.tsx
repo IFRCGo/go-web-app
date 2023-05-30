@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import InputLabel from '../InputLabel';
-import InputError from '../InputError';
-import InputHint from '../InputHint';
-import List from '../List';
-import Checkbox, { Props as CheckboxProps } from '../Checkbox';
+import InputLabel from '#components/InputLabel';
+import InputError from '#components/InputError';
+import InputHint from '#components/InputHint';
+import List from '#components/List';
+import type { OptionKey } from '#components/List/common';
+import Checkbox, { Props as CheckboxProps } from '#components/Checkbox';
 
 import styles from './styles.module.css';
 
@@ -22,7 +23,7 @@ export interface Props<
     errorContainerClassName?: string;
     hint?: React.ReactNode;
     hintContainerClassName?: string;
-    keySelector: (option: O) => T;
+    keySelector: (option: O) => OptionKey;
     label?: React.ReactNode;
     labelContainerClassName?: string;
     labelSelector: (option: O) => string;
@@ -68,8 +69,8 @@ function CheckList<
         }
     }, [value, onChange, name]);
 
-    const optionListRendererParams = useCallback((key: T, data: O): CheckboxProps<T> => ({
-        name: key,
+    const optionListRendererParams = useCallback((key: OptionKey, data: O): CheckboxProps<T> => ({
+        name: key as T,
         value: (value ?? []).some((v) => v === key),
         onChange: handleCheck,
         label: labelSelector(data),

@@ -17,13 +17,5 @@
 
 .error-message {
     opacity: 0.7;
-    padding: var(--go-ui-spacing-4xl) var(--go-ui-spacing-2xl) !important;
-
-    h3 {
-        color: var(--go-ui-color-red);
-    }
-
-    p {
-        margin: 0;
-    }
+    padding: var(--go-ui-spacing-4xl) var(--go-ui-spacing-2xl);
 }

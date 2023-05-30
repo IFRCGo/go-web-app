@@ -1,11 +1,12 @@
-.card {
+.key-figure {
     display: flex;
     flex-direction: column;
     padding: var(--go-ui-spacing-md);
     gap: var(--go-ui-spacing-sm);
 
     .icon {
-        color: var(--go-ui-color-gray-90);
+        display: flex;
+        color: var(--go-ui-color-primary-red);
         font-size: var(--go-ui-font-size-5xl);
     }
 

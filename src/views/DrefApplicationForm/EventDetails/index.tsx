@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     PartialForm,
     Error,
@@ -6,7 +5,7 @@ import {
     getErrorObject,
     useFormArray,
 } from '@togglecorp/toggle-form';
-import { listToMap } from '@togglecorp/fujs';
+// import { listToMap } from '@togglecorp/fujs';
 
 import { resolveUrl } from '#utils/resolveUrl';
 import Container from '#components/Container';
@@ -40,8 +39,8 @@ interface Props {
     onValueChange: (...entries: EntriesAsList<Value>) => void;
     value: Value;
     yesNoOptions: BooleanValueOption[];
-    fileIdToUrlMap: Record<number, string>;
-    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    // fileIdToUrlMap: Record<number, string>;
+    // setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     drefType?: number;
     onsetType?: number;
 }
@@ -54,31 +53,30 @@ function EventDetails(props: Props) {
         onValueChange,
         value,
         yesNoOptions,
-        fileIdToUrlMap,
+        // fileIdToUrlMap,
         // FIXME
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        setFileIdToUrlMap,
+        // setFileIdToUrlMap,
         drefType,
         onsetType,
     } = props;
 
     const error = getErrorObject(formError);
-    // FIXME
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    /*
     const imagesValue = React.useMemo(() => (
         value?.images_file?.map((d) => d.id).filter((d) => !!d) as number[] | undefined
     ), [value?.images_file]);
+    */
 
     const {
         setValue: onImageChange,
-        removeValue: onImageRemove,
+        // removeValue: onImageRemove,
     } = useFormArray<'images_file', PartialForm<FileWithCaption>>(
         'images_file',
         onValueChange,
     );
 
-    // FIXME
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    /*
     const handleImageInputChange = React.useCallback((newValue: number[] | undefined) => {
         const imageCaptionByIdMap = listToMap(
             value?.images_file ?? [],
@@ -94,6 +92,7 @@ function EventDetails(props: Props) {
 
         onValueChange(newImageList, 'images_file' as const);
     }, [value?.images_file, onValueChange]);
+    */
 
     const operationalLearningPlatformUrl = resolveUrl(window.location.origin, 'preparedness#operational-learning');
     const isLoanDrefType = drefType === TYPE_LOAN;
@@ -327,9 +326,9 @@ function EventDetails(props: Props) {
                                         index={i}
                                         value={g}
                                         onChange={onImageChange}
-                                        onRemove={onImageRemove}
+                                        // onRemove={onImageRemove}
                                         error={getErrorObject(error?.images_file)}
-                                        fileIdToUrlMap={fileIdToUrlMap}
+                                        // fileIdToUrlMap={fileIdToUrlMap}
                                     />
                                 ))}
                             </div>

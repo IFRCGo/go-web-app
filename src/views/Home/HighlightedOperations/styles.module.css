@@ -1,19 +1,11 @@
 .highlighted-operations {
     .emergency-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--go-ui-spacing-xl);
+        display: grid;
+        grid-gap: var(--go-ui-spacing-xl);
+        grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
 
-        .filler,
         .operation {
-            flex-basis: calc(100% / 3 - var(--go-ui-spacing-xl));
-            flex-grow: 1;
-            min-width: 24rem;
-        }
-
-        .filler {
-            --filler-size: 0;
-            flex-grow: var(--filler-size);;
+            height: 100%;
         }
     }
 }

@@ -63,10 +63,12 @@ import {
 
 import useDrefFormOptions, { schema } from './useDrefFormOptions';
 import i18n from './i18n.json';
+/*
 import {
     getImportData,
     transformImport,
 } from './import';
+*/
 
 import styles from './styles.module.css';
 
@@ -136,7 +138,7 @@ export function Component(props: Props) {
         drefTypeOptions,
     } = useDrefFormOptions();
 
-    const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
+    // const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const [currentStep, setCurrentStep] = useState<StepTypes>('operationOverview');
     const submitButtonLabel = currentStep === 'submission' ? strings.drefFormSaveButtonLabel : strings.drefFormContinueButtonLabel;
     const shouldDisabledBackButton = currentStep === 'operationOverview';
@@ -177,6 +179,7 @@ export function Component(props: Props) {
         lastModifiedAtRef.current = response?.modified_at;
         setUserOptions(response.users_details ?? []);
 
+        /*
         setFileIdToUrlMap((prevMap) => {
             const newMap = {
                 ...prevMap,
@@ -202,6 +205,7 @@ export function Component(props: Props) {
             }
             return newMap;
         });
+        */
 
         const getNumberFromResponse = (numberValue: number | string | undefined | null) => {
             if (isNotDefined(numberValue)) {
@@ -556,6 +560,7 @@ export function Component(props: Props) {
 
     const failedToLoadDref = !pending && isDefined(drefId) && !drefResponse;
 
+    /*
     const handleDocumentImport = useCallback(async (newValue: File | undefined) => {
         if (!newValue) {
             return;
@@ -586,6 +591,7 @@ export function Component(props: Props) {
         onsetOptions,
         setValue,
     ]);
+    */
 
     const handleObsoletePayloadResolutionOverwiteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
@@ -723,8 +729,8 @@ export function Component(props: Props) {
                                 disasterCategoryOptions={disasterCategoryOptions}
                                 countryOptions={countryOptions}
                                 nationalSocietyOptions={nationalSocietyOptions}
-                                fileIdToUrlMap={fileIdToUrlMap}
-                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                // fileIdToUrlMap={fileIdToUrlMap}
+                                // setFileIdToUrlMap={setFileIdToUrlMap}
                                 onValueSet={setValue}
                                 onCreateAndShareButtonClick={submitDref}
                                 drefTypeOptions={drefTypeOptions}
@@ -741,8 +747,8 @@ export function Component(props: Props) {
                                 onValueChange={setFieldValue}
                                 value={value}
                                 yesNoOptions={yesNoOptions}
-                                fileIdToUrlMap={fileIdToUrlMap}
-                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                // fileIdToUrlMap={fileIdToUrlMap}
+                                // setFileIdToUrlMap={setFileIdToUrlMap}
                             />
                         </TabPanel>
                         {drefType !== TYPE_LOAN && (
@@ -754,8 +760,8 @@ export function Component(props: Props) {
                                     yesNoOptions={yesNoOptions}
                                     needOptions={needOptions}
                                     nsActionOptions={nsActionOptions}
-                                    fileIdToUrlMap={fileIdToUrlMap}
-                                    setFileIdToUrlMap={setFileIdToUrlMap}
+                                    // fileIdToUrlMap={fileIdToUrlMap}
+                                    // setFileIdToUrlMap={setFileIdToUrlMap}
                                     drefType={drefType}
                                 />
                             </TabPanel>
@@ -767,8 +773,8 @@ export function Component(props: Props) {
                                     error={error}
                                     onValueChange={setFieldValue}
                                     value={value}
-                                    fileIdToUrlMap={fileIdToUrlMap}
-                                    setFileIdToUrlMap={setFileIdToUrlMap}
+                                    // fileIdToUrlMap={fileIdToUrlMap}
+                                    // setFileIdToUrlMap={setFileIdToUrlMap}
                                     yesNoOptions={yesNoOptions}
                                     drefType={drefType}
                                 />

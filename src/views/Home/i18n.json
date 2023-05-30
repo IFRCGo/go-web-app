@@ -4,6 +4,12 @@
         "homeTitle":"IFRC GO - Home",
         "homeHeading":"IFRC Disaster Response and Preparedness",
         "homeDescription":"IFRC GO aims to make all disaster information universally accessible and useful to IFRC responders for better decision making.",
-        "homeSurgeAlerts":"Open Surge Alerts"
+        "homeSurgeAlerts":"Open Surge Alerts",
+        "homeKeyFiguresActiveDrefs":"Active DREF Operations",
+        "homeKeyFiguresActiveAppeals":"Active Emergency Appeals",
+        "homeKeyFiguresBudget":"Funding Requirements (CHF)",
+        "homeKeyFiguresAppealsFunding":"Funding Coverage",
+        "homeKeyFiguresTargetPop":"Targeted Population",
+        "homeKeyFiguresCountryPlan":"Active Country Plan"
     }
 }

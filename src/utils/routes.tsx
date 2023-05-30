@@ -173,9 +173,7 @@ export function unwrapRoute<K extends object>(
     const mapping = listToMap(
         wrappedRoutes.filter((item) => !item.index),
         (item) => item.id,
-        (item) => ({
-            ...item,
-        }),
+        (item) => item,
     );
 
     wrappedRoutes.forEach((route) => {

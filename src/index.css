@@ -199,8 +199,6 @@
 
     --mapbox-icon-width: 88px;
 
-    line-height: var(--go-ui-line-height-normal);
-
     font-family: var(--go-ui-font-family-sans);
     font-size: var(--go-ui-font-size-sm);
     font-weight: var(--go-ui-font-weight-normal);
@@ -215,4 +213,5 @@ body {
     margin: 0;
     padding: 0;
     scrollbar-gutter: stable;
+    line-height: var(--go-ui-line-height-normal);
 }

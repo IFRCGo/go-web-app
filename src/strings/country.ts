@@ -5,15 +5,9 @@ const country = {
     countryListActiveOperation: 'IFRC-Supported Operation',
     countryListActiveOperations: 'IFRC-Supported Operations',
     countryPreparednessTitle: 'Preparedness',
-    countryOperationsTab: 'Operations',
-    country3WTab: '3W',
-    countryPreparednessTab: 'Preparedness',
-    countryAdditionalInfoTab: 'Additional Data',
-    countryCountryPlanTab: 'Country Plan',
 
     countryPlanTitle: '{countryName} Country Plan',
 
-    activeCountryPlanTitle: 'Active Country Plan',
     countryPlanStrategicPrioritiesTableHeading: 'Strategic Priorities',
     countryPlanPeopleTargeted: 'People Targeted',
     countryPlanStrategicPriority: 'Strategic Priority',

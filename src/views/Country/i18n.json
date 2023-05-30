@@ -1,6 +1,18 @@
 {
     "namespace": "country",
     "strings": {
-        "countryPageTitle": "IFRC GO - {countryName}"
+        "countryPageTitle": "IFRC GO - {countryName}",
+        "countryKeyFiguresActiveDrefs":"Active DREF Operations",
+        "countryKeyFiguresActiveAppeals":"Active Emergency Appeals",
+        "countryKeyFiguresBudget":"Funding Requirements (CHF)",
+        "countryKeyFiguresAppealsFunding":"Funding Coverage",
+        "countryKeyFiguresTargetPop":"Targeted Population",
+        "countryKeyFiguresCountryPlan":"Active Country Plan",
+        "countryOperationsTab":"Operations",
+        "country3WTab":"3W",
+        "countryPreparednessTab":"Preparedness",
+        "countryAdditionalInfoTab":"Additional Data",
+        "countryCountryPlanTab":"Country Plan",
+        "countryRiskTab": "Risk Watch"
     }
 }

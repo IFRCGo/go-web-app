@@ -2,7 +2,7 @@
     display: flex;
     padding: var(--go-ui-spacing-sm);
     width: 100%;
-    min-height: 15rem;
+    min-height: 13rem;
 
     .inner {
         display: flex;

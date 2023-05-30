@@ -86,14 +86,135 @@ const region = myWrapRoute({
     },
 });
 
+const regionOperations = myWrapRoute({
+    path: 'operations',
+    component: () => import('#views/Region/Operations'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region Operations',
+        visibility: 'anything',
+    },
+});
+
+const regionThreeW = myWrapRoute({
+    path: 'three-w',
+    component: () => import('#views/Region/ThreeW'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region 3W',
+        visibility: 'anything',
+    },
+});
+
+const regionRiskWatch = myWrapRoute({
+    path: 'risk-watch',
+    component: () => import('#views/Region/RiskWatch'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region Risk Watch',
+        visibility: 'anything',
+    },
+});
+
+const regionPreparedness = myWrapRoute({
+    path: 'preparedness',
+    component: () => import('#views/Region/Preparedness'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region Preparedness',
+        visibility: 'anything',
+    },
+});
+
+const regionProfile = myWrapRoute({
+    path: 'profile',
+    component: () => import('#views/Region/Profile'),
+    componentProps: {},
+    parent: region,
+    context: {
+        title: 'Region Profile',
+        visibility: 'anything',
+    },
+});
+
 const country = myWrapRoute({
-    path: 'countries/:countryId',
+    path: 'countries/:countryId/',
     component: () => import('#views/Country'),
     componentProps: {},
     parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Country',
+        visibility: 'anything',
+    },
+});
+
+const countryOperations = myWrapRoute({
+    path: 'operations',
+    component: () => import('#views/Country/Operations'),
+    componentProps: {},
+    parent: country,
+    context: {
+        title: 'Country Operations',
+        visibility: 'anything',
+    },
+});
+
+const countryThreeW = myWrapRoute({
+    path: 'three-w',
+    component: () => import('#views/Country/ThreeW'),
+    componentProps: {},
+    parent: country,
+    context: {
+        title: 'Country 3W',
+        visibility: 'anything',
+    },
+});
+
+const countryRiskWatch = myWrapRoute({
+    path: 'risk-watch',
+    component: () => import('#views/Country/RiskWatch'),
+    componentProps: {},
+    parent: country,
+    context: {
+        title: 'Country Risk Watch',
+        visibility: 'anything',
+    },
+});
+
+const countryPreparedness = myWrapRoute({
+    path: 'preparedness',
+    component: () => import('#views/Country/Preparedness'),
+    componentProps: {},
+    parent: country,
+    context: {
+        title: 'Country Preparedness',
+        visibility: 'anything',
+    },
+});
+
+const countryPlan = myWrapRoute({
+    path: 'plan',
+    component: () => import('#views/Country/CountryPlan'),
+    componentProps: {},
+    parent: country,
+    context: {
+        title: 'Country Plan',
+        visibility: 'anything',
+    },
+});
+
+const countryAdditionalData = myWrapRoute({
+    path: 'additional-data',
+    component: () => import('#views/Country/AdditionalData'),
+    componentProps: {},
+    parent: country,
+    context: {
+        title: 'Country Additional Data',
         visibility: 'anything',
     },
 });
@@ -111,7 +232,7 @@ const emergencies = myWrapRoute({
 });
 
 const emergency = myWrapRoute({
-    path: 'countries/:emergencyId',
+    path: 'emergencies/:emergencyId',
     component: () => import('#views/Emergency'),
     componentProps: {},
     parent: root,
@@ -182,6 +303,61 @@ const account = myWrapRoute({
     },
 });
 
+const accountInformation = myWrapRoute({
+    path: 'account-information',
+    component: () => import('#views/Account/AccountInformation'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account Information',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountNotifications = myWrapRoute({
+    path: 'notifications',
+    component: () => import('#views/Account/Notifications'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account Notifications',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountPERForms = myWrapRoute({
+    path: 'per-forms',
+    component: () => import('#views/Account/PERForms'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account PER Forms',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountDREFApplications = myWrapRoute({
+    path: 'dref-applications',
+    component: () => import('#views/Account/DREFApplications'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account DREF Applications',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountThreeWForms = myWrapRoute({
+    path: 'three-w-forms',
+    component: () => import('#views/Account/ThreeWForms'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account DREF Applications',
+        visibility: 'is-authenticated',
+    },
+});
+
 const resources = myWrapRoute({
     path: 'resources',
     component: () => import('#views/Resources'),
@@ -219,7 +395,7 @@ const goUI = myWrapRoute({
 });
 
 const drefApplicationFormNew = myWrapRoute({
-    path: '/dref-application/new/',
+    path: 'dref-application/new/',
     component: () => import('#views/DrefApplicationForm'),
     componentProps: {},
     parent: root,
@@ -231,7 +407,7 @@ const drefApplicationFormNew = myWrapRoute({
 });
 
 const drefApplicationFormEdit = myWrapRoute({
-    path: '/dref-application/:drefId/edit/',
+    path: 'dref-application/:drefId/edit/',
     component: () => import('#views/DrefApplicationForm'),
     componentProps: {},
     parent: root,
@@ -243,7 +419,7 @@ const drefApplicationFormEdit = myWrapRoute({
 });
 
 const flashUpdateFormNew = myWrapRoute({
-    path: '/flash-update/new/',
+    path: 'flash-update/new/',
     component: () => import('#views/FlashUpdateForm'),
     componentProps: {},
     parent: root,
@@ -255,7 +431,7 @@ const flashUpdateFormNew = myWrapRoute({
 });
 
 const fieldReportFormNew = myWrapRoute({
-    path: '/field-report/new/',
+    path: 'field-report/new/',
     component: () => import('#views/FieldReportForm'),
     componentProps: {},
     parent: root,
@@ -272,13 +448,29 @@ const wrappedRoutes = {
     register,
     home,
     region,
+    regionOperations,
+    regionThreeW,
+    regionRiskWatch,
+    regionPreparedness,
+    regionProfile,
     country,
+    countryOperations,
+    countryThreeW,
+    countryRiskWatch,
+    countryPreparedness,
+    countryPlan,
+    countryAdditionalData,
     emergencies,
     emergency,
     surge,
     preparedness,
     threeW,
     account,
+    accountInformation,
+    accountNotifications,
+    accountPERForms,
+    accountDREFApplications,
+    accountThreeWForms,
     resources,
     goUI,
     drefApplicationFormNew,
