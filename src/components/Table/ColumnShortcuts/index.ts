@@ -16,6 +16,9 @@ import type { Props as BooleanOutputProps } from '#components/BooleanOutput';
 import TableActions, {
     Props as TableActionsProps
 } from '../TableActions';
+import ReducedListDisplay, {
+    Props as ReducedListDisplayProps
+} from '#components/ReducedListDisplay';
 import HeaderCell from '../HeaderCell';
 import type { HeaderCellProps } from '../HeaderCell';
 import Cell from '../Cell';
@@ -244,21 +247,22 @@ export function createActionColumn<D, K>(
 
 export function createListDisplayColumn<D, K>(
     id: string,
-    rendererParams: (_: K, datum: D) => TableActionsProps,
+    title: string,
+    rendererParams: (_: K, datum: D) => ReducedListDisplayProps,
     options?: {
         cellRendererClassName?: string;
         headerContainerClassName?: string;
     },
 ) {
-    const item: Column<D, K, TableActionsProps, HeaderCellProps> = {
+    const item: Column<D, K, ReducedListDisplayProps, HeaderCellProps> = {
         id,
-        title: '',
+        title,
         headerCellRenderer: HeaderCell,
         headerCellRendererParams: {
             sortable: false,
         },
         headerContainerClassName: options?.headerContainerClassName,
-        cellRenderer: TableActions,
+        cellRenderer: ReducedListDisplay,
         cellRendererParams: rendererParams,
         cellRendererClassName: options?.cellRendererClassName,
     };

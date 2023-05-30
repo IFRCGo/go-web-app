@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isDefined } from '@togglecorp/fujs';
 
 import {
     MdSearch,
     MdEdit,
 } from 'react-icons/md';
 import {
-    IoPencil,
-    IoCopy,
-    IoOpenOutline,
-} from 'react-icons/io5';
+    CopyLineIcon,
+    PencilFillIcon,
+    ShareBoxLineIcon,
+} from '@ifrc-go/icons';
 
 import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
@@ -21,6 +21,7 @@ import {
     createDateColumn,
     createActionColumn,
     createNumberColumn,
+    createListDisplayColumn,
 } from '#components/Table/ColumnShortcuts';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import ReducedListDisplay from '#components/ReducedListDisplay';
@@ -33,9 +34,9 @@ import {
     EmergencyProjectResponse,
     Project,
 } from '#types/project.ts';
-import { projectKeySelector, getAllProjectColumns } from './projectTableColumns';
+import { projectKeySelector } from './projectTableColumns';
 
-import i18n from '../../i18n.json';
+import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
@@ -153,32 +154,82 @@ function ThreeWList(props: Props) {
         },
     });
 
-    const projectColumns = React.useMemo(() => {
-        const actionsColumn = createActionColumn(
-            'actions',
-            (rowKey: number | string, prj: Project) => ({
-                extraActions: (
-                    <>
-                        <DropdownMenuItem
-                            href={`/three-w/${prj.id}/`}
-                            label={strings.projectListTableViewDetails}
-                            icon={<MdSearch />}
-                        />
-                        <DropdownMenuItem
-                            href={`/three-w/${prj.id}/edit/`}
-                            icon={<MdEdit />}
-                            label={strings.projectListTableEdit}
-                        />
-                    </>
-                ),
-            }),
-        );
+    const projectColumns = useMemo(
+        () => {
+            const actionsColumn = createActionColumn(
+                'actions',
+                (rowKey: number | string, prj: Project) => ({
+                    extraActions: (
+                        <>
+                            <DropdownMenuItem
+                                href={`/three-w/${prj.id}/`}
+                                label={strings.projectListTableViewDetails}
+                                icon={<MdSearch />}
+                            />
+                            <DropdownMenuItem
+                                href={`/three-w/${prj.id}/edit/`}
+                                icon={<MdEdit />}
+                                label={strings.projectListTableEdit}
+                            />
+                        </>
+                    ),
+                }),
+            );
 
-        return [
-            ...getAllProjectColumns(strings),
-            actionsColumn,
-        ];
-    }, [strings]);
+            return [
+                createStringColumn<Project, string | number>(
+                    'country',
+                    strings.threeWTableCountry,
+                    (item) => item.project_country_detail?.name,
+                ),
+                createStringColumn<Project, string | number>(
+                    'ns',
+                    strings.threeWTableNS,
+                    (item) => item.reporting_ns_detail?.society_name,
+                ),
+                createStringColumn<Project, string | number>(
+                    'name',
+                    strings.threeWTableProjectName,
+                    (item) => item.name,
+                ),
+                createStringColumn<Project, string | number>(
+                    'sector',
+                    strings.threeWTableSector,
+                    (item) => item.primary_sector_display,
+                ),
+                createNumberColumn<Project, string | number>(
+                    'budget',
+                    strings.threeWTableTotalBudget,
+                    (item) => item.budget_amount,
+                    undefined,
+                ),
+                createStringColumn<Project, string | number>(
+                    'programmeType',
+                    strings.threeWTableProgrammeType,
+                    (item) => item.programme_type_display,
+                ),
+                createStringColumn<Project, string | number>(
+                    'disasterType',
+                    strings.threeWTableDisasterType,
+                    (item) => item.dtype_detail?.name,
+                ),
+                createNumberColumn<Project, string | number>(
+                    'peopleTargeted',
+                    strings.threeWTablePeopleTargeted,
+                    (item) => item.target_total,
+                    undefined,
+                ),
+                createNumberColumn<Project, string | number>(
+                    'peopleReached',
+                    strings.threeWTablePeopleReached2,
+                    (item) => item.reached_total,
+                    undefined,
+                ),
+                actionsColumn,
+            ].filter(isDefined);
+        },
+        [strings],
+    );
 
     const activityColumns = useMemo(
         () => ([
@@ -188,9 +239,9 @@ function ThreeWList(props: Props) {
                 (item) => (
                     item.activity_lead === 'deployed_eru'
                         ? item.deployed_eru_details
-                        ?.eru_owner_details
-                        ?.national_society_country_details
-                        ?.society_name
+                            ?.eru_owner_details
+                            ?.national_society_country_details
+                            ?.society_name
                         : item.reporting_ns_details?.society_name
                 ),
             ),
@@ -209,13 +260,23 @@ function ThreeWList(props: Props) {
                 'Country',
                 (item) => item.country_details?.name,
             ),
-            createStringColumn<P, K>(
+            // createStringColumn<P, K>(
+            //     'districts',
+            //     'Province/Region',
+            //     // TODO: fix typecast
+            //     (item) => (
+            //         <ReducedListDisplay
+            //             value={item.districts_details?.map(d => d.name)}
+            //             title="Province / Region"
+            //         />
+            //     ),
+            // ),
+            createListDisplayColumn<P, K>(
                 'districts',
                 'Province/Region',
-                // TODO: fix typecast
                 (item) => (
                     <ReducedListDisplay
-                        value={item.districts_details?.map(d => d.name)}
+                        value={item.length > 0 ? item.districts_details.map(d => d.name) : undefined}
                         title="Province / Region"
                     />
                 ),
@@ -237,17 +298,17 @@ function ThreeWList(props: Props) {
                         <>
                             <DropdownMenuItem
                                 href={`/emergency-three-w/${rowKey}/`}
-                                icon={<IoOpenOutline />}
+                                icon={<ShareBoxLineIcon />}
                                 label="View Details"
                             />
                             <DropdownMenuItem
                                 href={`/emergency-three-w/${rowKey}/edit/`}
-                                icon={<IoPencil />}
+                                icon={<PencilFillIcon />}
                                 label="Edit"
                             />
                             <DropdownMenuItem
                                 href={`/three-w/new/`}
-                                icon={<IoCopy />}
+                                icon={<CopyLineIcon />}
                                 label="Duplicate"
                                 state={{
                                     initialValue: p,
@@ -273,7 +334,7 @@ function ThreeWList(props: Props) {
             {pending && <BlockLoading />}
             {!pending && projectResponse && (
                 <Container
-                    heading="3W Projects"
+                    heading={strings.threeWProjects}
                     withHeaderBorder
                     footerActions={(
                         <Pager
@@ -294,7 +355,7 @@ function ThreeWList(props: Props) {
             )}
             {!pending && activityResponse && (
                 <Container
-                    heading="Emergency Response 3W Activities"
+                    heading={strings.threeWActivities}
                     withHeaderBorder
                     footerActions={(
                         <Pager

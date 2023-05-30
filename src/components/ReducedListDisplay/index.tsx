@@ -8,7 +8,7 @@ import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     value?: string[];
     title?: React.ReactNode;
 }
