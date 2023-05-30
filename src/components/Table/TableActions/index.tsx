@@ -4,7 +4,7 @@ import { IoEllipsisHorizontal } from 'react-icons/io5';
 
 import DropdownMenu from '#components/DropdownMenu';
 
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 
 export interface Props {
   className?: string;
@@ -21,9 +21,11 @@ function TableActions(props: Props) {
 
   return (
     <div className={_cs(styles.tableActions, className)}>
-      { children }
+      {children}
       {extraActions && (
         <DropdownMenu
+          hideDropdownIcon
+          variant='tertiary'
           label={<IoEllipsisHorizontal />}
         >
           {extraActions}

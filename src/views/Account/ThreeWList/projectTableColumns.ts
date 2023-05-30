@@ -1,7 +1,5 @@
 import {
   createStringColumn,
-  createDateColumn,
-  createActionColumn,
   createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
 
@@ -65,10 +63,7 @@ export interface EmergencyProjectResponse {
 
 export const projectKeySelector = (p: Project) => p.id;
 
-type P = EmergencyProjectResponse;
-type K = string | number;
-
-const getBaseColumns = (strings: Strings) => ([
+const getBaseColumns = (strings) => ([
   createStringColumn<Project, string | number>(
     'name',
     strings.threeWTableProjectName,
@@ -109,7 +104,7 @@ const getBaseColumns = (strings: Strings) => ([
   ),
 ]);
 
-export const getInCountryProjectColumns = (strings: Strings) => ([
+export const getInCountryProjectColumns = (strings) => ([
   createStringColumn<Project, string | number>(
     'ns',
     strings.threeWTableNS,
@@ -118,7 +113,7 @@ export const getInCountryProjectColumns = (strings: Strings) => ([
   ...getBaseColumns(strings),
 ]);
 
-export const getNSProjectColumns = (strings: Strings) => ([
+export const getNSProjectColumns = (strings) => ([
   createStringColumn<Project, string | number>(
     'country',
     strings.threeWTableCountry,
@@ -127,7 +122,7 @@ export const getNSProjectColumns = (strings: Strings) => ([
   ...getBaseColumns(strings),
 ]);
 
-export const getAllProjectColumns = (strings: Strings) => ([
+export const getAllProjectColumns = (strings) => ([
   createStringColumn<Project, string | number>(
     'country',
     strings.threeWTableCountry,
@@ -139,85 +134,4 @@ export const getAllProjectColumns = (strings: Strings) => ([
     (item) => item.reporting_ns_detail?.society_name,
   ),
   ...getBaseColumns(strings),
-]);
-
-export const getColumns = (actionColumnHeaderClassName?: string) => ([
-  createStringColumn<P, K>(
-    'national_society_eru',
-    'National Society / ERU',
-    (item) => (
-      item.activity_lead === 'deployed_eru'
-        ? item.deployed_eru_details
-          ?.eru_owner_details
-          ?.national_society_country_details
-          ?.society_name
-        : item.reporting_ns_details?.society_name
-    ),
-  ),
-  createStringColumn<P, K>(
-    'title',
-    'Title',
-    (item) => item.title,
-  ),
-  createDateColumn<P, K>(
-    'start_date',
-    'Start date',
-    (item) => item.start_date,
-  ),
-  createStringColumn<P, K>(
-    'country',
-    'Country',
-    (item) => item.country_details?.name,
-  ),
-  createStringColumn<P, K>(
-    'districts',
-    'Province/Region',
-    // TODO: fix typecast
-    (item) => (
-      <ReducedListDisplay
-        value= { item.districts_details?.map(d => d.name) }
-        title = "Province / Region"
-    />
-    ),
-  ),
-  createStringColumn<P, K > (
-    'status',
-    'Status',
-    (item) => item.status_display,
-  ),
-    createNumberColumn<P, K>(
-      'people_reached',
-      'Services provided to people in need', // People Reached
-      (item) => getPeopleReached(item),
-    ),
-    createActionColumn(
-      'project_actions',
-      (rowKey: number | string, p: EmergencyProjectResponse) => ({
-        extraActions: (
-          <>
-          <DropdownMenuItem
-            href= {`/emergency-three-w/${rowKey}/`
-      }
-            icon = {< IoOpenOutline />}
-      label = "View Details"
-      />
-      <DropdownMenuItem
-            href={`/emergency-three-w/${rowKey}/edit/`}
-      icon = {< IoPencil />}
-      label = "Edit"
-      />
-      <DropdownMenuItem
-            href={`/three-w/new/`}
-      icon = {< IoCopy />}
-      label = "Duplicate"
-            state = {{
-      initialValue: p,
-      operationType: 'response_activity',
-    }}
-      />
-      < />
-    ),
-    }),
-{ headerContainerClassName: actionColumnHeaderClassName },
-  ),
 ]);

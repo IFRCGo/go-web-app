@@ -6,7 +6,7 @@ import { resolveToString } from '#utils/common';
 
 import i18n from './i18n.json';
 
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 
 interface Props {
   value?: string[];

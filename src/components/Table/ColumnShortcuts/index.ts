@@ -241,3 +241,27 @@ export function createActionColumn<D, K>(
 
     return item;
 }
+
+export function createListDisplayColumn<D, K>(
+    id: string,
+    rendererParams: (_: K, datum: D) => TableActionsProps,
+    options?: {
+        cellRendererClassName?: string;
+        headerContainerClassName?: string;
+    },
+) {
+    const item: Column<D, K, TableActionsProps, HeaderCellProps> = {
+        id,
+        title: '',
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: false,
+        },
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRenderer: TableActions,
+        cellRendererParams: rendererParams,
+        cellRendererClassName: options?.cellRendererClassName,
+    };
+
+    return item;
+}

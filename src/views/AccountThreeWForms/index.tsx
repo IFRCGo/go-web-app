@@ -1,9 +1,9 @@
+import ThreeWList from '../ThreeWList';
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     return (
-        <div>
-            ThreeW Forms
-        </div>
+        <ThreeWList />
     );
 }
 
