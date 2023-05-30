@@ -1,6 +1,11 @@
 {
     "namespace": "account",
     "strings": {
-        "accountTitle": "IFRC GO - Account"
+        "accountTitle": "IFRC GO - Account",
+        "accountInformation":"Account Information",
+        "accountNotification":"Notifications",
+        "accountPerForms":"PER forms",
+        "accountThreeWForms":"3W forms",
+        "accountMyDrefApplications":"My Dref Applications"
     }
 }

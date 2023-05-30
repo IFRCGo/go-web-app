@@ -303,6 +303,61 @@ const account = myWrapRoute({
     },
 });
 
+const accountInformation = myWrapRoute({
+    path: 'account-information',
+    component: () => import('#views/Account/AccountInformation'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account Information',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountNotifications = myWrapRoute({
+    path: 'notifications',
+    component: () => import('#views/Account/Notifications'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account Notifications',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountPERForms = myWrapRoute({
+    path: 'per-forms',
+    component: () => import('#views/Account/PERForms'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account PER Forms',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountDREFApplications = myWrapRoute({
+    path: 'dref-applications',
+    component: () => import('#views/Account/DREFApplications'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account DREF Applications',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountThreeWForms = myWrapRoute({
+    path: 'three-w-forms',
+    component: () => import('#views/Account/ThreeWForms'),
+    componentProps: {},
+    parent: account,
+    context: {
+        title: 'Account DREF Applications',
+        visibility: 'is-authenticated',
+    },
+});
+
 const resources = myWrapRoute({
     path: 'resources',
     component: () => import('#views/Resources'),
@@ -411,6 +466,11 @@ const wrappedRoutes = {
     preparedness,
     threeW,
     account,
+    accountInformation,
+    accountNotifications,
+    accountPERForms,
+    accountDREFApplications,
+    accountThreeWForms,
     resources,
     goUI,
     drefApplicationFormNew,
