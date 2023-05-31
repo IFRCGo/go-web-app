@@ -24,7 +24,6 @@ import {
     createListDisplayColumn,
 } from '#components/Table/ColumnShortcuts';
 import DropdownMenuItem from '#components/DropdownMenuItem';
-import ReducedListDisplay from '#components/ReducedListDisplay';
 import {
     ListResponse,
     useRequest,
@@ -34,7 +33,6 @@ import {
     EmergencyProjectResponse,
     Project,
 } from '#types/project.ts';
-import { projectKeySelector } from './projectTableColumns';
 
 import i18n from './i18n.json';
 
@@ -43,7 +41,9 @@ import styles from './styles.module.css';
 type P = EmergencyProjectResponse;
 type K = string | number;
 
-export function getPeopleReachedInActivity(activity: EmergencyProjectResponse['activities'][number]) {
+const projectKeySelector = (p: Project) => p.id;
+
+function getPeopleReachedInActivity(activity: EmergencyProjectResponse['activities'][number]) {
     const {
         is_simplified_report,
 
@@ -72,7 +72,6 @@ export function getPeopleReachedInActivity(activity: EmergencyProjectResponse['a
         other_60_plus_count,
         other_unknown_age_count,
     } = activity;
-
 
     if (is_simplified_report === true) {
         return people_count ?? 0;
@@ -109,7 +108,7 @@ export function getPeopleReachedInActivity(activity: EmergencyProjectResponse['a
     return undefined;
 }
 
-export function getPeopleReached(project: EmergencyProjectResponse) {
+function getPeopleReached(project: EmergencyProjectResponse) {
     const peopleReached = sumSafe(project.activities.map(getPeopleReachedInActivity));
 
     return peopleReached;
@@ -158,7 +157,7 @@ function ThreeWList(props: Props) {
         () => {
             const actionsColumn = createActionColumn(
                 'actions',
-                (rowKey: number | string, prj: Project) => ({
+                (_, prj: Project) => ({
                     extraActions: (
                         <>
                             <DropdownMenuItem
@@ -260,26 +259,10 @@ function ThreeWList(props: Props) {
                 'Country',
                 (item) => item.country_details?.name,
             ),
-            // createStringColumn<P, K>(
-            //     'districts',
-            //     'Province/Region',
-            //     // TODO: fix typecast
-            //     (item) => (
-            //         <ReducedListDisplay
-            //             value={item.districts_details?.map(d => d.name)}
-            //             title="Province / Region"
-            //         />
-            //     ),
-            // ),
             createListDisplayColumn<P, K>(
                 'districts',
                 'Province/Region',
-                (item) => (
-                    <ReducedListDisplay
-                        value={item.length > 0 ? item.districts_details.map(d => d.name) : undefined}
-                        title="Province / Region"
-                    />
-                ),
+                (_, item) => ({ value: item.districts_details.map((d) => d.name) }),
             ),
             createStringColumn<P, K>(
                 'status',
@@ -307,7 +290,7 @@ function ThreeWList(props: Props) {
                                 label="Edit"
                             />
                             <DropdownMenuItem
-                                href={`/three-w/new/`}
+                                href="/three-w/new/"
                                 icon={<CopyLineIcon />}
                                 label="Duplicate"
                                 state={{
@@ -321,7 +304,7 @@ function ThreeWList(props: Props) {
                 { headerContainerClassName: _cs(styles.actionColumn, actionColumnHeaderClassName) },
             ),
         ]),
-        [],
+        [actionColumnHeaderClassName],
     );
 
     const pending = projectPending || activityPending;

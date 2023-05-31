@@ -470,7 +470,6 @@ export function isSimilarArray<T extends string | number>(
         return false;
     }
 
-
     if (aList.length === 0 && bList.length === 0) {
         return true;
     }

@@ -12,13 +12,13 @@ import NumberOutput from '#components/NumberOutput';
 import type { Props as NumberOutputProps } from '#components/NumberOutput';
 import BooleanOutput from '#components/BooleanOutput';
 import type { Props as BooleanOutputProps } from '#components/BooleanOutput';
+import ReducedListDisplay, {
+    Props as ReducedListDisplayProps,
+} from '#components/ReducedListDisplay';
 
 import TableActions, {
-    Props as TableActionsProps
+    Props as TableActionsProps,
 } from '../TableActions';
-import ReducedListDisplay, {
-    Props as ReducedListDisplayProps
-} from '#components/ReducedListDisplay';
 import HeaderCell from '../HeaderCell';
 import type { HeaderCellProps } from '../HeaderCell';
 import Cell from '../Cell';
