@@ -3,17 +3,7 @@ import { defineConfig, Schema } from '@julr/vite-plugin-validate-env';
 export default defineConfig({
     APP_ADMIN_URL: Schema.string.optional(),
     APP_API_ENDPOINT: Schema.string(),
-    APP_ENVIRONMENT: (key, value) => {
-        if (!value) {
-            return 'development';
-        }
-
-        if (value !== 'development' && value !== 'staging' && value !== 'production') {
-            throw new Error(`value for ${key} should be one of development, staging or production`);
-        }
-
-        return value;
-    },
+    APP_ENVIRONMENT: Schema.string.optional(),
     APP_MAPBOX_ACCESS_TOKEN: Schema.string(),
     APP_RISK_ADMIN_URL: Schema.string.optional(),
     APP_RISK_API_ENDPOINT: Schema.string(),
