@@ -2,9 +2,9 @@
 export function Component() {
     return (
         <div>
-            Notification
+            ThreeW Forms
         </div>
     );
 }
 
-Component.displayName = 'Notifications';
+Component.displayName = 'AccountThreeWForms';

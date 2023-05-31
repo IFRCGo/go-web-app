@@ -7,4 +7,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'PERForms';
+Component.displayName = 'AccountPerForms';
