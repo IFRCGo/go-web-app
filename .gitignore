@@ -28,3 +28,5 @@ build-ssr
 .env*
 .eslintcache
 tsconfig.tsbuildinfo
+
+stats.html
