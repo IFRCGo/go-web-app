@@ -14,7 +14,6 @@ import {
 import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
-import BlockLoading from '#components/BlockLoading';
 import Table from '#components/Table';
 import {
     createStringColumn,
@@ -41,7 +40,7 @@ import styles from './styles.module.css';
 type P = EmergencyProjectResponse;
 type K = string | number;
 
-const projectKeySelector = (p: Project) => p.id;
+const idSelector = <T extends { id: number }>(p: T) => p.id;
 
 function getPeopleReachedInActivity(activity: EmergencyProjectResponse['activities'][number]) {
     const {
@@ -132,10 +131,10 @@ function ThreeWList(props: Props) {
     const [activityActivePage, setActivityActivePage] = React.useState(1);
 
     const {
-        pending: projectPending,
         response: projectResponse,
     } = useRequest<ListResponse<Project>>({
         url: 'api/v2/project/',
+        preserveResponse: true,
         query: {
             limit: ITEM_PER_PAGE,
             offset: ITEM_PER_PAGE * (projectActivePage - 1),
@@ -143,10 +142,10 @@ function ThreeWList(props: Props) {
     });
 
     const {
-        pending: activityPending,
         response: activityResponse,
     } = useRequest<ListResponse<EmergencyProjectResponse>>({
         url: 'api/v2/emergency-project/',
+        preserveResponse: true,
         query: {
             limit: ITEM_PER_PAGE,
             offset: ITEM_PER_PAGE * (activityActivePage - 1),
@@ -234,7 +233,7 @@ function ThreeWList(props: Props) {
         () => ([
             createStringColumn<P, K>(
                 'national_society_eru',
-                'National Society / ERU',
+                strings.threeWNationalSociety,
                 (item) => (
                     item.activity_lead === 'deployed_eru'
                         ? item.deployed_eru_details
@@ -246,32 +245,32 @@ function ThreeWList(props: Props) {
             ),
             createStringColumn<P, K>(
                 'title',
-                'Title',
+                strings.threeWEmergencyTitle,
                 (item) => item.title,
             ),
             createDateColumn<P, K>(
                 'start_date',
-                'Start date',
+                strings.threeWEmergencyStartDate,
                 (item) => item.start_date,
             ),
             createStringColumn<P, K>(
                 'country',
-                'Country',
+                strings.threeWEmergencyCountryName,
                 (item) => item.country_details?.name,
             ),
             createListDisplayColumn<P, K>(
                 'districts',
-                'Province/Region',
+                strings.threeWEmergencyRegion,
                 (_, item) => ({ value: item.districts_details.map((d) => d.name) }),
             ),
             createStringColumn<P, K>(
                 'status',
-                'Status',
+                strings.threeWEmergencyStatus,
                 (item) => item.status_display,
             ),
             createNumberColumn<P, K>(
                 'people_reached',
-                'Services provided to people in need', // People Reached
+                strings.threeWEmergencyServices, // People Reached
                 (item) => getPeopleReached(item),
             ),
             createActionColumn(
@@ -282,17 +281,17 @@ function ThreeWList(props: Props) {
                             <DropdownMenuItem
                                 href={`/emergency-three-w/${rowKey}/`}
                                 icon={<ShareBoxLineIcon />}
-                                label="View Details"
+                                label={strings.threeWEmergencyActionDetails}
                             />
                             <DropdownMenuItem
                                 href={`/emergency-three-w/${rowKey}/edit/`}
                                 icon={<PencilFillIcon />}
-                                label="Edit"
+                                label={strings.threeWEmergencyEditAction}
                             />
                             <DropdownMenuItem
                                 href="/three-w/new/"
                                 icon={<CopyLineIcon />}
-                                label="Duplicate"
+                                label={strings.threeWEmergencyDuplicateAction}
                                 state={{
                                     initialValue: p,
                                     operationType: 'response_activity',
@@ -304,59 +303,55 @@ function ThreeWList(props: Props) {
                 { headerContainerClassName: _cs(styles.actionColumn, actionColumnHeaderClassName) },
             ),
         ]),
-        [actionColumnHeaderClassName],
+        [
+            actionColumnHeaderClassName,
+            strings,
+        ],
     );
-
-    const pending = projectPending || activityPending;
 
     return (
         <Container
             className={_cs(styles.threeWList, className)}
             childrenContainerClassName={styles.mainContent}
         >
-            {pending && <BlockLoading />}
-            {!pending && projectResponse && (
-                <Container
-                    heading={strings.threeWProjects}
-                    withHeaderBorder
-                    footerActions={(
-                        <Pager
-                            activePage={projectActivePage}
-                            onActivePageChange={setProjectActivePage}
-                            itemsCount={projectResponse.count}
-                            maxItemsPerPage={ITEM_PER_PAGE}
-                        />
-                    )}
-                >
-                    <Table
-                        className={styles.projectTable}
-                        data={projectResponse.results}
-                        columns={projectColumns}
-                        keySelector={projectKeySelector}
+            <Container
+                heading={strings.threeWProjects}
+                withHeaderBorder
+                footerActions={(
+                    <Pager
+                        activePage={projectActivePage}
+                        onActivePageChange={setProjectActivePage}
+                        itemsCount={projectResponse?.count ?? 0}
+                        maxItemsPerPage={ITEM_PER_PAGE}
                     />
-                </Container>
-            )}
-            {!pending && activityResponse && (
-                <Container
-                    heading={strings.threeWActivities}
-                    withHeaderBorder
-                    footerActions={(
-                        <Pager
-                            activePage={activityActivePage}
-                            onActivePageChange={setActivityActivePage}
-                            itemsCount={activityResponse.count}
-                            maxItemsPerPage={ITEM_PER_PAGE}
-                        />
-                    )}
-                >
-                    <Table
-                        className={styles.activityTable}
-                        data={activityResponse.results}
-                        columns={activityColumns}
-                        keySelector={(d) => d.id}
+                )}
+            >
+                <Table
+                    className={styles.projectTable}
+                    data={projectResponse?.results}
+                    columns={projectColumns}
+                    keySelector={idSelector}
+                />
+            </Container>
+            <Container
+                heading={strings.threeWActivities}
+                withHeaderBorder
+                footerActions={(
+                    <Pager
+                        activePage={activityActivePage}
+                        onActivePageChange={setActivityActivePage}
+                        itemsCount={activityResponse?.count ?? 0}
+                        maxItemsPerPage={ITEM_PER_PAGE}
                     />
-                </Container>
-            )}
+                )}
+            >
+                <Table
+                    className={styles.activityTable}
+                    data={activityResponse?.results}
+                    columns={activityColumns}
+                    keySelector={idSelector}
+                />
+            </Container>
         </Container>
     );
 }

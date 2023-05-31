@@ -2,7 +2,7 @@ import React from 'react';
 
 import useTranslation from '#hooks/useTranslation';
 import InfoPopup from '#components/InfoPopup';
-import { resolveToString } from '#utils/common';
+import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 
@@ -25,22 +25,25 @@ function ReducedListDisplay(props: Props) {
         return null;
     }
 
-    if (value.length < 4) {
+    const maxItemsToShow = 3;
+    if (value.length <= maxItemsToShow) {
         return (
-            <>
+            <div>
                 {value.join(', ')}
-            </>
+            </div>
         );
     }
 
-    const newList = value.slice(0, 2);
+    const itemsToShowIfMaxExceeded = 2;
+
+    const newList = value.slice(0, itemsToShowIfMaxExceeded);
     const infoLabel = resolveToString(
         strings.reducedListDisplayMoreLabel,
-        { n: value.length - 2 },
+        { n: value.length - itemsToShowIfMaxExceeded },
     );
 
     return (
-        <>
+        <div>
             {newList.join(', ')}
             <InfoPopup
                 className={styles.reducedListLabel}
@@ -49,7 +52,7 @@ function ReducedListDisplay(props: Props) {
                 title={title}
                 description={value.join(', ')}
             />
-        </>
+        </div>
     );
 }
 

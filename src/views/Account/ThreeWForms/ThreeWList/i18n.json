@@ -13,6 +13,16 @@
         "threeWTablePeopleTargeted": "People Targeted",
         "threeWTablePeopleReached2": "Services provided to people in need",
         "threeWProjects": "3W Projects",
-        "threeWActivities": "Emergency Response 3W Activities"
+        "threeWActivities": "Emergency Response 3W Activities",
+        "threeWNationalSociety": "National Society / ERU",
+        "threeWEmergencyTitle": "Title",
+        "threeWEmergencyStartDate": "Start Date",
+        "threeWEmergencyCountryName": "Country",
+        "threeWEmergencyRegion": "Province/Region",
+        "threeWEmergencyStatus": "Status",
+        "threeWEmergencyServices": "Services provided to people in need",
+        "threeWEmergencyActionDetails": "View Details",
+        "threeWEmergencyEditAction": "Edit",
+        "threeWEmergencyDuplicateAction": "Duplicate"
     }
 }
