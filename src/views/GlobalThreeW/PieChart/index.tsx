@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { _cs, sum } from '@togglecorp/fujs';
 
+import LegendItem from '#components/LegendItem';
 import styles from './styles.module.css';
 
 const PIE_RADIUS = 70;
@@ -118,15 +119,11 @@ function PieChart<D>(props: Props<D>) {
             </svg>
             <div className={styles.legend}>
                 {renderData.map((datum, i) => (
-                    <div className={styles.legendElement}>
-                        <div
-                            style={{ backgroundColor: colors[i] }}
-                            className={styles.color}
-                        />
-                        <div className={styles.label}>
-                            {datum.label}
-                        </div>
-                    </div>
+                    <LegendItem
+                        key={datum.key}
+                        label={datum.label}
+                        color={colors[i]}
+                    />
                 ))}
             </div>
         </div>

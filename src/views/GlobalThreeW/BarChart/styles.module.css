@@ -14,15 +14,15 @@
         }
 
         .bar-track {
-            width: 60%;
-            background-color: var(--go-ui-color-gray-30);
-            height: 0.6rem;
             border-radius: 0.3rem;
+            background-color: var(--go-ui-color-gray-30);
+            width: 60%;
+            height: 0.6rem;
 
             .bar {
-                height: 100%;
-                background-color: var(--go-ui-color-primary-red);
                 border-radius: 0.3rem;
+                background-color: var(--go-ui-color-primary-red);
+                height: 100%;
             }
 
         }
