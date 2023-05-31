@@ -11,7 +11,7 @@ import Checkbox, { Props as CheckboxProps } from '#components/Checkbox';
 import styles from './styles.module.css';
 
 export interface Props<
-    T,
+    T extends OptionKey,
     K,
     O extends object,
 > {
@@ -23,7 +23,7 @@ export interface Props<
     errorContainerClassName?: string;
     hint?: React.ReactNode;
     hintContainerClassName?: string;
-    keySelector: (option: O) => OptionKey;
+    keySelector: (option: O) => T;
     label?: React.ReactNode;
     labelContainerClassName?: string;
     labelSelector: (option: O) => string;
@@ -36,7 +36,7 @@ export interface Props<
 }
 
 function CheckList<
-    T,
+    T extends OptionKey,
     K,
     O extends object,
 >(props: Props<T, K, O>) {
@@ -69,8 +69,8 @@ function CheckList<
         }
     }, [value, onChange, name]);
 
-    const optionListRendererParams = useCallback((key: OptionKey, data: O): CheckboxProps<T> => ({
-        name: key as T,
+    const optionListRendererParams = useCallback((key: T, data: O): CheckboxProps<T> => ({
+        name: key,
         value: (value ?? []).some((v) => v === key),
         onChange: handleCheck,
         label: labelSelector(data),

@@ -2,9 +2,9 @@
 export function Component() {
     return (
         <div>
-            DREF Application
+            Notification
         </div>
     );
 }
 
-Component.displayName = 'DREF Application';
+Component.displayName = 'AccountNotifications';

@@ -1,5 +1,5 @@
 :root {
-    --go-ui-font-family-sans: Poppins, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --go-ui-font-family-sans-serif: Poppins, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     --go-ui-font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
     --go-ui-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
@@ -198,10 +198,6 @@
     --go-ui-color-map-dot-multiple-types: #4c5d9b;
 
     --mapbox-icon-width: 88px;
-
-    font-family: var(--go-ui-font-family-sans);
-    font-size: var(--go-ui-font-size-sm);
-    font-weight: var(--go-ui-font-weight-normal);
 }
 
 * {
@@ -212,6 +208,10 @@ html,
 body {
     margin: 0;
     padding: 0;
-    scrollbar-gutter: stable;
+}
+
+body {
     line-height: var(--go-ui-line-height-normal);
+    font-family: var(--go-ui-font-family-sans-serif);
+    scrollbar-gutter: stable;
 }

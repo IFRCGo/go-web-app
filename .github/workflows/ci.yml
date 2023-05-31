@@ -7,10 +7,16 @@ on:
       - 'develop'
 
 env:
+  APP_ADMIN_URL: ${{ vars.APP_ADMIN_URL }}
   APP_API_ENDPOINT: ${{ vars.APP_API_ENDPOINT }}
-  APP_FDRS_AUTH: ${{ vars.APP_FDRS_AUTH }}
+  APP_ENVIRONMENT: $${{ vars.APP_ENVIRONMENT }}
   APP_MAPBOX_ACCESS_TOKEN: ${{ vars.APP_MAPBOX_ACCESS_TOKEN }}
+  APP_RISK_ADMIN_URL: ${{ vars.APP_RISK_ADMIN_URL }}
   APP_RISK_API_ENDPOINT: ${{ vars.APP_RISK_API_ENDPOINT }}
+  APP_SENTRY_DSN: ${{ vars.APP_SENTRY_DSN }}
+  APP_SENTRY_NORMALIZE_DEPTH: ${{ vars.APP_SENTRY_NORMALIZE_DEPTH }}
+  APP_SENTRY_TRACES_SAMPLE_RATE: ${{ vars.APP_SENTRY_TRACES_SAMPLE_RATE }}
+  APP_SHOW_ENV_BANNER: ${{ vars.APP_SHOW_ENV_BANNER }}
   APP_TINY_API_KEY: ${{ vars.APP_TINY_API_KEY }}
   APP_TITLE: ${{ vars.APP_TITLE }}
   GITHUB_WORKFLOW: true
@@ -95,6 +101,7 @@ jobs:
         run: yarn typecheck
   build:
     name: Build
+    environment: 'test'
     needs: [lint, css-lint, typecheck, test]
     runs-on: ubuntu-latest
     steps:
@@ -108,4 +115,4 @@ jobs:
         run: yarn install --prefer-online
 
       - name: Build
-        run: yarn export
+        run: yarn build

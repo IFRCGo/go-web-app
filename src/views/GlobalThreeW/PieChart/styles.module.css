@@ -1,0 +1,12 @@
+.pie-chart {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--go-ui-spacing-md);
+
+    .legend {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: center;
+    }
+}

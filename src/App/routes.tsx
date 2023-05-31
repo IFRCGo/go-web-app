@@ -88,7 +88,7 @@ const region = myWrapRoute({
 
 const regionOperations = myWrapRoute({
     path: 'operations',
-    component: () => import('#views/Region/Operations'),
+    component: () => import('#views/RegionOperations'),
     componentProps: {},
     parent: region,
     context: {
@@ -99,7 +99,7 @@ const regionOperations = myWrapRoute({
 
 const regionThreeW = myWrapRoute({
     path: 'three-w',
-    component: () => import('#views/Region/ThreeW'),
+    component: () => import('#views/RegionThreeW'),
     componentProps: {},
     parent: region,
     context: {
@@ -110,7 +110,7 @@ const regionThreeW = myWrapRoute({
 
 const regionRiskWatch = myWrapRoute({
     path: 'risk-watch',
-    component: () => import('#views/Region/RiskWatch'),
+    component: () => import('#views/RegionRiskWatch'),
     componentProps: {},
     parent: region,
     context: {
@@ -121,7 +121,7 @@ const regionRiskWatch = myWrapRoute({
 
 const regionPreparedness = myWrapRoute({
     path: 'preparedness',
-    component: () => import('#views/Region/Preparedness'),
+    component: () => import('#views/RegionPreparedness'),
     componentProps: {},
     parent: region,
     context: {
@@ -132,7 +132,7 @@ const regionPreparedness = myWrapRoute({
 
 const regionProfile = myWrapRoute({
     path: 'profile',
-    component: () => import('#views/Region/Profile'),
+    component: () => import('#views/RegionProfile'),
     componentProps: {},
     parent: region,
     context: {
@@ -155,7 +155,7 @@ const country = myWrapRoute({
 
 const countryOperations = myWrapRoute({
     path: 'operations',
-    component: () => import('#views/Country/Operations'),
+    component: () => import('#views/CountryOperations'),
     componentProps: {},
     parent: country,
     context: {
@@ -166,7 +166,7 @@ const countryOperations = myWrapRoute({
 
 const countryThreeW = myWrapRoute({
     path: 'three-w',
-    component: () => import('#views/Country/ThreeW'),
+    component: () => import('#views/CountryThreeW'),
     componentProps: {},
     parent: country,
     context: {
@@ -177,7 +177,7 @@ const countryThreeW = myWrapRoute({
 
 const countryRiskWatch = myWrapRoute({
     path: 'risk-watch',
-    component: () => import('#views/Country/RiskWatch'),
+    component: () => import('#views/CountryRiskWatch'),
     componentProps: {},
     parent: country,
     context: {
@@ -188,7 +188,7 @@ const countryRiskWatch = myWrapRoute({
 
 const countryPreparedness = myWrapRoute({
     path: 'preparedness',
-    component: () => import('#views/Country/Preparedness'),
+    component: () => import('#views/CountryPreparedness'),
     componentProps: {},
     parent: country,
     context: {
@@ -199,7 +199,7 @@ const countryPreparedness = myWrapRoute({
 
 const countryPlan = myWrapRoute({
     path: 'plan',
-    component: () => import('#views/Country/CountryPlan'),
+    component: () => import('#views/CountryPlan'),
     componentProps: {},
     parent: country,
     context: {
@@ -210,7 +210,7 @@ const countryPlan = myWrapRoute({
 
 const countryAdditionalData = myWrapRoute({
     path: 'additional-data',
-    component: () => import('#views/Country/AdditionalData'),
+    component: () => import('#views/CountryAdditionalData'),
     componentProps: {},
     parent: country,
     context: {
@@ -305,7 +305,7 @@ const account = myWrapRoute({
 
 const accountInformation = myWrapRoute({
     path: 'account-information',
-    component: () => import('#views/Account/AccountInformation'),
+    component: () => import('#views/AccountInformation'),
     componentProps: {},
     parent: account,
     context: {
@@ -316,7 +316,7 @@ const accountInformation = myWrapRoute({
 
 const accountNotifications = myWrapRoute({
     path: 'notifications',
-    component: () => import('#views/Account/Notifications'),
+    component: () => import('#views/AccountNotifications'),
     componentProps: {},
     parent: account,
     context: {
@@ -327,7 +327,7 @@ const accountNotifications = myWrapRoute({
 
 const accountPERForms = myWrapRoute({
     path: 'per-forms',
-    component: () => import('#views/Account/PERForms'),
+    component: () => import('#views/AccountPerForms'),
     componentProps: {},
     parent: account,
     context: {
@@ -338,7 +338,7 @@ const accountPERForms = myWrapRoute({
 
 const accountDREFApplications = myWrapRoute({
     path: 'dref-applications',
-    component: () => import('#views/Account/DREFApplications'),
+    component: () => import('#views/AccountDrefApplications'),
     componentProps: {},
     parent: account,
     context: {
@@ -349,7 +349,7 @@ const accountDREFApplications = myWrapRoute({
 
 const accountThreeWForms = myWrapRoute({
     path: 'three-w-forms',
-    component: () => import('#views/Account/ThreeWForms'),
+    component: () => import('#views/AccountThreeWForms'),
     componentProps: {},
     parent: account,
     context: {

@@ -1,0 +1,15 @@
+.legend-element {
+    display: flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-sm);
+
+    .color {
+        border-radius: 0.4em;
+        width: 0.8em;
+        height: 0.8em;
+    }
+
+    .label {
+        font-size: var(--go-ui-font-size-sm);
+    }
+}

@@ -3,8 +3,6 @@ services:
   react:
     build: .
     command: sh -c 'yarn install && yarn dev --host'
-    environment:
-      APP_TITLE: ${APP_TITLE:-IFRC GO}
     volumes:
       - .:/code
     ports:

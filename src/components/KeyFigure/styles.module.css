@@ -1,13 +1,15 @@
 .key-figure {
     display: flex;
     flex-direction: column;
-    padding: var(--go-ui-spacing-md);
+    padding: var(--go-ui-spacing-lg);
     gap: var(--go-ui-spacing-sm);
 
     .icon {
         display: flex;
+        align-items: center;
+        justify-content: flex-start;
         color: var(--go-ui-color-primary-red);
-        font-size: var(--go-ui-font-size-5xl);
+        font-size: var(--go-ui-font-size-6xl);
     }
 
     .value {

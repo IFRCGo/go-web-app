@@ -1,9 +1,4 @@
 const threeW = {
-    globalThreeWExploreRegionalButtonLabel: 'Explore Regional 3W',
-    globalThreeWChartProgrammeTypeTitle: 'Programme Type',
-    globalThreeWChartTopTagsTitle: 'Top Tags',
-    globalThreeWMapHeading: 'NS with ongoing projects',
-
     allThreeWPageTitle: 'IFRC GO - All 3W',
     allThreeWPageHeading: 'All 3W Projects ({count})',
     allThreeWInCountryPageHeading: 'All 3W Projects in {country} ({count})',

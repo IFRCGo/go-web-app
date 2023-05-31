@@ -510,3 +510,10 @@ export function reTab(str: string | undefined | null) {
     // Remove all \r characters
     return reTabbed.replaceAll('\r', '');
 }
+
+export function isValidCountry(country: {
+    independent: boolean | null,
+    is_deprecated: boolean | null,
+}) {
+    return country.independent !== false && !country.is_deprecated;
+}

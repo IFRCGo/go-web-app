@@ -2,9 +2,9 @@
 export function Component() {
     return (
         <div>
-            ThreeW Forms
+            DREF Application
         </div>
     );
 }
 
-Component.displayName = 'ThreeWForms';
+Component.displayName = 'AccountDREFApplications';

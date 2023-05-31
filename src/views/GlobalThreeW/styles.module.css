@@ -21,4 +21,29 @@
             height: 100%;
         }
     }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-3xl);
+
+        .charts {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+
+            .chart-container {
+                border-radius: var(--go-ui-border-radius-lg);
+                box-shadow: var(--go-ui-box-shadow-lg);
+                padding: var(--go-ui-spacing-lg);
+                height: 100%;
+            }
+        }
+
+        .ppp-iframe {
+            border: unset;
+            width: 100%;
+            height: 54rem;
+        }
+    }
 }

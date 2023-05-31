@@ -1,0 +1,35 @@
+.bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+
+    .bar-row {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-md);
+
+        .label {
+            width: 30%;
+            font-weight: var(--go-ui-font-weight-medium);
+        }
+
+        .bar-track {
+            border-radius: 0.3rem;
+            background-color: var(--go-ui-color-gray-30);
+            width: 60%;
+            height: 0.6rem;
+
+            .bar {
+                border-radius: 0.3rem;
+                background-color: var(--go-ui-color-primary-red);
+                height: 100%;
+            }
+
+        }
+
+        .value {
+            width: 10%;
+            font-weight: var(--go-ui-font-weight-medium);
+        }
+    }
+}

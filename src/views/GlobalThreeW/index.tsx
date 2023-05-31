@@ -1,8 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import {
-    ShieldCrossFillIcon,
-    TargetedPopulationIcon,
+    ShieldCrossLineIcon,
     RedCrossNationalSocietyIcon,
+    TargetedPopulationIcon,
 } from '@ifrc-go/icons';
 
 import Page from '#components/Page';
@@ -18,54 +18,44 @@ import {
     ListResponse,
 } from '#utils/restRequest';
 
-import { FilterValue } from './Filters';
+import Filter, { FilterValue } from './Filters';
+import BarChart from './BarChart';
+import PieChart from './PieChart';
+import {
+    NSOngoingProjectStat,
+    GlobalProjectsOverview,
+    countSelector,
+    projectPerSectorLabelSelector,
+    projectPerSectorKeySelector,
+} from './common';
+import Map from './Map';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export interface NSOngoingProjectStat {
-    id: number;
-    iso3: string;
-    ongoing_projects: number;
-    target_total: number;
-    society_name: string;
-    name: string;
-    operation_types: number[];
-    operation_types_display: string[];
-    budget_amount_total: number;
-    projects_per_sector: {
-        primary_sector: number;
-        primary_sector_display: string;
-        count: number;
-    }[];
+const PIE_COLORS = ['#f64752', '#fa999f', '#fdd6d9'];
+
+function projectPerSecondarySectorsLabelSelector(
+    projectPerSecondarySector: GlobalProjectsOverview['projects_per_secondary_sectors'][number],
+) {
+    return projectPerSecondarySector.secondary_sectors_display;
 }
 
-// const emptyNsOngoingProjectStats: NSOngoingProjectStat[] = [];
-
-interface ProjectPerProgrammeType {
-    programme_type: number;
-    programme_type_display: string;
-    count: number;
+function projectPerSecondarySectorsKeySelector(
+    projectPerSecondarySector: GlobalProjectsOverview['projects_per_secondary_sectors'][number],
+) {
+    return projectPerSecondarySector.secondary_sectors;
 }
 
-interface ProjectPerSector {
-    count: number;
-    primary_sector: number;
-    primary_sector_display: string;
+function projectPerProgrammeTypeLabelSelector(
+    projectPerProgrammeType: GlobalProjectsOverview['projects_per_programme_type'][number],
+) {
+    return projectPerProgrammeType.programme_type_display;
 }
 
-interface ProjectPerSecondarySector {
-    count: number;
-    secondary_sector: number;
-    secondary_sectors_display: string;
-}
-
-interface GlobalProjectsOverview {
-    total_ongoing_projects: number;
-    ns_with_ongoing_activities: number;
-    target_total: number;
-    projects_per_sector: ProjectPerSector[];
-    projects_per_programme_type: ProjectPerProgrammeType[];
-    projects_per_secondary_sectors: ProjectPerSecondarySector[];
+function projectPerProgrammeTypeKeySelector(
+    projectPerProgrammeType: GlobalProjectsOverview['projects_per_programme_type'][number],
+) {
+    return projectPerProgrammeType.programme_type;
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -74,7 +64,7 @@ export function Component() {
 
     const [
         filters,
-        // setFilters,
+        setFilters,
     ] = useState<FilterValue>({
         reporting_ns: [],
         programme_type: [],
@@ -84,15 +74,13 @@ export function Component() {
 
     const {
         pending: nsProjectsPending,
-        // response: nsProjectsResponse,
+        response: nsProjectsResponse,
     } = useRequest<ListResponse<NSOngoingProjectStat>>({
         url: 'api/v2/global-project/ns-ongoing-projects-stats/',
         query: {
             ...filters,
         },
     });
-
-    // const ongoingProjectStats = nsProjectsResponse?.results ?? emptyNsOngoingProjectStats;
 
     const {
         pending: projectsOverviewPending,
@@ -104,40 +92,6 @@ export function Component() {
     const numActiveSocieties = projectsOverviewResponse?.ns_with_ongoing_activities;
     const numOngoingProjects = projectsOverviewResponse?.total_ongoing_projects;
     const numTargetedPopulation = projectsOverviewResponse?.target_total;
-
-    const [
-        projectPerSectorChartData,
-        // projectPerSecondarySectorChartData,
-        // projectPerProgrammeTypeChartData,
-    ] = useMemo(() => {
-        if (!projectsOverviewResponse) {
-            return [[], [], []];
-        }
-
-        const {
-            projects_per_sector,
-            projects_per_secondary_sectors,
-            projects_per_programme_type,
-        } = projectsOverviewResponse;
-
-        return [
-            projects_per_sector.map((p) => ({
-                key: p.primary_sector,
-                value: p.count,
-                name: p.primary_sector_display,
-            })),
-            projects_per_secondary_sectors.map((p) => ({
-                key: p.secondary_sector,
-                value: p.count,
-                name: p.secondary_sectors_display,
-            })),
-            projects_per_programme_type.map((p) => ({
-                key: p.programme_type,
-                value: p.count,
-                name: p.programme_type_display,
-            })),
-        ];
-    }, [projectsOverviewResponse]);
 
     const pending = nsProjectsPending || projectsOverviewPending;
 
@@ -180,7 +134,7 @@ export function Component() {
                 <>
                     <KeyFigure
                         className={styles.keyFigure}
-                        icon={<ShieldCrossFillIcon />}
+                        icon={<ShieldCrossLineIcon />}
                         value={numOngoingProjects}
                         description={strings.globalThreeWKeyFigureOngoingProjectsTitle}
                     />
@@ -195,25 +149,74 @@ export function Component() {
                         icon={<TargetedPopulationIcon />}
                         value={numTargetedPopulation}
                         description={strings.globalThreeWKeyTargetedPopulationTitle}
+                        normalize
                     />
                 </>
             )}
             infoContainerClassName={styles.keyFiguresList}
+            mainSectionClassName={styles.mainContent}
         >
             {pending && <BlockLoading />}
             {projectsOverviewResponse && (
-                <Container heading={strings.globalThreeWChartProjectPerSectorTitle}>
-                    {projectPerSectorChartData.map((chartData) => (
-                        <div
-                            key={chartData.key}
-                            className={styles.row}
+                <>
+                    <div className={styles.charts}>
+                        <Container
+                            heading={strings.globalThreeWChartProjectPerSectorTitle}
+                            className={styles.chartContainer}
                         >
-                            <div className={styles.label}>
-                                {chartData.name}
-                            </div>
-                        </div>
-                    ))}
-                </Container>
+                            <BarChart
+                                data={projectsOverviewResponse.projects_per_sector}
+                                valueSelector={countSelector}
+                                labelSelector={projectPerSectorLabelSelector}
+                                keySelector={projectPerSectorKeySelector}
+                            />
+                        </Container>
+                        <Container
+                            heading={strings.globalThreeWChartProgrammeTypeTitle}
+                            className={styles.chartContainer}
+                        >
+                            <PieChart
+                                data={projectsOverviewResponse.projects_per_programme_type}
+                                valueSelector={countSelector}
+                                labelSelector={projectPerProgrammeTypeLabelSelector}
+                                keySelector={projectPerProgrammeTypeKeySelector}
+                                colors={PIE_COLORS}
+                            />
+                        </Container>
+                        <Container
+                            heading={strings.globalThreeWChartTopTagsTitle}
+                            className={styles.chartContainer}
+                        >
+                            <BarChart
+                                data={projectsOverviewResponse.projects_per_secondary_sectors}
+                                valueSelector={countSelector}
+                                labelSelector={projectPerSecondarySectorsLabelSelector}
+                                keySelector={projectPerSecondarySectorsKeySelector}
+                            />
+                        </Container>
+                    </div>
+                    <Container
+                        heading={strings.globalThreeWKeyFigureOngoingProjectsTitle}
+                        headerDescription={(
+                            <Filter
+                                value={filters}
+                                onChange={setFilters}
+                            />
+                        )}
+                    >
+                        <Map projectList={nsProjectsResponse?.results} />
+                    </Container>
+                    <Container
+                        heading={strings.PPPMapTitle}
+                        headerDescription={strings.PPPMapDescription}
+                    >
+                        <iframe
+                            title={strings.PPPMapTitle}
+                            className={styles.pppIframe}
+                            src="https://public.tableau.com/views/PPPdashboard_16805965348010/1_OVERVIEW?:language=en-US&:display_count=n&:origin=viz_share_link?:embed=yes&:display_count=yes&:showVizHome=no&:toolbar=yes"
+                        />
+                    </Container>
+                </>
             )}
         </Page>
     );
