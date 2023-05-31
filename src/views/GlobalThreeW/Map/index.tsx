@@ -36,7 +36,12 @@ import { max } from '#utils/common';
 import routes from '#routes';
 
 import BarChart from '../BarChart';
-import type { NSOngoingProjectStat } from '../common';
+import {
+    NSOngoingProjectStat,
+    countSelector,
+    projectPerSectorLabelSelector,
+    projectPerSectorKeySelector,
+} from '../common';
 import styles from './styles.module.css';
 
 const redPointCirclePaint = getPointCirclePaint(COLOR_RED);
@@ -236,16 +241,6 @@ function GlobalThreeWMap(props: Props) {
         [setClickedPointProperties],
     );
 
-    const selectedProjectsPerSectorChartData = useMemo(
-        () => selectedNsProjectStats?.projects_per_sector.map((p) => ({
-            key: p.primary_sector,
-            value: p.count,
-            name: p.primary_sector_display,
-            Projects: p.count,
-        })) ?? [],
-        [selectedNsProjectStats?.projects_per_sector],
-    );
-
     return (
         <Map
             mapStyle={defaultMapStyle}
@@ -377,10 +372,10 @@ function GlobalThreeWMap(props: Props) {
                     >
                         <BarChart
                             className={styles.topProjectSectorsChart}
-                            data={selectedProjectsPerSectorChartData}
-                            keySelector={(d) => d.key}
-                            labelSelector={(d) => d.name}
-                            valueSelector={(d) => d.value}
+                            data={selectedNsProjectStats.projects_per_sector}
+                            keySelector={projectPerSectorKeySelector}
+                            labelSelector={projectPerSectorLabelSelector}
+                            valueSelector={countSelector}
                         />
                     </Container>
                 </MapPopup>

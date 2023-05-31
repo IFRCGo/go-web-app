@@ -511,9 +511,9 @@ export function reTab(str: string | undefined | null) {
     return reTabbed.replaceAll('\r', '');
 }
 
-export function isValidCountry<C extends {
+export function isValidCountry(country: {
     independent: boolean | null,
     is_deprecated: boolean | null,
-}>(country: C) {
+}) {
     return country.independent !== false && !country.is_deprecated;
 }

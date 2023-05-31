@@ -21,28 +21,18 @@ import {
 import Filter, { FilterValue } from './Filters';
 import BarChart from './BarChart';
 import PieChart from './PieChart';
-import type { NSOngoingProjectStat, GlobalProjectsOverview } from './common';
+import {
+    NSOngoingProjectStat,
+    GlobalProjectsOverview,
+    countSelector,
+    projectPerSectorLabelSelector,
+    projectPerSectorKeySelector,
+} from './common';
 import Map from './Map';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const PIE_COLORS = ['#f64752', '#fa999f', '#fdd6d9'];
-
-function countSelector<D extends { count: number }>(d: D) {
-    return d.count;
-}
-
-function projectPerSectorLabelSelector(
-    projectPerSector: GlobalProjectsOverview['projects_per_sector'][number],
-) {
-    return projectPerSector.primary_sector_display;
-}
-
-function projectPerSectorKeySelector(
-    projectPerSector: GlobalProjectsOverview['projects_per_sector'][number],
-) {
-    return projectPerSector.primary_sector;
-}
 
 function projectPerSecondarySectorsLabelSelector(
     projectPerSecondarySector: GlobalProjectsOverview['projects_per_secondary_sectors'][number],
