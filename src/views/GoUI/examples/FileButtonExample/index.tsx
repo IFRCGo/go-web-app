@@ -5,6 +5,9 @@ import Button from '#components/Button';
 import Heading from '#components/Heading';
 
 function FileButtonExample() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [file, setFile] = useState<File | undefined>();
 
     const inputRef = useRef<HTMLInputElement>(null);
