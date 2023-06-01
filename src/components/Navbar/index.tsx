@@ -1,4 +1,5 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { _cs } from '@togglecorp/fujs';
 
 import PageContainer from '#components/PageContainer';
@@ -38,6 +39,13 @@ function Navbar(props: Props) {
 
     const strings = useTranslation(i18n);
     const [searchText, setSearchText] = useInputState<string | undefined>(undefined);
+
+    const navigate = useNavigate();
+    const handleSearchInputEnter = useCallback(() => {
+        if ((searchText?.trim()?.length ?? 0) > 2) {
+            navigate(`/search/?keyword=${searchText}`);
+        }
+    }, [searchText, history]);
 
     return (
         <nav className={_cs(styles.navbar, className)}>
@@ -151,6 +159,12 @@ function Navbar(props: Props) {
                             value={searchText}
                             name={undefined}
                             onChange={setSearchText}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    handleSearchInputEnter();
+                                }
+                            }}
                         />
                     </div>
                 </div>

@@ -454,6 +454,10 @@ export function formatNumber(value: number | undefined | null, prefix?: string):
     return defaultValue;
 }
 
+export function round(value: number, decimals = 2) {
+    return Math.round(value * 10 ** decimals) / 10 ** decimals;
+}
+
 export function isSimilarArray<T extends string | number>(
     aList: T[] | undefined,
     bList: T[] | undefined,
@@ -516,4 +520,17 @@ export function isValidCountry(country: {
     is_deprecated: boolean | null,
 }) {
     return country.independent !== false && !country.is_deprecated;
+}
+
+export function plural(
+    singularString: string,
+    pluralString: string,
+    number: number,
+) {
+    return number === 1 ? singularString : pluralString;
+}
+
+export function getDuration(start: Date, end: Date) {
+    console.info(start, end);
+    return 'Not implemented';
 }

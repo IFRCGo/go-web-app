@@ -1,0 +1,23 @@
+.field-report-table {
+    .content {
+        table {
+            width: 100%;
+
+            th {
+                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+                background-color: var(--go-ui-color-background);
+                padding: 0;
+                text-align: left;
+            }
+
+            td {
+                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+                padding: var(--go-ui-spacing-md);
+
+                >* {
+                    padding: 0!important;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+@import '~styles/settings/variables';
+
+.surge-deployement-table {
+  .content {
+    table {
+      width: 100%;
+
+      th {
+        padding: 0;
+        text-align: left;
+        border-bottom: $base-border-width solid $base-border-color;
+        background-color: $color-background;
+      }
+
+      td {
+        padding: $spacing;
+        border-bottom: $base-border-width solid $base-border-color;
+
+        >* {
+          padding: 0!important;
+        }
+      }
+    }
+  }
+}

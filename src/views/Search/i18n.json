@@ -1,6 +1,35 @@
 {
     "namespace": "search",
     "strings": {
-        "searchPageTitle": "Search"
+        "searchPageTitle": "Search",
+        "searchIfrcSearchTitle": "IFRC GO - Search Details",
+        "searchIfrcEmergencyOperations": "IFRC Emergency Operations",
+        "searchIfrcEmergencies": "Emergencies",
+        "searchIfrcEmergencyPlanningAndReporting": "Emergency Planning And Reporting",
+        "searchIfrcSurgeDeployments": "Deployed ERUs",
+        "searchIfrcReport": "Reports",
+        "searchIfrcProjects": "Projects",
+        "searchIfrcOpenSurgeAlerts": "Open Surge Alerts",
+        "searchIFRCRapidResponseDeployment": "Ongoing Rapid Response Deployments",
+        "searchIfrcCountry": "Country",
+        "searchIfrcRegion": "Region",
+        "searchIfrcProvince": "Province",
+        "searchViewAllCountries": "View All Countries",
+        "searchViewAllRegions": "View All Regions",
+        "searchViewAllProvince": "View All Provinces",
+        "searchViewAllEmergencies": "View All Emergencies",
+        "searchViewAllRapidResponseDeployment": "View All Ongoing Rapid Response Deployments",
+        "searchViewAllEmergenciesPlansAndReportingDocuments": "View All Emergencies Plans and Reporting Documents",
+        "searchViewAllProjects": "View All Projects",
+        "searchViewAllSurgeAlerts": "View All Open Surge Alerts",
+        "searchViewAllSurgeDeployments": "View All Surge deployments",
+        "searchViewAllFieldReports": "View All Field Reports",
+        "searchGoBack": "Go Back",
+        "searchResultforQuery": "No matches for your keyword search",
+        "searchThreeCharactersRequired": "Please enter at least 3 characters to get started with search!",
+        "searchPageFeedbackLinkText": "The search results page is new to GO. Can't find what you're looking for?",
+        "searchPageFeedbackButton": "Please let us know",
+        "searchPageSearchForKeyword": "Search for keyword",
+        "searchEnterAtLeastThreeCharacters": "Enter at least 3 characters"
     }
 }

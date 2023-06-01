@@ -8,6 +8,8 @@ import {
 
 import DateOutput from '#components/DateOutput';
 import type { Props as DateOutputProps } from '#components/DateOutput';
+import DateRangeOutput from '#components/DateRangeOutput';
+import type { Props as DateRangeOutputProps } from '#components/DateRangeOutput';
 import NumberOutput from '#components/NumberOutput';
 import type { Props as NumberOutputProps } from '#components/NumberOutput';
 import BooleanOutput from '#components/BooleanOutput';
@@ -15,6 +17,8 @@ import type { Props as BooleanOutputProps } from '#components/BooleanOutput';
 import ReducedListDisplay, {
     Props as ReducedListDisplayProps,
 } from '#components/ReducedListDisplay';
+import type { Props as LinkProps } from '#components/Link';
+import Link from '#components/Link';
 
 import TableActions, {
     Props as TableActionsProps,
@@ -118,7 +122,10 @@ export function createNumberColumn<D, K>(
     id: string,
     title: string,
     accessor: (item: D) => number | undefined | null,
-    options?: Options<D, K, NumberOutputProps, HeaderCellProps>,
+    options?: Options<D, K, NumberOutputProps, HeaderCellProps> & {
+        suffix?: React.ReactNode;
+        precision?: number;
+    },
 ) {
     const item: Column<D, K, NumberOutputProps, HeaderCellProps> & {
         valueSelector: (item: D) => number | undefined | null,
@@ -145,6 +152,8 @@ export function createNumberColumn<D, K>(
         cellRenderer: NumberOutput,
         cellRendererParams: (_: K, datum: D): NumberOutputProps => ({
             value: accessor(datum),
+            suffix: options?.suffix,
+            precision: options?.precision,
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
@@ -186,6 +195,68 @@ export function createDateColumn<D, K>(
         columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
+    return item;
+}
+
+export function createDateRangeColumn<D, K>(
+    id: string,
+    title: string,
+    accessor: (item: D) => string,
+    options?: Options<D, K, DateRangeOutputProps, HeaderCellProps>,
+) {
+    const item: Column<D, K, DateRangeOutputProps, HeaderCellProps> & {
+        valueSelector: (item: D) => string | undefined | null,
+        valueComparator: (foo: D, bar: D) => number,
+    } = {
+        id,
+        title,
+        columnClassName: options?.columnClassName,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        headerCellRendererParams: {
+            sortable: options?.sortable,
+        },
+        cellRendererClassName: options?.cellRendererClassName,
+        cellRenderer: DateRangeOutput,
+        cellContainerClassName: options?.cellContainerClassName,
+        cellRendererParams: (_:K, datum: D): DateRangeOutputProps => ({
+            startDate: accessor(datum),
+            endDate: accessor(datum),
+        }),
+        valueSelector: accessor,
+        valueComparator: (foo: D, bar: D) => compareDate(accessor(foo), accessor(bar)),
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
+    };
+    return item;
+}
+export function createLinkColumn<D, K>(
+    id: string,
+    title: string,
+    accessor: (item: D) => React.ReactNode,
+    rendererParams: (item: D) => LinkProps,
+) {
+    const item: Column<D, K, LinkProps, HeaderCellProps> & {
+        valueSelector: (item: D) => string | undefined | null,
+        valueComparator: (foo: D, bar: D) => number,
+    } = {
+        id,
+        title,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: false,
+        },
+        cellRenderer: Link,
+        cellRendererParams: (_: K, datum: D): LinkProps => ({
+            children: accessor(datum),
+            ...rendererParams(datum),
+        }),
+        valueSelector: () => '',
+        valueComparator: () => 0,
+    };
+
     return item;
 }
 

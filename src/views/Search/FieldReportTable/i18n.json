@@ -1,0 +1,9 @@
+{
+    "namespace": "fieldReportTable",
+    "strings": {
+        "searchFieldReportTableDate": "Date",
+        "searchFieldReportTableType": "Type",
+        "searchFieldReportTableTitle": "Title",
+        "searchIfrcReport": "Reports"
+    }
+}

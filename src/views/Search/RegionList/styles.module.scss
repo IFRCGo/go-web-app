@@ -1,0 +1,31 @@
+@import '~styles/settings/variables';
+
+.region-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing;
+  padding: $spacing !important;
+
+  .search-title {
+    font-size: $font-size-sm;
+    color: $title-color;
+    font-weight: $base-font-regular;
+  }
+
+  .region-name {
+    display: flex;
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: $base-font-medium;
+    align-items: center;
+    gap: $global-spacing*0.5;
+    line-height: 1.3rem;
+    font-size: $base-font-size;
+    padding: $spacing 0;
+    border-bottom: $base-border-width solid $base-border-color;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

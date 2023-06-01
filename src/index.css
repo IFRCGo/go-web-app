@@ -170,6 +170,7 @@
     --go-ui-opacity-90: 0.9;
     --go-ui-opacity-95: 0.95;
     --go-ui-opacity-100: 1;
+    --go-ui-opacity-disabled-element: 0.5;
 
     --go-ui-width-min-modal: 18rem;
     --go-ui-height-min-modal: 11rem;
