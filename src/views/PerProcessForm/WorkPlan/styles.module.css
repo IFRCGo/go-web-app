@@ -6,14 +6,14 @@
             width: 100%;
 
             th {
-                border-bottom: $base-border-width solid $base-border-color;
+                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-primary-gray);
                 background-color: var(--go-ui-color-background);
                 padding: var(--go-ui-spacing-sm);
                 text-align: left;
             }
 
             td {
-                border-bottom: $base-border-width solid $base-border-color;
+                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-primary-gray);
                 padding: var(--go-ui-spacing-md);
             }
         }

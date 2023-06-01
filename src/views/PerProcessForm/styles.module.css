@@ -5,26 +5,15 @@
     width: 100%;
 }
 
-/* .actions {
-    padding: $spacing $spacing;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    >* {
-        margin: 0 $spacing;
-    }
-}
-
 .error-message {
-    padding: $spacing $spacing !important;
-    opacity: 0.7;
+    opacity: var(--go-ui-opacity-70);
+    padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-sm);
 
     h3 {
-        color: $danger-color;
+        color: var(--go-ui-color-primary-red);
     }
 
     p {
-        margin: 0;
+        margin: var(--go-ui-spacing-none);
     }
-} */
+}

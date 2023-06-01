@@ -1,5 +1,5 @@
 .custom-activity {
-    border-top: 2px solid transparent;
+    border-top: var(--go-ui-width-separator-md) solid transparent;
     background-color: var(--go-ui-color-background);
 
     /* .improvement-select {
@@ -51,20 +51,19 @@
             width: 100%;
 
             th {
-                border-bottom: $base-border-width solid $base-border-color;
+                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-primary-gray);
                 background-color: var(--go-ui-color-background);
-                padding: 0;
+                padding: var(--go-ui-spacing-sm);
                 text-align: left;
             }
 
             td {
-                border-bottom: $base-border-width solid $base-border-color;
+                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-primary-gray);
                 padding: var(--go-ui-spacing-md);
-
-                >* {
-                    padding: 0!important;
-                }
             }
         }
+    }
+    .responsibility-section {
+        display: flex;
     }
 }

@@ -1,13 +1,13 @@
 @import '~styles/settings/variables';
 
 .custom-activity {
-  background-color: $color-background;
   border-top: 2px solid transparent;
+  background-color: $color-background;
 
   .improvement-select {
-    width: $global-spacing-table;
     display: flex;
     flex-direction: column;
+    width: $global-spacing-table;
   }
 
   .dot-connector {
@@ -15,16 +15,16 @@
   }
 
   .input-section {
+    display: flex;
     background-color: $color-background;
     overflow-y: visible;
-    display: flex;
   }
 }
 
 .dot {
-  height: 12px;
-  width: 12px;
-  background-color: grey;
-  border-radius: 50%;
   display: inline-block;
+  border-radius: 50%;
+  background-color: grey;
+  width: 12px;
+  height: 12px;
 }
