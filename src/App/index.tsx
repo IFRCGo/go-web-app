@@ -14,6 +14,7 @@ import { unique } from '@togglecorp/fujs';
 
 import UserContext, { UserDetails } from '#contexts/user';
 import AlertContext, { AlertParams, AlertContextProps } from '#contexts/alert';
+import RouteContext from '#contexts/route';
 import { RequestContext } from '#utils/restRequest';
 import { USER_STORAGE_KEY } from '#utils/constants';
 import {
@@ -28,7 +29,7 @@ import {
     setToStorage,
 } from '#utils/localStorage';
 
-import { unwrappedRoutes } from '#routes';
+import wrappedRoutes, { unwrappedRoutes } from './routes';
 
 const requestContextValue = {
     transformUrl: processGoUrls,
@@ -123,13 +124,20 @@ function App() {
     }), [userDetails, hydrateUser, setUser, removeUser]);
 
     return (
-        <UserContext.Provider value={userContextValue}>
-            <AlertContext.Provider value={alertContextValue}>
-                <RequestContext.Provider value={requestContextValue}>
-                    <RouterProvider router={router} />
-                </RequestContext.Provider>
-            </AlertContext.Provider>
-        </UserContext.Provider>
+        <div>
+            <RouteContext.Provider value={wrappedRoutes}>
+                <UserContext.Provider value={userContextValue}>
+                    <AlertContext.Provider value={alertContextValue}>
+                        <RequestContext.Provider value={requestContextValue}>
+                            <RouterProvider
+                                router={router}
+                                fallbackElement={<div>Loading...</div>}
+                            />
+                        </RequestContext.Provider>
+                    </AlertContext.Provider>
+                </UserContext.Provider>
+            </RouteContext.Provider>
+        </div>
     );
 }
 

@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import PageContainer from '#components/PageContainer';
@@ -9,7 +10,7 @@ import RegionDropdown from '#components/RegionDropdown';
 import goLogo from '#assets/icons/go-logo-2020.svg';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
-import routes from '#routes';
+import RouteContext from '#contexts/route';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import i18n from './i18n.json';
@@ -24,6 +25,17 @@ function Navbar(props: Props) {
         className,
     } = props;
 
+    const {
+        home: homeRoute,
+        resources: resourcesRoute,
+        login: loginRoute,
+        register: registerRoute,
+        emergencies: emergenciesRoute,
+        surge: surgeRoute,
+        preparedness: preparednessRoute,
+        threeW: threeWRoute,
+    } = useContext(RouteContext);
+
     const strings = useTranslation(i18n);
     const [searchText, setSearchText] = useInputState<string | undefined>(undefined);
 
@@ -34,7 +46,7 @@ function Navbar(props: Props) {
                 contentClassName={styles.topContent}
             >
                 <Link
-                    to={routes.home.absolutePath}
+                    to={homeRoute.absolutePath}
                     className={styles.brand}
                 >
                     <img
@@ -45,19 +57,19 @@ function Navbar(props: Props) {
                 </Link>
                 <div className={styles.actions}>
                     <Link
-                        to={routes.resources.absolutePath}
+                        to={resourcesRoute.absolutePath}
                         className={styles.actionItem}
                     >
                         {strings.headerMenuResources}
                     </Link>
                     <Link
-                        to={routes.login.absolutePath}
+                        to={loginRoute.absolutePath}
                         className={styles.actionItem}
                     >
                         {strings.userMenuLogin}
                     </Link>
                     <Link
-                        to={routes.register.absolutePath}
+                        to={registerRoute.absolutePath}
                         className={styles.actionItem}
                     >
                         {strings.userMenuRegister}
@@ -97,7 +109,7 @@ function Navbar(props: Props) {
                 <div className={styles.bottom}>
                     <div className={styles.menuItems}>
                         <Link
-                            to={routes.home.absolutePath}
+                            to={homeRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuHomeTooltip}
                         >
@@ -105,28 +117,28 @@ function Navbar(props: Props) {
                         </Link>
                         <RegionDropdown />
                         <Link
-                            to={routes.emergencies.absolutePath}
+                            to={emergenciesRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuEmergenciesTooltip}
                         >
                             {strings.headerMenuEmergencies}
                         </Link>
                         <Link
-                            to={routes.surge.absolutePath}
+                            to={surgeRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuSurgeTooltip}
                         >
                             {strings.headerMenuSurge}
                         </Link>
                         <Link
-                            to={routes.preparedness.absolutePath}
+                            to={preparednessRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuPreparednessTooltip}
                         >
                             {strings.headerMenuPreparedness}
                         </Link>
                         <Link
-                            to={routes.threeW.absolutePath}
+                            to={threeWRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuThreeWTooltip}
                         >

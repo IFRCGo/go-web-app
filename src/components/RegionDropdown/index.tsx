@@ -1,9 +1,10 @@
+import { useContext } from 'react';
 import { generatePath } from 'react-router-dom';
 
 import DropdownMenu, { Props as DropdownMenuProps } from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
-import routes from '#routes';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
@@ -14,6 +15,8 @@ function RegionDropdown(props: Props) {
         variant = 'tertiary',
         ...otherProps
     } = props;
+
+    const { region: regionRoute } = useContext(RouteContext);
 
     const strings = useTranslation(i18n);
 
@@ -26,23 +29,23 @@ function RegionDropdown(props: Props) {
         >
             {/* TODO: Fetch these from server */}
             <DropdownMenuItem
-                to={generatePath(routes.region.absolutePath, { regionId: '0' })}
+                to={generatePath(regionRoute.absolutePath, { regionId: '0' })}
                 label={strings.regionNameAfrica}
             />
             <DropdownMenuItem
-                to={generatePath(routes.region.absolutePath, { regionId: '1' })}
+                to={generatePath(regionRoute.absolutePath, { regionId: '1' })}
                 label={strings.regionNameAmerica}
             />
             <DropdownMenuItem
-                to={generatePath(routes.region.absolutePath, { regionId: '2' })}
+                to={generatePath(regionRoute.absolutePath, { regionId: '2' })}
                 label={strings.regionNameAsia}
             />
             <DropdownMenuItem
-                to={generatePath(routes.region.absolutePath, { regionId: '3' })}
+                to={generatePath(regionRoute.absolutePath, { regionId: '3' })}
                 label={strings.regionNameEurope}
             />
             <DropdownMenuItem
-                to={generatePath(routes.region.absolutePath, { regionId: '4' })}
+                to={generatePath(regionRoute.absolutePath, { regionId: '4' })}
                 label={strings.regionNameMENA}
             />
         </DropdownMenu>

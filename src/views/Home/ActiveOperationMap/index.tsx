@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState } from 'react';
+import { useContext, useMemo, useCallback, useState } from 'react';
 import { generatePath } from 'react-router-dom';
 import {
     _cs,
@@ -36,7 +36,7 @@ import { Appeal } from '#types/emergency';
 import { Country } from '#types/country';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
-import routes from '#routes';
+import RouteContext from '#contexts/route';
 import i18n from './i18n.json';
 
 import {
@@ -89,6 +89,10 @@ function ActiveOperationMap(props: Props) {
     const {
         className,
     } = props;
+
+    const {
+        country: countryRoute,
+    } = useContext(RouteContext);
 
     const [
         clickedPointProperties,
@@ -293,7 +297,7 @@ function ActiveOperationMap(props: Props) {
                             <Link
                                 to={
                                     generatePath(
-                                        routes.country.absolutePath,
+                                        countryRoute.absolutePath,
                                         // eslint-disable-next-line max-len
                                         { countryId: clickedPointProperties.feature.properties.country_id },
                                     )

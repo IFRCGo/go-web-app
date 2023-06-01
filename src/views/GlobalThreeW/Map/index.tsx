@@ -1,5 +1,5 @@
 import { generatePath } from 'react-router-dom';
-import { useState, useMemo, useCallback } from 'react';
+import { useContext, useState, useMemo, useCallback } from 'react';
 import {
     _cs,
     listToMap,
@@ -17,6 +17,7 @@ import Link from '#components/Link';
 import TextOutput from '#components/TextOutput';
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import LegendItem from '#components/LegendItem';
+import RouteContext from '#contexts/route';
 import { useRequest, ListResponse } from '#utils/restRequest';
 import type { Country } from '#types/country';
 import {
@@ -33,7 +34,6 @@ import {
     OPERATION_TYPE_PROGRAMME,
 } from '#utils/map';
 import { max } from '#utils/common';
-import routes from '#routes';
 
 import BarChart from '../BarChart';
 import {
@@ -130,6 +130,10 @@ function GlobalThreeWMap(props: Props) {
         className,
         projectList,
     } = props;
+
+    const {
+        countryThreeW: countryThreeWRoute,
+    } = useContext(RouteContext);
 
     const [
         clickedPointProperties,
@@ -342,7 +346,7 @@ function GlobalThreeWMap(props: Props) {
                         <Link
                             to={
                                 generatePath(
-                                    routes.countryThreeW.absolutePath,
+                                    countryThreeWRoute.absolutePath,
                                     {
                                         countryId: clickedPointProperties
                                             .feature

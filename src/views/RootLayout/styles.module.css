@@ -7,12 +7,13 @@
     .navigation-loader {
         position: fixed;
         transition: var(--go-ui-duration-animation-medium) width ease-out;
+        z-index: 1;
         background-color: var(--go-ui-color-primary-blue);
         width: 100%;
         height: var(--go-ui-width-separator-lg);
         animation: bounce-back-and-forth var(--go-ui-duration-animation-slow) ease-in-out infinite;
 
-        &.dissapear {
+        &.disappear {
             width: 0;
             animation: fade-out var(--go-ui-duration-animation-medium) ease-in forwards;
         }

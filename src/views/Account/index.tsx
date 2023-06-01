@@ -6,7 +6,7 @@ import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
 import UserContext from '#contexts/user';
-import routes from '#routes';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
@@ -14,6 +14,13 @@ import i18n from './i18n.json';
 export function Component() {
     const strings = useTranslation(i18n);
     const { userDetails } = useContext(UserContext);
+    const {
+        accountInformation: accountInformationRoute,
+        accountNotifications: accountNotificationsRoute,
+        accountPerForms: accountPERFormsRoute,
+        accountDrefApplications: accountDREFApplicationsRoute,
+        accountThreeWForms: accountThreeWFormsRoute,
+    } = useContext(RouteContext);
     /*
     const {
         pending: mePending,
@@ -30,27 +37,27 @@ export function Component() {
         >
             <NavigationTabList>
                 <NavigationTab
-                    to={routes.accountInformation.absolutePath}
+                    to={accountInformationRoute.absolutePath}
                 >
                     {strings.accountInformation}
                 </NavigationTab>
                 <NavigationTab
-                    to={routes.accountNotifications.absolutePath}
+                    to={accountNotificationsRoute.absolutePath}
                 >
                     {strings.accountNotification}
                 </NavigationTab>
                 <NavigationTab
-                    to={routes.accountPERForms.absolutePath}
+                    to={accountPERFormsRoute.absolutePath}
                 >
                     {strings.accountPerForms}
                 </NavigationTab>
                 <NavigationTab
-                    to={routes.accountDREFApplications.absolutePath}
+                    to={accountDREFApplicationsRoute.absolutePath}
                 >
                     {strings.accountMyDrefApplications}
                 </NavigationTab>
                 <NavigationTab
-                    to={routes.accountThreeWForms.absolutePath}
+                    to={accountThreeWFormsRoute.absolutePath}
                 >
                     {strings.accountThreeWForms}
                 </NavigationTab>

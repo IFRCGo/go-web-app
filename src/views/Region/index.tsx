@@ -1,4 +1,5 @@
 import { useParams, Outlet, generatePath } from 'react-router-dom';
+import { useContext } from 'react';
 import {
     DrefIcon,
     AppealsIcon,
@@ -14,9 +15,8 @@ import KeyFigure from '#components/KeyFigure';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
-
-import routes from '#routes';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -58,6 +58,14 @@ interface AggregatedAppealResponse {
 export function Component() {
     const { regionId } = useParams<{ regionId: string }>();
     const strings = useTranslation(i18n);
+
+    const {
+        regionOperations: regionOperationsRoute,
+        regionThreeW: regionThreeWRoute,
+        regionRiskWatch: regionRiskWatchRoute,
+        regionPreparedness: regionPreparednessRoute,
+        regionProfile: regionProfileRoute,
+    } = useContext(RouteContext);
 
     const {
         pending: regionPending,
@@ -137,7 +145,7 @@ export function Component() {
             <NavigationTabList>
                 <NavigationTab
                     to={generatePath(
-                        routes.regionOperations.absolutePath,
+                        regionOperationsRoute.absolutePath,
                         { regionId },
                     )}
                 >
@@ -145,7 +153,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        routes.regionThreeW.absolutePath,
+                        regionThreeWRoute.absolutePath,
                         { regionId },
                     )}
                 >
@@ -153,7 +161,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        routes.regionRiskWatch.absolutePath,
+                        regionRiskWatchRoute.absolutePath,
                         { regionId },
                     )}
                 >
@@ -161,7 +169,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        routes.regionPreparedness.absolutePath,
+                        regionPreparednessRoute.absolutePath,
                         { regionId },
                     )}
                 >
@@ -169,7 +177,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        routes.regionProfile.absolutePath,
+                        regionProfileRoute.absolutePath,
                         { regionId },
                     )}
                 >
