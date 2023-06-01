@@ -14,6 +14,7 @@ import {
 import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
+import DropdownMenuItem from '#components/DropdownMenuItem';
 import Table from '#components/Table';
 import {
     createStringColumn,
@@ -22,7 +23,6 @@ import {
     createNumberColumn,
     createListDisplayColumn,
 } from '#components/Table/ColumnShortcuts';
-import DropdownMenuItem from '#components/DropdownMenuItem';
 import {
     ListResponse,
     useRequest,
@@ -31,7 +31,7 @@ import { sumSafe } from '#utils/common';
 import {
     EmergencyProjectResponse,
     Project,
-} from '#types/project.ts';
+} from '#types/project';
 
 import i18n from './i18n.json';
 
@@ -160,12 +160,14 @@ function ThreeWList(props: Props) {
                     extraActions: (
                         <>
                             <DropdownMenuItem
-                                href={`/three-w/${prj.id}/`}
+                                // TODO; use routes
+                                to={`/three-w/${prj.id}/`}
                                 label={strings.projectListTableViewDetails}
                                 icon={<MdSearch />}
                             />
                             <DropdownMenuItem
-                                href={`/three-w/${prj.id}/edit/`}
+                                // TODO; use routes
+                                to={`/three-w/${prj.id}/edit/`}
                                 icon={<MdEdit />}
                                 label={strings.projectListTableEdit}
                             />
@@ -279,17 +281,20 @@ function ThreeWList(props: Props) {
                     extraActions: (
                         <>
                             <DropdownMenuItem
-                                href={`/emergency-three-w/${rowKey}/`}
+                                // TODO: use routes
+                                to={`/emergency-three-w/${rowKey}/`}
                                 icon={<ShareBoxLineIcon />}
                                 label={strings.threeWEmergencyActionDetails}
                             />
                             <DropdownMenuItem
-                                href={`/emergency-three-w/${rowKey}/edit/`}
+                                // TODO: use routes
+                                to={`/emergency-three-w/${rowKey}/edit/`}
                                 icon={<PencilFillIcon />}
                                 label={strings.threeWEmergencyEditAction}
                             />
                             <DropdownMenuItem
-                                href="/three-w/new/"
+                                // TODO: use routes
+                                to="/three-w/new/"
                                 icon={<CopyLineIcon />}
                                 label={strings.threeWEmergencyDuplicateAction}
                                 state={{

@@ -21,10 +21,10 @@ interface BaseProps {
 type Props<N> = BaseProps & ({
     name?: N;
     onClick: RawButtonProps<N>['onClick'];
-    href?: never;
+    to?: never;
     state?: never;
 } | {
-    href: string;
+    to: string;
     hash?: string;
     state?: unknown;
     onClick?: never;
@@ -41,14 +41,14 @@ function DropdownMenuItem<N>(props: Props<N>) {
 
     const isExternalLink = useMemo(() => (
         // eslint-disable-next-line react/destructuring-assignment
-        props.href
+        props.to
         // eslint-disable-next-line react/destructuring-assignment
-        && typeof props.href === 'string'
+        && typeof props.to === 'string'
         // eslint-disable-next-line react/destructuring-assignment
-        && (isValidUrl(props.href) || props.href.startsWith('mailto:'))
+        && (isValidUrl(props.to) || props.to.startsWith('mailto:'))
     ), [
         // eslint-disable-next-line react/destructuring-assignment
-        props.href,
+        props.to,
     ]);
 
     const className = _cs(
@@ -69,13 +69,13 @@ function DropdownMenuItem<N>(props: Props<N>) {
     );
 
     // eslint-disable-next-line react/destructuring-assignment
-    if (props.href) {
+    if (props.to) {
         if (isExternalLink) {
             return (
                 <a
                     className={_cs(styles.externalLink, className)}
                     // eslint-disable-next-line react/destructuring-assignment
-                    href={props.href}
+                    href={props.to}
                     target="_blank"
                     rel="noreferrer"
                 >
@@ -89,7 +89,7 @@ function DropdownMenuItem<N>(props: Props<N>) {
                 className={_cs(styles.internalLink, className)}
                 to={{
                     // eslint-disable-next-line react/destructuring-assignment
-                    pathname: props.href,
+                    pathname: props.to,
                     // eslint-disable-next-line react/destructuring-assignment
                     hash: props.hash,
                 }}

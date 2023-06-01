@@ -36,7 +36,7 @@ function AuthenticatedUserDropdown(props: Props) {
         >
             <DropdownMenuItem
                 label={strings.userMenuAccount}
-                href={routes.account.absolutePath}
+                to={routes.account.absolutePath}
             />
             <DropdownMenuItem
                 label={strings.userMenuLogout}
