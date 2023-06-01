@@ -67,27 +67,27 @@ function Navbar(props: Props) {
                         label={strings.headerCreateAReportLabel}
                     >
                         <DropdownMenuItem
-                            href="/"
+                            to="/"
                             label={strings.headerDropdownNewFieldReport}
                         />
                         <DropdownMenuItem
-                            href="https://eenew.ifrc.org/single/y300V3lY?returnURL=https://go.ifrc.org/emergencies/3972#actions"
+                            to="https://eenew.ifrc.org/single/y300V3lY?returnURL=https://go.ifrc.org/emergencies/3972#actions"
                             label={strings.headerDropdownCovid19IndicatorTracking}
                         />
                         <DropdownMenuItem
-                            href="https://eenew.ifrc.org/single/VmcTHDMh?returnURL=https://go.ifrc.org/emergencies/3972#actions"
+                            to="https://eenew.ifrc.org/single/VmcTHDMh?returnURL=https://go.ifrc.org/emergencies/3972#actions"
                             label={strings.headerDropdownCovid19NSFinancialOverview}
                         />
                         <DropdownMenuItem
-                            href="/"
+                            to="/"
                             label={strings.headerDropdownNew3WActivity}
                         />
                         <DropdownMenuItem
-                            href="/"
+                            to="/"
                             label={strings.headerDropdownNewDrefApplication}
                         />
                         <DropdownMenuItem
-                            href="/"
+                            to="/"
                             label={strings.headerDropdownNewFlashUpdate}
                         />
                     </DropdownMenu>

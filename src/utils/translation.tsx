@@ -1,8 +1,11 @@
 import { Fragment } from 'react';
-import { isDefined } from '@togglecorp/fujs';
+import { isNotDefined } from '@togglecorp/fujs';
 
-export function resolveToString(template: string, params: Record<string, string>) {
-    if (!isDefined(template)) {
+export function resolveToString(
+    template: string,
+    params: Record<string, string | number | boolean | null | undefined>,
+) {
+    if (isNotDefined(template)) {
         return '';
     }
 
@@ -15,13 +18,14 @@ export function resolveToString(template: string, params: Record<string, string>
         }
 
         const key = part.substring(0, endIndex);
-        if (!isDefined(params[key])) {
+        const value = params[key];
+        if (isNotDefined(value)) {
             // eslint-disable-next-line no-console
             console.error(`value for key "${key}" not provided`);
             return '';
         }
 
-        return part.replace(`${key}}`, params[key]);
+        return part.replace(`${key}}`, String(value));
     });
 
     return resolvedParts.join('');
@@ -29,7 +33,7 @@ export function resolveToString(template: string, params: Record<string, string>
 
 const emptyObject: Record<string, React.ReactNode> = {};
 export function resolveToComponent(template: string, params = emptyObject) {
-    if (!isDefined(template)) {
+    if (isNotDefined(template)) {
         return '';
     }
 
@@ -42,7 +46,8 @@ export function resolveToComponent(template: string, params = emptyObject) {
         }
 
         const key = part.substring(0, endIndex);
-        if (!isDefined(params[key])) {
+        const value = params[key];
+        if (isNotDefined(value)) {
             // eslint-disable-next-line no-console
             console.error(`value for key "${key}" not provided`);
             return null;
@@ -51,9 +56,9 @@ export function resolveToComponent(template: string, params = emptyObject) {
         return (
             <>
                 {/* And, replace with associated component */}
-                { params[key] }
+                {value}
                 {/* Remove the key */}
-                { part.replace(`${key}}`, '')}
+                {part.replace(`${key}}`, '')}
             </>
         );
     });

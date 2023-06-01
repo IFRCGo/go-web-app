@@ -12,7 +12,13 @@ import NumberOutput from '#components/NumberOutput';
 import type { Props as NumberOutputProps } from '#components/NumberOutput';
 import BooleanOutput from '#components/BooleanOutput';
 import type { Props as BooleanOutputProps } from '#components/BooleanOutput';
+import ReducedListDisplay, {
+    Props as ReducedListDisplayProps,
+} from '#components/ReducedListDisplay';
 
+import TableActions, {
+    Props as TableActionsProps,
+} from '../TableActions';
 import HeaderCell from '../HeaderCell';
 import type { HeaderCellProps } from '../HeaderCell';
 import Cell from '../Cell';
@@ -212,5 +218,54 @@ export function createExpandColumn<D, K extends number | string | undefined>(
         columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
+    return item;
+}
+
+export function createActionColumn<D, K>(
+    id: string,
+    rendererParams: (_: K, datum: D) => TableActionsProps,
+    options?: {
+        cellRendererClassName?: string;
+        headerContainerClassName?: string;
+    },
+) {
+    const item: Column<D, K, TableActionsProps, HeaderCellProps> = {
+        id,
+        title: '',
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: false,
+        },
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRenderer: TableActions,
+        cellRendererParams: rendererParams,
+        cellRendererClassName: options?.cellRendererClassName,
+    };
+
+    return item;
+}
+
+export function createListDisplayColumn<D, K>(
+    id: string,
+    title: string,
+    rendererParams: (_: K, datum: D) => ReducedListDisplayProps,
+    options?: {
+        cellRendererClassName?: string;
+        headerContainerClassName?: string;
+    },
+) {
+    const item: Column<D, K, ReducedListDisplayProps, HeaderCellProps> = {
+        id,
+        title,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: false,
+        },
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRenderer: ReducedListDisplay,
+        cellRendererParams: rendererParams,
+        cellRendererClassName: options?.cellRendererClassName,
+    };
+
     return item;
 }

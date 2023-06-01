@@ -28,7 +28,7 @@ function DropdownExample() {
                     className={styles.menuItem}
                     onClick={undefined}
                     label="Google Link"
-                    href="https://www.google.com"
+                    to="https://www.google.com"
                 />
                 <DropdownMenuItem
                     className={styles.menuItem}

@@ -6,6 +6,17 @@
         "accountNotification":"Notifications",
         "accountPerForms":"PER forms",
         "accountThreeWForms":"3W forms",
-        "accountMyDrefApplications":"My Dref Applications"
+        "accountMyDrefApplications":"My Dref Applications",
+        "projectListTableViewDetails": "View details",
+        "projectListTableEdit": "Edit",
+        "threeWTableCountry": "Receiving Country",
+        "threeWTableNS": "National Society",
+        "threeWTableProjectName": "Project Name",
+        "threeWTableSector": "Sector",
+        "threeWTableTotalBudget": "Total Budget",
+        "threeWTableProgrammeType": "Programme Type",
+        "threeWTableDisasterType": "Disaster Type",
+        "threeWTablePeopleTargeted": "People Targeted",
+        "threeWTablePeopleReached2": "Services provided to people in need"
     }
 }

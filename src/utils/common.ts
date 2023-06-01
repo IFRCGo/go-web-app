@@ -93,7 +93,7 @@ export function aggregateList<T, R>(
                 [key]: aggregator(acc[key], value),
             };
         },
-    {} as { [key: string]: R },
+        {} as { [key: string]: R },
     );
     return Object.values(mapping);
 }
@@ -218,8 +218,8 @@ export function downloadFromUrl(url: string, downloadFileName: string) {
 }
 
 export function isIfrcUser(user: {
-  email: string;
-  is_ifrc_admin: boolean;
+    email: string;
+    is_ifrc_admin: boolean;
 } | undefined) {
     if (!user) {
         return false;

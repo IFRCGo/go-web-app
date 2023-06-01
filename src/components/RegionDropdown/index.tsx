@@ -26,23 +26,23 @@ function RegionDropdown(props: Props) {
         >
             {/* TODO: Fetch these from server */}
             <DropdownMenuItem
-                href={generatePath(routes.region.absolutePath, { regionId: '0' })}
+                to={generatePath(routes.region.absolutePath, { regionId: '0' })}
                 label={strings.regionNameAfrica}
             />
             <DropdownMenuItem
-                href={generatePath(routes.region.absolutePath, { regionId: '1' })}
+                to={generatePath(routes.region.absolutePath, { regionId: '1' })}
                 label={strings.regionNameAmerica}
             />
             <DropdownMenuItem
-                href={generatePath(routes.region.absolutePath, { regionId: '2' })}
+                to={generatePath(routes.region.absolutePath, { regionId: '2' })}
                 label={strings.regionNameAsia}
             />
             <DropdownMenuItem
-                href={generatePath(routes.region.absolutePath, { regionId: '3' })}
+                to={generatePath(routes.region.absolutePath, { regionId: '3' })}
                 label={strings.regionNameEurope}
             />
             <DropdownMenuItem
-                href={generatePath(routes.region.absolutePath, { regionId: '4' })}
+                to={generatePath(routes.region.absolutePath, { regionId: '4' })}
                 label={strings.regionNameMENA}
             />
         </DropdownMenu>
