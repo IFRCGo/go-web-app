@@ -5,11 +5,6 @@ import {
     useMemo,
 } from 'react';
 import {
-    set as setToStorage,
-    get as getFromStorage,
-    remove as removeFromStorage,
-} from 'local-storage';
-import {
     createBrowserRouter,
     RouterProvider,
 } from 'react-router-dom';
@@ -26,6 +21,11 @@ import {
     processGoError,
     processGoResponse,
 } from '#utils/restRequest/go';
+import {
+    getFromStorage,
+    removeFromStorage,
+    setToStorage,
+} from '#utils/localStorage';
 
 import { unwrappedRoutes } from '#routes';
 

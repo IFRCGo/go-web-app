@@ -5,7 +5,6 @@ import {
 } from '@togglecorp/fujs';
 import { ContextInterface } from '@togglecorp/toggle-request';
 import { nonFieldError } from '@togglecorp/toggle-form';
-import { get as getFromLocalStorage } from 'local-storage';
 import { UserDetails } from '#contexts/user';
 import { USER_STORAGE_KEY } from '#utils/constants';
 
@@ -14,6 +13,7 @@ import {
     api,
 } from '#config';
 import { isObject } from '#utils/common';
+import { getFromStorage } from '#utils/localStorage';
 
 const CONTENT_TYPE_JSON = 'application/json';
 const CONTENT_TYPE_CSV = 'text/csv';
@@ -159,7 +159,7 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     } = extraOptions;
 
     const currentLanguage = 'en';
-    const user = getFromLocalStorage<UserDetails | undefined>(USER_STORAGE_KEY);
+    const user = getFromStorage<UserDetails | undefined>(USER_STORAGE_KEY);
     const token = user?.token;
 
     const defaultHeaders = {
