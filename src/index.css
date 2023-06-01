@@ -207,11 +207,15 @@
 html,
 body {
     margin: 0;
+    background-color: var(--go-ui-color-background);
     padding: 0;
+}
+
+html {
+    scrollbar-gutter: stable;
 }
 
 body {
     line-height: var(--go-ui-line-height-normal);
     font-family: var(--go-ui-font-family-sans-serif);
-    scrollbar-gutter: stable;
 }

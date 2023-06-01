@@ -9,14 +9,17 @@ import type {
     MyOutputNonIndexRouteObject,
 } from '#utils/routes';
 
+import { Component as RootLayout } from '#views/RootLayout';
+
 import Auth from './Auth';
+
 import PageError from './PageError';
 
 type ExtendedProps = {
     title: string,
     visibility: 'is-authenticated' | 'is-not-authenticated' | 'anything',
 };
-interface MyWrapRoute {
+interface CustomWrapRoute {
     <T>(
         myRouteOptions: MyInputIndexRouteObject<T, ExtendedProps>
     ): MyOutputIndexRouteObject<ExtendedProps>
@@ -24,13 +27,16 @@ interface MyWrapRoute {
         myRouteOptions: MyInputNonIndexRouteObject<T, ExtendedProps>
     ): MyOutputNonIndexRouteObject<ExtendedProps>
 }
-const myWrapRoute: MyWrapRoute = wrapRoute;
+const customWrapRoute: CustomWrapRoute = wrapRoute;
 
-const root = myWrapRoute({
+const root = customWrapRoute({
     path: '/',
-    component: () => import('#views/RootLayout'),
-    componentProps: {},
     errorElement: <PageError />,
+    component: {
+        eagerLoad: true,
+        render: RootLayout,
+        props: {},
+    },
     wrapperComponent: Auth,
     context: {
         title: '',
@@ -38,10 +44,12 @@ const root = myWrapRoute({
     },
 });
 
-const login = myWrapRoute({
+const login = customWrapRoute({
     path: 'login',
-    component: () => import('#views/Login'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Login'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -50,10 +58,12 @@ const login = myWrapRoute({
     },
 });
 
-const register = myWrapRoute({
+const register = customWrapRoute({
     path: 'register',
-    component: () => import('#views/Register'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Register'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -62,10 +72,12 @@ const register = myWrapRoute({
     },
 });
 
-const home = myWrapRoute({
+const home = customWrapRoute({
     index: true,
-    component: () => import('#views/Home'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Home'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -74,10 +86,12 @@ const home = myWrapRoute({
     },
 });
 
-const region = myWrapRoute({
+const region = customWrapRoute({
     path: 'regions/:regionId',
-    component: () => import('#views/Region'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Region'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -86,10 +100,12 @@ const region = myWrapRoute({
     },
 });
 
-const regionOperations = myWrapRoute({
+const regionOperations = customWrapRoute({
     path: 'operations',
-    component: () => import('#views/RegionOperations'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/RegionOperations'),
+        props: {},
+    },
     parent: region,
     context: {
         title: 'Region Operations',
@@ -97,10 +113,12 @@ const regionOperations = myWrapRoute({
     },
 });
 
-const regionThreeW = myWrapRoute({
+const regionThreeW = customWrapRoute({
     path: 'three-w',
-    component: () => import('#views/RegionThreeW'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/RegionThreeW'),
+        props: {},
+    },
     parent: region,
     context: {
         title: 'Region 3W',
@@ -108,10 +126,12 @@ const regionThreeW = myWrapRoute({
     },
 });
 
-const regionRiskWatch = myWrapRoute({
+const regionRiskWatch = customWrapRoute({
     path: 'risk-watch',
-    component: () => import('#views/RegionRiskWatch'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/RegionRiskWatch'),
+        props: {},
+    },
     parent: region,
     context: {
         title: 'Region Risk Watch',
@@ -119,10 +139,12 @@ const regionRiskWatch = myWrapRoute({
     },
 });
 
-const regionPreparedness = myWrapRoute({
+const regionPreparedness = customWrapRoute({
     path: 'preparedness',
-    component: () => import('#views/RegionPreparedness'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/RegionPreparedness'),
+        props: {},
+    },
     parent: region,
     context: {
         title: 'Region Preparedness',
@@ -130,10 +152,12 @@ const regionPreparedness = myWrapRoute({
     },
 });
 
-const regionProfile = myWrapRoute({
+const regionProfile = customWrapRoute({
     path: 'profile',
-    component: () => import('#views/RegionProfile'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/RegionProfile'),
+        props: {},
+    },
     parent: region,
     context: {
         title: 'Region Profile',
@@ -141,10 +165,12 @@ const regionProfile = myWrapRoute({
     },
 });
 
-const country = myWrapRoute({
+const country = customWrapRoute({
     path: 'countries/:countryId/',
-    component: () => import('#views/Country'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Country'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -153,10 +179,12 @@ const country = myWrapRoute({
     },
 });
 
-const countryOperations = myWrapRoute({
+const countryOperations = customWrapRoute({
     path: 'operations',
-    component: () => import('#views/CountryOperations'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/CountryOperations'),
+        props: {},
+    },
     parent: country,
     context: {
         title: 'Country Operations',
@@ -164,10 +192,12 @@ const countryOperations = myWrapRoute({
     },
 });
 
-const countryThreeW = myWrapRoute({
+const countryThreeW = customWrapRoute({
     path: 'three-w',
-    component: () => import('#views/CountryThreeW'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/CountryThreeW'),
+        props: {},
+    },
     parent: country,
     context: {
         title: 'Country 3W',
@@ -175,10 +205,12 @@ const countryThreeW = myWrapRoute({
     },
 });
 
-const countryRiskWatch = myWrapRoute({
+const countryRiskWatch = customWrapRoute({
     path: 'risk-watch',
-    component: () => import('#views/CountryRiskWatch'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/CountryRiskWatch'),
+        props: {},
+    },
     parent: country,
     context: {
         title: 'Country Risk Watch',
@@ -186,10 +218,12 @@ const countryRiskWatch = myWrapRoute({
     },
 });
 
-const countryPreparedness = myWrapRoute({
+const countryPreparedness = customWrapRoute({
     path: 'preparedness',
-    component: () => import('#views/CountryPreparedness'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/CountryPreparedness'),
+        props: {},
+    },
     parent: country,
     context: {
         title: 'Country Preparedness',
@@ -197,10 +231,12 @@ const countryPreparedness = myWrapRoute({
     },
 });
 
-const countryPlan = myWrapRoute({
+const countryPlan = customWrapRoute({
     path: 'plan',
-    component: () => import('#views/CountryPlan'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/CountryPlan'),
+        props: {},
+    },
     parent: country,
     context: {
         title: 'Country Plan',
@@ -208,10 +244,12 @@ const countryPlan = myWrapRoute({
     },
 });
 
-const countryAdditionalData = myWrapRoute({
+const countryAdditionalData = customWrapRoute({
     path: 'additional-data',
-    component: () => import('#views/CountryAdditionalData'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/CountryAdditionalData'),
+        props: {},
+    },
     parent: country,
     context: {
         title: 'Country Additional Data',
@@ -219,10 +257,12 @@ const countryAdditionalData = myWrapRoute({
     },
 });
 
-const emergencies = myWrapRoute({
+const emergencies = customWrapRoute({
     path: 'emergencies',
-    component: () => import('#views/Emergencies'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Emergencies'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -231,10 +271,12 @@ const emergencies = myWrapRoute({
     },
 });
 
-const emergency = myWrapRoute({
+const emergency = customWrapRoute({
     path: 'emergencies/:emergencyId',
-    component: () => import('#views/Emergency'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Emergency'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -243,10 +285,12 @@ const emergency = myWrapRoute({
     },
 });
 
-const surge = myWrapRoute({
+const surge = customWrapRoute({
     path: 'surge',
-    component: () => import('#views/Surge'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Surge'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -255,10 +299,12 @@ const surge = myWrapRoute({
     },
 });
 
-const preparedness = myWrapRoute({
+const preparedness = customWrapRoute({
     path: 'preparedness',
-    component: () => import('#views/Preparedness'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Preparedness'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -267,10 +313,12 @@ const preparedness = myWrapRoute({
     },
 });
 
-const threeW = myWrapRoute({
+const threeW = customWrapRoute({
     path: 'three-w',
-    component: () => import('#views/GlobalThreeW'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/GlobalThreeW'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -279,10 +327,12 @@ const threeW = myWrapRoute({
     },
 });
 
-const riskWatch = myWrapRoute({
+const riskWatch = customWrapRoute({
     path: 'risk-watch',
-    component: () => import('#views/GlobalRiskWatch'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/GlobalRiskWatch'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -291,10 +341,12 @@ const riskWatch = myWrapRoute({
     },
 });
 
-const account = myWrapRoute({
+const account = customWrapRoute({
     path: 'account',
-    component: () => import('#views/Account'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Account'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -303,10 +355,12 @@ const account = myWrapRoute({
     },
 });
 
-const accountInformation = myWrapRoute({
+const accountInformation = customWrapRoute({
     path: 'account-information',
-    component: () => import('#views/AccountInformation'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/AccountInformation'),
+        props: {},
+    },
     parent: account,
     context: {
         title: 'Account Information',
@@ -314,10 +368,12 @@ const accountInformation = myWrapRoute({
     },
 });
 
-const accountNotifications = myWrapRoute({
+const accountNotifications = customWrapRoute({
     path: 'notifications',
-    component: () => import('#views/AccountNotifications'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/AccountNotifications'),
+        props: {},
+    },
     parent: account,
     context: {
         title: 'Account Notifications',
@@ -325,10 +381,12 @@ const accountNotifications = myWrapRoute({
     },
 });
 
-const accountPERForms = myWrapRoute({
+const accountPerForms = customWrapRoute({
     path: 'per-forms',
-    component: () => import('#views/AccountPerForms'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/AccountPerForms'),
+        props: {},
+    },
     parent: account,
     context: {
         title: 'Account PER Forms',
@@ -336,10 +394,12 @@ const accountPERForms = myWrapRoute({
     },
 });
 
-const accountDREFApplications = myWrapRoute({
+const accountDrefApplications = customWrapRoute({
     path: 'dref-applications',
-    component: () => import('#views/AccountDrefApplications'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/AccountDrefApplications'),
+        props: {},
+    },
     parent: account,
     context: {
         title: 'Account DREF Applications',
@@ -347,10 +407,12 @@ const accountDREFApplications = myWrapRoute({
     },
 });
 
-const accountThreeWForms = myWrapRoute({
+const accountThreeWForms = customWrapRoute({
     path: 'three-w-forms',
-    component: () => import('#views/AccountThreeWForms'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/AccountThreeWForms'),
+        props: {},
+    },
     parent: account,
     context: {
         title: 'Account DREF Applications',
@@ -358,10 +420,12 @@ const accountThreeWForms = myWrapRoute({
     },
 });
 
-const resources = myWrapRoute({
+const resources = customWrapRoute({
     path: 'resources',
-    component: () => import('#views/Resources'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Resources'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -370,10 +434,12 @@ const resources = myWrapRoute({
     },
 });
 
-const search = myWrapRoute({
+const search = customWrapRoute({
     path: 'search',
-    component: () => import('#views/Search'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/Search'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -382,10 +448,12 @@ const search = myWrapRoute({
     },
 });
 
-const goUI = myWrapRoute({
+const goUI = customWrapRoute({
     path: 'go-ui',
-    component: () => import('#views/GoUI'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/GoUI'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -394,10 +462,12 @@ const goUI = myWrapRoute({
     },
 });
 
-const drefApplicationFormNew = myWrapRoute({
+const drefApplicationFormNew = customWrapRoute({
     path: 'dref-application/new/',
-    component: () => import('#views/DrefApplicationForm'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/DrefApplicationForm'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -406,10 +476,12 @@ const drefApplicationFormNew = myWrapRoute({
     },
 });
 
-const drefApplicationFormEdit = myWrapRoute({
+const drefApplicationFormEdit = customWrapRoute({
     path: 'dref-application/:drefId/edit/',
-    component: () => import('#views/DrefApplicationForm'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/DrefApplicationForm'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -418,10 +490,12 @@ const drefApplicationFormEdit = myWrapRoute({
     },
 });
 
-const flashUpdateFormNew = myWrapRoute({
+const flashUpdateFormNew = customWrapRoute({
     path: 'flash-update/new/',
-    component: () => import('#views/FlashUpdateForm'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/FlashUpdateForm'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -430,10 +504,12 @@ const flashUpdateFormNew = myWrapRoute({
     },
 });
 
-const fieldReportFormNew = myWrapRoute({
+const fieldReportFormNew = customWrapRoute({
     path: 'field-report/new/',
-    component: () => import('#views/FieldReportForm'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/FieldReportForm'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {
@@ -468,8 +544,8 @@ const wrappedRoutes = {
     account,
     accountInformation,
     accountNotifications,
-    accountPERForms,
-    accountDREFApplications,
+    accountPerForms,
+    accountDrefApplications,
     accountThreeWForms,
     resources,
     goUI,
@@ -484,3 +560,5 @@ const wrappedRoutes = {
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
 
 export default wrappedRoutes;
+
+export type WrappedRoutes = typeof wrappedRoutes;

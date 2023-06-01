@@ -20,7 +20,6 @@ interface Props {
     children?: React.ReactNode;
     mainSectionClassName?: string;
     infoContainerClassName?: string;
-    withMainContentBackground?: boolean;
     wikiLink?: React.ReactNode;
 }
 
@@ -37,7 +36,6 @@ function Page(props: Props) {
         children,
         mainSectionClassName,
         infoContainerClassName,
-        withMainContentBackground,
         wikiLink,
     } = props;
 
@@ -58,7 +56,6 @@ function Page(props: Props) {
         <div
             className={_cs(
                 styles.page,
-                withMainContentBackground && styles.withMainContentBackground,
                 className,
             )}
         >

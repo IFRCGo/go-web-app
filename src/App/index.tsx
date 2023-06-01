@@ -13,6 +13,7 @@ import { unique } from '@togglecorp/fujs';
 
 import UserContext, { UserDetails } from '#contexts/user';
 import AlertContext, { AlertParams, AlertContextProps } from '#contexts/alert';
+import RouteContext from '#contexts/route';
 import { RequestContext } from '#utils/restRequest';
 import { USER_STORAGE_KEY } from '#utils/constants';
 import {
@@ -26,8 +27,10 @@ import {
     removeFromStorage,
     setToStorage,
 } from '#utils/localStorage';
+import goLogo from '#assets/icons/go-logo-2020.svg';
 
-import { unwrappedRoutes } from '#routes';
+import wrappedRoutes, { unwrappedRoutes } from './routes';
+import styles from './styles.module.css';
 
 const requestContextValue = {
     transformUrl: processGoUrls,
@@ -122,13 +125,27 @@ function App() {
     }), [userDetails, hydrateUser, setUser, removeUser]);
 
     return (
-        <UserContext.Provider value={userContextValue}>
-            <AlertContext.Provider value={alertContextValue}>
-                <RequestContext.Provider value={requestContextValue}>
-                    <RouterProvider router={router} />
-                </RequestContext.Provider>
-            </AlertContext.Provider>
-        </UserContext.Provider>
+        <RouteContext.Provider value={wrappedRoutes}>
+            <UserContext.Provider value={userContextValue}>
+                <AlertContext.Provider value={alertContextValue}>
+                    <RequestContext.Provider value={requestContextValue}>
+                        <RouterProvider
+                            router={router}
+                            fallbackElement={(
+                                <div className={styles.fallbackElement}>
+                                    <img
+                                        className={styles.goLogo}
+                                        alt="IFRC GO"
+                                        src={goLogo}
+                                    />
+                                    {`${import.meta.env.APP_TITLE} loading...`}
+                                </div>
+                            )}
+                        />
+                    </RequestContext.Provider>
+                </AlertContext.Provider>
+            </UserContext.Provider>
+        </RouteContext.Provider>
     );
 }
 

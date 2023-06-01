@@ -10,7 +10,6 @@
         "#config": ["./src/config"],
         "#contexts/*": ["./src/contexts/*"],
         "#hooks/*": ["./src/hooks/*"],
-        "#routes": ["./src/App/routes"],
         "#strings/*": ["./src/strings/*"],
         "#types/*": ["./src/types/*"],
         "#utils/*": ["./src/utils/*"],

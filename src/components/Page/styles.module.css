@@ -7,12 +7,9 @@
         background-color: var(--go-ui-color-background);
     }
 
-    &.with-main-content-background {
-        background-color: var(--go-ui-color-background);
-    }
-
     .main-section {
         flex-grow: 1;
+        background-color: var(--go-ui-color-white);
         padding: var(--go-ui-spacing-4xl) var(--go-ui-spacing-2xl);
     }
 }

@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { resolve } from 'url';
 import { _cs } from '@togglecorp/fujs';
 import {
@@ -12,9 +13,9 @@ import ButtonLikeLink from '#components/ButtonLikeLink';
 import Link from '#components/Link';
 import PageContainer from '#components/PageContainer';
 import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { adminUrl } from '#config';
-import routes from '#routes';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -27,6 +28,8 @@ function GlobalFooter(props: Props) {
     const {
         className,
     } = props;
+
+    const { resources: resourcesRoute } = useContext(RouteContext);
 
     const date = new Date();
     const year = date.getFullYear();
@@ -88,7 +91,7 @@ function GlobalFooter(props: Props) {
                         {strings.footerApiDocumentation}
                     </Link>
                     <Link
-                        to={routes.resources.absolutePath}
+                        to={resourcesRoute.absolutePath}
                     >
                         {strings.footerOtherResources}
                     </Link>

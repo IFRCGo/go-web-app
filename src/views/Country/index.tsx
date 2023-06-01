@@ -1,4 +1,5 @@
 import { useParams, Outlet, generatePath } from 'react-router-dom';
+import { useContext } from 'react';
 import {
     DrefIcon,
     AppealsIcon,
@@ -14,9 +15,8 @@ import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import KeyFigure from '#components/KeyFigure';
 import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
-
-import routes from '#routes';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -71,7 +71,18 @@ interface AggregatedAppealResponse {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryId } = useParams<{ countryId: string }>();
+
     const strings = useTranslation(i18n);
+
+    const {
+        countryOperations: countryOperationsRoute,
+        countryThreeW: countryThreeWRoute,
+        countryRiskWatch: countryRiskWatchRoute,
+        countryPreparedness: countryPreparednessRoute,
+        countryPlan: countryPlanRoute,
+        countryAdditionalData: countryAdditionalDataRoute,
+    } = useContext(RouteContext);
+
     const {
         pending: countryResponsePending,
         response: countryResponse,
@@ -152,7 +163,7 @@ export function Component() {
             <NavigationTabList>
                 <NavigationTab
                     to={generatePath(
-                        routes.countryOperations.absolutePath,
+                        countryOperationsRoute.absolutePath,
                         { countryId },
                     )}
                 >
@@ -160,7 +171,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        routes.countryThreeW.absolutePath,
+                        countryThreeWRoute.absolutePath,
                         { countryId },
                     )}
                 >
@@ -168,7 +179,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        routes.countryRiskWatch.absolutePath,
+                        countryRiskWatchRoute.absolutePath,
                         { countryId },
                     )}
                 >
@@ -176,7 +187,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        routes.countryPreparedness.absolutePath,
+                        countryPreparednessRoute.absolutePath,
                         { countryId },
                     )}
                 >
@@ -184,7 +195,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        routes.countryPlan.absolutePath,
+                        countryPlanRoute.absolutePath,
                         { countryId },
                     )}
                 >
@@ -192,7 +203,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        routes.countryAdditionalData.absolutePath,
+                        countryAdditionalDataRoute.absolutePath,
                         { countryId },
                     )}
                 >

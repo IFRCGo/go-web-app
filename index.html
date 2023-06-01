@@ -24,12 +24,35 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: Poppins, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+                background-color: #f7f7f7;
+            }
+
+            #webapp-preload {
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
     </head>
     <body>
         <noscript>
             %APP_TITLE% needs JS.
         </noscript>
-        <div id="webapp-root"></div>
+        <div id="webapp-root">
+            <div id="webapp-preload">
+                %APP_TITLE% loading...
+            </div>
+        </div>
         <script
             type="module"
             src="/src/index.tsx"

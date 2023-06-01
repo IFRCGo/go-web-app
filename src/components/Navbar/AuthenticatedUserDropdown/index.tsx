@@ -3,8 +3,8 @@ import { useContext, useCallback } from 'react';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
-import routes from '#routes';
 import UserContext from '#contexts/user';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
@@ -20,6 +20,7 @@ function AuthenticatedUserDropdown(props: Props) {
     const strings = useTranslation(i18n);
 
     const { userDetails, removeUser } = useContext(UserContext);
+    const { account: accountRoute } = useContext(RouteContext);
     const handleLogoutClick = useCallback(() => {
         removeUser();
     }, [removeUser]);
@@ -36,7 +37,7 @@ function AuthenticatedUserDropdown(props: Props) {
         >
             <DropdownMenuItem
                 label={strings.userMenuAccount}
-                to={routes.account.absolutePath}
+                to={accountRoute.absolutePath}
             />
             <DropdownMenuItem
                 label={strings.userMenuLogout}
