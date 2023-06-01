@@ -17,10 +17,6 @@ export default defineConfig(({ mode }) => {
     const isProd = mode === 'production';
     return {
         define: {
-            // `global` is used by `local-storage`
-            // vite does not set `global` field by default
-            // https://github.com/WalletConnect/walletconnect-monorepo/issues/1658#issuecomment-1321844222
-            global: 'globalThis',
             'import.meta.env.APP_COMMIT_HASH': JSON.stringify(commitHash),
             'import.meta.env.APP_VERSION': JSON.stringify(process.env.npm_package_version),
         },

@@ -25,7 +25,6 @@
         "@togglecorp/toggle-form": "2.0.2",
         "@togglecorp/toggle-request": "^0.0.2",
         "docx4js": "^3.2.20",
-        "local-storage": "^2.0.0",
         "mapbox-gl": "^1.13.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
