@@ -53,7 +53,7 @@
 
 @keyframes slide-down {
     from {
-        transform: translateY(-1rem);
+        transform: translateY(-0.25rem);
         opacity: 0;
     }
     to {
@@ -69,7 +69,7 @@
 
 @keyframes appear {
     from {
-        transform: translateY(1rem);
+        transform: translateY(0.25rem);
         opacity: 0;
     }
     to {

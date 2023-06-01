@@ -3,7 +3,6 @@ import {
     useCallback,
     useEffect,
     useMemo,
-    Suspense,
 } from 'react';
 import {
     createBrowserRouter,
@@ -28,8 +27,10 @@ import {
     removeFromStorage,
     setToStorage,
 } from '#utils/localStorage';
+import goLogo from '#assets/icons/go-logo-2020.svg';
 
 import wrappedRoutes, { unwrappedRoutes } from './routes';
+import styles from './styles.module.css';
 
 const requestContextValue = {
     transformUrl: processGoUrls,
@@ -124,20 +125,27 @@ function App() {
     }), [userDetails, hydrateUser, setUser, removeUser]);
 
     return (
-        <div>
-            <RouteContext.Provider value={wrappedRoutes}>
-                <UserContext.Provider value={userContextValue}>
-                    <AlertContext.Provider value={alertContextValue}>
-                        <RequestContext.Provider value={requestContextValue}>
-                            <RouterProvider
-                                router={router}
-                                fallbackElement={<div>Loading...</div>}
-                            />
-                        </RequestContext.Provider>
-                    </AlertContext.Provider>
-                </UserContext.Provider>
-            </RouteContext.Provider>
-        </div>
+        <RouteContext.Provider value={wrappedRoutes}>
+            <UserContext.Provider value={userContextValue}>
+                <AlertContext.Provider value={alertContextValue}>
+                    <RequestContext.Provider value={requestContextValue}>
+                        <RouterProvider
+                            router={router}
+                            fallbackElement={(
+                                <div className={styles.fallbackElement}>
+                                    <img
+                                        className={styles.goLogo}
+                                        alt="IFRC GO"
+                                        src={goLogo}
+                                    />
+                                    {`${import.meta.env.APP_TITLE} loading...`}
+                                </div>
+                            )}
+                        />
+                    </RequestContext.Provider>
+                </AlertContext.Provider>
+            </UserContext.Provider>
+        </RouteContext.Provider>
     );
 }
 
