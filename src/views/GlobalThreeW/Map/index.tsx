@@ -1,5 +1,7 @@
 import { generatePath } from 'react-router-dom';
-import { useContext, useState, useMemo, useCallback } from 'react';
+import {
+    useContext, useState, useMemo, useCallback,
+} from 'react';
 import {
     _cs,
     listToMap,
