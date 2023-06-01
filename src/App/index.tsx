@@ -3,6 +3,7 @@ import {
     useCallback,
     useEffect,
     useMemo,
+    Suspense,
 } from 'react';
 import {
     createBrowserRouter,

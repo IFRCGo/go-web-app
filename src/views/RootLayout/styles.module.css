@@ -1,19 +1,78 @@
 .root {
     display: flex;
+    position: relative;
     flex-direction: column;
     min-height: 100vh;
 
+    .navigation-loader {
+        position: fixed;
+        transition: var(--go-ui-duration-animation-medium) width ease-out;
+        background-color: var(--go-ui-color-primary-blue);
+        width: 100%;
+        height: var(--go-ui-width-separator-lg);
+        animation: bounce-back-and-forth var(--go-ui-duration-animation-slow) ease-in-out infinite;
+
+        &.dissapear {
+            width: 0;
+            animation: fade-out var(--go-ui-duration-animation-medium) ease-in forwards;
+        }
+    }
+
     .navbar {
         flex-shrink: 0;
+        animation: slide-down var(--go-ui-duration-animation-medium) ease-in forwards;
     }
 
     .page-content {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+        opacity: 0;
+        animation: appear var(--go-ui-duration-animation-medium) ease-in-out forwards;
     }
 
     .footer {
         flex-shrink: 0;
+    }
+}
+
+@keyframes bounce-back-and-forth {
+    0% {
+        left: 0;
+        width: 0%;
+    }
+    50% {
+        width: 50%;
+    }
+    100% {
+        left: 100%;
+        width: 0%;
+    }
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateY(-1rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes appear {
+    from {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
     }
 }

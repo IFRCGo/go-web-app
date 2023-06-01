@@ -6,7 +6,6 @@ import App from './App/index.tsx';
 import './index.css';
 
 const webappRootId = 'webapp-root';
-
 const webappRootElement = document.getElementById(webappRootId);
 
 if (!webappRootElement) {
