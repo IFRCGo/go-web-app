@@ -1,6 +1,9 @@
 .container {
     display: flex;
     flex-direction: column;
+    min-height: 15rem;
+    position: relative;
+    overflow-x: auto;
 
     .table {
         /* NOTE: This will ensure that the z-index in
@@ -27,7 +30,9 @@
 
         .row {
             &:hover {
-                opacity: 0.6;
+                .cell {
+                    background-color: var(--go-ui-color-background);
+                }
             }
 
             .cell {
@@ -44,6 +49,19 @@
                     border-bottom: none;
                 }
             }
+        }
+    }
+
+    .message {
+        &.pending {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--go-ui-color-background-overlay);
         }
     }
 }

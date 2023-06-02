@@ -76,6 +76,7 @@ function Page(props: Props) {
             )}
             <PageContainer
                 contentAs="main"
+                className={styles.mainSectionContainer}
                 contentClassName={_cs(
                     styles.mainSection,
                     mainSectionClassName,

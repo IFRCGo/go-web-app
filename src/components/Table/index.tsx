@@ -10,6 +10,7 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
+import Message from '#components/Message';
 import { DEFAULT_TABLE_COLUMN_WIDTH } from '#utils/constants';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
@@ -79,6 +80,9 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     resizableColumn?: boolean;
 
     headersHidden?: boolean;
+
+    filtered?: boolean;
+    pending?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -90,7 +94,6 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         keySelector,
         columns,
         caption,
-
         containerClassName,
         className,
         captionClassName,
@@ -101,14 +104,13 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         rowModifier,
         fixedColumnWidth,
         resizableColumn,
-
         headersHidden,
+        pending,
+        filtered,
     } = props;
 
     const containerRef = useRef<HTMLDivElement>(null);
-
     const [tableName] = React.useState(() => randomString());
-
     const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
 
     useEffect(() => {
@@ -359,6 +361,15 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                     </tbody>
                 </table>
             )}
+            <Message
+                className={_cs(
+                    styles.message,
+                    pending && styles.pending,
+                )}
+                pending={pending}
+                empty={!data?.length}
+                filtered={filtered}
+            />
         </div>
     );
 }

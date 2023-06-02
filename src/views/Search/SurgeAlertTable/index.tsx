@@ -9,7 +9,7 @@ import {
     createDateColumn,
     createLinkColumn,
     createStringColumn,
-} from '#components/Table/columnShortcuts';
+} from '#components/Table/ColumnShortcuts';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

@@ -2,16 +2,20 @@ import React, { useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
-import ReducedListDisplay, { Props as ReducedListDisplayProps } from '#components/ReducedListDisplay';
+import ReducedListDisplay, {
+    Props as ReducedListDisplayProps,
+} from '#components/ReducedListDisplay';
 import useTranslation from '#hooks/useTranslation';
 import Table, { Column as TableColumn } from '#components/Table';
-import TableHeaderCell, { HeaderCellProps as TableHeaderCellProps } from '#components/Table/HeaderCell';
+import TableHeaderCell, {
+    HeaderCellProps as TableHeaderCellProps,
+} from '#components/Table/HeaderCell';
 import {
     createNumberColumn,
     createDateRangeColumn,
     createStringColumn,
     createLinkColumn,
-} from '#components/Table/columnShortcuts';
+} from '#components/Table/ColumnShortcuts';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

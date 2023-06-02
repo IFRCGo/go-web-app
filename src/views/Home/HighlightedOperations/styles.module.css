@@ -2,7 +2,11 @@
     .emergency-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-xl);
-        grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+
+        @media screen and (max-width: 30rem) {
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        }
 
         .operation {
             height: 100%;

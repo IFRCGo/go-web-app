@@ -1,15 +1,17 @@
 import { _cs } from '@togglecorp/fujs';
 
+import NumberOutput from '#components/NumberOutput';
+
 import styles from './styles.module.css';
 
-interface Props {
+export interface Props {
     className?: string;
     barHeight?: number;
     title?: React.ReactNode;
     description?: React.ReactNode;
     value: number;
-    totalValue: number;
-    color?: string;
+    totalValue?: number;
+    showPercentageInTitle?: boolean;
 }
 
 function ProgressBar(props: Props) {
@@ -17,16 +19,24 @@ function ProgressBar(props: Props) {
         className,
         title,
         description,
-        totalValue,
+        totalValue = 100,
         value,
-        color,
         barHeight = 8,
+        showPercentageInTitle,
     } = props;
+
+    const percentage = (value / totalValue) * 100;
 
     return (
         <div className={_cs(styles.progressWrapper, className)}>
             <div className={styles.title}>
                 {title}
+                {showPercentageInTitle && (
+                    <NumberOutput
+                        value={percentage}
+                        suffix="%"
+                    />
+                )}
             </div>
             <div
                 className={styles.total}
@@ -35,8 +45,7 @@ function ProgressBar(props: Props) {
                 <div
                     className={styles.progress}
                     style={{
-                        width: `${(value / totalValue) * 100}%`,
-                        backgroundColor: color ?? '#011E41',
+                        width: `${percentage}%`,
                     }}
                 />
             </div>

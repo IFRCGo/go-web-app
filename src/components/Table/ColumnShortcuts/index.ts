@@ -14,6 +14,8 @@ import NumberOutput from '#components/NumberOutput';
 import type { Props as NumberOutputProps } from '#components/NumberOutput';
 import BooleanOutput from '#components/BooleanOutput';
 import type { Props as BooleanOutputProps } from '#components/BooleanOutput';
+import ProgressBar from '#components/ProgressBar';
+import type { Props as ProgressBarProps } from '#components/ProgressBar';
 import ReducedListDisplay, {
     Props as ReducedListDisplayProps,
 } from '#components/ReducedListDisplay';
@@ -77,6 +79,42 @@ export function createBooleanColumn<D, K>(
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareBoolean(accessor(foo), accessor(bar)),
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
+    };
+    return item;
+}
+
+export function createProgressColumn<D, K>(
+    id: string,
+    title: string,
+    accessor: (item: D) => number,
+    options?: Options<D, K, ProgressBarProps, HeaderCellProps>,
+) {
+    const item: Column<D, K, ProgressBarProps, HeaderCellProps> & {
+        valueSelector: (item: D) => number | undefined | null,
+        valueComparator: (foo: D, bar: D) => number,
+    } = {
+        id,
+        title,
+        columnClassName: options?.columnClassName,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        headerCellRendererParams: {
+            sortable: options?.sortable,
+        },
+        cellRendererClassName: options?.cellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
+        cellRenderer: ProgressBar,
+        cellRendererParams: (_: K, datum: D): ProgressBarProps => ({
+            value: accessor(datum),
+            totalValue: 100,
+            showPercentageInTitle: true,
+        }),
+        valueSelector: accessor,
+        valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
         columnWidth: options?.columnWidth,
         columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
@@ -154,6 +192,7 @@ export function createNumberColumn<D, K>(
             value: accessor(datum),
             suffix: options?.suffix,
             precision: options?.precision,
+            normal: true,
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
@@ -251,6 +290,7 @@ export function createLinkColumn<D, K>(
         cellRenderer: Link,
         cellRendererParams: (_: K, datum: D): LinkProps => ({
             children: accessor(datum),
+            underline: true,
             ...rendererParams(datum),
         }),
         valueSelector: () => '',

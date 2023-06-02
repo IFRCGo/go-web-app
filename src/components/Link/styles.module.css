@@ -11,7 +11,15 @@
     color: var(--color);
     gap: var(--spacing);
 
-    &:not(.disabled) {
+    &:not(.non-link) {
+        font-weight: var(--go-ui-font-weight-medium);
+
+        &.underline {
+            --decoration: underline;
+        }
+    }
+
+    &:not(.disabled):not(.non-link) {
         cursor: pointer;
 
         &:hover {
@@ -23,10 +31,6 @@
     &.disabled {
         --color: var(--go-ui-color-gray-40);
         pointer-events: none;
-    }
-
-    &.underline {
-        --decoration: underline;
     }
 
     .link {

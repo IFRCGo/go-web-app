@@ -1,4 +1,5 @@
-import { _cs } from '@togglecorp/fujs';
+import { useMemo } from 'react';
+import { _cs, isValidUrl, isNotDefined } from '@togglecorp/fujs';
 import {
     Link as InternalLink,
     LinkProps as RouterLinkProps,
@@ -8,25 +9,28 @@ import useBasicLayout from '#hooks/useBasicLayout';
 
 import styles from './styles.module.css';
 
-export interface Props extends RouterLinkProps {
-  actions?: React.ReactNode;
-  actionsContainerClassName?: string;
-  disabled?: boolean;
-  external?: boolean;
-  icons?: React.ReactNode;
-  iconsContainerClassName?: string;
-  linkElementClassName?: string;
-  underline?: boolean;
+function isExternalLink(to: RouterLinkProps['to'] | undefined): to is string {
+    return !!(to && typeof to === 'string' && (isValidUrl(to) || to.startsWith('mailto:')));
+}
+
+export interface Props extends Omit<RouterLinkProps, 'to'> {
+    actions?: React.ReactNode;
+    actionsContainerClassName?: string;
+    disabled?: boolean;
+    icons?: React.ReactNode;
+    iconsContainerClassName?: string;
+    linkElementClassName?: string;
+    underline?: boolean;
+    to?: RouterLinkProps['to'];
 }
 
 function Link(props: Props) {
     const {
         actions,
         actionsContainerClassName,
-        children,
+        children: childrenFromProps,
         className,
         disabled,
-        external,
         icons,
         iconsContainerClassName,
         linkElementClassName,
@@ -35,33 +39,44 @@ function Link(props: Props) {
         ...otherProps
     } = props;
 
-    const link = external ? (
-        <a
-            className={_cs(
-                linkElementClassName,
-                styles.link,
-            )}
-            href={to as string}
-            target="_blank"
-            rel="noopener noreferrer"
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...otherProps}
-        >
-            {children}
-        </a>
-    ) : (
-        <InternalLink
-            className={_cs(
-                linkElementClassName,
-                styles.link,
-            )}
-            to={to}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...otherProps}
-        >
-            {children}
-        </InternalLink>
-    );
+    const children = useMemo(() => {
+        if (isNotDefined(to)) {
+            return childrenFromProps;
+        }
+
+        const external = isExternalLink(to);
+        if (external) {
+            return (
+                <a
+                    className={_cs(
+                        linkElementClassName,
+                        styles.link,
+                    )}
+                    href={to}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...otherProps}
+                >
+                    {childrenFromProps}
+                </a>
+            );
+        }
+
+        return (
+            <InternalLink
+                className={_cs(
+                    linkElementClassName,
+                    styles.link,
+                )}
+                to={to}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...otherProps}
+            >
+                {childrenFromProps}
+            </InternalLink>
+        );
+    }, [to, linkElementClassName, childrenFromProps, otherProps]);
 
     const {
         content,
@@ -69,7 +84,7 @@ function Link(props: Props) {
     } = useBasicLayout({
         className,
         icons,
-        children: link,
+        children,
         actions,
         iconsContainerClassName,
         actionsContainerClassName,
@@ -78,6 +93,7 @@ function Link(props: Props) {
     return (
         <div className={_cs(
             styles.linkContainer,
+            isNotDefined(to) && styles.nonLink,
             containerClassName,
             underline && styles.underline,
             disabled && styles.disabled,
