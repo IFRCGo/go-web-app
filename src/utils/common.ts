@@ -10,8 +10,6 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import { CommonStrings } from '#strings/common';
-
 export const getHashFromBrowser = () => window.location.hash.substring(1);
 
 export const setHashToBrowser = (hash: string | undefined) => {
@@ -166,23 +164,6 @@ export function rankedSearchOnList<T>(
             labelSelector(b),
             searchString,
         ));
-}
-
-export function getFullMonthNameList(strings: CommonStrings) {
-    return [
-        strings.monthNameJanuary,
-        strings.monthNameFebruary,
-        strings.monthNameMarch,
-        strings.monthNameApril,
-        strings.monthNameMay,
-        strings.monthNameJune,
-        strings.monthNameJuly,
-        strings.monthNameAugust,
-        strings.monthNameSeptember,
-        strings.monthNameOctober,
-        strings.monthNameNovember,
-        strings.monthNameDecember,
-    ] as const;
 }
 
 export function avgSafe(list: (number | undefined | null)[]) {
