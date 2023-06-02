@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import Button from '#components/Button';
+import ExpandableContainer from '#components/ExpandableContainer';
 import Links from './examples/Links';
 import Buttons from './examples/Buttons';
 import Cards from './examples/Cards';
@@ -320,6 +321,7 @@ export function Component() {
                 {element === 'go-single-file-input' && <GoSingleFileInputExample />}
                 {element === 'go-multi-file-input' && <GoMultiFileInputExample />}
                 {element === 'file-button' && <FileButtonExample />}
+                {element === 'expandable-container' && <ExpandableContainer>ExpandableContainer</ExpandableContainer>}
             </div>
         </div>
     );
