@@ -1,5 +1,5 @@
 {
-    "namespace": "fieldReportTable",
+    "namespace": "search",
     "strings": {
         "searchFieldReportTableDate": "Date",
         "searchFieldReportTableType": "Type",

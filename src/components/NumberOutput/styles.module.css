@@ -1,5 +1,5 @@
 .number-output {
-    display: inline-flex;
+    display: inline;
     font-size: inherit;
 
     .prefix,
@@ -7,6 +7,7 @@
     .number,
     .normalization-suffix,
     .suffix {
+        display: inline;
         white-space: nowrap;
     }
 }

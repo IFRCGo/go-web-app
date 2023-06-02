@@ -1,5 +1,5 @@
 {
-    "namespace": "searchEmergencyTable",
+    "namespace": "search",
     "strings": {
         "searchEmergencyTableTitle": "Title",
         "searchEmergencyTableAppealType": "Appeal Type",

@@ -240,7 +240,7 @@ export function createDateColumn<D, K>(
 export function createDateRangeColumn<D, K>(
     id: string,
     title: string,
-    accessor: (item: D) => string,
+    accessor: (item: D) => { startDate: string, endDate: string },
     options?: Options<D, K, DateRangeOutputProps, HeaderCellProps>,
 ) {
     const item: Column<D, K, DateRangeOutputProps, HeaderCellProps> & {
@@ -260,11 +260,14 @@ export function createDateRangeColumn<D, K>(
         cellRenderer: DateRangeOutput,
         cellContainerClassName: options?.cellContainerClassName,
         cellRendererParams: (_:K, datum: D): DateRangeOutputProps => ({
-            startDate: accessor(datum),
-            endDate: accessor(datum),
+            ...accessor(datum),
         }),
-        valueSelector: accessor,
-        valueComparator: (foo: D, bar: D) => compareDate(accessor(foo), accessor(bar)),
+        valueSelector: (datum) => accessor(datum).startDate,
+        valueComparator: (foo: D, bar: D) => {
+            const { startDate: fooStartDate } = accessor(foo);
+            const { startDate: barStartDate } = accessor(bar);
+            return compareDate(fooStartDate, barStartDate);
+        },
         columnWidth: options?.columnWidth,
         columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
@@ -334,7 +337,7 @@ export function createExpandColumn<D, K extends number | string | undefined>(
 
 export function createActionColumn<D, K>(
     id: string,
-    rendererParams: (_: K, datum: D) => TableActionsProps,
+    rendererParams: (datum: D) => TableActionsProps,
     options?: {
         cellRendererClassName?: string;
         headerContainerClassName?: string;
@@ -349,7 +352,9 @@ export function createActionColumn<D, K>(
         },
         headerContainerClassName: options?.headerContainerClassName,
         cellRenderer: TableActions,
-        cellRendererParams: rendererParams,
+        cellRendererParams: (_, datum) => ({
+            ...rendererParams(datum),
+        }),
         cellRendererClassName: options?.cellRendererClassName,
     };
 
@@ -359,7 +364,7 @@ export function createActionColumn<D, K>(
 export function createListDisplayColumn<D, K>(
     id: string,
     title: string,
-    rendererParams: (_: K, datum: D) => ReducedListDisplayProps,
+    rendererParams: (datum: D) => ReducedListDisplayProps,
     options?: {
         cellRendererClassName?: string;
         headerContainerClassName?: string;
@@ -374,7 +379,9 @@ export function createListDisplayColumn<D, K>(
         },
         headerContainerClassName: options?.headerContainerClassName,
         cellRenderer: ReducedListDisplay,
-        cellRendererParams: rendererParams,
+        cellRendererParams: (_, datum) => ({
+            ...rendererParams(datum),
+        }),
         cellRendererClassName: options?.cellRendererClassName,
     };
 

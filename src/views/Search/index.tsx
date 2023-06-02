@@ -1,9 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdSearch, MdSearchOff } from 'react-icons/md';
-import {
-    _cs, isDefined, mapToList, isNotDefined,
-} from '@togglecorp/fujs';
+import { isDefined, mapToList, isNotDefined } from '@togglecorp/fujs';
 import {
     IoSearch, IoChevronForward, IoChevronBack, IoCloseOutline,
 } from 'react-icons/io5';
@@ -27,24 +25,24 @@ import ProjectTable, { ProjectResult } from './ProjectTable';
 import SurgeAlertTable, { SurgeAlertResult } from './SurgeAlertTable';
 import SurgeDeploymentTable, { SurgeDeploymentResult } from './SurgeDeploymentTable';
 import CountryList, { CountryResult } from './CountryList';
-// import RegionList, { RegionResult } from './RegionList';
-// import ProvinceList, { ProvinceResult } from './ProvinceList';
-// import RapidResponseDeploymentTable, { RapidResponseResult } from './RapidDeploymentTable';
+import RegionList, { RegionResult } from './RegionList';
+import ProvinceList, { ProvinceResult } from './ProvinceList';
+import RapidResponseDeploymentTable, { RapidResponseResult } from './RapidDeploymentTable';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export type SearchResult = {
     countries: CountryResult[];
-    // regions: RegionResult[];
-    // district_province_response: ProvinceResult[];
+    regions: RegionResult[];
+    district_province_response: ProvinceResult[];
     emergency_planning: EmergencyPlanningResult[];
     reports: FieldReportResponse[];
     projects: ProjectResult[];
     emergencies: EmergencyResult[];
     surge_alerts: SurgeAlertResult[];
     surge_deployments: SurgeDeploymentResult[];
-    // rapid_response_deployments: RapidResponseResult[];
+    rapid_response_deployments: RapidResponseResult[];
 }
 
 const MAX_VIEW_PER_SECTION = 5;
@@ -52,18 +50,8 @@ type ResultKeys = 'provinces' | 'regions' | 'countries' | 'emergencies' | 'emerg
 
 const feedbackLink = 'https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok5zbE6rDdGE9g_ZF6J45kKES69IsSyDatuGYF1UREdHUFlUWUY1TFg4TUEzNjNINkU1QUVEMi4u';
 
-interface Props {
-    className?: string;
-    data: SearchResult[] | undefined;
-    location: Location,
-}
-
-export function Component(props: Props) {
-    const {
-        className,
-        location,
-    } = props;
-    const urlSearchValue = getSearchValue(URL_SEARCH_KEY, location);
+export function Component() {
+    const urlSearchValue = getSearchValue(URL_SEARCH_KEY);
 
     const [activeView, setActiveView] = React.useState<ResultKeys | undefined>();
     const [searchString, setSearchString] = useInputState<string | undefined>(
@@ -116,34 +104,34 @@ export function Component(props: Props) {
         sortedScoreList,
         isEmpty,
     ] = React.useMemo(() => {
-        const resultsMap = {
-            // regions: searchResponse?.regions ?? [],
+        const initialResultMap = {
+            regions: searchResponse?.regions ?? [],
             countries: searchResponse?.countries ?? [],
-            // provinces: searchResponse?.district_province_response ?? [],
+            provinces: searchResponse?.district_province_response ?? [],
             emergencies: searchResponse?.emergencies ?? [],
             emergencyPlannings: searchResponse?.emergency_planning ?? [],
             projects: searchResponse?.projects ?? [],
             surgeAlerts: searchResponse?.surge_alerts ?? [],
             surgeDeployments: searchResponse?.surge_deployments ?? [],
             fieldReports: searchResponse?.reports ?? [],
-            // rapidResponse: searchResponse?.rapid_response_deployments ?? [],
+            rapidResponse: searchResponse?.rapid_response_deployments ?? [],
         };
 
-        const componentMap: Record<ResultKeys, React.ElementType> = {
-            // regions: RegionList,
+        const initialComponentMap: Record<ResultKeys, React.ElementType> = {
+            regions: RegionList,
             countries: CountryList,
-            // provinces: ProvinceList,
+            provinces: ProvinceList,
             emergencies: EmergencyTable,
             emergencyPlannings: EmergencyPlanningTable,
             projects: ProjectTable,
             surgeAlerts: SurgeAlertTable,
             surgeDeployments: SurgeDeploymentTable,
             fieldReports: FieldReportTable,
-            // rapidResponse: RapidResponseDeploymentTable,
+            rapidResponse: RapidResponseDeploymentTable,
         };
 
         const tableScoreList = mapToList(
-            resultsMap,
+            initialResultMap,
             (item, key) => ({
                 key: key as ResultKeys,
                 totalItems: item.length,
@@ -166,17 +154,19 @@ export function Component(props: Props) {
             fieldReports: 3,
             rapidResponse: 3,
         };
-        const sortedScoreList = tableScoreList.sort((a, b) => (
+
+        const initialSortedScoreList = tableScoreList.sort((a, b) => (
             keysOrdering[a.key] - keysOrdering[b.key] || b.value - a.value
         ));
 
-        const isEmpty = searchResponse && tableScoreList.every((score) => score.totalItems === 0);
+        const isTableEmpty = searchResponse
+            && tableScoreList.every((score) => score.totalItems === 0);
 
         return [
-            resultsMap,
-            componentMap,
-            sortedScoreList,
-            isEmpty,
+            initialResultMap,
+            initialComponentMap,
+            initialSortedScoreList,
+            isTableEmpty,
         ];
     }, [searchResponse]);
 
@@ -187,14 +177,13 @@ export function Component(props: Props) {
         if ((searchString?.trim()?.length ?? 0) > 2) {
             navigate(`/search/?keyword=${searchString}`);
         }
-    }, [searchString]);
+    }, [navigate, searchString]);
 
     return (
         <Page
-            className={_cs(styles.search, className)}
+            className={styles.search}
             title={strings.searchPageTitle}
             heading={strings.searchPageSearchForKeyword}
-            withMainContentBackground
             description={(
                 <div className={styles.feedbackSection}>
                     <TextInput
@@ -253,52 +242,54 @@ export function Component(props: Props) {
                     )}
                 </Container>
             )}
-            <div className={styles.content}>
-                {activeView && ActiveComponent && (
-                    <ActiveComponent
-                        data={resultsMap[activeView]}
-                        actions={(
-                            <Button
-                                className={styles.viewAll}
-                                name={undefined}
-                                variant="tertiary"
-                                onClick={setActiveView}
-                                icons={<IoChevronBack />}
-                            >
-                                {strings.searchGoBack}
-                            </Button>
-                        )}
-                    />
-                )}
-                {!activeView && sortedScoreList.map((score) => {
-                    const Component = componentMap[score.key];
-                    const data = resultsMap[score.key];
-
-                    if (data.length === 0) {
-                        return null;
-                    }
-
-                    const truncatedData = data.slice(0, MAX_VIEW_PER_SECTION);
-
-                    return (
-                        <Component
-                            key={score.key}
-                            data={truncatedData}
-                            actions={data.length > MAX_VIEW_PER_SECTION && (
+            {!searchPending && (
+                <div className={styles.content}>
+                    {activeView && ActiveComponent && (
+                        <ActiveComponent
+                            data={resultsMap[activeView]}
+                            actions={(
                                 <Button
                                     className={styles.viewAll}
-                                    name={score.key}
+                                    name={undefined}
                                     variant="tertiary"
                                     onClick={setActiveView}
-                                    actions={<IoChevronForward />}
+                                    icons={<IoChevronBack />}
                                 >
-                                    {viewAllStringMap[score.key]}
+                                    {strings.searchGoBack}
                                 </Button>
                             )}
                         />
-                    );
-                })}
-            </div>
+                    )}
+                    {!activeView && sortedScoreList.map((score) => {
+                        const RenderComponent = componentMap[score.key];
+                        const data = resultsMap[score.key];
+
+                        if (data.length === 0) {
+                            return null;
+                        }
+
+                        const truncatedData = data.slice(0, MAX_VIEW_PER_SECTION);
+
+                        return (
+                            <RenderComponent
+                                key={score.key}
+                                data={truncatedData}
+                                actions={data.length > MAX_VIEW_PER_SECTION && (
+                                    <Button
+                                        className={styles.viewAll}
+                                        name={score.key}
+                                        variant="tertiary"
+                                        onClick={setActiveView}
+                                        actions={<IoChevronForward />}
+                                    >
+                                        {viewAllStringMap[score.key]}
+                                    </Button>
+                                )}
+                            />
+                        );
+                    })}
+                </div>
+            )}
         </Page>
     );
 }

@@ -1,16 +1,19 @@
-import React from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { generatePath } from 'react-router-dom';
+import { useContext } from 'react';
+import { _cs, isDefined } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import Table from '#components/Table';
-import LanguageContext from '#root/languageContext';
 import {
     createDateColumn,
     createLinkColumn,
     createStringColumn,
-} from '#components/Table/predefinedColumns';
+} from '#components/Table/ColumnShortcuts';
+import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 
-import styles from './styles.module.scss';
+import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 export interface RapidResponseResult {
   id: number;
@@ -45,7 +48,11 @@ function RapidResponseDeploymentTable(props: Props) {
         actions,
     } = props;
 
-    const { strings } = React.useContext(LanguageContext);
+    const strings = useTranslation(i18n);
+    const {
+        country: countryRoute,
+        emergency: emergencyRoute,
+    } = useContext(RouteContext);
 
     const columns = [
         createDateColumn<RapidResponseResult, number>(
@@ -78,17 +85,21 @@ function RapidResponseDeploymentTable(props: Props) {
             strings.searchRapidDeploymentTableDeployingParty,
             (rapidResponse) => rapidResponse.deploying_country_name,
             (rapidResponse) => ({
-                href: `/countries/${rapidResponse.deploying_country_id}`,
-                variant: 'table',
+                to: isDefined(rapidResponse.deploying_country_id) ? generatePath(
+                    countryRoute.absolutePath,
+                    { countryId: String(rapidResponse.deploying_country_id) },
+                ) : undefined,
             }),
         ),
         createLinkColumn<RapidResponseResult, number>(
-            'deploying_country_name',
+            'deployed_to_country_name',
             strings.searchRapidDeploymentTableDeployedTo,
             (rapidResponse) => rapidResponse.deployed_to_country_name,
             (rapidResponse) => ({
-                href: `/countries/${rapidResponse.deployed_to_country_id}`,
-                variant: 'table',
+                to: isDefined(rapidResponse.deployed_to_country_id) ? generatePath(
+                    countryRoute.absolutePath,
+                    { countryId: String(rapidResponse.deployed_to_country_id) },
+                ) : undefined,
             }),
         ),
         createLinkColumn<RapidResponseResult, number>(
@@ -96,8 +107,10 @@ function RapidResponseDeploymentTable(props: Props) {
             strings.searchRapidDeploymentTableEmergency,
             (rapidResponse) => rapidResponse.event_name,
             (rapidResponse) => ({
-                href: `/emergencies/${rapidResponse.event_id}`,
-                variant: 'table',
+                to: generatePath(
+                    emergencyRoute.absolutePath,
+                    { emergencyId: rapidResponse.event_id },
+                ),
             }),
         ),
     ];
@@ -110,7 +123,6 @@ function RapidResponseDeploymentTable(props: Props) {
         <Container
             className={_cs(styles.rapidResponseTable, className)}
             heading={strings.searchIFRCRapidResponseDeployment}
-            contentClassName={styles.content}
             actions={actions}
         >
             <Table
@@ -118,7 +130,6 @@ function RapidResponseDeploymentTable(props: Props) {
                 data={data}
                 columns={columns}
                 keySelector={rapidResponseDeploymentKeySelector}
-                variant="large"
             />
         </Container>
     );

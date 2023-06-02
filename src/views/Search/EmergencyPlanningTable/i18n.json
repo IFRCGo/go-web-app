@@ -1,5 +1,5 @@
 {
-    "namespace": "emergencyPlanningTable",
+    "namespace": "search",
     "strings":{
         "searchEmergencyPlanningTableDate": "Date",
         "searchEmergencyPlanningTableType": "Type",

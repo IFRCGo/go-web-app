@@ -1,47 +1,8 @@
 .emergency-table {
-    .content {
-        table {
-            width: 100%;
-
-            th {
-                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
-                background-color: var(--go-ui-color-background);
-                padding: 0;
-                text-align: left;
-            }
-
-            td {
-                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
-                padding: var(--go-ui-spacing-md);
-
-                >* {
-                    padding: 0 !important;
-                }
-            }
-        }
-    }
-}
-
-.crisis-type {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-
     .dot-color {
         flex-shrink: 0;
         border-radius: var(--go-ui-border-radius-full);
         width: var(--go-ui-font-size-xs);
         height: var(--go-ui-font-size-xs);
-        margin-inline-end: var(--go-ui-spacing-lg);
-    }
-}
-
-.country-link {
-    text-decoration: underline;
-    font-weight: var(--go-ui-font-weight-medium);
-
-    &:hover {
-        opacity: 1;
-        color: var(--go-ui-color-primary-red);
     }
 }

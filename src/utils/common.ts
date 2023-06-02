@@ -531,6 +531,7 @@ export function plural(
 }
 
 export function getDuration(start: Date, end: Date) {
+    // eslint-disable-next-line no-console
     console.info(start, end);
     return 'Not implemented';
 }

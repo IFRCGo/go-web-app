@@ -1,24 +1,27 @@
-import React from 'react';
+import { generatePath } from 'react-router-dom';
+import { useContext } from 'react';
 import {
     IoChevronForwardOutline,
 } from 'react-icons/io5';
 import Container from '#components/Container';
 import Link from '#components/Link';
-import LanguageContext from '#root/languageContext';
+import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 
-import styles from './styles.module.scss';
+import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 export interface ProvinceResult {
-  id: number;
-  name: string;
-  score: number;
-  country: string;
-  country_id: number;
+    id: number;
+    name: string;
+    score: number;
+    country: string;
+    country_id: number;
 }
 
 interface Props {
-  data: ProvinceResult[] | undefined;
-  actions: React.ReactNode;
+    data: ProvinceResult[] | undefined;
+    actions: React.ReactNode;
 }
 
 function ProvinceList(props: Props) {
@@ -27,7 +30,8 @@ function ProvinceList(props: Props) {
         actions,
     } = props;
 
-    const { strings } = React.useContext(LanguageContext);
+    const strings = useTranslation(i18n);
+    const { country: countryRoute } = useContext(RouteContext);
 
     if (!data) {
         return null;
@@ -36,24 +40,27 @@ function ProvinceList(props: Props) {
     return (
         <Container
             actions={actions}
-            contentClassName={styles.provinceList}
             heading={strings.searchIfrcProvince}
+            className={styles.provinceList}
         >
-            {data.map((district) => (
+            {data.map((province) => (
                 <div
-                    key={district.id}
+                    key={province.id}
                     className={styles.provinceName}
                 >
                     <Link
-                        href={`/countries/${district.country_id}`}
+                        to={generatePath(
+                            countryRoute.absolutePath,
+                            { countryId: String(province.country_id) },
+                        )}
                         className={styles.countryName}
-                        key={district.id}
-
+                        key={province.id}
+                        underline
+                        actions={<IoChevronForwardOutline />}
                     >
-                        {district.country}
-                        <IoChevronForwardOutline />
+                        {province.country}
                     </Link>
-                    {district.name}
+                    {province.name}
                 </div>
             ))}
         </Container>

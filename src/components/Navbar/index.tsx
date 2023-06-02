@@ -45,7 +45,7 @@ function Navbar(props: Props) {
         if ((searchText?.trim()?.length ?? 0) > 2) {
             navigate(`/search/?keyword=${searchText}`);
         }
-    }, [searchText, history]);
+    }, [searchText, navigate]);
 
     return (
         <nav className={_cs(styles.navbar, className)}>

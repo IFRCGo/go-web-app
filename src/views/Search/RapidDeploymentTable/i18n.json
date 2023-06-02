@@ -1,0 +1,14 @@
+{
+    "namespace": "search",
+    "strings":{
+        "searchIFRCRapidResponseDeployment": "Ongoing Rapid Response Deployments",
+        "searchRapidDeploymentTableStartDate":"Start Date",
+        "searchRapidDeploymentTableEndDate":"End Date",
+        "searchRapidDeploymentTableName":"Name",
+        "searchRapidDeploymentTablePosition":"Position",
+        "searchRapidDeploymentTableKeywords":"Keywords",
+        "searchRapidDeploymentTableDeployingParty":"Deploying Party",
+        "searchRapidDeploymentTableDeployedTo":"Deployed To",
+        "searchRapidDeploymentTableEmergency":"Emergency"
+    }
+}

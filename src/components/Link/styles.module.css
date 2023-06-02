@@ -4,12 +4,12 @@
     --spacing: var(--go-ui-spacing-xs);
 
     display: inline-flex;
-    align-items: center;
-    justify-content: space-around;
+    align-items: baseline;
     width: fit-content;
     text-decoration: var(--decoration);
     color: var(--color);
     gap: var(--spacing);
+    flex-wrap: nowrap;
 
     &:not(.non-link) {
         font-weight: var(--go-ui-font-weight-medium);

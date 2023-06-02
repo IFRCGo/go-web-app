@@ -1,8 +1,8 @@
 .container {
     display: flex;
+    position: relative;
     flex-direction: column;
     min-height: 15rem;
-    position: relative;
     overflow-x: auto;
 
     .table {
@@ -29,15 +29,15 @@
         }
 
         .row {
-            &:hover {
-                .cell {
-                    background-color: var(--go-ui-color-background);
-                }
-            }
-
             .cell {
                 padding: var(--go-ui-spacing-md);
                 overflow: hidden;
+            }
+
+            &:hover {
+                .cell {
+                    background-color: var(--go-ui-color-gray-10);
+                }
             }
 
             &:last-child {

@@ -1,11 +1,13 @@
-import React from 'react';
-import {
-    IoChevronForwardOutline,
-} from 'react-icons/io5';
+import { generatePath } from 'react-router-dom';
+import { useContext } from 'react';
+import { IoChevronForwardOutline } from 'react-icons/io5';
 
 import Container from '#components/Container';
 import Link from '#components/Link';
+import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface CountryResult {
@@ -26,6 +28,9 @@ function CountryList(props: Props) {
         actions,
     } = props;
 
+    const strings = useTranslation(i18n);
+    const { country: countryRoute } = useContext(RouteContext);
+
     if (!data) {
         return null;
     }
@@ -38,12 +43,13 @@ function CountryList(props: Props) {
         >
             {data.map((country) => (
                 <Link
-                    href={`/countries/${country.id}`}
+                    to={generatePath(countryRoute.absolutePath, { countryId: String(country.id) })}
                     className={styles.countryName}
                     key={country.id}
+                    actions={<IoChevronForwardOutline />}
+                    underline
                 >
                     {country.name}
-                    <IoChevronForwardOutline />
                 </Link>
             ))}
         </Container>

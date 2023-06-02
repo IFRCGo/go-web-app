@@ -175,7 +175,7 @@ function AppealsTable() {
                 }),
             ),
         ]),
-        [strings, countryRoute],
+        [strings, countryRoute, emergencyRoute],
     );
 
     let ordering;

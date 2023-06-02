@@ -1,13 +1,14 @@
-import React from 'react';
-import {
-    IoChevronForwardOutline,
-} from 'react-icons/io5';
+import { generatePath } from 'react-router-dom';
+import { useContext } from 'react';
+import { IoChevronForwardOutline } from 'react-icons/io5';
 
 import Container from '#components/Container';
 import Link from '#components/Link';
-import LanguageContext from '#root/languageContext';
+import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 
-import styles from './styles.module.scss';
+import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 export interface RegionResult {
   id: number;
@@ -26,7 +27,8 @@ function RegionList(props: Props) {
         actions,
     } = props;
 
-    const { strings } = React.useContext(LanguageContext);
+    const strings = useTranslation(i18n);
+    const { region: regionRoute } = useContext(RouteContext);
 
     if (!data) {
         return null;
@@ -35,17 +37,17 @@ function RegionList(props: Props) {
     return (
         <Container
             actions={actions}
-            contentClassName={styles.regionList}
             heading={strings.searchIfrcRegion}
         >
             {data.map((region) => (
                 <Link
-                    href={`/regions/${region.id}`}
+                    to={generatePath(regionRoute.absolutePath, { regionId: String(region.id) })}
                     className={styles.regionName}
                     key={region.id}
+                    actions={<IoChevronForwardOutline />}
+                    underline
                 >
                     {region.name}
-                    <IoChevronForwardOutline />
                 </Link>
             ))}
         </Container>
