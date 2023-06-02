@@ -35,6 +35,7 @@ export default function TabList(props: Props) {
                     styles.navigationTabList,
                     variant === 'primary' && styles.primary,
                     variant === 'secondary' && styles.secondary,
+                    variant === 'tertiary' && styles.tertiary,
                 )}
                 role="tablist"
             >

@@ -7,11 +7,14 @@ import Link from '#components/Link';
 import TextInput from '#components/TextInput';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import NavigationTabList from '#components/NavigationTabList';
+import NavigationTab from '#components/NavigationTab';
 import RegionDropdown from '#components/RegionDropdown';
-import goLogo from '#assets/icons/go-logo-2020.svg';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import RouteContext from '#contexts/route';
+import UserContext from '#contexts/user';
+import goLogo from '#assets/icons/go-logo-2020.svg';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import i18n from './i18n.json';
@@ -37,6 +40,7 @@ function Navbar(props: Props) {
         threeW: threeWRoute,
     } = useContext(RouteContext);
 
+    const { userDetails } = useContext(UserContext);
     const strings = useTranslation(i18n);
     const [searchText, setSearchText] = useInputState<string | undefined>(undefined);
 
@@ -63,25 +67,32 @@ function Navbar(props: Props) {
                         alt={strings.headerLogoAltText}
                     />
                 </Link>
-                <div className={styles.actions}>
-                    <Link
+                <NavigationTabList
+                    className={styles.actions}
+                    variant="tertiary"
+                >
+                    <NavigationTab
                         to={resourcesRoute.absolutePath}
                         className={styles.actionItem}
                     >
                         {strings.headerMenuResources}
-                    </Link>
-                    <Link
-                        to={loginRoute.absolutePath}
-                        className={styles.actionItem}
-                    >
-                        {strings.userMenuLogin}
-                    </Link>
-                    <Link
-                        to={registerRoute.absolutePath}
-                        className={styles.actionItem}
-                    >
-                        {strings.userMenuRegister}
-                    </Link>
+                    </NavigationTab>
+                    {!userDetails && (
+                        <>
+                            <NavigationTab
+                                to={loginRoute.absolutePath}
+                                className={styles.actionItem}
+                            >
+                                {strings.userMenuLogin}
+                            </NavigationTab>
+                            <NavigationTab
+                                to={registerRoute.absolutePath}
+                                className={styles.actionItem}
+                            >
+                                {strings.userMenuRegister}
+                            </NavigationTab>
+                        </>
+                    )}
                     <AuthenticatedUserDropdown />
                     <DropdownMenu
                         label={strings.headerCreateAReportLabel}
@@ -111,48 +122,51 @@ function Navbar(props: Props) {
                             label={strings.headerDropdownNewFlashUpdate}
                         />
                     </DropdownMenu>
-                </div>
+                </NavigationTabList>
             </PageContainer>
             <PageContainer>
                 <div className={styles.bottom}>
-                    <div className={styles.menuItems}>
-                        <Link
+                    <NavigationTabList
+                        className={styles.menuItems}
+                        variant="tertiary"
+                    >
+                        <NavigationTab
                             to={homeRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuHomeTooltip}
                         >
                             {strings.headerMenuHome}
-                        </Link>
+                        </NavigationTab>
                         <RegionDropdown />
-                        <Link
+                        <NavigationTab
                             to={emergenciesRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuEmergenciesTooltip}
                         >
                             {strings.headerMenuEmergencies}
-                        </Link>
-                        <Link
+                        </NavigationTab>
+                        <NavigationTab
                             to={surgeRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuSurgeTooltip}
                         >
                             {strings.headerMenuSurge}
-                        </Link>
-                        <Link
+                        </NavigationTab>
+                        <NavigationTab
                             to={preparednessRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuPreparednessTooltip}
                         >
                             {strings.headerMenuPreparedness}
-                        </Link>
-                        <Link
+                        </NavigationTab>
+                        <NavigationTab
                             to={threeWRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuThreeWTooltip}
                         >
                             {strings.headerMenuThreeW}
-                        </Link>
-                    </div>
+                        </NavigationTab>
+                    </NavigationTabList>
                     <div className={styles.searchContainer}>
                         <TextInput
                             placeholder="Search"

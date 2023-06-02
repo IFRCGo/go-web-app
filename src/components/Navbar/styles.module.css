@@ -23,7 +23,7 @@
                 display: flex;
                 align-items: center;
                 flex-wrap: wrap;
-                gap: var(--go-ui-spacing-xl);
+                /* gap: var(--go-ui-spacing-xl); */
 
                 .action-item {
                     font-weight: var(--go-ui-font-weight-medium);

@@ -6,8 +6,7 @@
     border-radius: 0;
     text-decoration: none;
     color: var(--go-ui-color-black);
-    font-size: var(--go-ui-font-size-lg);
-    font-weight: var(--go-ui-font-weight-semibold);
+    font-weight: var(--go-ui-font-weight-medium);
 
     .dummy {
         flex-grow: 1;
@@ -25,6 +24,7 @@
 
     &.primary {
         position: relative;
+        font-size: var(--go-ui-font-size-lg);
 
         .children-wrapper {
             border-bottom-color: var(--border-color);
@@ -47,6 +47,26 @@
             .active-border {
                 display: none;
             }
+        }
+    }
+
+    &.secondary {
+        padding: 0 var(--go-ui-spacing-sm);
+
+        &.active {
+            color: var(--go-ui-color-primary-red);
+        }
+    }
+
+    &.tertiary {
+        &:hover {
+            text-decoration: underline;
+            color: var(--go-ui-color-primary-red);
+        }
+
+        &.active {
+            text-decoration: underline;
+            color: var(--go-ui-color-primary-red);
         }
     }
 }

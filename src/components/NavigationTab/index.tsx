@@ -13,6 +13,7 @@ interface Props {
     className?: string;
     children?: React.ReactNode;
     to: string;
+    title?: string;
 }
 
 function NavigationTab(props: Props) {
@@ -20,6 +21,7 @@ function NavigationTab(props: Props) {
         children,
         to,
         className,
+        title,
     } = props;
 
     const { variant } = useContext(NavigationTabContext);
@@ -30,6 +32,7 @@ function NavigationTab(props: Props) {
                 styles.navigationTab,
                 variant === 'primary' && styles.primary,
                 variant === 'secondary' && styles.secondary,
+                variant === 'tertiary' && styles.tertiary,
                 className,
             );
 
@@ -50,6 +53,7 @@ function NavigationTab(props: Props) {
             to={to}
             className={getClassName}
             end
+            title={title}
         >
             <div className={styles.dummy} />
             <div className={styles.childrenWrapper}>

@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export type NavigationTabVariant = 'primary' | 'secondary';
+export type NavigationTabVariant = 'primary' | 'secondary' | 'tertiary';
 
 export interface NavigationTabContextProps {
     variant?: NavigationTabVariant;
