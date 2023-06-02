@@ -5,11 +5,11 @@
 
     display: inline-flex;
     align-items: baseline;
+    flex-wrap: nowrap;
     width: fit-content;
     text-decoration: var(--decoration);
     color: var(--color);
     gap: var(--spacing);
-    flex-wrap: nowrap;
 
     &:not(.non-link) {
         font-weight: var(--go-ui-font-weight-medium);
