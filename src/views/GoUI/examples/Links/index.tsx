@@ -61,14 +61,12 @@ function Links() {
                 </Heading>
                 <Link
                     to="https://www.google.com"
-                    external
                     actions={<ChevronLeftLineIcon />}
                 >
                     Google
                 </Link>
                 <Link
                     to="https://www.google.com"
-                    external
                     disabled
                     actions={<ChevronLeftLineIcon />}
                 >

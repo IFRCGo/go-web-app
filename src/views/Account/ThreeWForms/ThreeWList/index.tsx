@@ -132,6 +132,7 @@ function ThreeWList(props: Props) {
 
     const {
         response: projectResponse,
+        pending: projectResponsePending,
     } = useRequest<ListResponse<Project>>({
         url: 'api/v2/project/',
         preserveResponse: true,
@@ -143,6 +144,7 @@ function ThreeWList(props: Props) {
 
     const {
         response: activityResponse,
+        pending: activityResponsePending,
     } = useRequest<ListResponse<EmergencyProjectResponse>>({
         url: 'api/v2/emergency-project/',
         preserveResponse: true,
@@ -156,7 +158,7 @@ function ThreeWList(props: Props) {
         () => {
             const actionsColumn = createActionColumn(
                 'actions',
-                (_, prj: Project) => ({
+                (prj: Project) => ({
                     extraActions: (
                         <>
                             <DropdownMenuItem
@@ -263,7 +265,7 @@ function ThreeWList(props: Props) {
             createListDisplayColumn<P, K>(
                 'districts',
                 strings.threeWEmergencyRegion,
-                (_, item) => ({ value: item.districts_details.map((d) => d.name) }),
+                (item) => ({ value: item.districts_details.map((d) => d.name) }),
             ),
             createStringColumn<P, K>(
                 'status',
@@ -277,18 +279,18 @@ function ThreeWList(props: Props) {
             ),
             createActionColumn(
                 'project_actions',
-                (rowKey: number | string, p: EmergencyProjectResponse) => ({
+                (p: EmergencyProjectResponse) => ({
                     extraActions: (
                         <>
                             <DropdownMenuItem
                                 // TODO: use routes
-                                to={`/emergency-three-w/${rowKey}/`}
+                                to={`/emergency-three-w/${p.id}/`}
                                 icon={<ShareBoxLineIcon />}
                                 label={strings.threeWEmergencyActionDetails}
                             />
                             <DropdownMenuItem
                                 // TODO: use routes
-                                to={`/emergency-three-w/${rowKey}/edit/`}
+                                to={`/emergency-three-w/${p.id}/edit/`}
                                 icon={<PencilFillIcon />}
                                 label={strings.threeWEmergencyEditAction}
                             />
@@ -332,6 +334,7 @@ function ThreeWList(props: Props) {
                 )}
             >
                 <Table
+                    pending={projectResponsePending}
                     className={styles.projectTable}
                     data={projectResponse?.results}
                     columns={projectColumns}
@@ -351,6 +354,7 @@ function ThreeWList(props: Props) {
                 )}
             >
                 <Table
+                    pending={activityResponsePending}
                     className={styles.activityTable}
                     data={activityResponse?.results}
                     columns={activityColumns}

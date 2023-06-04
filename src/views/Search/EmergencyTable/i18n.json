@@ -1,0 +1,13 @@
+{
+    "namespace": "search",
+    "strings": {
+        "searchEmergencyTableTitle": "Title",
+        "searchEmergencyTableAppealType": "Appeal Type",
+        "searchEmergencyTableDisasterType": "Disaster Type",
+        "searchEmergencyTableFundingRequirements": "Funding Requirements",
+        "searchEmergencyTableFundingCoverage": "Funding Coverage",
+        "searchEmergencyTableCountry": "Country",
+        "searchEmergencyTableMultipleCountries": "Multiple Countries",
+        "searchIfrcEmergencies": "Emergencies"
+    }
+}

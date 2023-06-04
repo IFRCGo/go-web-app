@@ -1,20 +1,25 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useContext } from 'react';
+import { isDefined } from '@togglecorp/fujs';
+import { generatePath } from 'react-router-dom';
 import {
     useRequest,
     ListResponse,
 } from '#utils/restRequest';
-import BlockLoading from '#components/BlockLoading';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import SelectInput from '#components/SelectInput';
+import Container from '#components/Container';
 import useInputState from '#hooks/useInputState';
 import {
     createStringColumn,
     createNumberColumn,
     createDateColumn,
+    createLinkColumn,
+    createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -96,6 +101,10 @@ function AppealsTable() {
     const { sorting } = sortState;
 
     const strings = useTranslation(i18n);
+    const {
+        country: countryRoute,
+        emergency: emergencyRoute,
+    } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -125,10 +134,15 @@ function AppealsTable() {
                     columnClassName: styles.code,
                 },
             ),
-            createStringColumn<Appeal, string>(
+            createLinkColumn<Appeal, string>(
                 'operation',
                 strings.appealsTableOperation,
                 (item) => item.name,
+                (item) => ({
+                    to: isDefined(item.event)
+                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event })
+                        : undefined,
+                }),
             ),
             createStringColumn<Appeal, string>(
                 'dtype',
@@ -142,20 +156,26 @@ function AppealsTable() {
                 (item) => Number(item.amount_requested),
                 { sortable: true },
             ),
-            createNumberColumn<Appeal, string>(
+            createProgressColumn<Appeal, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
                 // FIXME: use progress bar here
-                (item) => Number(item.amount_funded),
+                (item) => 100 * (Number(item.amount_funded) / Number(item.amount_requested)),
                 { sortable: true },
             ),
-            createStringColumn<Appeal, string>(
+            createLinkColumn<Appeal, string>(
                 'country',
                 strings.appealsTableCountry,
                 (item) => item.country.name,
+                (item) => ({
+                    to: generatePath(
+                        countryRoute.absolutePath,
+                        { countryId: String(item.country.id) },
+                    ),
+                }),
             ),
         ]),
-        [strings],
+        [strings, countryRoute, emergencyRoute],
     );
 
     let ordering;
@@ -212,49 +232,55 @@ function AppealsTable() {
     );
 
     return (
-        <div className={styles.appealsTable}>
-            <div className={styles.filters}>
-                <SelectInput
-                    label={strings.appealsTableType}
-                    name={undefined}
-                    value={appealType}
-                    onChange={setAppealType}
-                    // FIXME: do no inline functions on render
-                    keySelector={(item) => item.value}
-                    labelSelector={(item) => item.label}
-                    options={appealTypeOptions}
-                />
-                <SelectInput
-                    label={strings.appealsTableDisastertype}
-                    name={undefined}
-                    value={displacementType}
-                    onChange={setDisplacementType}
-                    // FIXME: do no inline functions on render
-                    keySelector={(item) => item.id}
-                    labelSelector={(item) => item.name}
-                    options={displacementTypeWithAll}
-                    disabled={disasterTypePending}
-                />
-            </div>
-            {appealsPending && (
-                // FIXME: use a loading animation inside the Table
-                <BlockLoading />
+        <Container
+            className={styles.appealsTable}
+            headerDescriptionClassName={styles.filters}
+            headerDescription={(
+                <>
+                    <SelectInput
+                        label={strings.appealsTableType}
+                        name={undefined}
+                        value={appealType}
+                        onChange={setAppealType}
+                        // FIXME: do no inline functions on render
+                        keySelector={(item) => item.value}
+                        labelSelector={(item) => item.label}
+                        options={appealTypeOptions}
+                    />
+                    <SelectInput
+                        label={strings.appealsTableDisastertype}
+                        name={undefined}
+                        value={displacementType}
+                        onChange={setDisplacementType}
+                        // FIXME: do no inline functions on render
+                        keySelector={(item) => item.id}
+                        labelSelector={(item) => item.name}
+                        options={displacementTypeWithAll}
+                        disabled={disasterTypePending}
+                    />
+                    <div />
+                </>
             )}
+            footerActions={(
+                <Pager
+                    activePage={page}
+                    itemsCount={appealsResponse?.count ?? 0}
+                    maxItemsPerPage={10}
+                    onActivePageChange={setPage}
+                />
+            )}
+        >
             <SortContext.Provider value={sortState}>
                 <Table
+                    pending={appealsPending}
+                    filtered={!!(displacementType && appealType)}
                     className={styles.table}
                     columns={columns}
                     keySelector={keySelector}
                     data={appealsResponse?.results}
                 />
             </SortContext.Provider>
-            <Pager
-                activePage={page}
-                itemsCount={appealsResponse?.count ?? 0}
-                maxItemsPerPage={10}
-                onActivePageChange={setPage}
-            />
-        </div>
+        </Container>
     );
 }
 

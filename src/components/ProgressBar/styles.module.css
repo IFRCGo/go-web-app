@@ -13,6 +13,7 @@
         .progress {
             transition: 200ms width ease-in-out;
             border-radius: var(--go-ui-border-radius-md);
+            background-color: var(--go-ui-color-primary-red);
         }
     }
 }

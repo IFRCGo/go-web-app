@@ -2,11 +2,11 @@
     .header-content {
         display: flex;
         align-items: baseline;
-        flex-wrap: unset;
     }
 
     &.heading-ellipsized {
         .header-content {
+            flex-wrap: unset;
             overflow: auto;
 
             .heading-container {

@@ -10,8 +10,6 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import { CommonStrings } from '#strings/common';
-
 export const getHashFromBrowser = () => window.location.hash.substring(1);
 
 export const setHashToBrowser = (hash: string | undefined) => {
@@ -166,23 +164,6 @@ export function rankedSearchOnList<T>(
             labelSelector(b),
             searchString,
         ));
-}
-
-export function getFullMonthNameList(strings: CommonStrings) {
-    return [
-        strings.monthNameJanuary,
-        strings.monthNameFebruary,
-        strings.monthNameMarch,
-        strings.monthNameApril,
-        strings.monthNameMay,
-        strings.monthNameJune,
-        strings.monthNameJuly,
-        strings.monthNameAugust,
-        strings.monthNameSeptember,
-        strings.monthNameOctober,
-        strings.monthNameNovember,
-        strings.monthNameDecember,
-    ] as const;
 }
 
 export function avgSafe(list: (number | undefined | null)[]) {
@@ -454,6 +435,10 @@ export function formatNumber(value: number | undefined | null, prefix?: string):
     return defaultValue;
 }
 
+export function round(value: number, decimals = 2) {
+    return Math.round(value * 10 ** decimals) / 10 ** decimals;
+}
+
 export function isSimilarArray<T extends string | number>(
     aList: T[] | undefined,
     bList: T[] | undefined,
@@ -516,4 +501,18 @@ export function isValidCountry(country: {
     is_deprecated: boolean | null,
 }) {
     return country.independent !== false && !country.is_deprecated;
+}
+
+export function plural(
+    singularString: string,
+    pluralString: string,
+    number: number,
+) {
+    return number === 1 ? singularString : pluralString;
+}
+
+export function getDuration(start: Date, end: Date) {
+    // eslint-disable-next-line no-console
+    console.info(start, end);
+    return 'Not implemented';
 }

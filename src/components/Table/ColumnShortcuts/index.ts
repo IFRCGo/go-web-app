@@ -8,13 +8,19 @@ import {
 
 import DateOutput from '#components/DateOutput';
 import type { Props as DateOutputProps } from '#components/DateOutput';
+import DateRangeOutput from '#components/DateRangeOutput';
+import type { Props as DateRangeOutputProps } from '#components/DateRangeOutput';
 import NumberOutput from '#components/NumberOutput';
 import type { Props as NumberOutputProps } from '#components/NumberOutput';
 import BooleanOutput from '#components/BooleanOutput';
 import type { Props as BooleanOutputProps } from '#components/BooleanOutput';
+import ProgressBar from '#components/ProgressBar';
+import type { Props as ProgressBarProps } from '#components/ProgressBar';
 import ReducedListDisplay, {
     Props as ReducedListDisplayProps,
 } from '#components/ReducedListDisplay';
+import type { Props as LinkProps } from '#components/Link';
+import Link from '#components/Link';
 
 import TableActions, {
     Props as TableActionsProps,
@@ -80,6 +86,42 @@ export function createBooleanColumn<D, K>(
     return item;
 }
 
+export function createProgressColumn<D, K>(
+    id: string,
+    title: string,
+    accessor: (item: D) => number,
+    options?: Options<D, K, ProgressBarProps, HeaderCellProps>,
+) {
+    const item: Column<D, K, ProgressBarProps, HeaderCellProps> & {
+        valueSelector: (item: D) => number | undefined | null,
+        valueComparator: (foo: D, bar: D) => number,
+    } = {
+        id,
+        title,
+        columnClassName: options?.columnClassName,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        headerCellRendererParams: {
+            sortable: options?.sortable,
+        },
+        cellRendererClassName: options?.cellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
+        cellRenderer: ProgressBar,
+        cellRendererParams: (_: K, datum: D): ProgressBarProps => ({
+            value: accessor(datum),
+            totalValue: 100,
+            showPercentageInTitle: true,
+        }),
+        valueSelector: accessor,
+        valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
+    };
+    return item;
+}
+
 export function createStringColumn<D, K>(
     id: string,
     title: string,
@@ -118,7 +160,10 @@ export function createNumberColumn<D, K>(
     id: string,
     title: string,
     accessor: (item: D) => number | undefined | null,
-    options?: Options<D, K, NumberOutputProps, HeaderCellProps>,
+    options?: Options<D, K, NumberOutputProps, HeaderCellProps> & {
+        suffix?: React.ReactNode;
+        precision?: number;
+    },
 ) {
     const item: Column<D, K, NumberOutputProps, HeaderCellProps> & {
         valueSelector: (item: D) => number | undefined | null,
@@ -145,6 +190,9 @@ export function createNumberColumn<D, K>(
         cellRenderer: NumberOutput,
         cellRendererParams: (_: K, datum: D): NumberOutputProps => ({
             value: accessor(datum),
+            suffix: options?.suffix,
+            precision: options?.precision,
+            normal: true,
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
@@ -189,6 +237,72 @@ export function createDateColumn<D, K>(
     return item;
 }
 
+export function createDateRangeColumn<D, K>(
+    id: string,
+    title: string,
+    accessor: (item: D) => { startDate: string, endDate: string },
+    options?: Options<D, K, DateRangeOutputProps, HeaderCellProps>,
+) {
+    const item: Column<D, K, DateRangeOutputProps, HeaderCellProps> & {
+        valueSelector: (item: D) => string | undefined | null,
+        valueComparator: (foo: D, bar: D) => number,
+    } = {
+        id,
+        title,
+        columnClassName: options?.columnClassName,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        headerContainerClassName: options?.headerContainerClassName,
+        headerCellRendererParams: {
+            sortable: options?.sortable,
+        },
+        cellRendererClassName: options?.cellRendererClassName,
+        cellRenderer: DateRangeOutput,
+        cellContainerClassName: options?.cellContainerClassName,
+        cellRendererParams: (_:K, datum: D): DateRangeOutputProps => ({
+            ...accessor(datum),
+        }),
+        valueSelector: (datum) => accessor(datum).startDate,
+        valueComparator: (foo: D, bar: D) => {
+            const { startDate: fooStartDate } = accessor(foo);
+            const { startDate: barStartDate } = accessor(bar);
+            return compareDate(fooStartDate, barStartDate);
+        },
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
+    };
+    return item;
+}
+export function createLinkColumn<D, K>(
+    id: string,
+    title: string,
+    accessor: (item: D) => React.ReactNode,
+    rendererParams: (item: D) => LinkProps,
+) {
+    const item: Column<D, K, LinkProps, HeaderCellProps> & {
+        valueSelector: (item: D) => string | undefined | null,
+        valueComparator: (foo: D, bar: D) => number,
+    } = {
+        id,
+        title,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: false,
+        },
+        cellRenderer: Link,
+        cellRendererParams: (_: K, datum: D): LinkProps => ({
+            children: accessor(datum),
+            underline: true,
+            ...rendererParams(datum),
+        }),
+        valueSelector: () => '',
+        valueComparator: () => 0,
+    };
+
+    return item;
+}
+
 export function createExpandColumn<D, K extends number | string | undefined>(
     id: string,
     title: string,
@@ -223,7 +337,7 @@ export function createExpandColumn<D, K extends number | string | undefined>(
 
 export function createActionColumn<D, K>(
     id: string,
-    rendererParams: (_: K, datum: D) => TableActionsProps,
+    rendererParams: (datum: D) => TableActionsProps,
     options?: {
         cellRendererClassName?: string;
         headerContainerClassName?: string;
@@ -238,7 +352,9 @@ export function createActionColumn<D, K>(
         },
         headerContainerClassName: options?.headerContainerClassName,
         cellRenderer: TableActions,
-        cellRendererParams: rendererParams,
+        cellRendererParams: (_, datum) => ({
+            ...rendererParams(datum),
+        }),
         cellRendererClassName: options?.cellRendererClassName,
     };
 
@@ -248,7 +364,7 @@ export function createActionColumn<D, K>(
 export function createListDisplayColumn<D, K>(
     id: string,
     title: string,
-    rendererParams: (_: K, datum: D) => ReducedListDisplayProps,
+    rendererParams: (datum: D) => ReducedListDisplayProps,
     options?: {
         cellRendererClassName?: string;
         headerContainerClassName?: string;
@@ -263,7 +379,9 @@ export function createListDisplayColumn<D, K>(
         },
         headerContainerClassName: options?.headerContainerClassName,
         cellRenderer: ReducedListDisplay,
-        cellRendererParams: rendererParams,
+        cellRendererParams: (_, datum) => ({
+            ...rendererParams(datum),
+        }),
         cellRendererClassName: options?.cellRendererClassName,
     };
 

@@ -153,7 +153,7 @@
     --go-ui-color-negative: var(--go-ui-color-red);
     --go-ui-color-separator: var(--go-ui-color-gray-30);
     --go-ui-color-background: #F7F7F7;
-    --go-ui-color-background-overlay: rgb(0 0 0 / .6);
+    --go-ui-color-background-overlay: rgb(255 255 255 / .8);
 
     --go-ui-opacity-0: 0;
     --go-ui-opacity-5: 0.05;
@@ -170,6 +170,7 @@
     --go-ui-opacity-90: 0.9;
     --go-ui-opacity-95: 0.95;
     --go-ui-opacity-100: 1;
+    --go-ui-opacity-disabled-element: 0.5;
 
     --go-ui-width-min-modal: 18rem;
     --go-ui-height-min-modal: 11rem;
@@ -217,5 +218,7 @@ html {
 
 body {
     line-height: var(--go-ui-line-height-normal);
+    color: var(--go-ui-color-primary-gray);
     font-family: var(--go-ui-font-family-sans-serif);
+    font-weight: var(--go-ui-font-weight-normal);
 }

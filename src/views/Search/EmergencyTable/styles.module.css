@@ -1,0 +1,8 @@
+.emergency-table {
+    .dot-color {
+        flex-shrink: 0;
+        border-radius: var(--go-ui-border-radius-full);
+        width: var(--go-ui-font-size-xs);
+        height: var(--go-ui-font-size-xs);
+    }
+}
