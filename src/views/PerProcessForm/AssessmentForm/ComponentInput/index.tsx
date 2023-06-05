@@ -10,9 +10,9 @@ import {
   PerAssessmentForm,
 } from '../../common';
 
-import { assessmentSchema } from '#views/PerProcess/usePerProcessOptions';
+import { assessmentSchema } from '#views/PerProcessForm/usePerProcessOptions';
 import { PartialForm, SetValueArg, useForm, useFormArray, useFormObject } from '@togglecorp/toggle-form';
-import QuestionInput from '../QuestionInput';
+import QuestionInput from './QuestionInput';
 
 import styles from './styles.module.css';
 
@@ -65,35 +65,33 @@ function ComponentsInput(props: Props) {
     setFieldValue,
   } = useForm(assessmentSchema, { value: {} as PartialForm<PerAssessmentForm> });
 
-  console.warn('status', initialValue);
-
   return (
     <>
-      {/* <ExpandableContainer
+      <ExpandableContainer
         heading={`Component ${index + 1}: ${value?.title}`}
-        headingSize='small'
-        sub
         actions={
           <SelectInput
             className={styles.improvementSelect}
             name='status'
             options={formStatusOptions}
             onChange={setFieldValue}
+            keySelector={(d) => d.value}
+            labelSelector={(d) => d.label}
             value={initialValue?.status}
           />
         }
-      > */}
-      {questionResponse?.results.map((q, i) => (
-        <QuestionInput
-          index={i}
-          value={q}
-          key={q.id}
-          onChange={setBenchmarkValue}
-        // onRemove={removeBenchmarkValue}
-        />
-      ))}
-      {/* <div className={styles.dot} /> */}
-      {/* </ExpandableContainer> */}
+      >
+        {questionResponse?.results.map((q, i) => (
+          <QuestionInput
+            index={i}
+            value={q}
+            key={q.id}
+            onChange={setBenchmarkValue}
+          // onRemove={removeBenchmarkValue}
+          />
+        ))}
+        {/* <div className={styles.dot} /> */}
+      </ExpandableContainer>
     </>
   );
 }

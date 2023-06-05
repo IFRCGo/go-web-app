@@ -41,6 +41,9 @@
         "perFormNSSecondFocalPointDescription": "The second focal point can be assigned to receive notifications and reminders for the final PER work-plan",
         "perFormPERFacilitator": "PER Facilitator / Team Lead",
         "perOverviewSetUpPerProcess": "Set up PER Process",
-        "perFormSaveRequestFailureMessage": "Failed to create/update PER Process"
+        "perFormSaveRequestSuccessMessage": "PER Process saved successfully.",
+        "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
+        "yesLabel": "Yes",
+        "noLabel": "No"
     }
 }

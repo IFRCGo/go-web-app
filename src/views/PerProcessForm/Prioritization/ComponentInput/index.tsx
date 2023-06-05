@@ -1,63 +1,74 @@
-import React from 'react';
-import { isNotDefined, _cs } from '@togglecorp/fujs';
+import { useState } from 'react';
+import { _cs } from '@togglecorp/fujs';
 import { EntriesAsList, PartialForm } from '@togglecorp/toggle-form';
 
 import { ListResponse, useRequest } from '#utils/restRequest';
-import { compareLabel } from '#utils/utils';
 import ExpandableContainer from '#components/ExpandableContainer';
 
 import {
-  PerOverviewFields,
-  FormComponentStatus,
-  emptyNumericOptionList,
-  PerWorkPlanForm,
-  PerAssessmentForm,
+    PerAssessmentForm,
 } from '../../common';
-import QuestionList from './QuestionInput';
 import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';
+import QuestionInput from './QuestionInput';
 
 type Value = PartialForm<PerAssessmentForm>;
 
 interface Props {
-  id?: string;
-  value?: Value;
-  onValueChange?: (...entries: EntriesAsList<Value>) => void;
+    id?: string;
+    value?: Value;
+    onValueChange?: (...entries: EntriesAsList<Value>) => void;
 }
 
 function ComponentsInput(props: Props) {
-  const {
-    value,
-    onValueChange,
-    id,
-  } = props;
+    const {
+        value,
+        onValueChange,
+        id,
+    } = props;
 
-  const {
-    pending: fetchingComponents,
-    response: componentResponse,
-  } = useRequest<ListResponse<PerWorkPlanForm>>({
-    skip: isNotDefined(id),
-    url: `api/v2/per-formcomponent/?area_id=${id}`,
-  });
 
-  const {
-    pending: fetchingFormStatus,
-    response: formStatusResponse,
-  } = useRequest<ListResponse<FormComponentStatus>>({
-    url: `api/v2/per-options/`,
-  });
+    const [currentArea, setCurrentArea] = useState<number | undefined>();
 
-  const formStatusOptions = React.useMemo(() => (
-    formStatusResponse?.results?.map(d => ({
-      value: d.key,
-      label: d.value,
-    })).sort(compareString) ?? emptyNumericOptionList
-  ), [formStatusResponse]);
+    const [currentComponent, setCurrentComponent] = useState<string | undefined>();
 
-  return (
-    <>Expandable Component goes here</>
-  );
+    const {
+        response: questionResponse,
+    } = useRequest<ListResponse<PerAssessmentForm>>({
+        url: `api/v2/per-formquestion/`,
+        query: {
+            component: currentComponent,
+            area_id: currentArea,
+        },
+    });
+
+    return (
+        <ExpandableContainer
+            className={_cs(styles.customActivity, styles.errored)}
+            componentRef={undefined}
+            // heading={`Component ${i + 1} : ${component.title}`}
+            // actionsContainerClassName={styles}
+            actions={
+                <TextInput
+                    className={styles.improvementSelect}
+                    name="description"
+                    value={value?.description}
+                    onChange={onValueChange}
+                />
+            }
+        >
+            {questionResponse?.results.map((q, i) => (
+                <QuestionInput
+                    index={i}
+                    value={q}
+                    key={q.id}
+                    onChange={undefined}
+                // onRemove={removeBenchmarkValue}
+                />
+            ))}
+        </ExpandableContainer>
+    );
 }
 
 export default ComponentsInput;

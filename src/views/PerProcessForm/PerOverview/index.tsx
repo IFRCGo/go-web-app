@@ -1,29 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import {
-    getErrorObject,
-    PartialForm,
-    Error,
     useForm,
-    SetBaseValueArg,
+    // PartialForm,
+    // getErrorObject,
+    // Error,
+    // SetBaseValueArg,
+    createSubmitHandler,
+    getErrorObject,
+    getErrorString,
 } from '@togglecorp/toggle-form';
-
-import useTranslation from '#hooks/useTranslation';
-import i18n from './i18n.json';
-
-import { ListResponse, useLazyRequest, useRequest } from '#utils/restRequest';
-import { compareLabel } from '#utils/common';
-
-import useAlertContext from '#hooks/useAlert';
-import { Country, NumericValueOption } from '#types';
-import usePerProcessOptions, { overviewSchema } from '../usePerProcessOptions';
-
-import {
-    PerOverviewFields,
-    booleanOptionKeySelector,
-    optionLabelSelector,
-    emptyNumericOptionList,
-    TypeOfAssessment,
-} from '../common';
 
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
@@ -33,63 +18,70 @@ import TextInput from '#components/TextInput';
 import RadioInput from '#components/RadioInput';
 import Button from '#components/Button';
 import NumberInput from '#components/NumberInput';
+import useTranslation from '#hooks/useTranslation';
+import useAlertContext from '#hooks/useAlert';
+import { ListResponse, useLazyRequest, useRequest } from '#utils/restRequest';
+import { compareLabel } from '#utils/common';
+import scrollToTop from '#utils/scrollToTop';
+import { Country } from '#types/country';
+import {
+    NumericValueOption,
+    StringValueOption,
+} from '#types/common';
+
+import { overviewSchema } from '../usePerProcessOptions';
+import {
+    PerOverviewFields,
+    booleanOptionKeySelector,
+    optionLabelSelector,
+    emptyNumericOptionList,
+    emptyStringOptionList,
+    TypeOfAssessment,
+} from '../common';
+import i18n from './i18n.json';
 
 import styles from './styles.module.css';
-import scrollToTop from '#utils/scrollToTop';
 
-type Value = PartialForm<PerOverviewFields>;
+function numericValueOptionKeySelector<T extends NumericValueOption>(option: T) {
+    return option.value;
+}
+function numericValueOptionLabelSelector<T extends NumericValueOption>(option: T) {
+    return option.label;
+}
 
-type StepTypes = 'overview' | 'assessment';
+function stringValueOptionKeySelector<T extends StringValueOption>(option: T) {
+    return option.value;
+}
+function stringValueOptionLabelSelector<T extends StringValueOption>(option: T) {
+    return option.label;
+}
 
 interface Props {
-    className?: string;
-    error?: Error<Value> | undefined;
-    onValueSet: (value: SetBaseValueArg<Value>) => void;
-    nationalSocietyOptions?: NumericValueOption[];
-    fetchingNationalSociety?: boolean;
     perId?: string;
 }
 // eslint-disable-next-line import/prefer-default-export
 function PerOverview(props: Props) {
-    const strings = useTranslation(i18n);
-
     const {
-        onValueSet,
-        error: formError,
         perId,
     } = props;
 
-    const error = React.useMemo(
-        () => getErrorObject(formError),
-        [formError],
-    );
-
-    const {
-        value,
-        setFieldValue: onValueChange,
-    } = useForm(overviewSchema, { value: {} as PartialForm<PerOverviewFields> });
-
+    const strings = useTranslation(i18n);
     const alert = useAlertContext();
 
-    const [currentStep, setCurrentStep] = React.useState<StepTypes>('overview');
-
-    const {
-        yesNoOptions,
-    } = usePerProcessOptions();
+    const yesNoOptions = useMemo(
+        () => [
+            { value: true, label: strings.yesLabel },
+            { value: false, label: strings.noLabel },
+        ],
+        [strings],
+    );
 
     const {
         pending: fetchingPerOptions,
         response: assessmentResponse,
     } = useRequest<ListResponse<TypeOfAssessment>>({
-        url: `api/v2/per-assessmenttype/`,
+        url: 'api/v2/per-assessmenttype/',
     });
-
-    const assessmentOptions = React.useMemo(() => (
-        assessmentResponse?.results?.map(d => ({
-            value: d.id,
-            label: d.name,
-        })).sort(compareLabel) ?? emptyNumericOptionList
-    ), [assessmentResponse]);
 
     const {
         response: countriesResponse,
@@ -97,38 +89,13 @@ function PerOverview(props: Props) {
         url: 'api/v2/country/',
     });
 
-    const [
-        nationalSocietyOptions,
-    ] = React.useMemo(() => {
-        if (!countriesResponse) {
-            return [emptyNumericOptionList, emptyNumericOptionList];
-        }
-
-        const ns: NumericValueOption[] = countriesResponse.results
-            .filter(d => d.independent && d.society_name)
-            .map(d => ({
-                value: d.id,
-                label: d.society_name,
-            })).sort(compareLabel);
-
-        const c: NumericValueOption[] = countriesResponse.results
-            .filter(d => d.independent && d.iso)
-            .map(d => ({
-                value: d.id,
-                label: d.name,
-            })).sort(compareLabel);
-
-        return [ns, c] as const;
-    }, [countriesResponse]);
-
     const {
-        pending: perSubmitPending,
-        trigger: submitRequest,
+        trigger: savePerOverview,
     } = useLazyRequest<PerOverviewFields, Partial<PerOverviewFields>>({
         url: perId ? `api/v2/new-per/${perId}/` : 'api/v2/new-per/',
         method: perId ? 'PUT' : 'POST',
-        body: ctx => ctx,
-        onSuccess: (response) => {
+        body: (ctx) => ctx,
+        onSuccess: () => {
             alert.show(
                 strings.perFormSaveRequestSuccessMessage,
                 { variant: 'success' },
@@ -137,7 +104,7 @@ function PerOverview(props: Props) {
         onFailure: ({
             value: {
                 messageForNotification,
-                formErrors,
+                // formErrors,
             },
             debugMessage,
         }) => {
@@ -157,56 +124,77 @@ function PerOverview(props: Props) {
         },
     });
 
-    const handleSubmit = React.useCallback((finalValues) => {
-        console.warn('finalValues', finalValues);
-        onValueSet(finalValues);
-        submitRequest(finalValues);
-    }, [onValueSet, submitRequest]);
-
-    const handleFileInputChange = React.useCallback((event) => {
-        event.preventDefault();
-        const files = event.target.files;
-        if (files && files.length > 0) {
-            const file = files[0];
-            onValueChange(file, 'orientation_document');
-            // uploadFile(file);
-        }
-    }, [onValueChange]);
-
-    const handleTabChange = useCallback((newStep: string) => {
-        scrollToTop();
-        // setCurrentStep(Number(newStep));
-    }, []);
-
-    const handleSubmitButtonClick = React.useCallback(() => {
-        scrollToTop();
-        if (currentStep === 'overview') {
-            const nextStepMap: {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                [key in Exclude<StepTypes, 'assessment'>]: Exclude<StepTypes, 'overview'>;
-            } = {
-                overview: 'assessment',
-            };
-            submitRequest(value as PerOverviewFields);
-            handleTabChange(nextStepMap[currentStep]);
-        }
-    }, [
+    const {
         value,
-        currentStep,
-        handleTabChange,
-        submitRequest,
-    ]);
+        setFieldValue: onValueChange,
+        error: riskyError,
+        setError,
+        validate,
+    } = useForm(overviewSchema, { value: {} });
+
+    const error = getErrorObject(riskyError);
+
+    const assessmentOptions = useMemo(
+        () => (
+            assessmentResponse?.results?.map((d) => ({
+                value: d.id,
+                label: d.name,
+            })).sort(compareLabel) ?? emptyStringOptionList
+        ),
+        [assessmentResponse],
+    );
+
+    const nationalSocietyOptions = useMemo(
+        () => {
+            if (!countriesResponse) {
+                return emptyNumericOptionList;
+            }
+
+            const ns: NumericValueOption[] = countriesResponse.results
+                .filter((d) => d.independent && d.society_name)
+                .map((d) => ({
+                    value: d.id,
+                    label: d.society_name,
+                })).sort(compareLabel);
+
+            return ns;
+        },
+        [countriesResponse],
+    );
+
+    // FIXME: use FileInput
+    const handleFileInputChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            event.preventDefault();
+            const { files } = event.target;
+            if (files && files.length > 0) {
+                const file = files[0];
+                onValueChange(file, 'orientation_document');
+                // uploadFile(file);
+            }
+        },
+        [onValueChange],
+    );
+
+    const handleSubmit = useCallback(
+        () => {
+            savePerOverview(value as PerOverviewFields);
+            scrollToTop();
+        },
+        [
+            value,
+            savePerOverview,
+        ],
+    );
 
     return (
-        // <form
-        //   onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
-        // >
-        <>
+        <form
+            onSubmit={createSubmitHandler(validate, setError, handleSubmit)}
+        >
             <Container
                 className={styles.sharing}
-                visibleOverflow
             >
-                {strings.perFormSetUpPerProcess}
+                {strings.perOverviewSetUpPerProcess}
                 <InputSection
                     title={strings.perFormNationalSociety}
                 >
@@ -214,17 +202,16 @@ function PerOverview(props: Props) {
                         name="national_society"
                         onChange={onValueChange}
                         options={nationalSocietyOptions}
-                        keySelector={(d) => d.value}
-                        labelSelector={(d) => d.label}
+                        keySelector={numericValueOptionKeySelector}
+                        labelSelector={numericValueOptionLabelSelector}
                         value={value?.national_society}
-                        error={error?.national_society}
+                        error={getErrorString(error?.national_society)}
                     />
                 </InputSection>
             </Container>
             <Container
                 heading={strings.perFormOrientation}
                 className={styles.sharing}
-                visibleOverflow
             >
                 <InputSection
                     title={strings.perFormDateOfOrientation}
@@ -243,18 +230,17 @@ function PerOverview(props: Props) {
                     <input
                         className={styles.fileInput}
                         name="orientation_document"
-                        accept='.docx, pdf'
+                        accept=".docx, pdf"
                         type="file"
                         onChange={handleFileInputChange}
                         value={value?.orientation_document}
-                        error={error?.orientation_document}
+                        // error={getErrorString(error?.orientation_document}
                     />
                 </InputSection>
             </Container>
             <Container
                 heading={strings.perFormAssessment}
                 className={styles.sharing}
-                visibleOverflow
             >
                 <InputSection
                     title={strings.perFormDateOfAssessment}
@@ -271,14 +257,14 @@ function PerOverview(props: Props) {
                     title={strings.perFormTypeOfAssessment}
                 >
                     <SelectInput
-                        name={"type_of_assessment" as const}
+                        name="type_of_assessment"
                         options={assessmentOptions}
-                        keySelector={(d) => d.value}
-                        labelSelector={(d) => d.label}
-                        pending={fetchingPerOptions}
+                        keySelector={stringValueOptionKeySelector}
+                        labelSelector={stringValueOptionLabelSelector}
                         onChange={onValueChange}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
+                        disabled={fetchingPerOptions}
                     />
                 </InputSection>
                 <InputSection
@@ -295,13 +281,13 @@ function PerOverview(props: Props) {
                     title={strings.perFormTypeOfPreviousPerAssessment}
                 >
                     <SelectInput
-                        name={"type_of_per_assessment" as const}
+                        name="type_of_per_assessment"
                         options={assessmentOptions}
-                        keySelector={(d) => d.value}
-                        labelSelector={(d) => d.label}
+                        keySelector={stringValueOptionKeySelector}
+                        labelSelector={stringValueOptionLabelSelector}
                         onChange={onValueChange}
                         value={value?.type_of_per_assessment}
-                        error={error?.type_of_per_assessment}
+                        error={getErrorString(error?.type_of_per_assessment)}
                     />
                 </InputSection>
                 <InputSection
@@ -330,7 +316,7 @@ function PerOverview(props: Props) {
                     description={strings.perFormEpiConsiderationsDescription}
                 >
                     <RadioInput
-                        name={"is_epi" as const}
+                        name="is_epi"
                         options={yesNoOptions}
                         keySelector={booleanOptionKeySelector}
                         labelSelector={optionLabelSelector}
@@ -344,7 +330,7 @@ function PerOverview(props: Props) {
                     description={strings.perFormUrbanConsiderationsDescription}
                 >
                     <RadioInput
-                        name={"assess_urban_aspect_of_country" as const}
+                        name="assess_urban_aspect_of_country"
                         options={yesNoOptions}
                         keySelector={booleanOptionKeySelector}
                         labelSelector={optionLabelSelector}
@@ -358,7 +344,7 @@ function PerOverview(props: Props) {
                     description={strings.perFormClimateAndEnvironmentalConsiderationsDescription}
                 >
                     <RadioInput
-                        name={"assess_climate_environment_of_country" as const}
+                        name="assess_climate_environment_of_country"
                         options={yesNoOptions}
                         keySelector={booleanOptionKeySelector}
                         labelSelector={optionLabelSelector}
@@ -370,7 +356,6 @@ function PerOverview(props: Props) {
             </Container>
             <Container
                 heading={strings.perFormProcessCycleHeading}
-                visibleOverflow
             >
                 <InputSection
                     title={strings.perFormPerProcessCycleNumber}
@@ -387,7 +372,6 @@ function PerOverview(props: Props) {
             <Container
                 heading={strings.perFormWorkPlanReviewsPlanned}
                 className={styles.sharing}
-                visibleOverflow
             >
                 <InputSection
                     title={strings.perFormWorkPlanDevelopmentDate}
@@ -413,7 +397,6 @@ function PerOverview(props: Props) {
             <Container
                 heading={strings.perFormContactInformation}
                 className={styles.sharing}
-                visibleOverflow
             >
                 <InputSection
                     title={strings.perFormNsFocalPoint}
@@ -543,14 +526,13 @@ function PerOverview(props: Props) {
                     <Button
                         name={undefined}
                         variant="secondary"
-                        onClick={handleSubmitButtonClick}
+                        type="submit"
                     >
                         {strings.perOverviewSetUpPerProcess}
                     </Button>
                 </div>
             </Container>
-        </>
-        // </form>
+        </form>
     );
 }
 

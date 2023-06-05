@@ -21,6 +21,7 @@ function Button<N>(props: Props<N>) {
         name,
         onClick,
         variant,
+        type,
         ...otherProps
     } = props;
 
@@ -40,7 +41,7 @@ function Button<N>(props: Props<N>) {
         icons,
         actions,
         // NOTE: disabling a button if there is on onClick handler
-        disabled: disabled || !onClick,
+        disabled: disabled || (type !== 'submit' && !onClick),
     });
 
     return (

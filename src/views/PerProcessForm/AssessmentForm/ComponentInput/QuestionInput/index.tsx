@@ -5,12 +5,12 @@ import {
   useFormObject,
 } from '@togglecorp/toggle-form';
 
-import usePerProcessOptions from '../../usePerProcessOptions';
+import usePerProcessOptions from '../../../usePerProcessOptions';
 import {
   booleanOptionKeySelector,
   optionLabelSelector,
   PerAssessmentForm,
-} from '../../common';
+} from '../../../common';
 import Container from '#components/Container';
 import TextArea from '#components/TextArea';
 import RadioInput from '#components/RadioInput';
@@ -43,8 +43,8 @@ function QuestionInput(props: Props) {
     <>
       <Container
         className={styles.inputSection}
-        contentClassName={styles.questionContent}
-        description={value?.question}
+        headerClassName={styles.questionContent}
+        heading={value?.question}
       >
         <TextArea
           className={styles.noteSection}

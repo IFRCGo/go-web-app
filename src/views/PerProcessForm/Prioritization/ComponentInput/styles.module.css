@@ -19,8 +19,7 @@
 
     .question-content {
       display: flex;
-      padding-right: 20%;
-      gap: $global-spacing-3;
+      gap: var(--go-ui-spacing-xxs);
 
       .note-section {
         display: flex;
@@ -30,7 +29,7 @@
 
       .answers {
         display: flex;
-        gap: $global-spacing-2;
+        gap: var(--go-ui-spacing-xs);
       }
     }
   }
@@ -38,8 +37,8 @@
 
 .dot {
   display: inline-block;
-  border-radius: 50%;
-  background-color: grey;
-  width: 12px;
-  height: 12px;
+  border-radius: var(--go-ui-border-radius-full);
+  background-color: var(--go-ui-color-gray-10);
+  width: var(--go-ui-width-separator-dense);
+  height: var(--go-ui-width-separator-dense);
 }

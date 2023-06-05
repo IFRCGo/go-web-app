@@ -1,7 +1,5 @@
-@import '~styles/settings/variables';
-
 .custom-activity {
-  border-top: 2px solid transparent;
+  border-top: var(--go-ui-width-separator-md) solid transparent;
   background-color: $color-background;
 
   .improvement-select {
@@ -11,7 +9,7 @@
   }
 
   .dot-connector {
-    border-left: 1px solid grey;
+    border-left: var(--go-ui-width-separator-sm) solid grey;
   }
 
   .input-section {
@@ -25,6 +23,6 @@
   display: inline-block;
   border-radius: 50%;
   background-color: grey;
-  width: 12px;
-  height: 12px;
+  width: var(--go-ui-width-separator-dense);
+  height: var(--go-ui-width-separator-dense);
 }

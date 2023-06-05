@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     EntriesAsList,
     PartialForm,
     SetBaseValueArg,
-    useForm
+    useForm,
+    useFormArray
 } from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
 import { ListResponse, useRequest } from '#utils/restRequest';
 import { assessmentSchema } from '../usePerProcessOptions';
-import { Area, Component } from '../common';
+import { Area, Component, PerAssessmentForm, PerPrioritizationForm } from '../common';
 import Container from '#components/Container';
 import ComponentsList from './ComponentInput';
 
@@ -19,6 +20,9 @@ import useTranslation from '#hooks/useTranslation';
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
+import ExpandableContainer from '#components/ExpandableContainer';
+import { createStringColumn } from '#components/Table/columnShortcuts';
+import QuestionInput from './ComponentInput/QuestionInput';
 
 type Value = PartialForm<Component>;
 
@@ -52,13 +56,30 @@ function PrioritizationForm(props: AreaProps) {
         setFieldValue,
         setValue: onValueSet,
     } = useForm(assessmentSchema, { value: {} });
+    const [currentComponent, setCurrentComponent] = useState<string | undefined>();
 
     const {
-        pending: fetchingAreas,
         response: areaResponse,
     } = useRequest<ListResponse<Area>>({
         url: 'api/v2/per-formarea/',
     });
+
+    const {
+        response: componentResponse,
+    } = useRequest<ListResponse<Component>>({
+        url: `api/v2/per-formcomponent/`,
+    });
+
+    const {
+        response: questionResponse,
+    } = useRequest<ListResponse<PerPrioritizationForm>>({
+        url: `api/v2/per-formquestion/`,
+        query: {
+            component: currentComponent,
+        },
+    });
+
+    console.warn('The questions', questionResponse?.results);
 
     const showComponent = () => {
         return (
@@ -85,7 +106,6 @@ function PrioritizationForm(props: AreaProps) {
         );
     };
 
-    /*
     const columns = [
         createStringColumn<Component, string | number>(
             'component',
@@ -104,49 +124,47 @@ function PrioritizationForm(props: AreaProps) {
         ),
     ];
 
-    const handleSubmitButtonClick = React.useCallback(() => {
-      scrollToTop();
-  
-      const isCurrentTabValid = validateCurrentTab(['orientation_document']);
-      if (!isCurrentTabValid) {
-        return;
-      }
-  
-      if (currentStep === 'overview') {
-      } else {
-        const nextStepMap: {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          [key in Exclude<StepTypes, 'workPlan'>]: Exclude<StepTypes, 'overview'>;
-        } = {
-          overview: 'assessment',
-          assessment: 'prioritization',
-          prioritization: 'workPlan',
-        };
-  
-        handleTabChange(nextStepMap[currentStep]);
-      }
-    }, []);
-    */
+    const {
+        setValue: setBenchmarkValue,
+        // removeValue: removeBenchmarkValue,
+    } = useFormArray('component_responses', setFieldValue);
 
     return (
         <Container
             className={_cs(styles.prioritizationTable, className)}
             contentClassName={styles.content}
         >
-            {/* <Table
+            <Table
                 data={data}
-                columns={undefined}
+                columns={columns}
                 keySelector={prioritizationKeySelector}
                 variant="large"
-            /> */}
-            {/* {areaResponse?.results?.map((item) => (
-                <ComponentsList
-                    key={item.area_num}
-                    id={item.id}
-                    onValueChange={setFieldValue}
-                    value={value}
-                />
-            ))} */}
+            />
+            {componentResponse?.results?.map((a, i) => (
+                <ExpandableContainer
+                    className={_cs(styles.customActivity, styles.errored)}
+                    componentRef={undefined}
+                    heading={`Component ${i + 1}: ${a?.title}`}
+                    actions={
+                        <TextInput
+                            className={styles.improvementSelect}
+                            name="description"
+                            value={value?.description}
+                            onChange={setFieldValue}
+                        />
+                    }
+                >
+                    {questionResponse?.results.map((q, i) => (
+                        <QuestionInput
+                            index={i}
+                            value={q}
+                            key={q.id}
+                            onChange={setBenchmarkValue}
+                        // onRemove={removeBenchmarkValue}
+                        />
+                    ))}
+                </ExpandableContainer>
+            ))}
             <div className={styles.actions}>
                 <Button
                     name={undefined}
