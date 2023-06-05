@@ -15,6 +15,7 @@ import { useRequest } from '#utils/restRequest';
 import HighlightedOperations from './HighlightedOperations';
 import ActiveOperationMap from './ActiveOperationMap';
 import AppealsTable from './AppealsTable';
+import Charts from './Charts';
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
@@ -95,6 +96,7 @@ export function Component() {
             <HighlightedOperations />
             <ActiveOperationMap />
             <AppealsTable />
+            <Charts />
         </Page>
     );
 }

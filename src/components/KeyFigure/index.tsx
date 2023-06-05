@@ -56,9 +56,11 @@ function KeyFigure(props: Props) {
                 separator={addSeparator ? undefined : null}
                 precision={fixedTo}
             />
-            <div className={styles.description}>
-                {description}
-            </div>
+            {description && (
+                <div className={styles.description}>
+                    {description}
+                </div>
+            )}
             {isDefined(progress) && (
                 <ProgressBar
                     title={progressTitle}

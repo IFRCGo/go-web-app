@@ -1,0 +1,46 @@
+.monthly-chart {
+    --color-dref: var(--go-ui-color-primary-blue);
+    --color-emergency-appeal: var(--go-ui-color-primary-red);
+    min-height: 24rem;
+
+    .chart-container {
+        display: flex;
+        position: relative;
+        flex-wrap: wrap;
+
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .timeline-chart {
+            flex-basis: 40rem;
+            flex-grow: 2;
+            height: 22rem;
+            --path-stroke-width: 1pt;
+
+            path.dref {
+                stroke: var(--color-dref);
+                stroke-width: var(--path-stroke-width);
+                fill: none;
+            }
+
+            path.emergency-appeal {
+                stroke: var(--color-emergency-appeal);
+                stroke-width: var(--path-stroke-width);
+                fill: none;
+            }
+
+            .dref {
+                color: var(--color-dref);
+            }
+
+            .emergency-appeal {
+                color: var(--color-emergency-appeal);
+            }
+        }
+    }
+}

@@ -48,9 +48,13 @@
     flex-direction: column;
     gap: var(--go-ui-spacing-md);
 
-    .popup-appeal-detail {
-        display: flex;
-        flex-direction: column;
-        font-size: var(--go-ui-font-size-sm);
+    .popup-appeal {
+        gap: var(--go-ui-spacing-xs);
+
+        .popup-appeal-detail {
+            display: flex;
+            flex-direction: column;
+            font-size: var(--go-ui-font-size-sm);
+        }
     }
 }

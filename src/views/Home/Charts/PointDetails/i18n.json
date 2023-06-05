@@ -1,0 +1,9 @@
+{
+    "namespace": "home",
+    "strings": {
+        "timelineChartEmergencyAppealLabel":"EmergencyAppeals",
+        "timelineChartDrefLabel":"DREFs",
+        "timelineChartAmountFundedLabel": "Amount Funded",
+        "timelineChartPeopleTargetedLabel": "People Targeted"
+    }
+}

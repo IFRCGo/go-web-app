@@ -10,7 +10,7 @@
         "operationCardDeployed":"Deployed Surge Personnel",
         "operationCardFundingCoverage":"{coverage}% received",
         "operationCardFollow":"Follow",
-        "operationCardFollowing":"Following",
+        "operationCardUnfollow":"Unfollow",
         "operationCardInvolvesMultipleCountries":"Involves multiple countries",
         "operationCardNoCountryInvolved":"No Country Involved"
     }
