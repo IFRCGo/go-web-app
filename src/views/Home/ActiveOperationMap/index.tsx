@@ -28,7 +28,6 @@ import Container from '#components/Container';
 import Link from '#components/Link';
 import MapPopup from '#components/MapPopup';
 import TextOutput from '#components/TextOutput';
-import Heading from '#components/Heading';
 import useInputState from '#hooks/useInputState';
 import {
     defaultMapStyle,

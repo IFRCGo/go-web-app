@@ -4,14 +4,18 @@
     --path-stroke-width: 1pt;
 
     .y-axis-tick-text {
-        text-anchor: start;
+        text-anchor: middle;
         font-size: var(--go-ui-font-size-xs);
     }
 
     .x-axis-tick-text {
         text-anchor: middle;
-        vertical-align: start;
+        transition: var(--go-ui-duration-transition-medium) ease-in-out transform;
         font-size: var(--go-ui-font-size-xs);
+
+        @media screen and (max-width: 30rem) {
+            transform: rotate(-30deg);
+        }
     }
 
     .x-axis-grid-line,

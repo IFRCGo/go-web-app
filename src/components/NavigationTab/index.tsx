@@ -55,11 +55,15 @@ function NavigationTab(props: Props) {
             end
             title={title}
         >
-            <div className={styles.dummy} />
+            {variant === 'primary' && (
+                <div className={styles.dummy} />
+            )}
             <div className={styles.childrenWrapper}>
                 {children}
             </div>
-            <div className={styles.dummy} />
+            {variant === 'primary' && (
+                <div className={styles.dummy} />
+            )}
         </NavLink>
     );
 }

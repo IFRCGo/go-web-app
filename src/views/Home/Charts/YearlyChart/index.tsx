@@ -6,11 +6,13 @@ import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import Button from '#components/Button';
 import { getDatesSeparatedByYear } from '#utils/chart';
+import useTranslation from '#hooks/useTranslation';
 
 import TimelineChart from '../TimelineChart';
-
-import styles from './styles.module.css';
 import PointDetails from '../PointDetails';
+
+import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 const APPEAL_TYPE_EMERGENCY = 1;
 const APPEAL_TYPE_DREF = 0;
@@ -38,9 +40,8 @@ interface Props {
 }
 
 function YearlyChart(props: Props) {
-    const {
-        onYearClick,
-    } = props;
+    const { onYearClick } = props;
+    const strings = useTranslation(i18n);
 
     const dateList = useMemo(
         () => getDatesSeparatedByYear(startDate, endDate),
@@ -131,7 +132,7 @@ function YearlyChart(props: Props) {
         <Container
             className={styles.yearlyChart}
             childrenContainerClassName={styles.chartContainer}
-            heading="Appeals over the last 10 years"
+            heading={strings.homeYearlyChartTitle}
             withHeaderBorder
         >
             {pending && <BlockLoading className={styles.loading} />}
@@ -157,7 +158,7 @@ function YearlyChart(props: Props) {
                                 name={activePointData.date.getFullYear()}
                                 onClick={onYearClick}
                             >
-                                View monthly
+                                {strings.homeYearlyChartViewMonthlyLabel}
                             </Button>
                         )}
                     />

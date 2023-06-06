@@ -6,10 +6,13 @@ import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import Button from '#components/Button';
 import { getDatesSeparatedByMonths } from '#utils/chart';
+import { resolveToComponent } from '#utils/translation';
+import useTranslation from '#hooks/useTranslation';
 
 import TimelineChart from '../TimelineChart';
 import PointDetails from '../PointDetails';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const APPEAL_TYPE_EMERGENCY = 1;
@@ -46,6 +49,7 @@ function MonthlyChart(props: Props) {
         year,
         onBackButtonClick,
     } = props;
+    const strings = useTranslation(i18n);
     const dateList = useMemo(
         () => {
             const startDate = new Date(year, 0, 1);
@@ -134,12 +138,16 @@ function MonthlyChart(props: Props) {
     };
 
     const activePointData = activePointKey ? dateListWithData[activePointKey] : undefined;
+    const heading = resolveToComponent(
+        strings.homeMonthlyChartTitle,
+        { year: year ?? '--' },
+    );
 
     return (
         <Container
             className={styles.monthlyChart}
             childrenContainerClassName={styles.chartContainer}
-            heading={`Appeals by Month for ${year}`}
+            heading={heading}
             withHeaderBorder
         >
             {pending && <BlockLoading className={styles.loading} />}
@@ -168,7 +176,7 @@ function MonthlyChart(props: Props) {
                                 name={undefined}
                                 onClick={onBackButtonClick}
                             >
-                                Back to yearly
+                                {strings.homeMonthlyChartBackButtonLabel}
                             </Button>
                         )}
                     />

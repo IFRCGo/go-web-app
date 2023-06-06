@@ -1,7 +1,7 @@
 .navigation-tab-list {
     display: flex;
     position: relative;
-    justify-content: center;
+    overflow-x: auto;
 
     .start-dummy-content,
     .end-dummy-content {

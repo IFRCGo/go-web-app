@@ -3,19 +3,21 @@
     --go-ui-font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
     --go-ui-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-    --go-ui-font-size-xs: 0.75rem;
-    --go-ui-font-size-sm: 0.875rem;
-    --go-ui-font-size-md: 1rem;
-    --go-ui-font-size-lg: 1.124rem;
-    --go-ui-font-size-xl: 1.25rem;
-    --go-ui-font-size-2xl: 1.5rem;
-    --go-ui-font-size-3xl: 1.875rem;
-    --go-ui-font-size-4xl: 2.25rem;
-    --go-ui-font-size-5xl: 3rem;
-    --go-ui-font-size-6xl: 3.75rem;
-    --go-ui-font-size-7xl: 4.5rem;
-    --go-ui-font-size-8xl: 6rem;
-    --go-ui-font-size-9xl: 8rem;
+    --base-font-size: 0.875rem;
+
+    --go-ui-font-size-xs: calc(var(--base-font-size) * 0.75);
+    --go-ui-font-size-sm: calc(var(--base-font-size) * 0.875);
+    --go-ui-font-size-md: calc(var(--base-font-size) * 1);
+    --go-ui-font-size-lg: calc(var(--base-font-size) * 1.124);
+    --go-ui-font-size-xl: calc(var(--base-font-size) * 1.25);
+    --go-ui-font-size-2xl: calc(var(--base-font-size) * 1.5);
+    --go-ui-font-size-3xl: calc(var(--base-font-size) * 1.875);
+    --go-ui-font-size-4xl: calc(var(--base-font-size) * 2.25);
+    --go-ui-font-size-5xl: calc(var(--base-font-size) * 3);
+    --go-ui-font-size-6xl: calc(var(--base-font-size) * 3.75);
+    --go-ui-font-size-7xl: calc(var(--base-font-size) * 4.5);
+    --go-ui-font-size-8xl: calc(var(--base-font-size) * 6);
+    --go-ui-font-size-9xl: calc(var(--base-font-size) * 8);
 
     --go-ui-line-height-none: 1;
     --go-ui-line-height-tight: 1.25;
@@ -40,36 +42,37 @@
     --go-ui-width-screen-xl: 1280px;
     --go-ui-width-screen-2xl: 1536px;
 
-    --go-ui-spacing-none: 0px;
+    --base-spacing: 0.75rem;
     --go-ui-spacing-px: 1px;
-    --go-ui-spacing-xxs: 0.125rem;
-    --go-ui-spacing-xs: 0.25rem;
-    --go-ui-spacing-sm: 0.5rem;
-    --go-ui-spacing-md: 0.75rem;
-    --go-ui-spacing-lg: 1rem;
-    --go-ui-spacing-xl: 1.5rem;
-    --go-ui-spacing-2xl: 2rem;
-    --go-ui-spacing-3xl: 3rem;
-    --go-ui-spacing-4xl: 4rem;
-    --go-ui-spacing-5xl: 5rem;
-    --go-ui-spacing-6xl: 6rem;
-    --go-ui-spacing-7xl: 7rem;
-    --go-ui-spacing-8xl: 8rem;
-    --go-ui-spacing-9xl: 9rem;
+    --go-ui-spacing-3xs: calc(var(--base-spacing) * 0.125);
+    --go-ui-spacing-2xs: calc(var(--base-spacing) * 0.25);
+    --go-ui-spacing-xs: calc(var(--base-spacing) * 0.5);
+    --go-ui-spacing-sm: calc(var(--base-spacing) * 0.75);
+    --go-ui-spacing-md: calc(var(--base-spacing) * 1);
+    --go-ui-spacing-lg: calc(var(--base-spacing) * 1.25);
+    --go-ui-spacing-xl: calc(var(--base-spacing) * 1.5);
+    --go-ui-spacing-2xl: calc(var(--base-spacing) * 2);
+    --go-ui-spacing-3xl: calc(var(--base-spacing) * 3);
+    --go-ui-spacing-4xl: calc(var(--base-spacing) * 4);
+    --go-ui-spacing-5xl: calc(var(--base-spacing) * 5);
+    --go-ui-spacing-6xl: calc(var(--base-spacing) * 6);
+    --go-ui-spacing-7xl: calc(var(--base-spacing) * 7);
+    --go-ui-spacing-8xl: calc(var(--base-spacing) * 8);
+    --go-ui-spacing-9xl: calc(var(--base-spacing) * 9);
 
-    --go-ui-width-separator-sm: 1px;
-    --go-ui-width-separator-md: 2px;
-    --go-ui-width-separator-lg: 4px;
-    --go-ui-width-separator-xl: 8px;
-    --go-ui-width-separator-thin: 1px;
-    --go-ui-width-separator-small: 2px;
-    --go-ui-width-separator-thick: 4px;
-    --go-ui-width-separator-medium: 6px;
-    --go-ui-width-separator-large: 8px;
-    --go-ui-width-separator-dense: 12px;
-    --go-ui-width-separator-extra-dense: 14px;
+    --go-ui-width-separator-sm: 1pt;
+    --go-ui-width-separator-md: 2pt;
+    --go-ui-width-separator-lg: 4pt;
+    --go-ui-width-separator-xl: 8pt;
+    --go-ui-width-separator-thin: 1pt;
+    --go-ui-width-separator-small: 2pt;
+    --go-ui-width-separator-thick: 4pt;
+    --go-ui-width-separator-medium: 6pt;
+    --go-ui-width-separator-large: 8pt;
+    --go-ui-width-separator-dense: 12pt;
+    --go-ui-width-separator-extra-dense: 14pt;
 
-    --go-ui-border-radius-none: 0px;
+    --go-ui-border-radius-none: 0;
     --go-ui-border-radius-sm: 0.125rem;
     --go-ui-border-radius-md: 0.25rem;
     --go-ui-border-radius-lg: 0.5rem;
@@ -210,6 +213,7 @@ body {
     margin: 0;
     background-color: var(--go-ui-color-background);
     padding: 0;
+    font-size: var(--go-ui-font-size-md);
 }
 
 html {

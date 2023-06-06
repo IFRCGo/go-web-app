@@ -17,8 +17,8 @@ import ChartPoint from './ChartPoint';
 import styles from './styles.module.css';
 
 const X_AXIS_HEIGHT = 20;
-const Y_AXIS_WIDTH = 20;
-const CHART_OFFSET = 20;
+const Y_AXIS_WIDTH = 10;
+const CHART_OFFSET = 10;
 
 const chartMargin = {
     left: 2 * Y_AXIS_WIDTH + CHART_OFFSET,
@@ -226,6 +226,9 @@ function TimelineChart<const K extends string>(props: Props<K>) {
                             className={styles.xAxisTickText}
                             x={point.x}
                             y={bounds.height - X_AXIS_HEIGHT}
+                            style={{
+                                transformOrigin: `${point.x}px ${bounds.height - X_AXIS_HEIGHT}px`,
+                            }}
                         >
                             {xAxisFormatter(point.date)}
                         </text>
@@ -237,7 +240,7 @@ function TimelineChart<const K extends string>(props: Props<K>) {
                             x1={point.x}
                             y1={0}
                             x2={point.x}
-                            y2={bounds.height - CHART_OFFSET}
+                            y2={bounds.height - chartMargin.bottom + CHART_OFFSET}
                         />
                         {dataKeys.map((dataKey) => (
                             <ChartPoint
