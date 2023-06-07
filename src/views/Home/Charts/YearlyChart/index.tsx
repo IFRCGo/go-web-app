@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { encodeDate, listToMap } from '@togglecorp/fujs';
 import { useRequest } from '#utils/restRequest';
 
@@ -17,6 +17,13 @@ import styles from './styles.module.css';
 const APPEAL_TYPE_EMERGENCY = 1;
 const APPEAL_TYPE_DREF = 0;
 
+type DATA_KEY = 'dref' | 'emergencyAppeal';
+
+const dataKeys: DATA_KEY[] = [
+    'dref',
+    'emergencyAppeal',
+];
+
 const getFormattedKey = (dateFromProps: string | Date) => {
     const date = new Date(dateFromProps);
     return `${date.getFullYear()}-${date.getMonth()}`;
@@ -34,6 +41,14 @@ interface AggregateResponse {
 const now = new Date();
 const startDate = new Date(now.getFullYear() - 10, 0, 1);
 const endDate = new Date(now.getFullYear(), 11, 31);
+const dateList = getDatesSeparatedByYear(startDate, endDate);
+
+const dataKeyToClassNameMap = {
+    dref: styles.dref,
+    emergencyAppeal: styles.emergencyAppeal,
+};
+const classNameSelector = (dataKey: DATA_KEY) => dataKeyToClassNameMap[dataKey];
+const xAxisFormatter = (date: Date) => date.toLocaleString(undefined, { year: 'numeric' });
 
 interface Props {
     onYearClick: (year: number) => void;
@@ -43,13 +58,8 @@ function YearlyChart(props: Props) {
     const { onYearClick } = props;
     const strings = useTranslation(i18n);
 
-    const dateList = useMemo(
-        () => getDatesSeparatedByYear(startDate, endDate),
-        [],
-    );
-
     const [activePointKey, setActivePointKey] = useState<string>(
-        getFormattedKey(dateList[dateList.length - 1]),
+        () => getFormattedKey(dateList[dateList.length - 1]),
     );
 
     const queryParams = {
@@ -121,12 +131,13 @@ function YearlyChart(props: Props) {
         }),
     );
 
-    const dataKeyToClassNameMap = {
-        dref: styles.dref,
-        emergencyAppeal: styles.emergencyAppeal,
-    };
-
     const activePointData = activePointKey ? dateListWithData[activePointKey] : undefined;
+    const chartValueSelector = useCallback(
+        (dataKey: DATA_KEY, date: Date) => (
+            combinedData?.[dataKey]?.[getFormattedKey(date)]?.count ?? 0
+        ),
+        [combinedData],
+    );
 
     return (
         <Container
@@ -141,14 +152,12 @@ function YearlyChart(props: Props) {
                     <TimelineChart
                         className={styles.timelineChart}
                         timePoints={dateList}
-                        dataKeys={['dref', 'emergencyAppeal']}
-                        valueSelector={(dataKey, date) => (
-                            combinedData?.[dataKey]?.[getFormattedKey(date)]?.count ?? 0
-                        )}
-                        classNameSelector={(dataKey) => dataKeyToClassNameMap[dataKey]}
+                        dataKeys={dataKeys}
+                        valueSelector={chartValueSelector}
+                        classNameSelector={classNameSelector}
                         activePointKey={activePointKey}
                         onTimePointClick={setActivePointKey}
-                        xAxisFormatter={(date) => date.toLocaleString(undefined, { year: 'numeric' })}
+                        xAxisFormatter={xAxisFormatter}
                     />
                     <PointDetails
                         heading={activePointData?.date.getFullYear() ?? '--'}

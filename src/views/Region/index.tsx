@@ -113,28 +113,28 @@ export function Component() {
                                 icon={<FundingIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_requested_dref_included}
-                                normalize
+                                compactValue
                                 description={strings.regionKeyFiguresBudget}
                             />
                             <KeyFigure
                                 icon={<FundingCoverageIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_funded}
-                                normalize
+                                compactValue
                                 description={strings.regionKeyFiguresAppealsFunding}
                             />
                             <KeyFigure
                                 icon={<TargetedPopulationIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.target_population}
-                                normalize
+                                compactValue
                                 description={strings.regionKeyFiguresTargetPop}
                             />
                             <KeyFigure
                                 icon={<AppealsTwoIcon />}
                                 className={styles.keyFigure}
                                 value={regionResponse.country_plan_count}
-                                normalize
+                                compactValue
                                 description={strings.regionKeyFiguresCountryPlan}
                             />
                         </>

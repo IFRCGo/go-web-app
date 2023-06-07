@@ -149,7 +149,7 @@ export function Component() {
                         icon={<TargetedPopulationIcon />}
                         value={numTargetedPopulation}
                         description={strings.globalThreeWKeyTargetedPopulationTitle}
-                        normalize
+                        compactValue
                     />
                 </>
             )}

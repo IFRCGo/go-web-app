@@ -10,9 +10,7 @@ interface Props {
     children?: React.ReactNode;
     contentClassName?: string;
     value: number | undefined | null;
-    normalize?: boolean;
-    addSeparator?: boolean;
-    fixedTo?: number;
+    compactValue?: boolean;
     description?: React.ReactNode;
     progressTitle?: React.ReactNode;
     progress?: number;
@@ -26,9 +24,7 @@ function KeyFigure(props: Props) {
         children,
         contentClassName,
         value,
-        normalize,
-        addSeparator,
-        fixedTo,
+        compactValue,
         description,
         progress,
         progressTitle,
@@ -52,9 +48,7 @@ function KeyFigure(props: Props) {
             <NumberOutput
                 className={styles.value}
                 value={value}
-                compact={normalize}
-                separator={addSeparator ? undefined : null}
-                precision={fixedTo}
+                compact={compactValue}
             />
             {description && (
                 <div className={styles.description}>

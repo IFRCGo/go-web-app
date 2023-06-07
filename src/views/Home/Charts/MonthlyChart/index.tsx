@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { encodeDate, listToMap } from '@togglecorp/fujs';
 import { useRequest } from '#utils/restRequest';
 
@@ -17,6 +17,23 @@ import styles from './styles.module.css';
 
 const APPEAL_TYPE_EMERGENCY = 1;
 const APPEAL_TYPE_DREF = 0;
+
+type DATA_KEY = 'dref' | 'emergencyAppeal';
+
+const dataKeys: DATA_KEY[] = [
+    'dref',
+    'emergencyAppeal',
+];
+
+const dataKeyToClassNameMap = {
+    dref: styles.dref,
+    emergencyAppeal: styles.emergencyAppeal,
+};
+const classNameSelector = (dataKey: DATA_KEY) => dataKeyToClassNameMap[dataKey];
+const xAxisFormatter = (date: Date) => date.toLocaleString(
+    undefined,
+    { month: 'short' },
+);
 
 const dateFormatter = new Intl.DateTimeFormat(
     undefined,
@@ -60,7 +77,7 @@ function MonthlyChart(props: Props) {
     );
 
     const [activePointKey, setActivePointKey] = useState<string>(
-        getFormattedKey(dateList[0]),
+        () => getFormattedKey(dateList[0]),
     );
 
     const queryParams = {
@@ -132,15 +149,16 @@ function MonthlyChart(props: Props) {
         }),
     );
 
-    const dataKeyToClassNameMap = {
-        dref: styles.dref,
-        emergencyAppeal: styles.emergencyAppeal,
-    };
-
     const activePointData = activePointKey ? dateListWithData[activePointKey] : undefined;
     const heading = resolveToComponent(
         strings.homeMonthlyChartTitle,
         { year: year ?? '--' },
+    );
+    const chartValueSelector = useCallback(
+        (dataKey: DATA_KEY, date: Date) => (
+            combinedData?.[dataKey]?.[getFormattedKey(date)]?.count ?? 0
+        ),
+        [combinedData],
     );
 
     return (
@@ -156,17 +174,12 @@ function MonthlyChart(props: Props) {
                     <TimelineChart
                         className={styles.timelineChart}
                         timePoints={dateList}
-                        dataKeys={['dref', 'emergencyAppeal']}
-                        valueSelector={(dataKey, date) => (
-                            combinedData?.[dataKey]?.[getFormattedKey(date)]?.count ?? 0
-                        )}
-                        classNameSelector={(dataKey) => dataKeyToClassNameMap[dataKey]}
+                        dataKeys={dataKeys}
+                        valueSelector={chartValueSelector}
+                        classNameSelector={classNameSelector}
                         activePointKey={activePointKey}
                         onTimePointClick={setActivePointKey}
-                        xAxisFormatter={(date) => date.toLocaleString(
-                            undefined,
-                            { month: 'short' },
-                        )}
+                        xAxisFormatter={xAxisFormatter}
                     />
                     <PointDetails
                         heading={dateFormatter.format(activePointData?.date) ?? '--'}

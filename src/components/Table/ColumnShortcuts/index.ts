@@ -161,8 +161,7 @@ export function createNumberColumn<D, K>(
     title: string,
     accessor: (item: D) => number | undefined | null,
     options?: Options<D, K, NumberOutputProps, HeaderCellProps> & {
-        suffix?: React.ReactNode;
-        precision?: number;
+        unit?: React.ReactNode;
     },
 ) {
     const item: Column<D, K, NumberOutputProps, HeaderCellProps> & {
@@ -190,8 +189,7 @@ export function createNumberColumn<D, K>(
         cellRenderer: NumberOutput,
         cellRendererParams: (_: K, datum: D): NumberOutputProps => ({
             value: accessor(datum),
-            suffix: options?.suffix,
-            precision: options?.precision,
+            unit: options?.unit,
             compact: true,
         }),
         valueSelector: accessor,

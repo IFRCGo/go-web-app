@@ -117,14 +117,14 @@ function OperationCard(props: Props) {
                     className={styles.figure}
                     value={targetedPopulation}
                     description={strings.operationCardTargetedPopulation}
-                    normalize
+                    compactValue
                 />
                 <div className={styles.separator} />
                 <KeyFigure
                     className={styles.figure}
                     value={amountRequested}
                     description={strings.operationCardFunding}
-                    normalize
+                    compactValue
                     progress={coverage}
                     progressDescription={fundingCoverageDescription}
                 />
