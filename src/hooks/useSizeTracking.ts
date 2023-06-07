@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, use = true) {
+function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, disabled = false) {
     const [size, setSize] = useState(() => {
         const bcr = ref.current?.getBoundingClientRect();
 
@@ -16,6 +16,7 @@ function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, use 
             const contentRect = entry?.contentRect;
 
             if (contentRect) {
+                // TODO: throttle
                 setSize({
                     width: contentRect.width,
                     height: contentRect.height,
@@ -24,7 +25,7 @@ function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, use 
         });
 
         const el = ref.current;
-        if (use && el) {
+        if (!disabled && el) {
             resizeObserver.observe(ref.current);
         }
 
@@ -33,7 +34,7 @@ function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, use 
                 resizeObserver.unobserve(el);
             }
         };
-    }, [use, ref]);
+    }, [disabled, ref]);
 
     return size;
 }

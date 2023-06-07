@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import YearlyChart from './YearlyChart';
-import MontlyChart from './MonthlyChart';
+import MonthlyChart from './MonthlyChart';
 
 function Charts() {
     const [year, setYear] = useState<number | undefined>();
@@ -16,7 +16,7 @@ function Charts() {
     }
 
     return (
-        <MontlyChart
+        <MonthlyChart
             year={year}
             onBackButtonClick={setYear}
         />

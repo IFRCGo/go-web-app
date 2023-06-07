@@ -192,7 +192,7 @@ export function createNumberColumn<D, K>(
             value: accessor(datum),
             suffix: options?.suffix,
             precision: options?.precision,
-            normal: true,
+            compact: true,
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),

@@ -1,188 +1,95 @@
 import { useMemo } from 'react';
 import {
-    addSeparator,
-    isTruthy,
+    isNotDefined,
     isDefined,
-    formattedNormalize,
     _cs,
 } from '@togglecorp/fujs';
-
-import { isValidNumber } from '#utils/common';
 
 import styles from './styles.module.css';
 
 export interface Props {
     className?: string;
     /**
-    * Text to show if invalid value is supplied
-    */
+     * Text to show if invalid value is supplied
+     */
     invalidText?: React.ReactNode;
     /**
-    * Normalize numer into Millions(M), Billion(B)
-    */
-    normal?: boolean;
+     * Normalize numer into Millions(M), Billion(B)
+     */
+    compact?: boolean;
     /**
-    * Numer of digits after decimal point. Rounding is also applied.
-    */
-    precision?: number | 'auto';
+     * Specify which separator to use for thousands
+     */
+    separatorHidden?: boolean,
     /**
-    * Prefix the output with certain string. Eg. $
-    */
-    prefix?: string;
+     * The value of the numeral
+     */
+    value: number | undefined | null,
     /**
-    * Specify which separator to use for thousands
-    */
-    separator?: string | null;
-    /**
-    * Show both positive and negative sign for number
-    */
-    showSign?: boolean;
-    /**
-    * Prefix the output with certain string. Eg. %
-    */
-    suffix?: React.ReactNode;
-    /**
-    * The value of the numeral
-    */
-    value?: number | null;
+     * Text for tooltip
+     */
+    tooltip?: number | string | null | undefined;
 
-    valueModifier?: (value: string | undefined) => React.ReactNode;
-    signClassName?: string;
-    prefixClassName?: string;
-    numberClassName?: string;
-    normalizationSuffixClassName?: string;
-    suffixClassName?: string;
+    currency?: boolean;
+
+    unit?: React.ReactNode;
 }
 
 /**
-* NumberOutput component for formatted numbers
-*/
+ * NumberOutput component for formatted numbers
+ */
 function NumberOutput(props: Props) {
     const {
         className,
         invalidText = '-',
-        normal,
-        precision = 'auto',
-        prefix,
-        separator = ',',
-        showSign,
-        suffix,
-        valueModifier,
+        separatorHidden,
+        compact,
+        currency,
         value,
-        signClassName,
-        prefixClassName,
-        numberClassName,
-        normalizationSuffixClassName,
-        suffixClassName,
+        tooltip,
+        unit,
     } = props;
 
-    const [number, normalizationSuffix] = useMemo(() => {
-        if (!isValidNumber(value)) {
-            return [];
-        }
-
-        // Only use absolute part if showSign is true (sign are added later)
-        let num = isTruthy(showSign) ? Math.abs(value) : value;
-
-        // Get normalize-suffix and reduce the number
-        let nSuffix;
-
-        if (normal) {
-            const {
-                number: n,
-                normalizeSuffix: ns,
-            } = formattedNormalize(num);
-
-            num = n;
-            nSuffix = ns;
-        }
-
-        const integer = Math.floor(num);
-        const fraction = num - integer;
-
-        let formattedNumber = String(num);
-
-        // Convert number to fixed precision
-        if (isTruthy(precision)) {
-            let p = 2;
-
-            if (precision === 'auto') {
-                const absoluteValue = Math.abs(num);
-
-                if (absoluteValue < 1) {
-                    p = Math.ceil(-Math.log10(absoluteValue)) + 1;
-                }
-                if (integer > 100) {
-                    // 140.1234M -> 140 M
-                    p = 0;
-                } else if (fraction > 0.95) {
-                    // 96.96834M -> 97 M
-                    p = 0;
-                } else if (fraction > 0.01) {
-                    // 96.0334M -> 96.03 M
-                    p = 2;
-                } else {
-                    p = 0;
-                }
-            } else {
-                p = precision;
+    const val = useMemo(
+        () => {
+            if (isNotDefined(value)) {
+                return invalidText;
+            }
+            const options: Intl.NumberFormatOptions = {};
+            if (currency) {
+                options.currencyDisplay = 'narrowSymbol';
+                options.style = 'currency';
+            }
+            if (compact) {
+                options.notation = 'compact';
+                options.compactDisplay = 'short';
             }
 
-            formattedNumber = num.toFixed(p);
-        }
+            options.useGrouping = !separatorHidden;
+            options.maximumFractionDigits = 2;
 
-        // Convert number to add separator
-        if (isDefined(separator) && fraction === 0) {
-            const withSeparator = addSeparator(num, separator);
-            if (withSeparator) {
-                formattedNumber = withSeparator;
+            if (Math.abs(value) > 1000) {
+                options.maximumFractionDigits = 0;
             }
-        }
 
-        return [formattedNumber, nSuffix];
-    }, [
-        value,
-        showSign,
-        normal,
-        precision,
-        separator,
-    ]);
+            const newValue = new Intl.NumberFormat(navigator.language, options)
+                .format(value);
+
+            return newValue;
+        },
+        [invalidText, value, compact, separatorHidden, currency],
+    );
 
     return (
-        <div className={_cs(styles.numberOutput, className)}>
-            { !isValidNumber(value) ? (
-                invalidText
-            ) : (
-                <>
-                    { isTruthy(prefix) && (
-                        <div className={_cs(styles.prefix, prefixClassName)}>
-                            {prefix}
-                        </div>
-                    )}
-                    { isTruthy(showSign) && value !== 0 && (
-                        <div className={_cs(styles.sign, signClassName)}>
-                            {value > 0 ? '+' : '-'}
-                        </div>
-                    )}
-                    <div className={_cs(styles.number, numberClassName)}>
-                        {valueModifier ? valueModifier(number) : number}
-                    </div>
-                    { isTruthy(normalizationSuffix) && (
-                        <div
-                            className={_cs(
-                                styles.normalizationSuffix,
-                                normalizationSuffixClassName,
-                            )}
-                        >
-                            {normalizationSuffix}
-                        </div>
-                    )}
-                    { isTruthy(suffix) && (
-                        <div className={_cs(styles.suffix, suffixClassName)}>
-                            {suffix}
-                        </div>
-                    )}
-                </>
+        <div
+            className={_cs(styles.numberOutput, className)}
+            title={isDefined(tooltip) ? String(tooltip) : undefined}
+        >
+            {val}
+            {isDefined(value) && unit && (
+                <span>
+                    {unit}
+                </span>
             )}
         </div>
     );

@@ -52,7 +52,7 @@ function KeyFigure(props: Props) {
             <NumberOutput
                 className={styles.value}
                 value={value}
-                normal={normalize}
+                compact={normalize}
                 separator={addSeparator ? undefined : null}
                 precision={fixedTo}
             />

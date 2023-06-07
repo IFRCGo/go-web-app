@@ -1,13 +1,4 @@
 .number-output {
     display: inline;
     font-size: inherit;
-
-    .prefix,
-    .sign,
-    .number,
-    .normalization-suffix,
-    .suffix {
-        display: inline;
-        white-space: nowrap;
-    }
 }

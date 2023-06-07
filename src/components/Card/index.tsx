@@ -41,7 +41,7 @@ function Card(props: Props) {
         >
             <NumberOutput
                 value={value}
-                normal={normalize}
+                compact={normalize}
                 separator={addSeparator ? undefined : null}
                 precision={fixedTo}
             />

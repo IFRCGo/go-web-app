@@ -56,9 +56,7 @@ function PointDetails(props: Props) {
                         />
                         <TextOutput
                             label={strings.timelineChartAmountFundedLabel}
-                            value={Math.round(
-                                Number(data.emergencyAppeal?.amount_funded),
-                            )}
+                            value={Number(data.emergencyAppeal?.amount_funded)}
                             valueType="number"
                             strongValue
                         />
@@ -80,9 +78,7 @@ function PointDetails(props: Props) {
                         />
                         <TextOutput
                             label={strings.timelineChartAmountFundedLabel}
-                            value={Math.round(
-                                Number(data.dref?.amount_funded),
-                            )}
+                            value={Number(data.dref?.amount_funded)}
                             valueType="number"
                             strongValue
                         />
