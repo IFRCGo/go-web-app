@@ -213,7 +213,6 @@ body {
     margin: 0;
     background-color: var(--go-ui-color-background);
     padding: 0;
-    font-size: var(--go-ui-font-size-md);
 }
 
 html {
@@ -224,5 +223,6 @@ body {
     line-height: var(--go-ui-line-height-normal);
     color: var(--go-ui-color-primary-gray);
     font-family: var(--go-ui-font-family-sans-serif);
+    font-size: var(--go-ui-font-size-md);
     font-weight: var(--go-ui-font-weight-normal);
 }
