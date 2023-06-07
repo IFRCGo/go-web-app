@@ -21,7 +21,7 @@ import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 import ExpandableContainer from '#components/ExpandableContainer';
-import { createStringColumn } from '#components/Table/columnShortcuts';
+import { createStringColumn } from '#components/Table/ColumnShortcuts';
 import QuestionInput from './ComponentInput/QuestionInput';
 
 type Value = PartialForm<Component>;

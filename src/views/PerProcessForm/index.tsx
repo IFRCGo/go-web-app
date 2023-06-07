@@ -32,7 +32,7 @@ export function Component(props: Props) {
         className,
     } = props;
 
-    const [currentStep, setCurrentStep] = React.useState<StepTypes>('workPlan');
+    const [currentStep, setCurrentStep] = React.useState<StepTypes>('assessment');
 
     const handleTabChange = React.useCallback(
         (newStep: StepTypes) => {

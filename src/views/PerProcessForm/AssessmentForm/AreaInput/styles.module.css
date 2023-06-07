@@ -1,0 +1,12 @@
+.area-input {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-xl) 0;
+    gap: var(--go-ui-spacing-2xl);
+
+    .question-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-2xl);
+    }
+}

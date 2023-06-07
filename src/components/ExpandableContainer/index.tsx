@@ -22,6 +22,7 @@ function ExpandableContainer(props: Props) {
         initiallyExpanded = false,
         headerClassName,
         componentRef,
+        childrenContainerClassName,
         ...otherProps
     } = props;
 
@@ -58,20 +59,21 @@ function ExpandableContainer(props: Props) {
 
     return (
         <Container
+            {...otherProps} // eslint-disable-line react/jsx-props-no-spreading
             className={_cs(styles.expandableContainer, className)}
             headerElementRef={headerRef}
             headerClassName={_cs(styles.header, headerClassName)}
+            childrenContainerClassName={_cs(styles.content, childrenContainerClassName)}
             actions={(
                 <>
                     {actions}
                     {showChildren ? (
-                        <ChevronUpLineIcon />
+                        <ChevronUpLineIcon className={styles.icon} />
                     ) : (
-                        <ChevronDownLineIcon />
+                        <ChevronDownLineIcon className={styles.icon} />
                     )}
                 </>
             )}
-            {...otherProps} // eslint-disable-line react/jsx-props-no-spreading
         >
             {showChildren && children}
         </Container>

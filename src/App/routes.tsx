@@ -553,10 +553,12 @@ const fieldReportFormNew = customWrapRoute({
     },
 });
 
-const perProcessFormNew = myWrapRoute({
+const perProcessFormNew = customWrapRoute({
     path: '/per-process/new/',
-    component: () => import('#views/PerProcessForm'),
-    componentProps: {},
+    component: {
+        render: () => import('#views/PerProcessForm'),
+        props: {},
+    },
     parent: root,
     wrapperComponent: Auth,
     context: {

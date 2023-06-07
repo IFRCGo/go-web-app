@@ -32,6 +32,14 @@ export const stringOptionKeySelector = (o: StringValueOption) => o.value;
 export const booleanOptionKeySelector = (o: BooleanValueOption) => o.value;
 export const optionLabelSelector = (o: Option) => o.label;
 
+export function answerKeySelector(answer: PerFormAnswer) {
+    return answer.id;
+}
+
+export function answerLabelSelector(answer: PerFormAnswer) {
+    return answer.text;
+}
+
 export interface TypeOfAssessment {
     id: string;
     name: string;
@@ -99,6 +107,32 @@ export interface PerOverviewFields {
         society_name: string;
     };
     type_of_per_assessment: string;
+}
+
+interface PerArea {
+    area_num: number;
+    id: number;
+    title: string;
+}
+
+interface PerComponent {
+    area: PerArea;
+    component_letter: string;
+    component_num: number;
+    description: string;
+    id: number;
+    title: string;
+}
+
+export interface PerFormQuestionItem {
+    answers: PerFormAnswer[];
+    component: PerComponent;
+    description: string | null;
+    id: number;
+    is_benchmark: boolean;
+    is_epi: boolean;
+    question: string;
+    question_num: number;
 }
 
 export interface PerAssessmentForm {

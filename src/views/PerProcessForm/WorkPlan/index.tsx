@@ -28,15 +28,19 @@ import styles from './styles.module.css';
 type Value = PartialForm<PerWorkPlanForm>;
 
 interface Props {
+    className?: string;
     index?: number;
     onValueSet: (value: SetBaseValueArg<Value>) => void;
     perId?: string;
+    onValueChange: (...entries: EntriesAsList<Value>) => void;
 }
 
 function WorkPlanForm(props: Props) {
     const strings = useTranslation(i18n);
 
     const {
+        className,
+        onValueChange,
         index,
         perId,
         onValueSet,

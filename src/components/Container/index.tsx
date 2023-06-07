@@ -52,22 +52,18 @@ function Container(props: Props) {
 
     return (
         <div className={_cs(styles.container, className)}>
-            {heading && (
-                <Header
-                    actions={actions}
-                    className={_cs(styles.header, headerClassName)}
-                    elementRef={headerElementRef}
-                    ellipsizeHeading={ellipsizeHeading}
-                    heading={heading}
-                    headingLevel={headingLevel}
-                    icons={icons}
-                />
-            )}
-            {headerDescription && (
-                <div className={_cs(headerDescriptionClassName)}>
-                    {headerDescription}
-                </div>
-            )}
+            <Header
+                actions={actions}
+                className={_cs(styles.header, headerClassName)}
+                elementRef={headerElementRef}
+                ellipsizeHeading={ellipsizeHeading}
+                heading={heading}
+                headingLevel={headingLevel}
+                icons={icons}
+                childrenContainerClassName={headerDescriptionClassName}
+            >
+                {headerDescription}
+            </Header>
             {withHeaderBorder && <div className={styles.border} />}
             {children && (
                 <div className={_cs(styles.content, childrenContainerClassName)}>

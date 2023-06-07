@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import {
     ObjectSchema,
     PartialForm,
+    Schema,
 } from '@togglecorp/toggle-form';
 
 import useTranslation from '#hooks/useTranslation';
@@ -82,6 +83,49 @@ export const overviewSchema: OverviewFormSchema = {
         ns_second_focal_point_name: {},
         ns_second_focal_point_email: {},
         ns_second_focal_point_phone: {},
+    }),
+};
+
+interface QuestionResponse {
+    question: number;
+    selected_answer: string;
+    notes: string;
+}
+
+interface AreaResponse {
+    area: number;
+    overview: number;
+    form_data: QuestionResponse[];
+}
+
+export interface Assessment {
+    area_responses: AreaResponse[];
+}
+
+export type PartialAssessment = PartialForm<Assessment, 'area' | 'question'>;
+
+// TODO: add return types
+export const assessmentSchema2: Schema<PartialAssessment> = {
+    fields: () => ({
+        area_responses: {
+            keySelector: (area) => area.area,
+            member: () => ({
+                fields: () => ({
+                    area: {},
+                    overview: {},
+                    form_data: {
+                        keySelector: (benchmarkResponse) => benchmarkResponse.question,
+                        member: () => ({
+                            fields: () => ({
+                                question: {},
+                                selected_answer: {},
+                                notes: {},
+                            }),
+                        }),
+                    },
+                }),
+            }),
+        },
     }),
 };
 
