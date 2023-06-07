@@ -1,28 +1,28 @@
-.custom-activity {
-  border-top: var(--go-ui-width-separator-md) solid transparent;
-  background-color: $color-background;
-
-  .improvement-select {
-    display: flex;
-    flex-direction: column;
-    width: $global-spacing-table;
-  }
-
-  .dot-connector {
-    border-left: var(--go-ui-width-separator-sm) solid grey;
-  }
-
-  .input-section {
+.input-section {
     display: flex;
     background-color: $color-background;
     overflow-y: visible;
-  }
-}
 
-.dot {
-  display: inline-block;
-  border-radius: 50%;
-  background-color: grey;
-  width: var(--go-ui-width-separator-dense);
-  height: var(--go-ui-width-separator-dense);
+    .question-content {
+        display: flex;
+        flex-direction: coloumn;
+        gap: $global-spacing-3;
+
+        .note-section {
+            display: flex;
+            flex-direction: coloumn;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: $global-spacing-2;
+            width: 500px;
+
+            >* {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
 }

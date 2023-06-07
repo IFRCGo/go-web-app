@@ -5,6 +5,8 @@
         "perWorkPlanActions": "Actions",
         "perWorkPlanDueDate": "Due Date",
         "perWorkPlanSupportedBy": "Supported by",
-        "perWorkPlanStatus": "Status"
+        "perWorkPlanStatus": "Status",
+        "perFormSaveRequestSuccessMessage": "PER Process created/updated successfully",
+        "perFormSaveRequestFailureMessage": "Failed to create/update PER Process"
     }
 }

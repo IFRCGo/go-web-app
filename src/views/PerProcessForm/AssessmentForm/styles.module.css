@@ -1,11 +1,11 @@
 .progress-bar {
-  display: flex;
+    display: flex;
 }
 
 .alert-message {
-  text-align: center;
+    text-align: center;
 
-  /* .alert-buttons {
+    /* .alert-buttons {
     display: flex;
     justify-content: space-around;
     margin: $spacing;
@@ -13,11 +13,11 @@
 }
 
 .actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  >* {
-    margin: var(--go-ui-spacing-md);
-  }
+    >* {
+        margin: var(--go-ui-spacing-md);
+    }
 }

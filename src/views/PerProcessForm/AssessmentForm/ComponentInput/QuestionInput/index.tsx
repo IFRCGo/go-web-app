@@ -1,15 +1,15 @@
 import React from 'react';
 import {
-  PartialForm,
-  SetValueArg,
-  useFormObject,
+    PartialForm,
+    SetValueArg,
+    useFormObject,
 } from '@togglecorp/toggle-form';
 
 import usePerProcessOptions from '../../../usePerProcessOptions';
 import {
-  booleanOptionKeySelector,
-  optionLabelSelector,
-  PerAssessmentForm,
+    booleanOptionKeySelector,
+    optionLabelSelector,
+    PerAssessmentForm,
 } from '../../../common';
 import Container from '#components/Container';
 import TextArea from '#components/TextArea';
@@ -21,53 +21,53 @@ type Value = PerAssessmentForm;
 type InputValue = PartialForm<Value>;
 
 interface Props {
-  onChange: (value: SetValueArg<InputValue>, index: number) => void;
-  index: number;
-  value: InputValue | undefined | null;
+    onChange: (value: SetValueArg<InputValue>, index: number) => void;
+    index: number;
+    value: InputValue | undefined | null;
 }
 
 function QuestionInput(props: Props) {
-  const {
-    onChange,
-    index,
-    value,
-  } = props;
+    const {
+        onChange,
+        index,
+        value,
+    } = props;
 
-  const {
-    yesNoOptions,
-  } = usePerProcessOptions();
+    const {
+        yesNoOptions,
+    } = usePerProcessOptions();
 
-  const onFieldChange = useFormObject(index, onChange, {});
+    const onFieldChange = useFormObject(index, onChange, {});
 
-  return (
-    <>
-      <Container
-        className={styles.inputSection}
-        headerClassName={styles.questionContent}
-        heading={value?.question}
-      >
-        <TextArea
-          className={styles.noteSection}
-          label='Notes'
-          name="description"
-          value={value?.notes}
-          placeholder="This is placeholder"
-          onChange={onFieldChange}
-          rows={2}
-        />
-        <div className={styles.answers}>
-          <RadioInput
-            name="answer"
-            options={yesNoOptions}
-            keySelector={booleanOptionKeySelector}
-            labelSelector={optionLabelSelector}
-            value={value?.answer}
-            onChange={onFieldChange}
-          />
-        </div>
-      </Container>
-    </>
-  );
+    return (
+        <>
+            <Container
+                className={styles.inputSection}
+                headerClassName={styles.questionContent}
+                heading={value?.question}
+            >
+                <TextArea
+                    className={styles.noteSection}
+                    label='Notes'
+                    name="description"
+                    value={value?.notes}
+                    placeholder="This is placeholder"
+                    onChange={onFieldChange}
+                    rows={2}
+                />
+                <div className={styles.answers}>
+                    <RadioInput
+                        name="answer"
+                        options={yesNoOptions}
+                        keySelector={booleanOptionKeySelector}
+                        labelSelector={optionLabelSelector}
+                        value={value?.answer}
+                        onChange={onFieldChange}
+                    />
+                </div>
+            </Container>
+        </>
+    );
 }
 
 export default QuestionInput;

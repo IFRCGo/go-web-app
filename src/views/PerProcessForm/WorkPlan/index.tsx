@@ -14,7 +14,7 @@ import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import Button from '#components/Button';
-import { WorkPlanComponent } from '../common';
+import { PerWorkPlanForm } from '../common';
 import TextArea from '#components/TextArea';
 
 import usePerProcessOptions, { workplanSchema } from '../usePerProcessOptions';
@@ -25,25 +25,18 @@ import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
-type Value = PartialForm<WorkPlanComponent>;
+type Value = PartialForm<PerWorkPlanForm>;
 
 interface Props {
-    className?: string;
-    error?: Error<Value> | undefined;
-    onRemove?: (index: number) => void;
     index?: number;
     onValueSet: (value: SetBaseValueArg<Value>) => void;
     perId?: string;
-    onValueChange: (...entries: EntriesAsList<Value>) => void;
 }
 
 function WorkPlanForm(props: Props) {
     const strings = useTranslation(i18n);
 
     const {
-        className,
-        onRemove,
-        onValueChange,
         index,
         perId,
         onValueSet,
@@ -55,7 +48,7 @@ function WorkPlanForm(props: Props) {
         validate,
         setFieldValue,
         setError: onErrorSet,
-    } = useForm(workplanSchema, { value: {} as PartialForm<WorkPlanComponent> });
+    } = useForm(workplanSchema, { value: {} as PartialForm<PerWorkPlanForm> });
 
     const {
         workPlanStatusOptions,
@@ -66,7 +59,7 @@ function WorkPlanForm(props: Props) {
     const {
         pending: perSubmitPending,
         trigger: submitRequest,
-    } = useLazyRequest<WorkPlanComponent, Partial<WorkPlanComponent>>({
+    } = useLazyRequest<PerWorkPlanForm, Partial<PerWorkPlanForm>>({
         url: perId ? `api/v2/per-prioritization/${perId}/` : 'api/v2/per-prioritization/',
         method: perId ? 'PUT' : 'POST',
         body: ctx => ctx,
@@ -108,19 +101,18 @@ function WorkPlanForm(props: Props) {
     }, [onValueSet, submitRequest]);
 
     const handleAddCustomActivity = useCallback(() => {
-        const newList: PartialForm<WorkPlanComponent> = {
-            id: randomString(),
+        const id = randomString();
+        const newList: PartialForm<PerWorkPlanForm> = {
+            id,
         };
 
         onValueChange(
-            (oldValue: PartialForm<WorkPlanComponent>) => (
+            (oldValue: PartialForm<PerWorkPlanForm>[] | undefined) => (
                 [...(oldValue ?? []), newList]
-            ),
+        ),
             'component' as const,
         );
     }, [onValueChange]);
-
-    console.warn('value', value);
 
     return (
         <form
@@ -176,10 +168,8 @@ function WorkPlanForm(props: Props) {
                                 <SelectInput
                                     name='status'
                                     options={undefined}
-                                    keySelector={(d) => d.value}
-                                    labelSelector={(d) => d.label}
                                     onChange={setFieldValue}
-                                    value={value?.status}
+                                    value={undefined}
                                 />
                             </td>
                             <td>

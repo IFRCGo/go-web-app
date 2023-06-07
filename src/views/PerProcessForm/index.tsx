@@ -12,7 +12,8 @@ import scrollToTop from '#utils/scrollToTop';
 import PerOverview from './PerOverview';
 import Assessment from './AssessmentForm';
 import Prioritization from './Prioritization';
-// import WorkPlan from './WorkPlan';
+import WorkPlan from './WorkPlan';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -31,7 +32,7 @@ export function Component(props: Props) {
         className,
     } = props;
 
-    const [currentStep, setCurrentStep] = React.useState<StepTypes>('prioritization');
+    const [currentStep, setCurrentStep] = React.useState<StepTypes>('workPlan');
 
     const handleTabChange = React.useCallback(
         (newStep: StepTypes) => {
@@ -114,8 +115,7 @@ export function Component(props: Props) {
                     <Prioritization />
                 </TabPanel>
                 <TabPanel name="workPlan">
-                    {/* <WorkPlan /> */}
-                    <div> Work Plan </div>
+                    <WorkPlan />
                 </TabPanel>
             </Page>
         </Tabs>

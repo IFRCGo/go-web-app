@@ -40,7 +40,6 @@ function prioritizationKeySelector(prioritization: Value) {
 
 interface AreaProps {
     className?: string;
-    data: Component[] | undefined;
 }
 
 function PrioritizationForm(props: AreaProps) {
@@ -48,7 +47,6 @@ function PrioritizationForm(props: AreaProps) {
 
     const {
         className,
-        data,
     } = props;
 
     const {
@@ -78,8 +76,6 @@ function PrioritizationForm(props: AreaProps) {
             component: currentComponent,
         },
     });
-
-    console.warn('The questions', questionResponse?.results);
 
     const showComponent = () => {
         return (
@@ -135,16 +131,16 @@ function PrioritizationForm(props: AreaProps) {
             contentClassName={styles.content}
         >
             <Table
-                data={data}
+                data={undefined}
                 columns={columns}
                 keySelector={prioritizationKeySelector}
                 variant="large"
             />
-            {componentResponse?.results?.map((a, i) => (
+            {componentResponse?.results?.map((component, i) => (
                 <ExpandableContainer
                     className={_cs(styles.customActivity, styles.errored)}
                     componentRef={undefined}
-                    heading={`Component ${i + 1}: ${a?.title}`}
+                    heading={`Component ${i + 1}: ${component?.title}`}
                     actions={
                         <TextInput
                             className={styles.improvementSelect}
@@ -154,15 +150,13 @@ function PrioritizationForm(props: AreaProps) {
                         />
                     }
                 >
-                    {questionResponse?.results.map((q, i) => (
-                        <QuestionInput
-                            index={i}
-                            value={q}
-                            key={q.id}
-                            onChange={setBenchmarkValue}
-                        // onRemove={removeBenchmarkValue}
-                        />
-                    ))}
+                    <QuestionInput
+                        id={component.id}
+                        index={i}
+                        value={value}
+                        onChange={setBenchmarkValue}
+                    // onRemove={removeBenchmarkValue}
+                    />
                 </ExpandableContainer>
             ))}
             <div className={styles.actions}>
