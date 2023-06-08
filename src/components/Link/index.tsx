@@ -4,6 +4,7 @@ import {
     Link as InternalLink,
     LinkProps as RouterLinkProps,
 } from 'react-router-dom';
+import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
 import useBasicLayout from '#hooks/useBasicLayout';
 
@@ -20,8 +21,9 @@ export interface Props extends Omit<RouterLinkProps, 'to'> {
     icons?: React.ReactNode;
     iconsContainerClassName?: string;
     linkElementClassName?: string;
-    underline?: boolean;
     to?: RouterLinkProps['to'];
+    withUnderline?: boolean;
+    withForwardIcon?: boolean;
 }
 
 function Link(props: Props) {
@@ -35,7 +37,8 @@ function Link(props: Props) {
         iconsContainerClassName,
         linkElementClassName,
         to,
-        underline,
+        withUnderline: underline,
+        withForwardIcon,
         ...otherProps
     } = props;
 
@@ -50,7 +53,7 @@ function Link(props: Props) {
                 <a
                     className={_cs(
                         linkElementClassName,
-                        styles.link,
+                        styles.linkElement,
                     )}
                     href={to}
                     target="_blank"
@@ -67,7 +70,7 @@ function Link(props: Props) {
             <InternalLink
                 className={_cs(
                     linkElementClassName,
-                    styles.link,
+                    styles.linkElement,
                 )}
                 to={to}
                 // eslint-disable-next-line react/jsx-props-no-spreading
@@ -85,18 +88,23 @@ function Link(props: Props) {
         className,
         icons,
         children,
-        actions,
+        actions: (
+            <>
+                {actions}
+                {withForwardIcon && <ChevronRightLineIcon className={styles.forwardIcon} />}
+            </>
+        ),
         iconsContainerClassName,
         actionsContainerClassName,
     });
 
     return (
         <div className={_cs(
-            styles.linkContainer,
+            styles.link,
             isNotDefined(to) && styles.nonLink,
-            containerClassName,
             underline && styles.underline,
             disabled && styles.disabled,
+            containerClassName,
         )}
         >
             {content}

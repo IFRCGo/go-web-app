@@ -34,29 +34,35 @@ function Header(props: Props) {
         iconsContainerClassName,
     } = props;
 
+    const headingComp = heading ? (
+        <Heading
+            level={headingLevel}
+            className={styles.heading}
+        >
+            {ellipsizeHeading ? (
+                <div className={styles.overflowWrapper}>
+                    {heading}
+                </div>
+            ) : heading}
+        </Heading>
+    ) : undefined;
+
     const {
         content,
         containerClassName,
     } = useBasicLayout({
         actions,
         actionsContainerClassName,
-        children: (
-            <Heading
-                level={headingLevel}
-                className={styles.heading}
-            >
-                {ellipsizeHeading ? (
-                    <div className={styles.overflowWrapper}>
-                        {heading}
-                    </div>
-                ) : heading}
-            </Heading>
-        ),
+        children: headingComp,
         childrenContainerClassName: _cs(styles.headingContainer, childrenContainerClassName),
         className,
         icons,
         iconsContainerClassName,
     });
+
+    if (!content && !children) {
+        return null;
+    }
 
     return (
         <header
@@ -66,12 +72,16 @@ function Header(props: Props) {
             )}
             ref={elementRef}
         >
-            <div className={_cs(styles.headerContent, containerClassName)}>
-                {content}
-            </div>
-            <div className={styles.description}>
-                {children}
-            </div>
+            {content && (
+                <div className={_cs(styles.headerContent, containerClassName)}>
+                    {content}
+                </div>
+            )}
+            {children && (
+                <div className={styles.description}>
+                    {children}
+                </div>
+            )}
         </header>
     );
 }
