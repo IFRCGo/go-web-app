@@ -1,6 +1,6 @@
 .input-hint {
     display: inline-block;
-    padding: 0 var(--go-ui-spacing-xxs);
+    padding: 0 var(--go-ui-spacing-2xs);
     color: var(--go-ui-color-gray-70);
     font-size: var(--go-ui-font-size-sm);
 }

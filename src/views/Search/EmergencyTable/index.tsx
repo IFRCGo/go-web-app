@@ -99,7 +99,9 @@ function EmergencyTable(props: Props) {
             'funding_requirements',
             strings.searchEmergencyTableFundingRequirements,
             (emergency) => Number(emergency.funding_requirements),
-            { suffix: ' CHF' },
+            {
+                unit: ' CHF',
+            },
         ),
         createProgressColumn<EmergencyResult, number>(
             'funding_coverage',

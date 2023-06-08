@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 const defaultPlacement = {
     top: 'unset',
@@ -8,9 +8,9 @@ const defaultPlacement = {
 };
 
 function useFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
-    const [placement, setPlacement] = React.useState(defaultPlacement);
+    const [placement, setPlacement] = useState(defaultPlacement);
 
-    const calculatePlacement = React.useCallback(() => {
+    const calculatePlacement = useCallback(() => {
         const newPlacement = { ...defaultPlacement };
 
         if (parentRef.current) {
@@ -41,7 +41,7 @@ function useFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
         setPlacement(newPlacement);
     }, [setPlacement, parentRef]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         calculatePlacement();
         // TODO: throttle and debounce callbacks
         const handleScroll = calculatePlacement;

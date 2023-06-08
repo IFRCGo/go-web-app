@@ -24,7 +24,6 @@
     font-family: inherit;
     font-size: var(--font-size);
     font-weight: var(--go-ui-font-weight-medium);
-    gap: var(--go-ui-spacing-xs);
 
     .children {
         display: flex;

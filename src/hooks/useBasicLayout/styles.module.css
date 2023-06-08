@@ -11,7 +11,7 @@
         display: flex;
         align-items: center;
         flex-shrink: 0;
-        gap: var(--go-ui-spacing-xl);
+        gap: var(--inner-gap);
     }
 
     .children-container {
@@ -24,6 +24,35 @@
         display: flex;
         align-items: center;
         flex-shrink: 0;
-        gap: var(--go-ui-spacing-xl);
+        gap: var(--inner-gap);
+    }
+
+    &.no-spacing {
+        --gap: 0;
+    }
+
+    &.compact-spacing {
+        --inner-gap: var(--go-ui-spacing-2xs);
+        --gap: var(--go-ui-spacing-xs);
+    }
+
+    &.cozy-spacing {
+        --inner-gap: var(--go-ui-spacing-xs);
+        --gap: var(--go-ui-spacing-sm);
+    }
+
+    &.comfortable-spacing {
+        --inner-gap: var(--go-ui-spacing-sm);
+        --gap: var(--go-ui-spacing-md);
+    }
+
+    &.relaxed-spacing {
+        --inner-gap: var(--go-ui-spacing-md);
+        --gap: var(--go-ui-spacing-lg);
+    }
+
+    &.loose-spacing {
+        --inner-gap: var(--go-ui-spacing-lg);
+        --gap: var(--go-ui-spacing-xl);
     }
 }

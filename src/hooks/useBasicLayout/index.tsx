@@ -3,6 +3,17 @@ import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
+type SpacingType = 'none' | 'compact' | 'cozy' | 'comfortable' | 'relaxed' | 'loose';
+
+const spacingTypeToClassNameMap: Record<SpacingType, string> = {
+    none: styles.noSpacing,
+    compact: styles.compactSpacing,
+    cozy: styles.cozySpacing,
+    comfortable: styles.comfortableSpacing,
+    relaxed: styles.relaxedSpacing,
+    loose: styles.looseSpacing,
+};
+
 interface Props {
     className?: string;
     icons?: React.ReactNode;
@@ -11,6 +22,7 @@ interface Props {
     iconsContainerClassName?: string;
     childrenContainerClassName?: string;
     actionsContainerClassName?: string;
+    spacing?: SpacingType;
 }
 
 function useBasicLayout(props: Props) {
@@ -22,9 +34,14 @@ function useBasicLayout(props: Props) {
         iconsContainerClassName,
         childrenContainerClassName,
         actionsContainerClassName,
+        spacing = 'comfortable',
     } = props;
 
-    const containerClassName = _cs(styles.layoutContainer, className);
+    const containerClassName = _cs(
+        styles.layoutContainer,
+        spacingTypeToClassNameMap[spacing],
+        className,
+    );
     const content = (
         <>
             {icons && (

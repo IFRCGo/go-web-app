@@ -11,9 +11,7 @@ interface Props {
   title?: string;
   contentClassName?: string;
   value: number;
-  normalize?: boolean;
-  addSeparator?: boolean;
-  fixedTo?: number;
+  compactValue?: boolean;
   description?: string;
   progressBar?: boolean;
   progressTotalValue?: number;
@@ -24,9 +22,7 @@ function Card(props: Props) {
         children,
         contentClassName,
         value,
-        normalize,
-        addSeparator,
-        fixedTo,
+        compactValue,
         description,
         progressBar,
         title,
@@ -41,9 +37,7 @@ function Card(props: Props) {
         >
             <NumberOutput
                 value={value}
-                normal={normalize}
-                separator={addSeparator ? undefined : null}
-                precision={fixedTo}
+                compact={compactValue}
             />
             {progressBar && (
                 <ProgressBar

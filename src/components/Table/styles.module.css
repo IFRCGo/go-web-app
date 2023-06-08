@@ -39,16 +39,6 @@
                     background-color: var(--go-ui-color-gray-10);
                 }
             }
-
-            &:last-child {
-                .cell {
-                    border-bottom: none;
-                }
-
-                .row-header-cell {
-                    border-bottom: none;
-                }
-            }
         }
     }
 

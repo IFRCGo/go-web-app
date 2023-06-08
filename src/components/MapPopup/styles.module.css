@@ -37,7 +37,7 @@
         width: 100%;
         height: 100%;
         overflow: auto;
-        gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-md);
 
         .close-button {
             font-size: var(--go-ui-font-size-xl);

@@ -129,21 +129,21 @@ export function Component() {
                                 icon={<FundingIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_requested_dref_included}
-                                normalize
+                                compactValue
                                 description={strings.countryKeyFiguresBudget}
                             />
                             <KeyFigure
                                 icon={<FundingCoverageIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_funded}
-                                normalize
+                                compactValue
                                 description={strings.countryKeyFiguresAppealsFunding}
                             />
                             <KeyFigure
                                 icon={<TargetedPopulationIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.target_population}
-                                normalize
+                                compactValue
                                 description={strings.countryKeyFiguresTargetPop}
                             />
                             {countryResponse?.has_country_plan && (
@@ -151,7 +151,7 @@ export function Component() {
                                     icon={<AppealsTwoIcon />}
                                     className={styles.keyFigure}
                                     value={1}
-                                    normalize
+                                    compactValue
                                     description={strings.countryKeyFiguresCountryPlan}
                                 />
                             )}

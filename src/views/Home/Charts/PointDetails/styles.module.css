@@ -1,0 +1,34 @@
+.point-details {
+    --color-dref: var(--go-ui-color-primary-blue);
+    --color-emergency-appeal: var(--go-ui-color-primary-red);
+
+    flex-basis: 18rem;
+    flex-grow: 1;
+    background-color: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-xl);
+
+    .content {
+        display: flex;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--go-ui-spacing-lg);
+
+        .emergency-appeal-point-icon,
+        .dref-point-icon {
+            align-self: center;
+            flex-shrink: 0;
+            border-radius: 50%;
+            width: 0.7em;
+            height: 0.7em;
+        }
+
+        .dref-point-icon {
+            background-color: var(--color-dref);
+        }
+
+        .emergency-appeal-point-icon {
+            background-color: var(--color-emergency-appeal);
+        }
+    }
+}

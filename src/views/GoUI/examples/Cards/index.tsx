@@ -19,7 +19,7 @@ function Cards() {
             <Card
                 value={1000000}
                 progressTotalValue={2000000}
-                normalize
+                compactValue
                 progressBar
                 description="50% received"
                 title="This is test card templete"

@@ -29,15 +29,17 @@ function ProgressBar(props: Props) {
 
     return (
         <div className={_cs(styles.progressWrapper, className)}>
-            <div className={styles.title}>
-                {title}
-                {showPercentageInTitle && (
-                    <NumberOutput
-                        value={percentage}
-                        suffix="%"
-                    />
-                )}
-            </div>
+            {(title || showPercentageInTitle) && (
+                <div className={styles.title}>
+                    {title}
+                    {showPercentageInTitle && (
+                        <NumberOutput
+                            value={percentage}
+                            unit="%"
+                        />
+                    )}
+                </div>
+            )}
             <div
                 className={styles.total}
                 style={{ height: `${barHeight}px` }}

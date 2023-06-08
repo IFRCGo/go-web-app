@@ -1,5 +1,10 @@
+import { useCallback, useContext } from 'react';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    listToMap,
+    isDefined,
+} from '@togglecorp/fujs';
 import {
     useRequest,
     ListResponse,
@@ -10,17 +15,24 @@ import Link from '#components/Link';
 import List from '#components/List';
 import useTranslation from '#hooks/useTranslation';
 import { Emergency } from '#types/emergency';
+import UserContext from '#contexts/user';
 
 import OperationCard from './OperationCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const keySelector = (emergency: Emergency) => emergency.id;
-const rendererParams = (_: Emergency['id'], emergency: Emergency) => ({
-    data: emergency,
-    className: styles.operation,
-});
+interface UserResponse {
+    subscription: {
+        stype: number | null;
+        rtype: number | null;
+        country: number | null;
+        region: number | null;
+        event: number | null;
+        lookup_id: string;
+    }[];
+}
 
+const keySelector = (emergency: Emergency) => emergency.id;
 interface Props {
     className?: string;
 }
@@ -31,6 +43,7 @@ function HighlightedOperations(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const { userDetails } = useContext(UserContext);
 
     const {
         error: featuredEmergencyResponseError,
@@ -42,6 +55,34 @@ function HighlightedOperations(props: Props) {
             is_featured: 1,
         },
     });
+
+    const {
+        pending: mePending,
+        response: meResponse,
+        retrigger: retriggerUserDetails,
+    } = useRequest<UserResponse>({
+        skip: !userDetails,
+        url: 'api/v2/user/me/',
+    });
+
+    const subscriptionMap = listToMap(
+        meResponse?.subscription?.filter(
+            (sub) => isDefined(sub.event),
+        ) ?? [],
+        (sub) => sub.event ?? 'unknown',
+        () => true,
+    );
+
+    const rendererParams = useCallback(
+        (_: Emergency['id'], emergency: Emergency) => ({
+            data: emergency,
+            className: styles.operation,
+            subscriptionMap,
+            pending: mePending,
+            retriggerSubscription: retriggerUserDetails,
+        }),
+        [mePending, subscriptionMap, retriggerUserDetails],
+    );
 
     const featuredEmergencies = featuredEmergencyResponse?.results;
 

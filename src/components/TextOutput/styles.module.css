@@ -1,4 +1,18 @@
 .text-output {
     display: flex;
     gap: var(--go-ui-spacing-sm);
+
+    .label {
+        &:not(.strong) {
+            color: var(--go-ui-color-gray-80);
+        }
+
+        &::after {
+            content: ':';
+        }
+    }
+
+    .strong {
+        font-weight: var(--go-ui-font-weight-semibold);
+    }
 }

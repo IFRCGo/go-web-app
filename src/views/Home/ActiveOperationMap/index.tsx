@@ -28,7 +28,6 @@ import Container from '#components/Container';
 import Link from '#components/Link';
 import MapPopup from '#components/MapPopup';
 import TextOutput from '#components/TextOutput';
-import Heading from '#components/Heading';
 import useInputState from '#hooks/useInputState';
 import {
     defaultMapStyle,
@@ -312,26 +311,29 @@ function ActiveOperationMap(props: Props) {
                     >
                         {popupDetails?.map(
                             (appeal) => (
-                                <div
+                                <Container
                                     key={appeal.id}
-                                    className={styles.popupAppealDetail}
+                                    className={styles.popupAppeal}
+                                    childrenContainerClassName={styles.popupAppealDetail}
+                                    heading={appeal.name}
+                                    headingLevel={5}
                                 >
-                                    <Heading level={5}>
-                                        {appeal.name}
-                                    </Heading>
                                     <TextOutput
                                         value={+appeal.num_beneficiaries}
                                         description={strings.operationPopoverPeopleAffected}
+                                        valueType="number"
                                     />
                                     <TextOutput
                                         value={+appeal.amount_requested}
                                         description={strings.operationPopoverAmountRequested}
+                                        valueType="number"
                                     />
                                     <TextOutput
-                                        value={appeal.amount_funded}
+                                        value={+appeal.amount_funded}
                                         description={strings.operationPopoverAmountFunded}
+                                        valueType="number"
                                     />
-                                </div>
+                                </Container>
                             ),
                         )}
                         {(!popupDetails || popupDetails.length === 0) && (

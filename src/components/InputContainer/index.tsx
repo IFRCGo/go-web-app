@@ -69,6 +69,7 @@ function InputContainer(props: Props) {
         actions,
         actionsContainerClassName,
         children: input,
+        spacing: 'compact',
     });
 
     return (

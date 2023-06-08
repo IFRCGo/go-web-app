@@ -1,0 +1,39 @@
+.timeline-chart {
+    flex-grow: 1;
+    height: 100%;
+    --path-stroke-width: 1pt;
+
+    .y-axis-tick-text {
+        text-anchor: middle;
+        font-size: var(--go-ui-font-size-xs);
+    }
+
+    .x-axis-tick-text {
+        text-anchor: middle;
+        transition: var(--go-ui-duration-transition-medium) ease-in-out transform;
+        font-size: var(--go-ui-font-size-xs);
+
+        @media screen and (max-width: 30rem) {
+            transform: rotate(-30deg);
+        }
+    }
+
+    .x-axis-grid-line,
+    .y-axis-grid-line {
+        stroke: var(--go-ui-color-gray-60);
+        stroke-dasharray: 4 4;
+        stroke-opacity: 0.2;
+        transition: var(--go-ui-duration-transition-medium) ease-in-out stroke-opacity;
+
+        &.hovered {
+            stroke-opacity: 1;
+        }
+    }
+
+    .rect {
+        transition: var(--go-ui-duration-transition-medium) ease-in-out fill-opacity;
+        cursor: pointer;
+        fill-opacity: 0;
+        fill: var(--go-ui-color-white);
+    }
+}

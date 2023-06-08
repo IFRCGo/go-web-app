@@ -15,6 +15,7 @@ import { useRequest } from '#utils/restRequest';
 import HighlightedOperations from './HighlightedOperations';
 import ActiveOperationMap from './ActiveOperationMap';
 import AppealsTable from './AppealsTable';
+import Charts from './Charts';
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
@@ -70,21 +71,21 @@ export function Component() {
                                 icon={<FundingIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_requested_dref_included}
-                                normalize
+                                compactValue
                                 description={strings.homeKeyFiguresBudget}
                             />
                             <KeyFigure
                                 icon={<FundingCoverageIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_funded}
-                                normalize
+                                compactValue
                                 description={strings.homeKeyFiguresAppealsFunding}
                             />
                             <KeyFigure
                                 icon={<TargetedPopulationIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.target_population}
-                                normalize
+                                compactValue
                                 description={strings.homeKeyFiguresTargetPop}
                             />
                         </>
@@ -95,6 +96,7 @@ export function Component() {
             <HighlightedOperations />
             <ActiveOperationMap />
             <AppealsTable />
+            <Charts />
         </Page>
     );
 }
