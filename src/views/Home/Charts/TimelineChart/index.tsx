@@ -5,7 +5,7 @@ import {
     useState,
     Fragment,
 } from 'react';
-import { listToMap, _cs } from '@togglecorp/fujs';
+import { listToMap, _cs, bound } from '@togglecorp/fujs';
 import useSizeTracking from '#hooks/useSizeTracking';
 import {
     getBounds,
@@ -150,7 +150,7 @@ function TimelineChart<const K extends string>(props: Props<K>) {
                     ),
                     rect: {
                         start: rectStart,
-                        width: Math.max(0, rectEnd - rectStart),
+                        width: bound(rectEnd - rectStart, 0, bounds.width),
                     },
                     date: timePoint.date,
                     numMonths: timePoint.numMonths,
@@ -258,7 +258,7 @@ function TimelineChart<const K extends string>(props: Props<K>) {
                             x={point.rect.start}
                             y={CHART_OFFSET}
                             width={point.rect.width}
-                            height={Math.max(0, bounds.height - chartMargin.bottom)}
+                            height={bound(bounds.height - chartMargin.bottom, 0, bounds.height)}
                             onMouseEnter={handleRectMouseEnter}
                             onMouseOut={handleRectMouseOut}
                             onMouseDown={handleRectMouseClick}

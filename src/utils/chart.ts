@@ -80,6 +80,7 @@ export function getDatesSeparatedByMonths(startDate: Date, endDate: Date) {
     while (currentDate.getTime() <= targetDate.getTime()) {
         dates.push(new Date(currentDate));
         currentDate.setMonth(currentDate.getMonth() + 1);
+        currentDate.setHours(0, 0, 0, 0);
     }
 
     return dates;

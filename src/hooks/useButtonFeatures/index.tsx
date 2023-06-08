@@ -55,6 +55,7 @@ function useButtonFeatures(props: Props) {
         iconsContainerClassName: iconsClassName,
         childrenContainerClassName: childrenClassName,
         actionsContainerClassName: actionsClassName,
+        spacing: 'compact',
     });
 
     return {

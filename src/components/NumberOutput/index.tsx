@@ -68,7 +68,7 @@ function NumberOutput(props: Props) {
             options.useGrouping = !separatorHidden;
             options.maximumFractionDigits = 2;
 
-            if (Math.abs(value) > 1000) {
+            if (Math.abs(value) >= 1000) {
                 options.maximumFractionDigits = 0;
             }
 

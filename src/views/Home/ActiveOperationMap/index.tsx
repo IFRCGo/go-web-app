@@ -329,7 +329,7 @@ function ActiveOperationMap(props: Props) {
                                         valueType="number"
                                     />
                                     <TextOutput
-                                        value={Math.round(+appeal.amount_funded)}
+                                        value={+appeal.amount_funded}
                                         description={strings.operationPopoverAmountFunded}
                                         valueType="number"
                                     />
