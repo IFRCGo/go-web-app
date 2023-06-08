@@ -7,6 +7,7 @@ import {
     listToMap,
     listToGroupList,
     mapToList,
+    _cs,
 } from '@togglecorp/fujs';
 
 import { PerFormQuestionItem, Area } from '../../common';
@@ -43,7 +44,7 @@ function AreaInput(props: Props) {
         index,
         onChange,
         () => ({
-            area: area.id,
+            area_id: area.id,
         }),
     );
 
@@ -51,12 +52,12 @@ function AreaInput(props: Props) {
         setValue: setQuestionResponseValue,
     } = useFormArray('component_responses', setFieldValue);
 
-    const questionResponseMapping = listToMap(
+    const componentResponseMapping = listToMap(
         value?.component_responses ?? [],
-        (questionResponse) => questionResponse.component_id,
-        (questionResponse, _, questionResponseIndex) => ({
+        (componentResponse) => componentResponse.component_id,
+        (componentResponse, _, questionResponseIndex) => ({
             index: questionResponseIndex,
-            value: questionResponse,
+            value: componentResponse,
         }),
     );
 
@@ -64,6 +65,7 @@ function AreaInput(props: Props) {
         questions ?? [],
         (question) => question.component.id,
     );
+
     const componentGroupedQuestionList = mapToList(
         componentGroupedQuestions,
         (list) => ({
@@ -73,16 +75,20 @@ function AreaInput(props: Props) {
     );
 
     return (
-        <div className={styles.areaInput}>
-            {componentGroupedQuestionList.map((question) => (
-                <ComponentInput
-                    componentNumber={componentGroupedQuestionList.component_num}
-                    key={question.component.id}
-                    question={question}
-                    index={questionResponseMapping[question.id]?.index}
-                    value={questionResponseMapping[question.id]?.value}
-                    onChange={setQuestionResponseValue}
-                />
+        <div
+            className={_cs(styles.areaInput, className)}
+        >
+            {componentGroupedQuestionList.map((componentResponse) => (
+                componentResponse.component ? (
+                    <ComponentInput
+                        key={componentResponse.component.id}
+                        component={componentResponse.component}
+                        questions={componentResponse.questions}
+                        index={componentResponseMapping[componentResponse.component.id]?.index}
+                        value={componentResponseMapping[componentResponse.component.id]?.value}
+                        onChange={setQuestionResponseValue}
+                    />
+                ) : null
             ))}
         </div>
     );

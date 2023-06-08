@@ -43,7 +43,7 @@ function QuestionInput(props: Props) {
         index,
         onChange,
         () => ({
-            question: question.id,
+            question_id: question.id,
         }),
     );
 

@@ -139,7 +139,6 @@ function AssessmentForm(props: Props) {
         console.log('Final values', finalValues as Assessment);
         // TODO: transform the values
     }, []);
-
     const handleNextTab = () => {
         setCurrentArea(Math.min((currentArea ?? 0) + 1, areas.length));
     };
@@ -239,6 +238,7 @@ function AssessmentForm(props: Props) {
                                 </Button>
                             )}
                         <Button
+                            type="submit"
                             name="submit"
                             variant="secondary"
                         >

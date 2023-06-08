@@ -8,7 +8,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
 import { ListResponse, useRequest } from '#utils/restRequest';
-import { assessmentSchema } from '../usePerProcessOptions';
+import { assessmentSchema2 } from '../usePerProcessOptions';
 import { Area, Component, PerAssessmentForm, PerPrioritizationForm } from '../common';
 import Container from '#components/Container';
 import ComponentsList from './ComponentInput';
@@ -53,7 +53,7 @@ function PrioritizationForm(props: AreaProps) {
         value,
         setFieldValue,
         setValue: onValueSet,
-    } = useForm(assessmentSchema, { value: {} });
+    } = useForm(assessmentSchema2, { value: {} });
     const [currentComponent, setCurrentComponent] = useState<string | undefined>();
 
     const {

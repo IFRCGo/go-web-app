@@ -115,30 +115,10 @@ interface PerArea {
     title: string;
 }
 
-interface PerComponent {
-    area: PerArea;
-    component_letter: string;
-    component_num: number;
-    description: string;
-    id: number;
-    title: string;
-}
-
-export interface PerFormQuestionItem {
-    answers: PerFormAnswer[];
-    component: PerComponent;
-    description: string | null;
-    id: number;
-    is_benchmark: boolean;
-    is_epi: boolean;
-    question: string;
-    question_num: number;
-}
-
 export interface PerFormComponentItem {
-    id: number | string;
-    component_id: number | string;
-    component_num: string;
+    id: number;
+    component_id: number;
+    component_num: number;
     title: string;
     question: string;
     benchmark_responses: {
@@ -147,6 +127,18 @@ export interface PerFormComponentItem {
         notes: string;
     }
 }
+
+export interface PerFormQuestionItem {
+    answers: PerFormAnswer[];
+    component: PerFormComponentItem;
+    description: string | null;
+    id: number;
+    is_benchmark: boolean;
+    is_epi: boolean;
+    question: string;
+    question_num: number;
+}
+
 
 export interface PerAssessmentForm {
     id: number | string;

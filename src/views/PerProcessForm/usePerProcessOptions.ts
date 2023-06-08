@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import {
     ObjectSchema,
     PartialForm,
-    Schema,
 } from '@togglecorp/toggle-form';
 
 import useTranslation from '#hooks/useTranslation';
@@ -87,12 +86,12 @@ export const overviewSchema: OverviewFormSchema = {
 };
 
 export interface AreaResponse {
-    area_id: string;
+    area_id: number;
     component_responses: ComponentResponse[];
 }
 
 export interface ComponentResponse {
-    component_id: string;
+    component_id: number;
     rating_id: string;
     question_responses: QuestionResponse[];
     consideration_responses: ConsiderationResponses[];
@@ -115,84 +114,50 @@ export interface Assessment {
     area_responses: AreaResponse[];
 }
 
-export type PartialAssessment = PartialForm<Assessment, 'area_id' | 'component_id' | 'answer_id' | 'question_id' | 'consideration_id'>;
+export type PartialAssessment = PartialForm<Assessment, 'area_id' | 'component_id' | 'question_id' | 'consideration_id'>;
+type AssessmentSchema = ObjectSchema<PartialAssessment>
+type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 
-export const assessmentSchema2: Schema<PartialAssessment> = {
-    overview_id: {},
-    is_draft: {},
-    area_responses: {
-        keySelector: (n) => n.area_id,
-        member: () => ({
-            fields: () => ({
-                id: {},
-                area_id: {},
-                component_responses: {
-                    keySelector: (n) => n.component_id,
-                    member: () => ({
-                        fields: () => ({
-                            id: {},
-                            component_id: {},
-                            rating_id: {},
-                            question_responses: {
-                                keySelector: (n) => n.question_id,
-                                member: () => ({
-                                    fields: () => ({
-                                        id: {},
-                                        question_id: {},
-                                        answer_id: {},
-                                        notes: {},
-                                    })
-                                })
-                            },
-                            consideration_responses: {
-                                keySelector: (n) => n.consideration_id,
-                                member: () => ({
-                                    fields: () => ({
-                                        id: {},
-                                        consideration_id: {},
-                                        notes: {},
-                                    }),
-                                })
-                            }
-                        })
-                    })
-                }
-            })
-        })
-    }
-}
-
-export const assessmentSchema: AssessmentFormScheme = {
-    fields: (): AssessmentFormSchemeFields => ({
-        id: {},
-        status: {},
-        question: {},
-        description: {},
-        title: {},
-        answer: {},
-
-        selected_answer: {},
-        notes: {},
-        selected_answer_details: {},
-
-        component_responses: {
-            keySelector: (val) => val.component_id as string,
+export const assessmentSchema2: AssessmentSchema = {
+    fields: (): AssessmentSchemaFields => ({
+        overview_id: {},
+        is_draft: {},
+        area_responses: {
+            keySelector: (areaResponse) => areaResponse.area_id,
             member: () => ({
                 fields: () => ({
                     id: {},
-                    component_num: {},
-                    title: {},
-                    status: {},
-                    componentId: {},
-                    question: {},
-                    benchmark_responses: {
-                        keySelector: (n) => n.benchmark_id as string,
+                    area_id: {},
+                    component_responses: {
+                        keySelector: (componentResponse) => componentResponse.component_id,
                         member: () => ({
                             fields: () => ({
                                 id: {},
-                                benchmarkId: {},
-                                notes: {},
-                                answer: {},
+                                component_id: {},
+                                rating_id: {},
+                                question_responses: {
+                                    keySelector: (questionResponse) => questionResponse.question_id,
+                                    member: () => ({
+                                        fields: () => ({
+                                            id: {},
+                                            question_id: {},
+                                            answer_id: {},
+                                            notes: {},
+                                        }),
+                                    }),
+                                },
+                                consideration_responses: {
+                                    keySelector: (considerationResponse) => (
+                                        considerationResponse.consideration_id
+                                    ),
+                                    member: () => ({
+                                        fields: () => ({
+                                            id: {},
+                                            consideration_id: {},
+                                            notes: {},
+                                        }),
+                                    }),
+                                },
                             }),
                         }),
                     },

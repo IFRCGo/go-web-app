@@ -47,7 +47,7 @@ function Button<N>(props: Props<N>) {
     return (
         <RawButton
             name={name}
-            type="button"
+            type={type}
             onClick={handleButtonClick}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
