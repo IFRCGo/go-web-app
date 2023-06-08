@@ -86,48 +86,81 @@ export const overviewSchema: OverviewFormSchema = {
     }),
 };
 
-interface QuestionResponse {
-    question: number;
-    selected_answer: string;
+export interface AreaResponse {
+    area_id: string;
+    component_responses: ComponentResponse[];
+}
+
+export interface ComponentResponse {
+    component_id: string;
+    rating_id: string;
+    question_responses: QuestionResponse[];
+    consideration_responses: ConsiderationResponses[];
+}
+
+export interface ConsiderationResponses {
+    consideration_id: string;
     notes: string;
 }
 
-interface AreaResponse {
-    area: number;
-    overview: number;
-    form_data: QuestionResponse[];
+export interface QuestionResponse {
+    question_id: number;
+    answer_id: string;
+    notes: string;
 }
 
 export interface Assessment {
+    overview_id: string;
+    is_draft: string;
     area_responses: AreaResponse[];
 }
 
-export type PartialAssessment = PartialForm<Assessment, 'area' | 'question'>;
+export type PartialAssessment = PartialForm<Assessment, 'area_id' | 'component_id' | 'answer_id' | 'question_id' | 'consideration_id'>;
 
-// TODO: add return types
 export const assessmentSchema2: Schema<PartialAssessment> = {
-    fields: () => ({
-        area_responses: {
-            keySelector: (area) => area.area,
-            member: () => ({
-                fields: () => ({
-                    area: {},
-                    overview: {},
-                    form_data: {
-                        keySelector: (benchmarkResponse) => benchmarkResponse.question,
-                        member: () => ({
-                            fields: () => ({
-                                question: {},
-                                selected_answer: {},
-                                notes: {},
-                            }),
-                        }),
-                    },
-                }),
-            }),
-        },
-    }),
-};
+    overview_id: {},
+    is_draft: {},
+    area_responses: {
+        keySelector: (n) => n.area_id,
+        member: () => ({
+            fields: () => ({
+                id: {},
+                area_id: {},
+                component_responses: {
+                    keySelector: (n) => n.component_id,
+                    member: () => ({
+                        fields: () => ({
+                            id: {},
+                            component_id: {},
+                            rating_id: {},
+                            question_responses: {
+                                keySelector: (n) => n.question_id,
+                                member: () => ({
+                                    fields: () => ({
+                                        id: {},
+                                        question_id: {},
+                                        answer_id: {},
+                                        notes: {},
+                                    })
+                                })
+                            },
+                            consideration_responses: {
+                                keySelector: (n) => n.consideration_id,
+                                member: () => ({
+                                    fields: () => ({
+                                        id: {},
+                                        consideration_id: {},
+                                        notes: {},
+                                    }),
+                                })
+                            }
+                        })
+                    })
+                }
+            })
+        })
+    }
+}
 
 export const assessmentSchema: AssessmentFormScheme = {
     fields: (): AssessmentFormSchemeFields => ({

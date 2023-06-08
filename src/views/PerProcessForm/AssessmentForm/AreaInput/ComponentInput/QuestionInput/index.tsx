@@ -12,15 +12,15 @@ import {
     answerKeySelector,
     answerLabelSelector,
     PerFormQuestionItem,
-} from '../../../common';
+} from '../../../../common';
 import {
     PartialAssessment,
-} from '../../../usePerProcessOptions';
+} from '../../../../usePerProcessOptions';
 
 import styles from './styles.module.css';
 
 // FIXME: move this to common file
-type Value = NonNullable<NonNullable<PartialAssessment['area_responses']>[number]['form_data']>[number];
+type Value = NonNullable<NonNullable<NonNullable<PartialAssessment['area_responses']>[number]['component_responses']>[number]['question_responses']>[number];
 
 interface Props {
     question: PerFormQuestionItem;
@@ -59,11 +59,11 @@ function QuestionInput(props: Props) {
             childrenContainerClassName={styles.content}
         >
             <RadioInput
-                name="selected_answer"
+                name="answer_id"
                 options={question.answers}
                 keySelector={answerKeySelector}
                 labelSelector={answerLabelSelector}
-                value={value?.selected_answer}
+                value={value?.answer_id}
                 onChange={onFieldChange}
             />
             <TextArea

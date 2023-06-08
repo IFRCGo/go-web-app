@@ -9,11 +9,9 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
-import ExpandableContainer from '#components/ExpandableContainer';
 import { PerFormQuestionItem, Area } from '../../common';
-
-import QuestionInput from './QuestionInput';
 import { PartialAssessment } from '../../usePerProcessOptions';
+import ComponentInput from './ComponentInput';
 
 import styles from './styles.module.css';
 
@@ -51,11 +49,11 @@ function AreaInput(props: Props) {
 
     const {
         setValue: setQuestionResponseValue,
-    } = useFormArray('form_data', setFieldValue);
+    } = useFormArray('component_responses', setFieldValue);
 
     const questionResponseMapping = listToMap(
-        value?.form_data ?? [],
-        (questionResponse) => questionResponse.question,
+        value?.component_responses ?? [],
+        (questionResponse) => questionResponse.component_id,
         (questionResponse, _, questionResponseIndex) => ({
             index: questionResponseIndex,
             value: questionResponse,
@@ -76,27 +74,17 @@ function AreaInput(props: Props) {
 
     return (
         <div className={styles.areaInput}>
-            {componentGroupedQuestionList.map((questionGroupedComponent) => (
-                <ExpandableContainer
-                    key={questionGroupedComponent.component.id}
-                    heading={`${questionGroupedComponent.component.component_num}. ${questionGroupedComponent.component.title}`}
-                    childrenContainerClassName={styles.questionList}
-                    headerDescription={questionGroupedComponent.component.description}
-                >
-                    {questionGroupedComponent.questions.map((question) => (
-                        <QuestionInput
-                            componentNumber={questionGroupedComponent.component.component_num}
-                            key={question.id}
-                            question={question}
-                            index={questionResponseMapping[question.id]?.index}
-                            value={questionResponseMapping[question.id]?.value}
-                            onChange={setQuestionResponseValue}
-                        />
-                    ))}
-                </ExpandableContainer>
+            {componentGroupedQuestionList.map((question) => (
+                <ComponentInput
+                    componentNumber={componentGroupedQuestionList.component_num}
+                    key={question.component.id}
+                    question={question}
+                    index={questionResponseMapping[question.id]?.index}
+                    value={questionResponseMapping[question.id]?.value}
+                    onChange={setQuestionResponseValue}
+                />
             ))}
         </div>
     );
 }
 export default AreaInput;
-

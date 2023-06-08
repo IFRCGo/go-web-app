@@ -3,6 +3,7 @@ import {
     unique,
     listToMap,
     compareNumber,
+    _cs,
 } from '@togglecorp/fujs';
 import {
     createSubmitHandler,
@@ -15,7 +16,14 @@ import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
 import Tab from '#components/Tabs/Tab';
 import TabPanel from '#components/Tabs/TabPanel';
-import { ListResponse, useLazyRequest, useRequest } from '#utils/restRequest';
+import Container from '#components/Container';
+import ExpandableContainer from '#components/ExpandableContainer';
+import ProgressBar from '#components/ProgressBar';
+import {
+    ListResponse,
+    useLazyRequest,
+    useRequest,
+} from '#utils/restRequest';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 
@@ -28,10 +36,11 @@ import {
     PartialAssessment,
     Assessment,
 } from '../usePerProcessOptions';
-
 import AreaInput from './AreaInput';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import Button from '#components/Button';
 
 interface Props {
     perId?: number;
@@ -88,6 +97,9 @@ function AssessmentForm(props: Props) {
         },
     });
 
+    const minArea = 1;
+    const maxArea = areas.length;
+
     const {
         trigger: submitRequest,
     } = useLazyRequest({
@@ -128,7 +140,6 @@ function AssessmentForm(props: Props) {
         // TODO: transform the values
     }, []);
 
-    /*
     const handleNextTab = () => {
         setCurrentArea(Math.min((currentArea ?? 0) + 1, areas.length));
     };
@@ -136,11 +147,10 @@ function AssessmentForm(props: Props) {
     const handlePrevTab = () => {
         setCurrentArea(Math.max((currentArea ?? 0) - 1, 1));
     };
-    */
 
     const areaResponseMapping = listToMap(
         value?.area_responses ?? [],
-        (areaResponse) => areaResponse.area,
+        (areaResponse) => areaResponse.area_id,
         (areaResponse, _, index) => ({
             index,
             value: areaResponse,
@@ -152,6 +162,21 @@ function AssessmentForm(props: Props) {
             {questionsPending && (
                 <BlockLoading />
             )}
+            <ExpandableContainer
+                className={_cs(styles.customActivity, styles.errored)}
+                componentRef={undefined}
+                actions="Show Summary"
+            >
+                <Container
+                    className={styles.inputSection}
+                >
+                    <ProgressBar
+                        title="Answered 20/100"
+                        value={50}
+                        totalValue={100}
+                    />
+                </Container>
+            </ExpandableContainer>
             {!questionsPending && currentArea && (
                 <Tabs<number>
                     disabled={undefined}
@@ -190,7 +215,6 @@ function AssessmentForm(props: Props) {
                             />
                         </TabPanel>
                     ))}
-                    {/*
                     <div className={styles.actions}>
                         {currentArea !== undefined && currentArea > minArea
                             && (
@@ -221,37 +245,8 @@ function AssessmentForm(props: Props) {
                             Submit
                         </Button>
                     </div>
-                    */}
                 </Tabs>
             )}
-            {/*
-            <ExpandableContainer
-                className={_cs(styles.customActivity, styles.errored)}
-                componentRef={undefined}
-                actions="Show Summary"
-            >
-                <Container
-                    className={styles.inputSection}
-                >
-                    <ProgressBar
-                        title="Answered 20/100"
-                        value={50}
-                        totalValue={100}
-                    />
-                    <StackedProgressBar
-                        // className={styles.progressBar}
-                        label="Answered"
-                        value={20}
-                        width={50}
-                    />
-                    <StackedProgressBar
-                        // className={styles.questionAnswered}
-                        label="Answered"
-                        value={20}
-                    />
-                </Container>
-            </ExpandableContainer>
-            */}
         </form>
     );
 }

@@ -135,6 +135,19 @@ export interface PerFormQuestionItem {
     question_num: number;
 }
 
+export interface PerFormComponentItem {
+    id: number | string;
+    component_id: number | string;
+    component_num: string;
+    title: string;
+    question: string;
+    benchmark_responses: {
+        id: number | string;
+        benchmark_id: number | string;
+        notes: string;
+    }
+}
+
 export interface PerAssessmentForm {
     id: number | string;
     status: string;
@@ -142,18 +155,7 @@ export interface PerAssessmentForm {
     description: string;
     title: string;
     answer: boolean;
-    component_responses: {
-        id: number | string;
-        component_id: number | string;
-        component_num: string;
-        title: string;
-        question: string;
-        benchmark_responses: {
-            id: number | string;
-            benchmark_id: number | string;
-            notes: string;
-        }[];
-    }[];
+    component_responses: PerFormComponentItem[];
 
     selected_answer: string;
     notes: string;
