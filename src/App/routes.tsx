@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom';
 import {
     wrapRoute,
     unwrapRoute,
@@ -109,6 +110,23 @@ const regionOperations = customWrapRoute({
     parent: region,
     context: {
         title: 'Region Operations',
+        visibility: 'anything',
+    },
+});
+
+const regionIndex = customWrapRoute({
+    parent: region,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: regionOperations.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Region index',
         visibility: 'anything',
     },
 });
@@ -368,6 +386,23 @@ const accountInformation = customWrapRoute({
     },
 });
 
+const accountIndex = customWrapRoute({
+    parent: account,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: accountInformation.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Account index',
+        visibility: 'anything',
+    },
+});
+
 const accountNotifications = customWrapRoute({
     path: 'notifications',
     component: {
@@ -524,6 +559,7 @@ const wrappedRoutes = {
     register,
     home,
     region,
+    regionIndex,
     regionOperations,
     regionThreeW,
     regionRiskWatch,
@@ -542,6 +578,7 @@ const wrappedRoutes = {
     preparedness,
     threeW,
     account,
+    accountIndex,
     accountInformation,
     accountNotifications,
     accountPerForms,
