@@ -116,6 +116,7 @@ interface PerArea {
 }
 
 export interface PerFormComponentItem {
+    area: PerArea;
     id: number;
     component_id: number;
     component_num: number;
@@ -138,7 +139,6 @@ export interface PerFormQuestionItem {
     question: string;
     question_num: number;
 }
-
 
 export interface PerAssessmentForm {
     id: number | string;

@@ -3,6 +3,7 @@ import {
     unique,
     listToMap,
     compareNumber,
+    listToGroupList,
     _cs,
 } from '@togglecorp/fujs';
 import {
@@ -19,6 +20,7 @@ import TabPanel from '#components/Tabs/TabPanel';
 import Container from '#components/Container';
 import ExpandableContainer from '#components/ExpandableContainer';
 import ProgressBar from '#components/ProgressBar';
+import Button from '#components/Button';
 import {
     ListResponse,
     useLazyRequest,
@@ -40,7 +42,6 @@ import AreaInput from './AreaInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import Button from '#components/Button';
 
 interface Props {
     perId?: number;
@@ -61,7 +62,13 @@ function AssessmentForm(props: Props) {
     } = useForm(
         assessmentSchema2,
         // TODO: move this to separate variable
-        { value: { area_responses: [] } },
+        {
+            value: {
+                // overview_id:
+                is_draft: true,
+                area_responses: [],
+            },
+        },
     );
 
     const {
@@ -156,28 +163,38 @@ function AssessmentForm(props: Props) {
         }),
     );
 
+    const areaIdGroupedQuestion = listToGroupList(
+        questionsResponse?.results ?? [],
+        (question) => question.component.area.id,
+    );
+
     return (
-        <form onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}>
+        <form
+            onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
+            className={styles.assessmentForm}
+        >
             {questionsPending && (
                 <BlockLoading />
             )}
-            <ExpandableContainer
-                className={_cs(styles.customActivity, styles.errored)}
-                componentRef={undefined}
-                actions="Show Summary"
-            >
-                <Container
-                    className={styles.inputSection}
+            {!questionsPending && (
+                <ExpandableContainer
+                    className={_cs(styles.customActivity, styles.errored)}
+                    componentRef={undefined}
+                    actions="Show Summary"
                 >
-                    <ProgressBar
-                        title="Answered 20/100"
-                        value={50}
-                        totalValue={100}
-                    />
-                </Container>
-            </ExpandableContainer>
+                    <Container
+                        className={styles.inputSection}
+                    >
+                        <ProgressBar
+                            title="Answered 20/100"
+                            value={50}
+                            totalValue={100}
+                        />
+                    </Container>
+                </ExpandableContainer>
+            )}
             {!questionsPending && currentArea && (
-                <Tabs<number>
+                <Tabs
                     disabled={undefined}
                     onChange={setCurrentArea}
                     value={currentArea}
@@ -205,9 +222,7 @@ function AssessmentForm(props: Props) {
                             <AreaInput
                                 key={area.id}
                                 area={area}
-                                questions={questionsResponse?.results?.filter(
-                                    (question) => question.component.area.id === area.id,
-                                )}
+                                questions={areaIdGroupedQuestion[area.id]}
                                 index={areaResponseMapping[area.id]?.index}
                                 value={areaResponseMapping[area.id]?.value}
                                 onChange={setAreaResponsesValue}

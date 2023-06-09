@@ -109,8 +109,8 @@ export interface QuestionResponse {
 }
 
 export interface Assessment {
-    overview_id: string;
-    is_draft: string;
+    overview_id: number;
+    is_draft: boolean;
     area_responses: AreaResponse[];
 }
 

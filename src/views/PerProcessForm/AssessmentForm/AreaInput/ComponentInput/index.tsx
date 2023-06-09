@@ -3,7 +3,7 @@ import {
     useFormArray,
     useFormObject,
 } from '@togglecorp/toggle-form';
-import { listToMap } from '@togglecorp/fujs';
+import { listToMap, _cs } from '@togglecorp/fujs';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import {
@@ -59,7 +59,7 @@ function ComponentInput(props: Props) {
 
     return (
         <ExpandableContainer
-            className={className}
+            className={_cs(styles.componentInput, className)}
             key={component.component_id}
             heading={`${component.component_num}. ${component.title}`}
             childrenContainerClassName={styles.questionList}

@@ -2,9 +2,9 @@
     border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
 
     .header {
-        padding: var(--go-ui-spacing-md);
         background-color: var(--go-ui-color-gray-20);
         cursor: pointer;
+        padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
 
         .icon {
             display: flex;
@@ -13,6 +13,6 @@
     }
 
     .content {
-        padding: var(--go-ui-spacing-md);
+        padding: 0 var(--go-ui-spacing-lg) var(--go-ui-spacing-lg) var(--go-ui-spacing-lg);
     }
 }
