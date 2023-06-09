@@ -15,7 +15,6 @@ import {
 } from '#utils/form';
 
 import {
-    PerAssessmentForm,
     emptyNumericOptionList,
     PerOverviewFields,
     PerWorkPlanForm,
@@ -25,9 +24,6 @@ import i18n from './i18n.json';
 
 export type OverviewFormSchema = ObjectSchema<PartialForm<PerOverviewFields>>;
 export type OverviewFormSchemaFields = ReturnType<OverviewFormSchema['fields']>;
-
-export type AssessmentFormScheme = ObjectSchema<PartialForm<PerAssessmentForm>>;
-export type AssessmentFormSchemeFields = ReturnType<AssessmentFormScheme['fields']>;
 
 export type WorkPlanFormScheme = ObjectSchema<PartialForm<PerWorkPlanForm>>;
 export type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
@@ -114,6 +110,15 @@ export interface Assessment {
     area_responses: AreaResponse[];
 }
 
+export interface Prioritization {
+    overview_id: number;
+    component_responses: {
+        id: number;
+        component_id: number;
+        justification: string;
+    }[];
+}
+
 export type PartialAssessment = PartialForm<Assessment, 'area_id' | 'component_id' | 'question_id' | 'consideration_id'>;
 type AssessmentSchema = ObjectSchema<PartialAssessment>
 type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
@@ -161,6 +166,26 @@ export const assessmentSchema2: AssessmentSchema = {
                             }),
                         }),
                     },
+                }),
+            }),
+        },
+    }),
+};
+
+export type PartialPrioritization = PartialForm<Prioritization, 'component_id'>
+export type PrioritizationScheme = ObjectSchema<PartialPrioritization>;
+export type PrioritizationSchemeFields = ReturnType<PrioritizationScheme['fields']>;
+
+export const prioritizationSchema: PrioritizationScheme = {
+    fields: (): PrioritizationSchemeFields => ({
+        overview_id: {},
+        component_responses: {
+            keySelector: (componentResponse) => componentResponse.component_id,
+            member: () => ({
+                fields: () => ({
+                    id: {},
+                    component_id: {},
+                    justification: {},
                 }),
             }),
         },

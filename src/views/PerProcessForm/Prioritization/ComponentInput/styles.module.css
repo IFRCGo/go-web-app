@@ -1,44 +1,18 @@
 .custom-activity {
-  border-top: var(--go-ui-width-separator-md) solid transparent;
-  background-color: var(--go-ui-color-background);
-
-  .improvement-select {
-    display: flex;
-    flex-direction: column;
-    width: var(--go-ui-spacing-md);
-  }
-
-  .dot-connector {
-    border-left: var(--go-ui-width-separator-sm) solid var(--go-ui-color-gray-10);
-  }
-
-  .input-section {
-    display: flex;
+    border-top: var(--go-ui-width-separator-md) solid transparent;
     background-color: var(--go-ui-color-background);
-    overflow-y: visible;
 
-    .question-content {
-      display: flex;
-      gap: var(--go-ui-spacing-xxs);
-
-      .note-section {
+    .improvement-select {
         display: flex;
         flex-direction: column;
-        flex-grow: 1;
-      }
-
-      .answers {
-        display: flex;
-        gap: var(--go-ui-spacing-xs);
-      }
+        width: 100%;
     }
-  }
 }
 
 .dot {
-  display: inline-block;
-  border-radius: var(--go-ui-border-radius-full);
-  background-color: var(--go-ui-color-gray-10);
-  width: var(--go-ui-width-separator-dense);
-  height: var(--go-ui-width-separator-dense);
+    display: inline-block;
+    border-radius: var(--go-ui-border-radius-full);
+    background-color: var(--go-ui-color-gray-10);
+    width: var(--go-ui-width-separator-dense);
+    height: var(--go-ui-width-separator-dense);
 }

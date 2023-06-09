@@ -140,23 +140,11 @@ export interface PerFormQuestionItem {
     question_num: number;
 }
 
-export interface PerAssessmentForm {
-    id: number | string;
-    status: string;
-    question: string;
-    description: string;
-    title: string;
-    answer: boolean;
-    component_responses: PerFormComponentItem[];
-
-    selected_answer: string;
-    notes: string;
-    selected_answer_details: string;
-    question_details: {
-        id: string;
-        question: string;
-        question_num: number;
-    }
+export interface PerFormPrioritizationItem {
+    id: number;
+    overview_id: number;
+    questions: PerFormQuestionItem[];
+    component: PerFormComponentItem[];
 }
 
 export interface Area {
@@ -182,12 +170,6 @@ export interface PerWorkPlanForm {
     area: string;
     status: string;
     due_date: string;
-}
-
-export interface PerPrioritizationForm {
-    id: number;
-    description: string;
-    question: string;
 }
 
 export const perOverviewFields: (keyof PerOverviewFields)[] = [
@@ -221,12 +203,6 @@ export const perOverviewFields: (keyof PerOverviewFields)[] = [
     'ns_second_focal_point_name',
     'ns_second_focal_point_email',
     'ns_second_focal_point_phone',
-];
-
-export const perAssessmentFields: (keyof PerAssessmentForm)[] = [
-    'question',
-    'description',
-    'id',
 ];
 
 export const perWorkPlanFields: (keyof PerWorkPlanForm)[] = [

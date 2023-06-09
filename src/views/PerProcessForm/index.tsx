@@ -32,7 +32,7 @@ export function Component(props: Props) {
         className,
     } = props;
 
-    const [currentStep, setCurrentStep] = React.useState<StepTypes>('assessment');
+    const [currentStep, setCurrentStep] = React.useState<StepTypes>('prioritization');
 
     const handleTabChange = React.useCallback(
         (newStep: StepTypes) => {

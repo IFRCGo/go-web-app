@@ -1,73 +1,67 @@
-import { useState } from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { EntriesAsList, PartialForm } from '@togglecorp/toggle-form';
+import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
 
-import { ListResponse, useRequest } from '#utils/restRequest';
 import ExpandableContainer from '#components/ExpandableContainer';
-
 import {
-    PerAssessmentForm,
+    PerFormComponentItem,
+     PerFormQuestionItem,
 } from '../../common';
 import TextInput from '#components/TextInput';
+import { PartialPrioritization } from '#views/PerProcessForm/usePerProcessOptions';
+import Container from '#components/Container';
 
 import styles from './styles.module.css';
-import QuestionInput from './QuestionInput';
 
-type Value = PartialForm<PerAssessmentForm>;
+type Value = NonNullable<PartialPrioritization['component_responses']>[number];
 
 interface Props {
-    id?: string;
     value?: Value;
-    onValueChange?: (...entries: EntriesAsList<Value>) => void;
+    questions: PerFormQuestionItem[];
+    onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
+    index: number;
+    component: PerFormComponentItem;
 }
 
 function ComponentsInput(props: Props) {
     const {
+        index,
         value,
-        onValueChange,
-        id,
+        questions,
+        onChange,
+        component,
     } = props;
 
-
-    const [currentArea, setCurrentArea] = useState<number | undefined>();
-
-    const [currentComponent, setCurrentComponent] = useState<string | undefined>();
-
-    const {
-        response: questionResponse,
-    } = useRequest<ListResponse<PerAssessmentForm>>({
-        url: `api/v2/per-formquestion/`,
-        query: {
-            component: currentComponent,
-            area_id: currentArea,
-        },
-    });
+    const onFieldChange = useFormObject(
+        index,
+        onChange,
+        () => ({
+            component_id: component.id,
+        })
+    );
 
     return (
         <ExpandableContainer
             className={_cs(styles.customActivity, styles.errored)}
-            componentRef={undefined}
-            // heading={`Component ${i + 1} : ${component.title}`}
-            // actionsContainerClassName={styles}
+            key={component.component_id}
+            heading={`${component.component_num}. ${component.title}`}
             actions={
                 <TextInput
                     className={styles.improvementSelect}
-                    name="description"
-                    value={value?.description}
-                    onChange={onValueChange}
+                    name="justification"
+                    value={value?.justification}
+                    onChange={onFieldChange}
                 />
             }
         >
-            {questionResponse?.results.map((q, i) => (
-                <QuestionInput
-                    index={i}
-                    value={q}
-                    key={q.id}
-                    onChange={undefined}
-                // onRemove={removeBenchmarkValue}
-                />
+            {questions?.map((question, i) => (
+                <Container
+                    headerDescription={`${i + 1}: ${question?.question}`}
+                    className={styles.inputSection}
+                >
+                </Container>
             ))}
         </ExpandableContainer>
+
     );
 }
 

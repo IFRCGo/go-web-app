@@ -1,48 +1,27 @@
-import React, { useState } from 'react';
 import {
-    EntriesAsList,
-    PartialForm,
-    SetBaseValueArg,
+    createSubmitHandler,
     useForm,
     useFormArray
 } from '@togglecorp/toggle-form';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
 import { ListResponse, useRequest } from '#utils/restRequest';
-import { assessmentSchema2 } from '../usePerProcessOptions';
-import { Area, Component, PerAssessmentForm, PerPrioritizationForm } from '../common';
+import { PartialPrioritization, Prioritization, prioritizationSchema } from '../usePerProcessOptions';
+import { PerFormPrioritizationItem, PerFormQuestionItem } from '../common';
 import Container from '#components/Container';
-import ComponentsList from './ComponentInput';
-
-import Button from '#components/Button';
-import Table from '#components/Table';
-import TextInput from '#components/TextInput';
+import ComponentsInput from './ComponentInput';
 import useTranslation from '#hooks/useTranslation';
+import Button from '#components/Button';
+
 import i18n from './i18n.json';
-
 import styles from './styles.module.css';
-import ExpandableContainer from '#components/ExpandableContainer';
-import { createStringColumn } from '#components/Table/ColumnShortcuts';
-import QuestionInput from './ComponentInput/QuestionInput';
+import BlockLoading from '#components/BlockLoading';
+import { useCallback } from 'react';
 
-type Value = PartialForm<Component>;
-
-export interface Props {
-    className?: string;
-    onValueChange?: (...entries: EntriesAsList<Value>) => void;
-    onValueSet?: (value: SetBaseValueArg<Value>) => void;
-    perId?: string;
-    onSubmitSuccess?: (result: Component) => void;
-}
-
-function prioritizationKeySelector(prioritization: Value) {
-    return prioritization.id;
-}
-
-interface AreaProps {
+interface Props {
     className?: string;
 }
 
-function PrioritizationForm(props: AreaProps) {
+function PrioritizationForm(props: Props) {
     const strings = useTranslation(i18n);
 
     const {
@@ -51,124 +30,85 @@ function PrioritizationForm(props: AreaProps) {
 
     const {
         value,
+        validate,
         setFieldValue,
-        setValue: onValueSet,
-    } = useForm(assessmentSchema2, { value: {} });
-    const [currentComponent, setCurrentComponent] = useState<string | undefined>();
+        setError: onErrorSet,
+    } = useForm(prioritizationSchema,
+        {
+            value: {},
+        },
+    );
 
     const {
-        response: areaResponse,
-    } = useRequest<ListResponse<Area>>({
-        url: 'api/v2/per-formarea/',
-    });
-
-    const {
-        response: componentResponse,
-    } = useRequest<ListResponse<Component>>({
-        url: `api/v2/per-formcomponent/`,
-    });
-
-    const {
-        response: questionResponse,
-    } = useRequest<ListResponse<PerPrioritizationForm>>({
-        url: `api/v2/per-formquestion/`,
+        pending: questionsPending,
+        response: questionsResponse,
+    } = useRequest<ListResponse<PerFormQuestionItem>>({
+        url: 'api/v2/per-formquestion/',
         query: {
-            component: currentComponent,
+            limit: 500,
         },
     });
 
-    const showComponent = () => {
-        return (
-            <>
-                {areaResponse?.results?.map((item) => (
-                    <ComponentsList
-                        key={item.area_num}
-                        id={item.id}
-                        onValueChange={setFieldValue}
-                        value={value}
-                    />
-                ))}
-            </>
-        );
-    };
-
-    const showText = () => {
-        return (
-            <TextInput
-                name={undefined}
-                value={undefined}
-            >
-            </TextInput>
-        );
-    };
-
-    const columns = [
-        createStringColumn<Component, string | number>(
-            'component',
-            'Component',
-            showComponent,
-        ),
-        createStringColumn<Component, string | number>(
-            'ranking',
-            'Ranking',
-            (prioritization) => prioritization.id,
-        ),
-        createStringColumn<Component, string | number>(
-            'code',
-            'Justification',
-            showText,
-        ),
-    ];
+    const handleSubmit = useCallback((finalValues: PartialPrioritization) => {
+        console.warn('Final values', finalValues as Prioritization);
+        // TODO: transform the values
+    }, []);
 
     const {
         setValue: setBenchmarkValue,
         // removeValue: removeBenchmarkValue,
     } = useFormArray('component_responses', setFieldValue);
 
+    const componentResponseMapping = listToMap(
+        value?.component_responses ?? [],
+        (componentResponse) => componentResponse.component_id,
+        (componentResponse, _, index) => ({
+            index,
+            value: componentResponse,
+        }),
+    );
+
+    const componentGroupedQuestion = listToGroupList(
+        questionsResponse?.results ?? [],
+        (component) => component.id,
+    );
+
+    const componentGroupedQuestionList = mapToList(
+        componentGroupedQuestion,
+        (list) => ({
+            component: list[0].component,
+            question: list,
+        }),
+    );
+
     return (
-        <Container
-            className={_cs(styles.prioritizationTable, className)}
-            contentClassName={styles.content}
+        <form
+            onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
+            className={styles.prioritizationTable}
         >
-            <Table
-                data={undefined}
-                columns={columns}
-                keySelector={prioritizationKeySelector}
-                variant="large"
-            />
-            {componentResponse?.results?.map((component, i) => (
-                <ExpandableContainer
-                    className={_cs(styles.customActivity, styles.errored)}
-                    componentRef={undefined}
-                    heading={`Component ${i + 1}: ${component?.title}`}
-                    actions={
-                        <TextInput
-                            className={styles.improvementSelect}
-                            name="description"
-                            value={value?.description}
-                            onChange={setFieldValue}
-                        />
-                    }
-                >
-                    <QuestionInput
-                        id={component.id}
-                        index={i}
-                        value={value}
-                        onChange={setBenchmarkValue}
-                    // onRemove={removeBenchmarkValue}
-                    />
-                </ExpandableContainer>
+            {questionsPending && (
+                <BlockLoading />
+            )}
+            {questionsResponse?.results?.map((component) => (
+                <ComponentsInput
+                    key={component.id}
+                    questions={componentGroupedQuestion[component.id]}
+                    index={componentResponseMapping[component.id]?.index}
+                    value={componentResponseMapping[component.id]?.value}
+                    onChange={setBenchmarkValue}
+                    component={component}
+                />
             ))}
             <div className={styles.actions}>
                 <Button
-                    name={undefined}
+                    type="submit"
+                    name="submit"
                     variant="secondary"
-                    onClick={undefined}
                 >
                     {strings.perSelectAndAddToWorkPlan}
                 </Button>
             </div>
-        </Container>
+        </form>
     );
 }
 
