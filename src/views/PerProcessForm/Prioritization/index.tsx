@@ -1,21 +1,32 @@
+import { useCallback } from 'react';
 import {
     createSubmitHandler,
     useForm,
     useFormArray
 } from '@togglecorp/toggle-form';
-import { _cs, listToGroupList, listToMap, mapToList } from '@togglecorp/fujs';
-import { ListResponse, useRequest } from '#utils/restRequest';
-import { PartialPrioritization, Prioritization, prioritizationSchema } from '../usePerProcessOptions';
-import { PerFormPrioritizationItem, PerFormQuestionItem } from '../common';
-import Container from '#components/Container';
+import {
+    _cs,
+    listToGroupList,
+    listToMap,
+    mapToList,
+} from '@togglecorp/fujs';
+import {
+    ListResponse,
+    useRequest,
+} from '#utils/restRequest';
+import {
+    PartialPrioritization,
+    Prioritization,
+    prioritizationSchema
+} from '../usePerProcessOptions';
+import { PerFormQuestionItem } from '../common';
 import ComponentsInput from './ComponentInput';
 import useTranslation from '#hooks/useTranslation';
 import Button from '#components/Button';
+import BlockLoading from '#components/BlockLoading';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import BlockLoading from '#components/BlockLoading';
-import { useCallback } from 'react';
 
 interface Props {
     className?: string;
@@ -49,15 +60,15 @@ function PrioritizationForm(props: Props) {
         },
     });
 
-    const handleSubmit = useCallback((finalValues: PartialPrioritization) => {
-        console.warn('Final values', finalValues as Prioritization);
-        // TODO: transform the values
-    }, []);
-
     const {
         setValue: setBenchmarkValue,
         // removeValue: removeBenchmarkValue,
     } = useFormArray('component_responses', setFieldValue);
+
+    const handleSubmit = useCallback((finalValues: PartialPrioritization) => {
+        console.warn('Final values', finalValues as Prioritization);
+        // TODO: transform the values
+    }, []);
 
     const componentResponseMapping = listToMap(
         value?.component_responses ?? [],

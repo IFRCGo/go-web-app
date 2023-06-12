@@ -17,16 +17,13 @@ import {
 import {
     emptyNumericOptionList,
     PerOverviewFields,
-    PerWorkPlanForm,
+    WorkPlanForm,
     emptyStringOptionList,
 } from './common';
 import i18n from './i18n.json';
 
 export type OverviewFormSchema = ObjectSchema<PartialForm<PerOverviewFields>>;
 export type OverviewFormSchemaFields = ReturnType<OverviewFormSchema['fields']>;
-
-export type WorkPlanFormScheme = ObjectSchema<PartialForm<PerWorkPlanForm>>;
-export type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
 
 export type FormStatusScheme = ObjectSchema<PartialForm<FormStatusOptions>>;
 export type FormStatusSchemeFields = ReturnType<FormStatusScheme['fields']>;
@@ -192,15 +189,38 @@ export const prioritizationSchema: PrioritizationScheme = {
     }),
 };
 
+export type PartialWorkPlan = PartialForm<WorkPlanForm, 'component_id' | 'supported_by_id'>;
+export type WorkPlanFormScheme = ObjectSchema<PartialWorkPlan>;
+export type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
+
 export const workplanSchema: WorkPlanFormScheme = {
     fields: (): WorkPlanFormSchemeFields => ({
-        actions: {},
-        area: {},
-        component: {},
-        responsible_email: {},
-        responsible_name: {},
-        status: {},
-        due_date: {},
+        overview_id: {},
+        component_responses: {
+            keySelector: (componentResponse) => componentResponse.component_id,
+            member: () => ({
+                fields: () => ({
+                    id: {},
+                    component_id: {},
+                    actions: {},
+                    due_date: {},
+                    supported_by_id: {},
+                    status: {},
+                }),
+            }),
+        },
+        custom_component_responses: {
+            keySelector: (customResponse) => customResponse.supported_by_id,
+            member: () => ({
+                fields: () => ({
+                    id: {},
+                    actions: {},
+                    due_date: {},
+                    supported_by_id: {},
+                    status: {},
+                }),
+            }),
+        },
     }),
 };
 

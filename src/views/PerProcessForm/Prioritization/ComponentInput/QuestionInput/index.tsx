@@ -1,35 +1,29 @@
-import { isNotDefined } from '@togglecorp/fujs';
-
 import Container from '#components/Container';
-import { ListResponse, useRequest } from '#utils/restRequest';
+import { PerFormComponentItem, PerFormQuestionItem } from '#views/PerProcessForm/common';
 import { PartialPrioritization } from '#views/PerProcessForm/usePerProcessOptions';
-import { PerFormQuestionItem } from '#views/PerProcessForm/common';
 
 import styles from './styles.module.css';
 
-type Value = PartialPrioritization;
+type Value = NonNullable<PartialPrioritization['component_responses']>[number];
 
 interface Props {
     id: string;
-    value?: Value;
+    component: PerFormComponentItem;
     index: number;
 }
 
 function QuestionInput(props: Props) {
     const {
-        id,
         index,
-        value,
+        component,
     } = props;
 
     return (
-        <>
-            <Container
-                // headerDescription={`${i + 1}: ${question?.question}`}
-                className={styles.inputSection}
-            >
-            </Container>
-        </>
+        <Container
+            headerDescription={`${index + 1}: ${question?.}`}
+            className={styles.inputSection}
+        >
+        </Container>
     );
 }
 

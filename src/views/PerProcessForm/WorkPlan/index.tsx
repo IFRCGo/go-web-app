@@ -1,9 +1,8 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { randomString, _cs } from '@togglecorp/fujs';
 import {
     EntriesAsList,
     PartialForm,
-    Error,
     SetBaseValueArg,
     createSubmitHandler,
     useForm,
@@ -14,10 +13,10 @@ import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import Button from '#components/Button';
-import { PerWorkPlanForm } from '../common';
+import { WorkPlanForm } from '../common';
 import TextArea from '#components/TextArea';
 
-import usePerProcessOptions, { workplanSchema } from '../usePerProcessOptions';
+import usePerProcessOptions, { PartialWorkPlan, workplanSchema } from '../usePerProcessOptions';
 import { useLazyRequest } from '#utils/restRequest';
 import useAlertContext from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
@@ -25,14 +24,8 @@ import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
-type Value = PartialForm<PerWorkPlanForm>;
-
 interface Props {
     className?: string;
-    index?: number;
-    onValueSet: (value: SetBaseValueArg<Value>) => void;
-    perId?: string;
-    onValueChange: (...entries: EntriesAsList<Value>) => void;
 }
 
 function WorkPlanForm(props: Props) {
@@ -40,83 +33,34 @@ function WorkPlanForm(props: Props) {
 
     const {
         className,
-        onValueChange,
-        index,
-        perId,
-        onValueSet,
     } = props;
 
     const {
         value,
-        error: formError,
         validate,
         setFieldValue,
         setError: onErrorSet,
-    } = useForm(workplanSchema, { value: {} as PartialForm<PerWorkPlanForm> });
+    } = useForm(workplanSchema,
+        {
+            value: {},
+        }
+    );
 
     const {
         workPlanStatusOptions,
     } = usePerProcessOptions();
 
-    const alert = useAlertContext();
-
-    const {
-        pending: perSubmitPending,
-        trigger: submitRequest,
-    } = useLazyRequest<PerWorkPlanForm, Partial<PerWorkPlanForm>>({
-        url: perId ? `api/v2/per-prioritization/${perId}/` : 'api/v2/per-prioritization/',
-        method: perId ? 'PUT' : 'POST',
-        body: ctx => ctx,
-        onSuccess: (response) => {
-            alert.show(
-                strings.perFormSaveRequestSuccessMessage,
-                { variant: 'success' },
-            );
-
-        },
-        onFailure: ({
-            value: {
-                messageForNotification,
-                formErrors,
-            },
-            debugMessage,
-        }) => {
-
-            alert.show(
-                <p>
-                    {strings.perFormSaveRequestFailureMessage}
-                    &nbsp;
-                    <strong>
-                        {messageForNotification}
-                    </strong>
-                </p>,
-                {
-                    variant: 'danger',
-                    debugMessage,
-                },
-            );
-        },
-    });
-
-    const handleSubmit = useCallback((finalValues) => {
+    const handleSubmit = useCallback((finalValues: PartialWorkPlan) => {
         console.warn('finalValues', finalValues);
-        onValueSet(finalValues);
-        submitRequest(finalValues);
-    }, [onValueSet, submitRequest]);
+    }, []);
 
     const handleAddCustomActivity = useCallback(() => {
         const id = randomString();
-        const newList: PartialForm<PerWorkPlanForm> = {
+        const newList: PartialForm<WorkPlanForm> = {
             id,
         };
 
-        onValueChange(
-            (oldValue: PartialForm<PerWorkPlanForm>[] | undefined) => (
-                [...(oldValue ?? []), newList]
-        ),
-            'component' as const,
-        );
-    }, [onValueChange]);
+    }, []);
 
     return (
         <form
@@ -124,7 +68,6 @@ function WorkPlanForm(props: Props) {
         >
             <Container
                 className={_cs(styles.strategicPrioritiesTable, className)}
-                contentClassName={styles.content}
             >
                 <table>
                     <thead>

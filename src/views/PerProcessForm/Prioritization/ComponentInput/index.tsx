@@ -1,5 +1,5 @@
 import { _cs } from '@togglecorp/fujs';
-import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
+import { SetValueArg, useFormArray, useFormObject } from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import {
@@ -43,7 +43,7 @@ function ComponentsInput(props: Props) {
         <ExpandableContainer
             className={_cs(styles.customActivity, styles.errored)}
             key={component.component_id}
-            heading={`${component.component_num}. ${component.title}`}
+            heading={`${component?.component_num}. ${component.title}`}
             actions={
                 <TextInput
                     className={styles.improvementSelect}
@@ -53,9 +53,9 @@ function ComponentsInput(props: Props) {
                 />
             }
         >
-            {questions?.map((question, i) => (
+            {questions?.map((question) => (
                 <Container
-                    headerDescription={`${i + 1}: ${question?.question}`}
+                    headerDescription={`${question?.question_num + 1}: ${question?.question}`}
                     className={styles.inputSection}
                 >
                 </Container>

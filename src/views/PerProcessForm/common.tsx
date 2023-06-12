@@ -153,23 +153,27 @@ export interface Area {
     area_num: number;
 }
 
-export interface PerWorkPlanForm {
+export interface WorkPlanComponentItem {
+    id: number;
+    component_id: number;
+    actions: string;
+    due_date: string;
+    supported_by_id: string;
+    status: string;
+}
+
+export interface WorkPlanCustomItem {
     id: number;
     actions: string;
-    responsible_email: string;
-    responsible_name: string;
-    component: {
-        area: Area;
-        title: string;
-        component: string;
-        component_letter: string;
-        component_num: number;
-        description: string;
-        id: string;
-    }[];
-    area: string;
-    status: string;
     due_date: string;
+    supported_by_id: string;
+    status: string;
+}
+
+export interface WorkPlanForm {
+    overview_id: number,
+    component_responses: WorkPlanComponentItem[];
+    custom_component_responses: WorkPlanCustomItem[];
 }
 
 export const perOverviewFields: (keyof PerOverviewFields)[] = [
