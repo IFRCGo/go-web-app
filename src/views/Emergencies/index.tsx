@@ -1,7 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import {
     sum,
     isDefined,
+    listToGroupList,
+    mapToList,
+    listToMap,
+    encodeDate,
 } from '@togglecorp/fujs';
 import {
     EmergenciesIcon,
@@ -13,14 +17,25 @@ import {
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
+import BarChart from '#components/BarChart';
+import Container from '#components/Container';
+import TimeSeriesChart from '#components/TimeSeriesChart';
 import useTranslation from '#hooks/useTranslation';
 import {
     useRequest,
     ListResponse,
 } from '#utils/restRequest';
+import { getDatesSeparatedByMonths } from '#utils/chart';
 
+import type { EventItem, AggregateEventResponse } from './types';
+import Map from './Map';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+const getFormattedKey = (dateFromProps: string | Date) => {
+    const date = new Date(dateFromProps);
+    return `${date.getFullYear()}-${date.getMonth()}`;
+};
 
 function sumSafe(list: (number | undefined | null)[] | undefined) {
     if (!list) {
@@ -31,51 +46,20 @@ function sumSafe(list: (number | undefined | null)[] | undefined) {
     return sum(safeList);
 }
 
+const xAxisFormatter = (date: Date) => date.toLocaleString(
+    undefined,
+    { month: 'short' },
+);
+
+const timeSeriesDataKeys = ['events'];
+
 const oneMonthAgo = new Date();
 oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 oneMonthAgo.setHours(0, 0, 0, 0);
 
-interface EventItem {
-    active_deployments: number;
-    appeals: {
-        aid: string;
-        amount_funded: string;
-        amount_requested: string;
-        code: string;
-        ind: number;
-        num_beneficiaries: number;
-        start_date: string;
-        status: number;
-        status_display: string;
-    }[];
-    auto_generated: boolean;
-    countries: unknown[];
-    created_at: string;
-    disaster_start_date: string;
-    dtype: {
-        id: number;
-    }
-    emergency_response_contact_email: string | null;
-    field_reports: {
-        num_affected: number | null;
-        updated_at: string,
-    }[];
-    glide: string;
-    id: number;
-    ifrc_severity_label: number;
-    ifrc_severity_label_display: string;
-    is_featured: boolean;
-    is_featured_region: boolean;
-    name: string;
-    num_affected: number | null;
-    parent_event: number | null;
-    slug: string | null;
-    summary: string;
-    tab_one_title: string;
-    tab_three_title: string | null;
-    tab_two_title: string | null;
-    updated_at: string;
-}
+const oneYearAgo = new Date();
+oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+oneYearAgo.setHours(0, 0, 0, 0);
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -92,6 +76,27 @@ export function Component() {
         },
     });
 
+    const {
+        // pending: aggregateEventPending,
+        response: aggregateEventResponse,
+    } = useRequest<AggregateEventResponse>({
+        url: 'api/v1/aggregate/',
+        query: {
+            model_type: 'event',
+            unit: 'month',
+            start_date: encodeDate(oneYearAgo),
+        },
+    });
+
+    const dateList = useMemo(
+        () => {
+            const startDate = oneYearAgo;
+            const endDate = new Date();
+            return getDatesSeparatedByMonths(startDate, endDate);
+        },
+        [],
+    );
+
     const [
         numAffected,
         amountRequested,
@@ -102,8 +107,10 @@ export function Component() {
                 return [];
             }
 
+            const { results: events } = eventsResponse;
+
             const numAffectedCalculated = sumSafe(
-                (eventsResponse.results.map(
+                (events.map(
                     (event) => {
                         const latestFieldReport = event.field_reports.sort(
                             (a, b) => (
@@ -117,7 +124,7 @@ export function Component() {
             );
 
             const amountRequestedCalculated = sumSafe(
-                eventsResponse.results.map(
+                events.map(
                     (event) => (
                         sumSafe(event.appeals.map((appeal) => Number(appeal.amount_requested)))
                     ),
@@ -125,7 +132,7 @@ export function Component() {
             );
 
             const fundingCalculated = sumSafe(
-                eventsResponse.results.map(
+                events.map(
                     (event) => (
                         sumSafe(event.appeals.map((appeal) => Number(appeal.amount_funded)))
                     ),
@@ -139,6 +146,30 @@ export function Component() {
             ];
         },
         [eventsResponse],
+    );
+
+    const emergenciesMapByType = listToGroupList(
+        eventsResponse?.results ?? [],
+        (event) => event.dtype.id,
+    );
+
+    const emergenciesByType = mapToList(
+        emergenciesMapByType,
+        (event, disasterType) => ({
+            type: disasterType,
+            typeName: event[0].dtype.name,
+            numOfEvents: event.length,
+        }),
+    );
+
+    const aggregateDataMap = listToMap(
+        aggregateEventResponse?.aggregate ?? [],
+        (aggregate) => getFormattedKey(aggregate.timespan),
+    );
+
+    const timeSeriesValueSelector = useCallback(
+        (_: string, date: Date) => aggregateDataMap[getFormattedKey(date)]?.count ?? 0,
+        [aggregateDataMap],
     );
 
     return (
@@ -180,8 +211,41 @@ export function Component() {
                     )}
                 </>
             )}
+            mainSectionClassName={styles.mainContent}
         >
-            Emergencies Page
+            <div className={styles.charts}>
+                <Container
+                    heading="Emergencies by Type"
+                    className={styles.emergenciesByType}
+                    withHeaderBorder
+                >
+                    <BarChart
+                        data={emergenciesByType}
+                        keySelector={(groupedEvent) => groupedEvent.type}
+                        valueSelector={(groupedEvent) => groupedEvent.numOfEvents}
+                        labelSelector={(groupedEvent) => groupedEvent.typeName}
+                    />
+                </Container>
+                <Container
+                    heading="Emergencies over the last year"
+                    className={styles.emergenciesOverLastYear}
+                    withHeaderBorder
+                >
+                    {aggregateEventResponse && (
+                        <TimeSeriesChart
+                            className={styles.timeSeriesChart}
+                            timePoints={dateList}
+                            dataKeys={timeSeriesDataKeys}
+                            valueSelector={timeSeriesValueSelector}
+                            classNameSelector={() => styles.eventsChart}
+                            xAxisFormatter={xAxisFormatter}
+                        />
+                    )}
+                </Container>
+            </div>
+            {eventsResponse && (
+                <Map eventList={eventsResponse.results} />
+            )}
         </Page>
     );
 }

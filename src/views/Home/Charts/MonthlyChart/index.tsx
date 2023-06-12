@@ -4,12 +4,12 @@ import { useRequest } from '#utils/restRequest';
 
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
+import TimeSeriesChart from '#components/TimeSeriesChart';
 import Button from '#components/Button';
 import { getDatesSeparatedByMonths } from '#utils/chart';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 
-import TimelineChart from '../TimelineChart';
 import PointDetails from '../PointDetails';
 
 import i18n from './i18n.json';
@@ -171,7 +171,7 @@ function MonthlyChart(props: Props) {
             {pending && <BlockLoading className={styles.loading} />}
             {!pending && (
                 <>
-                    <TimelineChart
+                    <TimeSeriesChart
                         className={styles.timelineChart}
                         timePoints={dateList}
                         dataKeys={dataKeys}

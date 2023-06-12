@@ -11,6 +11,7 @@ import ButtonLikeLink from '#components/ButtonLikeLink';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
 import Container from '#components/Container';
+import BarChart from '#components/BarChart';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
 import {
@@ -19,7 +20,6 @@ import {
 } from '#utils/restRequest';
 
 import Filter, { FilterValue } from './Filters';
-import BarChart from './BarChart';
 import PieChart from './PieChart';
 import {
     NSOngoingProjectStat,

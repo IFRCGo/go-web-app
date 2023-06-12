@@ -1,0 +1,13 @@
+{
+    "namespace": "emergencies",
+    "strings": {
+        "emergenciesMapTitle":"IFRC GO - Emergencies ({numEmergencies})",
+        "emergenciesMapViewAll": "View All Emergencies",
+        "emergenciesMapPopoverEmpty": "No events",
+
+        "emergenciesMapWithoutIFRC":"Without IFRC response*",
+        "emergenciesMapWithIFRC":"With IFRC response",
+        "emergenciesMapMixResponse":"Mixed Level of response",
+        "emergenciesMapDescription":"*IFRC response indicates the existence of appeal(s) and/or DREF(s) for a given emergency."
+    }
+}

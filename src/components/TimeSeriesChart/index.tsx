@@ -38,12 +38,12 @@ interface Props<K> {
     timePoints: Date[];
     valueSelector: (dataKey: K, date: Date) => number;
     classNameSelector: (dataKey: K) => string;
-    activePointKey: string;
-    onTimePointClick: (dateKey: string) => void;
+    activePointKey?: string;
+    onTimePointClick?: (dateKey: string) => void;
     xAxisFormatter: (date: Date) => string;
 }
 
-function TimelineChart<const K extends string>(props: Props<K>) {
+function TimeSeriesChart<const K extends string>(props: Props<K>) {
     const {
         className,
         dataKeys,
@@ -168,7 +168,7 @@ function TimelineChart<const K extends string>(props: Props<K>) {
 
     const handleRectMouseClick: React.MouseEventHandler<SVGRectElement> = useCallback((e) => {
         const key = (e.target as HTMLElement).getAttribute('data-key');
-        if (key) {
+        if (key && onTimePointClick) {
             onTimePointClick(key);
         }
     }, [onTimePointClick]);
@@ -270,4 +270,4 @@ function TimelineChart<const K extends string>(props: Props<K>) {
     );
 }
 
-export default TimelineChart;
+export default TimeSeriesChart;
