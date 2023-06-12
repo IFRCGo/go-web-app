@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import {
     unique,
     listToMap,
@@ -32,23 +33,18 @@ import useTranslation from '#hooks/useTranslation';
 import {
     Area,
     PerFormQuestionItem,
-} from '../common';
-import {
-    assessmentSchema2,
+    assessmentSchema,
     PartialAssessment,
     Assessment,
-} from '../usePerProcessOptions';
+} from './common';
 import AreaInput from './AreaInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface Props {
-    perId?: number;
-}
-
-function AssessmentForm(props: Props) {
-    const { perId } = props;
+// eslint-disable-next-line import/prefer-default-export
+export function Component() {
+    const { perId } = useParams<{ perId: string }>();
 
     const {
         // value,
@@ -60,7 +56,7 @@ function AssessmentForm(props: Props) {
         setFieldValue,
         setError: onErrorSet,
     } = useForm(
-        assessmentSchema2,
+        assessmentSchema,
         // TODO: move this to separate variable
         {
             value: {
@@ -110,8 +106,8 @@ function AssessmentForm(props: Props) {
     const {
         trigger: submitRequest,
     } = useLazyRequest({
-        url: perId ? `api/v2/updatemultipleperforms/${perId}/` : 'api/v2/updatemultipleperforms/',
-        method: perId ? 'PUT' : 'POST',
+        url: `api/v2/per-assessment/${perId}/`,
+        method: 'POST',
         body: (ctx) => ctx,
         onSuccess: () => {
             alert.show(
@@ -142,7 +138,7 @@ function AssessmentForm(props: Props) {
         },
     });
 
-    const handleSubmit = React.useCallback((finalValues: PartialAssessment) => {
+    const handleSubmit = useCallback((finalValues: PartialAssessment) => {
         console.log('Final values', finalValues as Assessment);
         // TODO: transform the values
     }, []);
@@ -266,4 +262,4 @@ function AssessmentForm(props: Props) {
     );
 }
 
-export default AssessmentForm;
+Component.displayName = 'PerAssessmentForm';

@@ -3,7 +3,6 @@
 
     .header {
         background-color: var(--go-ui-color-gray-20);
-        cursor: pointer;
         padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
 
         .icon {

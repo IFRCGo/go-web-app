@@ -1,8 +1,7 @@
 .input-section {
     display: flex;
     background-color: var(--go-ui-color-primary-white);
-    padding: calc(var(--go-ui-spacing-md)*2);
-    gap: calc(var(--go-ui-spacing-md)*2);
+    gap: var(--go-ui-spacing-xl);
 
     .section-title {
         display: flex;
@@ -61,6 +60,7 @@
         .section-content {
             >* {
                 flex-basis: calc(100% - var(--go-ui-spacing-md));
+                flex-grow: unset;
             }
         }
     }
@@ -69,6 +69,7 @@
         .section-content {
             >* {
                 flex-basis: calc(50% - var(--go-ui-spacing-md));
+                flex-grow: unset;
             }
         }
     }
@@ -77,20 +78,8 @@
         .section-content {
             >* {
                 flex-basis: calc(100% / 3 - var(--go-ui-spacing-md));
+                flex-grow: unset;
             }
-        }
-    }
-
-    @media (max-width: $media-medium) {
-        flex-wrap: wrap;
-
-        .section-title {
-            flex-basis: 100%;
-            max-width: unset;
-        }
-
-        .section-content {
-            flex-basis: 100%;
         }
     }
 }

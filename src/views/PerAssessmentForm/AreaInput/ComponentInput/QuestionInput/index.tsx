@@ -12,10 +12,8 @@ import {
     answerKeySelector,
     answerLabelSelector,
     PerFormQuestionItem,
-} from '../../../../common';
-import {
     PartialAssessment,
-} from '../../../../usePerProcessOptions';
+} from '../../../common';
 
 import styles from './styles.module.css';
 

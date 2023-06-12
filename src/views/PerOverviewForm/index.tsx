@@ -1,10 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import {
     useForm,
-    // PartialForm,
-    // getErrorObject,
-    // Error,
-    // SetBaseValueArg,
     createSubmitHandler,
     getErrorObject,
     getErrorString,
@@ -29,7 +26,6 @@ import {
     StringValueOption,
 } from '#types/common';
 
-import { overviewSchema } from '../usePerProcessOptions';
 import {
     PerOverviewFields,
     booleanOptionKeySelector,
@@ -37,9 +33,10 @@ import {
     emptyNumericOptionList,
     emptyStringOptionList,
     TypeOfAssessment,
-} from '../common';
-import i18n from './i18n.json';
+    overviewSchema,
+} from './common';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 function numericValueOptionKeySelector<T extends NumericValueOption>(option: T) {
@@ -56,14 +53,9 @@ function stringValueOptionLabelSelector<T extends StringValueOption>(option: T) 
     return option.label;
 }
 
-interface Props {
-    perId?: string;
-}
 // eslint-disable-next-line import/prefer-default-export
-function PerOverview(props: Props) {
-    const {
-        perId,
-    } = props;
+export function Component() {
+    const { perId } = useParams<{ perId: string }>();
 
     const strings = useTranslation(i18n);
     const alert = useAlertContext();
@@ -92,10 +84,12 @@ function PerOverview(props: Props) {
     const {
         trigger: savePerOverview,
     } = useLazyRequest<PerOverviewFields, Partial<PerOverviewFields>>({
-        url: perId ? `api/v2/new-per/${perId}/` : 'api/v2/new-per/',
-        method: perId ? 'PUT' : 'POST',
+        url: perId ? `api/v2/per-overview/${perId}/` : 'api/v2/new-per/',
+        method: 'POST',
         body: (ctx) => ctx,
-        onSuccess: () => {
+        onSuccess: (response) => {
+            console.info(response);
+
             alert.show(
                 strings.perFormSaveRequestSuccessMessage,
                 { variant: 'success' },
@@ -189,12 +183,12 @@ function PerOverview(props: Props) {
 
     return (
         <form
+            className={styles.overviewForm}
             onSubmit={createSubmitHandler(validate, setError, handleSubmit)}
         >
             <Container
-                className={styles.sharing}
+                childrenContainerClassName={styles.sectionContent}
             >
-                {strings.perOverviewSetUpPerProcess}
                 <InputSection
                     title={strings.perFormNationalSociety}
                 >
@@ -211,7 +205,8 @@ function PerOverview(props: Props) {
             </Container>
             <Container
                 heading={strings.perFormOrientation}
-                className={styles.sharing}
+                withHeaderBorder
+                childrenContainerClassName={styles.sectionContent}
             >
                 <InputSection
                     title={strings.perFormDateOfOrientation}
@@ -233,14 +228,15 @@ function PerOverview(props: Props) {
                         accept=".docx, pdf"
                         type="file"
                         onChange={handleFileInputChange}
-                        value={value?.orientation_document}
+                        // value={value?.orientation_document}
                         // error={getErrorString(error?.orientation_document}
                     />
                 </InputSection>
             </Container>
             <Container
                 heading={strings.perFormAssessment}
-                className={styles.sharing}
+                withHeaderBorder
+                childrenContainerClassName={styles.sectionContent}
             >
                 <InputSection
                     title={strings.perFormDateOfAssessment}
@@ -356,6 +352,8 @@ function PerOverview(props: Props) {
             </Container>
             <Container
                 heading={strings.perFormProcessCycleHeading}
+                withHeaderBorder
+                childrenContainerClassName={styles.sectionContent}
             >
                 <InputSection
                     title={strings.perFormPerProcessCycleNumber}
@@ -371,10 +369,12 @@ function PerOverview(props: Props) {
             </Container>
             <Container
                 heading={strings.perFormWorkPlanReviewsPlanned}
-                className={styles.sharing}
+                withHeaderBorder
+                childrenContainerClassName={styles.sectionContent}
             >
                 <InputSection
                     title={strings.perFormWorkPlanDevelopmentDate}
+                    twoColumn
                 >
                     <DateInput
                         error={error?.workplan_development_date}
@@ -385,6 +385,7 @@ function PerOverview(props: Props) {
                 </InputSection>
                 <InputSection
                     title={strings.perFormWorkPlanRevisionDate}
+                    twoColumn
                 >
                     <DateInput
                         name="workplan_revision_date"
@@ -396,7 +397,8 @@ function PerOverview(props: Props) {
             </Container>
             <Container
                 heading={strings.perFormContactInformation}
-                className={styles.sharing}
+                withHeaderBorder
+                childrenContainerClassName={styles.sectionContent}
             >
                 <InputSection
                     title={strings.perFormNsFocalPoint}
@@ -536,4 +538,4 @@ function PerOverview(props: Props) {
     );
 }
 
-export default PerOverview;
+Component.displayName = 'PerOverviewForm';

@@ -48,19 +48,20 @@ function InputSection(props: Props) {
     } = props;
 
     return (
-        <div className={_cs(
-            className,
-            styles.inputSection,
-            multiRow && styles.multiRow,
-            // eslint-disable-next-line react/destructuring-assignment
-            props.oneColumn && styles.oneColumn,
-            // eslint-disable-next-line react/destructuring-assignment
-            props.twoColumn && styles.twoColumn,
-            // eslint-disable-next-line react/destructuring-assignment
-            props.threeColumn && styles.threeColumn,
-            !normalDescription && styles.specialDescription,
-            fullWidthColumn && styles.fullWidthColumn,
-        )}
+        <div
+            className={_cs(
+                className,
+                styles.inputSection,
+                multiRow && styles.multiRow,
+                // eslint-disable-next-line react/destructuring-assignment
+                props.oneColumn && styles.oneColumn,
+                // eslint-disable-next-line react/destructuring-assignment
+                props.twoColumn && styles.twoColumn,
+                // eslint-disable-next-line react/destructuring-assignment
+                props.threeColumn && styles.threeColumn,
+                !normalDescription && styles.specialDescription,
+                fullWidthColumn && styles.fullWidthColumn,
+            )}
         >
             <div
                 className={styles.sectionTitle}

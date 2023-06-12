@@ -2,67 +2,56 @@ import { useCallback } from 'react';
 import {
     createSubmitHandler,
     useForm,
-    useFormArray
+    useFormArray,
 } from '@togglecorp/toggle-form';
-import {
-    _cs,
-    listToGroupList,
-    listToMap,
-    mapToList,
-} from '@togglecorp/fujs';
+import { listToMap } from '@togglecorp/fujs';
 import {
     ListResponse,
     useRequest,
 } from '#utils/restRequest';
-import {
-    PartialPrioritization,
-    Prioritization,
-    prioritizationSchema
-} from '../usePerProcessOptions';
-import { PerFormQuestionItem } from '../common';
-import ComponentsInput from './ComponentInput';
 import useTranslation from '#hooks/useTranslation';
 import Button from '#components/Button';
 import BlockLoading from '#components/BlockLoading';
+import {
+    PartialPrioritization,
+    Prioritization,
+    prioritizationSchema,
+    PerFormComponentItem,
+} from './common';
+import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface Props {
-    className?: string;
-}
-
-function PrioritizationForm(props: Props) {
+// eslint-disable-next-line import/prefer-default-export
+export function Component() {
     const strings = useTranslation(i18n);
-
-    const {
-        className,
-    } = props;
 
     const {
         value,
         validate,
         setFieldValue,
         setError: onErrorSet,
-    } = useForm(prioritizationSchema,
+    } = useForm(
+        prioritizationSchema,
         {
             value: {},
         },
     );
 
     const {
-        pending: questionsPending,
-        response: questionsResponse,
-    } = useRequest<ListResponse<PerFormQuestionItem>>({
-        url: 'api/v2/per-formquestion/',
+        pending: perFormComponentPending,
+        response: perFormComponentResponse,
+    } = useRequest<ListResponse<PerFormComponentItem>>({
+        url: 'api/v2/per-formcomponent/',
         query: {
             limit: 500,
         },
     });
 
     const {
-        setValue: setBenchmarkValue,
-        // removeValue: removeBenchmarkValue,
+        setValue: setComponentValue,
+        removeValue: removeComponentValue,
     } = useFormArray('component_responses', setFieldValue);
 
     const handleSubmit = useCallback((finalValues: PartialPrioritization) => {
@@ -79,17 +68,19 @@ function PrioritizationForm(props: Props) {
         }),
     );
 
-    const componentGroupedQuestion = listToGroupList(
-        questionsResponse?.results ?? [],
-        (component) => component.id,
-    );
+    const handleSelectionChange = useCallback(
+        (checked: boolean, index: number, componentId: number) => {
+            if (!checked) {
+                removeComponentValue(index);
+                return;
+            }
 
-    const componentGroupedQuestionList = mapToList(
-        componentGroupedQuestion,
-        (list) => ({
-            component: list[0].component,
-            question: list,
-        }),
+            setComponentValue({
+                justification: '',
+                component_id: componentId,
+            }, index);
+        },
+        [removeComponentValue, setComponentValue],
     );
 
     return (
@@ -97,17 +88,17 @@ function PrioritizationForm(props: Props) {
             onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
             className={styles.prioritizationTable}
         >
-            {questionsPending && (
+            {perFormComponentPending && (
                 <BlockLoading />
             )}
-            {questionsResponse?.results?.map((component) => (
-                <ComponentsInput
+            {perFormComponentResponse?.results?.map((component) => (
+                <ComponentInput
                     key={component.id}
-                    questions={componentGroupedQuestion[component.id]}
                     index={componentResponseMapping[component.id]?.index}
                     value={componentResponseMapping[component.id]?.value}
-                    onChange={setBenchmarkValue}
+                    onChange={setComponentValue}
                     component={component}
+                    onSelectionChange={handleSelectionChange}
                 />
             ))}
             <div className={styles.actions}>
@@ -123,4 +114,4 @@ function PrioritizationForm(props: Props) {
     );
 }
 
-export default PrioritizationForm;
+Component.displayName = 'PerPrioritizationForm';
