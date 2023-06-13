@@ -24,7 +24,7 @@ export interface TypeOfAssessment {
 
 export interface PerOverviewFields {
     id: string;
-    national_society: number;
+    country: number;
     date_of_orientation: string;
     date_of_assessment: string;
     orientation_document: File;
@@ -86,7 +86,7 @@ export const overviewSchema: OverviewFormSchema = {
         partner_focal_point_phone: {},
         partner_focal_point_organization: {},
         type_of_assessment: {},
-        national_society: { required: true },
+        country: {required: true},
         ns_second_focal_point_name: {},
         ns_second_focal_point_email: {},
         ns_second_focal_point_phone: {},

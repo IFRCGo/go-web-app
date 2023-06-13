@@ -61,6 +61,9 @@ export function Component() {
         response: countriesResponse,
     } = useRequest<ListResponse<Country>>({
         url: 'api/v2/country/',
+        query: {
+            limit: 500,
+        },
     });
 
     const {
@@ -120,21 +123,15 @@ export function Component() {
         [assessmentResponse],
     );
 
-    const nationalSocietyOptions = useMemo(
-        () => {
-            if (!countriesResponse) {
-                return [];
-            }
-
-            const ns = countriesResponse.results
-                .filter((d) => d.independent && d.society_name)
-                .map((d) => ({
+    const countryOptions = useMemo(
+        () => (
+            countriesResponse?.results
+                .filter(d => d.independent && d.iso)
+                .map(d => ({
                     value: d.id,
-                    label: d.society_name,
-                })).sort(compareLabel);
-
-            return ns;
-        },
+                    label: d.name,
+                })).sort(compareLabel) ?? []
+        ),
         [countriesResponse],
     );
 
@@ -155,7 +152,6 @@ export function Component() {
     const handleSubmit = useCallback(
         () => {
             savePerOverview(value as PerOverviewFields);
-            scrollToTop();
         },
         [
             value,
@@ -175,13 +171,13 @@ export function Component() {
                     title={strings.perFormNationalSociety}
                 >
                     <SelectInput
-                        name="national_society"
+                        name="country"
                         onChange={onValueChange}
-                        options={nationalSocietyOptions}
+                        options={countryOptions}
                         keySelector={numericValueSelector}
                         labelSelector={stringLabelSelector}
-                        value={value?.national_society}
-                        error={getErrorString(error?.national_society)}
+                        value={value?.country}
+                        error={getErrorString(error?.country)}
                     />
                 </InputSection>
             </Container>
@@ -210,8 +206,8 @@ export function Component() {
                         accept=".docx, pdf"
                         type="file"
                         onChange={handleFileInputChange}
-                        // value={value?.orientation_document}
-                        // error={getErrorString(error?.orientation_document}
+                    // value={value?.orientation_document}
+                    // error={getErrorString(error?.orientation_document}
                     />
                 </InputSection>
             </Container>
