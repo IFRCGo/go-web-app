@@ -14,7 +14,6 @@
     &.secondary {
         border-radius: calc(1em + var(--go-ui-spacing-md));
         background-color: var(--go-ui-color-background);
-        padding: 0 var(--go-ui-spacing-md);
         width: fit-content;
     }
 
