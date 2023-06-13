@@ -4,7 +4,6 @@ import { CheckLineIcon, CloseFillIcon } from '@ifrc-go/icons';
 
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
 import { TabKey, TabContext, TabVariant } from '#components/Tabs/TabContext';
-import { setHashToBrowser } from '#utils/common';
 
 import styles from './styles.module.css';
 
@@ -55,13 +54,7 @@ export default function Tab<T extends TabKey>(props: Props<T>) {
         return () => { unregisterTab(name); };
     }, [registerTab, unregisterTab, name]);
 
-    let isActive = false;
-    if (context.useHash) {
-        isActive = context.hash === name;
-    } else {
-        isActive = context.activeTab === name;
-    }
-
+    const isActive = context.activeTab === name;
     React.useEffect(() => {
         if (isActive && setStep) {
             setStep(step);
@@ -80,7 +73,7 @@ export default function Tab<T extends TabKey>(props: Props<T>) {
                 variant && tabVariantToStyleMap[variant],
                 errored && styles.errored,
             )}
-            onClick={context.useHash ? setHashToBrowser : context.setActiveTab}
+            onClick={context.setActiveTab}
             name={name}
             disabled={disabled}
             type="button"

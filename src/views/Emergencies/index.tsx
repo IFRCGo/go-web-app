@@ -28,6 +28,9 @@ import { sumSafe } from '#utils/common';
 
 import type { EventItem, AggregateEventResponse } from './types';
 import Map from './Map';
+import FieldReportTable from './FieldReportsTable';
+import EmergenciesTable from './EmergenciesTable';
+import FlashUpdateTable from './FlashUpdatesTable';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -43,10 +46,9 @@ const xAxisFormatter = (date: Date) => date.toLocaleString(
 
 const timeSeriesDataKeys = ['events'];
 
-const oneMonthAgo = new Date();
-// Fixme: 2 monthago
-oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 4);
-oneMonthAgo.setHours(0, 0, 0, 0);
+const thirtyDaysAgo = new Date();
+thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+thirtyDaysAgo.setHours(0, 0, 0, 0);
 
 const oneYearAgo = new Date();
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
@@ -62,7 +64,7 @@ export function Component() {
         url: 'api/v2/event/',
         query: {
             limit: 500,
-            disaster_start_date__gt: oneMonthAgo.toISOString(),
+            disaster_start_date__gt: thirtyDaysAgo.toISOString(),
             ordering: '-disaster_start_date',
         },
     });
@@ -234,9 +236,14 @@ export function Component() {
                     )}
                 </Container>
             </div>
-            {eventsResponse && (
-                <Map eventList={eventsResponse.results} />
-            )}
+            <div>
+                {eventsResponse && (
+                    <Map eventList={eventsResponse.results} />
+                )}
+                <EmergenciesTable />
+            </div>
+            <FlashUpdateTable />
+            <FieldReportTable />
         </Page>
     );
 }

@@ -1,0 +1,11 @@
+{
+    "namespace": "emergencies",
+    "strings": {
+        "flashUpdateTableTitle":"Flash Updates in Last 30 days ({numFlashUpdates})",
+        "flashUpdateTableViewAllReports":"View All Flash Updates",
+        "flashUpdateTableLastUpdate":"Last Update",
+        "flashUpdateTableReport":"Report",
+        "flashUpdateTableDisasterType":"Disaster Type",
+        "flashUpdateTableCountry":"Country"
+    }
+}

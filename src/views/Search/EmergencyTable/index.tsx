@@ -4,6 +4,7 @@ import { _cs } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import Table from '#components/Table';
+import Link from '#components/Link';
 import {
     createNumberColumn,
     createStringColumn,
@@ -59,7 +60,10 @@ function EmergencyTable(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const { emergency: emergencyRoute } = useContext(RouteContext);
+    const {
+        country: countryRoute,
+        emergency: emergencyRoute,
+    } = useContext(RouteContext);
 
     const columns = useMemo(() => ([
         createLinkColumn<EmergencyResult, number>(
@@ -113,12 +117,21 @@ function EmergencyTable(props: Props) {
         createListDisplayColumn<EmergencyResult, number>(
             'countries',
             strings.searchEmergencyTableCountry,
-            (emergency) => ({
-                value: emergency.countries,
+            (item) => ({
+                value: item.countries.map((country, i) => (
+                    <Link
+                        to={generatePath(
+                            countryRoute.absolutePath,
+                            { countryId: String(item.countries_id[i]) },
+                        )}
+                    >
+                        {country}
+                    </Link>
+                )),
                 title: strings.searchEmergencyTableMultipleCountries,
             }),
         ),
-    ]), [strings, emergencyRoute]);
+    ]), [strings, emergencyRoute, countryRoute]);
 
     if (!data) {
         return null;

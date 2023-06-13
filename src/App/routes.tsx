@@ -184,7 +184,7 @@ const regionProfile = customWrapRoute({
 });
 
 const country = customWrapRoute({
-    path: 'countries/:countryId/',
+    path: 'countries/:countryId',
     component: {
         render: () => import('#views/Country'),
         props: {},
@@ -498,7 +498,7 @@ const goUI = customWrapRoute({
 });
 
 const drefApplicationFormNew = customWrapRoute({
-    path: 'dref-application/new/',
+    path: 'dref-application/new',
     component: {
         render: () => import('#views/DrefApplicationForm'),
         props: {},
@@ -512,7 +512,7 @@ const drefApplicationFormNew = customWrapRoute({
 });
 
 const drefApplicationFormEdit = customWrapRoute({
-    path: 'dref-application/:drefId/edit/',
+    path: 'dref-application/:drefId/edit',
     component: {
         render: () => import('#views/DrefApplicationForm'),
         props: {},
@@ -526,7 +526,7 @@ const drefApplicationFormEdit = customWrapRoute({
 });
 
 const flashUpdateFormNew = customWrapRoute({
-    path: 'flash-update/new/',
+    path: 'flash-update/new',
     component: {
         render: () => import('#views/FlashUpdateForm'),
         props: {},
@@ -540,7 +540,7 @@ const flashUpdateFormNew = customWrapRoute({
 });
 
 const fieldReportFormNew = customWrapRoute({
-    path: 'field-report/new/',
+    path: 'field-report/new',
     component: {
         render: () => import('#views/FieldReportForm'),
         props: {},

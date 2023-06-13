@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, useCallback } from 'react';
 
 import useTranslation from '#hooks/useTranslation';
 import InfoPopup from '#components/InfoPopup';
@@ -9,27 +9,52 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
-    value?: string[];
+    value?: React.ReactNode[];
     title?: React.ReactNode;
+    joinBy?: React.ReactNode;
 }
 
 function ReducedListDisplay(props: Props) {
     const {
         value,
         title,
+        joinBy = ', ',
     } = props;
 
     const strings = useTranslation(i18n);
+    const reducer = useCallback(
+        (prev: React.ReactNode | undefined, current: React.ReactNode, i: number) => {
+            if (!prev) {
+                return (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <Fragment key={i}>
+                        {current}
+                    </Fragment>
+                );
+            }
 
-    if (!value) {
+            return (
+                // eslint-disable-next-line react/no-array-index-key
+                <Fragment key={i}>
+                    {prev}
+                    {joinBy}
+                    {current}
+                </Fragment>
+            );
+        },
+        [joinBy],
+    );
+
+    if (!value || value.length === 0) {
         return null;
     }
 
+    const allJoinedList = value.reduce(reducer);
     const maxItemsToShow = 3;
     if (value.length <= maxItemsToShow) {
         return (
             <div>
-                {value.join(', ')}
+                {allJoinedList}
             </div>
         );
     }
@@ -42,15 +67,17 @@ function ReducedListDisplay(props: Props) {
         { n: value.length - itemsToShowIfMaxExceeded },
     );
 
+    const newJoinedList = newList.reduce(reducer);
+
     return (
         <div>
-            {newList.join(', ')}
+            {newJoinedList}
             <InfoPopup
                 className={styles.reducedListLabel}
                 infoLabel={infoLabel}
                 hideIcon
                 title={title}
-                description={value.join(', ')}
+                description={allJoinedList}
             />
         </div>
     );

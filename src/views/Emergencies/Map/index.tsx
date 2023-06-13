@@ -14,7 +14,6 @@ import Map, {
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
-import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
 import {
     useRequest,
@@ -39,9 +38,10 @@ import { Country } from '#types/country';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
+import { getNumAffected } from '#utils/emergency';
+
 import i18n from './i18n.json';
 import type { EventItem } from '../types';
-
 import {
     ScaleOption,
     getScaleOptions,
@@ -58,20 +58,6 @@ import {
     RESPONSE_LEVEL_WITH_IFRC_RESPONSE,
 } from './utils';
 import styles from './styles.module.css';
-
-function getNumAffected(event: EventItem) {
-    const latestFieldReport = event.field_reports.sort(
-        (a, b) => (
-            new Date(b.updated_at).getTime()
-                - new Date(a.updated_at).getTime()
-        ),
-    )[0];
-
-    return sumSafe([
-        event.num_affected,
-        latestFieldReport?.num_affected,
-    ]);
-}
 
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
@@ -258,8 +244,8 @@ function EmergenciesMap(props: Props) {
             actions={(
                 <Link
                     to="/"
-                    actions={<ChevronRightLineIcon />}
-                    underline
+                    withUnderline
+                    withForwardIcon
                 >
                     {strings.emergenciesMapViewAll}
                 </Link>
