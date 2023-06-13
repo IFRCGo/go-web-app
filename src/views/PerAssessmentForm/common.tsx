@@ -76,17 +76,22 @@ export interface AreaResponse {
 }
 
 export interface Assessment {
-    overview_id: number;
+    overview: number;
     is_draft: boolean;
     area_responses: AreaResponse[];
 }
+
+export interface PerAssessmentResponseFields extends Assessment {
+    id: number;
+}
+
 export type PartialAssessment = PartialForm<Assessment, 'area_id' | 'component_id' | 'question_id' | 'consideration_id'>;
 type AssessmentSchema = ObjectSchema<PartialAssessment>
 type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 
 export const assessmentSchema: AssessmentSchema = {
     fields: (): AssessmentSchemaFields => ({
-        overview_id: {},
+        overview: {},
         is_draft: {},
         area_responses: {
             keySelector: (areaResponse) => areaResponse.area_id,

@@ -1,13 +1,16 @@
-import { useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useCallback, useContext } from 'react';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import {
     unique,
     listToMap,
     compareNumber,
     listToGroupList,
     _cs,
+    isNotDefined,
+    isDefined,
 } from '@togglecorp/fujs';
 import {
+    PartialForm,
     createSubmitHandler,
     useForm,
     useFormArray,
@@ -29,13 +32,14 @@ import {
 } from '#utils/restRequest';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 
 import {
     PerFormArea,
     PerFormQuestionItem,
     assessmentSchema,
-    PartialAssessment,
     Assessment,
+    PerAssessmentResponseFields,
 } from './common';
 import AreaInput from './AreaInput';
 
@@ -45,12 +49,13 @@ import styles from './styles.module.css';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
+    const navigate = useNavigate();
 
     const {
-        // value,
-        // error,
-        // setError,
-        // setValue,
+        perPrioritizationForm: perPrioritizationFormRoute,
+    } = useContext(RouteContext);
+
+    const {
         value,
         validate,
         setFieldValue,
@@ -60,7 +65,7 @@ export function Component() {
         // TODO: move this to separate variable
         {
             value: {
-                // overview_id:
+                // overview:
                 is_draft: true,
                 area_responses: [],
             },
@@ -104,12 +109,21 @@ export function Component() {
     const maxArea = areas.length;
 
     const {
-        trigger: submitRequest,
-    } = useLazyRequest({
-        url: `api/v2/per-assessment/${perId}/`,
+        trigger: savePerAssessment,
+    } = useLazyRequest<PerAssessmentResponseFields, Partial<Assessment>>({
+        url: 'api/v2/per-assessment',
         method: 'POST',
         body: (ctx) => ctx,
-        onSuccess: () => {
+        onSuccess: (response) => {
+            if (response && isNotDefined(perId) && isDefined(response.id)) {
+                navigate(
+                    generatePath(
+                        perPrioritizationFormRoute.absolutePath,
+                        { perId: String(response.id) },
+                    ),
+                );
+            }
+
             alert.show(
                 strings.perFormSaveRequestSuccessMessage,
                 { variant: 'success' },
@@ -138,10 +152,14 @@ export function Component() {
         },
     });
 
-    const handleSubmit = useCallback((finalValues: PartialAssessment) => {
-        console.log('Final values', finalValues as Assessment);
-        // TODO: transform the values
-    }, []);
+    const handleSubmit = useCallback(
+        (formValues: PartialForm<Assessment>) => {
+            console.log('Final values', formValues as Assessment);
+            savePerAssessment(formValues as Assessment);
+        },
+        [savePerAssessment],
+    );
+
     const handleNextTab = () => {
         setCurrentArea(Math.min((currentArea ?? 0) + 1, areas.length));
     };
@@ -164,6 +182,9 @@ export function Component() {
         (question) => question.component.area.id,
     );
 
+    const yesNoQuestions = questionsResponse?.results?.map((i) => i.answers);
+    const totalValue = yesNoQuestions?.length;
+
     return (
         <form
             onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
@@ -182,9 +203,9 @@ export function Component() {
                         className={styles.inputSection}
                     >
                         <ProgressBar
-                            title="Answered 20/100"
+                            title={`Answered ${totalValue}`}
                             value={50}
-                            totalValue={100}
+                            totalValue={totalValue}
                         />
                     </Container>
                 </ExpandableContainer>
