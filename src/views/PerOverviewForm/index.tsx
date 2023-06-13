@@ -1,11 +1,13 @@
-import React, { useMemo, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useMemo, useCallback, useContext } from 'react';
+import { useParams, useNavigate, generatePath } from 'react-router-dom';
 import {
     useForm,
     createSubmitHandler,
     getErrorObject,
     getErrorString,
+    PartialForm,
 } from '@togglecorp/toggle-form';
+import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
@@ -19,11 +21,12 @@ import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
 import { ListResponse, useLazyRequest, useRequest } from '#utils/restRequest';
 import { compareLabel } from '#utils/common';
-import scrollToTop from '#utils/scrollToTop';
 import { Country } from '#types/country';
+import RouteContext from '#contexts/route';
 
 import {
-    PerOverviewFields,
+    PerOverviewFormFields,
+    PerOverviewResponseFields,
     booleanValueSelector,
     TypeOfAssessment,
     overviewSchema,
@@ -41,6 +44,10 @@ export function Component() {
 
     const strings = useTranslation(i18n);
     const alert = useAlertContext();
+    const navigate = useNavigate();
+    const {
+        perAssessmentForm: perAssessmentFormRoute,
+    } = useContext(RouteContext);
 
     const yesNoOptions = useMemo(
         () => [
@@ -49,6 +56,17 @@ export function Component() {
         ],
         [strings],
     );
+
+    const {
+        value,
+        setValue,
+        setFieldValue: onValueChange,
+        error: riskyError,
+        setError,
+        validate,
+    } = useForm(overviewSchema, { value: {} });
+
+    const error = getErrorObject(riskyError);
 
     const {
         pending: fetchingPerOptions,
@@ -66,14 +84,45 @@ export function Component() {
         },
     });
 
+    useRequest<PerOverviewResponseFields>({
+        skip: isNotDefined(perId),
+        url: `api/v2/new-per/${perId}`,
+        onSuccess: (response) => {
+            const {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                id,
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                country_details,
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                created_at,
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                updated_at,
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                user,
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                user_details,
+                ...formValues
+            } = response;
+
+            setValue(formValues);
+        },
+    });
+
     const {
         trigger: savePerOverview,
-    } = useLazyRequest<PerOverviewFields, Partial<PerOverviewFields>>({
-        url: perId ? `api/v2/per-overview/${perId}/` : 'api/v2/new-per/',
-        method: 'POST',
+    } = useLazyRequest<PerOverviewResponseFields, Partial<PerOverviewFormFields>>({
+        url: perId ? `api/v2/new-per/${perId}/` : 'api/v2/new-per/',
+        method: perId ? 'PUT' : 'POST',
         body: (ctx) => ctx,
         onSuccess: (response) => {
-            console.info(response);
+            if (response && isNotDefined(perId) && isDefined(response.id)) {
+                navigate(
+                    generatePath(
+                        perAssessmentFormRoute.absolutePath,
+                        { perId: String(response.id) },
+                    ),
+                );
+            }
 
             alert.show(
                 strings.perFormSaveRequestSuccessMessage,
@@ -103,16 +152,6 @@ export function Component() {
         },
     });
 
-    const {
-        value,
-        setFieldValue: onValueChange,
-        error: riskyError,
-        setError,
-        validate,
-    } = useForm(overviewSchema, { value: {} });
-
-    const error = getErrorObject(riskyError);
-
     const assessmentOptions = useMemo(
         () => (
             assessmentResponse?.results?.map((d) => ({
@@ -126,10 +165,10 @@ export function Component() {
     const countryOptions = useMemo(
         () => (
             countriesResponse?.results
-                .filter(d => d.independent && d.iso)
-                .map(d => ({
-                    value: d.id,
-                    label: d.name,
+                .filter((country) => !!country.independent && !!country.iso)
+                .map((country) => ({
+                    value: country.id,
+                    label: country.name,
                 })).sort(compareLabel) ?? []
         ),
         [countriesResponse],
@@ -150,13 +189,10 @@ export function Component() {
     );
 
     const handleSubmit = useCallback(
-        () => {
-            savePerOverview(value as PerOverviewFields);
+        (formValues: PartialForm<PerOverviewFormFields>) => {
+            savePerOverview(formValues as PerOverviewFormFields);
         },
-        [
-            value,
-            savePerOverview,
-        ],
+        [savePerOverview],
     );
 
     return (
@@ -206,8 +242,8 @@ export function Component() {
                         accept=".docx, pdf"
                         type="file"
                         onChange={handleFileInputChange}
-                    // value={value?.orientation_document}
-                    // error={getErrorString(error?.orientation_document}
+                        // value={value?.orientation_document}
+                        // error={getErrorString(error?.orientation_document}
                     />
                 </InputSection>
             </Container>

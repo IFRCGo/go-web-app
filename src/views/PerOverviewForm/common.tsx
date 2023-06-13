@@ -22,8 +22,7 @@ export interface TypeOfAssessment {
     name: string;
 }
 
-export interface PerOverviewFields {
-    id: string;
+export interface PerOverviewFormFields {
     country: number;
     date_of_orientation: string;
     date_of_assessment: string;
@@ -56,12 +55,26 @@ export interface PerOverviewFields {
     type_of_per_assessment: string;
 }
 
-export type OverviewFormSchema = ObjectSchema<PartialForm<PerOverviewFields>>;
+export interface PerOverviewResponseFields extends PerOverviewFormFields {
+    id: number;
+    country_details: {
+        id: number;
+        name: string;
+    };
+    created_at: string;
+    updated_at: string;
+    user: number | null;
+    user_details: {
+        id: number;
+    } | null;
+}
+
+export type OverviewFormSchema = ObjectSchema<PartialForm<PerOverviewFormFields>>;
 export type OverviewFormSchemaFields = ReturnType<OverviewFormSchema['fields']>;
 
 export const overviewSchema: OverviewFormSchema = {
     fields: (): OverviewFormSchemaFields => ({
-        id: {},
+        country: { required: true },
         type_of_assessment_details: {},
         date_of_orientation: {},
         orientation_document: {},
@@ -86,7 +99,6 @@ export const overviewSchema: OverviewFormSchema = {
         partner_focal_point_phone: {},
         partner_focal_point_organization: {},
         type_of_assessment: {},
-        country: {required: true},
         ns_second_focal_point_name: {},
         ns_second_focal_point_email: {},
         ns_second_focal_point_phone: {},
