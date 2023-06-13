@@ -1,7 +1,5 @@
 import { useMemo, useCallback } from 'react';
 import {
-    sum,
-    isDefined,
     listToGroupList,
     mapToList,
     listToMap,
@@ -26,6 +24,7 @@ import {
     ListResponse,
 } from '#utils/restRequest';
 import { getDatesSeparatedByMonths } from '#utils/chart';
+import { sumSafe } from '#utils/common';
 
 import type { EventItem, AggregateEventResponse } from './types';
 import Map from './Map';
@@ -37,15 +36,6 @@ const getFormattedKey = (dateFromProps: string | Date) => {
     return `${date.getFullYear()}-${date.getMonth()}`;
 };
 
-function sumSafe(list: (number | undefined | null)[] | undefined) {
-    if (!list) {
-        return undefined;
-    }
-
-    const safeList = list.filter(isDefined);
-    return sum(safeList);
-}
-
 const xAxisFormatter = (date: Date) => date.toLocaleString(
     undefined,
     { month: 'short' },
@@ -54,7 +44,8 @@ const xAxisFormatter = (date: Date) => date.toLocaleString(
 const timeSeriesDataKeys = ['events'];
 
 const oneMonthAgo = new Date();
-oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+// Fixme: 2 monthago
+oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 4);
 oneMonthAgo.setHours(0, 0, 0, 0);
 
 const oneYearAgo = new Date();

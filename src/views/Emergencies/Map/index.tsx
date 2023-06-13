@@ -5,11 +5,8 @@ import { generatePath } from 'react-router-dom';
 import {
     _cs,
     isDefined,
-    isNotDefined,
     listToGroupList,
-    mapToMap,
     unique,
-    sum,
     listToMap,
 } from '@togglecorp/fujs';
 import Map, {
@@ -34,9 +31,11 @@ import {
     defaultMapStyle,
     defaultMapOptions,
 } from '#utils/map';
+import {
+    sumSafe,
+} from '#utils/common';
 
 import { Country } from '#types/country';
-
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
@@ -49,13 +48,30 @@ import {
     getLegendOptions,
     optionKeySelector,
     optionLabelSelector,
-    outerCircleLayerOptionsForFinancialRequirements,
+    outerCircleLayerOptionsForNumEvents,
     outerCircleLayerOptionsForPeopleTargeted,
     basePointLayerOptions,
     adminFillLayerOptions,
     adminLabelLayerOptions,
+    RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE,
+    RESPONSE_LEVEL_MIXED_RESPONSE,
+    RESPONSE_LEVEL_WITH_IFRC_RESPONSE,
 } from './utils';
 import styles from './styles.module.css';
+
+function getNumAffected(event: EventItem) {
+    const latestFieldReport = event.field_reports.sort(
+        (a, b) => (
+            new Date(b.updated_at).getTime()
+                - new Date(a.updated_at).getTime()
+        ),
+    )[0];
+
+    return sumSafe([
+        event.num_affected,
+        latestFieldReport?.num_affected,
+    ]);
+}
 
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
@@ -102,7 +118,7 @@ function EmergenciesMap(props: Props) {
         setClickedPointProperties,
     ] = useState<ClickedPoint| undefined>();
 
-    const [scaleBy, setScaleBy] = useInputState<ScaleOption['value']>('peopleTargeted');
+    const [scaleBy, setScaleBy] = useInputState<ScaleOption['value']>('numAffected');
     const strings = useTranslation(i18n);
 
     const [
@@ -183,6 +199,13 @@ function EmergenciesMap(props: Props) {
                                 responseLevel = RESPONSE_LEVEL_WITH_IFRC_RESPONSE;
                             }
                         }
+                        const peopleAffected = sumSafe(
+                            (groupedEvents.map(
+                                (event) => (
+                                    getNumAffected(event.details)
+                                ),
+                            )),
+                        );
 
                         return {
                             type: 'Feature' as const,
@@ -191,6 +214,7 @@ function EmergenciesMap(props: Props) {
                                 id: key,
                                 responseLevel,
                                 numEvents: groupedEvents.length,
+                                peopleAffected,
                             },
                         };
                     }).filter(isDefined) ?? [],
@@ -283,9 +307,9 @@ function EmergenciesMap(props: Props) {
                         key={scaleBy}
                         layerKey="outer-circle"
                         layerOptions={
-                            scaleBy === 'peopleTargeted'
-                                ? outerCircleLayerOptionsForPeopleTargeted
-                                : outerCircleLayerOptionsForFinancialRequirements
+                            scaleBy === 'numEvents'
+                                ? outerCircleLayerOptionsForNumEvents
+                                : outerCircleLayerOptionsForPeopleTargeted
                         }
                     />
                 </MapSource>
@@ -317,7 +341,11 @@ function EmergenciesMap(props: Props) {
                                     heading={event.details.name}
                                     headingLevel={5}
                                 >
-                                    Interesting
+                                    <TextOutput
+                                        label="People Affected"
+                                        value={getNumAffected(event.details)}
+                                        valueType="number"
+                                    />
                                 </Container>
                             ),
                         )}
@@ -332,7 +360,7 @@ function EmergenciesMap(props: Props) {
             <div className={styles.footer}>
                 <div className={styles.left}>
                     <RadioInput
-                        label={strings.explanationBubbleScalePoints}
+                        label={strings.emergenciesScaleByLabel}
                         name={undefined}
                         options={scaleOptions}
                         keySelector={optionKeySelector}
@@ -356,6 +384,9 @@ function EmergenciesMap(props: Props) {
                             </div>
                         </div>
                     ))}
+                </div>
+                <div>
+                    {strings.emergenciesMapDescription}
                 </div>
             </div>
         </Container>

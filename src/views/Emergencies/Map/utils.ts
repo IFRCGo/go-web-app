@@ -2,7 +2,6 @@ import {
     COLOR_BLACK,
     COLOR_RED,
     COLOR_YELLOW,
-    COLOR_ORANGE,
     COLOR_BLUE,
     COLOR_LIGHT_GREY,
     COLOR_DARK_GREY,
@@ -58,14 +57,9 @@ export function getLegendOptions(strings: typeof i18n.strings) {
             color: COLOR_WITH_IFRC_RESPONSE,
         },
         {
-            value: APPEAL_TYPE_EAP,
-            label: strings.explanationBubbleEAP,
-            color: COLOR_EAP,
-        },
-        {
-            value: APPEAL_TYPE_MULTIPLE,
-            label: strings.explanationBubbleMultiple,
-            color: COLOR_MULTIPLE_TYPES,
+            value: RESPONSE_LEVEL_MIXED_RESPONSE,
+            label: strings.emergenciesMapMixResponse,
+            color: COLOR_MIXED_RESPONSE,
         },
     ];
 
@@ -74,15 +68,13 @@ export function getLegendOptions(strings: typeof i18n.strings) {
 
 const circleColor: CirclePaint['circle-color'] = [
     'match',
-    ['get', 'appealType'],
-    APPEAL_TYPE_DREF,
-    COLOR_DREF,
-    APPEAL_TYPE_EMERGENCY,
-    COLOR_EMERGENCY_APPEAL,
-    APPEAL_TYPE_EAP,
-    COLOR_EAP,
-    APPEAL_TYPE_MULTIPLE,
-    COLOR_MULTIPLE_TYPES,
+    ['get', 'responseLevel'],
+    RESPONSE_LEVEL_WITH_IFRC_RESPONSE,
+    COLOR_WITH_IFRC_RESPONSE,
+    RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE,
+    COLOR_WITHOUT_IFRC_RESPONSE,
+    RESPONSE_LEVEL_MIXED_RESPONSE,
+    COLOR_MIXED_RESPONSE,
     COLOR_BLACK,
 ];
 
@@ -102,12 +94,29 @@ const baseOuterCirclePaint: CirclePaint = {
     'circle-opacity': 0.4,
 };
 
-const outerCirclePaintForFinancialRequirements: CirclePaint = {
+const outerCirclePaintForNumEvents: CirclePaint = {
     ...baseOuterCirclePaint,
     'circle-radius': [
         'interpolate',
         ['linear', 1],
-        ['get', 'financialRequirements'],
+        ['get', 'numEvents'],
+        2,
+        7,
+        4,
+        9,
+        8,
+        11,
+        16,
+        15,
+    ],
+};
+
+const outerCirclePaintForPeopleAffected: CirclePaint = {
+    ...baseOuterCirclePaint,
+    'circle-radius': [
+        'interpolate',
+        ['linear', 1],
+        ['get', 'peopleAffected'],
         1000,
         7,
         10000,
@@ -119,42 +128,25 @@ const outerCirclePaintForFinancialRequirements: CirclePaint = {
     ],
 };
 
-const outerCirclePaintForPeopleTargeted: CirclePaint = {
-    ...baseOuterCirclePaint,
-    'circle-radius': [
-        'interpolate',
-        ['linear', 1],
-        ['get', 'peopleTargeted'],
-        1000,
-        7,
-        10000,
-        9,
-        100000,
-        11,
-        1000000,
-        15,
-    ],
-};
-
-export const outerCircleLayerOptionsForFinancialRequirements: Omit<CircleLayer, 'id'> = {
+export const outerCircleLayerOptionsForNumEvents: Omit<CircleLayer, 'id'> = {
     type: 'circle',
-    paint: outerCirclePaintForFinancialRequirements,
+    paint: outerCirclePaintForNumEvents,
 };
 
 export const outerCircleLayerOptionsForPeopleTargeted: Omit<CircleLayer, 'id'> = {
     type: 'circle',
-    paint: outerCirclePaintForPeopleTargeted,
+    paint: outerCirclePaintForPeopleAffected,
 };
 
 export interface ScaleOption {
     label: string;
-    value: 'financialRequirements' | 'peopleTargeted';
+    value: 'numAffected' | 'numEvents';
 }
 
 export function getScaleOptions(strings: typeof i18n.strings) {
     const scaleOptions: ScaleOption[] = [
-        { value: 'peopleTargeted', label: strings.explanationBubblePopulationLabel },
-        { value: 'financialRequirements', label: strings.explanationBubbleAmountLabel },
+        { value: 'numAffected', label: strings.emergenciesScaleByNumPeopleAffected },
+        { value: 'numEvents', label: strings.emergenciesScaleByNumEmergencies },
     ];
 
     return scaleOptions;

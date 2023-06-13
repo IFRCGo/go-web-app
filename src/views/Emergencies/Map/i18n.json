@@ -8,6 +8,10 @@
         "emergenciesMapWithoutIFRC":"Without IFRC response*",
         "emergenciesMapWithIFRC":"With IFRC response",
         "emergenciesMapMixResponse":"Mixed Level of response",
-        "emergenciesMapDescription":"*IFRC response indicates the existence of appeal(s) and/or DREF(s) for a given emergency."
+        "emergenciesMapDescription":"*IFRC response indicates the existence of appeal(s) and/or DREF(s) for a given emergency.",
+
+        "emergenciesScaleByNumPeopleAffected":"Number of people affected",
+        "emergenciesScaleByNumEmergencies":"Number of emergencies",
+        "emergenciesScaleByLabel": "Scale points by"
     }
 }
