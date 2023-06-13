@@ -1,5 +1,6 @@
 .navigation-tab {
     --border-color: var(--go-ui-color-gray-30);
+    --border-width: var(--go-ui-width-separator-thin);
 
     display: inline-flex;
     align-items: stretch;
@@ -10,7 +11,7 @@
 
     .dummy {
         flex-grow: 1;
-        border-bottom: var(--go-ui-width-separator-thin) solid var(--border-color);
+        border-bottom: var(--border-width) solid var(--border-color);
         width: var(--go-ui-spacing-xs);
     }
 
@@ -18,7 +19,7 @@
         display: flex;
         align-items: center;
         flex-grow: 1;
-        border: var(--go-ui-width-separator-thin) solid transparent;
+        border: var(--border-width) solid transparent;
         text-align: center;
     }
 
@@ -81,7 +82,7 @@
 
         .step-circle {
             transition: var(--go-ui-duration-transition-slow) border-color ease-in-out;
-            border: var(--go-ui-width-separator-thin) solid transparent;
+            border: var(--border-width) solid transparent;
             border-radius: 50%;
             background-color: var(--go-ui-color-background);
             padding: calc(var(--go-ui-spacing-px)* 4);

@@ -4,8 +4,6 @@
     overflow-x: auto;
 
     &.primary {
-        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
-
         .start-dummy-content,
         .end-dummy-content {
             align-self: flex-end;

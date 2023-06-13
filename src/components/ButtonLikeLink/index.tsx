@@ -1,3 +1,4 @@
+// FIXME: don't use it directly
 import { Link, LinkProps } from 'react-router-dom';
 
 import useButtonFeatures, {
