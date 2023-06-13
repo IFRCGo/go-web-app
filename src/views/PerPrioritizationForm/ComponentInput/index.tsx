@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { _cs } from '@togglecorp/fujs';
 import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
@@ -15,6 +14,7 @@ import {
     PartialPrioritization,
     PerFormComponentItem,
 } from '../common';
+import QuestionOutput from './QuestionOutput';
 
 import styles from './styles.module.css';
 
@@ -69,8 +69,9 @@ function ComponentsInput(props: Props) {
 
     return (
         <ExpandableContainer
+            className={styles.componentInput}
             onExpansionChange={setExpanded}
-            className={_cs(styles.customActivity, styles.errored)}
+            headingContainerClassName={styles.header}
             heading={`${component?.component_num}. ${component.title}`}
             icons={(
                 <Checkbox
@@ -81,7 +82,6 @@ function ComponentsInput(props: Props) {
             )}
             actions={(
                 <TextInput
-                    className={styles.improvementSelect}
                     name="justification"
                     value={value?.justification}
                     onChange={onFieldChange}
@@ -95,13 +95,13 @@ function ComponentsInput(props: Props) {
             )}
             {perFormQuestionResponse && perFormQuestionResponse.results.map(
                 (perFormQuestion) => (
-                    <div key={perFormQuestion.id}>
-                        {perFormQuestion.question}
-                    </div>
+                    <QuestionOutput
+                        key={perFormQuestion.id}
+                        question={perFormQuestion}
+                    />
                 ),
             )}
         </ExpandableContainer>
-
     );
 }
 

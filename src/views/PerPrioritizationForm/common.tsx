@@ -3,6 +3,10 @@ import {
     PartialForm,
 } from '@togglecorp/toggle-form';
 
+export interface PerFormQuestionItem {
+    question: string;
+}
+
 export interface PerFormComponentItem {
     area: number;
     component_letter: string;

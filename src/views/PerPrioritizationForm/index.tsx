@@ -86,7 +86,7 @@ export function Component() {
     return (
         <form
             onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
-            className={styles.prioritizationTable}
+            className={styles.perPrioritizationForm}
         >
             {perFormComponentPending && (
                 <BlockLoading />

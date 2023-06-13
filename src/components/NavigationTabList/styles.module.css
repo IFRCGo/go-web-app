@@ -3,11 +3,14 @@
     position: relative;
     overflow-x: auto;
 
-    .start-dummy-content,
-    .end-dummy-content {
-        align-self: flex-end;
-        flex-grow: 1;
+    &.primary {
         border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
+
+        .start-dummy-content,
+        .end-dummy-content {
+            align-self: flex-end;
+            flex-grow: 1;
+        }
     }
 
     &.secondary {
@@ -23,5 +26,14 @@
         justify-content: flex-start;
         gap: var(--go-ui-spacing-md);
         width: fit-content;
+    }
+
+    &.step {
+        gap: var(--go-ui-spacing-lg);
+        .start-dummy-content,
+        .end-dummy-content {
+            align-self: flex-end;
+            flex-grow: 1;
+        }
     }
 }

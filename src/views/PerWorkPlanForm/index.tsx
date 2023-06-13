@@ -1,9 +1,7 @@
 import { useCallback } from 'react';
 import { randomString, _cs } from '@togglecorp/fujs';
 import {
-    EntriesAsList,
     PartialForm,
-    SetBaseValueArg,
     createSubmitHandler,
     useForm,
 } from '@togglecorp/toggle-form';
@@ -13,22 +11,32 @@ import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import Button from '#components/Button';
-import { WorkPlanForm } from '../common';
 import TextArea from '#components/TextArea';
 
-import usePerProcessOptions, { PartialWorkPlan, workplanSchema } from '../usePerProcessOptions';
-import { useLazyRequest } from '#utils/restRequest';
-import useAlertContext from '#hooks/useAlert';
+import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
+import {
+    PartialWorkPlan,
+    workplanSchema,
+    WorkPlanForm,
+} from './common';
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
+
+interface FormStatusOptions {
+    workplanstatus: {
+        key: number;
+        value: string;
+    }[];
+}
 
 interface Props {
     className?: string;
 }
 
-function WorkPlanForm(props: Props) {
+// eslint-disable-next-line import/prefer-default-export
+export function Component(props: Props) {
     const strings = useTranslation(i18n);
 
     const {
@@ -40,26 +48,28 @@ function WorkPlanForm(props: Props) {
         validate,
         setFieldValue,
         setError: onErrorSet,
-    } = useForm(workplanSchema,
+    } = useForm(
+        workplanSchema,
         {
             value: {},
-        }
+        },
     );
 
     const {
-        workPlanStatusOptions,
-    } = usePerProcessOptions();
+        response: formOptions,
+    } = useRequest<FormStatusOptions>({
+        url: 'api/v2/per-options/',
+    });
+
+    const workPlanStatusOptions = formOptions?.workplanstatus;
 
     const handleSubmit = useCallback((finalValues: PartialWorkPlan) => {
         console.warn('finalValues', finalValues);
     }, []);
 
     const handleAddCustomActivity = useCallback(() => {
-        const id = randomString();
         const newList: PartialForm<WorkPlanForm> = {
-            id,
         };
-
     }, []);
 
     return (
@@ -100,20 +110,18 @@ function WorkPlanForm(props: Props) {
                                     value={value?.actions}
                                     onChange={setFieldValue}
                                     placeholder="List the actions"
-                                >
-                                </TextArea>
+                                />
                             </td>
                             <td>
                                 <DateInput
                                     name="due_date"
                                     value={value?.due_date}
                                     onChange={setFieldValue}
-                                >
-                                </DateInput>
+                                />
                             </td>
                             <td>
                                 <SelectInput
-                                    name='status'
+                                    name="status"
                                     options={undefined}
                                     onChange={setFieldValue}
                                     value={undefined}
@@ -121,11 +129,11 @@ function WorkPlanForm(props: Props) {
                             </td>
                             <td>
                                 <SelectInput
-                                    name='status'
+                                    name="status"
                                     options={workPlanStatusOptions}
                                     onChange={setFieldValue}
-                                    keySelector={(d) => d.value}
-                                    labelSelector={(d) => d.label}
+                                    keySelector={(d) => d.key}
+                                    labelSelector={(d) => d.value}
                                     value={value?.status}
                                 />
                             </td>
@@ -135,7 +143,7 @@ function WorkPlanForm(props: Props) {
                                     className={styles.removeButton}
                                     name="select"
                                     // onRemove={onRemove}
-                                    variant="action"
+                                    variant="tertiary"
                                 >
                                     <IoTrash />
                                 </Button>
@@ -156,4 +164,4 @@ function WorkPlanForm(props: Props) {
     );
 }
 
-export default WorkPlanForm;
+Component.displayName = 'PerWorkPlan';

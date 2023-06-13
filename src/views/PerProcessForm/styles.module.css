@@ -1,19 +1,5 @@
-
-.tab-list {
-    justify-content: center;
-    margin: var(--go-ui-spacing-sm);
-    width: 100%;
-}
-
-.error-message {
-    opacity: var(--go-ui-opacity-70);
-    padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-sm);
-
-    h3 {
-        color: var(--go-ui-color-primary-red);
-    }
-
-    p {
-        margin: var(--go-ui-spacing-none);
+.per-process-form {
+    .tab-list {
+        width: 100%;
     }
 }

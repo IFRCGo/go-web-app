@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { ChevronDownLineIcon, ChevronUpLineIcon } from '@ifrc-go/icons';
 

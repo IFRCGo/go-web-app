@@ -10,8 +10,11 @@ import {
     _cs,
 } from '@togglecorp/fujs';
 
-import { PerFormQuestionItem, Area } from '../../common';
-import { PartialAssessment } from '../../usePerProcessOptions';
+import {
+    PerFormQuestionItem,
+    PerFormArea,
+    PartialAssessment,
+} from '../common';
 import ComponentInput from './ComponentInput';
 
 import styles from './styles.module.css';
@@ -26,7 +29,7 @@ interface Props {
     value: Value;
     index: number | undefined;
     questions: PerFormQuestionItem[] | undefined;
-    area: Area;
+    area: PerFormArea;
 }
 
 function AreaInput(props: Props) {

@@ -2,39 +2,11 @@ import {
     ObjectSchema,
     PartialForm,
 } from '@togglecorp/toggle-form';
-import {
-    NumericValueOption,
-    BooleanValueOption,
-    StringValueOption,
-} from '#types/common';
-
-export const SELF_ASSESSMENT = 1;
-export const SIMULATION_ASSESSMENT = 2;
-export const OPERATIONAL_ASSESSMENT = 3;
-export const POST_OPERATIONAL_ASSESSMENT = 4;
-
-export interface FormComponentStatus {
-    key: string;
-    value: string;
-}
 
 export interface PerFormAnswer {
     id: string;
     text: string;
 }
-
-export type Option = NumericValueOption | BooleanValueOption | StringValueOption;
-
-export const emptyOptionList: Option[] = [];
-export const emptyStringOptionList: StringValueOption[] = [];
-export const emptyNumericOptionList: NumericValueOption[] = [];
-export const emptyBooleanOptionList: BooleanValueOption[] = [];
-
-export const optionKeySelector = (o: Option) => o.value;
-export const numericOptionKeySelector = (o: NumericValueOption) => o.value;
-export const stringOptionKeySelector = (o: StringValueOption) => o.value;
-export const booleanOptionKeySelector = (o: BooleanValueOption) => o.value;
-export const optionLabelSelector = (o: Option) => o.label;
 
 export function answerKeySelector(answer: PerFormAnswer) {
     return answer.id;
@@ -49,26 +21,14 @@ export interface TypeOfAssessment {
     name: string;
 }
 
-export interface Component {
-    area: Area;
-    title: string;
-    component: string;
-    component_letter: string;
-    component_num: number;
-    description: string;
-    id: string;
-    question: string;
-    status: string;
-}
-
-interface PerArea {
-    area_num: number;
+export interface PerFormArea {
     id: number;
     title: string;
+    area_num: number;
 }
 
 export interface PerFormComponentItem {
-    area: PerArea;
+    area: PerFormArea;
     id: number;
     component_id: number;
     component_num: number;
@@ -90,12 +50,6 @@ export interface PerFormQuestionItem {
     is_epi: boolean;
     question: string;
     question_num: number;
-}
-
-export interface Area {
-    id: number;
-    title: string;
-    area_num: number;
 }
 
 export interface ConsiderationResponses {

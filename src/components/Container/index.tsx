@@ -18,6 +18,7 @@ export interface Props {
     footerClassName?: string;
     footerActions?: React.ReactNode;
     headerClassName?: string;
+    headingContainerClassName?: string;
     headerDescription?: React.ReactNode;
     headerDescriptionClassName?: string;
     headerElementRef?: HeaderProps['elementRef'];
@@ -39,6 +40,7 @@ function Container(props: Props) {
         footerContentClassName,
         footerIcons,
         headerClassName,
+        headingContainerClassName,
         headerDescription,
         headerDescriptionClassName,
         headerElementRef,
@@ -61,6 +63,7 @@ function Container(props: Props) {
                 headingLevel={headingLevel}
                 icons={icons}
                 childrenContainerClassName={headerDescriptionClassName}
+                headingContainerClassName={headingContainerClassName}
             >
                 {headerDescription}
             </Header>

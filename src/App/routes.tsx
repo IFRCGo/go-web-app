@@ -566,7 +566,7 @@ const perProcessForm = customWrapRoute({
         visibility: 'is-authenticated',
     },
 });
- 
+
 const newPerOverviewForm = customWrapRoute({
     path: 'new',
     component: {
@@ -623,6 +623,20 @@ const perPrioritizationForm = customWrapRoute({
     },
 });
 
+const perWorkPlanForm = customWrapRoute({
+    path: ':perId/work-plan',
+    component: {
+        render: () => import('#views/PerWorkPlanForm'),
+        props: {},
+    },
+    parent: perProcessForm,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Per Process Form',
+        visibility: 'is-authenticated',
+    },
+});
+
 const wrappedRoutes = {
     root,
     login,
@@ -667,6 +681,7 @@ const wrappedRoutes = {
     newPerOverviewForm,
     perAssessmentForm,
     perPrioritizationForm,
+    perWorkPlanForm,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

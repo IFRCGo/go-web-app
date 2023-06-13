@@ -9,8 +9,8 @@ import ExpandableContainer from '#components/ExpandableContainer';
 import {
     PerFormComponentItem,
     PerFormQuestionItem,
-} from '#views/PerProcessForm/common';
-import { PartialAssessment } from '#views/PerProcessForm/usePerProcessOptions';
+    PartialAssessment,
+} from '../../common';
 import QuestionInput from './QuestionInput';
 
 import styles from './styles.module.css';

@@ -41,7 +41,6 @@ interface StackedProgressBarProps {
 }
 
 function StackedProgressBar(props: StackedProgressBarProps) {
-
     const { values } = props;
 
     const fixedWidth = 100;
@@ -52,11 +51,17 @@ function StackedProgressBar(props: StackedProgressBarProps) {
             <div
                 className={styles.progress}
                 style={{
-                    width: `100`,
+                    width: '100',
                     backgroundColor: '#011E41',
                 }}
             />
-            <Bar value={100} label={''} {...values} width={fixedWidth} />
+            <Bar
+                value={100}
+                label=""
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...values}
+                width={fixedWidth}
+            />
         </>
     );
 }

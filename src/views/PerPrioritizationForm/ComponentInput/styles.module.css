@@ -1,18 +1,5 @@
-.custom-activity {
-    border-top: var(--go-ui-width-separator-md) solid transparent;
-    background-color: var(--go-ui-color-background);
-
-    .improvement-select {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
+.component-input {
+    .header {
+        flex-wrap: nowrap;
     }
-}
-
-.dot {
-    display: inline-block;
-    border-radius: var(--go-ui-border-radius-full);
-    background-color: var(--go-ui-color-gray-10);
-    width: var(--go-ui-width-separator-dense);
-    height: var(--go-ui-width-separator-dense);
 }

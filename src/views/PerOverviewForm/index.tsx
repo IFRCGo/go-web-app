@@ -21,37 +21,19 @@ import { ListResponse, useLazyRequest, useRequest } from '#utils/restRequest';
 import { compareLabel } from '#utils/common';
 import scrollToTop from '#utils/scrollToTop';
 import { Country } from '#types/country';
-import {
-    NumericValueOption,
-    StringValueOption,
-} from '#types/common';
 
 import {
     PerOverviewFields,
-    booleanOptionKeySelector,
-    optionLabelSelector,
-    emptyNumericOptionList,
-    emptyStringOptionList,
+    booleanValueSelector,
     TypeOfAssessment,
     overviewSchema,
+    numericValueSelector,
+    stringValueSelector,
+    stringLabelSelector,
 } from './common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-function numericValueOptionKeySelector<T extends NumericValueOption>(option: T) {
-    return option.value;
-}
-function numericValueOptionLabelSelector<T extends NumericValueOption>(option: T) {
-    return option.label;
-}
-
-function stringValueOptionKeySelector<T extends StringValueOption>(option: T) {
-    return option.value;
-}
-function stringValueOptionLabelSelector<T extends StringValueOption>(option: T) {
-    return option.label;
-}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -133,7 +115,7 @@ export function Component() {
             assessmentResponse?.results?.map((d) => ({
                 value: d.id,
                 label: d.name,
-            })).sort(compareLabel) ?? emptyStringOptionList
+            })).sort(compareLabel) ?? []
         ),
         [assessmentResponse],
     );
@@ -141,10 +123,10 @@ export function Component() {
     const nationalSocietyOptions = useMemo(
         () => {
             if (!countriesResponse) {
-                return emptyNumericOptionList;
+                return [];
             }
 
-            const ns: NumericValueOption[] = countriesResponse.results
+            const ns = countriesResponse.results
                 .filter((d) => d.independent && d.society_name)
                 .map((d) => ({
                     value: d.id,
@@ -196,8 +178,8 @@ export function Component() {
                         name="national_society"
                         onChange={onValueChange}
                         options={nationalSocietyOptions}
-                        keySelector={numericValueOptionKeySelector}
-                        labelSelector={numericValueOptionLabelSelector}
+                        keySelector={numericValueSelector}
+                        labelSelector={stringLabelSelector}
                         value={value?.national_society}
                         error={getErrorString(error?.national_society)}
                     />
@@ -255,8 +237,8 @@ export function Component() {
                     <SelectInput
                         name="type_of_assessment"
                         options={assessmentOptions}
-                        keySelector={stringValueOptionKeySelector}
-                        labelSelector={stringValueOptionLabelSelector}
+                        keySelector={stringValueSelector}
+                        labelSelector={stringLabelSelector}
                         onChange={onValueChange}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
@@ -279,8 +261,8 @@ export function Component() {
                     <SelectInput
                         name="type_of_per_assessment"
                         options={assessmentOptions}
-                        keySelector={stringValueOptionKeySelector}
-                        labelSelector={stringValueOptionLabelSelector}
+                        keySelector={stringValueSelector}
+                        labelSelector={stringLabelSelector}
                         onChange={onValueChange}
                         value={value?.type_of_per_assessment}
                         error={getErrorString(error?.type_of_per_assessment)}
@@ -314,8 +296,8 @@ export function Component() {
                     <RadioInput
                         name="is_epi"
                         options={yesNoOptions}
-                        keySelector={booleanOptionKeySelector}
-                        labelSelector={optionLabelSelector}
+                        keySelector={booleanValueSelector}
+                        labelSelector={stringLabelSelector}
                         value={value?.is_epi}
                         onChange={onValueChange}
                         error={error?.is_epi}
@@ -328,8 +310,8 @@ export function Component() {
                     <RadioInput
                         name="assess_urban_aspect_of_country"
                         options={yesNoOptions}
-                        keySelector={booleanOptionKeySelector}
-                        labelSelector={optionLabelSelector}
+                        keySelector={booleanValueSelector}
+                        labelSelector={stringLabelSelector}
                         value={value.assess_urban_aspect_of_country}
                         onChange={onValueChange}
                         error={error?.assess_urban_aspect_of_country}
@@ -342,8 +324,8 @@ export function Component() {
                     <RadioInput
                         name="assess_climate_environment_of_country"
                         options={yesNoOptions}
-                        keySelector={booleanOptionKeySelector}
-                        labelSelector={optionLabelSelector}
+                        keySelector={booleanValueSelector}
+                        labelSelector={stringLabelSelector}
                         value={value?.assess_climate_environment_of_country}
                         onChange={onValueChange}
                         error={error?.assess_climate_environment_of_country}

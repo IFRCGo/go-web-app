@@ -4,6 +4,7 @@ import {
     NavLink,
     NavLinkProps,
 } from 'react-router-dom';
+import { CheckLineIcon } from '@ifrc-go/icons';
 
 import NavigationTabContext from '#contexts/navigation-tab';
 
@@ -31,6 +32,7 @@ function NavigationTab(props: Props) {
         variant === 'primary' && styles.primary,
         variant === 'secondary' && styles.secondary,
         variant === 'tertiary' && styles.tertiary,
+        variant === 'step' && styles.step,
         className,
     );
 
@@ -50,6 +52,13 @@ function NavigationTab(props: Props) {
 
     const navChild = (
         <>
+            {variant === 'step' && (
+                <div className={styles.stepCircle}>
+                    <div className={styles.innerCircle}>
+                        <CheckLineIcon className={styles.icon} />
+                    </div>
+                </div>
+            )}
             {variant === 'primary' && (
                 <div className={styles.dummy} />
             )}

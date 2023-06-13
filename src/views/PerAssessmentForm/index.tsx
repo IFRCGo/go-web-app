@@ -31,7 +31,7 @@ import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 
 import {
-    Area,
+    PerFormArea,
     PerFormQuestionItem,
     assessmentSchema,
     PartialAssessment,
@@ -75,7 +75,7 @@ export function Component() {
 
     const alert = useAlert();
 
-    const [areas, setAreas] = useState<Area[]>([]);
+    const [areas, setAreas] = useState<PerFormArea[]>([]);
     const [currentArea, setCurrentArea] = useState<number | undefined>();
 
     const {

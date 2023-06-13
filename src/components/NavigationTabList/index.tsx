@@ -36,16 +36,13 @@ export default function TabList(props: Props) {
                     variant === 'primary' && styles.primary,
                     variant === 'secondary' && styles.secondary,
                     variant === 'tertiary' && styles.tertiary,
+                    variant === 'step' && styles.step,
                 )}
                 role="tablist"
             >
-                {variant === 'primary' && (
-                    <div className={styles.startDummyContent} />
-                )}
+                <div className={styles.startDummyContent} />
                 {children}
-                {variant === 'primary' && (
-                    <div className={styles.endDummyContent} />
-                )}
+                <div className={styles.endDummyContent} />
             </div>
         </NavigationTabContext.Provider>
     );

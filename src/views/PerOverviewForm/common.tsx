@@ -2,31 +2,20 @@ import {
     ObjectSchema,
     PartialForm,
 } from '@togglecorp/toggle-form';
-import {
-    NumericValueOption,
-    BooleanValueOption,
-    StringValueOption,
-} from '#types/common';
-import {
-    emailCondition,
-} from '#utils/form';
+import { emailCondition } from '#utils/form';
 
-export const SELF_ASSESSMENT = 1;
-export const SIMULATION_ASSESSMENT = 2;
-export const OPERATIONAL_ASSESSMENT = 3;
-export const POST_OPERATIONAL_ASSESSMENT = 4;
-
-export type Option = NumericValueOption | BooleanValueOption | StringValueOption;
-export const emptyOptionList: Option[] = [];
-export const emptyStringOptionList: StringValueOption[] = [];
-export const emptyNumericOptionList: NumericValueOption[] = [];
-export const emptyBooleanOptionList: BooleanValueOption[] = [];
-
-export const optionKeySelector = (o: Option) => o.value;
-export const numericOptionKeySelector = (o: NumericValueOption) => o.value;
-export const stringOptionKeySelector = (o: StringValueOption) => o.value;
-export const booleanOptionKeySelector = (o: BooleanValueOption) => o.value;
-export const optionLabelSelector = (o: Option) => o.label;
+export function booleanValueSelector<T extends { value: boolean }>(option: T) {
+    return option.value;
+}
+export function numericValueSelector<T extends { value: number }>(option: T) {
+    return option.value;
+}
+export function stringValueSelector<T extends { value: string }>(option: T) {
+    return option.value;
+}
+export function stringLabelSelector<T extends { label: string }>(option: T) {
+    return option.label;
+}
 
 export interface TypeOfAssessment {
     id: string;

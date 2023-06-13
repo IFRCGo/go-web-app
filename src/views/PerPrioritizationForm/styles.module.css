@@ -1,69 +1,9 @@
-.custom-activity {
-    border-top: var(--go-ui-width-separator-md) solid transparent;
-    background-color: var(--go-ui-color-background);
+.per-prioritization-form {
+    color: inherit;
 
-    /* .improvement-select {
-        width: $global-spacing-table;
-    } */
-
-    .input-section {
+    .actions {
         display: flex;
-        background-color: var(--go-ui-color-background);
-        overflow-y: visible;
-
-        .question-content {
-            display: flex;
-            gap: var(--go-ui-spacing-md);
-
-            .note-section {
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-            }
-
-            .answers {
-                display: flex;
-                gap: var(--go-ui-spacing-xs);
-            }
-        }
-    }
-}
-
-.component-title {
-    display: flex;
-    justify-content: space-between;
-}
-
-.actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--go-ui-spacing-xl) var(--go-ui-spacing-xs);
-
-    >* {
-        margin: 0 var(--go-ui-spacing-sm);
-    }
-}
-
-.prioritization-table {
-    .content {
-        table {
-            width: 100%;
-
-            th {
-                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-primary-gray);
-                background-color: var(--go-ui-color-background);
-                padding: var(--go-ui-spacing-sm);
-                text-align: left;
-            }
-
-            td {
-                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-primary-gray);
-                padding: var(--go-ui-spacing-md);
-            }
-        }
-    }
-    .responsibility-section {
-        display: flex;
+        justify-content: center;
+        padding: var(--go-ui-spacing-lg);
     }
 }
