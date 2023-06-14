@@ -1,24 +1,5 @@
-.strategic-priorities-table {
-    .content {
-        padding: 0!important;
-
-        table {
-            width: 100%;
-
-            th {
-                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-primary-gray);
-                background-color: var(--go-ui-color-background);
-                padding: var(--go-ui-spacing-sm);
-                text-align: left;
-            }
-
-            td {
-                border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-primary-gray);
-                padding: var(--go-ui-spacing-md);
-            }
-        }
-    }
-    .responsibility-section {
-        display: flex;
-    }
+.work-plan-table {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

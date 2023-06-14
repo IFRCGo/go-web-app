@@ -23,6 +23,7 @@ import {
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
+import InputSection from '#components/InputSection';
 
 interface FormStatusOptions {
     workplanstatus: {
@@ -77,9 +78,9 @@ export function Component(props: Props) {
             onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
         >
             <Container
-                className={_cs(styles.strategicPrioritiesTable, className)}
+                childrenContainerClassName={styles.workPlanTable}
             >
-                <table>
+                {/* <table>
                     <thead>
                         <tr>
                             <th>
@@ -99,67 +100,50 @@ export function Component(props: Props) {
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                Component 1:
-                            </td>
-                            <td>
-                                <TextArea
-                                    name="actions"
-                                    value={value?.actions}
-                                    onChange={setFieldValue}
-                                    placeholder="List the actions"
-                                />
-                            </td>
-                            <td>
-                                <DateInput
-                                    name="due_date"
-                                    value={value?.due_date}
-                                    onChange={setFieldValue}
-                                />
-                            </td>
-                            <td>
-                                <SelectInput
-                                    name="status"
-                                    options={undefined}
-                                    onChange={setFieldValue}
-                                    value={undefined}
-                                />
-                            </td>
-                            <td>
-                                <SelectInput
-                                    name="status"
-                                    options={workPlanStatusOptions}
-                                    onChange={setFieldValue}
-                                    keySelector={(d) => d.key}
-                                    labelSelector={(d) => d.value}
-                                    value={value?.status}
-                                />
-                            </td>
-
-                            <td>
-                                <Button
-                                    className={styles.removeButton}
-                                    name="select"
-                                    // onRemove={onRemove}
-                                    variant="tertiary"
-                                >
-                                    <IoTrash />
-                                </Button>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <Button
-                        name={undefined}
-                        variant="secondary"
-                        onClick={handleAddCustomActivity}
-                        icons={<IoAdd />}
-                    >
-                        Add row
-                    </Button>
-                </table>
+                     */}
+                Component 1:
+                <TextArea
+                    name="actions"
+                    value={value?.actions}
+                    onChange={setFieldValue}
+                    placeholder="List the actions"
+                />
+                <DateInput
+                    name="due_date"
+                    value={value?.due_date}
+                    onChange={setFieldValue}
+                />
+                <SelectInput
+                    name="status"
+                    options={undefined}
+                    onChange={setFieldValue}
+                    value={undefined}
+                />
+                <SelectInput
+                    name="status"
+                    options={workPlanStatusOptions}
+                    onChange={setFieldValue}
+                    keySelector={(d) => d.key}
+                    labelSelector={(d) => d.value}
+                    value={value?.status}
+                />
+                <Button
+                    className={styles.removeButton}
+                    name="select"
+                    // onRemove={onRemove}
+                    variant="tertiary"
+                >
+                    <IoTrash />
+                </Button>
             </Container>
+            <Button
+                name={undefined}
+                variant="secondary"
+                onClick={handleAddCustomActivity}
+                icons={<IoAdd />}
+            >
+                Add row
+            </Button>
         </form>
     );
 }

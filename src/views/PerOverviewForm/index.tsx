@@ -377,7 +377,7 @@ export function Component() {
                         readOnly
                         name="assessment_number"
                         value={value?.assessment_number}
-                        // onChange={onValueChange}
+                        onChange={onValueChange}
                         error={error?.assessment_number}
                     />
                 </InputSection>

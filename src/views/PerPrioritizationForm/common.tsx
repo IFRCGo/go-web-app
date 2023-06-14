@@ -24,6 +24,11 @@ export interface Prioritization {
         justification: string;
     }[];
 }
+
+export interface PrioritizationResponseFields extends Prioritization {
+    id: number;
+}
+
 export type PartialPrioritization = PartialForm<Prioritization, 'component_id'>
 export type PrioritizationSchema = ObjectSchema<PartialPrioritization>;
 export type PrioritizationSchemaFields = ReturnType<PrioritizationSchema['fields']>;

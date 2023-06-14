@@ -25,6 +25,7 @@ export interface WorkPlanForm {
     component_responses: WorkPlanComponentItem[];
     custom_component_responses: WorkPlanCustomItem[];
 }
+
 export type PartialWorkPlan = PartialForm<WorkPlanForm, 'component_id' | 'supported_by_id'>;
 export type WorkPlanFormScheme = ObjectSchema<PartialWorkPlan>;
 export type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
