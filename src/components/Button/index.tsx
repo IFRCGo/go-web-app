@@ -21,7 +21,7 @@ function Button<N>(props: Props<N>) {
         name,
         onClick,
         variant,
-        type,
+        type = 'button',
         ...otherProps
     } = props;
 
