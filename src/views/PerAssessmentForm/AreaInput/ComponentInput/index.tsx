@@ -40,7 +40,7 @@ function ComponentInput(props: Props) {
         index,
         onChange,
         () => ({
-            component_id: component.id,
+            component: component.id,
         }),
     );
 
@@ -50,7 +50,7 @@ function ComponentInput(props: Props) {
 
     const questionResponseMapping = listToMap(
         value?.question_responses ?? [],
-        (questionResponse) => questionResponse.question_id,
+        (questionResponse) => questionResponse.question,
         (questionResponse, _, componentResponseIndex) => ({
             index: componentResponseIndex,
             value: questionResponse,

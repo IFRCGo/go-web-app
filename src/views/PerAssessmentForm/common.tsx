@@ -53,25 +53,25 @@ export interface PerFormQuestionItem {
 }
 
 export interface ConsiderationResponses {
-    consideration_id: string;
+    consideration: string;
     notes: string;
 }
 
 export interface QuestionResponse {
-    question_id: number;
-    answer_id: string;
+    question: number;
+    answer: string;
     notes: string;
 }
 
 export interface ComponentResponse {
-    component_id: number;
-    rating_id: string;
+    component: number;
+    rating: string;
     question_responses: QuestionResponse[];
     consideration_responses: ConsiderationResponses[];
 }
 
 export interface AreaResponse {
-    area_id: number;
+    area: number;
     component_responses: ComponentResponse[];
 }
 
@@ -85,7 +85,7 @@ export interface PerAssessmentResponseFields extends Assessment {
     id: number;
 }
 
-export type PartialAssessment = PartialForm<Assessment, 'area_id' | 'component_id' | 'question_id' | 'consideration_id'>;
+export type PartialAssessment = PartialForm<Assessment, 'area' | 'component' | 'question' | 'consideration'>;
 type AssessmentSchema = ObjectSchema<PartialAssessment>
 type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 
@@ -94,37 +94,33 @@ export const assessmentSchema: AssessmentSchema = {
         overview: {},
         is_draft: {},
         area_responses: {
-            keySelector: (areaResponse) => areaResponse.area_id,
+            keySelector: (areaResponse) => areaResponse.area,
             member: () => ({
                 fields: () => ({
-                    id: {},
-                    area_id: {},
+                    area: {},
                     component_responses: {
-                        keySelector: (componentResponse) => componentResponse.component_id,
+                        keySelector: (componentResponse) => componentResponse.component,
                         member: () => ({
                             fields: () => ({
-                                id: {},
-                                component_id: {},
-                                rating_id: {},
+                                component: {},
+                                rating: {},
                                 question_responses: {
-                                    keySelector: (questionResponse) => questionResponse.question_id,
+                                    keySelector: (questionResponse) => questionResponse.question,
                                     member: () => ({
                                         fields: () => ({
-                                            id: {},
-                                            question_id: {},
-                                            answer_id: {},
+                                            question: {},
+                                            answer: {},
                                             notes: {},
                                         }),
                                     }),
                                 },
                                 consideration_responses: {
                                     keySelector: (considerationResponse) => (
-                                        considerationResponse.consideration_id
+                                        considerationResponse.consideration
                                     ),
                                     member: () => ({
                                         fields: () => ({
-                                            id: {},
-                                            consideration_id: {},
+                                            consideration: {},
                                             notes: {},
                                         }),
                                     }),

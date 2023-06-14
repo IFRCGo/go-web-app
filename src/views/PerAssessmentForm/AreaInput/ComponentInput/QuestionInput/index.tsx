@@ -41,7 +41,7 @@ function QuestionInput(props: Props) {
         index,
         onChange,
         () => ({
-            question_id: question.id,
+            question: question.id,
         }),
     );
 
@@ -57,11 +57,11 @@ function QuestionInput(props: Props) {
             childrenContainerClassName={styles.content}
         >
             <RadioInput
-                name="answer_id"
+                name="answer"
                 options={question.answers}
                 keySelector={answerKeySelector}
                 labelSelector={answerLabelSelector}
-                value={value?.answer_id}
+                value={value?.answer}
                 onChange={onFieldChange}
             />
             <TextArea

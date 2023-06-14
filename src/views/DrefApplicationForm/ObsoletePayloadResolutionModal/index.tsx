@@ -57,9 +57,9 @@ function ObsoletePayloadResolutionModal(props: Props) {
 
     return (
         <Modal
-            title="Conflict while saving"
+            heading="Conflict while saving"
             headingLevel={3}
-            onCloseButtonClick={onCancelButtonClick}
+            onClose={onCancelButtonClick}
             hideCloseButton
             className={styles.obsoletePayloadResolutionModal}
             footerActions={(

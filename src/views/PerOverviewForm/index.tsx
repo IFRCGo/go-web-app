@@ -8,7 +8,6 @@ import {
     PartialForm,
 } from '@togglecorp/toggle-form';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
-
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import SelectInput from '#components/SelectInput';
@@ -37,6 +36,13 @@ import {
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+interface PerProcessStatusItem {
+    assessment: number | null;
+    prioritization: number | null;
+    workplan: number | null;
+    id: number;
+}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {

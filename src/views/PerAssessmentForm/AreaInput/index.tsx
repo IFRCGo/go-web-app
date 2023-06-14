@@ -47,7 +47,7 @@ function AreaInput(props: Props) {
         index,
         onChange,
         () => ({
-            area_id: area.id,
+            area: area.id,
         }),
     );
 
@@ -57,7 +57,7 @@ function AreaInput(props: Props) {
 
     const componentResponseMapping = listToMap(
         value?.component_responses ?? [],
-        (componentResponse) => componentResponse.component_id,
+        (componentResponse) => componentResponse.component,
         (componentResponse, _, questionResponseIndex) => ({
             index: questionResponseIndex,
             value: componentResponse,

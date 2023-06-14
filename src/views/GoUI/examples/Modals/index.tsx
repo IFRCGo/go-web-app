@@ -84,12 +84,12 @@ function Modals() {
             <Modal
                 opened={opened}
                 size={option}
-                title={(
+                heading={(
                     <Heading level={2}>
                         This is modal heading
                     </Heading>
                 )}
-                onCloseButtonClick={handleCloseButtonClick}
+                onClose={handleCloseButtonClick}
                 bodyClassName={styles.content}
             >
                 <TextInput
