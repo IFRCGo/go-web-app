@@ -20,13 +20,24 @@ export interface WorkPlanCustomItem {
     status: string;
 }
 
-export interface WorkPlanForm {
+export interface WorkPlanFormFields {
     overview_id: number,
     component_responses: WorkPlanComponentItem[];
     custom_component_responses: WorkPlanCustomItem[];
 }
 
-export type PartialWorkPlan = PartialForm<WorkPlanForm, 'component_id' | 'supported_by_id'>;
+export interface WorkPlanResponseFields extends WorkPlanFormFields {
+    id: number;
+}
+
+export interface WorkPlanStatus {
+    workplanstatus: {
+        key: number;
+        value: string;
+    };
+}
+
+export type PartialWorkPlan = PartialForm<WorkPlanFormFields, 'component_id' | 'supported_by_id'>;
 export type WorkPlanFormScheme = ObjectSchema<PartialWorkPlan>;
 export type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
 

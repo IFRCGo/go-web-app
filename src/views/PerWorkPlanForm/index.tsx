@@ -1,47 +1,61 @@
 import { useCallback } from 'react';
-import { randomString, _cs } from '@togglecorp/fujs';
+import { IoAdd } from 'react-icons/io5';
+import { useNavigate, useParams } from 'react-router-dom';
+import { _cs, isDefined, isNotDefined } from '@togglecorp/fujs';
 import {
     PartialForm,
     createSubmitHandler,
     useForm,
+    useFormArray,
 } from '@togglecorp/toggle-form';
-import { IoAdd, IoTrash } from 'react-icons/io5';
 
-import Container from '#components/Container';
-import DateInput from '#components/DateInput';
-import SelectInput from '#components/SelectInput';
-import Button from '#components/Button';
-import TextArea from '#components/TextArea';
-
-import { useRequest } from '#utils/restRequest';
+import useAlert from '#hooks/useAlert';
+import { useLazyRequest, useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import {
     PartialWorkPlan,
     workplanSchema,
-    WorkPlanForm,
+    WorkPlanFormFields,
+    WorkPlanResponseFields,
+    WorkPlanStatus,
 } from './common';
-import i18n from './i18n.json';
+import Button from '#components/Button';
+import ComponentInput from './ComponentInput';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface FormStatusOptions {
-    workplanstatus: {
-        key: number;
-        value: string;
-    }[];
-}
-
-interface Props {
-    className?: string;
+interface PerProcessStatusItem {
+    id: number;
+    workplan: number | null;
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export function Component(props: Props) {
-    const strings = useTranslation(i18n);
+export function Component() {
+    const { perId } = useParams<{ perId: string }>();
+    const navigate = useNavigate();
 
     const {
-        className,
-    } = props;
+        pending: perProcessStatusPending,
+        response: perProcessStatusResponse,
+    } = useRequest<PerProcessStatusItem>({
+        skip: isNotDefined(perId),
+        url: `api/v2/per-process-status/${perId}`,
+    });
+
+    const {
+        response: formOptionsResponse,
+    } = useRequest<WorkPlanStatus>({
+        url: 'api/v2/per-options/',
+    });
+
+    const {
+        response: workPlanResponse,
+    } = useRequest<WorkPlanFormFields>({
+        url: `api/v2/per-prioritization/`,
+    });
+
+    const strings = useTranslation(i18n);
 
     const {
         value,
@@ -55,20 +69,60 @@ export function Component(props: Props) {
         },
     );
 
+    const alert = useAlert();
+
     const {
-        response: formOptions,
-    } = useRequest<FormStatusOptions>({
-        url: 'api/v2/per-options/',
+        trigger: savePerWorkPlan,
+    } = useLazyRequest<WorkPlanResponseFields, Partial<WorkPlanFormFields>>({
+        url: `api/v2/per-work-plan/${perProcessStatusResponse?.workplan}`,
+        method: 'POST',
+        body: (ctx) => ctx,
+        onSuccess: (response) => {
+
+            alert.show(
+                strings.perFormSaveRequestSuccessMessage,
+                { variant: 'success' },
+            );
+        },
+        onFailure: ({
+            value: {
+                messageForNotification,
+                // formErrors,
+            },
+            debugMessage,
+        }) => {
+            alert.show(
+                <p>
+                    {strings.perFormSaveRequestFailureMessage}
+                    &nbsp;
+                    <strong>
+                        {messageForNotification}
+                    </strong>
+                </p>,
+                {
+                    variant: 'danger',
+                    debugMessage,
+                },
+            );
+        },
     });
 
-    const workPlanStatusOptions = formOptions?.workplanstatus;
+    const {
+        setValue: setComponentResponsesValue,
+    } = useFormArray('component_responses', setFieldValue);
 
-    const handleSubmit = useCallback((finalValues: PartialWorkPlan) => {
-        console.warn('finalValues', finalValues);
-    }, []);
+    const workPlanStatusOptions = formOptionsResponse?.workplanstatus;
+
+    const handleSubmit = useCallback(
+        (formValues: PartialWorkPlan) => {
+            console.warn('Final Values', formValues as WorkPlanFormFields);
+            if (isDefined(perProcessStatusResponse?.workplan)) {
+                savePerWorkPlan(formValues as WorkPlanFormFields);
+            }
+        }, [savePerWorkPlan]);
 
     const handleAddCustomActivity = useCallback(() => {
-        const newList: PartialForm<WorkPlanForm> = {
+        const newList: PartialForm<WorkPlanFormFields> = {
         };
     }, []);
 
@@ -76,65 +130,15 @@ export function Component(props: Props) {
         <form
             onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
         >
-            <Container
-                childrenContainerClassName={styles.workPlanTable}
-            >
-                {/* <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                {strings.perWorkPlanComponents}
-                            </th>
-                            <th>
-                                {strings.perWorkPlanActions}
-                            </th>
-                            <th>
-                                {strings.perWorkPlanDueDate}
-                            </th>
-                            <th>
-                                {strings.perWorkPlanSupportedBy}
-                            </th>
-                            <th>
-                                {strings.perWorkPlanStatus}
-                            </th>
-                        </tr>
-                    </thead>
-                     */}
-                Component 1:
-                <TextArea
-                    name="actions"
-                    value={value?.actions}
-                    onChange={setFieldValue}
-                    placeholder="List the actions"
+            {workPlanResponse?.component_responses?.map((component) => (
+                <ComponentInput
+                    key={component.id}
+                    component={component}
+                    value={component}
+                    onChange={setComponentResponsesValue}
+                    workPlanStatusOptions={workPlanStatusOptions}
                 />
-                <DateInput
-                    name="due_date"
-                    value={value?.due_date}
-                    onChange={setFieldValue}
-                />
-                <SelectInput
-                    name="status"
-                    options={undefined}
-                    onChange={setFieldValue}
-                    value={undefined}
-                />
-                <SelectInput
-                    name="status"
-                    options={workPlanStatusOptions}
-                    onChange={setFieldValue}
-                    keySelector={(d) => d.key}
-                    labelSelector={(d) => d.value}
-                    value={value?.status}
-                />
-                <Button
-                    className={styles.removeButton}
-                    name="select"
-                    // onRemove={onRemove}
-                    variant="tertiary"
-                >
-                    <IoTrash />
-                </Button>
-            </Container>
+            ))}
             <Button
                 name={undefined}
                 variant="secondary"
