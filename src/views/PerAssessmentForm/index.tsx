@@ -87,7 +87,7 @@ export function Component() {
 
     const {
         pending: perAssesmentPending,
-    } = useRequest<PerProcessStatusItem>({
+    } = useRequest<Assessment>({
         skip: isNotDefined(assessmentId),
         url: `api/v2/per-assessment/${assessmentId}`,
         onSuccess: (response) => {
@@ -155,7 +155,7 @@ export function Component() {
                 navigate(
                     generatePath(
                         perPrioritizationFormRoute.absolutePath,
-                        { perId: String(response.id) },
+                        { perId: String(perId) },
                     ),
                 );
             }
@@ -192,7 +192,27 @@ export function Component() {
                 return;
             }
 
-            savePerAssessment(formValues as Assessment);
+            savePerAssessment({
+                ...formValues as Assessment,
+                is_draft: true,
+            });
+        },
+        [savePerAssessment, assessmentId, perId],
+    );
+
+    const handleFinalSubmit = useCallback(
+        (formValues: PartialForm<Assessment>) => {
+            if (isNotDefined(assessmentId) || isNotDefined(perId)) {
+                // TODO: show proper error message to user
+                // eslint-disable-next-line no-console
+                console.error('assesment id not defined');
+                return;
+            }
+
+            savePerAssessment({
+                ...(formValues as Assessment),
+                is_draft: false,
+            });
         },
         [savePerAssessment, assessmentId, perId],
     );
@@ -226,15 +246,15 @@ export function Component() {
     const maxArea = areas.length;
     const currentPerStep = getCurrentPerProcessStep(statusResponse);
     const handleFormSubmit = createSubmitHandler(validate, onErrorSet, handleSubmit);
+    const handleFormFinalSubmit = createSubmitHandler(validate, onErrorSet, handleFinalSubmit);
     const handleModalClose = useCallback(() => {
         setShowConfirmation(false);
     }, []);
 
     const handleFinalSubmitClick = useCallback(() => {
-        setFieldValue(false, 'is_draft');
-        handleFormSubmit();
+        handleFormFinalSubmit();
         setShowConfirmation(false);
-    }, [setFieldValue, handleFormSubmit]);
+    }, [handleFormFinalSubmit]);
 
     return (
         <>
