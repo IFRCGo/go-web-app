@@ -86,7 +86,6 @@ export function Component() {
         method: 'POST',
         body: (ctx) => ctx,
         onSuccess: (response) => {
-
             alert.show(
                 strings.perFormSaveRequestSuccessMessage,
                 { variant: 'success' },

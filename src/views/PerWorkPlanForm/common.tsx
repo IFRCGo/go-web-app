@@ -4,7 +4,6 @@ import {
 } from '@togglecorp/toggle-form';
 
 export interface WorkPlanComponentItem {
-    id: number;
     component: number;
     actions: string;
     due_date: string;
@@ -13,7 +12,7 @@ export interface WorkPlanComponentItem {
 }
 
 export interface WorkPlanCustomItem {
-    id: number;
+    clientId: string;
     actions: string;
     due_date: string;
     component: string;
@@ -22,8 +21,7 @@ export interface WorkPlanCustomItem {
 }
 
 export interface WorkPlanFormFields {
-    id: number;
-    overview_id: number;
+    overview: number;
     component_responses: WorkPlanComponentItem[];
     custom_component_responses: WorkPlanCustomItem[];
 }
@@ -37,18 +35,17 @@ export interface WorkPlanStatus {
     value: string;
 }
 
-export type PartialWorkPlan = PartialForm<WorkPlanFormFields, 'component' | 'supported_by_id'>;
+export type PartialWorkPlan = PartialForm<WorkPlanFormFields, 'component' | 'clientId'>;
 export type WorkPlanFormScheme = ObjectSchema<PartialWorkPlan>;
 export type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
 
 export const workplanSchema: WorkPlanFormScheme = {
     fields: (): WorkPlanFormSchemeFields => ({
-        overview_id: {},
+        overview: {},
         component_responses: {
             keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
                 fields: () => ({
-                    id: {},
                     component: {},
                     actions: {},
                     due_date: {},
@@ -58,10 +55,10 @@ export const workplanSchema: WorkPlanFormScheme = {
             }),
         },
         custom_component_responses: {
-            keySelector: (customResponse) => customResponse.supported_by_id,
+            keySelector: (customResponse) => customResponse.clientId,
             member: () => ({
                 fields: () => ({
-                    id: {},
+                    clientId: {},
                     component: {},
                     actions: {},
                     due_date: {},
