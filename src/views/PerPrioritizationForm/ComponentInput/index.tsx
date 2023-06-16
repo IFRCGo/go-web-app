@@ -59,7 +59,7 @@ function ComponentsInput(props: Props) {
         index,
         onChange,
         () => ({
-            component_id: component.id,
+            component: component.id,
         }),
     );
 

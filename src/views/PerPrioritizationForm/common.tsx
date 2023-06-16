@@ -17,10 +17,9 @@ export interface PerFormComponentItem {
 }
 
 export interface Prioritization {
-    overview_id: number;
+    overview: number;
     component_responses: {
-        id: number;
-        component_id: number;
+        component: number;
         justification: string;
     }[];
 }
@@ -29,19 +28,18 @@ export interface PrioritizationResponseFields extends Prioritization {
     id: number;
 }
 
-export type PartialPrioritization = PartialForm<Prioritization, 'component_id'>
+export type PartialPrioritization = PartialForm<Prioritization, 'component'>
 export type PrioritizationSchema = ObjectSchema<PartialPrioritization>;
 export type PrioritizationSchemaFields = ReturnType<PrioritizationSchema['fields']>;
 
 export const prioritizationSchema: PrioritizationSchema = {
     fields: (): PrioritizationSchemaFields => ({
-        overview_id: {},
+        overview: {},
         component_responses: {
-            keySelector: (componentResponse) => componentResponse.component_id,
+            keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
                 fields: () => ({
-                    id: {},
-                    component_id: {},
+                    component: {},
                     justification: {},
                 }),
             }),

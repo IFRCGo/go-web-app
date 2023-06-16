@@ -71,7 +71,9 @@ export function Component() {
     } = useForm(
         prioritizationSchema,
         {
-            value: {},
+            value: {
+                overview: isDefined(perId) ? Number(perId) : undefined, 
+            },
         },
     );
 
@@ -96,7 +98,7 @@ export function Component() {
         trigger: savePerPrioritization,
     } = useLazyRequest<PrioritizationResponseFields, Partial<Prioritization>>({
         url: `api/v2/per-prioritization/${perProcessStatusResponse?.prioritization}`,
-        method: 'POST',
+        method: 'PUT',
         body: (ctx) => ctx,
         onSuccess: (response) => {
             if (response && isNotDefined(perId) && isDefined(response.id)) {
@@ -144,11 +146,11 @@ export function Component() {
             } else {
                 console.error('Prioritization id not defined');
             }
-        }, [savePerPrioritization]);
+        }, [savePerPrioritization, perProcessStatusResponse]);
 
     const componentResponseMapping = listToMap(
         value?.component_responses ?? [],
-        (componentResponse) => componentResponse.component_id,
+        (componentResponse) => componentResponse.component,
         (componentResponse, _, index) => ({
             index,
             value: componentResponse,
@@ -164,7 +166,7 @@ export function Component() {
 
             setComponentValue({
                 justification: '',
-                component_id: componentId,
+                component: componentId,
             }, index);
         },
         [removeComponentValue, setComponentValue],

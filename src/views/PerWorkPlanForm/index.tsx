@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
-import { _cs, isDefined, isNotDefined } from '@togglecorp/fujs';
+import { _cs, isDefined, isNotDefined, listToMap } from '@togglecorp/fujs';
 import {
     PartialForm,
     createSubmitHandler,
@@ -10,7 +10,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import useAlert from '#hooks/useAlert';
-import { useLazyRequest, useRequest } from '#utils/restRequest';
+import { ListResponse, useLazyRequest, useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import {
     PartialWorkPlan,
@@ -23,10 +23,13 @@ import Button from '#components/Button';
 import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
+
 import styles from './styles.module.css';
 
 interface PerProcessStatusItem {
     id: number;
+    assessment: number | null;
+    prioritization: number | null;
     workplan: number | null;
 }
 
@@ -51,9 +54,14 @@ export function Component() {
 
     const {
         response: workPlanResponse,
-    } = useRequest<WorkPlanFormFields>({
+    } = useRequest<ListResponse<WorkPlanFormFields>>({
         url: `api/v2/per-prioritization/`,
+        query: {
+            limit: 500,
+        },
     });
+
+    console.warn('per', workPlanResponse?.results?.map((i) => i.component_responses));
 
     const strings = useTranslation(i18n);
 
@@ -108,10 +116,10 @@ export function Component() {
     });
 
     const {
-        setValue: setComponentResponsesValue,
+        setValue: setComponentValue,
     } = useFormArray('component_responses', setFieldValue);
 
-    const workPlanStatusOptions = formOptionsResponse?.workplanstatus;
+    const workPlanStatusOptions = formOptionsResponse?.value;
 
     const handleSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
@@ -126,16 +134,25 @@ export function Component() {
         };
     }, []);
 
+    const componentResponseMapping = listToMap(
+        value?.component_responses ?? [],
+        (componentResponse) => componentResponse.component,
+        (componentResponse, _, index) => ({
+            index,
+            value: componentResponse,
+        }),
+    );
+
     return (
         <form
             onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
         >
-            {workPlanResponse?.component_responses?.map((component) => (
+            {workPlanResponse?.results?.map((component) => (
                 <ComponentInput
                     key={component.id}
-                    component={component}
-                    value={component}
-                    onChange={setComponentResponsesValue}
+                    index={componentResponseMapping[component.id]?.index}
+                    value={componentResponseMapping[component.id]?.value}
+                    onChange={setComponentValue}
                     workPlanStatusOptions={workPlanStatusOptions}
                 />
             ))}

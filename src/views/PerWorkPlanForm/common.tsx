@@ -5,7 +5,7 @@ import {
 
 export interface WorkPlanComponentItem {
     id: number;
-    component_id: number;
+    component: number;
     actions: string;
     due_date: string;
     supported_by_id: string;
@@ -16,12 +16,14 @@ export interface WorkPlanCustomItem {
     id: number;
     actions: string;
     due_date: string;
+    component: string;
     supported_by_id: string;
     status: string;
 }
 
 export interface WorkPlanFormFields {
-    overview_id: number,
+    id: number;
+    overview_id: number;
     component_responses: WorkPlanComponentItem[];
     custom_component_responses: WorkPlanCustomItem[];
 }
@@ -31,13 +33,11 @@ export interface WorkPlanResponseFields extends WorkPlanFormFields {
 }
 
 export interface WorkPlanStatus {
-    workplanstatus: {
-        key: number;
-        value: string;
-    };
+    key: number;
+    value: string;
 }
 
-export type PartialWorkPlan = PartialForm<WorkPlanFormFields, 'component_id' | 'supported_by_id'>;
+export type PartialWorkPlan = PartialForm<WorkPlanFormFields, 'component' | 'supported_by_id'>;
 export type WorkPlanFormScheme = ObjectSchema<PartialWorkPlan>;
 export type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
 
@@ -45,11 +45,11 @@ export const workplanSchema: WorkPlanFormScheme = {
     fields: (): WorkPlanFormSchemeFields => ({
         overview_id: {},
         component_responses: {
-            keySelector: (componentResponse) => componentResponse.component_id,
+            keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
                 fields: () => ({
                     id: {},
-                    component_id: {},
+                    component: {},
                     actions: {},
                     due_date: {},
                     supported_by_id: {},
@@ -62,6 +62,7 @@ export const workplanSchema: WorkPlanFormScheme = {
             member: () => ({
                 fields: () => ({
                     id: {},
+                    component: {},
                     actions: {},
                     due_date: {},
                     supported_by_id: {},
