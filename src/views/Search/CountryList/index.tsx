@@ -47,7 +47,7 @@ function CountryList(props: Props) {
                     className={styles.countryName}
                     key={country.id}
                     actions={<IoChevronForwardOutline />}
-                    underline
+                    withUnderline
                 >
                     {country.name}
                 </Link>

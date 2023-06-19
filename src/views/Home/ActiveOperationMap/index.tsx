@@ -236,7 +236,7 @@ function ActiveOperationMap(props: Props) {
                 <Link
                     to="/"
                     actions={<ChevronRightLineIcon />}
-                    underline
+                    withUnderline
                 >
                     {strings.operationMapViewAll}
                 </Link>

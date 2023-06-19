@@ -95,7 +95,7 @@ function HighlightedOperations(props: Props) {
                 <Link
                     to="/"
                     actions={<ChevronRightLineIcon />}
-                    underline
+                    withUnderline
                 >
                     {strings.highlightedOperationsViewAll}
                 </Link>

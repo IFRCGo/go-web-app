@@ -291,7 +291,7 @@ export function createLinkColumn<D, K>(
         cellRenderer: Link,
         cellRendererParams: (_: K, datum: D): LinkProps => ({
             children: accessor(datum),
-            underline: true,
+            withUnderline: true,
             ...rendererParams(datum),
         }),
         valueSelector: () => '',

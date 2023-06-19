@@ -352,7 +352,10 @@ export function Component() {
                 childrenContainerClassName={styles.contactsList}
             >
                 {contacts.map((contact) => (
-                    <div className={styles.contactRow}>
+                    <div
+                        className={styles.contactRow}
+                        key={contact.extent}
+                    >
                         <div className={styles.extent}>
                             {contact.extent}
                         </div>

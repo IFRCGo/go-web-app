@@ -55,7 +55,7 @@ function ProvinceList(props: Props) {
                         )}
                         className={styles.countryName}
                         key={province.id}
-                        underline
+                        withUnderline
                         actions={<IoChevronForwardOutline />}
                     >
                         {province.country}

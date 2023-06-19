@@ -37,7 +37,7 @@ function Link(props: Props) {
         iconsContainerClassName,
         linkElementClassName,
         to,
-        withUnderline: underline,
+        withUnderline,
         withForwardIcon,
         ...otherProps
     } = props;
@@ -102,7 +102,7 @@ function Link(props: Props) {
         <div className={_cs(
             styles.link,
             isNotDefined(to) && styles.nonLink,
-            underline && styles.underline,
+            withUnderline && styles.underline,
             disabled && styles.disabled,
             containerClassName,
         )}
