@@ -109,10 +109,10 @@
             }
 
             .link {
-                width: 100%;
-                padding: var(--go-ui-spacing-xl);
                 transition: var(--go-ui-duration-transition-medium) box-shadow ease-in-out;
                 background-color: var(--go-ui-color-white);
+                padding: var(--go-ui-spacing-xl);
+                width: 100%;
 
                 &:hover {
                     box-shadow: var(--go-ui-box-shadow-md);

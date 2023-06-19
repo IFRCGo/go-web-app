@@ -12,7 +12,7 @@
         "coverage": "vitest run --coverage",
         "typecheck": "tsc",
         "lint": "eslint src",
-        "css-lint": "stylelint ./src/**/*.css",
+        "css-lint": "stylelint \"./src/**/*.css\"",
         "deploy-surge": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); cp build/index.html build/200.html; surge -p build/ -d https://ifrc-go-$branch.surge.sh",
         "teardown-surge": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); surge teardown https://ifrc-go-$branch.surge.sh"
     },
