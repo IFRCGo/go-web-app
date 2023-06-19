@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabKey, TabContext } from '../TabContext';
 
-export interface Props extends React.HTMLProps<HTMLDivElement> {
+export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'name'> {
     name: TabKey;
     elementRef?: React.Ref<HTMLDivElement>;
 }
@@ -15,14 +15,7 @@ export default function TabPanel(props: Props) {
         ...otherProps
     } = props;
 
-    let isActive = false;
-
-    if (context.useHash) {
-        isActive = context.hash === name;
-    } else {
-        isActive = context.activeTab === name;
-    }
-
+    const isActive = context.activeTab === name;
     if (!isActive) {
         return null;
     }

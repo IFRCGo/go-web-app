@@ -4,13 +4,13 @@ import {
     getErrorObject,
     PartialForm,
     useFormObject,
+    SetValueArg,
 } from '@togglecorp/toggle-form';
 import { randomString } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import NumberInput from '#components/NumberInput';
 import TextInput from '#components/TextInput';
-import { SetValueArg } from '#utils/common';
 import { Indicator } from '#views/DrefApplicationForm/common';
 import useTranslation from '#hooks/useTranslation';
 

@@ -4,11 +4,11 @@ import { useRequest } from '#utils/restRequest';
 
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
+import TimeSeriesChart from '#components/TimeSeriesChart';
 import Button from '#components/Button';
 import { getDatesSeparatedByYear } from '#utils/chart';
 import useTranslation from '#hooks/useTranslation';
 
-import TimelineChart from '../TimelineChart';
 import PointDetails from '../PointDetails';
 
 import i18n from './i18n.json';
@@ -149,7 +149,7 @@ function YearlyChart(props: Props) {
             {pending && <BlockLoading className={styles.loading} />}
             {!pending && (
                 <>
-                    <TimelineChart
+                    <TimeSeriesChart
                         className={styles.timelineChart}
                         timePoints={dateList}
                         dataKeys={dataKeys}

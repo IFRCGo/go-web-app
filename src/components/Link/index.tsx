@@ -1,5 +1,10 @@
 import { useMemo } from 'react';
-import { _cs, isValidUrl, isNotDefined } from '@togglecorp/fujs';
+import {
+    _cs,
+    isValidUrl,
+    isNotDefined,
+    isDefined,
+} from '@togglecorp/fujs';
 import {
     Link as InternalLink,
     LinkProps as RouterLinkProps,
@@ -88,12 +93,12 @@ function Link(props: Props) {
         className,
         icons,
         children,
-        actions: (
+        actions: (isDefined(actions) || withForwardIcon) ? (
             <>
                 {actions}
                 {withForwardIcon && <ChevronRightLineIcon className={styles.forwardIcon} />}
             </>
-        ),
+        ) : null,
         iconsContainerClassName,
         actionsContainerClassName,
     });

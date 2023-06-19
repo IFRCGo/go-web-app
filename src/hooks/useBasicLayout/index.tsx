@@ -1,5 +1,4 @@
-import React from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
@@ -42,18 +41,21 @@ function useBasicLayout(props: Props) {
         spacingTypeToClassNameMap[spacing],
         className,
     );
-    const content = (
+
+    const emptyContent = isNotDefined(icons)
+            && isNotDefined(children)
+            && isNotDefined(actions);
+
+    const content = emptyContent ? null : (
         <>
             {icons && (
                 <div className={_cs(styles.iconsContainer, iconsContainerClassName)}>
                     {icons}
                 </div>
             )}
-            {children && (
-                <div className={_cs(styles.childrenContainer, childrenContainerClassName)}>
-                    {children}
-                </div>
-            )}
+            <div className={_cs(styles.childrenContainer, childrenContainerClassName)}>
+                {children}
+            </div>
             {actions && (
                 <div className={_cs(styles.actionsContainer, actionsContainerClassName)}>
                     {actions}

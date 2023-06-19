@@ -1,6 +1,13 @@
 {
     "namespace": "emergency",
     "strings": {
-        "emergenciesTitle": "IFRC GO - Emergencies"
+        "emergenciesTitle": "IFRC GO - Emergencies",
+        "emergenciesTableTitle":"Emergencies in the last 30 days",
+        "emergenciesStatsTitle":"Emergencies",
+        "emergenciesStatsAffected":"Affected People",
+        "emergenciesByTypeTitle": "Emergencies by Type",
+        "emergenciesOverLastYearTitle": "Emergencies over the last year",
+        "emergenciesStatsRequested":"Requested Amount",
+        "emergenciesStatsFunding":"Funding (CHF)"
     }
 }

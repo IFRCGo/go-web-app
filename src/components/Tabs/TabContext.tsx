@@ -1,30 +1,21 @@
-import React from 'react';
+import { createContext } from 'react';
 
-export type TabKey = string;
+export type TabKey = string | number;
 export type TabVariant = 'primary' | 'secondary' | 'step';
 
-interface BaseTabContextProps {
-  variant?: TabVariant;
-  disabled?: boolean;
-  tabs: TabKey[];
-  registerTab: (tab: TabKey) => void;
-  unregisterTab: (tab: TabKey) => void;
-  step: number;
-  setStep?: React.Dispatch<React.SetStateAction<number>>;
+interface TabContextProps {
+    variant?: TabVariant;
+    disabled?: boolean;
+    tabs: TabKey[];
+    registerTab: (tab: TabKey) => void;
+    unregisterTab: (tab: TabKey) => void;
+    step: number;
+    setStep?: React.Dispatch<React.SetStateAction<number>>;
+    activeTab: TabKey;
+    setActiveTab: (key: TabKey) => void;
 }
 
-export type TabContextProps = BaseTabContextProps & (
-  {
-    useHash: true;
-    hash: string | undefined;
-  } | {
-    useHash?: false;
-    activeTab: TabKey | undefined;
-    setActiveTab: (key: TabKey | undefined) => void;
-  }
-);
-
-export const TabContext = React.createContext<TabContextProps>({
+export const TabContext = createContext<TabContextProps>({
     tabs: [],
     step: 0,
     disabled: false,

@@ -1,9 +1,10 @@
 import { generatePath } from 'react-router-dom';
-import { useMemo, useContext } from 'react';
+import { useMemo, useContext, useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import Table from '#components/Table';
+import Link from '#components/Link';
 import {
     createNumberColumn,
     createStringColumn,
@@ -59,7 +60,29 @@ function EmergencyTable(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const { emergency: emergencyRoute } = useContext(RouteContext);
+    const {
+        country: countryRoute,
+        emergency: emergencyRoute,
+    } = useContext(RouteContext);
+
+    const countryListColumnParams = useCallback(
+        (item: EmergencyResult) => ({
+            list: item.countries,
+            keySelector: (country: EmergencyResult['countries'][number]) => country,
+            renderer: (country: EmergencyResult['countries'][number], i: number) => (
+                <Link
+                    to={generatePath(
+                        countryRoute.absolutePath,
+                        { countryId: String(item.countries_id[i]) },
+                    )}
+                >
+                    {country}
+                </Link>
+            ),
+            title: strings.searchEmergencyTableMultipleCountries,
+        }),
+        [countryRoute, strings],
+    );
 
     const columns = useMemo(() => ([
         createLinkColumn<EmergencyResult, number>(
@@ -110,15 +133,12 @@ function EmergencyTable(props: Props) {
                 Number(emergency.funding_coverage) / Number(emergency.funding_requirements)
             ),
         ),
-        createListDisplayColumn<EmergencyResult, number>(
+        createListDisplayColumn<EmergencyResult, number, EmergencyResult['countries'][number]>(
             'countries',
             strings.searchEmergencyTableCountry,
-            (emergency) => ({
-                value: emergency.countries,
-                title: strings.searchEmergencyTableMultipleCountries,
-            }),
+            countryListColumnParams,
         ),
-    ]), [strings, emergencyRoute]);
+    ]), [strings, countryListColumnParams, emergencyRoute]);
 
     if (!data) {
         return null;

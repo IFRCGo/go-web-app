@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom';
 import {
     wrapRoute,
     unwrapRoute,
@@ -113,6 +114,23 @@ const regionOperations = customWrapRoute({
     },
 });
 
+const regionIndex = customWrapRoute({
+    parent: region,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: regionOperations.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Region index',
+        visibility: 'anything',
+    },
+});
+
 const regionThreeW = customWrapRoute({
     path: 'three-w',
     component: {
@@ -166,7 +184,7 @@ const regionProfile = customWrapRoute({
 });
 
 const country = customWrapRoute({
-    path: 'countries/:countryId/',
+    path: 'countries/:countryId',
     component: {
         render: () => import('#views/Country'),
         props: {},
@@ -368,6 +386,23 @@ const accountInformation = customWrapRoute({
     },
 });
 
+const accountIndex = customWrapRoute({
+    parent: account,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: accountInformation.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Account index',
+        visibility: 'anything',
+    },
+});
+
 const accountNotifications = customWrapRoute({
     path: 'notifications',
     component: {
@@ -463,7 +498,7 @@ const goUI = customWrapRoute({
 });
 
 const drefApplicationFormNew = customWrapRoute({
-    path: 'dref-application/new/',
+    path: 'dref-application/new',
     component: {
         render: () => import('#views/DrefApplicationForm'),
         props: {},
@@ -477,7 +512,7 @@ const drefApplicationFormNew = customWrapRoute({
 });
 
 const drefApplicationFormEdit = customWrapRoute({
-    path: 'dref-application/:drefId/edit/',
+    path: 'dref-application/:drefId/edit',
     component: {
         render: () => import('#views/DrefApplicationForm'),
         props: {},
@@ -491,7 +526,7 @@ const drefApplicationFormEdit = customWrapRoute({
 });
 
 const flashUpdateFormNew = customWrapRoute({
-    path: 'flash-update/new/',
+    path: 'flash-update/new',
     component: {
         render: () => import('#views/FlashUpdateForm'),
         props: {},
@@ -505,7 +540,7 @@ const flashUpdateFormNew = customWrapRoute({
 });
 
 const fieldReportFormNew = customWrapRoute({
-    path: 'field-report/new/',
+    path: 'field-report/new',
     component: {
         render: () => import('#views/FieldReportForm'),
         props: {},
@@ -524,6 +559,7 @@ const wrappedRoutes = {
     register,
     home,
     region,
+    regionIndex,
     regionOperations,
     regionThreeW,
     regionRiskWatch,
@@ -542,6 +578,7 @@ const wrappedRoutes = {
     preparedness,
     threeW,
     account,
+    accountIndex,
     accountInformation,
     accountNotifications,
     accountPerForms,

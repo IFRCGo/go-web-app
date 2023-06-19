@@ -27,9 +27,7 @@ export function joinUrlPart(parts: string[]) {
         .filter((part) => part !== '')
         .join('/');
 
-    return url === ''
-        ? '/'
-        : `/${url}/`;
+    return `/${url}`;
 }
 
 type ImmutableRouteKey = 'lazy' | 'caseSensitive' | 'path' | 'id' | 'index' | 'children';

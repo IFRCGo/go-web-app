@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
 
 import {
@@ -39,6 +39,7 @@ import styles from './styles.module.css';
 
 type P = EmergencyProjectResponse;
 type K = string | number;
+type DistrictDetails = P['districts_details'][number];
 
 const idSelector = <T extends { id: number }>(p: T) => p.id;
 
@@ -127,8 +128,8 @@ function ThreeWList(props: Props) {
     } = props;
     const strings = useTranslation(i18n);
 
-    const [projectActivePage, setProjectActivePage] = React.useState(1);
-    const [activityActivePage, setActivityActivePage] = React.useState(1);
+    const [projectActivePage, setProjectActivePage] = useState(1);
+    const [activityActivePage, setActivityActivePage] = useState(1);
 
     const {
         response: projectResponse,
@@ -153,6 +154,15 @@ function ThreeWList(props: Props) {
             offset: ITEM_PER_PAGE * (activityActivePage - 1),
         },
     });
+
+    const districtDetailsColumnParams = useCallback(
+        (item: P) => ({
+            list: item.districts_details,
+            keySelector: (districtDetail: DistrictDetails) => districtDetail.id,
+            renderer: (districtDetail: DistrictDetails) => districtDetail.name,
+        }),
+        [],
+    );
 
     const projectColumns = useMemo(
         () => {
@@ -262,10 +272,10 @@ function ThreeWList(props: Props) {
                 strings.threeWEmergencyCountryName,
                 (item) => item.country_details?.name,
             ),
-            createListDisplayColumn<P, K>(
+            createListDisplayColumn<P, K, DistrictDetails>(
                 'districts',
                 strings.threeWEmergencyRegion,
-                (item) => ({ value: item.districts_details.map((d) => d.name) }),
+                districtDetailsColumnParams,
             ),
             createStringColumn<P, K>(
                 'status',
@@ -311,6 +321,7 @@ function ThreeWList(props: Props) {
             ),
         ]),
         [
+            districtDetailsColumnParams,
             actionColumnHeaderClassName,
             strings,
         ],

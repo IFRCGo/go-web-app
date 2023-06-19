@@ -22,23 +22,17 @@
             height: 22rem;
             --path-stroke-width: 1pt;
 
-            path.dref {
+            .dref {
                 stroke: var(--color-dref);
                 stroke-width: var(--path-stroke-width);
                 fill: none;
-            }
-
-            path.emergency-appeal {
-                stroke: var(--color-emergency-appeal);
-                stroke-width: var(--path-stroke-width);
-                fill: none;
-            }
-
-            .dref {
                 color: var(--color-dref);
             }
 
             .emergency-appeal {
+                stroke: var(--color-emergency-appeal);
+                stroke-width: var(--path-stroke-width);
+                fill: none;
                 color: var(--color-emergency-appeal);
             }
         }

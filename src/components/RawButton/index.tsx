@@ -1,8 +1,6 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import { genericMemo } from '#utils/common';
-
 import styles from './styles.module.css';
 
 export interface Props<N> extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref' | 'onClick' | 'name'>{
@@ -63,5 +61,4 @@ function RawButton<N>(props: Props<N>) {
     );
 }
 
-const MemoizedRawButton = genericMemo(RawButton);
-export default MemoizedRawButton;
+export default RawButton;

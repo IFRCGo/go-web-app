@@ -65,7 +65,7 @@ function Header(props: Props) {
     }
 
     return (
-        <header
+        <div
             className={_cs(
                 styles.header,
                 ellipsizeHeading && styles.headingEllipsized,
@@ -82,7 +82,7 @@ function Header(props: Props) {
                     {children}
                 </div>
             )}
-        </header>
+        </div>
     );
 }
 

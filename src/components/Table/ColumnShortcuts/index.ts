@@ -359,16 +359,16 @@ export function createActionColumn<D, K>(
     return item;
 }
 
-export function createListDisplayColumn<D, K>(
+export function createListDisplayColumn<D, K, LIST_ITEM>(
     id: string,
     title: string,
-    rendererParams: (datum: D) => ReducedListDisplayProps,
+    rendererParams: (datum: D) => ReducedListDisplayProps<LIST_ITEM>,
     options?: {
         cellRendererClassName?: string;
         headerContainerClassName?: string;
     },
 ) {
-    const item: Column<D, K, ReducedListDisplayProps, HeaderCellProps> = {
+    const item: Column<D, K, ReducedListDisplayProps<LIST_ITEM>, HeaderCellProps> = {
         id,
         title,
         headerCellRenderer: HeaderCell,

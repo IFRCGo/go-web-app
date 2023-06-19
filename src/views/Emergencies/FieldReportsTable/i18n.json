@@ -1,0 +1,12 @@
+{
+    "namespace": "emergencies",
+    "strings": {
+        "fieldReportsTableTitle":"Field Reports in the last 30 days ({numFieldReports})",
+        "fieldReportsTableCreatedAt":"Created At",
+        "fieldReportsTableName":"Name",
+        "fieldReportsTableEmergency":"Emergency",
+        "fieldReportsTableDisasterType":"Disaster Type",
+        "fieldReportsTableCountry":"Countries",
+        "fieldReportsTableViewAllReports":"View All Field Reports"
+    }
+}

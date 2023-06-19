@@ -6,6 +6,7 @@ import {
     _cs,
     listToMap,
     isDefined,
+    max,
 } from '@togglecorp/fujs';
 import Map, {
     MapContainer,
@@ -20,6 +21,7 @@ import TextOutput from '#components/TextOutput';
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import LegendItem from '#components/LegendItem';
 import RouteContext from '#contexts/route';
+import BarChart from '#components/BarChart';
 import { useRequest, ListResponse } from '#utils/restRequest';
 import type { Country } from '#types/country';
 import {
@@ -35,9 +37,7 @@ import {
     OPERATION_TYPE_MULTI,
     OPERATION_TYPE_PROGRAMME,
 } from '#utils/map';
-import { max } from '#utils/common';
 
-import BarChart from '../BarChart';
 import {
     NSOngoingProjectStat,
     countSelector,
@@ -158,7 +158,10 @@ function GlobalThreeWMap(props: Props) {
     const countries = countriesResponse?.results;
 
     const maxProjectCount = useMemo(() => (
-        max(projectList ?? [], (d) => d.ongoing_projects)
+        Math.max(
+            ...(projectList?.map((d) => d.ongoing_projects) ?? []),
+            0,
+        )
     ), [projectList]);
 
     const nsProjectsMap = useMemo(

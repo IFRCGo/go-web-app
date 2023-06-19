@@ -1,42 +1,31 @@
-import React from 'react';
-
-import useHash from '#hooks/useHash';
+import { useCallback, useState, useMemo } from 'react';
 import {
     TabKey,
     TabVariant,
     TabContext,
 } from './TabContext';
 
-export interface BaseProps {
+export interface Props<T> {
     children: React.ReactNode;
     variant?: TabVariant;
     disabled?: boolean;
+    value: T;
+    onChange: (key: T) => void;
 }
-
-export type Props<T extends TabKey> = BaseProps & (
-    {
-        useHash: true;
-        initialHash?: string;
-        value?: never;
-        onChange?: never;
-    } | {
-        useHash?: false;
-        value: T;
-        onChange: (key: T) => void;
-    }
-);
 
 function Tabs<T extends TabKey>(props: Props<T>) {
     const {
         children,
         variant = 'primary',
         disabled,
+        value,
+        onChange,
     } = props;
 
-    const [tabs, setTabs] = React.useState<TabKey[]>([]);
-    const [step, setStep] = React.useState(0);
+    const [tabs, setTabs] = useState<TabKey[]>([]);
+    const [step, setStep] = useState(0);
 
-    const registerTab = React.useCallback((name: string) => {
+    const registerTab = useCallback((name: TabKey) => {
         setTabs((prevTabs) => {
             const i = prevTabs.findIndex((d) => d === name);
             if (i === -1) {
@@ -47,7 +36,7 @@ function Tabs<T extends TabKey>(props: Props<T>) {
         });
     }, [setTabs]);
 
-    const unregisterTab = React.useCallback((name: string) => {
+    const unregisterTab = useCallback((name: TabKey) => {
         setTabs((prevTabs) => {
             const i = prevTabs.findIndex((d) => d === name);
             if (i !== -1) {
@@ -60,52 +49,22 @@ function Tabs<T extends TabKey>(props: Props<T>) {
         });
     }, [setTabs]);
 
-    // eslint-disable-next-line react/destructuring-assignment
-    const hash = useHash(props.useHash ? props.initialHash : undefined, !!props.useHash);
-
-    const contextValue = React.useMemo(() => {
-        // eslint-disable-next-line react/destructuring-assignment
-        if (props.useHash) {
-            return {
-                tabs,
-                variant,
-                disabled,
-                hash,
-                // eslint-disable-next-line react/destructuring-assignment
-                useHash: props.useHash,
-                registerTab,
-                unregisterTab,
-                step,
-                setStep,
-            };
-        }
-
-        // Note: following cast is required since we do not have any other method
-        // to provide template in the context type
-        return {
-            tabs,
-            variant,
-            disabled,
-            // eslint-disable-next-line react/destructuring-assignment
-            activeTab: props.value,
-            // eslint-disable-next-line react/destructuring-assignment
-            setActiveTab: props.onChange as (key: TabKey | undefined) => void,
-            registerTab,
-            unregisterTab,
-            step,
-            setStep,
-        };
-    }, [
+    const contextValue = useMemo(() => ({
         tabs,
-        // eslint-disable-next-line react/destructuring-assignment
-        props.value,
-        // eslint-disable-next-line react/destructuring-assignment
-        props.onChange,
         variant,
         disabled,
-        // eslint-disable-next-line react/destructuring-assignment
-        props.useHash,
-        hash,
+        activeTab: value,
+        setActiveTab: onChange as (key: TabKey) => void,
+        registerTab,
+        unregisterTab,
+        step,
+        setStep,
+    }), [
+        tabs,
+        value,
+        onChange,
+        variant,
+        disabled,
         registerTab,
         unregisterTab,
         step,
