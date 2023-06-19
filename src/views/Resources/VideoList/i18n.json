@@ -1,0 +1,19 @@
+{
+    "namespace": "resources",
+    "strings": {
+        "videoCarouselHeading3W": "3W - Who does What, Where.",
+        "videoCarouselSubHeading3W": "The 'Who does What, Where', or 3W, is a GO platform tool to enhance coordination, improve disaster analysis, and elevate the speed and quality of Red Cross Red Crescent emergency response.",
+        "videoCarouselHeading3WInstructional": "3W Instructional",
+        "videoCarouselSubHeading3WInstructional": "View this video tutorial on how to manage the 3W tool data  (Who, What, Where) and generate useful and visually pleasant information products on the GO Platform - International Federation of Red Cross Red Crescent (IFRC).",
+        "videoCarouselHeadingFieldReport": "Field Report COVID-19",
+        "videoCarouselSubHeadingFieldReport": "View this video tutorial on how to create a Field Report COVID-19 on the GO Platform - International Federation of Red Cross Red Crescent (IFRC).",
+        "videoCarouselHeadingPER": "Preparedness for Effective Response Module",
+        "videoCarouselSubHeadingPER": "View this video tutorial on how to navigate on the Preparedness for Effective Response (PER) module on the GO Platform - International Federation of Red Cross Red Crescent (IFRC).",
+        "videoCarouselHeadingSubscribe": "Subscriptions to User Notifications",
+        "videoCarouselSubHeadingSubscribe": "View this video tutorial on how to 'Subscribe to User Notifications' on the GO Platform - International Federation of Red Cross Red Crescent (IFRC).",
+        "videoCarouselHeadingTranslations": "Translation feature",
+        "videoCarouselSubHeadingTranslations": "View this video tutorial on how to use the translation feature on the GO Platform - International Federation of Red Cross Red Crecent (IFRC).",
+        "videoCarouselHeading3w": "3W (who-what-where) data collection for emergencies",
+        "videoCarouselHeading3wsub": "View this video tutorial about the 3W for emergencies tool. The video demonstrates the data collection and display activity of who-what-where data."
+    }
+}

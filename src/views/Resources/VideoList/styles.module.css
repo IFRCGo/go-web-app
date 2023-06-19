@@ -1,0 +1,21 @@
+.video-list {
+    display: flex;
+    gap: var(--go-ui-spacing-2xl);
+    overflow-x: auto;
+
+    .video-item {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .iframe {
+            border: none;
+            width: 20rem;
+            height: 10rem;
+        }
+
+        .collection-sub-header {
+            font-size: var(--go-ui-font-size-sm);
+        }
+    }
+}

@@ -1,10 +1,9 @@
-.link-container {
+.link {
     --color: inherit;
     --decoration: none;
     --spacing: var(--go-ui-spacing-xs);
 
     display: inline-flex;
-    align-items: baseline;
     flex-wrap: nowrap;
     width: fit-content;
     text-decoration: var(--decoration);
@@ -33,14 +32,15 @@
         pointer-events: none;
     }
 
-    .link {
+    .link-element {
         display: flex;
         align-items: center;
         flex-grow: 1;
         text-decoration: none;
         color: inherit;
     }
+
+    .forward-icon {
+        font-size: var(--go-ui-font-size-xl);
+    }
 }
-
-
-

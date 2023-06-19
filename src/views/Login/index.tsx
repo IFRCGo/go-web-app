@@ -117,7 +117,7 @@ export function Component() {
             signUpLink: (
                 <Link
                     to="register"
-                    underline
+                    withUnderline
                 >
                     {strings.loginSignUp}
                 </Link>
@@ -170,14 +170,14 @@ export function Component() {
                     <Link
                         to="recover-account"
                         title={strings.loginRecoverTitle}
-                        underline
+                        withUnderline
                     >
                         {strings.loginForgotUserPass}
                     </Link>
                     <Link
                         to="resend-validation"
                         title={strings.loginResendValidationTitle}
-                        underline
+                        withUnderline
                     >
                         {strings.loginResendValidation}
                     </Link>

@@ -26,7 +26,7 @@ function Links() {
                 <Heading level={2}>
                     <Link
                         to="/deployments/overview"
-                        underline
+                        withUnderline
                         actions={<ChevronRightLineIcon />}
                     >
                         Surge
@@ -39,7 +39,7 @@ function Links() {
                 </Heading>
                 <Link
                     to="/disaster-preparedness"
-                    underline
+                    withUnderline
                 >
                     Preparedness
                 </Link>

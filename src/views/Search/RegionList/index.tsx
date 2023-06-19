@@ -45,7 +45,7 @@ function RegionList(props: Props) {
                     className={styles.regionName}
                     key={region.id}
                     actions={<IoChevronForwardOutline />}
-                    underline
+                    withUnderline
                 >
                     {region.name}
                 </Link>

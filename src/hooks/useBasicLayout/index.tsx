@@ -17,7 +17,7 @@ const spacingTypeToClassNameMap: Record<SpacingType, string> = {
 interface Props {
     className?: string;
     icons?: React.ReactNode;
-    children: React.ReactNode;
+    children: React.ReactNode | null | undefined;
     actions?: React.ReactNode;
     iconsContainerClassName?: string;
     childrenContainerClassName?: string;
@@ -49,9 +49,11 @@ function useBasicLayout(props: Props) {
                     {icons}
                 </div>
             )}
-            <div className={_cs(styles.childrenContainer, childrenContainerClassName)}>
-                {children}
-            </div>
+            {children && (
+                <div className={_cs(styles.childrenContainer, childrenContainerClassName)}>
+                    {children}
+                </div>
+            )}
             {actions && (
                 <div className={_cs(styles.actionsContainer, actionsContainerClassName)}>
                     {actions}

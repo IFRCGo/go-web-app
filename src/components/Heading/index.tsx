@@ -19,6 +19,10 @@ function Heading(props: Props) {
     const levelStyle = styles[`level${level}`];
     const HeadingTag = `h${level}` as ElementType;
 
+    if (!children) {
+        return null;
+    }
+
     return (
         <HeadingTag
             className={_cs(
