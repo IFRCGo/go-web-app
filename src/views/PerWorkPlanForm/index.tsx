@@ -137,21 +137,22 @@ export function Component() {
 
     const {
         setValue: setComponentValue,
+        removeValue: removeComponentValue,
     } = useFormArray('component_responses', setFieldValue);
 
     const workPlanStatusOptions = useMemo(
         () => (
             workPlanStatusResponse?.results?.map((d) => ({
-                value: d.key,
-                label: d.value,
-            })).sort(compareLabel) ?? []
+                key: d.key,
+                value: d.value,
+            })).sort() ?? []
         ),
         [workPlanStatusResponse],
     );
 
     const {
-        setValue: setActivity,
-    } = useFormArray('custom_component_responses', setFieldValue);
+        setValue: setActivity
+    } = useFormArray<'custom_component_responses', PartialForm<WorkPlanFormFields>>('custom_component_responses', setFieldValue);
 
     const handleSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
@@ -164,17 +165,16 @@ export function Component() {
         }, [savePerWorkPlan]);
 
     const handleAddCustomActivity = useCallback(() => {
-        const client_id = randomString();
+        const clientId = randomString();
         const newCustomActivity: PartialForm<WorkPlanCustomItem> = {
-            client_id,
-            supported_by_id,
+            clientId,
         };
 
         setFieldValue(
-            (oldValue: PartialForm<WorkPlanCustomItem>[] | undefined) => {
+            (oldValue: PartialForm<WorkPlanCustomItem> | undefined) => {
                 if (oldValue) {
                     return [
-                        ...oldValue,
+                        ...oldValue as any[],
                         newCustomActivity,
                     ];
                 }
@@ -206,6 +206,7 @@ export function Component() {
                     onChange={setComponentValue}
                     component={component}
                     workPlanStatusOptions={workPlanStatusOptions}
+                    onRemove={removeComponentValue}
                 />
             ))}
             <Button
@@ -216,20 +217,17 @@ export function Component() {
             >
                 Add row
             </Button>
-            {value && value.custom_component_responses && (
-                <div className={styles.activityList}>
-                    {value?.custom_component_responses?.map((component, index) => {
-                        <CustomActivity
-                            key={component.actions}
-                            index={index}
-                            value={component}
-                            onChange={setActivity}
-                            workPlanStatusOptions={workPlanStatusOptions}
-                        />
-                        return null;
-                    })}
-                </div>
-            )}
+            {value?.custom_component_responses?.map((component, index) => {
+                <CustomActivity
+                    key={component.clientId}
+                    index={index}
+                    value={component}
+                    onChange={setActivity}
+                    onRemove={removeComponentValue}
+                    workPlanStatusOptions={workPlanStatusOptions}
+                />
+                return null;
+            })}
             <div className={styles.submit}>
                 <Button
                     name="submit"

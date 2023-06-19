@@ -1,26 +1,27 @@
 import { IoTrash } from 'react-icons/io5';
 import {
+    PartialForm,
     SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
-import { PartialWorkPlan, WorkPlanStatus } from '../common';
+import { WorkPlanCustomItem, WorkPlanStatus } from '../common';
 import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import Button from '#components/Button';
-import { PerFormComponentItem } from '#views/PerPrioritizationForm/common';
-
-import styles from './styles.module.css';
 import TextInput from '#components/TextInput';
 
-type Value = NonNullable<PartialWorkPlan['component_responses']>[number];
+import styles from './styles.module.css';
+import { useMemo } from 'react';
+
+type Value = PartialForm<WorkPlanCustomItem>;
 
 interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
-    component: PerFormComponentItem;
+    onRemove: (index: number) => void;
     workPlanStatusOptions: WorkPlanStatus[];
 }
 
@@ -28,17 +29,21 @@ function CustomActivity(props: Props) {
     const {
         onChange,
         index,
+        onRemove,
         value,
-        component,
         workPlanStatusOptions,
     } = props;
 
+    const defaultValue = useMemo(
+        () => ({
+            action: value?.actions
+        }),
+        [value?.actions],
+    );
     const onFieldChange = useFormObject(
         index,
         onChange,
-        () => ({
-            component: component.id,
-        }),
+        defaultValue,
     );
 
     return (
@@ -74,8 +79,8 @@ function CustomActivity(props: Props) {
             />
             <Button
                 className={styles.removeButton}
-                name="select"
-                // onRemove={onRemove}
+                name={index}
+                onClick={onRemove}
                 variant="tertiary"
             >
                 <IoTrash />

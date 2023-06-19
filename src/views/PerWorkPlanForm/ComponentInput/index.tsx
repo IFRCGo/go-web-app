@@ -22,6 +22,7 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
     component: PerFormComponentItem;
+    onRemove: (index: number) => void;
     workPlanStatusOptions: WorkPlanStatus[];
 }
 
@@ -31,6 +32,7 @@ function ComponentInput(props: Props) {
         index,
         value,
         component,
+        onRemove,
         workPlanStatusOptions,
     } = props;
 
@@ -78,8 +80,8 @@ function ComponentInput(props: Props) {
             />
             <Button
                 className={styles.removeButton}
-                name="select"
-                // onRemove={onRemove}
+                name={index}
+                onClick={onRemove}
                 variant="tertiary"
             >
                 <IoTrash />
