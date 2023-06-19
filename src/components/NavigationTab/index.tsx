@@ -15,6 +15,7 @@ interface Props {
     children?: React.ReactNode;
     to?: string;
     title?: string;
+    stepCompleted?: boolean;
 }
 
 function NavigationTab(props: Props) {
@@ -23,6 +24,7 @@ function NavigationTab(props: Props) {
         to,
         className,
         title,
+        stepCompleted,
     } = props;
 
     const { variant } = useContext(NavigationTabContext);
@@ -33,6 +35,7 @@ function NavigationTab(props: Props) {
         variant === 'secondary' && styles.secondary,
         variant === 'tertiary' && styles.tertiary,
         variant === 'step' && styles.step,
+        stepCompleted && styles.completed,
         className,
     );
 
@@ -55,7 +58,9 @@ function NavigationTab(props: Props) {
             {variant === 'step' && (
                 <div className={styles.stepCircle}>
                     <div className={styles.innerCircle}>
-                        <CheckLineIcon className={styles.icon} />
+                        {stepCompleted && (
+                            <CheckLineIcon className={styles.icon} />
+                        )}
                     </div>
                 </div>
             )}

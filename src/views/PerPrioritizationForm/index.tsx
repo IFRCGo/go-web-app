@@ -15,6 +15,8 @@ import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import Button from '#components/Button';
 import BlockLoading from '#components/BlockLoading';
+import useAlert from '#hooks/useAlert';
+
 import {
     PartialPrioritization,
     Prioritization,
@@ -23,7 +25,6 @@ import {
     PrioritizationResponseFields,
 } from './common';
 import ComponentInput from './ComponentInput';
-import useAlert from '#hooks/useAlert';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -43,24 +44,27 @@ interface PerProcessStatusItem {
     id: number;
 }
 
+interface AssessmentResponse {
+    area_responses: {
+        component_responses: {
+            component: number
+            question_responses: {
+                id: number;
+                question: number;
+                answer: number;
+                notes: string;
+            }[];
+        }[];
+    }[];
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
     const navigate = useNavigate();
-
-    const {
-        pending: perProcessStatusPending,
-        response: perProcessStatusResponse,
-    } = useRequest<PerProcessStatusItem>({
-        skip: isNotDefined(perId),
-        url: `api/v2/per-process-status/${perId}`,
-    });
-
+    const alert = useAlert();
     const strings = useTranslation(i18n);
-
-    const {
-        perWorkPlanForm: perWorkPlanFormRoute,
-    } = useContext(RouteContext);
+    const { perWorkPlanForm: perWorkPlanFormRoute } = useContext(RouteContext);
 
     const {
         value,
@@ -72,14 +76,27 @@ export function Component() {
         prioritizationSchema,
         {
             value: {
-                overview: isDefined(perId) ? Number(perId) : undefined, 
+                overview: isDefined(perId) ? Number(perId) : undefined,
             },
         },
     );
 
     const {
-        pending: perFormComponentPending,
-        response: perFormComponentResponse,
+        setValue: setComponentValue,
+        removeValue: removeComponentValue,
+    } = useFormArray('component_responses', setFieldValue);
+
+    const {
+        pending: statusPending,
+        response: statusRepsonse,
+    } = useRequest<PerProcessStatusItem>({
+        skip: isNotDefined(perId),
+        url: `api/v2/per-process-status/${perId}`,
+    });
+
+    const {
+        pending: formComponentPending,
+        response: formComponentResponse,
     } = useRequest<ListResponse<PerFormComponentItem>>({
         url: 'api/v2/per-formcomponent/',
         query: {
@@ -87,33 +104,52 @@ export function Component() {
         },
     });
 
+    const { pending: prioritizationPending } = useRequest<PrioritizationResponseFields>({
+        skip: isNotDefined(statusRepsonse?.prioritization),
+        url: `api/v2/per-prioritization/${statusRepsonse?.prioritization}`,
+        onSuccess: (response) => {
+            setValue(response);
+        },
+    });
     const {
-        setValue: setComponentValue,
-        removeValue: removeComponentValue,
-    } = useFormArray('component_responses', setFieldValue);
+        pending: perAssesmentPending,
+        response: perAssessmentResponse,
+    } = useRequest<AssessmentResponse>({
+        skip: isNotDefined(statusRepsonse?.assessment),
+        url: `api/v2/per-assessment/${statusRepsonse?.assessment}`,
+    });
 
-    const alert = useAlert();
+    const componentResponses = perAssessmentResponse?.area_responses.flatMap(
+        (areaResponse) => areaResponse.component_responses,
+    ) ?? [];
+
+    const questionResponsesByComponent = listToMap(
+        componentResponses,
+        (componentResponse) => componentResponse.component,
+        (componentResponse) => componentResponse.question_responses,
+    );
 
     const {
+        pending: savePerPrioritizationPending,
         trigger: savePerPrioritization,
     } = useLazyRequest<PrioritizationResponseFields, Partial<Prioritization>>({
-        url: `api/v2/per-prioritization/${perProcessStatusResponse?.prioritization}`,
+        url: `api/v2/per-prioritization/${statusRepsonse?.prioritization}`,
         method: 'PUT',
         body: (ctx) => ctx,
         onSuccess: (response) => {
-            if (response && isNotDefined(perId) && isDefined(response.id)) {
+            if (response && isDefined(response.id)) {
+                alert.show(
+                    strings.perFormSaveRequestSuccessMessage,
+                    { variant: 'success' },
+                );
+
                 navigate(
                     generatePath(
                         perWorkPlanFormRoute.absolutePath,
-                        { perId: String(response.id) },
+                        { perId: String(perId) },
                     ),
                 );
             }
-
-            alert.show(
-                strings.perFormSaveRequestSuccessMessage,
-                { variant: 'success' },
-            );
         },
         onFailure: ({
             value: {
@@ -138,15 +174,14 @@ export function Component() {
         },
     });
 
-    const handleSubmit = useCallback(
-        (formValues: PartialPrioritization) => {
-            console.warn('Final values', formValues as Prioritization);
-            if (isDefined(perProcessStatusResponse?.assessment)) {
-                savePerPrioritization(formValues as Prioritization);
-            } else {
-                console.error('Prioritization id not defined');
-            }
-        }, [savePerPrioritization, perProcessStatusResponse]);
+    const handleSubmit = useCallback((formValues: PartialPrioritization) => {
+        const prioritization = statusRepsonse?.prioritization;
+        if (isNotDefined(prioritization)) {
+            // eslint-disable-next-line no-console
+            console.error('Prioritization id not defined');
+        }
+        savePerPrioritization(formValues as Prioritization);
+    }, [savePerPrioritization, statusRepsonse]);
 
     const componentResponseMapping = listToMap(
         value?.component_responses ?? [],
@@ -165,22 +200,27 @@ export function Component() {
             }
 
             setComponentValue({
-                justification: '',
+                justification_text: '',
                 component: componentId,
             }, index);
         },
         [removeComponentValue, setComponentValue],
     );
 
+    const pending = formComponentPending
+        || statusPending
+        || perAssesmentPending
+        || prioritizationPending;
+
     return (
         <form
             onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
             className={styles.perPrioritizationForm}
         >
-            {perFormComponentPending && (
+            {pending && (
                 <BlockLoading />
             )}
-            {perFormComponentResponse?.results?.map((component) => (
+            {!pending && formComponentResponse?.results?.map((component) => (
                 <ComponentInput
                     key={component.id}
                     index={componentResponseMapping[component.id]?.index}
@@ -188,17 +228,21 @@ export function Component() {
                     onChange={setComponentValue}
                     component={component}
                     onSelectionChange={handleSelectionChange}
+                    questionResponses={questionResponsesByComponent[component.id]}
                 />
             ))}
-            <div className={styles.actions}>
-                <Button
-                    type="submit"
-                    name="submit"
-                    variant="secondary"
-                >
-                    {strings.perSelectAndAddToWorkPlan}
-                </Button>
-            </div>
+            {!pending && (
+                <div className={styles.actions}>
+                    <Button
+                        type="submit"
+                        name="submit"
+                        variant="secondary"
+                        disabled={savePerPrioritizationPending}
+                    >
+                        {strings.perSelectAndAddToWorkPlan}
+                    </Button>
+                </div>
+            )}
         </form>
     );
 }

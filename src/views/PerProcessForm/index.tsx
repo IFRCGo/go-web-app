@@ -14,6 +14,7 @@ import {
     STEP_WORKPLAN,
     STEP_PRIORITIZATION,
     STEP_ASSESSMENT,
+    STEP_OVERVIEW,
 } from '#utils/per';
 
 import i18n from './i18n.json';
@@ -38,7 +39,9 @@ export function Component() {
         url: `api/v2/per-process-status/${perId}/`,
     });
 
-    const currentStep = getCurrentPerProcessStep(statusResponse);
+    const currentStep = statusResponse?.phase
+        ?? getCurrentPerProcessStep(statusResponse)
+        ?? STEP_OVERVIEW;
 
     return (
         <Page
@@ -52,6 +55,7 @@ export function Component() {
                     variant="step"
                 >
                     <NavigationTab
+                        stepCompleted={currentStep > STEP_OVERVIEW}
                         to={isDefined(perId)
                             ? generatePath(perOverviewFormRoute.absolutePath, { perId })
                             : newPerOverviewFormRoute.absolutePath}
@@ -59,6 +63,7 @@ export function Component() {
                         {strings.perFormTabOverviewLabel}
                     </NavigationTab>
                     <NavigationTab
+                        stepCompleted={currentStep > STEP_ASSESSMENT}
                         to={isDefined(perId) && currentStep === STEP_ASSESSMENT
                             ? generatePath(perAssessmentFormRoute.absolutePath, { perId })
                             : undefined}
@@ -66,6 +71,7 @@ export function Component() {
                         {strings.perFormTabAssessmentLabel}
                     </NavigationTab>
                     <NavigationTab
+                        stepCompleted={currentStep > STEP_PRIORITIZATION}
                         to={isDefined(perId) && currentStep === STEP_PRIORITIZATION
                             ? generatePath(perPrioritizationFormRoute.absolutePath, { perId })
                             : undefined}
@@ -73,6 +79,7 @@ export function Component() {
                         {strings.perFormTabPrioritizationLabel}
                     </NavigationTab>
                     <NavigationTab
+                        stepCompleted={currentStep > STEP_WORKPLAN}
                         to={isDefined(perId) && currentStep === STEP_WORKPLAN
                             ? generatePath(perWorkPlanFormRoute.absolutePath, { perId })
                             : undefined}

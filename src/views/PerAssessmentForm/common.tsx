@@ -75,17 +75,17 @@ export interface AreaResponse {
     component_responses: ComponentResponse[];
 }
 
-export interface Assessment {
+export interface AssessmentResponse {
     overview: number;
     is_draft: boolean;
     area_responses: AreaResponse[];
 }
 
-export interface PerAssessmentResponseFields extends Assessment {
+export interface PerAssessmentResponseFields extends AssessmentResponse {
     id: number;
 }
 
-export type PartialAssessment = PartialForm<Assessment, 'area' | 'component' | 'question' | 'consideration'>;
+export type PartialAssessment = PartialForm<AssessmentResponse, 'area' | 'component' | 'question' | 'consideration'>;
 type AssessmentSchema = ObjectSchema<PartialAssessment>
 type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 

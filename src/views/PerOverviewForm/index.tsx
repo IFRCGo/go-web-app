@@ -37,13 +37,6 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface PerProcessStatusItem {
-    assessment: number | null;
-    prioritization: number | null;
-    workplan: number | null;
-    id: number;
-}
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();

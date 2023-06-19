@@ -44,7 +44,7 @@ import {
     PerFormArea,
     PerFormQuestionItem,
     assessmentSchema,
-    Assessment,
+    AssessmentResponse,
     PartialAssessment,
     PerAssessmentResponseFields,
 } from './common';
@@ -87,7 +87,7 @@ export function Component() {
 
     const {
         pending: perAssesmentPending,
-    } = useRequest<Assessment>({
+    } = useRequest<AssessmentResponse>({
         skip: isNotDefined(assessmentId),
         url: `api/v2/per-assessment/${assessmentId}`,
         onSuccess: (response) => {
@@ -136,7 +136,7 @@ export function Component() {
 
     const {
         trigger: savePerAssessment,
-    } = useLazyRequest<PerAssessmentResponseFields, Partial<Assessment>>({
+    } = useLazyRequest<PerAssessmentResponseFields, Partial<AssessmentResponse>>({
         url: `api/v2/per-assessment/${assessmentId}/`,
         method: 'PUT',
         body: (ctx) => ctx,
@@ -184,7 +184,7 @@ export function Component() {
     });
 
     const handleSubmit = useCallback(
-        (formValues: PartialForm<Assessment>) => {
+        (formValues: PartialForm<AssessmentResponse>) => {
             if (isNotDefined(assessmentId) || isNotDefined(perId)) {
                 // TODO: show proper error message to user
                 // eslint-disable-next-line no-console
@@ -193,7 +193,7 @@ export function Component() {
             }
 
             savePerAssessment({
-                ...formValues as Assessment,
+                ...formValues as AssessmentResponse,
                 is_draft: true,
             });
         },
@@ -201,7 +201,7 @@ export function Component() {
     );
 
     const handleFinalSubmit = useCallback(
-        (formValues: PartialForm<Assessment>) => {
+        (formValues: PartialForm<AssessmentResponse>) => {
             if (isNotDefined(assessmentId) || isNotDefined(perId)) {
                 // TODO: show proper error message to user
                 // eslint-disable-next-line no-console
@@ -210,7 +210,7 @@ export function Component() {
             }
 
             savePerAssessment({
-                ...(formValues as Assessment),
+                ...(formValues as AssessmentResponse),
                 is_draft: false,
             });
         },

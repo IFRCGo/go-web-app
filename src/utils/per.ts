@@ -5,6 +5,8 @@ export interface PerProcessStatusItem {
     prioritization: number | null;
     workplan: number | null;
     id: number;
+    phase: number;
+    phase_display: string;
 }
 
 export const STEP_OVERVIEW = 0;

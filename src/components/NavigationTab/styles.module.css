@@ -78,7 +78,7 @@
         transition: var(--go-ui-duration-transition-medium) color, background-color ease-in-out;
         padding: var(--go-ui-spacing-md);
         text-transform: uppercase;
-        color: var(--go-ui-color-gray-50);
+        color: var(--go-ui-color-gray-70);
 
         .step-circle {
             transition: var(--go-ui-duration-transition-slow) border-color ease-in-out;
@@ -93,12 +93,11 @@
                 justify-content: center;
                 transition: var(--go-ui-duration-transition-slow) background-color ease-in-out;
                 border-radius: 50%;
-                background-color: var(--go-ui-color-gray-60);
+                background-color: var(--go-ui-color-gray-70);
                 width: 1rem;
                 height: 1rem;
 
                 .icon {
-                    opacity: 0;
                     padding: 0.1em;
                     color: var(--go-ui-color-white);
                 }
@@ -117,10 +116,6 @@
 
                 .inner-circle {
                     background-color: var(--go-ui-color-primary-red);
-
-                    .icon {
-                        opacity: 1;
-                    }
                 }
             }
         }

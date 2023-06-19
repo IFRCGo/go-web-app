@@ -1,17 +1,31 @@
-import { PerFormQuestionItem } from '../../common';
-
 import styles from './styles.module.css';
 
 interface Props {
-    question: PerFormQuestionItem,
+    question: string;
+    answer: string;
+    questionNum: number;
+    componentNum: number;
 }
 
 function QuestionOutput(props: Props) {
-    const { question } = props;
+    const {
+        questionNum,
+        componentNum,
+        question,
+        answer,
+    } = props;
 
     return (
         <div className={styles.questionOutput}>
-            {question.question}
+            <div className={styles.numbering}>
+                {`${componentNum}.${questionNum}`}
+            </div>
+            <div className={styles.question}>
+                {question}
+            </div>
+            <div className={styles.answer}>
+                {answer}
+            </div>
         </div>
     );
 }

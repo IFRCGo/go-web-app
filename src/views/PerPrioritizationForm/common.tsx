@@ -20,7 +20,7 @@ export interface Prioritization {
     overview: number;
     component_responses: {
         component: number;
-        justification: string;
+        justification_text: string;
     }[];
 }
 
@@ -40,7 +40,7 @@ export const prioritizationSchema: PrioritizationSchema = {
             member: () => ({
                 fields: () => ({
                     component: {},
-                    justification: {},
+                    justification_text: {},
                 }),
             }),
         },
