@@ -40,7 +40,17 @@ export function Component() {
         {
             email: 'dedi.jundai@ifrc.org',
             name: 'Dedi JUNADI',
-            extent: 'Asis Pacific Region',
+            extent: 'Asia Pacific Region',
+        },
+        {
+            email: 'anssi.anonen@ifrc.org',
+            name: 'Anssi ANONEN',
+            extent: 'Europe Region',
+        },
+        {
+            email: 'ahmad.aljamal@ifrc.org',
+            name: 'Ahmad AL JAMAL',
+            extent: 'MENA Region',
         },
     ];
 
