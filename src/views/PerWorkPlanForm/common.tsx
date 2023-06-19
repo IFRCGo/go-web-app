@@ -11,6 +11,15 @@ export interface WorkPlanComponentItem {
     status: string;
 }
 
+export interface PerFormComponentItem {
+    area: number;
+    component_letter: string;
+    component_num: number;
+    description: string;
+    id: number;
+    title: string;
+}
+
 export interface WorkPlanCustomItem {
     clientId: string;
     actions: string;

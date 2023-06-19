@@ -7,6 +7,7 @@
         "perWorkPlanSupportedBy": "Supported by",
         "perWorkPlanStatus": "Status",
         "perFormSaveRequestSuccessMessage": "PER Process created/updated successfully",
-        "perFormSaveRequestFailureMessage": "Failed to create/update PER Process"
+        "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
+        "perFormSaveAndFinalizeWorkPlan": "Save and Finalize Work-plan"
     }
 }

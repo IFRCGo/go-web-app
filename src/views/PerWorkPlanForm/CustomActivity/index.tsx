@@ -4,16 +4,15 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
-
 import { PartialWorkPlan, WorkPlanStatus } from '../common';
-import { PerFormComponentItem } from '#views/PerPrioritizationForm/common';
 import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import Button from '#components/Button';
-import TextInput from '#components/TextInput';
+import { PerFormComponentItem } from '#views/PerPrioritizationForm/common';
 
 import styles from './styles.module.css';
+import TextInput from '#components/TextInput';
 
 type Value = NonNullable<PartialWorkPlan['component_responses']>[number];
 
@@ -25,7 +24,7 @@ interface Props {
     workPlanStatusOptions: WorkPlanStatus[];
 }
 
-function ComponentInput(props: Props) {
+function CustomActivity(props: Props) {
     const {
         onChange,
         index,
@@ -46,9 +45,6 @@ function ComponentInput(props: Props) {
         <Container
             childrenContainerClassName={styles.workPlanTable}
         >
-            <div>
-                Component {component?.component_num}:{component?.title}
-            </div>
             <TextInput
                 name="actions"
                 value={value?.actions}
@@ -88,4 +84,4 @@ function ComponentInput(props: Props) {
     );
 }
 
-export default ComponentInput;
+export default CustomActivity;
