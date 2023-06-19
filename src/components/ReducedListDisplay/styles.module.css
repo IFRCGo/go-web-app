@@ -1,3 +1,7 @@
+.reduced-list-display {
+    display: inline-block;
+}
+
 .reduced-list-label {
     padding: 0;
     text-decoration: underline;

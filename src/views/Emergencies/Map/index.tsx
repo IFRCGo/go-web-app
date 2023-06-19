@@ -107,13 +107,8 @@ function EmergenciesMap(props: Props) {
     const [scaleBy, setScaleBy] = useInputState<ScaleOption['value']>('numAffected');
     const strings = useTranslation(i18n);
 
-    const [
-        scaleOptions,
-        legendOptions,
-    ] = useMemo(() => ([
-        getScaleOptions(strings),
-        getLegendOptions(strings),
-    ]), [strings]);
+    const scaleOptions = useMemo(() => getScaleOptions(strings), [strings]);
+    const legendOptions = useMemo(() => getLegendOptions(strings), [strings]);
 
     const {
         response: countryResponse,
@@ -162,12 +157,16 @@ function EmergenciesMap(props: Props) {
                 features: countryKeys
                     .filter((key) => {
                         const groupedEvents = countryGroupedEvents[key];
-                        return groupedEvents[0].country.independent
-                            || groupedEvents[0].country.record_type;
+                        const currentCountry = groupedEvents[0].country;
+
+                        return currentCountry.independent || currentCountry.record_type;
                     })
                     .map((key) => {
                         const groupedEvents = countryGroupedEvents[key];
-                        if (!groupedEvents[0].country.centroid || !groupedEvents[0].country.iso3) {
+                        const currentEvent = groupedEvents[0];
+                        const currentCountry = currentEvent.country;
+
+                        if (!currentCountry.centroid || !currentCountry.iso3) {
                             return undefined;
                         }
 
@@ -180,7 +179,7 @@ function EmergenciesMap(props: Props) {
                         if (uniqueGroupedEvents.length > 1) {
                             responseLevel = RESPONSE_LEVEL_MIXED_RESPONSE;
                         } else {
-                            const event = groupedEvents[0];
+                            const event = currentEvent;
                             if (event.details.appeals && event.details.appeals.length > 0) {
                                 responseLevel = RESPONSE_LEVEL_WITH_IFRC_RESPONSE;
                             }
@@ -195,7 +194,7 @@ function EmergenciesMap(props: Props) {
 
                         return {
                             type: 'Feature' as const,
-                            geometry: groupedEvents[0].country.centroid,
+                            geometry: currentCountry.centroid,
                             properties: {
                                 id: key,
                                 responseLevel,
@@ -243,6 +242,7 @@ function EmergenciesMap(props: Props) {
             withHeaderBorder
             actions={(
                 <Link
+                    // FIXME: use link for emergency list page
                     to="/"
                     withUnderline
                     withForwardIcon

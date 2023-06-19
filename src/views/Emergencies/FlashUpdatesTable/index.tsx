@@ -1,4 +1,9 @@
-import { useState, useMemo, useContext } from 'react';
+import {
+    useState,
+    useMemo,
+    useContext,
+    useCallback,
+} from 'react';
 import { generatePath } from 'react-router-dom';
 import {
     useRequest,
@@ -29,6 +34,7 @@ thirtyDaysAgo.setHours(0, 0, 0, 0);
 const keySelector = (item: FlashUpdate) => item.id;
 
 type TableKey = number;
+type CountryDistrict = FlashUpdate['country_district'][number];
 
 function FlashUpdateTable() {
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
@@ -38,6 +44,24 @@ function FlashUpdateTable() {
     const {
         country: countryRoute,
     } = useContext(RouteContext);
+
+    const countryDistrictColumnParam = useCallback(
+        (item: FlashUpdate) => ({
+            list: item.country_district,
+            keySelector: (countryDistrict: CountryDistrict) => countryDistrict.id,
+            renderer: (countryDistrict: CountryDistrict) => (
+                <Link
+                    to={generatePath(
+                        countryRoute.absolutePath,
+                        { countryId: String(countryDistrict.country) },
+                    )}
+                >
+                    {countryDistrict.country_details.name}
+                </Link>
+            ),
+        }),
+        [countryRoute],
+    );
 
     const columns = useMemo(
         () => ([
@@ -64,25 +88,13 @@ function FlashUpdateTable() {
                 strings.flashUpdateTableDisasterType,
                 (item) => item.hazard_type_details.name,
             ),
-            // FIXME: create separate types of column shortcut for list of links
-            createListDisplayColumn<FlashUpdate, TableKey>(
+            createListDisplayColumn<FlashUpdate, TableKey, FlashUpdate['country_district'][number]>(
                 'country_district',
                 strings.flashUpdateTableCountry,
-                (item) => ({
-                    value: item.country_district.map((countryDistrict) => (
-                        <Link
-                            to={generatePath(
-                                countryRoute.absolutePath,
-                                { countryId: String(countryDistrict.id) },
-                            )}
-                        >
-                            {countryDistrict.country_details.name}
-                        </Link>
-                    )),
-                }),
+                countryDistrictColumnParam,
             ),
         ]),
-        [strings, countryRoute],
+        [strings, countryDistrictColumnParam],
     );
 
     let ordering;

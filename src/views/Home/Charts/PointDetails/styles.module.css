@@ -2,7 +2,7 @@
     --color-dref: var(--go-ui-color-primary-blue);
     --color-emergency-appeal: var(--go-ui-color-primary-red);
 
-    flex-basis: 18rem;
+    flex-basis: 10rem;
     flex-grow: 1;
     background-color: var(--go-ui-color-background);
     padding: var(--go-ui-spacing-xl);

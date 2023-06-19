@@ -1,4 +1,9 @@
-import { useState, useMemo, useContext } from 'react';
+import {
+    useState,
+    useMemo,
+    useContext,
+    useCallback,
+} from 'react';
 import { generatePath } from 'react-router-dom';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
@@ -31,6 +36,7 @@ thirtyDaysAgo.setHours(0, 0, 0, 0);
 const keySelector = (item: EventItem) => item.id;
 
 type TableKey = number;
+type CountryItem = EventItem['countries'][number];
 
 function EventItemsTable() {
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
@@ -41,6 +47,24 @@ function EventItemsTable() {
         country: countryRoute,
         emergency: emergencyRoute,
     } = useContext(RouteContext);
+
+    const countryListColumnParams = useCallback(
+        (item: EventItem) => ({
+            list: item.countries,
+            keySelector: (country: CountryItem) => country.id,
+            renderer: (country: CountryItem) => (
+                <Link
+                    to={generatePath(
+                        countryRoute.absolutePath,
+                        { countryId: String(country.id) },
+                    )}
+                >
+                    {country.name}
+                </Link>
+            ),
+        }),
+        [countryRoute],
+    );
 
     const columns = useMemo(
         () => ([
@@ -79,24 +103,13 @@ function EventItemsTable() {
                     item.appeals.map((appeal) => Number(appeal.amount_requested)),
                 ),
             ),
-            createListDisplayColumn<EventItem, TableKey>(
+            createListDisplayColumn<EventItem, TableKey, CountryItem>(
                 'countries',
                 strings.emergenciesTableCountry,
-                (item) => ({
-                    value: item.countries.map((country) => (
-                        <Link
-                            to={generatePath(
-                                countryRoute.absolutePath,
-                                { countryId: String(country.id) },
-                            )}
-                        >
-                            {country.name}
-                        </Link>
-                    )),
-                }),
+                countryListColumnParams,
             ),
         ]),
-        [strings, countryRoute, emergencyRoute],
+        [strings, emergencyRoute, countryListColumnParams],
     );
 
     let ordering;

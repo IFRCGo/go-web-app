@@ -78,11 +78,13 @@ function FieldReportsTable() {
                 (item) => item.dtype?.name,
                 { sortable: true },
             ),
-            createListDisplayColumn<FieldReport, TableKey>(
+            createListDisplayColumn<FieldReport, TableKey, FieldReport['countries'][number]>(
                 'countries',
                 strings.fieldReportsTableCountry,
                 (item) => ({
-                    value: item.countries.map((country) => (
+                    list: item.countries,
+                    keySelector: (country) => country.id,
+                    renderer: (country) => (
                         <Link
                             to={generatePath(
                                 countryRoute.absolutePath,
@@ -91,7 +93,7 @@ function FieldReportsTable() {
                         >
                             {country.name}
                         </Link>
-                    )),
+                    ),
                 }),
             ),
         ]),
@@ -143,6 +145,7 @@ function FieldReportsTable() {
             )}
             actions={(
                 <Link
+                    // FIXME: use listing page URL
                     to="/"
                     withForwardIcon
                     withUnderline

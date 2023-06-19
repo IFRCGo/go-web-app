@@ -1,8 +1,4 @@
-import { _cs } from '@togglecorp/fujs';
-
 import useBasicLayout from '#hooks/useBasicLayout';
-
-import styles from './styles.module.css';
 
 interface Props {
     actions?: React.ReactNode;
@@ -39,15 +35,9 @@ function Footer(props: Props) {
     });
 
     return (
-        <footer
-            className={_cs(
-                styles.footer,
-            )}
-        >
-            <div className={_cs(styles.footerContent, containerClassName)}>
-                {content}
-            </div>
-        </footer>
+        <div className={containerClassName}>
+            {content}
+        </div>
     );
 }
 

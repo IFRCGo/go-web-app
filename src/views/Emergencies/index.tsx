@@ -39,11 +39,29 @@ const getFormattedKey = (dateFromProps: string | Date) => {
     return `${date.getFullYear()}-${date.getMonth()}`;
 };
 
+function timeseriesChartClassNameSelector() {
+    return styles.eventsChart;
+}
+
 const xAxisFormatter = (date: Date) => date.toLocaleString(
     undefined,
     { month: 'short' },
 );
 
+type EmergencyByType = {
+    type: string;
+    numOfEvents: number;
+    typeName: string;
+}
+function typeSelector(groupedEvent: EmergencyByType) {
+    return groupedEvent.type;
+}
+function numOfEventsSelector(groupedEvent: EmergencyByType) {
+    return groupedEvent.numOfEvents;
+}
+function typeNameSelector(groupedEvent: EmergencyByType) {
+    return groupedEvent.typeName;
+}
 const timeSeriesDataKeys = ['events'];
 
 const thirtyDaysAgo = new Date();
@@ -141,23 +159,33 @@ export function Component() {
         [eventsResponse],
     );
 
-    const emergenciesMapByType = listToGroupList(
-        eventsResponse?.results ?? [],
-        (event) => event.dtype.id,
+    const emergenciesByType = useMemo(
+        () => {
+            const emergenciesMapByType = listToGroupList(
+                eventsResponse?.results ?? [],
+                (event) => event.dtype.id,
+            );
+
+            return mapToList(
+                emergenciesMapByType,
+                (event, disasterType) => ({
+                    type: disasterType,
+                    typeName: event[0].dtype.name,
+                    numOfEvents: event.length,
+                }),
+            );
+        },
+        [eventsResponse],
     );
 
-    const emergenciesByType = mapToList(
-        emergenciesMapByType,
-        (event, disasterType) => ({
-            type: disasterType,
-            typeName: event[0].dtype.name,
-            numOfEvents: event.length,
-        }),
-    );
-
-    const aggregateDataMap = listToMap(
-        aggregateEventResponse?.aggregate ?? [],
-        (aggregate) => getFormattedKey(aggregate.timespan),
+    const aggregateDataMap = useMemo(
+        () => (
+            listToMap(
+                aggregateEventResponse?.aggregate ?? [],
+                (aggregate) => getFormattedKey(aggregate.timespan),
+            )
+        ),
+        [aggregateEventResponse],
     );
 
     const timeSeriesValueSelector = useCallback(
@@ -208,19 +236,19 @@ export function Component() {
         >
             <div className={styles.charts}>
                 <Container
-                    heading="Emergencies by Type"
+                    heading={strings.emergenciesByTypeTitle}
                     className={styles.emergenciesByType}
                     withHeaderBorder
                 >
                     <BarChart
                         data={emergenciesByType}
-                        keySelector={(groupedEvent) => groupedEvent.type}
-                        valueSelector={(groupedEvent) => groupedEvent.numOfEvents}
-                        labelSelector={(groupedEvent) => groupedEvent.typeName}
+                        keySelector={typeSelector}
+                        valueSelector={numOfEventsSelector}
+                        labelSelector={typeNameSelector}
                     />
                 </Container>
                 <Container
-                    heading="Emergencies over the last year"
+                    heading={strings.emergenciesOverLastYearTitle}
                     className={styles.emergenciesOverLastYear}
                     withHeaderBorder
                 >
@@ -230,7 +258,7 @@ export function Component() {
                             timePoints={dateList}
                             dataKeys={timeSeriesDataKeys}
                             valueSelector={timeSeriesValueSelector}
-                            classNameSelector={() => styles.eventsChart}
+                            classNameSelector={timeseriesChartClassNameSelector}
                             xAxisFormatter={xAxisFormatter}
                         />
                     )}

@@ -1,3 +1,4 @@
+import { max } from '@togglecorp/fujs';
 import { sumSafe } from '#utils/common';
 
 interface Event {
@@ -10,12 +11,10 @@ interface Event {
 
 // eslint-disable-next-line import/prefer-default-export
 export function getNumAffected(event: Event) {
-    const latestFieldReport = event.field_reports.sort(
-        (a, b) => (
-            new Date(b.updated_at).getTime()
-                - new Date(a.updated_at).getTime()
-        ),
-    )[0];
+    const latestFieldReport = max(
+        event.field_reports,
+        (fieldReport) => new Date(fieldReport.updated_at).getTime(),
+    );
 
     return sumSafe([
         event.num_affected,
