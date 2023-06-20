@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -60,9 +60,19 @@ export function Component() {
     const { perId } = useParams<{ perId: string }>();
     const navigate = useNavigate();
 
+    const [inputs, setInputs] = useState(['']);
+    const handleAddInput = () => {
+        setInputs([...inputs, '']); // Add an empty input to the state
+    };
+    const handleChange = (index: any, value: any) => {
+        const updatedInputs = [...inputs];
+        updatedInputs[index] = value;
+        setInputs(updatedInputs); // Update the input value in the state
+    };
+
     const {
-        pending: perProcessStatusPending,
-        response: perProcessStatusResponse,
+        pending: statusPending,
+        response: statusResponse,
     } = useRequest<PerProcessStatusItem>({
         skip: isNotDefined(perId),
         url: `api/v2/per-process-status/${perId}`,
@@ -77,7 +87,7 @@ export function Component() {
     const {
         response: workPlanResponse,
     } = useRequest<ListResponse<PerFormComponentItem>>({
-        url: `api/v2/per-prioritization/`,
+        url: `api/v2/per-work-plan/`,
         query: {
             limit: 500,
         },
@@ -102,7 +112,7 @@ export function Component() {
     const {
         trigger: savePerWorkPlan,
     } = useLazyRequest<WorkPlanResponseFields, Partial<WorkPlanFormFields>>({
-        url: `api/v2/per-work-plan/${perProcessStatusResponse?.workplan}`,
+        url: `api/v2/per-work-plan/${statusResponse?.workplan}`,
         method: 'POST',
         body: (ctx) => ctx,
         onSuccess: (response) => {
@@ -157,7 +167,7 @@ export function Component() {
     const handleSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
             console.warn('Final Values', formValues as WorkPlanFormFields);
-            if (isDefined(perProcessStatusResponse?.workplan)) {
+            if (isDefined(statusResponse?.workplan)) {
                 savePerWorkPlan(formValues as WorkPlanFormFields);
             } else {
                 console.error('Work-Plan id not defined');
@@ -212,20 +222,35 @@ export function Component() {
             <Button
                 name={undefined}
                 variant="secondary"
-                onClick={handleAddCustomActivity}
+                onClick={handleAddInput}
                 icons={<IoAdd />}
             >
                 Add row
             </Button>
-            {value?.custom_component_responses?.map((component, index) => {
-                <CustomActivity
-                    key={component.clientId}
-                    index={index}
-                    value={component}
-                    onChange={setActivity}
-                    onRemove={removeComponentValue}
-                    workPlanStatusOptions={workPlanStatusOptions}
+            {inputs.map((input, index) => (
+                <input
+                    key={index}
+                    value={input}
+                    onChange={(e) => handleChange(index, e.target.value)}
                 />
+            ))}
+
+            {value?.custom_component_responses?.map((component, index) => {
+                <>
+                    <input
+                        key={index}
+                        value={component}
+                        onChange={(e) => handleChange(index, e.target.value)}
+                    />
+                    <CustomActivity
+                        key={component.clientId}
+                        index={index}
+                        value={component}
+                        onChange={setActivity}
+                        onRemove={removeComponentValue}
+                        workPlanStatusOptions={workPlanStatusOptions}
+                    />
+                </>
                 return null;
             })}
             <div className={styles.submit}>

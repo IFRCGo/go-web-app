@@ -88,7 +88,7 @@ export function Component() {
 
     const {
         pending: statusPending,
-        response: statusRepsonse,
+        response: statusResponse,
     } = useRequest<PerProcessStatusItem>({
         skip: isNotDefined(perId),
         url: `api/v2/per-process-status/${perId}`,
@@ -105,8 +105,8 @@ export function Component() {
     });
 
     const { pending: prioritizationPending } = useRequest<PrioritizationResponseFields>({
-        skip: isNotDefined(statusRepsonse?.prioritization),
-        url: `api/v2/per-prioritization/${statusRepsonse?.prioritization}`,
+        skip: isNotDefined(statusResponse?.prioritization),
+        url: `api/v2/per-prioritization/${statusResponse?.prioritization}`,
         onSuccess: (response) => {
             setValue(response);
         },
@@ -115,8 +115,8 @@ export function Component() {
         pending: perAssesmentPending,
         response: perAssessmentResponse,
     } = useRequest<AssessmentResponse>({
-        skip: isNotDefined(statusRepsonse?.assessment),
-        url: `api/v2/per-assessment/${statusRepsonse?.assessment}`,
+        skip: isNotDefined(statusResponse?.assessment),
+        url: `api/v2/per-assessment/${statusResponse?.assessment}`,
     });
 
     const componentResponses = perAssessmentResponse?.area_responses.flatMap(
@@ -133,7 +133,7 @@ export function Component() {
         pending: savePerPrioritizationPending,
         trigger: savePerPrioritization,
     } = useLazyRequest<PrioritizationResponseFields, Partial<Prioritization>>({
-        url: `api/v2/per-prioritization/${statusRepsonse?.prioritization}`,
+        url: `api/v2/per-prioritization/${statusResponse?.prioritization}`,
         method: 'PUT',
         body: (ctx) => ctx,
         onSuccess: (response) => {
@@ -175,13 +175,13 @@ export function Component() {
     });
 
     const handleSubmit = useCallback((formValues: PartialPrioritization) => {
-        const prioritization = statusRepsonse?.prioritization;
+        const prioritization = statusResponse?.prioritization;
         if (isNotDefined(prioritization)) {
             // eslint-disable-next-line no-console
             console.error('Prioritization id not defined');
         }
         savePerPrioritization(formValues as Prioritization);
-    }, [savePerPrioritization, statusRepsonse]);
+    }, [savePerPrioritization, statusResponse]);
 
     const componentResponseMapping = listToMap(
         value?.component_responses ?? [],
