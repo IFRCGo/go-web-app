@@ -22,6 +22,7 @@
 
             .input-field {
                 width: 100%;
+                font-weight: var(--go-ui-font-weight-medium);
             }
 
             .form-border {

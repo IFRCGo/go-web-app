@@ -1,10 +1,16 @@
-import { useState, useCallback } from 'react';
+import {
+    useState,
+    useCallback,
+    useMemo,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     useForm,
     ObjectSchema,
     requiredStringCondition,
-    PartialForm,
+    requiredCondition,
     getErrorObject,
+    PartialForm,
 } from '@togglecorp/toggle-form';
 
 import Page from '#components/Page';
@@ -15,8 +21,15 @@ import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 
 import useTranslation from '#hooks/useTranslation';
+import useAlert from '#hooks/useAlert';
 import { resolveToComponent } from '#utils/translation';
-import { useLazyRequest } from '#utils/restRequest';
+import { isValidCountry } from '#utils/common';
+import type { Country } from '#types/country';
+import {
+    ListResponse,
+    useRequest,
+    useLazyRequest,
+} from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -31,57 +44,37 @@ interface ResponseFields {
     id: number;
     token: string;
     expires: string;
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
     email: string;
     password: string;
     confirmPassword: string;
-    organizationName: string;
+    organization: string;
+    country: number;
+    organizationType: string;
     city: string;
     department: string;
     position: string;
     phone: string;
 }
 
-interface FormFields {
-    firstName?: string | null | undefined;
-    lastName?: string | null | undefined;
-    email?: string | null | undefined;
-    password?: string | null | undefined;
-    confirmPassword?: string | null | undefined;
-    organizationName?: string | null | undefined;
-    city?: string | null | undefined;
-    department?: string | null | undefined;
-    position?: string | null | undefined;
-    phone?: string | null | undefined;
-}
+type FormFields = PartialForm<Omit<ResponseFields, 'id' | 'token' | 'expires'>>;
 
-const defaultFormValue: PartialForm<FormFields> = {
-    firstName: undefined,
-    lastName: undefined,
-    email: undefined,
-    password: undefined,
-    confirmPassword: undefined,
-    organizationName: undefined,
-    city: undefined,
-    department: undefined,
-    position: undefined,
-    phone: undefined
-};
+const defaultFormValue: FormFields = {};
 
 const formSchema: ObjectSchema<FormFields> = {
     fields: () => ({
-        firstName: {
+        firstname: {
             required: true,
             requiredCondition: requiredStringCondition,
         },
-        lastName: {
+        lastname: {
             required: true,
             requiredCondition: requiredStringCondition,
         },
         email: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredCondition,
         },
         password: {
             required: true,
@@ -91,45 +84,52 @@ const formSchema: ObjectSchema<FormFields> = {
             required: true,
             requiredCondition: requiredStringCondition,
         },
-        organizationName: {
+        organization: {
             required: true,
             requiredCondition: requiredStringCondition,
+        },
+        organizationType: {
+            required: true,
+            requiredCondition,
+        },
+        country: {
+            required: true,
+            requiredCondition,
         },
         city: {
             required: true,
             requiredCondition: requiredStringCondition,
         },
         department: {
-            required: true,
-            requiredCondition: requiredStringCondition,
+            required: false,
         },
         position: {
-            required: true,
-            requiredCondition: requiredStringCondition,
+            required: false,
         },
         phone: {
-            required: true,
-            requiredCondition: requiredStringCondition,
+            required: false,
         },
 
     }),
 };
 
-// FIXME: Replace this dummy option with the original one
-const countryOptions: OptionType[] = [
-    { value: '01', label: 'Nepal' },
-    { value: '02', label: 'Bangkok' },
-    { value: '03', label: 'Bhutan' },
-    { value: '04', label: 'China' },
-    { value: '05', label: 'Pakistan' },
-];
+const keySelector = (item: OptionType) => item.value;
+const labelSelector = (item: OptionType) => item.label;
 
-// FIXME: Replace this dummy option with the original one
+function countryKeySelector(country: Country) {
+    return country.id;
+}
+
+function countryNameSelector(country: Country) {
+    return country.name;
+}
+
+// FIXME: Need to make an Api for these options
 const organizationTypeOptions: OptionType[] = [
-    { value: '001', label: 'National Society' },
-    { value: '002', label: 'IFRC' },
-    { value: '003', label: 'ICRC' },
-    { value: '004', label: 'Other' },
+    { value: '12', label: 'National Society' },
+    { value: '13', label: 'IFRC' },
+    { value: '14', label: 'ICRC' },
+    { value: '15', label: 'Other' },
 ];
 
 // eslint-disable-next-line import/prefer-default-export
@@ -140,21 +140,33 @@ export function Component() {
         value: formValue,
         error: formError,
         setFieldValue,
+        setValue,
         setError,
         validate,
     } = useForm(formSchema, { value: defaultFormValue });
 
-    const [countryType, setCountryType] = useState<string | undefined>(undefined);
+    const alert = useAlert();
+    const navigate = useNavigate();
+
+    const [countryName, setCountryName] = useState<number | undefined>(undefined);
     const [organizationType, setOrganizationType] = useState<string | undefined>(undefined);
 
+    const fieldError = getErrorObject(formError);
+
     const {
-        trigger: login,
+        pending: registerPending,
+        trigger: register,
     } = useLazyRequest<ResponseFields, FormFields>({
         method: 'POST',
-        url: 'get_auth_token',
+        url: 'register',
         body: (body) => body,
-        onSuccess: (response) => {
-            console.log('REquest call for register::::?>>', response);
+        onSuccess: () => {
+            const message = 'Successfully created a user !';
+            alert.show(
+                message,
+                { variant: 'success' },
+            );
+            navigate('/login');
         },
         onFailure: (error) => {
             const {
@@ -162,25 +174,56 @@ export function Component() {
                     formErrors,
                 },
             } = error;
-
             setError(formErrors);
+            // FIXME: Error message from server is not properly sent
+            const message = 'Sorry could not register new user right now !';
+            alert.show(
+                message,
+                { variant: 'danger' },
+            );
         },
     });
 
-    const fieldError = getErrorObject(formError);
+    const { response: countriesResponse } = useRequest<ListResponse<Country>>({
+        url: 'api/v2/country/',
+        query: { limit: 500 },
+    });
+
+    const countryList = useMemo(
+        () => countriesResponse?.results.filter(
+            (country) => isValidCountry(country) && !!country.name,
+        ),
+        [countriesResponse],
+    );
     const loginInfo = resolveToComponent(
         strings.registerAccountPresent,
         {
             loginLink: (
                 <Link
                     to="register"
-                    underline
+                    withUnderline
                 >
                     {strings.registerLogin}
                 </Link>
             ),
         },
     );
+
+    const handleCountrySelect = useCallback((countrySelected: number | undefined) => {
+        setCountryName(countrySelected);
+        setValue({
+            ...formValue,
+            country: countrySelected,
+        });
+    }, [formValue, setValue]);
+
+    const handleOrganizationType = useCallback((org: string | undefined) => {
+        setOrganizationType(org);
+        setValue({
+            ...formValue,
+            organizationType: org,
+        });
+    }, [formValue, setValue]);
 
     const handleRegister = useCallback(() => {
         const result = validate();
@@ -191,11 +234,11 @@ export function Component() {
         }
 
         const body = result.value;
-        login(body);
+        register(body);
     }, [
         validate,
         setError,
-        login,
+        register,
     ]);
 
     return (
@@ -211,20 +254,22 @@ export function Component() {
                 <div className={styles.fields}>
                     <TextInput
                         className={styles.inputField}
-                        name="firstName"
+                        name="firstname"
                         label={strings.registerFirstName}
-                        value={formValue.firstName}
+                        value={formValue.firstname}
                         onChange={setFieldValue}
-                        error={fieldError?.firstName}
+                        error={fieldError?.firstname}
+                        disabled={registerPending}
                         withAsterisk
                     />
                     <TextInput
                         className={styles.inputField}
-                        name="lastName"
+                        name="lastname"
                         label={strings.registerLastName}
-                        value={formValue.lastName}
+                        value={formValue.lastname}
                         onChange={setFieldValue}
-                        error={fieldError?.lastName}
+                        error={fieldError?.lastname}
+                        disabled={registerPending}
                         withAsterisk
                     />
                 </div>
@@ -235,6 +280,7 @@ export function Component() {
                     value={formValue.email}
                     onChange={setFieldValue}
                     error={fieldError?.email}
+                    disabled={registerPending}
                     withAsterisk
                 />
                 <div className={styles.fields}>
@@ -246,6 +292,7 @@ export function Component() {
                         value={formValue.password}
                         onChange={setFieldValue}
                         error={fieldError?.password}
+                        disabled={registerPending}
                         withAsterisk
                     />
                     <TextInput
@@ -256,20 +303,24 @@ export function Component() {
                         value={formValue.confirmPassword}
                         onChange={setFieldValue}
                         error={fieldError?.confirmPassword}
+                        disabled={registerPending}
                         withAsterisk
                     />
                 </div>
                 <div className={styles.formBorder} />
                 <div className={styles.fields}>
                     <SelectInput
+                        className={styles.inputField}
                         label={strings.registerCountry}
                         name="country"
-                        value={countryType}
-                        onChange={setCountryType}
-                        // FIXME: do no inline functions on render
-                        keySelector={(item) => item.value}
-                        labelSelector={(item) => item.label}
-                        options={countryOptions}
+                        value={countryName}
+                        onChange={handleCountrySelect}
+                        keySelector={countryKeySelector}
+                        labelSelector={countryNameSelector}
+                        options={countryList}
+                        error={fieldError?.country}
+                        disabled={registerPending}
+                        withAsterisk
                     />
                     <TextInput
                         className={styles.inputField}
@@ -278,28 +329,33 @@ export function Component() {
                         value={formValue.city}
                         onChange={setFieldValue}
                         error={fieldError?.city}
+                        disabled={registerPending}
                         withAsterisk
                     />
                 </div>
                 <TextInput
                     className={styles.inputField}
-                    name="organizationName"
+                    name="organization"
                     label={strings.registerOrganizationName}
-                    value={formValue.organizationName}
+                    value={formValue.organization}
                     onChange={setFieldValue}
-                    error={fieldError?.organizationName}
+                    error={fieldError?.organization}
+                    disabled={registerPending}
                     withAsterisk
                 />
                 <div className={styles.fields}>
                     <SelectInput
+                        className={styles.inputField}
                         label={strings.registerOrganizationType}
                         name="organizationType"
                         value={organizationType}
-                        onChange={setOrganizationType}
-                        // FIXME: do no inline functions on render
-                        keySelector={(item) => item.value}
-                        labelSelector={(item) => item.label}
+                        onChange={handleOrganizationType}
+                        keySelector={keySelector}
+                        labelSelector={labelSelector}
                         options={organizationTypeOptions}
+                        error={fieldError?.organizationType}
+                        disabled={registerPending}
+                        withAsterisk
                     />
                     <TextInput
                         className={styles.inputField}
@@ -308,7 +364,7 @@ export function Component() {
                         value={formValue.department}
                         onChange={setFieldValue}
                         error={fieldError?.department}
-                        withAsterisk
+                        disabled={registerPending}
                     />
                 </div>
                 <div className={styles.fields}>
@@ -319,7 +375,7 @@ export function Component() {
                         value={formValue.position}
                         onChange={setFieldValue}
                         error={fieldError?.position}
-                        withAsterisk
+                        disabled={registerPending}
                     />
                     <TextInput
                         className={styles.inputField}
@@ -328,6 +384,7 @@ export function Component() {
                         value={formValue.phone}
                         onChange={setFieldValue}
                         error={fieldError?.phone}
+                        disabled={registerPending}
                         withAsterisk
                     />
                 </div>
@@ -335,6 +392,7 @@ export function Component() {
                     <Button
                         name={undefined}
                         onClick={handleRegister}
+                        disabled={registerPending}
                     >
                         {strings.registerSubmit}
                     </Button>
