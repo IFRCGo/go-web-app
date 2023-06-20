@@ -5,6 +5,8 @@ import {
     useCallback,
 } from 'react';
 import { generatePath } from 'react-router-dom';
+
+import Page from '#components/Page';
 import {
     useRequest,
     ListResponse,
@@ -22,28 +24,23 @@ import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
+import type { FlashUpdate, CountryDistrict } from '#types/flashUpdate';
 
-import type { FlashUpdate } from '../types';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-const thirtyDaysAgo = new Date();
-thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-thirtyDaysAgo.setHours(0, 0, 0, 0);
 
 const keySelector = (item: FlashUpdate) => item.id;
 
 type TableKey = number;
-type CountryDistrict = FlashUpdate['country_district'][number];
 
-function FlashUpdateTable() {
+// eslint-disable-next-line import/prefer-default-export
+export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
 
     const {
         country: countryRoute,
-        allFlashUpdates: allFlashUpdatesRoute,
     } = useContext(RouteContext);
 
     const countryDistrictColumnParam = useCallback(
@@ -68,7 +65,7 @@ function FlashUpdateTable() {
         () => ([
             createDateColumn<FlashUpdate, TableKey>(
                 'created_at',
-                strings.flashUpdateTableLastUpdate,
+                strings.allFlashUpdatesLastUpdate,
                 (item) => item.created_at,
                 {
                     sortable: true,
@@ -77,7 +74,7 @@ function FlashUpdateTable() {
             ),
             createStringColumn<FlashUpdate, TableKey>(
                 'title',
-                strings.flashUpdateTableReport,
+                strings.allFlashUpdatesReport,
                 (item) => item.title,
                 {
                     sortable: true,
@@ -86,12 +83,12 @@ function FlashUpdateTable() {
             ),
             createStringColumn<FlashUpdate, TableKey>(
                 'hazard_type',
-                strings.flashUpdateTableDisasterType,
+                strings.allFlashUpdatesDisasterType,
                 (item) => item.hazard_type_details.name,
             ),
             createListDisplayColumn<FlashUpdate, TableKey, FlashUpdate['country_district'][number]>(
                 'country_district',
-                strings.flashUpdateTableCountry,
+                strings.allFlashUpdatesCountry,
                 countryDistrictColumnParam,
             ),
         ]),
@@ -107,7 +104,7 @@ function FlashUpdateTable() {
 
     const [page, setPage] = useState(0);
 
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 15;
     const {
         pending: flashUpdatePending,
         response: flashUpdateResponse,
@@ -118,50 +115,44 @@ function FlashUpdateTable() {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             ordering,
-            created_at__gte: thirtyDaysAgo.toISOString(),
         },
     });
 
     const heading = resolveToComponent(
-        strings.flashUpdateTableTitle,
+        strings.allFlashUpdatesTitle,
         { numFlashUpdates: flashUpdateResponse?.count ?? '--' },
     );
 
     return (
-        <Container
-            className={styles.flashUpdatesTable}
+        <Page
+            className={styles.allFlashUpdates}
+            title={strings.allFlashUpdatesTitle}
             heading={heading}
-            headerDescriptionClassName={styles.filters}
-            withHeaderBorder
-            footerActions={(
-                <Pager
-                    activePage={page}
-                    itemsCount={flashUpdateResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
-                    onActivePageChange={setPage}
-                />
-            )}
-            actions={(
-                <Link
-                    to={allFlashUpdatesRoute.absolutePath}
-                    withUnderline
-                    withForwardIcon
-                >
-                    {strings.flashUpdateTableViewAllReports}
-                </Link>
-            )}
         >
-            <SortContext.Provider value={sortState}>
-                <Table
-                    pending={flashUpdatePending}
-                    className={styles.table}
-                    columns={columns}
-                    keySelector={keySelector}
-                    data={flashUpdateResponse?.results}
-                />
-            </SortContext.Provider>
-        </Container>
+            <Container
+                className={styles.flashUpdatesTable}
+                headerDescriptionClassName={styles.filters}
+                footerActions={(
+                    <Pager
+                        activePage={page}
+                        itemsCount={flashUpdateResponse?.count ?? 0}
+                        maxItemsPerPage={PAGE_SIZE}
+                        onActivePageChange={setPage}
+                    />
+                )}
+            >
+                <SortContext.Provider value={sortState}>
+                    <Table
+                        pending={flashUpdatePending}
+                        className={styles.table}
+                        columns={columns}
+                        keySelector={keySelector}
+                        data={flashUpdateResponse?.results}
+                    />
+                </SortContext.Provider>
+            </Container>
+        </Page>
     );
 }
 
-export default FlashUpdateTable;
+Component.displayName = 'AllFlashUpdates';

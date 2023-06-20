@@ -7,6 +7,7 @@ interface Props {
     className?: string;
     message?: React.ReactNode;
     compact?: boolean;
+    withoutBorder?: boolean;
 }
 
 function BlockLoading(props: Props) {
@@ -14,6 +15,7 @@ function BlockLoading(props: Props) {
         className,
         message,
         compact,
+        withoutBorder = false,
     } = props;
 
     return (
@@ -22,6 +24,7 @@ function BlockLoading(props: Props) {
                 _cs(
                     styles.blockLoading,
                     compact && styles.compact,
+                    !withoutBorder && styles.withBorder,
                     className,
                 )
             }

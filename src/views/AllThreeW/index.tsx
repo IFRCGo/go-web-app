@@ -1,0 +1,19 @@
+import Page from '#components/Page';
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
+import styles from './styles.module.css';
+
+// eslint-disable-next-line import/prefer-default-export
+export function Component() {
+    const strings = useTranslation(i18n);
+
+    return (
+        <Page
+            className={styles.allThreeW}
+            title={strings.allThreeWTitle}
+        />
+    );
+}
+
+Component.displayName = 'AllThreeW';

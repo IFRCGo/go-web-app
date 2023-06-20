@@ -47,7 +47,8 @@
         }
 
         .search-container {
-            min-width: 20rem;
+            flex-basis: 30rem;
+            flex-grow: 0.5;
         }
     }
 }

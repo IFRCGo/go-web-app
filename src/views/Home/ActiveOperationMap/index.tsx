@@ -93,6 +93,7 @@ function ActiveOperationMap(props: Props) {
 
     const {
         country: countryRoute,
+        allAppeals: allAppealsRoute,
     } = useContext(RouteContext);
 
     const [
@@ -234,7 +235,7 @@ function ActiveOperationMap(props: Props) {
             withHeaderBorder
             actions={(
                 <Link
-                    to="/"
+                    to={allAppealsRoute.absolutePath}
                     actions={<ChevronRightLineIcon />}
                     withUnderline
                 >

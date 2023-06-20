@@ -1,6 +1,7 @@
 import { useCallback, useContext } from 'react';
 import { useNavigate, generatePath } from 'react-router-dom';
 import { _cs } from '@togglecorp/fujs';
+import { SearchLineIcon } from '@ifrc-go/icons';
 
 import PageContainer from '#components/PageContainer';
 import Link from '#components/Link';
@@ -183,6 +184,7 @@ function Navbar(props: Props) {
                             value={searchText}
                             name={undefined}
                             onChange={setSearchText}
+                            icons={<SearchLineIcon />}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     e.preventDefault();

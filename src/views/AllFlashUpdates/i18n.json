@@ -1,0 +1,11 @@
+{
+    "namespace": "allFlashUpdates",
+    "strings": {
+        "allFlashUpdatesTitle": "All Flash Updates",
+        "allFlashUpdatesHeading": "All Flash Updates ({numFlashUpdates})",
+        "allFlashUpdatesLastUpdate":"Last Update",
+        "allFlashUpdatesReport":"Report",
+        "allFlashUpdatesDisasterType":"Disaster Type",
+        "allFlashUpdatesCountry":"Country"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "namespace": "allFieldReports",
+    "strings": {
+        "allFieldReportsTitle": "All Field Reports",
+        "allFieldReportsHeading": "All Field Reports ({numFieldReports})",
+        "allFieldReportsCreatedAt":"Created At",
+        "allFieldReportsName":"Name",
+        "allFieldReportsEmergency":"Emergency",
+        "allFieldReportsDisasterType":"Disaster Type",
+        "allFieldReportsCountry":"Countries",
+        "allFieldReportsViewAllReports":"View All Field Reports"
+    }
+}

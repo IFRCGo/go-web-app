@@ -1,6 +1,8 @@
 import { useState, useMemo, useContext } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 import { generatePath } from 'react-router-dom';
+
+import Page from '#components/Page';
 import {
     useRequest,
     ListResponse,
@@ -24,15 +26,12 @@ import type { FieldReport } from '#types/fieldReport';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const thirtyDaysAgo = new Date();
-thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-thirtyDaysAgo.setHours(0, 0, 0, 0);
-
 const keySelector = (item: FieldReport) => item.id;
 
 type TableKey = number;
 
-function FieldReportsTable() {
+// eslint-disable-next-line import/prefer-default-export
+export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
@@ -40,14 +39,13 @@ function FieldReportsTable() {
     const {
         country: countryRoute,
         emergency: emergencyRoute,
-        allFieldReports: allFieldReportsRoute,
     } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
             createDateColumn<FieldReport, TableKey>(
                 'created_at',
-                strings.fieldReportsTableCreatedAt,
+                strings.allFieldReportsCreatedAt,
                 (item) => item.start_date,
                 {
                     sortable: true,
@@ -56,7 +54,7 @@ function FieldReportsTable() {
             ),
             createStringColumn<FieldReport, TableKey>(
                 'summary',
-                strings.fieldReportsTableName,
+                strings.allFieldReportsName,
                 (item) => item.summary,
                 {
                     sortable: true,
@@ -65,7 +63,7 @@ function FieldReportsTable() {
             ),
             createLinkColumn<FieldReport, TableKey>(
                 'event_name',
-                strings.fieldReportsTableEmergency,
+                strings.allFieldReportsEmergency,
                 (item) => item.event?.name,
                 (item) => ({
                     to: isDefined(item.event)
@@ -75,13 +73,13 @@ function FieldReportsTable() {
             ),
             createStringColumn<FieldReport, TableKey>(
                 'dtype',
-                strings.fieldReportsTableDisasterType,
+                strings.allFieldReportsDisasterType,
                 (item) => item.dtype?.name,
                 { sortable: true },
             ),
             createListDisplayColumn<FieldReport, TableKey, FieldReport['countries'][number]>(
                 'countries',
-                strings.fieldReportsTableCountry,
+                strings.allFieldReportsCountry,
                 (item) => ({
                     list: item.countries,
                     keySelector: (country) => country.id,
@@ -110,7 +108,7 @@ function FieldReportsTable() {
 
     const [page, setPage] = useState(0);
 
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 15;
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
@@ -121,50 +119,44 @@ function FieldReportsTable() {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             ordering,
-            created_at__gte: thirtyDaysAgo.toISOString(),
         },
     });
 
     const heading = resolveToComponent(
-        strings.fieldReportsTableTitle,
+        strings.allFieldReportsHeading,
         { numFieldReports: fieldReportResponse?.count ?? '--' },
     );
 
     return (
-        <Container
-            className={styles.fieldReportsTable}
+        <Page
+            className={styles.allFieldReports}
+            title={strings.allFieldReportsTitle}
             heading={heading}
-            headerDescriptionClassName={styles.filters}
-            withHeaderBorder
-            footerActions={(
-                <Pager
-                    activePage={page}
-                    itemsCount={fieldReportResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
-                    onActivePageChange={setPage}
-                />
-            )}
-            actions={(
-                <Link
-                    to={allFieldReportsRoute.absolutePath}
-                    withForwardIcon
-                    withUnderline
-                >
-                    {strings.fieldReportsTableViewAllReports}
-                </Link>
-            )}
         >
-            <SortContext.Provider value={sortState}>
-                <Table
-                    pending={fieldReportPending}
-                    className={styles.table}
-                    columns={columns}
-                    keySelector={keySelector}
-                    data={fieldReportResponse?.results}
-                />
-            </SortContext.Provider>
-        </Container>
+            <Container
+                className={styles.fieldReportsTable}
+                headerDescriptionClassName={styles.filters}
+                footerActions={(
+                    <Pager
+                        activePage={page}
+                        itemsCount={fieldReportResponse?.count ?? 0}
+                        maxItemsPerPage={PAGE_SIZE}
+                        onActivePageChange={setPage}
+                    />
+                )}
+            >
+                <SortContext.Provider value={sortState}>
+                    <Table
+                        pending={fieldReportPending}
+                        className={styles.table}
+                        columns={columns}
+                        keySelector={keySelector}
+                        data={fieldReportResponse?.results}
+                    />
+                </SortContext.Provider>
+            </Container>
+        </Page>
     );
 }
 
-export default FieldReportsTable;
+Component.displayName = 'AllFieldReports';

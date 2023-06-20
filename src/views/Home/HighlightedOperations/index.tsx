@@ -5,17 +5,18 @@ import {
     listToMap,
     isDefined,
 } from '@togglecorp/fujs';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
-
 import Container from '#components/Container';
 import Link from '#components/Link';
 import List from '#components/List';
 import useTranslation from '#hooks/useTranslation';
-import { Emergency } from '#types/emergency';
 import UserContext from '#contexts/user';
+import RouteContext from '#contexts/route';
+import {
+    useRequest,
+    ListResponse,
+} from '#utils/restRequest';
+import { Emergency } from '#types/emergency';
+
 
 import OperationCard from './OperationCard';
 import i18n from './i18n.json';
@@ -44,6 +45,7 @@ function HighlightedOperations(props: Props) {
 
     const strings = useTranslation(i18n);
     const { userDetails } = useContext(UserContext);
+    const { allAppeals: allAppealsRoute } = useContext(RouteContext);
 
     const {
         error: featuredEmergencyResponseError,
@@ -93,7 +95,7 @@ function HighlightedOperations(props: Props) {
             heading={strings.highlightedOperationsTitle}
             actions={(
                 <Link
-                    to="/"
+                    to={allAppealsRoute.absolutePath}
                     actions={<ChevronRightLineIcon />}
                     withUnderline
                 >

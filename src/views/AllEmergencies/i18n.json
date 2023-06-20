@@ -1,0 +1,15 @@
+{
+    "namespace": "allEmergencies",
+    "strings": {
+        "allEmergenciesTitle": "All Emergencies",
+        "allEmergenciesHeading": "All Emergencies ({numEmergencies})",
+        "allEmergenciesDate":"Start Date",
+        "allEmergenciesName":"Name",
+        "allEmergenciesDisasterType":"Disaster Type",
+        "allEmergenciesGlide":"Glide",
+        "allEmergenciesRequestedAmt":"Requested Amount",
+        "allEmergenciesAffected":"# Affected",
+        "allEmergenciesCountry":"Countries",
+        "allEmergenciesViewAll":"View all emergencies"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "namespace": "allAppeals",
+    "strings": {
+        "allAppealsTitle": "All Appeals",
+        "allAppealsHeading": "All Appeals ({numAppeals})",
+        "allAppealsStartDate": "Start Date",
+        "allAppealsType": "Type",
+        "allAppealsCode": "Code",
+        "allAppealsOperation": "Operation",
+        "allAppealsDisastertype": "Disaster Type",
+        "allAppealsRequestedAmount": "Requested Amount",
+        "allAppealsFundedAmount": "Funding",
+        "allAppealsCountry": "Country"
+    }
+}

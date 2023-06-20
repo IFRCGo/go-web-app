@@ -97,6 +97,7 @@ function EmergenciesMap(props: Props) {
 
     const {
         country: countryRoute,
+        allEmergencies: allEmergenciesRoute,
     } = useContext(RouteContext);
 
     const [
@@ -242,8 +243,7 @@ function EmergenciesMap(props: Props) {
             withHeaderBorder
             actions={(
                 <Link
-                    // FIXME: use link for emergency list page
-                    to="/"
+                    to={allEmergenciesRoute.absolutePath}
                     withUnderline
                     withForwardIcon
                 >
