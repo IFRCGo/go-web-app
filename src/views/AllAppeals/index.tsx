@@ -77,7 +77,7 @@ interface Appeal {
 
 interface DisasterType {
     id: number;
-    summary: string;
+    summary?: string;
     name: string;
 }
 
@@ -86,7 +86,12 @@ interface AppealType {
     label: string;
 }
 
-const keySelector = (item: Appeal) => item.id;
+const appealKeySelector = (item: Appeal) => item.id;
+const appealTypeKeySelector = (item: AppealType) => item.value;
+const appealTypeLabelSelector = (item: AppealType) => item.label;
+const disasterTypeKeySelector = (item: DisasterType) => item.id;
+const disasterTypeLabelSelector = (item: DisasterType) => item.name;
+
 const endDate = (new Date()).toISOString();
 
 // FIXME: pull this from server
@@ -255,9 +260,8 @@ export function Component() {
                             name={undefined}
                             value={appealType}
                             onChange={setAppealType}
-                            // FIXME: do no inline functions on render
-                            keySelector={(item) => item.value}
-                            labelSelector={(item) => item.label}
+                            keySelector={appealTypeKeySelector}
+                            labelSelector={appealTypeLabelSelector}
                             options={appealTypeOptions}
                         />
                         <SelectInput
@@ -265,9 +269,8 @@ export function Component() {
                             name={undefined}
                             value={displacementType}
                             onChange={setDisplacementType}
-                            // FIXME: do no inline functions on render
-                            keySelector={(item) => item.id}
-                            labelSelector={(item) => item.name}
+                            keySelector={disasterTypeKeySelector}
+                            labelSelector={disasterTypeLabelSelector}
                             options={displacementTypeWithAll}
                             disabled={disasterTypePending}
                         />
@@ -278,7 +281,7 @@ export function Component() {
                     <Pager
                         activePage={page}
                         itemsCount={appealsResponse?.count ?? 0}
-                        maxItemsPerPage={10}
+                        maxItemsPerPage={PAGE_SIZE}
                         onActivePageChange={setPage}
                     />
                 )}
@@ -289,7 +292,7 @@ export function Component() {
                         filtered={!!(displacementType && appealType)}
                         className={styles.table}
                         columns={columns}
-                        keySelector={keySelector}
+                        keySelector={appealKeySelector}
                         data={appealsResponse?.results}
                     />
                 </SortContext.Provider>
