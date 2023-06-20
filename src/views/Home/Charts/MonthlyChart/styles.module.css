@@ -25,8 +25,8 @@
             .dref {
                 stroke: var(--color-dref);
                 stroke-width: var(--path-stroke-width);
-                color: var(--color-dref);
                 fill: none;
+                color: var(--color-dref);
             }
 
             .emergency-appeal {
