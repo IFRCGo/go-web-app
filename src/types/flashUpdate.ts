@@ -41,6 +41,23 @@ export interface Reference {
     }
 }
 
+export type OrganizationType = 'NTLS' | 'PNS' | 'FDRN' | 'GOV';
+
+export interface ActionOptionItem {
+    id: number;
+    category: string;
+    name: string;
+    organizations: OrganizationType[];
+    tooltip_text: string;
+}
+
+export interface Action {
+    client_id: string;
+    actions: number[];
+    organization: OrganizationType;
+    summary: string;
+}
+
 export interface FlashUpdate {
     id: number,
     graphics_files: {

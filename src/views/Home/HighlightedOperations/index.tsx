@@ -17,7 +17,6 @@ import {
 } from '#utils/restRequest';
 import { Emergency } from '#types/emergency';
 
-
 import OperationCard from './OperationCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
