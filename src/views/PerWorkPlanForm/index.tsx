@@ -28,15 +28,15 @@ import {
     WorkPlanResponseFields,
     WorkPlanStatus,
     PerFormComponentItem,
-    WorkPlanCustomItem,
+    WorkPlanComponentItem,
 } from './common';
 import Button from '#components/Button';
-import ComponentInput from './ComponentInput';
 import CustomActivity from './CustomActivity';
 
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
+import ComponentInput from './ComponentInput';
 
 interface PerProcessStatusItem {
     id: number;
@@ -60,16 +60,6 @@ export function Component() {
     const { perId } = useParams<{ perId: string }>();
     const navigate = useNavigate();
 
-    const [inputs, setInputs] = useState(['']);
-    const handleAddInput = () => {
-        setInputs([...inputs, '']); // Add an empty input to the state
-    };
-    const handleChange = (index: any, value: any) => {
-        const updatedInputs = [...inputs];
-        updatedInputs[index] = value;
-        setInputs(updatedInputs); // Update the input value in the state
-    };
-
     const {
         pending: statusPending,
         response: statusResponse,
@@ -80,7 +70,7 @@ export function Component() {
 
     const {
         response: workPlanStatusResponse,
-    } = useRequest<ListResponse<WorkPlanStatus>>({
+    } = useRequest<WorkPlanStatus>({
         url: 'api/v2/per-options/',
     });
 
@@ -115,7 +105,7 @@ export function Component() {
         url: `api/v2/per-work-plan/${statusResponse?.workplan}`,
         method: 'POST',
         body: (ctx) => ctx,
-        onSuccess: (response) => {
+        onSuccess: () => {
 
             alert.show(
                 strings.perFormSaveRequestSuccessMessage,
@@ -152,17 +142,20 @@ export function Component() {
 
     const workPlanStatusOptions = useMemo(
         () => (
-            workPlanStatusResponse?.results?.map((d) => ({
-                key: d.key,
-                value: d.value,
-            })).sort() ?? []
+            workPlanStatusResponse?.workplanstatus.map((d) => ({
+                value: d.key,
+                label: d.value,
+            })).sort(compareLabel) ?? []
         ),
         [workPlanStatusResponse],
     );
 
     const {
-        setValue: setActivity
-    } = useFormArray<'custom_component_responses', PartialForm<WorkPlanFormFields>>('custom_component_responses', setFieldValue);
+        setValue,
+        removeValue,
+    } = useFormArray(
+        'custom_component_responses', setFieldValue
+    );
 
     const handleSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
@@ -176,15 +169,15 @@ export function Component() {
 
     const handleAddCustomActivity = useCallback(() => {
         const clientId = randomString();
-        const newCustomActivity: PartialForm<WorkPlanCustomItem> = {
-            clientId,
+        const newCustomActivity: PartialForm<WorkPlanComponentItem> = {
+            client_id: clientId,
         };
 
         setFieldValue(
-            (oldValue: PartialForm<WorkPlanCustomItem> | undefined) => {
+            (oldValue?: PartialForm<WorkPlanComponentItem>) => {
                 if (oldValue) {
                     return [
-                        ...oldValue as any[],
+                        ...oldValue,
                         newCustomActivity,
                     ];
                 }
@@ -219,40 +212,24 @@ export function Component() {
                     onRemove={removeComponentValue}
                 />
             ))}
+            {value?.custom_component_responses?.map((input, index) => (
+                <CustomActivity
+                    key={input.client_id}
+                    index={index}
+                    value={input}
+                    onChange={setValue}
+                    onRemove={removeValue}
+                    workPlanStatusOptions={workPlanStatusOptions}
+                />
+            ))}
             <Button
                 name={undefined}
                 variant="secondary"
-                onClick={handleAddInput}
+                onClick={handleAddCustomActivity}
                 icons={<IoAdd />}
             >
                 Add row
             </Button>
-            {inputs.map((input, index) => (
-                <input
-                    key={index}
-                    value={input}
-                    onChange={(e) => handleChange(index, e.target.value)}
-                />
-            ))}
-
-            {value?.custom_component_responses?.map((component, index) => {
-                <>
-                    <input
-                        key={index}
-                        value={component}
-                        onChange={(e) => handleChange(index, e.target.value)}
-                    />
-                    <CustomActivity
-                        key={component.clientId}
-                        index={index}
-                        value={component}
-                        onChange={setActivity}
-                        onRemove={removeComponentValue}
-                        workPlanStatusOptions={workPlanStatusOptions}
-                    />
-                </>
-                return null;
-            })}
             <div className={styles.submit}>
                 <Button
                     name="submit"

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { IoTrash } from 'react-icons/io5';
 import {
     PartialForm,
@@ -5,24 +6,29 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
-import { WorkPlanCustomItem, WorkPlanStatus } from '../common';
+
+import {
+    WorkPlanComponentItem,
+    numericValueSelector,
+    stringLabelSelector,
+} from '../common';
 import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
+import { LabelValue } from '#types/common';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';
-import { useMemo } from 'react';
 
-type Value = PartialForm<WorkPlanCustomItem>;
+type Value = PartialForm<WorkPlanComponentItem>;
 
 interface Props {
-    value?: Value;
+    value: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
     onRemove: (index: number) => void;
-    workPlanStatusOptions: WorkPlanStatus[];
+    workPlanStatusOptions: LabelValue[];
 }
 
 function CustomActivity(props: Props) {
@@ -73,8 +79,8 @@ function CustomActivity(props: Props) {
                 name="status"
                 options={workPlanStatusOptions}
                 onChange={onFieldChange}
-                keySelector={(d) => d.key}
-                labelSelector={(d) => d.value}
+                keySelector={numericValueSelector}
+                labelSelector={stringLabelSelector}
                 value={value?.status}
             />
             <Button

@@ -3,7 +3,21 @@ import {
     PartialForm,
 } from '@togglecorp/toggle-form';
 
+export function booleanValueSelector<T extends { value: boolean }>(option: T) {
+    return option.value;
+}
+export function numericValueSelector<T extends { value: number }>(option: T) {
+    return option.value;
+}
+export function stringValueSelector<T extends { value: string }>(option: T) {
+    return option.value;
+}
+export function stringLabelSelector<T extends { label: string }>(option: T) {
+    return option.label;
+}
+
 export interface WorkPlanComponentItem {
+    client_id: string;
     component: number;
     actions: string;
     due_date: string;
@@ -20,19 +34,10 @@ export interface PerFormComponentItem {
     title: string;
 }
 
-export interface WorkPlanCustomItem {
-    clientId: string;
-    actions: string;
-    due_date: string;
-    component: string;
-    supported_by_id: string;
-    status: string;
-}
-
 export interface WorkPlanFormFields {
     overview: number;
     component_responses: WorkPlanComponentItem[];
-    custom_component_responses: WorkPlanCustomItem[];
+    custom_component_responses: WorkPlanComponentItem[];
 }
 
 export interface WorkPlanResponseFields extends WorkPlanFormFields {
@@ -40,11 +45,13 @@ export interface WorkPlanResponseFields extends WorkPlanFormFields {
 }
 
 export interface WorkPlanStatus {
-    key: number;
-    value: string;
+    workplanstatus: {
+        key: number;
+        value: string;
+    }[];
 }
 
-export type PartialWorkPlan = PartialForm<WorkPlanFormFields, 'component' | 'clientId'>;
+export type PartialWorkPlan = PartialForm<WorkPlanFormFields, 'component' | 'client_id'>;
 export type WorkPlanFormScheme = ObjectSchema<PartialWorkPlan>;
 export type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
 
@@ -55,6 +62,7 @@ export const workplanSchema: WorkPlanFormScheme = {
             keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
                 fields: () => ({
+                    client_id: {},
                     component: {},
                     actions: {},
                     due_date: {},
@@ -64,10 +72,10 @@ export const workplanSchema: WorkPlanFormScheme = {
             }),
         },
         custom_component_responses: {
-            keySelector: (customResponse) => customResponse.clientId,
+            keySelector: (customResponse) => customResponse.client_id,
             member: () => ({
                 fields: () => ({
-                    clientId: {},
+                    client_id: {},
                     component: {},
                     actions: {},
                     due_date: {},

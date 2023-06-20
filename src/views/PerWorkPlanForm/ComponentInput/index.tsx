@@ -1,19 +1,20 @@
-import { IoTrash } from 'react-icons/io5';
 import {
     SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
 
-import { PartialWorkPlan, WorkPlanStatus } from '../common';
+import { PartialWorkPlan } from '../common';
 import { PerFormComponentItem } from '#views/PerPrioritizationForm/common';
+import { numericValueSelector, stringLabelSelector } from '../common';
 import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
-import Button from '#components/Button';
 import TextInput from '#components/TextInput';
+import { LabelValue } from '#types/common';
 
 import styles from './styles.module.css';
+
 
 type Value = NonNullable<PartialWorkPlan['component_responses']>[number];
 
@@ -23,7 +24,7 @@ interface Props {
     index: number;
     component: PerFormComponentItem;
     onRemove: (index: number) => void;
-    workPlanStatusOptions: WorkPlanStatus[];
+    workPlanStatusOptions?: LabelValue[];
 }
 
 function ComponentInput(props: Props) {
@@ -74,18 +75,10 @@ function ComponentInput(props: Props) {
                 name="status"
                 options={workPlanStatusOptions}
                 onChange={onFieldChange}
-                keySelector={(d) => d.key}
-                labelSelector={(d) => d.value}
+                keySelector={numericValueSelector}
+                labelSelector={stringLabelSelector}
                 value={value?.status}
             />
-            <Button
-                className={styles.removeButton}
-                name={index}
-                onClick={onRemove}
-                variant="tertiary"
-            >
-                <IoTrash />
-            </Button>
         </Container>
     );
 }
