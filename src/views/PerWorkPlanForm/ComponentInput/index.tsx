@@ -23,7 +23,6 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
     component: PerFormComponentItem;
-    onRemove: (index: number) => void;
     workPlanStatusOptions?: LabelValue[];
 }
 
@@ -33,7 +32,6 @@ function ComponentInput(props: Props) {
         index,
         value,
         component,
-        onRemove,
         workPlanStatusOptions,
     } = props;
 

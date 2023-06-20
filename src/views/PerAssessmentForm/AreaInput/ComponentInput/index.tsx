@@ -24,6 +24,7 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
+    handleTotalAnswer: (val: number) => void;
 }
 
 function ComponentInput(props: Props) {
@@ -34,6 +35,7 @@ function ComponentInput(props: Props) {
         value,
         component,
         questions,
+        handleTotalAnswer,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -56,6 +58,12 @@ function ComponentInput(props: Props) {
             value: questionResponse,
         }),
     );
+
+    const sumTotalAnswer = questions.reduce((acc, cur) => {
+        return acc + cur.answers.length
+    }, 0);
+
+    handleTotalAnswer(sumTotalAnswer);
 
     return (
         <ExpandableContainer

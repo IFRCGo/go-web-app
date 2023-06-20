@@ -18,6 +18,7 @@ import {
 import ComponentInput from './ComponentInput';
 
 import styles from './styles.module.css';
+import { useCallback, useState } from 'react';
 
 // FIXME: move this to common file
 type Value = NonNullable<PartialAssessment['area_responses']>[number];
@@ -30,6 +31,7 @@ interface Props {
     index: number | undefined;
     questions: PerFormQuestionItem[] | undefined;
     area: PerFormArea;
+    handleTotalAnswer: (val: number) => void;
 }
 
 function AreaInput(props: Props) {
@@ -41,6 +43,7 @@ function AreaInput(props: Props) {
         area,
         questions,
         // error,
+        handleTotalAnswer,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -77,6 +80,8 @@ function AreaInput(props: Props) {
         }),
     );
 
+   
+
     return (
         <div
             className={_cs(styles.areaInput, className)}
@@ -90,6 +95,7 @@ function AreaInput(props: Props) {
                         index={componentResponseMapping[componentResponse.component.id]?.index}
                         value={componentResponseMapping[componentResponse.component.id]?.value}
                         onChange={setQuestionResponseValue}
+                        handleTotalAnswer={handleTotalAnswer}
                     />
                 ) : null
             ))}

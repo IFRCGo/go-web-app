@@ -209,7 +209,6 @@ export function Component() {
                     onChange={setComponentValue}
                     component={component}
                     workPlanStatusOptions={workPlanStatusOptions}
-                    onRemove={removeComponentValue}
                 />
             ))}
             {value?.custom_component_responses?.map((input, index) => (

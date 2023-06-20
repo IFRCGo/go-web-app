@@ -133,7 +133,7 @@ export function Component() {
         pending: savePerPrioritizationPending,
         trigger: savePerPrioritization,
     } = useLazyRequest<PrioritizationResponseFields, Partial<Prioritization>>({
-        url: `api/v2/per-prioritization/${statusResponse?.prioritization}`,
+        url: `api/v2/per-prioritization/${statusResponse?.prioritization}/`,
         method: 'PUT',
         body: (ctx) => ctx,
         onSuccess: (response) => {
