@@ -24,7 +24,7 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
-    handleTotalAnswer: (val: number) => void;
+    handleTotalAnswer: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function ComponentInput(props: Props) {

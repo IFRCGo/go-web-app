@@ -18,7 +18,6 @@ import {
 import ComponentInput from './ComponentInput';
 
 import styles from './styles.module.css';
-import { useCallback, useState } from 'react';
 
 // FIXME: move this to common file
 type Value = NonNullable<PartialAssessment['area_responses']>[number];
@@ -31,7 +30,7 @@ interface Props {
     index: number | undefined;
     questions: PerFormQuestionItem[] | undefined;
     area: PerFormArea;
-    handleTotalAnswer: (val: number) => void;
+    handleTotalAnswer: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function AreaInput(props: Props) {
@@ -79,8 +78,6 @@ function AreaInput(props: Props) {
             questions: list,
         }),
     );
-
-   
 
     return (
         <div

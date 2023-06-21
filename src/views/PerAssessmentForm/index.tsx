@@ -8,7 +8,6 @@ import {
     _cs,
     isNotDefined,
     isDefined,
-    mapToList,
 } from '@togglecorp/fujs';
 import {
     PartialForm,
@@ -48,7 +47,6 @@ import {
     AssessmentResponse,
     PartialAssessment,
     PerAssessmentResponseFields,
-    PerFormAnswer,
 } from './common';
 import AreaInput from './AreaInput';
 
@@ -258,12 +256,7 @@ export function Component() {
         setShowConfirmation(false);
     }, [handleFormFinalSubmit]);
 
-    const [sum, setSum] = useState<number>(0)
-    const handleTotalAnswer = useCallback(
-        (val: number) => setSum(val), []
-    );
-
-    console.log('*************', sum);
+    const [totalAnswer, setTotalAnswer] = useState<number>(0);
 
     return (
         <>
@@ -284,8 +277,8 @@ export function Component() {
                             className={styles.inputSection}
                         >
                             <ProgressBar
-                                title={`Answered ${totalValue}`}
-                                value={sum}
+                                title={`Answered ${totalAnswer} / ${totalValue}`}
+                                value={totalAnswer}
                                 totalValue={totalValue}
                             />
                         </Container>
@@ -323,7 +316,7 @@ export function Component() {
                                     index={areaResponseMapping[area.id]?.index}
                                     value={areaResponseMapping[area.id]?.value}
                                     onChange={setAreaResponsesValue}
-                                    handleTotalAnswer={handleTotalAnswer}
+                                    handleTotalAnswer={setTotalAnswer}
                                 />
                             </TabPanel>
                         ))}
