@@ -1,14 +1,22 @@
 import { useState, useCallback, useEffect } from 'react';
 
-const defaultPlacement = {
+interface Placement {
+    top: string;
+    right: string;
+    bottom: string;
+    left: string;
+    transform?: string;
+}
+
+const defaultPlacement: Placement = {
     top: 'unset',
     right: 'unset',
     bottom: 'unset',
     left: 'unset',
 };
 
-function useFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
-    const [placement, setPlacement] = useState(defaultPlacement);
+function useFloatPlacement(parentRef: React.RefObject<HTMLElement>, horizontallyCentered = false) {
+    const [placement, setPlacement] = useState<Placement>(defaultPlacement);
 
     const calculatePlacement = useCallback(() => {
         const newPlacement = { ...defaultPlacement };
@@ -22,24 +30,42 @@ function useFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
             const cX = window.innerWidth / 2;
             const cY = window.innerHeight / 2;
 
-            const horizontalPosition = (cX - parentBCR.x) > 0 ? 'right' : 'left';
-            const verticalPosition = (cY - parentBCR.y) > 0 ? 'bottom' : 'top';
+            const secondQuarterStartX = cX - window.innerWidth / 4;
+            const fourthQuarterStartX = cX - window.innerWidth / 4;
 
-            if (horizontalPosition === 'left') {
+            const parentCenterX = parentBCR.x + parentBCR.width / 2;
+            const parentCenterY = parentBCR.y + parentBCR.height / 2;
+
+            const horizontalPlacement = (cX - parentCenterX) > 0 ? 'right' : 'left';
+            const verticalPlacement = (cY - parentCenterY) > 0 ? 'bottom' : 'top';
+
+            if (horizontalPlacement === 'left') {
                 newPlacement.right = `${document.body.clientWidth - x - width}px`;
-            } else if (horizontalPosition === 'right') {
+            } else if (horizontalPlacement === 'right') {
                 newPlacement.left = `${x}px`;
             }
 
-            if (verticalPosition === 'top') {
+            if (verticalPlacement === 'top') {
                 newPlacement.bottom = `${window.innerHeight - y}px`;
-            } else if (verticalPosition === 'bottom') {
+            } else if (verticalPlacement === 'bottom') {
                 newPlacement.top = `${y + height}px`;
+            }
+
+            if (horizontallyCentered) {
+                const startPlacement = x;
+                const endPlacement = document.body.clientWidth - x - width;
+                if (horizontalPlacement === 'right' && startPlacement > secondQuarterStartX) {
+                    newPlacement.transform = 'translateX(-50%)';
+                }
+
+                if (horizontalPlacement === 'left' && endPlacement < fourthQuarterStartX) {
+                    newPlacement.transform = 'translateX(50%)';
+                }
             }
         }
 
         setPlacement(newPlacement);
-    }, [setPlacement, parentRef]);
+    }, [setPlacement, parentRef, horizontallyCentered]);
 
     useEffect(() => {
         calculatePlacement();

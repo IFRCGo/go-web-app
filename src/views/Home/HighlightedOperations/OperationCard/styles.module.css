@@ -38,3 +38,10 @@
         }
     }
 }
+
+.tooltip {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-md);
+    gap: var(--go-ui-spacing-xs);
+}

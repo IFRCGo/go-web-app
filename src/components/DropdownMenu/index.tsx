@@ -2,6 +2,7 @@ import {
     useState,
     useCallback,
     useRef,
+    useEffect,
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import {
@@ -23,9 +24,14 @@ export interface Props {
     variant?: ButtonProps<undefined>['variant'];
     actions?: React.ReactNode;
     hideDropdownIcon?: boolean;
+    componentRef?: React.MutableRefObject<{
+        setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+    } | null>;
+    elementRef?: React.RefObject<HTMLButtonElement>;
 }
 
 function DropdownMenu(props: Props) {
+    const newButtonRef = useRef<HTMLButtonElement>(null);
     const {
         className,
         dropdownContainerClassName,
@@ -36,14 +42,24 @@ function DropdownMenu(props: Props) {
         variant = 'secondary',
         actions,
         hideDropdownIcon,
+        componentRef,
+        elementRef: buttonRef = newButtonRef,
     } = props;
 
-    const buttonRef = useRef<HTMLButtonElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [showDropdown, setShowDropdown] = useState(false);
 
-    const handleMenuClick = useCallback(
-        () => {
+    useEffect(() => {
+        if (componentRef) {
+            componentRef.current = {
+                setShowDropdown,
+            };
+        }
+    }, [componentRef, setShowDropdown]);
+
+    const handleMenuClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
+        (_, e) => {
+            e.stopPropagation();
             setShowDropdown((prevValue) => !prevValue);
         },
         [setShowDropdown],

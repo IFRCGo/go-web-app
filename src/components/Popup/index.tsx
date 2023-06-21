@@ -7,9 +7,10 @@ import styles from './styles.module.css';
 
 interface Props {
     className?: string;
-    elementRef: React.RefObject<HTMLElement>;
+    elementRef?: React.RefObject<HTMLDivElement>;
     parentRef: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
+    horizontallyCentered?: boolean;
 }
 
 function Popup(props: Props) {
@@ -18,14 +19,15 @@ function Popup(props: Props) {
         elementRef,
         children,
         className,
+        horizontallyCentered,
     } = props;
 
-    const placement = useFloatPlacement(parentRef);
+    const placement = useFloatPlacement(parentRef, horizontallyCentered);
 
     return (
         <Portal>
             <div
-                ref={elementRef as React.RefObject<HTMLDivElement>}
+                ref={elementRef}
                 style={placement}
                 className={_cs(styles.popup, className)}
             >

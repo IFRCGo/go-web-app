@@ -1,10 +1,13 @@
 import { _cs, sum } from '@togglecorp/fujs';
+import { FocusLineIcon } from '@ifrc-go/icons';
 
 import Header from '#components/Header';
 import Button from '#components/Button';
 import DateOutput from '#components/DateOutput';
 import NumberOutput from '#components/NumberOutput';
 import KeyFigure from '#components/KeyFigure';
+import Tooltip from '#components/Tooltip';
+import TextOutput from '#components/TextOutput';
 import { Emergency } from '#types/emergency';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
@@ -29,8 +32,10 @@ function OperationCard(props: Props) {
             id,
             name,
             ifrc_severity_level,
+            ifrc_severity_level_display,
             updated_at,
             appeals,
+            countries = [],
         },
         subscriptionMap,
         pending,
@@ -78,15 +83,42 @@ function OperationCard(props: Props) {
     );
 
     const isSubscribed = subscriptionMap[id] ?? false;
+    let countriesInfoDisplay = strings.operationCardNoCountryInvolved;
+
+    if (countries.length > 0) {
+        if (countries.length === 1) {
+            countriesInfoDisplay = countries[0].name;
+        } else {
+            countriesInfoDisplay = strings.operationCardInvolvesMultipleCountries;
+        }
+    }
 
     return (
         <div className={_cs(styles.operationCard, className)}>
             <Header
                 className={styles.header}
                 icons={ifrc_severity_level ? (
-                    <SeverityIndicator
-                        level={ifrc_severity_level}
-                    />
+                    <>
+                        <Tooltip className={styles.tooltip}>
+                            <TextOutput
+                                label={(
+                                    <SeverityIndicator
+                                        level={ifrc_severity_level}
+                                    />
+                                )}
+                                value={ifrc_severity_level_display}
+                                withoutLabelColon
+                            />
+                            <TextOutput
+                                label={<FocusLineIcon />}
+                                value={countriesInfoDisplay}
+                                withoutLabelColon
+                            />
+                        </Tooltip>
+                        <SeverityIndicator
+                            level={ifrc_severity_level}
+                        />
+                    </>
                 ) : undefined}
                 heading={name}
                 headingLevel={4}

@@ -1,6 +1,7 @@
 interface Country {
     id: number;
     iso3: string;
+    name: string;
 }
 
 type Region = object;
@@ -59,7 +60,7 @@ export interface Emergency {
   glide: string;
   id: number;
   ifrc_severity_level: number;
-  ifrc_serverity_level_display: string;
+  ifrc_severity_level_display: string;
   is_featured: boolean;
   is_featured_region: boolean;
   name: string;
