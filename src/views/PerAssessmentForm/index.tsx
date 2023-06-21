@@ -257,6 +257,8 @@ export function Component() {
     }, [handleFormFinalSubmit]);
 
     const [totalAnswer, setTotalAnswer] = useState<number>(0);
+    const [totalYes, setTotalYes] = useState<number>(0);
+    const [totalNo, setTotalNo] = useState<number>(0);
 
     return (
         <>
@@ -277,7 +279,10 @@ export function Component() {
                             className={styles.inputSection}
                         >
                             <ProgressBar
-                                title={`Answered ${totalAnswer} / ${totalValue}`}
+                                title={
+                                    `Answered ${totalAnswer} / ${totalValue}
+                                    Yes ${totalYes} | No ${totalNo}`
+                                }
                                 value={totalAnswer}
                                 totalValue={totalValue}
                             />
@@ -317,6 +322,8 @@ export function Component() {
                                     value={areaResponseMapping[area.id]?.value}
                                     onChange={setAreaResponsesValue}
                                     handleTotalAnswer={setTotalAnswer}
+                                    handleTotalYes={setTotalYes}
+                                    handleTotalNo={setTotalNo}
                                 />
                             </TabPanel>
                         ))}

@@ -25,6 +25,8 @@ interface Props {
     index: number | undefined;
     value: Value | undefined | null;
     handleTotalAnswer: React.Dispatch<React.SetStateAction<number>>;
+    handleTotalYes: React.Dispatch<React.SetStateAction<number>>;
+    handleTotalNo: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function ComponentInput(props: Props) {
@@ -36,6 +38,8 @@ function ComponentInput(props: Props) {
         component,
         questions,
         handleTotalAnswer,
+        handleTotalYes,
+        handleTotalNo,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -62,6 +66,20 @@ function ComponentInput(props: Props) {
     const sumTotalAnswer = questions.reduce((acc, cur) => {
         return acc + cur.answers.length
     }, 0);
+
+    let yesCount = 0;
+    let noCount = 0;
+
+    const yesNoTotal = questions?.map((i) => i.answers.reduce((acc) => {
+        if (acc.text === 'yes') {
+            return yesCount++;
+        } else {
+            return noCount++;
+        }
+    }));
+
+    handleTotalYes(yesCount);
+    handleTotalNo(noCount);
 
     handleTotalAnswer(sumTotalAnswer);
 
