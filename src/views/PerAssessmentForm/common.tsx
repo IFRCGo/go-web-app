@@ -65,7 +65,7 @@ export interface QuestionResponse {
 
 export interface ComponentResponse {
     component: number;
-    rating: string;
+    rating: number;
     question_responses: QuestionResponse[];
     consideration_responses: ConsiderationResponses[];
 }

@@ -6,6 +6,7 @@ import {
 import { listToMap, _cs } from '@togglecorp/fujs';
 
 import ExpandableContainer from '#components/ExpandableContainer';
+import SelectInput from '#components/SelectInput';
 import {
     PerFormComponentItem,
     PerFormQuestionItem,
@@ -24,9 +25,11 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
-    handleTotalAnswer: React.Dispatch<React.SetStateAction<number>>;
-    handleTotalYes: React.Dispatch<React.SetStateAction<number>>;
-    handleTotalNo: React.Dispatch<React.SetStateAction<number>>;
+    ratingOptions: {
+        id: number
+        value: number;
+        title: string;
+    }[];
 }
 
 function ComponentInput(props: Props) {
@@ -37,9 +40,7 @@ function ComponentInput(props: Props) {
         value,
         component,
         questions,
-        handleTotalAnswer,
-        handleTotalYes,
-        handleTotalNo,
+        ratingOptions,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -63,44 +64,41 @@ function ComponentInput(props: Props) {
         }),
     );
 
-    const sumTotalAnswer = questions.reduce((acc, cur) => {
-        return acc + cur.answers.length
-    }, 0);
-
-    let yesCount = 0;
-    let noCount = 0;
-
-    const yesNoTotal = questions?.map((i) => i.answers.reduce((acc) => {
-        if (acc.text === 'yes') {
-            return yesCount++;
-        } else {
-            return noCount++;
-        }
-    }));
-
-    handleTotalYes(yesCount);
-    handleTotalNo(noCount);
-
-    handleTotalAnswer(sumTotalAnswer);
-
     return (
         <ExpandableContainer
             className={_cs(styles.componentInput, className)}
             key={component.component_id}
             heading={`${component.component_num}. ${component.title}`}
             childrenContainerClassName={styles.questionList}
-            headerDescription={component.title}
-        >
-            {questions?.map((question) => (
-                <QuestionInput
-                    componentNumber={component.component_num}
-                    key={question.id}
-                    question={question}
-                    index={questionResponseMapping[question.id]?.index}
-                    value={questionResponseMapping[question.id]?.value}
-                    onChange={setComponentValue}
+            actions={(
+                <SelectInput
+                    className={styles.statusSelection}
+                    name="rating"
+                    value={value?.rating}
+                    onChange={setFieldValue}
+                    placeholder="Select rating"
+                    options={ratingOptions}
+                    keySelector={(performanceOption) => performanceOption.id}
+                    labelSelector={(performanceOption) => performanceOption.title}
                 />
-            ))}
+            )}
+        >
+            {questions?.map((question) => {
+                if (question.is_epi || question.is_benchmark) {
+                    return null;
+                }
+
+                return (
+                    <QuestionInput
+                        componentNumber={component.component_num}
+                        key={question.id}
+                        question={question}
+                        index={questionResponseMapping[question.id]?.index}
+                        value={questionResponseMapping[question.id]?.value}
+                        onChange={setComponentValue}
+                    />
+                );
+            })}
         </ExpandableContainer>
     );
 }

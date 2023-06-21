@@ -17,12 +17,19 @@ export function stringLabelSelector<T extends { label: string }>(option: T) {
 }
 
 export interface WorkPlanComponentItem {
-    client_id: string;
     component: number;
     actions: string;
     due_date: string;
     supported_by_id: string;
-    status: string;
+    status: number;
+}
+
+export interface CustomWorkPlanComponentItem {
+    client_id: string;
+    actions: string;
+    due_date: string;
+    supported_by_id: string;
+    status: number;
 }
 
 export interface PerFormComponentItem {
@@ -37,7 +44,7 @@ export interface PerFormComponentItem {
 export interface WorkPlanFormFields {
     overview: number;
     component_responses: WorkPlanComponentItem[];
-    custom_component_responses: WorkPlanComponentItem[];
+    custom_component_responses: CustomWorkPlanComponentItem[];
 }
 
 export interface WorkPlanResponseFields extends WorkPlanFormFields {
@@ -62,7 +69,6 @@ export const workplanSchema: WorkPlanFormScheme = {
             keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
                 fields: () => ({
-                    client_id: {},
                     component: {},
                     actions: {},
                     due_date: {},
@@ -76,7 +82,6 @@ export const workplanSchema: WorkPlanFormScheme = {
             member: () => ({
                 fields: () => ({
                     client_id: {},
-                    component: {},
                     actions: {},
                     due_date: {},
                     supported_by_id: {},

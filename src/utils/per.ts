@@ -9,10 +9,10 @@ export interface PerProcessStatusItem {
     phase_display: string;
 }
 
-export const STEP_OVERVIEW = 0;
-export const STEP_ASSESSMENT = 1;
-export const STEP_PRIORITIZATION = 2;
-export const STEP_WORKPLAN = 3;
+export const STEP_OVERVIEW = 1;
+export const STEP_ASSESSMENT = 2;
+export const STEP_PRIORITIZATION = 3;
+export const STEP_WORKPLAN = 4;
 
 export function getCurrentPerProcessStep(status: PerProcessStatusItem | undefined) {
     if (!status) {

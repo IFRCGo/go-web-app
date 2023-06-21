@@ -7,11 +7,6 @@ import {
 } from '@togglecorp/toggle-form';
 import { _cs } from '@togglecorp/fujs';
 
-import {
-    WorkPlanComponentItem,
-    numericValueSelector,
-    stringLabelSelector,
-} from '../common';
 import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
@@ -19,6 +14,11 @@ import { LabelValue } from '#types/common';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 
+import {
+    WorkPlanComponentItem,
+    numericValueSelector,
+    stringLabelSelector,
+} from '../common';
 import styles from './styles.module.css';
 
 type Value = PartialForm<WorkPlanComponentItem>;
@@ -42,7 +42,7 @@ function CustomActivity(props: Props) {
 
     const defaultValue = useMemo(
         () => ({
-            action: value?.actions
+            action: value?.actions,
         }),
         [value?.actions],
     );

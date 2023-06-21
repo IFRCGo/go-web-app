@@ -1,68 +1,87 @@
 import React from 'react';
+import { _cs } from '@togglecorp/fujs';
+
+import NumberOutput from '#components/NumberOutput';
+import { sumSafe } from '#utils/common';
 
 import styles from './styles.module.css';
 
-interface BarProps {
-    value: number;
-    width: number;
-    label: string;
+interface Props<VALUE> {
+    className?: string;
+    data: VALUE[];
+    valueSelector: (value: VALUE, index: number) => number;
+    labelSelector: (value: VALUE, index: number) => React.ReactNode;
+    colorSelector: (value: VALUE, index: number) => string;
 }
 
-function Bar(props: BarProps) {
+function StackedProgressBar<VALUE>(props: Props<VALUE>) {
     const {
-        value,
-        width,
-        label,
+        className,
+        data,
+        valueSelector,
+        labelSelector,
+        colorSelector,
     } = props;
 
+    const renderData = data.map((datum, i) => ({
+        value: valueSelector(datum, i),
+        color: colorSelector(datum, i),
+        label: labelSelector(datum, i),
+    }));
+
+    const values = renderData.map((d) => d.value);
+    const total = sumSafe(values) ?? 1;
+
     return (
-        <div>
-            <div>{value}</div>
-            <div style={{ width: `${width}` }} />
-            <div>{label}</div>
+        <div className={_cs(styles.stackedBarChart, className)}>
+            <div className={styles.barInfoContainer}>
+                {renderData.map((datum) => (
+                    <div
+                        className={styles.barInfo}
+                        style={{ width: `${(100 * datum.value) / total}%` }}
+                    >
+                        <NumberOutput
+                            value={(100 * datum.value) / total}
+                            unit="%"
+                        />
+                        {' - '}
+                        <NumberOutput
+                            value={datum.value}
+                        />
+                    </div>
+                ))}
+            </div>
+            <div className={styles.track}>
+                {renderData.map((datum) => (
+                    <div
+                        key={datum.color}
+                        className={styles.bar}
+                        style={{
+                            width: `${(100 * datum.value) / total}%`,
+                            backgroundColor: datum.color,
+                        }}
+                    />
+                ))}
+            </div>
+            <div className={styles.labelList}>
+                {renderData.map((datum) => (
+                    <div
+                        className={styles.labelContainer}
+                        style={{
+                            width: `${(100 * datum.value) / total}%`,
+                        }}
+                    >
+                        <div
+                            className={styles.colorDot}
+                            style={{ backgroundColor: datum.color }}
+                        />
+                        <div className={styles.label}>
+                            {datum.label}
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
-    );
-}
-
-interface Value {
-    label: string;
-    value: number;
-}
-
-interface StackedProgressBarProps {
-    values: Value[];
-    className?: string;
-    barHeight?: number;
-    title?: React.ReactNode;
-    description?: React.ReactNode;
-    value: number;
-    totalValue: number;
-    color?: string;
-}
-
-function StackedProgressBar(props: StackedProgressBarProps) {
-    const { values } = props;
-
-    const fixedWidth = 100;
-    const totalValues = 500;
-
-    return (
-        <>
-            <div
-                className={styles.progress}
-                style={{
-                    width: '100',
-                    backgroundColor: '#011E41',
-                }}
-            />
-            <Bar
-                value={100}
-                label=""
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...values}
-                width={fixedWidth}
-            />
-        </>
     );
 }
 

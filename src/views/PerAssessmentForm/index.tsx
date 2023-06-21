@@ -5,7 +5,6 @@ import {
     listToMap,
     compareNumber,
     listToGroupList,
-    _cs,
     isNotDefined,
     isDefined,
 } from '@togglecorp/fujs';
@@ -21,11 +20,9 @@ import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
 import Tab from '#components/Tabs/Tab';
 import TabPanel from '#components/Tabs/TabPanel';
-import Container from '#components/Container';
-import ExpandableContainer from '#components/ExpandableContainer';
-import ProgressBar from '#components/ProgressBar';
 import Modal from '#components/Modal';
 import Button from '#components/Button';
+import PerAssessmentSummary from '#components/PerAssessmentSummary';
 import {
     ListResponse,
     useLazyRequest,
@@ -52,6 +49,18 @@ import AreaInput from './AreaInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+interface PerOptionsResponse {
+    componentratings: {
+        id: number;
+        title: string;
+        value: number;
+    }[];
+    answers: {
+        id: number;
+        text: string;
+    }[];
+}
 
 const defaultFormValue: PartialAssessment = {
     overview: 10,
@@ -84,6 +93,17 @@ export function Component() {
         assessmentSchema,
         { value: defaultFormValue },
     );
+
+    const {
+        pending: perOptionsPending,
+        response: perOptionsResponse,
+    } = useRequest<PerOptionsResponse>({
+        skip: isNotDefined(assessmentId),
+        url: 'api/v2/per-options',
+        onSuccess: (response) => {
+            setValue(response);
+        },
+    });
 
     const {
         pending: perAssesmentPending,
@@ -239,9 +259,16 @@ export function Component() {
         (question) => question.component.area.id,
     );
 
-    const yesNoQuestions = questionsResponse?.results?.map((i) => i.answers);
-    const totalValue = yesNoQuestions?.length;
-    const pending = questionsPending || statusPending || perAssesmentPending;
+    const areaIdToTitleMap = listToMap(
+        questionsResponse?.results ?? [],
+        (question) => question.component.area.id,
+        (question) => question.component.area.title,
+    );
+
+    const pending = questionsPending
+        || statusPending
+        || perOptionsPending
+        || perAssesmentPending;
     const minArea = 1;
     const maxArea = areas.length;
     const currentPerStep = getCurrentPerProcessStep(statusResponse);
@@ -256,10 +283,6 @@ export function Component() {
         setShowConfirmation(false);
     }, [handleFormFinalSubmit]);
 
-    const [totalAnswer, setTotalAnswer] = useState<number>(0);
-    const [totalYes, setTotalYes] = useState<number>(0);
-    const [totalNo, setTotalNo] = useState<number>(0);
-
     return (
         <>
             <form
@@ -270,24 +293,12 @@ export function Component() {
                     <BlockLoading />
                 )}
                 {!pending && (
-                    <ExpandableContainer
-                        className={_cs(styles.customActivity, styles.errored)}
-                        componentRef={undefined}
-                        actions="Show Summary"
-                    >
-                        <Container
-                            className={styles.inputSection}
-                        >
-                            <ProgressBar
-                                title={
-                                    `Answered ${totalAnswer} / ${totalValue}
-                                    Yes ${totalYes} | No ${totalNo}`
-                                }
-                                value={totalAnswer}
-                                totalValue={totalValue}
-                            />
-                        </Container>
-                    </ExpandableContainer>
+                    <PerAssessmentSummary
+                        perOptionsResponse={perOptionsResponse}
+                        areaResponses={value?.area_responses}
+                        totalQuestionCount={questionsResponse?.count}
+                        areaIdToTitleMap={areaIdToTitleMap}
+                    />
                 )}
                 {!pending && currentArea && (
                     <Tabs
@@ -321,9 +332,9 @@ export function Component() {
                                     index={areaResponseMapping[area.id]?.index}
                                     value={areaResponseMapping[area.id]?.value}
                                     onChange={setAreaResponsesValue}
-                                    handleTotalAnswer={setTotalAnswer}
-                                    handleTotalYes={setTotalYes}
-                                    handleTotalNo={setTotalNo}
+                                    ratingOptions={
+                                        perOptionsResponse?.componentratings ?? []
+                                    }
                                 />
                             </TabPanel>
                         ))}
@@ -360,8 +371,6 @@ export function Component() {
                                     name
                                     variant="primary"
                                     onClick={setShowConfirmation}
-                                    disabled={isNotDefined(currentPerStep)
-                                        || currentPerStep > STEP_ASSESSMENT}
                                 >
                                     Submit Assessment
                                 </Button>

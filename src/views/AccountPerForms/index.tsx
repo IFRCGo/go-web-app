@@ -8,6 +8,7 @@ import {
     createNumberColumn,
     createDateColumn,
     createLinkColumn,
+    createStringColumn,
 } from '#components/Table/ColumnShortcuts';
 import Link from '#components/Link';
 import Container from '#components/Container';
@@ -23,6 +24,8 @@ interface PerProcessStatusItem {
         name: string;
     };
     date_of_assessment: string;
+    phase: number;
+    phase_display: string;
     id: number;
 }
 
@@ -62,6 +65,11 @@ export function Component() {
                 'assessment_number',
                 'PER cycle',
                 (item) => item.assessment_number,
+            ),
+            createStringColumn<PerProcessStatusItem, string>(
+                'phase',
+                'Phase',
+                (item) => item.phase_display,
             ),
             createActionColumn<PerProcessStatusItem, string | number>(
                 'actions',

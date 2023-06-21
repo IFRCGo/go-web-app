@@ -16,11 +16,15 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import Button from '#components/Button';
 import { compareLabel } from '#utils/common';
-import useAlert from '#hooks/useAlert';
-import { ListResponse, useLazyRequest, useRequest } from '#utils/restRequest';
+import {
+    ListResponse,
+    useLazyRequest,
+    useRequest,
+} from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
-import { NumericKeyValuePair, StringKeyValuePair } from '#types/common';
+import useAlert from '#hooks/useAlert';
 import {
     PartialWorkPlan,
     workplanSchema,
@@ -29,8 +33,8 @@ import {
     WorkPlanStatus,
     PerFormComponentItem,
     WorkPlanComponentItem,
+    CustomWorkPlanComponentItem,
 } from './common';
-import Button from '#components/Button';
 import CustomActivity from './CustomActivity';
 
 import i18n from './i18n.json';
@@ -45,20 +49,14 @@ interface PerProcessStatusItem {
     workplan: number | null;
 }
 
-function transformKeyValueToLabelValue<O extends NumericKeyValuePair | StringKeyValuePair>(o: O): {
-    label: string;
-    value: O['key'];
-} {
-    return {
-        value: o.key,
-        label: o.value,
-    };
-}
+const defaultValue: PartialWorkPlan = {
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
     const navigate = useNavigate();
+    const strings = useTranslation(i18n);
 
     const {
         pending: statusPending,
@@ -76,14 +74,13 @@ export function Component() {
 
     const {
         response: workPlanResponse,
-    } = useRequest<ListResponse<PerFormComponentItem>>({
-        url: `api/v2/per-work-plan/`,
+    } = useRequest<WorkPlanResponseFields>({
+        skip: isNotDefined(statusResponse?.workplan),
+        url: `api/v2/per-work-plan/${statusResponse?.workplan}`,
         query: {
             limit: 500,
         },
     });
-
-    const strings = useTranslation(i18n);
 
     const {
         value,
@@ -92,9 +89,7 @@ export function Component() {
         setError: onErrorSet,
     } = useForm(
         workplanSchema,
-        {
-            value: {},
-        },
+        { value: defaultValue },
     );
 
     const alert = useAlert();
@@ -106,7 +101,6 @@ export function Component() {
         method: 'POST',
         body: (ctx) => ctx,
         onSuccess: () => {
-
             alert.show(
                 strings.perFormSaveRequestSuccessMessage,
                 { variant: 'success' },
@@ -137,7 +131,6 @@ export function Component() {
 
     const {
         setValue: setComponentValue,
-        removeValue: removeComponentValue,
     } = useFormArray('component_responses', setFieldValue);
 
     const workPlanStatusOptions = useMemo(
@@ -151,10 +144,11 @@ export function Component() {
     );
 
     const {
-        setValue,
-        removeValue,
+        setValue: setCustomComponentValue,
+        removeValue: removeCustomCompnentValue,
     } = useFormArray(
-        'custom_component_responses', setFieldValue
+        'custom_component_responses',
+        setFieldValue,
     );
 
     const handleSubmit = useCallback(
@@ -165,16 +159,17 @@ export function Component() {
             } else {
                 console.error('Work-Plan id not defined');
             }
-        }, [savePerWorkPlan]);
+        },
+        [savePerWorkPlan],
+    );
 
     const handleAddCustomActivity = useCallback(() => {
-        const clientId = randomString();
         const newCustomActivity: PartialForm<WorkPlanComponentItem> = {
-            client_id: clientId,
+            client_id: randomString(),
         };
 
         setFieldValue(
-            (oldValue?: PartialForm<WorkPlanComponentItem>) => {
+            (oldValue?: PartialForm<CustomWorkPlanComponentItem>) => {
                 if (oldValue) {
                     return [
                         ...oldValue,
@@ -184,7 +179,7 @@ export function Component() {
 
                 return [newCustomActivity];
             },
-            'custom_component_responses'
+            'custom_component_responses',
         );
     }, [setFieldValue]);
 
@@ -197,27 +192,38 @@ export function Component() {
         }),
     );
 
+    const customComponentResponseMapping = listToMap(
+        value?.custom_component_responses ?? [],
+        (customComponentResponse) => customComponentResponse.client_id,
+        (customComponentResponse, _, index) => ({
+            index,
+            value: customComponentResponse,
+        }),
+    );
+
+    console.info(workPlanResponse);
+
     return (
         <form
             onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
         >
-            {workPlanResponse?.results?.map((component) => (
+            {workPlanResponse?.component_responses?.map((component) => (
                 <ComponentInput
-                    key={component.id}
-                    index={componentResponseMapping[component.id]?.index}
-                    value={componentResponseMapping[component.id]?.value}
+                    key={component.component}
+                    index={componentResponseMapping[component.component]?.index}
+                    value={componentResponseMapping[component.component]?.value}
                     onChange={setComponentValue}
                     component={component}
                     workPlanStatusOptions={workPlanStatusOptions}
                 />
             ))}
-            {value?.custom_component_responses?.map((input, index) => (
+            {value?.custom_component_responses?.map((customComponent) => (
                 <CustomActivity
-                    key={input.client_id}
-                    index={index}
-                    value={input}
-                    onChange={setValue}
-                    onRemove={removeValue}
+                    key={customComponent.client_id}
+                    index={customComponentResponseMapping[customComponent.client_id]?.index}
+                    value={customComponentResponseMapping[customComponent.client_id]?.value}
+                    onChange={setCustomComponentValue}
+                    onRemove={removeCustomCompnentValue}
                     workPlanStatusOptions={workPlanStatusOptions}
                 />
             ))}

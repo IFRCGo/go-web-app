@@ -30,9 +30,11 @@ interface Props {
     index: number | undefined;
     questions: PerFormQuestionItem[] | undefined;
     area: PerFormArea;
-    handleTotalAnswer: React.Dispatch<React.SetStateAction<number>>;
-    handleTotalYes: React.Dispatch<React.SetStateAction<number>>;
-    handleTotalNo: React.Dispatch<React.SetStateAction<number>>;
+    ratingOptions: {
+        id: number;
+        title: string;
+        value: number;
+    }[];
 }
 
 function AreaInput(props: Props) {
@@ -44,9 +46,7 @@ function AreaInput(props: Props) {
         area,
         questions,
         // error,
-        handleTotalAnswer,
-        handleTotalYes,
-        handleTotalNo,
+        ratingOptions,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -96,9 +96,7 @@ function AreaInput(props: Props) {
                         index={componentResponseMapping[componentResponse.component.id]?.index}
                         value={componentResponseMapping[componentResponse.component.id]?.value}
                         onChange={setQuestionResponseValue}
-                        handleTotalAnswer={handleTotalAnswer}
-                        handleTotalYes={handleTotalYes}
-                        handleTotalNo={handleTotalNo}
+                        ratingOptions={ratingOptions}
                     />
                 ) : null
             ))}
