@@ -1,6 +1,0 @@
-.work-plan-table {
-    display: flex;
-    gap: var(--go-ui-spacing-xl);
-    align-items: center;
-    justify-content: center;
-}

@@ -81,30 +81,31 @@ function Modals() {
             >
                 Show Modal
             </Button>
-            <Modal
-                opened={opened}
-                size={option}
-                heading={(
-                    <Heading level={2}>
-                        This is modal heading
-                    </Heading>
-                )}
-                onClose={handleCloseButtonClick}
-                bodyClassName={styles.content}
-            >
-                <TextInput
-                    name="name"
-                    label="What is your name?"
-                    onChange={setValue}
-                    value={value}
-                />
-                <TextInput
-                    name="surname"
-                    label="What is your surname?"
-                    onChange={setSurname}
-                    value={surname}
-                />
-            </Modal>
+            {opened && (
+                <Modal
+                    size={option}
+                    heading={(
+                        <Heading level={2}>
+                            This is modal heading
+                        </Heading>
+                    )}
+                    onClose={handleCloseButtonClick}
+                    bodyClassName={styles.content}
+                >
+                    <TextInput
+                        name="name"
+                        label="What is your name?"
+                        onChange={setValue}
+                        value={value}
+                    />
+                    <TextInput
+                        name="surname"
+                        label="What is your surname?"
+                        onChange={setSurname}
+                        value={surname}
+                    />
+                </Modal>
+            )}
         </div>
     );
 }

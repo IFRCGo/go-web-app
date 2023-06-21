@@ -15,9 +15,9 @@
     .track {
         --height: 1rem;
         display: flex;
+        border-radius: calc(0.5 * var(--height));
         background-color: var(--go-ui-color-gray-50);
         height: var(--height);
-        border-radius: calc(0.5 * var(--height));
 
         .bar {
             height: 100%;

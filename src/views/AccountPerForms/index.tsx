@@ -20,7 +20,7 @@ interface PerProcessStatusItem {
     assessment_number: number;
     country: number;
     country_details: {
-        iso3: string | null;
+        iso3: null;
         name: string;
     };
     date_of_assessment: string;
@@ -45,7 +45,7 @@ export function Component() {
 
     const columns = useMemo(
         () => ([
-            createLinkColumn<PerProcessStatusItem, string | number>(
+            createLinkColumn<PerProcessStatusItem, number | string>(
                 'country',
                 'Country',
                 (item) => item.country_details?.name,
@@ -56,22 +56,22 @@ export function Component() {
                     ),
                 }),
             ),
-            createDateColumn<PerProcessStatusItem, string | number>(
+            createDateColumn<PerProcessStatusItem, number | string>(
                 'date_of_assessment',
                 'Start date',
                 (item) => item.date_of_assessment,
             ),
-            createNumberColumn<PerProcessStatusItem, string | number>(
+            createNumberColumn<PerProcessStatusItem, number | string>(
                 'assessment_number',
                 'PER cycle',
                 (item) => item.assessment_number,
             ),
-            createStringColumn<PerProcessStatusItem, string>(
+            createStringColumn<PerProcessStatusItem, number | string>(
                 'phase',
                 'Phase',
                 (item) => item.phase_display,
             ),
-            createActionColumn<PerProcessStatusItem, string | number>(
+            createActionColumn<PerProcessStatusItem, number | string>(
                 'actions',
                 (item) => ({
                     children: (

@@ -16,11 +16,27 @@ export function stringLabelSelector<T extends { label: string }>(option: T) {
     return option.label;
 }
 
+export interface PrioritizationResponse {
+    overview: number;
+    component_responses: {
+        component: number;
+        component_details: {
+            area: number;
+            component_letter: string;
+            component_num: number;
+            description: string;
+            id: number;
+            title: string;
+        },
+        justification_text: string;
+    }[];
+}
+
 export interface WorkPlanComponentItem {
     component: number;
     actions: string;
     due_date: string;
-    supported_by_id: string;
+    supported_by_id: number;
     status: number;
 }
 
@@ -28,7 +44,7 @@ export interface CustomWorkPlanComponentItem {
     client_id: string;
     actions: string;
     due_date: string;
-    supported_by_id: string;
+    supported_by_id: number;
     status: number;
 }
 
@@ -51,7 +67,7 @@ export interface WorkPlanResponseFields extends WorkPlanFormFields {
     id: number;
 }
 
-export interface WorkPlanStatus {
+export interface PerOptionsResponse {
     workplanstatus: {
         key: number;
         value: string;
@@ -78,7 +94,7 @@ export const workplanSchema: WorkPlanFormScheme = {
             }),
         },
         custom_component_responses: {
-            keySelector: (customResponse) => customResponse.client_id,
+            keySelector: (customComponentResponse) => customComponentResponse.client_id,
             member: () => ({
                 fields: () => ({
                     client_id: {},

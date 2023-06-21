@@ -2,13 +2,11 @@ import {
     SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
-import { _cs } from '@togglecorp/fujs';
 
 import { PerFormComponentItem } from '#views/PerPrioritizationForm/common';
-import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
-import TextInput from '#components/TextInput';
+import TextArea from '#components/TextArea';
 import { LabelValue } from '#types/common';
 
 import {
@@ -16,7 +14,6 @@ import {
     numericValueSelector,
     stringLabelSelector,
 } from '../common';
-import styles from './styles.module.css';
 
 type Value = NonNullable<PartialWorkPlan['component_responses']>[number];
 
@@ -26,6 +23,10 @@ interface Props {
     index: number;
     component: PerFormComponentItem;
     workPlanStatusOptions?: LabelValue[];
+    nsOptions?: {
+        label: string;
+        value: number;
+    }[];
 }
 
 function ComponentInput(props: Props) {
@@ -35,9 +36,8 @@ function ComponentInput(props: Props) {
         value,
         component,
         workPlanStatusOptions,
+        nsOptions,
     } = props;
-
-    console.info('componnent', component);
 
     const onFieldChange = useFormObject(
         index,
@@ -48,17 +48,16 @@ function ComponentInput(props: Props) {
     );
 
     return (
-        <Container
-            childrenContainerClassName={styles.workPlanTable}
-        >
+        <>
             <div>
-                {`${component?.component_num} ${component?.title}`}
+                {`${component?.component_num}. ${component?.title}`}
             </div>
-            <TextInput
+            <TextArea
                 name="actions"
                 value={value?.actions}
                 onChange={onFieldChange}
                 placeholder="List the actions"
+                rows={2}
             />
             <DateInput
                 name="due_date"
@@ -66,14 +65,24 @@ function ComponentInput(props: Props) {
                 onChange={onFieldChange}
             />
             <SelectInput
+                name="supported_by_id"
+                placeholder="Select NS"
+                options={nsOptions}
+                onChange={onFieldChange}
+                keySelector={numericValueSelector}
+                labelSelector={stringLabelSelector}
+                value={value?.supported_by_id}
+            />
+            <SelectInput
                 name="status"
+                placeholder="Select status"
                 options={workPlanStatusOptions}
                 onChange={onFieldChange}
                 keySelector={numericValueSelector}
                 labelSelector={stringLabelSelector}
                 value={value?.status}
             />
-        </Container>
+        </>
     );
 }
 

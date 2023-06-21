@@ -34,6 +34,7 @@ export function Component() {
 
     const {
         response: statusResponse,
+        retrigger: refetchStatusResponse,
     } = useRequest<PerProcessStatusItem>({
         skip: isNotDefined(perId),
         url: `api/v2/per-process-status/${perId}/`,
@@ -64,7 +65,7 @@ export function Component() {
                     </NavigationTab>
                     <NavigationTab
                         stepCompleted={currentStep > STEP_ASSESSMENT}
-                        to={isDefined(perId) && currentStep === STEP_ASSESSMENT
+                        to={isDefined(perId) && currentStep >= STEP_ASSESSMENT
                             ? generatePath(perAssessmentFormRoute.absolutePath, { perId })
                             : undefined}
                     >
@@ -72,7 +73,7 @@ export function Component() {
                     </NavigationTab>
                     <NavigationTab
                         stepCompleted={currentStep > STEP_PRIORITIZATION}
-                        to={isDefined(perId) && currentStep === STEP_PRIORITIZATION
+                        to={isDefined(perId) && currentStep >= STEP_PRIORITIZATION
                             ? generatePath(perPrioritizationFormRoute.absolutePath, { perId })
                             : undefined}
                     >
@@ -80,7 +81,7 @@ export function Component() {
                     </NavigationTab>
                     <NavigationTab
                         stepCompleted={currentStep > STEP_WORKPLAN}
-                        to={isDefined(perId) && currentStep === STEP_WORKPLAN
+                        to={isDefined(perId) && currentStep >= STEP_WORKPLAN
                             ? generatePath(perWorkPlanFormRoute.absolutePath, { perId })
                             : undefined}
                     >
@@ -89,7 +90,12 @@ export function Component() {
                 </NavigationTabList>
             )}
         >
-            <Outlet />
+            <Outlet
+                context={{
+                    statusResponse,
+                    refetchStatusResponse,
+                }}
+            />
         </Page>
     );
 }

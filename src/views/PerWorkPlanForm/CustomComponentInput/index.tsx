@@ -5,23 +5,21 @@ import {
     SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
-import { _cs } from '@togglecorp/fujs';
+import { randomString } from '@togglecorp/fujs';
 
-import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import { LabelValue } from '#types/common';
 import Button from '#components/Button';
-import TextInput from '#components/TextInput';
+import TextArea from '#components/TextArea';
 
 import {
-    WorkPlanComponentItem,
+    CustomWorkPlanComponentItem,
     numericValueSelector,
     stringLabelSelector,
 } from '../common';
-import styles from './styles.module.css';
 
-type Value = PartialForm<WorkPlanComponentItem>;
+type Value = PartialForm<CustomWorkPlanComponentItem, 'client_id'>;
 
 interface Props {
     value: Value;
@@ -29,23 +27,29 @@ interface Props {
     index: number;
     onRemove: (index: number) => void;
     workPlanStatusOptions: LabelValue[];
+    nsOptions?: {
+        label: string;
+        value: number;
+    }[];
 }
 
-function CustomActivity(props: Props) {
+function CustomComponentInput(props: Props) {
     const {
         onChange,
         index,
         onRemove,
         value,
         workPlanStatusOptions,
+        nsOptions,
     } = props;
 
     const defaultValue = useMemo(
         () => ({
-            action: value?.actions,
+            client_id: randomString(),
         }),
-        [value?.actions],
+        [],
     );
+
     const onFieldChange = useFormObject(
         index,
         onChange,
@@ -53,46 +57,49 @@ function CustomActivity(props: Props) {
     );
 
     return (
-        <Container
-            childrenContainerClassName={styles.workPlanTable}
-        >
-            <TextInput
+        <>
+            <TextArea
                 name="actions"
                 value={value?.actions}
                 onChange={onFieldChange}
                 placeholder="List the actions"
+                rows={2}
             />
             <DateInput
                 name="due_date"
                 value={value?.due_date}
                 onChange={onFieldChange}
             />
-            {/* <SelectInput
-                name="status"
-                options={undefined}
+            <SelectInput
+                name="supported_by_id"
+                placeholder="Select NS"
+                options={nsOptions}
                 onChange={onFieldChange}
-                keySelector={(d) => d.key}
-                labelSelector={(d) => d.value}
-                value={undefined}
-            /> */}
+                keySelector={numericValueSelector}
+                labelSelector={stringLabelSelector}
+                value={value?.supported_by_id}
+            />
             <SelectInput
                 name="status"
+                placeholder="Select status"
                 options={workPlanStatusOptions}
                 onChange={onFieldChange}
                 keySelector={numericValueSelector}
                 labelSelector={stringLabelSelector}
                 value={value?.status}
             />
-            <Button
-                className={styles.removeButton}
-                name={index}
-                onClick={onRemove}
-                variant="tertiary"
-            >
-                <IoTrash />
-            </Button>
-        </Container>
+            <div>
+                <Button
+                    name={index}
+                    onClick={onRemove}
+                    variant="secondary"
+                    actions={<IoTrash />}
+                >
+                    Remove
+                </Button>
+            </div>
+        </>
     );
 }
 
-export default CustomActivity;
+export default CustomComponentInput;

@@ -1,12 +1,16 @@
 import { useState, useCallback, useContext } from 'react';
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
+import {
+    generatePath,
+    useNavigate,
+    useParams,
+    useOutletContext,
+} from 'react-router-dom';
 import {
     unique,
     listToMap,
     compareNumber,
     listToGroupList,
     isNotDefined,
-    isDefined,
 } from '@togglecorp/fujs';
 import {
     PartialForm,
@@ -23,14 +27,14 @@ import TabPanel from '#components/Tabs/TabPanel';
 import Modal from '#components/Modal';
 import Button from '#components/Button';
 import PerAssessmentSummary from '#components/PerAssessmentSummary';
+import useAlert from '#hooks/useAlert';
+import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 import {
     ListResponse,
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import useAlert from '#hooks/useAlert';
-import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import {
     PerProcessStatusItem,
     getCurrentPerProcessStep,
@@ -78,10 +82,20 @@ export function Component() {
         perPrioritizationForm: perPrioritizationFormRoute,
     } = useContext(RouteContext);
 
-    const [assessmentId, setAssessmentId] = useState<number>();
+    type StatusContextValue = {
+        statusResponse: PerProcessStatusItem,
+        refetchStatusResponse: () => void,
+    }
+
+    const {
+        statusResponse,
+        refetchStatusResponse,
+    } = useOutletContext<StatusContextValue>();
+
     const [areas, setAreas] = useState<PerFormArea[]>([]);
     const [currentArea, setCurrentArea] = useState<number | undefined>();
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const assessmentId = statusResponse?.assessment;
 
     const {
         value,
@@ -112,19 +126,6 @@ export function Component() {
         url: `api/v2/per-assessment/${assessmentId}`,
         onSuccess: (response) => {
             setValue(response);
-        },
-    });
-
-    const {
-        pending: statusPending,
-        response: statusResponse,
-    } = useRequest<PerProcessStatusItem>({
-        skip: isNotDefined(perId),
-        url: `api/v2/per-process-status/${perId}/`,
-        onSuccess: (response) => {
-            if (isDefined(response.assessment)) {
-                setAssessmentId(response.assessment);
-            }
         },
     });
 
@@ -170,6 +171,8 @@ export function Component() {
                 strings.perFormSaveRequestSuccessMessage,
                 { variant: 'success' },
             );
+
+            refetchStatusResponse();
 
             if (response.is_draft === false) {
                 navigate(
@@ -266,7 +269,6 @@ export function Component() {
     );
 
     const pending = questionsPending
-        || statusPending
         || perOptionsPending
         || perAssesmentPending;
     const minArea = 1;

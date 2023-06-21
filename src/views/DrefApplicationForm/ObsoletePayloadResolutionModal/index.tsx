@@ -80,7 +80,6 @@ function ObsoletePayloadResolutionModal(props: Props) {
                     </Button>
                 </>
             )}
-            opened
         >
             {drefPending && (
                 <BlockLoading />
