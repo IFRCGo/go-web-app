@@ -10,7 +10,6 @@ type ComponentResponse = AssessmentResponse['component_responses'][number];
 export type PrioritizationFormFields = Omit<AssessmentResponse, 'id' | 'component_responses'> & ({
     component_responses: Omit<ComponentResponse, 'component_details'>[];
 });
-
 export type PartialPrioritization = PartialForm<PrioritizationFormFields, 'component'>
 type PrioritizationSchema = ObjectSchema<PartialPrioritization>;
 type PrioritizationSchemaFields = ReturnType<PrioritizationSchema['fields']>;

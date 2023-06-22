@@ -401,21 +401,21 @@ export function Component() {
                     twoColumn
                 >
                     <TextInput
-                        label="Name"
+                        label={strings.perFormFocalPointNameLabel}
                         name="ns_focal_point_name"
                         value={value?.ns_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_name}
                     />
                     <TextInput
-                        label="Email"
+                        label={strings.perFormFocalPointEmailLabel}
                         name="ns_focal_point_email"
                         value={value?.ns_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_email}
                     />
                     <TextInput
-                        label="Phone Number"
+                        label={strings.perFormFocalPointPhoneNumberLabel}
                         name="ns_focal_point_phone"
                         value={value?.ns_focal_point_phone}
                         onChange={setFieldValue}
@@ -429,21 +429,21 @@ export function Component() {
                     twoColumn
                 >
                     <TextInput
-                        label="Name"
+                        label={strings.perFormFocalPointNameLabel}
                         name="ns_second_focal_point_name"
                         value={value?.ns_second_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_name}
                     />
                     <TextInput
-                        label="Email"
+                        label={strings.perFormFocalPointEmailLabel}
                         name="ns_second_focal_point_email"
                         value={value?.ns_second_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_email}
                     />
                     <TextInput
-                        label="Phone Number"
+                        label={strings.perFormFocalPointPhoneNumberLabel}
                         name="ns_second_focal_point_phone"
                         value={value?.ns_second_focal_point_phone}
                         onChange={setFieldValue}
@@ -456,28 +456,28 @@ export function Component() {
                     twoColumn
                 >
                     <TextInput
-                        label="Name"
+                        label={strings.perFormFocalPointNameLabel}
                         name="partner_focal_point_name"
                         value={value?.partner_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_name}
                     />
                     <TextInput
-                        label="Email"
+                        label={strings.perFormFocalPointEmailLabel}
                         name="partner_focal_point_email"
                         value={value?.partner_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_email}
                     />
                     <TextInput
-                        label="Phone Number"
+                        label={strings.perFormFocalPointPhoneNumberLabel}
                         name="partner_focal_point_phone"
                         value={value?.partner_focal_point_phone}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_phone}
                     />
                     <TextInput
-                        label="Organization"
+                        label={strings.perFormFocalPointOrganizationLabel}
                         name="partner_focal_point_organization"
                         value={value?.partner_focal_point_organization}
                         onChange={setFieldValue}
@@ -490,28 +490,28 @@ export function Component() {
                     twoColumn
                 >
                     <TextInput
-                        label="Name"
+                        label={strings.perFormFocalPointNameLabel}
                         name="facilitator_name"
                         value={value?.facilitator_name}
                         onChange={setFieldValue}
                         error={error?.facilitator_name}
                     />
                     <TextInput
-                        label="Email"
+                        label={strings.perFormFocalPointEmailLabel}
                         name="facilitator_email"
                         value={value?.facilitator_email}
                         onChange={setFieldValue}
                         error={error?.facilitator_email}
                     />
                     <TextInput
-                        label="Phone Number"
+                        label={strings.perFormFocalPointPhoneNumberLabel}
                         name="facilitator_phone"
                         value={value?.facilitator_phone}
                         onChange={setFieldValue}
                         error={error?.facilitator_phone}
                     />
                     <TextInput
-                        label="Other contact method"
+                        label={strings.perFormOtherContactMethodLabel}
                         name="facilitator_contact"
                         value={value?.facilitator_contact}
                         onChange={setFieldValue}

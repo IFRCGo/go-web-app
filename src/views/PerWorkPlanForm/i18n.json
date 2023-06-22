@@ -8,6 +8,14 @@
         "perWorkPlanStatus": "Status",
         "perFormSaveRequestSuccessMessage": "PER Process created/updated successfully",
         "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
-        "perFormSaveAndFinalizeWorkPlan": "Save and Finalize Work-plan"
+        "perFormSaveAndFinalizeWorkPlan": "Save and Finalize Work-plan",
+        "perFormPrioritizedComponentsHeading": "Prioritized Components",
+        "perFormActionsHeading": "Actions",
+        "perFormAddAnActionButton": "Add an Action",
+        "perFormNoActionsLabel": "No Actions",
+        "perFormRemoveButton": "Remove",
+        "perFormActionsPlaceholder": "List the actions",
+        "perFormSelectNSPlaceholder": "Select NS",
+        "perFormSelectStatusLabel": "Select status"
     }
 }

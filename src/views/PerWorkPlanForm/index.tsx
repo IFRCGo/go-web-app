@@ -35,11 +35,10 @@ import {
     PartialWorkPlan,
 } from './common';
 import CustomComponentInput from './CustomComponentInput';
+import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
-
 import styles from './styles.module.css';
-import ComponentInput from './ComponentInput';
 
 interface CountryResponse {
     id: number;
@@ -259,7 +258,7 @@ export function Component() {
             {!pending && (
                 <>
                     <Container
-                        heading="Prioritized Components"
+                        heading={strings.perFormPrioritizedComponentsHeading}
                         childrenContainerClassName={styles.componentList}
                         withHeaderBorder
                     >
@@ -277,7 +276,7 @@ export function Component() {
                     </Container>
                     <Container
                         childrenContainerClassName={styles.actionList}
-                        heading="Actions"
+                        heading={strings.perFormActionsHeading}
                         withHeaderBorder
                         actions={(
                             <Button
@@ -286,7 +285,7 @@ export function Component() {
                                 onClick={handleAddCustomActivity}
                                 icons={<IoAdd />}
                             >
-                                Add an Action
+                                {strings.perFormAddAnActionButton}
                             </Button>
                         )}
                     >
@@ -307,7 +306,7 @@ export function Component() {
                         ))}
                         {(value?.custom_component_responses?.length ?? 0) === 0 && (
                             <div>
-                                No Actions
+                                {strings.perFormNoActionsLabel}
                             </div>
                         )}
                     </Container>

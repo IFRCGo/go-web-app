@@ -44,6 +44,11 @@
         "perFormSaveRequestSuccessMessage": "PER Process saved successfully.",
         "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
         "yesLabel": "Yes",
-        "noLabel": "No"
+        "noLabel": "No",
+        "perFormFocalPointNameLabel": "Name",
+        "perFormFocalPointEmailLabel": "Email",
+        "perFormFocalPointPhoneNumberLabel": "Phone Number",
+        "perFormFocalPointOrganizationLabel": "Organization",
+        "perFormOtherContactMethodLabel": "Other contact method"
     }
 }

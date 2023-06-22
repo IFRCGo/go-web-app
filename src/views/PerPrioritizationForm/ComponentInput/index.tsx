@@ -12,10 +12,12 @@ import {
     useRequest,
 } from '#utils/restRequest';
 import type { GET } from '#types/serverResponse';
+import useTranslation from '#hooks/useTranslation';
 
 import { PartialPrioritization } from '../common';
 import QuestionOutput from './QuestionOutput';
 
+import i18n from '../i18n.json';
 import styles from './styles.module.css';
 
 type Value = NonNullable<PartialPrioritization['component_responses']>[number];
@@ -59,6 +61,8 @@ function ComponentsInput(props: Props) {
     } = props;
 
     const [expanded, setExpanded] = useState(false);
+    const strings = useTranslation(i18n);
+
     const {
         pending: formQuestionsPending,
         response: formQuestions,
@@ -141,7 +145,7 @@ function ComponentsInput(props: Props) {
                     name="justification_text"
                     value={value?.justification_text}
                     onChange={onFieldChange}
-                    placeholder="Enter Justification"
+                    placeholder={strings.perFormEnterJustification}
                     disabled={!value}
                 />
             )}

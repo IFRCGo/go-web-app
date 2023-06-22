@@ -341,7 +341,7 @@ export function Component() {
                                     variant="secondary"
                                     onClick={handlePrevTab}
                                 >
-                                    Back
+                                    {strings.perFormBackButton}
                                 </Button>
                             )}
                             {currentArea !== undefined && currentArea < maxArea && (
@@ -350,7 +350,7 @@ export function Component() {
                                     variant="secondary"
                                     onClick={handleNextTab}
                                 >
-                                    Next
+                                    {strings.perFormNextButton}
                                 </Button>
                             )}
                             <Button
@@ -360,7 +360,7 @@ export function Component() {
                                 disabled={isNotDefined(currentPerStep)
                                     || currentPerStep > STEP_ASSESSMENT}
                             >
-                                Save
+                                {strings.perFormSaveButton}
                             </Button>
                             {currentArea === maxArea && (
                                 <Button
@@ -368,7 +368,7 @@ export function Component() {
                                     variant="primary"
                                     onClick={setShowConfirmation}
                                 >
-                                    Submit Assessment
+                                    {strings.perFormSubmitAssessmentButton}
                                 </Button>
                             )}
                         </div>
@@ -387,24 +387,22 @@ export function Component() {
                                 variant="secondary"
                                 onClick={setShowConfirmation}
                             >
-                                Cancel
+                                {strings.perFormCancelButton}
                             </Button>
                             <Button
                                 name={undefined}
                                 onClick={handleFinalSubmitClick}
                             >
-                                Submit
+                                {strings.perFormSubmitButton}
                             </Button>
                         </>
                     )}
                 >
                     <div>
-                        You are about to submit the results of the PER Assessment.
-                        Once submitted, the results cannot be edited.
+                        {strings.perFormModalInfo}
                     </div>
                     <div>
-                        Click on Submit to proceed.
-                        To go back and edit, click on Cancel.
+                        {strings.perFormModalSubmitButton}
                     </div>
                 </Modal>
             )}

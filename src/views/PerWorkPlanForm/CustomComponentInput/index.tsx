@@ -6,6 +6,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { randomString } from '@togglecorp/fujs';
 
+import useTranslation from '#hooks/useTranslation';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import { LabelValue } from '#types/common';
@@ -17,6 +18,8 @@ import {
     stringLabelSelector,
     PartialWorkPlan,
 } from '../common';
+
+import i18n from '../i18n.json';
 
 type Value = NonNullable<PartialWorkPlan['custom_component_responses']>[number];
 
@@ -42,6 +45,8 @@ function CustomComponentInput(props: Props) {
         nsOptions,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const defaultValue = useMemo(
         () => ({
             client_id: randomString(),
@@ -61,7 +66,7 @@ function CustomComponentInput(props: Props) {
                 name="actions"
                 value={value?.actions}
                 onChange={onFieldChange}
-                placeholder="List the actions"
+                placeholder={strings.perFormActionsPlaceholder}
                 rows={2}
             />
             <DateInput
@@ -71,7 +76,7 @@ function CustomComponentInput(props: Props) {
             />
             <SelectInput
                 name="supported_by"
-                placeholder="Select NS"
+                placeholder={strings.perFormSelectNSPlaceholder}
                 options={nsOptions}
                 onChange={onFieldChange}
                 keySelector={numericValueSelector}
@@ -80,7 +85,7 @@ function CustomComponentInput(props: Props) {
             />
             <SelectInput
                 name="status"
-                placeholder="Select status"
+                placeholder={strings.perFormSelectStatusLabel}
                 options={workPlanStatusOptions}
                 onChange={onFieldChange}
                 keySelector={numericValueSelector}
@@ -94,7 +99,7 @@ function CustomComponentInput(props: Props) {
                     variant="secondary"
                     actions={<IoTrash />}
                 >
-                    Remove
+                    {strings.perFormRemoveButton}
                 </Button>
             </div>
         </>

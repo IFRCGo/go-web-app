@@ -9,6 +9,14 @@
         "perFormSaveRequestSuccessMessage": "PER Process created/updated successfully",
         "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
         "perFormSubmitAssessmentTitle": "Submit PER Assessment Results",
-        "perFormSubmitAssessmentDescription": "You are about to submit the results of the PER Assessment. Once submitted, the results cannot be edited. Click on the Submit to proceed. To go to back and edit, click on Cancel."
+        "perFormSubmitAssessmentDescription": "You are about to submit the results of the PER Assessment. Once submitted, the results cannot be edited. Click on the Submit to proceed. To go to back and edit, click on Cancel.",
+        "perFormBackButton": "Back",
+        "perFormNextButton": "Next",
+        "perFormSaveButton": "Save",
+        "perFormSubmitAssessmentButton": "Submit Assessment",
+        "perFormCancelButton": "Cancel",
+        "perFormSubmitButton": "Submit",
+        "perFormModalInfo": "You are about to submit the results of the PER Assessment. Once submitted, the results cannot be edited.",
+        "perFormModalSubmitButton": "Click on Submit to proceed. To go back and edit, click on Cancel."
     }
 }

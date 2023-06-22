@@ -8,12 +8,15 @@ import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
 import { LabelValue } from '#types/common';
 import type { GET } from '#types/serverResponse';
+import useTranslation from '#hooks/useTranslation';
 
 import {
     PartialWorkPlan,
     numericValueSelector,
     stringLabelSelector,
 } from '../common';
+
+import i18n from '../i18n.json';
 
 type Value = NonNullable<PartialWorkPlan['component_responses']>[number];
 type AssessmentResponse = GET['api/v2/per-prioritization/:id'];
@@ -41,6 +44,8 @@ function ComponentInput(props: Props) {
         nsOptions,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const onFieldChange = useFormObject(
         index,
         onChange,
@@ -58,7 +63,7 @@ function ComponentInput(props: Props) {
                 name="actions"
                 value={value?.actions}
                 onChange={onFieldChange}
-                placeholder="List the actions"
+                placeholder={strings.perFormActionsPlaceholder}
                 rows={2}
             />
             <DateInput
@@ -68,7 +73,7 @@ function ComponentInput(props: Props) {
             />
             <SelectInput
                 name="supported_by"
-                placeholder="Select NS"
+                placeholder={strings.perFormSelectNSPlaceholder}
                 options={nsOptions}
                 onChange={onFieldChange}
                 keySelector={numericValueSelector}
@@ -77,7 +82,7 @@ function ComponentInput(props: Props) {
             />
             <SelectInput
                 name="status"
-                placeholder="Select status"
+                placeholder={strings.perFormSelectStatusLabel}
                 options={workPlanStatusOptions}
                 onChange={onFieldChange}
                 keySelector={numericValueSelector}
