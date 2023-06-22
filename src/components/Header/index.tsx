@@ -60,7 +60,7 @@ function Header(props: Props) {
         actions,
         actionsContainerClassName,
         children: headingComp,
-        childrenContainerClassName: _cs(styles.headingContainer, childrenContainerClassName),
+        childrenContainerClassName: styles.headingContainer,
         className: headingContainerClassName,
         icons,
         iconsContainerClassName,
@@ -85,7 +85,7 @@ function Header(props: Props) {
                 </div>
             )}
             {children && (
-                <div className={styles.description}>
+                <div className={_cs(styles.description, childrenContainerClassName)}>
                     {children}
                 </div>
             )}

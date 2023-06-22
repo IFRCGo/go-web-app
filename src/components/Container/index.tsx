@@ -10,6 +10,7 @@ export interface Props {
     icons?: React.ReactNode;
     heading?: React.ReactNode;
     headingLevel?: HeadingProps['level'],
+    headingContainerClassName?: string;
     actions?: React.ReactNode;
     children: React.ReactNode;
     footerIcons?: React.ReactNode;
@@ -18,7 +19,6 @@ export interface Props {
     footerClassName?: string;
     footerActions?: React.ReactNode;
     headerClassName?: string;
-    headingContainerClassName?: string;
     headerDescription?: React.ReactNode;
     headerDescriptionClassName?: string;
     headerElementRef?: HeaderProps['elementRef'];
