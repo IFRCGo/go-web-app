@@ -1,4 +1,9 @@
-import React, { useMemo, useCallback, useContext } from 'react';
+import {
+    useMemo,
+    useCallback,
+    useContext,
+    useState,
+} from 'react';
 import { useParams, useNavigate, generatePath } from 'react-router-dom';
 import {
     useForm,
@@ -16,6 +21,7 @@ import TextInput from '#components/TextInput';
 import RadioInput from '#components/RadioInput';
 import Button from '#components/Button';
 import NumberInput from '#components/NumberInput';
+import GoSingleFileInput from '#components/GoSingleFileInput';
 import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
@@ -40,6 +46,7 @@ type PerOverviewResponse = GET['api/v2/new-per/:id'];
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
 
+    const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const strings = useTranslation(i18n);
     const alert = useAlertContext();
     const navigate = useNavigate();
@@ -58,7 +65,7 @@ export function Component() {
     const {
         value,
         setValue,
-        setFieldValue: onValueChange,
+        setFieldValue,
         error: riskyError,
         setError,
         validate,
@@ -88,21 +95,16 @@ export function Component() {
         url: `api/v2/new-per/${perId}`,
         onSuccess: (response) => {
             const {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                id,
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                country_details,
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                created_at,
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                updated_at,
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                user,
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                user_details,
+                orientation_document_details,
                 ...formValues
             } = response;
 
+            setFileIdToUrlMap(
+                (prevValue) => ({
+                    ...prevValue,
+                    [orientation_document_details.id]: orientation_document_details.file,
+                }),
+            );
             setValue(formValues);
         },
     });
@@ -163,20 +165,6 @@ export function Component() {
         [countriesResponse],
     );
 
-    // FIXME: use FileInput
-    const handleFileInputChange = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            event.preventDefault();
-            const { files } = event.target;
-            if (files && files.length > 0) {
-                const file = files[0];
-                onValueChange(file, 'orientation_document');
-                // uploadFile(file);
-            }
-        },
-        [onValueChange],
-    );
-
     const handleSubmit = useCallback(
         (formValues: PartialForm<PerOverviewFormFields>) => {
             savePerOverview(formValues as PerOverviewFormFields);
@@ -197,7 +185,7 @@ export function Component() {
                 >
                     <SelectInput
                         name="country"
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         options={countryOptions}
                         keySelector={numericValueSelector}
                         labelSelector={stringLabelSelector}
@@ -217,7 +205,7 @@ export function Component() {
                 >
                     <DateInput
                         name="date_of_orientation"
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         value={value?.date_of_orientation}
                         error={error?.date_of_orientation}
                     />
@@ -225,15 +213,17 @@ export function Component() {
                 <InputSection
                     title={strings.perFormUploadADoc}
                 >
-                    <input
-                        className={styles.fileInput}
+                    <GoSingleFileInput
                         name="orientation_document"
-                        accept=".docx, pdf"
-                        type="file"
-                        onChange={handleFileInputChange}
-                        // value={value?.orientation_document}
-                        // error={getErrorString(error?.orientation_document}
-                    />
+                        accept=".docx, .pdf"
+                        onChange={setFieldValue}
+                        url="api/v2/per-file/"
+                        value={value?.orientation_document}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                    >
+                        Upload
+                    </GoSingleFileInput>
                 </InputSection>
             </Container>
             <Container
@@ -247,7 +237,7 @@ export function Component() {
                 >
                     <DateInput
                         name="date_of_assessment"
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         value={value?.date_of_assessment}
                         error={error?.date_of_assessment}
                     />
@@ -260,7 +250,7 @@ export function Component() {
                         options={assessmentTypeResponse?.results}
                         keySelector={(assessmentType) => assessmentType.id}
                         labelSelector={(assessmentType) => assessmentType.name}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
                         disabled={fetchingPerOptions}
@@ -271,7 +261,7 @@ export function Component() {
                 >
                     <DateInput
                         name="date_of_previous_assessment"
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         value={value?.date_of_previous_assessment}
                         error={error?.date_of_previous_assessment}
                     />
@@ -284,7 +274,7 @@ export function Component() {
                         options={assessmentTypeResponse?.results}
                         keySelector={(assessmentType) => assessmentType.id}
                         labelSelector={(assessmentType) => assessmentType.name}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         value={value?.type_of_assessment}
                         error={getErrorString(error?.type_of_assessment)}
                     />
@@ -296,7 +286,7 @@ export function Component() {
                     <TextInput
                         name="branches_involved"
                         value={value?.branches_involved}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.branches_involved}
                     />
                 </InputSection>
@@ -306,7 +296,7 @@ export function Component() {
                     <TextInput
                         name="method_asmt_used"
                         value={value?.method_asmt_used}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.method_asmt_used}
                     />
                 </InputSection>
@@ -320,7 +310,7 @@ export function Component() {
                         keySelector={booleanValueSelector}
                         labelSelector={stringLabelSelector}
                         value={value?.is_epi}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.is_epi}
                     />
                 </InputSection>
@@ -334,7 +324,7 @@ export function Component() {
                         keySelector={booleanValueSelector}
                         labelSelector={stringLabelSelector}
                         value={value.assess_urban_aspect_of_country}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.assess_urban_aspect_of_country}
                     />
                 </InputSection>
@@ -348,7 +338,7 @@ export function Component() {
                         keySelector={booleanValueSelector}
                         labelSelector={stringLabelSelector}
                         value={value?.assess_climate_environment_of_country}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.assess_climate_environment_of_country}
                     />
                 </InputSection>
@@ -366,7 +356,7 @@ export function Component() {
                         readOnly
                         name="assessment_number"
                         value={value?.assessment_number}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.assessment_number}
                     />
                 </InputSection>
@@ -383,7 +373,7 @@ export function Component() {
                     <DateInput
                         error={error?.workplan_development_date}
                         name="workplan_development_date"
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         value={value?.workplan_development_date}
                     />
                 </InputSection>
@@ -393,7 +383,7 @@ export function Component() {
                 >
                     <DateInput
                         name="workplan_revision_date"
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         value={value?.workplan_revision_date}
                         error={error?.workplan_revision_date}
                     />
@@ -414,21 +404,21 @@ export function Component() {
                         label="Name"
                         name="ns_focal_point_name"
                         value={value?.ns_focal_point_name}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.ns_focal_point_name}
                     />
                     <TextInput
                         label="Email"
                         name="ns_focal_point_email"
                         value={value?.ns_focal_point_email}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.ns_focal_point_email}
                     />
                     <TextInput
                         label="Phone Number"
                         name="ns_focal_point_phone"
                         value={value?.ns_focal_point_phone}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.ns_focal_point_phone}
                     />
                 </InputSection>
@@ -442,21 +432,21 @@ export function Component() {
                         label="Name"
                         name="ns_second_focal_point_name"
                         value={value?.ns_second_focal_point_name}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.ns_second_focal_point_name}
                     />
                     <TextInput
                         label="Email"
                         name="ns_second_focal_point_email"
                         value={value?.ns_second_focal_point_email}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.ns_second_focal_point_email}
                     />
                     <TextInput
                         label="Phone Number"
                         name="ns_second_focal_point_phone"
                         value={value?.ns_second_focal_point_phone}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.ns_second_focal_point_phone}
                     />
                 </InputSection>
@@ -469,28 +459,28 @@ export function Component() {
                         label="Name"
                         name="partner_focal_point_name"
                         value={value?.partner_focal_point_name}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.partner_focal_point_name}
                     />
                     <TextInput
                         label="Email"
                         name="partner_focal_point_email"
                         value={value?.partner_focal_point_email}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.partner_focal_point_email}
                     />
                     <TextInput
                         label="Phone Number"
                         name="partner_focal_point_phone"
                         value={value?.partner_focal_point_phone}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.partner_focal_point_phone}
                     />
                     <TextInput
                         label="Organization"
                         name="partner_focal_point_organization"
                         value={value?.partner_focal_point_organization}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.partner_focal_point_organization}
                     />
                 </InputSection>
@@ -503,28 +493,28 @@ export function Component() {
                         label="Name"
                         name="facilitator_name"
                         value={value?.facilitator_name}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.facilitator_name}
                     />
                     <TextInput
                         label="Email"
                         name="facilitator_email"
                         value={value?.facilitator_email}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.facilitator_email}
                     />
                     <TextInput
                         label="Phone Number"
                         name="facilitator_phone"
                         value={value?.facilitator_phone}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.facilitator_phone}
                     />
                     <TextInput
                         label="Other contact method"
                         name="facilitator_contact"
                         value={value?.facilitator_contact}
-                        onChange={onValueChange}
+                        onChange={setFieldValue}
                         error={error?.facilitator_contact}
                     />
                 </InputSection>

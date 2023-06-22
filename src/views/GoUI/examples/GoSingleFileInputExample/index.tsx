@@ -4,6 +4,7 @@ import Heading from '#components/Heading';
 
 function GoFileInputExample() {
     const [value, setValue] = useState<number | undefined | null>(undefined);
+    const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
 
     const handleFileSelect = useCallback((val: number | undefined | null) => {
         setValue(val);
@@ -17,6 +18,8 @@ function GoFileInputExample() {
                 value={value}
                 onChange={handleFileSelect}
                 url="www.google.com"
+                fileIdToUrlMap={fileIdToUrlMap}
+                setFileIdToUrlMap={setFileIdToUrlMap}
                 clearable
             >
                 Upload a file

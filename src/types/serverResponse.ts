@@ -137,7 +137,17 @@ interface PerOverviewResponse {
     ns_second_focal_point_phone: string;
     orientation_document: number | null;
     orientation_document_details: {
-        file: number;
+        caption: string | null;
+        client_id: string | number | null;
+        created_by: number;
+        created_by_details: {
+            id: number;
+            username: string;
+            first_name: string;
+            last_name: string;
+        };
+        file: string;
+        id: number;
     };
     other_consideration: string;
     partner_focal_point_email: string;
