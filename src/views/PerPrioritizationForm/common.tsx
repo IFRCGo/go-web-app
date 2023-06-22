@@ -5,9 +5,9 @@ import {
 
 import type { GET } from '#types/serverResponse';
 
-type AssessmentResponse = GET['api/v2/per-prioritization/:id'];
-type ComponentResponse = AssessmentResponse['component_responses'][number];
-export type PrioritizationFormFields = Omit<AssessmentResponse, 'id' | 'component_responses'> & ({
+type PrioritizationResponse = GET['api/v2/per-prioritization/:id'];
+type ComponentResponse = PrioritizationResponse['component_responses'][number];
+export type PrioritizationFormFields = Omit<PrioritizationResponse, 'id' | 'component_responses'> & ({
     component_responses: Omit<ComponentResponse, 'component_details'>[];
 });
 export type PartialPrioritization = PartialForm<PrioritizationFormFields, 'component'>

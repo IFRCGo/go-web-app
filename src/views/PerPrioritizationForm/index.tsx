@@ -1,5 +1,10 @@
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useContext } from 'react';
+import {
+    generatePath,
+    useNavigate,
+    useParams,
+    useOutletContext,
+} from 'react-router-dom';
 import {
     createSubmitHandler,
     useForm,
@@ -24,35 +29,6 @@ import ComponentInput from './ComponentInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface PerProcessStatusItem {
-    assessment: number | null;
-    prioritization: number | null;
-    workplan: number | null;
-
-    assessment_number: number;
-    country: number;
-    country_details: {
-        iso3: string | null;
-        name: string;
-    };
-    date_of_assessment: string;
-    id: number;
-}
-
-interface AssessmentResponse {
-    area_responses: {
-        component_responses: {
-            component: number
-            question_responses: {
-                id: number;
-                question: number;
-                answer: number;
-                notes: string;
-            }[];
-        }[];
-    }[];
-}
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
@@ -60,6 +36,16 @@ export function Component() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
     const { perWorkPlanForm: perWorkPlanFormRoute } = useContext(RouteContext);
+
+    type StatusContextValue = {
+        statusResponse: GET['api/v2/per-process-status/:id'],
+        refetchStatusResponse: () => void,
+    }
+
+    const {
+        statusResponse,
+        refetchStatusResponse,
+    } = useOutletContext<StatusContextValue>();
 
     const {
         value,
@@ -75,19 +61,6 @@ export function Component() {
             },
         },
     );
-
-    const {
-        setValue: setComponentValue,
-        removeValue: removeComponentValue,
-    } = useFormArray('component_responses', setFieldValue);
-
-    const {
-        pending: statusPending,
-        response: statusResponse,
-    } = useRequest<PerProcessStatusItem>({
-        skip: isNotDefined(perId),
-        url: `api/v2/per-process-status/${perId}`,
-    });
 
     const {
         pending: formComponentPending,
@@ -109,20 +82,14 @@ export function Component() {
     const {
         pending: perAssesmentPending,
         response: perAssessmentResponse,
-    } = useRequest<AssessmentResponse>({
+    } = useRequest<GET['api/v2/per-assessment/:id']>({
         skip: isNotDefined(statusResponse?.assessment),
         url: `api/v2/per-assessment/${statusResponse?.assessment}`,
     });
-
-    const componentResponses = perAssessmentResponse?.area_responses.flatMap(
-        (areaResponse) => areaResponse.component_responses,
-    ) ?? [];
-
-    const questionResponsesByComponent = listToMap(
-        componentResponses,
-        (componentResponse) => componentResponse.component,
-        (componentResponse) => componentResponse.question_responses,
-    );
+    const {
+        setValue: setComponentValue,
+        removeValue: removeComponentValue,
+    } = useFormArray('component_responses', setFieldValue);
 
     const {
         pending: savePerPrioritizationPending,
@@ -137,6 +104,8 @@ export function Component() {
                     strings.perFormSaveRequestSuccessMessage,
                     { variant: 'success' },
                 );
+
+                refetchStatusResponse();
 
                 navigate(
                     generatePath(
@@ -168,6 +137,16 @@ export function Component() {
             );
         },
     });
+
+    const componentResponses = perAssessmentResponse?.area_responses.flatMap(
+        (areaResponse) => areaResponse.component_responses,
+    ) ?? [];
+
+    const questionResponsesByComponent = listToMap(
+        componentResponses,
+        (componentResponse) => componentResponse.component,
+        (componentResponse) => componentResponse.question_responses,
+    );
 
     const handleSubmit = useCallback((formValues: PartialPrioritization) => {
         const prioritization = statusResponse?.prioritization;
@@ -203,7 +182,6 @@ export function Component() {
     );
 
     const pending = formComponentPending
-        || statusPending
         || perAssesmentPending
         || prioritizationPending;
 

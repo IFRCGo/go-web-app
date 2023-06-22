@@ -7,10 +7,7 @@ import BlockLoading from '#components/BlockLoading';
 import TextInput from '#components/TextInput';
 import TextOutput from '#components/TextOutput';
 import Checkbox from '#components/Checkbox';
-import {
-    ListResponse,
-    useRequest,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import type { GET } from '#types/serverResponse';
 import useTranslation from '#hooks/useTranslation';
 
@@ -20,26 +17,11 @@ import QuestionOutput from './QuestionOutput';
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
 
+type AssessmentResponse = GET['api/v2/per-assessment/:id'];
+type AreaResponse = AssessmentResponse['area_responses'][number];
+type ComponentResponse = AreaResponse['component_responses'][number];
+
 type Value = NonNullable<PartialPrioritization['component_responses']>[number];
-
-interface PerFormQuestionItem {
-    id: number;
-    question: string;
-    answers: {
-        id: number;
-        text: string;
-    }[];
-    question_num: number;
-    is_benchmark?: boolean;
-    is_epi?: boolean;
-}
-
-interface QuestionResponse {
-    id: number;
-    question: number;
-    answer: number;
-    notes: string;
-}
 
 interface Props {
     value?: Value;
@@ -47,7 +29,7 @@ interface Props {
     index: number;
     component: GET['api/v2/per-formcomponent']['results'][number];
     onSelectionChange: (checked: boolean, index: number, componentId: number) => void;
-    questionResponses: QuestionResponse[];
+    questionResponses: ComponentResponse['question_responses'];
 }
 
 function ComponentsInput(props: Props) {
@@ -66,7 +48,7 @@ function ComponentsInput(props: Props) {
     const {
         pending: formQuestionsPending,
         response: formQuestions,
-    } = useRequest<ListResponse<PerFormQuestionItem>>({
+    } = useRequest<GET['api/v2/per-formquestion']>({
         skip: !expanded,
         url: 'api/v2/per-formquestion/',
         query: {
@@ -155,7 +137,7 @@ function ComponentsInput(props: Props) {
             )}
             {formQuestions && formQuestions.results.map(
                 (perFormQuestion) => {
-                    // TODO: include these
+                    // TODO: remove these from server
                     if (perFormQuestion.is_benchmark || perFormQuestion.is_epi) {
                         return null;
                     }

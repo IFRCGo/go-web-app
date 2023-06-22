@@ -25,7 +25,6 @@ import {
 import {
     useLazyRequest,
     useRequest,
-    ListResponse,
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
@@ -39,25 +38,6 @@ import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-interface CountryResponse {
-    id: number;
-    iso: string;
-    name : string;
-    overview: null;
-    region: number;
-    society_name: string;
-    society_url: string;
-    independent: boolean | null;
-    is_deprecated: boolean | null;
-}
-
-interface PerProcessStatusItem {
-    id: number;
-    assessment: number | null;
-    prioritization: number | null;
-    workplan: number | null;
-}
 
 const defaultValue: PartialWorkPlan = {
 };
@@ -80,7 +60,7 @@ export function Component() {
         { value: defaultValue },
     );
 
-    const { statusResponse } = useOutletContext<{ statusResponse: PerProcessStatusItem }>();
+    const { statusResponse } = useOutletContext<{ statusResponse: GET['api/v2/per-process-status/:id']}>();
     const {
         pending: perOptionsPending,
         response: perOptionsResponse,
@@ -91,7 +71,7 @@ export function Component() {
     const {
         pending: countryiesPending,
         response: countriesResponse,
-    } = useRequest<ListResponse<CountryResponse>>({
+    } = useRequest<GET['api/v2/country']>({
         url: 'api/v2/country',
     });
 
