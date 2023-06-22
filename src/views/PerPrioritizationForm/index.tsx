@@ -19,9 +19,11 @@ import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import Button from '#components/Button';
 import BlockLoading from '#components/BlockLoading';
+import PerAssessmentSummary from '#components/PerAssessmentSummary';
 import useAlert from '#hooks/useAlert';
 import type { GET } from '#types/serverResponse';
 
+import { assessmentSchema } from '#views/PerAssessmentForm/common';
 import { prioritizationSchema } from './common';
 import type { PartialPrioritization } from './common';
 import ComponentInput from './ComponentInput';
@@ -63,10 +65,39 @@ export function Component() {
     );
 
     const {
+        value: assessmentValue,
+    } = useForm(
+        assessmentSchema,
+        {
+            value: {
+
+            },
+        },
+    );
+
+    const {
         pending: formComponentPending,
         response: formComponentResponse,
     } = useRequest<GET['api/v2/per-formcomponent']>({
         url: 'api/v2/per-formcomponent/',
+        query: {
+            limit: 500,
+        },
+    });
+
+    type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
+    const {
+        response: perOptionsResponse,
+    } = useRequest<GET['api/v2/per-options']>({
+        url: 'api/v2/per-options',
+        onSuccess: (response) => {
+            setValue(response);
+        },
+    });
+    const {
+        response: questionsResponse,
+    } = useRequest<PerFormQuestionResponse>({
+        url: 'api/v2/per-formquestion/',
         query: {
             limit: 500,
         },
@@ -185,6 +216,12 @@ export function Component() {
         || perAssesmentPending
         || prioritizationPending;
 
+    const areaIdToTitleMap = listToMap(
+        questionsResponse?.results ?? [],
+        (question) => question.component.area.id,
+        (question) => question.component.area.title,
+    );
+
     return (
         <form
             onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
@@ -192,6 +229,14 @@ export function Component() {
         >
             {pending && (
                 <BlockLoading />
+            )}
+            {!pending && (
+                <PerAssessmentSummary
+                    perOptionsResponse={perOptionsResponse}
+                    areaResponses={assessmentValue?.area_responses}
+                    totalQuestionCount={questionsResponse?.count}
+                    areaIdToTitleMap={areaIdToTitleMap}
+                />
             )}
             {!pending && formComponentResponse?.results?.map((component) => (
                 <ComponentInput
