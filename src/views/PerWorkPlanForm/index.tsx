@@ -26,6 +26,7 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
+import { STEP_WORKPLAN } from '#utils/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import type { GET } from '#types/serverResponse';
@@ -295,6 +296,7 @@ export function Component() {
                             name="submit"
                             type="submit"
                             variant="secondary"
+                            disabled={statusResponse?.phase !== STEP_WORKPLAN}
                         >
                             {strings.perFormSaveAndFinalizeWorkPlan}
                         </Button>

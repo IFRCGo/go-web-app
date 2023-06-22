@@ -15,6 +15,7 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
+import { STEP_PRIORITIZATION } from '#utils/per';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import Button from '#components/Button';
@@ -23,7 +24,6 @@ import PerAssessmentSummary from '#components/PerAssessmentSummary';
 import useAlert from '#hooks/useAlert';
 import type { GET } from '#types/serverResponse';
 
-import { assessmentSchema } from '#views/PerAssessmentForm/common';
 import { prioritizationSchema } from './common';
 import type { PartialPrioritization } from './common';
 import ComponentInput from './ComponentInput';
@@ -60,17 +60,6 @@ export function Component() {
         {
             value: {
                 overview: isDefined(perId) ? Number(perId) : undefined,
-            },
-        },
-    );
-
-    const {
-        value: assessmentValue,
-    } = useForm(
-        assessmentSchema,
-        {
-            value: {
-
             },
         },
     );
@@ -233,7 +222,7 @@ export function Component() {
             {!pending && (
                 <PerAssessmentSummary
                     perOptionsResponse={perOptionsResponse}
-                    areaResponses={assessmentValue?.area_responses}
+                    areaResponses={perAssessmentResponse?.area_responses}
                     totalQuestionCount={questionsResponse?.count}
                     areaIdToTitleMap={areaIdToTitleMap}
                 />
@@ -255,7 +244,8 @@ export function Component() {
                         type="submit"
                         name="submit"
                         variant="secondary"
-                        disabled={savePerPrioritizationPending}
+                        disabled={savePerPrioritizationPending
+                            || statusResponse?.phase !== STEP_PRIORITIZATION}
                     >
                         {strings.perSelectAndAddToWorkPlan}
                     </Button>

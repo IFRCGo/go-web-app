@@ -4,7 +4,12 @@ import {
     useContext,
     useState,
 } from 'react';
-import { useParams, useNavigate, generatePath } from 'react-router-dom';
+import {
+    useParams,
+    useNavigate,
+    generatePath,
+    useOutletContext,
+} from 'react-router-dom';
 import {
     useForm,
     createSubmitHandler,
@@ -28,6 +33,7 @@ import { useLazyRequest, useRequest } from '#utils/restRequest';
 import { compareLabel } from '#utils/common';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
+import { STEP_OVERVIEW } from '#utils/per';
 
 import {
     overviewSchema,
@@ -45,6 +51,7 @@ type PerOverviewResponse = GET['api/v2/new-per/:id'];
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
+    const { statusResponse } = useOutletContext<{ statusResponse: GET['api/v2/per-process-status/:id'] }>();
 
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const strings = useTranslation(i18n);
@@ -523,6 +530,7 @@ export function Component() {
                         name={undefined}
                         variant="secondary"
                         type="submit"
+                        disabled={statusResponse?.phase !== STEP_OVERVIEW}
                     >
                         {strings.perOverviewSetUpPerProcess}
                     </Button>

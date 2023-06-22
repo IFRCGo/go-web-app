@@ -34,10 +34,7 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import {
-    getCurrentPerProcessStep,
-    STEP_ASSESSMENT,
-} from '#utils/per';
+import { STEP_ASSESSMENT } from '#utils/per';
 import type { GET } from '#types/serverResponse';
 
 import {
@@ -267,7 +264,7 @@ export function Component() {
         || perAssesmentPending;
     const minArea = 1;
     const maxArea = areas.length;
-    const currentPerStep = getCurrentPerProcessStep(statusResponse);
+    const currentPerStep = statusResponse?.phase;
     const handleFormSubmit = createSubmitHandler(validate, onErrorSet, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, onErrorSet, handleFinalSubmit);
     const handleModalClose = useCallback(() => {
@@ -358,7 +355,7 @@ export function Component() {
                                 name="submit"
                                 variant="secondary"
                                 disabled={isNotDefined(currentPerStep)
-                                    || currentPerStep > STEP_ASSESSMENT}
+                                    || currentPerStep !== STEP_ASSESSMENT}
                             >
                                 {strings.perFormSaveButton}
                             </Button>
@@ -367,6 +364,8 @@ export function Component() {
                                     name
                                     variant="primary"
                                     onClick={setShowConfirmation}
+                                    disabled={isNotDefined(currentPerStep)
+                                        || currentPerStep !== STEP_ASSESSMENT}
                                 >
                                     {strings.perFormSubmitAssessmentButton}
                                 </Button>
