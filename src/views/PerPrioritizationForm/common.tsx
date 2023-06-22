@@ -3,34 +3,17 @@ import {
     PartialForm,
 } from '@togglecorp/toggle-form';
 
-export interface PerFormQuestionItem {
-    question: string;
-}
+import type { GET } from '#types/serverResponse';
 
-export interface PerFormComponentItem {
-    area: number;
-    component_letter: string;
-    component_num: number;
-    description: string;
-    id: number;
-    title: string;
-}
+type AssessmentResponse = GET['api/v2/per-prioritization/:id'];
+type ComponentResponse = AssessmentResponse['component_responses'][number];
+export type PrioritizationFormFields = Omit<AssessmentResponse, 'id' | 'component_responses'> & ({
+    component_responses: Omit<ComponentResponse, 'component_details'>[];
+});
 
-export interface Prioritization {
-    overview: number;
-    component_responses: {
-        component: number;
-        justification_text: string;
-    }[];
-}
-
-export interface PrioritizationResponseFields extends Prioritization {
-    id: number;
-}
-
-export type PartialPrioritization = PartialForm<Prioritization, 'component'>
-export type PrioritizationSchema = ObjectSchema<PartialPrioritization>;
-export type PrioritizationSchemaFields = ReturnType<PrioritizationSchema['fields']>;
+export type PartialPrioritization = PartialForm<PrioritizationFormFields, 'component'>
+type PrioritizationSchema = ObjectSchema<PartialPrioritization>;
+type PrioritizationSchemaFields = ReturnType<PrioritizationSchema['fields']>;
 
 export const prioritizationSchema: PrioritizationSchema = {
     fields: (): PrioritizationSchemaFields => ({

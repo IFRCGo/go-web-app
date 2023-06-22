@@ -8,20 +8,27 @@ import Container from '#components/Container';
 import TextArea from '#components/TextArea';
 import RadioInput from '#components/RadioInput';
 
+import type { GET } from '#types/serverResponse';
+
 import {
-    answerKeySelector,
-    answerLabelSelector,
-    PerFormQuestionItem,
     PartialAssessment,
 } from '../../../common';
 
 import styles from './styles.module.css';
 
-// FIXME: move this to common file
 type Value = NonNullable<NonNullable<NonNullable<PartialAssessment['area_responses']>[number]['component_responses']>[number]['question_responses']>[number];
+type PerFormQuestion = GET['api/v2/per-formquestion']['results'][number];
+type PerFormAnswer = PerFormQuestion['answers'][number];
+function answerKeySelector(answer: PerFormAnswer) {
+    return answer.id;
+}
+
+function answerLabelSelector(answer: PerFormAnswer) {
+    return answer.text;
+}
 
 interface Props {
-    question: PerFormQuestionItem;
+    question: PerFormQuestion;
     componentNumber: number;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;

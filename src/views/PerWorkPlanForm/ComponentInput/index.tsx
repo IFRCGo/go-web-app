@@ -3,11 +3,11 @@ import {
     useFormObject,
 } from '@togglecorp/toggle-form';
 
-import { PerFormComponentItem } from '#views/PerPrioritizationForm/common';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
 import { LabelValue } from '#types/common';
+import type { GET } from '#types/serverResponse';
 
 import {
     PartialWorkPlan,
@@ -16,12 +16,14 @@ import {
 } from '../common';
 
 type Value = NonNullable<PartialWorkPlan['component_responses']>[number];
+type AssessmentResponse = GET['api/v2/per-prioritization/:id'];
+type ComponentResponse = AssessmentResponse['component_responses'][number];
 
 interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
-    component: PerFormComponentItem;
+    component: ComponentResponse['component_details'];
     workPlanStatusOptions?: LabelValue[];
     nsOptions?: {
         label: string;
@@ -65,13 +67,13 @@ function ComponentInput(props: Props) {
                 onChange={onFieldChange}
             />
             <SelectInput
-                name="supported_by_id"
+                name="supported_by"
                 placeholder="Select NS"
                 options={nsOptions}
                 onChange={onFieldChange}
                 keySelector={numericValueSelector}
                 labelSelector={stringLabelSelector}
-                value={value?.supported_by_id}
+                value={value?.supported_by}
             />
             <SelectInput
                 name="status"

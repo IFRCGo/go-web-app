@@ -3,89 +3,19 @@ import {
     PartialForm,
 } from '@togglecorp/toggle-form';
 
-export interface PerFormAnswer {
-    id: string;
-    text: string;
+import type { GET } from '#types/serverResponse';
+
+export type AssessmentResponse = GET['api/v2/per-assessment/:id'];
+type AreaResponse = AssessmentResponse['area_responses'][number];
+type ComponentResponse = AreaResponse['component_responses'][number];
+
+interface AssessmentFormFields extends Omit<AssessmentResponse, 'id' | 'user' | 'area_responses'>{
+    area_responses: (Omit<AreaResponse, 'area_details' | 'id' | 'is_draft' | 'component_responses'> & {
+        component_responses: Omit<ComponentResponse, 'rating_details'>[];
+    })[];
 }
 
-export function answerKeySelector(answer: PerFormAnswer) {
-    return answer.id;
-}
-
-export function answerLabelSelector(answer: PerFormAnswer) {
-    return answer.text;
-}
-
-export interface TypeOfAssessment {
-    id: string;
-    name: string;
-}
-
-export interface PerFormArea {
-    id: number;
-    title: string;
-    area_num: number;
-}
-
-export interface PerFormComponentItem {
-    area: PerFormArea;
-    id: number;
-    component_id: number;
-    component_num: number;
-    title: string;
-    question: string;
-    benchmark_responses: {
-        id: number | string;
-        benchmark_id: number | string;
-        notes: string;
-    }
-}
-
-export interface PerFormQuestionItem {
-    answers: PerFormAnswer[];
-    component: PerFormComponentItem;
-    description: string | null;
-    id: number;
-    is_benchmark: boolean;
-    is_epi: boolean;
-    question: string;
-    question_num: number;
-}
-
-export interface ConsiderationResponses {
-    consideration: string;
-    notes: string;
-}
-
-export interface QuestionResponse {
-    question: number;
-    answer: string;
-    notes: string;
-}
-
-export interface ComponentResponse {
-    component: number;
-    rating: number;
-    question_responses: QuestionResponse[];
-    consideration_responses: ConsiderationResponses[];
-}
-
-export interface AreaResponse {
-    area: number;
-    component_responses: ComponentResponse[];
-}
-
-export interface AssessmentResponse {
-    overview: number;
-    is_draft: boolean;
-    area_responses: AreaResponse[];
-}
-
-export interface PerAssessmentResponseFields extends AssessmentResponse {
-    id: number;
-}
-
-export type PartialAssessment = PartialForm<AssessmentResponse, 'area' | 'component' | 'question' | 'consideration'>;
+export type PartialAssessment = PartialForm<AssessmentFormFields, 'area' | 'component' | 'question' | 'consideration'>;
 type AssessmentSchema = ObjectSchema<PartialAssessment>
 type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 

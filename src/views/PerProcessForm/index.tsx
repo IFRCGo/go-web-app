@@ -9,13 +9,13 @@ import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
 import {
-    PerProcessStatusItem,
     getCurrentPerProcessStep,
     STEP_WORKPLAN,
     STEP_PRIORITIZATION,
     STEP_ASSESSMENT,
     STEP_OVERVIEW,
 } from '#utils/per';
+import type { GET } from '#types/serverResponse';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -35,7 +35,7 @@ export function Component() {
     const {
         response: statusResponse,
         retrigger: refetchStatusResponse,
-    } = useRequest<PerProcessStatusItem>({
+    } = useRequest<GET['api/v2/per-process-status/:id']>({
         skip: isNotDefined(perId),
         url: `api/v2/per-process-status/${perId}/`,
     });

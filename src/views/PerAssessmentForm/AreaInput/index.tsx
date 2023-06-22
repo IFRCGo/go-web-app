@@ -10,17 +10,16 @@ import {
     _cs,
 } from '@togglecorp/fujs';
 
-import {
-    PerFormQuestionItem,
-    PerFormArea,
-    PartialAssessment,
-} from '../common';
+import type { GET } from '#types/serverResponse';
+import { PartialAssessment } from '../common';
 import ComponentInput from './ComponentInput';
 
 import styles from './styles.module.css';
 
-// FIXME: move this to common file
 type Value = NonNullable<PartialAssessment['area_responses']>[number];
+type PerFormQuestion = GET['api/v2/per-formquestion']['results'][number];
+type PerFormComponent = PerFormQuestion['component'];
+type PerFormArea = PerFormComponent['area'];
 
 interface Props {
     className?: string;
@@ -28,13 +27,14 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     value: Value;
     index: number | undefined;
-    questions: PerFormQuestionItem[] | undefined;
+    questions: PerFormQuestion[] | undefined;
     area: PerFormArea;
-    ratingOptions: {
-        id: number;
-        title: string;
-        value: number;
-    }[];
+    ratingOptions: GET['api/v2/per-options']['componentratings'];
+    /*
+    epi_considerations: boolean | null;
+    urban_considerations: boolean | null;
+    climate_and_environmental_considerations: boolean | null;
+    */
 }
 
 function AreaInput(props: Props) {

@@ -1,20 +1,12 @@
 import { isDefined } from '@togglecorp/fujs';
-
-export interface PerProcessStatusItem {
-    assessment: number | null;
-    prioritization: number | null;
-    workplan: number | null;
-    id: number;
-    phase: number;
-    phase_display: string;
-}
+import type { GET } from '#types/serverResponse';
 
 export const STEP_OVERVIEW = 1;
 export const STEP_ASSESSMENT = 2;
 export const STEP_PRIORITIZATION = 3;
 export const STEP_WORKPLAN = 4;
 
-export function getCurrentPerProcessStep(status: PerProcessStatusItem | undefined) {
+export function getCurrentPerProcessStep(status: GET['api/v2/per-process-status/:id'] | undefined) {
     if (!status) {
         return undefined;
     }

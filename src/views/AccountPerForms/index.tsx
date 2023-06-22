@@ -1,7 +1,7 @@
 import { useMemo, useContext } from 'react';
 import { generatePath } from 'react-router-dom';
 
-import { useRequest, ListResponse } from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import Table from '#components/Table';
 import {
     createActionColumn,
@@ -13,28 +13,19 @@ import {
 import Link from '#components/Link';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
+import type { GET } from '#types/serverResponse';
 
 import styles from './styles.module.css';
 
-interface PerProcessStatusItem {
-    assessment_number: number;
-    country: number;
-    country_details: {
-        iso3: null;
-        name: string;
-    };
-    date_of_assessment: string;
-    phase: number;
-    phase_display: string;
-    id: number;
-}
+type PerProcessStatusResponse = GET['api/v2/per-process-status'];
+type PerProcessStatusItem = PerProcessStatusResponse['results'][number];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const {
         pending: perProcessStatusPending,
         response: perProcessStatusResponse,
-    } = useRequest<ListResponse<PerProcessStatusItem>>({
+    } = useRequest<PerProcessStatusResponse>({
         url: 'api/v2/per-process-status',
     });
     const {

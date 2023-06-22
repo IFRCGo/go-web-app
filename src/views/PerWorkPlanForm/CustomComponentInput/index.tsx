@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { IoTrash } from 'react-icons/io5';
 import {
-    PartialForm,
     SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
@@ -14,12 +13,12 @@ import Button from '#components/Button';
 import TextArea from '#components/TextArea';
 
 import {
-    CustomWorkPlanComponentItem,
     numericValueSelector,
     stringLabelSelector,
+    PartialWorkPlan,
 } from '../common';
 
-type Value = PartialForm<CustomWorkPlanComponentItem, 'client_id'>;
+type Value = NonNullable<PartialWorkPlan['custom_component_responses']>[number];
 
 interface Props {
     value: Value;
@@ -71,13 +70,13 @@ function CustomComponentInput(props: Props) {
                 onChange={onFieldChange}
             />
             <SelectInput
-                name="supported_by_id"
+                name="supported_by"
                 placeholder="Select NS"
                 options={nsOptions}
                 onChange={onFieldChange}
                 keySelector={numericValueSelector}
                 labelSelector={stringLabelSelector}
-                value={value?.supported_by_id}
+                value={value?.supported_by}
             />
             <SelectInput
                 name="status"

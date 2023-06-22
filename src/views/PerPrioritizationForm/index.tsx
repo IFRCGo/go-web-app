@@ -7,7 +7,6 @@ import {
 } from '@togglecorp/toggle-form';
 import { isDefined, isNotDefined, listToMap } from '@togglecorp/fujs';
 import {
-    ListResponse,
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
@@ -16,14 +15,10 @@ import useTranslation from '#hooks/useTranslation';
 import Button from '#components/Button';
 import BlockLoading from '#components/BlockLoading';
 import useAlert from '#hooks/useAlert';
+import type { GET } from '#types/serverResponse';
 
-import {
-    PartialPrioritization,
-    Prioritization,
-    prioritizationSchema,
-    PerFormComponentItem,
-    PrioritizationResponseFields,
-} from './common';
+import { prioritizationSchema } from './common';
+import type { PartialPrioritization } from './common';
 import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
@@ -97,14 +92,14 @@ export function Component() {
     const {
         pending: formComponentPending,
         response: formComponentResponse,
-    } = useRequest<ListResponse<PerFormComponentItem>>({
+    } = useRequest<GET['api/v2/per-formcomponent']>({
         url: 'api/v2/per-formcomponent/',
         query: {
             limit: 500,
         },
     });
 
-    const { pending: prioritizationPending } = useRequest<PrioritizationResponseFields>({
+    const { pending: prioritizationPending } = useRequest<GET['api/v2/per-prioritization/:id']>({
         skip: isNotDefined(statusResponse?.prioritization),
         url: `api/v2/per-prioritization/${statusResponse?.prioritization}`,
         onSuccess: (response) => {
@@ -132,7 +127,7 @@ export function Component() {
     const {
         pending: savePerPrioritizationPending,
         trigger: savePerPrioritization,
-    } = useLazyRequest<PrioritizationResponseFields, Partial<Prioritization>>({
+    } = useLazyRequest<GET['api/v2/per-prioritization/:id'], PartialPrioritization>({
         url: `api/v2/per-prioritization/${statusResponse?.prioritization}/`,
         method: 'PUT',
         body: (ctx) => ctx,
@@ -180,7 +175,7 @@ export function Component() {
             // eslint-disable-next-line no-console
             console.error('Prioritization id not defined');
         }
-        savePerPrioritization(formValues as Prioritization);
+        savePerPrioritization(formValues);
     }, [savePerPrioritization, statusResponse]);
 
     const componentResponseMapping = listToMap(

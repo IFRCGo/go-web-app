@@ -11,11 +11,9 @@ import {
     ListResponse,
     useRequest,
 } from '#utils/restRequest';
+import type { GET } from '#types/serverResponse';
 
-import {
-    PartialPrioritization,
-    PerFormComponentItem,
-} from '../common';
+import { PartialPrioritization } from '../common';
 import QuestionOutput from './QuestionOutput';
 
 import styles from './styles.module.css';
@@ -45,7 +43,7 @@ interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
-    component: PerFormComponentItem;
+    component: GET['api/v2/per-formcomponent']['results'][number];
     onSelectionChange: (checked: boolean, index: number, componentId: number) => void;
     questionResponses: QuestionResponse[];
 }

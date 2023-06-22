@@ -7,21 +7,20 @@ import { listToMap, _cs } from '@togglecorp/fujs';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import SelectInput from '#components/SelectInput';
-import {
-    PerFormComponentItem,
-    PerFormQuestionItem,
-    PartialAssessment,
-} from '../../common';
-import QuestionInput from './QuestionInput';
+import type { GET } from '#types/serverResponse';
 
+import { PartialAssessment } from '../../common';
+import QuestionInput from './QuestionInput';
 import styles from './styles.module.css';
 
+type PerFormQuestion = GET['api/v2/per-formquestion']['results'][number];
+type PerFormComponent = PerFormQuestion['component'];
 type Value = NonNullable<NonNullable<PartialAssessment['area_responses']>[number]['component_responses']>[number];
 
 interface Props {
     className?: string;
-    component: PerFormComponentItem;
-    questions: PerFormQuestionItem[];
+    component: PerFormComponent;
+    questions: PerFormQuestion[];
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
@@ -67,7 +66,7 @@ function ComponentInput(props: Props) {
     return (
         <ExpandableContainer
             className={_cs(styles.componentInput, className)}
-            key={component.component_id}
+            key={component.id}
             heading={`${component.component_num}. ${component.title}`}
             childrenContainerClassName={styles.questionList}
             actions={(

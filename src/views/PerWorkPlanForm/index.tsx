@@ -29,13 +29,10 @@ import {
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
+import type { GET } from '#types/serverResponse';
 import {
-    PartialWorkPlan,
     workplanSchema,
-    WorkPlanFormFields,
-    WorkPlanResponseFields,
-    PerOptionsResponse,
-    PrioritizationResponse,
+    PartialWorkPlan,
 } from './common';
 import CustomComponentInput from './CustomComponentInput';
 
@@ -66,6 +63,8 @@ interface PerProcessStatusItem {
 const defaultValue: PartialWorkPlan = {
 };
 
+type WorkPlanResponse = GET['api/v2/per-work-plan/:id'];
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -86,7 +85,7 @@ export function Component() {
     const {
         pending: perOptionsPending,
         response: perOptionsResponse,
-    } = useRequest<PerOptionsResponse>({
+    } = useRequest<GET['api/v2/per-options']>({
         url: 'api/v2/per-options/',
     });
 
@@ -106,23 +105,37 @@ export function Component() {
     const {
         pending: prioritizationPending,
         response: prioritizationResponse,
-    } = useRequest<PrioritizationResponse>({
+    } = useRequest<GET['api/v2/per-prioritization/:id']>({
+        skip: isNotDefined(statusResponse?.prioritization),
         url: `api/v2/per-prioritization/${statusResponse?.prioritization}`,
     });
 
     const {
         pending: workPlanPending,
-    } = useRequest<WorkPlanResponseFields>({
+    } = useRequest<WorkPlanResponse>({
         skip: isNotDefined(statusResponse?.workplan),
         url: `api/v2/per-work-plan/${statusResponse?.workplan}`,
         onSuccess: (response) => {
-            setValue(response);
+            const {
+                custom_component_responses,
+                ...remainingWorkPlan
+            } = response;
+
+            setValue({
+                ...remainingWorkPlan,
+                custom_component_responses: custom_component_responses.map(
+                    (customResponse) => ({
+                        ...customResponse,
+                        client_id: String(customResponse.id),
+                    }),
+                ),
+            });
         },
     });
 
     const {
         trigger: savePerWorkPlan,
-    } = useLazyRequest<WorkPlanResponseFields, Partial<WorkPlanFormFields>>({
+    } = useLazyRequest<WorkPlanResponse, PartialWorkPlan>({
         url: `api/v2/per-work-plan/${statusResponse?.workplan}`,
         method: 'POST',
         body: (ctx) => ctx,
@@ -183,7 +196,7 @@ export function Component() {
     const handleSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
             if (isDefined(statusResponse?.workplan)) {
-                savePerWorkPlan(formValues as WorkPlanFormFields);
+                savePerWorkPlan(formValues);
             } else {
                 // eslint-disable-next-line no-console
                 console.error('WorkPlan id not defined');

@@ -31,43 +31,26 @@ import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import {
-    ListResponse,
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
 import {
-    PerProcessStatusItem,
     getCurrentPerProcessStep,
     STEP_ASSESSMENT,
 } from '#utils/per';
+import type { GET } from '#types/serverResponse';
 
 import {
-    PerFormArea,
-    PerFormQuestionItem,
-    assessmentSchema,
     AssessmentResponse,
+    assessmentSchema,
     PartialAssessment,
-    PerAssessmentResponseFields,
 } from './common';
 import AreaInput from './AreaInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface PerOptionsResponse {
-    componentratings: {
-        id: number;
-        title: string;
-        value: number;
-    }[];
-    answers: {
-        id: number;
-        text: string;
-    }[];
-}
-
 const defaultFormValue: PartialAssessment = {
-    overview: 10,
     is_draft: true,
     area_responses: [],
 };
@@ -83,7 +66,7 @@ export function Component() {
     } = useContext(RouteContext);
 
     type StatusContextValue = {
-        statusResponse: PerProcessStatusItem,
+        statusResponse: GET['api/v2/per-process-status/:id'],
         refetchStatusResponse: () => void,
     }
 
@@ -92,51 +75,18 @@ export function Component() {
         refetchStatusResponse,
     } = useOutletContext<StatusContextValue>();
 
-    const [areas, setAreas] = useState<PerFormArea[]>([]);
     const [currentArea, setCurrentArea] = useState<number | undefined>();
     const [showConfirmation, setShowConfirmation] = useState(false);
     const assessmentId = statusResponse?.assessment;
 
-    const {
-        value,
-        validate,
-        setFieldValue,
-        setError: onErrorSet,
-        setValue,
-    } = useForm(
-        assessmentSchema,
-        { value: defaultFormValue },
-    );
-
-    const {
-        pending: perOptionsPending,
-        response: perOptionsResponse,
-    } = useRequest<PerOptionsResponse>({
-        skip: isNotDefined(assessmentId),
-        url: 'api/v2/per-options',
-        onSuccess: (response) => {
-            setValue(response);
-        },
-    });
-
-    const {
-        pending: perAssesmentPending,
-    } = useRequest<AssessmentResponse>({
-        skip: isNotDefined(assessmentId),
-        url: `api/v2/per-assessment/${assessmentId}`,
-        onSuccess: (response) => {
-            setValue(response);
-        },
-    });
-
-    const {
-        setValue: setAreaResponsesValue,
-    } = useFormArray('area_responses', setFieldValue);
+    type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
+    type PerFormArea = PerFormQuestionResponse['results'][number]['component']['area']
+    const [areas, setAreas] = useState<PerFormArea[]>([]);
 
     const {
         pending: questionsPending,
         response: questionsResponse,
-    } = useRequest<ListResponse<PerFormQuestionItem>>({
+    } = useRequest<PerFormQuestionResponse>({
         url: 'api/v2/per-formquestion/',
         query: {
             limit: 500,
@@ -156,8 +106,48 @@ export function Component() {
     });
 
     const {
+        value,
+        validate,
+        setFieldValue,
+        setError: onErrorSet,
+        setValue,
+    } = useForm(
+        assessmentSchema,
+        { value: defaultFormValue },
+    );
+
+    /*
+    const {
+        response: perOverviewResponse,
+    } = useRequest<GET['api/v2/new-per/:id']>({
+        skip: isNotDefined(statusResponse?.id),
+        // FIXME: change endpoint name
+        url: `api/v2/new-per/${statusResponse?.id}`,
+    });
+    */
+
+    const {
+        pending: perOptionsPending,
+        response: perOptionsResponse,
+    } = useRequest<GET['api/v2/per-options']>({
+        url: 'api/v2/per-options',
+        onSuccess: (response) => {
+            setValue(response);
+        },
+    });
+    const {
+        pending: perAssesmentPending,
+    } = useRequest<AssessmentResponse>({
+        skip: isNotDefined(assessmentId),
+        url: `api/v2/per-assessment/${assessmentId}`,
+        onSuccess: (response) => {
+            setValue(response);
+        },
+    });
+
+    const {
         trigger: savePerAssessment,
-    } = useLazyRequest<PerAssessmentResponseFields, Partial<AssessmentResponse>>({
+    } = useLazyRequest<AssessmentResponse, AssessmentResponse>({
         url: `api/v2/per-assessment/${assessmentId}/`,
         method: 'PUT',
         body: (ctx) => ctx,
@@ -205,6 +195,10 @@ export function Component() {
             );
         },
     });
+
+    const {
+        setValue: setAreaResponsesValue,
+    } = useFormArray('area_responses', setFieldValue);
 
     const handleSubmit = useCallback(
         (formValues: PartialForm<AssessmentResponse>) => {

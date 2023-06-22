@@ -14,54 +14,24 @@ import StackedProgressBar from '#components/StackedProgressBar';
 import TextOutput from '#components/TextOutput';
 import BarChart from '#components/BarChart';
 import { sumSafe } from '#utils/common';
+import type { GET } from '#types/serverResponse';
 
 import styles from './styles.module.css';
 
-// TODO: move typings to common space
-interface PerOptionsResponse {
-    componentratings: {
-        id: number;
-        title: string;
-        value: number;
-    }[];
-    answers: {
-        id: number;
-        text: string;
-    }[];
+type AssessmentResponse = GET['api/v2/per-assessment/:id'];
+type AreaResponse = AssessmentResponse['area_responses'][number];
+type ComponentResponse = AreaResponse['component_responses'][number];
+interface AssessmentFormFields extends Omit<AssessmentResponse, 'id' | 'user' | 'area_responses'>{
+    area_responses: (Omit<AreaResponse, 'area_details' | 'id' | 'is_draft' | 'component_responses'> & {
+        component_responses: Omit<ComponentResponse, 'rating_details'>[];
+    })[];
 }
-
-export interface ConsiderationResponses {
-    consideration: string;
-    notes: string;
-}
-
-export interface QuestionResponse {
-    question: number;
-    answer: string;
-    notes: string;
-}
-
-export interface ComponentResponse {
-    component: number;
-    rating: number;
-    question_responses: QuestionResponse[];
-    consideration_responses: ConsiderationResponses[];
-}
-
-export interface AreaResponse {
-    area: number;
-    area_details: {
-        area_num: number;
-        id: number;
-        title: string;
-    }
-    component_responses: ComponentResponse[];
-}
+type PartialAssessment = PartialForm<AssessmentFormFields, 'area' | 'component' | 'question' | 'consideration'>;
 
 interface Props {
     className?: string;
-    perOptionsResponse?: PerOptionsResponse;
-    areaResponses?: PartialForm<AreaResponse>[];
+    perOptionsResponse?: GET['api/v2/per-options'];
+    areaResponses?: PartialAssessment['area_responses'];
     totalQuestionCount?: number;
     areaIdToTitleMap: Record<number, string>;
 }

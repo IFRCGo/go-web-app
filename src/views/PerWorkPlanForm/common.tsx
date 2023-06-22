@@ -2,6 +2,7 @@ import {
     ObjectSchema,
     PartialForm,
 } from '@togglecorp/toggle-form';
+import type { GET } from '#types/serverResponse';
 
 export function booleanValueSelector<T extends { value: boolean }>(option: T) {
     return option.value;
@@ -16,67 +17,20 @@ export function stringLabelSelector<T extends { label: string }>(option: T) {
     return option.label;
 }
 
-export interface PrioritizationResponse {
-    overview: number;
-    component_responses: {
-        component: number;
-        component_details: {
-            area: number;
-            component_letter: string;
-            component_num: number;
-            description: string;
-            id: number;
-            title: string;
-        },
-        justification_text: string;
-    }[];
-}
+type WorkPlanResponse = GET['api/v2/per-work-plan/:id'];
+type ComponentResponse = WorkPlanResponse['component_responses'][number];
+type CustomComponentResponse = WorkPlanResponse['custom_component_responses'][number];
 
-export interface WorkPlanComponentItem {
-    component: number;
-    actions: string;
-    due_date: string;
-    supported_by_id: number;
-    status: number;
-}
-
-export interface CustomWorkPlanComponentItem {
-    client_id: string;
-    actions: string;
-    due_date: string;
-    supported_by_id: number;
-    status: number;
-}
-
-export interface PerFormComponentItem {
-    area: number;
-    component_letter: string;
-    component_num: number;
-    description: string;
-    id: number;
-    title: string;
-}
-
-export interface WorkPlanFormFields {
-    overview: number;
-    component_responses: WorkPlanComponentItem[];
-    custom_component_responses: CustomWorkPlanComponentItem[];
-}
-
-export interface WorkPlanResponseFields extends WorkPlanFormFields {
-    id: number;
-}
-
-export interface PerOptionsResponse {
-    workplanstatus: {
-        key: number;
-        value: string;
-    }[];
+type WorkPlanFormFields = Omit<WorkPlanResponse, 'id' | 'component_responses' | 'custom_component_responses'> & {
+    component_responses: Omit<ComponentResponse, 'id'>[];
+    custom_component_responses: (Omit<CustomComponentResponse, 'id'> & {
+        client_id: string;
+    })[];
 }
 
 export type PartialWorkPlan = PartialForm<WorkPlanFormFields, 'component' | 'client_id'>;
-export type WorkPlanFormScheme = ObjectSchema<PartialWorkPlan>;
-export type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
+type WorkPlanFormScheme = ObjectSchema<PartialWorkPlan>;
+type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
 
 export const workplanSchema: WorkPlanFormScheme = {
     fields: (): WorkPlanFormSchemeFields => ({

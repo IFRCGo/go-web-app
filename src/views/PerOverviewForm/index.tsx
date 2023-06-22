@@ -18,24 +18,23 @@ import Button from '#components/Button';
 import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
-import { ListResponse, useLazyRequest, useRequest } from '#utils/restRequest';
+import { useLazyRequest, useRequest } from '#utils/restRequest';
 import { compareLabel } from '#utils/common';
-import { Country } from '#types/country';
 import RouteContext from '#contexts/route';
+import type { GET } from '#types/serverResponse';
 
 import {
-    PerOverviewFormFields,
-    PerOverviewResponseFields,
-    booleanValueSelector,
-    TypeOfAssessment,
     overviewSchema,
+    booleanValueSelector,
     numericValueSelector,
-    stringValueSelector,
     stringLabelSelector,
 } from './common';
+import type { PerOverviewFormFields } from './common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type PerOverviewResponse = GET['api/v2/new-per/:id'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -69,22 +68,23 @@ export function Component() {
 
     const {
         pending: fetchingPerOptions,
-        response: assessmentResponse,
-    } = useRequest<ListResponse<TypeOfAssessment>>({
+        response: assessmentTypeResponse,
+    } = useRequest<GET['api/v2/per-assessmenttype']>({
         url: 'api/v2/per-assessmenttype/',
     });
 
     const {
         response: countriesResponse,
-    } = useRequest<ListResponse<Country>>({
+    } = useRequest<GET['api/v2/country']>({
         url: 'api/v2/country/',
         query: {
             limit: 500,
         },
     });
 
-    useRequest<PerOverviewResponseFields>({
+    useRequest<PerOverviewResponse>({
         skip: isNotDefined(perId),
+        // FIXME: change endpoint name
         url: `api/v2/new-per/${perId}`,
         onSuccess: (response) => {
             const {
@@ -109,7 +109,7 @@ export function Component() {
 
     const {
         trigger: savePerOverview,
-    } = useLazyRequest<PerOverviewResponseFields, Partial<PerOverviewFormFields>>({
+    } = useLazyRequest<PerOverviewResponse, PerOverviewFormFields>({
         url: perId ? `api/v2/new-per/${perId}/` : 'api/v2/new-per/',
         method: perId ? 'PUT' : 'POST',
         body: (ctx) => ctx,
@@ -150,16 +150,6 @@ export function Component() {
             );
         },
     });
-
-    const assessmentOptions = useMemo(
-        () => (
-            assessmentResponse?.results?.map((d) => ({
-                value: d.id,
-                label: d.name,
-            })).sort(compareLabel) ?? []
-        ),
-        [assessmentResponse],
-    );
 
     const countryOptions = useMemo(
         () => (
@@ -267,9 +257,9 @@ export function Component() {
                 >
                     <SelectInput
                         name="type_of_assessment"
-                        options={assessmentOptions}
-                        keySelector={stringValueSelector}
-                        labelSelector={stringLabelSelector}
+                        options={assessmentTypeResponse?.results}
+                        keySelector={(assessmentType) => assessmentType.id}
+                        labelSelector={(assessmentType) => assessmentType.name}
                         onChange={onValueChange}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
@@ -290,13 +280,13 @@ export function Component() {
                     title={strings.perFormTypeOfPreviousPerAssessment}
                 >
                     <SelectInput
-                        name="type_of_per_assessment"
-                        options={assessmentOptions}
-                        keySelector={stringValueSelector}
-                        labelSelector={stringLabelSelector}
+                        name="type_of_assessment"
+                        options={assessmentTypeResponse?.results}
+                        keySelector={(assessmentType) => assessmentType.id}
+                        labelSelector={(assessmentType) => assessmentType.name}
                         onChange={onValueChange}
-                        value={value?.type_of_per_assessment}
-                        error={getErrorString(error?.type_of_per_assessment)}
+                        value={value?.type_of_assessment}
+                        error={getErrorString(error?.type_of_assessment)}
                     />
                 </InputSection>
                 <InputSection
