@@ -1,5 +1,6 @@
 .navigation-tab {
     --border-color: var(--go-ui-color-gray-30);
+    --border-width: var(--go-ui-width-separator-thin);
 
     display: inline-flex;
     align-items: stretch;
@@ -10,7 +11,7 @@
 
     .dummy {
         flex-grow: 1;
-        border-bottom: var(--go-ui-width-separator-thin) solid var(--border-color);
+        border-bottom: var(--border-width) solid var(--border-color);
         width: var(--go-ui-spacing-xs);
     }
 
@@ -18,7 +19,7 @@
         display: flex;
         align-items: center;
         flex-grow: 1;
-        border: var(--go-ui-width-separator-thin) solid transparent;
+        border: var(--border-width) solid transparent;
         text-align: center;
     }
 
@@ -68,5 +69,60 @@
             text-decoration: underline;
             color: var(--go-ui-color-primary-red);
         }
+    }
+
+    &.step {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        transition: var(--go-ui-duration-transition-medium) color, background-color ease-in-out;
+        padding: var(--go-ui-spacing-md);
+        text-transform: uppercase;
+        color: var(--go-ui-color-gray-70);
+
+        .step-circle {
+            transition: var(--go-ui-duration-transition-slow) border-color ease-in-out;
+            border: var(--border-width) solid transparent;
+            border-radius: 50%;
+            background-color: var(--go-ui-color-background);
+            padding: calc(var(--go-ui-spacing-px)* 4);
+
+            .inner-circle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: var(--go-ui-duration-transition-slow) background-color ease-in-out;
+                border-radius: 50%;
+                background-color: var(--go-ui-color-gray-70);
+                width: 1rem;
+                height: 1rem;
+
+                .icon {
+                    padding: 0.1em;
+                    color: var(--go-ui-color-white);
+                }
+            }
+        }
+
+        &:hover {
+            color: var(--go-ui-color-black);
+        }
+
+        &.active {
+            color: var(--go-ui-color-primary-red);
+
+            .step-circle {
+                border-color: var(--go-ui-color-primary-red);
+
+                .inner-circle {
+                    background-color: var(--go-ui-color-primary-red);
+                }
+            }
+        }
+    }
+
+    &.disabled {
+        pointer-events: none;
+        opacity: var(--go-ui-opacity-disabled-element);
     }
 }

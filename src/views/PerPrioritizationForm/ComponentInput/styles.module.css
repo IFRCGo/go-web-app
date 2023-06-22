@@ -1,0 +1,10 @@
+.component-input {
+    .header {
+        flex-wrap: nowrap;
+    }
+
+    .stats {
+        gap: var(--go-ui-spacing-xl);
+        display: flex;
+    }
+}

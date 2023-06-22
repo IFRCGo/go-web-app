@@ -1,0 +1,15 @@
+.assessment-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-3xl);
+
+    .progress-bar {
+        display: flex;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: var(--go-ui-spacing-lg);
+    }
+}

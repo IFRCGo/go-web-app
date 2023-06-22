@@ -1,0 +1,47 @@
+.stacked-bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-sm);
+
+    .bar-info-container {
+        display: flex;
+
+        .bar-info {
+            display: flex;
+            gap: var(--go-ui-spacing-sm);
+        }
+    }
+
+    .track {
+        --height: 1rem;
+        display: flex;
+        border-radius: calc(0.5 * var(--height));
+        background-color: var(--go-ui-color-gray-50);
+        height: var(--height);
+
+        .bar {
+            height: 100%;
+        }
+    }
+
+    .label-list {
+        display: flex;
+
+        .label-container {
+            display: flex;
+            align-items: baseline;
+            gap: var(--go-ui-spacing-sm);
+
+            .color-dot {
+                flex-shrink: 0;
+                border-radius: 0.4rem;
+                width: 0.8rem;
+                height: 0.8rem;
+            }
+
+            .label {
+                font-size: var(--go-ui-font-size-sm);
+            }
+        }
+    }
+}

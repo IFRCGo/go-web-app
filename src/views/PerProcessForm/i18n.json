@@ -1,0 +1,16 @@
+{
+    "namespace": "perProcessForm",
+    "strings": {
+        "perProcessTitle": "IFRC GO - Per Process",
+        "perFormTitle": "PER Process",
+        "perFormProcessDescription": "PER process is systematic way to assess, measure and analyse the strengths and gaps of a NS preparedness and response mechanism and ultimately take necessary action to improve it. It follows a continuous and cyclical process of five equally important phases: orientation, assessment, prioritization and analysis, work-plan development and implementation.",
+        "perFormHeading": "PER Process",
+        "perFormTabOverviewLabel": "1. Overview",
+        "perFormTabAssessmentLabel": "2. Assessment",
+        "perFormTabPrioritizationLabel": "3. Prioritization",
+        "perFormTabWorkPlanLabel": "4. Work-Plan",
+        "perFormSetUpPerProcess": "Set up Per Process",
+        "yesLabel": "Yes",
+        "noLabel": "No"
+    }
+}

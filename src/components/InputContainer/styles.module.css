@@ -21,6 +21,8 @@
     }
 
     &.disabled {
+        opacity: var(--go-ui-opacity-disabled-element);
+
         .input-section {
             cursor: not-allowed;
         }

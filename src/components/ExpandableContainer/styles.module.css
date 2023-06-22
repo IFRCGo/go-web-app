@@ -1,5 +1,17 @@
 .expandable-container {
+    border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+
     .header {
-        cursor: pointer;
+        background-color: var(--go-ui-color-gray-20);
+        padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
+
+        .icon {
+            display: flex;
+            font-size: var(--go-ui-font-size-2xl);
+        }
+    }
+
+    .content {
+        padding: 0 var(--go-ui-spacing-lg) var(--go-ui-spacing-lg) var(--go-ui-spacing-lg);
     }
 }

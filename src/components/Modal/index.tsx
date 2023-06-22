@@ -12,6 +12,15 @@ import styles from './styles.module.css';
 
 export type SizeType = 'sm' | 'md' | 'lg' | 'xl' | 'full' | 'auto';
 
+const sizeToStyleMap: Record<SizeType, string> = {
+    sm: styles.sizeSm,
+    md: styles.sizeMd,
+    lg: styles.sizeLg,
+    xl: styles.sizeXl,
+    full: styles.sizeFull,
+    auto: styles.sizeAuto,
+};
+
 interface Props {
     children: React.ReactNode;
     className?: string;
@@ -22,11 +31,10 @@ interface Props {
     footerContent?: React.ReactNode;
     footerActions?: React.ReactNode;
     headerClassName?: string;
-    onCloseButtonClick: () => void;
-    opened: boolean;
+    onClose: () => void;
     overlayClassName?: string;
     size?: SizeType;
-    title?: React.ReactNode;
+    heading?: React.ReactNode;
     headingLevel?: HeadingProps['level'];
     hideCloseButton?: boolean;
     bodyClassName?: string;
@@ -44,29 +52,28 @@ function Modal(props: Props) {
         footerActions,
         footerContent,
         headerClassName,
-        onCloseButtonClick,
-        opened,
+        onClose,
         overlayClassName,
-        size = 'xl',
-        title,
+        size = 'md',
+        heading,
         headingLevel,
         hideCloseButton = false,
     } = props;
 
-    const hasHeader = !!title || hideCloseButton;
-    const sizeStyle = styles[`size-${size}`];
+    const hasHeader = !!heading || hideCloseButton;
+    const sizeStyle = sizeToStyleMap[size];
 
     const handleClickOutside = useCallback(() => {
         if (closeOnClickOutside) {
-            onCloseButtonClick();
+            onClose();
         }
-    }, [onCloseButtonClick, closeOnClickOutside]);
+    }, [onClose, closeOnClickOutside]);
 
     const handleEscape = useCallback(() => {
         if (closeOnEscape) {
-            onCloseButtonClick();
+            onClose();
         }
-    }, [onCloseButtonClick, closeOnEscape]);
+    }, [onClose, closeOnEscape]);
 
     const {
         containerClassName: footerClassName,
@@ -78,55 +85,49 @@ function Modal(props: Props) {
     });
 
     return (
-        <div>
-            {opened && (
-                <BodyOverlay className={overlayClassName}>
-                    <FocusOn
-                        className={_cs(styles.modalContainer, sizeStyle)}
-                        onClickOutside={handleClickOutside}
-                        onEscapeKey={handleEscape}
-                    >
-                        <div
-                            className={_cs(styles.modal, className)}
-                            role="dialog"
-                            aria-modal
-                            aria-labelledby="modalLabel"
-                            aria-describedby="modalBody"
-                        >
-                            {hasHeader && (
-                                <Header
-                                    className={_cs(headerClassName, styles.modalHeader)}
-                                    heading={title}
-                                    headingLevel={headingLevel}
-                                    actions={hideCloseButton && (
-                                        <IconButton
-                                            name={undefined}
-                                            onClick={onCloseButtonClick}
-                                            ariaLabel="Close"
-                                            variant="tertiary"
-                                        >
-                                            <CloseFillIcon />
-                                        </IconButton>
-                                    )}
-                                />
+        <BodyOverlay className={overlayClassName}>
+            <FocusOn
+                className={_cs(styles.modalContainer, sizeStyle)}
+                onClickOutside={handleClickOutside}
+                onEscapeKey={handleEscape}
+            >
+                <div
+                    className={_cs(styles.modal, className)}
+                    role="dialog"
+                    aria-modal
+                >
+                    {hasHeader && (
+                        <Header
+                            className={_cs(headerClassName, styles.modalHeader)}
+                            heading={heading}
+                            headingLevel={headingLevel}
+                            actions={hideCloseButton && (
+                                <IconButton
+                                    name={undefined}
+                                    onClick={onClose}
+                                    ariaLabel="Close"
+                                    variant="tertiary"
+                                >
+                                    <CloseFillIcon />
+                                </IconButton>
                             )}
-                            <div className={_cs(styles.modalBody, bodyClassName)} id="modalBody">
-                                {children}
-                            </div>
-                            <footer
-                                className={_cs(
-                                    footerClassName,
-                                    footerClassNameFromProps,
-                                    styles.modalFooter,
-                                )}
-                            >
-                                {footer}
-                            </footer>
-                        </div>
-                    </FocusOn>
-                </BodyOverlay>
-            )}
-        </div>
+                        />
+                    )}
+                    <div className={_cs(styles.modalBody, bodyClassName)}>
+                        {children}
+                    </div>
+                    <footer
+                        className={_cs(
+                            footerClassName,
+                            footerClassNameFromProps,
+                            styles.modalFooter,
+                        )}
+                    >
+                        {footer}
+                    </footer>
+                </div>
+            </FocusOn>
+        </BodyOverlay>
     );
 }
 

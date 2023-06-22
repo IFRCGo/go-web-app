@@ -1,0 +1,9 @@
+.per-prioritization-form {
+    color: inherit;
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        padding: var(--go-ui-spacing-lg);
+    }
+}

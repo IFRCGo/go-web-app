@@ -4,6 +4,7 @@ import {
     NavLink,
     NavLinkProps,
 } from 'react-router-dom';
+import { CheckLineIcon } from '@ifrc-go/icons';
 
 import NavigationTabContext from '#contexts/navigation-tab';
 
@@ -12,8 +13,9 @@ import styles from './styles.module.css';
 interface Props {
     className?: string;
     children?: React.ReactNode;
-    to: string;
+    to?: string;
     title?: string;
+    stepCompleted?: boolean;
 }
 
 function NavigationTab(props: Props) {
@@ -22,20 +24,23 @@ function NavigationTab(props: Props) {
         to,
         className,
         title,
+        stepCompleted,
     } = props;
 
     const { variant } = useContext(NavigationTabContext);
 
+    const defaultClassName = _cs(
+        styles.navigationTab,
+        variant === 'primary' && styles.primary,
+        variant === 'secondary' && styles.secondary,
+        variant === 'tertiary' && styles.tertiary,
+        variant === 'step' && styles.step,
+        stepCompleted && styles.completed,
+        className,
+    );
+
     const getClassName: Exclude<NavLinkProps['className'], string | undefined> = useCallback(
         ({ isActive }) => {
-            const defaultClassName = _cs(
-                styles.navigationTab,
-                variant === 'primary' && styles.primary,
-                variant === 'secondary' && styles.secondary,
-                variant === 'tertiary' && styles.tertiary,
-                className,
-            );
-
             if (!isActive) {
                 return defaultClassName;
             }
@@ -45,16 +50,20 @@ function NavigationTab(props: Props) {
                 defaultClassName,
             );
         },
-        [variant, className],
+        [defaultClassName],
     );
 
-    return (
-        <NavLink
-            to={to}
-            className={getClassName}
-            end
-            title={title}
-        >
+    const navChild = (
+        <>
+            {variant === 'step' && (
+                <div className={styles.stepCircle}>
+                    <div className={styles.innerCircle}>
+                        {stepCompleted && (
+                            <CheckLineIcon className={styles.icon} />
+                        )}
+                    </div>
+                </div>
+            )}
             {variant === 'primary' && (
                 <div className={styles.dummy} />
             )}
@@ -64,6 +73,25 @@ function NavigationTab(props: Props) {
             {variant === 'primary' && (
                 <div className={styles.dummy} />
             )}
+        </>
+    );
+
+    if (!to) {
+        return (
+            <div className={_cs(defaultClassName, styles.disabled)}>
+                {navChild}
+            </div>
+        );
+    }
+
+    return (
+        <NavLink
+            to={to}
+            className={getClassName}
+            end
+            title={title}
+        >
+            {navChild}
         </NavLink>
     );
 }

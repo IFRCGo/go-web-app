@@ -3,17 +3,17 @@
     position: relative;
     overflow-x: auto;
 
-    .start-dummy-content,
-    .end-dummy-content {
-        align-self: flex-end;
-        flex-grow: 1;
-        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
+    &.primary {
+        .start-dummy-content,
+        .end-dummy-content {
+            align-self: flex-end;
+            flex-grow: 1;
+        }
     }
 
     &.secondary {
         border-radius: calc(1em + var(--go-ui-spacing-md));
         background-color: var(--go-ui-color-background);
-        padding: 0 var(--go-ui-spacing-md);
         width: fit-content;
     }
 
@@ -23,5 +23,14 @@
         justify-content: flex-start;
         gap: var(--go-ui-spacing-md);
         width: fit-content;
+    }
+
+    &.step {
+        gap: var(--go-ui-spacing-lg);
+        .start-dummy-content,
+        .end-dummy-content {
+            align-self: flex-end;
+            flex-grow: 1;
+        }
     }
 }

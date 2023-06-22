@@ -11,7 +11,7 @@
         flex-shrink: 0;
         margin: 0;
         background-color: var(--go-ui-color-separator);
-        height: var(--go-ui-width-separator-sm);
+        height: var(--go-ui-width-separator-thin);
     }
 
     .content {

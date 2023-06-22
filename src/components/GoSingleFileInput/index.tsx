@@ -1,8 +1,10 @@
 import React, { useCallback, useRef } from 'react';
-import { _cs } from '@togglecorp/fujs';
-import { NameType } from '#components/types';
+import { _cs, isDefined } from '@togglecorp/fujs';
 import { CloseLineIcon } from '@ifrc-go/icons';
+
 import IconButton, { Props as IconButtonProps } from '#components/IconButton';
+import { NameType } from '#components/types';
+import Link from '#components/Link';
 import Button, { Props as ButtonProps } from '#components/Button';
 import { ButtonVariant } from '#hooks/useButtonFeatures';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
@@ -30,6 +32,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     icons?: React.ReactNode;
     iconsClassName?: string;
     onChange: (value: number | undefined, name: T) => void;
+    fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     url: string;
     value: number | undefined | null;
@@ -53,6 +56,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         name,
         onChange,
         readOnly,
+        fileIdToUrlMap,
         setFileIdToUrlMap,
         url,
         value,
@@ -131,6 +135,8 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         </>
     ) : null);
 
+    const selectedFileUrl = isDefined(value) ? fileIdToUrlMap?.[value] : undefined;
+
     return (
         <div className={_cs(styles.goFileInput, className)}>
             <RawFileInput
@@ -155,6 +161,13 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                     {children}
                 </Button>
             </RawFileInput>
+            {selectedFileUrl ? (
+                <Link
+                    to={selectedFileUrl}
+                >
+                    1 file selected
+                </Link>
+            ) : 'No file selected'}
             {actions}
         </div>
     );

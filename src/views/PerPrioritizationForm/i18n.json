@@ -1,0 +1,9 @@
+{
+    "namespace": "perPrioritizationForm",
+    "strings": {
+        "perSelectAndAddToWorkPlan": "Select and add to Work-Plan",
+        "perFormSaveRequestSuccessMessage": "PER Process created/updated successfully",
+        "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
+        "perFormEnterJustification": "Enter Justification"
+    }
+}

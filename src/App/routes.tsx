@@ -553,6 +553,90 @@ const fieldReportFormNew = customWrapRoute({
     },
 });
 
+const perProcessForm = customWrapRoute({
+    path: 'per-process',
+    component: {
+        render: () => import('#views/PerProcessForm'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Per Process',
+        visibility: 'is-authenticated',
+    },
+});
+
+const newPerOverviewForm = customWrapRoute({
+    path: 'new',
+    component: {
+        render: () => import('#views/PerOverviewForm'),
+        props: {},
+    },
+    parent: perProcessForm,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Per Process',
+        visibility: 'is-authenticated',
+    },
+});
+
+const perOverviewForm = customWrapRoute({
+    path: ':perId/overview',
+    component: {
+        render: () => import('#views/PerOverviewForm'),
+        props: {},
+    },
+    parent: perProcessForm,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Per Process',
+        visibility: 'is-authenticated',
+    },
+});
+
+const perAssessmentForm = customWrapRoute({
+    path: ':perId/assessment',
+    component: {
+        render: () => import('#views/PerAssessmentForm'),
+        props: {},
+    },
+    parent: perProcessForm,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Per Process Form',
+        visibility: 'is-authenticated',
+    },
+});
+
+const perPrioritizationForm = customWrapRoute({
+    path: ':perId/prioritization',
+    component: {
+        render: () => import('#views/PerPrioritizationForm'),
+        props: {},
+    },
+    parent: perProcessForm,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Per Process Form',
+        visibility: 'is-authenticated',
+    },
+});
+
+const perWorkPlanForm = customWrapRoute({
+    path: ':perId/work-plan',
+    component: {
+        render: () => import('#views/PerWorkPlanForm'),
+        props: {},
+    },
+    parent: perProcessForm,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Per Process Form',
+        visibility: 'is-authenticated',
+    },
+});
+
 const wrappedRoutes = {
     root,
     login,
@@ -592,6 +676,12 @@ const wrappedRoutes = {
     flashUpdateFormNew,
     riskWatch,
     search,
+    perProcessForm,
+    perOverviewForm,
+    newPerOverviewForm,
+    perAssessmentForm,
+    perPrioritizationForm,
+    perWorkPlanForm,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

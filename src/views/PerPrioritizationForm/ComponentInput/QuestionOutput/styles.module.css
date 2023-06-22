@@ -1,0 +1,23 @@
+.question-output {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+    padding: var(--go-ui-spacing-sm);
+
+    .numbering {
+        flex-shrink: 0;
+        width: 2rem;
+    }
+
+    .question {
+        flex-grow: 1;
+    }
+
+    .answer {
+        flex-shrink: 0;
+        width: 3rem;
+    }
+
+    &:nth-child(odd) {
+        background-color: var(--go-ui-color-background);
+    }
+}

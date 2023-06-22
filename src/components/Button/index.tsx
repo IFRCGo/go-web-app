@@ -21,6 +21,7 @@ function Button<N>(props: Props<N>) {
         name,
         onClick,
         variant,
+        type = 'button',
         ...otherProps
     } = props;
 
@@ -40,13 +41,13 @@ function Button<N>(props: Props<N>) {
         icons,
         actions,
         // NOTE: disabling a button if there is on onClick handler
-        disabled: disabled || !onClick,
+        disabled: disabled || (type !== 'submit' && !onClick),
     });
 
     return (
         <RawButton
             name={name}
-            type="button"
+            type={type}
             onClick={handleButtonClick}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
