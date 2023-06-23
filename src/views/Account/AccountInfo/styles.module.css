@@ -1,0 +1,35 @@
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xl);
+
+    .info-box {
+        display: flex;
+        flex-direction: column;
+        border-radius: var(--go-ui-border-radius-md);
+        box-shadow: var(--go-ui-box-shadow-lg);
+        padding: var(--go-ui-spacing-4xl);
+
+        .operations-list {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-4xl);
+            grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+        }
+
+        .user-detail-section {
+            display: flex;
+            flex-direction: column;
+            font-size: var(--go-ui-font-size-lg);
+
+            .user-info-row {
+                padding: var(--go-ui-spacing-xs);
+            }
+        }
+    }
+
+    .user-edit {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-sm);
+    }
+}

@@ -21,14 +21,6 @@ export function Component() {
         accountDrefApplications: accountDREFApplicationsRoute,
         accountThreeWForms: accountThreeWFormsRoute,
     } = useContext(RouteContext);
-    /*
-    const {
-        pending: mePending,
-        response: meResponse,
-    } = useRequest({
-        url: 'api/v2/user/me/',
-    });
-    */
 
     return (
         <Page
