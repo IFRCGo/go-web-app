@@ -1,9 +1,9 @@
 {
     "namespace": "account",
     "strings": {
-        "operationFollowing": "operation following",
-        "operationLastUpdated": "last updated",
-        "currentlyFollowing": "currently following operations",
+        "operationFollowing": "Operation Following",
+        "operationLastUpdated": "Last Updated",
+        "currentlyFollowing": "Currently Following Operations",
         "accountInformationTitle": "Account Information"
     }
 }
