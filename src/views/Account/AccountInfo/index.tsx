@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react';
+import { useState, useCallback, useContext } from 'react';
 import Container from '#components/Container';
 import {
     _cs,
@@ -8,6 +8,8 @@ import {
 
 import List from '#components/List';
 import Button from '#components/Button';
+import Pager from '#components/Pager';
+
 import useTranslation from '#hooks/useTranslation';
 import {
     useRequest,
@@ -46,6 +48,10 @@ function AccountInfo(props: Props) {
     const { userDetails } = useContext(UserContext);
 
     const userNameForDetail = userDetails?.username;
+
+    const [page, setPage] = useState(0);
+    const [editProfile, setEditProfile] = useState(false);
+    const [changePassword, setChangePassword] = useState(false);
 
     const {
         error: operationResponseError,
@@ -104,7 +110,7 @@ function AccountInfo(props: Props) {
     }, []);
 
     const handleEditProfile = useCallback(() => {
-        console.log('Clicked Edit Profile:::');
+        console.log('Clicked change EDIT PROFILE:::');
     }, []);
 
     const eventList = operationsRes?.results;
@@ -117,7 +123,14 @@ function AccountInfo(props: Props) {
                 className={_cs(styles.infoBox, className)}
                 heading={strings.operationFollowing}
                 headingLevel={2}
-                headerDescription={strings.currentlyFollowing}
+                footerActions={(
+                    <Pager
+                        activePage={page}
+                        itemsCount={operationsRes?.count ?? 3}
+                        maxItemsPerPage={5}
+                        onActivePageChange={setPage}
+                    />
+                )}
             >
                 <div className={styles.operationsList}>
                     <List
@@ -134,23 +147,15 @@ function AccountInfo(props: Props) {
             <Container
                 className={_cs(styles.infoBox, className)}
                 heading={strings.accountInformationTitle}
-                headerDescription={userInformationPending && 'Sorry could not get the user details right now'}
                 headingLevel={2}
                 actions={!!userDetailsResponse && (
                     <div className={styles.userEdit}>
                         <Button
-                            name={undefined}
-                            onClick={handleEditProfile}
+                            name
+                            onClick={setEditProfile}
                             variant="secondary"
                         >
                             Edit Profile
-                        </Button>
-                        <Button
-                            name={undefined}
-                            onClick={handleChangePassword}
-                            variant="secondary"
-                        >
-                            Change Password
                         </Button>
                     </div>
                 )}
@@ -167,6 +172,14 @@ function AccountInfo(props: Props) {
                         <span className={styles.userInfoRow}>ORGANIZATION-TYPE: {(userInformation?.profile?.org_type) ?? '--'}</span>
                         <span className={styles.userInfoRow}>DEPARTMENT: {(userInformation?.profile?.department) ?? '--'}</span>
                         <span className={styles.userInfoRow}>POSITION: {(userInformation?.profile?.position) ?? '--'}</span>
+                        <Button
+                            name
+                            className={styles.changePassword}
+                            onClick={setChangePassword}
+                            variant="tertiary"
+                        >
+                            Change Password
+                        </Button>
                     </div>
                 )}
             </Container>
