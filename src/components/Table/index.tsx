@@ -12,53 +12,15 @@ import {
 
 import Message from '#components/Message';
 import { DEFAULT_TABLE_COLUMN_WIDTH } from '#utils/constants';
+
+import TableBodyContent from './TableBodyContent';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
-import TableData from './TableData';
+import type { Column, VerifyColumn, RowOptions } from './types';
 import styles from './styles.module.css';
-
-export interface Column<D, K, C, H> {
-    id: string;
-    title: string;
-
-    headerCellRenderer: React.ComponentType<H>;
-    headerCellRendererParams: Omit<H, 'name' | 'title' | 'index' | 'className'>;
-    headerCellRendererClassName?: string;
-
-    headerContainerClassName?: string;
-
-    columnClassName?: string;
-    columnStyle?: React.CSSProperties;
-    columnWidth?: number;
-    columnStretch?: boolean;
-
-    cellRenderer: React.ComponentType<C>;
-    cellRendererParams: (key: K, datum: D, index: number) => Omit<C, 'className' | 'name'>;
-    cellRendererClassName?: string;
-
-    cellContainerClassName?: string;
-}
 
 function getColumnWidth<D, K, C, H>(column: Column<D, K, C, H>, width: number) {
     return width ?? column.columnWidth ?? DEFAULT_TABLE_COLUMN_WIDTH;
-}
-
-type VerifyColumn<T, D, K> = unknown extends (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    T extends Column<D, K, any, any>
-        ? never
-        : unknown
-)
-    ? never
-    : unknown
-
-export interface RowOptions<D, K> {
-    rowKey: K,
-    row: React.ReactElement;
-    cells: React.ReactElement[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    columns: Column<D, K, any, any>[];
-    datum: D;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -294,70 +256,14 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                         </thead>
                     )}
                     <tbody>
-                        {data?.map((datum, index) => {
-                            const key = keySelector(datum, index);
-                            const cells = columns.map((column) => {
-                                const {
-                                    id,
-                                    cellRenderer: Renderer,
-                                    cellRendererClassName,
-                                    cellRendererParams,
-                                    cellContainerClassName,
-                                } = column;
-
-                                const otherProps = cellRendererParams(key, datum, index);
-                                const children = (
-                                    <Renderer
-                                        // eslint-disable-next-line react/jsx-props-no-spreading
-                                        {...otherProps}
-                                        className={cellRendererClassName}
-                                        name={id}
-                                    />
-                                );
-                                return (
-                                    <TableData
-                                        key={id}
-                                        className={_cs(
-                                            styles.cell,
-                                            cellContainerClassName,
-                                            typeof cellClassName === 'function'
-                                                ? cellClassName(key, datum, id)
-                                                : cellClassName,
-                                        )}
-                                    >
-                                        {children}
-                                    </TableData>
-                                );
-                            });
-
-                            const row = (
-                                <TableRow
-                                    key={key}
-                                    className={_cs(
-                                        styles.row,
-                                        typeof rowClassName === 'function'
-                                            ? rowClassName(key, datum)
-                                            : rowClassName,
-                                    )}
-                                >
-                                    { cells }
-                                </TableRow>
-                            );
-
-                            let modifiedRow: React.ReactNode = row;
-
-                            if (rowModifier) {
-                                modifiedRow = rowModifier({
-                                    rowKey: key,
-                                    row,
-                                    cells,
-                                    columns,
-                                    datum,
-                                });
-                            }
-
-                            return modifiedRow;
-                        })}
+                        <TableBodyContent
+                            data={data}
+                            keySelector={keySelector}
+                            columns={columns}
+                            rowClassName={rowClassName}
+                            cellClassName={cellClassName}
+                            rowModifier={rowModifier}
+                        />
                     </tbody>
                 </table>
             )}

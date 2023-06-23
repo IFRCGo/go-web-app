@@ -1,3 +1,7 @@
 .account-per-forms {
     padding: var(--go-ui-spacing-3xl) 0;
+
+    .sub-cell {
+        background-color: var(--go-ui-color-gray-20);
+    }
 }

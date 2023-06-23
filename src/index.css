@@ -154,7 +154,7 @@
     --go-ui-color-information: var(--go-ui-color-blue);
     --go-ui-color-warning: var(--go-ui-color-yellow);
     --go-ui-color-negative: var(--go-ui-color-red);
-    --go-ui-color-separator: var(--go-ui-color-gray-30);
+    --go-ui-color-separator: rgb(0 0 0 / 0.1);
     --go-ui-color-background: #F7F7F7;
     --go-ui-color-background-overlay: rgb(255 255 255 / .88);
 

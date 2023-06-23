@@ -27,19 +27,6 @@
                 }
             }
         }
-
-        .row {
-            .cell {
-                padding: var(--go-ui-spacing-md);
-                overflow: hidden;
-            }
-
-            &:hover {
-                .cell {
-                    background-color: var(--go-ui-color-gray-10);
-                }
-            }
-        }
     }
 
     .message {

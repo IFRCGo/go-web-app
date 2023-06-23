@@ -30,8 +30,7 @@ import type { HeaderCellProps } from '../HeaderCell';
 import Cell from '../Cell';
 import type { CellProps } from '../Cell';
 
-import type { Column } from '../index';
-import type { SortDirection } from '../types';
+import type { SortDirection, Column } from '../types';
 
 import ExpandButton from './ExpandButton';
 import type { ExpandButtonProps } from './ExpandButton';

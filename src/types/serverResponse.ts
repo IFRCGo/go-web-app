@@ -234,6 +234,7 @@ export interface GET {
     'api/v2/new-per/:id': PerOverviewResponse;
     'api/v2/per-process-status/:id': PerProcessStatusItem;
     'api/v2/per-process-status': ListResponse<PerProcessStatusItem>;
+    'api/v2/aggregated-per-process-status': ListResponse<PerProcessStatusItem>;
     'api/v2/per-assessmenttype': ListResponse<{
         id: number;
         name: string;
