@@ -1,14 +1,19 @@
 .stacked-bar-chart {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-sm);
+    gap: var(--go-ui-spacing-xs);
 
     .bar-info-container {
         display: flex;
 
         .bar-info {
             display: flex;
-            gap: var(--go-ui-spacing-sm);
+            padding: 0 var(--go-ui-spacing-xs);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: var(--go-ui-font-weight-medium);
+            gap: var(--go-ui-spacing-2xs);
         }
     }
 
@@ -30,16 +35,20 @@
         .label-container {
             display: flex;
             align-items: baseline;
-            gap: var(--go-ui-spacing-sm);
+            gap: var(--go-ui-spacing-2xs);
 
             .color-dot {
                 flex-shrink: 0;
-                border-radius: 0.4rem;
-                width: 0.8rem;
-                height: 0.8rem;
+                border-radius: 0.3rem;
+                width: 0.6rem;
+                height: 0.6rem;
             }
 
             .label {
+                padding: 0 var(--go-ui-spacing-xs);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 font-size: var(--go-ui-font-size-sm);
             }
         }

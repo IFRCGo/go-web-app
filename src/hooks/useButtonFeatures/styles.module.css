@@ -6,7 +6,7 @@
     --border-radius: var(--go-ui-border-radius-full);
     --text-transform: none;
     --cursor: default;
-    --padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+    --padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-lg);
 
     display: flex;
     position: relative;

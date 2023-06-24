@@ -317,7 +317,9 @@ function SelectInputContainer<
                                 name={undefined}
                                 title={dropdownShown ? 'Close' : 'Open'}
                             >
-                                {dropdownShown ? <ArrowUpSmallFillIcon /> : <ArrowDownSmallFillIcon />}
+                                {dropdownShown
+                                    ? <ArrowUpSmallFillIcon />
+                                    : <ArrowDownSmallFillIcon />}
                             </Button>
                         )}
                     </>

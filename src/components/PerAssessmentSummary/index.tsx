@@ -167,7 +167,7 @@ function PerAssessmentSummary(props: Props) {
             actions="Show Summary"
             childrenContainerClassName={styles.content}
         >
-            <div>
+            <div className={styles.totalProgress}>
                 <ProgressBar
                     title="Answered: "
                     showPercentageInTitle
@@ -188,14 +188,6 @@ function PerAssessmentSummary(props: Props) {
                     )}
                 />
             </div>
-            <div>
-                <BarChart
-                    data={averageRatingByAreaList}
-                    keySelector={(rating) => rating.areaId}
-                    valueSelector={(rating) => rating.rating}
-                    labelSelector={(rating) => rating.areaDisplay}
-                />
-            </div>
             <StackedProgressBar
                 className={styles.componentRating}
                 data={statusGroupedComponentList ?? []}
@@ -208,6 +200,13 @@ function PerAssessmentSummary(props: Props) {
                 labelSelector={
                     (statusGroupedComponent) => `${statusGroupedComponent.ratingValue}-${statusGroupedComponent.ratingDisplay}`
                 }
+            />
+            <BarChart
+                className={styles.avgComponentRating}
+                data={averageRatingByAreaList}
+                keySelector={(rating) => rating.areaId}
+                valueSelector={(rating) => rating.rating}
+                labelSelector={(rating) => rating.areaDisplay}
             />
         </ExpandableContainer>
     );

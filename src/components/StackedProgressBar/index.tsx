@@ -71,11 +71,16 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                             width: `${(100 * datum.value) / total}%`,
                         }}
                     >
+                        {/*
                         <div
                             className={styles.colorDot}
                             style={{ backgroundColor: datum.color }}
                         />
-                        <div className={styles.label}>
+                                */}
+                        <div
+                            className={styles.label}
+                            title={typeof datum.label === 'string' ? datum.label : undefined}
+                        >
                             {datum.label}
                         </div>
                     </div>

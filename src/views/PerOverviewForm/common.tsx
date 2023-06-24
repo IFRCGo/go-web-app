@@ -19,7 +19,7 @@ export function stringLabelSelector<T extends { label: string }>(option: T) {
 }
 
 export type PerOverviewFormFields = Omit<
-    GET['api/v2/new-per/:id'],
+    GET['api/v2/per-overview/:id'],
     'id'
     | 'country_details'
     | 'type_of_assessment_details'
@@ -38,7 +38,7 @@ export const overviewSchema: OverviewFormSchema = {
     fields: (): OverviewFormSchemaFields => ({
         country: { required: true },
         date_of_orientation: {},
-        orientation_document: {},
+        orientation_documents_file: {},
         assessment_number: {},
         branches_involved: {},
         date_of_assessment: { required: true },

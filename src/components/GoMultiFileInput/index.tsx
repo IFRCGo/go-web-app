@@ -1,5 +1,10 @@
 import React, { useCallback, useRef } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+} from '@togglecorp/fujs';
+
+import Link from '#components/Link';
 import { NameType } from '#components/types';
 import { CloseLineIcon } from '@ifrc-go/icons';
 import IconButton, { Props as IconButtonProps } from '#components/IconButton';
@@ -30,6 +35,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     icons?: React.ReactNode;
     iconsClassName?: string;
     onChange: (value: number[] | undefined, name: T) => void;
+    fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     url: string;
     value: number[] | undefined | null;
@@ -53,6 +59,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         name,
         onChange,
         readOnly,
+        fileIdToUrlMap,
         setFileIdToUrlMap,
         url,
         value,
@@ -68,7 +75,15 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         formData: true,
         url,
         method: 'POST',
-        body: (body) => body,
+        // FIXME: this doesn't work
+        body: (body) => {
+            const formData = new FormData();
+            body.files.forEach((file) => {
+                formData.append('file', file);
+            });
+
+            return formData.getAll('file');
+        },
         onSuccess: (response) => {
             const ids = response.map((val) => keySelector(val));
 
@@ -133,6 +148,10 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         </>
     ) : null);
 
+    const valueUrls = isDefined(value) ? (
+        value.map((fileId) => fileIdToUrlMap?.[fileId])
+    ) : undefined;
+
     return (
         <div className={_cs(styles.goFileInput, className)}>
             <RawFileInput
@@ -158,6 +177,16 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                     {children}
                 </Button>
             </RawFileInput>
+            {valueUrls?.map(
+                (valueUrl) => (
+                    <Link
+                        key={valueUrl}
+                        to={valueUrl}
+                    >
+                        {valueUrl}
+                    </Link>
+                ),
+            )}
             {actions}
         </div>
     );

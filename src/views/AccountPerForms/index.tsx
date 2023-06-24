@@ -5,9 +5,18 @@ import {
     useState,
 } from 'react';
 import { generatePath } from 'react-router-dom';
-import { isNotDefined } from '@togglecorp/fujs';
+import {
+    isNotDefined,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
+import {
+    STEP_OVERVIEW,
+    STEP_ASSESSMENT,
+    STEP_PRIORITIZATION,
+    STEP_WORKPLAN,
+} from '#utils/per';
 import Table from '#components/Table';
 import {
     createActionColumn,
@@ -54,8 +63,51 @@ export function Component() {
     const {
         country: countryRoute,
         perOverviewForm: perOverviewFormRoute,
+        perAssessmentForm: perAssessmentFormRoute,
+        perPrioritizationForm: perPrioritizationFormRoute,
+        perWorkPlanForm: perWorkPlanFormRoute,
         newPerOverviewForm: newPerOverviewFormRoute,
     } = useContext(RouteContext);
+
+    const getRouteUrl = useCallback(
+        (currentPhase: number, perId: number) => {
+            if (currentPhase === STEP_OVERVIEW) {
+                return generatePath(
+                    perOverviewFormRoute.absolutePath,
+                    { perId },
+                );
+            }
+
+            if (currentPhase === STEP_ASSESSMENT) {
+                return generatePath(
+                    perAssessmentFormRoute.absolutePath,
+                    { perId },
+                );
+            }
+
+            if (currentPhase === STEP_PRIORITIZATION) {
+                return generatePath(
+                    perPrioritizationFormRoute.absolutePath,
+                    { perId },
+                );
+            }
+
+            if (currentPhase === STEP_WORKPLAN) {
+                return generatePath(
+                    perWorkPlanFormRoute.absolutePath,
+                    { perId },
+                );
+            }
+
+            return undefined;
+        },
+        [
+            perOverviewFormRoute,
+            perAssessmentFormRoute,
+            perPrioritizationFormRoute,
+            perWorkPlanFormRoute,
+        ],
+    );
 
     const handleExpandClick = useCallback(
         (row: PerProcessStatusItem) => {
@@ -92,25 +144,22 @@ export function Component() {
             createStringColumn<PerProcessStatusItem, number | string>(
                 'phase',
                 'Phase',
-                (item) => (item.phase ? `${item.phase} - ${item.phase_display}` : undefined),
+                (item) => (item.phase ? `${item.phase} - ${item.phase_display}` : '-'),
             ),
             createActionColumn<PerProcessStatusItem, number | string>(
                 'actions',
                 (item) => ({
-                    children: (
+                    children: isDefined(item.phase) ? (
                         <Link
-                            to={generatePath(
-                                perOverviewFormRoute.absolutePath,
-                                { perId: item.id },
-                            )}
+                            to={getRouteUrl(item.phase, item.id)}
                         >
-                            Edit
+                            {`Edit ${item.phase_display}`}
                         </Link>
-                    ),
+                    ) : undefined,
                 }),
             ),
         ]),
-        [countryRoute, perOverviewFormRoute],
+        [countryRoute, getRouteUrl],
     );
 
     const aggregatedColumns = useMemo(
