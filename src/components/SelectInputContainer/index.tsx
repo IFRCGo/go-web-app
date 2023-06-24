@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { _cs, isTruthyString } from '@togglecorp/fujs';
-import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from 'react-icons/io';
+import { ArrowDownSmallFillIcon, ArrowUpSmallFillIcon, CloseLineIcon } from '@ifrc-go/icons';
 
 import Popup from '#components/Popup';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
@@ -307,7 +307,7 @@ function SelectInputContainer<
                                 name={undefined}
                                 title="Clear"
                             >
-                                <IoMdClose />
+                                <CloseLineIcon />
                             </Button>
                         )}
                         {!readOnly && (
@@ -317,7 +317,7 @@ function SelectInputContainer<
                                 name={undefined}
                                 title={dropdownShown ? 'Close' : 'Open'}
                             >
-                                {dropdownShown ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                                {dropdownShown ? <ArrowUpSmallFillIcon /> : <ArrowDownSmallFillIcon />}
                             </Button>
                         )}
                     </>

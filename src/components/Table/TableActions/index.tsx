@@ -1,6 +1,6 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
-import { IoEllipsisHorizontal } from 'react-icons/io5';
+import { MoreFillIcon } from '@ifrc-go/icons';
 
 import DropdownMenu from '#components/DropdownMenu';
 
@@ -26,7 +26,7 @@ function TableActions(props: Props) {
                 <DropdownMenu
                     hideDropdownIcon
                     variant="tertiary"
-                    label={<IoEllipsisHorizontal />}
+                    label={<MoreFillIcon className={styles.moreIcon} />}
                 >
                     {extraActions}
                 </DropdownMenu>

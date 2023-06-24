@@ -2,10 +2,7 @@ import { useMemo, useCallback, useState } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
 
 import {
-    MdSearch,
-    MdEdit,
-} from 'react-icons/md';
-import {
+    SearchLineIcon,
     CopyLineIcon,
     PencilFillIcon,
     ShareBoxLineIcon,
@@ -175,12 +172,12 @@ function ThreeWList(props: Props) {
                                 // TODO; use routes
                                 to={`/three-w/${prj.id}/`}
                                 label={strings.projectListTableViewDetails}
-                                icon={<MdSearch />}
+                                icon={<SearchLineIcon />}
                             />
                             <DropdownMenuItem
                                 // TODO; use routes
                                 to={`/three-w/${prj.id}/edit/`}
-                                icon={<MdEdit />}
+                                icon={<PencilFillIcon />}
                                 label={strings.projectListTableEdit}
                             />
                         </>

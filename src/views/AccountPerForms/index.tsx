@@ -15,11 +15,12 @@ import {
     createDateColumn,
     createLinkColumn,
     createStringColumn,
+    createExpandColumn,
+    createEmptyColumn,
 } from '#components/Table/ColumnShortcuts';
 import TableBodyContent from '#components/Table/TableBodyContent';
 import type { RowOptions } from '#components/Table/types';
 import Link from '#components/Link';
-import Button from '#components/Button';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
@@ -31,7 +32,7 @@ type PerProcessStatusItem = PerProcessStatusResponse['results'][number];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const [expandedCountry, setExpandedCountry] = useState<number | undefined>();
+    const [expandedRow, setExpandedRow] = useState<PerProcessStatusItem | undefined>();
     const {
         pending: aggregatedStatusPending,
         response: aggregatedStatusResponse,
@@ -43,10 +44,10 @@ export function Component() {
         // pending: countryStatusPending,
         response: countryStatusResponse,
     } = useRequest<PerProcessStatusResponse>({
-        skip: isNotDefined(expandedCountry),
+        skip: isNotDefined(expandedRow),
         url: 'api/v2/per-process-status',
         query: {
-            country: expandedCountry,
+            country: expandedRow?.country,
         },
     });
 
@@ -56,10 +57,10 @@ export function Component() {
         newPerOverviewForm: newPerOverviewFormRoute,
     } = useContext(RouteContext);
 
-    const handleViewAllClick = useCallback(
-        (countryId: number) => {
-            setExpandedCountry(
-                (prevValue) => (prevValue === countryId ? undefined : countryId),
+    const handleExpandClick = useCallback(
+        (row: PerProcessStatusItem) => {
+            setExpandedRow(
+                (prevValue) => (prevValue?.id === row.id ? undefined : row),
             );
         },
         [],
@@ -93,44 +94,6 @@ export function Component() {
                 'Phase',
                 (item) => (item.phase ? `${item.phase} - ${item.phase_display}` : undefined),
             ),
-        ]),
-        [countryRoute],
-    );
-
-    const aggregatedColumns = useMemo(
-        () => ([
-            ...baseColumn,
-            createActionColumn<PerProcessStatusItem, number | string>(
-                'actions',
-                (item) => ({
-                    children: (
-                        <>
-                            <Link
-                                to={generatePath(
-                                    perOverviewFormRoute.absolutePath,
-                                    { perId: item.id },
-                                )}
-                            >
-                                Edit
-                            </Link>
-                            <Button
-                                name={item.country}
-                                variant="secondary"
-                                onClick={handleViewAllClick}
-                            >
-                                View all
-                            </Button>
-                        </>
-                    ),
-                }),
-            ),
-        ]),
-        [handleViewAllClick, perOverviewFormRoute, baseColumn],
-    );
-
-    const detailColumns = useMemo(
-        () => ([
-            ...baseColumn,
             createActionColumn<PerProcessStatusItem, number | string>(
                 'actions',
                 (item) => ({
@@ -147,12 +110,33 @@ export function Component() {
                 }),
             ),
         ]),
-        [perOverviewFormRoute, baseColumn],
+        [countryRoute, perOverviewFormRoute],
+    );
+
+    const aggregatedColumns = useMemo(
+        () => ([
+            ...baseColumn,
+            createExpandColumn<PerProcessStatusItem, number>(
+                'expandRow',
+                '',
+                handleExpandClick,
+                expandedRow?.id,
+            ),
+        ]),
+        [handleExpandClick, baseColumn, expandedRow?.id],
+    );
+
+    const detailColumns = useMemo(
+        () => ([
+            ...baseColumn,
+            createEmptyColumn(),
+        ]),
+        [baseColumn],
     );
 
     const rowModifier = useCallback(
         ({ row, datum }: RowOptions<PerProcessStatusItem, number>) => {
-            if (datum.country !== expandedCountry) {
+            if (datum.country !== expandedRow?.country) {
                 return row;
             }
 
@@ -168,7 +152,7 @@ export function Component() {
                 </>
             );
         },
-        [expandedCountry, detailColumns, countryStatusResponse],
+        [expandedRow, detailColumns, countryStatusResponse],
     );
 
     return (

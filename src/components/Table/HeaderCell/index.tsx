@@ -4,11 +4,12 @@ import {
     useContext,
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
+// TODO: use proper icons
 import {
-    FaSortUp,
-    FaSortDown,
-    FaSort,
-} from 'react-icons/fa';
+    ArrowUpDownFillIcon,
+    ArrowDownFillIcon,
+    ArrowUpFillIcon,
+} from '@ifrc-go/icons';
 
 import Button from '#components/Button';
 
@@ -83,9 +84,9 @@ function HeaderCell(props: HeaderCellProps) {
                     title="Sort column"
                     className={styles.sortButton}
                 >
-                    {!sortDirection && <FaSort />}
-                    {sortDirection === 'asc' && <FaSortUp />}
-                    {sortDirection === 'dsc' && <FaSortDown />}
+                    {!sortDirection && <ArrowUpDownFillIcon />}
+                    {sortDirection === 'asc' && <ArrowUpFillIcon />}
+                    {sortDirection === 'dsc' && <ArrowDownFillIcon />}
                 </Button>
             )}
             <div className={_cs(titleClassName, styles.title)}>

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { IoTrash } from 'react-icons/io5';
+import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
     SetValueArg,
     useFormObject,
@@ -97,7 +97,7 @@ function CustomComponentInput(props: Props) {
                     name={index}
                     onClick={onRemove}
                     variant="secondary"
-                    actions={<IoTrash />}
+                    actions={<DeleteBinLineIcon />}
                 >
                     {strings.perFormRemoveButton}
                 </Button>

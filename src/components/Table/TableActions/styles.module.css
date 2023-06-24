@@ -1,4 +1,8 @@
 .table-actions {
     display: flex;
     gap: var(--go-ui-spacing-md);
+
+    .more-icon {
+        font-size: 1.5em;
+    }
 }

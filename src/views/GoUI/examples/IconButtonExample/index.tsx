@@ -1,8 +1,4 @@
-import {
-    IoAccessibilityOutline,
-    IoAirplane,
-    IoArchive,
-} from 'react-icons/io5';
+import { DeleteBinLineIcon, LockLineIcon, ShieldLineIcon } from '@ifrc-go/icons';
 import IconButton from '#components/IconButton';
 import styles from './styles.module.css';
 
@@ -15,7 +11,7 @@ function IconButtonExample() {
                     variant="primary"
                     ariaLabel="Emergencies"
                 >
-                    <IoAccessibilityOutline />
+                    <LockLineIcon />
                 </IconButton>
                 <IconButton
                     name="primary-button"
@@ -23,7 +19,7 @@ function IconButtonExample() {
                     disabled
                     ariaLabel="Emergencies"
                 >
-                    <IoAccessibilityOutline />
+                    <LockLineIcon />
                 </IconButton>
                 <IconButton
                     name="primary-button"
@@ -31,7 +27,7 @@ function IconButtonExample() {
                     ariaLabel="Emergencies"
                     round={false}
                 >
-                    <IoAccessibilityOutline />
+                    <LockLineIcon />
                 </IconButton>
             </div>
             <div className={styles.buttonsContainer}>
@@ -40,7 +36,7 @@ function IconButtonExample() {
                     variant="secondary"
                     ariaLabel="IoAirplane"
                 >
-                    <IoAirplane />
+                    <ShieldLineIcon />
                 </IconButton>
                 <IconButton
                     name="secondary-button"
@@ -48,7 +44,7 @@ function IconButtonExample() {
                     ariaLabel="IoAirplane"
                     disabled
                 >
-                    <IoAirplane />
+                    <ShieldLineIcon />
                 </IconButton>
             </div>
             <div className={styles.buttonsContainer}>
@@ -57,7 +53,7 @@ function IconButtonExample() {
                     variant="tertiary"
                     ariaLabel="IoArchive"
                 >
-                    <IoArchive />
+                    <DeleteBinLineIcon />
                 </IconButton>
                 <IconButton
                     name="tertiary-button"
@@ -65,7 +61,7 @@ function IconButtonExample() {
                     ariaLabel="IoArchive"
                     disabled
                 >
-                    <IoArchive />
+                    <DeleteBinLineIcon />
                 </IconButton>
             </div>
         </div>

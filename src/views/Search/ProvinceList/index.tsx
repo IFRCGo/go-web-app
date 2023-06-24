@@ -1,8 +1,5 @@
 import { generatePath } from 'react-router-dom';
 import { useContext } from 'react';
-import {
-    IoChevronForwardOutline,
-} from 'react-icons/io5';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
@@ -56,7 +53,7 @@ function ProvinceList(props: Props) {
                         className={styles.countryName}
                         key={province.id}
                         withUnderline
-                        actions={<IoChevronForwardOutline />}
+                        withForwardIcon
                     >
                         {province.country}
                     </Link>
