@@ -1,16 +1,15 @@
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
+import { RedCrossNationalSocietyIcon } from '@ifrc-go/icons';
 
-import { _cs } from "@togglecorp/fujs";
-import { RedCrossNationalSocietyIcon } from "@ifrc-go/icons";
-import { useRequest } from "#utils/restRequest";
+import { useRequest } from '#utils/restRequest';
 
-import Container from "#components/Container";
-import KeyFigure from "#components/KeyFigure";
+import Container from '#components/Container';
+import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import Link from "#components/Link";
 
 interface RegionProfileSnippet {
     region: number;
@@ -55,7 +54,7 @@ export function Component() {
         url: `api/v2/region/${regionId}/`,
     });
 
-    const iframe = "https://app.powerbi.com/view?r=eyJrIjoiOWUzMTIzODctZGFmNS00M2Y2LThjOTYtYjNhOTJhMWEzOTdjIiwidCI6ImEyYjUzYmU1LTczNGUtNGU2Yy1hYjBkLWQxODRmNjBmZDkxNyIsImMiOjh9%5C";
+    const iframe = 'https://app.powerbi.com/view?r=eyJrIjoiOWUzMTIzODctZGFmNS00M2Y2LThjOTYtYjNhOTJhMWEzOTdjIiwidCI6ImEyYjUzYmU1LTczNGUtNGU2Yy1hYjBkLWQxODRmNjBmZDkxNyIsImMiOjh9%5C';
 
     return (
         <div className={styles.regionProfile}>
@@ -79,6 +78,7 @@ export function Component() {
                 >
                     <iframe
                         src={iframe}
+                        title={regionalProfileResponse?.region_name}
                         className={styles.iframe}
                     />
                 </Container>
@@ -118,7 +118,7 @@ export function Component() {
                     ))}
                 </Container>
             )}
-        </div >
+        </div>
     );
 }
 
