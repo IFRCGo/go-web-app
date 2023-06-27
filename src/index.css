@@ -36,6 +36,8 @@
     --go-ui-font-weight-extrabold: 800;
     --go-ui-font-weight-black: 900;
 
+    --go-ui-font-size-icon-multiplier: 1.5em;
+
     --go-ui-width-screen-sm: 640px;
     --go-ui-width-screen-md: 768px;
     --go-ui-width-screen-lg: 1024px;

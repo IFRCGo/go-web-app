@@ -3,6 +3,6 @@
     gap: var(--go-ui-spacing-md);
 
     .more-icon {
-        font-size: 1.5em;
+        font-size: var(--go-ui-font-size-icon-multiplier);
     }
 }

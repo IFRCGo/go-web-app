@@ -55,7 +55,7 @@ export function Component() {
                 <Button
                     name={undefined}
                 >
-                    Save
+                    {strings.perFormSaveButtonLabel}
                 </Button>
             )}
             info={(

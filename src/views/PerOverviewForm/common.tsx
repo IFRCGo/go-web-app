@@ -5,19 +5,6 @@ import {
 import { emailCondition } from '#utils/form';
 import type { GET } from '#types/serverResponse';
 
-export function booleanValueSelector<T extends { value: boolean }>(option: T) {
-    return option.value;
-}
-export function numericValueSelector<T extends { value: number }>(option: T) {
-    return option.value;
-}
-export function stringValueSelector<T extends { value: string }>(option: T) {
-    return option.value;
-}
-export function stringLabelSelector<T extends { label: string }>(option: T) {
-    return option.label;
-}
-
 export type PerOverviewFormFields = Omit<
     GET['api/v2/per-overview/:id'],
     'id'

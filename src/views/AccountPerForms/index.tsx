@@ -10,13 +10,6 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
-import { useRequest } from '#utils/restRequest';
-import {
-    STEP_OVERVIEW,
-    STEP_ASSESSMENT,
-    STEP_PRIORITIZATION,
-    STEP_WORKPLAN,
-} from '#utils/per';
 import Table from '#components/Table';
 import {
     createActionColumn,
@@ -33,6 +26,14 @@ import Link from '#components/Link';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
+import { useRequest } from '#utils/restRequest';
+import {
+    STEP_OVERVIEW,
+    STEP_ASSESSMENT,
+    STEP_PRIORITIZATION,
+    STEP_WORKPLAN,
+} from '#utils/per';
+import { numericIdSelector } from '#utils/selectors';
 
 import styles from './styles.module.css';
 
@@ -144,7 +145,7 @@ export function Component() {
             createStringColumn<PerProcessStatusItem, number | string>(
                 'phase',
                 'Phase',
-                (item) => (item.phase ? `${item.phase} - ${item.phase_display}` : '-'),
+                (item) => (isDefined(item.phase) ? `${item.phase} - ${item.phase_display}` : '-'),
             ),
             createActionColumn<PerProcessStatusItem, number | string>(
                 'actions',
@@ -193,7 +194,7 @@ export function Component() {
                 <>
                     {row}
                     <TableBodyContent
-                        keySelector={(item) => item.id}
+                        keySelector={numericIdSelector}
                         data={countryStatusResponse?.results}
                         columns={detailColumns}
                         cellClassName={styles.subCell}
@@ -207,10 +208,12 @@ export function Component() {
     return (
         <Container
             className={styles.accountPerForms}
+            // FIXME: use translations
             heading="PER Process Status"
             headingLevel={2}
             withHeaderBorder
             actions={(
+                // FIXME: use translations
                 <Link to={newPerOverviewFormRoute.absolutePath}>
                     Start New PER Process
                 </Link>
@@ -219,7 +222,7 @@ export function Component() {
             <Table
                 pending={aggregatedStatusPending}
                 columns={aggregatedColumns}
-                keySelector={(item) => item.id}
+                keySelector={numericIdSelector}
                 data={aggregatedStatusResponse?.results}
                 rowModifier={rowModifier}
             />

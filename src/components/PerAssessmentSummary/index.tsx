@@ -161,9 +161,11 @@ function PerAssessmentSummary(props: Props) {
         }),
     );
 
+    // NOTE: We need to discuss UI of this component
     return (
         <ExpandableContainer
             className={_cs(styles.perAssessmentSummary, className)}
+            // FIXME: use translation
             actions="Show Summary"
             childrenContainerClassName={styles.content}
         >
@@ -191,6 +193,7 @@ function PerAssessmentSummary(props: Props) {
             <StackedProgressBar
                 className={styles.componentRating}
                 data={statusGroupedComponentList ?? []}
+                // FIXME: don't use inline selectors
                 valueSelector={
                     (statusGroupedComponent) => (
                         statusGroupedComponent.components.length
@@ -204,6 +207,7 @@ function PerAssessmentSummary(props: Props) {
             <BarChart
                 className={styles.avgComponentRating}
                 data={averageRatingByAreaList}
+                // FIXME: don't use inline selectors
                 keySelector={(rating) => rating.areaId}
                 valueSelector={(rating) => rating.rating}
                 labelSelector={(rating) => rating.areaDisplay}

@@ -9,10 +9,10 @@ import type { Column, RowOptions, VerifyColumn } from '../types';
 import styles from './styles.module.css';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface Props<DATUM, KEY extends string | number, C extends Column<DATUM, KEY, any, any>> {
+interface Props<DATUM, KEY extends string | number, COLUMN extends Column<DATUM, KEY, any, any>> {
     data: DATUM[] | undefined | null;
     keySelector: (datum: DATUM, index: number) => KEY;
-    columns: C[] & VerifyColumn<C, DATUM, KEY>;
+    columns: COLUMN[] & VerifyColumn<COLUMN, DATUM, KEY>;
     rowClassName?: string | ((key: KEY, datum: DATUM) => (string | undefined));
     cellClassName?: string | ((key: KEY, datum: DATUM, columnKey: string) => (string | undefined));
     rowModifier?: (rowOptions: RowOptions<DATUM, KEY>) => React.ReactNode;

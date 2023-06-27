@@ -34,13 +34,17 @@ import { compareLabel } from '#utils/common';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
 import { STEP_OVERVIEW } from '#utils/per';
-
 import {
-    overviewSchema,
     booleanValueSelector,
     numericValueSelector,
     stringLabelSelector,
-} from './common';
+    stringNameSelector,
+    numericIdSelector,
+    stringKeySelector,
+    stringValueSelector,
+} from '#utils/selectors';
+
+import { overviewSchema } from './common';
 import type { PerOverviewFormFields } from './common';
 
 import i18n from './i18n.json';
@@ -108,6 +112,7 @@ export function Component() {
             setFileIdToUrlMap(
                 (prevValue) => ({
                     ...prevValue,
+                    // FIXME: add document details
                     // [orientation_document_details.id]: orientation_document_details.file,
                 }),
             );
@@ -259,8 +264,8 @@ export function Component() {
                     <SelectInput
                         name="type_of_assessment"
                         options={perOptionsResponse?.overviewassessmenttypes}
-                        keySelector={(assessmentType) => assessmentType.id}
-                        labelSelector={(assessmentType) => assessmentType.name}
+                        keySelector={numericIdSelector}
+                        labelSelector={stringNameSelector}
                         onChange={setFieldValue}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
@@ -313,8 +318,8 @@ export function Component() {
                         name="method_asmt_used"
                         value={value?.method_asmt_used}
                         options={perOptionsResponse?.overviewassessmentmethods}
-                        keySelector={(assessmentType) => assessmentType.key}
-                        labelSelector={(assessmentType) => assessmentType.value}
+                        keySelector={stringKeySelector}
+                        labelSelector={stringValueSelector}
                         onChange={setFieldValue}
                         error={error?.method_asmt_used}
                     />
