@@ -11,7 +11,8 @@ import {
 } from 'react-router-dom';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
-import useButtonFeatures, { Props as ButtonFeatureProps } from '#hooks/useButtonFeatures';
+import { useButtonFeatures } from '#components/Button';
+import type { ButtonFeatureProps } from '#components/Button';
 
 import styles from './styles.module.css';
 

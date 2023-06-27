@@ -45,6 +45,8 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
                             <Button
                                 name={false}
                                 onClick={setShowConfirmation}
+                                variant="secondary"
+                                // FIXME: use translations
                             >
                                 Cancel
                             </Button>
@@ -52,6 +54,7 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
                                 name={name}
                                 variant="primary"
                                 onClick={handleConfirmClick}
+                                // FIXME: use translations
                             >
                                 Ok
                             </Button>

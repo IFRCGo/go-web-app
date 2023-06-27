@@ -28,7 +28,7 @@ import Tab from '#components/Tabs/Tab';
 import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
-import Button from '#components/Button';
+import Button, { useButtonFeatures } from '#components/Button';
 // import FileInput from '#components/FileInput';
 import {
     useLazyRequest,
@@ -36,7 +36,6 @@ import {
 } from '#utils/restRequest';
 import { ymdToDateString } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
-import useButtonFeatures from '#hooks/useButtonFeatures';
 import useAlert from '#hooks/useAlert';
 
 // FIXME: this scrollToTop is specific to DREF Form
