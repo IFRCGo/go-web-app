@@ -11,6 +11,7 @@ import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Link from '#components/Link';
 import Container from '#components/Container';
+import SelectInput from '#components/SelectInput';
 import {
     createStringColumn,
     createDateColumn,
@@ -19,6 +20,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
+import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import type { FieldReport } from '#types/fieldReport';
@@ -29,12 +31,28 @@ import styles from './styles.module.css';
 const keySelector = (item: FieldReport) => item.id;
 
 type TableKey = number;
+interface AppealType {
+    value: string;
+    label: string;
+}
+
+// FIXME: translate this
+const appealTypeOptions: AppealType[] = [
+    { value: '0', label: 'DREF' },
+    { value: '1', label: 'Emergency Appeals' },
+    { value: '2', label: 'Movement' },
+    { value: '3', label: 'Early Action Protocol (EAP) Activation' },
+];
+
+const appealTypeKeySelector = (item: AppealType) => item.value;
+const appealTypeLabelSelector = (item: AppealType) => item.label;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
+    const [appealType, setAppealType] = useUrlSearchState('atype');
 
     const {
         country: countryRoute,
@@ -132,6 +150,17 @@ export function Component() {
             className={styles.allFieldReports}
             title={strings.allFieldReportsTitle}
             heading={heading}
+            info={(
+                <SelectInput
+                    label="Type of Appeal"
+                    name={undefined}
+                    value={appealType}
+                    onChange={setAppealType}
+                    keySelector={appealTypeKeySelector}
+                    labelSelector={appealTypeLabelSelector}
+                    options={appealTypeOptions}
+                />
+            )}
         >
             <Container
                 className={styles.fieldReportsTable}
