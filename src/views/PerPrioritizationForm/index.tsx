@@ -15,10 +15,12 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { STEP_PRIORITIZATION } from '#utils/per';
+import { STEP_PRIORITIZATION, PerProcessOutletContext } from '#utils/per';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
+import Portal from '#components/Portal';
 import Button from '#components/Button';
+import ConfirmButton from '#components/ConfirmButton';
 import BlockLoading from '#components/BlockLoading';
 import PerAssessmentSummary from '#components/PerAssessmentSummary';
 import useAlert from '#hooks/useAlert';
@@ -39,22 +41,18 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { perWorkPlanForm: perWorkPlanFormRoute } = useContext(RouteContext);
 
-    type StatusContextValue = {
-        statusResponse: GET['api/v2/per-process-status/:id'],
-        refetchStatusResponse: () => void,
-    }
-
     const {
         statusResponse,
         refetchStatusResponse,
-    } = useOutletContext<StatusContextValue>();
+        actionDivRef,
+    } = useOutletContext<PerProcessOutletContext>();
 
     const {
         value,
         validate,
         setValue,
         setFieldValue,
-        setError: onErrorSet,
+        setError,
     } = useForm(
         prioritizationSchema,
         {
@@ -158,12 +156,17 @@ export function Component() {
         },
     });
 
-    const componentResponses = perAssessmentResponse?.area_responses.flatMap(
+    const assessmentComponentResponses = perAssessmentResponse?.area_responses.flatMap(
         (areaResponse) => areaResponse.component_responses,
     ) ?? [];
 
-    const questionResponsesByComponent = listToMap(
-        componentResponses,
+    const assessmentComponentResponseMap = listToMap(
+        assessmentComponentResponses,
+        (componentResponse) => componentResponse.component,
+    );
+
+    const assessmentQuestionResponsesByComponent = listToMap(
+        assessmentComponentResponses,
         (componentResponse) => componentResponse.component,
         (componentResponse) => componentResponse.question_responses,
     );
@@ -174,7 +177,22 @@ export function Component() {
             // eslint-disable-next-line no-console
             console.error('Prioritization id not defined');
         }
-        savePerPrioritization(formValues);
+        savePerPrioritization({
+            ...formValues,
+            is_draft: true,
+        });
+    }, [savePerPrioritization, statusResponse]);
+
+    const handleFinalSubmit = useCallback((formValues: PartialPrioritization) => {
+        const prioritization = statusResponse?.prioritization;
+        if (isNotDefined(prioritization)) {
+            // eslint-disable-next-line no-console
+            console.error('Prioritization id not defined');
+        }
+        savePerPrioritization({
+            ...formValues,
+            is_draft: false,
+        });
     }, [savePerPrioritization, statusResponse]);
 
     const componentResponseMapping = listToMap(
@@ -211,9 +229,12 @@ export function Component() {
         (question) => question.component.area.title,
     );
 
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
+    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
+
     return (
         <form
-            onSubmit={createSubmitHandler(validate, onErrorSet, handleSubmit)}
+            onSubmit={handleFormSubmit}
             className={styles.perPrioritizationForm}
         >
             {pending && (
@@ -227,29 +248,52 @@ export function Component() {
                     areaIdToTitleMap={areaIdToTitleMap}
                 />
             )}
-            {!pending && formComponentResponse?.results?.map((component) => (
-                <ComponentInput
-                    key={component.id}
-                    index={componentResponseMapping[component.id]?.index}
-                    value={componentResponseMapping[component.id]?.value}
-                    onChange={setComponentValue}
-                    component={component}
-                    onSelectionChange={handleSelectionChange}
-                    questionResponses={questionResponsesByComponent[component.id]}
-                />
-            ))}
+            <div className={styles.componentList}>
+                {!pending && formComponentResponse?.results?.map((component) => {
+                    const rating = assessmentComponentResponseMap?.[component.id]?.rating_details;
+                    const ratingDisplay = rating ? `${rating.value} - ${rating.title}` : undefined;
+
+                    return (
+                        <ComponentInput
+                            key={component.id}
+                            index={componentResponseMapping[component.id]?.index}
+                            value={componentResponseMapping[component.id]?.value}
+                            onChange={setComponentValue}
+                            component={component}
+                            onSelectionChange={handleSelectionChange}
+                            questionResponses={assessmentQuestionResponsesByComponent[component.id]}
+                            ratingDisplay={ratingDisplay}
+                        />
+                    );
+                })}
+            </div>
             {!pending && (
                 <div className={styles.actions}>
-                    <Button
-                        type="submit"
-                        name="submit"
+                    <ConfirmButton
+                        name={undefined}
                         variant="secondary"
+                        onConfirm={handleFormFinalSubmit}
+                        disabled={savePerPrioritizationPending
+                            || statusResponse?.phase !== STEP_PRIORITIZATION}
+                        confirmHeading={strings.perPrioritizationConfirmHeading}
+                        confirmMessage={strings.perPrioritizationConfirmMessage}
+                    >
+                        {strings.perSelectAndAddToWorkPlan}
+                    </ConfirmButton>
+                </div>
+            )}
+            {actionDivRef.current && (
+                <Portal container={actionDivRef?.current}>
+                    <Button
+                        name={undefined}
+                        variant="secondary"
+                        onClick={handleFormSubmit}
                         disabled={savePerPrioritizationPending
                             || statusResponse?.phase !== STEP_PRIORITIZATION}
                     >
-                        {strings.perSelectAndAddToWorkPlan}
+                        {strings.perPrioritizationSaveLabel}
                     </Button>
-                </div>
+                </Portal>
             )}
         </form>
     );

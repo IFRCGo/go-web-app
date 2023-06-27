@@ -1,5 +1,14 @@
 .per-prioritization-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-3xl);
     color: inherit;
+
+    .component-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
+    }
 
     .actions {
         display: flex;

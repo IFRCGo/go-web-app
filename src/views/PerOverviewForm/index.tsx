@@ -15,16 +15,18 @@ import {
     createSubmitHandler,
     getErrorObject,
     getErrorString,
-    PartialForm,
 } from '@togglecorp/toggle-form';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
+
+import Portal from '#components/Portal';
+import Button from '#components/Button';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import SelectInput from '#components/SelectInput';
 import DateInput from '#components/DateInput';
 import TextInput from '#components/TextInput';
 import RadioInput from '#components/RadioInput';
-import Button from '#components/Button';
+import ConfirmButton from '#components/ConfirmButton';
 import NumberInput from '#components/NumberInput';
 import GoMultiFileInput from '#components/GoMultiFileInput';
 import useTranslation from '#hooks/useTranslation';
@@ -33,7 +35,7 @@ import { useLazyRequest, useRequest } from '#utils/restRequest';
 import { compareLabel } from '#utils/common';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
-import { STEP_OVERVIEW } from '#utils/per';
+import { PerProcessOutletContext } from '#utils/per';
 import {
     booleanValueSelector,
     numericValueSelector,
@@ -44,8 +46,10 @@ import {
     stringValueSelector,
 } from '#utils/selectors';
 
-import { overviewSchema } from './common';
-import type { PerOverviewFormFields } from './common';
+import {
+    overviewSchema,
+    PartialOverviewFormFields,
+} from './common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -55,7 +59,11 @@ type PerOverviewResponse = GET['api/v2/per-overview/:id'];
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
-    const { statusResponse } = useOutletContext<{ statusResponse: GET['api/v2/per-process-status/:id'] }>();
+    const {
+        statusResponse,
+        actionDivRef,
+        refetchStatusResponse,
+    } = useOutletContext<PerProcessOutletContext>();
 
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const strings = useTranslation(i18n);
@@ -77,12 +85,12 @@ export function Component() {
         value,
         setValue,
         setFieldValue,
-        error: riskyError,
+        error: formError,
         setError,
         validate,
     } = useForm(overviewSchema, { value: {} });
 
-    const error = getErrorObject(riskyError);
+    const error = getErrorObject(formError);
 
     const {
         pending: perOptionsPending,
@@ -122,12 +130,14 @@ export function Component() {
 
     const {
         trigger: savePerOverview,
-    } = useLazyRequest<PerOverviewResponse, PerOverviewFormFields>({
-        url: perId ? `api/v2/per-overview/${perId}/` : 'api/v2/new-per/',
+        pending: savePerPending,
+    } = useLazyRequest<PerOverviewResponse, PartialOverviewFormFields>({
+        url: perId ? `api/v2/per-overview/${perId}/` : 'api/v2/per-overview/',
         method: perId ? 'PUT' : 'POST',
         body: (ctx) => ctx,
         onSuccess: (response) => {
-            if (response && isNotDefined(perId) && isDefined(response.id)) {
+            if (response && isDefined(response.id)) {
+                refetchStatusResponse();
                 navigate(
                     generatePath(
                         perAssessmentFormRoute.absolutePath,
@@ -177,17 +187,30 @@ export function Component() {
     );
 
     const handleSubmit = useCallback(
-        (formValues: PartialForm<PerOverviewFormFields>) => {
-            savePerOverview(formValues as PerOverviewFormFields);
+        (formValues: PartialOverviewFormFields) => {
+            savePerOverview({
+                is_draft: true,
+                ...formValues,
+            });
         },
         [savePerOverview],
     );
 
+    const handleFinalSubmit = useCallback(
+        (formValues: PartialOverviewFormFields) => {
+            savePerOverview({
+                is_draft: false,
+                ...formValues,
+            });
+        },
+        [savePerOverview],
+    );
+
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
+    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
+
     return (
-        <form
-            className={styles.overviewForm}
-            onSubmit={createSubmitHandler(validate, setError, handleSubmit)}
-        >
+        <form className={styles.overviewForm}>
             <Container
                 childrenContainerClassName={styles.sectionContent}
             >
@@ -543,17 +566,32 @@ export function Component() {
                         error={error?.facilitator_contact}
                     />
                 </InputSection>
-                <div className={styles.actions}>
+            </Container>
+            <div className={styles.actions}>
+                <ConfirmButton
+                    name={undefined}
+                    confirmHeading={strings.perOverviewConfirmHeading}
+                    confirmMessage={strings.perOverviewConfirmMessage}
+                    onConfirm={handleFormFinalSubmit}
+                    disabled={isDefined(statusResponse?.phase) || savePerPending}
+                >
+                    {strings.perOverviewSetUpPerProcess}
+                </ConfirmButton>
+            </div>
+            {actionDivRef.current && (
+                <Portal
+                    container={actionDivRef.current}
+                >
                     <Button
                         name={undefined}
                         variant="secondary"
-                        type="submit"
-                        disabled={statusResponse?.phase !== STEP_OVERVIEW}
+                        onClick={handleFormSubmit}
+                        disabled={savePerPending}
                     >
-                        {strings.perOverviewSetUpPerProcess}
+                        {strings.perFormSaveLabel}
                     </Button>
-                </div>
-            </Container>
+                </Portal>
+            )}
         </form>
     );
 }

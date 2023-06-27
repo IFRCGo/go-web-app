@@ -25,3 +25,9 @@ export function getCurrentPerProcessStep(status: GET['api/v2/per-process-status/
 
     return STEP_OVERVIEW;
 }
+
+export interface PerProcessOutletContext {
+    statusResponse: GET['api/v2/per-process-status/:id'] | undefined,
+    refetchStatusResponse: () => void,
+    actionDivRef: React.RefObject<HTMLDivElement>,
+}

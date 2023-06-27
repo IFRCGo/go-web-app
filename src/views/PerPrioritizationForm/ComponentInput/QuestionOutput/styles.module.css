@@ -1,20 +1,30 @@
 .question-output {
     display: flex;
-    gap: var(--go-ui-spacing-md);
+    flex-direction: column;
     padding: var(--go-ui-spacing-sm);
 
-    .numbering {
-        flex-shrink: 0;
-        width: 2rem;
+    .question-row {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+        padding: var(--go-ui-spacing-sm);
+
+        .numbering {
+            flex-shrink: 0;
+            width: 2rem;
+        }
+
+        .question {
+            flex-grow: 1;
+        }
+
+        .answer {
+            flex-shrink: 0;
+            width: 3rem;
+        }
     }
 
-    .question {
-        flex-grow: 1;
-    }
-
-    .answer {
-        flex-shrink: 0;
-        width: 3rem;
+    .notes {
+        color: var(--go-ui-color-text-light);
     }
 
     &:nth-child(odd) {

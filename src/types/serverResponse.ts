@@ -177,6 +177,10 @@ interface PerOverviewResponse {
 interface PerPrioritizationResponse {
     id: number
     overview: number;
+
+    // FIXME: note implemented in the server yet
+    is_draft: boolean;
+
     component_responses: {
         component: number;
         component_details: {

@@ -7,7 +7,7 @@ import { Props as RadioProps } from '#components/RadioInput/Radio';
 import styles from './styles.module.css';
 
 // Note: more props can be picked as per requirement
-type ExtraSegmentProps<N> = Pick<ButtonProps<N>, 'icons' | 'iconsClassName' | 'actions' | 'actionsClassName'>;
+type ExtraSegmentProps<N> = Pick<ButtonProps<N>, 'icons' | 'iconsContainerClassName' | 'actions' | 'actionsContainerClassName'>;
 export interface SegmentProps<N, IN> extends RadioProps<N, IN>, ExtraSegmentProps<N> {
   variant?: 'primary' | 'secondary',
 }

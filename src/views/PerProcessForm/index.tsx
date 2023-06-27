@@ -1,11 +1,10 @@
 import { Outlet, useParams, generatePath } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useMemo, useRef } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
 import Page from '#components/Page';
-import Button from '#components/Button';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
@@ -15,6 +14,7 @@ import {
     STEP_PRIORITIZATION,
     STEP_ASSESSMENT,
     STEP_OVERVIEW,
+    PerProcessOutletContext,
 } from '#utils/per';
 import type { GET } from '#types/serverResponse';
 
@@ -45,6 +45,16 @@ export function Component() {
         ?? getCurrentPerProcessStep(statusResponse)
         ?? STEP_OVERVIEW;
 
+    const actionDivRef = useRef<HTMLDivElement>(null);
+    const outletContext: PerProcessOutletContext = useMemo(
+        () => ({
+            statusResponse,
+            refetchStatusResponse,
+            actionDivRef,
+        }),
+        [statusResponse, refetchStatusResponse, actionDivRef],
+    );
+
     return (
         <Page
             className={styles.perProcessForm}
@@ -52,11 +62,7 @@ export function Component() {
             heading={strings.perFormHeading}
             description={strings.perFormProcessDescription}
             actions={(
-                <Button
-                    name={undefined}
-                >
-                    {strings.perFormSaveButtonLabel}
-                </Button>
+                <div ref={actionDivRef} />
             )}
             info={(
                 <NavigationTabList
@@ -99,10 +105,7 @@ export function Component() {
             )}
         >
             <Outlet
-                context={{
-                    statusResponse,
-                    refetchStatusResponse,
-                }}
+                context={outletContext}
             />
         </Page>
     );

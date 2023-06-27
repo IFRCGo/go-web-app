@@ -4,6 +4,9 @@
         "perSelectAndAddToWorkPlan": "Select and add to Work-Plan",
         "perFormSaveRequestSuccessMessage": "PER Process created/updated successfully",
         "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
-        "perFormEnterJustification": "Enter Justification"
+        "perFormEnterJustification": "Enter Justification",
+        "perPrioritizationSaveLabel": "Save",
+        "perPrioritizationConfirmHeading": "Confirm Prioritization",
+        "perPrioritizationConfirmMessage": "You're about to submit the results of PER Prioritization. Once submitted, the results cannot be edited. You'll be redirected to the Workplan form after the successful submission"
     }
 }

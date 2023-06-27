@@ -25,7 +25,9 @@ export const overviewSchema: OverviewFormSchema = {
     fields: (): OverviewFormSchemaFields => ({
         country: { required: true },
         date_of_orientation: {},
-        orientation_documents_file: {},
+        orientation_documents_file: {
+            defaultValue: [],
+        },
         assessment_number: {},
         branches_involved: {},
         date_of_assessment: { required: true },
