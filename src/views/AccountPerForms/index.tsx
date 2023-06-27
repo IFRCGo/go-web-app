@@ -20,12 +20,15 @@ import {
     createExpandColumn,
     createEmptyColumn,
 } from '#components/Table/ColumnShortcuts';
+import { useSortState, SortContext } from '#components/Table/useSorting';
 import TableBodyContent from '#components/Table/TableBodyContent';
 import type { RowOptions } from '#components/Table/types';
 import Link from '#components/Link';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
+import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
 import {
     STEP_OVERVIEW,
@@ -35,6 +38,7 @@ import {
 } from '#utils/per';
 import { numericIdSelector } from '#utils/selectors';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PerProcessStatusResponse = GET['api/v2/aggregated-per-process-status'];
@@ -42,12 +46,24 @@ type PerProcessStatusItem = PerProcessStatusResponse['results'][number];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    const strings = useTranslation(i18n);
+    const sortState = useSortState({ name: 'date_of_assessment', direction: 'dsc' });
+    const { sorting } = sortState;
     const [expandedRow, setExpandedRow] = useState<PerProcessStatusItem | undefined>();
+    let ordering;
+    if (sorting) {
+        ordering = sorting.direction === 'dsc'
+            ? `-${sorting.name}`
+            : sorting.name;
+    }
     const {
         pending: aggregatedStatusPending,
         response: aggregatedStatusResponse,
     } = useRequest<PerProcessStatusResponse>({
         url: 'api/v2/aggregated-per-process-status',
+        query: {
+            ordering,
+        },
     });
 
     const {
@@ -123,7 +139,7 @@ export function Component() {
         () => ([
             createLinkColumn<PerProcessStatusItem, number | string>(
                 'country',
-                'Country',
+                strings.tableCountryTitle,
                 (item) => item.country_details?.name,
                 (item) => ({
                     to: generatePath(
@@ -134,18 +150,20 @@ export function Component() {
             ),
             createDateColumn<PerProcessStatusItem, number | string>(
                 'date_of_assessment',
-                'Start date',
+                strings.tableStartDateTitle,
                 (item) => item.date_of_assessment,
+                { sortable: true },
             ),
             createNumberColumn<PerProcessStatusItem, number | string>(
                 'assessment_number',
-                'PER cycle',
+                strings.tablePerCycleTitle,
                 (item) => item.assessment_number,
             ),
             createStringColumn<PerProcessStatusItem, number | string>(
                 'phase',
-                'Phase',
+                strings.tablePerPhaseTitle,
                 (item) => (isDefined(item.phase) ? `${item.phase} - ${item.phase_display}` : '-'),
+                { sortable: true },
             ),
             createActionColumn<PerProcessStatusItem, number | string>(
                 'actions',
@@ -154,13 +172,16 @@ export function Component() {
                         <Link
                             to={getRouteUrl(item.phase, item.id)}
                         >
-                            {`Edit ${item.phase_display}`}
+                            {resolveToString(
+                                strings.tableEditLabel,
+                                { phaseDisplay: item.phase_display },
+                            )}
                         </Link>
                     ) : undefined,
                 }),
             ),
         ]),
-        [countryRoute, getRouteUrl],
+        [strings, countryRoute, getRouteUrl],
     );
 
     const aggregatedColumns = useMemo(
@@ -208,24 +229,26 @@ export function Component() {
     return (
         <Container
             className={styles.accountPerForms}
-            // FIXME: use translations
-            heading="PER Process Status"
+            heading={strings.processStatusTitle}
             headingLevel={2}
             withHeaderBorder
             actions={(
-                // FIXME: use translations
-                <Link to={newPerOverviewFormRoute.absolutePath}>
-                    Start New PER Process
+                <Link
+                    to={newPerOverviewFormRoute.absolutePath}
+                >
+                    {strings.newProcessButtonLabel}
                 </Link>
             )}
         >
-            <Table
-                pending={aggregatedStatusPending}
-                columns={aggregatedColumns}
-                keySelector={numericIdSelector}
-                data={aggregatedStatusResponse?.results}
-                rowModifier={rowModifier}
-            />
+            <SortContext.Provider value={sortState}>
+                <Table
+                    pending={aggregatedStatusPending}
+                    columns={aggregatedColumns}
+                    keySelector={numericIdSelector}
+                    data={aggregatedStatusResponse?.results}
+                    rowModifier={rowModifier}
+                />
+            </SortContext.Provider>
         </Container>
     );
 }

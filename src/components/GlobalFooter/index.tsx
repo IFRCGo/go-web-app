@@ -9,7 +9,6 @@ import {
 } from '@ifrc-go/icons';
 
 import Heading from '#components/Heading';
-import ButtonLikeLink from '#components/ButtonLikeLink';
 import Link from '#components/Link';
 import PageContainer from '#components/PageContainer';
 import useTranslation from '#hooks/useTranslation';
@@ -101,11 +100,12 @@ function GlobalFooter(props: Props) {
                 <Heading>
                     {strings.footerContactUs}
                 </Heading>
-                <ButtonLikeLink
+                <Link
                     to="mailto:im@ifrc.org"
+                    variant="primary"
                 >
                     im@ifrc.org
-                </ButtonLikeLink>
+                </Link>
                 <div className={styles.socialIcons}>
                     <Link to="https://ifrcgoproject.medium.com">
                         <ThumbUpLineIcon />

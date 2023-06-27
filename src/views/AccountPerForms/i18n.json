@@ -1,0 +1,12 @@
+{
+    "namespace":"account",
+    "strings":{
+        "processStatusTitle":"PER Process Status",
+        "newProcessButtonLabel": "Start New PER Process",
+        "tableCountryTitle":"Country",
+        "tableStartDateTitle": "Start Date",
+        "tablePerCycleTitle": "PER Cycle",
+        "tablePerPhaseTitle": "PER Phase",
+        "tableEditLabel": "Edit {phaseDisplay}"
+    }
+}

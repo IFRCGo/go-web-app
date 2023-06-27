@@ -18,23 +18,23 @@ export interface Props {
     children?: React.ReactNode;
     variant?: ButtonVariant;
     actions?: React.ReactNode;
-    actionsClassName?: string;
-    childrenClassName?: string;
+    actionsContainerClassName?: string;
+    childrenContainerClassName?: string;
     disabled?: boolean;
     icons?: React.ReactNode;
-    iconsClassName?: string;
+    iconsContainerClassName?: string;
 }
 
 function useButtonFeatures(props: Props) {
     const {
         actions,
-        actionsClassName,
+        actionsContainerClassName: actionsClassName,
         children,
-        childrenClassName,
+        childrenContainerClassName: childrenClassName,
         className,
         disabled,
         icons,
-        iconsClassName,
+        iconsContainerClassName: iconsClassName,
         variant = 'primary',
     } = props;
 
