@@ -50,7 +50,6 @@ export function Component(props: Props) {
         url: `api/v2/country-plan/${countryDetails?.id}`,
     });
 
-
     return (
         <div className={_cs(styles.countryPlan, className)}>
             {hasCountryPlan && (
@@ -75,7 +74,8 @@ export function Component(props: Props) {
                         heading={strings.activeCountryPlanTitle}
                         actions={undefined}
                     />
-                    {(countryPlanResponse.internal_plan_file || countryPlanResponse.public_plan_file) && (
+                    {(countryPlanResponse.internal_plan_file
+                    || countryPlanResponse.public_plan_file) && (
                         <div className={styles.downloadLinks}>
                             {countryPlanResponse.public_plan_file && (
                                 <ButtonLikeLink
