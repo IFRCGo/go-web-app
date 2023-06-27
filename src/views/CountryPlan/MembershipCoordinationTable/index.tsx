@@ -5,7 +5,7 @@ import {
     isDefined,
     listToGroupList,
     listToMap,
-    unique
+    unique,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
@@ -40,8 +40,8 @@ function MemberCoordinationTable(props: Props) {
     const sectors = useMemo(
         () => (
             unique(
-                data.map(d => ({ key: d.sector, value: d.sector_display })),
-                d => d.key,
+                data.map((d) => ({ key: d.sector, value: d.sector_display })),
+                (d) => d.key,
             )
         ),
         [data],
@@ -51,11 +51,11 @@ function MemberCoordinationTable(props: Props) {
         () => (
             listToMap(
                 unique(
-                    data.filter(d => isDefined(d.id)),
-                    d => d.national_society,
+                    data.filter((d) => isDefined(d.id)),
+                    (d) => d.national_society,
                 ),
-                d => d.national_society,
-                d => d.national_society_name,
+                (d) => d.national_society,
+                (d) => d.national_society_name,
             )
         ),
         [data],
@@ -63,15 +63,13 @@ function MemberCoordinationTable(props: Props) {
 
     const nsGroupedCoordination = useMemo(() => (
         listToGroupList(
-            data.filter(d => isDefined(d.id)),
-            d => d.national_society,
-            d => d.sector,
+            data.filter((d) => isDefined(d.id)),
+            (d) => d.national_society,
+            (d) => d.sector,
         )
     ), [data]);
 
-    const nsGroupedCoordinationKeys = Object.keys(nsGroupedCoordination).map(d => +d);
-
-
+    const nsGroupedCoordinationKeys = Object.keys(nsGroupedCoordination).map((d) => +d);
 
     return (
         <Container
@@ -102,7 +100,7 @@ function MemberCoordinationTable(props: Props) {
                 <tbody>
                     {nsGroupedCoordinationKeys.map((ns) => {
                         const nsSectors = nsGroupedCoordination[ns];
-                        const nsSectorMap = listToMap(nsSectors, d => d, () => true);
+                        const nsSectorMap = listToMap(nsSectors, (d) => d, () => true);
 
                         return (
                             <tr key={ns}>
