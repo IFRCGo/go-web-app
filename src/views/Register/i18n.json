@@ -27,6 +27,8 @@
         "registerSubmitError": "There are errors in the form. Please correct them before submitting again.",
         "registerAccountPresent": "Already have an account? {loginLink}",
         "registerGotoLogin": "Go to login page",
-        "registerLogin": "Login"
+        "registerLogin": "Login",
+        "registrationFailure": "Sorry could not register new user right now !",
+        "registrationSuccess": "Successfully created a user !"
     }
 }

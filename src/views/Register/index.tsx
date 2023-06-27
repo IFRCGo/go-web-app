@@ -1,18 +1,23 @@
 import {
-    useState,
     useCallback,
     useMemo,
+    useContext,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {
+    useNavigate,
+    generatePath,
+} from 'react-router-dom';
 import {
     useForm,
     ObjectSchema,
     requiredStringCondition,
-    requiredCondition,
+    emailCondition,
     getErrorObject,
     PartialForm,
+    createSubmitHandler,
 } from '@togglecorp/toggle-form';
 
+import RouteContext from '#contexts/route';
 import Page from '#components/Page';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
@@ -63,6 +68,16 @@ type FormFields = PartialForm<Omit<ResponseFields, 'id' | 'token' | 'expires'>>;
 const defaultFormValue: FormFields = {};
 
 const formSchema: ObjectSchema<FormFields> = {
+    validation: (value) => {
+        if (
+            value?.password
+            && value?.confirmPassword
+            && value.password !== value.confirmPassword
+        ) {
+            return 'The passwords do not match.';
+        }
+        return undefined;
+    },
     fields: () => ({
         firstname: {
             required: true,
@@ -74,7 +89,7 @@ const formSchema: ObjectSchema<FormFields> = {
         },
         email: {
             required: true,
-            requiredCondition,
+            requiredCondition: emailCondition,
         },
         password: {
             required: true,
@@ -90,26 +105,17 @@ const formSchema: ObjectSchema<FormFields> = {
         },
         organizationType: {
             required: true,
-            requiredCondition,
         },
         country: {
             required: true,
-            requiredCondition,
         },
         city: {
             required: true,
             requiredCondition: requiredStringCondition,
         },
-        department: {
-            required: false,
-        },
-        position: {
-            required: false,
-        },
-        phone: {
-            required: false,
-        },
-
+        department: {},
+        position: {},
+        phone: {},
     }),
 };
 
@@ -135,21 +141,18 @@ const organizationTypeOptions: OptionType[] = [
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const { login: loginRoute } = useContext(RouteContext);
 
     const {
         value: formValue,
         error: formError,
         setFieldValue,
-        setValue,
         setError,
         validate,
     } = useForm(formSchema, { value: defaultFormValue });
 
     const alert = useAlert();
     const navigate = useNavigate();
-
-    const [countryName, setCountryName] = useState<number | undefined>(undefined);
-    const [organizationType, setOrganizationType] = useState<string | undefined>(undefined);
 
     const fieldError = getErrorObject(formError);
 
@@ -161,12 +164,12 @@ export function Component() {
         url: 'register',
         body: (body) => body,
         onSuccess: () => {
-            const message = 'Successfully created a user !';
+            const message = strings.registrationSuccess;
             alert.show(
                 message,
                 { variant: 'success' },
             );
-            navigate('/login');
+            navigate(generatePath(loginRoute.absolutePath));
         },
         onFailure: (error) => {
             const {
@@ -176,7 +179,7 @@ export function Component() {
             } = error;
             setError(formErrors);
             // FIXME: Error message from server is not properly sent
-            const message = 'Sorry could not register new user right now !';
+            const message = strings.registrationFailure;
             alert.show(
                 message,
                 { variant: 'danger' },
@@ -195,6 +198,7 @@ export function Component() {
         ),
         [countriesResponse],
     );
+
     const loginInfo = resolveToComponent(
         strings.registerAccountPresent,
         {
@@ -209,37 +213,11 @@ export function Component() {
         },
     );
 
-    const handleCountrySelect = useCallback((countrySelected: number | undefined) => {
-        setCountryName(countrySelected);
-        setValue({
-            ...formValue,
-            country: countrySelected,
-        });
-    }, [formValue, setValue]);
+    const handleRegister = useCallback((formValues: PartialForm<FormFields>) => {
+        register(formValues as FormFields);
+    }, [register]);
 
-    const handleOrganizationType = useCallback((org: string | undefined) => {
-        setOrganizationType(org);
-        setValue({
-            ...formValue,
-            organizationType: org,
-        });
-    }, [formValue, setValue]);
-
-    const handleRegister = useCallback(() => {
-        const result = validate();
-
-        if (result.errored) {
-            setError(result.error);
-            return;
-        }
-
-        const body = result.value;
-        register(body);
-    }, [
-        validate,
-        setError,
-        register,
-    ]);
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleRegister);
 
     return (
         <Page
@@ -313,8 +291,8 @@ export function Component() {
                         className={styles.inputField}
                         label={strings.registerCountry}
                         name="country"
-                        value={countryName}
-                        onChange={handleCountrySelect}
+                        value={formValue.country}
+                        onChange={setFieldValue}
                         keySelector={countryKeySelector}
                         labelSelector={countryNameSelector}
                         options={countryList}
@@ -348,8 +326,8 @@ export function Component() {
                         className={styles.inputField}
                         label={strings.registerOrganizationType}
                         name="organizationType"
-                        value={organizationType}
-                        onChange={handleOrganizationType}
+                        value={formValue.organizationType}
+                        onChange={setFieldValue}
                         keySelector={keySelector}
                         labelSelector={labelSelector}
                         options={organizationTypeOptions}
@@ -391,7 +369,7 @@ export function Component() {
                 <div className={styles.actions}>
                     <Button
                         name={undefined}
-                        onClick={handleRegister}
+                        onClick={handleFormSubmit}
                         disabled={registerPending}
                     >
                         {strings.registerSubmit}
