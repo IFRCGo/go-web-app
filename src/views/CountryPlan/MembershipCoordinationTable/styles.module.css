@@ -1,0 +1,48 @@
+.membership-coordination-table {
+    .content {
+        padding: 0!important;
+
+        table {
+            flex-grow: 1;
+            width: 100%;
+            overflow-x: auto;
+
+            th {
+                border-bottom: var(--go-ui-spacing-px) solid var(--go-ui-box-shadow-sm);
+                background-color: var(--go-ui-color-background);
+                padding: var(--go-ui-spacing-md);
+                vertical-align: bottom;
+
+                &.rotated {
+                    .th-content {
+                        writing-mode: vertical-lr;
+                        transform: rotate(180deg);
+                    }
+                }
+
+                &:first-child {
+                    width: 100%;
+                    vertical-align: bottom;
+                    text-align: left;
+
+                    .th-content {
+                        max-width: 8rem;
+                    }
+                }
+            }
+
+            td {
+                border-bottom: var(--go-ui-spacing-px) solid var(--go-ui-box-shadow-sm);
+                padding: var(--go-ui-spacing-md);
+
+                .checkmark-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--go-ui-color-primary-red);
+                    font-size: 1.5em;
+                }
+            }
+        }
+    }
+}
