@@ -135,7 +135,8 @@ interface PerOverviewResponse {
     ns_second_focal_point_email: string;
     ns_second_focal_point_name: string;
     ns_second_focal_point_phone: string;
-    orientation_document: number | null;
+    orientation_documents_file: number[] | null;
+    /*
     orientation_document_details: {
         caption: string | null;
         client_id: string | number | null;
@@ -149,6 +150,7 @@ interface PerOverviewResponse {
         file: string;
         id: number;
     };
+    */
     other_consideration: string;
     partner_focal_point_email: string;
     partner_focal_point_name: string;
@@ -227,13 +229,22 @@ export interface GET {
     'api/v2/per-options': {
         answers: PerFormAnswerItem[];
         componentratings: PerComponentRatingItem[];
+        overviewassessmentmethods: {
+            key: string;
+            value: string;
+        }[];
+        overviewassessmenttypes: {
+            id: number;
+            name: string;
+        }[];
         perphases: NumericKeyStringValue[];
         workplanstatus: NumericKeyStringValue[];
     };
     'api/v2/per-assessment/:id': PerAssessmentResponse;
-    'api/v2/new-per/:id': PerOverviewResponse;
+    'api/v2/per-overview/:id': PerOverviewResponse;
     'api/v2/per-process-status/:id': PerProcessStatusItem;
     'api/v2/per-process-status': ListResponse<PerProcessStatusItem>;
+    'api/v2/aggregated-per-process-status': ListResponse<PerProcessStatusItem>;
     'api/v2/per-assessmenttype': ListResponse<{
         id: number;
         name: string;

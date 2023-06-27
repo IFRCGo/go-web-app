@@ -4,6 +4,7 @@ import {
     compareDate,
     compareBoolean,
     _cs,
+    randomString,
 } from '@togglecorp/fujs';
 
 import DateOutput from '#components/DateOutput';
@@ -30,8 +31,7 @@ import type { HeaderCellProps } from '../HeaderCell';
 import Cell from '../Cell';
 import type { CellProps } from '../Cell';
 
-import type { Column } from '../index';
-import type { SortDirection } from '../types';
+import type { SortDirection, Column } from '../types';
 
 import ExpandButton from './ExpandButton';
 import type { ExpandButtonProps } from './ExpandButton';
@@ -119,6 +119,23 @@ export function createProgressColumn<D, K>(
         columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
+    return item;
+}
+
+export function createEmptyColumn<D, K>() {
+    const item: Column<D, K, CellProps<string>, HeaderCellProps> = {
+        id: randomString(),
+        title: '',
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: false,
+        },
+        cellRenderer: Cell,
+        cellRendererParams: (): CellProps<string> => ({
+            value: undefined,
+        }),
+    };
+
     return item;
 }
 
@@ -304,11 +321,11 @@ export function createLinkColumn<D, K>(
 export function createExpandColumn<D, K extends number | string | undefined>(
     id: string,
     title: string,
-    onClick: (rowId: K) => void,
+    onClick: (row: D) => void,
     expandedRowId: K | undefined,
-    options?: Options<D, K, ExpandButtonProps<K>, HeaderCellProps>,
+    options?: Options<D, K, ExpandButtonProps<D>, HeaderCellProps>,
 ) {
-    const item: Column<D, K, ExpandButtonProps<K>, HeaderCellProps> = {
+    const item: Column<D, K, ExpandButtonProps<D>, HeaderCellProps> = {
         id,
         title,
         columnClassName: options?.columnClassName,
@@ -321,8 +338,8 @@ export function createExpandColumn<D, K extends number | string | undefined>(
         cellRendererClassName: options?.cellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
         cellRenderer: ExpandButton,
-        cellRendererParams: (rowId: K) => ({
-            rowId,
+        cellRendererParams: (rowId, row) => ({
+            row,
             onClick,
             expanded: rowId === expandedRowId,
         }),
@@ -336,10 +353,7 @@ export function createExpandColumn<D, K extends number | string | undefined>(
 export function createActionColumn<D, K>(
     id: string,
     rendererParams: (datum: D) => TableActionsProps,
-    options?: {
-        cellRendererClassName?: string;
-        headerContainerClassName?: string;
-    },
+    options?: Options<D, K, TableActionsProps, HeaderCellProps>,
 ) {
     const item: Column<D, K, TableActionsProps, HeaderCellProps> = {
         id,
@@ -354,6 +368,12 @@ export function createActionColumn<D, K>(
             ...rendererParams(datum),
         }),
         cellRendererClassName: options?.cellRendererClassName,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: styles.numberCellHeader,
+        cellContainerClassName: options?.cellContainerClassName,
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
     };
 
     return item;

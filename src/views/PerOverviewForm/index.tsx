@@ -26,7 +26,7 @@ import TextInput from '#components/TextInput';
 import RadioInput from '#components/RadioInput';
 import Button from '#components/Button';
 import NumberInput from '#components/NumberInput';
-import GoSingleFileInput from '#components/GoSingleFileInput';
+import GoMultiFileInput from '#components/GoMultiFileInput';
 import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
@@ -34,19 +34,23 @@ import { compareLabel } from '#utils/common';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
 import { STEP_OVERVIEW } from '#utils/per';
-
 import {
-    overviewSchema,
     booleanValueSelector,
     numericValueSelector,
     stringLabelSelector,
-} from './common';
+    stringNameSelector,
+    numericIdSelector,
+    stringKeySelector,
+    stringValueSelector,
+} from '#utils/selectors';
+
+import { overviewSchema } from './common';
 import type { PerOverviewFormFields } from './common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type PerOverviewResponse = GET['api/v2/new-per/:id'];
+type PerOverviewResponse = GET['api/v2/per-overview/:id'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -81,10 +85,10 @@ export function Component() {
     const error = getErrorObject(riskyError);
 
     const {
-        pending: fetchingPerOptions,
-        response: assessmentTypeResponse,
-    } = useRequest<GET['api/v2/per-assessmenttype']>({
-        url: 'api/v2/per-assessmenttype/',
+        pending: perOptionsPending,
+        response: perOptionsResponse,
+    } = useRequest<GET['api/v2/per-options']>({
+        url: 'api/v2/per-options/',
     });
 
     const {
@@ -98,18 +102,18 @@ export function Component() {
 
     useRequest<PerOverviewResponse>({
         skip: isNotDefined(perId),
-        // FIXME: change endpoint name
-        url: `api/v2/new-per/${perId}`,
+        url: `api/v2/per-overview/${perId}`,
         onSuccess: (response) => {
             const {
-                orientation_document_details,
+                // orientation_document_details,
                 ...formValues
             } = response;
 
             setFileIdToUrlMap(
                 (prevValue) => ({
                     ...prevValue,
-                    [orientation_document_details.id]: orientation_document_details.file,
+                    // FIXME: add document details
+                    // [orientation_document_details.id]: orientation_document_details.file,
                 }),
             );
             setValue(formValues);
@@ -119,7 +123,7 @@ export function Component() {
     const {
         trigger: savePerOverview,
     } = useLazyRequest<PerOverviewResponse, PerOverviewFormFields>({
-        url: perId ? `api/v2/new-per/${perId}/` : 'api/v2/new-per/',
+        url: perId ? `api/v2/per-overview/${perId}/` : 'api/v2/new-per/',
         method: perId ? 'PUT' : 'POST',
         body: (ctx) => ctx,
         onSuccess: (response) => {
@@ -189,6 +193,7 @@ export function Component() {
             >
                 <InputSection
                     title={strings.perFormNationalSociety}
+                    twoColumn
                 >
                     <SelectInput
                         name="country"
@@ -209,6 +214,7 @@ export function Component() {
                 <InputSection
                     title={strings.perFormDateOfOrientation}
                     description={strings.perFormDateOfOrientationDescription}
+                    twoColumn
                 >
                     <DateInput
                         name="date_of_orientation"
@@ -220,17 +226,18 @@ export function Component() {
                 <InputSection
                     title={strings.perFormUploadADoc}
                 >
-                    <GoSingleFileInput
-                        name="orientation_document"
+                    <GoMultiFileInput
+                        name="orientation_documents_file"
                         accept=".docx, .pdf"
                         onChange={setFieldValue}
                         url="api/v2/per-file/"
-                        value={value?.orientation_document}
+                        value={value?.orientation_documents_file}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        disabled
                     >
                         Upload
-                    </GoSingleFileInput>
+                    </GoMultiFileInput>
                 </InputSection>
             </Container>
             <Container
@@ -239,6 +246,7 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
             >
                 <InputSection
+                    twoColumn
                     title={strings.perFormDateOfAssessment}
                     description={strings.perFormDateOfAssessmentDescription}
                 >
@@ -250,21 +258,23 @@ export function Component() {
                     />
                 </InputSection>
                 <InputSection
+                    twoColumn
                     title={strings.perFormTypeOfAssessment}
                 >
                     <SelectInput
                         name="type_of_assessment"
-                        options={assessmentTypeResponse?.results}
-                        keySelector={(assessmentType) => assessmentType.id}
-                        labelSelector={(assessmentType) => assessmentType.name}
+                        options={perOptionsResponse?.overviewassessmenttypes}
+                        keySelector={numericIdSelector}
+                        labelSelector={stringNameSelector}
                         onChange={setFieldValue}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
-                        disabled={fetchingPerOptions}
+                        disabled={perOptionsPending}
                     />
                 </InputSection>
                 <InputSection
                     title={strings.perFormDateOfPreviousPerAssessment}
+                    twoColumn
                 >
                     <DateInput
                         name="date_of_previous_assessment"
@@ -273,19 +283,22 @@ export function Component() {
                         error={error?.date_of_previous_assessment}
                     />
                 </InputSection>
+                {/* FIXME: Implement this field (probably auto filled)
                 <InputSection
                     title={strings.perFormTypeOfPreviousPerAssessment}
+                    twoColumn
                 >
                     <SelectInput
-                        name="type_of_assessment"
-                        options={assessmentTypeResponse?.results}
+                        name="type_of_previous_assessment"
+                        options={perOptionsResponse?.overviewassessmenttypes}
                         keySelector={(assessmentType) => assessmentType.id}
                         labelSelector={(assessmentType) => assessmentType.name}
                         onChange={setFieldValue}
-                        value={value?.type_of_assessment}
-                        error={getErrorString(error?.type_of_assessment)}
+                        value={value?.type_of_previous_assessment}
+                        error={getErrorString(error?.type_of_previous_assessment)}
                     />
                 </InputSection>
+                */}
                 <InputSection
                     title={strings.perFormBranchesInvolved}
                     description={strings.perFormbranchesInvolvedDescription}
@@ -299,10 +312,14 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.perFormWhatMethodHasThisAssessmentUsed}
+                    twoColumn
                 >
-                    <TextInput
+                    <SelectInput
                         name="method_asmt_used"
                         value={value?.method_asmt_used}
+                        options={perOptionsResponse?.overviewassessmentmethods}
+                        keySelector={stringKeySelector}
+                        labelSelector={stringValueSelector}
                         onChange={setFieldValue}
                         error={error?.method_asmt_used}
                     />
@@ -358,6 +375,7 @@ export function Component() {
                 <InputSection
                     title={strings.perFormPerProcessCycleNumber}
                     description={strings.perFormAssessmentNumberDescription}
+                    twoColumn
                 >
                     <NumberInput
                         readOnly

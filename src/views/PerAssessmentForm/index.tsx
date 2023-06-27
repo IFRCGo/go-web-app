@@ -116,10 +116,10 @@ export function Component() {
     /*
     const {
         response: perOverviewResponse,
-    } = useRequest<GET['api/v2/new-per/:id']>({
+    } = useRequest<GET['api/v2/per-overview/:id']>({
         skip: isNotDefined(statusResponse?.id),
         // FIXME: change endpoint name
-        url: `api/v2/new-per/${statusResponse?.id}`,
+        url: `api/v2/per-overview/${statusResponse?.id}`,
     });
     */
 

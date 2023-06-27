@@ -1,10 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MdSearch, MdSearchOff } from 'react-icons/md';
 import { isDefined, mapToList, isNotDefined } from '@togglecorp/fujs';
 import {
-    IoSearch, IoChevronForward, IoChevronBack, IoCloseOutline,
-} from 'react-icons/io5';
+    ChevronRightLineIcon,
+    ChevronLeftLineIcon,
+    CloseLineIcon,
+    SearchLineIcon,
+    SearchEyeLineIcon,
+} from '@ifrc-go/icons';
 import Container from '#components/Container';
 import ButtonLikeLink from '#components/ButtonLikeLink';
 import Button from '#components/Button';
@@ -188,7 +191,7 @@ export function Component() {
                 <div className={styles.feedbackSection}>
                     <TextInput
                         className={styles.inputSection}
-                        icons={<IoSearch />}
+                        icons={<SearchLineIcon />}
                         variant="general"
                         actions={searchString && (
                             <Button
@@ -196,7 +199,7 @@ export function Component() {
                                 variant="tertiary"
                                 onClick={handleClearSearchInput}
                             >
-                                <IoCloseOutline />
+                                <CloseLineIcon />
                             </Button>
                         )}
                         name="search"
@@ -231,12 +234,12 @@ export function Component() {
                 <Container childrenContainerClassName={styles.emptySearchContent}>
                     {isDefined(searchString) && searchString.trim().length > 2 ? (
                         <>
-                            <MdSearchOff className={styles.icon} />
+                            <SearchEyeLineIcon className={styles.icon} />
                             {strings.searchResultforQuery}
                         </>
                     ) : (
                         <>
-                            <MdSearch className={styles.icon} />
+                            <SearchLineIcon className={styles.icon} />
                             {strings.searchThreeCharactersRequired}
                         </>
                     )}
@@ -253,7 +256,7 @@ export function Component() {
                                     name={undefined}
                                     variant="tertiary"
                                     onClick={setActiveView}
-                                    icons={<IoChevronBack />}
+                                    icons={<ChevronLeftLineIcon />}
                                 >
                                     {strings.searchGoBack}
                                 </Button>
@@ -280,7 +283,7 @@ export function Component() {
                                         name={score.key}
                                         variant="tertiary"
                                         onClick={setActiveView}
-                                        actions={<IoChevronForward />}
+                                        actions={<ChevronRightLineIcon />}
                                     >
                                         {viewAllStringMap[score.key]}
                                     </Button>

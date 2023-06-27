@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { IoAdd } from 'react-icons/io5';
+import { AddLineIcon } from '@ifrc-go/icons';
 import { useOutletContext } from 'react-router-dom';
 import {
     isDefined,
@@ -264,7 +264,7 @@ export function Component() {
                                 name={undefined}
                                 variant="secondary"
                                 onClick={handleAddCustomActivity}
-                                icons={<IoAdd />}
+                                icons={<AddLineIcon />}
                             >
                                 {strings.perFormAddAnActionButton}
                             </Button>

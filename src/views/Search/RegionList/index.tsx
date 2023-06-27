@@ -1,6 +1,5 @@
 import { generatePath } from 'react-router-dom';
 import { useContext } from 'react';
-import { IoChevronForwardOutline } from 'react-icons/io5';
 
 import Container from '#components/Container';
 import Link from '#components/Link';
@@ -44,8 +43,8 @@ function RegionList(props: Props) {
                     to={generatePath(regionRoute.absolutePath, { regionId: String(region.id) })}
                     className={styles.regionName}
                     key={region.id}
-                    actions={<IoChevronForwardOutline />}
                     withUnderline
+                    withForwardIcon
                 >
                     {region.name}
                 </Link>

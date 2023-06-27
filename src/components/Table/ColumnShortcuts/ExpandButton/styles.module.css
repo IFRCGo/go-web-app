@@ -1,0 +1,5 @@
+.expand-button {
+    .icon {
+        font-size: var(--go-ui-font-size-icon-multiplier);
+    }
+}

@@ -1,0 +1,8 @@
+.table-actions {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+
+    .more-icon {
+        font-size: var(--go-ui-font-size-icon-multiplier);
+    }
+}

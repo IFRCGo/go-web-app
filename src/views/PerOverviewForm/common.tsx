@@ -5,21 +5,8 @@ import {
 import { emailCondition } from '#utils/form';
 import type { GET } from '#types/serverResponse';
 
-export function booleanValueSelector<T extends { value: boolean }>(option: T) {
-    return option.value;
-}
-export function numericValueSelector<T extends { value: number }>(option: T) {
-    return option.value;
-}
-export function stringValueSelector<T extends { value: string }>(option: T) {
-    return option.value;
-}
-export function stringLabelSelector<T extends { label: string }>(option: T) {
-    return option.label;
-}
-
 export type PerOverviewFormFields = Omit<
-    GET['api/v2/new-per/:id'],
+    GET['api/v2/per-overview/:id'],
     'id'
     | 'country_details'
     | 'type_of_assessment_details'
@@ -38,7 +25,7 @@ export const overviewSchema: OverviewFormSchema = {
     fields: (): OverviewFormSchemaFields => ({
         country: { required: true },
         date_of_orientation: {},
-        orientation_document: {},
+        orientation_documents_file: {},
         assessment_number: {},
         branches_involved: {},
         date_of_assessment: { required: true },

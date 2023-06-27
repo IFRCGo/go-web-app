@@ -36,6 +36,8 @@
     --go-ui-font-weight-extrabold: 800;
     --go-ui-font-weight-black: 900;
 
+    --go-ui-font-size-icon-multiplier: 1.5em;
+
     --go-ui-width-screen-sm: 640px;
     --go-ui-width-screen-md: 768px;
     --go-ui-width-screen-lg: 1024px;
@@ -154,7 +156,7 @@
     --go-ui-color-information: var(--go-ui-color-blue);
     --go-ui-color-warning: var(--go-ui-color-yellow);
     --go-ui-color-negative: var(--go-ui-color-red);
-    --go-ui-color-separator: var(--go-ui-color-gray-30);
+    --go-ui-color-separator: rgb(0 0 0 / 0.1);
     --go-ui-color-background: #F7F7F7;
     --go-ui-color-background-overlay: rgb(255 255 255 / .88);
 

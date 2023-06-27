@@ -5,6 +5,7 @@ import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
 import Page from '#components/Page';
+import Button from '#components/Button';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
@@ -50,6 +51,13 @@ export function Component() {
             title={strings.perFormTitle}
             heading={strings.perFormHeading}
             description={strings.perFormProcessDescription}
+            actions={(
+                <Button
+                    name={undefined}
+                >
+                    {strings.perFormSaveButtonLabel}
+                </Button>
+            )}
             info={(
                 <NavigationTabList
                     className={styles.tabList}
