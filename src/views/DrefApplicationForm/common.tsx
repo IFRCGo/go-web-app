@@ -270,7 +270,7 @@ export interface DrefApiFields extends Omit<DrefFields, 'event_map_details' | 'c
         id: number,
         caption: string | null,
         client_id: string | null,
-        file: string;
+        file: string | null;
     }[];
     cover_image_file: SingleFileWithCaption;
     event_map_details: SingleFileWithCaption;

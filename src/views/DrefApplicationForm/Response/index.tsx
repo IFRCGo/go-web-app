@@ -11,7 +11,7 @@ import {
     useFormArray,
     getErrorObject,
 } from '@togglecorp/toggle-form';
-import { IoWarning } from 'react-icons/io5';
+import { AlertWarningLineIcon } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
@@ -22,12 +22,12 @@ import TextArea from '#components/TextArea';
 import InputLabel from '#components/InputLabel';
 import { sumSafe } from '#utils/common';
 import RadioInput from '#components/RadioInput';
+import GoSingleFileInput from '#components/GoSingleFileInput';
 import {
     BooleanValueOption,
     StringValueOption,
 } from '#types/common';
 import useTranslation from '#hooks/useTranslation';
-// import DREFFileInput from '#components/DREFFileInput';
 
 import InterventionInput from './InterventionInput';
 import RiskSecurityInput from './RiskSecurityInput';
@@ -55,8 +55,8 @@ interface Props {
     onValueChange: (...entries: EntriesAsList<Value>) => void;
     value: Value;
     interventionOptions: StringValueOption[];
-    // fileIdToUrlMap: Record<number, string>;
-    // setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    fileIdToUrlMap: Record<number, string>;
+    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     yesNoOptions: BooleanValueOption[];
     drefType?: number;
 }
@@ -68,12 +68,8 @@ function Response(props: Props) {
         error: formError,
         onValueChange,
         interventionOptions,
-        // FIXME
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        // fileIdToUrlMap,
-        // FIXME
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        // setFileIdToUrlMap,
+        fileIdToUrlMap,
+        setFileIdToUrlMap,
         value,
         yesNoOptions,
         drefType,
@@ -214,7 +210,7 @@ function Response(props: Props) {
                 <InputSection
                     title={strings.drefFormResponseRationale}
                     description={drefType === TYPE_ASSESSMENT
-                    && strings.drefFormResponseRationaleDescription}
+                        && strings.drefFormResponseRationaleDescription}
                 >
                     <TextArea
                         name="response_strategy"
@@ -264,7 +260,7 @@ function Response(props: Props) {
                             className={styles.warning}
                             key={w}
                         >
-                            <IoWarning />
+                            <AlertWarningLineIcon />
                             {w}
                         </div>
                     ))
@@ -373,7 +369,7 @@ function Response(props: Props) {
                 <InputSection
                     title={strings.drefFormRiskSecurityPotentialRisk}
                     description={drefType === TYPE_ASSESSMENT
-                    && strings.drefFormRiskSecurityPotentialRiskDescription}
+                        && strings.drefFormRiskSecurityPotentialRiskDescription}
                     multiRow
                     oneColumn
                 >
@@ -413,26 +409,23 @@ function Response(props: Props) {
                 className={styles.plannedIntervention}
             >
                 <InputSection>
-                    {/*
-                    <DREFFileInput
+                    <GoSingleFileInput
                         accept=".pdf"
-                        label={strings.drefFormBudgetTemplateLabel}
                         name="budget_file"
-                        value={value.budget_file}
                         onChange={onValueChange}
-                        error={error?.budget_file}
+                        url="api/v2/dref-files/"
+                        value={value?.budget_file}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                     >
                         {strings.drefFormBudgetTemplateUploadButtonLabel}
-                    </DREFFileInput>
-                    */}
+                    </GoSingleFileInput>
                 </InputSection>
                 <InputSection
                     normalDescription
                     description={!plannedBudgetMatchRequestedAmount && (
                         <div className={styles.warning}>
-                            Total amount of planned budget does not match the Requested Amount
+                            {strings.drefFormResponseTotalAmountOfPlannedBudget}
                         </div>
                     )}
                 >
@@ -454,7 +447,7 @@ function Response(props: Props) {
                             onClick={handleInterventionAddButtonClick}
                             disabled={isNotDefined(intervention)}
                         >
-                            Add
+                            {strings.drefFormResponseAddButton}
                         </Button>
                     </div>
                 </InputSection>
@@ -488,7 +481,7 @@ function Response(props: Props) {
                 <InputSection
                     title={strings.drefFormSurgePersonnelDeployed}
                     description={isSurgePersonnelDeployed
-                    && strings.drefFormSurgePersonnelDeployedDescription}
+                        && strings.drefFormSurgePersonnelDeployedDescription}
                     oneColumn
                     multiRow
                 >
@@ -541,7 +534,7 @@ function Response(props: Props) {
                         </InputSection>
                         <InputSection
                             title={strings.drefFormCommunication}
-                            description={strings.drefFormCommunicationDescripiton}
+                            description={strings.drefFormCommunicationDescription}
                         >
                             <TextArea
                                 label={strings.drefFormDescription}

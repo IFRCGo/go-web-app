@@ -6,6 +6,7 @@
         "drefOperationalUpdateIndicatorMaleLabel": "Male",
         "drefOperationalUpdateIndicatorFemaleLabel": "Female",
         "drefFormListOfActivities": "List of Activities",
-        "drefOperationalUpdateProgressTowardsOutcome": "Progress Towards Outcome"
+        "drefOperationalUpdateProgressTowardsOutcome": "Progress Towards Outcome",
+        "drefOperationalAddIndicatorButton": "Add Indicator"
     }
 }

@@ -6,6 +6,8 @@ import {
     useMemo,
 } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { UploadCloudLineIcon } from '@ifrc-go/icons';
+
 import {
     isDefined,
     listToMap,
@@ -18,7 +20,6 @@ import {
     getErrorObject,
     ObjectError,
 } from '@togglecorp/toggle-form';
-// import { IoCloudUploadSharp } from 'react-icons/io5';
 
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
@@ -28,7 +29,7 @@ import Tab from '#components/Tabs/Tab';
 import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
-import Button, { useButtonFeatures } from '#components/Button';
+import Button from '#components/Button';
 // import FileInput from '#components/FileInput';
 import {
     useLazyRequest,
@@ -41,6 +42,7 @@ import useAlert from '#hooks/useAlert';
 // FIXME: this scrollToTop is specific to DREF Form
 import scrollToTop from '#utils/scrollToTop';
 import { User } from '#components/UserMultiSelectInput';
+import GoSingleFileInput from '#components/GoSingleFileInput';
 
 import DrefOverview from './DrefOverview';
 import EventDetails from './EventDetails';
@@ -61,14 +63,13 @@ import {
 } from './common';
 
 import useDrefFormOptions, { schema } from './useDrefFormOptions';
-import i18n from './i18n.json';
-/*
+
 import {
     getImportData,
     transformImport,
 } from './import';
-*/
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const defaultFormValues: PartialForm<DrefFields> = {
@@ -118,6 +119,8 @@ export function Component(props: Props) {
         setError,
         setValue,
     } = useForm(schema, { value: defaultFormValues });
+
+    const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
 
     const {
         countryOptions,
@@ -475,11 +478,11 @@ export function Component(props: Props) {
     }, [handleTabChange, currentStep]);
 
     const pending = fetchingCountries
-    || fetchingDisasterTypes
-    || fetchingDrefOptions
-    || fetchingUserDetails
-    || drefSubmitPending
-    || drefApplicationPending;
+        || fetchingDisasterTypes
+        || fetchingDrefOptions
+        || fetchingUserDetails
+        || drefSubmitPending
+        || drefApplicationPending;
 
     const drefType = value.type_of_dref;
     const onsetType = value.type_of_onset;
@@ -559,7 +562,6 @@ export function Component(props: Props) {
 
     const failedToLoadDref = !pending && isDefined(drefId) && !drefResponse;
 
-    /*
     const handleDocumentImport = useCallback(async (newValue: File | undefined) => {
         if (!newValue) {
             return;
@@ -590,7 +592,6 @@ export function Component(props: Props) {
         onsetOptions,
         setValue,
     ]);
-    */
 
     const handleObsoletePayloadResolutionOverwiteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
@@ -628,6 +629,20 @@ export function Component(props: Props) {
                                 Import from Document
                             </FileInput>
                         ) */}
+                        {isNotDefined(drefId) && drefType !== TYPE_LOAN && (
+                            <GoSingleFileInput
+                                name="dref-docx-import"
+                                accept=".docx"
+                                onChange={handleDocumentImport}
+                                url="api/v2/dref-files/"
+                                icons={<UploadCloudLineIcon />}
+                                value={undefined}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                            >
+                                {strings.drefFormImportFromDocument}
+                            </GoSingleFileInput>
+                        )}
                         {isDefined(drefId) && (
                             <Link
                                 to={`/dref-application/${drefId}/export/`}
@@ -728,8 +743,8 @@ export function Component(props: Props) {
                                 disasterCategoryOptions={disasterCategoryOptions}
                                 countryOptions={countryOptions}
                                 nationalSocietyOptions={nationalSocietyOptions}
-                                // fileIdToUrlMap={fileIdToUrlMap}
-                                // setFileIdToUrlMap={setFileIdToUrlMap}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
                                 onValueSet={setValue}
                                 onCreateAndShareButtonClick={submitDref}
                                 drefTypeOptions={drefTypeOptions}
@@ -746,8 +761,8 @@ export function Component(props: Props) {
                                 onValueChange={setFieldValue}
                                 value={value}
                                 yesNoOptions={yesNoOptions}
-                                // fileIdToUrlMap={fileIdToUrlMap}
-                                // setFileIdToUrlMap={setFileIdToUrlMap}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
                             />
                         </TabPanel>
                         {drefType !== TYPE_LOAN && (
@@ -759,8 +774,8 @@ export function Component(props: Props) {
                                     yesNoOptions={yesNoOptions}
                                     needOptions={needOptions}
                                     nsActionOptions={nsActionOptions}
-                                    // fileIdToUrlMap={fileIdToUrlMap}
-                                    // setFileIdToUrlMap={setFileIdToUrlMap}
+                                    fileIdToUrlMap={fileIdToUrlMap}
+                                    setFileIdToUrlMap={setFileIdToUrlMap}
                                     drefType={drefType}
                                 />
                             </TabPanel>
@@ -772,8 +787,8 @@ export function Component(props: Props) {
                                     error={error}
                                     onValueChange={setFieldValue}
                                     value={value}
-                                    // fileIdToUrlMap={fileIdToUrlMap}
-                                    // setFileIdToUrlMap={setFileIdToUrlMap}
+                                    fileIdToUrlMap={fileIdToUrlMap}
+                                    setFileIdToUrlMap={setFileIdToUrlMap}
                                     yesNoOptions={yesNoOptions}
                                     drefType={drefType}
                                 />

@@ -13,8 +13,8 @@ import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
 
 import { DrefFields, TYPE_LOAN } from '../common';
-import i18n from './i18n.json';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Value = PartialForm<DrefFields>;
@@ -141,28 +141,28 @@ function Submission(props: Props) {
                     twoColumn
                 >
                     <TextInput
-                        label="Name"
+                        label={strings.drefFormSubmissionNameLabel}
                         name="ifrc_appeal_manager_name"
                         value={value.ifrc_appeal_manager_name}
                         onChange={onValueChange}
                         error={error?.ifrc_appeal_manager_name}
                     />
                     <TextInput
-                        label="Title"
+                        label={strings.drefFormSubmissionTitleLabel}
                         name="ifrc_appeal_manager_title"
                         value={value.ifrc_appeal_manager_title}
                         onChange={onValueChange}
                         error={error?.ifrc_appeal_manager_title}
                     />
                     <TextInput
-                        label="Email"
+                        label={strings.drefFromSubmissionEmailLabel}
                         name="ifrc_appeal_manager_email"
                         value={value.ifrc_appeal_manager_email}
                         onChange={onValueChange}
                         error={error?.ifrc_appeal_manager_email}
                     />
                     <TextInput
-                        label="Phone Number"
+                        label={strings.drefFromSubmissionPhoneNumberLabel}
                         name="ifrc_appeal_manager_phone_number"
                         value={value.ifrc_appeal_manager_phone_number}
                         onChange={onValueChange}
@@ -176,28 +176,28 @@ function Submission(props: Props) {
                     twoColumn
                 >
                     <TextInput
-                        label="Name"
+                        label={strings.drefFormSubmissionNameLabel}
                         name="ifrc_project_manager_name"
                         value={value.ifrc_project_manager_name}
                         onChange={onValueChange}
                         error={error?.ifrc_project_manager_name}
                     />
                     <TextInput
-                        label="Title"
+                        label={strings.drefFormSubmissionTitleLabel}
                         name="ifrc_project_manager_title"
                         value={value.ifrc_project_manager_title}
                         onChange={onValueChange}
                         error={error?.ifrc_project_manager_title}
                     />
                     <TextInput
-                        label="Email"
+                        label={strings.drefFromSubmissionEmailLabel}
                         name="ifrc_project_manager_email"
                         value={value.ifrc_project_manager_email}
                         onChange={onValueChange}
                         error={error?.ifrc_project_manager_email}
                     />
                     <TextInput
-                        label="Phone Number"
+                        label={strings.drefFromSubmissionPhoneNumberLabel}
                         name="ifrc_project_manager_phone_number"
                         value={value.ifrc_project_manager_phone_number}
                         onChange={onValueChange}
@@ -212,28 +212,28 @@ function Submission(props: Props) {
                             twoColumn
                         >
                             <TextInput
-                                label="Name"
+                                label={strings.drefFormSubmissionNameLabel}
                                 name="national_society_contact_name"
                                 value={value.national_society_contact_name}
                                 onChange={onValueChange}
                                 error={error?.national_society_contact_name}
                             />
                             <TextInput
-                                label="Title"
+                                label={strings.drefFormSubmissionTitleLabel}
                                 name="national_society_contact_title"
                                 value={value.national_society_contact_title}
                                 onChange={onValueChange}
                                 error={error?.national_society_contact_title}
                             />
                             <TextInput
-                                label="Email"
+                                label={strings.drefFromSubmissionEmailLabel}
                                 name="national_society_contact_email"
                                 value={value.national_society_contact_email}
                                 onChange={onValueChange}
                                 error={error?.national_society_contact_email}
                             />
                             <TextInput
-                                label="Phone Number"
+                                label={strings.drefFromSubmissionPhoneNumberLabel}
                                 name="national_society_contact_phone_number"
                                 value={value.national_society_contact_phone_number}
                                 onChange={onValueChange}
@@ -249,28 +249,28 @@ function Submission(props: Props) {
                             twoColumn
                         >
                             <TextInput
-                                label="Name"
+                                label={strings.drefFormSubmissionNameLabel}
                                 name="ifrc_emergency_name"
                                 value={value.ifrc_emergency_name}
                                 onChange={onValueChange}
                                 error={error?.ifrc_emergency_name}
                             />
                             <TextInput
-                                label="Title"
+                                label={strings.drefFormSubmissionTitleLabel}
                                 name="ifrc_emergency_title"
                                 value={value.ifrc_emergency_title}
                                 onChange={onValueChange}
                                 error={error?.ifrc_emergency_title}
                             />
                             <TextInput
-                                label="Email"
+                                label={strings.drefFromSubmissionEmailLabel}
                                 name="ifrc_emergency_email"
                                 value={value.ifrc_emergency_email}
                                 onChange={onValueChange}
                                 error={error?.ifrc_emergency_email}
                             />
                             <TextInput
-                                label="Phone Number"
+                                label={strings.drefFromSubmissionPhoneNumberLabel}
                                 name="ifrc_emergency_phone_number"
                                 value={value.ifrc_emergency_phone_number}
                                 onChange={onValueChange}
@@ -286,28 +286,28 @@ function Submission(props: Props) {
                             twoColumn
                         >
                             <TextInput
-                                label="Name"
+                                label={strings.drefFormSubmissionNameLabel}
                                 name="media_contact_name"
                                 value={value.media_contact_name}
                                 onChange={onValueChange}
                                 error={error?.media_contact_name}
                             />
                             <TextInput
-                                label="Title"
+                                label={strings.drefFormSubmissionTitleLabel}
                                 name="media_contact_title"
                                 value={value.media_contact_title}
                                 onChange={onValueChange}
                                 error={error?.media_contact_title}
                             />
                             <TextInput
-                                label="Email"
+                                label={strings.drefFromSubmissionEmailLabel}
                                 name="media_contact_email"
                                 value={value.media_contact_email}
                                 onChange={onValueChange}
                                 error={error?.media_contact_email}
                             />
                             <TextInput
-                                label="Phone Number"
+                                label={strings.drefFromSubmissionPhoneNumberLabel}
                                 name="media_contact_phone_number"
                                 value={value.media_contact_phone_number}
                                 onChange={onValueChange}

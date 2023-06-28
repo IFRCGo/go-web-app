@@ -6,7 +6,7 @@ import {
     useFormObject,
     getErrorObject,
 } from '@togglecorp/toggle-form';
-import { IoTrash } from 'react-icons/io5';
+import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 
 import TextArea from '#components/TextArea';
 import Button from '#components/Button';
@@ -68,7 +68,7 @@ function NeedInput(props: Props) {
                 onClick={onRemove}
                 variant="tertiary"
             >
-                <IoTrash />
+                <DeleteBinTwoLineIcon />
             </Button>
         </InputSection>
     );

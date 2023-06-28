@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
     PartialForm,
     Error,
@@ -10,7 +11,6 @@ import {
 import {
     isNotDefined,
 } from '@togglecorp/fujs';
-import { IoHelpCircle } from 'react-icons/io5';
 
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
@@ -63,8 +63,8 @@ interface Props {
     nationalSocietyOptions: NumericValueOption[];
     disasterCategoryOptions: NumericValueOption[];
     onsetOptions: NumericValueOption[];
-    // fileIdToUrlMap: Record<number, string>;
-    // setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    fileIdToUrlMap: Record<number, string>;
+    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     onValueSet: (value: SetBaseValueArg<Value>) => void;
     userOptions: User[];
     onCreateAndShareButtonClick: () => void;
@@ -92,8 +92,8 @@ function DrefOverview(props: Props) {
         yesNoOptions,
         disasterCategoryOptions,
         onsetOptions,
-        // setFileIdToUrlMap,
-        // fileIdToUrlMap,
+        setFileIdToUrlMap,
+        fileIdToUrlMap,
         onValueSet,
         userOptions,
         onCreateAndShareButtonClick,
@@ -231,7 +231,7 @@ function DrefOverview(props: Props) {
                         onValueSet={onValueSet}
                     />
                 )}
-                <InputSection title="DREF Type">
+                <InputSection title={strings.drefFormDrefTypeTitle}>
                     <SelectInput
                         error={error?.type_of_dref}
                         label={strings.drefFormTypeOfDref}
@@ -301,10 +301,10 @@ function DrefOverview(props: Props) {
                                     className={styles.disasterCategoryHelpLink}
                                     target="_blank"
                                     rel="noreferrer"
-                                    title="Click to view Emergency Response Framework"
+                                    title={strings.drefFormClickEmergencyResponseFramework}
                                     href={disasterCategoryLink}
                                 >
-                                    <IoHelpCircle />
+                                    <WikiHelpSectionLineIcon />
                                 </a>
                             </>
                         )}
@@ -375,10 +375,10 @@ function DrefOverview(props: Props) {
                                     className={styles.peopleTargetedHelpLink}
                                     target="_blank"
                                     rel="noreferrer"
-                                    title="Click to view Emergency Response Framework"
+                                    title={strings.drefFormClickEmergencyResponseFramework}
                                     href={totalPopulationRiskImminentLink}
                                 >
-                                    <IoHelpCircle />
+                                    <WikiHelpSectionLineIcon />
                                 </a>
                             </>
                         ) : (
@@ -388,10 +388,10 @@ function DrefOverview(props: Props) {
                                     className={styles.peopleTargetedHelpLink}
                                     target="_blank"
                                     rel="noreferrer"
-                                    title="Click to view Emergency Response Framework"
+                                    title={strings.drefFormClickEmergencyResponseFramework}
                                     href={totalPeopleAffectedSlowSuddenLink}
                                 >
-                                    <IoHelpCircle />
+                                    <WikiHelpSectionLineIcon />
                                 </a>
                             </>
                         )}
@@ -418,10 +418,10 @@ function DrefOverview(props: Props) {
                                         className={styles.peopleTargetedHelpLink}
                                         rel="noreferrer"
                                         target="_blank"
-                                        title="Click to view Emergency Response Framework"
+                                        title={strings.drefFormClickEmergencyResponseFramework}
                                         href={peopleInNeedLink}
                                     >
-                                        <IoHelpCircle />
+                                        <WikiHelpSectionLineIcon />
                                     </a>
                                 </>
                             )}
@@ -444,10 +444,10 @@ function DrefOverview(props: Props) {
                                     className={styles.peopleTargetedHelpLink}
                                     target="_blank"
                                     rel="noreferrer"
-                                    title="Click to view Emergency Response Framework"
+                                    title={strings.drefFormClickEmergencyResponseFramework}
                                     href={peopleTargetedLink}
                                 >
-                                    <IoHelpCircle />
+                                    <WikiHelpSectionLineIcon />
                                 </a>
                             </>
                         )}
@@ -497,8 +497,8 @@ function DrefOverview(props: Props) {
                             value={value?.event_map_file}
                             onChange={onValueChange}
                             error={error?.event_map_file}
-                            // fileIdToUrlMap={fileIdToUrlMap}
-                            // setFileIdToUrlMap={setFileIdToUrlMap}
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
                             // label={strings.drefFormUploadAnImageLabel}
                         />
                     </InputSection>
@@ -514,8 +514,8 @@ function DrefOverview(props: Props) {
                             value={value?.cover_image_file}
                             onChange={onValueChange}
                             error={error?.cover_image_file}
-                            // fileIdToUrlMap={fileIdToUrlMap}
-                            // setFileIdToUrlMap={setFileIdToUrlMap}
+                            fileIdToUrlMap={fileIdToUrlMap}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
                             // label={strings.drefFormUploadAnImageLabel}
                         />
                     </InputSection>

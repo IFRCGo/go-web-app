@@ -4,7 +4,8 @@ import {
     useFormObject,
     getErrorObject,
 } from '@togglecorp/toggle-form';
-import { IoTrash } from 'react-icons/io5';
+import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
+
 import { randomString } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
@@ -67,7 +68,7 @@ function RiskSecurityInput(props: Props) {
                 onClick={onRemove}
                 variant="tertiary"
             >
-                <IoTrash />
+                <DeleteBinTwoLineIcon />
             </Button>
         </div>
     );

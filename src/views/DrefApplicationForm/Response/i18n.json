@@ -6,7 +6,7 @@
         "drefFormBudgetTemplateLabel": "Budget template",
         "drefFormBudgetTemplateUploadButtonLabel": "Upload your budget summary",
         "drefFormCommunication": "Please briefly explain the National Societies communication strategy for this operation.",
-        "drefFormCommunicationDescripiton": "Will the IFRC be supporting with communication? What roles will be involved?",
+        "drefFormCommunicationDescription": "Will the IFRC be supporting with communication? What roles will be involved?",
         "drefFormDescription": "Description",
         "drefFormEstimatedDisplacedPeople": "Estimated Number of People on the move (if any)",
         "drefFormEstimatedLocal": "Rural",
@@ -45,6 +45,8 @@
         "drefFormTargetedPopulation": "Targeted Population",
         "drefFormTargetingStrategy": "Targeting Strategy",
         "drefFormTotal": "Total Population",
-        "drefFormWomen": "Women"
+        "drefFormWomen": "Women",
+        "drefFormResponseTotalAmountOfPlannedBudget" : "Total amount of planned budget does not match the Requested Amount",
+        "drefFormResponseAddButton": "Add"
     }
 }

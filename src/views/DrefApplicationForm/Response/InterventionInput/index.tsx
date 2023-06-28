@@ -7,7 +7,7 @@ import {
     getErrorObject,
     useFormArray,
 } from '@togglecorp/toggle-form';
-import { IoTrash } from 'react-icons/io5';
+import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 
 import TextArea from '#components/TextArea';
 import Button from '#components/Button';
@@ -147,7 +147,7 @@ function InterventionInput(props: Props) {
                           name={undefined}
                           onClick={handleIndicatorAddButtonClick}
                       >
-                          Add Indicator
+                          {strings.drefOperationalAddIndicatorButton}
                       </Button>
                       {
                           value?.indicators?.map((n, i) => (
@@ -180,7 +180,7 @@ function InterventionInput(props: Props) {
               onClick={onRemove}
               variant="tertiary"
           >
-              <IoTrash />
+              <DeleteBinTwoLineIcon />
           </Button>
       </div>
   );

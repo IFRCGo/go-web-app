@@ -5,7 +5,6 @@ import {
     getErrorObject,
     useFormArray,
 } from '@togglecorp/toggle-form';
-// import { listToMap } from '@togglecorp/fujs';
 
 import { resolveUrl } from '#utils/resolveUrl';
 import Container from '#components/Container';
@@ -16,10 +15,8 @@ import TextArea from '#components/TextArea';
 import DateInput from '#components/DateInput';
 import { BooleanValueOption } from '#types/common';
 import useTranslation from '#hooks/useTranslation';
-// import DREFFileInput from '#components/DREFFileInput';
-
+import GoSingleFileInput from '#components/GoSingleFileInput';
 import CaptionInput from '../CaptionInput';
-import i18n from './i18n.json';
 import {
     optionLabelSelector,
     booleanOptionKeySelector,
@@ -31,6 +28,7 @@ import {
     ONSET_SUDDEN,
 } from '../common';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Value = PartialForm<DrefFields>;
@@ -39,8 +37,8 @@ interface Props {
     onValueChange: (...entries: EntriesAsList<Value>) => void;
     value: Value;
     yesNoOptions: BooleanValueOption[];
-    // fileIdToUrlMap: Record<number, string>;
-    // setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    fileIdToUrlMap: Record<number, string>;
+    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     drefType?: number;
     onsetType?: number;
 }
@@ -53,10 +51,8 @@ function EventDetails(props: Props) {
         onValueChange,
         value,
         yesNoOptions,
-        // fileIdToUrlMap,
-        // FIXME
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        // setFileIdToUrlMap,
+        fileIdToUrlMap,
+        setFileIdToUrlMap,
         drefType,
         onsetType,
     } = props;
@@ -70,7 +66,7 @@ function EventDetails(props: Props) {
 
     const {
         setValue: onImageChange,
-        // removeValue: onImageRemove,
+        removeValue: onImageRemove,
     } = useFormArray<'images_file', PartialForm<FileWithCaption>>(
         'images_file',
         onValueChange,
@@ -282,19 +278,17 @@ function EventDetails(props: Props) {
                         title={strings.drefFormUploadSupportingDocument}
                         description={strings.drefFormUploadSupportingDocumentDescription}
                     >
-                        {/*
-                        <DREFFileInput
-                            accept=".pdf, .docx, .pptx"
-                            error={error?.supporting_document}
-                            fileIdToUrlMap={fileIdToUrlMap}
+                        <GoSingleFileInput
                             name="supporting_document"
+                            accept=".pdf, .docx, .pptx"
+                            fileIdToUrlMap={fileIdToUrlMap}
                             onChange={onValueChange}
-                            setFileIdToUrlMap={setFileIdToUrlMap}
+                            url="api/v2/dref-files/"
                             value={value.supporting_document}
+                            setFileIdToUrlMap={setFileIdToUrlMap}
                         >
                             {strings.drefFormUploadSupportingDocumentButtonLabel}
-                        </DREFFileInput>
-                        */}
+                        </GoSingleFileInput>
                     </InputSection>
                 )}
                 {drefType !== TYPE_LOAN
@@ -326,9 +320,9 @@ function EventDetails(props: Props) {
                                         index={i}
                                         value={g}
                                         onChange={onImageChange}
-                                        // onRemove={onImageRemove}
+                                        onRemove={onImageRemove}
                                         error={getErrorObject(error?.images_file)}
-                                        // fileIdToUrlMap={fileIdToUrlMap}
+                                        fileIdToUrlMap={fileIdToUrlMap}
                                     />
                                 ))}
                             </div>

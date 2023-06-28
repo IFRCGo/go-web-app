@@ -1,4 +1,4 @@
-import { IoTrash } from 'react-icons/io5';
+import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
     ArrayError,
     getErrorObject,
@@ -83,7 +83,7 @@ function IndicatorInput(props: Props) {
                     onClick={onRemove}
                     variant="tertiary"
                 >
-                    <IoTrash />
+                    <DeleteBinTwoLineIcon />
                 </Button>
             </div>
         </div>

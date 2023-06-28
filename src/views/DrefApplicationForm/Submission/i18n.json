@@ -21,6 +21,10 @@
         "drefFormPublishingDate": "Date of Publishing",
         "drefFormSubmissionEndDate": "End date of Operation",
         "drefFormSubmissionEndDateDescription": "Automatically calculated using the Date of Approval + Operation timeframe",
-        "drefFormTrackingData": "Tracking Data and Contacts"
+        "drefFormTrackingData": "Tracking Data and Contacts",
+        "drefFormSubmissionNameLabel": "Name",
+        "drefFormSubmissionTitleLabel": "Title",
+        "drefFromSubmissionEmailLabel": "Email",
+        "drefFromSubmissionPhoneNumberLabel": "Phone Number"
     }
 }

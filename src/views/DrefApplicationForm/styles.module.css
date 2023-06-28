@@ -16,6 +16,6 @@
 }
 
 .error-message {
-    opacity: 0.7;
+    opacity: var(--go-ui-opacity-70);
     padding: var(--go-ui-spacing-4xl) var(--go-ui-spacing-2xl);
 }

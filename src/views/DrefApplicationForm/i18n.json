@@ -20,6 +20,7 @@
         "drefFormFieldGeneralError": "Please correct all the errors!",
         "drefFormBackButtonLabel": "Back",
         "yesLabel": "Yes",
-        "noLabel": "No"
+        "noLabel": "No",
+        "drefFormImportFromDocument": "Import from Document"
     }
 }

@@ -10,7 +10,6 @@ import {
 } from '../common';
 
 import i18n from './i18n.json';
-
 import styles from './styles.module.css';
 
 function getUserName(user: DrefApiFields['modified_by_details'] | undefined) {
@@ -57,7 +56,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
 
     return (
         <Modal
-            heading="Conflict while saving"
+            heading={strings.drefChangesConflictWhileSaving}
             headingLevel={3}
             onClose={onCancelButtonClick}
             hideCloseButton
@@ -69,14 +68,14 @@ function ObsoletePayloadResolutionModal(props: Props) {
                         variant="secondary"
                         onClick={onCancelButtonClick}
                     >
-                        Cancel
+                        {strings.drefChangesCancelButton}
                     </Button>
                     <Button
                         name={drefResponse?.modified_at}
                         disabled={drefPending}
                         onClick={onOverwriteButtonClick}
                     >
-                        Overwrite
+                        {strings.drefChangesOverwriteButton}
                     </Button>
                 </>
             )}
@@ -98,7 +97,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
                     <br />
                     <div>
                         <strong>
-                            Note:
+                            {strings.drefChangesNoteLabel}
                         </strong>
                         {strings.drefChangesWillBeOverridden}
                     </div>

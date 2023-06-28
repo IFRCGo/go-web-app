@@ -215,7 +215,7 @@ function CopyFieldReportSection(props: Props) {
                 nationalSociety={value?.national_society}
                 options={fetchedFieldReports}
                 onOptionsChange={setFetchedFieldReports}
-                placeholder="Select field report"
+                placeholder={strings.drefFormSelectFieldReportPlaceholder}
                 nonClearable
             />
 

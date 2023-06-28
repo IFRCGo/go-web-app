@@ -27,6 +27,7 @@
         "drefFormNsResponseStarted": "Start date of National Society actions",
         "drefFormPartnerNationalSociety": "Participating National Societies",
         "drefFormPartnerNationalSocietyDescription": "Briefly set out which PNS are present and give details of PNS contributions/roles on the ground and remotely for this specific operation",
-        "drefFormUNorOtherActors": "UN or other actors"
+        "drefFormUNorOtherActors": "UN or other actors",
+        "drefFormAddButton": "Add"
     }
 }

@@ -7,9 +7,10 @@ import {
 import { _cs } from '@togglecorp/fujs';
 
 import { SetValueArg } from '#types/common';
+import GoSingleFileInput from '#components/GoSingleFileInput';
 import TextInput from '#components/TextInput';
-// import DREFFileInput from '#components/DREFFileInput';
 import { SingleFileWithCaption } from '../../common';
+
 import styles from './styles.module.css';
 
 type Value = PartialForm<SingleFileWithCaption>;
@@ -20,9 +21,8 @@ interface Props<N> {
     value: Value | null | undefined;
     onChange: (value: SetValueArg<Value> | undefined, name: N) => void;
     error: Error<Value>;
-    // label?: React.ReactNode;
-    // fileIdToUrlMap: Record<number, string>;
-    // setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    fileIdToUrlMap: Record<number, string>;
+    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
 }
 
 function ImageWithCaptionInput<N extends string | number>(props: Props<N>) {
@@ -30,15 +30,10 @@ function ImageWithCaptionInput<N extends string | number>(props: Props<N>) {
         className,
         name,
         value,
-        // FIXME
-        // fileIdToUrlMap,
-        // FIXME
-        // setFileIdToUrlMap,
+        fileIdToUrlMap,
+        setFileIdToUrlMap,
         onChange,
         error: formError,
-        // FIXME
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        // label,
     } = props;
 
     const setFieldValue = useFormObject(name, onChange, {});
@@ -48,19 +43,17 @@ function ImageWithCaptionInput<N extends string | number>(props: Props<N>) {
 
     return (
         <div className={_cs(styles.imageInput, className)}>
-            {/*
-            <DREFFileInput
-                accept="image/*"
+            <GoSingleFileInput
                 name="id"
+                accept="image/*"
                 value={value?.id}
                 onChange={setFieldValue}
-                error={error?.id}
+                url="api/v2/dref-files/"
                 fileIdToUrlMap={fileIdToUrlMap}
                 setFileIdToUrlMap={setFileIdToUrlMap}
             >
-                {label}
-            </DREFFileInput>
-             */}
+                Upload
+            </GoSingleFileInput>
             {value?.id && (
                 <TextInput
                     className={styles.captionInput}
