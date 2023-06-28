@@ -35,6 +35,7 @@ import {
     STEP_ASSESSMENT,
     STEP_PRIORITIZATION,
     STEP_WORKPLAN,
+    STEP_ACTION,
 } from '#utils/per';
 import { numericIdSelector } from '#utils/selectors';
 
@@ -168,20 +169,34 @@ export function Component() {
             createActionColumn<PerProcessStatusItem, number | string>(
                 'actions',
                 (item) => ({
-                    children: isDefined(item.phase) ? (
-                        <Link
-                            to={getRouteUrl(item.phase, item.id)}
-                        >
-                            {resolveToString(
-                                strings.tableEditLabel,
-                                { phaseDisplay: item.phase_display },
+                    children: (
+                        <>
+                            {isDefined(item.phase) && item.phase <= STEP_WORKPLAN && (
+                                <Link
+                                    to={getRouteUrl(item.phase, item.id)}
+                                >
+                                    {resolveToString(
+                                        strings.tableEditLabel,
+                                        { phaseDisplay: item.phase_display },
+                                    )}
+                                </Link>
                             )}
-                        </Link>
-                    ) : undefined,
+                            {isDefined(item.phase) && item.phase === STEP_ACTION && (
+                                <Link
+                                    to={generatePath(
+                                        perWorkPlanFormRoute.absolutePath,
+                                        { perId: item.id },
+                                    )}
+                                >
+                                    {strings.tableViewWorkPlan}
+                                </Link>
+                            )}
+                        </>
+                    ),
                 }),
             ),
         ]),
-        [strings, countryRoute, getRouteUrl],
+        [strings, countryRoute, getRouteUrl, perWorkPlanFormRoute],
     );
 
     const aggregatedColumns = useMemo(

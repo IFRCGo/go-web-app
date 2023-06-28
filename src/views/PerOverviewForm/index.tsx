@@ -35,7 +35,11 @@ import { useLazyRequest, useRequest } from '#utils/restRequest';
 import { compareLabel } from '#utils/common';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
-import { PerProcessOutletContext } from '#utils/per';
+import {
+    PerProcessOutletContext,
+    STEP_OVERVIEW,
+    STEP_ASSESSMENT,
+} from '#utils/per';
 import {
     booleanValueSelector,
     numericValueSelector,
@@ -55,32 +59,23 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PerOverviewResponse = GET['api/v2/per-overview/:id'];
+const emptyFileIdToUrlMap: Record<number, string> = {};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    const strings = useTranslation(i18n);
+    const alert = useAlertContext();
+    const navigate = useNavigate();
     const { perId } = useParams<{ perId: string }>();
     const {
         statusResponse,
         actionDivRef,
         refetchStatusResponse,
     } = useOutletContext<PerProcessOutletContext>();
-
-    const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
-    const strings = useTranslation(i18n);
-    const alert = useAlertContext();
-    const navigate = useNavigate();
     const {
         perAssessmentForm: perAssessmentFormRoute,
+        perOverviewForm: perOverviewFormRoute,
     } = useContext(RouteContext);
-
-    const yesNoOptions = useMemo(
-        () => [
-            { value: true, label: strings.yesLabel },
-            { value: false, label: strings.noLabel },
-        ],
-        [strings],
-    );
-
     const {
         value,
         setValue,
@@ -90,7 +85,10 @@ export function Component() {
         validate,
     } = useForm(overviewSchema, { value: {} });
 
-    const error = getErrorObject(formError);
+    const [
+        fileIdToUrlMap,
+        setFileIdToUrlMap,
+    ] = useState<Record<number, string>>(emptyFileIdToUrlMap);
 
     const {
         pending: perOptionsPending,
@@ -124,6 +122,7 @@ export function Component() {
                     // [orientation_document_details.id]: orientation_document_details.file,
                 }),
             );
+
             setValue(formValues);
         },
     });
@@ -137,42 +136,61 @@ export function Component() {
         body: (ctx) => ctx,
         onSuccess: (response) => {
             if (response && isDefined(response.id)) {
-                refetchStatusResponse();
-                navigate(
-                    generatePath(
-                        perAssessmentFormRoute.absolutePath,
-                        { perId: String(response.id) },
-                    ),
+                alert.show(
+                    strings.perFormSaveRequestSuccessMessage,
+                    { variant: 'success' },
                 );
-            }
 
-            alert.show(
-                strings.perFormSaveRequestSuccessMessage,
-                { variant: 'success' },
-            );
+                refetchStatusResponse();
+
+                // Redirect from new form to edit route
+                if (isNotDefined(perId) && response.phase === STEP_OVERVIEW) {
+                    navigate(
+                        generatePath(
+                            perOverviewFormRoute.absolutePath,
+                            { perId: String(response.id) },
+                        ),
+                    );
+                }
+
+                // Redirect to assessment form
+                if (response.phase === STEP_ASSESSMENT) {
+                    navigate(
+                        generatePath(
+                            perAssessmentFormRoute.absolutePath,
+                            { perId: String(response.id) },
+                        ),
+                    );
+                }
+            }
+            // TODO: log error?
         },
         onFailure: ({
             value: {
                 messageForNotification,
+                // TODO:
                 // formErrors,
             },
             debugMessage,
         }) => {
             alert.show(
-                <p>
-                    {strings.perFormSaveRequestFailureMessage}
-                    &nbsp;
-                    <strong>
-                        {messageForNotification}
-                    </strong>
-                </p>,
+                strings.perFormSaveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
+                    description: messageForNotification,
                 },
             );
         },
     });
+
+    const yesNoOptions = useMemo(
+        () => [
+            { value: true, label: strings.yesLabel },
+            { value: false, label: strings.noLabel },
+        ],
+        [strings],
+    );
 
     const countryOptions = useMemo(
         () => (
@@ -189,8 +207,8 @@ export function Component() {
     const handleSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
             savePerOverview({
-                is_draft: true,
                 ...formValues,
+                is_draft: formValues.is_draft ?? true,
             });
         },
         [savePerOverview],
@@ -199,8 +217,8 @@ export function Component() {
     const handleFinalSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
             savePerOverview({
-                is_draft: false,
                 ...formValues,
+                is_draft: false,
             });
         },
         [savePerOverview],
@@ -208,6 +226,7 @@ export function Component() {
 
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
+    const error = getErrorObject(formError);
 
     return (
         <form className={styles.overviewForm}>
@@ -253,7 +272,7 @@ export function Component() {
                         name="orientation_documents_file"
                         accept=".docx, .pdf"
                         onChange={setFieldValue}
-                        url="api/v2/per-file/"
+                        url="api/v2/per-file/multiple/"
                         value={value?.orientation_documents_file}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
@@ -573,7 +592,9 @@ export function Component() {
                     confirmHeading={strings.perOverviewConfirmHeading}
                     confirmMessage={strings.perOverviewConfirmMessage}
                     onConfirm={handleFormFinalSubmit}
-                    disabled={isDefined(statusResponse?.phase) || savePerPending}
+                    disabled={(isDefined(statusResponse?.phase)
+                        && statusResponse?.phase !== STEP_OVERVIEW)
+                        || savePerPending}
                 >
                     {strings.perOverviewSetUpPerProcess}
                 </ConfirmButton>
@@ -586,7 +607,9 @@ export function Component() {
                         name={undefined}
                         variant="secondary"
                         onClick={handleFormSubmit}
-                        disabled={savePerPending}
+                        disabled={(isDefined(statusResponse?.phase)
+                            && statusResponse?.phase !== STEP_OVERVIEW)
+                                || savePerPending}
                     >
                         {strings.perFormSaveLabel}
                     </Button>

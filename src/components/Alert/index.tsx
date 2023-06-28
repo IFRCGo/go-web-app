@@ -7,10 +7,10 @@ import {
     QuestionLineIcon,
     CloseLineIcon,
 } from '@ifrc-go/icons';
-
-import ElementFragments from '#components/ElementFragments';
 import Button from '#components/Button';
-import { AlertVariant } from '#contexts/alert';
+import Container from '#components/Container';
+
+import { AlertType } from '#contexts/alert';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
@@ -20,15 +20,16 @@ import styles from './styles.module.css';
 export interface Props<N> {
     name: N;
     className?: string;
-    variant?: AlertVariant;
-    children: React.ReactNode;
+    type?: AlertType;
+    title?: React.ReactNode;
+    description?: React.ReactNode;
     nonDismissable?: boolean;
     onCloseButtonClick?: (name: N) => void;
     debugMessage?: string;
 }
 
-const alertVariantToClassNameMap: {
-    [key in AlertVariant]: string;
+const alertTypeToClassNameMap: {
+    [key in AlertType]: string;
 } = {
     success: styles.success,
     warning: styles.warning,
@@ -40,8 +41,9 @@ function Alert<N extends string>(props: Props<N>) {
     const {
         name,
         className,
-        variant = 'info',
-        children,
+        type = 'info',
+        title,
+        description,
         onCloseButtonClick,
         nonDismissable,
         debugMessage,
@@ -50,7 +52,7 @@ function Alert<N extends string>(props: Props<N>) {
     const strings = useTranslation(i18n);
 
     const icon: {
-        [key in AlertVariant]: React.ReactNode;
+        [key in AlertType]: React.ReactNode;
     } = {
         success: <CheckboxCircleLineIcon className={styles.icon} />,
         danger: <ErrorWarningLineIcon className={styles.icon} />,
@@ -77,32 +79,26 @@ function Alert<N extends string>(props: Props<N>) {
     );
 
     return (
-        <div
+        <Container
             className={_cs(
-                className,
                 styles.alert,
-                alertVariantToClassNameMap[variant],
+                alertTypeToClassNameMap[type],
+                className,
             )}
-        >
-            <div className={styles.content}>
-                <ElementFragments
-                    icons={icon[variant]}
-                    childrenContainerClassName={styles.content}
-                    actions={!nonDismissable && (
-                        <Button
-                            className={styles.closeButton}
-                            name={undefined}
-                            onClick={handleCloseButtonClick}
-                            variant="tertiary-on-dark"
-                        >
-                            <CloseLineIcon />
-                        </Button>
-                    )}
+            icons={icon[type]}
+            heading={title}
+            headingLevel={4}
+            ellipsizeHeading
+            actions={nonDismissable && (
+                <Button
+                    name={undefined}
+                    onClick={handleCloseButtonClick}
+                    variant="tertiary-on-dark"
                 >
-                    {children}
-                </ElementFragments>
-            </div>
-            {debugMessage && (
+                    <CloseLineIcon className={styles.closeIcon} />
+                </Button>
+            )}
+            footerActions={debugMessage && (
                 <div className={styles.actions}>
                     <Button
                         name={undefined}
@@ -113,7 +109,9 @@ function Alert<N extends string>(props: Props<N>) {
                     </Button>
                 </div>
             )}
-        </div>
+        >
+            {description}
+        </Container>
     );
 }
 

@@ -1,8 +1,10 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useContext } from 'react';
 import { AddLineIcon } from '@ifrc-go/icons';
-import { useOutletContext } from 'react-router-dom';
 import {
-    isDefined,
+    useOutletContext,
+    useNavigate,
+} from 'react-router-dom';
+import {
     isTruthyString,
     isNotDefined,
     listToMap,
@@ -13,11 +15,14 @@ import {
     createSubmitHandler,
     useForm,
     useFormArray,
+    getErrorObject,
 } from '@togglecorp/toggle-form';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
+import ConfirmButton from '#components/ConfirmButton';
+import Portal from '#components/Portal';
 import {
     compareLabel,
     isValidCountry,
@@ -26,10 +31,12 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { STEP_WORKPLAN } from '#utils/per';
+import { STEP_WORKPLAN, PerProcessOutletContext } from '#utils/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
+import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
+
 import {
     workplanSchema,
     PartialWorkPlan,
@@ -48,7 +55,16 @@ type WorkPlanResponse = GET['api/v2/per-work-plan/:id'];
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const navigate = useNavigate();
     const alert = useAlert();
+    const {
+        statusResponse,
+        actionDivRef,
+        refetchStatusResponse,
+    } = useOutletContext<PerProcessOutletContext>();
+    const {
+        accountPerForms: accountPerFromsRoute,
+    } = useContext(RouteContext);
 
     const {
         value,
@@ -56,12 +72,12 @@ export function Component() {
         setFieldValue,
         setError,
         setValue,
+        error: formError,
     } = useForm(
         workplanSchema,
         { value: defaultValue },
     );
 
-    const { statusResponse } = useOutletContext<{ statusResponse: GET['api/v2/per-process-status/:id']}>();
     const {
         pending: perOptionsPending,
         response: perOptionsResponse,
@@ -74,13 +90,8 @@ export function Component() {
         response: countriesResponse,
     } = useRequest<GET['api/v2/country']>({
         url: 'api/v2/country',
+        query: { limit: 500 },
     });
-
-    const nsOptions = countriesResponse?.results.filter(
-        (country) => isValidCountry(country) && isTruthyString(country.society_name),
-    ).map(
-        (country) => ({ value: country.id, label: country.society_name }),
-    );
 
     const {
         pending: prioritizationPending,
@@ -113,46 +124,104 @@ export function Component() {
         },
     });
 
+    const componentResponseMapping = listToMap(
+        value?.component_responses ?? [],
+        (componentResponse) => componentResponse.component,
+        (componentResponse, _, index) => ({
+            index,
+            value: componentResponse,
+        }),
+    );
+
+    const componentIndexMapping = listToMap(
+        value?.component_responses ?? [],
+        (_, index) => index,
+        (componentResponse, _, index) => ({
+            index,
+            value: componentResponse,
+        }),
+    );
+
+    const customComponentResponseMapping = listToMap(
+        value?.custom_component_responses ?? [],
+        (customComponentResponse) => customComponentResponse.client_id,
+        (customComponentResponse, _, index) => ({
+            index,
+            value: customComponentResponse,
+        }),
+    );
+
+    const customComponentIndexMapping = listToMap(
+        value?.custom_component_responses ?? [],
+        (_, index) => index,
+        (customComponentResponse, _, index) => ({
+            index,
+            value: customComponentResponse,
+        }),
+    );
+
     const {
+        pending: savePerWorkPlanPending,
         trigger: savePerWorkPlan,
     } = useLazyRequest<WorkPlanResponse, PartialWorkPlan>({
-        url: `api/v2/per-work-plan/${statusResponse?.workplan}`,
-        method: 'POST',
+        url: `api/v2/per-work-plan/${statusResponse?.workplan}/`,
+        method: 'PUT',
         body: (ctx) => ctx,
-        onSuccess: () => {
+        onSuccess: (response) => {
+            if (!response) {
+                // TODO: show proper error message
+                return;
+            }
+
+            refetchStatusResponse();
+
             alert.show(
                 strings.perFormSaveRequestSuccessMessage,
                 { variant: 'success' },
             );
+
+            if (response.is_draft === false) {
+                navigate(accountPerFromsRoute.absolutePath);
+            }
         },
         onFailure: ({
             value: {
                 messageForNotification,
-                // formErrors,
+                formErrors,
             },
             debugMessage,
         }) => {
+            // TODO add proper typing for errors
+            const transformedError = {
+                component_responses: listToMap(
+                    formErrors?.component_responses as Record<string, string[]>[] ?? [],
+                    (_, index) => (
+                        componentIndexMapping?.[index].value.component
+                    ),
+                ),
+                custom_component_responses: listToMap(
+                    formErrors?.custom_component_responses as Record<string, string[]>[] ?? [],
+                    (_, index) => (
+                        customComponentIndexMapping?.[index].value.client_id
+                    ),
+                ),
+            };
+            setError(transformedError);
             alert.show(
-                <p>
-                    {strings.perFormSaveRequestFailureMessage}
-                    &nbsp;
-                    <strong>
-                        {messageForNotification}
-                    </strong>
-                </p>,
+                strings.perFormSaveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
+                    description: messageForNotification,
                 },
             );
         },
     });
 
-    const {
-        setValue: setComponentValue,
-    } = useFormArray<'component_responses', NonNullable<PartialWorkPlan['component_responses']>[number]>(
-        'component_responses',
-        setFieldValue,
+    const nsOptions = countriesResponse?.results.filter(
+        (country) => isValidCountry(country) && isTruthyString(country.society_name),
+    ).map(
+        (country) => ({ value: country.id, label: country.society_name }),
     );
 
     const workPlanStatusOptions = useMemo(
@@ -166,6 +235,13 @@ export function Component() {
     );
 
     const {
+        setValue: setComponentValue,
+    } = useFormArray<'component_responses', NonNullable<PartialWorkPlan['component_responses']>[number]>(
+        'component_responses',
+        setFieldValue,
+    );
+
+    const {
         setValue: setCustomComponentValue,
         removeValue: removeCustomComponentValue,
     } = useFormArray<'custom_component_responses', NonNullable<PartialWorkPlan['custom_component_responses']>[number]>(
@@ -175,12 +251,32 @@ export function Component() {
 
     const handleSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
-            if (isDefined(statusResponse?.workplan)) {
-                savePerWorkPlan(formValues);
-            } else {
+            if (isNotDefined(statusResponse?.workplan)) {
                 // eslint-disable-next-line no-console
                 console.error('WorkPlan id not defined');
+                return;
             }
+
+            // TODO: we might have to revisit this logic
+            savePerWorkPlan({
+                ...formValues,
+                is_draft: true,
+            });
+        },
+        [savePerWorkPlan, statusResponse?.workplan],
+    );
+
+    const handleFinalSubmit = useCallback(
+        (formValues: PartialWorkPlan) => {
+            if (isNotDefined(statusResponse?.workplan)) {
+                // eslint-disable-next-line no-console
+                console.error('WorkPlan id not defined');
+                return;
+            }
+            savePerWorkPlan({
+                ...formValues,
+                is_draft: false,
+            });
         },
         [savePerWorkPlan, statusResponse?.workplan],
     );
@@ -205,34 +301,20 @@ export function Component() {
         );
     }, [setFieldValue]);
 
-    const componentResponseMapping = listToMap(
-        value?.component_responses ?? [],
-        (componentResponse) => componentResponse.component,
-        (componentResponse, _, index) => ({
-            index,
-            value: componentResponse,
-        }),
-    );
+    const error = getErrorObject(formError);
 
-    const customComponentResponseMapping = listToMap(
-        value?.custom_component_responses ?? [],
-        (customComponentResponse) => customComponentResponse.client_id,
-        (customComponentResponse, _, index) => ({
-            index,
-            value: customComponentResponse,
-        }),
-    );
-
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
+    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
     const pending = perOptionsPending
         || prioritizationPending
         || workPlanPending
         || countryiesPending;
 
+    const componentResponseError = getErrorObject(error?.component_responses);
+    const customComponentError = getErrorObject(error?.custom_component_responses);
+
     return (
-        <form
-            className={styles.perWorkPlanForm}
-            onSubmit={createSubmitHandler(validate, setError, handleSubmit)}
-        >
+        <form className={styles.perWorkPlanForm}>
             {pending && (
                 <BlockLoading />
             )}
@@ -252,6 +334,7 @@ export function Component() {
                                 component={componentResponse.component_details}
                                 workPlanStatusOptions={workPlanStatusOptions}
                                 nsOptions={nsOptions}
+                                error={componentResponseError?.[componentResponse.component]}
                             />
                         ))}
                     </Container>
@@ -283,6 +366,7 @@ export function Component() {
                                 onRemove={removeCustomComponentValue}
                                 workPlanStatusOptions={workPlanStatusOptions}
                                 nsOptions={nsOptions}
+                                error={customComponentError?.[customComponent.client_id]}
                             />
                         ))}
                         {(value?.custom_component_responses?.length ?? 0) === 0 && (
@@ -292,18 +376,32 @@ export function Component() {
                         )}
                     </Container>
                     <div className={styles.formActions}>
-                        <Button
-                            name="submit"
-                            type="submit"
+                        <ConfirmButton
+                            name={undefined}
                             variant="secondary"
-                            disabled={statusResponse?.phase !== STEP_WORKPLAN}
+                            onConfirm={handleFormFinalSubmit}
+                            disabled={savePerWorkPlanPending
+                                || statusResponse?.phase !== STEP_WORKPLAN}
+                            confirmHeading={strings.perWorkPlanConfirmHeading}
+                            confirmMessage={strings.perWorkPlanConfirmMessage}
                         >
                             {strings.perFormSaveAndFinalizeWorkPlan}
-                        </Button>
+                        </ConfirmButton>
                     </div>
+                    {actionDivRef.current && (
+                        <Portal container={actionDivRef?.current}>
+                            <Button
+                                name={undefined}
+                                onClick={handleFormSubmit}
+                                variant="secondary"
+                                disabled={statusResponse?.phase !== STEP_WORKPLAN}
+                            >
+                                Save
+                            </Button>
+                        </Portal>
+                    )}
                 </>
             )}
-
         </form>
     );
 }

@@ -29,7 +29,7 @@ interface Props {
     index: number | undefined;
     questions: PerFormQuestion[] | undefined;
     area: PerFormArea;
-    ratingOptions: GET['api/v2/per-options']['componentratings'];
+    ratingOptions: GET['api/v2/per-options']['componentratings'] | undefined;
     epi_considerations: boolean | null | undefined;
     urban_considerations: boolean | null | undefined;
     climate_environmental_considerations: boolean | null | undefined;

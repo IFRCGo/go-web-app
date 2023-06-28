@@ -25,6 +25,11 @@ interface FileUploadResult {
 const keySelector = (d: FileUploadResult) => d.id;
 const valueSelector = (d: FileUploadResult) => d.file;
 
+function getFileNameFromUrl(url: string) {
+    const splits = url.split('/');
+    return splits[splits.length - 1];
+}
+
 export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children' | 'inputRef'> & {
     actions?: React.ReactNode;
     buttonProps?: ButtonProps<T>;
@@ -177,15 +182,19 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                     {children}
                 </Button>
             </RawFileInput>
-            {valueUrls?.map(
-                (valueUrl) => (
-                    <Link
-                        key={valueUrl}
-                        to={valueUrl}
-                    >
-                        {valueUrl}
-                    </Link>
-                ),
+            {valueUrls && (
+                <div className={styles.selectedFiles}>
+                    {valueUrls.map(
+                        (valueUrl) => (
+                            <Link
+                                key={valueUrl}
+                                to={valueUrl}
+                            >
+                                {getFileNameFromUrl(valueUrl)}
+                            </Link>
+                        ),
+                    )}
+                </div>
             )}
             {actions}
         </div>

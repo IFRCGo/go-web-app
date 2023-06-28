@@ -12,12 +12,14 @@ export interface Props {
     headingLevel?: HeadingProps['level'],
     headingContainerClassName?: string;
     actions?: React.ReactNode;
+    actionsContainerClassName?: string;
     children: React.ReactNode;
     footerIcons?: React.ReactNode;
     footerContent?: React.ReactNode;
     footerContentClassName?: string;
     footerClassName?: string;
     footerActions?: React.ReactNode;
+    footerActionsContainerClassName?: string;
     headerClassName?: string;
     headerDescription?: React.ReactNode;
     headerDescriptionClassName?: string;
@@ -30,11 +32,13 @@ export interface Props {
 function Container(props: Props) {
     const {
         actions,
+        actionsContainerClassName,
         children,
         childrenContainerClassName,
         className,
         ellipsizeHeading,
         footerActions,
+        footerActionsContainerClassName,
         footerClassName,
         footerContent,
         footerContentClassName,
@@ -58,6 +62,7 @@ function Container(props: Props) {
                 actions={actions}
                 className={_cs(styles.header, headerClassName)}
                 elementRef={headerElementRef}
+                actionsContainerClassName={actionsContainerClassName}
                 ellipsizeHeading={ellipsizeHeading}
                 heading={heading}
                 headingLevel={headingLevel}
@@ -79,6 +84,7 @@ function Container(props: Props) {
                     icons={footerIcons}
                     childrenContainerClassName={footerContentClassName}
                     className={_cs(styles.footer, footerClassName)}
+                    actionsContainerClassName={footerActionsContainerClassName}
                 >
                     {footerContent}
                 </Footer>

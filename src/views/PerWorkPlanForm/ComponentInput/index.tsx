@@ -1,6 +1,8 @@
 import {
     SetValueArg,
     useFormObject,
+    Error,
+    getErrorObject,
 } from '@togglecorp/toggle-form';
 
 import DateInput from '#components/DateInput';
@@ -26,6 +28,7 @@ interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
+    error: Error<Value> | undefined;
     component: ComponentResponse['component_details'];
     workPlanStatusOptions?: LabelValue[];
     nsOptions?: {
@@ -42,9 +45,11 @@ function ComponentInput(props: Props) {
         component,
         workPlanStatusOptions,
         nsOptions,
+        error: formError,
     } = props;
 
     const strings = useTranslation(i18n);
+    const error = getErrorObject(formError);
 
     const onFieldChange = useFormObject(
         index,
@@ -65,11 +70,13 @@ function ComponentInput(props: Props) {
                 onChange={onFieldChange}
                 placeholder={strings.perFormActionsPlaceholder}
                 rows={2}
+                error={error?.actions}
             />
             <DateInput
                 name="due_date"
                 value={value?.due_date}
                 onChange={onFieldChange}
+                error={error?.due_date}
             />
             <SelectInput
                 name="supported_by"
@@ -79,6 +86,7 @@ function ComponentInput(props: Props) {
                 keySelector={numericValueSelector}
                 labelSelector={stringLabelSelector}
                 value={value?.supported_by}
+                error={error?.supported_by}
             />
             <SelectInput
                 name="status"
@@ -88,6 +96,7 @@ function ComponentInput(props: Props) {
                 keySelector={numericValueSelector}
                 labelSelector={stringLabelSelector}
                 value={value?.status}
+                error={error?.status}
             />
         </>
     );

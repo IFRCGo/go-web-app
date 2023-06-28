@@ -7,11 +7,11 @@ import { listToMap, _cs, isNotDefined } from '@togglecorp/fujs';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import SelectInput from '#components/SelectInput';
+import TextArea from '#components/TextArea';
 import type { GET } from '#types/serverResponse';
 
 import { PartialAssessment } from '../../common';
 import QuestionInput from './QuestionInput';
-import ConsiderationInput from './ConsiderationInput';
 import styles from './styles.module.css';
 
 type PerFormQuestion = GET['api/v2/per-formquestion']['results'][number];
@@ -25,11 +25,7 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
-    ratingOptions: {
-        id: number
-        value: number;
-        title: string;
-    }[];
+    ratingOptions: GET['api/v2/per-options']['componentratings'] | undefined;
     epi_considerations: boolean | null | undefined;
     urban_considerations: boolean | null | undefined;
     climate_environmental_considerations: boolean | null | undefined;
@@ -64,13 +60,6 @@ function ComponentInput(props: Props) {
         setFieldValue,
     );
 
-    const {
-        setValue: setConsiderationValue,
-    } = useFormArray<'consideration_responses', NonNullable<Value['consideration_responses']>[number]>(
-        'consideration_responses',
-        setFieldValue,
-    );
-
     const questionResponseMapping = listToMap(
         value?.question_responses ?? [],
         (questionResponse) => questionResponse.question,
@@ -79,10 +68,6 @@ function ComponentInput(props: Props) {
             value: questionResponse,
         }),
     );
-
-    const hasConsiderations = epi_considerations
-        || urban_considerations
-        || climate_environmental_considerations;
 
     return (
         <ExpandableContainer
@@ -121,14 +106,28 @@ function ComponentInput(props: Props) {
                     />
                 );
             })}
-            {hasConsiderations && (
-                <ConsiderationInput
-                    index={0}
-                    value={value?.consideration_responses?.[0]}
-                    onChange={setConsiderationValue}
-                    epi_considerations={epi_considerations}
-                    urban_considerations={urban_considerations}
-                    climate_environmental_considerations={climate_environmental_considerations}
+            {epi_considerations && (
+                <TextArea
+                    label="EPI Considerations"
+                    name="epi_considerations"
+                    value={value?.epi_considerations}
+                    onChange={setFieldValue}
+                />
+            )}
+            {urban_considerations && (
+                <TextArea
+                    label="Urban Considerations"
+                    name="urban_considerations"
+                    value={value?.urban_considerations}
+                    onChange={setFieldValue}
+                />
+            )}
+            {climate_environmental_considerations && (
+                <TextArea
+                    label="Climate and Environmental Considerations"
+                    name="climate_environmental_considerations"
+                    value={value?.climate_environmental_considerations}
+                    onChange={setFieldValue}
                 />
             )}
         </ExpandableContainer>

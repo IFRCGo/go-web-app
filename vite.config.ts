@@ -52,7 +52,6 @@ export default defineConfig(({ mode }) => {
         build: {
             outDir: 'build',
             sourcemap: isProd,
-            cssCodeSplit: false,
         },
         test: {
             environment: 'happy-dom',

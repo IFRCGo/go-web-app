@@ -77,9 +77,6 @@ export function Component() {
         response: perOptionsResponse,
     } = useRequest<GET['api/v2/per-options']>({
         url: 'api/v2/per-options',
-        onSuccess: (response) => {
-            setValue(response);
-        },
     });
     const {
         response: questionsResponse,
@@ -125,12 +122,14 @@ export function Component() {
 
                 refetchStatusResponse();
 
-                navigate(
-                    generatePath(
-                        perWorkPlanFormRoute.absolutePath,
-                        { perId: String(perId) },
-                    ),
-                );
+                if (response.is_draft === false) {
+                    navigate(
+                        generatePath(
+                            perWorkPlanFormRoute.absolutePath,
+                            { perId: String(perId) },
+                        ),
+                    );
+                }
             }
         },
         onFailure: ({
@@ -141,16 +140,11 @@ export function Component() {
             debugMessage,
         }) => {
             alert.show(
-                <p>
-                    {strings.perFormSaveRequestFailureMessage}
-                    &nbsp;
-                    <strong>
-                        {messageForNotification}
-                    </strong>
-                </p>,
+                strings.perFormSaveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
+                    description: messageForNotification,
                 },
             );
         },

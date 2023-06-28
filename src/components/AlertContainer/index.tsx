@@ -70,12 +70,12 @@ function AlertContainer(props: Props) {
                         name={alert.name}
                         className={styles.alert}
                         nonDismissable={alert.nonDismissable}
-                        variant={alert.variant}
+                        type={alert.variant}
                         onCloseButtonClick={handleAlertCloseButtonClick}
                         debugMessage={alert.debugMessage}
-                    >
-                        {alert.children}
-                    </Alert>
+                        title={alert.title}
+                        description={alert.description}
+                    />
                 ))}
                 {children}
             </div>

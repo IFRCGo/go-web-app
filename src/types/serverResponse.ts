@@ -89,12 +89,6 @@ interface PerAssessmentResponse {
         area_details: PerFormAreaItem;
         component_responses: {
             component: number;
-            consideration_responses: {
-                id: number;
-                urban_considerations: string | null;
-                epi_considerations: string | null;
-                climate_environmental_considerations: string | null;
-            }[];
             id: number;
             question_responses: {
                 answer: number;
@@ -104,6 +98,9 @@ interface PerAssessmentResponse {
             }[];
             rating: number | null;
             rating_details: PerComponentRatingItem | null;
+            urban_considerations: string | null;
+            epi_considerations: string | null;
+            climate_environmental_considerations: string | null;
         }[];
     }[];
 }
@@ -198,6 +195,9 @@ interface PerPrioritizationResponse {
 }
 
 interface PerWorkPlanResponse {
+    id: number;
+    overview: number;
+    is_draft: boolean | null;
     component_responses: {
         id: number | null;
         component: number;
@@ -213,8 +213,6 @@ interface PerWorkPlanResponse {
         supported_by: number | null;
         status: number | null;
     }[];
-    id: number;
-    overview: number;
     overview_details: {
         id: number;
         user: number;

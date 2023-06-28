@@ -1,4 +1,4 @@
-.layout-container {
+.basic-layout {
     --gap: var(--go-ui-spacing-md);
     --inner-gap: var(--go-ui-spacing-sm);
 

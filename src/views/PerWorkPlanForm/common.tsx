@@ -1,6 +1,7 @@
 import {
     ObjectSchema,
     PartialForm,
+    requiredStringCondition,
 } from '@togglecorp/toggle-form';
 import type { GET } from '#types/serverResponse';
 
@@ -34,6 +35,7 @@ type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
 
 export const workplanSchema: WorkPlanFormScheme = {
     fields: (): WorkPlanFormSchemeFields => ({
+        is_draft: {},
         overview: {},
         component_responses: {
             keySelector: (componentResponse) => componentResponse.component,
@@ -43,7 +45,9 @@ export const workplanSchema: WorkPlanFormScheme = {
                     actions: {},
                     due_date: {},
                     supported_by: {},
-                    status: {},
+                    status: {
+                        required: true,
+                    },
                 }),
             }),
         },
@@ -52,10 +56,15 @@ export const workplanSchema: WorkPlanFormScheme = {
             member: () => ({
                 fields: () => ({
                     client_id: {},
-                    actions: {},
+                    actions: {
+                        required: true,
+                        requiredValidation: requiredStringCondition,
+                    },
                     due_date: {},
                     supported_by: {},
-                    status: {},
+                    status: {
+                        required: true,
+                    },
                 }),
             }),
         },

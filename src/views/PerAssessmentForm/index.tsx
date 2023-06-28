@@ -53,6 +53,10 @@ const defaultFormValue: PartialAssessment = {
     area_responses: [],
 };
 
+    type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
+    type PerFormArea = PerFormQuestionResponse['results'][number]['component']['area']
+const defaultFormAreas: PerFormArea[] = [];
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
@@ -62,19 +66,33 @@ export function Component() {
     const {
         perPrioritizationForm: perPrioritizationFormRoute,
     } = useContext(RouteContext);
-
     const {
         statusResponse,
         refetchStatusResponse,
         actionDivRef,
     } = useOutletContext<PerProcessOutletContext>();
 
+    const {
+        value,
+        validate,
+        setFieldValue,
+        setError,
+        setValue,
+    } = useForm(
+        assessmentSchema,
+        { value: defaultFormValue },
+    );
+
     const [currentArea, setCurrentArea] = useState<number | undefined>();
     const assessmentId = statusResponse?.assessment;
+    const [areas, setAreas] = useState<PerFormArea[]>(defaultFormAreas);
 
-    type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
-    type PerFormArea = PerFormQuestionResponse['results'][number]['component']['area']
-    const [areas, setAreas] = useState<PerFormArea[]>([]);
+    const {
+        pending: perOptionsPending,
+        response: perOptionsResponse,
+    } = useRequest<GET['api/v2/per-options']>({
+        url: 'api/v2/per-options',
+    });
 
     const {
         pending: questionsPending,
@@ -99,57 +117,20 @@ export function Component() {
     });
 
     const {
-        value,
-        validate,
-        setFieldValue,
-        setError,
-        setValue,
-    } = useForm(
-        assessmentSchema,
-        { value: defaultFormValue },
-    );
-
-    const {
         response: perOverviewResponse,
     } = useRequest<GET['api/v2/per-overview/:id']>({
         skip: isNotDefined(statusResponse?.id),
-        // FIXME: change endpoint name
         url: `api/v2/per-overview/${statusResponse?.id}`,
     });
 
     const {
-        pending: perOptionsPending,
-        response: perOptionsResponse,
-    } = useRequest<GET['api/v2/per-options']>({
-        url: 'api/v2/per-options',
-    });
-    const {
         pending: perAssesmentPending,
     } = useRequest<AssessmentResponse>({
-        skip: isNotDefined(assessmentId),
+        skip: isNotDefined(statusResponse?.id),
         url: `api/v2/per-assessment/${assessmentId}`,
         onSuccess: (response) => {
             if (response) {
-                setValue({
-                    ...response,
-                    area_responses: response.area_responses.map(
-                        (areaResponse) => ({
-                            ...areaResponse,
-                            component_responses: areaResponse.component_responses.map(
-                                (componentResponse) => ({
-                                    ...componentResponse,
-                                    consideration_responses: componentResponse
-                                        .consideration_responses?.map(
-                                            (considerationResponse) => ({
-                                                ...considerationResponse,
-                                                client_id: String(considerationResponse.id),
-                                            }),
-                                        ),
-                                }),
-                            ),
-                        }),
-                    ),
-                });
+                setValue(response);
             }
         },
     });
@@ -191,24 +172,15 @@ export function Component() {
             debugMessage,
         }) => {
             alert.show(
-                <div>
-                    {strings.perFormSaveRequestFailureMessage}
-                    &nbsp;
-                    <strong>
-                        {messageForNotification}
-                    </strong>
-                </div>,
+                strings.perFormSaveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
+                    description: messageForNotification,
                 },
             );
         },
     });
-
-    const {
-        setValue: setAreaResponsesValue,
-    } = useFormArray('area_responses', setFieldValue);
 
     const handleSubmit = useCallback(
         (formValues: PartialForm<AssessmentResponse>) => {
@@ -244,13 +216,27 @@ export function Component() {
         [savePerAssessment, assessmentId, perId],
     );
 
-    const handleNextTab = () => {
-        setCurrentArea(Math.min((currentArea ?? 0) + 1, areas.length));
-    };
+    const {
+        setValue: setAreaResponsesValue,
+    } = useFormArray('area_responses', setFieldValue);
 
-    const handlePrevTab = () => {
-        setCurrentArea(Math.max((currentArea ?? 0) - 1, 1));
-    };
+    const handleNextTab = useCallback(
+        () => {
+            setCurrentArea(
+                (prevArea) => (
+                    Math.min((prevArea ?? 0) + 1, areas.length)
+                ),
+            );
+        },
+        [areas.length],
+    );
+
+    const handlePrevTab = useCallback(
+        () => {
+            setCurrentArea((prevArea) => Math.max((prevArea ?? 0) - 1, 1));
+        },
+        [],
+    );
 
     const areaResponseMapping = listToMap(
         value?.area_responses ?? [],
@@ -272,14 +258,15 @@ export function Component() {
         (question) => question.component.area.title,
     );
 
-    const pending = questionsPending
-        || perOptionsPending
-        || perAssesmentPending;
     const minArea = 1;
     const maxArea = areas.length;
     const currentPerStep = statusResponse?.phase;
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
+
+    const pending = questionsPending
+        || perOptionsPending
+        || perAssesmentPending;
 
     return (
         <form className={styles.assessmentForm}>
@@ -326,9 +313,7 @@ export function Component() {
                                 index={areaResponseMapping[area.id]?.index}
                                 value={areaResponseMapping[area.id]?.value}
                                 onChange={setAreaResponsesValue}
-                                ratingOptions={
-                                    perOptionsResponse?.componentratings ?? []
-                                }
+                                ratingOptions={perOptionsResponse?.componentratings}
                                 epi_considerations={perOverviewResponse
                                     ?.assess_preparedness_of_country}
                                 urban_considerations={perOverviewResponse
@@ -340,24 +325,22 @@ export function Component() {
                     ))}
                     <div className={styles.actions}>
                         <div className={styles.pageActions}>
-                            {currentArea !== undefined && currentArea > minArea && (
-                                <Button
-                                    name={undefined}
-                                    variant="secondary"
-                                    onClick={handlePrevTab}
-                                >
-                                    {strings.perFormBackButton}
-                                </Button>
-                            )}
-                            {currentArea !== undefined && currentArea < maxArea && (
-                                <Button
-                                    name="next"
-                                    variant="secondary"
-                                    onClick={handleNextTab}
-                                >
-                                    {strings.perFormNextButton}
-                                </Button>
-                            )}
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                onClick={handlePrevTab}
+                                disabled={isNotDefined(currentArea) || currentArea <= minArea}
+                            >
+                                {strings.perFormBackButton}
+                            </Button>
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                onClick={handleNextTab}
+                                disabled={isNotDefined(currentArea) || currentArea >= maxArea}
+                            >
+                                {strings.perFormNextButton}
+                            </Button>
                         </div>
                         <ConfirmButton
                             name={undefined}
@@ -380,6 +363,10 @@ export function Component() {
                                 name={undefined}
                                 variant="secondary"
                                 onClick={handleFormSubmit}
+                                disabled={isNotDefined(currentPerStep)
+                                    || savePerPending
+                                    || perAssesmentPending
+                                    || currentPerStep !== STEP_ASSESSMENT}
                             >
                                 {strings.perFormSaveButton}
                             </Button>

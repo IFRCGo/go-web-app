@@ -3,6 +3,8 @@ import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
     SetValueArg,
     useFormObject,
+    Error,
+    getErrorObject,
 } from '@togglecorp/toggle-form';
 import { randomString } from '@togglecorp/fujs';
 
@@ -26,6 +28,7 @@ type Value = NonNullable<PartialWorkPlan['custom_component_responses']>[number];
 interface Props {
     value: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
+    error: Error<Value> | undefined;
     index: number;
     onRemove: (index: number) => void;
     workPlanStatusOptions: LabelValue[];
@@ -43,9 +46,11 @@ function CustomComponentInput(props: Props) {
         value,
         workPlanStatusOptions,
         nsOptions,
+        error: formError,
     } = props;
 
     const strings = useTranslation(i18n);
+    const error = getErrorObject(formError);
 
     const defaultValue = useMemo(
         () => ({
@@ -68,11 +73,13 @@ function CustomComponentInput(props: Props) {
                 onChange={onFieldChange}
                 placeholder={strings.perFormActionsPlaceholder}
                 rows={2}
+                error={error?.actions}
             />
             <DateInput
                 name="due_date"
                 value={value?.due_date}
                 onChange={onFieldChange}
+                error={error?.due_date}
             />
             <SelectInput
                 name="supported_by"
@@ -82,6 +89,7 @@ function CustomComponentInput(props: Props) {
                 keySelector={numericValueSelector}
                 labelSelector={stringLabelSelector}
                 value={value?.supported_by}
+                error={error?.supported_by}
             />
             <SelectInput
                 name="status"
@@ -91,6 +99,7 @@ function CustomComponentInput(props: Props) {
                 keySelector={numericValueSelector}
                 labelSelector={stringLabelSelector}
                 value={value?.status}
+                error={error?.status}
             />
             <div>
                 <Button

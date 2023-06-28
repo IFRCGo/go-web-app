@@ -1,7 +1,6 @@
 .header {
     .header-content {
         display: flex;
-        align-items: baseline;
     }
 
     &.heading-ellipsized {
