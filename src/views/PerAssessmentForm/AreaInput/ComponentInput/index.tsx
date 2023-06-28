@@ -3,7 +3,7 @@ import {
     useFormArray,
     useFormObject,
 } from '@togglecorp/toggle-form';
-import { listToMap, _cs } from '@togglecorp/fujs';
+import { listToMap, _cs, isNotDefined } from '@togglecorp/fujs';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import SelectInput from '#components/SelectInput';
@@ -11,6 +11,7 @@ import type { GET } from '#types/serverResponse';
 
 import { PartialAssessment } from '../../common';
 import QuestionInput from './QuestionInput';
+import ConsiderationInput from './ConsiderationInput';
 import styles from './styles.module.css';
 
 type PerFormQuestion = GET['api/v2/per-formquestion']['results'][number];
@@ -29,6 +30,9 @@ interface Props {
         value: number;
         title: string;
     }[];
+    epi_considerations: boolean | null | undefined;
+    urban_considerations: boolean | null | undefined;
+    climate_environmental_considerations: boolean | null | undefined;
 }
 
 function ComponentInput(props: Props) {
@@ -40,6 +44,9 @@ function ComponentInput(props: Props) {
         component,
         questions,
         ratingOptions,
+        epi_considerations,
+        urban_considerations,
+        climate_environmental_considerations,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -51,8 +58,18 @@ function ComponentInput(props: Props) {
     );
 
     const {
-        setValue: setComponentValue,
-    } = useFormArray('question_responses', setFieldValue);
+        setValue: setQuestionValue,
+    } = useFormArray<'question_responses', NonNullable<Value['question_responses']>[number]>(
+        'question_responses',
+        setFieldValue,
+    );
+
+    const {
+        setValue: setConsiderationValue,
+    } = useFormArray<'consideration_responses', NonNullable<Value['consideration_responses']>[number]>(
+        'consideration_responses',
+        setFieldValue,
+    );
 
     const questionResponseMapping = listToMap(
         value?.question_responses ?? [],
@@ -62,6 +79,10 @@ function ComponentInput(props: Props) {
             value: questionResponse,
         }),
     );
+
+    const hasConsiderations = epi_considerations
+        || urban_considerations
+        || climate_environmental_considerations;
 
     return (
         <ExpandableContainer
@@ -83,7 +104,9 @@ function ComponentInput(props: Props) {
             )}
         >
             {questions?.map((question) => {
-                if (question.is_epi || question.is_benchmark) {
+                if (question.is_epi
+                    || question.is_benchmark
+                    || isNotDefined(question.question_num)) {
                     return null;
                 }
 
@@ -94,10 +117,20 @@ function ComponentInput(props: Props) {
                         question={question}
                         index={questionResponseMapping[question.id]?.index}
                         value={questionResponseMapping[question.id]?.value}
-                        onChange={setComponentValue}
+                        onChange={setQuestionValue}
                     />
                 );
             })}
+            {hasConsiderations && (
+                <ConsiderationInput
+                    index={0}
+                    value={value?.consideration_responses?.[0]}
+                    onChange={setConsiderationValue}
+                    epi_considerations={epi_considerations}
+                    urban_considerations={urban_considerations}
+                    climate_environmental_considerations={climate_environmental_considerations}
+                />
+            )}
         </ExpandableContainer>
     );
 }

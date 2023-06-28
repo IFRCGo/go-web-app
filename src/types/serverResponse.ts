@@ -90,8 +90,10 @@ interface PerAssessmentResponse {
         component_responses: {
             component: number;
             consideration_responses: {
-                consideration: number;
-                notes: string;
+                id: number;
+                urban_considerations: string | null;
+                epi_considerations: string | null;
+                climate_environmental_considerations: string | null;
             }[];
             id: number;
             question_responses: {

@@ -30,11 +30,9 @@ interface Props {
     questions: PerFormQuestion[] | undefined;
     area: PerFormArea;
     ratingOptions: GET['api/v2/per-options']['componentratings'];
-    /*
-    epi_considerations: boolean | null;
-    urban_considerations: boolean | null;
-    climate_and_environmental_considerations: boolean | null;
-    */
+    epi_considerations: boolean | null | undefined;
+    urban_considerations: boolean | null | undefined;
+    climate_environmental_considerations: boolean | null | undefined;
 }
 
 function AreaInput(props: Props) {
@@ -47,6 +45,9 @@ function AreaInput(props: Props) {
         questions,
         // error,
         ratingOptions,
+        epi_considerations,
+        urban_considerations,
+        climate_environmental_considerations,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -97,6 +98,9 @@ function AreaInput(props: Props) {
                         value={componentResponseMapping[componentResponse.component.id]?.value}
                         onChange={setQuestionResponseValue}
                         ratingOptions={ratingOptions}
+                        epi_considerations={epi_considerations}
+                        urban_considerations={urban_considerations}
+                        climate_environmental_considerations={climate_environmental_considerations}
                     />
                 ) : null
             ))}

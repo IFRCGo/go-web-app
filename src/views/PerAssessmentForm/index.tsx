@@ -109,7 +109,6 @@ export function Component() {
         { value: defaultFormValue },
     );
 
-    /*
     const {
         response: perOverviewResponse,
     } = useRequest<GET['api/v2/per-overview/:id']>({
@@ -117,16 +116,12 @@ export function Component() {
         // FIXME: change endpoint name
         url: `api/v2/per-overview/${statusResponse?.id}`,
     });
-    */
 
     const {
         pending: perOptionsPending,
         response: perOptionsResponse,
     } = useRequest<GET['api/v2/per-options']>({
         url: 'api/v2/per-options',
-        onSuccess: (response) => {
-            setValue(response);
-        },
     });
     const {
         pending: perAssesmentPending,
@@ -134,7 +129,28 @@ export function Component() {
         skip: isNotDefined(assessmentId),
         url: `api/v2/per-assessment/${assessmentId}`,
         onSuccess: (response) => {
-            setValue(response);
+            if (response) {
+                setValue({
+                    ...response,
+                    area_responses: response.area_responses.map(
+                        (areaResponse) => ({
+                            ...areaResponse,
+                            component_responses: areaResponse.component_responses.map(
+                                (componentResponse) => ({
+                                    ...componentResponse,
+                                    consideration_responses: componentResponse
+                                        .consideration_responses?.map(
+                                            (considerationResponse) => ({
+                                                ...considerationResponse,
+                                                client_id: String(considerationResponse.id),
+                                            }),
+                                        ),
+                                }),
+                            ),
+                        }),
+                    ),
+                });
+            }
         },
     });
 
@@ -313,6 +329,12 @@ export function Component() {
                                 ratingOptions={
                                     perOptionsResponse?.componentratings ?? []
                                 }
+                                epi_considerations={perOverviewResponse
+                                    ?.assess_preparedness_of_country}
+                                urban_considerations={perOverviewResponse
+                                    ?.assess_urban_aspect_of_country}
+                                climate_environmental_considerations={perOverviewResponse
+                                    ?.assess_climate_environment_of_country}
                             />
                         </TabPanel>
                     ))}
@@ -358,10 +380,6 @@ export function Component() {
                                 name={undefined}
                                 variant="secondary"
                                 onClick={handleFormSubmit}
-                                disabled={perAssesmentPending
-                                    || savePerPending
-                                    || isNotDefined(currentPerStep)
-                                    || currentPerStep !== STEP_ASSESSMENT}
                             >
                                 {strings.perFormSaveButton}
                             </Button>

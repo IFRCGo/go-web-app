@@ -352,13 +352,13 @@ export function Component() {
                     description={strings.perFormEpiConsiderationsDescription}
                 >
                     <RadioInput
-                        name="is_epi"
+                        name="assess_preparedness_of_country"
                         options={yesNoOptions}
                         keySelector={booleanValueSelector}
                         labelSelector={stringLabelSelector}
-                        value={value?.is_epi}
+                        value={value?.assess_preparedness_of_country}
                         onChange={setFieldValue}
-                        error={error?.is_epi}
+                        error={error?.assess_preparedness_of_country}
                     />
                 </InputSection>
                 <InputSection

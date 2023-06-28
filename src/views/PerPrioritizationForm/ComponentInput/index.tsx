@@ -97,7 +97,7 @@ function ComponentsInput(props: Props) {
         (item, key) => ({ answer: key, num: item.length }),
     ) : [];
 
-    const onFieldChange = useFormObject(
+    const setFieldValue = useFormObject(
         index,
         onChange,
         () => ({
@@ -143,7 +143,7 @@ function ComponentsInput(props: Props) {
                     <TextInput
                         name="justification_text"
                         value={value?.justification_text}
-                        onChange={onFieldChange}
+                        onChange={setFieldValue}
                         placeholder={strings.perFormEnterJustification}
                         disabled={!value}
                     />
