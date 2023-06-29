@@ -226,6 +226,37 @@ interface PerWorkPlanResponse {
     };
 }
 
+export interface MembershipCoordination {
+    id: number | null;
+    country_plan: number;
+    has_coordination: boolean;
+    national_society: number;
+    national_society_name: string;
+    sector: string;
+    sector_display: string;
+}
+
+export interface StrategicPriority {
+    id: number;
+    country_plan: number;
+    funding_requirement: number | null;
+    people_targeted: number | null;
+    type: string | null;
+    type_display: string | null;
+}
+
+interface CountryPlanApiResponse {
+    country: number;
+    id: number;
+    internal_plan_file: string | null;
+    public_plan_file: string | null;
+    is_publish: boolean;
+    membership_coordinations: MembershipCoordination[];
+    people_targeted: number | null;
+    requested_amount: number | null;
+    strategic_priorities: StrategicPriority[];
+}
+
 export interface GET {
     'api/v2/country': ListResponse<CountryListResponseItem>;
     'api/v2/per-formquestion': ListResponse<PerFormQuestionItem>;
@@ -255,4 +286,5 @@ export interface GET {
     }>;
     'api/v2/per-prioritization/:id': PerPrioritizationResponse;
     'api/v2/per-work-plan/:id': PerWorkPlanResponse;
+    'api/v2/country-plan/:id' : CountryPlanApiResponse;
 }
