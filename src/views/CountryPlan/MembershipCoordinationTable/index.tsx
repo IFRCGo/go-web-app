@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { IoCheckmarkCircleSharp } from 'react-icons/io5';
 import {
     _cs,
@@ -13,19 +13,17 @@ import useTranslation from '#hooks/useTranslation';
 
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
+import { createListDisplayColumn, createNumberColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
+import Table from '#components/Table';
+import { MembershipCoordination } from '#types/serverResponse';
 
-export interface MembershipCoordination {
-    id: number | null;
-    country_plan: number;
-    has_coordination: boolean;
-    national_society: number;
-    national_society_name: string;
-    sector: string;
-    sector_display: string;
-}
+// function memberCoordinationKeySelector(memberCoordination: MembershipCoordination) {
+//     return memberCoordination.id;
+// }
+
 interface Props {
     className?: string;
-    data?: MembershipCoordination[];
+    data: MembershipCoordination[] | undefined;
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -75,8 +73,13 @@ function MemberCoordinationTable(props: Props) {
         <Container
             className={_cs(styles.membershipCoordinationTable, className)}
             heading={strings.countryPlanMembershipCoordinationTableTitle}
-            childrenContainerClassName={styles.content}
         >
+            {/* <Table
+                className={styles.inProgressDrefTable}
+                data={data}
+                columns={undefined}
+                keySelector={memberCoordinationKeySelector}
+            /> */}
             <table>
                 <thead>
                     <tr>

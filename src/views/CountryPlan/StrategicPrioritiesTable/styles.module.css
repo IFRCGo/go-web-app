@@ -1,21 +1,17 @@
 .strategic-priorities-table {
-    .content {
-        padding: 0!important;
+    table {
+        width: 100%;
 
-        table {
-            width: 100%;
+        th {
+            border-bottom: var(--go-ui-spacing-px) solid var(--go-ui-box-shadow-sm);
+            background-color: var(--go-ui-color-background);
+            padding: var(--go-ui-spacing-md);
+            text-align: left;
+        }
 
-            th {
-                border-bottom: var(--go-ui-spacing-px) solid var(--go-ui-box-shadow-sm);
-                background-color: var(--go-ui-color-background);
-                padding: var(--go-ui-spacing-md);
-                text-align: left;
-            }
-
-            td {
-                border-bottom: var(--go-ui-spacing-px) solid var(--go-ui-box-shadow-sm);
-                padding: var(--go-ui-spacing-md);
-            }
+        td {
+            border-bottom: var(--go-ui-spacing-px) solid var(--go-ui-box-shadow-sm);
+            padding: var(--go-ui-spacing-md);
         }
     }
 }
