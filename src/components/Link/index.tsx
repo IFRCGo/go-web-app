@@ -11,7 +11,8 @@ import {
 } from 'react-router-dom';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
-import useBasicLayout from '#hooks/useBasicLayout';
+import { useButtonFeatures } from '#components/Button';
+import type { ButtonFeatureProps } from '#components/Button';
 
 import styles from './styles.module.css';
 
@@ -29,6 +30,7 @@ export interface Props extends Omit<RouterLinkProps, 'to'> {
     to?: RouterLinkProps['to'];
     withUnderline?: boolean;
     withForwardIcon?: boolean;
+    variant?: ButtonFeatureProps['variant'];
 }
 
 function Link(props: Props) {
@@ -44,6 +46,7 @@ function Link(props: Props) {
         to,
         withUnderline,
         withForwardIcon,
+        variant = 'tertiary',
         ...otherProps
     } = props;
 
@@ -87,12 +90,14 @@ function Link(props: Props) {
     }, [to, linkElementClassName, childrenFromProps, otherProps]);
 
     const {
-        content,
-        containerClassName,
-    } = useBasicLayout({
+        children: content,
+        className: containerClassName,
+    } = useButtonFeatures({
         className,
         icons,
         children,
+        variant,
+        disabled,
         actions: (isDefined(actions) || withForwardIcon) ? (
             <>
                 {actions}
@@ -104,13 +109,14 @@ function Link(props: Props) {
     });
 
     return (
-        <div className={_cs(
-            styles.link,
-            isNotDefined(to) && styles.nonLink,
-            withUnderline && styles.underline,
-            disabled && styles.disabled,
-            containerClassName,
-        )}
+        <div
+            className={_cs(
+                styles.link,
+                isNotDefined(to) && styles.nonLink,
+                withUnderline && styles.underline,
+                disabled && styles.disabled,
+                containerClassName,
+            )}
         >
             {content}
         </div>

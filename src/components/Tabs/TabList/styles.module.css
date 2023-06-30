@@ -33,6 +33,10 @@
         }
     }
 
+    &.primary {
+        align-items: stretch;
+    }
+
     &.secondary {
         border-radius: calc(1em + var(--go-ui-spacing-md));
         background-color: var(--go-ui-color-background);

@@ -12,29 +12,29 @@ import {
 
 import Table from '#components/Table';
 import {
-    createActionColumn,
     createNumberColumn,
     createDateColumn,
     createLinkColumn,
     createStringColumn,
     createExpandColumn,
     createEmptyColumn,
+    createExpansionIndicatorColumn,
+    createElementColumn,
 } from '#components/Table/ColumnShortcuts';
+import { useSortState, SortContext } from '#components/Table/useSorting';
 import TableBodyContent from '#components/Table/TableBodyContent';
 import type { RowOptions } from '#components/Table/types';
 import Link from '#components/Link';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
+import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
-import {
-    STEP_OVERVIEW,
-    STEP_ASSESSMENT,
-    STEP_PRIORITIZATION,
-    STEP_WORKPLAN,
-} from '#utils/per';
 import { numericIdSelector } from '#utils/selectors';
 
+import PerTableActions from './PerTableActions';
+import type { Props as PerTableActionsProps } from './PerTableActions';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PerProcessStatusResponse = GET['api/v2/aggregated-per-process-status'];
@@ -42,12 +42,24 @@ type PerProcessStatusItem = PerProcessStatusResponse['results'][number];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    const strings = useTranslation(i18n);
+    const sortState = useSortState({ name: 'date_of_assessment', direction: 'dsc' });
+    const { sorting } = sortState;
     const [expandedRow, setExpandedRow] = useState<PerProcessStatusItem | undefined>();
+    let ordering;
+    if (sorting) {
+        ordering = sorting.direction === 'dsc'
+            ? `-${sorting.name}`
+            : sorting.name;
+    }
     const {
         pending: aggregatedStatusPending,
         response: aggregatedStatusResponse,
     } = useRequest<PerProcessStatusResponse>({
         url: 'api/v2/aggregated-per-process-status',
+        query: {
+            ordering,
+        },
     });
 
     const {
@@ -63,52 +75,8 @@ export function Component() {
 
     const {
         country: countryRoute,
-        perOverviewForm: perOverviewFormRoute,
-        perAssessmentForm: perAssessmentFormRoute,
-        perPrioritizationForm: perPrioritizationFormRoute,
-        perWorkPlanForm: perWorkPlanFormRoute,
         newPerOverviewForm: newPerOverviewFormRoute,
     } = useContext(RouteContext);
-
-    const getRouteUrl = useCallback(
-        (currentPhase: number, perId: number) => {
-            if (currentPhase === STEP_OVERVIEW) {
-                return generatePath(
-                    perOverviewFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            if (currentPhase === STEP_ASSESSMENT) {
-                return generatePath(
-                    perAssessmentFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            if (currentPhase === STEP_PRIORITIZATION) {
-                return generatePath(
-                    perPrioritizationFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            if (currentPhase === STEP_WORKPLAN) {
-                return generatePath(
-                    perWorkPlanFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            return undefined;
-        },
-        [
-            perOverviewFormRoute,
-            perAssessmentFormRoute,
-            perPrioritizationFormRoute,
-            perWorkPlanFormRoute,
-        ],
-    );
 
     const handleExpandClick = useCallback(
         (row: PerProcessStatusItem) => {
@@ -121,9 +89,9 @@ export function Component() {
 
     const baseColumn = useMemo(
         () => ([
-            createLinkColumn<PerProcessStatusItem, number | string>(
+            createLinkColumn<PerProcessStatusItem, number>(
                 'country',
-                'Country',
+                strings.tableCountryTitle,
                 (item) => item.country_details?.name,
                 (item) => ({
                     to: generatePath(
@@ -132,45 +100,51 @@ export function Component() {
                     ),
                 }),
             ),
-            createDateColumn<PerProcessStatusItem, number | string>(
+            createDateColumn<PerProcessStatusItem, number>(
                 'date_of_assessment',
-                'Start date',
+                strings.tableStartDateTitle,
                 (item) => item.date_of_assessment,
+                { sortable: true },
             ),
-            createNumberColumn<PerProcessStatusItem, number | string>(
+            createNumberColumn<PerProcessStatusItem, number>(
                 'assessment_number',
-                'PER cycle',
+                strings.tablePerCycleTitle,
                 (item) => item.assessment_number,
             ),
-            createStringColumn<PerProcessStatusItem, number | string>(
+            createStringColumn<PerProcessStatusItem, number>(
                 'phase',
-                'Phase',
+                strings.tablePerPhaseTitle,
                 (item) => (isDefined(item.phase) ? `${item.phase} - ${item.phase_display}` : '-'),
+                { sortable: true },
             ),
-            createActionColumn<PerProcessStatusItem, number | string>(
+            createElementColumn<PerProcessStatusItem, number, PerTableActionsProps>(
                 'actions',
-                (item) => ({
-                    children: isDefined(item.phase) ? (
-                        <Link
-                            to={getRouteUrl(item.phase, item.id)}
-                        >
-                            {`Edit ${item.phase_display}`}
-                        </Link>
-                    ) : undefined,
+                '',
+                PerTableActions,
+                (perId, statusItem) => ({
+                    perId,
+                    phase: statusItem.phase,
+                    phaseDisplay: statusItem.phase_display,
                 }),
             ),
         ]),
-        [countryRoute, getRouteUrl],
+        [strings, countryRoute],
     );
 
     const aggregatedColumns = useMemo(
         () => ([
+            createExpansionIndicatorColumn<PerProcessStatusItem, number | string>(
+                false,
+            ),
             ...baseColumn,
             createExpandColumn<PerProcessStatusItem, number>(
                 'expandRow',
                 '',
-                handleExpandClick,
-                expandedRow?.id,
+                (row) => ({
+                    onClick: handleExpandClick,
+                    expanded: row.id === expandedRow?.id,
+                    disabled: row.assessment_number <= 1,
+                }),
             ),
         ]),
         [handleExpandClick, baseColumn, expandedRow?.id],
@@ -178,6 +152,9 @@ export function Component() {
 
     const detailColumns = useMemo(
         () => ([
+            createExpansionIndicatorColumn<PerProcessStatusItem, number | string>(
+                true,
+            ),
             ...baseColumn,
             createEmptyColumn(),
         ]),
@@ -189,13 +166,16 @@ export function Component() {
             if (datum.country !== expandedRow?.country) {
                 return row;
             }
+            const subRows = countryStatusResponse?.results?.filter(
+                (subRow) => subRow.id !== datum.id,
+            );
 
             return (
                 <>
                     {row}
                     <TableBodyContent
                         keySelector={numericIdSelector}
-                        data={countryStatusResponse?.results}
+                        data={subRows}
                         columns={detailColumns}
                         cellClassName={styles.subCell}
                     />
@@ -208,24 +188,27 @@ export function Component() {
     return (
         <Container
             className={styles.accountPerForms}
-            // FIXME: use translations
-            heading="PER Process Status"
+            heading={strings.processStatusTitle}
             headingLevel={2}
             withHeaderBorder
             actions={(
-                // FIXME: use translations
-                <Link to={newPerOverviewFormRoute.absolutePath}>
-                    Start New PER Process
+                <Link
+                    to={newPerOverviewFormRoute.absolutePath}
+                    variant="primary"
+                >
+                    {strings.newProcessButtonLabel}
                 </Link>
             )}
         >
-            <Table
-                pending={aggregatedStatusPending}
-                columns={aggregatedColumns}
-                keySelector={numericIdSelector}
-                data={aggregatedStatusResponse?.results}
-                rowModifier={rowModifier}
-            />
+            <SortContext.Provider value={sortState}>
+                <Table
+                    pending={aggregatedStatusPending}
+                    columns={aggregatedColumns}
+                    keySelector={numericIdSelector}
+                    data={aggregatedStatusResponse?.results}
+                    rowModifier={rowModifier}
+                />
+            </SortContext.Provider>
         </Container>
     );
 }

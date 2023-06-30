@@ -62,11 +62,6 @@
             overflow: auto;
             gap: var(--spacing);
         }
-
-        .modal-footer {
-            display: flex;
-            gap: var(--spacing);
-        }
     }
 }
 

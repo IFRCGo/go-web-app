@@ -1,25 +1,25 @@
-export function booleanValueSelector<T extends { value: boolean }>(option: T) {
+export function booleanValueSelector(option: { value: boolean }) {
     return option.value;
 }
-export function numericValueSelector<T extends { value: number }>(option: T) {
+export function numericValueSelector(option: { value: number }) {
     return option.value;
 }
-export function stringValueSelector<T extends { value: string }>(option: T) {
+export function stringValueSelector(option: { value: string }) {
     return option.value;
 }
 
-export function stringLabelSelector<T extends { label: string }>(option: T) {
+export function stringLabelSelector(option: { label: string }) {
     return option.label;
 }
 
-export function numericIdSelector<T extends { id: number }>(option: T) {
+export function numericIdSelector(option: { id: number }) {
     return option.id;
 }
 
-export function stringNameSelector<T extends { name: string }>(option: T) {
+export function stringNameSelector(option: { name: string }) {
     return option.name;
 }
 
-export function stringKeySelector<T extends { key: string }>(option: T) {
+export function stringKeySelector(option: { key: string }) {
     return option.key;
 }

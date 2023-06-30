@@ -1,5 +1,10 @@
 import { useState, useCallback } from 'react';
-import { listToMap, listToGroupList, mapToList } from '@togglecorp/fujs';
+import {
+    listToMap,
+    listToGroupList,
+    mapToList,
+    isNotDefined,
+} from '@togglecorp/fujs';
 import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
@@ -30,6 +35,7 @@ interface Props {
     component: GET['api/v2/per-formcomponent']['results'][number];
     onSelectionChange: (checked: boolean, index: number, componentId: number) => void;
     questionResponses: ComponentResponse['question_responses'];
+    ratingDisplay?: string | undefined | null;
 }
 
 function ComponentsInput(props: Props) {
@@ -40,6 +46,7 @@ function ComponentsInput(props: Props) {
         component,
         onSelectionChange,
         questionResponses,
+        ratingDisplay,
     } = props;
 
     const [expanded, setExpanded] = useState(false);
@@ -73,20 +80,24 @@ function ComponentsInput(props: Props) {
     const mappedQuestionResponses = listToMap(
         questionResponses,
         (questionResponse) => questionResponse.question,
-        (questionResponse) => mappedQuestions[questionResponse.question]
-            ?.answerMap[questionResponse.answer],
+        (questionResponse) => ({
+            answer: questionResponse.answer,
+            notes: questionResponse.notes,
+            answerDisplay: mappedQuestions[questionResponse.question]
+                ?.answerMap[questionResponse.answer],
+        }),
     );
 
     const numResponses = mappedQuestionResponses ? Object.keys(mappedQuestionResponses).length : 0;
     const answerStats = formQuestions ? mapToList(
         listToGroupList(
             Object.values(mappedQuestionResponses ?? {}),
-            (response) => response,
+            (response) => response.answerDisplay,
         ),
         (item, key) => ({ answer: key, num: item.length }),
     ) : [];
 
-    const onFieldChange = useFormObject(
+    const setFieldValue = useFormObject(
         index,
         onChange,
         () => ({
@@ -123,13 +134,20 @@ function ComponentsInput(props: Props) {
                 />
             )}
             actions={(
-                <TextInput
-                    name="justification_text"
-                    value={value?.justification_text}
-                    onChange={onFieldChange}
-                    placeholder={strings.perFormEnterJustification}
-                    disabled={!value}
-                />
+                <>
+                    {ratingDisplay && (
+                        <div>
+                            {ratingDisplay}
+                        </div>
+                    )}
+                    <TextInput
+                        name="justification_text"
+                        value={value?.justification_text}
+                        onChange={setFieldValue}
+                        placeholder={strings.perFormEnterJustification}
+                        disabled={!value}
+                    />
+                </>
             )}
         >
             {formQuestionsPending && (
@@ -138,7 +156,10 @@ function ComponentsInput(props: Props) {
             {formQuestions && formQuestions.results.map(
                 (perFormQuestion) => {
                     // TODO: remove these from server
-                    if (perFormQuestion.is_benchmark || perFormQuestion.is_epi) {
+                    if (perFormQuestion.is_benchmark
+                        || perFormQuestion.is_epi
+                        || isNotDefined(perFormQuestion.question_num)
+                    ) {
                         return null;
                     }
 
@@ -148,7 +169,8 @@ function ComponentsInput(props: Props) {
                             question={perFormQuestion.question}
                             questionNum={perFormQuestion.question_num}
                             componentNum={component.component_num}
-                            answer={mappedQuestionResponses?.[perFormQuestion.id]}
+                            answer={mappedQuestionResponses?.[perFormQuestion.id]?.answerDisplay}
+                            notes={mappedQuestionResponses?.[perFormQuestion.id]?.notes}
                         />
                     );
                 },

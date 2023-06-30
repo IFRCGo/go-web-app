@@ -107,6 +107,8 @@
     --go-ui-duration-animation-medium: .5s;
     --go-ui-duration-animation-slow: 1.2s;
 
+    --go-ui-color-text-light: rgba(0, 0, 0, 0.5);
+
     --go-ui-color-primary-red: #F5333F;
     --go-ui-color-primary-blue: #011E41;
     --go-ui-color-primary-gray: #323232;

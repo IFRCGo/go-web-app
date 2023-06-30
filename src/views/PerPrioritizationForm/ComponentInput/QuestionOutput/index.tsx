@@ -5,6 +5,7 @@ interface Props {
     answer: string;
     questionNum: number;
     componentNum: number;
+    notes?: string | null;
 }
 
 function QuestionOutput(props: Props) {
@@ -13,19 +14,27 @@ function QuestionOutput(props: Props) {
         componentNum,
         question,
         answer,
+        notes,
     } = props;
 
     return (
         <div className={styles.questionOutput}>
-            <div className={styles.numbering}>
-                {`${componentNum}.${questionNum}`}
+            <div className={styles.questionRow}>
+                <div className={styles.numbering}>
+                    {`${componentNum}.${questionNum}`}
+                </div>
+                <div className={styles.question}>
+                    {question}
+                </div>
+                <div className={styles.answer}>
+                    {answer}
+                </div>
             </div>
-            <div className={styles.question}>
-                {question}
-            </div>
-            <div className={styles.answer}>
-                {answer}
-            </div>
+            {notes && (
+                <div className={styles.notes}>
+                    {notes}
+                </div>
+            )}
         </div>
     );
 }

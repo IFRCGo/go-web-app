@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import App from './App/index.tsx';
 import './index.css';
+import App from './App/index.tsx';
 
 const webappRootId = 'webapp-root';
 const webappRootElement = document.getElementById(webappRootId);

@@ -17,6 +17,7 @@ type PrioritizationSchemaFields = ReturnType<PrioritizationSchema['fields']>;
 export const prioritizationSchema: PrioritizationSchema = {
     fields: (): PrioritizationSchemaFields => ({
         overview: {},
+        is_draft: {},
         component_responses: {
             keySelector: (componentResponse) => componentResponse.component,
             member: () => ({

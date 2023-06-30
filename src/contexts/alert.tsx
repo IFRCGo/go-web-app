@@ -1,21 +1,23 @@
 import { createContext } from 'react';
 
-export type AlertVariant = 'success' | 'warning' | 'danger' | 'info';
+export type AlertType = 'success' | 'warning' | 'danger' | 'info';
+// export type AlertVariant = 'primary' | 'secondary';
 
 export interface AlertParams {
-  name: string;
-  variant: AlertVariant;
-  children: React.ReactNode;
-  duration: number;
-  nonDismissable?: boolean;
-  debugMessage?: string;
+    name: string;
+    variant: AlertType;
+    title: React.ReactNode;
+    description?: React.ReactNode;
+    duration: number;
+    nonDismissable?: boolean;
+    debugMessage?: string;
 }
 
 export interface AlertContextProps {
-  alerts: AlertParams[];
-  addAlert: (p: AlertParams) => void;
-  removeAlert: (name: string) => void;
-  updateAlert: (name: string, params: Omit<AlertParams, 'name'>) => void;
+    alerts: AlertParams[];
+    addAlert: (p: AlertParams) => void;
+    removeAlert: (name: string) => void;
+    updateAlert: (name: string, params: Omit<AlertParams, 'name'>) => void;
 }
 
 const AlertContext = createContext<AlertContextProps>({

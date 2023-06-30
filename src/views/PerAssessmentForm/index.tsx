@@ -20,13 +20,14 @@ import {
 } from '@togglecorp/toggle-form';
 
 import BlockLoading from '#components/BlockLoading';
+import Portal from '#components/Portal';
 import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
 import Tab from '#components/Tabs/Tab';
 import TabPanel from '#components/Tabs/TabPanel';
-import Modal from '#components/Modal';
 import Button from '#components/Button';
 import PerAssessmentSummary from '#components/PerAssessmentSummary';
+import ConfirmButton from '#components/ConfirmButton';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
@@ -34,7 +35,7 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { STEP_ASSESSMENT } from '#utils/per';
+import { STEP_ASSESSMENT, PerProcessOutletContext } from '#utils/per';
 import type { GET } from '#types/serverResponse';
 
 import {
@@ -52,6 +53,10 @@ const defaultFormValue: PartialAssessment = {
     area_responses: [],
 };
 
+type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
+type PerFormArea = PerFormQuestionResponse['results'][number]['component']['area']
+const defaultFormAreas: PerFormArea[] = [];
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
@@ -61,24 +66,33 @@ export function Component() {
     const {
         perPrioritizationForm: perPrioritizationFormRoute,
     } = useContext(RouteContext);
-
-    type StatusContextValue = {
-        statusResponse: GET['api/v2/per-process-status/:id'],
-        refetchStatusResponse: () => void,
-    }
-
     const {
         statusResponse,
         refetchStatusResponse,
-    } = useOutletContext<StatusContextValue>();
+        actionDivRef,
+    } = useOutletContext<PerProcessOutletContext>();
+
+    const {
+        value,
+        validate,
+        setFieldValue,
+        setError,
+        setValue,
+    } = useForm(
+        assessmentSchema,
+        { value: defaultFormValue },
+    );
 
     const [currentArea, setCurrentArea] = useState<number | undefined>();
-    const [showConfirmation, setShowConfirmation] = useState(false);
     const assessmentId = statusResponse?.assessment;
+    const [areas, setAreas] = useState<PerFormArea[]>(defaultFormAreas);
 
-    type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
-    type PerFormArea = PerFormQuestionResponse['results'][number]['component']['area']
-    const [areas, setAreas] = useState<PerFormArea[]>([]);
+    const {
+        pending: perOptionsPending,
+        response: perOptionsResponse,
+    } = useRequest<GET['api/v2/per-options']>({
+        url: 'api/v2/per-options',
+    });
 
     const {
         pending: questionsPending,
@@ -103,46 +117,26 @@ export function Component() {
     });
 
     const {
-        value,
-        validate,
-        setFieldValue,
-        setError: onErrorSet,
-        setValue,
-    } = useForm(
-        assessmentSchema,
-        { value: defaultFormValue },
-    );
-
-    /*
-    const {
         response: perOverviewResponse,
     } = useRequest<GET['api/v2/per-overview/:id']>({
         skip: isNotDefined(statusResponse?.id),
-        // FIXME: change endpoint name
         url: `api/v2/per-overview/${statusResponse?.id}`,
     });
-    */
 
-    const {
-        pending: perOptionsPending,
-        response: perOptionsResponse,
-    } = useRequest<GET['api/v2/per-options']>({
-        url: 'api/v2/per-options',
-        onSuccess: (response) => {
-            setValue(response);
-        },
-    });
     const {
         pending: perAssesmentPending,
     } = useRequest<AssessmentResponse>({
-        skip: isNotDefined(assessmentId),
+        skip: isNotDefined(statusResponse?.id),
         url: `api/v2/per-assessment/${assessmentId}`,
         onSuccess: (response) => {
-            setValue(response);
+            if (response) {
+                setValue(response);
+            }
         },
     });
 
     const {
+        pending: savePerPending,
         trigger: savePerAssessment,
     } = useLazyRequest<AssessmentResponse, AssessmentResponse>({
         url: `api/v2/per-assessment/${assessmentId}/`,
@@ -178,24 +172,15 @@ export function Component() {
             debugMessage,
         }) => {
             alert.show(
-                <p>
-                    {strings.perFormSaveRequestFailureMessage}
-                    &nbsp;
-                    <strong>
-                        {messageForNotification}
-                    </strong>
-                </p>,
+                strings.perFormSaveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
+                    description: messageForNotification,
                 },
             );
         },
     });
-
-    const {
-        setValue: setAreaResponsesValue,
-    } = useFormArray('area_responses', setFieldValue);
 
     const handleSubmit = useCallback(
         (formValues: PartialForm<AssessmentResponse>) => {
@@ -231,13 +216,9 @@ export function Component() {
         [savePerAssessment, assessmentId, perId],
     );
 
-    const handleNextTab = () => {
-        setCurrentArea(Math.min((currentArea ?? 0) + 1, areas.length));
-    };
-
-    const handlePrevTab = () => {
-        setCurrentArea(Math.max((currentArea ?? 0) - 1, 1));
-    };
+    const {
+        setValue: setAreaResponsesValue,
+    } = useFormArray('area_responses', setFieldValue);
 
     const areaResponseMapping = listToMap(
         value?.area_responses ?? [],
@@ -259,153 +240,123 @@ export function Component() {
         (question) => question.component.area.title,
     );
 
-    const pending = questionsPending
-        || perOptionsPending
-        || perAssesmentPending;
     const minArea = 1;
     const maxArea = areas.length;
     const currentPerStep = statusResponse?.phase;
-    const handleFormSubmit = createSubmitHandler(validate, onErrorSet, handleSubmit);
-    const handleFormFinalSubmit = createSubmitHandler(validate, onErrorSet, handleFinalSubmit);
-    const handleModalClose = useCallback(() => {
-        setShowConfirmation(false);
-    }, []);
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
+    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
 
-    const handleFinalSubmitClick = useCallback(() => {
-        handleFormFinalSubmit();
-        setShowConfirmation(false);
-    }, [handleFormFinalSubmit]);
+    const pending = questionsPending
+        || perOptionsPending
+        || perAssesmentPending;
 
     return (
-        <>
-            <form
-                onSubmit={handleFormSubmit}
-                className={styles.assessmentForm}
-            >
-                {pending && (
-                    <BlockLoading />
-                )}
-                {!pending && (
-                    <PerAssessmentSummary
-                        perOptionsResponse={perOptionsResponse}
-                        areaResponses={value?.area_responses}
-                        totalQuestionCount={questionsResponse?.count}
-                        areaIdToTitleMap={areaIdToTitleMap}
-                    />
-                )}
-                {!pending && currentArea && (
-                    <Tabs
-                        disabled={undefined}
-                        onChange={setCurrentArea}
-                        value={currentArea}
-                        variant="primary"
+        <form className={styles.assessmentForm}>
+            {pending && (
+                <BlockLoading />
+            )}
+            {!pending && (
+                <PerAssessmentSummary
+                    perOptionsResponse={perOptionsResponse}
+                    areaResponses={value?.area_responses}
+                    totalQuestionCount={questionsResponse?.count}
+                    areaIdToTitleMap={areaIdToTitleMap}
+                />
+            )}
+            {!pending && currentArea && (
+                <Tabs
+                    disabled={undefined}
+                    onChange={setCurrentArea}
+                    value={currentArea}
+                    variant="primary"
+                >
+                    <TabList
+                        className={styles.tabList}
                     >
-                        <TabList
-                            className={styles.tabList}
-                        >
-                            {areas.map((area) => (
-                                <Tab
-                                    key={area.id}
-                                    name={area.id}
-                                    step={area?.area_num}
-                                >
-                                    {`${area.area_num}. ${area.title}`}
-                                </Tab>
-                            ))}
-                        </TabList>
                         {areas.map((area) => (
-                            <TabPanel
-                                name={area.id}
+                            <Tab
                                 key={area.id}
+                                name={area.id}
+                                step={area?.area_num}
                             >
-                                <AreaInput
-                                    key={area.id}
-                                    area={area}
-                                    questions={areaIdGroupedQuestion[area.id]}
-                                    index={areaResponseMapping[area.id]?.index}
-                                    value={areaResponseMapping[area.id]?.value}
-                                    onChange={setAreaResponsesValue}
-                                    ratingOptions={
-                                        perOptionsResponse?.componentratings ?? []
-                                    }
-                                />
-                            </TabPanel>
+                                {`${area.area_num}. ${area.title}`}
+                            </Tab>
                         ))}
-                        <div className={styles.actions}>
-                            {currentArea !== undefined && currentArea > minArea && (
-                                <Button
-                                    name={undefined}
-                                    variant="secondary"
-                                    onClick={handlePrevTab}
-                                >
-                                    {strings.perFormBackButton}
-                                </Button>
-                            )}
-                            {currentArea !== undefined && currentArea < maxArea && (
-                                <Button
-                                    name="next"
-                                    variant="secondary"
-                                    onClick={handleNextTab}
-                                >
-                                    {strings.perFormNextButton}
-                                </Button>
-                            )}
+                    </TabList>
+                    {areas.map((area) => (
+                        <TabPanel
+                            name={area.id}
+                            key={area.id}
+                        >
+                            <AreaInput
+                                key={area.id}
+                                area={area}
+                                questions={areaIdGroupedQuestion[area.id]}
+                                index={areaResponseMapping[area.id]?.index}
+                                value={areaResponseMapping[area.id]?.value}
+                                onChange={setAreaResponsesValue}
+                                ratingOptions={perOptionsResponse?.componentratings}
+                                epi_considerations={perOverviewResponse
+                                    ?.assess_preparedness_of_country}
+                                urban_considerations={perOverviewResponse
+                                    ?.assess_urban_aspect_of_country}
+                                climate_environmental_considerations={perOverviewResponse
+                                    ?.assess_climate_environment_of_country}
+                            />
+                        </TabPanel>
+                    ))}
+                    <div className={styles.actions}>
+                        <div className={styles.pageActions}>
                             <Button
-                                type="submit"
-                                name="submit"
+                                name={currentArea - 1}
                                 variant="secondary"
+                                onClick={setCurrentArea}
+                                disabled={isNotDefined(currentArea) || currentArea <= minArea}
+                            >
+                                {strings.perFormBackButton}
+                            </Button>
+                            <Button
+                                name={currentArea + 1}
+                                variant="secondary"
+                                onClick={setCurrentArea}
+                                disabled={isNotDefined(currentArea) || currentArea >= maxArea}
+                            >
+                                {strings.perFormNextButton}
+                            </Button>
+                        </div>
+                        <ConfirmButton
+                            name={undefined}
+                            onConfirm={handleFormFinalSubmit}
+                            confirmHeading={strings.perAssessmentConfirmHeading}
+                            confirmMessage={strings.perAssessmentConfirmMessage}
+                            disabled={isNotDefined(currentPerStep)
+                                || savePerPending
+                                || perAssesmentPending
+                                || currentPerStep !== STEP_ASSESSMENT}
+                        >
+                            {strings.perFormSubmitButton}
+                        </ConfirmButton>
+                    </div>
+                    {actionDivRef.current && (
+                        <Portal
+                            container={actionDivRef.current}
+                        >
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                onClick={handleFormSubmit}
                                 disabled={isNotDefined(currentPerStep)
+                                    || savePerPending
+                                    || perAssesmentPending
                                     || currentPerStep !== STEP_ASSESSMENT}
                             >
                                 {strings.perFormSaveButton}
                             </Button>
-                            {currentArea === maxArea && (
-                                <Button
-                                    name
-                                    variant="primary"
-                                    onClick={setShowConfirmation}
-                                    disabled={isNotDefined(currentPerStep)
-                                        || currentPerStep !== STEP_ASSESSMENT}
-                                >
-                                    {strings.perFormSubmitAssessmentButton}
-                                </Button>
-                            )}
-                        </div>
-                    </Tabs>
-                )}
-            </form>
-            {showConfirmation && (
-                <Modal
-                    onClose={handleModalClose}
-                    heading="Confirm Submission"
-                    size="sm"
-                    footerActions={(
-                        <>
-                            <Button
-                                name={false}
-                                variant="secondary"
-                                onClick={setShowConfirmation}
-                            >
-                                {strings.perFormCancelButton}
-                            </Button>
-                            <Button
-                                name={undefined}
-                                onClick={handleFinalSubmitClick}
-                            >
-                                {strings.perFormSubmitButton}
-                            </Button>
-                        </>
+                        </Portal>
                     )}
-                >
-                    <div>
-                        {strings.perFormModalInfo}
-                    </div>
-                    <div>
-                        {strings.perFormModalSubmitButton}
-                    </div>
-                </Modal>
+                </Tabs>
             )}
-        </>
+        </form>
     );
 }
 

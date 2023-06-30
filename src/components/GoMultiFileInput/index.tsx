@@ -8,8 +8,8 @@ import Link from '#components/Link';
 import { NameType } from '#components/types';
 import { CloseLineIcon } from '@ifrc-go/icons';
 import IconButton, { Props as IconButtonProps } from '#components/IconButton';
-import Button, { Props as ButtonProps } from '#components/Button';
-import { ButtonVariant } from '#hooks/useButtonFeatures';
+import type { ButtonVariant, Props as ButtonProps } from '#components/Button';
+import Button from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
 import { nonFieldError } from '@togglecorp/toggle-form';
@@ -24,6 +24,12 @@ interface FileUploadResult {
 
 const keySelector = (d: FileUploadResult) => d.id;
 const valueSelector = (d: FileUploadResult) => d.file;
+
+function getFileNameFromUrl(urlString: string) {
+    const url = new URL(urlString);
+    const splits = url.pathname.split('/');
+    return splits[splits.length - 1];
+}
 
 export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children' | 'inputRef'> & {
     actions?: React.ReactNode;
@@ -177,15 +183,19 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                     {children}
                 </Button>
             </RawFileInput>
-            {valueUrls?.map(
-                (valueUrl) => (
-                    <Link
-                        key={valueUrl}
-                        to={valueUrl}
-                    >
-                        {valueUrl}
-                    </Link>
-                ),
+            {valueUrls && (
+                <div className={styles.selectedFiles}>
+                    {valueUrls.map(
+                        (valueUrl) => (
+                            <Link
+                                key={valueUrl}
+                                to={valueUrl}
+                            >
+                                {getFileNameFromUrl(valueUrl)}
+                            </Link>
+                        ),
+                    )}
+                </div>
             )}
             {actions}
         </div>

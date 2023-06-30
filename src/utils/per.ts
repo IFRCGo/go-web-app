@@ -5,6 +5,7 @@ export const STEP_OVERVIEW = 1;
 export const STEP_ASSESSMENT = 2;
 export const STEP_PRIORITIZATION = 3;
 export const STEP_WORKPLAN = 4;
+export const STEP_ACTION = 5;
 
 export function getCurrentPerProcessStep(status: GET['api/v2/per-process-status/:id'] | undefined) {
     if (!status) {
@@ -24,4 +25,10 @@ export function getCurrentPerProcessStep(status: GET['api/v2/per-process-status/
     }
 
     return STEP_OVERVIEW;
+}
+
+export interface PerProcessOutletContext {
+    statusResponse: GET['api/v2/per-process-status/:id'] | undefined,
+    refetchStatusResponse: () => void,
+    actionDivRef: React.RefObject<HTMLDivElement>,
 }

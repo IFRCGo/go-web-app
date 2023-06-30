@@ -13,39 +13,37 @@ function Alerts() {
                 Success alert example
             </Heading>
             <Alert
-                variant="success"
-                name="Success"
-            >
-                This is alert for Success message
-            </Alert>
+                nonDismissable
+                type="success"
+                name="success"
+                title="This is alert for Success message"
+                description="This is the description for the alert. If we have longer message in the alert we can use the description field"
+            />
             <Heading level={5}>
                 Danger alert example
             </Heading>
             <Alert
-                variant="danger"
+                type="danger"
                 name="Danger"
                 debugMessage="Danger message"
-            >
-                This is alert for Danger message
-            </Alert>
+                title="This is alert for Danger message"
+            />
             <Heading level={5}>
                 Info alert example
             </Heading>
             <Alert
-                variant="info"
+                type="info"
                 name="Info"
-            >
-                This is alert for Info message
-            </Alert>
+                title="This is alert for Info message"
+            />
             <Heading level={5}>
                 Warning alert example
             </Heading>
             <Alert
-                variant="warning"
+                type="warning"
                 name="Waring"
-            >
-                This is alert for Warning message
-            </Alert>
+                title="This is alert for Warning message"
+            />
         </div>
     );
 }

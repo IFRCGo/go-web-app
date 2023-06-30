@@ -7,7 +7,6 @@ import {
 
 import Page from '#components/Page';
 import Link from '#components/Link';
-import ButtonLikeLink from '#components/ButtonLikeLink';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
 import Container from '#components/Container';
@@ -115,9 +114,13 @@ export function Component() {
             title={strings.globalThreeWPageTitle}
             heading={strings.globalThreeWPageHeading}
             actions={(
-                <ButtonLikeLink to="/three-w/new">
+                // FIXME: use route from context
+                <Link
+                    to="/three-w/new"
+                    variant="secondary"
+                >
                     {strings.globalThreeWAddProjectButtonLabel}
-                </ButtonLikeLink>
+                </Link>
             )}
             descriptionContainerClassName={styles.description}
             description={(

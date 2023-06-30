@@ -5,7 +5,6 @@ import {
     useRequest,
     ListResponse,
 } from '#utils/restRequest';
-import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import SelectInput from '#components/SelectInput';
 import Container from '#components/Container';
@@ -17,6 +16,7 @@ import {
     createLinkColumn,
     createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
+import { useSortState, SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';

@@ -1,0 +1,46 @@
+.expansion-indicator {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    overflow: auto;
+
+    .end-border,
+    .start-border {
+        flex-grow: 1;
+        background-color: var(--go-ui-color-separator);
+        width: var(--go-ui-width-separator-thin);
+    }
+
+    .indicator {
+        flex-shrink: 0;
+        border-radius: 50%;
+        background-color: var(--go-ui-color-primary-red);
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+
+    &.start {
+        .start-border {
+            background-color: transparent;
+        }
+    }
+
+    &.end {
+        .end-border {
+            background-color: transparent;
+        }
+    }
+
+    &.single {
+        .end-border,
+        .start-border {
+            background-color: transparent;
+        }
+    }
+}

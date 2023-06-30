@@ -49,6 +49,9 @@
         "perFormFocalPointEmailLabel": "Email",
         "perFormFocalPointPhoneNumberLabel": "Phone Number",
         "perFormFocalPointOrganizationLabel": "Organization",
-        "perFormOtherContactMethodLabel": "Other contact method"
+        "perFormOtherContactMethodLabel": "Other contact method",
+        "perFormSaveLabel": "Save",
+        "perOverviewConfirmHeading": "Setup PER Process",
+        "perOverviewConfirmMessage": "You are about to setup a new PER Process. Once submitted, you can only update some of the fields in this form. You'll be redirected to the Assessment form after the setup is successful."
     }
 }

@@ -15,16 +15,18 @@ import {
     createSubmitHandler,
     getErrorObject,
     getErrorString,
-    PartialForm,
 } from '@togglecorp/toggle-form';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
+
+import Portal from '#components/Portal';
+import Button from '#components/Button';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import SelectInput from '#components/SelectInput';
 import DateInput from '#components/DateInput';
 import TextInput from '#components/TextInput';
 import RadioInput from '#components/RadioInput';
-import Button from '#components/Button';
+import ConfirmButton from '#components/ConfirmButton';
 import NumberInput from '#components/NumberInput';
 import GoMultiFileInput from '#components/GoMultiFileInput';
 import useTranslation from '#hooks/useTranslation';
@@ -33,7 +35,11 @@ import { useLazyRequest, useRequest } from '#utils/restRequest';
 import { compareLabel } from '#utils/common';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
-import { STEP_OVERVIEW } from '#utils/per';
+import {
+    PerProcessOutletContext,
+    STEP_OVERVIEW,
+    STEP_ASSESSMENT,
+} from '#utils/per';
 import {
     booleanValueSelector,
     numericValueSelector,
@@ -44,45 +50,45 @@ import {
     stringValueSelector,
 } from '#utils/selectors';
 
-import { overviewSchema } from './common';
-import type { PerOverviewFormFields } from './common';
+import {
+    overviewSchema,
+    PartialOverviewFormFields,
+} from './common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PerOverviewResponse = GET['api/v2/per-overview/:id'];
+const emptyFileIdToUrlMap: Record<number, string> = {};
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { perId } = useParams<{ perId: string }>();
-    const { statusResponse } = useOutletContext<{ statusResponse: GET['api/v2/per-process-status/:id'] }>();
-
-    const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const strings = useTranslation(i18n);
     const alert = useAlertContext();
     const navigate = useNavigate();
+    const { perId } = useParams<{ perId: string }>();
+    const {
+        statusResponse,
+        actionDivRef,
+        refetchStatusResponse,
+    } = useOutletContext<PerProcessOutletContext>();
     const {
         perAssessmentForm: perAssessmentFormRoute,
+        perOverviewForm: perOverviewFormRoute,
     } = useContext(RouteContext);
-
-    const yesNoOptions = useMemo(
-        () => [
-            { value: true, label: strings.yesLabel },
-            { value: false, label: strings.noLabel },
-        ],
-        [strings],
-    );
-
     const {
         value,
         setValue,
         setFieldValue,
-        error: riskyError,
+        error: formError,
         setError,
         validate,
     } = useForm(overviewSchema, { value: {} });
 
-    const error = getErrorObject(riskyError);
+    const [
+        fileIdToUrlMap,
+        setFileIdToUrlMap,
+    ] = useState<Record<number, string>>(emptyFileIdToUrlMap);
 
     const {
         pending: perOptionsPending,
@@ -116,53 +122,75 @@ export function Component() {
                     // [orientation_document_details.id]: orientation_document_details.file,
                 }),
             );
+
             setValue(formValues);
         },
     });
 
     const {
         trigger: savePerOverview,
-    } = useLazyRequest<PerOverviewResponse, PerOverviewFormFields>({
-        url: perId ? `api/v2/per-overview/${perId}/` : 'api/v2/new-per/',
+        pending: savePerPending,
+    } = useLazyRequest<PerOverviewResponse, PartialOverviewFormFields>({
+        url: perId ? `api/v2/per-overview/${perId}/` : 'api/v2/per-overview/',
         method: perId ? 'PUT' : 'POST',
         body: (ctx) => ctx,
         onSuccess: (response) => {
-            if (response && isNotDefined(perId) && isDefined(response.id)) {
-                navigate(
-                    generatePath(
-                        perAssessmentFormRoute.absolutePath,
-                        { perId: String(response.id) },
-                    ),
+            if (response && isDefined(response.id)) {
+                alert.show(
+                    strings.perFormSaveRequestSuccessMessage,
+                    { variant: 'success' },
                 );
-            }
 
-            alert.show(
-                strings.perFormSaveRequestSuccessMessage,
-                { variant: 'success' },
-            );
+                refetchStatusResponse();
+
+                // Redirect from new form to edit route
+                if (isNotDefined(perId) && response.phase === STEP_OVERVIEW) {
+                    navigate(
+                        generatePath(
+                            perOverviewFormRoute.absolutePath,
+                            { perId: String(response.id) },
+                        ),
+                    );
+                }
+
+                // Redirect to assessment form
+                if (response.phase === STEP_ASSESSMENT) {
+                    navigate(
+                        generatePath(
+                            perAssessmentFormRoute.absolutePath,
+                            { perId: String(response.id) },
+                        ),
+                    );
+                }
+            }
+            // TODO: log error?
         },
         onFailure: ({
             value: {
                 messageForNotification,
+                // TODO:
                 // formErrors,
             },
             debugMessage,
         }) => {
             alert.show(
-                <p>
-                    {strings.perFormSaveRequestFailureMessage}
-                    &nbsp;
-                    <strong>
-                        {messageForNotification}
-                    </strong>
-                </p>,
+                strings.perFormSaveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
+                    description: messageForNotification,
                 },
             );
         },
     });
+
+    const yesNoOptions = useMemo(
+        () => [
+            { value: true, label: strings.yesLabel },
+            { value: false, label: strings.noLabel },
+        ],
+        [strings],
+    );
 
     const countryOptions = useMemo(
         () => (
@@ -177,17 +205,31 @@ export function Component() {
     );
 
     const handleSubmit = useCallback(
-        (formValues: PartialForm<PerOverviewFormFields>) => {
-            savePerOverview(formValues as PerOverviewFormFields);
+        (formValues: PartialOverviewFormFields) => {
+            savePerOverview({
+                ...formValues,
+                is_draft: formValues.is_draft ?? true,
+            });
         },
         [savePerOverview],
     );
 
+    const handleFinalSubmit = useCallback(
+        (formValues: PartialOverviewFormFields) => {
+            savePerOverview({
+                ...formValues,
+                is_draft: false,
+            });
+        },
+        [savePerOverview],
+    );
+
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
+    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
+    const error = getErrorObject(formError);
+
     return (
-        <form
-            className={styles.overviewForm}
-            onSubmit={createSubmitHandler(validate, setError, handleSubmit)}
-        >
+        <form className={styles.overviewForm}>
             <Container
                 childrenContainerClassName={styles.sectionContent}
             >
@@ -230,7 +272,7 @@ export function Component() {
                         name="orientation_documents_file"
                         accept=".docx, .pdf"
                         onChange={setFieldValue}
-                        url="api/v2/per-file/"
+                        url="api/v2/per-file/multiple/"
                         value={value?.orientation_documents_file}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
@@ -329,13 +371,13 @@ export function Component() {
                     description={strings.perFormEpiConsiderationsDescription}
                 >
                     <RadioInput
-                        name="is_epi"
+                        name="assess_preparedness_of_country"
                         options={yesNoOptions}
                         keySelector={booleanValueSelector}
                         labelSelector={stringLabelSelector}
-                        value={value?.is_epi}
+                        value={value?.assess_preparedness_of_country}
                         onChange={setFieldValue}
-                        error={error?.is_epi}
+                        error={error?.assess_preparedness_of_country}
                     />
                 </InputSection>
                 <InputSection
@@ -543,17 +585,36 @@ export function Component() {
                         error={error?.facilitator_contact}
                     />
                 </InputSection>
-                <div className={styles.actions}>
+            </Container>
+            <div className={styles.actions}>
+                <ConfirmButton
+                    name={undefined}
+                    confirmHeading={strings.perOverviewConfirmHeading}
+                    confirmMessage={strings.perOverviewConfirmMessage}
+                    onConfirm={handleFormFinalSubmit}
+                    disabled={(isDefined(statusResponse?.phase)
+                        && statusResponse?.phase !== STEP_OVERVIEW)
+                        || savePerPending}
+                >
+                    {strings.perOverviewSetUpPerProcess}
+                </ConfirmButton>
+            </div>
+            {actionDivRef.current && (
+                <Portal
+                    container={actionDivRef.current}
+                >
                     <Button
                         name={undefined}
                         variant="secondary"
-                        type="submit"
-                        disabled={statusResponse?.phase !== STEP_OVERVIEW}
+                        onClick={handleFormSubmit}
+                        disabled={(isDefined(statusResponse?.phase)
+                            && statusResponse?.phase !== STEP_OVERVIEW)
+                                || savePerPending}
                     >
-                        {strings.perOverviewSetUpPerProcess}
+                        {strings.perFormSaveLabel}
                     </Button>
-                </div>
-            </Container>
+                </Portal>
+            )}
         </form>
     );
 }

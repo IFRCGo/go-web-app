@@ -165,8 +165,11 @@ function PerAssessmentSummary(props: Props) {
     return (
         <ExpandableContainer
             className={_cs(styles.perAssessmentSummary, className)}
-            // FIXME: use translation
-            actions="Show Summary"
+            heading="Summary"
+            // FIXME: use translations
+            headerDescription={(
+                `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} questions answered.`
+            )}
             childrenContainerClassName={styles.content}
         >
             <div className={styles.totalProgress}>

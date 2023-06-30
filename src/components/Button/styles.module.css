@@ -32,12 +32,12 @@
     }
 
     &.primary {
-        --border-color: var(--go-ui-color-primary-red);
+        --color-border: var(--go-ui-color-primary-red);
         --color-background: var(--go-ui-color-primary-red);
         --color-text: var(--go-ui-color-white);
 
         &:disabled {
-            --border-color: var(--go-ui-color-gray-40);
+            --color-border: var(--go-ui-color-gray-40);
             --color-background: var(--go-ui-color-gray-40);
         }
 
@@ -73,10 +73,6 @@
         --padding: 0;
         --border-radius: unset;
 
-        &:disabled {
-            opacity: 0.5;
-        }
-
         &:not(:disabled) {
             &:hover {
                 --color-text: var(--go-ui-color-primary-red);
@@ -91,10 +87,6 @@
         --padding: 0;
         --border-radius: unset;
 
-        &:disabled {
-            opacity: 0.5;
-        }
-
         &:not(:disabled) {
             &:hover {
                 opacity: 0.8;
@@ -103,6 +95,7 @@
     }
 
     &:disabled {
+        opacity: var(--go-ui-opacity-disabled-element);
         --cursor: not-allowed;
     }
 

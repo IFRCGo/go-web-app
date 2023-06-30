@@ -8,3 +8,7 @@
         flex-shrink: 0;
     }
 }
+
+.icon {
+    font-size: var(--go-ui-font-size-icon-multiplier);
+}

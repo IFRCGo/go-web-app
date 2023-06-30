@@ -91,7 +91,7 @@ function EventItemsTable() {
                 (item) => item.dtype.name,
             ),
             createStringColumn<EventItem, TableKey>(
-                'dtype',
+                'glide',
                 strings.emergenciesTableGlide,
                 // FIXME: empty string from server
                 (item) => item.glide || '-',

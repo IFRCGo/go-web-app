@@ -90,9 +90,10 @@
 }
 
 .primary-tab-wrapper {
+    display: flex;
     border: var(--go-ui-spacing-px) solid transparent;
     border-bottom-color: var(--go-ui-color-gray-30);
-    padding: 0 calc(var(--go-ui-spacing-md)*0.5);
+    padding: 0 var(--go-ui-spacing-xs);
 
     &.active {
         border-color: var(--go-ui-color-gray-30);

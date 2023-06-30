@@ -73,6 +73,7 @@ function ExpandableContainer(props: Props) {
                     </Button>
                 </>
             )}
+            actionsContainerClassName={styles.actionsContainer}
         >
             {expanded && children}
         </Container>

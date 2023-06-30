@@ -3,10 +3,11 @@ import {
     useFormArray,
     useFormObject,
 } from '@togglecorp/toggle-form';
-import { listToMap, _cs } from '@togglecorp/fujs';
+import { listToMap, _cs, isNotDefined } from '@togglecorp/fujs';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import SelectInput from '#components/SelectInput';
+import TextArea from '#components/TextArea';
 import type { GET } from '#types/serverResponse';
 
 import { PartialAssessment } from '../../common';
@@ -24,11 +25,10 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
-    ratingOptions: {
-        id: number
-        value: number;
-        title: string;
-    }[];
+    ratingOptions: GET['api/v2/per-options']['componentratings'] | undefined;
+    epi_considerations: boolean | null | undefined;
+    urban_considerations: boolean | null | undefined;
+    climate_environmental_considerations: boolean | null | undefined;
 }
 
 function ComponentInput(props: Props) {
@@ -40,6 +40,9 @@ function ComponentInput(props: Props) {
         component,
         questions,
         ratingOptions,
+        epi_considerations,
+        urban_considerations,
+        climate_environmental_considerations,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -51,8 +54,11 @@ function ComponentInput(props: Props) {
     );
 
     const {
-        setValue: setComponentValue,
-    } = useFormArray('question_responses', setFieldValue);
+        setValue: setQuestionValue,
+    } = useFormArray<'question_responses', NonNullable<Value['question_responses']>[number]>(
+        'question_responses',
+        setFieldValue,
+    );
 
     const questionResponseMapping = listToMap(
         value?.question_responses ?? [],
@@ -83,7 +89,9 @@ function ComponentInput(props: Props) {
             )}
         >
             {questions?.map((question) => {
-                if (question.is_epi || question.is_benchmark) {
+                if (question.is_epi
+                    || question.is_benchmark
+                    || isNotDefined(question.question_num)) {
                     return null;
                 }
 
@@ -94,10 +102,40 @@ function ComponentInput(props: Props) {
                         question={question}
                         index={questionResponseMapping[question.id]?.index}
                         value={questionResponseMapping[question.id]?.value}
-                        onChange={setComponentValue}
+                        onChange={setQuestionValue}
                     />
                 );
             })}
+            {epi_considerations && (
+                <TextArea
+                    // TODO: add description
+                    // FIXME: use Translations
+                    label="EPI Considerations"
+                    name="epi_considerations"
+                    value={value?.epi_considerations}
+                    onChange={setFieldValue}
+                />
+            )}
+            {urban_considerations && (
+                <TextArea
+                    // TODO: add description
+                    // FIXME: use Translations
+                    label="Urban Considerations"
+                    name="urban_considerations"
+                    value={value?.urban_considerations}
+                    onChange={setFieldValue}
+                />
+            )}
+            {climate_environmental_considerations && (
+                <TextArea
+                    // TODO: add description
+                    // FIXME: use Translations
+                    label="Climate and Environmental Considerations"
+                    name="climate_environmental_considerations"
+                    value={value?.climate_environmental_considerations}
+                    onChange={setFieldValue}
+                />
+            )}
         </ExpandableContainer>
     );
 }

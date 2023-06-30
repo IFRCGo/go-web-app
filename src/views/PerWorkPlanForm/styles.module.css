@@ -12,7 +12,7 @@
     .action-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-2xl);
-        grid-template-columns: 3fr 2fr 2fr 2fr 1fr;
+        grid-template-columns: 3fr 2fr 2fr 2fr minmax(8rem, 1fr);
     }
 
     .form-actions {

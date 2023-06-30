@@ -11,5 +11,12 @@
         display: flex;
         justify-content: center;
         gap: var(--go-ui-spacing-lg);
+
+        .page-actions {
+            gap: var(--go-ui-spacing-lg);
+            display: flex;
+            flex-grow: 1;
+            justify-content: center;
+        }
     }
 }

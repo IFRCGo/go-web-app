@@ -9,7 +9,7 @@ import {
     SearchEyeLineIcon,
 } from '@ifrc-go/icons';
 import Container from '#components/Container';
-import ButtonLikeLink from '#components/ButtonLikeLink';
+import Link from '#components/Link';
 import Button from '#components/Button';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
@@ -218,13 +218,12 @@ export function Component() {
                             {strings.searchPageFeedbackLinkText}
                             &nbsp;
                         </div>
-                        <ButtonLikeLink
-                            external
+                        <Link
                             variant="tertiary"
                             to={feedbackLink}
                         >
                             {strings.searchPageFeedbackButton}
-                        </ButtonLikeLink>
+                        </Link>
                     </div>
                 </div>
             )}

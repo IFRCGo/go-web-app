@@ -1,7 +1,72 @@
 import { useCallback } from 'react';
+import { _cs } from '@togglecorp/fujs';
 
+import useBasicLayout from '#hooks/useBasicLayout';
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
-import useButtonFeatures, { Props as ButtonFeatureProps } from '#hooks/useButtonFeatures';
+import styles from './styles.module.css';
+
+// NOTE: Adding a 'tertiary-on-dark' to use 'tertiary' button on darker backgrounds
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'tertiary-on-dark';
+
+const buttonVariantToStyleMap: Record<ButtonVariant, string> = {
+    primary: styles.primary,
+    secondary: styles.secondary,
+    tertiary: styles.tertiary,
+    'tertiary-on-dark': styles.tertiaryOnDark,
+};
+
+export interface ButtonFeatureProps {
+    className?: string;
+    children?: React.ReactNode;
+    variant?: ButtonVariant;
+    actions?: React.ReactNode;
+    actionsContainerClassName?: string;
+    childrenContainerClassName?: string;
+    disabled?: boolean;
+    icons?: React.ReactNode;
+    iconsContainerClassName?: string;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useButtonFeatures(props: ButtonFeatureProps) {
+    const {
+        actions,
+        actionsContainerClassName: actionsClassName,
+        children,
+        childrenContainerClassName: childrenClassName,
+        className,
+        disabled,
+        icons,
+        iconsContainerClassName: iconsClassName,
+        variant = 'primary',
+    } = props;
+
+    const buttonClassName = _cs(
+        styles.button,
+        buttonVariantToStyleMap[variant],
+        className,
+    );
+
+    const {
+        content,
+        containerClassName,
+    } = useBasicLayout({
+        className: buttonClassName,
+        icons,
+        children,
+        actions,
+        iconsContainerClassName: iconsClassName,
+        childrenContainerClassName: childrenClassName,
+        actionsContainerClassName: actionsClassName,
+        spacing: 'compact',
+    });
+
+    return {
+        className: containerClassName,
+        children: content,
+        disabled,
+    };
+}
 
 export interface Props<N> extends ButtonFeatureProps, RawButtonProps<N> {
     name: N;
@@ -11,13 +76,13 @@ export interface Props<N> extends ButtonFeatureProps, RawButtonProps<N> {
 function Button<N>(props: Props<N>) {
     const {
         actions,
-        actionsClassName,
+        actionsContainerClassName: actionsClassName,
         children,
-        childrenClassName,
+        childrenContainerClassName: childrenClassName,
         className,
         disabled,
         icons,
-        iconsClassName,
+        iconsContainerClassName: iconsClassName,
         name,
         onClick,
         variant,
@@ -34,9 +99,9 @@ function Button<N>(props: Props<N>) {
     const buttonProps = useButtonFeatures({
         variant,
         className,
-        actionsClassName,
-        iconsClassName,
-        childrenClassName,
+        actionsContainerClassName: actionsClassName,
+        iconsContainerClassName: iconsClassName,
+        childrenContainerClassName: childrenClassName,
         children,
         icons,
         actions,

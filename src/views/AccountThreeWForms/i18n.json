@@ -1,8 +1,6 @@
 {
     "namespace": "account",
     "strings": {
-        "projectListTableViewDetails": "View details",
-        "projectListTableEdit": "Edit",
         "threeWTableCountry": "Receiving Country",
         "threeWTableNS": "National Society",
         "threeWTableProjectName": "Project Name",
@@ -20,9 +18,6 @@
         "threeWEmergencyCountryName": "Country",
         "threeWEmergencyRegion": "Province/Region",
         "threeWEmergencyStatus": "Status",
-        "threeWEmergencyServices": "Services provided to people in need",
-        "threeWEmergencyActionDetails": "View Details",
-        "threeWEmergencyEditAction": "Edit",
-        "threeWEmergencyDuplicateAction": "Duplicate"
+        "threeWEmergencyServices": "Services provided to people in need"
     }
 }

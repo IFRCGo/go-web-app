@@ -5,7 +5,7 @@ import { ArrowDownSmallFillIcon, ArrowUpSmallFillIcon, CloseLineIcon } from '@if
 import Popup from '#components/Popup';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput from '#components/RawInput';
-import Button from '#components/Button';
+import Button, { Props as ButtonProps } from '#components/Button';
 import List from '#components/List';
 import useBlurEffect from '#hooks/useBlurEffect';
 import useKeyboard from '#hooks/useKeyboard';
@@ -140,8 +140,9 @@ function SelectInputContainer<
         ],
     );
 
-    const handleToggleDropdown = useCallback(
-        () => {
+    const handleToggleDropdown: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
+        (_, e) => {
+            e.stopPropagation();
             onDropdownShownChange(!dropdownShown);
         },
         [dropdownShown, onDropdownShownChange],
@@ -307,7 +308,7 @@ function SelectInputContainer<
                                 name={undefined}
                                 title="Clear"
                             >
-                                <CloseLineIcon />
+                                <CloseLineIcon className={styles.icon} />
                             </Button>
                         )}
                         {!readOnly && (
@@ -318,8 +319,8 @@ function SelectInputContainer<
                                 title={dropdownShown ? 'Close' : 'Open'}
                             >
                                 {dropdownShown
-                                    ? <ArrowUpSmallFillIcon />
-                                    : <ArrowDownSmallFillIcon />}
+                                    ? <ArrowUpSmallFillIcon className={styles.icon} />
+                                    : <ArrowDownSmallFillIcon className={styles.icon} />}
                             </Button>
                         )}
                     </>

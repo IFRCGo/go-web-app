@@ -21,7 +21,7 @@ const sizeToStyleMap: Record<SizeType, string> = {
     auto: styles.sizeAuto,
 };
 
-interface Props {
+export interface Props {
     children: React.ReactNode;
     className?: string;
     closeOnClickOutside?: boolean;
@@ -31,7 +31,7 @@ interface Props {
     footerContent?: React.ReactNode;
     footerActions?: React.ReactNode;
     headerClassName?: string;
-    onClose: () => void;
+    onClose?: () => void;
     overlayClassName?: string;
     size?: SizeType;
     heading?: React.ReactNode;
@@ -45,8 +45,8 @@ function Modal(props: Props) {
         bodyClassName,
         children,
         className,
-        closeOnClickOutside = true,
-        closeOnEscape = true,
+        closeOnClickOutside = false,
+        closeOnEscape = false,
         footerClassName: footerClassNameFromProps,
         footerIcons,
         footerActions,
@@ -64,13 +64,13 @@ function Modal(props: Props) {
     const sizeStyle = sizeToStyleMap[size];
 
     const handleClickOutside = useCallback(() => {
-        if (closeOnClickOutside) {
+        if (closeOnClickOutside && onClose) {
             onClose();
         }
     }, [onClose, closeOnClickOutside]);
 
     const handleEscape = useCallback(() => {
-        if (closeOnEscape) {
+        if (closeOnEscape && onClose) {
             onClose();
         }
     }, [onClose, closeOnEscape]);
@@ -91,6 +91,7 @@ function Modal(props: Props) {
                 onClickOutside={handleClickOutside}
                 onEscapeKey={handleEscape}
             >
+                {/* FIXME: use container */}
                 <div
                     className={_cs(styles.modal, className)}
                     role="dialog"
@@ -120,7 +121,6 @@ function Modal(props: Props) {
                         className={_cs(
                             footerClassName,
                             footerClassNameFromProps,
-                            styles.modalFooter,
                         )}
                     >
                         {footer}

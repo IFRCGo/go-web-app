@@ -15,7 +15,7 @@ interface AssessmentFormFields extends Omit<AssessmentResponse, 'id' | 'user' | 
     })[];
 }
 
-export type PartialAssessment = PartialForm<AssessmentFormFields, 'area' | 'component' | 'question' | 'consideration'>;
+export type PartialAssessment = PartialForm<AssessmentFormFields, 'area' | 'component' | 'question' | 'consideration' | 'client_id'>;
 type AssessmentSchema = ObjectSchema<PartialAssessment>
 type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 
@@ -44,17 +44,9 @@ export const assessmentSchema: AssessmentSchema = {
                                         }),
                                     }),
                                 },
-                                consideration_responses: {
-                                    keySelector: (considerationResponse) => (
-                                        considerationResponse.consideration
-                                    ),
-                                    member: () => ({
-                                        fields: () => ({
-                                            consideration: {},
-                                            notes: {},
-                                        }),
-                                    }),
-                                },
+                                urban_considerations: {},
+                                epi_considerations: {},
+                                climate_environmental_considerations: {},
                             }),
                         }),
                     },
