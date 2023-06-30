@@ -27,31 +27,33 @@ const labelSelector = (user: User) => {
 };
 
 type Def = { containerClassName?: string;}
-type UserMultiSelectInputProps<K extends string> = SearchMultiSelectInputProps<
+type UserMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
     number,
-    K,
+    NAME,
     User,
     Def,
     'onSearchValueChange' | 'searchOptions' | 'optionsPending' | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
 >;
 
-function UserMultiSelectInput<K extends string>(
-    props: UserMultiSelectInputProps<K>,
+// FIXME: better state handling, better popup messages
+function UserMultiSelectInput<const NAME>(
+    props: UserMultiSelectInputProps<NAME>,
 ) {
     const {
         className,
         ...otherProps
     } = props;
 
-    const [opened, setOpened] = useState(false);
+    const [dropdownShown, setShowDropdown] = useState(false);
     const [searchText, setSearchText] = useState<string | undefined>('');
     const debouncedSearchText = useDebouncedValue(searchText);
+    const safeSearchText = debouncedSearchText?.trim() ?? '';
 
     const {
         pending,
         response,
     } = useRequest<ListResponse<User>>({
-        skip: (debouncedSearchText?.length ?? 0) < 2 || !opened,
+        skip: !dropdownShown || safeSearchText.length < 2,
         url: 'api/v2/users/',
         query: {
             name: debouncedSearchText,
@@ -70,7 +72,7 @@ function UserMultiSelectInput<K extends string>(
             searchOptions={response?.results}
             optionsPending={pending}
             totalOptionsCount={response?.count ?? 0}
-            onShowDropdownChange={setOpened}
+            onShowDropdownChange={setShowDropdown}
         />
     );
 }

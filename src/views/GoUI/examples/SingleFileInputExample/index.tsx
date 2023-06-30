@@ -33,7 +33,6 @@ function SingleFileInputExample() {
                 clearable
             />
             <SingleFileInput
-                variant="general"
                 className={styles.fileInput}
                 name="file"
                 label="File Input Required"
@@ -43,7 +42,6 @@ function SingleFileInputExample() {
                 onChange={handleChange}
             />
             <SingleFileInput
-                variant="general"
                 className={styles.fileInput}
                 name="file"
                 label="Read-Only File Input"

@@ -1,26 +1,25 @@
 {
     "namespace": "dref",
     "strings": {
+        "drefFormPageTitle": "IFRC GO - DREF Application",
         "drefFormSaveButtonLabel": "Save",
+        "drefFormSubmitButtonLabel": "Submit",
         "drefFormContinueButtonLabel": "Continue",
         "drefFormSaveRequestSuccessMessage": "DREF Application created/updated successfully",
         "drefFormSaveRequestFailureMessage": "Failed to create/update DREF Application",
         "drefFormLoadRequestFailureMessage": "Failed to load DREF Application",
         "drefFormExportLabel": "Export",
-        "drefFormPageTitle": "IFRC GO - DREF Application",
         "drefFormPageHeading": "DREF Application",
-        "drefFormTabOperationOverviewLabel": "Operation Overview",
+        "drefFormTabOverviewLabel": "Operation Overview",
         "drefFormTabEventDetailLabel": "Event Detail",
         "drefFormTabActionsLabel": "Actions/Needs",
-        "drefFormTabResponseLabel": "Operation",
+        "drefFormTabOperationLabel": "Operation",
         "drefFormTabSubmissionLabel": "Submission/Contact",
         "drefFormLoadErrorTitle": "Failed to load DREF Application",
         "drefFormLoadErrorDescription": "There was an error loading the DREF Application",
         "drefFormLoadErrorHelpText": "Please make sure that the application with given id exists and you have the permission to view it",
         "drefFormFieldGeneralError": "Please correct all the errors!",
         "drefFormBackButtonLabel": "Back",
-        "yesLabel": "Yes",
-        "noLabel": "No",
         "drefFormImportFromDocument": "Import from Document"
     }
 }

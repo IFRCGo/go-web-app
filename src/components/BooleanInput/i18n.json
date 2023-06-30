@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "yesLabel": "Yes",
+        "noLabel": "No"
+    }
+}

@@ -1,12 +1,10 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
-import { CloseLineIcon } from '@ifrc-go/icons';
 
-import IconButton, { Props as IconButtonProps } from '#components/IconButton';
+import InputError from '#components/InputError';
 import { NameType } from '#components/types';
 import Link from '#components/Link';
-import type { ButtonVariant, Props as ButtonProps } from '#components/Button';
-import Button from '#components/Button';
+import type { ButtonVariant } from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
 import { nonFieldError } from '@togglecorp/toggle-form';
@@ -24,33 +22,29 @@ const valueSelector = (d: FileUploadResult) => d.file;
 
 export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'| 'inputRef'> & {
     actions?: React.ReactNode;
-    buttonProps?: ButtonProps<T>;
     children?: React.ReactNode;
     className?: string;
-    clearButtonProps?: IconButtonProps<T>;
     clearable?: boolean;
     icons?: React.ReactNode;
-    iconsClassName?: string;
     onChange: (value: number | undefined, name: T) => void;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     url: string;
     value: number | undefined | null;
     variant?: ButtonVariant;
+    hidePreview?: boolean;
+    error?: React.ReactNode;
+    description?: React.ReactNode;
 }
 
 function GoSingleFileInput<T extends NameType>(props: Props<T>) {
     const {
         accept,
         actions: actionsFromProps,
-        buttonProps,
-        capture,
         children,
         className,
-        clearButtonProps,
         clearable,
         disabled: disabledFromProps,
-        form,
         icons,
         inputProps,
         name,
@@ -60,7 +54,10 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         setFileIdToUrlMap,
         url,
         value,
-        variant = 'primary',
+        variant = 'secondary',
+        hidePreview,
+        error,
+        description,
     } = props;
 
     const alert = useAlert();
@@ -99,76 +96,51 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         },
     });
 
-    const inputRef = useRef<HTMLInputElement>(null);
-
     const handleChange = useCallback((file: File | undefined) => {
         if (file) {
             triggerFileUpload({ file });
         }
     }, [triggerFileUpload]);
 
-    const handleClear = useCallback(() => {
-        onChange(undefined, name);
-    }, [onChange, name]);
-
     const disabled = disabledFromProps || pending || readOnly;
-
-    const handleClick = useCallback(() => {
-        if (!disabled && typeof inputRef?.current?.click === 'function') {
-            inputRef.current.click();
-        }
-    }, [disabled]);
-
-    const actions = (clearable && value && !readOnly && !disabled ? (
-        <>
-            {actionsFromProps}
-            <IconButton
-                {...clearButtonProps} // eslint-disable-line react/jsx-props-no-spreading
-                name="clear-button"
-                variant="tertiary"
-                ariaLabel="clear"
-                onClick={handleClear}
-                className={styles.clearButton}
-            >
-                <CloseLineIcon />
-            </IconButton>
-        </>
-    ) : null);
-
+    const actions = (clearable && value && !readOnly && !disabled ? actionsFromProps : null);
     const selectedFileUrl = isDefined(value) ? fileIdToUrlMap?.[value] : undefined;
 
     return (
-        <div className={_cs(styles.goFileInput, className)}>
+        <div className={_cs(styles.goSingleFileInput, className)}>
             <RawFileInput
+                name={name}
                 onChange={handleChange}
                 accept={accept}
-                name={name}
-                form={form}
                 disabled={disabled}
                 readOnly={readOnly}
-                capture={capture}
                 inputProps={inputProps}
-                inputRef={inputRef}
+                variant={variant}
+                icons={icons}
+                actions={actions}
             >
-                <Button
-                    {...buttonProps} // eslint-disable-line react/jsx-props-no-spreading
-                    name={undefined}
-                    variant={variant}
-                    onClick={handleClick}
-                    disabled={disabled}
-                    icons={icons}
-                >
-                    {children}
-                </Button>
+                {children}
             </RawFileInput>
-            {selectedFileUrl ? (
+            {/* FIXME: use translation */}
+            {!hidePreview && selectedFileUrl ? (
                 <Link
                     to={selectedFileUrl}
                 >
                     1 file selected
                 </Link>
-            ) : 'No file selected'}
-            {actions}
+            ) : (
+                <div className={styles.emptyMessage}>
+                    No file selected
+                </div>
+            )}
+            {description && (
+                <div>
+                    {description}
+                </div>
+            )}
+            <InputError>
+                {error}
+            </InputError>
         </div>
     );
 }

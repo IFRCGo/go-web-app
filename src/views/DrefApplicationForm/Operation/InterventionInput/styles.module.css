@@ -1,0 +1,22 @@
+.intervention-input {
+    background-color: var(--go-ui-color-white);
+
+    .title-container {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+
+        .label {
+            flex-grow: 1;
+        }
+    }
+
+    .description-container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-sm);
+    }
+
+    .empty-message {
+        color: var(--go-ui-color-gray-50);
+    }
+}

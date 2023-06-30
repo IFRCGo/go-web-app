@@ -1,5 +1,5 @@
-import { useCallback, useRef } from 'react';
-import { _cs, isDefined } from '@togglecorp/fujs';
+import { useCallback } from 'react';
+import { isDefined } from '@togglecorp/fujs';
 import { CloseLineIcon } from '@ifrc-go/icons';
 
 import InputContainer, { Props as InputContainerProps } from '../InputContainer';
@@ -38,7 +38,6 @@ function MultiFileInput<N extends NameType>(props: MultiFileInputProps<N>) {
     const {
         accept,
         actions: actionsFromProps,
-        capture,
         className,
         clearButtonProps,
         clearable,
@@ -46,11 +45,9 @@ function MultiFileInput<N extends NameType>(props: MultiFileInputProps<N>) {
         error,
         errorOnTooltip,
         fileInputProps,
-        form,
         hint,
         icons,
         inputClassName,
-        inputProps,
         inputSectionClassName,
         label,
         name,
@@ -62,25 +59,9 @@ function MultiFileInput<N extends NameType>(props: MultiFileInputProps<N>) {
         valueComponent,
         variant,
         withAsterisk,
-        ...others
     } = props;
 
     const ValueComponent = valueComponent ?? DefaultValue;
-
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    const handleClick = useCallback(() => {
-        if (!disabled && typeof inputRef?.current?.click === 'function') {
-            inputRef.current.click();
-        }
-    }, [disabled]);
-
-    const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.code === 'Space' || event.code === 'Enter') {
-            event.preventDefault();
-            handleClick();
-        }
-    }, [handleClick]);
 
     const hasValue = isDefined(value) && value.length > 0;
 
@@ -121,35 +102,18 @@ function MultiFileInput<N extends NameType>(props: MultiFileInputProps<N>) {
             withAsterisk={withAsterisk}
             input={(
                 <RawFileInput
+                    className={inputClassName}
                     onChange={onChange}
                     accept={accept}
                     name={name}
-                    form={form}
                     disabled={disabled || readOnly}
                     readOnly={readOnly}
-                    capture={capture}
                     inputProps={fileInputProps}
                     multiple
-                    inputRef={inputRef}
                 >
-                    <div
-                        {...inputProps} // eslint-disable-line react/jsx-props-no-spreading
-                        {...others} // eslint-disable-line react/jsx-props-no-spreading
-                        className={_cs(
-                            inputClassName,
-                            styles.button,
-                            disabled && styles.disabled,
-                        )}
-                        onKeyDown={handleKeyDown}
-                        onClick={handleClick}
-                        role="button"
-                        aria-disabled={disabled || readOnly}
-                        tabIndex={disabled ? -1 : 0}
-                    >
-                        {hasValue ? (
-                            <ValueComponent value={value} />
-                        ) : <div>{placeholder}</div>}
-                    </div>
+                    {hasValue ? (
+                        <ValueComponent value={value} />
+                    ) : <div>{placeholder}</div>}
                 </RawFileInput>
             )}
         />

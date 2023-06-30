@@ -21,6 +21,7 @@ interface Props {
     mainSectionClassName?: string;
     infoContainerClassName?: string;
     wikiLink?: React.ReactNode;
+    withBackgroundColorInMainSection?: boolean;
 }
 
 function Page(props: Props) {
@@ -37,6 +38,7 @@ function Page(props: Props) {
         mainSectionClassName,
         infoContainerClassName,
         wikiLink,
+        withBackgroundColorInMainSection,
     } = props;
 
     useEffect(() => {
@@ -76,7 +78,10 @@ function Page(props: Props) {
             )}
             <PageContainer
                 contentAs="main"
-                className={styles.mainSectionContainer}
+                className={_cs(
+                    styles.mainSectionContainer,
+                    withBackgroundColorInMainSection && styles.withBackgroundColor,
+                )}
                 contentClassName={_cs(
                     styles.mainSection,
                     mainSectionClassName,

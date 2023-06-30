@@ -13,6 +13,7 @@ export interface InputBaseProps {
     normalDescription?: boolean;
     descriptionContainerClassName?: string;
     fullWidthColumn?: boolean;
+    titleClassName?: string;
 }
 
 type Props = InputBaseProps & ({
@@ -33,6 +34,7 @@ type Props = InputBaseProps & ({
     threeColumn?: never;
 });
 
+// FIXME: simplify props, responsive styling
 function InputSection(props: Props) {
     const {
         className,
@@ -45,6 +47,7 @@ function InputSection(props: Props) {
         descriptionContainerClassName,
         normalDescription,
         fullWidthColumn,
+        titleClassName,
     } = props;
 
     return (
@@ -68,7 +71,7 @@ function InputSection(props: Props) {
                 title={tooltip}
             >
                 {title && (
-                    <div className={styles.title}>
+                    <div className={_cs(styles.title, titleClassName)}>
                         {title}
                     </div>
                 )}

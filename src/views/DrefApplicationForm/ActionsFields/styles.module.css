@@ -1,8 +1,0 @@
-.national-society-actions,
-.needs-identified {
-    .actions {
-        display: flex;
-        align-items: flex-end;
-        padding: var(--go-ui-spacing-sm);
-    }
-}

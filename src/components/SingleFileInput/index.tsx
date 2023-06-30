@@ -38,7 +38,6 @@ function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
     const {
         accept,
         actions: actionsFromProps,
-        capture,
         className,
         clearButtonProps,
         clearable,
@@ -46,7 +45,6 @@ function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
         error,
         errorOnTooltip,
         fileInputProps,
-        form,
         hint,
         icons,
         inputClassName,
@@ -124,10 +122,8 @@ function SingleFileInput<N extends NameType>(props: SingleFileInputProps<N>) {
                     onChange={onChange}
                     accept={accept}
                     name={name}
-                    form={form}
                     disabled={disabled || readOnly}
                     readOnly={readOnly}
-                    capture={capture}
                     inputProps={fileInputProps}
                     inputRef={inputRef}
                 >

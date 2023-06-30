@@ -1,40 +1,40 @@
-import { ReactElement, useCallback } from 'react';
-import { isDefined } from '@togglecorp/fujs';
+import { useCallback, useState } from 'react';
+import { _cs, randomString } from '@togglecorp/fujs';
 
-import { NameType } from '../types';
+import { useButtonFeatures } from '#components/Button';
+import type { ButtonFeatureProps } from '#components/Button';
 
-export type RawFileInputProps<N extends NameType> = {
+import styles from './styles.module.css';
+
+export type RawFileInputProps<NAME> = ButtonFeatureProps & {
     accept?: string;
-    capture?: boolean | 'user' | 'environment';
-    children: ReactElement;
     disabled?: boolean;
-    form?: string;
     inputProps?: React.ComponentPropsWithoutRef<'input'>;
-    inputRef: React.RefObject<HTMLInputElement>;
-    name: N;
+    inputRef?: React.RefObject<HTMLInputElement>;
+    name: NAME;
     readOnly?: boolean;
 } & ({
     multiple: true;
-    onChange: (files: File[] | undefined, name: N) => void;
+    onChange: (files: File[] | undefined, name: NAME) => void;
 } | {
     multiple?: false;
-    onChange: (files: File | undefined, name: N) => void;
+    onChange: (files: File | undefined, name: NAME) => void;
 });
 
-function RawFileInput<N extends NameType>(props: RawFileInputProps<N>) {
+function RawFileInput<NAME>(props: RawFileInputProps<NAME>) {
     const {
         accept,
-        capture,
-        children,
         disabled,
-        form,
         inputProps,
         inputRef,
         multiple,
         name,
         onChange,
         readOnly,
+        ...buttonFeatureProps
     } = props;
+
+    const [inputId] = useState(randomString);
 
     const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         if (multiple) {
@@ -44,29 +44,39 @@ function RawFileInput<N extends NameType>(props: RawFileInputProps<N>) {
         } else {
             onChange(event.currentTarget.files?.[0] ?? undefined, name);
         }
-        if (event.target.value) {
-            event.target.value = ''; // eslint-disable-line no-param-reassign
+
+        if (event.currentTarget.value) {
+            event.currentTarget.value = ''; // eslint-disable-line no-param-reassign
         }
     }, [multiple, name, onChange]);
 
+    const {
+        children,
+        className,
+    } = useButtonFeatures({
+        ...buttonFeatureProps,
+    });
+
     return (
-        <>
+        <label
+            htmlFor={inputId}
+            className={_cs(styles.fileInput, className)}
+        >
             {children}
             <input
-                style={{ display: 'none' }}
+                id={inputId}
+                className={styles.input}
                 type="file"
                 accept={accept}
                 multiple={multiple}
                 onChange={handleChange}
-                name={isDefined(name) ? String(name) : undefined}
+                name={typeof name === 'string' ? name : undefined}
                 ref={inputRef}
-                form={form}
-                capture={capture}
                 disabled={disabled}
                 readOnly={readOnly}
                 {...inputProps} // eslint-disable-line react/jsx-props-no-spreading
             />
-        </>
+        </label>
     );
 }
 

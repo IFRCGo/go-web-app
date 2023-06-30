@@ -1,5 +1,5 @@
 import {
-    docx,
+    docx as docxReader,
     Node,
 } from 'docx4js';
 import {
@@ -18,7 +18,6 @@ function getChildren(node: Node | undefined, name: string) {
         return undefined;
     }
 
-
     if (node.name === name) {
         return [node];
     }
@@ -32,7 +31,8 @@ function getChildren(node: Node | undefined, name: string) {
             }
 
             return acc;
-        }, [] as Node[],
+        },
+        [] as Node[],
     );
 
     return nodeList;
@@ -40,7 +40,10 @@ function getChildren(node: Node | undefined, name: string) {
 
 export async function getImportData(file: File) {
     const docx = await docxReader.load(file);
-    const body: Node | undefined = docx?.officeDocument?.content?._root?.children?.[1]?.children?.[0];
+
+    // eslint-disable-next-line no-underscore-dangle
+    const body: Node | undefined = docx?.officeDocument?.content
+        ?._root?.children?.[1]?.children?.[0];
     const sdtList = body?.children?.map((ch: Node | undefined) => {
         // w:sdt is a standard block
         const potentialNodeList = getChildren(ch, 'w:sdt');
@@ -60,11 +63,11 @@ export async function getImportData(file: File) {
         if (dateValue) {
             value = dateValue;
         } else {
-            value = textNode?.map(
-                t => t.children?.map(
-                    tc => tc.data
-                )
-            )?.flat(2)?.join('');
+            value = textNode?.flatMap(
+                (t) => t.children?.flatMap(
+                    (tc) => tc.data,
+                ),
+            )?.join('');
         }
 
         if (key) {
@@ -82,16 +85,15 @@ interface KeyValue {
     value: string | undefined,
 }
 
-
 function getItemsWithMatchingKeys(items: KeyValue[], key: string, exceptions?: string[]) {
-    const filteredItems = items.filter(item => item.key.startsWith(key));
+    const filteredItems = items.filter((item) => item.key.startsWith(key));
 
     if (!exceptions || exceptions.length <= 0) {
         return filteredItems;
     }
 
-    const exceptionMap = listToMap(exceptions, d => d, () => true);
-    return filteredItems.filter(item => !exceptionMap[item.key]);
+    const exceptionMap = listToMap(exceptions, (d) => d, () => true);
+    return filteredItems.filter((item) => !exceptionMap[item.key]);
 }
 
 function getNumberSafe(str: string | undefined) {
@@ -145,6 +147,8 @@ function getDateSafe(str: string | undefined) {
     if (Number.isNaN(date.getTime())) {
         return undefined;
     }
+
+    return date;
 }
 
 function getStringSafe(str: string | undefined) {
@@ -183,8 +187,8 @@ export function transformImport(
 ) {
     const importDataMap = listToMap(
         importData,
-        d => d.key,
-        d => d.value,
+        (d) => d.key,
+        (d) => d.value,
     );
 
     const numFieldsToType: Record<number, string> = {
@@ -271,19 +275,19 @@ export function transformImport(
 
     const countryLabel = getStringSafe(importDataMap.country);
     const country = countryOptions.find(
-        c => c.label.toLocaleLowerCase() === countryLabel?.toLocaleLowerCase(),
+        (c) => c.label.toLocaleLowerCase() === countryLabel?.toLocaleLowerCase(),
     )?.value;
     const disasterCategoryLabel = getStringSafe(importDataMap.disaster_category);
     const disaster_category = disasterCategoryOptions.find(
-        d => d.label.toLocaleLowerCase() === disasterCategoryLabel?.toLocaleLowerCase(),
+        (d) => d.label.toLocaleLowerCase() === disasterCategoryLabel?.toLocaleLowerCase(),
     )?.value;
     const disasterTypeLabel = getStringSafe(importDataMap.disaster_type);
     const disaster_type = disasterTypeOptions.find(
-        d => d.label.toLocaleLowerCase() === disasterTypeLabel?.toLocaleLowerCase(),
+        (d) => d.label.toLocaleLowerCase() === disasterTypeLabel?.toLocaleLowerCase(),
     )?.value;
     const onsetLabel = getStringSafe(importDataMap.type_of_onset_display);
     const type_of_onset = onsetTypeOptions.find(
-        o => o.label.toLocaleLowerCase() === onsetLabel?.toLocaleLowerCase(),
+        (o) => o.label.toLocaleLowerCase() === onsetLabel?.toLocaleLowerCase(),
     )?.value;
 
     const INTERVENTION_KEY = 'intervention.';
@@ -318,14 +322,14 @@ export function transformImport(
         'national_society_strengthening',
         'multi-purpose_cash',
         'environmental_sustainability',
-        'community_engagement_and_accountability'
+        'community_engagement_and_accountability',
     ];
 
     const interventions = Object.values(groupedInterventions).map(
         (keyValueList, index) => {
             const mapping = listToMap(
                 keyValueList,
-                d => d.key,
+                (d) => d.key,
             );
 
             const INDICATOR_KEY = 'indicators_';
@@ -344,11 +348,11 @@ export function transformImport(
                         ...d,
                         key: newKey,
                     };
-                }
+                },
             );
 
-            const title = interventionKeys[index];
-            if (!title) {
+            const interventionTitle = interventionKeys[index];
+            if (!interventionTitle) {
                 return undefined;
             }
 
@@ -356,23 +360,23 @@ export function transformImport(
                 (keyValueIndicatorList) => {
                     const indicatorMapping = listToMap(
                         keyValueIndicatorList,
-                        d => d.key,
-                        d => d.value,
+                        (d) => d.key,
+                        (d) => d.value,
                     );
 
-                    const title = getStringSafe(indicatorMapping.title);
+                    const indicatorTitle = getStringSafe(indicatorMapping.title);
                     const target = getNumberSafe(indicatorMapping.target);
 
-                    if (!title && isNotDefined(target)) {
+                    if (!indicatorTitle && isNotDefined(target)) {
                         return undefined;
                     }
 
                     return {
-                        clientId: randomString(),
-                        title,
+                        client_id: randomString(),
+                        title: indicatorTitle,
                         target,
                     };
-                }
+                },
             ).filter(isDefined);
 
             const budget = getNumberSafe(mapping.budget?.value);
@@ -389,10 +393,10 @@ export function transformImport(
             }
 
             return {
-                title,
-                clientId: randomString(),
-                budget: budget,
-                person_targeted: person_targeted,
+                title: interventionTitle,
+                client_id: randomString(),
+                budget,
+                person_targeted,
                 description,
                 indicators,
             };
@@ -419,7 +423,7 @@ export function transformImport(
         'community_engagement_and _accountability',
         'environment_sustainability ',
         'multi-purpose_cash',
-        'other'
+        'other',
     ];
     const national_society_actions = nsActionItems.map((nsActionItem) => {
         if (!nsActionItem.value) {
@@ -430,15 +434,15 @@ export function transformImport(
             nsActionItem.key.substring(
                 NS_ACTION_KEY.length,
                 nsActionItem.key.length,
-            )
+            ),
         );
 
         if (isNotDefined(order)) {
             return undefined;
         }
 
-        const title = nsActionKeys[order];
-        if (!title) {
+        const nsActionTitle = nsActionKeys[order];
+        if (!nsActionTitle) {
             return undefined;
         }
 
@@ -449,8 +453,8 @@ export function transformImport(
         }
 
         return {
-            clientId: randomString(),
-            title,
+            client_id: randomString(),
+            title: nsActionTitle,
             description,
         };
     }).filter(isDefined);
@@ -469,7 +473,7 @@ export function transformImport(
         'risk_reduction_climate_adaptation_and_recovery',
         'community_engagement_and _accountability',
         'environment_sustainability ',
-        'shelter_cluster_coordination'
+        'shelter_cluster_coordination',
     ];
     const needs_identified = needItems.map((needItem) => {
         const order = +(needItem.key.substring(
@@ -481,9 +485,9 @@ export function transformImport(
             return undefined;
         }
 
-        const title = needKeys[order];
+        const needTitle = needKeys[order];
 
-        if (!title) {
+        if (!needTitle) {
             return undefined;
         }
 
@@ -493,8 +497,8 @@ export function transformImport(
         }
 
         return {
-            clientId: randomString(),
-            title,
+            client_id: randomString(),
+            title: needTitle,
             description,
         };
     }).filter(isDefined);
@@ -522,8 +526,8 @@ export function transformImport(
         (keyValueList) => {
             const mapping = listToMap(
                 keyValueList,
-                d => d.key,
-                d => d.value,
+                (d) => d.key,
+                (d) => d.value,
             );
 
             const risk = getStringSafe(mapping.security);
@@ -534,11 +538,11 @@ export function transformImport(
             }
 
             return {
-                clientId: randomString(),
+                client_id: randomString(),
                 risk,
                 mitigation,
             };
-        }
+        },
     ).filter(isDefined);
 
     const commonFields = {
@@ -559,7 +563,9 @@ export function transformImport(
         human_resource: getStringSafe(volunteers),
         icrc: getStringSafe(icrc),
         ifrc: getStringSafe(ifrc),
-        is_there_major_coordination_mechanism: isDefined(getStringSafe(major_coordination_mechanism)) ? true : undefined,
+        is_there_major_coordination_mechanism: isDefined(
+            getStringSafe(major_coordination_mechanism),
+        ) ? true : undefined,
         major_coordination_mechanism: getStringSafe(major_coordination_mechanism),
         men: getNumberSafe(men),
         national_authorities: getStringSafe(national_authorities),
@@ -579,7 +585,9 @@ export function transformImport(
         risk_security_concern: getStringSafe(risk_security_concern),
         selection_criteria: getStringSafe(selection_criteria),
         start_date: getDateSafe(start_date),
-        is_surge_personnel_deployed: isDefined(getStringSafe(surge_personnel_deployed)) ? true : undefined,
+        is_surge_personnel_deployed: isDefined(
+            getStringSafe(surge_personnel_deployed),
+        ) ? true : undefined,
         surge_personnel_deployed: getStringSafe(surge_personnel_deployed),
         title: getStringSafe(title),
         // total_targeted_population: getNumberSafe(total_targeted_population),

@@ -4,12 +4,10 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
+import InputError from '#components/InputError';
 import Link from '#components/Link';
 import { NameType } from '#components/types';
-import { CloseLineIcon } from '@ifrc-go/icons';
-import IconButton, { Props as IconButtonProps } from '#components/IconButton';
-import type { ButtonVariant, Props as ButtonProps } from '#components/Button';
-import Button from '#components/Button';
+import type { ButtonVariant } from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
 import { nonFieldError } from '@togglecorp/toggle-form';
@@ -33,33 +31,29 @@ function getFileNameFromUrl(urlString: string) {
 
 export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children' | 'inputRef'> & {
     actions?: React.ReactNode;
-    buttonProps?: ButtonProps<T>;
     children?: React.ReactNode;
     className?: string;
-    clearButtonProps?: IconButtonProps<T>;
     clearable?: boolean;
     icons?: React.ReactNode;
-    iconsClassName?: string;
     onChange: (value: number[] | undefined, name: T) => void;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     url: string;
     value: number[] | undefined | null;
     variant?: ButtonVariant;
+    hidePreview?: boolean;
+    error?: React.ReactNode;
+    description?: React.ReactNode;
 }
 
 function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     const {
         accept,
         actions: actionsFromProps,
-        buttonProps,
-        capture,
         children,
         className,
-        clearButtonProps,
         clearable,
         disabled: disabledFromProps,
-        form,
         icons,
         inputProps,
         name,
@@ -69,7 +63,10 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         setFileIdToUrlMap,
         url,
         value,
-        variant = 'primary',
+        variant = 'secondary',
+        hidePreview,
+        error,
+        description,
     } = props;
 
     const alert = useAlert();
@@ -81,9 +78,9 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         formData: true,
         url,
         method: 'POST',
-        // FIXME: this doesn't work
         body: (body) => {
             const formData = new FormData();
+
             body.files.forEach((file) => {
                 formData.append('file', file);
             });
@@ -110,10 +107,14 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         },
         onFailure: (e) => {
             const serverError = e?.value?.formErrors;
-            const message = `Failed to upload the file! ${serverError?.file ?? serverError?.[nonFieldError] ?? ''}`;
+            const serverErrorMessage = String(serverError?.file ?? serverError?.[nonFieldError]);
             alert.show(
-                message,
-                { variant: 'danger' },
+                // FIXME use translation
+                'Failed to upload the file!',
+                {
+                    variant: 'danger',
+                    description: serverErrorMessage,
+                },
             );
         },
     });
@@ -126,34 +127,8 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         }
     }, [triggerFileUpload]);
 
-    const handleClear = useCallback(() => {
-        onChange(undefined, name);
-    }, [onChange, name]);
-
     const disabled = disabledFromProps || pending || readOnly;
-
-    const handleClick = useCallback(() => {
-        if (!disabled && typeof inputRef?.current?.click === 'function') {
-            inputRef.current.click();
-        }
-    }, [disabled]);
-
-    const actions = (clearable && value && !readOnly && !disabled ? (
-        <>
-            {actionsFromProps}
-            <IconButton
-                {...clearButtonProps} // eslint-disable-line react/jsx-props-no-spreading
-                name="clear-button"
-                variant="tertiary"
-                ariaLabel="clear"
-                onClick={handleClear}
-                className={styles.clearButton}
-            >
-                <CloseLineIcon />
-            </IconButton>
-        </>
-    ) : null);
-
+    const actions = (clearable && value && !readOnly && !disabled ? actionsFromProps : null);
     const valueUrls = isDefined(value) ? (
         value.map((fileId) => fileIdToUrlMap?.[fileId])
     ) : undefined;
@@ -161,29 +136,21 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     return (
         <div className={_cs(styles.goFileInput, className)}>
             <RawFileInput
+                name={name}
                 onChange={handleChange}
                 accept={accept}
-                name={name}
-                form={form}
                 disabled={disabled}
                 readOnly={readOnly}
-                capture={capture}
                 inputProps={inputProps}
-                multiple
                 inputRef={inputRef}
+                variant={variant}
+                icons={icons}
+                actions={actions}
+                multiple
             >
-                <Button
-                    {...buttonProps} // eslint-disable-line react/jsx-props-no-spreading
-                    name={undefined}
-                    variant={variant}
-                    onClick={handleClick}
-                    disabled={disabled}
-                    icons={icons}
-                >
-                    {children}
-                </Button>
+                {children}
             </RawFileInput>
-            {valueUrls && (
+            {!hidePreview && valueUrls && (
                 <div className={styles.selectedFiles}>
                     {valueUrls.map(
                         (valueUrl) => (
@@ -197,7 +164,14 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                     )}
                 </div>
             )}
-            {actions}
+            {description && (
+                <div>
+                    {description}
+                </div>
+            )}
+            <InputError>
+                {error}
+            </InputError>
         </div>
     );
 }

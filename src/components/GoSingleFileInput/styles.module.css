@@ -1,4 +1,10 @@
-.go-file-input {
+.go-single-file-input {
     display: flex;
-    gap: var(--go-ui-spacing-lg);
+    position: relative;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-sm);
+
+    .empty-message {
+        color: var(--go-ui-color-gray-50);
+    }
 }

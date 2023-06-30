@@ -1,0 +1,12 @@
+{
+    "namespace": "dref",
+    "strings": {
+        "drefFormInterventionBudgetLabel": "Budget",
+        "drefFormInterventionPersonTargetedLabel": "Persons Targeted",
+        "drefFormListOfActivities": "List of Activities",
+        "drefAddIndicatorButtonLabel": "Add Indicator",
+        "drefFormIndicatorsLabel": "Indicators",
+        "drefFormRemoveIntervention": "Remove Intervention",
+        "drefFormNoIndicatorMessage": "No indicators"
+    }
+}
