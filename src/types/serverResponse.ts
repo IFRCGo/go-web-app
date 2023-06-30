@@ -126,6 +126,37 @@ interface PerAssessmentResponse {
     }[];
 }
 
+interface RegionProfileSnippet {
+    region: number;
+    visibility: number;
+    id: number;
+    snippet: string;
+}
+
+interface AdditionalLinks {
+    id: number;
+    show_in_go: boolean;
+    title: string;
+    url: string;
+}
+
+interface Contacts {
+    ctype: string;
+    email: string;
+    id: number;
+    name: string;
+    title: string;
+}
+
+export interface RegionalProfile {
+    name: number;
+    region_name: string;
+    national_society_count: number;
+    snippets: RegionProfileSnippet[];
+    links: AdditionalLinks[];
+    contacts: Contacts[];
+}
+
 interface PerOverviewResponse {
     assess_climate_environment_of_country: boolean | null;
     assess_preparedness_of_country: boolean | null;

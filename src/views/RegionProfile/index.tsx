@@ -1,46 +1,17 @@
 import { useParams } from 'react-router-dom';
 import { RedCrossNationalSocietyIcon } from '@ifrc-go/icons';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
 
 import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
+import { RegionalProfile } from '#types/serverResponse';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-interface RegionProfileSnippet {
-    region: number;
-    visibility: number;
-    id: number;
-    snippet: string;
-}
-
-interface AdditionalLinks {
-    id: number;
-    show_in_go: boolean;
-    title: string;
-    url: string;
-}
-
-interface Contacts {
-    ctype: string;
-    email: string;
-    id: number;
-    name: string;
-    title: string;
-}
-
-interface RegionalProfile {
-    name: number;
-    region_name: string;
-    national_society_count: number;
-    snippets: RegionProfileSnippet[];
-    links: AdditionalLinks[];
-    contacts: Contacts[];
-}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -50,7 +21,7 @@ export function Component() {
     const {
         response: regionalProfileResponse,
     } = useRequest<RegionalProfile>({
-        skip: !regionId,
+        skip: isNotDefined(regionId),
         url: `api/v2/region/${regionId}/`,
     });
 
@@ -67,7 +38,10 @@ export function Component() {
                     className={styles.keyFigure}
                     value={regionalProfileResponse?.national_society_count}
                     compactValue
-                    description={`National Society in ${regionalProfileResponse?.region_name}`}
+                    description={`
+                        ${strings.regionalProfileNationalSocietyTitle}
+                        ${regionalProfileResponse?.region_name}
+                    `}
                 />
             </Container>
             {regionalProfileResponse?.snippets && (
@@ -83,7 +57,8 @@ export function Component() {
                     />
                 </Container>
             )}
-            {regionalProfileResponse?.links && (
+            {regionalProfileResponse?.links
+            && regionalProfileResponse?.links.length > 0 && (
                 <Container
                     heading={strings.regionalProfileAdditionalLinks}
                     withHeaderBorder
@@ -101,7 +76,8 @@ export function Component() {
                     ))}
                 </Container>
             )}
-            {regionalProfileResponse?.contacts && (
+            {regionalProfileResponse?.contacts
+            && regionalProfileResponse?.contacts.length > 0 && (
                 <Container
                     heading={strings.regionProfileContacts}
                     childrenContainerClassName={styles.componentList}
