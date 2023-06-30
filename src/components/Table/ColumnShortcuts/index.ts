@@ -125,7 +125,7 @@ export function createProgressColumn<D, K>(
 }
 
 export function createEmptyColumn<D, K>() {
-    const item: Column<D, K, CellProps<string>, HeaderCellProps> = {
+    const item: Column<D, K, CellProps<undefined>, HeaderCellProps> = {
         id: randomString(),
         title: '',
         headerCellRenderer: HeaderCell,
@@ -133,7 +133,7 @@ export function createEmptyColumn<D, K>() {
             sortable: false,
         },
         cellRenderer: Cell,
-        cellRendererParams: (): CellProps<string> => ({
+        cellRendererParams: (): CellProps<undefined> => ({
             value: undefined,
         }),
     };
@@ -361,9 +361,52 @@ export function createExpansionIndicatorColumn<D, K>(
             sortable: false,
         },
         cellRenderer: ExpansionIndicator,
-        cellRendererParams: () => ({ isExpanded }),
+        cellRendererParams: (_, __, i, data) => {
+            let variant: ExpansionIndicatorProps['variant'] = 'mid';
+
+            if (data.length === 1) {
+                variant = 'single';
+            } else if (i === 0) {
+                variant = 'start';
+            } else if (i === data.length - 1) {
+                variant = 'end';
+            }
+
+            return {
+                isExpanded,
+                variant,
+            };
+        },
         cellContainerClassName: styles.expansionIndicatorCellContainer,
         cellRendererClassName: styles.expansionIndicatorCell,
+    };
+
+    return item;
+}
+
+export function createElementColumn<DATA, KEY, ELEMENT_PROPS>(
+    id: string,
+    title: string,
+    renderer: React.ComponentType<ELEMENT_PROPS>,
+    rendererParams: (key: KEY, datum: DATA) => ELEMENT_PROPS,
+    options?: Options<DATA, KEY, ELEMENT_PROPS, HeaderCellProps>,
+) {
+    const item: Column<DATA, KEY, ELEMENT_PROPS, HeaderCellProps> = {
+        id,
+        title,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: options?.sortable,
+        },
+        cellRenderer: renderer,
+        cellRendererParams: rendererParams,
+        cellRendererClassName: options?.cellRendererClassName,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
     };
 
     return item;
@@ -388,7 +431,7 @@ export function createActionColumn<D, K>(
         }),
         cellRendererClassName: options?.cellRendererClassName,
         columnClassName: options?.columnClassName,
-        headerCellRendererClassName: styles.numberCellHeader,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
         columnWidth: options?.columnWidth,
         columnStretch: options?.columnStretch,

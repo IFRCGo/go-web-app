@@ -1,0 +1,7 @@
+{
+    "namespace":"account",
+    "strings":{
+        "tableEditLabel": "Edit {phaseDisplay}",
+        "tableViewWorkPlan": "View Work Plan"
+    }
+}

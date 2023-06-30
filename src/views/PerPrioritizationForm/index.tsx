@@ -245,7 +245,9 @@ export function Component() {
             <div className={styles.componentList}>
                 {!pending && formComponentResponse?.results?.map((component) => {
                     const rating = assessmentComponentResponseMap?.[component.id]?.rating_details;
-                    const ratingDisplay = rating ? `${rating.value} - ${rating.title}` : undefined;
+                    const ratingDisplay = isDefined(rating)
+                        ? `${rating.value} - ${rating.title}`
+                        : undefined;
 
                     return (
                         <ComponentInput

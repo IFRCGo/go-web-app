@@ -5,7 +5,6 @@ import {
     useNavigate,
 } from 'react-router-dom';
 import {
-    isTruthyString,
     isNotDefined,
     listToMap,
     randomString,
@@ -25,7 +24,7 @@ import ConfirmButton from '#components/ConfirmButton';
 import Portal from '#components/Portal';
 import {
     compareLabel,
-    isValidCountry,
+    isValidNationalSociety,
 } from '#utils/common';
 import {
     useLazyRequest,
@@ -47,9 +46,7 @@ import ComponentInput from './ComponentInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const defaultValue: PartialWorkPlan = {
-};
-
+const defaultValue: PartialWorkPlan = {};
 type WorkPlanResponse = GET['api/v2/per-work-plan/:id'];
 
 // eslint-disable-next-line import/prefer-default-export
@@ -124,40 +121,32 @@ export function Component() {
         },
     });
 
-    const componentResponseMapping = listToMap(
-        value?.component_responses ?? [],
-        (componentResponse) => componentResponse.component,
-        (componentResponse, _, index) => ({
-            index,
-            value: componentResponse,
-        }),
+    const componentResponseMapping = useMemo(
+        () => (
+            listToMap(
+                value?.component_responses ?? [],
+                (componentResponse) => componentResponse.component,
+                (componentResponse, _, index) => ({
+                    index,
+                    value: componentResponse,
+                }),
+            )
+        ),
+        [value?.component_responses],
     );
 
-    const componentIndexMapping = listToMap(
-        value?.component_responses ?? [],
-        (_, index) => index,
-        (componentResponse, _, index) => ({
-            index,
-            value: componentResponse,
-        }),
-    );
-
-    const customComponentResponseMapping = listToMap(
-        value?.custom_component_responses ?? [],
-        (customComponentResponse) => customComponentResponse.client_id,
-        (customComponentResponse, _, index) => ({
-            index,
-            value: customComponentResponse,
-        }),
-    );
-
-    const customComponentIndexMapping = listToMap(
-        value?.custom_component_responses ?? [],
-        (_, index) => index,
-        (customComponentResponse, _, index) => ({
-            index,
-            value: customComponentResponse,
-        }),
+    const customComponentResponseMapping = useMemo(
+        () => (
+            listToMap(
+                value?.custom_component_responses ?? [],
+                (customComponentResponse) => customComponentResponse.client_id,
+                (customComponentResponse, _, index) => ({
+                    index,
+                    value: customComponentResponse,
+                }),
+            )
+        ),
+        [value?.custom_component_responses],
     );
 
     const {
@@ -191,7 +180,25 @@ export function Component() {
             },
             debugMessage,
         }) => {
-            // TODO add proper typing for errors
+            const componentIndexMapping = listToMap(
+                value?.component_responses ?? [],
+                (_, index) => index,
+                (componentResponse, _, index) => ({
+                    index,
+                    value: componentResponse,
+                }),
+            );
+
+            const customComponentIndexMapping = listToMap(
+                value?.custom_component_responses ?? [],
+                (_, index) => index,
+                (customComponentResponse, _, index) => ({
+                    index,
+                    value: customComponentResponse,
+                }),
+            );
+
+            // TODO: add proper typing for errors
             const transformedError = {
                 component_responses: listToMap(
                     formErrors?.component_responses as Record<string, string[]>[] ?? [],
@@ -218,10 +225,13 @@ export function Component() {
         },
     });
 
-    const nsOptions = countriesResponse?.results.filter(
-        (country) => isValidCountry(country) && isTruthyString(country.society_name),
-    ).map(
-        (country) => ({ value: country.id, label: country.society_name }),
+    const nsOptions = useMemo(
+        () => (
+            countriesResponse?.results.filter(isValidNationalSociety).map(
+                (country) => ({ value: country.id, label: country.society_name }),
+            )
+        ),
+        [countriesResponse?.results],
     );
 
     const workPlanStatusOptions = useMemo(
@@ -388,8 +398,8 @@ export function Component() {
                             {strings.perFormSaveAndFinalizeWorkPlan}
                         </ConfirmButton>
                     </div>
-                    {actionDivRef.current && (
-                        <Portal container={actionDivRef?.current}>
+                    {actionDivRef?.current && (
+                        <Portal container={actionDivRef.current}>
                             <Button
                                 name={undefined}
                                 onClick={handleFormSubmit}

@@ -30,7 +30,7 @@ export interface Column<DATA, KEY, COMPONENT_PROPS, HEADER_PROPS> {
     columnStretch?: boolean;
 
     cellRenderer: React.ComponentType<COMPONENT_PROPS>;
-    cellRendererParams: (key: KEY, datum: DATA, index: number) => Omit<COMPONENT_PROPS, 'className' | 'name'>;
+    cellRendererParams: (key: KEY, datum: DATA, index: number, data: DATA[]) => Omit<COMPONENT_PROPS, 'className' | 'name'>;
     cellRendererClassName?: string;
 
     cellContainerClassName?: string;

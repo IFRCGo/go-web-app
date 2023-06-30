@@ -94,6 +94,7 @@ function Alert<N extends string>(props: Props<N>) {
                     name={undefined}
                     onClick={handleCloseButtonClick}
                     variant="tertiary-on-dark"
+                    title={strings.closeButtonTitle}
                 >
                     <CloseLineIcon className={styles.closeIcon} />
                 </Button>

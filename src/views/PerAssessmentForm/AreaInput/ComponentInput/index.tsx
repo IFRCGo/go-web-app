@@ -108,6 +108,8 @@ function ComponentInput(props: Props) {
             })}
             {epi_considerations && (
                 <TextArea
+                    // TODO: add description
+                    // FIXME: use Translations
                     label="EPI Considerations"
                     name="epi_considerations"
                     value={value?.epi_considerations}
@@ -116,6 +118,8 @@ function ComponentInput(props: Props) {
             )}
             {urban_considerations && (
                 <TextArea
+                    // TODO: add description
+                    // FIXME: use Translations
                     label="Urban Considerations"
                     name="urban_considerations"
                     value={value?.urban_considerations}
@@ -124,6 +128,8 @@ function ComponentInput(props: Props) {
             )}
             {climate_environmental_considerations && (
                 <TextArea
+                    // TODO: add description
+                    // FIXME: use Translations
                     label="Climate and Environmental Considerations"
                     name="climate_environmental_considerations"
                     value={value?.climate_environmental_considerations}

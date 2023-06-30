@@ -53,8 +53,8 @@ const defaultFormValue: PartialAssessment = {
     area_responses: [],
 };
 
-    type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
-    type PerFormArea = PerFormQuestionResponse['results'][number]['component']['area']
+type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
+type PerFormArea = PerFormQuestionResponse['results'][number]['component']['area']
 const defaultFormAreas: PerFormArea[] = [];
 
 // eslint-disable-next-line import/prefer-default-export
@@ -220,24 +220,6 @@ export function Component() {
         setValue: setAreaResponsesValue,
     } = useFormArray('area_responses', setFieldValue);
 
-    const handleNextTab = useCallback(
-        () => {
-            setCurrentArea(
-                (prevArea) => (
-                    Math.min((prevArea ?? 0) + 1, areas.length)
-                ),
-            );
-        },
-        [areas.length],
-    );
-
-    const handlePrevTab = useCallback(
-        () => {
-            setCurrentArea((prevArea) => Math.max((prevArea ?? 0) - 1, 1));
-        },
-        [],
-    );
-
     const areaResponseMapping = listToMap(
         value?.area_responses ?? [],
         (areaResponse) => areaResponse.area,
@@ -326,17 +308,17 @@ export function Component() {
                     <div className={styles.actions}>
                         <div className={styles.pageActions}>
                             <Button
-                                name={undefined}
+                                name={currentArea - 1}
                                 variant="secondary"
-                                onClick={handlePrevTab}
+                                onClick={setCurrentArea}
                                 disabled={isNotDefined(currentArea) || currentArea <= minArea}
                             >
                                 {strings.perFormBackButton}
                             </Button>
                             <Button
-                                name={undefined}
+                                name={currentArea + 1}
                                 variant="secondary"
-                                onClick={handleNextTab}
+                                onClick={setCurrentArea}
                                 disabled={isNotDefined(currentArea) || currentArea >= maxArea}
                             >
                                 {strings.perFormNextButton}

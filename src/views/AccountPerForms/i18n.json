@@ -6,8 +6,6 @@
         "tableCountryTitle":"Country",
         "tableStartDateTitle": "Start Date",
         "tablePerCycleTitle": "PER Cycle",
-        "tablePerPhaseTitle": "PER Phase",
-        "tableEditLabel": "Edit {phaseDisplay}",
-        "tableViewWorkPlan": "View Work Plan"
+        "tablePerPhaseTitle": "PER Phase"
     }
 }

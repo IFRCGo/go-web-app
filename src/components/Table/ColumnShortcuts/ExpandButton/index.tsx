@@ -27,7 +27,10 @@ function ExpandButton<K>(props : ExpandButtonProps<K>) {
 
     return (
         <Button
-            className={_cs(styles.expandButton, className)}
+            className={_cs(
+                styles.expandButton,
+                className,
+            )}
             name={row}
             onClick={onClick}
             variant="tertiary"

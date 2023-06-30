@@ -1,44 +1,41 @@
 import { useMemo, useCallback, useState } from 'react';
-import { _cs, isDefined } from '@togglecorp/fujs';
-
-import {
-    SearchLineIcon,
-    CopyLineIcon,
-    PencilFillIcon,
-    ShareBoxLineIcon,
-} from '@ifrc-go/icons';
+import { _cs } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
-import DropdownMenuItem from '#components/DropdownMenuItem';
 import Table from '#components/Table';
 import {
     createStringColumn,
     createDateColumn,
-    createActionColumn,
     createNumberColumn,
     createListDisplayColumn,
+    createElementColumn,
 } from '#components/Table/ColumnShortcuts';
 import {
     ListResponse,
     useRequest,
 } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
-import {
+
+// FIXME: use from serverResponse.ts
+import type {
     EmergencyProjectResponse,
     Project,
 } from '#types/project';
 
+import ThreeWTableActions from './ThreeWTableActions';
+import type { Props as ThreeWTableActionsProps } from './ThreeWTableActions';
 import i18n from './i18n.json';
-
 import styles from './styles.module.css';
 
-type P = EmergencyProjectResponse;
-type K = string | number;
-type DistrictDetails = P['districts_details'][number];
+type ACTIVITY = EmergencyProjectResponse;
+type KEY = number;
+type DistrictDetails = ACTIVITY['districts_details'][number];
 
-const idSelector = <T extends { id: number }>(p: T) => p.id;
+function idSelector(p: { id: number }) {
+    return p.id;
+}
 
 function getPeopleReachedInActivity(activity: EmergencyProjectResponse['activities'][number]) {
     const {
@@ -115,15 +112,11 @@ const ITEM_PER_PAGE = 5;
 
 interface Props {
     className?: string;
-    actionColumnHeaderClassName?: string;
 }
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component(props: Props) {
-    const {
-        className,
-        actionColumnHeaderClassName,
-    } = props;
+    const { className } = props;
     const strings = useTranslation(i18n);
 
     const [projectActivePage, setProjectActivePage] = useState(1);
@@ -153,8 +146,9 @@ export function Component(props: Props) {
         },
     });
 
+    // FIXME: move key selector and renderer to a separate function
     const districtDetailsColumnParams = useCallback(
-        (item: P) => ({
+        (item: ACTIVITY) => ({
             list: item.districts_details,
             keySelector: (districtDetail: DistrictDetails) => districtDetail.id,
             renderer: (districtDetail: DistrictDetails) => districtDetail.name,
@@ -163,87 +157,71 @@ export function Component(props: Props) {
     );
 
     const projectColumns = useMemo(
-        () => {
-            const actionsColumn = createActionColumn(
+        () => ([
+            createStringColumn<Project, KEY>(
+                'country',
+                strings.threeWTableCountry,
+                (item) => item.project_country_detail?.name,
+            ),
+            createStringColumn<Project, KEY>(
+                'ns',
+                strings.threeWTableNS,
+                (item) => item.reporting_ns_detail?.society_name,
+            ),
+            createStringColumn<Project, KEY>(
+                'name',
+                strings.threeWTableProjectName,
+                (item) => item.name,
+            ),
+            createStringColumn<Project, KEY>(
+                'sector',
+                strings.threeWTableSector,
+                (item) => item.primary_sector_display,
+            ),
+            createNumberColumn<Project, KEY>(
+                'budget',
+                strings.threeWTableTotalBudget,
+                (item) => item.budget_amount,
+                undefined,
+            ),
+            createStringColumn<Project, KEY>(
+                'programmeType',
+                strings.threeWTableProgrammeType,
+                (item) => item.programme_type_display,
+            ),
+            createStringColumn<Project, KEY>(
+                'disasterType',
+                strings.threeWTableDisasterType,
+                (item) => item.dtype_detail?.name,
+            ),
+            createNumberColumn<Project, KEY>(
+                'peopleTargeted',
+                strings.threeWTablePeopleTargeted,
+                (item) => item.target_total,
+                undefined,
+            ),
+            createNumberColumn<Project, KEY>(
+                'peopleReached',
+                strings.threeWTablePeopleReached2,
+                (item) => item.reached_total,
+                undefined,
+            ),
+            createElementColumn<Project, KEY, ThreeWTableActionsProps>(
                 'actions',
-                (prj: Project) => ({
-                    extraActions: (
-                        <>
-                            <DropdownMenuItem
-                                // TODO; use routes
-                                to={`/three-w/${prj.id}/`}
-                                label={strings.projectListTableViewDetails}
-                                icon={<SearchLineIcon />}
-                            />
-                            <DropdownMenuItem
-                                // TODO; use routes
-                                to={`/three-w/${prj.id}/edit/`}
-                                icon={<PencilFillIcon />}
-                                label={strings.projectListTableEdit}
-                            />
-                        </>
-                    ),
+                '',
+                ThreeWTableActions,
+                (projectId) => ({
+                    type: 'project',
+                    threeWId: projectId,
                 }),
-            );
-
-            return [
-                createStringColumn<Project, string | number>(
-                    'country',
-                    strings.threeWTableCountry,
-                    (item) => item.project_country_detail?.name,
-                ),
-                createStringColumn<Project, string | number>(
-                    'ns',
-                    strings.threeWTableNS,
-                    (item) => item.reporting_ns_detail?.society_name,
-                ),
-                createStringColumn<Project, string | number>(
-                    'name',
-                    strings.threeWTableProjectName,
-                    (item) => item.name,
-                ),
-                createStringColumn<Project, string | number>(
-                    'sector',
-                    strings.threeWTableSector,
-                    (item) => item.primary_sector_display,
-                ),
-                createNumberColumn<Project, string | number>(
-                    'budget',
-                    strings.threeWTableTotalBudget,
-                    (item) => item.budget_amount,
-                    undefined,
-                ),
-                createStringColumn<Project, string | number>(
-                    'programmeType',
-                    strings.threeWTableProgrammeType,
-                    (item) => item.programme_type_display,
-                ),
-                createStringColumn<Project, string | number>(
-                    'disasterType',
-                    strings.threeWTableDisasterType,
-                    (item) => item.dtype_detail?.name,
-                ),
-                createNumberColumn<Project, string | number>(
-                    'peopleTargeted',
-                    strings.threeWTablePeopleTargeted,
-                    (item) => item.target_total,
-                    undefined,
-                ),
-                createNumberColumn<Project, string | number>(
-                    'peopleReached',
-                    strings.threeWTablePeopleReached2,
-                    (item) => item.reached_total,
-                    undefined,
-                ),
-                actionsColumn,
-            ].filter(isDefined);
-        },
+            ),
+        ]),
         [strings],
     );
 
     const activityColumns = useMemo(
         () => ([
-            createStringColumn<P, K>(
+            createStringColumn<ACTIVITY, KEY>(
                 'national_society_eru',
                 strings.threeWNationalSociety,
                 (item) => (
@@ -255,72 +233,52 @@ export function Component(props: Props) {
                         : item.reporting_ns_details?.society_name
                 ),
             ),
-            createStringColumn<P, K>(
+            createStringColumn<ACTIVITY, KEY>(
                 'title',
                 strings.threeWEmergencyTitle,
                 (item) => item.title,
             ),
-            createDateColumn<P, K>(
+            createDateColumn<ACTIVITY, KEY>(
                 'start_date',
                 strings.threeWEmergencyStartDate,
                 (item) => item.start_date,
             ),
-            createStringColumn<P, K>(
+            createStringColumn<ACTIVITY, KEY>(
                 'country',
                 strings.threeWEmergencyCountryName,
                 (item) => item.country_details?.name,
             ),
-            createListDisplayColumn<P, K, DistrictDetails>(
+            createListDisplayColumn<ACTIVITY, KEY, DistrictDetails>(
                 'districts',
                 strings.threeWEmergencyRegion,
                 districtDetailsColumnParams,
             ),
-            createStringColumn<P, K>(
+            createStringColumn<ACTIVITY, KEY>(
                 'status',
                 strings.threeWEmergencyStatus,
                 (item) => item.status_display,
             ),
-            createNumberColumn<P, K>(
+            createNumberColumn<ACTIVITY, KEY>(
                 'people_reached',
                 strings.threeWEmergencyServices, // People Reached
                 (item) => getPeopleReached(item),
             ),
-            createActionColumn(
-                'project_actions',
-                (p: EmergencyProjectResponse) => ({
-                    extraActions: (
-                        <>
-                            <DropdownMenuItem
-                                // TODO: use routes
-                                to={`/emergency-three-w/${p.id}/`}
-                                icon={<ShareBoxLineIcon />}
-                                label={strings.threeWEmergencyActionDetails}
-                            />
-                            <DropdownMenuItem
-                                // TODO: use routes
-                                to={`/emergency-three-w/${p.id}/edit/`}
-                                icon={<PencilFillIcon />}
-                                label={strings.threeWEmergencyEditAction}
-                            />
-                            <DropdownMenuItem
-                                // TODO: use routes
-                                to="/three-w/new/"
-                                icon={<CopyLineIcon />}
-                                label={strings.threeWEmergencyDuplicateAction}
-                                state={{
-                                    initialValue: p,
-                                    operationType: 'response_activity',
-                                }}
-                            />
-                        </>
-                    ),
+            createElementColumn<
+                ACTIVITY,
+                KEY,
+                ThreeWTableActionsProps
+            >(
+                'actions',
+                '',
+                ThreeWTableActions,
+                (activityId) => ({
+                    type: 'activity',
+                    threeWId: activityId,
                 }),
-                { headerContainerClassName: _cs(styles.actionColumn, actionColumnHeaderClassName) },
             ),
         ]),
         [
             districtDetailsColumnParams,
-            actionColumnHeaderClassName,
             strings,
         ],
     );

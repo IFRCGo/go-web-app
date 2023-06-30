@@ -10,7 +10,8 @@
     width: 100%;
     overflow: auto;
 
-    .border {
+    .end-border,
+    .start-border {
         flex-grow: 1;
         background-color: var(--go-ui-color-separator);
         width: var(--go-ui-width-separator-thin);
@@ -22,5 +23,24 @@
         background-color: var(--go-ui-color-primary-red);
         width: 0.8rem;
         height: 0.8rem;
+    }
+
+    &.start {
+        .start-border {
+            background-color: transparent;
+        }
+    }
+
+    &.end {
+        .end-border {
+            background-color: transparent;
+        }
+    }
+
+    &.single {
+        .end-border,
+        .start-border {
+            background-color: transparent;
+        }
     }
 }

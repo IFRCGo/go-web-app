@@ -6,6 +6,7 @@ import {
     compareStringSearch,
     listToMap,
     sum,
+    isTruthyString,
 } from '@togglecorp/fujs';
 
 export function sumSafe(list: (number | undefined | null)[] | null | undefined) {
@@ -95,6 +96,16 @@ export function isValidCountry(country: {
     is_deprecated: boolean | null,
 }) {
     return country.independent !== false && !country.is_deprecated;
+}
+
+export function isValidNationalSociety(country: {
+    independent: boolean | null,
+    is_deprecated: boolean | null,
+    society_name: string | null | undefined,
+}) {
+    return country.independent !== false
+        && !country.is_deprecated
+        && isTruthyString(country.society_name);
 }
 
 function suffix(num: number, suffixStr: string, skipZero: boolean) {

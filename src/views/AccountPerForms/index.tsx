@@ -12,7 +12,6 @@ import {
 
 import Table from '#components/Table';
 import {
-    createActionColumn,
     createNumberColumn,
     createDateColumn,
     createLinkColumn,
@@ -20,6 +19,7 @@ import {
     createExpandColumn,
     createEmptyColumn,
     createExpansionIndicatorColumn,
+    createElementColumn,
 } from '#components/Table/ColumnShortcuts';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import TableBodyContent from '#components/Table/TableBodyContent';
@@ -29,17 +29,11 @@ import Container from '#components/Container';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
 import useTranslation from '#hooks/useTranslation';
-import { resolveToString } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
-import {
-    STEP_OVERVIEW,
-    STEP_ASSESSMENT,
-    STEP_PRIORITIZATION,
-    STEP_WORKPLAN,
-    STEP_ACTION,
-} from '#utils/per';
 import { numericIdSelector } from '#utils/selectors';
 
+import PerTableActions from './PerTableActions';
+import type { Props as PerTableActionsProps } from './PerTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -81,52 +75,8 @@ export function Component() {
 
     const {
         country: countryRoute,
-        perOverviewForm: perOverviewFormRoute,
-        perAssessmentForm: perAssessmentFormRoute,
-        perPrioritizationForm: perPrioritizationFormRoute,
-        perWorkPlanForm: perWorkPlanFormRoute,
         newPerOverviewForm: newPerOverviewFormRoute,
     } = useContext(RouteContext);
-
-    const getRouteUrl = useCallback(
-        (currentPhase: number, perId: number) => {
-            if (currentPhase === STEP_OVERVIEW) {
-                return generatePath(
-                    perOverviewFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            if (currentPhase === STEP_ASSESSMENT) {
-                return generatePath(
-                    perAssessmentFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            if (currentPhase === STEP_PRIORITIZATION) {
-                return generatePath(
-                    perPrioritizationFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            if (currentPhase === STEP_WORKPLAN) {
-                return generatePath(
-                    perWorkPlanFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            return undefined;
-        },
-        [
-            perOverviewFormRoute,
-            perAssessmentFormRoute,
-            perPrioritizationFormRoute,
-            perWorkPlanFormRoute,
-        ],
-    );
 
     const handleExpandClick = useCallback(
         (row: PerProcessStatusItem) => {
@@ -139,7 +89,7 @@ export function Component() {
 
     const baseColumn = useMemo(
         () => ([
-            createLinkColumn<PerProcessStatusItem, number | string>(
+            createLinkColumn<PerProcessStatusItem, number>(
                 'country',
                 strings.tableCountryTitle,
                 (item) => item.country_details?.name,
@@ -150,55 +100,35 @@ export function Component() {
                     ),
                 }),
             ),
-            createDateColumn<PerProcessStatusItem, number | string>(
+            createDateColumn<PerProcessStatusItem, number>(
                 'date_of_assessment',
                 strings.tableStartDateTitle,
                 (item) => item.date_of_assessment,
                 { sortable: true },
             ),
-            createNumberColumn<PerProcessStatusItem, number | string>(
+            createNumberColumn<PerProcessStatusItem, number>(
                 'assessment_number',
                 strings.tablePerCycleTitle,
                 (item) => item.assessment_number,
             ),
-            createStringColumn<PerProcessStatusItem, number | string>(
+            createStringColumn<PerProcessStatusItem, number>(
                 'phase',
                 strings.tablePerPhaseTitle,
                 (item) => (isDefined(item.phase) ? `${item.phase} - ${item.phase_display}` : '-'),
                 { sortable: true },
             ),
-            createActionColumn<PerProcessStatusItem, number | string>(
+            createElementColumn<PerProcessStatusItem, number, PerTableActionsProps>(
                 'actions',
-                (item) => ({
-                    children: (
-                        <>
-                            {isDefined(item.phase) && item.phase <= STEP_WORKPLAN && (
-                                <Link
-                                    to={getRouteUrl(item.phase, item.id)}
-                                >
-                                    {resolveToString(
-                                        strings.tableEditLabel,
-                                        { phaseDisplay: item.phase_display },
-                                    )}
-                                </Link>
-                            )}
-                            {isDefined(item.phase) && item.phase === STEP_ACTION && (
-                                <Link
-                                    variant="secondary"
-                                    to={generatePath(
-                                        perWorkPlanFormRoute.absolutePath,
-                                        { perId: item.id },
-                                    )}
-                                >
-                                    {strings.tableViewWorkPlan}
-                                </Link>
-                            )}
-                        </>
-                    ),
+                '',
+                PerTableActions,
+                (perId, statusItem) => ({
+                    perId,
+                    phase: statusItem.phase,
+                    phaseDisplay: statusItem.phase_display,
                 }),
             ),
         ]),
-        [strings, countryRoute, getRouteUrl, perWorkPlanFormRoute],
+        [strings, countryRoute],
     );
 
     const aggregatedColumns = useMemo(

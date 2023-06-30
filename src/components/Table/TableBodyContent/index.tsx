@@ -47,7 +47,7 @@ function TableBodyContent<
                         cellContainerClassName,
                     } = column;
 
-                    const otherProps = cellRendererParams(key, datum, index);
+                    const otherProps = cellRendererParams(key, datum, index, data);
                     const children = (
                         <Renderer
                             // eslint-disable-next-line react/jsx-props-no-spreading
