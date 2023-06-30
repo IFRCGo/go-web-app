@@ -8,6 +8,8 @@
         .end-dummy-content {
             align-self: flex-end;
             flex-grow: 1;
+            background-color: var(--go-ui-color-separator);
+            height: var(--go-ui-width-separator-thin);
         }
     }
 

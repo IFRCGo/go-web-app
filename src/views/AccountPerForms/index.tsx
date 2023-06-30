@@ -19,6 +19,7 @@ import {
     createStringColumn,
     createExpandColumn,
     createEmptyColumn,
+    createExpansionIndicatorColumn,
 } from '#components/Table/ColumnShortcuts';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import TableBodyContent from '#components/Table/TableBodyContent';
@@ -183,6 +184,7 @@ export function Component() {
                             )}
                             {isDefined(item.phase) && item.phase === STEP_ACTION && (
                                 <Link
+                                    variant="secondary"
                                     to={generatePath(
                                         perWorkPlanFormRoute.absolutePath,
                                         { perId: item.id },
@@ -201,12 +203,18 @@ export function Component() {
 
     const aggregatedColumns = useMemo(
         () => ([
+            createExpansionIndicatorColumn<PerProcessStatusItem, number | string>(
+                false,
+            ),
             ...baseColumn,
             createExpandColumn<PerProcessStatusItem, number>(
                 'expandRow',
                 '',
-                handleExpandClick,
-                expandedRow?.id,
+                (row) => ({
+                    onClick: handleExpandClick,
+                    expanded: row.id === expandedRow?.id,
+                    disabled: row.assessment_number <= 1,
+                }),
             ),
         ]),
         [handleExpandClick, baseColumn, expandedRow?.id],
@@ -214,6 +222,9 @@ export function Component() {
 
     const detailColumns = useMemo(
         () => ([
+            createExpansionIndicatorColumn<PerProcessStatusItem, number | string>(
+                true,
+            ),
             ...baseColumn,
             createEmptyColumn(),
         ]),
@@ -225,13 +236,16 @@ export function Component() {
             if (datum.country !== expandedRow?.country) {
                 return row;
             }
+            const subRows = countryStatusResponse?.results?.filter(
+                (subRow) => subRow.id !== datum.id,
+            );
 
             return (
                 <>
                     {row}
                     <TableBodyContent
                         keySelector={numericIdSelector}
-                        data={countryStatusResponse?.results}
+                        data={subRows}
                         columns={detailColumns}
                         cellClassName={styles.subCell}
                     />
@@ -250,6 +264,7 @@ export function Component() {
             actions={(
                 <Link
                     to={newPerOverviewFormRoute.absolutePath}
+                    variant="primary"
                 >
                     {strings.newProcessButtonLabel}
                 </Link>

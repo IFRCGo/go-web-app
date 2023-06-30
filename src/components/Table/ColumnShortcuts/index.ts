@@ -35,6 +35,8 @@ import type { SortDirection, Column } from '../types';
 
 import ExpandButton from './ExpandButton';
 import type { ExpandButtonProps } from './ExpandButton';
+import ExpansionIndicator from './ExpansionIndicator';
+import type { Props as ExpansionIndicatorProps } from './ExpansionIndicator';
 
 import styles from './styles.module.css';
 
@@ -318,11 +320,10 @@ export function createLinkColumn<D, K>(
     return item;
 }
 
-export function createExpandColumn<D, K extends number | string | undefined>(
+export function createExpandColumn<D, K>(
     id: string,
     title: string,
-    onClick: (row: D) => void,
-    expandedRowId: K | undefined,
+    rendererParams: (row: D) => Omit<ExpandButtonProps<D>, 'row'>,
     options?: Options<D, K, ExpandButtonProps<D>, HeaderCellProps>,
 ) {
     const item: Column<D, K, ExpandButtonProps<D>, HeaderCellProps> = {
@@ -338,15 +339,33 @@ export function createExpandColumn<D, K extends number | string | undefined>(
         cellRendererClassName: options?.cellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
         cellRenderer: ExpandButton,
-        cellRendererParams: (rowId, row) => ({
+        cellRendererParams: (_, row) => ({
+            ...rendererParams(row),
             row,
-            onClick,
-            expanded: rowId === expandedRowId,
         }),
         columnWidth: options?.columnWidth,
         columnStretch: options?.columnStretch,
         columnStyle: options?.columnStyle,
     };
+    return item;
+}
+
+export function createExpansionIndicatorColumn<D, K>(
+    isExpanded?: boolean,
+) {
+    const item: Column<D, K, ExpansionIndicatorProps, HeaderCellProps> = {
+        id: randomString(),
+        title: '',
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: false,
+        },
+        cellRenderer: ExpansionIndicator,
+        cellRendererParams: () => ({ isExpanded }),
+        cellContainerClassName: styles.expansionIndicatorCellContainer,
+        cellRendererClassName: styles.expansionIndicatorCell,
+    };
+
     return item;
 }
 

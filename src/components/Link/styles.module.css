@@ -1,14 +1,10 @@
 .link {
-    --color: inherit;
     --decoration: none;
-    --spacing: var(--go-ui-spacing-xs);
 
     display: inline-flex;
     flex-wrap: nowrap;
     width: fit-content;
     text-decoration: var(--decoration);
-    color: var(--color);
-    gap: var(--spacing);
 
     &:not(.non-link) {
         font-weight: var(--go-ui-font-weight-medium);
@@ -22,13 +18,11 @@
         cursor: pointer;
 
         &:hover {
-            --color: var(--go-ui-color-primary-red);
             --decoration: underline;
         }
     }
 
     &.disabled {
-        --color: var(--go-ui-color-gray-40);
         pointer-events: none;
     }
 

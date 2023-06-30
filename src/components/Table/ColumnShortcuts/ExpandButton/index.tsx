@@ -13,6 +13,7 @@ export interface ExpandButtonProps<ROW> {
     row: ROW;
     onClick: ButtonProps<ROW>['onClick'];
     expanded?: boolean;
+    disabled?: boolean;
 }
 
 function ExpandButton<K>(props : ExpandButtonProps<K>) {
@@ -21,6 +22,7 @@ function ExpandButton<K>(props : ExpandButtonProps<K>) {
         row,
         onClick,
         expanded = false,
+        disabled,
     } = props;
 
     return (
@@ -29,6 +31,7 @@ function ExpandButton<K>(props : ExpandButtonProps<K>) {
             name={row}
             onClick={onClick}
             variant="tertiary"
+            disabled={disabled}
         >
             {expanded ? (
                 <ChevronUpLineIcon className={styles.icon} />

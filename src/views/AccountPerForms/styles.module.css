@@ -2,6 +2,7 @@
     padding: var(--go-ui-spacing-3xl) 0;
 
     .sub-cell {
+        border-bottom: unset;
         background-color: var(--go-ui-color-gray-20);
     }
 }
