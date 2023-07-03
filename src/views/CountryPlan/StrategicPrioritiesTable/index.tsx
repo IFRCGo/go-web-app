@@ -1,15 +1,14 @@
+import { useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
-import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
+import { StrategicPriority } from '#types/serverResponse';
+import Table from '#components/Table';
+import { createNumberColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
 
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
-import { StrategicPriority } from '#types/serverResponse';
-import { useMemo } from 'react';
-import { createNumberColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
-import Table from '#components/Table';
 
 interface Props {
     className?: string;
