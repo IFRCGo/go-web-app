@@ -12,6 +12,7 @@ import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import RichTextOutput from '#components/RichTextOutput';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -50,11 +51,20 @@ export function Component() {
                     withHeaderBorder
                     headingLevel={2}
                 >
-                    <iframe
+                    <RichTextOutput
+                        className={styles.iframe}
+                        value={
+                            <iframe
+                            src={iframe}
+                            title={regionalProfileResponse?.region_name}
+                            />
+                        }
+                    />
+                    {/* <iframe
                         src={iframe}
                         title={regionalProfileResponse?.region_name}
                         className={styles.iframe}
-                    />
+                    /> */}
                 </Container>
             )}
             {regionalProfileResponse?.links
