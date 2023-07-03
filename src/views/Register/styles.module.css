@@ -2,31 +2,29 @@
     .main-section {
         display: flex;
         align-items: center;
-        justify-content: center;
+        flex-direction: column;
 
         .form {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+            display: grid;
+            grid-gap: var(--go-ui-spacing-2xl);
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
             background-color: var(--go-ui-color-white);
-            padding: var(--go-ui-spacing-3xl);
+            width: 100%;
             max-width: 50rem;
-            gap: var(--go-ui-spacing-2xl);
 
-            .fields {
-                display: grid;
-                grid-gap: var(--go-ui-spacing-xl);
-                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+            .email-input {
+                grid-column: 1 / -1;
 
             }
 
-            .input-field {
-                width: 100%;
-                font-weight: var(--go-ui-font-weight-medium);
+            .server-error {
+                grid-column: 1 / -1;
             }
 
             .form-border {
-                border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-gray-20);
+                grid-column: 1 / -1;
+                background-color: var(--go-ui-color-separator);
+                height: var(--go-ui-width-separator-sm);
             }
 
             .utility-links {
@@ -35,17 +33,18 @@
                 flex-direction: column;
                 gap: var(--go-ui-spacing-md);
             }
+        }
 
-            .actions {
+        .actions {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .login {
                 display: flex;
-                align-items: center;
-                flex-direction: column;
                 gap: var(--go-ui-spacing-md);
-
-                .login {
-                    display: flex;
-                    gap: var(--go-ui-spacing-md);
-                }
+                align-items: center;
             }
         }
     }
