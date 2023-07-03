@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { IoCheckmarkCircleSharp } from 'react-icons/io5';
 import {
     _cs,
@@ -8,22 +8,22 @@ import {
     unique,
 } from '@togglecorp/fujs';
 
-import Container from '#components/Container';
+import { MembershipCoordination } from '#types/serverResponse';
 import useTranslation from '#hooks/useTranslation';
+import Container from '#components/Container';
+import Table from '#components/Table';
+import { createStringColumn } from '#components/Table/ColumnShortcuts';
 
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
-import { createListDisplayColumn, createNumberColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
-import Table from '#components/Table';
-import { MembershipCoordination } from '#types/serverResponse';
-
-// function memberCoordinationKeySelector(memberCoordination: MembershipCoordination) {
-//     return memberCoordination.id;
-// }
 
 interface Props {
     className?: string;
     data: MembershipCoordination[] | undefined;
+}
+
+function memberCoordinationKeySelector(memberCoordination: MembershipCoordination) {
+    return memberCoordination.id;
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -69,17 +69,54 @@ function MemberCoordinationTable(props: Props) {
 
     const nsGroupedCoordinationKeys = Object.keys(nsGroupedCoordination).map((d) => +d);
 
+    const columns = useMemo(() => ([
+        createStringColumn<MembershipCoordination, number>(
+            'national_society_name',
+            strings.countryPlanNameOfPNS,
+            nsIdToNameMap,
+        ),
+        createStringColumn<MembershipCoordination, number>(
+            '',
+            strings.countryPageTitle,
+            (mc) => {
+                nsGroupedCoordinationKeys.map((ns) => {
+                    const nsSectors = nsGroupedCoordination[ns];
+                    const nsSectorMap = listToMap(nsSectors, (d) => d, () => true);
+
+                    return (
+                        <tr key={ns}>
+                            <td>
+                                {nsIdToNameMap[ns]}
+                            </td>
+                            {sectors.map((sector) => (
+                                <td key={sector.key}>
+                                    {nsSectorMap[sector.key] && (
+                                        <div className={styles.checkmarkContainer}>
+                                            <IoCheckmarkCircleSharp />
+                                        </div>
+                                    )}
+                                </td>
+                            ))}
+                        </tr>
+                    );
+                })
+            }
+        )
+    ]), []);
+
+    console.info(' this is table', nsIdToNameMap);
+
     return (
         <Container
             className={_cs(styles.membershipCoordinationTable, className)}
             heading={strings.countryPlanMembershipCoordinationTableTitle}
         >
-            {/* <Table
+            <Table
                 className={styles.inProgressDrefTable}
                 data={data}
-                columns={undefined}
+                columns={columns}
                 keySelector={memberCoordinationKeySelector}
-            /> */}
+            />
             <table>
                 <thead>
                     <tr>

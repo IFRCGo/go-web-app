@@ -2,19 +2,20 @@ import { MdDownload } from 'react-icons/md';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import type { Country } from '#types/country';
+import type { GET } from '#types/serverResponse';
 import { useRequest } from '#utils/restRequest';
+import useTranslation from '#hooks/useTranslation';
+
 import ButtonLikeLink from '#components/ButtonLikeLink';
 import KeyFigure from '#components/KeyFigure';
 import Header from '#components/Header';
 import BlockLoading from '#components/BlockLoading';
-import useTranslation from '#hooks/useTranslation';
+import Message from '#components/Message';
 import StrategicPrioritiesTable from './StrategicPrioritiesTable';
 import MembershipCoordinationTable from './MembershipCoordinationTable';
-import type { GET } from '#types/serverResponse';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import Message from '#components/Message';
 
 interface Props {
     className?: string;
@@ -38,8 +39,8 @@ export function Component(props: Props) {
         pending: countryPlanPending,
         response: countryPlanResponse,
     } = useRequest<CountryPlanApiResponse>({
-        // skip: isNotDefined(countryDetails?.id) || !hasCountryPlan,
-        url: `api/v2/country-plan/123`,
+        skip: isNotDefined(countryDetails?.id) || !hasCountryPlan,
+        url: 'api/v2/country-plan/123',
     });
 
     return (
@@ -67,32 +68,32 @@ export function Component(props: Props) {
                         actions={undefined}
                     />
                     {(countryPlanResponse.internal_plan_file
-                        || countryPlanResponse.public_plan_file) && (
-                            <div className={styles.downloadLinks}>
-                                {countryPlanResponse.public_plan_file && (
-                                    <ButtonLikeLink
-                                        external
-                                        variant="secondary"
-                                        to={countryPlanResponse.public_plan_file}
-                                        className={styles.downloadLink}
-                                        icons={<MdDownload />}
-                                    >
-                                        {strings.countryPlanDownloadPlan}
-                                    </ButtonLikeLink>
-                                )}
-                                {countryPlanResponse.internal_plan_file && (
-                                    <ButtonLikeLink
-                                        external
-                                        variant="secondary"
-                                        to={countryPlanResponse.internal_plan_file}
-                                        className={styles.downloadLink}
-                                        icons={<MdDownload />}
-                                    >
-                                        {strings.countryPlanDownloadPlanInternal}
-                                    </ButtonLikeLink>
-                                )}
-                            </div>
-                        )}
+                    || countryPlanResponse.public_plan_file) && (
+                        <div className={styles.downloadLinks}>
+                            {countryPlanResponse.public_plan_file && (
+                                <ButtonLikeLink
+                                    external
+                                    variant="secondary"
+                                    to={countryPlanResponse.public_plan_file}
+                                    className={styles.downloadLink}
+                                    icons={<MdDownload />}
+                                >
+                                    {strings.countryPlanDownloadPlan}
+                                </ButtonLikeLink>
+                            )}
+                            {countryPlanResponse.internal_plan_file && (
+                                <ButtonLikeLink
+                                    external
+                                    variant="secondary"
+                                    to={countryPlanResponse.internal_plan_file}
+                                    className={styles.downloadLink}
+                                    icons={<MdDownload />}
+                                >
+                                    {strings.countryPlanDownloadPlanInternal}
+                                </ButtonLikeLink>
+                            )}
+                        </div>
+                    )}
                     <div className={styles.stats}>
                         <KeyFigure
                             value={countryPlanResponse.requested_amount}
