@@ -5,6 +5,7 @@
     "ignoreUnused": [],
     "extensions": [".ts", ".js", ".tsx", ".jsx"],
     "aliases": {
+        "#generated/*": ["./generated/*"],
         "#assets/*": ["./src/assets/*"],
         "#components/*": ["./src/components/*"],
         "#config": ["./src/config"],
