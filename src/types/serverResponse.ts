@@ -148,6 +148,13 @@ interface Contacts {
     title: string;
 }
 
+interface ProfileSnippet {
+    id: number;
+    region: number;
+    snippet: string;
+    title: string;
+}
+
 interface RegionalProfile {
     name: number;
     region_name: string;
@@ -155,6 +162,7 @@ interface RegionalProfile {
     snippets: RegionProfileSnippet[];
     links: AdditionalLinks[];
     contacts: Contacts[];
+    profile_snippets?: ProfileSnippet[];
 }
 
 interface PerOverviewResponse {

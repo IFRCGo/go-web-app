@@ -29,8 +29,6 @@ export function Component() {
         url: `api/v2/region/${regionId}/`,
     });
 
-    const iframe = 'https://app.powerbi.com/view?r=eyJrIjoiOWUzMTIzODctZGFmNS00M2Y2LThjOTYtYjNhOTJhMWEzOTdjIiwidCI6ImEyYjUzYmU1LTczNGUtNGU2Yy1hYjBkLWQxODRmNjBmZDkxNyIsImMiOjh9%5C';
-
     return (
         <div className={styles.regionProfile}>
             <Container
@@ -50,22 +48,21 @@ export function Component() {
                     }
                 />
             </Container>
-            {regionalProfileResponse?.snippets && (
+            {regionalProfileResponse?.profile_snippets
+            && regionalProfileResponse.profile_snippets.length > 0
+            && (regionalProfileResponse.profile_snippets.map((profileSnippet) => (
                 <Container
-                    heading={strings.regionalProfileFundingAndOperationsDashboards}
+                    heading={profileSnippet.title}
                     withHeaderBorder
                     headingLevel={2}
                 >
                     <RichTextOutput
                         className={styles.iframe}
-                        value={(
-                            <iframe
-                                src={iframe}
-                                title={regionalProfileResponse?.region_name}
-                            />
-                        )}
+                        value={profileSnippet.snippet}
+                        key={profileSnippet.id}
                     />
                 </Container>
+            ))
             )}
             {regionalProfileResponse?.links
             && regionalProfileResponse?.links.length > 0 && (
