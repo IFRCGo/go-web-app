@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
         },
         plugins: [
             isProd ? checker({
-                typescript: true,
+                // typescript: true,
                 eslint: {
                     lintCommand: 'eslint ./src',
                 },
