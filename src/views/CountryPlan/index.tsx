@@ -5,6 +5,7 @@ import type { Country } from '#types/country';
 import type { GET } from '#types/serverResponse';
 import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
+import { paths } from '#generated/types';
 
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
@@ -33,14 +34,15 @@ export function Component(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    type CountryPlanApiResponse = GET['api/v2/country-plan/:id'];
+    type GetCountryPlan = paths['/api/v2/country-plan/{country}/']['get'];
+    type GetCountryPlanResponse = GetCountryPlan['responses']['200']['content']['application/json'];
 
     const {
         pending: countryPlanPending,
         response: countryPlanResponse,
-    } = useRequest<CountryPlanApiResponse>({
+    } = useRequest<GetCountryPlanResponse>({
         skip: isNotDefined(countryDetails?.id) || !hasCountryPlan,
-        url: 'api/v2/country-plan/{countryDetails.id}',
+        url: 'api/v2/country-plan/{countryDetails?.id}/',
     });
 
     return (
