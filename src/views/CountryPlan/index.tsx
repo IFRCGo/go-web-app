@@ -6,7 +6,7 @@ import type { GET } from '#types/serverResponse';
 import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 
-// import ButtonLikeLink from '#components/ButtonLikeLink';
+import ButtonLikeLink from '#components/ButtonLikeLink';
 import KeyFigure from '#components/KeyFigure';
 import Header from '#components/Header';
 import BlockLoading from '#components/BlockLoading';
@@ -39,9 +39,8 @@ export function Component(props: Props) {
         pending: countryPlanPending,
         response: countryPlanResponse,
     } = useRequest<CountryPlanApiResponse>({
-        // skip: isNotDefined(countryDetails?.id) || !hasCountryPlan,
-        //FixMe: Add countryDetails id
-        url: 'api/v2/country-plan/123',
+        skip: isNotDefined(countryDetails?.id) || !hasCountryPlan,
+        url: 'api/v2/country-plan/{countryDetails.id}',
     });
 
     return (
@@ -71,7 +70,7 @@ export function Component(props: Props) {
                     {(countryPlanResponse.internal_plan_file
                     || countryPlanResponse.public_plan_file) && (
                         <div className={styles.downloadLinks}>
-                            {/* {countryPlanResponse.public_plan_file && (
+                            {countryPlanResponse.public_plan_file && (
                                 <ButtonLikeLink
                                     external
                                     variant="secondary"
@@ -92,7 +91,7 @@ export function Component(props: Props) {
                                 >
                                     {strings.countryPlanDownloadPlanInternal}
                                 </ButtonLikeLink>
-                            )} */}
+                            )}
                         </div>
                     )}
                     <div className={styles.stats}>
