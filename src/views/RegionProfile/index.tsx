@@ -8,23 +8,24 @@ import { resolveToString } from '#utils/translation';
 import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
-import type { GET } from '#types/serverResponse';
 import RichTextOutput from '#components/RichTextOutput';
 import useTranslation from '#hooks/useTranslation';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type GetRegion = paths['/api/v2/region/{id}/']['get'];
+type GetRegionResponse = GetRegion['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { regionId } = useParams<{ regionId: string }>();
     const strings = useTranslation(i18n);
 
-    type RegionalProfile = GET['api/v2/region/:id'];
-
     const {
         response: regionalProfileResponse,
-    } = useRequest<RegionalProfile>({
+    } = useRequest<GetRegionResponse>({
         skip: isNotDefined(regionId),
         url: `api/v2/region/${regionId}/`,
     });
