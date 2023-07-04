@@ -3,21 +3,24 @@ import { RedCrossNationalSocietyIcon } from '@ifrc-go/icons';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
+import { resolveToString } from '#utils/translation';
 
 import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
-import { RegionalProfile } from '#types/serverResponse';
+import type { GET } from '#types/serverResponse';
+import RichTextOutput from '#components/RichTextOutput';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import RichTextOutput from '#components/RichTextOutput';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { regionId } = useParams<{ regionId: string }>();
     const strings = useTranslation(i18n);
+
+    type RegionalProfile = GET['api/v2/region/:id'];
 
     const {
         response: regionalProfileResponse,
@@ -39,10 +42,12 @@ export function Component() {
                     className={styles.keyFigure}
                     value={regionalProfileResponse?.national_society_count}
                     compactValue
-                    description={`
-                        ${strings.regionalProfileNationalSocietyTitle}
-                        ${regionalProfileResponse?.region_name}
-                    `}
+                    description={
+                        resolveToString(
+                            strings.regionalProfileNationalSocietyTitle,
+                            { regionName: regionalProfileResponse?.region_name ?? '-' },
+                        )
+                    }
                 />
             </Container>
             {regionalProfileResponse?.snippets && (
@@ -53,18 +58,13 @@ export function Component() {
                 >
                     <RichTextOutput
                         className={styles.iframe}
-                        value={
+                        value={(
                             <iframe
-                            src={iframe}
-                            title={regionalProfileResponse?.region_name}
+                                src={iframe}
+                                title={regionalProfileResponse?.region_name}
                             />
-                        }
+                        )}
                     />
-                    {/* <iframe
-                        src={iframe}
-                        title={regionalProfileResponse?.region_name}
-                        className={styles.iframe}
-                    /> */}
                 </Container>
             )}
             {regionalProfileResponse?.links

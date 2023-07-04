@@ -5,6 +5,6 @@
         "regionalProfileFundingAndOperationsDashboards": "Funding and Operations Dashboards",
         "regionalProfileAdditionalLinks": "Additional Links",
         "regionProfileContacts": "Contacts",
-        "regionalProfileNationalSocietyTitle": "National Society in"
+        "regionalProfileNationalSocietyTitle": "National Society in {regionName}"
     }
 }

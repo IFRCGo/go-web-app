@@ -148,7 +148,7 @@ interface Contacts {
     title: string;
 }
 
-export interface RegionalProfile {
+interface RegionalProfile {
     name: number;
     region_name: string;
     national_society_count: number;
@@ -299,4 +299,5 @@ export interface GET {
     }>;
     'api/v2/per-prioritization/:id': PerPrioritizationResponse;
     'api/v2/per-work-plan/:id': PerWorkPlanResponse;
+    'api/v2/region/:id': RegionalProfile;
 }
