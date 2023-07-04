@@ -12,20 +12,26 @@ import { MembershipCoordination } from '#types/serverResponse';
 import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
 import Table from '#components/Table';
-import { createStringColumn } from '#components/Table/ColumnShortcuts';
+import { createElementColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
 
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
 
+interface IconRendererProps { 
+    item: number;
+    sector: {
+        key: string;
+        value: string;
+    }
+}
 interface Props {
     className?: string;
     data: MembershipCoordination[] | undefined;
 }
 
-function memberCoordinationKeySelector(memberCoordination: MembershipCoordination) {
-    return memberCoordination.id;
+function keySelector(value: number) {
+    return value;
 }
-
 // eslint-disable-next-line import/prefer-default-export
 function MemberCoordinationTable(props: Props) {
     const {
@@ -44,6 +50,8 @@ function MemberCoordinationTable(props: Props) {
         ),
         [data],
     );
+
+    console.warn('sector', sectors);
 
     const nsIdToNameMap = useMemo(
         () => (
@@ -66,45 +74,33 @@ function MemberCoordinationTable(props: Props) {
             (d) => d.sector,
         )
     ), [data]);
-
     const nsGroupedCoordinationKeys = Object.keys(nsGroupedCoordination).map((d) => +d);
-
-    const columns = useMemo(() => ([
-        createStringColumn<MembershipCoordination, number>(
+    
+    const columns = useMemo(() => {
+        const IconRenderer = ({ item, sector }: IconRendererProps) => {
+            const nsSectors = nsGroupedCoordination[item];
+            const nsSectorMap = listToMap(nsSectors, (d) => d, () => true);
+            return (nsSectorMap[sector.key] ? (
+                <div className={styles.checkmarkContainer}>
+                    <IoCheckmarkCircleSharp />
+                </div>
+            ) : null)
+        }
+        return [
+        createStringColumn<number, number>(
             'national_society_name',
             strings.countryPlanNameOfPNS,
-            nsIdToNameMap,
+            (item) => (nsIdToNameMap[item])
         ),
-        createStringColumn<MembershipCoordination, number>(
-            '',
-            strings.countryPageTitle,
-            (mc) => {
-                nsGroupedCoordinationKeys.map((ns) => {
-                    const nsSectors = nsGroupedCoordination[ns];
-                    const nsSectorMap = listToMap(nsSectors, (d) => d, () => true);
-
-                    return (
-                        <tr key={ns}>
-                            <td>
-                                {nsIdToNameMap[ns]}
-                            </td>
-                            {sectors.map((sector) => (
-                                <td key={sector.key}>
-                                    {nsSectorMap[sector.key] && (
-                                        <div className={styles.checkmarkContainer}>
-                                            <IoCheckmarkCircleSharp />
-                                        </div>
-                                    )}
-                                </td>
-                            ))}
-                        </tr>
-                    );
-                })
-            }
-        )
-    ]), []);
-
-    console.info(' this is table', nsIdToNameMap);
+        ...sectors.map((sector) => (
+            createElementColumn<number, number, IconRendererProps>(
+                sector.key,
+                sector.value,
+                IconRenderer,
+                (_, data) => ({ item: data, sector }),
+            )
+        ))
+    ]}, []);
 
     return (
         <Container
@@ -113,9 +109,9 @@ function MemberCoordinationTable(props: Props) {
         >
             <Table
                 className={styles.inProgressDrefTable}
-                data={data}
+                data={nsGroupedCoordinationKeys}
                 columns={columns}
-                keySelector={memberCoordinationKeySelector}
+                keySelector={keySelector}
             />
             <table>
                 <thead>
