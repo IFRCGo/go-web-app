@@ -1,6 +1,6 @@
 {
     "name": "go-web-app",
-    "version": "1.0.0",
+    "version": "7.0.0",
     "type": "module",
     "scripts": {
         "initialize:type": "mkdir -p generated/ && touch generated/types.ts",
@@ -10,11 +10,12 @@
         "prelint": "yarn initialize:type",
         "start": "vite",
         "build": "vite build",
-        "generate:type": "dotenv -- cross-var openapi-typescript \"%APP_API_ENDPOINT%api-docs.yaml\" -o generated/types.ts --alphabetize",
+        "generate:type": "dotenv -- cross-var openapi-typescript \"%APP_API_ENDPOINT%api-docs/\" -o generated/types.ts --alphabetize",
         "typecheck": "tsc",
         "lint:js": "eslint src",
         "lint:css": "stylelint \"./src/**/*.css\"",
         "lint:unused": "unimported",
+        "lint": "yarn lint:js && yarn lint:css && yarn lint:unused",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
         "surge:deploy": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); cp build/index.html build/200.html; surge -p build/ -d https://ifrc-go-$branch.surge.sh",

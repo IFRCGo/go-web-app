@@ -6,17 +6,17 @@ import SearchSelectInput, {
 
 import {
     useRequest,
-    ListResponse,
 } from '#utils/restRequest';
 import useDebouncedValue from '#hooks/useDebouncedValue';
+import { paths } from '#generated/types';
 
-export type FieldReportListItem = {
-    id: number;
-    summary: string;
-};
+type GetFieldReport = paths['/api/v2/field_report/']['get'];
+type GetFieldReportParams = GetFieldReport['parameters']['query'];
+type GetFieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
+export type FieldReportListItem = Pick<NonNullable<GetFieldReportResponse['results']>[number], 'id' | 'summary'>;
 
 const keySelector = (d: FieldReportListItem) => d.id;
-const labelSelector = (d: FieldReportListItem) => d.summary;
+const labelSelector = (d: FieldReportListItem) => d.summary || '???';
 
 type Def = { containerClassName?: string;}
 type FieldReportSelectInputProps<K extends string> = SearchSelectInputProps<
@@ -40,17 +40,19 @@ function FieldReportSelectInput<K extends string>(
     const [searchText, setSearchText] = useState<string | undefined>('');
     const debouncedSearchText = useDebouncedValue(searchText);
 
+    const query: GetFieldReportParams = {
+        summary: debouncedSearchText,
+        limit: 20,
+        countries__in: nationalSociety,
+    };
+
     const {
         pending,
         response,
-    } = useRequest<ListResponse<FieldReportListItem>>({
+    } = useRequest<GetFieldReportResponse>({
         skip: (searchText?.length ?? 0) === 0 || !opened,
         url: 'api/v2/field_report/',
-        query: {
-            summary: debouncedSearchText,
-            limit: 20,
-            countries__in: nationalSociety,
-        },
+        query,
     });
 
     return (
