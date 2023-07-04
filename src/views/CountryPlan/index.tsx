@@ -6,8 +6,8 @@ import type { GET } from '#types/serverResponse';
 import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 
-import ButtonLikeLink from '#components/ButtonLikeLink';
 import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
 import Header from '#components/Header';
 import BlockLoading from '#components/BlockLoading';
 import Message from '#components/Message';
@@ -71,26 +71,24 @@ export function Component(props: Props) {
                     || countryPlanResponse.public_plan_file) && (
                         <div className={styles.downloadLinks}>
                             {countryPlanResponse.public_plan_file && (
-                                <ButtonLikeLink
-                                    external
+                                <Link
                                     variant="secondary"
                                     to={countryPlanResponse.public_plan_file}
                                     className={styles.downloadLink}
                                     icons={<MdDownload />}
                                 >
                                     {strings.countryPlanDownloadPlan}
-                                </ButtonLikeLink>
+                                </Link>
                             )}
                             {countryPlanResponse.internal_plan_file && (
-                                <ButtonLikeLink
-                                    external
+                                <Link
                                     variant="secondary"
                                     to={countryPlanResponse.internal_plan_file}
                                     className={styles.downloadLink}
                                     icons={<MdDownload />}
                                 >
                                     {strings.countryPlanDownloadPlanInternal}
-                                </ButtonLikeLink>
+                                </Link>
                             )}
                         </div>
                     )}
