@@ -78,5 +78,6 @@ const duplicates = getDuplicates(
 
 console.error(`Found ${duplicates.length} duplicated strings.`);
 if (duplicates.length > 0) {
+    console.info(JSON.stringify(duplicates, null, 2));
     exit(2);
 }
