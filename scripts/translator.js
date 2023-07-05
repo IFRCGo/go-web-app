@@ -1,9 +1,11 @@
-import { glob } from 'glob'
+import fg from 'fast-glob';
 import { cwd, exit } from 'process';
 import { join } from 'path';
 import { promisify } from 'util';
 import { readFile } from 'fs';
 import { mapToList, listToMap, isDefined, unique } from '@togglecorp/fujs';
+
+const glob = fg.glob;
 
 const readFilePromisify = promisify(readFile);
 
@@ -32,7 +34,7 @@ const currentDir = cwd();
 const fullPath = join(currentDir, 'src/**/i18n.json');
 console.info('Searching in', fullPath);
 
-const files = await glob(fullPath, { ignore: 'node_modules/**'});
+const files = await glob(fullPath, { ignore: ['node_modules'], absolute: true });
 console.info(`Found ${files.length} i18n.json files.`);
 
 const translationsPromise = files.map(async (file) => {
@@ -45,7 +47,7 @@ const translationsPromise = files.map(async (file) => {
         };
     } catch (e) {
         console.error(`Error while parsing JSON for ${filename}`);
-        exit(-1);
+        exit(1);
     }
 });
 const translations = await Promise.all(translationsPromise);
@@ -76,5 +78,5 @@ const duplicates = getDuplicates(
 
 console.error(`Found ${duplicates.length} duplicated strings.`);
 if (duplicates.length > 0) {
-    exit(-1);
+    exit(2);
 }
