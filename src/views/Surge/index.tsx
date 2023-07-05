@@ -1,9 +1,14 @@
+import { useContext } from 'react';
+import { Outlet, generatePath } from 'react-router-dom';
 import { DeployedIcon, EmergencyResponseUnitIcon, ClinicIcon } from '@ifrc-go/icons';
 
+import NavigationTabList from '#components/NavigationTabList';
+import NavigationTab from '#components/NavigationTab';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import RouteContext from '#contexts/route';
 import KeyFigure from '#components/KeyFigure';
 
 import i18n from './i18n.json';
@@ -18,6 +23,12 @@ interface SurgeAggregatedResponse {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+
+    const {
+        surgeOverview: surgeOverviewRoute,
+        operationalToolbox: operationalToolboxRoute,
+        surgeCatalogue: surgeCatalogueRoute,
+    } = useContext(RouteContext);
 
     const {
         pending: surgeAggregatedResponsePending,
@@ -60,7 +71,30 @@ export function Component() {
                 </>
             )}
         >
-            Surge Page
+            <NavigationTabList>
+                <NavigationTab
+                    to={generatePath(
+                        surgeOverviewRoute.absolutePath,
+                    )}
+                >
+                    {strings.surgeOverviewTab}
+                </NavigationTab>
+                <NavigationTab
+                    to={generatePath(
+                        operationalToolboxRoute.absolutePath,
+                    )}
+                >
+                    {strings.operationalToolboxTab}
+                </NavigationTab>
+                <NavigationTab
+                    to={generatePath(
+                        surgeCatalogueRoute.absolutePath,
+                    )}
+                >
+                    {strings.surgeCatalogueTab}
+                </NavigationTab>
+            </NavigationTabList>
+            <Outlet />
         </Page>
     );
 }

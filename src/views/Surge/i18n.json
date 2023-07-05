@@ -4,6 +4,9 @@
         "surgeTitle": "Surge",
         "activeDeploymentsTitle": "Ongoing Rapid Response Deployments",
         "activeErusTitle": "Deployed ERUs",
-        "deploymentsThisYearTitle": "Deployments This Year"
+        "deploymentsThisYearTitle": "Deployments This Year",
+        "surgeOverviewTab": "Surge Overview",
+        "operationalToolboxTab": "Operational Toolbox",
+        "surgeCatalogueTab": "Catalogue of Surge Services"
     }
 }
