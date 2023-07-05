@@ -39,6 +39,21 @@ jobs:
       - name: Run test
 
         run: yarn test
+  translation:
+    name: Identify error with translation files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --prefer-online
+
+      - name: Identify error with translation files
+        run: yarn lint:translation
   unimported:
     name: Identify unused files
     runs-on: ubuntu-latest
