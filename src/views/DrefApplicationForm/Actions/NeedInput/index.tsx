@@ -66,6 +66,7 @@ function NeedInput(props: Props) {
                 name={index}
                 onClick={onRemove}
                 variant="tertiary"
+                title="Remove Need"
             >
                 <DeleteBinTwoLineIcon />
             </Button>

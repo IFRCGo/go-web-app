@@ -570,7 +570,7 @@ const allFlashUpdates = customWrapRoute({
     },
 });
 
-const drefApplicationFormNew = customWrapRoute({
+const newDrefApplicationForm = customWrapRoute({
     path: 'dref-application/new',
     component: {
         render: () => import('#views/DrefApplicationForm'),
@@ -584,7 +584,7 @@ const drefApplicationFormNew = customWrapRoute({
     },
 });
 
-const drefApplicationFormEdit = customWrapRoute({
+const drefApplicationForm = customWrapRoute({
     path: 'dref-application/:drefId/edit',
     component: {
         render: () => import('#views/DrefApplicationForm'),
@@ -763,8 +763,9 @@ const wrappedRoutes = {
     allEmergencies,
     allFieldReports,
     allFlashUpdates,
-    drefApplicationFormNew,
-    drefApplicationFormEdit,
+    goUI,
+    newDrefApplicationForm,
+    drefApplicationForm,
     fieldReportFormNew,
     flashUpdateFormNew,
     riskWatch,
@@ -774,7 +775,6 @@ const wrappedRoutes = {
     perAssessmentForm,
     perPrioritizationForm,
     perWorkPlanForm,
-    goUI,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

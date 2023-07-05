@@ -18,7 +18,7 @@
         "drefFormLoadErrorTitle": "Failed to load DREF Application",
         "drefFormLoadErrorDescription": "There was an error loading the DREF Application",
         "drefFormLoadErrorHelpText": "Please make sure that the application with given id exists and you have the permission to view it",
-        "drefFormFieldGeneralError": "Please correct all the errors!",
+        "drefFormGeneralError": "Please correct all the errors before submission!",
         "drefFormBackButtonLabel": "Back",
         "drefFormImportFromDocument": "Import from Document"
     }

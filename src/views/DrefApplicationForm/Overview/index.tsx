@@ -8,6 +8,7 @@ import {
 } from '@togglecorp/toggle-form';
 import {
     isNotDefined,
+    isDefined,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
@@ -22,7 +23,7 @@ import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
 import UserMultiSelectInput, { User } from '#components/UserMultiSelectInput';
 
-import { GET } from '#types/serverResponse';
+import { paths } from '#generated/types';
 import { useRequest } from '#utils/restRequest';
 import { isValidCountry, isValidNationalSociety } from '#utils/common';
 import {
@@ -48,8 +49,17 @@ import CopyFieldReportSection from './CopyFieldReportSection';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
+const disasterCategoryLink = 'https://www.ifrc.org/sites/default/files/2021-07/IFRC%20Emergency%20Response%20Framework%20-%202017.pdf';
+const totalPopulationRiskImminentLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
+const totalPeopleAffectedSlowSuddenLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
+const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
+const peopleInNeedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
+
+type GetDrefOptions = paths['/api/v2/dref-options/']['get'];
+type GetDrefOptionsResponse = GetDrefOptions['responses']['200']['content']['application/json'];
+
 interface Props {
-    drefOptions: GET['api/v2/dref-options'] | undefined;
+    drefOptions: GetDrefOptionsResponse | undefined;
     value: PartialDref;
     setFieldValue: (...entries: EntriesAsList<PartialDref>) => void;
     error: Error<PartialDref> | undefined;
@@ -57,12 +67,6 @@ interface Props {
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
 }
-
-const disasterCategoryLink = 'https://www.ifrc.org/sites/default/files/2021-07/IFRC%20Emergency%20Response%20Framework%20-%202017.pdf';
-const totalPopulationRiskImminentLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
-const totalPeopleAffectedSlowSuddenLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
-const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
-const peopleInNeedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 
 function Overview(props: Props) {
     const strings = useTranslation(i18n);
@@ -82,36 +86,29 @@ function Overview(props: Props) {
         User[] | undefined | null
     >([]);
 
-    const handleNSChange = useCallback((nationalSociety: number | undefined) => {
-        setFieldValue(nationalSociety, 'national_society');
-        setFieldValue(nationalSociety, 'country');
-    }, [setFieldValue]);
-
-    const handleGenerateTitleButtonClick = useCallback(
-        () => {
-            // TODO: generate title properly
-            setFieldValue('This is generated title', 'title');
-        },
-        [setFieldValue],
-    );
-
+    type GetCountry = paths['/api/v2/country/']['get'];
+    type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
     const {
         response: countryResponse,
-    } = useRequest<GET['api/v2/country']>({
+    } = useRequest<CountryResponse>({
         url: 'api/v2/country',
     });
 
+    type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
+    type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
     const {
         pending: fetchingDisasterTypes,
         response: disasterTypesResponse,
-    } = useRequest<GET['api/v2/disaster_type']>({
+    } = useRequest<DisasterTypeResponse>({
         url: 'api/v2/disaster_type/',
     });
 
+    type GetDistrict = paths['/api/v2/district/']['get'];
+    type DistrictResponse = GetDistrict['responses']['200']['content']['application/json'];
     const {
         pending: districtsResponsePending,
         response: districtsResponse,
-    } = useRequest<GET['api/v2/district']>({
+    } = useRequest<DistrictResponse>({
         skip: isNotDefined(value?.country),
         url: 'api/v2/district/',
         query: {
@@ -120,12 +117,60 @@ function Overview(props: Props) {
         },
     });
 
+    const handleNSChange = useCallback((nationalSociety: number | undefined) => {
+        setFieldValue(nationalSociety, 'national_society');
+        setFieldValue(nationalSociety, 'country');
+    }, [setFieldValue]);
+
+    const handleGenerateTitleButtonClick = useCallback(
+        () => {
+            const countryName = countryResponse?.results?.find(
+                (country) => country.id === value?.country,
+            )?.name;
+            const disasterName = disasterTypesResponse?.results?.find(
+                (disasterType) => disasterType.id === value?.disaster_type,
+            )?.name;
+            const currentYear = new Date().getFullYear();
+            const title = `${countryName} ${disasterName} ${currentYear}`;
+            setFieldValue(title, 'title');
+        },
+        [
+            countryResponse,
+            disasterTypesResponse,
+            value?.disaster_type,
+            value?.country,
+            setFieldValue,
+        ],
+    );
+
+    const shouldDisableGenerateTitle = isNotDefined(value?.country)
+        || isNotDefined(value?.disaster_type)
+        || isNotDefined(disasterTypesResponse)
+        || isNotDefined(countryResponse);
+
     const showManMadeEventInput = value?.disaster_type === DISASTER_FIRE
         || value?.disaster_type === DISASTER_FLASH_FLOOD
-        || value?.disaster_category === DISASTER_FLOOD;
+        || value?.disaster_type === DISASTER_FLOOD;
 
-    const nationalSocietyOptions = countryResponse?.results.filter(isValidNationalSociety);
-    const countryOptions = countryResponse?.results.filter(isValidCountry);
+    const nationalSocietyOptions = countryResponse?.results?.map(
+        (country) => {
+            if (isValidNationalSociety(country)) {
+                return country;
+            }
+
+            return undefined;
+        },
+    ).filter(isDefined);
+    const countryOptions = countryResponse?.results?.map(
+        (country) => {
+            if (isValidCountry(country)) {
+                return country;
+            }
+
+            return undefined;
+        },
+    ).filter(isDefined);
+
     const error = getErrorObject(formError);
 
     // TODO: check styling
@@ -293,6 +338,7 @@ function Overview(props: Props) {
                     name={undefined}
                     variant="secondary"
                     onClick={handleGenerateTitleButtonClick}
+                    disabled={shouldDisableGenerateTitle}
                 >
                     {strings.drefFormGenerateTitle}
                 </Button>

@@ -29,7 +29,7 @@ type PlannedInterventionFormFields = NonNullable<PartialDref['planned_interventi
 type IndicatorFormFields = NonNullable<PlannedInterventionFormFields['indicators']>[number];
 
 const defaultInterventionValue: PlannedInterventionFormFields = {
-    client_id: randomString(),
+    client_id: '-1',
 };
 
 interface Props {

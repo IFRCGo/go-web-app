@@ -40,7 +40,7 @@ function Navbar(props: Props) {
         preparedness: preparednessRoute,
         threeW: threeWRoute,
         search: searchRoute,
-        drefApplicationFormNew: newDrefApplicationFormRoute,
+        newDrefApplicationForm: newDrefApplicationFormRoute,
     } = useContext(RouteContext);
 
     const { userDetails } = useContext(UserContext);
@@ -112,14 +112,6 @@ function Navbar(props: Props) {
                         <DropdownMenuItem
                             to="/"
                             label={strings.headerDropdownNewFieldReport}
-                        />
-                        <DropdownMenuItem
-                            to="https://eenew.ifrc.org/single/y300V3lY?returnURL=https://go.ifrc.org/emergencies/3972#actions"
-                            label={strings.headerDropdownCovid19IndicatorTracking}
-                        />
-                        <DropdownMenuItem
-                            to="https://eenew.ifrc.org/single/VmcTHDMh?returnURL=https://go.ifrc.org/emergencies/3972#actions"
-                            label={strings.headerDropdownCovid19NSFinancialOverview}
                         />
                         <DropdownMenuItem
                             to="/"

@@ -129,6 +129,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                         // TODO: improve styling
                         return (
                             <div
+                                // FIXME: create a component for preview, implement remove
                                 className={styles.previewAndCaption}
                                 key={fileValue.id}
                             >

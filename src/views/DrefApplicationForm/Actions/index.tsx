@@ -21,7 +21,7 @@ import DateInput from '#components/DateInput';
 import GoSingleFileInput from '#components/GoSingleFileInput';
 
 import useTranslation from '#hooks/useTranslation';
-import { GET } from '#types/serverResponse';
+import { paths } from '#generated/types';
 import { stringKeySelector, stringValueSelector } from '#utils/selectors';
 
 import {
@@ -40,8 +40,11 @@ type Value = PartialDref;
 type NeedFormFields = NonNullable<PartialDref['needs_identified']>[number];
 type NsActionFormFields = NonNullable<PartialDref['national_society_actions']>[number];
 
+type GetDrefOptions = paths['/api/v2/dref-options/']['get'];
+type GetDrefOptionsResponse = GetDrefOptions['responses']['200']['content']['application/json'];
+
 interface Props {
-    drefOptions: GET['api/v2/dref-options'] | undefined;
+    drefOptions: GetDrefOptionsResponse | undefined;
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;

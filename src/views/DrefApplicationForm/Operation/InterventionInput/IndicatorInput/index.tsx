@@ -70,6 +70,7 @@ function IndicatorInput(props: Props) {
                     name={index}
                     onClick={onRemove}
                     variant="tertiary"
+                    title={strings.drefIndicatorRemoveButtonLabel}
                 >
                     <DeleteBinTwoLineIcon />
                 </Button>

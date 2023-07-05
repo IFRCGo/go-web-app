@@ -853,10 +853,10 @@
     immer "^7.0.5"
     resize-observer-polyfill "^1.5.1"
 
-"@togglecorp/toggle-form@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@togglecorp/toggle-form/-/toggle-form-2.0.2.tgz#c347b0e756479bcf0b478a4dea763b0c35644a48"
-  integrity sha512-Q14PsF0KL0i0NBrPPCJ38zWFtBih2FQvMmSJqVDbkYCdwIIE/cmNKwGh/bayTsEHPlCbIGkoEvx1Ak9hXEL2Cg==
+"@togglecorp/toggle-form@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@togglecorp/toggle-form/-/toggle-form-2.0.3.tgz#4867900b11aef8a9a53833535530fa911264b762"
+  integrity sha512-43JytRKdqWu9LrRDAbVxyaDjmFWsjEwWfG3UdFl8lbdE/M/BCU/yZIYTq8B8Xavf6ryUhcFIjWbSEAEBdc0K2A==
   dependencies:
     "@babel/runtime" "^7.19.0"
     "@togglecorp/fujs" "^2.0.0"

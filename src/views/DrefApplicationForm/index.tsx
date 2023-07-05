@@ -9,10 +9,13 @@ import {
     useNavigate,
     useParams,
 } from 'react-router-dom';
-import { useForm } from '@togglecorp/toggle-form';
 import {
-    bound,
+    useForm,
+    removeNull,
+} from '@togglecorp/toggle-form';
+import {
     isFalsyString,
+    isDefined,
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
@@ -24,12 +27,13 @@ import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
 import Button from '#components/Button';
 import RawFileInput from '#components/RawFileInput';
+import NonFieldError from '#components/NonFieldError';
 
 import { useRequest, useLazyRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
-import { GET } from '#types/serverResponse';
+import { paths } from '#generated/types';
 
 import type { PartialDref } from './schema';
 import drefSchema from './schema';
@@ -40,40 +44,26 @@ import Operation from './Operation';
 import Submission from './Submission';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
 
+import type { TabKeys } from './common';
+import {
+    getNextStep,
+    getPreviousStep,
+    tabStepMap,
+    checkTabErrors,
+    TYPE_LOAN,
+} from './common';
 import { getImportData } from './import';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
-type TabNumbers = 1 | 2 | 3 | 4 | 5;
-const MIN_STEP = 1;
-const MAX_STEP = 5;
+type GetDref = paths['/api/v2/dref/{id}/']['get'];
+type GetDrefResponse = GetDref['responses']['200']['content']['application/json'];
 
-const tabStepMap: Record<TabKeys, TabNumbers> = {
-    overview: 1,
-    eventDetail: 2,
-    actions: 3,
-    operation: 4,
-    submission: 5,
-};
+type PutDref = paths['/api/v2/dref/{id}/']['put'];
+type PutDrefResponse = PutDref['responses']['200']['content']['application/json'];
 
-const tabByStepMap: Record<TabNumbers, TabKeys> = {
-    1: 'overview',
-    2: 'eventDetail',
-    3: 'actions',
-    4: 'operation',
-    5: 'submission',
-};
-
-function getNextStep(currentStep: TabKeys) {
-    const next = bound(tabStepMap[currentStep] + 1, MIN_STEP, MAX_STEP) as TabNumbers;
-    return tabByStepMap[next];
-}
-
-function getPreviousStep(currentStep: TabKeys) {
-    const prev = bound(tabStepMap[currentStep] - 1, MIN_STEP, MAX_STEP) as TabNumbers;
-    return tabByStepMap[prev];
-}
+type GetDrefOptions = paths['/api/v2/dref-options/']['get'];
+type GetDrefOptionsResponse = GetDrefOptions['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -81,7 +71,7 @@ export function Component() {
     const alert = useAlert();
     const navigate = useNavigate();
     const {
-        drefApplicationFormEdit: drefApplicationFormRoute,
+        drefApplicationForm: drefApplicationFormRoute,
     } = useContext(RouteContext);
     const strings = useTranslation(i18n);
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
@@ -98,6 +88,7 @@ export function Component() {
         setFieldValue,
         validate,
         setError,
+        setValue,
     } = useForm(
         drefSchema,
         {
@@ -106,7 +97,7 @@ export function Component() {
     );
 
     const handleDrefLoad = useCallback(
-        (response: GET['api/v2/dref/:id']) => {
+        (response: GetDrefResponse) => {
             lastModifiedAtRef.current = response?.modified_at;
 
             setFileIdToUrlMap((prevMap) => {
@@ -131,9 +122,11 @@ export function Component() {
                 if (response.cover_image_file && response.cover_image_file.file) {
                     newMap[response.cover_image_file.id] = response.cover_image_file.file;
                 }
-                if (response.images_file?.length > 0) {
-                    response.images_file.forEach((img) => {
-                        newMap[img.id] = img.file;
+                if ((response.images_file?.length ?? 0) > 0) {
+                    response.images_file?.forEach((img) => {
+                        if (isDefined(img.file)) {
+                            newMap[img.id] = img.file;
+                        }
                     });
                 }
                 return newMap;
@@ -145,22 +138,57 @@ export function Component() {
     const {
         pending: fetchingDrefOptions,
         response: drefOptions,
-    } = useRequest<GET['api/v2/dref-options']>({
+    } = useRequest<GetDrefOptionsResponse>({
         url: 'api/v2/dref-options/',
     });
 
-    const { pending: fetchingDref } = useRequest<GET['api/v2/dref/:id']>({
+    const { pending: fetchingDref } = useRequest<GetDrefResponse>({
         skip: isFalsyString(drefId),
         url: `api/v2/dref/${drefId}`,
         onSuccess: (response) => {
             handleDrefLoad(response);
+            const {
+                planned_interventions,
+                needs_identified,
+                national_society_actions,
+                risk_security,
+                event_map_file,
+                cover_image_file,
+                images_file,
+                ...otherValues
+            } = removeNull(response);
+
+            function injectClientId<V extends { id: number }>(obj: V): (V & { client_id: string }) {
+                return {
+                    ...obj,
+                    client_id: String(obj.id),
+                };
+            }
+
+            setValue({
+                ...otherValues,
+                planned_interventions: planned_interventions?.map(
+                    (intervention) => ({
+                        ...injectClientId(intervention),
+                        indicators: intervention.indicators?.map(injectClientId),
+                    }),
+                ),
+                needs_identified: needs_identified?.map(injectClientId),
+                national_society_actions: national_society_actions?.map(injectClientId),
+                risk_security: risk_security?.map(injectClientId),
+                event_map_file: isDefined(event_map_file)
+                    ? injectClientId(event_map_file) : undefined,
+                cover_image_file: isDefined(cover_image_file)
+                    ? injectClientId(cover_image_file) : undefined,
+                images_file: images_file?.map(injectClientId),
+            });
         },
     });
 
     const {
         pending: drefSubmitPending,
         trigger: submitDref,
-    } = useLazyRequest<GET['api/v2/dref/:id'], PartialDref>({
+    } = useLazyRequest<PutDrefResponse, PartialDref>({
         url: isTruthyString(drefId) ? `api/v2/dref/${drefId}` : 'api/v2/dref/',
         method: isTruthyString(drefId) ? 'PUT' : 'POST',
         body: (formFields) => formFields,
@@ -242,6 +270,8 @@ export function Component() {
     );
 
     const pending = fetchingDrefOptions || fetchingDref || drefSubmitPending;
+    const minStep = 1;
+    const maxStep = value?.type_of_dref === TYPE_LOAN ? 3 : 5;
 
     // TODO: responsive styling
     return (
@@ -268,6 +298,7 @@ export function Component() {
                             name="overview"
                             step={1}
                             disabled={pending}
+                            errored={checkTabErrors(formError, 'overview')}
                         >
                             {strings.drefFormTabOverviewLabel}
                         </Tab>
@@ -275,27 +306,35 @@ export function Component() {
                             name="eventDetail"
                             step={2}
                             disabled={pending}
+                            errored={checkTabErrors(formError, 'eventDetail')}
                         >
                             {strings.drefFormTabEventDetailLabel}
                         </Tab>
-                        <Tab
-                            name="actions"
-                            step={3}
-                            disabled={pending}
-                        >
-                            {strings.drefFormTabActionsLabel}
-                        </Tab>
-                        <Tab
-                            name="operation"
-                            step={4}
-                            disabled={pending}
-                        >
-                            {strings.drefFormTabOperationLabel}
-                        </Tab>
+                        {value?.type_of_dref !== TYPE_LOAN && (
+                            <Tab
+                                name="actions"
+                                step={3}
+                                disabled={pending}
+                                errored={checkTabErrors(formError, 'actions')}
+                            >
+                                {strings.drefFormTabActionsLabel}
+                            </Tab>
+                        )}
+                        {value?.type_of_dref !== TYPE_LOAN && (
+                            <Tab
+                                name="operation"
+                                step={4}
+                                disabled={pending}
+                                errored={checkTabErrors(formError, 'operation')}
+                            >
+                                {strings.drefFormTabOperationLabel}
+                            </Tab>
+                        )}
                         <Tab
                             name="submission"
-                            step={5}
+                            step={value?.type_of_dref === TYPE_LOAN ? 3 : 5}
                             disabled={pending}
+                            errored={checkTabErrors(formError, 'submission')}
                         >
                             {strings.drefFormTabSubmissionLabel}
                         </Tab>
@@ -350,20 +389,24 @@ export function Component() {
                         error={formError}
                     />
                 </TabPanel>
+                <NonFieldError
+                    error={formError}
+                    message={strings.drefFormGeneralError}
+                />
                 <div className={styles.actions}>
                     <div className={styles.pageActions}>
                         <Button
-                            name={getPreviousStep(activeTab)}
+                            name={getPreviousStep(activeTab, minStep, maxStep)}
                             onClick={setActiveTab}
-                            disabled={tabStepMap[activeTab] <= MIN_STEP}
+                            disabled={tabStepMap[activeTab] <= minStep}
                             variant="secondary"
                         >
                             {strings.drefFormBackButtonLabel}
                         </Button>
                         <Button
-                            name={getNextStep(activeTab)}
+                            name={getNextStep(activeTab, minStep, maxStep)}
                             onClick={setActiveTab}
-                            disabled={tabStepMap[activeTab] >= MAX_STEP}
+                            disabled={tabStepMap[activeTab] >= maxStep}
                             variant="secondary"
                         >
                             {strings.drefFormContinueButtonLabel}

@@ -6,6 +6,7 @@ import { Buffer } from 'buffer';
 import './index.css';
 import App from './App/index.tsx';
 
+// Buffer is used by docx4js
 globalThis.Buffer = Buffer;
 
 const webappRootId = 'webapp-root';

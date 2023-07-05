@@ -5,15 +5,16 @@ import Button from '#components/Button';
 import Modal from '#components/Modal';
 import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
-import { GET } from '#types/serverResponse';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type DrefApiFields = GET['api/v2/dref/:id'];
+type GetDref = paths['/api/v2/dref/{id}/']['get'];
+type GetDrefResponse = GetDref['responses']['200']['content']['application/json'];
 
 // FIXME: use common function
-function getUserName(user: DrefApiFields['modified_by_details'] | undefined) {
+function getUserName(user: GetDrefResponse['modified_by_details'] | undefined) {
     if (!user) {
         return 'Unknown User';
     }
@@ -50,7 +51,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
     const {
         pending: drefPending,
         response: drefResponse,
-    } = useRequest<DrefApiFields>({
+    } = useRequest<GetDrefResponse>({
         skip: !drefId,
         url: `api/v2/dref/${drefId}/`,
     });

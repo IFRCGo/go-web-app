@@ -65,6 +65,8 @@ function NsActionInput(props: Props) {
                 name={index}
                 onClick={onRemove}
                 variant="tertiary"
+                // TODO: use translations
+                title="Remove Action"
             >
                 <DeleteBinTwoLineIcon />
             </Button>

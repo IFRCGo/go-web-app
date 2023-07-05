@@ -48,7 +48,9 @@ function CopyFieldReportSection(props: Props) {
     const strings = useTranslation(i18n);
     const alert = useAlert();
 
-    const [fieldReport, setFieldReport] = useInputState<number | undefined>(value?.field_report);
+    const [fieldReport, setFieldReport] = useInputState<number | undefined | null>(
+        value?.field_report,
+    );
     const [fetchedFieldReports, setFetchedFieldReports] = useState<
         FieldReportItem[] | undefined | null
     >([]);
@@ -81,8 +83,8 @@ function CopyFieldReportSection(props: Props) {
                 return;
             }
 
-            const frDate = fieldReportResponse.created_at?.split('T')[0];
-            const go_field_report_date = value.go_field_report_date ?? frDate;
+            // const frDate = fieldReportResponse.created_at?.split('T')[0];
+            // const go_field_report_date = value.go_field_report_date ?? frDate;
             const disaster_type = value.disaster_type ?? fieldReportResponse.dtype?.id;
             const event_description = fieldReportResponse.description
                 ? sanitizeHtml(
@@ -164,7 +166,7 @@ function CopyFieldReportSection(props: Props) {
                 }
             }
 
-            setFieldValue(go_field_report_date, 'go_field_report_date');
+            // setFieldValue(go_field_report_date, 'go_field_report_date');
             setFieldValue(disaster_type, 'disaster_type');
             setFieldValue(event_description, 'event_description');
             if (isDefined(un_or_other_actor)) {

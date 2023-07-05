@@ -107,9 +107,11 @@ function getNumberSafe(str: string | undefined) {
         return undefined;
     }
 
+    /* This will be automatically handled
     if (trimmedStr === 'Enter number.') {
         return undefined;
     }
+    */
 
     const potentialNumber = +trimmedStr;
 
@@ -125,13 +127,13 @@ function getBooleanSafe(str: string | undefined) {
         return undefined;
     }
 
-    const trimmedStr = str.trim();
+    const trimmedStr = str.trim().toLowerCase();
 
-    if (trimmedStr === 'Yes') {
+    if (trimmedStr === 'yes') {
         return true;
     }
 
-    if (trimmedStr === 'No') {
+    if (trimmedStr === 'no') {
         return false;
     }
 
@@ -191,6 +193,8 @@ export function transformImport(
         (d) => d.value,
     );
 
+    // Currently type of dref is identified by
+    // number of fields in the import document
     const numFieldsToType: Record<number, string> = {
         219: 'slow-sudden',
         221: 'imminent',
@@ -333,6 +337,7 @@ export function transformImport(
             );
 
             const INDICATOR_KEY = 'indicators_';
+            // Indicators are stored as list of strings with children joined by .
             const indicatorItems = getItemsWithMatchingKeys(keyValueList, INDICATOR_KEY);
             const groupedIndicators = listToGroupList(
                 indicatorItems,
@@ -503,6 +508,7 @@ export function transformImport(
         };
     }).filter(isDefined);
 
+    // risks are stored in list of string separated by _
     const RISK_KEY = 'risk_';
     const riskItems = getItemsWithMatchingKeys(importData, RISK_KEY, ['risk_security_concern']);
     const groupedRisks = listToGroupList(

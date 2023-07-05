@@ -63,6 +63,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                 error={error?.id}
                 icons={icons}
                 actions={actions}
+                // FIXME: create a component for preview, implement remove
                 description={isDefined(fileUrl) ? (
                     <img
                         className={styles.preview}

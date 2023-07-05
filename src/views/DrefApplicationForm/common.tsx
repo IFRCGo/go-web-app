@@ -1,4 +1,12 @@
-import { GET } from '#types/serverResponse';
+import { bound } from '@togglecorp/fujs';
+import {
+    Error,
+    analyzeErrors,
+    getErrorObject,
+} from '@togglecorp/toggle-form';
+import { paths } from '#generated/types';
+
+import type { PartialDref } from './schema';
 
 export const ONSET_SLOW = 1;
 export const ONSET_SUDDEN = 2;
@@ -12,9 +20,39 @@ export const DISASTER_FIRE = 15;
 export const DISASTER_FLASH_FLOOD = 27;
 export const DISASTER_FLOOD = 12;
 
-type DrefFields = GET['api/v2/dref/:id'];
+export type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
+type TabNumbers = 1 | 2 | 3 | 4 | 5;
 
-export const overviewFields: (keyof DrefFields)[] = [
+export const tabStepMap: Record<TabKeys, TabNumbers> = {
+    overview: 1,
+    eventDetail: 2,
+    actions: 3,
+    operation: 4,
+    submission: 5,
+};
+
+const tabByStepMap: Record<TabNumbers, TabKeys> = {
+    1: 'overview',
+    2: 'eventDetail',
+    3: 'actions',
+    4: 'operation',
+    5: 'submission',
+};
+
+export function getNextStep(currentStep: TabKeys, minSteps: number, maxSteps: number) {
+    const next = bound(tabStepMap[currentStep] + 1, minSteps, maxSteps) as TabNumbers;
+    return tabByStepMap[next];
+}
+
+export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps: number) {
+    const prev = bound(tabStepMap[currentStep] - 1, minSteps, maxSteps) as TabNumbers;
+    return tabByStepMap[prev];
+}
+
+type GetDref = paths['/api/v2/dref/{id}/']['get'];
+type DrefFields = GetDref['responses']['200']['content']['application/json'];
+
+const overviewFields: (keyof DrefFields)[] = [
     'users',
     'field_report',
     'title_prefix',
@@ -32,11 +70,11 @@ export const overviewFields: (keyof DrefFields)[] = [
     'cover_image_file',
     'emergency_appeal_planned',
     'is_man_made_event',
-    'is_assessment_report',
+    // 'is_assessment_report',
     'type_of_dref',
 ];
 
-export const eventDetailFields: (keyof DrefFields)[] = [
+const eventDetailFields: (keyof DrefFields)[] = [
     'did_it_affect_same_population',
     'did_it_affect_same_area',
     'did_ns_respond',
@@ -50,14 +88,14 @@ export const eventDetailFields: (keyof DrefFields)[] = [
     'event_text',
 ];
 
-export const actionsFields: (keyof DrefFields)[] = [
+const actionsFields: (keyof DrefFields)[] = [
     'national_society_actions',
     'ifrc',
     'icrc',
     'partner_national_society',
     'government_requested_assistance',
     'national_authorities',
-    'un_or_other',
+    'un_or_other_actor',
     'major_coordination_mechanism',
     'needs_identified',
     'identified_gaps',
@@ -66,7 +104,7 @@ export const actionsFields: (keyof DrefFields)[] = [
     'assessment_report',
 ];
 
-export const operationFields: (keyof DrefFields)[] = [
+const operationFields: (keyof DrefFields)[] = [
     'people_assisted',
     'women',
     'men',
@@ -91,9 +129,9 @@ export const operationFields: (keyof DrefFields)[] = [
     'risk_security_concern',
 ];
 
-export const submissionFields: (keyof DrefFields)[] = [
+const submissionFields: (keyof DrefFields)[] = [
     'ns_request_date',
-    'start_date',
+    // 'start_date',
     'end_date',
     'submission_to_geneva',
     'date_of_approval',
@@ -122,3 +160,26 @@ export const submissionFields: (keyof DrefFields)[] = [
     'media_contact_phone_number',
     'media_contact_title',
 ];
+
+const tabToFieldsMap: Record<TabKeys, (keyof DrefFields)[]> = {
+    overview: overviewFields,
+    eventDetail: eventDetailFields,
+    actions: actionsFields,
+    operation: operationFields,
+    submission: submissionFields,
+};
+
+export function checkTabErrors(error: Error<PartialDref> | undefined, tabKey: TabKeys) {
+    if (!analyzeErrors(error)) {
+        return false;
+    }
+
+    const fields = tabToFieldsMap[tabKey];
+    const fieldErrors = getErrorObject(error);
+
+    const hasErrorOnAnyField = fields.some(
+        (field) => analyzeErrors(getErrorObject(fieldErrors?.[field])),
+    );
+
+    return hasErrorOnAnyField;
+}

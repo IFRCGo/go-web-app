@@ -24,7 +24,7 @@ import BooleanInput from '#components/BooleanInput';
 import GoSingleFileInput from '#components/GoSingleFileInput';
 import useTranslation from '#hooks/useTranslation';
 import { stringKeySelector, stringValueSelector } from '#utils/selectors';
-import { GET } from '#types/serverResponse';
+import { paths } from '#generated/types';
 
 import InterventionInput from './InterventionInput';
 import RiskSecurityInput from './RiskSecurityInput';
@@ -41,10 +41,13 @@ type Value = PartialDref;
 type PlannedInterventionFormFields = NonNullable<PartialDref['planned_interventions']>[number];
 type RiskSecurityFormFields = NonNullable<PartialDref['risk_security']>[number];
 
+type GetDrefOptions = paths['/api/v2/dref-options/']['get'];
+type GetDrefOptionsResponse = GetDrefOptions['responses']['200']['content']['application/json'];
+
 const emptyList: string[] = [];
 
 interface Props {
-    drefOptions: GET['api/v2/dref-options'] | undefined;
+    drefOptions: GetDrefOptionsResponse | undefined;
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
@@ -102,7 +105,7 @@ function Operation(props: Props) {
             w.push('Total targeted population is different from that in Operation Overview');
         }
 
-        if (!value.is_assessment_report && sumSafe([
+        if (value?.type_of_dref !== TYPE_ASSESSMENT && sumSafe([
             value?.women,
             value?.men,
             value?.girls,
@@ -114,7 +117,7 @@ function Operation(props: Props) {
 
         return w;
     }, [
-        value?.is_assessment_report,
+        value?.type_of_dref,
         value?.num_assisted,
         value?.women,
         value?.men,

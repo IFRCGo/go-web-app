@@ -121,7 +121,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
             >
                 {children}
             </RawFileInput>
-            {/* FIXME: use translation */}
+            {/* FIXME: use translation, implement remove */}
             {!hidePreview && selectedFileUrl ? (
                 <Link
                     to={selectedFileUrl}
