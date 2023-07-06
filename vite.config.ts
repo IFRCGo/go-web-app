@@ -52,6 +52,16 @@ export default defineConfig(({ mode }) => {
         build: {
             outDir: 'build',
             sourcemap: isProd,
+            rollupOptions: {
+                output: {
+                    chunkFileNames: 'chunk-[name].[hash].js',
+                    entryFileNames: 'entry-[name].[hash].js',
+                    manualChunks: {
+                        'mapbox-gl': ['mapbox-gl'],
+                    }
+                    // experimentalMinChunkSize: 500_000,
+                },
+            },
         },
         test: {
             environment: 'happy-dom',

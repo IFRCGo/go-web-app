@@ -29,6 +29,7 @@ build-ssr
 .eslintcache
 tsconfig.tsbuildinfo
 
-stats.html
+# Custom ignores
 
-generated
+stats.html
+generated/

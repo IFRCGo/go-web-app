@@ -34,11 +34,26 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --prefer-online
+        run: yarn install --prefer-offline --frozen-lockfile
 
       - name: Run test
 
         run: yarn test
+  translation:
+    name: Identify error with translation files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --prefer-offline --frozen-lockfile
+
+      - name: Identify error with translation files
+        run: yarn lint:translation
   unimported:
     name: Identify unused files
     runs-on: ubuntu-latest
@@ -50,7 +65,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --prefer-online
+        run: yarn install --prefer-offline --frozen-lockfile
 
       - name: Identify unused files
         run: yarn lint:unused
@@ -65,7 +80,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --prefer-online
+        run: yarn install --prefer-offline --frozen-lockfile
 
       - name: Lint JS
         run: yarn lint:js
@@ -80,7 +95,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --prefer-online
+        run: yarn install --prefer-offline --frozen-lockfile
 
       - name: Lint CSS
         run: yarn lint:css
@@ -96,7 +111,7 @@ jobs:
   #         cache: 'yarn'
 
   #     - name: Install dependencies
-  #       run: yarn install --prefer-online
+  #       run: yarn install --prefer-offline --frozen-lockfile
 
   #     - name: Typecheck
   #       run: yarn typecheck
@@ -113,7 +128,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --prefer-online
+        run: yarn install --prefer-offline --frozen-lockfile
 
       - name: Build
         run: yarn build
