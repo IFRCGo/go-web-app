@@ -1,0 +1,28 @@
+.account-information {
+    display: grid;
+    grid-gap: var(--go-ui-spacing-4xl);
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    padding: var(--go-ui-spacing-4xl) 0;
+
+    @media screen and (max-width: 30rem) {
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    }
+
+    .operations-following {
+        .operations-list {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-2xl);
+        }
+
+    }
+
+    .user-information {
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
+        }
+    }
+}

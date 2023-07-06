@@ -175,6 +175,7 @@ function EditAccountInfo(props: Props) {
 
     return (
         <Modal
+            className={styles.editAccountInfo}
             heading={strings.editUserProfile}
             headingLevel={3}
             onClose={handleCancelButton}
@@ -183,119 +184,108 @@ function EditAccountInfo(props: Props) {
                 <>
                     <Button
                         name={undefined}
-                        onClick={handleFormSubmit}
-                    >
-                        Confirm
-                    </Button>
-                    <Button
-                        name={undefined}
                         variant="secondary"
                         onClick={handleCancelButton}
                     >
                         Cancel
                     </Button>
+                    <Button
+                        name={undefined}
+                        onClick={handleFormSubmit}
+                    >
+                        Confirm
+                    </Button>
                 </>
             )}
+            bodyClassName={styles.content}
         >
-            <div className={styles.editProfileModal}>
-                <NonFieldError
-                    className={styles.serverError}
-                    error={formError}
-                />
-                <TextInput
-                    name="firstname"
-                    label={strings.firstname}
-                    value={formValue.firstname}
-                    onChange={setFieldValue}
-                    error={fieldError?.firstname}
-                    withAsterisk
-                />
-                <TextInput
-                    name="lastname"
-                    label={strings.lastname}
-                    value={formValue.lastname}
-                    onChange={setFieldValue}
-                    error={fieldError?.lastname}
-                    withAsterisk
-                />
-                <TextInput
-                    className={styles.emailInput}
-                    name="email"
-                    label={strings.email}
-                    value={formValue.email}
-                    onChange={setFieldValue}
-                    error={fieldError?.email}
-                    withAsterisk
-                />
-                <div className={styles.formBorder} />
+            <NonFieldError
+                className={styles.nonFieldError}
+                error={formError}
+            />
+            <TextInput
+                name="firstname"
+                label={strings.firstname}
+                value={formValue.firstname}
+                onChange={setFieldValue}
+                error={fieldError?.firstname}
+                withAsterisk
+            />
+            <TextInput
+                name="lastname"
+                label={strings.lastname}
+                value={formValue.lastname}
+                onChange={setFieldValue}
+                error={fieldError?.lastname}
+                withAsterisk
+            />
+            <SelectInput
+                label={strings.country}
+                name="country"
+                value={formValue?.country}
+                onChange={setFieldValue}
+                keySelector={countryKeySelector}
+                labelSelector={countryLabelSelector}
+                options={countryList}
+                error={fieldError?.country}
+                withAsterisk
+            />
+            <TextInput
+                name="city"
+                label={strings.city}
+                value={formValue.city}
+                onChange={setFieldValue}
+                error={fieldError?.city}
+                withAsterisk
+            />
+            <SelectInput
+                label={strings.organizationType}
+                name="organizationType"
+                value={formValue.organizationType}
+                onChange={handleOrganizationNameChange}
+                keySelector={keySelector}
+                labelSelector={labelSelector}
+                options={organizationTypeOptions}
+                error={fieldError?.organizationType}
+                withAsterisk
+            />
+            {isNationalSociety ? (
                 <SelectInput
-                    label={strings.country}
-                    name="country"
-                    value={formValue?.country}
+                    label={strings.organizationName}
+                    name="organization"
+                    value={formValue.organization}
                     onChange={setFieldValue}
-                    keySelector={countryKeySelector}
-                    labelSelector={countryLabelSelector}
-                    options={countryList}
-                    error={fieldError?.country}
+                    keySelector={nsLabelSelector}
+                    labelSelector={nsLabelSelector}
+                    options={nationalSocietyOptions}
+                    error={fieldError?.organization}
                     withAsterisk
                 />
+            ) : (
                 <TextInput
-                    name="city"
-                    label={strings.city}
-                    value={formValue.city}
+                    name="organization"
+                    label={strings.organizationName}
+                    value={formValue.organization}
                     onChange={setFieldValue}
-                    error={fieldError?.city}
+                    error={fieldError?.organization}
                     withAsterisk
                 />
-                <SelectInput
-                    label={strings.organizationType}
-                    name="organizationType"
-                    value={formValue.organizationType}
-                    onChange={handleOrganizationNameChange}
-                    keySelector={keySelector}
-                    labelSelector={labelSelector}
-                    options={organizationTypeOptions}
-                    error={fieldError?.organizationType}
-                    withAsterisk
-                />
-                {isNationalSociety ? (
-                    <SelectInput
-                        label={strings.organizationName}
-                        name="organization"
-                        value={formValue.organization}
-                        onChange={setFieldValue}
-                        keySelector={nsLabelSelector}
-                        labelSelector={nsLabelSelector}
-                        options={nationalSocietyOptions}
-                        error={fieldError?.organization}
-                        withAsterisk
-                    />
-                ) : (
-                    <TextInput
-                        name="organization"
-                        label={strings.organizationName}
-                        value={formValue.organization}
-                        onChange={setFieldValue}
-                        error={fieldError?.organization}
-                        withAsterisk
-                    />
-                )}
-                <TextInput
-                    name="department"
-                    label={strings.department}
-                    value={formValue.department}
-                    onChange={setFieldValue}
-                    error={fieldError?.department}
-                />
-                <TextInput
-                    name="phone"
-                    label={strings.phoneNumber}
-                    value={formValue.phone}
-                    onChange={setFieldValue}
-                    error={fieldError?.phone}
-                    withAsterisk
-                />
-            </div>
+            )}
+            <TextInput
+                name="department"
+                label={strings.department}
+                value={formValue.department}
+                onChange={setFieldValue}
+                error={fieldError?.department}
+            />
+            <TextInput
+                name="phone"
+                label={strings.phoneNumber}
+                value={formValue.phone}
+                onChange={setFieldValue}
+                error={fieldError?.phone}
+                withAsterisk
+            />
         </Modal>
     );
 }
