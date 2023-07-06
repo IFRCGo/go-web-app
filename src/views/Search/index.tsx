@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useMemo, useContext } from 'react';
+import { useNavigate, generatePath } from 'react-router-dom';
 import { isDefined, mapToList, isNotDefined } from '@togglecorp/fujs';
 import {
     ChevronRightLineIcon,
@@ -18,6 +18,7 @@ import useInputState from '#hooks/useInputState';
 import { useRequest } from '#utils/restRequest';
 import { getSearchValue } from '#utils/common';
 import { URL_SEARCH_KEY } from '#utils/constants';
+import RouteContext from '#contexts/route';
 
 import useTranslation from '#hooks/useTranslation';
 
@@ -55,6 +56,9 @@ const feedbackLink = 'https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok
 
 export function Component() {
     const urlSearchValue = getSearchValue(URL_SEARCH_KEY);
+    const {
+        search: searchRoute,
+    } = useContext(RouteContext);
 
     const [activeView, setActiveView] = React.useState<ResultKeys | undefined>();
     const [searchString, setSearchString] = useInputState<string | undefined>(
@@ -178,9 +182,18 @@ export function Component() {
     const navigate = useNavigate();
     const handleSearchInputEnter = useCallback(() => {
         if ((searchString?.trim()?.length ?? 0) > 2) {
-            navigate(`/search/?keyword=${searchString}`);
+            navigate(
+                generatePath(
+                    searchRoute.absolutePath,
+                    { searchString },
+                ),
+            );
         }
-    }, [navigate, searchString]);
+    }, [
+        navigate,
+        searchString,
+        searchRoute.absolutePath,
+    ]);
 
     return (
         <Page

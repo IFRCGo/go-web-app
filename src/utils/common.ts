@@ -92,19 +92,21 @@ export function reTab(str: string | undefined | null) {
 }
 
 export function isValidCountry(country: {
-    independent: boolean | null,
-    is_deprecated: boolean | null,
+    name?: string | null,
+    independent?: boolean | null,
+    is_deprecated?: boolean | null,
 }) {
-    return country.independent !== false && !country.is_deprecated;
+    return isTruthyString(country.name)
+        && country.independent !== false
+        && !country.is_deprecated;
 }
 
 export function isValidNationalSociety(country: {
-    independent: boolean | null,
-    is_deprecated: boolean | null,
-    society_name: string | null | undefined,
+    independent?: boolean | null,
+    is_deprecated?: boolean | null,
+    society_name?: string | null,
 }) {
-    return country.independent !== false
-        && !country.is_deprecated
+    return isValidCountry(country)
         && isTruthyString(country.society_name);
 }
 

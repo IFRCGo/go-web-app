@@ -1,3 +1,45 @@
 .register {
-    color: inherit;
+    .main-section {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-4xl);
+
+        .form {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-2xl);
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+            background-color: var(--go-ui-color-white);
+            width: 100%;
+            max-width: var(--go-ui-page-header-description-width-max);
+
+            .email-input {
+                grid-column: 1 / -1;
+
+            }
+
+            .non-field-error {
+                grid-column: 1 / -1;
+            }
+
+            .form-border {
+                grid-column: 1 / -1;
+                background-color: var(--go-ui-color-separator);
+                height: var(--go-ui-width-separator-sm);
+            }
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .login {
+                display: flex;
+                gap: var(--go-ui-spacing-xs);
+                align-items: center;
+            }
+        }
+    }
 }

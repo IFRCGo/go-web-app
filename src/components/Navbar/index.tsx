@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, generatePath } from 'react-router-dom';
 import { _cs } from '@togglecorp/fujs';
 
 import PageContainer from '#components/PageContainer';
@@ -38,6 +38,7 @@ function Navbar(props: Props) {
         surge: surgeRoute,
         preparedness: preparednessRoute,
         threeW: threeWRoute,
+        search: searchRoute,
     } = useContext(RouteContext);
 
     const { userDetails } = useContext(UserContext);
@@ -47,9 +48,18 @@ function Navbar(props: Props) {
     const navigate = useNavigate();
     const handleSearchInputEnter = useCallback(() => {
         if ((searchText?.trim()?.length ?? 0) > 2) {
-            navigate(`/search/?keyword=${searchText}`);
+            navigate(
+                generatePath(
+                    searchRoute.absolutePath,
+                    { searchText },
+                ),
+            );
         }
-    }, [searchText, navigate]);
+    }, [
+        searchText,
+        navigate,
+        searchRoute.absolutePath,
+    ]);
 
     return (
         <nav className={_cs(styles.navbar, className)}>
