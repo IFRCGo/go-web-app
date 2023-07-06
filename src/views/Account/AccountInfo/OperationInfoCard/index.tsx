@@ -3,6 +3,8 @@ import { _cs } from '@togglecorp/fujs';
 import Header from '#components/Header';
 import Button from '#components/Button';
 import DateOutput from '#components/DateOutput';
+import TextOutput from '#components/TextOutput';
+
 import { Emergency } from '#types/emergency';
 import useTranslation from '#hooks/useTranslation';
 import { useLazyRequest } from '#utils/restRequest';
@@ -81,11 +83,11 @@ function OperationInfoCard(props: Props) {
                 )}
             >
                 <div className={styles.lastUpdated}>
-                    <div className={styles.label}>
-                        {strings.operationLastUpdated}
-                    </div>
-                    <DateOutput
-                        value={updated_at}
+                    <TextOutput
+                        label={strings.operationLastUpdated}
+                        description={(
+                            <DateOutput value={updated_at} />
+                        )}
                     />
                 </div>
             </Header>

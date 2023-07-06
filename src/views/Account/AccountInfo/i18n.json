@@ -1,9 +1,10 @@
 {
     "namespace": "account",
     "strings": {
-        "operationFollowing": "Operation Following",
+        "operationFollowing": "Operations Following",
         "operationLastUpdated": "Last Updated",
         "currentlyFollowing": "Currently Following Operations",
-        "accountInformationTitle": "Account Information"
+        "accountInformationTitle": "Account Information",
+        "noUserDetails": "Sorry could not fetch user details!"
     }
 }
