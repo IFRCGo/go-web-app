@@ -1,0 +1,15 @@
+{
+    "namespace": "account",
+    "strings": {
+        "editUserProfile": "Edit User Profile",
+        "firstname": "First Name",
+        "lastname": "Last Name",
+        "email": "Email",
+        "country": "Country",
+        "city": "City",
+        "organizationType": "Organization Type",
+        "organizationName": "Organization Name",
+        "department": "Department",
+        "phoneNumber": "Phone Number"
+    }
+}

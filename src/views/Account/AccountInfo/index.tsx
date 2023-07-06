@@ -5,10 +5,15 @@ import {
     listToMap,
     isDefined,
 } from '@togglecorp/fujs';
+import {
+    PencilFillIcon,
+} from '@ifrc-go/icons';
 
 import List from '#components/List';
 import Button from '#components/Button';
 import Pager from '#components/Pager';
+import TextOutput from '#components/TextOutput';
+import BlockLoading from '#components/BlockLoading';
 
 import useTranslation from '#hooks/useTranslation';
 import {
@@ -18,21 +23,17 @@ import {
 import UserContext from '#contexts/user';
 import { Emergency } from '#types/emergency';
 import { User } from '#types/user';
+import type { GET } from '#types/serverResponse';
 
 import OperationInfoCard from './OperationInfoCard';
+import ChangePasswordModal from './ChangePassword';
+import EditAccountInfo from './EditAccountInfo';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface UserResponse {
-    subscription: {
-        stype: number | null;
-        rtype: number | null;
-        country: number | null;
-        region: number | null;
-        event: number | null;
-        lookup_id: string;
-    }[];
-}
+type UserResponse = GET['api/v2/user/me/'];
+
+const ITEM_PER_PAGE = 4;
 
 interface Props {
     className?: string;
@@ -51,7 +52,7 @@ function AccountInfo(props: Props) {
 
     const [page, setPage] = useState(0);
     const [editProfile, setEditProfile] = useState(false);
-    const [changePassword, setChangePassword] = useState(false);
+    const [changePasswordMode, setChangePasswordMode] = useState(false);
 
     const {
         error: operationResponseError,
@@ -61,6 +62,8 @@ function AccountInfo(props: Props) {
         url: 'api/v2/event/',
         query: {
             is_featured: 1,
+            limit: ITEM_PER_PAGE,
+            offset: ITEM_PER_PAGE * (page - 1),
         },
     });
 
@@ -72,7 +75,6 @@ function AccountInfo(props: Props) {
         skip: !userDetails,
         url: `api/v2/user/?username=${userNameForDetail}`,
     });
-    console.log('Check user details::>>', userDetailsResponse);
 
     const {
         pending: mePending,
@@ -105,12 +107,12 @@ function AccountInfo(props: Props) {
         ],
     );
 
-    const handleChangePassword = useCallback(() => {
-        console.log('Clicked change password:::');
+    const onEditProfileCancel = useCallback(() => {
+        setEditProfile(false);
     }, []);
 
-    const handleEditProfile = useCallback(() => {
-        console.log('Clicked change EDIT PROFILE:::');
+    const onCancelPasswordChange = useCallback(() => {
+        setChangePasswordMode(false);
     }, []);
 
     const eventList = operationsRes?.results;
@@ -122,6 +124,7 @@ function AccountInfo(props: Props) {
             <Container
                 className={_cs(styles.infoBox, className)}
                 heading={strings.operationFollowing}
+                withHeaderBorder
                 headingLevel={2}
                 footerActions={(
                     <Pager
@@ -147,11 +150,13 @@ function AccountInfo(props: Props) {
             <Container
                 className={_cs(styles.infoBox, className)}
                 heading={strings.accountInformationTitle}
+                withHeaderBorder
                 headingLevel={2}
                 actions={!!userDetailsResponse && (
                     <div className={styles.userEdit}>
                         <Button
                             name
+                            icons={(<PencilFillIcon />)}
                             onClick={setEditProfile}
                             variant="secondary"
                         >
@@ -160,22 +165,70 @@ function AccountInfo(props: Props) {
                     </div>
                 )}
             >
-                {!!userDetailsResponse && (
+                {userInformationPending ? (
+                    <BlockLoading
+                        message={strings.noUserDetails}
+                    />
+                ) : (
                     <div className={styles.userDetailSection}>
-                        <span className={styles.userInfoRow}>USER-NAME: {(userInformation?.username) ?? '--'}</span>
-                        <span className={styles.userInfoRow}>FIRST-NAME: {(userInformation?.first_name) ?? '--'}</span>
-                        <span className={styles.userInfoRow}>LAST-NAME: {(userInformation?.last_name) ?? '--'}</span>
-                        <span className={styles.userInfoRow}>EMAIL: {(userInformation?.email) ?? '--'}</span>
-                        <span className={styles.userInfoRow}>PHONE-NUMBER: {(userInformation?.profile?.phone_number) ?? '--'}</span>
-                        <span className={styles.userInfoRow}>CITY: {(userInformation?.profile?.city) ?? '--'}</span>
-                        <span className={styles.userInfoRow}>ORGANIZATION: {(userInformation?.profile?.org) ?? '--'}</span>
-                        <span className={styles.userInfoRow}>ORGANIZATION-TYPE: {(userInformation?.profile?.org_type) ?? '--'}</span>
-                        <span className={styles.userInfoRow}>DEPARTMENT: {(userInformation?.profile?.department) ?? '--'}</span>
-                        <span className={styles.userInfoRow}>POSITION: {(userInformation?.profile?.position) ?? '--'}</span>
+                        <TextOutput
+                            className={styles.userInfoRow}
+                            label="UserName"
+                            description={((userInformation?.username) ?? '--')}
+                            descriptionClassName={styles.userInfo}
+                        />
+                        <TextOutput
+                            className={styles.userInfoRow}
+                            label="FullName"
+                            description={((userInformation?.username) ?? '--')}
+                            descriptionClassName={styles.userInfo}
+                        />
+                        <TextOutput
+                            className={styles.userInfoRow}
+                            label="Location"
+                            description={((userInformation?.profile?.city) ?? '--')}
+                            descriptionClassName={styles.userInfo}
+                        />
+                        <TextOutput
+                            className={styles.userInfoRow}
+                            label="Email"
+                            description={((userInformation?.email) ?? '--')}
+                            descriptionClassName={styles.userInfo}
+                        />
+                        <TextOutput
+                            className={styles.userInfoRow}
+                            label="Phone Number"
+                            description={((userInformation?.profile?.phone_number) ?? '--')}
+                            descriptionClassName={styles.userInfo}
+                        />
+                        <TextOutput
+                            className={styles.userInfoRow}
+                            label="Organization"
+                            description={((userInformation?.profile?.org) ?? '--')}
+                            descriptionClassName={styles.userInfo}
+                        />
+                        <TextOutput
+                            className={styles.userInfoRow}
+                            label="Organization Type"
+                            description={((userInformation?.profile?.org_type) ?? '--')}
+                            descriptionClassName={styles.userInfo}
+                        />
+                        <TextOutput
+                            className={styles.userInfoRow}
+                            label="Department"
+                            description={((userInformation?.profile?.department) ?? '--')}
+                            descriptionClassName={styles.userInfo}
+                        />
+                        <TextOutput
+                            className={styles.userInfoRow}
+                            label="Position"
+                            description={((userInformation?.profile?.position) ?? '--')}
+                            descriptionClassName={styles.userInfo}
+                        />
                         <Button
                             name
-                            className={styles.changePassword}
-                            onClick={setChangePassword}
+                            className={styles.changePasswordButton}
+                            onClick={setChangePasswordMode}
                             variant="tertiary"
                         >
                             Change Password
@@ -183,6 +236,16 @@ function AccountInfo(props: Props) {
                     </div>
                 )}
             </Container>
+            {editProfile && (
+                <EditAccountInfo
+                    handleCancelButton={onEditProfileCancel}
+                />
+            )}
+            {changePasswordMode && (
+                <ChangePasswordModal
+                    handleCancelButton={onCancelPasswordChange}
+                />
+            )}
         </div>
     );
 }

@@ -276,6 +276,17 @@ interface PerWorkPlanResponse {
     };
 }
 
+interface UserResponse {
+    subscription: {
+        stype: number | null;
+        rtype: number | null;
+        country: number | null;
+        region: number | null;
+        event: number | null;
+        lookup_id: string;
+    }[];
+}
+
 export interface GET {
     'api/v2/country': ListResponse<CountryListResponseItem>;
     'api/v2/district': ListResponse<DistrictListResponseItem>;
@@ -296,6 +307,7 @@ export interface GET {
         perphases: NumericKeyStringValue[];
         workplanstatus: NumericKeyStringValue[];
     };
+    'api/v2/user/me/': UserResponse;
     'api/v2/per-assessment/:id': PerAssessmentResponse;
     'api/v2/per-overview/:id': PerOverviewResponse;
     'api/v2/per-process-status/:id': PerProcessStatusItem;

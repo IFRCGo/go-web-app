@@ -1,0 +1,23 @@
+.edit-profile-modal {
+    display: grid;
+    grid-gap: var(--go-ui-spacing-2xl);
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    background-color: var(--go-ui-color-white);
+    width: 100%;
+    max-width: 50rem;
+
+    .email-input {
+        grid-column: 1 / -1;
+
+    }
+
+    .server-error {
+        grid-column: 1 / -1;
+    }
+
+    .form-border {
+        grid-column: 1 / -1;
+        background-color: var(--go-ui-color-separator);
+        height: var(--go-ui-width-separator-sm);
+    }
+}

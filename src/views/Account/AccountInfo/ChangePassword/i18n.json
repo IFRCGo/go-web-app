@@ -1,0 +1,9 @@
+{
+    "namespace": "account",
+    "strings": {
+        "changeUserPassword": "Change User Password",
+        "oldPassword": "Old Password",
+        "newPassword": "New Password",
+        "confirmNewPassword": "Confirm New Password"
+    }
+}
