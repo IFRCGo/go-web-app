@@ -7,7 +7,6 @@ import {
     useNavigate,
     generatePath,
 } from 'react-router-dom';
-import { isTruthyString } from '@togglecorp/fujs';
 import {
     useForm,
     ObjectSchema,
@@ -16,6 +15,7 @@ import {
     getErrorObject,
     PartialForm,
     createSubmitHandler,
+    undefinedValue,
 } from '@togglecorp/toggle-form';
 
 import RouteContext from '#contexts/route';
@@ -33,8 +33,7 @@ import {
     isValidCountry,
     isValidNationalSociety,
 } from '#utils/common';
-import type { GET } from '#types/serverResponse';
-import { LabelValue } from '#types/common';
+import type { paths, components } from '#generated/types';
 import {
     useRequest,
     useLazyRequest,
@@ -43,75 +42,80 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-// FIXME: Dummy type for organization
-type NationalSocietiesList = 'NTLS' | 'DLGN' | 'SCRT' | 'ICRC' | 'OTHR';
-interface OptionType {
-    value: NationalSocietiesList;
+type OrganizationType = components['schemas']['OrgTypeEnum'];
+interface OrganizationOptionType {
+    value: OrganizationType;
     label: string;
 }
 
-interface CountryOptionType {
-    id: number;
-    name: string;
-}
+type PostRegister = paths['/register']['post'];
+type RegisterResponse = PostRegister['responses']['200']['content']['application/json'];
 
-const nsLabelSelector = (item: LabelValue) => item.label;
+type GetCountry = paths['/api/v2/country/']['get'];
+type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 
-type FormFields = PartialForm<Omit<GET['register'], 'id' | 'token' | 'expires'>>;
+const nsLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.society_name ?? '';
 
+type FormFields = PartialForm<RegisterResponse & { confirm_password: string }>;
 const defaultFormValue: FormFields = {};
+const keySelector = (item: OrganizationOptionType) => item.value;
+const labelSelector = (item: OrganizationOptionType) => item.label;
 
-const keySelector = (item: OptionType) => item.value;
-const labelSelector = (item: OptionType) => item.label;
-
-const countryKeySelector = (item: CountryOptionType) => item.id;
-const countryLabelSelector = (item: CountryOptionType) => item.name;
+const countryKeySelector = (item: NonNullable<CountryResponse['results']>[number]) => item.id;
+const countryLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.name ?? '';
 
 // FIXME: Need to make an Api for these options
-const organizationTypeOptions: OptionType[] = [
+const organizationTypeOptions: OrganizationOptionType[] = [
     { value: 'NTLS', label: 'National Society' },
     { value: 'DLGN', label: 'IFRC' },
     { value: 'SCRT', label: 'ICRC' },
     { value: 'ICRC', label: 'Other' },
 ];
 
+type FormSchema = ObjectSchema<FormFields>;
+type FormSchemaFields = ReturnType<FormSchema['fields']>
+
 const formSchema: ObjectSchema<FormFields> = {
     validation: (value) => {
         if (
             value?.password
-            && value?.confirmPassword
-            && value.password !== value.confirmPassword
+            && value?.confirm_password
+            && value.password !== value.confirm_password
         ) {
+            // FIXME: use translations
             return 'Passwords do not match!';
         }
         return undefined;
     },
-    fields: () => ({
-        firstname: {
+
+    fields: (): FormSchemaFields => ({
+        first_name: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
-        lastname: {
+        last_name: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
         email: {
             required: true,
-            requiredCondition: emailCondition,
+            requiredValidation: requiredStringCondition,
+            validations: [emailCondition],
         },
         password: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
-        confirmPassword: {
+        confirm_password: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
+            forceValue: undefinedValue,
         },
         organization: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
-        organizationType: {
+        organization_type: {
             required: true,
         },
         country: {
@@ -119,11 +123,11 @@ const formSchema: ObjectSchema<FormFields> = {
         },
         city: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
         department: {},
         position: {},
-        phone: {},
+        phone_number: {},
     }),
 };
 
@@ -144,12 +148,12 @@ export function Component() {
     const navigate = useNavigate();
 
     const fieldError = getErrorObject(formError);
-    const isNationalSociety = formValue.organizationType === 'NTLS';
+    const isNationalSociety = formValue.organization_type === 'NTLS';
 
     const {
         pending: registerPending,
         trigger: register,
-    } = useLazyRequest<GET['register'], FormFields>({
+    } = useLazyRequest<RegisterResponse, FormFields>({
         method: 'POST',
         url: 'register',
         body: (body) => body,
@@ -167,8 +171,10 @@ export function Component() {
                     formErrors,
                 },
             } = error;
+
             setError(formErrors);
             // FIXME: Error message from server is not properly sent
+
             const message = strings.registrationFailure;
             alert.show(
                 message,
@@ -177,24 +183,18 @@ export function Component() {
         },
     });
 
-    const { response: countriesResponse } = useRequest<GET['api/v2/country']>({
+    const { response: countriesResponse } = useRequest<CountryResponse>({
         url: 'api/v2/country/',
         query: { limit: 500 },
     });
 
     const countryList = useMemo(
-        () => countriesResponse?.results.filter(
-            (country) => isValidCountry(country) && isTruthyString(country.name),
-        ),
+        () => countriesResponse?.results?.filter(isValidCountry),
         [countriesResponse],
     );
 
     const nationalSocietyOptions = useMemo(
-        () => (
-            countriesResponse?.results.filter(isValidNationalSociety).map(
-                (country) => ({ value: country.id, label: country.society_name }),
-            )
-        ),
+        () => countriesResponse?.results?.filter(isValidNationalSociety),
         [countriesResponse?.results],
     );
 
@@ -204,10 +204,10 @@ export function Component() {
 
     const handleFormSubmit = createSubmitHandler(validate, setError, handleRegister);
 
-    const handleOrganizationNameChange = useCallback(
+    const handleOrganizationTypeChange = useCallback(
         (val: string | undefined) => {
             setFieldValue(undefined, 'organization');
-            setFieldValue(val, 'organizationType');
+            setFieldValue(val, 'organization_type');
         },
         [setFieldValue],
     );
@@ -217,7 +217,7 @@ export function Component() {
         {
             loginLink: (
                 <Link
-                    to="register"
+                    to={loginRoute.absolutePath}
                     withUnderline
                 >
                     {strings.registerLogin}
@@ -236,24 +236,24 @@ export function Component() {
         >
             <div className={styles.form}>
                 <NonFieldError
-                    className={styles.serverError}
+                    className={styles.nonFieldError}
                     error={formError}
                 />
                 <TextInput
-                    name="firstname"
+                    name="first_name"
                     label={strings.registerFirstName}
-                    value={formValue.firstname}
+                    value={formValue.first_name}
                     onChange={setFieldValue}
-                    error={fieldError?.firstname}
+                    error={fieldError?.first_name}
                     disabled={registerPending}
                     withAsterisk
                 />
                 <TextInput
-                    name="lastname"
+                    name="last_name"
                     label={strings.registerLastName}
-                    value={formValue.lastname}
+                    value={formValue.last_name}
                     onChange={setFieldValue}
-                    error={fieldError?.lastname}
+                    error={fieldError?.last_name}
                     disabled={registerPending}
                     withAsterisk
                 />
@@ -278,12 +278,12 @@ export function Component() {
                     withAsterisk
                 />
                 <TextInput
-                    name="confirmPassword"
+                    name="confirm_password"
                     type="password"
                     label={strings.registerConfirmPassword}
-                    value={formValue.confirmPassword}
+                    value={formValue.confirm_password}
                     onChange={setFieldValue}
-                    error={fieldError?.confirmPassword}
+                    error={fieldError?.confirm_password}
                     disabled={registerPending}
                     withAsterisk
                 />
@@ -311,13 +311,13 @@ export function Component() {
                 />
                 <SelectInput
                     label={strings.registerOrganizationType}
-                    name="organizationType"
-                    value={formValue.organizationType}
-                    onChange={handleOrganizationNameChange}
+                    name="organization_type"
+                    value={formValue.organization_type}
+                    onChange={handleOrganizationTypeChange}
                     keySelector={keySelector}
                     labelSelector={labelSelector}
                     options={organizationTypeOptions}
-                    error={fieldError?.organizationType}
+                    error={fieldError?.organization_type}
                     disabled={registerPending}
                     withAsterisk
                 />
@@ -325,11 +325,11 @@ export function Component() {
                     <SelectInput
                         label={strings.registerOrganizationName}
                         name="organization"
-                        value={formValue.organization}
-                        onChange={setFieldValue}
+                        options={nationalSocietyOptions}
                         keySelector={nsLabelSelector}
                         labelSelector={nsLabelSelector}
-                        options={nationalSocietyOptions}
+                        value={formValue.organization}
+                        onChange={setFieldValue}
                         error={fieldError?.organization}
                         disabled={registerPending}
                         withAsterisk
@@ -362,11 +362,11 @@ export function Component() {
                     disabled={registerPending}
                 />
                 <TextInput
-                    name="phone"
+                    name="phone_number"
                     label={strings.registerPhoneNumber}
-                    value={formValue.phone}
+                    value={formValue.phone_number}
                     onChange={setFieldValue}
-                    error={fieldError?.phone}
+                    error={fieldError?.phone_number}
                     disabled={registerPending}
                     withAsterisk
                 />

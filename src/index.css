@@ -205,6 +205,7 @@
     --go-ui-color-map-dot-fba: #ff6b00;
     --go-ui-color-map-dot-multiple-types: #4c5d9b;
 
+    --go-ui-page-header-description-width-max: 48rem;
     --mapbox-icon-width: 88px;
 }
 

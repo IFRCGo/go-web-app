@@ -15,7 +15,7 @@
             }
 
             .description {
-                max-width: 48rem;
+                max-width: var(--go-ui-page-header-description-width-max);
                 text-align: center;
             }
         }

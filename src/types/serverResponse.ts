@@ -38,24 +38,6 @@ interface PerFormAnswerItem {
     text: string;
 }
 
-interface RegisterResponseFields {
-    id: number;
-    token: string;
-    expires: string;
-    firstname: string;
-    lastname: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    organization: string;
-    country: number;
-    organizationType: string;
-    city: string;
-    department: string;
-    position: string;
-    phone: string;
-}
-
 interface PerFormAreaItem {
     area_num: number;
     id: number;
@@ -262,7 +244,6 @@ export interface GET {
         perphases: NumericKeyStringValue[];
         workplanstatus: NumericKeyStringValue[];
     };
-    'register': RegisterResponseFields;
     'api/v2/per-assessment/:id': PerAssessmentResponse;
     'api/v2/per-overview/:id': PerOverviewResponse;
     'api/v2/per-process-status/:id': PerProcessStatusItem;
