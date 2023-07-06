@@ -1,6 +1,0 @@
-.change-password-modal {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: var(--go-ui-spacing-xl);
-}

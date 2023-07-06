@@ -101,50 +101,49 @@ function ChangePasswordsModal(props: Props) {
                 <>
                     <Button
                         name={undefined}
-                        onClick={handleSubmitPassword}
-                    >
-                        Confirm
-                    </Button>
-                    <Button
-                        name={undefined}
                         variant="secondary"
                         onClick={handleCancelButton}
                     >
                         Cancel
                     </Button>
+                    <Button
+                        name={undefined}
+                        onClick={handleSubmitPassword}
+                    >
+                        Confirm
+                    </Button>
                 </>
             )}
+            bodyClassName={styles.content}
         >
-            <div className={styles.changePasswordModal}>
-                <NonFieldError
-                    className={styles.serverError}
-                    error={formError}
-                />
-                <TextInput
-                    name="oldPassword"
-                    type="password"
-                    label={strings.oldPassword}
-                    value={formValue.oldPassword}
-                    onChange={setFieldValue}
-                    error={fieldError?.oldPassword}
-                />
-                <TextInput
-                    name="newPassword"
-                    type="password"
-                    label={strings.newPassword}
-                    value={formValue.newPassword}
-                    onChange={setFieldValue}
-                    error={fieldError?.newPassword}
-                />
-                <TextInput
-                    name="confirmNewPassword"
-                    type="password"
-                    label={strings.confirmNewPassword}
-                    value={formValue.confirmNewPassword}
-                    onChange={setFieldValue}
-                    error={fieldError?.confirmNewPassword}
-                />
-            </div>
+            <NonFieldError
+                className={styles.serverError}
+                error={formError}
+            />
+            <TextInput
+                name="oldPassword"
+                type="password"
+                label={strings.oldPassword}
+                value={formValue.oldPassword}
+                onChange={setFieldValue}
+                error={fieldError?.oldPassword}
+            />
+            <TextInput
+                name="newPassword"
+                type="password"
+                label={strings.newPassword}
+                value={formValue.newPassword}
+                onChange={setFieldValue}
+                error={fieldError?.newPassword}
+            />
+            <TextInput
+                name="confirmNewPassword"
+                type="password"
+                label={strings.confirmNewPassword}
+                value={formValue.confirmNewPassword}
+                onChange={setFieldValue}
+                error={fieldError?.confirmNewPassword}
+            />
         </Modal>
     );
 }

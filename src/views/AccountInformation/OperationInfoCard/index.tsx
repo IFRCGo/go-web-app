@@ -33,6 +33,8 @@ function OperationInfoCard(props: Props) {
         retriggerSubscription: requestSubscriptionRetrigger,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const {
         pending: addSubscriptionPending,
         trigger: triggerAddSubscription,
@@ -59,39 +61,31 @@ function OperationInfoCard(props: Props) {
     });
 
     const subscriptionPending = addSubscriptionPending || removeSubscriptionPending;
-
-    const strings = useTranslation(i18n);
-
     const isSubscribed = subscriptionMap[id] ?? false;
 
     return (
-        <div className={_cs(styles.operationBox, className)}>
-            <Header
-                className={styles.header}
-                heading={name}
-                headingLevel={4}
-                ellipsizeHeading
-                actions={(
-                    <Button
-                        name={id}
-                        variant="secondary"
-                        disabled={pending || subscriptionPending}
-                        onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
-                    >
-                        {isSubscribed ? strings.operationUnfollow : strings.operationFollow}
-                    </Button>
-                )}
-            >
-                <div className={styles.lastUpdated}>
-                    <TextOutput
-                        label={strings.operationLastUpdated}
-                        description={(
-                            <DateOutput value={updated_at} />
-                        )}
-                    />
-                </div>
-            </Header>
-        </div>
+        <Header
+            className={_cs(styles.operationInfoCard, className)}
+            heading={name}
+            headingLevel={4}
+            ellipsizeHeading
+            actions={(
+                <Button
+                    name={id}
+                    variant="secondary"
+                    disabled={pending || subscriptionPending}
+                    onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
+                >
+                    {isSubscribed ? strings.operationUnfollow : strings.operationFollow}
+                </Button>
+            )}
+        >
+            <TextOutput
+                label={strings.operationLastUpdated}
+                value={updated_at}
+                valueType="date"
+            />
+        </Header>
     );
 }
 
