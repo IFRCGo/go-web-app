@@ -2,7 +2,6 @@ import { _cs } from '@togglecorp/fujs';
 
 import Header from '#components/Header';
 import Button from '#components/Button';
-import DateOutput from '#components/DateOutput';
 import TextOutput from '#components/TextOutput';
 
 import { Emergency } from '#types/emergency';
