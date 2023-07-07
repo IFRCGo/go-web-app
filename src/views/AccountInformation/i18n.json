@@ -5,6 +5,17 @@
         "operationLastUpdated": "Last Updated",
         "currentlyFollowing": "Currently Following Operations",
         "accountInformationTitle": "Account Information",
-        "noUserDetails": "Sorry could not fetch user details!"
+        "noUserDetails": "Sorry could not fetch user details!",
+        "userName": "UserName",
+        "fullName": "FullName",
+        "location": "Location",
+        "email": "Email",
+        "phoneNumber": "Phone Number",
+        "organization": "Organization",
+        "organizationType": "Organization Type",
+        "department": "Department",
+        "position": "Position",
+        "changePassword": "Change Password",
+        "editProfile": "Edit Profile"
     }
 }

@@ -3,7 +3,7 @@
         display: grid;
         grid-gap: var(--go-ui-spacing-2xl);
         grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-        background-color: var(--go-ui-color-white);
+        background-color: var(--go-ui-color-gray-20);
 
         .email-input {
             grid-column: 1 / -1;

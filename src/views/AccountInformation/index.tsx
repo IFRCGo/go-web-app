@@ -155,7 +155,7 @@ export function Component() {
                         onClick={setShowChangePasswordModal}
                         variant="tertiary"
                     >
-                        Change Password
+                        {strings.changePassword}
                     </Button>
                 )}
                 actions={!!userDetailsResponse && (
@@ -164,9 +164,8 @@ export function Component() {
                         icons={(<PencilFillIcon />)}
                         onClick={setShowEditProfileModal}
                         variant="secondary"
-                        // FIXME: use translation
                     >
-                        Edit Profile
+                        {strings.editProfile}
                     </Button>
                 )}
                 childrenContainerClassName={styles.content}
@@ -179,55 +178,55 @@ export function Component() {
                     <>
                         <TextOutput
                             className={styles.userInfoRow}
-                            label="UserName"
+                            label={strings.userName}
                             description={((userInformation?.username) ?? '--')}
                             descriptionClassName={styles.userInfo}
                         />
                         <TextOutput
                             className={styles.userInfoRow}
-                            label="FullName"
-                            description={((userInformation?.username) ?? '--')}
+                            label={strings.fullName}
+                            description={((`${userInformation?.first_name} ${userInformation?.last_name}`) ?? '--')}
                             descriptionClassName={styles.userInfo}
                         />
                         <TextOutput
                             className={styles.userInfoRow}
-                            label="Location"
+                            label={strings.location}
                             description={((userInformation?.profile?.city) ?? '--')}
                             descriptionClassName={styles.userInfo}
                         />
                         <TextOutput
                             className={styles.userInfoRow}
-                            label="Email"
+                            label={strings.email}
                             description={((userInformation?.email) ?? '--')}
                             descriptionClassName={styles.userInfo}
                         />
                         <TextOutput
                             className={styles.userInfoRow}
-                            label="Phone Number"
+                            label={strings.phoneNumber}
                             description={((userInformation?.profile?.phone_number) ?? '--')}
                             descriptionClassName={styles.userInfo}
                         />
                         <TextOutput
                             className={styles.userInfoRow}
-                            label="Organization"
+                            label={strings.organization}
                             description={((userInformation?.profile?.org) || '--')}
                             descriptionClassName={styles.userInfo}
                         />
                         <TextOutput
                             className={styles.userInfoRow}
-                            label="Organization Type"
+                            label={strings.organizationType}
                             description={((userInformation?.profile?.org_type) ?? '--')}
                             descriptionClassName={styles.userInfo}
                         />
                         <TextOutput
                             className={styles.userInfoRow}
-                            label="Department"
+                            label={strings.department}
                             description={((userInformation?.profile?.department) ?? '--')}
                             descriptionClassName={styles.userInfo}
                         />
                         <TextOutput
                             className={styles.userInfoRow}
-                            label="Position"
+                            label={strings.position}
                             description={((userInformation?.profile?.position) ?? '--')}
                             descriptionClassName={styles.userInfo}
                         />

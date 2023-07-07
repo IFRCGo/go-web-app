@@ -25,7 +25,6 @@ interface UserPasswordChange {
     confirmNewPassword: string;
 }
 
-// FIXME: Need to add an api dedicated for changing password
 type FormFields = PartialForm<Omit<UserPasswordChange, 'id'>>;
 
 const defaultFormValue: FormFields = {};
@@ -104,13 +103,13 @@ function ChangePasswordsModal(props: Props) {
                         variant="secondary"
                         onClick={handleCancelButton}
                     >
-                        Cancel
+                        {strings.cancelButton}
                     </Button>
                     <Button
                         name={undefined}
                         onClick={handleSubmitPassword}
                     >
-                        Confirm
+                        {strings.confirmButton}
                     </Button>
                 </>
             )}

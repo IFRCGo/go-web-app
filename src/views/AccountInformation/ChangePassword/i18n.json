@@ -4,6 +4,8 @@
         "changeUserPassword": "Change User Password",
         "oldPassword": "Old Password",
         "newPassword": "New Password",
-        "confirmNewPassword": "Confirm New Password"
+        "confirmNewPassword": "Confirm New Password",
+        "cancelButton": "Cancel",
+        "confirmButton": "Confirm"
     }
 }
