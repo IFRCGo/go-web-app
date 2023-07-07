@@ -2,9 +2,9 @@
 export function Component() {
     return (
         <div>
-            This is operational toolbox
+            This is surge operational toolbox
         </div>
     );
 }
 
-Component.displayName = 'OperationalToolbox';
+Component.displayName = 'SurgeOperationalToolbox';

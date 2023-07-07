@@ -26,7 +26,7 @@ export function Component() {
 
     const {
         surgeOverview: surgeOverviewRoute,
-        operationalToolbox: operationalToolboxRoute,
+        surgeOperationalToolbox: surgeOperationalToolboxRoute,
         surgeCatalogue: surgeCatalogueRoute,
     } = useContext(RouteContext);
 
@@ -81,7 +81,7 @@ export function Component() {
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
-                        operationalToolboxRoute.absolutePath,
+                        surgeOperationalToolboxRoute.absolutePath,
                     )}
                 >
                     {strings.operationalToolboxTab}

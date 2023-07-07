@@ -347,15 +347,15 @@ const surgeOverview = customWrapRoute({
     },
 });
 
-const operationalToolbox = customWrapRoute({
+const surgeOperationalToolbox = customWrapRoute({
     path: 'operational-toolbox',
     component: {
-        render: () => import('#views/OperationalToolbox'),
+        render: () => import('#views/SurgeOperationalToolbox'),
         props: {},
     },
     parent: surge,
     context: {
-        title: 'Operational Toolbox',
+        title: 'Surge Operational Toolbox',
         visibility: 'anything',
     },
 });
@@ -804,7 +804,7 @@ const wrappedRoutes = {
     emergency,
     surge,
     surgeOverview,
-    operationalToolbox,
+    surgeOperationalToolbox,
     surgeCatalogue,
     surgeIndex,
     preparedness,

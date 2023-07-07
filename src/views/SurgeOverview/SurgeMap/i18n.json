@@ -1,0 +1,14 @@
+{
+    "namespace": "surge",
+    "strings": {
+        "deployedErus": "Deployed ERUs",
+        "eventPopoverEmpty": "No Current Deployments",
+        "deployedPersonnel": "Deployed Personnel",
+        "surgeEruOnly": "ERU Only",
+        "surgePersonnelOnly": "Rapid Response Only",
+        "eruAndPersonnel": "ERUs & Rapid Response",
+        "eruLabel": "ERU",
+        "personnelLabel": "Personnel",
+        "explanationScalePoints": "Scale points by"
+    }
+}
