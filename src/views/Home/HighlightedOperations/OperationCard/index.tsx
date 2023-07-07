@@ -1,4 +1,4 @@
-import { _cs, sum } from '@togglecorp/fujs';
+import { _cs, isDefined } from '@togglecorp/fujs';
 import { FocusLineIcon } from '@ifrc-go/icons';
 
 import Header from '#components/Header';
@@ -8,18 +8,23 @@ import NumberOutput from '#components/NumberOutput';
 import KeyFigure from '#components/KeyFigure';
 import Tooltip from '#components/Tooltip';
 import TextOutput from '#components/TextOutput';
-import { Emergency } from '#types/emergency';
+import { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
+import { sumSafe } from '#utils/common';
 
 import SeverityIndicator from './SeverityIndicator';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type GetEvent = paths['/api/v2/event/']['get'];
+type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventListItem = NonNullable<EventResponse['results']>[number];
+
 interface Props {
     className?: string;
-    data: Emergency;
+    data: EventListItem;
     subscriptionMap: Record<number, boolean>,
     pending: boolean;
     retriggerSubscription: () => void,
@@ -70,12 +75,14 @@ function OperationCard(props: Props) {
     const subscriptionPending = addSubscriptionPending || removeSubscriptionPending;
 
     const strings = useTranslation(i18n);
-    const targetedPopulation = sum(appeals.map((appeal) => appeal.num_beneficiaries));
-    const amountRequested = sum(appeals.map((appeal) => +appeal.amount_requested));
-    const amountFunded = sum(appeals.map((appeal) => +appeal.amount_funded));
+    const targetedPopulation = sumSafe(appeals.map((appeal) => appeal.num_beneficiaries));
+    const amountRequested = sumSafe(appeals.map((appeal) => +(appeal.amount_requested ?? 0)));
+    const amountFunded = sumSafe(appeals.map((appeal) => +(appeal.amount_funded ?? 0)));
 
     // FIXME: let's use progress utility
-    const coverage = (100 * amountFunded) / amountRequested;
+    const coverage = isDefined(amountRequested)
+        ? ((100 * (amountFunded ?? 0)) / amountRequested)
+        : undefined;
 
     const fundingCoverageDescription = resolveToComponent(
         strings.operationCardFundingCoverage,
@@ -87,7 +94,7 @@ function OperationCard(props: Props) {
 
     if (countries.length > 0) {
         if (countries.length === 1) {
-            countriesInfoDisplay = countries[0].name;
+            countriesInfoDisplay = countries[0].name ?? '';
         } else {
             countriesInfoDisplay = strings.operationCardInvolvesMultipleCountries;
         }

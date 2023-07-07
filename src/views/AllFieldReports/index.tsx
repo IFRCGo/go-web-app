@@ -3,56 +3,70 @@ import { isDefined } from '@togglecorp/fujs';
 import { generatePath } from 'react-router-dom';
 
 import Page from '#components/Page';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
-import Link from '#components/Link';
 import Container from '#components/Container';
 import SelectInput from '#components/SelectInput';
 import {
     createStringColumn,
     createDateColumn,
     createLinkColumn,
-    createListDisplayColumn,
+    createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
+import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
-import type { FieldReport } from '#types/fieldReport';
+import { paths } from '#generated/types';
+import { isValidCountry } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const keySelector = (item: FieldReport) => item.id;
+type GetCountry = paths['/api/v2/country/']['get'];
+type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
-type TableKey = number;
-interface AppealType {
-    value: string;
-    label: string;
-}
+type GetFieldReport = paths['/api/v2/field_report/']['get'];
+type FieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
+type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 
-// FIXME: translate this
-const appealTypeOptions: AppealType[] = [
-    { value: '0', label: 'DREF' },
-    { value: '1', label: 'Emergency Appeals' },
-    { value: '2', label: 'Movement' },
-    { value: '3', label: 'Early Action Protocol (EAP) Activation' },
-];
+type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
+type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
+type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
-const appealTypeKeySelector = (item: AppealType) => item.value;
-const appealTypeLabelSelector = (item: AppealType) => item.label;
+const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
+const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
+const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
+const countryKeySelector = (item: CountryListItem) => item.id;
+const countryLabelSelector = (item: CountryListItem) => item.name ?? '';
+
+const PAGE_SIZE = 15;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
-    const [appealType, setAppealType] = useUrlSearchState('atype');
+    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+        'dtype',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (dtype) => dtype,
+    );
+    const [filterCountry, setFilterCountry] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+        'country',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
 
     const {
         country: countryRoute,
@@ -61,7 +75,7 @@ export function Component() {
 
     const columns = useMemo(
         () => ([
-            createDateColumn<FieldReport, TableKey>(
+            createDateColumn<FieldReportListItem, number>(
                 'created_at',
                 strings.allFieldReportsCreatedAt,
                 (item) => item.start_date,
@@ -70,7 +84,7 @@ export function Component() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FieldReport, TableKey>(
+            createStringColumn<FieldReportListItem, number>(
                 'summary',
                 strings.allFieldReportsName,
                 (item) => item.summary,
@@ -79,7 +93,7 @@ export function Component() {
                     columnClassName: styles.summary,
                 },
             ),
-            createLinkColumn<FieldReport, TableKey>(
+            createLinkColumn<FieldReportListItem, number>(
                 'event_name',
                 strings.allFieldReportsEmergency,
                 (item) => item.event?.name,
@@ -89,29 +103,17 @@ export function Component() {
                         : undefined,
                 }),
             ),
-            createStringColumn<FieldReport, TableKey>(
+            createStringColumn<FieldReportListItem, number>(
                 'dtype',
                 strings.allFieldReportsDisasterType,
                 (item) => item.dtype?.name,
                 { sortable: true },
             ),
-            createListDisplayColumn<FieldReport, TableKey, FieldReport['countries'][number]>(
+            createCountryListColumn<FieldReportListItem, number>(
                 'countries',
-                strings.allFieldReportsCountry,
-                (item) => ({
-                    list: item.countries,
-                    keySelector: (country) => country.id,
-                    renderer: (country) => (
-                        <Link
-                            to={generatePath(
-                                countryRoute.absolutePath,
-                                { countryId: String(country.id) },
-                            )}
-                        >
-                            {country.name}
-                        </Link>
-                    ),
-                }),
+                strings.allFieldReportsCountries,
+                (item) => item.countries,
+                countryRoute.absolutePath,
             ),
         ]),
         [strings, countryRoute, emergencyRoute],
@@ -125,24 +127,53 @@ export function Component() {
     }
 
     const [page, setPage] = useState(0);
-
-    const PAGE_SIZE = 15;
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
-    } = useRequest<ListResponse<FieldReport>>({
+    } = useRequest<FieldReportResponse>({
         url: 'api/v2/field_report/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             ordering,
+            dtype: filterDisasterType,
+            countries__in: filterCountry,
         },
     });
 
-    const heading = resolveToComponent(
-        strings.allFieldReportsHeading,
-        { numFieldReports: fieldReportResponse?.count ?? '--' },
+    const {
+        pending: disasterTypePending,
+        response: disasterTypeResponse,
+    } = useRequest<DisasterTypeResponse>({
+        url: 'api/v2/disaster_type/',
+    });
+
+    const {
+        pending: countryPending,
+        response: countryResponse,
+    } = useRequest<CountryResponse>({
+        url: 'api/v2/country/',
+        query: { limit: 500 },
+    });
+
+    const countryOptions = useMemo(
+        () => countryResponse?.results?.filter(isValidCountry),
+        [countryResponse],
+    );
+
+    const heading = useMemo(
+        () => resolveToComponent(
+            strings.allFieldReportsHeading,
+            {
+                numFieldReports: (
+                    <NumberOutput
+                        value={fieldReportResponse?.count}
+                    />
+                ),
+            },
+        ),
+        [fieldReportResponse, strings],
     );
 
     return (
@@ -150,21 +181,37 @@ export function Component() {
             className={styles.allFieldReports}
             title={strings.allFieldReportsTitle}
             heading={heading}
-            info={(
-                <SelectInput
-                    label="Type of Appeal"
-                    name={undefined}
-                    value={appealType}
-                    onChange={setAppealType}
-                    keySelector={appealTypeKeySelector}
-                    labelSelector={appealTypeLabelSelector}
-                    options={appealTypeOptions}
-                />
-            )}
         >
             <Container
                 className={styles.fieldReportsTable}
                 headerDescriptionClassName={styles.filters}
+                headerDescription={(
+                    <>
+                        <SelectInput
+                            placeholder={strings.allFieldReportsFilterDisastersPlaceholder}
+                            label={strings.allFieldReportsDisasterType}
+                            name={undefined}
+                            value={filterDisasterType}
+                            onChange={setFilterDisasterType}
+                            keySelector={disasterTypeKeySelector}
+                            labelSelector={disasterTypeLabelSelector}
+                            options={disasterTypeResponse?.results}
+                            disabled={disasterTypePending}
+                        />
+                        <SelectInput
+                            placeholder={strings.allFieldReportsFilterCountryPlaceholder}
+                            label={strings.allFieldReportsCountry}
+                            name={undefined}
+                            value={filterCountry}
+                            onChange={setFilterCountry}
+                            keySelector={countryKeySelector}
+                            labelSelector={countryLabelSelector}
+                            options={countryOptions}
+                            disabled={countryPending}
+                        />
+                        <div />
+                    </>
+                )}
                 footerActions={(
                     <Pager
                         activePage={page}
@@ -179,7 +226,7 @@ export function Component() {
                         pending={fieldReportPending}
                         className={styles.table}
                         columns={columns}
-                        keySelector={keySelector}
+                        keySelector={fieldReportKeySelector}
                         data={fieldReportResponse?.results}
                     />
                 </SortContext.Provider>

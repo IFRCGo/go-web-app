@@ -7,20 +7,24 @@ import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
-function joinList<LIST_ITEM>(
+function joinList<LIST_ITEM, RENDERER_PROPS>(
     list: LIST_ITEM[],
     keySelector: (item: LIST_ITEM, i: number) => string | number,
-    renderer: (item: LIST_ITEM, i: number) => React.ReactNode,
+    renderer: React.ComponentType<RENDERER_PROPS>,
+    rendererParams: (item: LIST_ITEM, i: number) => RENDERER_PROPS,
     separator: React.ReactNode,
 ) {
     return list.reduce<React.ReactNode[]>(
         (acc, child, index, array) => {
             const itemKey = keySelector(child, index);
 
+            const Component = renderer;
             const item = (
-                <Fragment key={itemKey}>
-                    {renderer(child, index)}
-                </Fragment>
+                <Component
+                    key={itemKey}
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...rendererParams(child, index)}
+                />
             );
 
             acc.push(item);
@@ -41,21 +45,23 @@ function joinList<LIST_ITEM>(
     );
 }
 
-export interface Props<LIST_ITEM> {
+export interface Props<LIST_ITEM, RENDERER_PROPS> {
     list?: LIST_ITEM[];
     keySelector: (item: LIST_ITEM, i: number) => string | number;
-    renderer: (item: LIST_ITEM, i: number) => React.ReactNode;
+    renderer: React.ComponentType<RENDERER_PROPS>
+    rendererParams: (item: LIST_ITEM, i: number) => RENDERER_PROPS;
     title?: React.ReactNode;
     separator?: React.ReactNode;
     maxItems?: number;
     minItems?: number;
 }
 
-function ReducedListDisplay<LIST_ITEM>(props: Props<LIST_ITEM>) {
+function ReducedListDisplay<LIST_ITEM, RENDERER_PROPS>(props: Props<LIST_ITEM, RENDERER_PROPS>) {
     const {
         list,
         title,
         renderer,
+        rendererParams,
         keySelector,
         separator = ', ',
         maxItems = 4,
@@ -67,7 +73,7 @@ function ReducedListDisplay<LIST_ITEM>(props: Props<LIST_ITEM>) {
         return null;
     }
 
-    const allItemList = joinList(list, keySelector, renderer, separator);
+    const allItemList = joinList(list, keySelector, renderer, rendererParams, separator);
 
     if (list.length <= maxItems) {
         return (
@@ -83,7 +89,7 @@ function ReducedListDisplay<LIST_ITEM>(props: Props<LIST_ITEM>) {
         { n: list.length - minItems },
     );
 
-    const newJoinedList = joinList(newList, keySelector, renderer, separator);
+    const newJoinedList = joinList(newList, keySelector, renderer, rendererParams, separator);
 
     return (
         <div className={styles.reducedListDisplay}>

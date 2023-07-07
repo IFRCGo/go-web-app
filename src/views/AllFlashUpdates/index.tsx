@@ -2,34 +2,33 @@ import {
     useState,
     useMemo,
     useContext,
-    useCallback,
 } from 'react';
-import { generatePath } from 'react-router-dom';
 
 import Page from '#components/Page';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
-import Link from '#components/Link';
 import Container from '#components/Container';
 import {
     createStringColumn,
     createDateColumn,
-    createListDisplayColumn,
+    createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
+import NumberOutput from '#components/NumberOutput';
 import { resolveToComponent } from '#utils/translation';
-import type { FlashUpdate, CountryDistrict } from '#types/flashUpdate';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const keySelector = (item: FlashUpdate) => item.id;
+type GetFlashUpdate = paths['/api/v2/flash-update/']['get'];
+type FlashUpdateResponse = GetFlashUpdate['responses']['200']['content']['application/json'];
+type FlashUpdateListItem = NonNullable<FlashUpdateResponse['results']>[number];
+
+const keySelector = (item: FlashUpdateListItem) => item.id;
 
 type TableKey = number;
 
@@ -43,27 +42,9 @@ export function Component() {
         country: countryRoute,
     } = useContext(RouteContext);
 
-    const countryDistrictColumnParam = useCallback(
-        (item: FlashUpdate) => ({
-            list: item.country_district,
-            keySelector: (countryDistrict: CountryDistrict) => countryDistrict.id,
-            renderer: (countryDistrict: CountryDistrict) => (
-                <Link
-                    to={generatePath(
-                        countryRoute.absolutePath,
-                        { countryId: String(countryDistrict.country) },
-                    )}
-                >
-                    {countryDistrict.country_details.name}
-                </Link>
-            ),
-        }),
-        [countryRoute],
-    );
-
     const columns = useMemo(
         () => ([
-            createDateColumn<FlashUpdate, TableKey>(
+            createDateColumn<FlashUpdateListItem, TableKey>(
                 'created_at',
                 strings.allFlashUpdatesLastUpdate,
                 (item) => item.created_at,
@@ -72,7 +53,7 @@ export function Component() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FlashUpdate, TableKey>(
+            createStringColumn<FlashUpdateListItem, TableKey>(
                 'title',
                 strings.allFlashUpdatesReport,
                 (item) => item.title,
@@ -81,18 +62,21 @@ export function Component() {
                     columnClassName: styles.title,
                 },
             ),
-            createStringColumn<FlashUpdate, TableKey>(
+            createStringColumn<FlashUpdateListItem, TableKey>(
                 'hazard_type',
                 strings.allFlashUpdatesDisasterType,
                 (item) => item.hazard_type_details.name,
             ),
-            createListDisplayColumn<FlashUpdate, TableKey, FlashUpdate['country_district'][number]>(
+            createCountryListColumn<FlashUpdateListItem, TableKey>(
                 'country_district',
                 strings.allFlashUpdatesCountry,
-                countryDistrictColumnParam,
+                (item) => item.country_district?.map(
+                    (country_district) => country_district.country_details,
+                ) ?? [],
+                countryRoute.absolutePath,
             ),
         ]),
-        [strings, countryDistrictColumnParam],
+        [strings, countryRoute],
     );
 
     let ordering;
@@ -108,7 +92,7 @@ export function Component() {
     const {
         pending: flashUpdatePending,
         response: flashUpdateResponse,
-    } = useRequest<ListResponse<FlashUpdate>>({
+    } = useRequest<FlashUpdateResponse>({
         url: 'api/v2/flash-update/',
         preserveResponse: true,
         query: {
@@ -118,9 +102,18 @@ export function Component() {
         },
     });
 
-    const heading = resolveToComponent(
-        strings.allFlashUpdatesTitle,
-        { numFlashUpdates: flashUpdateResponse?.count ?? '--' },
+    const heading = useMemo(
+        () => resolveToComponent(
+            strings.allFlashUpdatesTitle,
+            {
+                numFlashUpdates: (
+                    <NumberOutput
+                        value={flashUpdateResponse?.count}
+                    />
+                ),
+            },
+        ),
+        [strings, flashUpdateResponse],
     );
 
     return (

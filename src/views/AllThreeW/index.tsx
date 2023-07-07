@@ -9,18 +9,21 @@ import {
     createStringColumn,
     createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
-import {
-    ListResponse,
-    useRequest,
-} from '#utils/restRequest';
-import type { Project } from '#types/project';
+import { useRequest } from '#utils/restRequest';
+import type { paths } from '#generated/types';
 import { resolveToComponent } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type GetProjects = paths['/api/v2/project/']['get'];
+type ProjectsResponse = GetProjects['responses']['200']['content']['application/json'];
+type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
+
 const ITEM_PER_PAGE = 15;
-const idSelector = <T extends { id: number }>(p: T) => p.id;
+function projectKeySelector(project: ProjectListItem) {
+    return project.id;
+}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -29,7 +32,7 @@ export function Component() {
     const {
         response: projectResponse,
         pending: projectResponsePending,
-    } = useRequest<ListResponse<Project>>({
+    } = useRequest<ProjectsResponse>({
         url: 'api/v2/project/',
         preserveResponse: true,
         query: {
@@ -40,49 +43,49 @@ export function Component() {
 
     const projectColumns = useMemo(
         () => ([
-            createStringColumn<Project, string | number>(
+            createStringColumn<ProjectListItem, string | number>(
                 'country',
                 strings.allThreeWCountry,
                 (item) => item.project_country_detail?.name,
             ),
-            createStringColumn<Project, string | number>(
+            createStringColumn<ProjectListItem, string | number>(
                 'ns',
                 strings.allThreeWNS,
                 (item) => item.reporting_ns_detail?.society_name,
             ),
-            createStringColumn<Project, string | number>(
+            createStringColumn<ProjectListItem, string | number>(
                 'name',
                 strings.allThreeWProjectName,
                 (item) => item.name,
             ),
-            createStringColumn<Project, string | number>(
+            createStringColumn<ProjectListItem, string | number>(
                 'sector',
                 strings.allThreeWSector,
                 (item) => item.primary_sector_display,
             ),
-            createNumberColumn<Project, string | number>(
+            createNumberColumn<ProjectListItem, string | number>(
                 'budget',
                 strings.allThreeWTotalBudget,
                 (item) => item.budget_amount,
                 undefined,
             ),
-            createStringColumn<Project, string | number>(
+            createStringColumn<ProjectListItem, string | number>(
                 'programmeType',
                 strings.allThreeWProgrammeType,
                 (item) => item.programme_type_display,
             ),
-            createStringColumn<Project, string | number>(
+            createStringColumn<ProjectListItem, string | number>(
                 'disasterType',
                 strings.allThreeWDisasterType,
                 (item) => item.dtype_detail?.name,
             ),
-            createNumberColumn<Project, string | number>(
+            createNumberColumn<ProjectListItem, string | number>(
                 'peopleTargeted',
                 strings.allThreeWPeopleTargeted,
                 (item) => item.target_total,
                 undefined,
             ),
-            createNumberColumn<Project, string | number>(
+            createNumberColumn<ProjectListItem, string | number>(
                 'peopleReached',
                 strings.allThreeWPeopleReached,
                 (item) => item.reached_total,
@@ -118,7 +121,7 @@ export function Component() {
                     className={styles.projectTable}
                     data={projectResponse?.results}
                     columns={projectColumns}
-                    keySelector={idSelector}
+                    keySelector={projectKeySelector}
                 />
             </Container>
         </Page>

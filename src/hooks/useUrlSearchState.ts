@@ -1,46 +1,58 @@
-import { isNotDefined } from '@togglecorp/fujs';
 import { useCallback } from 'react';
+import { encodeDate, isNotDefined } from '@togglecorp/fujs';
+import { isCallable } from '@togglecorp/toggle-form';
 import { useSearchParams, NavigateOptions } from 'react-router-dom';
 
-type ValueOrSetter = string | null | undefined | ((prevValue: string) => string | null | undefined);
+type SearchValueFromUrl = string | null | undefined;
+type SearchValueFromUser = string | number | boolean | Date | undefined | null;
 
-function useUrlSearchState(key: string, navigateOptions?: NavigateOptions) {
+type ValueOrSetter<VALUE> = VALUE | ((prevValue: VALUE) => VALUE);
+
+function useUrlSearchState<VALUE>(
+    key: string,
+    deserialize: (value: SearchValueFromUrl) => VALUE,
+    serialize: (value: VALUE) => SearchValueFromUser,
+    navigateOptions: NavigateOptions = { replace: true },
+) {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const value = searchParams.get(key);
+    const potentialValue = searchParams.get(key);
+    const value = deserialize(potentialValue);
+
     const setValue = useCallback(
-        (newValueOrGetNewValue: ValueOrSetter) => {
-            if (isNotDefined(newValueOrGetNewValue)) {
-                setSearchParams((prevParams) => {
-                    prevParams.delete(key);
+        (newValueOrGetNewValue: ValueOrSetter<VALUE>) => {
+            setSearchParams(
+                (prevParams) => {
+                    const encodedValue = isCallable(newValueOrGetNewValue)
+                        ? newValueOrGetNewValue(deserialize(prevParams.get(key)))
+                        : newValueOrGetNewValue;
 
-                    return prevParams;
-                }, navigateOptions);
-
-                return;
-            }
-
-            if (typeof newValueOrGetNewValue === 'function') {
-                const getNewValue = newValueOrGetNewValue;
-                setSearchParams((oldSearchParams) => {
-                    const prevValue = oldSearchParams.get(key);
-                    const newValue = getNewValue(prevValue ?? '');
-
+                    const newValue = serialize(encodedValue);
                     if (isNotDefined(newValue)) {
-                        oldSearchParams.delete(key);
-                        return oldSearchParams;
+                        prevParams.delete(key);
+                    } else {
+                        let serializedValue: string;
+
+                        if (typeof newValue === 'number') {
+                            serializedValue = String(newValue);
+                        } else if (typeof newValue === 'boolean') {
+                            // TODO: verify this
+                            serializedValue = newValue ? 'true' : 'false';
+                        } else if (newValue instanceof Date) {
+                            serializedValue = encodeDate(newValue);
+                        } else {
+                            serializedValue = newValue;
+                        }
+
+                        prevParams.set(key, serializedValue);
                     }
 
-                    return { [key]: newValue };
-                }, navigateOptions);
-
-                return;
-            }
-
-            const newValue = newValueOrGetNewValue;
-            setSearchParams({ [key]: newValue }, navigateOptions);
+                    return prevParams;
+                },
+                navigateOptions,
+            );
         },
-        [setSearchParams, key, navigateOptions],
+        [setSearchParams, key, serialize, deserialize, navigateOptions],
     );
 
     return [value, setValue] as const;

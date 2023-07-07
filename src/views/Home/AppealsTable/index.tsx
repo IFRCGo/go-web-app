@@ -20,83 +20,38 @@ import { useSortState, SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
+import { paths, components } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-// This is already defined in #types/emergency
-interface Appeal {
-    aid: string;
-    name: string;
-    dtype: {
-        id: number;
-        summary: string;
-        name: string;
-    };
-    atype: number;
-    atype_display: string;
-    status: number;
-    status_display: string;
-    code: string;
-    sector: string;
-    num_beneficiaries: number;
-    amount_requested: string;
-    amount_funded: string;
-    start_date: string;
-    end_date: string;
-    real_data_update: string;
-    created_at: string;
-    modified_at: string;
-    event: unknown | null;
-    needs_confirmation: boolean;
-    country: {
-        iso: string;
-        iso3: string;
-        id: number;
-        record_type: number;
-        record_type_display: string;
-        region: number;
-        independent: boolean;
-        is_deprecated: boolean;
-        fdrs: string;
-        average_household_size: unknown | null;
-        society_name: string;
-        name: string;
-    };
-    region: {
-        name: number;
-        id: number;
-        region_name: string;
-        label: string;
-    }
-    id: string;
-}
+type GetAppeal = paths['/api/v2/appeal/']['get'];
+type AppealResponse = GetAppeal['responses']['200']['content']['application/json'];
+type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
-interface DisasterType {
-    id: number;
-    summary?: string;
-    name: string;
-}
+type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
+type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
+type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
+type AppealTypeKeys = components['schemas']['TypeOfDrefEnum'];
 interface AppealType {
-    value: string;
+    value: AppealTypeKeys;
     label: string;
 }
 
-// FIXME: translate this
+// FIXME: pull this from server
 const appealTypeOptions: AppealType[] = [
-    { value: 'all', label: 'All' },
-    { value: '0', label: 'DREF' },
-    { value: '1', label: 'Emergency Appeals' },
-    { value: '2', label: 'Movement' },
-    { value: '3', label: 'Early Action Protocol (EAP) Activation' },
+    { value: 0, label: 'DREF' },
+    { value: 1, label: 'Emergency Appeals' },
+    { value: 2, label: 'Movement' },
+    { value: 3, label: 'Early Action Protocol (EAP) Activation' },
 ];
 
-const appealKeySelector = (item: Appeal) => item.id;
+const appealKeySelector = (item: AppealListItem) => item.id;
 const appealTypeKeySelector = (item: AppealType) => item.value;
 const appealTypeLabelSelector = (item: AppealType) => item.label;
-const disasterTypeKeySelector = (item: DisasterType) => item.id;
-const disasterTypeLabelSelector = (item: DisasterType) => item.name;
+const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
+const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
 
 const endDate = (new Date()).toISOString();
 
@@ -112,7 +67,7 @@ function AppealsTable() {
 
     const columns = useMemo(
         () => ([
-            createDateColumn<Appeal, string>(
+            createDateColumn<AppealListItem, string>(
                 'start_date',
                 strings.appealsTableStartDate,
                 (item) => item.start_date,
@@ -121,7 +76,7 @@ function AppealsTable() {
                     columnClassName: styles.startDate,
                 },
             ),
-            createStringColumn<Appeal, string>(
+            createStringColumn<AppealListItem, string>(
                 'atype',
                 strings.appealsTableType,
                 (item) => item.atype_display,
@@ -130,7 +85,7 @@ function AppealsTable() {
                     columnClassName: styles.appealType,
                 },
             ),
-            createStringColumn<Appeal, string>(
+            createStringColumn<AppealListItem, string>(
                 'code',
                 strings.appealsTableCode,
                 (item) => item.code,
@@ -138,7 +93,7 @@ function AppealsTable() {
                     columnClassName: styles.code,
                 },
             ),
-            createLinkColumn<Appeal, string>(
+            createLinkColumn<AppealListItem, string>(
                 'operation',
                 strings.appealsTableOperation,
                 (item) => item.name,
@@ -148,26 +103,26 @@ function AppealsTable() {
                         : undefined,
                 }),
             ),
-            createStringColumn<Appeal, string>(
+            createStringColumn<AppealListItem, string>(
                 'dtype',
                 strings.appealsTableDisastertype,
                 (item) => item.dtype.name,
                 { sortable: true },
             ),
-            createNumberColumn<Appeal, string>(
+            createNumberColumn<AppealListItem, string>(
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
                 (item) => Number(item.amount_requested),
                 { sortable: true },
             ),
-            createProgressColumn<Appeal, string>(
+            createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
                 // FIXME: use progress bar here
                 (item) => 100 * (Number(item.amount_funded) / Number(item.amount_requested)),
                 { sortable: true },
             ),
-            createLinkColumn<Appeal, string>(
+            createLinkColumn<AppealListItem, string>(
                 'country',
                 strings.appealsTableCountry,
                 (item) => item.country.name,
@@ -190,23 +145,23 @@ function AppealsTable() {
     }
 
     // FIXME: clear appealType and displacementType when filter is changed
-    const [appealType, setAppealType] = useInputState<string | undefined>('all');
-    const [displacementType, setDisplacementType] = useInputState<number | undefined>(-1);
+    const [appealType, setAppealType] = useInputState<AppealType['value'] | undefined>(undefined);
+    const [displacementType, setDisplacementType] = useInputState<number | undefined>(undefined);
     const [page, setPage] = useState(0);
 
     const PAGE_SIZE = 5;
     const {
         pending: appealsPending,
         response: appealsResponse,
-    } = useRequest<ListResponse<Appeal>>({
+    } = useRequest<ListResponse<AppealListItem>>({
         url: 'api/v2/appeal/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             ordering,
-            atype: appealType === 'all' ? undefined : appealType,
-            dtype: displacementType === -1 ? undefined : displacementType,
+            atype: appealType,
+            dtype: displacementType,
             end_date__gt: endDate,
             /*
             // TODO:
@@ -219,21 +174,9 @@ function AppealsTable() {
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
-    } = useRequest<ListResponse<DisasterType>>({
+    } = useRequest<ListResponse<DisasterListItem>>({
         url: 'api/v2/disaster_type/',
     });
-
-    const displacementTypeWithAll = useMemo(
-        () => ([
-            {
-                // FIXME: translate this
-                id: -1,
-                name: 'All',
-            },
-            ...disasterTypeResponse?.results ?? [],
-        ]),
-        [disasterTypeResponse],
-    );
 
     return (
         <Container
@@ -242,6 +185,7 @@ function AppealsTable() {
             headerDescription={(
                 <>
                     <SelectInput
+                        placeholder={strings.appealsTableFilterTypePlaceholder}
                         label={strings.appealsTableType}
                         name={undefined}
                         value={appealType}
@@ -251,13 +195,14 @@ function AppealsTable() {
                         options={appealTypeOptions}
                     />
                     <SelectInput
+                        placeholder={strings.appealsTableFilterDisastersPlaceholder}
                         label={strings.appealsTableDisastertype}
                         name={undefined}
                         value={displacementType}
                         onChange={setDisplacementType}
                         keySelector={disasterTypeKeySelector}
                         labelSelector={disasterTypeLabelSelector}
-                        options={displacementTypeWithAll}
+                        options={disasterTypeResponse?.results}
                         disabled={disasterTypePending}
                     />
                     <div />
@@ -267,7 +212,7 @@ function AppealsTable() {
                 <Pager
                     activePage={page}
                     itemsCount={appealsResponse?.count ?? 0}
-                    maxItemsPerPage={10}
+                    maxItemsPerPage={PAGE_SIZE}
                     onActivePageChange={setPage}
                 />
             )}

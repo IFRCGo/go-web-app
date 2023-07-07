@@ -1,10 +1,7 @@
 import { useState, useMemo, useContext } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 import { generatePath } from 'react-router-dom';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Link from '#components/Link';
@@ -13,24 +10,27 @@ import {
     createStringColumn,
     createDateColumn,
     createLinkColumn,
-    createListDisplayColumn,
+    createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
+import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
-import type { FieldReport } from '#types/fieldReport';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type GetFieldReport = paths['/api/v2/field_report/']['get'];
+type FieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
+type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
 
-const keySelector = (item: FieldReport) => item.id;
-
-type TableKey = number;
+const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
 
 function FieldReportsTable() {
     const strings = useTranslation(i18n);
@@ -45,7 +45,7 @@ function FieldReportsTable() {
 
     const columns = useMemo(
         () => ([
-            createDateColumn<FieldReport, TableKey>(
+            createDateColumn<FieldReportListItem, number>(
                 'created_at',
                 strings.fieldReportsTableCreatedAt,
                 (item) => item.start_date,
@@ -54,7 +54,7 @@ function FieldReportsTable() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FieldReport, TableKey>(
+            createStringColumn<FieldReportListItem, number>(
                 'summary',
                 strings.fieldReportsTableName,
                 (item) => item.summary,
@@ -63,7 +63,7 @@ function FieldReportsTable() {
                     columnClassName: styles.summary,
                 },
             ),
-            createLinkColumn<FieldReport, TableKey>(
+            createLinkColumn<FieldReportListItem, number>(
                 'event_name',
                 strings.fieldReportsTableEmergency,
                 (item) => item.event?.name,
@@ -73,29 +73,17 @@ function FieldReportsTable() {
                         : undefined,
                 }),
             ),
-            createStringColumn<FieldReport, TableKey>(
+            createStringColumn<FieldReportListItem, number>(
                 'dtype',
                 strings.fieldReportsTableDisasterType,
                 (item) => item.dtype?.name,
                 { sortable: true },
             ),
-            createListDisplayColumn<FieldReport, TableKey, FieldReport['countries'][number]>(
+            createCountryListColumn<FieldReportListItem, number>(
                 'countries',
                 strings.fieldReportsTableCountry,
-                (item) => ({
-                    list: item.countries,
-                    keySelector: (country) => country.id,
-                    renderer: (country) => (
-                        <Link
-                            to={generatePath(
-                                countryRoute.absolutePath,
-                                { countryId: String(country.id) },
-                            )}
-                        >
-                            {country.name}
-                        </Link>
-                    ),
-                }),
+                (item) => item.countries,
+                countryRoute.absolutePath,
             ),
         ]),
         [strings, countryRoute, emergencyRoute],
@@ -114,7 +102,7 @@ function FieldReportsTable() {
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
-    } = useRequest<ListResponse<FieldReport>>({
+    } = useRequest<FieldReportResponse>({
         url: 'api/v2/field_report/',
         preserveResponse: true,
         query: {
@@ -125,9 +113,18 @@ function FieldReportsTable() {
         },
     });
 
-    const heading = resolveToComponent(
-        strings.fieldReportsTableTitle,
-        { numFieldReports: fieldReportResponse?.count ?? '--' },
+    const heading = useMemo(
+        () => resolveToComponent(
+            strings.fieldReportsTableTitle,
+            {
+                numFieldReports: (
+                    <NumberOutput
+                        value={fieldReportResponse?.count}
+                    />
+                ),
+            },
+        ),
+        [fieldReportResponse, strings],
     );
 
     return (
@@ -159,7 +156,7 @@ function FieldReportsTable() {
                     pending={fieldReportPending}
                     className={styles.table}
                     columns={columns}
-                    keySelector={keySelector}
+                    keySelector={fieldReportKeySelector}
                     data={fieldReportResponse?.results}
                 />
             </SortContext.Provider>

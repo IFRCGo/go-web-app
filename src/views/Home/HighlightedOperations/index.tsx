@@ -15,11 +15,15 @@ import {
     useRequest,
     ListResponse,
 } from '#utils/restRequest';
-import { Emergency } from '#types/emergency';
+import { paths } from '#generated/types';
 
 import OperationCard from './OperationCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type GetEvent = paths['/api/v2/event/']['get'];
+type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventListItem = NonNullable<EventResponse['results']>[number];
 
 interface UserResponse {
     subscription: {
@@ -32,7 +36,7 @@ interface UserResponse {
     }[];
 }
 
-const keySelector = (emergency: Emergency) => emergency.id;
+const keySelector = (event: EventListItem) => event.id;
 interface Props {
     className?: string;
 }
@@ -50,7 +54,7 @@ function HighlightedOperations(props: Props) {
         error: featuredEmergencyResponseError,
         pending: featuredEmergencyPending,
         response: featuredEmergencyResponse,
-    } = useRequest<ListResponse<Emergency>>({
+    } = useRequest<ListResponse<EventListItem>>({
         url: 'api/v2/event/',
         query: {
             is_featured: 1,
@@ -75,7 +79,7 @@ function HighlightedOperations(props: Props) {
     );
 
     const rendererParams = useCallback(
-        (_: Emergency['id'], emergency: Emergency) => ({
+        (_: EventListItem['id'], emergency: EventListItem) => ({
             data: emergency,
             className: styles.operation,
             subscriptionMap,

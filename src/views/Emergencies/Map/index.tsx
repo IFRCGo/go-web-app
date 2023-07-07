@@ -15,10 +15,7 @@ import Map, {
     MapLayer,
 } from '@togglecorp/re-map';
 
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
@@ -34,14 +31,13 @@ import {
     sumSafe,
 } from '#utils/common';
 
-import { Country } from '#types/country';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { getNumAffected } from '#utils/emergency';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
-import type { EventItem } from '../types';
 import {
     ScaleOption,
     getScaleOptions,
@@ -62,6 +58,13 @@ import styles from './styles.module.css';
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
 };
+
+type GetEvent = paths['/api/v2/event/']['get'];
+type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventListItem = NonNullable<EventResponse['results']>[number];
+
+type GetCountry = paths['/api/v2/country/']['get'];
+type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 
 interface CountryProperties {
     country_id: number;
@@ -85,7 +88,7 @@ interface ClickedPoint {
 }
 
 interface Props {
-    eventList: EventItem[];
+    eventList: EventListItem[];
     className?: string;
 }
 
@@ -113,7 +116,7 @@ function EmergenciesMap(props: Props) {
 
     const {
         response: countryResponse,
-    } = useRequest<ListResponse<Country>>({
+    } = useRequest<CountryResponse>({
         url: 'api/v2/country/',
         query: {
             limit: 500,
@@ -126,7 +129,7 @@ function EmergenciesMap(props: Props) {
         }
 
         const countryCentroidMap = listToMap(
-            countryResponse.results.filter(
+            countryResponse?.results?.filter(
                 (country) => !!country.iso3 && !!country.centroid,
             ),
             (country) => country.iso3 ?? 'unknown',
@@ -138,7 +141,7 @@ function EmergenciesMap(props: Props) {
                 details: event,
                 country: {
                     ...country,
-                    centroid: country.iso3 ? countryCentroidMap[country.iso3] : undefined,
+                    centroid: country.iso3 ? countryCentroidMap?.[country.iso3] : undefined,
                 },
             })),
         );
@@ -155,6 +158,7 @@ function EmergenciesMap(props: Props) {
 
             return {
                 type: 'FeatureCollection' as const,
+                // TODO: verify type of centroid
                 features: countryKeys
                     .filter((key) => {
                         const groupedEvents = countryGroupedEvents[key];

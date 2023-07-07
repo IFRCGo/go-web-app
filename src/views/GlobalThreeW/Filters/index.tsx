@@ -2,13 +2,16 @@ import { useMemo, useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';
-import { useRequest, ListResponse } from '#utils/restRequest';
-import { isValidCountry } from '#utils/common';
+import { useRequest } from '#utils/restRequest';
+import { isValidNationalSociety } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
-import type { Country } from '#types/country';
+import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type CountriesResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
+type CountryListItem = NonNullable<CountriesResponse['results']>[number];
 
 interface SectorItem {
     key: number;
@@ -37,12 +40,12 @@ function stringLabelSelector<D extends { label: string }>(d: D) {
     return d.label;
 }
 
-function countryKeySelector(country: Country) {
+function countryKeySelector(country: CountryListItem) {
     return country.id;
 }
 
-function countrySocietyNameSelector(country: Country) {
-    return country.society_name;
+function countrySocietyNameSelector(country: CountryListItem) {
+    return country.society_name ?? '';
 }
 
 interface Props {
@@ -62,7 +65,7 @@ function Filters(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const { response: countriesResponse } = useRequest<ListResponse<Country>>({
+    const { response: countriesResponse } = useRequest<CountriesResponse>({
         url: 'api/v2/country/',
         query: { limit: 500 },
     });
@@ -79,10 +82,8 @@ function Filters(props: Props) {
         url: 'api/v2/programmetype/',
     });
 
-    const countryList = useMemo(
-        () => countriesResponse?.results.filter(
-            (country) => isValidCountry(country) && !!country.society_name,
-        ),
+    const nsList = useMemo(
+        () => countriesResponse?.results?.filter(isValidNationalSociety),
         [countriesResponse],
     );
 
@@ -104,7 +105,7 @@ function Filters(props: Props) {
             <MultiSelectInput
                 name="reporting_ns"
                 placeholder={strings.threeWFilterReportingNs}
-                options={countryList}
+                options={nsList}
                 value={value.reporting_ns}
                 keySelector={countryKeySelector}
                 labelSelector={countrySocietyNameSelector}

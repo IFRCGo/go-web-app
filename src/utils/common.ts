@@ -92,11 +92,13 @@ export function reTab(str: string | undefined | null) {
 }
 
 export function isValidCountry(country: {
+    iso?: string | null,
     name?: string | null,
     independent?: boolean | null,
     is_deprecated?: boolean | null,
 }) {
     return isTruthyString(country.name)
+        && isTruthyString(country.iso)
         && country.independent !== false
         && !country.is_deprecated;
 }

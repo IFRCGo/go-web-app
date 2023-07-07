@@ -10,6 +10,8 @@
         "allEmergenciesRequestedAmt":"Requested Amount",
         "allEmergenciesAffected":"# Affected",
         "allEmergenciesCountry":"Countries",
-        "allEmergenciesViewAll":"View all emergencies"
+        "allEmergenciesViewAll":"View all emergencies",
+        "allEmergenciesFilterDisastersPlaceholder": "All Disaster Types",
+        "allEmergenciesFilterCountryPlaceholder": "All Countries"
     }
 }

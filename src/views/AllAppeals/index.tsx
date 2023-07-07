@@ -14,94 +14,54 @@ import {
     createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
 import { useSortState, SortContext } from '#components/Table/useSorting';
+import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
-import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
+import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
+import { paths, components } from '#generated/types';
+import { isValidCountry } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-// This is already defined in #types/emergency
-interface Appeal {
-    aid: string;
-    name: string;
-    dtype: {
-        id: number;
-        summary: string;
-        name: string;
-    };
-    atype: number;
-    atype_display: string;
-    status: number;
-    status_display: string;
-    code: string;
-    sector: string;
-    num_beneficiaries: number;
-    amount_requested: string;
-    amount_funded: string;
-    start_date: string;
-    end_date: string;
-    real_data_update: string;
-    created_at: string;
-    modified_at: string;
-    event: unknown | null;
-    needs_confirmation: boolean;
-    country: {
-        iso: string;
-        iso3: string;
-        id: number;
-        record_type: number;
-        record_type_display: string;
-        region: number;
-        independent: boolean;
-        is_deprecated: boolean;
-        fdrs: string;
-        average_household_size: unknown | null;
-        society_name: string;
-        name: string;
-    };
-    region: {
-        name: number;
-        id: number;
-        region_name: string;
-        label: string;
-    }
-    id: string;
-}
+type GetCountry = paths['/api/v2/country/']['get'];
+type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
-interface DisasterType {
-    id: number;
-    summary?: string;
-    name: string;
-}
+type GetAppeal = paths['/api/v2/appeal/']['get'];
+type AppealResponse = GetAppeal['responses']['200']['content']['application/json'];
+type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
+type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
+type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
+type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
+
+const appealKeySelector = (item: AppealListItem) => item.id;
+const appealTypeKeySelector = (item: AppealType) => item.value;
+const appealTypeLabelSelector = (item: AppealType) => item.label;
+const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
+const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
+const countryKeySelector = (item: CountryListItem) => item.id;
+const countryLabelSelector = (item: CountryListItem) => item.name ?? '';
+
+type AppealTypeKeys = components['schemas']['TypeOfDrefEnum'];
 interface AppealType {
-    value: string;
+    value: AppealTypeKeys;
     label: string;
 }
 
-const appealKeySelector = (item: Appeal) => item.id;
-const appealTypeKeySelector = (item: AppealType) => item.value;
-const appealTypeLabelSelector = (item: AppealType) => item.label;
-const disasterTypeKeySelector = (item: DisasterType) => item.id;
-const disasterTypeLabelSelector = (item: DisasterType) => item.name;
-
-const endDate = (new Date()).toISOString();
-
 // FIXME: pull this from server
 const appealTypeOptions: AppealType[] = [
-    { value: 'all', label: 'All' },
-    { value: '0', label: 'DREF' },
-    { value: '1', label: 'Emergency Appeals' },
-    { value: '2', label: 'Movement' },
-    { value: '3', label: 'Early Action Protocol (EAP) Activation' },
+    { value: 0, label: 'DREF' },
+    { value: 1, label: 'Emergency Appeals' },
+    { value: 2, label: 'Movement' },
+    { value: 3, label: 'Early Action Protocol (EAP) Activation' },
 ];
+
+const PAGE_SIZE = 10;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -118,25 +78,54 @@ export function Component() {
             ? `-${sorting.name}`
             : sorting.name;
     }
-
-    const [appealType, setAppealType] = useInputState<string | undefined>('all');
-    const [displacementType, setDisplacementType] = useInputState<number | undefined>(-1);
     const [page, setPage] = useState(0);
 
-    const PAGE_SIZE = 10;
+    const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealType['value'] | undefined>(
+        'atype',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            if (potentialValue === 0
+                || potentialValue === 1
+                || potentialValue === 2
+                || potentialValue === 3
+            ) {
+                return potentialValue;
+            }
+
+            return undefined;
+        },
+        (atype) => atype,
+    );
+    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+        'dtype',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (dtype) => dtype,
+    );
+    const [filterCountry, setFilterCountry] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+        'country',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
+
     const {
         pending: appealsPending,
         response: appealsResponse,
-    } = useRequest<ListResponse<Appeal>>({
+    } = useRequest<AppealResponse>({
         url: 'api/v2/appeal/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             ordering,
-            atype: appealType === 'all' ? undefined : appealType,
-            dtype: displacementType === -1 ? undefined : displacementType,
-            end_date__gt: endDate,
+            atype: filterAppealType,
+            dtype: filterDisasterType,
+            country: filterCountry,
             /*
             // TODO:
             start_date__gte: undefined,
@@ -148,25 +137,26 @@ export function Component() {
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
-    } = useRequest<ListResponse<DisasterType>>({
+    } = useRequest<DisasterTypeResponse>({
         url: 'api/v2/disaster_type/',
     });
 
-    const displacementTypeWithAll = useMemo(
-        () => ([
-            {
-                // FIXME: translate this
-                id: -1,
-                name: 'All',
-            },
-            ...disasterTypeResponse?.results ?? [],
-        ]),
-        [disasterTypeResponse],
+    const {
+        pending: countryPending,
+        response: countryResponse,
+    } = useRequest<CountryResponse>({
+        url: 'api/v2/country/',
+        query: { limit: 500 },
+    });
+
+    const countryOptions = useMemo(
+        () => countryResponse?.results?.filter(isValidCountry),
+        [countryResponse],
     );
 
     const columns = useMemo(
         () => ([
-            createDateColumn<Appeal, string>(
+            createDateColumn<AppealListItem, string>(
                 'start_date',
                 strings.allAppealsStartDate,
                 (item) => item.start_date,
@@ -175,7 +165,7 @@ export function Component() {
                     columnClassName: styles.startDate,
                 },
             ),
-            createStringColumn<Appeal, string>(
+            createStringColumn<AppealListItem, string>(
                 'atype',
                 strings.allAppealsType,
                 (item) => item.atype_display,
@@ -184,7 +174,7 @@ export function Component() {
                     columnClassName: styles.appealType,
                 },
             ),
-            createStringColumn<Appeal, string>(
+            createStringColumn<AppealListItem, string>(
                 'code',
                 strings.allAppealsCode,
                 (item) => item.code,
@@ -192,7 +182,7 @@ export function Component() {
                     columnClassName: styles.code,
                 },
             ),
-            createLinkColumn<Appeal, string>(
+            createLinkColumn<AppealListItem, string>(
                 'operation',
                 strings.allAppealsOperation,
                 (item) => item.name,
@@ -202,19 +192,19 @@ export function Component() {
                         : undefined,
                 }),
             ),
-            createStringColumn<Appeal, string>(
+            createStringColumn<AppealListItem, string>(
                 'dtype',
-                strings.allAppealsDisastertype,
-                (item) => item.dtype.name,
+                strings.allAppealsDisasterType,
+                (item) => item.dtype?.name,
                 { sortable: true },
             ),
-            createNumberColumn<Appeal, string>(
+            createNumberColumn<AppealListItem, string>(
                 'amount_requested',
                 strings.allAppealsRequestedAmount,
                 (item) => Number(item.amount_requested),
                 { sortable: true },
             ),
-            createProgressColumn<Appeal, string>(
+            createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.allAppealsFundedAmount,
                 // FIXME: use progress bar here
@@ -224,14 +214,14 @@ export function Component() {
                     columnClassName: styles.funding,
                 },
             ),
-            createLinkColumn<Appeal, string>(
+            createLinkColumn<AppealListItem, string>(
                 'country',
                 strings.allAppealsCountry,
-                (item) => item.country.name,
+                (item) => item.country?.name,
                 (item) => ({
                     to: generatePath(
                         countryRoute.absolutePath,
-                        { countryId: String(item.country.id) },
+                        { countryId: String(item.country?.id) },
                     ),
                 }),
             ),
@@ -239,10 +229,23 @@ export function Component() {
         [strings, countryRoute, emergencyRoute],
     );
 
-    const heading = resolveToComponent(
-        strings.allAppealsHeading,
-        { numAppeals: appealsResponse?.count ?? '--' },
+    const heading = useMemo(
+        () => resolveToComponent(
+            strings.allAppealsHeading,
+            {
+                numAppeals: (
+                    <NumberOutput
+                        value={appealsResponse?.count}
+                    />
+                ),
+            },
+        ),
+        [appealsResponse, strings],
     );
+
+    const isFilterApplied = isDefined(filterDisasterType)
+        || isDefined(filterAppealType)
+        || isDefined(filterCountry);
 
     return (
         <Page
@@ -256,25 +259,37 @@ export function Component() {
                 headerDescription={(
                     <>
                         <SelectInput
+                            placeholder={strings.allAppealsFilterAppealsPlaceholder}
                             label={strings.allAppealsType}
                             name={undefined}
-                            value={appealType}
-                            onChange={setAppealType}
+                            value={filterAppealType}
+                            onChange={setFilterAppealType}
                             keySelector={appealTypeKeySelector}
                             labelSelector={appealTypeLabelSelector}
                             options={appealTypeOptions}
                         />
                         <SelectInput
-                            label={strings.allAppealsDisastertype}
+                            placeholder={strings.allAppealsFilterDisastersPlaceholder}
+                            label={strings.allAppealsDisasterType}
                             name={undefined}
-                            value={displacementType}
-                            onChange={setDisplacementType}
+                            value={filterDisasterType}
+                            onChange={setFilterDisasterType}
                             keySelector={disasterTypeKeySelector}
                             labelSelector={disasterTypeLabelSelector}
-                            options={displacementTypeWithAll}
+                            options={disasterTypeResponse?.results}
                             disabled={disasterTypePending}
                         />
-                        <div />
+                        <SelectInput
+                            placeholder={strings.allAppealsFilterCountryPlaceholder}
+                            label={strings.allAppealsCountry}
+                            name={undefined}
+                            value={filterCountry}
+                            onChange={setFilterCountry}
+                            keySelector={countryKeySelector}
+                            labelSelector={countryLabelSelector}
+                            options={countryOptions}
+                            disabled={countryPending}
+                        />
                     </>
                 )}
                 footerActions={(
@@ -289,11 +304,11 @@ export function Component() {
                 <SortContext.Provider value={sortState}>
                     <Table
                         pending={appealsPending}
-                        filtered={!!(displacementType && appealType)}
+                        filtered={isFilterApplied}
                         className={styles.table}
                         columns={columns}
                         keySelector={appealKeySelector}
-                        data={appealsResponse?.results}
+                        data={appealsResponse?.results?.filter(isDefined)}
                     />
                 </SortContext.Provider>
             </Container>

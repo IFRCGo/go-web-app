@@ -2,6 +2,8 @@ import { useRef, useState, useEffect } from 'react';
 
 import Popup from '#components/Popup';
 
+import styles from './styles.module.css';
+
 interface Props {
     className?: string;
     children?: React.ReactNode;
@@ -29,27 +31,28 @@ function Tooltip(props: Props) {
                 setShowPopup(false);
             };
 
-            if (dummyRef.current) {
-                const {
-                    current: {
-                        parentNode,
-                    },
-                } = dummyRef;
-
-                if (parentNode) {
-                    parentRef.current = parentNode as HTMLElement;
-                    parentNode.addEventListener('mouseover', handleMouseEnter);
-                    parentNode.addEventListener('mouseout', handleMouseOut);
-                    setHasParentRef(true);
-                }
+            if (!dummyRef.current) {
+                return undefined;
             }
 
+            const {
+                current: {
+                    parentNode,
+                },
+            } = dummyRef;
+
+            if (!parentNode) {
+                return undefined;
+            }
+
+            parentRef.current = parentNode as HTMLElement;
+            parentNode.addEventListener('mouseover', handleMouseEnter);
+            parentNode.addEventListener('mouseout', handleMouseOut);
+            setHasParentRef(true);
+
             return () => {
-                const parentNode = parentRef.current;
-                if (parentNode) {
-                    parentNode.removeEventListener('mouseover', handleMouseEnter);
-                    parentNode.removeEventListener('mouseout', handleMouseOut);
-                }
+                parentNode.removeEventListener('mouseover', handleMouseEnter);
+                parentNode.removeEventListener('mouseout', handleMouseOut);
             };
         },
         [],
@@ -59,6 +62,7 @@ function Tooltip(props: Props) {
         <>
             {!hasParentRef && (
                 <div
+                    className={styles.tooltipDummy}
                     ref={dummyRef}
                 />
             )}

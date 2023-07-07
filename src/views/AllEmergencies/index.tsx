@@ -2,100 +2,54 @@ import {
     useState,
     useMemo,
     useContext,
-    useCallback,
 } from 'react';
 import { generatePath } from 'react-router-dom';
+import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
-import Link from '#components/Link';
 import Container from '#components/Container';
 import {
     createStringColumn,
     createDateColumn,
     createNumberColumn,
     createLinkColumn,
-    createListDisplayColumn,
+    createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
+import NumberOutput from '#components/NumberOutput';
+import SelectInput from '#components/SelectInput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
+import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
-import { sumSafe } from '#utils/common';
+import { useRequest } from '#utils/restRequest';
+import { isValidCountry, sumSafe } from '#utils/common';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface Country {
-    average_household_size: number | null;
-    fdrs: string;
-    id: number;
-    independent: boolean;
-    is_deprecated: boolean;
-    iso: string | null;
-    iso3: string | null;
-    name: string;
-    record_type: number;
-    record_type_display: string;
-    region: number | null;
-    society_name: string;
-}
+const PAGE_SIZE = 15;
 
-interface Appeal {
-    aid: string;
-    amount_funded: string;
-    amount_requested: string;
-    code: string;
-    ind: number;
-    num_beneficiaries: number;
-    start_date: string;
-    status: number;
-    status_display: string;
-}
+type GetCountry = paths['/api/v2/country/']['get'];
+type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
-export interface EventItem {
-    active_deployments: number;
-    appeals: Appeal[];
-    auto_generated: boolean;
-    countries: Country[];
-    created_at: string;
-    disaster_start_date: string;
-    dtype: {
-        id: number;
-        name: string;
-        summary: string;
-    }
-    emergency_response_contact_email: string | null;
-    field_reports: {
-        num_affected: number | null;
-        updated_at: string,
-    }[];
-    glide: string;
-    id: number;
-    ifrc_severity_label: number;
-    ifrc_severity_label_display: string;
-    is_featured: boolean;
-    is_featured_region: boolean;
-    name: string;
-    num_affected: number | null;
-    parent_event: number | null;
-    slug: string | null;
-    summary: string;
-    tab_one_title: string;
-    tab_three_title: string | null;
-    tab_two_title: string | null;
-    updated_at: string;
-}
+type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
+type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
+type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
-const keySelector = (item: EventItem) => item.id;
+type GetEvent = paths['/api/v2/event/']['get'];
+type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventListItem = NonNullable<EventResponse['results']>[number];
 
-type TableKey = number;
-type CountryItem = EventItem['countries'][number];
+const eventKeySelector = (item: EventListItem) => item.id;
+const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
+const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
+const countryKeySelector = (item: CountryListItem) => item.id;
+const countryLabelSelector = (item: CountryListItem) => item.name ?? '';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -108,27 +62,9 @@ export function Component() {
         emergency: emergencyRoute,
     } = useContext(RouteContext);
 
-    const countryListColumnParams = useCallback(
-        (item: EventItem) => ({
-            list: item.countries,
-            keySelector: (country: CountryItem) => country.id,
-            renderer: (country: CountryItem) => (
-                <Link
-                    to={generatePath(
-                        countryRoute.absolutePath,
-                        { countryId: String(country.id) },
-                    )}
-                >
-                    {country.name}
-                </Link>
-            ),
-        }),
-        [countryRoute],
-    );
-
     const columns = useMemo(
         () => ([
-            createDateColumn<EventItem, TableKey>(
+            createDateColumn<EventListItem, number>(
                 'created_at',
                 strings.allEmergenciesDate,
                 (item) => item.created_at,
@@ -137,7 +73,7 @@ export function Component() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createLinkColumn<EventItem, TableKey>(
+            createLinkColumn<EventListItem, number>(
                 'event_name',
                 strings.allEmergenciesName,
                 (item) => item.name,
@@ -145,31 +81,49 @@ export function Component() {
                     to: generatePath(emergencyRoute.absolutePath, { emergencyId: item.id }),
                 }),
             ),
-            createStringColumn<EventItem, TableKey>(
+            createStringColumn<EventListItem, number>(
                 'dtype',
                 strings.allEmergenciesDisasterType,
                 (item) => item.dtype.name,
             ),
-            createStringColumn<EventItem, TableKey>(
-                'dtype',
+            createStringColumn<EventListItem, number>(
+                'glide',
                 strings.allEmergenciesGlide,
                 // FIXME: empty string from server
                 (item) => item.glide || '-',
             ),
-            createNumberColumn<EventItem, TableKey>(
+            createNumberColumn<EventListItem, number>(
                 'amount_requested',
                 strings.allEmergenciesRequestedAmt,
                 (item) => sumSafe(
                     item.appeals.map((appeal) => Number(appeal.amount_requested)),
                 ),
             ),
-            createListDisplayColumn<EventItem, TableKey, CountryItem>(
+            createCountryListColumn<EventListItem, number>(
                 'countries',
                 strings.allEmergenciesCountry,
-                countryListColumnParams,
+                (item) => item.countries,
+                countryRoute.absolutePath,
             ),
         ]),
-        [strings, emergencyRoute, countryListColumnParams],
+        [strings, emergencyRoute, countryRoute],
+    );
+
+    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+        'dtype',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (dtype) => dtype,
+    );
+    const [filterCountry, setFilterCountry] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+        'country',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
     );
 
     let ordering;
@@ -180,24 +134,53 @@ export function Component() {
     }
 
     const [page, setPage] = useState(0);
-
-    const PAGE_SIZE = 15;
     const {
         pending: eventPending,
         response: eventResponse,
-    } = useRequest<ListResponse<EventItem>>({
+    } = useRequest<EventResponse>({
         url: 'api/v2/event/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             ordering,
+            dtype: filterDisasterType,
+            countries__in: filterCountry,
         },
     });
 
-    const heading = resolveToComponent(
-        strings.allEmergenciesHeading,
-        { numEmergencies: eventResponse?.count ?? '--' },
+    const {
+        pending: disasterTypePending,
+        response: disasterTypeResponse,
+    } = useRequest<DisasterTypeResponse>({
+        url: 'api/v2/disaster_type/',
+    });
+
+    const {
+        pending: countryPending,
+        response: countryResponse,
+    } = useRequest<CountryResponse>({
+        url: 'api/v2/country/',
+        query: { limit: 500 },
+    });
+
+    const countryOptions = useMemo(
+        () => countryResponse?.results?.filter(isValidCountry),
+        [countryResponse],
+    );
+
+    const heading = useMemo(
+        () => resolveToComponent(
+            strings.allEmergenciesHeading,
+            {
+                numEmergencies: (
+                    <NumberOutput
+                        value={eventResponse?.count}
+                    />
+                ),
+            },
+        ),
+        [eventResponse, strings],
     );
 
     return (
@@ -208,6 +191,34 @@ export function Component() {
         >
             <Container
                 className={styles.emergenciesTable}
+                headerDescriptionClassName={styles.filters}
+                headerDescription={(
+                    <>
+                        <SelectInput
+                            placeholder={strings.allEmergenciesFilterDisastersPlaceholder}
+                            label={strings.allEmergenciesDisasterType}
+                            name={undefined}
+                            value={filterDisasterType}
+                            onChange={setFilterDisasterType}
+                            keySelector={disasterTypeKeySelector}
+                            labelSelector={disasterTypeLabelSelector}
+                            options={disasterTypeResponse?.results}
+                            disabled={disasterTypePending}
+                        />
+                        <SelectInput
+                            placeholder={strings.allEmergenciesFilterCountryPlaceholder}
+                            label={strings.allEmergenciesCountry}
+                            name={undefined}
+                            value={filterCountry}
+                            onChange={setFilterCountry}
+                            keySelector={countryKeySelector}
+                            labelSelector={countryLabelSelector}
+                            options={countryOptions}
+                            disabled={countryPending}
+                        />
+                        <div />
+                    </>
+                )}
                 footerActions={(
                     <Pager
                         activePage={page}
@@ -222,7 +233,7 @@ export function Component() {
                         pending={eventPending}
                         className={styles.table}
                         columns={columns}
-                        keySelector={keySelector}
+                        keySelector={eventKeySelector}
                         data={eventResponse?.results}
                     />
                 </SortContext.Provider>
