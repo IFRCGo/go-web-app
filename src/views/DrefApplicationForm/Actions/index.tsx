@@ -1,4 +1,9 @@
-import { useMemo, useCallback, useState } from 'react';
+import {
+    useMemo,
+    useCallback,
+    useState,
+    useContext,
+} from 'react';
 import {
     randomString,
     isNotDefined,
@@ -22,7 +27,8 @@ import GoSingleFileInput from '#components/GoSingleFileInput';
 
 import useTranslation from '#hooks/useTranslation';
 import { paths } from '#generated/types';
-import { stringKeySelector, stringValueSelector } from '#utils/selectors';
+import { stringValueSelector } from '#utils/selectors';
+import ServerEnumsContext from '#contexts/server-enums';
 
 import {
     TYPE_IMMINENT,
@@ -36,15 +42,23 @@ import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type NsActionOption = NonNullable<GlobalEnumsResponse['dref_national_society_action_title']>[number];
+type NeedOption = NonNullable<GlobalEnumsResponse['dref_identified_need_title']>[number];
+
 type Value = PartialDref;
 type NeedFormFields = NonNullable<PartialDref['needs_identified']>[number];
 type NsActionFormFields = NonNullable<PartialDref['national_society_actions']>[number];
 
-type GetDrefOptions = paths['/api/v2/dref-options/']['get'];
-type GetDrefOptionsResponse = GetDrefOptions['responses']['200']['content']['application/json'];
+function nsActionKeySelector(option: NsActionOption) {
+    return option.key;
+}
+function needOptionKeySelector(option: NeedOption) {
+    return option.key;
+}
 
 interface Props {
-    drefOptions: GetDrefOptionsResponse | undefined;
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
@@ -54,9 +68,12 @@ interface Props {
 
 function Actions(props: Props) {
     const strings = useTranslation(i18n);
+    const {
+        dref_national_society_action_title: nsActionOptions,
+        dref_identified_need_title: needOptions,
+    } = useContext(ServerEnumsContext);
 
     const {
-        drefOptions,
         value,
         setFieldValue,
         error: formError,
@@ -66,8 +83,8 @@ function Actions(props: Props) {
 
     const error = getErrorObject(formError);
 
-    const [selectedNeed, setSelectedNeed] = useState<string | undefined>();
-    const [selectedNsAction, setSelectedNsAction] = useState<string | undefined>();
+    const [selectedNeed, setSelectedNeed] = useState<NeedOption['key'] | undefined>();
+    const [selectedNsAction, setSelectedNsAction] = useState<NsActionOption['key'] | undefined>();
     const {
         setValue: onNeedChange,
         removeValue: onNeedRemove,
@@ -83,7 +100,7 @@ function Actions(props: Props) {
         setFieldValue,
     );
 
-    const handleNeedAddButtonClick = useCallback((title: string | undefined) => {
+    const handleNeedAddButtonClick = useCallback((title: NeedOption['key'] | undefined) => {
         const newNeedItem: NeedFormFields = {
             client_id: randomString(),
             title,
@@ -99,7 +116,7 @@ function Actions(props: Props) {
         setSelectedNeed(undefined);
     }, [setFieldValue, setSelectedNeed]);
 
-    const handleNsActionAddButtonClick = useCallback((title: string | undefined) => {
+    const handleNsActionAddButtonClick = useCallback((title: NsActionOption['key'] | undefined) => {
         const newNsActionItem: NsActionFormFields = {
             client_id: randomString(),
             title,
@@ -125,11 +142,11 @@ function Actions(props: Props) {
 
     const filteredNeedOptions = useMemo(
         () => (
-            drefOptions?.needs_identified?.filter(
+            needOptions?.filter(
                 (n) => !needsIdentifiedMap?.[n.key],
             )
         ),
-        [needsIdentifiedMap, drefOptions],
+        [needsIdentifiedMap, needOptions],
     );
 
     const nsActionsMap = useMemo(() => (
@@ -142,11 +159,11 @@ function Actions(props: Props) {
 
     const filteredNsActionOptions = useMemo(
         () => (
-            drefOptions?.national_society_actions?.filter(
-                (n) => !nsActionsMap?.[n.key],
+            nsActionOptions?.filter(
+                (nsAction) => !nsActionsMap?.[nsAction.key],
             )
         ),
-        [nsActionsMap, drefOptions],
+        [nsActionsMap, nsActionOptions],
     );
 
     const hasMajorCoordinationMechanism = value.is_there_major_coordination_mechanism;
@@ -155,22 +172,22 @@ function Actions(props: Props) {
     const needsIdenfiedTitleDisplayMap = useMemo(
         () => (
             listToMap(
-                drefOptions?.needs_identified,
-                stringKeySelector,
-                stringValueSelector,
+                needOptions,
+                (need) => need.key,
+                (need) => need.value,
             )
         ),
-        [drefOptions],
+        [needOptions],
     );
     const nsActionTitleDisplayMap = useMemo(
         () => (
             listToMap(
-                drefOptions?.national_society_actions,
-                stringKeySelector,
-                stringValueSelector,
+                nsActionOptions,
+                (nsAction) => nsAction.key,
+                (nsAction) => nsAction.value,
             )
         ),
-        [drefOptions],
+        [nsActionOptions],
     );
 
     return (
@@ -216,7 +233,7 @@ function Actions(props: Props) {
                         name={undefined}
                         options={filteredNsActionOptions}
                         value={selectedNsAction}
-                        keySelector={stringKeySelector}
+                        keySelector={nsActionKeySelector}
                         labelSelector={stringValueSelector}
                         onChange={setSelectedNsAction}
                     />
@@ -379,7 +396,7 @@ function Actions(props: Props) {
                                 label={strings.drefFormActionFieldsLabel}
                                 name={undefined}
                                 onChange={setSelectedNeed}
-                                keySelector={stringKeySelector}
+                                keySelector={needOptionKeySelector}
                                 labelSelector={stringValueSelector}
                                 options={filteredNeedOptions}
                                 value={selectedNeed}

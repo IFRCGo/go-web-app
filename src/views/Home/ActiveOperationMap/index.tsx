@@ -192,7 +192,10 @@ function ActiveOperationMap(props: Props) {
 
                         return {
                             type: 'Feature' as const,
-                            geometry: country.centroid,
+                            geometry: country.centroid as {
+                                type: 'Point',
+                                coordinates: [number, number],
+                            },
                             properties: {
                                 id: country.iso3,
                                 appealType: operation.appealType,

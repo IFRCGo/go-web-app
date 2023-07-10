@@ -1,4 +1,9 @@
-import { useState, useCallback } from 'react';
+import {
+    useState,
+    useCallback,
+    useContext,
+    useMemo,
+} from 'react';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
     Error,
@@ -9,6 +14,7 @@ import {
 import {
     isNotDefined,
     isDefined,
+    isFalsyString,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
@@ -22,16 +28,15 @@ import useTranslation from '#hooks/useTranslation';
 import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
 import UserMultiSelectInput, { User } from '#components/UserMultiSelectInput';
-
 import { paths } from '#generated/types';
 import { useRequest } from '#utils/restRequest';
 import { isValidCountry, isValidNationalSociety } from '#utils/common';
 import {
     stringNameSelector,
     numericIdSelector,
-    numericKeySelector,
     stringValueSelector,
 } from '#utils/selectors';
+import ServerEnumsContext from '#contexts/server-enums';
 
 import {
     DISASTER_FIRE,
@@ -55,11 +60,23 @@ const totalPeopleAffectedSlowSuddenLink = 'https://ifrcorg.sharepoint.com/sites/
 const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 const peopleInNeedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 
-type GetDrefOptions = paths['/api/v2/dref-options/']['get'];
-type GetDrefOptionsResponse = GetDrefOptions['responses']['200']['content']['application/json'];
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type DrefTypeOption = NonNullable<GlobalEnumsResponse['dref_dref_dref_type']>[number];
+type DisasterCategoryOption = NonNullable<GlobalEnumsResponse['dref_dref_disaster_category']>[number];
+type OnsetTypeOption = NonNullable<GlobalEnumsResponse['dref_dref_onset_type']>[number];
+
+function typeOfDrefKeySelector(option: DrefTypeOption) {
+    return option.key;
+}
+function disasterCategoryKeySelector(option: DisasterCategoryOption) {
+    return option.key;
+}
+function onsetTypeKeySelector(option: OnsetTypeOption) {
+    return option.key;
+}
 
 interface Props {
-    drefOptions: GetDrefOptionsResponse | undefined;
     value: PartialDref;
     setFieldValue: (...entries: EntriesAsList<PartialDref>) => void;
     error: Error<PartialDref> | undefined;
@@ -70,14 +87,16 @@ interface Props {
 
 function Overview(props: Props) {
     const strings = useTranslation(i18n);
+    const {
+        dref_dref_dref_type: typeOfDrefOptions,
+        dref_dref_disaster_category: drefDisasterCategoryOptions,
+        dref_dref_onset_type: drefOnsetTypeOptions,
+    } = useContext(ServerEnumsContext);
 
     const {
-        drefOptions,
-
         value,
         setFieldValue,
         error: formError,
-
         fileIdToUrlMap,
         setFileIdToUrlMap,
     } = props;
@@ -143,6 +162,25 @@ function Overview(props: Props) {
         ],
     );
 
+    const disasterTypeOptions = useMemo(
+        () => (
+            disasterTypesResponse?.results?.map(
+                (disasterTypeOption) => {
+                    if (isFalsyString(disasterTypeOption.name)) {
+                        return undefined;
+                    }
+
+                    // NOTE: fixing type
+                    return {
+                        ...disasterTypeOption,
+                        name: disasterTypeOption.name,
+                    };
+                },
+            ).filter(isDefined)
+        ),
+        [disasterTypesResponse],
+    );
+
     const shouldDisableGenerateTitle = isNotDefined(value?.country)
         || isNotDefined(value?.disaster_type)
         || isNotDefined(disasterTypesResponse)
@@ -152,24 +190,35 @@ function Overview(props: Props) {
         || value?.disaster_type === DISASTER_FLASH_FLOOD
         || value?.disaster_type === DISASTER_FLOOD;
 
-    const nationalSocietyOptions = countryResponse?.results?.map(
-        (country) => {
-            if (isValidNationalSociety(country)) {
-                return country;
-            }
+    const nationalSocietyOptions = useMemo(
+        () => (
+            countryResponse?.results?.map(
+                (country) => {
+                    if (isValidNationalSociety(country)) {
+                        return country;
+                    }
 
-            return undefined;
-        },
-    ).filter(isDefined);
-    const countryOptions = countryResponse?.results?.map(
-        (country) => {
-            if (isValidCountry(country)) {
-                return country;
-            }
+                    return undefined;
+                },
+            ).filter(isDefined)
+        ),
+        [countryResponse],
+    );
 
-            return undefined;
-        },
-    ).filter(isDefined);
+    const countryOptions = useMemo(
+        () => (
+            countryResponse?.results?.map(
+                (country) => {
+                    if (isValidCountry(country)) {
+                        return country;
+                    }
+
+                    return undefined;
+                },
+            ).filter(isDefined)
+        ),
+        [countryResponse],
+    );
 
     const error = getErrorObject(formError);
 
@@ -218,8 +267,8 @@ function Overview(props: Props) {
                 <SelectInput
                     name="type_of_dref"
                     label={strings.drefFormTypeOfDref}
-                    options={drefOptions?.type_of_dref}
-                    keySelector={numericKeySelector}
+                    options={typeOfDrefOptions}
+                    keySelector={typeOfDrefKeySelector}
                     labelSelector={stringValueSelector}
                     onChange={setFieldValue}
                     value={value?.type_of_dref}
@@ -242,7 +291,7 @@ function Overview(props: Props) {
                             : strings.drefFormDisasterTypeLabel
                     }
                     name="disaster_type"
-                    options={disasterTypesResponse?.results}
+                    options={disasterTypeOptions}
                     optionsPending={fetchingDisasterTypes}
                     keySelector={numericIdSelector}
                     labelSelector={stringNameSelector}
@@ -253,8 +302,8 @@ function Overview(props: Props) {
                 <SelectInput
                     name="type_of_onset"
                     label={strings.drefFormTypeOfOnsetLabel}
-                    options={drefOptions?.type_of_onset}
-                    keySelector={numericKeySelector}
+                    options={drefOnsetTypeOptions}
+                    keySelector={onsetTypeKeySelector}
                     labelSelector={stringValueSelector}
                     value={value?.type_of_onset}
                     onChange={setFieldValue}
@@ -287,8 +336,8 @@ function Overview(props: Props) {
                             </Link>
                         </>
                     )}
-                    options={drefOptions?.disaster_category}
-                    keySelector={numericKeySelector}
+                    options={drefDisasterCategoryOptions}
+                    keySelector={disasterCategoryKeySelector}
                     labelSelector={stringValueSelector}
                     value={value?.disaster_category}
                     onChange={setFieldValue}

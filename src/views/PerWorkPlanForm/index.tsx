@@ -22,10 +22,7 @@ import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import ConfirmButton from '#components/ConfirmButton';
 import Portal from '#components/Portal';
-import {
-    compareLabel,
-    isValidNationalSociety,
-} from '#utils/common';
+import { compareLabel } from '#utils/common';
 import {
     useLazyRequest,
     useRequest,
@@ -35,6 +32,7 @@ import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
 import type { GET } from '#types/serverResponse';
+import { paths } from '#generated/types';
 
 import {
     workplanSchema,
@@ -45,6 +43,8 @@ import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type CountryResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
 
 const defaultValue: PartialWorkPlan = {};
 type WorkPlanResponse = GET['api/v2/per-work-plan/:id'];
@@ -83,9 +83,9 @@ export function Component() {
     });
 
     const {
-        pending: countryiesPending,
+        pending: countriesPending,
         response: countriesResponse,
-    } = useRequest<GET['api/v2/country']>({
+    } = useRequest<CountryResponse>({
         url: 'api/v2/country',
         query: { limit: 500 },
     });
@@ -225,15 +225,6 @@ export function Component() {
         },
     });
 
-    const nsOptions = useMemo(
-        () => (
-            countriesResponse?.results.filter(isValidNationalSociety).map(
-                (country) => ({ value: country.id, label: country.society_name }),
-            )
-        ),
-        [countriesResponse?.results],
-    );
-
     const workPlanStatusOptions = useMemo(
         () => (
             perOptionsResponse?.workplanstatus.map((d) => ({
@@ -318,7 +309,7 @@ export function Component() {
     const pending = perOptionsPending
         || prioritizationPending
         || workPlanPending
-        || countryiesPending;
+        || countriesPending;
 
     const componentResponseError = getErrorObject(error?.component_responses);
     const customComponentError = getErrorObject(error?.custom_component_responses);
@@ -343,7 +334,7 @@ export function Component() {
                                 onChange={setComponentValue}
                                 component={componentResponse.component_details}
                                 workPlanStatusOptions={workPlanStatusOptions}
-                                nsOptions={nsOptions}
+                                countryResults={countriesResponse?.results}
                                 error={componentResponseError?.[componentResponse.component]}
                             />
                         ))}
@@ -375,7 +366,7 @@ export function Component() {
                                 onChange={setCustomComponentValue}
                                 onRemove={removeCustomComponentValue}
                                 workPlanStatusOptions={workPlanStatusOptions}
-                                nsOptions={nsOptions}
+                                countryResults={countriesResponse?.results}
                                 error={customComponentError?.[customComponent.client_id]}
                             />
                         ))}

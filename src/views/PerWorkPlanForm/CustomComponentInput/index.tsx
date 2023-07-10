@@ -6,14 +6,16 @@ import {
     Error,
     getErrorObject,
 } from '@togglecorp/toggle-form';
-import { randomString } from '@togglecorp/fujs';
+import { randomString, isDefined } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
-import { LabelValue } from '#types/common';
 import Button from '#components/Button';
 import TextArea from '#components/TextArea';
+import type { paths } from '#generated/types';
+import { isValidNationalSociety } from '#utils/common';
+import { numericIdSelector } from '#utils/selectors';
 
 import {
     numericValueSelector,
@@ -24,6 +26,12 @@ import {
 import i18n from '../i18n.json';
 
 type Value = NonNullable<PartialWorkPlan['custom_component_responses']>[number];
+type CountryResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
+type CountryItem = NonNullable<CountryResponse['results']>[number];
+
+function nsLabelSelector(option: Omit<CountryItem, 'society_name'> & { 'society_name': string }) {
+    return option.society_name;
+}
 
 interface Props {
     value: Value;
@@ -31,11 +39,11 @@ interface Props {
     error: Error<Value> | undefined;
     index: number;
     onRemove: (index: number) => void;
-    workPlanStatusOptions: LabelValue[];
-    nsOptions?: {
-        label: string;
+    workPlanStatusOptions: {
         value: number;
+        label: string;
     }[];
+    countryResults: CountryResponse['results'] | undefined;
 }
 
 function CustomComponentInput(props: Props) {
@@ -45,7 +53,7 @@ function CustomComponentInput(props: Props) {
         onRemove,
         value,
         workPlanStatusOptions,
-        nsOptions,
+        countryResults,
         error: formError,
     } = props;
 
@@ -63,6 +71,21 @@ function CustomComponentInput(props: Props) {
         index,
         onChange,
         defaultValue,
+    );
+
+    const nationalSocietyOptions = useMemo(
+        () => (
+            countryResults?.map(
+                (country) => {
+                    if (isValidNationalSociety(country)) {
+                        return country;
+                    }
+
+                    return undefined;
+                },
+            ).filter(isDefined)
+        ),
+        [countryResults],
     );
 
     return (
@@ -84,10 +107,10 @@ function CustomComponentInput(props: Props) {
             <SelectInput
                 name="supported_by"
                 placeholder={strings.perFormSelectNSPlaceholder}
-                options={nsOptions}
+                options={nationalSocietyOptions}
                 onChange={onFieldChange}
-                keySelector={numericValueSelector}
-                labelSelector={stringLabelSelector}
+                keySelector={numericIdSelector}
+                labelSelector={nsLabelSelector}
                 value={value?.supported_by}
                 error={error?.supported_by}
             />
@@ -103,6 +126,7 @@ function CustomComponentInput(props: Props) {
             />
             <div>
                 <Button
+                    // FIXME: add title attribute
                     name={index}
                     onClick={onRemove}
                     variant="secondary"

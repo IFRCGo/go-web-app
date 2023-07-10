@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { isDefined, randomString } from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 import {
     ArrayError,
     useFormObject,
@@ -18,7 +18,7 @@ import styles from './styles.module.css';
 
 type NsActionFormFields = NonNullable<PartialDref['national_society_actions']>[number];
 const defaultNsActionValue: NsActionFormFields = {
-    client_id: randomString(),
+    client_id: '-1',
 };
 
 interface Props {

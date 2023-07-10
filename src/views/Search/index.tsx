@@ -19,7 +19,6 @@ import { useRequest } from '#utils/restRequest';
 import { getSearchValue } from '#utils/common';
 import { URL_SEARCH_KEY } from '#utils/constants';
 import RouteContext from '#contexts/route';
-
 import useTranslation from '#hooks/useTranslation';
 
 import EmergencyTable, { EmergencyResult } from './EmergencyTable';

@@ -20,7 +20,8 @@ import { useSortState, SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
-import { paths, components } from '#generated/types';
+import { paths } from '#generated/types';
+import ServerEnumsContext from '#contexts/server-enums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -33,33 +34,23 @@ type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
 type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
 type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
-type AppealTypeKeys = components['schemas']['TypeOfDrefEnum'];
-interface AppealType {
-    value: AppealTypeKeys;
-    label: string;
-}
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[number];
 
-// FIXME: pull this from server
-const appealTypeOptions: AppealType[] = [
-    { value: 0, label: 'DREF' },
-    { value: 1, label: 'Emergency Appeals' },
-    { value: 2, label: 'Movement' },
-    { value: 3, label: 'Early Action Protocol (EAP) Activation' },
-];
-
-const appealKeySelector = (item: AppealListItem) => item.id;
-const appealTypeKeySelector = (item: AppealType) => item.value;
-const appealTypeLabelSelector = (item: AppealType) => item.label;
-const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
-const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
+const appealKeySelector = (option: AppealListItem) => option.id;
+const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
+const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
+const disasterTypeKeySelector = (option: DisasterListItem) => option.id;
+const disasterTypeLabelSelector = (option: DisasterListItem) => option.name ?? '';
 
 const endDate = (new Date()).toISOString();
 
 function AppealsTable() {
     const sortState = useSortState();
     const { sorting } = sortState;
-
     const strings = useTranslation(i18n);
+    const { api_appeal_type: appealTypeOptions } = useContext(ServerEnumsContext);
     const {
         country: countryRoute,
         emergency: emergencyRoute,
@@ -145,7 +136,7 @@ function AppealsTable() {
     }
 
     // FIXME: clear appealType and displacementType when filter is changed
-    const [appealType, setAppealType] = useInputState<AppealType['value'] | undefined>(undefined);
+    const [appealType, setAppealType] = useInputState<AppealTypeOption['key'] | undefined>(undefined);
     const [displacementType, setDisplacementType] = useInputState<number | undefined>(undefined);
     const [page, setPage] = useState(0);
 

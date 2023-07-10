@@ -88,7 +88,7 @@ interface ClickedPoint {
 }
 
 interface Props {
-    eventList: EventListItem[];
+    eventList: EventListItem[] | undefined;
     className?: string;
 }
 
@@ -124,12 +124,12 @@ function EmergenciesMap(props: Props) {
     });
 
     const countryGroupedEvents = useMemo(() => {
-        if (!countryResponse) {
+        if (!countryResponse || !eventList) {
             return {};
         }
 
         const countryCentroidMap = listToMap(
-            countryResponse?.results?.filter(
+            countryResponse.results?.filter(
                 (country) => !!country.iso3 && !!country.centroid,
             ),
             (country) => country.iso3 ?? 'unknown',
@@ -158,7 +158,6 @@ function EmergenciesMap(props: Props) {
 
             return {
                 type: 'FeatureCollection' as const,
-                // TODO: verify type of centroid
                 features: countryKeys
                     .filter((key) => {
                         const groupedEvents = countryGroupedEvents[key];
@@ -199,7 +198,10 @@ function EmergenciesMap(props: Props) {
 
                         return {
                             type: 'Feature' as const,
-                            geometry: currentCountry.centroid,
+                            geometry: currentCountry.centroid as {
+                                type: 'Point',
+                                coordinates: [number, number],
+                            },
                             properties: {
                                 id: key,
                                 responseLevel,
@@ -215,7 +217,7 @@ function EmergenciesMap(props: Props) {
 
     const heading = resolveToComponent(
         strings.emergenciesMapTitle,
-        { numEmergencies: eventList.length ?? '--' },
+        { numEmergencies: eventList?.length ?? '--' },
     );
 
     const handleCountryClick = useCallback((

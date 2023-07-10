@@ -2,13 +2,13 @@ import {
     useFormObject,
     ObjectError,
     getErrorObject,
+    SetValueArg,
 } from '@togglecorp/toggle-form';
 import {
     _cs,
     isDefined,
 } from '@togglecorp/fujs';
 
-import { SetValueArg } from '#types/common';
 import GoSingleFileInput from '#components/GoSingleFileInput';
 import TextInput from '#components/TextInput';
 

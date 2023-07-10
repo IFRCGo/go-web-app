@@ -62,9 +62,6 @@ type GetDrefResponse = GetDref['responses']['200']['content']['application/json'
 type PutDref = paths['/api/v2/dref/{id}/']['put'];
 type PutDrefResponse = PutDref['responses']['200']['content']['application/json'];
 
-type GetDrefOptions = paths['/api/v2/dref-options/']['get'];
-type GetDrefOptionsResponse = GetDrefOptions['responses']['200']['content']['application/json'];
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
@@ -134,13 +131,6 @@ export function Component() {
         },
         [],
     );
-
-    const {
-        pending: fetchingDrefOptions,
-        response: drefOptions,
-    } = useRequest<GetDrefOptionsResponse>({
-        url: 'api/v2/dref-options/',
-    });
 
     const { pending: fetchingDref } = useRequest<GetDrefResponse>({
         skip: isFalsyString(drefId),
@@ -269,7 +259,7 @@ export function Component() {
         [],
     );
 
-    const pending = fetchingDrefOptions || fetchingDref || drefSubmitPending;
+    const pending = fetchingDref || drefSubmitPending;
     const minStep = 1;
     const maxStep = value?.type_of_dref === TYPE_LOAN ? 3 : 5;
 
@@ -345,7 +335,6 @@ export function Component() {
             >
                 <TabPanel name="overview">
                     <Overview
-                        drefOptions={drefOptions}
                         value={value}
                         setFieldValue={setFieldValue}
                         fileIdToUrlMap={fileIdToUrlMap}
@@ -364,7 +353,6 @@ export function Component() {
                 </TabPanel>
                 <TabPanel name="actions">
                     <Actions
-                        drefOptions={drefOptions}
                         value={value}
                         setFieldValue={setFieldValue}
                         fileIdToUrlMap={fileIdToUrlMap}
@@ -374,7 +362,6 @@ export function Component() {
                 </TabPanel>
                 <TabPanel name="operation">
                     <Operation
-                        drefOptions={drefOptions}
                         value={value}
                         setFieldValue={setFieldValue}
                         fileIdToUrlMap={fileIdToUrlMap}

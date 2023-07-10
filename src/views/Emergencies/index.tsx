@@ -4,6 +4,8 @@ import {
     mapToList,
     listToMap,
     encodeDate,
+    isFalsyString,
+    isDefined,
 } from '@togglecorp/fujs';
 import {
     EmergenciesIcon,
@@ -19,14 +21,12 @@ import BarChart from '#components/BarChart';
 import Container from '#components/Container';
 import TimeSeriesChart from '#components/TimeSeriesChart';
 import useTranslation from '#hooks/useTranslation';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import { getDatesSeparatedByMonths } from '#utils/chart';
 import { sumSafe } from '#utils/common';
+import { paths } from '#generated/types';
 
-import type { EventItem, AggregateEventResponse } from './types';
+import type { AggregateEventResponse } from './types';
 import Map from './Map';
 import FieldReportTable from './FieldReportsTable';
 import EmergenciesTable from './EmergenciesTable';
@@ -72,13 +72,15 @@ const oneYearAgo = new Date();
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 oneYearAgo.setHours(0, 0, 0, 0);
 
+type EventResponse = paths['/api/v2/event/']['get']['responses']['200']['content']['application/json'];
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const {
         pending: eventsPending,
         response: eventsResponse,
-    } = useRequest<ListResponse<EventItem>>({
+    } = useRequest<EventResponse>({
         url: 'api/v2/event/',
         query: {
             limit: 500,
@@ -121,7 +123,7 @@ export function Component() {
             const { results: events } = eventsResponse;
 
             const numAffectedCalculated = sumSafe(
-                (events.map(
+                (events?.map(
                     (event) => {
                         const latestFieldReport = event.field_reports.sort(
                             (a, b) => (
@@ -135,7 +137,7 @@ export function Component() {
             );
 
             const amountRequestedCalculated = sumSafe(
-                events.map(
+                events?.map(
                     (event) => (
                         sumSafe(event.appeals.map((appeal) => Number(appeal.amount_requested)))
                     ),
@@ -143,7 +145,7 @@ export function Component() {
             );
 
             const fundingCalculated = sumSafe(
-                events.map(
+                events?.map(
                     (event) => (
                         sumSafe(event.appeals.map((appeal) => Number(appeal.amount_funded)))
                     ),
@@ -168,12 +170,18 @@ export function Component() {
 
             return mapToList(
                 emergenciesMapByType,
-                (event, disasterType) => ({
-                    type: disasterType,
-                    typeName: event[0].dtype.name,
-                    numOfEvents: event.length,
-                }),
-            );
+                (event, disasterType) => {
+                    if (isFalsyString(event[0].dtype.name)) {
+                        return undefined;
+                    }
+
+                    return {
+                        type: disasterType,
+                        typeName: event[0].dtype.name,
+                        numOfEvents: event.length,
+                    };
+                },
+            ).filter(isDefined);
         },
         [eventsResponse],
     );

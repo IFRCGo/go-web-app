@@ -105,7 +105,7 @@ function getGeoJson(
         type: 'FeatureCollection' as const,
         features: countries.map((country) => {
             const nsProject = nsProjectsMap[country.id];
-            if (!nsProject || nsProject.type.id !== operationType) {
+            if (!nsProject || nsProject.type.id !== operationType || !country.centroid) {
                 return undefined;
             }
 
@@ -113,9 +113,9 @@ function getGeoJson(
                 id: country.id,
                 type: 'Feature' as const,
                 properties: nsProject,
-                geometry: {
-                    type: 'Point' as const,
-                    coordinates: country.centroid?.coordinates ?? [0, 0],
+                geometry: country.centroid as {
+                    type: 'Point',
+                    coordinates: [number, number],
                 },
             };
         }).filter(isDefined),

@@ -21,7 +21,8 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
-import { paths, components } from '#generated/types';
+import { paths } from '#generated/types';
+import ServerEnumsContext from '#contexts/server-enums';
 import { isValidCountry } from '#utils/common';
 
 import i18n from './i18n.json';
@@ -39,27 +40,17 @@ type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
 type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
 type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
-const appealKeySelector = (item: AppealListItem) => item.id;
-const appealTypeKeySelector = (item: AppealType) => item.value;
-const appealTypeLabelSelector = (item: AppealType) => item.label;
-const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
-const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[number];
+
+const appealKeySelector = (option: AppealListItem) => option.id;
+const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
+const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
+const disasterTypeKeySelector = (option: DisasterListItem) => option.id;
+const disasterTypeLabelSelector = (option: DisasterListItem) => option.name ?? '';
 const countryKeySelector = (item: CountryListItem) => item.id;
 const countryLabelSelector = (item: CountryListItem) => item.name ?? '';
-
-type AppealTypeKeys = components['schemas']['TypeOfDrefEnum'];
-interface AppealType {
-    value: AppealTypeKeys;
-    label: string;
-}
-
-// FIXME: pull this from server
-const appealTypeOptions: AppealType[] = [
-    { value: 0, label: 'DREF' },
-    { value: 1, label: 'Emergency Appeals' },
-    { value: 2, label: 'Movement' },
-    { value: 3, label: 'Early Action Protocol (EAP) Activation' },
-];
 
 const PAGE_SIZE = 10;
 
@@ -68,6 +59,7 @@ export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState();
     const { sorting } = sortState;
+    const { api_appeal_type: appealTypeOptions } = useContext(ServerEnumsContext);
     const {
         country: countryRoute,
         emergency: emergencyRoute,
@@ -80,7 +72,7 @@ export function Component() {
     }
     const [page, setPage] = useState(0);
 
-    const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealType['value'] | undefined>(
+    const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealTypeOption['key'] | undefined>(
         'atype',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;

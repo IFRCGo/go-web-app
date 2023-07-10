@@ -1,16 +1,15 @@
 import { generatePath } from 'react-router-dom';
-import { useMemo, useContext, useCallback } from 'react';
+import { useMemo, useContext } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import Table from '#components/Table';
-import Link from '#components/Link';
 import {
     createNumberColumn,
     createStringColumn,
     createLinkColumn,
     createProgressColumn,
-    createListDisplayColumn,
+    createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
@@ -65,25 +64,6 @@ function EmergencyTable(props: Props) {
         emergency: emergencyRoute,
     } = useContext(RouteContext);
 
-    const countryListColumnParams = useCallback(
-        (item: EmergencyResult) => ({
-            list: item.countries,
-            keySelector: (country: EmergencyResult['countries'][number]) => country,
-            renderer: (country: EmergencyResult['countries'][number], i: number) => (
-                <Link
-                    to={generatePath(
-                        countryRoute.absolutePath,
-                        { countryId: String(item.countries_id[i]) },
-                    )}
-                >
-                    {country}
-                </Link>
-            ),
-            title: strings.searchEmergencyTableMultipleCountries,
-        }),
-        [countryRoute, strings],
-    );
-
     const columns = useMemo(() => ([
         createLinkColumn<EmergencyResult, number>(
             'title',
@@ -133,12 +113,18 @@ function EmergencyTable(props: Props) {
                 Number(emergency.funding_coverage) / Number(emergency.funding_requirements)
             ),
         ),
-        createListDisplayColumn<EmergencyResult, number, EmergencyResult['countries'][number]>(
+        createCountryListColumn<EmergencyResult, number>(
             'countries',
             strings.searchEmergencyTableCountry,
-            countryListColumnParams,
+            (item) => item.countries_id.map(
+                (countryId, index) => ({
+                    id: countryId,
+                    name: item.countries[index],
+                }),
+            ),
+            countryRoute.absolutePath,
         ),
-    ]), [strings, countryListColumnParams, emergencyRoute]);
+    ]), [strings, countryRoute, emergencyRoute]);
 
     if (!data) {
         return null;
