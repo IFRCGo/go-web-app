@@ -1,12 +1,20 @@
 import React from 'react';
 import sanitizeHtml from 'sanitize-html';
-import { _cs } from '@togglecorp/fujs';
+import {
+    _cs,
+    isNotDefined,
+    isDefined,
+} from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-function useSanitizedHtml(rawHtml: string) {
-    const sanitizedHtml = React.useMemo(() => (
-        sanitizeHtml(
+function useSanitizedHtml(rawHtml: string | null | undefined) {
+    const sanitizedHtml = React.useMemo(() => {
+        if (isNotDefined(rawHtml)) {
+            return undefined;
+        }
+
+        return sanitizeHtml(
             rawHtml,
             {
                 allowedTags: [
@@ -32,7 +40,7 @@ function useSanitizedHtml(rawHtml: string) {
                     p: ['style'],
                     span: ['style'],
                     div: ['style'],
-                    img: ['src', 'width', 'height', 'style'],
+                    img: ['src', 'width', 'height', 'style', 'alt'],
                     iframe: ['src', 'width', 'height', 'frameborder', 'style'],
                     a: ['href'],
                 },
@@ -46,32 +54,36 @@ function useSanitizedHtml(rawHtml: string) {
                     },
                 },
             },
-        )
-    ), [rawHtml]);
+        );
+    }, [rawHtml]);
 
     return sanitizedHtml;
 }
 
-interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'dangerouslySetInnerHTML'> {
-    value: string;
+interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'dangerouslySetInnerHTML' | 'value' | 'children'> {
+    value: string | null | undefined;
 }
 
-function RichTextOutput(props: Props) {
+function HtmlOutput(props: Props) {
     const {
         className,
         value,
+        ...otherProps
     } = props;
 
     const sanitizedValue = useSanitizedHtml(value);
 
     return (
         <div
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherProps}
             className={_cs(styles.richTextOutput, className)}
-            dangerouslySetInnerHTML={{
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={isDefined(sanitizedValue) ? {
                 __html: sanitizedValue,
-            }}
+            } : undefined}
         />
     );
 }
 
-export default RichTextOutput;
+export default HtmlOutput;

@@ -2,38 +2,28 @@
     display: flex;
     flex-direction: column;
     gap: var(--go-ui-spacing-5xl);
-    color: inherit;
 
     .highlighted-operations {
         display: flex;
         align-items: center;
+        gap: var(--go-ui-spacing-lg);
 
         .key-figure {
-            display: flex;
-            flex-direction: column;
-            padding: var(--go-ui-spacing-lg);
-            gap: var(--go-ui-spacing-sm);
+            box-shadow: var(--go-ui-box-shadow-xl);
         }
     }
 
-    .iframe {
-        display: flex;
-        justify-content: center;
+    /* TODO: make these styles responsive */
+    .additional-links{
+        display: grid;
+        grid-gap: var(--go-ui-spacing-lg);
+        grid-template-columns: 1fr 1fr 1fr;
     }
 
-    .additional-list {
-        display: flex;
-        gap: var(--go-ui-spacing-xl);
-
-        .link-lists {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-3xl);
-        }
-    }
-    .component-list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-3xl);
+    /* TODO: make these styles responsive */
+    .contact-list{
+        display: grid;
+        grid-gap: var(--go-ui-spacing-lg);
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }

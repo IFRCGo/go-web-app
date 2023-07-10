@@ -1,14 +1,14 @@
+import { Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { RedCrossNationalSocietyIcon } from '@ifrc-go/icons';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
-
 import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
-import RichTextOutput from '#components/RichTextOutput';
+import HtmlOutput from '#components/HtmlOutput';
 import useTranslation from '#hooks/useTranslation';
 import { paths } from '#generated/types';
 
@@ -39,7 +39,7 @@ export function Component() {
                 <KeyFigure
                     icon={<RedCrossNationalSocietyIcon />}
                     className={styles.keyFigure}
-                    value={regionalProfileResponse?.national_society_count}
+                    value={Number(regionalProfileResponse?.national_society_count)}
                     compactValue
                     description={
                         resolveToString(
@@ -49,34 +49,30 @@ export function Component() {
                     }
                 />
             </Container>
-            {regionalProfileResponse?.profile_snippets
-            && regionalProfileResponse.profile_snippets.length > 0
-            && (regionalProfileResponse.profile_snippets.map((profileSnippet) => (
+            {regionalProfileResponse?.profile_snippets.map((profileSnippet) => (
                 <Container
+                    key={profileSnippet.id}
                     heading={profileSnippet.title}
                     withHeaderBorder
                     headingLevel={2}
                 >
-                    <RichTextOutput
-                        className={styles.iframe}
+                    <HtmlOutput
                         value={profileSnippet.snippet}
                         key={profileSnippet.id}
                     />
                 </Container>
-            ))
-            )}
-            {regionalProfileResponse?.links
-            && regionalProfileResponse?.links.length > 0 && (
+            ))}
+            {regionalProfileResponse?.links && regionalProfileResponse?.links.length > 0 && (
                 <Container
                     heading={strings.regionalProfileAdditionalLinks}
                     withHeaderBorder
-                    childrenContainerClassName={styles.additionalList}
                     headingLevel={2}
+                    childrenContainerClassName={styles.additionalLinks}
                 >
                     {regionalProfileResponse?.links.map((link) => (
                         <Link
+                            key={link.id}
                             to={`${link?.url}`}
-                            className={styles.linkLists}
                             withUnderline
                         >
                             {link?.title}
@@ -84,21 +80,20 @@ export function Component() {
                     ))}
                 </Container>
             )}
-            {regionalProfileResponse?.contacts
-            && regionalProfileResponse?.contacts.length > 0 && (
+            {regionalProfileResponse?.contacts && regionalProfileResponse?.contacts.length > 0 && (
                 <Container
                     heading={strings.regionProfileContacts}
-                    childrenContainerClassName={styles.componentList}
                     withHeaderBorder
                     headingLevel={2}
+                    childrenContainerClassName={styles.contactList}
                 >
                     {regionalProfileResponse?.contacts.map((contact) => (
-                        <div className={styles.contactList}>
-                            {contact?.name}
-                            {contact?.title}
-                            {contact?.ctype}
-                            {contact?.email}
-                        </div>
+                        <Fragment key={contact.id}>
+                            <div>{contact?.name}</div>
+                            <div>{contact?.title}</div>
+                            <div>{contact?.ctype}</div>
+                            <div>{contact?.email}</div>
+                        </Fragment>
                     ))}
                 </Container>
             )}
