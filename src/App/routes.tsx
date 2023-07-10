@@ -334,6 +334,62 @@ const surge = customWrapRoute({
     },
 });
 
+const surgeOverview = customWrapRoute({
+    path: 'overview',
+    component: {
+        render: () => import('#views/SurgeOverview'),
+        props: {},
+    },
+    parent: surge,
+    context: {
+        title: 'Surge Overview',
+        visibility: 'anything',
+    },
+});
+
+const surgeOperationalToolbox = customWrapRoute({
+    path: 'operational-toolbox',
+    component: {
+        render: () => import('#views/SurgeOperationalToolbox'),
+        props: {},
+    },
+    parent: surge,
+    context: {
+        title: 'Surge Operational Toolbox',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogue = customWrapRoute({
+    path: 'catalogue',
+    component: {
+        render: () => import('#views/SurgeCatalogue'),
+        props: {},
+    },
+    parent: surge,
+    context: {
+        title: 'Surge Services Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const surgeIndex = customWrapRoute({
+    parent: surge,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: surgeOverview.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Surge index',
+        visibility: 'anything',
+    },
+});
+
 const preparedness = customWrapRoute({
     path: 'preparedness',
     component: {
@@ -747,6 +803,10 @@ const wrappedRoutes = {
     emergencies,
     emergency,
     surge,
+    surgeOverview,
+    surgeOperationalToolbox,
+    surgeCatalogue,
+    surgeIndex,
     preparedness,
     threeW,
     account,

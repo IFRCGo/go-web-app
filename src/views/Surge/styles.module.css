@@ -1,0 +1,14 @@
+.surge {
+    .key-figure-list {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+
+        .key-figure {
+            border-radius: var(--go-ui-border-radius-lg);
+            background-color: var(--go-ui-color-white);
+            padding: var(--go-ui-spacing-xl);
+            height: 100%;
+        }
+    }
+}
