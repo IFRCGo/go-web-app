@@ -23,3 +23,7 @@ export function stringNameSelector(option: { name: string }) {
 export function stringKeySelector(option: { key: string }) {
     return option.key;
 }
+
+export function numericKeySelector(option: { key: number }) {
+    return option.key;
+}

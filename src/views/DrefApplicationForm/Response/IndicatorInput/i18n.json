@@ -1,8 +1,0 @@
-{
-    "namespace": "dref",
-    "strings": {
-        "drefFormIndicatorTitleLabel": "Title",
-        "drefFormIndicatorTargetLabel": "Target",
-        "drefOperationalUpdateIndicatorActualLabel": "Actual"
-    }
-}

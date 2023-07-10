@@ -11,6 +11,10 @@
         flex-grow: 1;
         background-color: var(--go-ui-color-white);
 
+        &.with-background-color {
+            background-color: var(--go-ui-color-background);
+        }
+
         .main-section {
             padding: var(--go-ui-spacing-4xl) var(--go-ui-spacing-2xl);
         }

@@ -33,7 +33,6 @@ function MultiFileInputExample() {
                 clearable
             />
             <MultiFileInput
-                variant="general"
                 className={styles.fileInput}
                 name="file"
                 label="File Input Required"
@@ -43,7 +42,6 @@ function MultiFileInputExample() {
                 onChange={handleChange}
             />
             <MultiFileInput
-                variant="general"
                 className={styles.fileInput}
                 name="file"
                 label="Read-Only File Input"

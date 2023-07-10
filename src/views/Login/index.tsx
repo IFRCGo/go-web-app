@@ -8,6 +8,8 @@ import {
     requiredStringCondition,
     getErrorObject,
 } from '@togglecorp/toggle-form';
+import { isFalsyString } from '@togglecorp/fujs';
+
 import Page from '#components/Page';
 import TextInput from '#components/TextInput';
 import Link from '#components/Link';
@@ -56,7 +58,7 @@ function getDisplayName(
     lastName: string | null | undefined,
     username: string,
 ) {
-    if (!firstName && !lastName) {
+    if (isFalsyString(firstName) && isFalsyString(lastName)) {
         return username;
     }
 

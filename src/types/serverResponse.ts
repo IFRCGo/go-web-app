@@ -5,6 +5,19 @@ interface NumericKeyStringValue {
     value: string;
 }
 
+interface UserListResponseItem {
+    id: number;
+    first_name: string;
+    last_name: string;
+    username: string;
+}
+
+interface DisasterTypeListResponseItem {
+    id: number;
+    name: string;
+    summary: string;
+}
+
 interface CountryListResponseItem {
     average_household_size: number | null;
     fdrs: string | null;
@@ -18,6 +31,14 @@ interface CountryListResponseItem {
     record_type_display: string;
     region: number;
     society_name: string;
+}
+
+interface DistrictListResponseItem {
+    id: number;
+    code: string;
+    is_deprecated: boolean;
+    is_enclave: boolean;
+    name: string;
 }
 
 interface PerProcessStatusItem {
@@ -163,12 +184,7 @@ interface PerOverviewResponse {
     };
     updated_at: string;
     user: number;
-    user_details: {
-        id: number;
-        username: string;
-        first_name: string;
-        last_name: string;
-    }
+    user_details: UserListResponseItem;
     workplan_development_date: string | null;
     workplan_revision_date: string | null
 }
@@ -216,18 +232,15 @@ interface PerWorkPlanResponse {
     overview_details: {
         id: number;
         user: number;
-        user_details: {
-            id: number;
-            username: string;
-            first_name: string;
-            last_name: string;
-        }
+        user_details: UserListResponseItem;
         workplan_development_date: string | null;
     };
 }
 
 export interface GET {
     'api/v2/country': ListResponse<CountryListResponseItem>;
+    'api/v2/district': ListResponse<DistrictListResponseItem>;
+    'api/v2/disaster_type': ListResponse<DisasterTypeListResponseItem>;
     'api/v2/per-formquestion': ListResponse<PerFormQuestionItem>;
     'api/v2/per-formcomponent': ListResponse<PerFormComponentItem>;
     'api/v2/per-options': {

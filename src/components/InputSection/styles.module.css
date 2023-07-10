@@ -2,21 +2,18 @@
     display: flex;
     background-color: var(--go-ui-color-primary-white);
     gap: var(--go-ui-spacing-xl);
+    padding: var(--go-ui-spacing-2xl);
 
     .section-title {
         display: flex;
         flex-basis: 30%;
         flex-direction: column;
         flex-shrink: 0;
-        max-width: 320px;
+        max-width: 20rem;
         gap: var(--go-ui-spacing-md);
 
         .title {
             font-weight: var(--go-ui-font-weight-semibold);
-        }
-
-        .description {
-            padding: 0;
         }
     }
 
@@ -29,9 +26,9 @@
     &.special-description {
         .section-title {
             .description {
-                opacity: 0.6;
                 white-space: pre-wrap;
                 word-wrap: break-word;
+                color: var(--go-ui-color-gray-80);
                 font-size: var(--go-ui-font-size-xs);
                 font-weight: var(--go-ui-font-weight-light);
             }

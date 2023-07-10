@@ -13,22 +13,22 @@ import { paths } from '#generated/types';
 type GetFieldReport = paths['/api/v2/field_report/']['get'];
 type GetFieldReportParams = GetFieldReport['parameters']['query'];
 type GetFieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
-export type FieldReportListItem = Pick<NonNullable<GetFieldReportResponse['results']>[number], 'id' | 'summary'>;
+export type FieldReportItem = Pick<NonNullable<GetFieldReportResponse['results']>[number], 'id' | 'summary'>;
 
-const keySelector = (d: FieldReportListItem) => d.id;
-const labelSelector = (d: FieldReportListItem) => d.summary || '???';
+const keySelector = (d: FieldReportItem) => d.id;
+const labelSelector = (d: FieldReportItem) => d.summary || '???';
 
 type Def = { containerClassName?: string;}
-type FieldReportSelectInputProps<K extends string> = SearchSelectInputProps<
+type FieldReportSelectInputProps<NAME> = SearchSelectInputProps<
     number,
-    K,
-    FieldReportListItem,
+    NAME,
+    FieldReportItem,
     Def,
     'onSearchValueChange' | 'searchOptions' | 'optionsPending' | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
 > & { nationalSociety?: number };
 
-function FieldReportSelectInput<K extends string>(
-    props: FieldReportSelectInputProps<K>,
+function FieldReportSelectInput<NAME>(
+    props: FieldReportSelectInputProps<NAME>,
 ) {
     const {
         className,
