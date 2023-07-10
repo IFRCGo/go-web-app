@@ -1,4 +1,6 @@
 .surge-map {
+    padding-top: var(--go-ui-spacing-2xl);
+
     .map-container-wrapper {
         position: relative;
         z-index: 0;
