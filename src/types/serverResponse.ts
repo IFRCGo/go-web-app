@@ -126,6 +126,45 @@ interface PerAssessmentResponse {
     }[];
 }
 
+interface RegionProfileSnippet {
+    region: number;
+    visibility: number;
+    id: number;
+    snippet: string;
+}
+
+interface AdditionalLinks {
+    id: number;
+    show_in_go: boolean;
+    title: string;
+    url: string;
+}
+
+interface Contacts {
+    ctype: string;
+    email: string;
+    id: number;
+    name: string;
+    title: string;
+}
+
+interface ProfileSnippet {
+    id: number;
+    region: number;
+    snippet: string;
+    title: string;
+}
+
+interface RegionalProfile {
+    name: number;
+    region_name: string;
+    national_society_count: number;
+    snippets: RegionProfileSnippet[];
+    links: AdditionalLinks[];
+    contacts: Contacts[];
+    profile_snippets?: ProfileSnippet[];
+}
+
 interface PerOverviewResponse {
     assess_climate_environment_of_country: boolean | null;
     assess_preparedness_of_country: boolean | null;
@@ -268,4 +307,5 @@ export interface GET {
     }>;
     'api/v2/per-prioritization/:id': PerPrioritizationResponse;
     'api/v2/per-work-plan/:id': PerWorkPlanResponse;
+    'api/v2/region/:id': RegionalProfile;
 }

@@ -1,3 +1,29 @@
-.profile {
-    color: inherit;
+.region-profile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-5xl);
+
+    .highlighted-operations {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-lg);
+
+        .key-figure {
+            box-shadow: var(--go-ui-box-shadow-xl);
+        }
+    }
+
+    /* TODO: make these styles responsive */
+    .additional-links{
+        display: grid;
+        grid-gap: var(--go-ui-spacing-lg);
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    /* TODO: make these styles responsive */
+    .contact-list{
+        display: grid;
+        grid-gap: var(--go-ui-spacing-lg);
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 }
