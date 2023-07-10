@@ -1,14 +1,16 @@
 .pager {
     .page-list {
         display: flex;
+        gap: var(--go-ui-spacing-xs);
         align-items: center;
 
         .page-button {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: var(--go-ui-spacing-2xl);
-            height: var(--go-ui-spacing-2xl);
+            width: 2rem;
+            height: 2rem;
+            line-height: 1;
 
             &.active {
                 border-radius: 50%;
@@ -16,8 +18,17 @@
                 color: var(--go-ui-color-white);
             }
 
+            &.compact {
+                font-size: var(--go-ui-font-size-xs);
+                font-weight: var(--go-ui-font-weight-medium);
+            }
+
             &:disabled {
                 opacity: var(--go-ui-opacity-50);
+            }
+
+            .icon {
+                font-size: var(--go-ui-font-size-2xl);
             }
         }
     }

@@ -210,6 +210,23 @@ const countryOperations = customWrapRoute({
     },
 });
 
+const countryIndex = customWrapRoute({
+    parent: country,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: countryOperations.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Country index',
+        visibility: 'anything',
+    },
+});
+
 const countryThreeW = customWrapRoute({
     path: 'three-w',
     component: {
@@ -483,16 +500,72 @@ const search = customWrapRoute({
     },
 });
 
-const goUI = customWrapRoute({
-    path: 'go-ui',
+const allThreeW = customWrapRoute({
+    path: 'three-w/all',
     component: {
-        render: () => import('#views/GoUI'),
+        render: () => import('#views/AllThreeW'),
         props: {},
     },
     parent: root,
     wrapperComponent: Auth,
     context: {
-        title: 'Go UI',
+        title: 'All 3W',
+        visibility: 'anything',
+    },
+});
+
+const allAppeals = customWrapRoute({
+    path: 'appeals/all',
+    component: {
+        render: () => import('#views/AllAppeals'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Appeals',
+        visibility: 'anything',
+    },
+});
+
+const allEmergencies = customWrapRoute({
+    path: 'emergencies/all',
+    component: {
+        render: () => import('#views/AllEmergencies'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Emergencies',
+        visibility: 'anything',
+    },
+});
+
+const allFieldReports = customWrapRoute({
+    path: 'field-reports/all',
+    component: {
+        render: () => import('#views/AllFieldReports'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Field Reports',
+        visibility: 'anything',
+    },
+});
+
+const allFlashUpdates = customWrapRoute({
+    path: 'flash-updates/all',
+    component: {
+        render: () => import('#views/AllFlashUpdates'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Flash Updates',
         visibility: 'anything',
     },
 });
@@ -637,6 +710,20 @@ const perWorkPlanForm = customWrapRoute({
     },
 });
 
+const goUI = customWrapRoute({
+    path: 'go-ui',
+    component: {
+        render: () => import('#views/GoUI'),
+        props: {},
+    },
+    parent: perProcessForm,
+    wrapperComponent: Auth,
+    context: {
+        title: 'GO UI',
+        visibility: 'anything',
+    },
+});
+
 const wrappedRoutes = {
     root,
     login,
@@ -650,6 +737,7 @@ const wrappedRoutes = {
     regionPreparedness,
     regionProfile,
     country,
+    countryIndex,
     countryOperations,
     countryThreeW,
     countryRiskWatch,
@@ -669,19 +757,24 @@ const wrappedRoutes = {
     accountDrefApplications,
     accountThreeWForms,
     resources,
-    goUI,
+    search,
+    allThreeW,
+    allAppeals,
+    allEmergencies,
+    allFieldReports,
+    allFlashUpdates,
     drefApplicationFormNew,
     drefApplicationFormEdit,
     fieldReportFormNew,
     flashUpdateFormNew,
     riskWatch,
-    search,
     perProcessForm,
     perOverviewForm,
     newPerOverviewForm,
     perAssessmentForm,
     perPrioritizationForm,
     perWorkPlanForm,
+    goUI,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

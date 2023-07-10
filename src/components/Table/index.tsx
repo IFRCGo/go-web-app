@@ -275,6 +275,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                 pending={pending}
                 empty={!data?.length}
                 filtered={filtered}
+                withoutBorder
             />
         </div>
     );

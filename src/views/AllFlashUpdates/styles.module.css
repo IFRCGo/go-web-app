@@ -1,0 +1,14 @@
+.all-flash-updates {
+    .flash-updates-table {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
+
+        .table {
+            .created-at {
+                width: 0%;
+                min-width: 9rem;
+            }
+        }
+    }
+}

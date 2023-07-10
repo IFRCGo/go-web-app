@@ -176,7 +176,7 @@ function Pager(props: Props) {
                 className={styles.pageButton}
                 disabled={activePage <= 1 || disabled}
             >
-                <ChevronLeftLineIcon />
+                <ChevronLeftLineIcon className={styles.icon} />
             </RawButton>
             {pages.map((page) => {
                 if (page.type === 'button') {
@@ -200,6 +200,7 @@ function Pager(props: Props) {
                             className={_cs(
                                 styles.pageButton,
                                 styles.active,
+                                page.label.length > 2 && styles.compact,
                             )}
                         >
                             {page.label}
@@ -221,7 +222,7 @@ function Pager(props: Props) {
                 disabled={activePage >= numPages || disabled}
                 className={styles.pageButton}
             >
-                <ChevronRightLineIcon />
+                <ChevronRightLineIcon className={styles.icon} />
             </RawButton>
         </div>
     );

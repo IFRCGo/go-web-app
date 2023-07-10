@@ -5,21 +5,25 @@ import {
     listToMap,
     isDefined,
 } from '@togglecorp/fujs';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
-
 import Container from '#components/Container';
 import Link from '#components/Link';
 import List from '#components/List';
 import useTranslation from '#hooks/useTranslation';
-import { Emergency } from '#types/emergency';
 import UserContext from '#contexts/user';
+import RouteContext from '#contexts/route';
+import {
+    useRequest,
+    ListResponse,
+} from '#utils/restRequest';
+import { paths } from '#generated/types';
 
 import OperationCard from './OperationCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type GetEvent = paths['/api/v2/event/']['get'];
+type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventListItem = NonNullable<EventResponse['results']>[number];
 
 interface UserResponse {
     subscription: {
@@ -32,7 +36,7 @@ interface UserResponse {
     }[];
 }
 
-const keySelector = (emergency: Emergency) => emergency.id;
+const keySelector = (event: EventListItem) => event.id;
 interface Props {
     className?: string;
 }
@@ -44,12 +48,13 @@ function HighlightedOperations(props: Props) {
 
     const strings = useTranslation(i18n);
     const { userDetails } = useContext(UserContext);
+    const { allAppeals: allAppealsRoute } = useContext(RouteContext);
 
     const {
         error: featuredEmergencyResponseError,
         pending: featuredEmergencyPending,
         response: featuredEmergencyResponse,
-    } = useRequest<ListResponse<Emergency>>({
+    } = useRequest<ListResponse<EventListItem>>({
         url: 'api/v2/event/',
         query: {
             is_featured: 1,
@@ -74,7 +79,7 @@ function HighlightedOperations(props: Props) {
     );
 
     const rendererParams = useCallback(
-        (_: Emergency['id'], emergency: Emergency) => ({
+        (_: EventListItem['id'], emergency: EventListItem) => ({
             data: emergency,
             className: styles.operation,
             subscriptionMap,
@@ -93,7 +98,7 @@ function HighlightedOperations(props: Props) {
             heading={strings.highlightedOperationsTitle}
             actions={(
                 <Link
-                    to="/"
+                    to={allAppealsRoute.absolutePath}
                     actions={<ChevronRightLineIcon />}
                     withUnderline
                 >

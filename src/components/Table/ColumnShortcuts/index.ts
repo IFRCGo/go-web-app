@@ -6,6 +6,7 @@ import {
     _cs,
     randomString,
 } from '@togglecorp/fujs';
+import { generatePath } from 'react-router-dom';
 
 import DateOutput from '#components/DateOutput';
 import type { Props as DateOutputProps } from '#components/DateOutput';
@@ -22,6 +23,7 @@ import ReducedListDisplay, {
 } from '#components/ReducedListDisplay';
 import type { Props as LinkProps } from '#components/Link';
 import Link from '#components/Link';
+import { paths } from '#generated/types';
 
 import TableActions, {
     Props as TableActionsProps,
@@ -441,16 +443,18 @@ export function createActionColumn<D, K>(
     return item;
 }
 
-export function createListDisplayColumn<D, K, LIST_ITEM>(
+export function createListDisplayColumn<DATUM, KEY, LIST_ITEM, RENDERER_PROPS>(
     id: string,
     title: string,
-    rendererParams: (datum: D) => ReducedListDisplayProps<LIST_ITEM>,
-    options?: {
-        cellRendererClassName?: string;
-        headerContainerClassName?: string;
-    },
+    rendererParams: (datum: DATUM) => ReducedListDisplayProps<LIST_ITEM, RENDERER_PROPS>,
+    options?: Options<DATUM, KEY, TableActionsProps, HeaderCellProps>,
 ) {
-    const item: Column<D, K, ReducedListDisplayProps<LIST_ITEM>, HeaderCellProps> = {
+    const item: Column<
+        DATUM,
+        KEY,
+        ReducedListDisplayProps<LIST_ITEM, RENDERER_PROPS>,
+        HeaderCellProps
+    > = {
         id,
         title,
         headerCellRenderer: HeaderCell,
@@ -463,6 +467,63 @@ export function createListDisplayColumn<D, K, LIST_ITEM>(
             ...rendererParams(datum),
         }),
         cellRendererClassName: options?.cellRendererClassName,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
+    };
+
+    return item;
+}
+
+type GetCountry = paths['/api/v2/country/']['get'];
+type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryListItem = NonNullable<CountryResponse['results']>[number];
+type PartialCountry = Pick<CountryListItem, 'id' | 'name'>;
+
+export function createCountryListColumn<DATUM, KEY>(
+    id: string,
+    title: string,
+    countryListSelector: (datum: DATUM) => PartialCountry[],
+    countryRoutePath: string,
+    options?: Options<DATUM, KEY, TableActionsProps, HeaderCellProps>,
+) {
+    const item: Column<
+        DATUM,
+        KEY,
+        ReducedListDisplayProps<PartialCountry, LinkProps >,
+        HeaderCellProps
+    > = {
+        id,
+        title,
+        headerCellRenderer: HeaderCell,
+        headerCellRendererParams: {
+            sortable: false,
+        },
+        headerContainerClassName: options?.headerContainerClassName,
+        cellRenderer: ReducedListDisplay,
+        cellRendererParams: (_, datum) => {
+            const countryList = countryListSelector(datum);
+
+            return {
+                list: countryList,
+                renderer: Link,
+                keySelector: (country) => country.id,
+                rendererParams: (country) => ({
+                    to: generatePath(countryRoutePath, { countryId: String(country.id) }),
+                    children: country.name,
+                }),
+            };
+        },
+        cellRendererClassName: options?.cellRendererClassName,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
     };
 
     return item;

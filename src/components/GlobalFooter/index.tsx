@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import { resolve } from 'url';
 import { _cs } from '@togglecorp/fujs';
 import {
-    ThumbUpLineIcon,
-    LockLineIcon,
-    HeartLineIcon,
-    CheckboxCircleLineIcon,
+    SocialMediumIcon,
+    SocialFacebookIcon,
+    SocialTwitterIcon,
+    SocialYoutubeIcon,
 } from '@ifrc-go/icons';
 
 import Heading from '#components/Heading';
@@ -107,17 +107,29 @@ function GlobalFooter(props: Props) {
                     im@ifrc.org
                 </Link>
                 <div className={styles.socialIcons}>
-                    <Link to="https://ifrcgoproject.medium.com">
-                        <ThumbUpLineIcon />
+                    <Link
+                        to="https://ifrcgoproject.medium.com"
+                        className={styles.socialIcon}
+                    >
+                        <SocialMediumIcon />
                     </Link>
-                    <Link to="https://www.facebook.com/IFRC">
-                        <LockLineIcon />
+                    <Link
+                        to="https://www.facebook.com/IFRC"
+                        className={styles.socialIcon}
+                    >
+                        <SocialFacebookIcon />
                     </Link>
-                    <Link to="https://twitter.com/ifrcgo">
-                        <CheckboxCircleLineIcon />
+                    <Link
+                        to="https://twitter.com/ifrcgo"
+                        className={styles.socialIcon}
+                    >
+                        <SocialTwitterIcon />
                     </Link>
-                    <Link to="https://www.youtube.com/watch?v=dwPsQzla9A4">
-                        <HeartLineIcon />
+                    <Link
+                        to="https://www.youtube.com/watch?v=dwPsQzla9A4"
+                        className={styles.socialIcon}
+                    >
+                        <SocialYoutubeIcon />
                     </Link>
                 </div>
             </div>

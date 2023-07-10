@@ -1,0 +1,16 @@
+{
+    "namespace": "allThreeW",
+    "strings": {
+        "allThreeWTitle": "All 3W",
+        "allThreeWHeading": "All 3W ({numThreeWs})",
+        "allThreeWCountry": "Receiving Country",
+        "allThreeWNS": "National Society",
+        "allThreeWProjectName": "Project Name",
+        "allThreeWSector": "Sector",
+        "allThreeWTotalBudget": "Total Budget",
+        "allThreeWProgrammeType": "Programme Type",
+        "allThreeWDisasterType": "Disaster Type",
+        "allThreeWPeopleTargeted": "People Targeted",
+        "allThreeWPeopleReached": "Services provided to people in need"
+    }
+}

@@ -2,9 +2,7 @@
     "namespace": "home",
     "strings": {
         "activeOperationsTitle":"Active Operations ({numAppeals})",
-        "operationMapViewAll":"View all emergencies (last 30 days)",
-        "operationPopoverClose":"Close popover",
-        "operationPopoverDismiss":"Dismiss",
+        "operationMapViewAll":"View all Operations",
         "operationPopoverPeopleAffected":"People Targeted",
         "operationPopoverAmountRequested":"Amount Requested (CHF)",
         "operationPopoverAmountFunded":"Amount Funded (CHF)",

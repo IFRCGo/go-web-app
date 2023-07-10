@@ -2,73 +2,51 @@ import {
     useState,
     useMemo,
     useContext,
-    useCallback,
 } from 'react';
 import { generatePath } from 'react-router-dom';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
-import Link from '#components/Link';
 import Container from '#components/Container';
 import {
     createStringColumn,
     createDateColumn,
     createNumberColumn,
     createLinkColumn,
-    createListDisplayColumn,
+    createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
+import { paths } from '#generated/types';
 
-import type { EventItem } from '../types';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type GetEvent = paths['/api/v2/event/']['get'];
+type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventListItem = NonNullable<EventResponse['results']>[number];
 
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
 
-const keySelector = (item: EventItem) => item.id;
-
-type TableKey = number;
-type CountryItem = EventItem['countries'][number];
+const keySelector = (item: EventListItem) => item.id;
 
 function EventItemsTable() {
+    const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
 
-    const strings = useTranslation(i18n);
     const {
         country: countryRoute,
         emergency: emergencyRoute,
     } = useContext(RouteContext);
 
-    const countryListColumnParams = useCallback(
-        (item: EventItem) => ({
-            list: item.countries,
-            keySelector: (country: CountryItem) => country.id,
-            renderer: (country: CountryItem) => (
-                <Link
-                    to={generatePath(
-                        countryRoute.absolutePath,
-                        { countryId: String(country.id) },
-                    )}
-                >
-                    {country.name}
-                </Link>
-            ),
-        }),
-        [countryRoute],
-    );
-
     const columns = useMemo(
         () => ([
-            createDateColumn<EventItem, TableKey>(
+            createDateColumn<EventListItem, number>(
                 'created_at',
                 strings.emergenciesTableDate,
                 (item) => item.created_at,
@@ -77,7 +55,7 @@ function EventItemsTable() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createLinkColumn<EventItem, TableKey>(
+            createLinkColumn<EventListItem, number>(
                 'event_name',
                 strings.emergenciesTableName,
                 (item) => item.name,
@@ -85,31 +63,32 @@ function EventItemsTable() {
                     to: generatePath(emergencyRoute.absolutePath, { emergencyId: item.id }),
                 }),
             ),
-            createStringColumn<EventItem, TableKey>(
+            createStringColumn<EventListItem, number>(
                 'dtype',
                 strings.emergenciesTableDisasterType,
                 (item) => item.dtype.name,
             ),
-            createStringColumn<EventItem, TableKey>(
+            createStringColumn<EventListItem, number>(
                 'glide',
                 strings.emergenciesTableGlide,
                 // FIXME: empty string from server
                 (item) => item.glide || '-',
             ),
-            createNumberColumn<EventItem, TableKey>(
+            createNumberColumn<EventListItem, number>(
                 'amount_requested',
                 strings.emergenciesTableRequestedAmt,
                 (item) => sumSafe(
                     item.appeals.map((appeal) => Number(appeal.amount_requested)),
                 ),
             ),
-            createListDisplayColumn<EventItem, TableKey, CountryItem>(
+            createCountryListColumn<EventListItem, number>(
                 'countries',
                 strings.emergenciesTableCountry,
-                countryListColumnParams,
+                (item) => item.countries,
+                countryRoute.absolutePath,
             ),
         ]),
-        [strings, emergencyRoute, countryListColumnParams],
+        [strings, emergencyRoute, countryRoute],
     );
 
     let ordering;
@@ -125,7 +104,7 @@ function EventItemsTable() {
     const {
         pending: eventPending,
         response: eventResponse,
-    } = useRequest<ListResponse<EventItem>>({
+    } = useRequest<EventResponse>({
         url: 'api/v2/event/',
         preserveResponse: true,
         query: {

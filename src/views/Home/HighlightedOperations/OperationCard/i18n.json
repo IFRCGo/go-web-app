@@ -1,5 +1,5 @@
 {
-    "namespace": "home",
+    "namespace": "common",
     "strings": {
         "operationCardLastUpdated":"Last updated:",
         "operationCardTargetedPopulation":"Targeted Population",

@@ -9,7 +9,6 @@ import {
     listToGroupList,
     mapToMap,
     unique,
-    sum,
 } from '@togglecorp/fujs';
 import Map, {
     MapContainer,
@@ -18,10 +17,7 @@ import Map, {
 } from '@togglecorp/re-map';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
@@ -33,13 +29,13 @@ import {
     defaultMapStyle,
     defaultMapOptions,
 } from '#utils/map';
-import { Appeal } from '#types/emergency';
-import { Country } from '#types/country';
+import { paths } from '#generated/types';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
-import i18n from './i18n.json';
+import { sumSafe } from '#utils/common';
 
+import i18n from './i18n.json';
 import {
     ScaleOption,
     getScaleOptions,
@@ -55,6 +51,12 @@ import {
     adminLabelLayerOptions,
 } from './utils';
 import styles from './styles.module.css';
+
+type GetAppeal = paths['/api/v2/appeal/']['get'];
+type AppealResponse = GetAppeal['responses']['200']['content']['application/json'];
+
+type GetCountry = paths['/api/v2/country/']['get'];
+type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 
 const today = new Date().toISOString();
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
@@ -93,6 +95,7 @@ function ActiveOperationMap(props: Props) {
 
     const {
         country: countryRoute,
+        allAppeals: allAppealsRoute,
     } = useContext(RouteContext);
 
     const [
@@ -104,7 +107,7 @@ function ActiveOperationMap(props: Props) {
     const strings = useTranslation(i18n);
     const {
         response: appealResponse,
-    } = useRequest<ListResponse<Appeal>>({
+    } = useRequest<AppealResponse>({
         url: 'api/v2/appeal/',
         query: {
             end_date__gt: today,
@@ -114,7 +117,7 @@ function ActiveOperationMap(props: Props) {
 
     const {
         response: countryResponse,
-    } = useRequest<ListResponse<Country>>({
+    } = useRequest<CountryResponse>({
         url: 'api/v2/country/',
         query: {
             limit: 500,
@@ -132,7 +135,7 @@ function ActiveOperationMap(props: Props) {
     const countryGroupedAppeal = useMemo(() => (
         listToGroupList(
             appealResponse?.results ?? [],
-            (appeal) => appeal.country.iso3,
+            (appeal) => appeal.country.iso3 ?? '',
         )
     ), [appealResponse]);
 
@@ -146,11 +149,11 @@ function ActiveOperationMap(props: Props) {
                         appealList.map((appeal) => appeal.atype),
                     );
 
-                    const peopleTargeted = sum(
-                        appealList.map((appeal) => appeal.num_beneficiaries),
+                    const peopleTargeted = sumSafe(
+                        appealList.map((appeal) => Number(appeal.num_beneficiaries)),
                     );
-                    const financialRequirements = sum(
-                        appealList.map((appeal) => +appeal.amount_requested),
+                    const financialRequirements = sumSafe(
+                        appealList.map((appeal) => Number(appeal.amount_requested)),
                     );
 
                     if (uniqueAppealList.length > 1) {
@@ -173,7 +176,7 @@ function ActiveOperationMap(props: Props) {
             return {
                 type: 'FeatureCollection' as const,
                 features: countryResponse?.results
-                    .filter((country) => country.independent || country.record_type)
+                    ?.filter((country) => country.independent || country.record_type)
                     .map((country) => {
                         if (!country.centroid || !country.iso3) {
                             return undefined;
@@ -234,7 +237,7 @@ function ActiveOperationMap(props: Props) {
             withHeaderBorder
             actions={(
                 <Link
-                    to="/"
+                    to={allAppealsRoute.absolutePath}
                     actions={<ChevronRightLineIcon />}
                     withUnderline
                 >
@@ -319,17 +322,17 @@ function ActiveOperationMap(props: Props) {
                                     headingLevel={5}
                                 >
                                     <TextOutput
-                                        value={+appeal.num_beneficiaries}
+                                        value={Number(appeal.num_beneficiaries)}
                                         description={strings.operationPopoverPeopleAffected}
                                         valueType="number"
                                     />
                                     <TextOutput
-                                        value={+appeal.amount_requested}
+                                        value={Number(appeal.amount_requested)}
                                         description={strings.operationPopoverAmountRequested}
                                         valueType="number"
                                     />
                                     <TextOutput
-                                        value={+appeal.amount_funded}
+                                        value={Number(appeal.amount_funded)}
                                         description={strings.operationPopoverAmountFunded}
                                         valueType="number"
                                     />

@@ -16,6 +16,7 @@ interface BaseProps {
     strongValue?: boolean;
     strongLabel?: boolean;
     strongDescription?: boolean;
+    withoutLabelColon?: boolean;
 }
 
 interface NumberProps extends NumberOutputProps {
@@ -47,6 +48,7 @@ function TextOutput(props: Props) {
         strongLabel,
         strongValue,
         strongDescription,
+        withoutLabelColon,
         ...otherProps
     } = props;
 
@@ -78,6 +80,7 @@ function TextOutput(props: Props) {
                         styles.label,
                         strongLabel && styles.strong,
                         labelClassName,
+                        !withoutLabelColon && styles.withColon,
                     )}
                 >
                     {label}

@@ -16,6 +16,7 @@ export interface Props {
     pendingMessage?: React.ReactNode;
     filteredMessage?: React.ReactNode;
     compact?: boolean;
+    withoutBorder?: boolean;
 }
 
 function Message(props: Props) {
@@ -31,6 +32,7 @@ function Message(props: Props) {
         errorMessage = 'Oops! We ran into an issue!',
         filteredMessage = 'No matching data available!',
         compact,
+        withoutBorder,
     } = props;
 
     let message: React.ReactNode = messageFromProps;
@@ -48,6 +50,7 @@ function Message(props: Props) {
                 className={styles.blockLoading}
                 compact={compact}
                 message={pendingMessage}
+                withoutBorder={withoutBorder}
             />
         );
     } else if (errored) {

@@ -1,0 +1,18 @@
+{
+    "namespace": "allAppeals",
+    "strings": {
+        "allAppealsTitle": "All Appeals",
+        "allAppealsHeading": "All Appeals ({numAppeals})",
+        "allAppealsStartDate": "Start Date",
+        "allAppealsType": "Type",
+        "allAppealsCode": "Code",
+        "allAppealsOperation": "Operation",
+        "allAppealsDisasterType": "Disaster Type",
+        "allAppealsRequestedAmount": "Requested Amount",
+        "allAppealsFundedAmount": "Funding",
+        "allAppealsCountry": "Country",
+        "allAppealsFilterCountryPlaceholder": "All Countries",
+        "allAppealsFilterAppealsPlaceholder": "All Appeal Types",
+        "allAppealsFilterDisastersPlaceholder": "All Disaster Types"
+    }
+}

@@ -24,7 +24,7 @@ import {
 import {
     DrefFields,
 } from '#views/DrefApplicationForm/common';
-import { FieldReportAPIResponseFields } from '#types/fieldReport';
+import type { FieldReportAPIResponseFields } from '#types/fieldReport';
 import useTranslation from '#hooks/useTranslation';
 
 import FieldReportSelectInput, { FieldReportListItem } from '#components/FieldReportSearchSelectInput';

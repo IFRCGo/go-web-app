@@ -10,10 +10,15 @@
         flex-direction: column;
         flex-grow: 1;
         justify-content: center;
-        border: var(--go-ui-width-separator-md) dashed var(--go-ui-color-gray-40);
-        border-radius: var(--go-ui-border-radius-xl);
         padding: var(--go-ui-spacing-sm);
         gap: var(--go-ui-spacing-md);
+    }
+
+    &.with-border {
+        .inner {
+            border: var(--go-ui-width-separator-md) dashed var(--go-ui-color-gray-40);
+            border-radius: var(--go-ui-border-radius-xl);
+        }
     }
 
     &.compact {

@@ -23,6 +23,11 @@
             .social-icons {
                 display: flex;
                 gap: var(--go-ui-spacing-md);
+
+                .social-icon {
+                    flex-shrink: 0;
+                    font-size: var(--go-ui-font-size-5xl);
+                }
             }
         }
     }

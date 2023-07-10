@@ -22,8 +22,8 @@ import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import LegendItem from '#components/LegendItem';
 import RouteContext from '#contexts/route';
 import BarChart from '#components/BarChart';
-import { useRequest, ListResponse } from '#utils/restRequest';
-import type { Country } from '#types/country';
+import { useRequest } from '#utils/restRequest';
+import type { paths } from '#generated/types';
 import {
     defaultMapStyle,
     defaultMapOptions,
@@ -45,6 +45,10 @@ import {
     projectPerSectorKeySelector,
 } from '../common';
 import styles from './styles.module.css';
+
+type GetCountry = paths['/api/v2/country/']['get'];
+type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
 const redPointCirclePaint = getPointCirclePaint(COLOR_RED);
 const bluePointCirclePaint = getPointCirclePaint(COLOR_BLUE);
@@ -80,12 +84,13 @@ function getPointType(projectStat: NSOngoingProjectStat) {
 
     return {
         id: OPERATION_TYPE_MULTI,
+        // FIXME: use translation
         title: 'Multiple types',
     };
 }
 
 function getGeoJson(
-    countries: Country[],
+    countries: CountryListItem[],
     nsProjectsMap: Record<number, {
         countryId: number;
         total: number;
@@ -144,7 +149,7 @@ function GlobalThreeWMap(props: Props) {
 
     const {
         response: countriesResponse,
-    } = useRequest<ListResponse<Country>>({
+    } = useRequest<CountryResponse>({
         url: 'api/v2/country/',
         query: { limit: 500 },
     });
