@@ -5,7 +5,6 @@ import {
     useFormObject,
     SetValueArg,
 } from '@togglecorp/toggle-form';
-import { randomString } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import NumberInput from '#components/NumberInput';
@@ -20,7 +19,7 @@ type PlannedInterventionFormFields = NonNullable<PartialDref['planned_interventi
 type IndicatorFormFields = NonNullable<PlannedInterventionFormFields['indicators']>[number];
 
 const defaultIndicatorValue: IndicatorFormFields = {
-    client_id: randomString(),
+    client_id: '-1',
 };
 
 interface Props {
