@@ -1,9 +1,9 @@
 .non-field-error {
-
     animation: flash var(--go-ui-duration-animation-fast) ease-in-out;
     animation-delay: var(--go-ui-duration-animation-slow);
     color: var(--go-ui-color-red);
-    font-weight: $base-font-bold;
+    font-size: var(--go-ui-font-size-lg);
+    font-weight: var(--go-ui-font-weight-medium);
 }
 
 @keyframes flash {

@@ -2,7 +2,7 @@ import styles from './styles.module.css';
 
 interface Props {
     question: string;
-    answer: string;
+    answer: string | undefined;
     questionNum: number;
     componentNum: number;
     notes?: string | null;
@@ -21,7 +21,7 @@ function QuestionOutput(props: Props) {
         <div className={styles.questionOutput}>
             <div className={styles.questionRow}>
                 <div className={styles.numbering}>
-                    {`${componentNum}.${questionNum}`}
+                    {`${componentNum}.${questionNum}.`}
                 </div>
                 <div className={styles.question}>
                     {question}

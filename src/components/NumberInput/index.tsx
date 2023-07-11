@@ -67,6 +67,7 @@ function NumberInput<const T>(props: Props<T>) {
             hint={hint}
             label={label}
             disabled={disabled}
+            readOnly={readOnly}
             errorOnTooltip={errorOnTooltip}
             input={(
                 <RawInput

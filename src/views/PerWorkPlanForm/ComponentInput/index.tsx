@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import {
     SetValueArg,
     useFormObject,
@@ -10,26 +10,33 @@ import { isDefined } from '@togglecorp/fujs';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
-import type { GET } from '#types/serverResponse';
 import type { paths } from '#generated/types';
 import { isValidNationalSociety } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
+import ServerEnumsContext from '#contexts/server-enums';
 import {
     numericIdSelector,
-    numericValueSelector,
-    stringLabelSelector,
+    stringValueSelector,
 } from '#utils/selectors';
 
-import { PartialWorkPlan } from '../common';
+import { PartialWorkPlan } from '../schema';
 
 import i18n from '../i18n.json';
 
 type CountryResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
+type PrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['put']['responses']['200']['content']['application/json'];
 
 type Value = NonNullable<PartialWorkPlan['component_responses']>[number];
-type AssessmentResponse = GET['api/v2/per-prioritization/:id'];
-type ComponentResponse = AssessmentResponse['component_responses'][number];
+type ComponentResponse = NonNullable<PrioritizationResponse['component_responses']>[number];
 type CountryItem = NonNullable<CountryResponse['results']>[number];
+
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];
+
+function statusKeySelector(option: PerWorkPlanStatusOption) {
+    return option.key;
+}
 
 function nsLabelSelector(option: Omit<CountryItem, 'society_name'> & { 'society_name': string }) {
     return option.society_name;
@@ -41,10 +48,6 @@ interface Props {
     index: number;
     error: Error<Value> | undefined;
     component: ComponentResponse['component_details'];
-    workPlanStatusOptions?: {
-        value: number;
-        label: string;
-    }[];
     countryResults: CountryResponse['results'] | undefined;
 }
 
@@ -54,11 +57,11 @@ function ComponentInput(props: Props) {
         index,
         value,
         component,
-        workPlanStatusOptions,
         countryResults,
         error: formError,
     } = props;
 
+    const { per_workplanstatus } = useContext(ServerEnumsContext);
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
 
@@ -117,10 +120,10 @@ function ComponentInput(props: Props) {
             <SelectInput
                 name="status"
                 placeholder={strings.perFormSelectStatusLabel}
-                options={workPlanStatusOptions}
+                options={per_workplanstatus}
                 onChange={onFieldChange}
-                keySelector={numericValueSelector}
-                labelSelector={stringLabelSelector}
+                keySelector={statusKeySelector}
+                labelSelector={stringValueSelector}
                 value={value?.status}
                 error={error?.status}
             />

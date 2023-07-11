@@ -38,7 +38,6 @@ function FieldReportsTable() {
     const { sorting } = sortState;
 
     const {
-        country: countryRoute,
         emergency: emergencyRoute,
         allFieldReports: allFieldReportsRoute,
     } = useContext(RouteContext);
@@ -83,10 +82,9 @@ function FieldReportsTable() {
                 'countries',
                 strings.fieldReportsTableCountry,
                 (item) => item.countries,
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, countryRoute, emergencyRoute],
+        [strings, emergencyRoute],
     );
 
     let ordering;

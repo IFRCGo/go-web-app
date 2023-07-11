@@ -21,13 +21,13 @@ import {
     createExpansionIndicatorColumn,
     createElementColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import TableBodyContent from '#components/Table/TableBodyContent';
 import type { RowOptions } from '#components/Table/types';
 import Link from '#components/Link';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
@@ -37,8 +37,11 @@ import type { Props as PerTableActionsProps } from './PerTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type PerProcessStatusResponse = GET['api/v2/aggregated-per-process-status'];
-type PerProcessStatusItem = PerProcessStatusResponse['results'][number];
+type AggregatedPerProcessStatusResponse = paths['/api/v2/aggregated-per-process-status/']['get']['responses']['200']['content']['application/json'];
+type AggregatedPerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
+
+type PerProcessStatusResponse = paths['/api/v2/aggregated-per-process-status/']['get']['responses']['200']['content']['application/json'];
+type PerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -46,26 +49,20 @@ export function Component() {
     const sortState = useSortState({ name: 'date_of_assessment', direction: 'dsc' });
     const { sorting } = sortState;
     const [expandedRow, setExpandedRow] = useState<PerProcessStatusItem | undefined>();
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
     const {
         pending: aggregatedStatusPending,
         response: aggregatedStatusResponse,
     } = useRequest<PerProcessStatusResponse>({
         url: 'api/v2/aggregated-per-process-status',
         query: {
-            ordering,
+            ordering: getOrdering(sorting),
         },
     });
 
     const {
         // pending: countryStatusPending,
         response: countryStatusResponse,
-    } = useRequest<PerProcessStatusResponse>({
+    } = useRequest<AggregatedPerProcessStatusResponse>({
         skip: isNotDefined(expandedRow),
         url: 'api/v2/per-process-status',
         query: {
@@ -89,7 +86,7 @@ export function Component() {
 
     const baseColumn = useMemo(
         () => ([
-            createLinkColumn<PerProcessStatusItem, number>(
+            createLinkColumn<AggregatedPerProcessStatusItem, number>(
                 'country',
                 strings.tableCountryTitle,
                 (item) => item.country_details?.name,
@@ -100,24 +97,24 @@ export function Component() {
                     ),
                 }),
             ),
-            createDateColumn<PerProcessStatusItem, number>(
+            createDateColumn<AggregatedPerProcessStatusItem, number>(
                 'date_of_assessment',
                 strings.tableStartDateTitle,
                 (item) => item.date_of_assessment,
                 { sortable: true },
             ),
-            createNumberColumn<PerProcessStatusItem, number>(
+            createNumberColumn<AggregatedPerProcessStatusItem, number>(
                 'assessment_number',
                 strings.tablePerCycleTitle,
                 (item) => item.assessment_number,
             ),
-            createStringColumn<PerProcessStatusItem, number>(
+            createStringColumn<AggregatedPerProcessStatusItem, number>(
                 'phase',
                 strings.tablePerPhaseTitle,
                 (item) => (isDefined(item.phase) ? `${item.phase} - ${item.phase_display}` : '-'),
                 { sortable: true },
             ),
-            createElementColumn<PerProcessStatusItem, number, PerTableActionsProps>(
+            createElementColumn<AggregatedPerProcessStatusItem, number, PerTableActionsProps>(
                 'actions',
                 '',
                 PerTableActions,
@@ -143,7 +140,7 @@ export function Component() {
                 (row) => ({
                     onClick: handleExpandClick,
                     expanded: row.id === expandedRow?.id,
-                    disabled: row.assessment_number <= 1,
+                    disabled: (row.assessment_number ?? 0) <= 1,
                 }),
             ),
         ]),
@@ -152,7 +149,7 @@ export function Component() {
 
     const detailColumns = useMemo(
         () => ([
-            createExpansionIndicatorColumn<PerProcessStatusItem, number | string>(
+            createExpansionIndicatorColumn<PerProcessStatusItem, number>(
                 true,
             ),
             ...baseColumn,
@@ -166,6 +163,7 @@ export function Component() {
             if (datum.country !== expandedRow?.country) {
                 return row;
             }
+
             const subRows = countryStatusResponse?.results?.filter(
                 (subRow) => subRow.id !== datum.id,
             );

@@ -1,7 +1,6 @@
 import {
     useState,
     useMemo,
-    useContext,
 } from 'react';
 
 import Page from '#components/Page';
@@ -16,7 +15,6 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import NumberOutput from '#components/NumberOutput';
 import { resolveToComponent } from '#utils/translation';
 import { paths } from '#generated/types';
@@ -37,10 +35,6 @@ export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
-
-    const {
-        country: countryRoute,
-    } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -73,10 +67,9 @@ export function Component() {
                 (item) => item.country_district?.map(
                     (country_district) => country_district.country_details,
                 ) ?? [],
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, countryRoute],
+        [strings],
     );
 
     let ordering;

@@ -40,10 +40,7 @@ function FlashUpdateTable() {
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
 
-    const {
-        country: countryRoute,
-        allFlashUpdates: allFlashUpdatesRoute,
-    } = useContext(RouteContext);
+    const { allFlashUpdates: allFlashUpdatesRoute } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -76,10 +73,9 @@ function FlashUpdateTable() {
                 (item) => item.country_district?.map(
                     (country_district) => country_district.country_details,
                 ) ?? [],
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, countryRoute],
+        [strings],
     );
 
     let ordering;

@@ -25,7 +25,6 @@ import Container from '#components/Container';
 import Link from '#components/Link';
 import MapPopup from '#components/MapPopup';
 import { paths } from '#generated/types';
-import { CountryProperties } from '#types/country';
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import RadioInput from '#components/RadioInput';
 import TextOutput from '#components/TextOutput';
@@ -67,6 +66,22 @@ const today = new Date().toISOString();
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
 };
+
+interface CountryProperties {
+    country_id: number;
+    disputed: boolean;
+    fdrs: string;
+    independent: boolean;
+    is_deprecated: boolean;
+    iso: string;
+    iso3: string;
+    name: string;
+    name_ar: string;
+    name_es: string;
+    name_fr: string;
+    record_type: number;
+    region_id: number;
+}
 
 interface ClickedPoint {
     feature: GeoJSON.Feature<GeoJSON.Point, CountryProperties>;

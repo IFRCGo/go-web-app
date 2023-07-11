@@ -1,27 +1,23 @@
 import {
     ObjectSchema,
     PartialForm,
+    PurgeNull,
 } from '@togglecorp/toggle-form';
 
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 
-export type AssessmentResponse = GET['api/v2/per-assessment/:id'];
-type AreaResponse = AssessmentResponse['area_responses'][number];
-type ComponentResponse = AreaResponse['component_responses'][number];
+type AssessmentRequestBody = paths['/api/v2/per-assessment/{id}/']['put']['requestBody']['content']['application/json'];
+type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
 
-interface AssessmentFormFields extends Omit<AssessmentResponse, 'id' | 'user' | 'area_responses'>{
-    area_responses: (Omit<AreaResponse, 'area_details' | 'id' | 'is_draft' | 'component_responses'> & {
-        component_responses: Omit<ComponentResponse, 'rating_details'>[];
-    })[];
-}
-
-export type PartialAssessment = PartialForm<AssessmentFormFields, 'area' | 'component' | 'question' | 'consideration' | 'client_id'>;
+export type PartialAssessment = PartialForm<
+    AssessmentFormFields,
+    'area' | 'component' | 'question'
+>;
 type AssessmentSchema = ObjectSchema<PartialAssessment>
 type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 
 export const assessmentSchema: AssessmentSchema = {
     fields: (): AssessmentSchemaFields => ({
-        overview: {},
         is_draft: {},
         area_responses: {
             keySelector: (areaResponse) => areaResponse.area,

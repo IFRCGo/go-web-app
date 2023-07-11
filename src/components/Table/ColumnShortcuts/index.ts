@@ -6,7 +6,6 @@ import {
     _cs,
     randomString,
 } from '@togglecorp/fujs';
-import { generatePath } from 'react-router-dom';
 
 import DateOutput from '#components/DateOutput';
 import type { Props as DateOutputProps } from '#components/DateOutput';
@@ -24,6 +23,7 @@ import ReducedListDisplay, {
 import type { Props as LinkProps } from '#components/Link';
 import Link from '#components/Link';
 import { paths } from '#generated/types';
+import { numericIdSelector } from '#utils/selectors';
 
 import TableActions, {
     Props as TableActionsProps,
@@ -32,13 +32,13 @@ import HeaderCell from '../HeaderCell';
 import type { HeaderCellProps } from '../HeaderCell';
 import Cell from '../Cell';
 import type { CellProps } from '../Cell';
-
 import type { SortDirection, Column } from '../types';
-
 import ExpandButton from './ExpandButton';
 import type { ExpandButtonProps } from './ExpandButton';
 import ExpansionIndicator from './ExpansionIndicator';
 import type { Props as ExpansionIndicatorProps } from './ExpansionIndicator';
+import CountryLink from './CountryLink';
+import type { Props as CountryLinkProps } from './CountryLink';
 
 import styles from './styles.module.css';
 
@@ -483,17 +483,21 @@ type CountryResponse = GetCountry['responses']['200']['content']['application/js
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
 type PartialCountry = Pick<CountryListItem, 'id' | 'name'>;
 
+const countryLinkRendererParams = (country: PartialCountry) => ({
+    id: country.id,
+    name: country.name ?? '',
+});
+
 export function createCountryListColumn<DATUM, KEY>(
     id: string,
     title: string,
     countryListSelector: (datum: DATUM) => PartialCountry[],
-    countryRoutePath: string,
     options?: Options<DATUM, KEY, TableActionsProps, HeaderCellProps>,
 ) {
     const item: Column<
         DATUM,
         KEY,
-        ReducedListDisplayProps<PartialCountry, LinkProps >,
+        ReducedListDisplayProps<PartialCountry, CountryLinkProps>,
         HeaderCellProps
     > = {
         id,
@@ -509,12 +513,9 @@ export function createCountryListColumn<DATUM, KEY>(
 
             return {
                 list: countryList,
-                renderer: Link,
-                keySelector: (country) => country.id,
-                rendererParams: (country) => ({
-                    to: generatePath(countryRoutePath, { countryId: String(country.id) }),
-                    children: country.name,
-                }),
+                renderer: CountryLink,
+                keySelector: numericIdSelector,
+                rendererParams: countryLinkRendererParams,
             };
         },
         cellRendererClassName: options?.cellRendererClassName,

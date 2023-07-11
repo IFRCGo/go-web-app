@@ -68,10 +68,7 @@ export function Component() {
         (country) => country,
     );
 
-    const {
-        country: countryRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
+    const { emergency: emergencyRoute } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -113,10 +110,9 @@ export function Component() {
                 'countries',
                 strings.allFieldReportsCountries,
                 (item) => item.countries,
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, countryRoute, emergencyRoute],
+        [strings, emergencyRoute],
     );
 
     let ordering;

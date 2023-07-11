@@ -22,7 +22,6 @@ import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import ConfirmButton from '#components/ConfirmButton';
 import Portal from '#components/Portal';
-import { compareLabel } from '#utils/common';
 import {
     useLazyRequest,
     useRequest,
@@ -31,23 +30,23 @@ import { STEP_WORKPLAN, PerProcessOutletContext } from '#utils/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
-import type { GET } from '#types/serverResponse';
 import { paths } from '#generated/types';
+
+import CustomComponentInput from './CustomComponentInput';
+import ComponentInput from './ComponentInput';
 
 import {
     workplanSchema,
     PartialWorkPlan,
-} from './common';
-import CustomComponentInput from './CustomComponentInput';
-import ComponentInput from './ComponentInput';
-
+} from './schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type CountryResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
+type WorkPlanResponse = paths['/api/v2/per-work-plan/{id}/']['get']['responses']['200']['content']['application/json'];
+type PrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['put']['responses']['200']['content']['application/json'];
 
 const defaultValue: PartialWorkPlan = {};
-type WorkPlanResponse = GET['api/v2/per-work-plan/:id'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -76,13 +75,6 @@ export function Component() {
     );
 
     const {
-        pending: perOptionsPending,
-        response: perOptionsResponse,
-    } = useRequest<GET['api/v2/per-options']>({
-        url: 'api/v2/per-options/',
-    });
-
-    const {
         pending: countriesPending,
         response: countriesResponse,
     } = useRequest<CountryResponse>({
@@ -93,7 +85,7 @@ export function Component() {
     const {
         pending: prioritizationPending,
         response: prioritizationResponse,
-    } = useRequest<GET['api/v2/per-prioritization/:id']>({
+    } = useRequest<PrioritizationResponse>({
         skip: isNotDefined(statusResponse?.prioritization),
         url: `api/v2/per-prioritization/${statusResponse?.prioritization}`,
     });
@@ -111,7 +103,7 @@ export function Component() {
 
             setValue({
                 ...remainingWorkPlan,
-                custom_component_responses: custom_component_responses.map(
+                custom_component_responses: custom_component_responses?.map(
                     (customResponse) => ({
                         ...customResponse,
                         client_id: String(customResponse.id),
@@ -225,16 +217,6 @@ export function Component() {
         },
     });
 
-    const workPlanStatusOptions = useMemo(
-        () => (
-            perOptionsResponse?.workplanstatus.map((d) => ({
-                value: d.key,
-                label: d.value,
-            })).sort(compareLabel) ?? []
-        ),
-        [perOptionsResponse],
-    );
-
     const {
         setValue: setComponentValue,
     } = useFormArray<'component_responses', NonNullable<PartialWorkPlan['component_responses']>[number]>(
@@ -306,8 +288,7 @@ export function Component() {
 
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
-    const pending = perOptionsPending
-        || prioritizationPending
+    const pending = prioritizationPending
         || workPlanPending
         || countriesPending;
 
@@ -315,7 +296,7 @@ export function Component() {
     const customComponentError = getErrorObject(error?.custom_component_responses);
 
     return (
-        <form className={styles.perWorkPlanForm}>
+        <div className={styles.perWorkPlanForm}>
             {pending && (
                 <BlockLoading />
             )}
@@ -333,7 +314,6 @@ export function Component() {
                                 value={componentResponseMapping[componentResponse.component]?.value}
                                 onChange={setComponentValue}
                                 component={componentResponse.component_details}
-                                workPlanStatusOptions={workPlanStatusOptions}
                                 countryResults={countriesResponse?.results}
                                 error={componentResponseError?.[componentResponse.component]}
                             />
@@ -365,7 +345,6 @@ export function Component() {
                                 }
                                 onChange={setCustomComponentValue}
                                 onRemove={removeCustomComponentValue}
-                                workPlanStatusOptions={workPlanStatusOptions}
                                 countryResults={countriesResponse?.results}
                                 error={customComponentError?.[customComponent.client_id]}
                             />
@@ -397,13 +376,13 @@ export function Component() {
                                 variant="secondary"
                                 disabled={statusResponse?.phase !== STEP_WORKPLAN}
                             >
-                                Save
+                                {strings.perWorkPlanSaveButtonLabel}
                             </Button>
                         </Portal>
                     )}
                 </>
             )}
-        </form>
+        </div>
     );
 }
 

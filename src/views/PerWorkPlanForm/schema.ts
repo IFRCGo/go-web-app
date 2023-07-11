@@ -3,24 +3,11 @@ import {
     PartialForm,
     requiredStringCondition,
 } from '@togglecorp/toggle-form';
-import type { GET } from '#types/serverResponse';
+import { paths } from '#generated/types';
 
-export function booleanValueSelector<T extends { value: boolean }>(option: T) {
-    return option.value;
-}
-export function numericValueSelector<T extends { value: number }>(option: T) {
-    return option.value;
-}
-export function stringValueSelector<T extends { value: string }>(option: T) {
-    return option.value;
-}
-export function stringLabelSelector<T extends { label: string }>(option: T) {
-    return option.label;
-}
-
-type WorkPlanResponse = GET['api/v2/per-work-plan/:id'];
-type ComponentResponse = WorkPlanResponse['component_responses'][number];
-type CustomComponentResponse = WorkPlanResponse['custom_component_responses'][number];
+type WorkPlanResponse = paths['/api/v2/per-work-plan/{id}/']['put']['requestBody']['content']['application/json'];
+type ComponentResponse = NonNullable<WorkPlanResponse['component_responses']>[number];
+type CustomComponentResponse = NonNullable<WorkPlanResponse['custom_component_responses']>[number];
 
 type WorkPlanFormFields = Omit<WorkPlanResponse, 'id' | 'component_responses' | 'custom_component_responses'> & {
     component_responses: Omit<ComponentResponse, 'id'>[];

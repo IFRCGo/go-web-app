@@ -51,7 +51,6 @@ function EventItemsTable(props: Props) {
     const [page, setPage] = useState(0);
 
     const {
-        country: countryRoute,
         emergency: emergencyRoute,
         allEmergencies: allEmergenciesRoute,
     } = useContext(RouteContext);
@@ -97,10 +96,9 @@ function EventItemsTable(props: Props) {
                 'countries',
                 strings.regionEmergenciesTableCountry,
                 (item) => item.countries,
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, emergencyRoute, countryRoute],
+        [strings, emergencyRoute],
     );
 
     const query = useMemo<EventQueryParams>(

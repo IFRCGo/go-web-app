@@ -3,10 +3,10 @@ import {
     PartialForm,
 } from '@togglecorp/toggle-form';
 
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 
-type PrioritizationResponse = GET['api/v2/per-prioritization/:id'];
-type ComponentResponse = PrioritizationResponse['component_responses'][number];
+type PrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['put']['requestBody']['content']['application/json'];
+type ComponentResponse = NonNullable<PrioritizationResponse['component_responses']>[number];
 export type PrioritizationFormFields = Omit<PrioritizationResponse, 'id' | 'component_responses'> & ({
     component_responses: Omit<ComponentResponse, 'component_details'>[];
 });

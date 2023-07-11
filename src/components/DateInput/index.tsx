@@ -32,6 +32,7 @@ function DateInput<const T>(props: Props<T>) {
             hint={hint}
             disabled={disabled}
             errorOnTooltip={errorOnTooltip}
+            readOnly={readOnly}
             input={(
                 <RawInput
                     {...otherInputProps} /* eslint-disable-line react/jsx-props-no-spreading */

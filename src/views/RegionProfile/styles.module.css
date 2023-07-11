@@ -6,8 +6,7 @@
 
     .key-figures {
         display: flex;
-        align-items: center;
-        gap: var(--go-ui-spacing-lg);
+        justify-content: center;
 
         .key-figure {
             flex-basis: 26rem;

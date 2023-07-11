@@ -59,10 +59,7 @@ function EmergencyTable(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const {
-        country: countryRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
+    const { emergency: emergencyRoute } = useContext(RouteContext);
 
     const columns = useMemo(() => ([
         createLinkColumn<EmergencyResult, number>(
@@ -116,15 +113,15 @@ function EmergencyTable(props: Props) {
         createCountryListColumn<EmergencyResult, number>(
             'countries',
             strings.searchEmergencyTableCountry,
+            // FIXME: improve this in server
             (item) => item.countries_id.map(
                 (countryId, index) => ({
                     id: countryId,
                     name: item.countries[index],
                 }),
             ),
-            countryRoute.absolutePath,
         ),
-    ]), [strings, countryRoute, emergencyRoute]);
+    ]), [strings, emergencyRoute]);
 
     if (!data) {
         return null;

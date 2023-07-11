@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
     SetValueArg,
@@ -15,19 +15,24 @@ import Button from '#components/Button';
 import TextArea from '#components/TextArea';
 import type { paths } from '#generated/types';
 import { isValidNationalSociety } from '#utils/common';
-import { numericIdSelector } from '#utils/selectors';
+import { numericIdSelector, stringValueSelector } from '#utils/selectors';
+import ServerEnumsContext from '#contexts/server-enums';
 
-import {
-    numericValueSelector,
-    stringLabelSelector,
-    PartialWorkPlan,
-} from '../common';
+import { PartialWorkPlan } from '../schema';
 
 import i18n from '../i18n.json';
 
 type Value = NonNullable<PartialWorkPlan['custom_component_responses']>[number];
 type CountryResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
 type CountryItem = NonNullable<CountryResponse['results']>[number];
+
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];
+
+function statusKeySelector(option: PerWorkPlanStatusOption) {
+    return option.key;
+}
 
 function nsLabelSelector(option: Omit<CountryItem, 'society_name'> & { 'society_name': string }) {
     return option.society_name;
@@ -39,10 +44,6 @@ interface Props {
     error: Error<Value> | undefined;
     index: number;
     onRemove: (index: number) => void;
-    workPlanStatusOptions: {
-        value: number;
-        label: string;
-    }[];
     countryResults: CountryResponse['results'] | undefined;
 }
 
@@ -52,13 +53,13 @@ function CustomComponentInput(props: Props) {
         index,
         onRemove,
         value,
-        workPlanStatusOptions,
         countryResults,
         error: formError,
     } = props;
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
+    const { per_workplanstatus } = useContext(ServerEnumsContext);
 
     const defaultValue = useMemo(
         () => ({
@@ -117,10 +118,10 @@ function CustomComponentInput(props: Props) {
             <SelectInput
                 name="status"
                 placeholder={strings.perFormSelectStatusLabel}
-                options={workPlanStatusOptions}
+                options={per_workplanstatus}
                 onChange={onFieldChange}
-                keySelector={numericValueSelector}
-                labelSelector={stringLabelSelector}
+                keySelector={statusKeySelector}
+                labelSelector={stringValueSelector}
                 value={value?.status}
                 error={error?.status}
             />

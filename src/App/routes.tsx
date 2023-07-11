@@ -838,7 +838,7 @@ const goUI = customWrapRoute({
         render: () => import('#views/GoUI'),
         props: {},
     },
-    parent: perProcessForm,
+    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'GO UI',

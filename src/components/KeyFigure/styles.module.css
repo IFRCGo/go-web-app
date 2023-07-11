@@ -13,12 +13,8 @@
     }
 
     .value {
-        font-size: var(--go-ui-font-size-2xl);
+        font-size: var(--go-ui-font-size-3xl);
         font-weight: var(--go-ui-font-weight-medium);
-    }
-
-    .content {
-        padding: var(--go-ui-spacing-sm);
     }
 
     &.with-icon {

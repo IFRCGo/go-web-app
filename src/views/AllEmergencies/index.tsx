@@ -66,10 +66,7 @@ export function Component() {
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
 
-    const {
-        country: countryRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
+    const { emergency: emergencyRoute } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -112,10 +109,9 @@ export function Component() {
                 'countries',
                 strings.allEmergenciesCountry,
                 (item) => item.countries,
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, emergencyRoute, countryRoute],
+        [strings, emergencyRoute],
     );
 
     const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<DisasterListItem['id'] | undefined>(

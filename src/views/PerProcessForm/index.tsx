@@ -5,6 +5,7 @@ import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
 import Page from '#components/Page';
+import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
@@ -16,10 +17,12 @@ import {
     STEP_OVERVIEW,
     PerProcessOutletContext,
 } from '#utils/per';
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -31,12 +34,13 @@ export function Component() {
         perAssessmentForm: perAssessmentFormRoute,
         perPrioritizationForm: perPrioritizationFormRoute,
         perWorkPlanForm: perWorkPlanFormRoute,
+        accountPerForms: accountPerFormsRoute,
     } = useContext(RouteContext);
 
     const {
         response: statusResponse,
         retrigger: refetchStatusResponse,
-    } = useRequest<GET['api/v2/per-process-status/:id']>({
+    } = useRequest<PerProcessStatusResponse>({
         skip: isNotDefined(perId),
         url: `api/v2/per-process-status/${perId}/`,
     });
@@ -62,8 +66,17 @@ export function Component() {
             heading={strings.perFormHeading}
             description={strings.perFormProcessDescription}
             actions={(
-                <div ref={actionDivRef} />
+                <>
+                    <Link
+                        to={accountPerFormsRoute.absolutePath}
+                        variant="secondary"
+                    >
+                        {strings.perProcessBackButtonLabel}
+                    </Link>
+                    <div ref={actionDivRef} />
+                </>
             )}
+            withBackgroundColorInMainSection
             info={(
                 <NavigationTabList
                     className={styles.tabList}
