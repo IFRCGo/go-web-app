@@ -3,8 +3,8 @@
     "strings": {
         "editUserProfile": "Edit User Profile",
         "username": "User Name",
-        "firstname": "First Name",
-        "lastname": "Last Name",
+        "firstName": "First Name",
+        "lastName": "Last Name",
         "email": "Email",
         "country": "Country",
         "city": "City",
@@ -13,6 +13,8 @@
         "department": "Department",
         "phoneNumber": "Phone Number",
         "confirmButton": "Confirm Button",
-        "cancelButton": "Cancel Button"
+        "cancelButton": "Cancel Button",
+        "successfullyEditedAccount": "Account edited successfully!",
+        "editAccountFailure": "Sorry, failed to edit account!"
     }
 }
