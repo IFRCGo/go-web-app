@@ -4,16 +4,19 @@ import Header from '#components/Header';
 import Button from '#components/Button';
 import TextOutput from '#components/TextOutput';
 
-import { Emergency } from '#types/emergency';
 import useTranslation from '#hooks/useTranslation';
 import { useLazyRequest } from '#utils/restRequest';
+import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface Props {
+type GetOperations = paths['/api/v2/event/']['get'];
+type OperationsResponse = NonNullable<GetOperations['responses']['200']['content']['application/json']['results']>[number];
+
+export interface Props {
     className?: string;
-    data: Emergency;
+    operationsData: OperationsResponse;
     subscriptionMap: Record<number, boolean>,
     pending: boolean;
     retriggerSubscription: () => void,
@@ -22,7 +25,7 @@ interface Props {
 function OperationInfoCard(props: Props) {
     const {
         className,
-        data: {
+        operationsData: {
             id,
             name,
             updated_at,

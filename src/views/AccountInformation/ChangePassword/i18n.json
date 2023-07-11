@@ -6,6 +6,8 @@
         "newPassword": "New Password",
         "confirmNewPassword": "Confirm New Password",
         "cancelButton": "Cancel",
-        "confirmButton": "Confirm"
+        "confirmButton": "Confirm",
+        "successfullyChangedPassword": "Successfully changed password!",
+        "changePasswordFailed": "Failed to change password!"
     }
 }

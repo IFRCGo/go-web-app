@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import {
     useForm,
     ObjectSchema,
@@ -14,58 +14,62 @@ import TextInput from '#components/TextInput';
 import NonFieldError from '#components/NonFieldError';
 
 import useTranslation from '#hooks/useTranslation';
+import useAlert from '#hooks/useAlert';
+import { useLazyRequest } from '#utils/restRequest';
+import type { paths } from '#generated/types';
+import UserContext from '#contexts/user';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface UserPasswordChange {
-    id: number;
-    oldPassword: string;
-    newPassword: string;
-    confirmNewPassword: string;
-}
+type PostChangePassword = paths['/change_password']['post'];
+type PasswordChangeResponse = PostChangePassword['requestBody']['content']['application/json'];
 
-type FormFields = PartialForm<Omit<UserPasswordChange, 'id'>>;
+type FormFields = PartialForm<PasswordChangeResponse & { confirmNewPassword: string }>;
 
 const defaultFormValue: FormFields = {};
 
 const formSchema: ObjectSchema<FormFields> = {
     validation: (value) => {
         if (
-            value?.newPassword
+            value?.new_password
             && value?.confirmNewPassword
-            && value.newPassword !== value.confirmNewPassword
+            && value.new_password !== value.confirmNewPassword
         ) {
             return 'Passwords do not match!';
         }
         return undefined;
     },
     fields: () => ({
-        oldPassword: {
+        username: {},
+        token: {},
+        password: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
-        newPassword: {
+        new_password: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
         confirmNewPassword: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
     }),
 };
 
 interface Props {
-    handleCancelButton?: () => void;
+    handleModalCloseButton: () => void;
 }
 
 function ChangePasswordsModal(props: Props) {
     const {
-        handleCancelButton,
+        handleModalCloseButton,
     } = props;
 
     const strings = useTranslation(i18n);
+    const alert = useAlert();
+    const { userDetails } = useContext(UserContext);
 
     const {
         value: formValue,
@@ -77,11 +81,49 @@ function ChangePasswordsModal(props: Props) {
 
     const fieldError = getErrorObject(formError);
 
-    // FIXME: Add an api for change password
-    const handleConfirmPasswordChange = useCallback(() => {
-        // eslint-disable-next-line no-console
-        console.log('Add api for change password::::');
-    }, []);
+    const {
+        pending: updatePasswordPending,
+        trigger: updatePassword,
+    } = useLazyRequest<PasswordChangeResponse, FormFields>({
+        method: 'POST',
+        url: '/change_password',
+        body: (body) => body,
+        onSuccess: () => {
+            const message = strings.successfullyChangedPassword;
+            alert.show(
+                message,
+                { variant: 'success' },
+            );
+            handleModalCloseButton();
+        },
+        onFailure: (error) => {
+            const {
+                value: {
+                    formErrors,
+                },
+            } = error;
+
+            setError(formErrors);
+            // FIXME: Error message from server is not properly sent
+            // eslint-disable-next-line no-console
+            console.log('Server error::>>', formErrors);
+
+            const message = strings.changePasswordFailed;
+            alert.show(
+                message,
+                { variant: 'danger' },
+            );
+        },
+    });
+
+    const handleConfirmPasswordChange = useCallback((formValues: PartialForm<FormFields>) => {
+        const passwordFormValues = {
+            ...formValues,
+            username: userDetails?.username,
+            token: userDetails?.token,
+        };
+        updatePassword(passwordFormValues as FormFields);
+    }, [userDetails, updatePassword]);
 
     const handleSubmitPassword = createSubmitHandler(
         validate,
@@ -93,7 +135,7 @@ function ChangePasswordsModal(props: Props) {
         <Modal
             heading={strings.changeUserPassword}
             headingLevel={3}
-            onClose={handleCancelButton}
+            onClose={handleModalCloseButton}
             hideCloseButton
             className={styles.changePassword}
             footerActions={(
@@ -101,13 +143,14 @@ function ChangePasswordsModal(props: Props) {
                     <Button
                         name={undefined}
                         variant="secondary"
-                        onClick={handleCancelButton}
+                        onClick={handleModalCloseButton}
                     >
                         {strings.cancelButton}
                     </Button>
                     <Button
                         name={undefined}
                         onClick={handleSubmitPassword}
+                        disabled={updatePasswordPending}
                     >
                         {strings.confirmButton}
                     </Button>
@@ -120,20 +163,20 @@ function ChangePasswordsModal(props: Props) {
                 error={formError}
             />
             <TextInput
-                name="oldPassword"
+                name="password"
                 type="password"
                 label={strings.oldPassword}
-                value={formValue.oldPassword}
+                value={formValue.password}
                 onChange={setFieldValue}
-                error={fieldError?.oldPassword}
+                error={fieldError?.password}
             />
             <TextInput
-                name="newPassword"
+                name="new_password"
                 type="password"
                 label={strings.newPassword}
-                value={formValue.newPassword}
+                value={formValue.new_password}
                 onChange={setFieldValue}
-                error={fieldError?.newPassword}
+                error={fieldError?.new_password}
             />
             <TextInput
                 name="confirmNewPassword"

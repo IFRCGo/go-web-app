@@ -3,6 +3,7 @@ import {
     isInteger,
     isValidUrl as isValidRemoteUrl,
     typeOf,
+    isNotDefined,
 } from '@togglecorp/fujs';
 
 import {
@@ -70,6 +71,17 @@ export function whitelistCondition<T>(x: T[]) {
             ? `The field cannot be ${value}`
             : undefined
     );
+}
+
+export function isWhitelistedEmail<T>(email: string, whitelistedDomains: Maybe<T[]>) {
+    if (!isValidEmail(email) || isNotDefined(whitelistedDomains)) {
+        return false;
+    }
+
+    // Looking for an EXACT match in the domain whitelist
+    // (it finds even if UPPERCASE letters were used)
+    const userMailDomain = email.substring(email.lastIndexOf('@') + 1);
+    return whitelistedDomains.some((dom) => dom === userMailDomain);
 }
 
 export function lengthGreaterThanCondition(x: number) {

@@ -2,17 +2,19 @@
     "namespace": "account",
     "strings": {
         "editUserProfile": "Edit User Profile",
-        "username": "User Name",
-        "firstname": "First Name",
-        "lastname": "Last Name",
-        "email": "Email",
-        "country": "Country",
-        "city": "City",
-        "organizationType": "Organization Type",
-        "organizationName": "Organization Name",
-        "department": "Department",
-        "phoneNumber": "Phone Number",
-        "confirmButton": "Confirm Button",
-        "cancelButton": "Cancel Button"
+        "accountUsername": "User Name",
+        "accountFirstName": "First Name",
+        "accountLastName": "Last Name",
+        "accountEmail": "Email",
+        "accountCountry": "Country",
+        "accountCity": "City",
+        "accountOrganizationType": "Organization Type",
+        "accountOrganizationName": "Organization Name",
+        "accountDepartment": "Department",
+        "accountPhoneNumber": "Phone Number",
+        "editConfirmButton": "Confirm Button",
+        "editCancelButton": "Cancel Button",
+        "successfullyEditedAccount": "Account edited successfully!",
+        "editAccountFailure": "Sorry, failed to edit account!"
     }
 }

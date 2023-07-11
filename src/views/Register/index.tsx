@@ -22,6 +22,7 @@ import RouteContext from '#contexts/route';
 import Page from '#components/Page';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
+import TextArea from '#components/TextArea';
 import Link from '#components/Link';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
@@ -34,6 +35,7 @@ import {
     isValidNationalSociety,
 } from '#utils/common';
 import type { paths } from '#generated/types';
+import { isWhitelistedEmail } from '#utils/form';
 import {
     useRequest,
     useLazyRequest,
@@ -53,6 +55,9 @@ type RegisterRequestBody = PostRegister['requestBody']['content']['application/j
 type GetCountry = paths['/api/v2/country/']['get'];
 type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 
+type GetDomainWhiteList = paths['/api/v2/domainwhitelist/']['get'];
+type WhiteListResponse = GetDomainWhiteList['responses']['200']['content']['application/json'];
+
 const nsLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.society_name ?? '';
 
 type FormFields = PartialForm<RegisterRequestBody & { confirm_password: string }>;
@@ -61,7 +66,7 @@ const keySelector = (item: OrganizationTypeOption) => item.key;
 const labelSelector = (item: OrganizationTypeOption) => item.value;
 
 const countryKeySelector = (item: NonNullable<CountryResponse['results']>[number]) => item.id;
-const countryLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.name ?? '';
+const countryLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.name ?? item.id;
 
 type FormSchema = ObjectSchema<FormFields>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
@@ -125,7 +130,7 @@ const formSchema: ObjectSchema<FormFields> = {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { api_profile_org_types: organizationTypeOptions } = useContext(ServerEnumsContext);
+    const { api_profile_org_types: organizationTypes } = useContext(ServerEnumsContext);
     const { login: loginRoute } = useContext(RouteContext);
 
     const {
@@ -166,6 +171,8 @@ export function Component() {
 
             setError(formErrors);
             // FIXME: Error message from server is not properly sent
+            // eslint-disable-next-line no-console
+            console.log('Server error::>>', formErrors);
 
             const message = strings.registrationFailure;
             alert.show(
@@ -173,6 +180,11 @@ export function Component() {
                 { variant: 'danger' },
             );
         },
+    });
+
+    const { response: whiteListDomainResponse } = useRequest<WhiteListResponse>({
+        url: '/api/v2/domainwhitelist/',
+        query: { limit: 9999 },
     });
 
     const { response: countriesResponse } = useRequest<CountryResponse>({
@@ -189,6 +201,10 @@ export function Component() {
         () => countriesResponse?.results?.filter(isValidNationalSociety),
         [countriesResponse?.results],
     );
+
+    const whitelistedDomains = whiteListDomainResponse?.results;
+    const validEmail = formValue.email
+        && isWhitelistedEmail(formValue.email.toLowerCase(), whitelistedDomains);
 
     const handleRegister = useCallback((formValues: PartialForm<FormFields>) => {
         register(formValues as FormFields);
@@ -250,7 +266,7 @@ export function Component() {
                     withAsterisk
                 />
                 <TextInput
-                    className={styles.emailInput}
+                    className={styles.fullSizeInput}
                     name="email"
                     label={strings.registerEmail}
                     value={formValue.email}
@@ -308,7 +324,7 @@ export function Component() {
                     onChange={handleOrganizationTypeChange}
                     keySelector={keySelector}
                     labelSelector={labelSelector}
-                    options={organizationTypeOptions}
+                    options={organizationTypes}
                     error={fieldError?.organization_type}
                     disabled={registerPending}
                     withAsterisk
@@ -362,6 +378,22 @@ export function Component() {
                     disabled={registerPending}
                     withAsterisk
                 />
+                {!validEmail && (
+                    <>
+                        <div className={styles.justifyNote}>
+                            {strings.registerJustify}
+                        </div>
+                        <TextArea
+                            className={styles.fullSizeInput}
+                            name="justification"
+                            labelClassName={styles.textLabel}
+                            label={strings.registerJustification}
+                            value={formValue.justification}
+                            onChange={setFieldValue}
+                            rows={5}
+                        />
+                    </>
+                )}
             </div>
             <div className={styles.actions}>
                 <Button
@@ -369,7 +401,7 @@ export function Component() {
                     onClick={handleFormSubmit}
                     disabled={registerPending}
                 >
-                    {strings.registerSubmit}
+                    {!validEmail ? strings.requestAccess : strings.registerSubmit}
                 </Button>
                 <div className={styles.login}>
                     {loginInfo}

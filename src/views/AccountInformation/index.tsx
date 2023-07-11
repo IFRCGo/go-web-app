@@ -18,29 +18,33 @@ import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
 import {
     useRequest,
-    ListResponse,
 } from '#utils/restRequest';
 import UserContext from '#contexts/user';
-import { Emergency } from '#types/emergency';
-import { User } from '#types/user';
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 
-import OperationInfoCard from './OperationInfoCard';
+import OperationInfoCard, { Props as OperationInfoCardProps } from './OperationInfoCard';
 import ChangePasswordModal from './ChangePassword';
 import EditAccountInfo from './EditAccountInfo';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type UserResponse = GET['api/v2/user/me/'];
+type GetUserMeResponse = paths['/api/v2/user/me/']['get'];
+type UserMeResponse = GetUserMeResponse['responses']['200']['content']['application/json'];
+
+type GetUser = paths['/api/v2/user/']['get'];
+type UserResponse = GetUser['responses']['200']['content']['application/json'];
+
+type GetOperations = paths['/api/v2/event/']['get'];
+type OperationsResponse = GetOperations['responses']['200']['content']['application/json'];
 
 const ITEM_PER_PAGE = 5;
 
-const keySelector = (emergency: Emergency) => emergency.id;
+const keySelector = (emergency: NonNullable<OperationsResponse['results']>[number]) => emergency.id;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { userDetails } = useContext(UserContext);
+    const { userAuth: userDetails } = useContext(UserContext);
 
     const [page, setPage] = useState(0);
     const [showEditProfileModal, setShowEditProfileModal] = useState(false);
@@ -50,7 +54,7 @@ export function Component() {
         error: operationResponseError,
         response: operationsRes,
         pending: operationsPending,
-    } = useRequest<ListResponse<Emergency>>({
+    } = useRequest<OperationsResponse>({
         url: 'api/v2/event/',
         query: {
             is_featured: 1,
@@ -64,7 +68,7 @@ export function Component() {
         error: userDetailsError,
         pending: userDetailsPending,
         response: userDetailsResponse,
-    } = useRequest<ListResponse<User>>({
+    } = useRequest<UserResponse>({
         skip: isFalsyString(userDetails?.username),
         url: 'api/v2/user/',
         query: {
@@ -76,7 +80,7 @@ export function Component() {
         pending: mePending,
         response: meResponse,
         retrigger: retriggerUserDetails,
-    } = useRequest<UserResponse>({
+    } = useRequest<UserMeResponse>({
         skip: !userDetails,
         url: 'api/v2/user/me/',
     });
@@ -90,8 +94,8 @@ export function Component() {
     );
 
     const rendererParams = useCallback(
-        (_: Emergency['id'], emergency: Emergency) => ({
-            data: emergency,
+        (_: number, operation: NonNullable<OperationsResponse['results']>[number]): OperationInfoCardProps => ({
+            operationsData: operation,
             subscriptionMap,
             pending: mePending,
             retriggerSubscription: retriggerUserDetails,
@@ -112,7 +116,7 @@ export function Component() {
     }, []);
 
     const eventList = operationsRes?.results;
-    const userInformation = userDetailsResponse?.results[0];
+    const userInformation = userDetailsResponse?.results?.[0];
     const userInformationPending = userDetailsPending || userDetailsError || !userDetailsResponse;
 
     return (
@@ -235,12 +239,12 @@ export function Component() {
             </Container>
             {showEditProfileModal && (
                 <EditAccountInfo
-                    handleCancelButton={onEditProfileCancel}
+                    handleModalCloseButton={onEditProfileCancel}
                 />
             )}
             {showChangePasswordModal && (
                 <ChangePasswordModal
-                    handleCancelButton={onCancelPasswordChange}
+                    handleModalCloseButton={onCancelPasswordChange}
                 />
             )}
         </div>
