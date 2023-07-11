@@ -34,7 +34,6 @@ APP_MAPBOX_ACCESS_TOKEN=
 APP_TINY_API_KEY=
 APP_API_ENDPOINT=
 APP_RISK_API_ENDPOINT=
-APP_RISK_ADMIN_URL=
 ```
 
 You can contact IFRC team to get appropriate values for these variables
