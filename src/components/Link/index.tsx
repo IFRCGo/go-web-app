@@ -9,7 +9,10 @@ import {
     Link as InternalLink,
     LinkProps as RouterLinkProps,
 } from 'react-router-dom';
-import { ChevronRightLineIcon } from '@ifrc-go/icons';
+import {
+    ChevronRightLineIcon,
+    ExternalLinkLineIcon,
+} from '@ifrc-go/icons';
 
 import { useButtonFeatures } from '#components/Button';
 import type { ButtonFeatureProps } from '#components/Button';
@@ -30,6 +33,7 @@ export interface Props extends Omit<RouterLinkProps, 'to'> {
     to?: RouterLinkProps['to'];
     withUnderline?: boolean;
     withForwardIcon?: boolean;
+    withExternalLinkIcon?: boolean;
     variant?: ButtonFeatureProps['variant'];
 }
 
@@ -46,6 +50,7 @@ function Link(props: Props) {
         to,
         withUnderline,
         withForwardIcon,
+        withExternalLinkIcon,
         variant = 'tertiary',
         ...otherProps
     } = props;
@@ -98,9 +103,10 @@ function Link(props: Props) {
         children,
         variant,
         disabled,
-        actions: (isDefined(actions) || withForwardIcon) ? (
+        actions: (isDefined(actions) || withForwardIcon || withExternalLinkIcon) ? (
             <>
                 {actions}
+                {withExternalLinkIcon && <ExternalLinkLineIcon className={styles.externalLinkIcon} />}
                 {withForwardIcon && <ChevronRightLineIcon className={styles.forwardIcon} />}
             </>
         ) : null,

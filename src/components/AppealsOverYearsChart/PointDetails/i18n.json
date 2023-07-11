@@ -1,5 +1,5 @@
 {
-    "namespace": "home",
+    "namespace": "common",
     "strings": {
         "timelineChartEmergencyAppealLabel":"EmergencyAppeals",
         "timelineChartDrefLabel":"DREFs",

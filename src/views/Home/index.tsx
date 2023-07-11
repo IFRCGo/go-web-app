@@ -9,13 +9,13 @@ import {
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
+import HighlightedOperations from '#components/HighlightedOperations';
+import ActiveOperationMap from '#components/ActiveOperationMap';
+import AppealsTable from '#components/AppealsTable';
+import AppealsOverYearsChart from '#components/AppealsOverYearsChart';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 
-import HighlightedOperations from './HighlightedOperations';
-import ActiveOperationMap from './ActiveOperationMap';
-import AppealsTable from './AppealsTable';
-import Charts from './Charts';
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
@@ -93,10 +93,10 @@ export function Component() {
                 </>
             )}
         >
-            <HighlightedOperations />
-            <ActiveOperationMap />
-            <AppealsTable />
-            <Charts />
+            <HighlightedOperations variant="global" />
+            <ActiveOperationMap variant="global" />
+            <AppealsTable variant="global" />
+            <AppealsOverYearsChart />
         </Page>
     );
 }

@@ -1,34 +1,37 @@
 import { createContext } from 'react';
 
-export interface UserDetails {
+export interface UserAuth {
     id: number;
+    displayName: string;
+    token: string;
+
+    // TODO: we don't need to store following details
     username: string;
     firstName: string | undefined;
     lastName: string | undefined;
-    displayName: string;
-    token: string;
 }
 
 export interface UserContextProps {
-    userDetails?: UserDetails,
-    setUser: (userDetails: UserDetails) => void,
-    hydrateUser: () => void;
-    removeUser: () => void;
+    userAuth: UserAuth | undefined,
+    setUserAuth: (userDetails: UserAuth) => void,
+    hydrateUserAuth: () => void;
+    removeUserAuth: () => void;
 }
 
 const UserContext = createContext<UserContextProps>({
-    setUser: () => {
+    setUserAuth: () => {
         // eslint-disable-next-line no-console
         console.warn('UserContext::setUser called without provider');
     },
-    hydrateUser: () => {
+    hydrateUserAuth: () => {
         // eslint-disable-next-line no-console
         console.warn('UserContext::hydrateUser called without provider');
     },
-    removeUser: () => {
+    removeUserAuth: () => {
         // eslint-disable-next-line no-console
         console.warn('UserContext::removeUser called without provider');
     },
+    userAuth: undefined,
 });
 
 export default UserContext;

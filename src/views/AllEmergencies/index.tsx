@@ -4,10 +4,10 @@ import {
     useContext,
 } from 'react';
 import { generatePath } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -37,11 +37,16 @@ type GetCountry = paths['/api/v2/country/']['get'];
 type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
+type GetRegion = paths['/api/v2/region/']['get'];
+type RegionResponse = GetRegion['responses']['200']['content']['application/json'];
+type RegionListItem = NonNullable<RegionResponse['results']>[number];
+
 type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
 type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
 type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
 type GetEvent = paths['/api/v2/event/']['get'];
+type EventQueryParams = GetEvent['parameters']['query'];
 type EventResponse = GetEvent['responses']['200']['content']['application/json'];
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
@@ -50,6 +55,10 @@ const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
 const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
 const countryKeySelector = (item: CountryListItem) => item.id;
 const countryLabelSelector = (item: CountryListItem) => item.name ?? '';
+const regionKeySelector = (
+    item: Omit<RegionListItem, 'name'> & { name: NonNullable<RegionListItem['name']> },
+) => item.name;
+const regionLabelSelector = (item: RegionListItem) => item.region_name ?? '';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -117,6 +126,23 @@ export function Component() {
         },
         (dtype) => dtype,
     );
+    const [filterRegion, setFilterRegion] = useUrlSearchState<RegionListItem['name'] | undefined>(
+        'region',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            if (potentialValue === 0
+                || potentialValue === 1
+                || potentialValue === 2
+                || potentialValue === 3
+                || potentialValue === 4
+            ) {
+                return potentialValue;
+            }
+
+            return undefined;
+        },
+        (regionId) => regionId,
+    );
     const [filterCountry, setFilterCountry] = useUrlSearchState<DisasterListItem['id'] | undefined>(
         'country',
         (searchValue) => {
@@ -126,27 +152,27 @@ export function Component() {
         (country) => country,
     );
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
     const [page, setPage] = useState(0);
+
+    const query = useMemo<EventQueryParams>(
+        () => ({
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * (page - 1),
+            ordering: getOrdering(sorting),
+            dtype: filterDisasterType,
+            region: filterRegion,
+            countries__in: filterCountry,
+        }),
+        [page, filterDisasterType, filterRegion, filterCountry, sorting],
+    );
+
     const {
         pending: eventPending,
         response: eventResponse,
     } = useRequest<EventResponse>({
         url: 'api/v2/event/',
         preserveResponse: true,
-        query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
-            ordering,
-            dtype: filterDisasterType,
-            countries__in: filterCountry,
-        },
+        query,
     });
 
     const {
@@ -154,6 +180,13 @@ export function Component() {
         response: disasterTypeResponse,
     } = useRequest<DisasterTypeResponse>({
         url: 'api/v2/disaster_type/',
+    });
+
+    const {
+        pending: regionPending,
+        response: regionResponse,
+    } = useRequest<RegionResponse>({
+        url: 'api/v2/region/',
     });
 
     const {
@@ -167,6 +200,24 @@ export function Component() {
     const countryOptions = useMemo(
         () => countryResponse?.results?.filter(isValidCountry),
         [countryResponse],
+    );
+
+    const regionOptions = useMemo(
+        () => (
+            regionResponse?.results?.map(
+                (region) => {
+                    if (isNotDefined(region.name)) {
+                        return undefined;
+                    }
+
+                    return {
+                        ...region,
+                        name: region.name,
+                    };
+                },
+            ).filter(isDefined)
+        ),
+        [regionResponse],
     );
 
     const heading = useMemo(
@@ -204,6 +255,17 @@ export function Component() {
                             labelSelector={disasterTypeLabelSelector}
                             options={disasterTypeResponse?.results}
                             disabled={disasterTypePending}
+                        />
+                        <SelectInput
+                            placeholder={strings.allEmergenciesFilterRegionPlaceholder}
+                            label={strings.allEmergenciesRegion}
+                            name={undefined}
+                            value={filterRegion}
+                            onChange={setFilterRegion}
+                            keySelector={regionKeySelector}
+                            labelSelector={regionLabelSelector}
+                            options={regionOptions}
+                            disabled={regionPending}
                         />
                         <SelectInput
                             placeholder={strings.allEmergenciesFilterCountryPlaceholder}

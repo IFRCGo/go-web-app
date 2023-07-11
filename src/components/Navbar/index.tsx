@@ -43,7 +43,7 @@ function Navbar(props: Props) {
         newDrefApplicationForm: newDrefApplicationFormRoute,
     } = useContext(RouteContext);
 
-    const { userDetails } = useContext(UserContext);
+    const { userAuth: userDetails } = useContext(UserContext);
     const strings = useTranslation(i18n);
     const [searchText, setSearchText] = useInputState<string | undefined>(undefined);
 

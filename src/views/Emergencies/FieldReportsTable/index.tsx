@@ -133,14 +133,6 @@ function FieldReportsTable() {
             heading={heading}
             headerDescriptionClassName={styles.filters}
             withHeaderBorder
-            footerActions={(
-                <Pager
-                    activePage={page}
-                    itemsCount={fieldReportResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
-                    onActivePageChange={setPage}
-                />
-            )}
             actions={(
                 <Link
                     to={allFieldReportsRoute.absolutePath}
@@ -149,6 +141,14 @@ function FieldReportsTable() {
                 >
                     {strings.fieldReportsTableViewAllReports}
                 </Link>
+            )}
+            footerActions={(
+                <Pager
+                    activePage={page}
+                    itemsCount={fieldReportResponse?.count ?? 0}
+                    maxItemsPerPage={PAGE_SIZE}
+                    onActivePageChange={setPage}
+                />
             )}
         >
             <SortContext.Provider value={sortState}>

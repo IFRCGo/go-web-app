@@ -1,5 +1,5 @@
+import { useMemo, useContext } from 'react';
 import { useParams, Outlet, generatePath } from 'react-router-dom';
-import { useContext } from 'react';
 import {
     DrefIcon,
     AppealsIcon,
@@ -15,34 +15,13 @@ import KeyFigure from '#components/KeyFigure';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
+import type { paths } from '#generated/types';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
+import type { RegionOutletContext } from '#utils/region';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-interface Snippet {
-    region: number;
-    id: number;
-    snippet: string;
-    title: string;
-}
-
-interface RegionResponse {
-    additional_tab_name: string | null;
-    contacts: unknown[];
-    country_cluster_count: number;
-    country_plan_count: number;
-    emergency_snippets: Snippet[];
-    id: string;
-    links: unknown[];
-    name: number;
-    national_society_count: number;
-    preparedness_snippets: Snippet[];
-    profile_snippets: Snippet[];
-    region_name: string;
-    snippets: Snippet[];
-}
 
 interface AggregatedAppealResponse {
     active_appeals: number | null;
@@ -53,6 +32,9 @@ interface AggregatedAppealResponse {
     target_population: number | null;
     total_appeals: number | null;
 }
+
+type RegionResponse = paths['/api/v2/region/{id}/']['get']['responses']['200']['content']['application/json'];
+// type AggregatedAppealResponse = paths['/api/v2/appeal/aggregated']['get']['responses']['200'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -83,6 +65,13 @@ export function Component() {
         url: 'api/v2/appeal/aggregated/',
         query: { region: regionId },
     });
+
+    const outletContext: RegionOutletContext = useMemo(
+        () => ({
+            regionResponse,
+        }),
+        [regionResponse],
+    );
 
     const pending = regionPending || aggregatedAppealPending;
 
@@ -184,7 +173,9 @@ export function Component() {
                     {strings.regionProfileTab}
                 </NavigationTab>
             </NavigationTabList>
-            <Outlet />
+            <Outlet
+                context={outletContext}
+            />
         </Page>
     );
 }

@@ -11,7 +11,7 @@ import {
 import mapboxgl from 'mapbox-gl';
 import { unique } from '@togglecorp/fujs';
 
-import UserContext, { UserDetails } from '#contexts/user';
+import UserContext, { UserAuth, UserContextProps } from '#contexts/user';
 import AlertContext, { AlertParams, AlertContextProps } from '#contexts/alert';
 import RouteContext from '#contexts/route';
 import { RequestContext } from '#utils/restRequest';
@@ -43,17 +43,18 @@ const router = createBrowserRouter(unwrappedRoutes);
 mapboxgl.accessToken = import.meta.env.APP_MAPBOX_ACCESS_TOKEN;
 
 function App() {
-    const [userDetails, setUserDetails] = useState<UserDetails>();
-    const hydrateUser = useCallback(() => {
-        const userDetailsFromStorage = getFromStorage<UserDetails>(USER_STORAGE_KEY);
+    const [userAuth, setUserAuth] = useState<UserAuth>();
+
+    const hydrateUserAuth = useCallback(() => {
+        const userDetailsFromStorage = getFromStorage<UserAuth>(USER_STORAGE_KEY);
         if (userDetailsFromStorage) {
-            setUserDetails(userDetailsFromStorage);
+            setUserAuth(userDetailsFromStorage);
         }
     }, []);
 
     useEffect(() => {
-        hydrateUser();
-    }, [hydrateUser]);
+        hydrateUserAuth();
+    }, [hydrateUserAuth]);
 
     const [alerts, setAlerts] = useState<AlertParams[]>([]);
 
@@ -104,25 +105,25 @@ function App() {
         removeAlert,
     }), [alerts, addAlert, updateAlert, removeAlert]);
 
-    const removeUser = useCallback(() => {
+    const removeUserAuth = useCallback(() => {
         removeFromStorage(USER_STORAGE_KEY);
-        setUserDetails(undefined);
+        setUserAuth(undefined);
     }, []);
 
-    const setUser = useCallback((newUserDetails: UserDetails) => {
+    const setAndStoreUserAuth = useCallback((newUserDetails: UserAuth) => {
+        setUserAuth(newUserDetails);
         setToStorage(
             USER_STORAGE_KEY,
             newUserDetails,
         );
-        setUserDetails(newUserDetails);
     }, []);
 
-    const userContextValue = useMemo(() => ({
-        userDetails,
-        hydrateUser,
-        setUser,
-        removeUser,
-    }), [userDetails, hydrateUser, setUser, removeUser]);
+    const userContextValue: UserContextProps = useMemo(() => ({
+        userAuth,
+        hydrateUserAuth,
+        setUserAuth: setAndStoreUserAuth,
+        removeUserAuth,
+    }), [userAuth, hydrateUserAuth, setAndStoreUserAuth, removeUserAuth]);
 
     return (
         <RouteContext.Provider value={wrappedRoutes}>

@@ -1,6 +1,7 @@
 import { useState, useMemo, useContext } from 'react';
 import { generatePath } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, _cs } from '@togglecorp/fujs';
+
 import {
     useRequest,
     ListResponse,
@@ -16,7 +17,7 @@ import {
     createLinkColumn,
     createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
@@ -27,6 +28,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetAppeal = paths['/api/v2/appeal/']['get'];
+type AppealQueryParams = GetAppeal['parameters']['query'];
 type AppealResponse = GetAppeal['responses']['200']['content']['application/json'];
 type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
@@ -45,8 +47,27 @@ const disasterTypeKeySelector = (option: DisasterListItem) => option.id;
 const disasterTypeLabelSelector = (option: DisasterListItem) => option.name ?? '';
 
 const endDate = (new Date()).toISOString();
+type BaseProps = {
+    className?: string;
+}
 
-function AppealsTable() {
+type RegionProps = {
+    variant: 'region';
+    regionId: number;
+}
+
+type GlobalProps = {
+    variant: 'global';
+}
+
+type Props = BaseProps & (RegionProps | GlobalProps);
+
+function AppealsTable(props: Props) {
+    const {
+        className,
+        variant,
+    } = props;
+
     const sortState = useSortState();
     const { sorting } = sortState;
     const strings = useTranslation(i18n);
@@ -55,6 +76,9 @@ function AppealsTable() {
         country: countryRoute,
         emergency: emergencyRoute,
     } = useContext(RouteContext);
+    //
+    // eslint-disable-next-line react/destructuring-assignment
+    const regionId = variant === 'region' ? props.regionId : undefined;
 
     const columns = useMemo(
         () => ([
@@ -128,38 +152,45 @@ function AppealsTable() {
         [strings, countryRoute, emergencyRoute],
     );
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
     // FIXME: clear appealType and displacementType when filter is changed
-    const [appealType, setAppealType] = useInputState<AppealTypeOption['key'] | undefined>(undefined);
-    const [displacementType, setDisplacementType] = useInputState<number | undefined>(undefined);
+    const [filterAppeal, setFilterAppeal] = useInputState<AppealTypeOption['key'] | undefined>(undefined);
+    const [
+        filterDisplacement,
+        setFilterDisplacement,
+    ] = useInputState<number | undefined>(undefined);
     const [page, setPage] = useState(0);
 
     const PAGE_SIZE = 5;
+    const query = useMemo<AppealQueryParams>(
+        () => {
+            const baseQuery: AppealQueryParams = {
+                limit: PAGE_SIZE,
+                offset: PAGE_SIZE * (page - 1),
+                ordering: getOrdering(sorting),
+                atype: filterAppeal,
+                dtype: filterDisplacement,
+                end_date__gt: endDate,
+            };
+
+            if (variant === 'global') {
+                return baseQuery;
+            }
+
+            return {
+                ...baseQuery,
+                region: regionId,
+            };
+        },
+        [variant, regionId, page, sorting, filterAppeal, filterDisplacement],
+    );
+
     const {
         pending: appealsPending,
         response: appealsResponse,
     } = useRequest<ListResponse<AppealListItem>>({
         url: 'api/v2/appeal/',
         preserveResponse: true,
-        query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
-            ordering,
-            atype: appealType,
-            dtype: displacementType,
-            end_date__gt: endDate,
-            /*
-            // TODO:
-            start_date__gte: undefined,
-            start_date__gte: undefined,
-            */
-        },
+        query,
     });
 
     const {
@@ -171,7 +202,7 @@ function AppealsTable() {
 
     return (
         <Container
-            className={styles.appealsTable}
+            className={_cs(styles.appealsTable, className)}
             headerDescriptionClassName={styles.filters}
             headerDescription={(
                 <>
@@ -179,8 +210,8 @@ function AppealsTable() {
                         placeholder={strings.appealsTableFilterTypePlaceholder}
                         label={strings.appealsTableType}
                         name={undefined}
-                        value={appealType}
-                        onChange={setAppealType}
+                        value={filterAppeal}
+                        onChange={setFilterAppeal}
                         keySelector={appealTypeKeySelector}
                         labelSelector={appealTypeLabelSelector}
                         options={appealTypeOptions}
@@ -189,8 +220,8 @@ function AppealsTable() {
                         placeholder={strings.appealsTableFilterDisastersPlaceholder}
                         label={strings.appealsTableDisastertype}
                         name={undefined}
-                        value={displacementType}
-                        onChange={setDisplacementType}
+                        value={filterDisplacement}
+                        onChange={setFilterDisplacement}
                         keySelector={disasterTypeKeySelector}
                         labelSelector={disasterTypeLabelSelector}
                         options={disasterTypeResponse?.results}
@@ -211,7 +242,7 @@ function AppealsTable() {
             <SortContext.Provider value={sortState}>
                 <Table
                     pending={appealsPending}
-                    filtered={!!(displacementType && appealType)}
+                    filtered={!!(filterDisplacement && filterAppeal)}
                     className={styles.table}
                     columns={columns}
                     keySelector={appealKeySelector}

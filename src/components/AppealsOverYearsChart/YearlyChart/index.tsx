@@ -6,8 +6,7 @@ import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TimeSeriesChart from '#components/TimeSeriesChart';
 import Button from '#components/Button';
-import { getDatesSeparatedByMonths } from '#utils/chart';
-import { resolveToComponent } from '#utils/translation';
+import { getDatesSeparatedByYear } from '#utils/chart';
 import useTranslation from '#hooks/useTranslation';
 
 import PointDetails from '../PointDetails';
@@ -25,23 +24,6 @@ const dataKeys: DATA_KEY[] = [
     'emergencyAppeal',
 ];
 
-const dataKeyToClassNameMap = {
-    dref: styles.dref,
-    emergencyAppeal: styles.emergencyAppeal,
-};
-const classNameSelector = (dataKey: DATA_KEY) => dataKeyToClassNameMap[dataKey];
-const xAxisFormatter = (date: Date) => date.toLocaleString(
-    undefined,
-    { month: 'short' },
-);
-
-const dateFormatter = new Intl.DateTimeFormat(
-    undefined,
-    {
-        month: 'long',
-    },
-);
-
 const getFormattedKey = (dateFromProps: string | Date) => {
     const date = new Date(dateFromProps);
     return `${date.getFullYear()}-${date.getMonth()}`;
@@ -56,37 +38,42 @@ interface AggregateResponse {
     }[];
 }
 
+const now = new Date();
+const startDate = new Date(now.getFullYear() - 10, 0, 1);
+const endDate = new Date(now.getFullYear(), 11, 31);
+const dateList = getDatesSeparatedByYear(startDate, endDate);
+
+const dataKeyToClassNameMap = {
+    dref: styles.dref,
+    emergencyAppeal: styles.emergencyAppeal,
+};
+const classNameSelector = (dataKey: DATA_KEY) => dataKeyToClassNameMap[dataKey];
+const xAxisFormatter = (date: Date) => date.toLocaleString(undefined, { year: 'numeric' });
+
 interface Props {
-    year: number;
-    onBackButtonClick: (year: undefined) => void;
+    onYearClick: (year: number) => void;
+    regionId?: number;
 }
 
-function MonthlyChart(props: Props) {
+function YearlyChart(props: Props) {
     const {
-        year,
-        onBackButtonClick,
+        onYearClick,
+        regionId,
     } = props;
     const strings = useTranslation(i18n);
-    const dateList = useMemo(
-        () => {
-            const startDate = new Date(year, 0, 1);
-            const endDate = new Date(year, 11, 31);
-            return getDatesSeparatedByMonths(startDate, endDate);
-        },
-        [year],
-    );
 
     const [activePointKey, setActivePointKey] = useState<string>(
-        () => getFormattedKey(dateList[0]),
+        () => getFormattedKey(dateList[dateList.length - 1]),
     );
 
     const queryParams = {
         model_type: 'appeal',
-        start_date: encodeDate(new Date(year, 0, 1)),
-        end_date: encodeDate(new Date(year, 11, 31)),
+        start_date: encodeDate(startDate),
+        end_date: encodeDate(endDate),
         sum_amount_funded: 'amount_funded',
         sum_beneficiaries: 'num_beneficiaries',
-        unit: 'month',
+        unit: 'year',
+        region: regionId,
     };
 
     const {
@@ -150,10 +137,6 @@ function MonthlyChart(props: Props) {
     );
 
     const activePointData = activePointKey ? dateListWithData[activePointKey] : undefined;
-    const heading = resolveToComponent(
-        strings.homeMonthlyChartTitle,
-        { year: year ?? '--' },
-    );
     const chartValueSelector = useCallback(
         (dataKey: DATA_KEY, date: Date) => (
             combinedData?.[dataKey]?.[getFormattedKey(date)]?.count ?? 0
@@ -163,9 +146,9 @@ function MonthlyChart(props: Props) {
 
     return (
         <Container
-            className={styles.monthlyChart}
+            className={styles.yearlyChart}
             childrenContainerClassName={styles.chartContainer}
-            heading={heading}
+            heading={strings.homeYearlyChartTitle}
             withHeaderBorder
         >
             {pending && <BlockLoading className={styles.loading} />}
@@ -182,14 +165,14 @@ function MonthlyChart(props: Props) {
                         xAxisFormatter={xAxisFormatter}
                     />
                     <PointDetails
-                        heading={dateFormatter.format(activePointData?.date) ?? '--'}
+                        heading={activePointData?.date.getFullYear() ?? '--'}
                         data={activePointData}
                         action={activePointData && (
                             <Button
-                                name={undefined}
-                                onClick={onBackButtonClick}
+                                name={activePointData.date.getFullYear()}
+                                onClick={onYearClick}
                             >
-                                {strings.homeMonthlyChartBackButtonLabel}
+                                {strings.homeYearlyChartViewMonthlyLabel}
                             </Button>
                         )}
                     />
@@ -199,4 +182,4 @@ function MonthlyChart(props: Props) {
     );
 }
 
-export default MonthlyChart;
+export default YearlyChart;

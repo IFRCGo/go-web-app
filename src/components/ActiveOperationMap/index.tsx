@@ -56,6 +56,7 @@ import {
 import styles from './styles.module.css';
 
 type GetAppeal = paths['/api/v2/appeal/']['get'];
+type AppealQueryParams = GetAppeal['parameters']['query'];
 type AppealResponse = GetAppeal['responses']['200']['content']['application/json'];
 
 type GetCountry = paths['/api/v2/country/']['get'];
@@ -87,14 +88,46 @@ interface ClickedPoint {
     lngLat: mapboxgl.LngLatLike;
 }
 
-interface Props {
+type BaseProps = {
     className?: string;
 }
+
+type RegionProps = {
+    variant: 'region';
+    regionId: number;
+}
+
+type GlobalProps = {
+    variant: 'global';
+}
+
+type Props = BaseProps & (RegionProps | GlobalProps);
 
 function ActiveOperationMap(props: Props) {
     const {
         className,
+        variant,
     } = props;
+
+    // eslint-disable-next-line react/destructuring-assignment
+    const regionId = variant === 'region' ? props.regionId : undefined;
+    const query = useMemo<AppealQueryParams>(
+        () => {
+            if (variant === 'global') {
+                return {
+                    end_date__gt: today,
+                    limit: 200,
+                };
+            }
+
+            return {
+                end_date__gt: today,
+                limit: 200,
+                region: regionId,
+            };
+        },
+        [variant, regionId],
+    );
 
     const {
         country: countryRoute,
@@ -112,16 +145,14 @@ function ActiveOperationMap(props: Props) {
         response: appealResponse,
     } = useRequest<AppealResponse>({
         url: 'api/v2/appeal/',
-        query: {
-            end_date__gt: today,
-            limit: 200,
-        },
+        query,
     });
 
     const {
         response: countryResponse,
     } = useRequest<CountryResponse>({
         url: 'api/v2/country/',
+        // FIXME: only pull countries in the region
         query: {
             limit: 500,
         },
@@ -243,15 +274,21 @@ function ActiveOperationMap(props: Props) {
             withHeaderBorder
             actions={(
                 <Link
-                    to={allAppealsRoute.absolutePath}
-                    actions={<ChevronRightLineIcon />}
+                    to={{
+                        pathname: allAppealsRoute.absolutePath,
+                        search: variant === 'region' ? `region=${regionId}` : undefined,
+                    }}
+                    withForwardIcon
                     withUnderline
                 >
-                    {strings.operationMapViewAll}
+                    {variant === 'region'
+                        ? strings.operationMapViewAllInRegion
+                        : strings.operationMapViewAll}
                 </Link>
             )}
         >
             <Map
+                // FIXME: add bounds for region variant
                 mapStyle={defaultMapStyle}
                 mapOptions={defaultMapOptions}
                 navControlShown

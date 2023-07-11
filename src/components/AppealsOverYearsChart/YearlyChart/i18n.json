@@ -1,5 +1,5 @@
 {
-    "namespace": "home",
+    "namespace": "common",
     "strings": {
         "homeYearlyChartTitle":"Appeals over the last 10 years",
         "homeYearlyChartViewMonthlyLabel": "View monthly"

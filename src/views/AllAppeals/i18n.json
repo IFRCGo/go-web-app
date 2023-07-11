@@ -11,7 +11,9 @@
         "allAppealsRequestedAmount": "Requested Amount",
         "allAppealsFundedAmount": "Funding",
         "allAppealsCountry": "Country",
+        "allAppealsRegion": "Region",
         "allAppealsFilterCountryPlaceholder": "All Countries",
+        "allAppealsFilterRegionPlaceholder": "All Regions",
         "allAppealsFilterAppealsPlaceholder": "All Appeal Types",
         "allAppealsFilterDisastersPlaceholder": "All Disaster Types"
     }

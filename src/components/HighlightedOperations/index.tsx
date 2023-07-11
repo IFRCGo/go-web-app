@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { ChevronRightLineIcon } from '@ifrc-go/icons';
 import {
     _cs,
@@ -11,10 +11,7 @@ import List from '#components/List';
 import useTranslation from '#hooks/useTranslation';
 import UserContext from '#contexts/user';
 import RouteContext from '#contexts/route';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import { paths } from '#generated/types';
 
 import OperationCard from './OperationCard';
@@ -22,43 +19,63 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetEvent = paths['/api/v2/event/']['get'];
+type EventQueryParams = GetEvent['parameters']['query'];
 type EventResponse = GetEvent['responses']['200']['content']['application/json'];
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
-interface UserResponse {
-    subscription: {
-        stype: number | null;
-        rtype: number | null;
-        country: number | null;
-        region: number | null;
-        event: number | null;
-        lookup_id: string;
-    }[];
-}
+type UserResponse = paths['/api/v2/user/me/']['get']['responses']['200']['content']['application/json'];
 
 const keySelector = (event: EventListItem) => event.id;
-interface Props {
+
+type BaseProps = {
     className?: string;
 }
+
+type RegionProps = {
+    variant: 'region';
+    regionId: number;
+}
+
+type GlobalProps = {
+    variant: 'global';
+}
+
+type Props = BaseProps & (RegionProps | GlobalProps);
 
 function HighlightedOperations(props: Props) {
     const {
         className,
+        variant,
     } = props;
 
     const strings = useTranslation(i18n);
-    const { userDetails } = useContext(UserContext);
-    const { allAppeals: allAppealsRoute } = useContext(RouteContext);
+    const { userAuth: userDetails } = useContext(UserContext);
+    const { allEmergencies: allEmergenciesRoute } = useContext(RouteContext);
+
+    // eslint-disable-next-line react/destructuring-assignment
+    const regionId = variant === 'region' ? props.regionId : undefined;
+
+    const query = useMemo<EventQueryParams>(
+        () => {
+            if (variant === 'global') {
+                return { is_featured: true };
+            }
+
+            return {
+                is_featured_region: true,
+                regions__in: regionId,
+            };
+        },
+        [variant, regionId],
+    );
 
     const {
         error: featuredEmergencyResponseError,
         pending: featuredEmergencyPending,
         response: featuredEmergencyResponse,
-    } = useRequest<ListResponse<EventListItem>>({
+    } = useRequest<EventResponse>({
         url: 'api/v2/event/',
-        query: {
-            is_featured: 1,
-        },
+        query,
     });
 
     const {
@@ -98,11 +115,16 @@ function HighlightedOperations(props: Props) {
             heading={strings.highlightedOperationsTitle}
             actions={(
                 <Link
-                    to={allAppealsRoute.absolutePath}
-                    actions={<ChevronRightLineIcon />}
+                    to={{
+                        pathname: allEmergenciesRoute.absolutePath,
+                        search: variant === 'region' ? `region=${regionId}` : undefined,
+                    }}
+                    withForwardIcon
                     withUnderline
                 >
-                    {strings.highlightedOperationsViewAll}
+                    {variant === 'region'
+                        ? strings.highlightedOperationsViewAllInRegion
+                        : strings.highlightedOperationsViewAll}
                 </Link>
             )}
             childrenContainerClassName={styles.emergencyList}

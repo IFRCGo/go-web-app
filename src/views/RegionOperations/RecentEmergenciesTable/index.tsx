@@ -7,6 +7,7 @@ import { generatePath } from 'react-router-dom';
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
+import Link from '#components/Link';
 import {
     createStringColumn,
     createDateColumn,
@@ -17,9 +18,11 @@ import {
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
+import NumberOutput from '#components/NumberOutput';
 import { useRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 import { paths } from '#generated/types';
+import { resolveToComponent } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -36,7 +39,12 @@ thirtyDaysAgo.setHours(0, 0, 0, 0);
 const PAGE_SIZE = 5;
 const keySelector = (item: EventListItem) => item.id;
 
-function EventItemsTable() {
+interface Props {
+    regionId: number;
+}
+
+function EventItemsTable(props: Props) {
+    const { regionId } = props;
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
@@ -45,13 +53,14 @@ function EventItemsTable() {
     const {
         country: countryRoute,
         emergency: emergencyRoute,
+        allEmergencies: allEmergenciesRoute,
     } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
             createDateColumn<EventListItem, number>(
                 'created_at',
-                strings.emergenciesTableDate,
+                strings.regionEmergenciesTableDate,
                 (item) => item.created_at,
                 {
                     sortable: true,
@@ -60,7 +69,7 @@ function EventItemsTable() {
             ),
             createLinkColumn<EventListItem, number>(
                 'event_name',
-                strings.emergenciesTableName,
+                strings.regionEmergenciesTableName,
                 (item) => item.name,
                 (item) => ({
                     to: generatePath(emergencyRoute.absolutePath, { emergencyId: item.id }),
@@ -68,25 +77,25 @@ function EventItemsTable() {
             ),
             createStringColumn<EventListItem, number>(
                 'dtype',
-                strings.emergenciesTableDisasterType,
+                strings.regionEmergenciesTableDisasterType,
                 (item) => item.dtype.name,
             ),
             createStringColumn<EventListItem, number>(
                 'glide',
-                strings.emergenciesTableGlide,
+                strings.regionEmergenciesTableGlide,
                 // FIXME: empty string from server
                 (item) => item.glide || '-',
             ),
             createNumberColumn<EventListItem, number>(
                 'amount_requested',
-                strings.emergenciesTableRequestedAmt,
+                strings.regionEmergenciesTableRequestedAmt,
                 (item) => sumSafe(
                     item.appeals.map((appeal) => Number(appeal.amount_requested)),
                 ),
             ),
             createCountryListColumn<EventListItem, number>(
                 'countries',
-                strings.emergenciesTableCountry,
+                strings.regionEmergenciesTableCountry,
                 (item) => item.countries,
                 countryRoute.absolutePath,
             ),
@@ -100,8 +109,9 @@ function EventItemsTable() {
             offset: PAGE_SIZE * (page - 1),
             ordering: getOrdering(sorting),
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
+            regions__in: regionId,
         }),
-        [page, sorting],
+        [page, sorting, regionId],
     );
     const {
         pending: eventPending,
@@ -112,9 +122,32 @@ function EventItemsTable() {
         query,
     });
 
+    const heading = useMemo(
+        () => (
+            resolveToComponent(
+                strings.regionEmergenciesTableTitle,
+                { numEmergencies: <NumberOutput value={eventResponse?.count} /> },
+            )
+        ),
+        [strings, eventResponse],
+    );
+
     return (
         <Container
-            className={styles.emergenciesTable}
+            className={styles.recentEmergenciesTable}
+            heading={heading}
+            actions={(
+                <Link
+                    to={{
+                        pathname: allEmergenciesRoute.absolutePath,
+                        search: `region=${regionId}`,
+                    }}
+                    withForwardIcon
+                    withUnderline
+                >
+                    {strings.regionEmergenciesTableViewAll}
+                </Link>
+            )}
             footerActions={(
                 <Pager
                     activePage={page}

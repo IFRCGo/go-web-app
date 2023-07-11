@@ -19,7 +19,7 @@ function AuthenticatedUserDropdown(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const { userDetails, removeUser } = useContext(UserContext);
+    const { userAuth: userDetails, removeUserAuth: removeUser } = useContext(UserContext);
     const { account: accountRoute } = useContext(RouteContext);
     const handleLogoutClick = useCallback(() => {
         removeUser();

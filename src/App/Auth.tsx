@@ -17,7 +17,7 @@ function Auth(props: Props) {
         children,
     } = props;
 
-    const { userDetails } = useContext(UserContext);
+    const { userAuth: userDetails } = useContext(UserContext);
 
     if (context.visibility === 'is-authenticated' && !userDetails) {
         return (

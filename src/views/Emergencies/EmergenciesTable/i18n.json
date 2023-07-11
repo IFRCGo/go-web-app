@@ -7,7 +7,6 @@
         "emergenciesTableGlide":"Glide",
         "emergenciesTableRequestedAmt":"Requested Amount",
         "emergenciesTableAffected":"# Affected",
-        "emergenciesTableCountry":"Countries",
-        "emergenciesTableViewAll":"View all emergencies"
+        "emergenciesTableCountry":"Countries"
     }
 }
