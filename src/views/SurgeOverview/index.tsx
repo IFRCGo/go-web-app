@@ -10,6 +10,7 @@ import { getDatesSeparatedByMonths } from '#utils/chart';
 
 import SurgeMap from './SurgeMap';
 import SurgeAlertsTable from './SurgeAlertsTable';
+import PersonnelByEventTable from './PersonnelByEventTable';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -131,6 +132,7 @@ export function Component() {
                 </Container>
             </div>
             <SurgeAlertsTable />
+            <PersonnelByEventTable />
         </div>
     );
 }

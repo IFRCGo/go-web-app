@@ -86,7 +86,7 @@ function SurgeAlertsTable() {
             (surgeAlert) => surgeAlert.created_at,
             {
                 sortable: true,
-                className: styles.createdAtDate,
+                columnClassName: styles.createdAtDate,
             },
         ),
         createStringColumn<SurgeAlertListItem, number>(

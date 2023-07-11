@@ -706,6 +706,20 @@ const allSurgeAlerts = customWrapRoute({
     },
 });
 
+const allDeployedPersonnel = customWrapRoute({
+    path: 'personnel/all',
+    component: {
+        render: () => import('#views/AllDeployedPersonnel'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Deployed Personnel',
+        visibility: 'anything',
+    },
+});
+
 const newDrefApplicationForm = customWrapRoute({
     path: 'dref-application/new',
     component: {
@@ -909,6 +923,7 @@ const wrappedRoutes = {
     allFieldReports,
     allSurgeAlerts,
     allFlashUpdates,
+    allDeployedPersonnel,
     goUI,
     newDrefApplicationForm,
     drefApplicationForm,
