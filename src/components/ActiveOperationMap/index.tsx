@@ -18,7 +18,6 @@ import Map, {
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
-import { ChevronRightLineIcon } from '@ifrc-go/icons';
 
 import { useRequest } from '#utils/restRequest';
 import GoMapDisclaimer from '#components/GoMapDisclaimer';

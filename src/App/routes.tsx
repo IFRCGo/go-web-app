@@ -320,6 +320,72 @@ const emergency = customWrapRoute({
     },
 });
 
+const emergencyDetails = customWrapRoute({
+    path: 'details',
+    component: {
+        render: () => import('#views/EmergencyDetails'),
+        props: {},
+    },
+    parent: emergency,
+    context: {
+        title: 'Emergency Details',
+        visibility: 'anything',
+    },
+});
+
+const emergencyIndex = customWrapRoute({
+    parent: emergency,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: emergencyDetails.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Emergency index',
+        visibility: 'anything',
+    },
+});
+const emergencyReportsAndDocuments = customWrapRoute({
+    path: 'reports',
+    component: {
+        render: () => import('#views/EmergencyReportAndDocument'),
+        props: {},
+    },
+    parent: emergency,
+    context: {
+        title: 'Emergency Reports/Documents',
+        visibility: 'anything',
+    },
+});
+const emergencyActivities = customWrapRoute({
+    path: 'activities',
+    component: {
+        render: () => import('#views/EmergencyActivities'),
+        props: {},
+    },
+    parent: emergency,
+    context: {
+        title: 'Emergency Activities',
+        visibility: 'anything',
+    },
+});
+const emergencySurge = customWrapRoute({
+    path: 'surge',
+    component: {
+        render: () => import('#views/EmergencySurge'),
+        props: {},
+    },
+    parent: emergency,
+    context: {
+        title: 'Emergency Surge',
+        visibility: 'anything',
+    },
+});
+
 const surge = customWrapRoute({
     path: 'surge',
     component: {
@@ -802,6 +868,11 @@ const wrappedRoutes = {
     countryAdditionalData,
     emergencies,
     emergency,
+    emergencyDetails,
+    emergencyIndex,
+    emergencyReportsAndDocuments,
+    emergencyActivities,
+    emergencySurge,
     surge,
     surgeOverview,
     surgeOperationalToolbox,

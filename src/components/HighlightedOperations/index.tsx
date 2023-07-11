@@ -1,5 +1,4 @@
 import { useCallback, useContext, useMemo } from 'react';
-import { ChevronRightLineIcon } from '@ifrc-go/icons';
 import {
     _cs,
     listToMap,

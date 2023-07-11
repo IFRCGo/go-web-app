@@ -106,7 +106,9 @@ function Link(props: Props) {
         actions: (isDefined(actions) || withForwardIcon || withExternalLinkIcon) ? (
             <>
                 {actions}
-                {withExternalLinkIcon && <ExternalLinkLineIcon className={styles.externalLinkIcon} />}
+                {withExternalLinkIcon && (
+                    <ExternalLinkLineIcon className={styles.externalLinkIcon} />
+                )}
                 {withForwardIcon && <ChevronRightLineIcon className={styles.forwardIcon} />}
             </>
         ) : null,

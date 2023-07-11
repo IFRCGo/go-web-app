@@ -1,6 +1,6 @@
 import { max } from '@togglecorp/fujs';
 import { sumSafe } from '#utils/common';
-import { paths } from '#generated/types';
+import type { paths } from '#generated/types';
 
 type GetEvent = paths['/api/v2/event/']['get'];
 type EventResponse = GetEvent['responses']['200']['content']['application/json'];
@@ -17,4 +17,9 @@ export function getNumAffected(event: EventListItem) {
         event.num_affected,
         latestFieldReport?.num_affected,
     ]);
+}
+
+type EmergencyResponse = paths['/api/v2/event/{id}/']['get']['responses']['200']['content']['application/json'];
+export interface EmergencyOutletContext {
+    emergencyResponse: EmergencyResponse | undefined;
 }
