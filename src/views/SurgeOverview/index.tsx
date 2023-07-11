@@ -9,6 +9,7 @@ import TimeSeriesChart from '#components/TimeSeriesChart';
 import { getDatesSeparatedByMonths } from '#utils/chart';
 
 import SurgeMap from './SurgeMap';
+import SurgeAlertsTable from './SurgeAlertsTable';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -129,6 +130,7 @@ export function Component() {
                     )}
                 </Container>
             </div>
+            <SurgeAlertsTable />
         </div>
     );
 }
