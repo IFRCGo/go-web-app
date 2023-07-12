@@ -127,7 +127,6 @@ function CustomComponentInput(props: Props) {
             />
             <div>
                 <Button
-                    // FIXME: add title attribute
                     name={index}
                     onClick={onRemove}
                     variant="secondary"

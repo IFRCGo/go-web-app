@@ -242,7 +242,7 @@ function AppealsTable(props: Props) {
             <SortContext.Provider value={sortState}>
                 <Table
                     pending={appealsPending}
-                    filtered={!!(filterDisplacement && filterAppeal)}
+                    filtered={isDefined(filterDisplacement) || isDefined(filterAppeal)}
                     className={styles.table}
                     columns={columns}
                     keySelector={appealKeySelector}
