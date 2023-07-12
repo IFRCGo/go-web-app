@@ -1,0 +1,6 @@
+.emergency-response-units-table {
+    .filters {
+        display: flex;
+        padding-top: var(--go-ui-spacing-lg);
+    }
+}

@@ -1,9 +1,16 @@
-import { useState, useMemo, useContext } from 'react';
+import {
+    useState,
+    useMemo,
+    useContext,
+    useCallback,
+} from 'react';
 import { generatePath } from 'react-router-dom';
 
 import Table from '#components/Table';
+import SelectInput from '#components/SelectInput';
 import Link from '#components/Link';
 import Container from '#components/Container';
+import useInputState from '#hooks/useInputState';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
@@ -24,12 +31,20 @@ type GetEmergencyResponseUnits = paths['/api/v2/eru/']['get'];
 type GetEmergencyResponseUnitsResponse = GetEmergencyResponseUnits['responses']['200']['content']['application/json'];
 type EmergencyResponseUnitListItem = NonNullable<GetEmergencyResponseUnitsResponse['results']>[number];
 
+interface EmergencyResponseUnitType {
+    key: number;
+    label: string;
+}
 const PAGE_SIZE = 5;
 
 const emergencyResponseUnitKeySelector = (item: EmergencyResponseUnitListItem) => item.id;
 
+const emergencyResponseUnitTypeKeySelector = (item: EmergencyResponseUnitType) => item.key;
+const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType) => item.label;
+
 function EmergencyResponseUnitsTable() {
     const [page, setPage] = useState(0);
+    const [emergencyResponseUnitType, setEmergencyResponseType] = useInputState<EmergencyResponseUnitType['key'] | undefined>(undefined);
 
     const {
         country: countryRoute,
@@ -59,7 +74,21 @@ function EmergencyResponseUnitsTable() {
             offset: PAGE_SIZE * (page - 1),
             deployed_to__isnull: false,
             ordering,
+            type: emergencyResponseUnitType,
         },
+    });
+
+    const handleEmergencyResponseUnitTypeChange = useCallback((value: EmergencyResponseUnitType['key'] | undefined) => {
+        setEmergencyResponseType(value);
+        setPage(0);
+    }, [setEmergencyResponseType]);
+
+    const {
+        pending: emergencyResponseUnitTypesPending,
+        response: emergencyResponseUnitTypesResponse,
+    } = useRequest<EmergencyResponseUnitType[]>({
+        url: 'api/v2/erutype/',
+        preserveResponse: true,
     });
 
     const columns = useMemo(() => ([
@@ -130,6 +159,20 @@ function EmergencyResponseUnitsTable() {
             heading={resolveToString(
                 strings.emergencyResponseUnitsTableHeading,
                 { count: emergencyResponseUnitsResponse?.count },
+            )}
+            headerDescriptionClassName={styles.filters}
+            headerDescription={(
+                <SelectInput
+                    placeholder={strings.emergencyResponseUnitTypeFilterPlaceholder}
+                    label={strings.emergencyResponseUnitTypeFilterLabel}
+                    name={undefined}
+                    value={emergencyResponseUnitType}
+                    onChange={handleEmergencyResponseUnitTypeChange}
+                    keySelector={emergencyResponseUnitTypeKeySelector}
+                    labelSelector={emergencyResponseUnitTypeLabelSelector}
+                    optionsPending={emergencyResponseUnitTypesPending}
+                    options={emergencyResponseUnitTypesResponse}
+                />
             )}
             footerActions={(
                 <Pager

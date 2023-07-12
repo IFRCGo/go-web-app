@@ -8,6 +8,8 @@
         "emergencyResponseUnitsTableDeployedTo": "Country Deployed To",
         "emergencyResponseUnitsTableEmergency": "Emergency",
         "emergencyResponseUnitsTableHeading": "Deployed ERUs ({count})",
-        "emergencyResponseUnitsViewAll": "View All Deployed ERUs"
+        "emergencyResponseUnitsViewAll": "View All Deployed ERUs",
+        "emergencyResponseUnitTypeFilterLabel": "Emergency Response Unit Type",
+        "emergencyResponseUnitTypeFilterPlaceholder": "All Emergency Response Unit Types"
     }
 }
