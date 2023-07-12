@@ -16,10 +16,13 @@
         "registerPhoneNumber": "Phone Number",
         "registerPassword": "Password",
         "registerConfirmPassword": "Confirm Password",
+        "registerJustification": "Justification",
         "registerSubmit": "Register",
         "registerAccountPresent": "Already have an account? {loginLink}",
         "registerLogin": "Login",
         "registrationFailure": "Sorry could not register new user right now!",
-        "registrationSuccess": "Successfully created a user!"
+        "registrationSuccess": "Successfully created a user!",
+        "requestAccess": "Request Access",
+        "registerJustify": "It appears you do not have an official Red Cross Red Crescent email, we will need to verify your status. Please note, this may take some time."
     }
 }

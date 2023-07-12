@@ -72,6 +72,17 @@ export function whitelistCondition<T>(x: T[]) {
     );
 }
 
+export function isWhitelistedEmail<T>(email: string, whitelistedDomains: Maybe<T[]>) {
+    if (!isValidEmail(email)) {
+        return false;
+    }
+
+    // Looking for an EXACT match in the domain whitelist
+    // (it finds even if UPPERCASE letters were used)
+    const userMailDomain = email.substring(email.lastIndexOf('@') + 1);
+    return whitelistedDomains?.find((dom) => dom === userMailDomain);
+}
+
 export function lengthGreaterThanCondition(x: number) {
     return (value: Maybe<string | unknown[]>) => (
         isDefined(value) && value.length <= x

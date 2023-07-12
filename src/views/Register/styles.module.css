@@ -13,9 +13,14 @@
             width: 100%;
             max-width: var(--go-ui-page-header-description-width-max);
 
-            .email-input {
+            .full-size-input {
                 grid-column: 1 / -1;
+            }
 
+            .justify-note {
+                grid-column: 1 / -1;
+                color: var(--go-ui-color-gray-60);
+                font-size: var(--go-ui-font-size-sm);
             }
 
             .non-field-error {

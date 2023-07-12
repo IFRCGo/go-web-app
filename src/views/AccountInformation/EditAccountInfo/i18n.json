@@ -1,0 +1,20 @@
+{
+    "namespace": "account",
+    "strings": {
+        "editUserProfile": "Edit User Profile",
+        "username": "User Name",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "country": "Country",
+        "city": "City",
+        "organizationType": "Organization Type",
+        "organizationName": "Organization Name",
+        "department": "Department",
+        "phoneNumber": "Phone Number",
+        "confirmButton": "Confirm Button",
+        "cancelButton": "Cancel Button",
+        "successfullyEditedAccount": "Account edited successfully!",
+        "editAccountFailure": "Sorry, failed to edit account!"
+    }
+}
