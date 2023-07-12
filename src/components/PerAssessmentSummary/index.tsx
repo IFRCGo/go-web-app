@@ -6,7 +6,7 @@ import {
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
-import { PartialForm, PurgeNull } from '@togglecorp/toggle-form';
+import { PartialForm } from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import ProgressBar from '#components/ProgressBar';
@@ -21,9 +21,8 @@ import styles from './styles.module.css';
 type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
 
 type AssessmentRequestBody = paths['/api/v2/per-assessment/{id}/']['put']['requestBody']['content']['application/json'];
-type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
 export type PartialAssessment = PartialForm<
-    AssessmentFormFields,
+    AssessmentRequestBody,
     'area' | 'component' | 'question'
 >;
 
