@@ -48,7 +48,7 @@ function EventItemsTable(props: Props) {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const {
         emergency: emergencyRoute,

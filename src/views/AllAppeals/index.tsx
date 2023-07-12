@@ -73,7 +73,7 @@ export function Component() {
         country: countryRoute,
         emergency: emergencyRoute,
     } = useContext(RouteContext);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealTypeOption['key'] | undefined>(
         'atype',

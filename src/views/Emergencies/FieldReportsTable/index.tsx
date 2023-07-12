@@ -94,7 +94,7 @@ function FieldReportsTable() {
             : sorting.name;
     }
 
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const PAGE_SIZE = 5;
     const {

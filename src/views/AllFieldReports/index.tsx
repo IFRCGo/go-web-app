@@ -122,7 +122,7 @@ export function Component() {
             : sorting.name;
     }
 
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,

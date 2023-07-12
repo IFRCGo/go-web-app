@@ -5,7 +5,7 @@ import {
 
 import Page from '#components/Page';
 import { useRequest } from '#utils/restRequest';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -72,14 +72,7 @@ export function Component() {
         [strings],
     );
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const PAGE_SIZE = 15;
     const {
@@ -91,7 +84,7 @@ export function Component() {
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering,
+            ordering: getOrdering(sorting),
         },
     });
 

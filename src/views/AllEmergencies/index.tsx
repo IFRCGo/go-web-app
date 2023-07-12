@@ -148,7 +148,7 @@ export function Component() {
         (country) => country,
     );
 
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const query = useMemo<EventQueryParams>(
         () => ({

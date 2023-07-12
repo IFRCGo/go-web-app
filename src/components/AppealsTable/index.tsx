@@ -158,7 +158,7 @@ function AppealsTable(props: Props) {
         filterDisplacement,
         setFilterDisplacement,
     ] = useInputState<number | undefined>(undefined);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const PAGE_SIZE = 5;
     const query = useMemo<AppealQueryParams>(
