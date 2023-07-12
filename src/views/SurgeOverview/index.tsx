@@ -1,5 +1,4 @@
 import { useMemo, useCallback } from 'react';
-import { mapToMap } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import { resolveToString } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
@@ -7,6 +6,7 @@ import { useRequest } from '#utils/restRequest';
 import BarChart from '#components/BarChart';
 import TimeSeriesChart from '#components/TimeSeriesChart';
 import { getDatesSeparatedByMonths } from '#utils/chart';
+import { paths } from '#generated/types';
 
 import SurgeMap from './SurgeMap';
 import SurgeAlertsTable from './SurgeAlertsTable';
@@ -15,16 +15,12 @@ import EmergencyResponseUnitsTable from './EmergencyResponseUnitsTable';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface DeploymentsByNationalSociety {
-    id: number;
-    deployments_count: number;
-    society_name: number;
-}
+type GetDeploymentsByMonth = paths['/api/v2/deployment/aggregated_by_month']['get'];
+type GetDeploymentsByMonthResponse = GetDeploymentsByMonth['responses']['200']['content']['application/json'];
 
-// TODO: use typings from server
-type DeploymentsByMonth = Record<string, number>;
-// TODO: use typings from server
-type DeploymentsByNationalSocietyResponse = DeploymentsByNationalSociety[];
+type GetDeploymentsByNationalSociety = paths['/api/v2/deployment/aggregated_by_ns']['get'];
+type GetDeploymentsByNationalSocietyResponse = GetDeploymentsByNationalSociety['responses']['200']['content']['application/json'];
+type DeploymentsByNationalSociety = GetDeploymentsByNationalSocietyResponse[number];
 
 const timeSeriesDataKeys = ['deployments'];
 
@@ -52,7 +48,7 @@ function deploymentSelector(deployment: DeploymentsByNationalSociety) {
 }
 
 function deploymentCountSelector(deployment: DeploymentsByNationalSociety) {
-    return deployment.deployments_count;
+    return deployment.deployments_count ?? 0;
 }
 
 function deploymentNationalSocietySelector(deployment: DeploymentsByNationalSociety) {
@@ -65,13 +61,13 @@ export function Component() {
 
     const {
         response: deploymentsByNationalSocietyResponse,
-    } = useRequest<DeploymentsByNationalSocietyResponse>({
+    } = useRequest<GetDeploymentsByNationalSocietyResponse>({
         url: '/api/v2/deployment/aggregated_by_ns/',
     });
 
     const {
         response: deploymentsByMonth,
-    } = useRequest<DeploymentsByMonth>({
+    } = useRequest<GetDeploymentsByMonthResponse>({
         url: '/api/v2/deployment/aggregated_by_month/',
     });
 
@@ -84,19 +80,10 @@ export function Component() {
         [],
     );
 
-    const formattedDeploymentsByMonth = useMemo(
-        () => (
-            mapToMap(
-                deploymentsByMonth,
-                (key) => getFormattedKey(key),
-            )
-        ),
-        [deploymentsByMonth],
-    );
-
     const timeSeriesValueSelector = useCallback(
-        (_: string, date: Date) => formattedDeploymentsByMonth?.[getFormattedKey(date)] ?? 0,
-        [formattedDeploymentsByMonth],
+        (_: string, date: Date) => deploymentsByMonth?.find((deployment) => (
+            getFormattedKey(deployment.date) === getFormattedKey(date)))?.count ?? 0,
+        [deploymentsByMonth],
     );
 
     return (

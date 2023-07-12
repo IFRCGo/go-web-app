@@ -64,10 +64,13 @@ function EmergencyResponseUnitsTable() {
 
     const columns = useMemo(() => ([
         createStringColumn<EmergencyResponseUnitListItem, number>(
-            'eru_owner',
+            'eru_owner__national_society_country__society_name',
             strings.emergencyResponseUnitsTableOwner,
             (emergencyResponseUnit) => emergencyResponseUnit
                 .eru_owner.national_society_country.society_name,
+            {
+                sortable: true,
+            },
         ),
         createStringColumn<EmergencyResponseUnitListItem, number>(
             'type',
@@ -94,7 +97,7 @@ function EmergencyResponseUnitsTable() {
             },
         ),
         createLinkColumn<EmergencyResponseUnitListItem, number>(
-            'deployed_to',
+            'deployed_to__society_name',
             strings.emergencyResponseUnitsTableDeployedTo,
             (emergencyResponseUnit) => emergencyResponseUnit.deployed_to.name,
             (emergencyResponseUnit) => ({
@@ -107,15 +110,17 @@ function EmergencyResponseUnitsTable() {
             },
         ),
         createLinkColumn<EmergencyResponseUnitListItem, number>(
-            'event',
+            'event__name',
             strings.emergencyResponseUnitsTableEmergency,
-            // FIXME: the event field is a nullable field
             (emergencyResponseUnit) => emergencyResponseUnit.event?.name,
             (emergencyResponseUnit) => ({
                 to: emergencyResponseUnit.event?.id ? generatePath(emergencyRoute.absolutePath, {
                     emergencyId: emergencyResponseUnit.event?.id,
                 }) : undefined,
             }),
+            {
+                sortable: true,
+            },
         ),
     ]), [strings, emergencyRoute, countryRoute]);
 

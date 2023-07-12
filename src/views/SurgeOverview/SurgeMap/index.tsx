@@ -207,8 +207,7 @@ function SurgeMap(props: Props) {
 
                     return {
                         type: 'Feature' as const,
-                        // FIXME: this type issue should be fixed in server
-                        geometry: country.centroid as unknown as GeoJSON.Geometry,
+                        geometry: country.centroid as GeoJSON.Geometry,
                         properties: {
                             id: country.id,
                             name: country.name,

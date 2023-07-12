@@ -23,9 +23,7 @@ import styles from './styles.module.css';
 
 type GetPersonnelByEvent = paths['/api/v2/personnel_by_event/']['get'];
 type GetPersonnelByEventResponse = GetPersonnelByEvent['responses']['200']['content']['application/json'];
-type PersonnelByEventListItem = NonNullable<GetPersonnelByEventResponse['results']>[number] & {
-    organizations_from: string[]; // FIXME: the organizations_from is wrongly typed in the server
-};
+type PersonnelByEventListItem = NonNullable<GetPersonnelByEventResponse['results']>[number];
 
 const personnelByEventKeySelector = (item: PersonnelByEventListItem) => item.id;
 
