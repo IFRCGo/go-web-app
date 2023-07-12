@@ -120,7 +120,7 @@ function SurgeAlertsTable() {
             (surgeAlert) => surgeAlert.event.name,
             (surgeAlert) => ({
                 to: generatePath(emergencyRoute.absolutePath, {
-                    emergencyId: surgeAlert.event.id.toString(),
+                    emergencyId: surgeAlert.event.id,
                 }),
             }),
         ),
@@ -130,7 +130,7 @@ function SurgeAlertsTable() {
             (surgeAlert) => surgeAlert.country.name,
             (surgeAlert) => ({
                 to: generatePath(countryRoute.absolutePath, {
-                    countryId: surgeAlert.country.id.toString(),
+                    countryId: surgeAlert.country.id,
                 }),
             }),
         ),

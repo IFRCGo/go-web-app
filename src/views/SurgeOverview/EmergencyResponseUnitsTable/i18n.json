@@ -1,0 +1,13 @@
+{
+    "namespace": "surge",
+    "strings": {
+        "emergencyResponseUnitsTableOwner": "Owner",
+        "emergencyResponseUnitsTableType": "Type",
+        "emergencyResponseUnitsTableUnits": "Personnel Units",
+        "emergencyResponseUnitsTableEquipment": "Equipment Units",
+        "emergencyResponseUnitsTableDeployedTo": "Country Deployed To",
+        "emergencyResponseUnitsTableEmergency": "Emergency",
+        "emergencyResponseUnitsTableHeading": "Deployed ERUs ({count})",
+        "emergencyResponseUnitsViewAll": "View All Deployed ERUs"
+    }
+}

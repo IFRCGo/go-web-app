@@ -298,6 +298,7 @@ export function createLinkColumn<D, K>(
     title: string,
     accessor: (item: D) => React.ReactNode,
     rendererParams: (item: D) => LinkProps,
+    options?: Options<D, K, LinkProps, HeaderCellProps>,
 ) {
     const item: Column<D, K, LinkProps, HeaderCellProps> & {
         valueSelector: (item: D) => string | undefined | null,
@@ -307,7 +308,7 @@ export function createLinkColumn<D, K>(
         title,
         headerCellRenderer: HeaderCell,
         headerCellRendererParams: {
-            sortable: false,
+            sortable: options?.sortable,
         },
         cellRenderer: Link,
         cellRendererParams: (_: K, datum: D): LinkProps => ({
