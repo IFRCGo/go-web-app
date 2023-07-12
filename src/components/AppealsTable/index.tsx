@@ -1,4 +1,9 @@
-import { useState, useMemo, useContext } from 'react';
+import {
+    useState,
+    useMemo,
+    useContext,
+    useCallback,
+} from 'react';
 import { generatePath } from 'react-router-dom';
 import { isDefined, _cs } from '@togglecorp/fujs';
 
@@ -193,6 +198,16 @@ function AppealsTable(props: Props) {
         query,
     });
 
+    const handleAppealTypeChange = useCallback((value: AppealTypeOption['key'] | undefined) => {
+        setFilterAppeal(value);
+        setPage(1);
+    }, [setFilterAppeal]);
+
+    const handleDisplacementTypeChange = useCallback((value: number | undefined) => {
+        setFilterDisplacement(value);
+        setPage(1);
+    }, [setFilterDisplacement]);
+
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
@@ -211,7 +226,7 @@ function AppealsTable(props: Props) {
                         label={strings.appealsTableType}
                         name={undefined}
                         value={filterAppeal}
-                        onChange={setFilterAppeal}
+                        onChange={handleAppealTypeChange}
                         keySelector={appealTypeKeySelector}
                         labelSelector={appealTypeLabelSelector}
                         options={appealTypeOptions}
@@ -221,7 +236,7 @@ function AppealsTable(props: Props) {
                         label={strings.appealsTableDisastertype}
                         name={undefined}
                         value={filterDisplacement}
-                        onChange={setFilterDisplacement}
+                        onChange={handleDisplacementTypeChange}
                         keySelector={disasterTypeKeySelector}
                         labelSelector={disasterTypeLabelSelector}
                         options={disasterTypeResponse?.results}
