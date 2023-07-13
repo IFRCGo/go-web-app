@@ -41,6 +41,7 @@ function TextInput<const T>(props: Props<T>) {
             inputSectionClassName={inputSectionClassName}
             label={label}
             required={required}
+            readOnly={readOnly}
             variant={variant}
             withAsterisk={withAsterisk}
             input={(

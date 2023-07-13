@@ -18,6 +18,7 @@
         "perFormSelectNSPlaceholder": "Select NS",
         "perFormSelectStatusLabel": "Select status",
         "perWorkPlanConfirmHeading": "Confirm Work Plan",
-        "perWorkPlanConfirmMessage": "You're about to submit the results of PER Work Plan. Once submitted, the results cannot be edited. You'll be redirected to the accounts page"
+        "perWorkPlanConfirmMessage": "You're about to submit the results of PER Work Plan. Once submitted, the results cannot be edited. You'll be redirected to the accounts page",
+        "perWorkPlanSaveButtonLabel": "Save"
     }
 }

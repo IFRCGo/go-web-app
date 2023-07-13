@@ -1,0 +1,9 @@
+{
+    "namespace": "common",
+    "strings": {
+        "timelineChartEmergencyAppealLabel":"EmergencyAppeals",
+        "timelineChartDrefLabel":"DREFs",
+        "timelineChartAmountFundedLabel": "Amount Funded",
+        "timelineChartPeopleTargetedLabel": "People Targeted"
+    }
+}

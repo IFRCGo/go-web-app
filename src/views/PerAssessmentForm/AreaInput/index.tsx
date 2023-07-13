@@ -10,16 +10,19 @@ import {
     _cs,
 } from '@togglecorp/fujs';
 
-import type { GET } from '#types/serverResponse';
-import { PartialAssessment } from '../common';
-import ComponentInput from './ComponentInput';
+import type { paths } from '#generated/types';
 
+import type { PartialAssessment } from '../schema';
+import ComponentInput from './ComponentInput';
 import styles from './styles.module.css';
 
+type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+
 type Value = NonNullable<PartialAssessment['area_responses']>[number];
-type PerFormQuestion = GET['api/v2/per-formquestion']['results'][number];
-type PerFormComponent = PerFormQuestion['component'];
-type PerFormArea = PerFormComponent['area'];
+type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+type PerFormQuestion = NonNullable<PerFormQuestionResponse['results']>[number];
+
+type PerFormArea = PerFormQuestion['component']['area'];
 
 interface Props {
     className?: string;
@@ -29,7 +32,7 @@ interface Props {
     index: number | undefined;
     questions: PerFormQuestion[] | undefined;
     area: PerFormArea;
-    ratingOptions: GET['api/v2/per-options']['componentratings'] | undefined;
+    ratingOptions: PerOptionsResponse['componentratings'] | undefined;
     epi_considerations: boolean | null | undefined;
     urban_considerations: boolean | null | undefined;
     climate_environmental_considerations: boolean | null | undefined;

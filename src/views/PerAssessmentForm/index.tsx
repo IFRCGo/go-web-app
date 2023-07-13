@@ -17,6 +17,7 @@ import {
     createSubmitHandler,
     useForm,
     useFormArray,
+    removeNull,
 } from '@togglecorp/toggle-form';
 
 import BlockLoading from '#components/BlockLoading';
@@ -36,13 +37,12 @@ import {
     useRequest,
 } from '#utils/restRequest';
 import { STEP_ASSESSMENT, PerProcessOutletContext } from '#utils/per';
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 
 import {
-    AssessmentResponse,
     assessmentSchema,
     PartialAssessment,
-} from './common';
+} from './schema';
 import AreaInput from './AreaInput';
 
 import i18n from './i18n.json';
@@ -53,8 +53,12 @@ const defaultFormValue: PartialAssessment = {
     area_responses: [],
 };
 
-type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
-type PerFormArea = PerFormQuestionResponse['results'][number]['component']['area']
+type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
+type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+type PerFormArea = NonNullable<PerFormQuestionResponse['results']>[number]['component']['area']
+type PerOverviewResponse = paths['/api/v2/per-overview/{id}/']['get']['responses']['200']['content']['application/json'];
+type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+
 const defaultFormAreas: PerFormArea[] = [];
 
 // eslint-disable-next-line import/prefer-default-export
@@ -90,7 +94,7 @@ export function Component() {
     const {
         pending: perOptionsPending,
         response: perOptionsResponse,
-    } = useRequest<GET['api/v2/per-options']>({
+    } = useRequest<PerOptionsResponse>({
         url: 'api/v2/per-options',
     });
 
@@ -103,7 +107,7 @@ export function Component() {
             limit: 500,
         },
         onSuccess: (response) => {
-            const responseAreas = response?.results.map(
+            const responseAreas = response?.results?.map(
                 (question) => question.component.area,
             );
             const uniqueAreas = unique(responseAreas ?? [], (area) => area.id);
@@ -118,7 +122,7 @@ export function Component() {
 
     const {
         response: perOverviewResponse,
-    } = useRequest<GET['api/v2/per-overview/:id']>({
+    } = useRequest<PerOverviewResponse>({
         skip: isNotDefined(statusResponse?.id),
         url: `api/v2/per-overview/${statusResponse?.id}`,
     });
@@ -130,7 +134,7 @@ export function Component() {
         url: `api/v2/per-assessment/${assessmentId}`,
         onSuccess: (response) => {
             if (response) {
-                setValue(response);
+                setValue(removeNull(response));
             }
         },
     });

@@ -14,25 +14,23 @@ import StackedProgressBar from '#components/StackedProgressBar';
 import TextOutput from '#components/TextOutput';
 import BarChart from '#components/BarChart';
 import { sumSafe } from '#utils/common';
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 
 import styles from './styles.module.css';
 
-type AssessmentResponse = GET['api/v2/per-assessment/:id'];
-type AreaResponse = AssessmentResponse['area_responses'][number];
-type ComponentResponse = AreaResponse['component_responses'][number];
-interface AssessmentFormFields extends Omit<AssessmentResponse, 'id' | 'user' | 'area_responses'>{
-    area_responses: (Omit<AreaResponse, 'area_details' | 'id' | 'is_draft' | 'component_responses'> & {
-        component_responses: Omit<ComponentResponse, 'rating_details'>[];
-    })[];
-}
-type PartialAssessment = PartialForm<AssessmentFormFields, 'area' | 'component' | 'question' | 'consideration'>;
+type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+
+type AssessmentRequestBody = paths['/api/v2/per-assessment/{id}/']['put']['requestBody']['content']['application/json'];
+export type PartialAssessment = PartialForm<
+    AssessmentRequestBody,
+    'area' | 'component' | 'question'
+>;
 
 interface Props {
     className?: string;
-    perOptionsResponse?: GET['api/v2/per-options'];
-    areaResponses?: PartialAssessment['area_responses'];
-    totalQuestionCount?: number;
+    perOptionsResponse: PerOptionsResponse | undefined;
+    areaResponses: PartialAssessment['area_responses'] | undefined;
+    totalQuestionCount: number | undefined;
     areaIdToTitleMap: Record<number, string>;
 }
 

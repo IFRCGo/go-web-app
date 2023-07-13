@@ -1,7 +1,0 @@
-{
-    "namespace": "home",
-    "strings": {
-        "homeYearlyChartTitle":"Appeals over the last 10 years",
-        "homeYearlyChartViewMonthlyLabel": "View monthly"
-    }
-}

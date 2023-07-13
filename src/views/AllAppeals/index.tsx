@@ -1,6 +1,6 @@
 import { useState, useMemo, useContext } from 'react';
 import { generatePath } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import Table from '#components/Table';
@@ -13,7 +13,7 @@ import {
     createLinkColumn,
     createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
@@ -21,7 +21,8 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
-import { paths, components } from '#generated/types';
+import { paths } from '#generated/types';
+import ServerEnumsContext from '#contexts/server-enums';
 import { isValidCountry } from '#utils/common';
 
 import i18n from './i18n.json';
@@ -31,7 +32,12 @@ type GetCountry = paths['/api/v2/country/']['get'];
 type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
+type GetRegion = paths['/api/v2/region/']['get'];
+type RegionResponse = GetRegion['responses']['200']['content']['application/json'];
+type RegionListItem = NonNullable<RegionResponse['results']>[number];
+
 type GetAppeal = paths['/api/v2/appeal/']['get'];
+type AppealQueryParams = GetAppeal['parameters']['query'];
 type AppealResponse = GetAppeal['responses']['200']['content']['application/json'];
 type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
@@ -39,27 +45,21 @@ type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
 type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
 type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
-const appealKeySelector = (item: AppealListItem) => item.id;
-const appealTypeKeySelector = (item: AppealType) => item.value;
-const appealTypeLabelSelector = (item: AppealType) => item.label;
-const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
-const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[number];
+
+const appealKeySelector = (option: AppealListItem) => option.id;
+const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
+const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
+const disasterTypeKeySelector = (option: DisasterListItem) => option.id;
+const disasterTypeLabelSelector = (option: DisasterListItem) => option.name ?? '';
 const countryKeySelector = (item: CountryListItem) => item.id;
 const countryLabelSelector = (item: CountryListItem) => item.name ?? '';
-
-type AppealTypeKeys = components['schemas']['TypeOfDrefEnum'];
-interface AppealType {
-    value: AppealTypeKeys;
-    label: string;
-}
-
-// FIXME: pull this from server
-const appealTypeOptions: AppealType[] = [
-    { value: 0, label: 'DREF' },
-    { value: 1, label: 'Emergency Appeals' },
-    { value: 2, label: 'Movement' },
-    { value: 3, label: 'Early Action Protocol (EAP) Activation' },
-];
+const regionKeySelector = (
+    item: Omit<RegionListItem, 'name'> & { name: NonNullable<RegionListItem['name']> },
+) => item.name;
+const regionLabelSelector = (item: RegionListItem) => item.region_name ?? '';
 
 const PAGE_SIZE = 10;
 
@@ -68,19 +68,14 @@ export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState();
     const { sorting } = sortState;
+    const { api_appeal_type: appealTypeOptions } = useContext(ServerEnumsContext);
     const {
         country: countryRoute,
         emergency: emergencyRoute,
     } = useContext(RouteContext);
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
-    const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealType['value'] | undefined>(
+    const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealTypeOption['key'] | undefined>(
         'atype',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
@@ -104,6 +99,23 @@ export function Component() {
         },
         (dtype) => dtype,
     );
+    const [filterRegion, setFilterRegion] = useUrlSearchState<RegionListItem['name'] | undefined>(
+        'region',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            if (potentialValue === 0
+                || potentialValue === 1
+                || potentialValue === 2
+                || potentialValue === 3
+                || potentialValue === 4
+            ) {
+                return potentialValue;
+            }
+
+            return undefined;
+        },
+        (regionId) => regionId,
+    );
     const [filterCountry, setFilterCountry] = useUrlSearchState<DisasterListItem['id'] | undefined>(
         'country',
         (searchValue) => {
@@ -113,25 +125,30 @@ export function Component() {
         (country) => country,
     );
 
+    const query = useMemo<AppealQueryParams>(
+        () => ({
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * (page - 1),
+            ordering: getOrdering(sorting),
+            atype: filterAppealType,
+            dtype: filterDisasterType,
+            country: filterCountry,
+            region: filterRegion,
+            /*
+            // TODO:
+            start_date__gte: undefined,
+            start_date__gte: undefined,
+            */
+        }),
+        [page, sorting, filterAppealType, filterDisasterType, filterCountry, filterRegion],
+    );
     const {
         pending: appealsPending,
         response: appealsResponse,
     } = useRequest<AppealResponse>({
         url: 'api/v2/appeal/',
         preserveResponse: true,
-        query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
-            ordering,
-            atype: filterAppealType,
-            dtype: filterDisasterType,
-            country: filterCountry,
-            /*
-            // TODO:
-            start_date__gte: undefined,
-            start_date__gte: undefined,
-            */
-        },
+        query,
     });
 
     const {
@@ -149,9 +166,34 @@ export function Component() {
         query: { limit: 500 },
     });
 
+    const {
+        pending: regionPending,
+        response: regionResponse,
+    } = useRequest<RegionResponse>({
+        url: 'api/v2/region/',
+    });
+
     const countryOptions = useMemo(
         () => countryResponse?.results?.filter(isValidCountry),
         [countryResponse],
+    );
+
+    const regionOptions = useMemo(
+        () => (
+            regionResponse?.results?.map(
+                (region) => {
+                    if (isNotDefined(region.name)) {
+                        return undefined;
+                    }
+
+                    return {
+                        ...region,
+                        name: region.name,
+                    };
+                },
+            ).filter(isDefined)
+        ),
+        [regionResponse],
     );
 
     const columns = useMemo(
@@ -278,6 +320,17 @@ export function Component() {
                             labelSelector={disasterTypeLabelSelector}
                             options={disasterTypeResponse?.results}
                             disabled={disasterTypePending}
+                        />
+                        <SelectInput
+                            placeholder={strings.allAppealsFilterRegionPlaceholder}
+                            label={strings.allAppealsRegion}
+                            name={undefined}
+                            value={filterRegion}
+                            onChange={setFilterRegion}
+                            keySelector={regionKeySelector}
+                            labelSelector={regionLabelSelector}
+                            options={regionOptions}
+                            disabled={regionPending}
                         />
                         <SelectInput
                             placeholder={strings.allAppealsFilterCountryPlaceholder}

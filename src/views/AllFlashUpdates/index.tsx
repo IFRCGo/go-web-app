@@ -1,12 +1,11 @@
 import {
     useState,
     useMemo,
-    useContext,
 } from 'react';
 
 import Page from '#components/Page';
 import { useRequest } from '#utils/restRequest';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -16,7 +15,6 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import NumberOutput from '#components/NumberOutput';
 import { resolveToComponent } from '#utils/translation';
 import { paths } from '#generated/types';
@@ -37,10 +35,6 @@ export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
-
-    const {
-        country: countryRoute,
-    } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -73,20 +67,12 @@ export function Component() {
                 (item) => item.country_district?.map(
                     (country_district) => country_district.country_details,
                 ) ?? [],
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, countryRoute],
+        [strings],
     );
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const PAGE_SIZE = 15;
     const {
@@ -98,7 +84,7 @@ export function Component() {
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering,
+            ordering: getOrdering(sorting),
         },
     });
 

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
     SetValueArg,
@@ -6,24 +6,37 @@ import {
     Error,
     getErrorObject,
 } from '@togglecorp/toggle-form';
-import { randomString } from '@togglecorp/fujs';
+import { randomString, isDefined } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
-import { LabelValue } from '#types/common';
 import Button from '#components/Button';
 import TextArea from '#components/TextArea';
+import type { paths } from '#generated/types';
+import { isValidNationalSociety } from '#utils/common';
+import { numericIdSelector, stringValueSelector } from '#utils/selectors';
+import ServerEnumsContext from '#contexts/server-enums';
 
-import {
-    numericValueSelector,
-    stringLabelSelector,
-    PartialWorkPlan,
-} from '../common';
+import { PartialWorkPlan } from '../schema';
 
 import i18n from '../i18n.json';
 
 type Value = NonNullable<PartialWorkPlan['custom_component_responses']>[number];
+type CountryResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
+type CountryItem = NonNullable<CountryResponse['results']>[number];
+
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];
+
+function statusKeySelector(option: PerWorkPlanStatusOption) {
+    return option.key;
+}
+
+function nsLabelSelector(option: Omit<CountryItem, 'society_name'> & { 'society_name': string }) {
+    return option.society_name;
+}
 
 interface Props {
     value: Value;
@@ -31,11 +44,7 @@ interface Props {
     error: Error<Value> | undefined;
     index: number;
     onRemove: (index: number) => void;
-    workPlanStatusOptions: LabelValue[];
-    nsOptions?: {
-        label: string;
-        value: number;
-    }[];
+    countryResults: CountryResponse['results'] | undefined;
 }
 
 function CustomComponentInput(props: Props) {
@@ -44,13 +53,13 @@ function CustomComponentInput(props: Props) {
         index,
         onRemove,
         value,
-        workPlanStatusOptions,
-        nsOptions,
+        countryResults,
         error: formError,
     } = props;
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
+    const { per_workplanstatus } = useContext(ServerEnumsContext);
 
     const defaultValue = useMemo(
         () => ({
@@ -63,6 +72,21 @@ function CustomComponentInput(props: Props) {
         index,
         onChange,
         defaultValue,
+    );
+
+    const nationalSocietyOptions = useMemo(
+        () => (
+            countryResults?.map(
+                (country) => {
+                    if (isValidNationalSociety(country)) {
+                        return country;
+                    }
+
+                    return undefined;
+                },
+            ).filter(isDefined)
+        ),
+        [countryResults],
     );
 
     return (
@@ -84,20 +108,20 @@ function CustomComponentInput(props: Props) {
             <SelectInput
                 name="supported_by"
                 placeholder={strings.perFormSelectNSPlaceholder}
-                options={nsOptions}
+                options={nationalSocietyOptions}
                 onChange={onFieldChange}
-                keySelector={numericValueSelector}
-                labelSelector={stringLabelSelector}
+                keySelector={numericIdSelector}
+                labelSelector={nsLabelSelector}
                 value={value?.supported_by}
                 error={error?.supported_by}
             />
             <SelectInput
                 name="status"
                 placeholder={strings.perFormSelectStatusLabel}
-                options={workPlanStatusOptions}
+                options={per_workplanstatus}
                 onChange={onFieldChange}
-                keySelector={numericValueSelector}
-                labelSelector={stringLabelSelector}
+                keySelector={statusKeySelector}
+                labelSelector={stringValueSelector}
                 value={value?.status}
                 error={error?.status}
             />

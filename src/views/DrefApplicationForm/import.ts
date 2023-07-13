@@ -3,6 +3,7 @@ import {
     Node,
 } from 'docx4js';
 import {
+    encodeDate,
     isDefined,
     isNotDefined,
     listToGroupList,
@@ -11,7 +12,6 @@ import {
 } from '@togglecorp/fujs';
 
 // import { dateToDateString } from '#utils';
-import { NumericValueOption } from '#types/common';
 
 function getChildren(node: Node | undefined, name: string) {
     if (!node || !node.children) {
@@ -39,7 +39,7 @@ function getChildren(node: Node | undefined, name: string) {
 }
 
 export async function getImportData(file: File) {
-    const docx = await docxReader.load(file);
+    const docx = docxReader.load(file);
 
     // eslint-disable-next-line no-underscore-dangle
     const body: Node | undefined = docx?.officeDocument?.content
@@ -150,7 +150,7 @@ function getDateSafe(str: string | undefined) {
         return undefined;
     }
 
-    return date;
+    return encodeDate(date);
 }
 
 function getStringSafe(str: string | undefined) {
@@ -178,6 +178,11 @@ function getStringSafe(str: string | undefined) {
     }
 
     return trimmedStr;
+}
+
+interface NumericValueOption {
+  value: number;
+  label: string;
 }
 
 export function transformImport(

@@ -64,7 +64,7 @@ function KeyFigure(props: Props) {
                 />
             )}
             {children && (
-                <div className={_cs(styles.content, contentClassName)}>
+                <div className={contentClassName}>
                     {children}
                 </div>
             )}

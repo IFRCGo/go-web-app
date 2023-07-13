@@ -29,8 +29,6 @@ import SelectInputExample from './examples/SelectInputExample';
 import SearchSelectInputExample from './examples/SearchSelectInputExample';
 import MultiSelectInputExample from './examples/MultiSelectInputExample';
 import SearchMultiSelectInputExample from './examples/SearchMultiSelectInputExample';
-import SingleFileInputExample from './examples/SingleFileInputExample';
-import MultiFileInputExample from './examples/MultiFileInputExample';
 import GoSingleFileInputExample from './examples/GoSingleFileInputExample';
 import GoMultiFileInputExample from './examples/GoMultiFileInputExample';
 import FileButtonExample from './examples/FileButtonExample';
@@ -316,8 +314,6 @@ export function Component() {
                 {element === 'multi-select-input' && <MultiSelectInputExample />}
                 {element === 'search-select-input' && <SearchSelectInputExample />}
                 {element === 'search-multi-select-input' && <SearchMultiSelectInputExample />}
-                {element === 'single-file-input' && <SingleFileInputExample />}
-                {element === 'multi-file-input' && <MultiFileInputExample />}
                 {element === 'go-single-file-input' && <GoSingleFileInputExample />}
                 {element === 'go-multi-file-input' && <GoMultiFileInputExample />}
                 {element === 'file-button' && <FileButtonExample />}

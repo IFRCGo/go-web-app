@@ -22,6 +22,7 @@ import useTranslation from '#hooks/useTranslation';
 import type { paths } from '#generated/types';
 
 import FieldReportSelectInput from '#components/FieldReportSearchSelectInput';
+import type { FieldReportItem as FieldReportSearchItem } from '#components/FieldReportSearchSelectInput';
 
 import type { PartialDref } from '../../schema';
 
@@ -31,7 +32,19 @@ import styles from './styles.module.css';
 // FIXME: use from '/api/v2/field_report/{id}/'
 type GetFieldReport = paths['/api/v2/field_report/']['get'];
 type FieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
-type FieldReportItem = NonNullable<FieldReportResponse['results']>[number];
+type FieldReportItem = Omit<NonNullable<FieldReportResponse['results']>[number], 'districts'> & {
+    contacts: {
+        ctype: string;
+        name: string;
+        email: string;
+        title: string;
+        phone: string;
+    }[];
+    districts: {
+        id: number,
+        name: string;
+    }[];
+};
 
 type Value = PartialDref;
 interface Props {
@@ -52,7 +65,7 @@ function CopyFieldReportSection(props: Props) {
         value?.field_report,
     );
     const [fetchedFieldReports, setFetchedFieldReports] = useState<
-        FieldReportItem[] | undefined | null
+        FieldReportSearchItem[] | undefined | null
     >([]);
 
     useRequest<FieldReportItem>({
@@ -129,12 +142,14 @@ function CopyFieldReportSection(props: Props) {
                     && !national_society_contact_title
                     && !national_society_contact_phone_number
             ) {
-                const contact = fieldReportResponse.contacts?.find((c) => c.ctype === 'NationalSociety');
-                if (contact) {
-                    national_society_contact_name = contact.name;
-                    national_society_contact_email = contact.email;
-                    national_society_contact_phone_number = contact.phone;
-                    national_society_contact_title = contact.title;
+                const nsContact = fieldReportResponse.contacts?.find(
+                    (contact) => contact.ctype === 'NationalSociety',
+                );
+                if (nsContact) {
+                    national_society_contact_name = nsContact.name;
+                    national_society_contact_email = nsContact.email;
+                    national_society_contact_phone_number = nsContact.phone;
+                    national_society_contact_title = nsContact.title;
                 }
             }
 
@@ -143,12 +158,14 @@ function CopyFieldReportSection(props: Props) {
                        && !ifrc_emergency_title
                        && !ifrc_emergency_phone_number
             ) {
-                const contact = fieldReportResponse.contacts?.find((c) => c.ctype === 'Federation');
-                if (contact) {
-                    ifrc_emergency_name = contact.name;
-                    ifrc_emergency_email = contact.email;
-                    ifrc_emergency_title = contact.title;
-                    ifrc_emergency_phone_number = contact.phone;
+                const federationContact = fieldReportResponse.contacts?.find(
+                    (contact) => contact.ctype === 'Federation',
+                );
+                if (federationContact) {
+                    ifrc_emergency_name = federationContact.name;
+                    ifrc_emergency_email = federationContact.email;
+                    ifrc_emergency_title = federationContact.title;
+                    ifrc_emergency_phone_number = federationContact.phone;
                 }
             }
 
@@ -157,12 +174,14 @@ function CopyFieldReportSection(props: Props) {
                 && !media_contact_title
                 && !media_contact_phone_number
             ) {
-                const contact = fieldReportResponse.contacts?.find((c) => c.ctype === 'Media');
-                if (contact) {
-                    media_contact_name = contact.name;
-                    media_contact_email = contact.email;
-                    media_contact_title = contact.title;
-                    media_contact_phone_number = contact.phone;
+                const mediaContact = fieldReportResponse.contacts?.find(
+                    (contact) => contact.ctype === 'Media',
+                );
+                if (mediaContact) {
+                    media_contact_name = mediaContact.name;
+                    media_contact_email = mediaContact.email;
+                    media_contact_title = mediaContact.title;
+                    media_contact_phone_number = mediaContact.phone;
                 }
             }
 
@@ -211,7 +230,7 @@ function CopyFieldReportSection(props: Props) {
         },
     });
 
-    const handleCopyButtonClick = useCallback((fieldReportId: number | undefined) => {
+    const handleCopyButtonClick = useCallback((fieldReportId: number | undefined | null) => {
         if (isNotDefined(fieldReportId)) {
             return;
         }

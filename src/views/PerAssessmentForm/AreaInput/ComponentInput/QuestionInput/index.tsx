@@ -7,18 +7,21 @@ import { isDefined } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import TextArea from '#components/TextArea';
 import RadioInput from '#components/RadioInput';
+import type { paths } from '#generated/types';
 
-import type { GET } from '#types/serverResponse';
-
-import {
-    PartialAssessment,
-} from '../../../common';
+import type { PartialAssessment } from '../../../schema';
 
 import styles from './styles.module.css';
 
-type Value = NonNullable<NonNullable<NonNullable<PartialAssessment['area_responses']>[number]['component_responses']>[number]['question_responses']>[number];
-type PerFormQuestion = GET['api/v2/per-formquestion']['results'][number];
+type AreaResponse = NonNullable<PartialAssessment['area_responses']>[number]
+type ComponentResponse = NonNullable<AreaResponse['component_responses']>[number];
+
+type Value = NonNullable<ComponentResponse['question_responses']>[number];
+
+type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+type PerFormQuestion = NonNullable<PerFormQuestionResponse['results']>[number];
 type PerFormAnswer = PerFormQuestion['answers'][number];
+
 function answerKeySelector(answer: PerFormAnswer) {
     return answer.id;
 }
@@ -44,7 +47,7 @@ function QuestionInput(props: Props) {
         componentNumber,
     } = props;
 
-    const onFieldChange = useFormObject(
+    const setFieldValue = useFormObject(
         index,
         onChange,
         () => ({
@@ -69,14 +72,14 @@ function QuestionInput(props: Props) {
                 keySelector={answerKeySelector}
                 labelSelector={answerLabelSelector}
                 value={value?.answer}
-                onChange={onFieldChange}
+                onChange={setFieldValue}
             />
             <TextArea
                 className={styles.noteSection}
                 placeholder="Notes"
                 name="notes"
                 value={value?.notes}
-                onChange={onFieldChange}
+                onChange={setFieldValue}
                 rows={2}
             />
         </Container>

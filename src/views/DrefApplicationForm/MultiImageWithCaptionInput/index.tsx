@@ -3,6 +3,7 @@ import {
     ArrayError,
     getErrorObject,
     useFormArray,
+    SetValueArg,
 } from '@togglecorp/toggle-form';
 import {
     _cs,
@@ -11,7 +12,6 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
-import { SetValueArg } from '#types/common';
 import GoMultiFileInput from '#components/GoMultiFileInput';
 import TextInput from '#components/TextInput';
 

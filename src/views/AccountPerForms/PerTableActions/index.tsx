@@ -17,11 +17,15 @@ import {
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import RouteContext from '#contexts/route';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 
+type AggregatedPerProcessStatusResponse = paths['/api/v2/aggregated-per-process-status/']['get']['responses']['200']['content']['application/json'];
+type AggregatedPerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
+
 export interface Props {
-    phase: number | undefined;
+    phase: AggregatedPerProcessStatusItem['phase'];
     phaseDisplay: string | undefined;
     perId: number;
 }
@@ -87,6 +91,7 @@ function PerTableActions(props: Props) {
             {isDefined(phase) && phase <= STEP_WORKPLAN && (
                 <Link
                     to={getRouteUrl(phase)}
+                    withUnderline
                 >
                     {resolveToString(
                         strings.tableEditLabel,

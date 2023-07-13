@@ -4,7 +4,7 @@ import {
     useContext,
 } from 'react';
 import { useRequest } from '#utils/restRequest';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import NumberOutput from '#components/NumberOutput';
 import Link from '#components/Link';
@@ -40,10 +40,7 @@ function FlashUpdateTable() {
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
 
-    const {
-        country: countryRoute,
-        allFlashUpdates: allFlashUpdatesRoute,
-    } = useContext(RouteContext);
+    const { allFlashUpdates: allFlashUpdatesRoute } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -76,20 +73,12 @@ function FlashUpdateTable() {
                 (item) => item.country_district?.map(
                     (country_district) => country_district.country_details,
                 ) ?? [],
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, countryRoute],
+        [strings],
     );
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const PAGE_SIZE = 5;
     const {
@@ -101,7 +90,7 @@ function FlashUpdateTable() {
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering,
+            ordering: getOrdering(sorting),
             created_at__gte: thirtyDaysAgo.toISOString(),
         },
     });

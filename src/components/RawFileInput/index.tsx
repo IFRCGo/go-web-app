@@ -55,6 +55,7 @@ function RawFileInput<NAME>(props: RawFileInputProps<NAME>) {
         className,
     } = useButtonFeatures({
         ...buttonFeatureProps,
+        disabled,
     });
 
     return (

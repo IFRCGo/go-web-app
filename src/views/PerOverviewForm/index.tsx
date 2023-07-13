@@ -16,7 +16,7 @@ import {
     getErrorObject,
     getErrorString,
 } from '@togglecorp/toggle-form';
-import { isNotDefined, isDefined } from '@togglecorp/fujs';
+import { isNotDefined, isDefined, listToMap } from '@togglecorp/fujs';
 
 import Portal from '#components/Portal';
 import Button from '#components/Button';
@@ -29,12 +29,14 @@ import RadioInput from '#components/RadioInput';
 import ConfirmButton from '#components/ConfirmButton';
 import NumberInput from '#components/NumberInput';
 import GoMultiFileInput from '#components/GoMultiFileInput';
+import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
-import { compareLabel } from '#utils/common';
+import { isValidNationalSociety } from '#utils/common';
 import RouteContext from '#contexts/route';
-import type { GET } from '#types/serverResponse';
+import ServerEnumsContext from '#contexts/server-enums';
+import type { paths } from '#generated/types';
 import {
     PerProcessOutletContext,
     STEP_OVERVIEW,
@@ -42,23 +44,40 @@ import {
 } from '#utils/per';
 import {
     booleanValueSelector,
-    numericValueSelector,
     stringLabelSelector,
-    stringNameSelector,
     numericIdSelector,
-    stringKeySelector,
     stringValueSelector,
+    stringNameSelector,
 } from '#utils/selectors';
 
 import {
     overviewSchema,
     PartialOverviewFormFields,
-} from './common';
+} from './schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type PerOverviewResponse = GET['api/v2/per-overview/:id'];
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type PerOverviewAssessmentMethods = NonNullable<GlobalEnumsResponse['per_overviewassessmentmethods']>[number];
+
+type LatestPerOverviewResponse = paths['/api/v2/latest-per-overview/']['get']['responses']['200']['content']['application/json'];
+
+type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+
+type GetCountry = paths['/api/v2/country/']['get'];
+type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryListItem = NonNullable<CountryResponse['results']>[number];
+
+function nsLabelSelector(option: CountryListItem) {
+    return option.society_name ?? '';
+}
+function perAssessmentMethodsKeySelector(option: PerOverviewAssessmentMethods) {
+    return option.key;
+}
+
+type PerOverviewResponse = paths['/api/v2/per-overview/{id}/']['get']['responses']['200']['content']['application/json'];
 const emptyFileIdToUrlMap: Record<number, string> = {};
 
 // eslint-disable-next-line import/prefer-default-export
@@ -76,6 +95,9 @@ export function Component() {
         perAssessmentForm: perAssessmentFormRoute,
         perOverviewForm: perOverviewFormRoute,
     } = useContext(RouteContext);
+
+    const { per_overviewassessmentmethods } = useContext(ServerEnumsContext);
+
     const {
         value,
         setValue,
@@ -91,19 +113,18 @@ export function Component() {
     ] = useState<Record<number, string>>(emptyFileIdToUrlMap);
 
     const {
-        pending: perOptionsPending,
-        response: perOptionsResponse,
-    } = useRequest<GET['api/v2/per-options']>({
-        url: 'api/v2/per-options/',
-    });
-
-    const {
-        response: countriesResponse,
-    } = useRequest<GET['api/v2/country']>({
+        response: countryResponse,
+    } = useRequest<CountryResponse>({
         url: 'api/v2/country/',
         query: {
             limit: 500,
         },
+    });
+
+    const {
+        response: perOptionsResponse,
+    } = useRequest<PerOptionsResponse>({
+        url: 'api/v2/per-options/',
     });
 
     useRequest<PerOverviewResponse>({
@@ -111,26 +132,53 @@ export function Component() {
         url: `api/v2/per-overview/${perId}`,
         onSuccess: (response) => {
             const {
-                // orientation_document_details,
+                orientation_documents_details,
                 ...formValues
             } = response;
 
             setFileIdToUrlMap(
                 (prevValue) => ({
                     ...prevValue,
-                    // FIXME: add document details
-                    // [orientation_document_details.id]: orientation_document_details.file,
+                    ...listToMap(
+                        orientation_documents_details ?? [],
+                        (document) => document.id,
+                        (document) => document.file,
+                    ),
                 }),
             );
 
-            setValue(formValues);
+            setValue({
+                ...formValues,
+            });
+        },
+    });
+
+    useRequest<LatestPerOverviewResponse>({
+        url: 'api/v2/latest-per-overview/',
+        skip: isNotDefined(value?.country) || isDefined(value?.is_draft),
+        query: {
+            country_id: value?.country,
+        },
+        onSuccess: (response) => {
+            const lastAssessment = response.results?.[0];
+            if (lastAssessment) {
+                const lastAssessmentNumber = lastAssessment.assessment_number ?? 0;
+                setFieldValue(lastAssessmentNumber + 1, 'assessment_number');
+                setFieldValue(lastAssessment.date_of_assessment, 'date_of_previous_assessment');
+                setFieldValue(lastAssessment.type_of_assessment.id, 'type_of_previous_assessment');
+            } else {
+                setFieldValue(1, 'assessment_number');
+            }
         },
     });
 
     const {
         trigger: savePerOverview,
         pending: savePerPending,
-    } = useLazyRequest<PerOverviewResponse, PartialOverviewFormFields>({
+    } = useLazyRequest<
+        PerOverviewResponse,
+        PartialOverviewFormFields
+    >({
         url: perId ? `api/v2/per-overview/${perId}/` : 'api/v2/per-overview/',
         method: perId ? 'PUT' : 'POST',
         body: (ctx) => ctx,
@@ -192,16 +240,19 @@ export function Component() {
         [strings],
     );
 
-    const countryOptions = useMemo(
+    const nationalSocietyOptions = useMemo(
         () => (
-            countriesResponse?.results
-                .filter((country) => !!country.independent && !!country.iso)
-                .map((country) => ({
-                    value: country.id,
-                    label: country.name,
-                })).sort(compareLabel) ?? []
+            countryResponse?.results?.map(
+                (country) => {
+                    if (isValidNationalSociety(country)) {
+                        return country;
+                    }
+
+                    return undefined;
+                },
+            ).filter(isDefined)
         ),
-        [countriesResponse],
+        [countryResponse],
     );
 
     const handleSubmit = useCallback(
@@ -229,7 +280,8 @@ export function Component() {
     const error = getErrorObject(formError);
 
     return (
-        <form className={styles.overviewForm}>
+        <div className={styles.overviewForm}>
+            <NonFieldError error={formError} />
             <Container
                 childrenContainerClassName={styles.sectionContent}
             >
@@ -240,11 +292,12 @@ export function Component() {
                     <SelectInput
                         name="country"
                         onChange={setFieldValue}
-                        options={countryOptions}
-                        keySelector={numericValueSelector}
-                        labelSelector={stringLabelSelector}
+                        options={nationalSocietyOptions}
+                        keySelector={numericIdSelector}
+                        labelSelector={nsLabelSelector}
                         value={value?.country}
                         error={getErrorString(error?.country)}
+                        readOnly={value?.is_draft === false}
                     />
                 </InputSection>
             </Container>
@@ -263,22 +316,24 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_orientation}
                         error={error?.date_of_orientation}
+                        readOnly={value?.is_draft === false}
                     />
                 </InputSection>
                 <InputSection
                     title={strings.perFormUploadADoc}
                 >
                     <GoMultiFileInput
-                        name="orientation_documents_file"
+                        name="orientation_documents"
                         accept=".docx, .pdf"
-                        onChange={setFieldValue}
                         url="api/v2/per-file/multiple/"
-                        value={value?.orientation_documents_file}
+                        value={value?.orientation_documents}
+                        onChange={setFieldValue}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        disabled
+                        error={getErrorString(error?.orientation_documents)}
+                        readOnly={value?.is_draft === false}
                     >
-                        Upload
+                        {strings.perFormUploadButtonLabel}
                     </GoMultiFileInput>
                 </InputSection>
             </Container>
@@ -297,6 +352,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_assessment}
                         error={error?.date_of_assessment}
+                        readOnly={value?.is_draft === false}
                     />
                 </InputSection>
                 <InputSection
@@ -311,7 +367,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
-                        disabled={perOptionsPending}
+                        readOnly={value?.is_draft === false}
                     />
                 </InputSection>
                 <InputSection
@@ -322,10 +378,9 @@ export function Component() {
                         name="date_of_previous_assessment"
                         onChange={setFieldValue}
                         value={value?.date_of_previous_assessment}
-                        error={error?.date_of_previous_assessment}
+                        readOnly
                     />
                 </InputSection>
-                {/* FIXME: Implement this field (probably auto filled)
                 <InputSection
                     title={strings.perFormTypeOfPreviousPerAssessment}
                     twoColumn
@@ -333,14 +388,13 @@ export function Component() {
                     <SelectInput
                         name="type_of_previous_assessment"
                         options={perOptionsResponse?.overviewassessmenttypes}
-                        keySelector={(assessmentType) => assessmentType.id}
-                        labelSelector={(assessmentType) => assessmentType.name}
+                        keySelector={numericIdSelector}
+                        labelSelector={stringNameSelector}
                         onChange={setFieldValue}
                         value={value?.type_of_previous_assessment}
-                        error={getErrorString(error?.type_of_previous_assessment)}
+                        readOnly
                     />
                 </InputSection>
-                */}
                 <InputSection
                     title={strings.perFormBranchesInvolved}
                     description={strings.perFormbranchesInvolvedDescription}
@@ -350,6 +404,7 @@ export function Component() {
                         value={value?.branches_involved}
                         onChange={setFieldValue}
                         error={error?.branches_involved}
+                        readOnly={value?.is_draft === false}
                     />
                 </InputSection>
                 <InputSection
@@ -357,13 +412,14 @@ export function Component() {
                     twoColumn
                 >
                     <SelectInput
-                        name="method_asmt_used"
-                        value={value?.method_asmt_used}
-                        options={perOptionsResponse?.overviewassessmentmethods}
-                        keySelector={stringKeySelector}
+                        name="assessment_method"
+                        options={per_overviewassessmentmethods}
+                        value={value?.assessment_method}
+                        keySelector={perAssessmentMethodsKeySelector}
                         labelSelector={stringValueSelector}
                         onChange={setFieldValue}
-                        error={error?.method_asmt_used}
+                        error={error?.assessment_method}
+                        readOnly={value?.is_draft === false}
                     />
                 </InputSection>
                 <InputSection
@@ -378,6 +434,7 @@ export function Component() {
                         value={value?.assess_preparedness_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_preparedness_of_country}
+                        readOnly={value?.is_draft === false}
                     />
                 </InputSection>
                 <InputSection
@@ -392,6 +449,7 @@ export function Component() {
                         value={value.assess_urban_aspect_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_urban_aspect_of_country}
+                        readOnly={value?.is_draft === false}
                     />
                 </InputSection>
                 <InputSection
@@ -406,6 +464,7 @@ export function Component() {
                         value={value?.assess_climate_environment_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_climate_environment_of_country}
+                        readOnly={value?.is_draft === false}
                     />
                 </InputSection>
             </Container>
@@ -615,7 +674,7 @@ export function Component() {
                     </Button>
                 </Portal>
             )}
-        </form>
+        </div>
     );
 }
 

@@ -71,7 +71,7 @@ function getDisplayName(
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { setUser } = useContext(UserContext);
+    const { setUserAuth: setUser } = useContext(UserContext);
 
     const {
         value: formValue,

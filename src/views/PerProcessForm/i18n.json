@@ -1,5 +1,5 @@
 {
-    "namespace": "perProcessForm",
+    "namespace": "perProcess",
     "strings": {
         "perProcessTitle": "IFRC GO - Per Process",
         "perFormTitle": "PER Process",
@@ -10,8 +10,6 @@
         "perFormTabPrioritizationLabel": "3. Prioritization",
         "perFormTabWorkPlanLabel": "4. Work-Plan",
         "perFormSetUpPerProcess": "Set up Per Process",
-        "perFormSaveButtonLabel": "Save",
-        "yesLabel": "Yes",
-        "noLabel": "No"
+        "perProcessBackButtonLabel": "Back"
     }
 }

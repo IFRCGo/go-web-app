@@ -5,7 +5,6 @@ export default defineConfig({
     APP_API_ENDPOINT: Schema.string(),
     APP_ENVIRONMENT: Schema.string.optional(),
     APP_MAPBOX_ACCESS_TOKEN: Schema.string(),
-    APP_RISK_ADMIN_URL: Schema.string.optional(),
     APP_RISK_API_ENDPOINT: Schema.string(),
     APP_SENTRY_DSN: Schema.string.optional(),
     APP_SENTRY_NORMALIZE_DEPTH: Schema.number.optional(),

@@ -4,7 +4,7 @@ import {
     useContext,
 } from 'react';
 import { generatePath } from 'react-router-dom';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -25,6 +25,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetEvent = paths['/api/v2/event/']['get'];
+type EventQueryParams = GetEvent['parameters']['query'];
 type EventResponse = GetEvent['responses']['200']['content']['application/json'];
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
@@ -32,17 +33,16 @@ const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
 
+const PAGE_SIZE = 5;
 const keySelector = (item: EventListItem) => item.id;
 
 function EventItemsTable() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
+    const [page, setPage] = useState(1);
 
-    const {
-        country: countryRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
+    const { emergency: emergencyRoute } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -85,34 +85,27 @@ function EventItemsTable() {
                 'countries',
                 strings.emergenciesTableCountry,
                 (item) => item.countries,
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, emergencyRoute, countryRoute],
+        [strings, emergencyRoute],
     );
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
-    const [page, setPage] = useState(0);
-
-    const PAGE_SIZE = 5;
+    const query = useMemo<EventQueryParams>(
+        () => ({
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * (page - 1),
+            ordering: getOrdering(sorting),
+            disaster_start_date__gt: thirtyDaysAgo.toISOString(),
+        }),
+        [page, sorting],
+    );
     const {
         pending: eventPending,
         response: eventResponse,
     } = useRequest<EventResponse>({
         url: 'api/v2/event/',
         preserveResponse: true,
-        query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
-            ordering,
-            disaster_start_date__gt: thirtyDaysAgo.toISOString(),
-        },
+        query,
     });
 
     return (

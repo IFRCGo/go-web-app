@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import {
     generatePath,
     useNavigate,
@@ -9,6 +9,7 @@ import {
     createSubmitHandler,
     useForm,
     useFormArray,
+    removeNull,
 } from '@togglecorp/toggle-form';
 import { isDefined, isNotDefined, listToMap } from '@togglecorp/fujs';
 import {
@@ -24,14 +25,20 @@ import ConfirmButton from '#components/ConfirmButton';
 import BlockLoading from '#components/BlockLoading';
 import PerAssessmentSummary from '#components/PerAssessmentSummary';
 import useAlert from '#hooks/useAlert';
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 
-import { prioritizationSchema } from './common';
-import type { PartialPrioritization } from './common';
+import { prioritizationSchema } from './schema';
+import type { PartialPrioritization } from './schema';
 import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
+type PrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['get']['responses']['200']['content']['application/json'];
+type PerFormComponentResponse = paths['/api/v2/per-formcomponent/']['get']['responses']['200']['content']['application/json'];
+type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -63,21 +70,21 @@ export function Component() {
     );
 
     const {
+        response: perOptionsResponse,
+    } = useRequest<PerOptionsResponse>({
+        url: 'api/v2/per-options',
+    });
+
+    const {
         pending: formComponentPending,
         response: formComponentResponse,
-    } = useRequest<GET['api/v2/per-formcomponent']>({
+    } = useRequest<PerFormComponentResponse>({
         url: 'api/v2/per-formcomponent/',
         query: {
             limit: 500,
         },
     });
 
-    type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
-    const {
-        response: perOptionsResponse,
-    } = useRequest<GET['api/v2/per-options']>({
-        url: 'api/v2/per-options',
-    });
     const {
         response: questionsResponse,
     } = useRequest<PerFormQuestionResponse>({
@@ -87,17 +94,18 @@ export function Component() {
         },
     });
 
-    const { pending: prioritizationPending } = useRequest<GET['api/v2/per-prioritization/:id']>({
+    const { pending: prioritizationPending } = useRequest<PrioritizationResponse>({
         skip: isNotDefined(statusResponse?.prioritization),
         url: `api/v2/per-prioritization/${statusResponse?.prioritization}`,
         onSuccess: (response) => {
-            setValue(response);
+            setValue(removeNull(response));
         },
     });
+
     const {
         pending: perAssesmentPending,
         response: perAssessmentResponse,
-    } = useRequest<GET['api/v2/per-assessment/:id']>({
+    } = useRequest<AssessmentResponse>({
         skip: isNotDefined(statusResponse?.assessment),
         url: `api/v2/per-assessment/${statusResponse?.assessment}`,
     });
@@ -109,7 +117,7 @@ export function Component() {
     const {
         pending: savePerPrioritizationPending,
         trigger: savePerPrioritization,
-    } = useLazyRequest<GET['api/v2/per-prioritization/:id'], PartialPrioritization>({
+    } = useLazyRequest<PrioritizationResponse, PartialPrioritization>({
         url: `api/v2/per-prioritization/${statusResponse?.prioritization}/`,
         method: 'PUT',
         body: (ctx) => ctx,
@@ -150,19 +158,34 @@ export function Component() {
         },
     });
 
-    const assessmentComponentResponses = perAssessmentResponse?.area_responses.flatMap(
-        (areaResponse) => areaResponse.component_responses,
-    ) ?? [];
-
-    const assessmentComponentResponseMap = listToMap(
-        assessmentComponentResponses,
-        (componentResponse) => componentResponse.component,
+    const assessmentComponentResponses = useMemo(
+        () => (
+            perAssessmentResponse?.area_responses?.flatMap(
+                (areaResponse) => areaResponse.component_responses,
+            ) ?? []
+        ),
+        [perAssessmentResponse],
     );
 
-    const assessmentQuestionResponsesByComponent = listToMap(
-        assessmentComponentResponses,
-        (componentResponse) => componentResponse.component,
-        (componentResponse) => componentResponse.question_responses,
+    const assessmentComponentResponseMap = useMemo(
+        () => (
+            listToMap(
+                assessmentComponentResponses?.filter(isDefined),
+                (componentResponse) => componentResponse.component,
+            )
+        ),
+        [assessmentComponentResponses],
+    );
+
+    const assessmentQuestionResponsesByComponent = useMemo(
+        () => (
+            listToMap(
+                assessmentComponentResponses?.filter(isDefined),
+                (componentResponse) => componentResponse.component,
+                (componentResponse) => componentResponse.question_responses,
+            )
+        ),
+        [assessmentComponentResponses],
     );
 
     const handleSubmit = useCallback((formValues: PartialPrioritization) => {
@@ -227,10 +250,7 @@ export function Component() {
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
 
     return (
-        <form
-            onSubmit={handleFormSubmit}
-            className={styles.perPrioritizationForm}
-        >
+        <div className={styles.perPrioritizationForm}>
             {pending && (
                 <BlockLoading />
             )}
@@ -291,7 +311,7 @@ export function Component() {
                     </Button>
                 </Portal>
             )}
-        </form>
+        </div>
     );
 }
 

@@ -1,10 +1,23 @@
 import { useMemo, useState, createContext } from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import { SortDirection } from './types';
 
 export interface SortParameter {
     name: string;
     direction: SortDirection;
+}
+
+export function getOrdering(sorting: SortParameter | undefined) {
+    if (isNotDefined(sorting)) {
+        return undefined;
+    }
+
+    if (sorting.direction === 'asc') {
+        return sorting.name;
+    }
+
+    return `-${sorting.name}`;
 }
 
 export function useSortState(defaultValue?: SortParameter) {

@@ -36,12 +36,12 @@
         --color-background: var(--go-ui-color-primary-red);
         --color-text: var(--go-ui-color-white);
 
-        &:disabled {
+        &.disabled {
             --color-border: var(--go-ui-color-gray-40);
             --color-background: var(--go-ui-color-gray-40);
         }
 
-        &:not(:disabled) {
+        &:not(.disabled) {
             &:hover {
                 --color-background: var(--go-ui-color-red-hover);
             }
@@ -53,12 +53,12 @@
         --color-background: var(--go-ui-color-primary-white);
         --color-text: var(--go-ui-color-primary-red);
 
-        &:disabled {
+        &.disabled {
             --color-text: var(--go-ui-color-gray-40);
             --color-border: var(--go-ui-color-gray-40);
         }
 
-        &:not(:disabled) {
+        &:not(.disabled) {
             &:hover {
                 background-color: var(--go-ui-color-red-hover);
                 color: var(--go-ui-color-white);
@@ -73,7 +73,7 @@
         --padding: 0;
         --border-radius: unset;
 
-        &:not(:disabled) {
+        &:not(.disabled) {
             &:hover {
                 --color-text: var(--go-ui-color-primary-red);
             }
@@ -87,19 +87,19 @@
         --padding: 0;
         --border-radius: unset;
 
-        &:not(:disabled) {
+        &:not(.disabled) {
             &:hover {
                 opacity: 0.8;
             }
         }
     }
 
-    &:disabled {
+    &.disabled {
         opacity: var(--go-ui-opacity-disabled-element);
         --cursor: not-allowed;
     }
 
-    &:not(:disabled) {
+    &:not(.disabled) {
         --cursor: pointer;
     }
 }

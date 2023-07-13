@@ -1,6 +1,14 @@
 {
-    "namespace": "emergencies",
+    "namespace": "emergency",
     "strings": {
-        "emergencyPageTitle": "IFRC GO - {name}"
+        "emergencyPageTitle": "IFRC GO - {name}",
+        "emergencyTabDetails":"Emergency Details",
+        "emergencyTabReports":"Reports/Documents",
+        "emergencyTabActivities":"Activities",
+        "emergencyTabSurge":"Surge",
+        "emergencyPeopleTargetedLabel":"People Targeted",
+        "emergencyFundingRequirementsLabel":"Funding Requirements (CHF)",
+        "emergencyFundingLabel":"Funding (CHF)"
+
     }
 }

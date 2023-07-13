@@ -44,6 +44,7 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
     const buttonClassName = _cs(
         styles.button,
         buttonVariantToStyleMap[variant],
+        disabled && styles.disabled,
         className,
     );
 

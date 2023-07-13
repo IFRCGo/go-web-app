@@ -1,5 +1,5 @@
 import { isDefined } from '@togglecorp/fujs';
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 
 export const STEP_OVERVIEW = 1;
 export const STEP_ASSESSMENT = 2;
@@ -7,7 +7,9 @@ export const STEP_PRIORITIZATION = 3;
 export const STEP_WORKPLAN = 4;
 export const STEP_ACTION = 5;
 
-export function getCurrentPerProcessStep(status: GET['api/v2/per-process-status/:id'] | undefined) {
+type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
+
+export function getCurrentPerProcessStep(status: PerProcessStatusResponse | undefined) {
     if (!status) {
         return undefined;
     }
@@ -28,7 +30,7 @@ export function getCurrentPerProcessStep(status: GET['api/v2/per-process-status/
 }
 
 export interface PerProcessOutletContext {
-    statusResponse: GET['api/v2/per-process-status/:id'] | undefined,
+    statusResponse: PerProcessStatusResponse | undefined,
     refetchStatusResponse: () => void,
     actionDivRef: React.RefObject<HTMLDivElement>,
 }

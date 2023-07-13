@@ -13,18 +13,21 @@ import TextInput from '#components/TextInput';
 import TextOutput from '#components/TextOutput';
 import Checkbox from '#components/Checkbox';
 import { useRequest } from '#utils/restRequest';
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 
-import { PartialPrioritization } from '../common';
+import type { PartialPrioritization } from '../schema';
 import QuestionOutput from './QuestionOutput';
 
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
 
-type AssessmentResponse = GET['api/v2/per-assessment/:id'];
-type AreaResponse = AssessmentResponse['area_responses'][number];
-type ComponentResponse = AreaResponse['component_responses'][number];
+type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
+type AreaResponse = NonNullable<AssessmentResponse['area_responses']>[number];
+type ComponentResponse = NonNullable<AreaResponse['component_responses']>[number];
+type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+
+type PerFormComponentResponse = paths['/api/v2/per-formcomponent/']['get']['responses']['200']['content']['application/json'];
 
 type Value = NonNullable<PartialPrioritization['component_responses']>[number];
 
@@ -32,7 +35,7 @@ interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
-    component: GET['api/v2/per-formcomponent']['results'][number];
+    component: NonNullable<PerFormComponentResponse['results']>[number];
     onSelectionChange: (checked: boolean, index: number, componentId: number) => void;
     questionResponses: ComponentResponse['question_responses'];
     ratingDisplay?: string | undefined | null;
@@ -55,7 +58,7 @@ function ComponentsInput(props: Props) {
     const {
         pending: formQuestionsPending,
         response: formQuestions,
-    } = useRequest<GET['api/v2/per-formquestion']>({
+    } = useRequest<PerFormQuestionResponse>({
         skip: !expanded,
         url: 'api/v2/per-formquestion/',
         query: {
@@ -109,6 +112,11 @@ function ComponentsInput(props: Props) {
         onSelectionChange(checked, checkIndex, component.id);
     }, [component.id, onSelectionChange]);
 
+    const componentNum = component.component_num;
+    if (!componentNum) {
+        return null;
+    }
+
     return (
         <ExpandableContainer
             className={styles.componentInput}
@@ -153,13 +161,9 @@ function ComponentsInput(props: Props) {
             {formQuestionsPending && (
                 <BlockLoading />
             )}
-            {formQuestions && formQuestions.results.map(
+            {formQuestions && formQuestions.results?.map(
                 (perFormQuestion) => {
-                    // TODO: remove these from server
-                    if (perFormQuestion.is_benchmark
-                        || perFormQuestion.is_epi
-                        || isNotDefined(perFormQuestion.question_num)
-                    ) {
+                    if (isNotDefined(perFormQuestion.question_num)) {
                         return null;
                     }
 
@@ -168,7 +172,7 @@ function ComponentsInput(props: Props) {
                             key={perFormQuestion.id}
                             question={perFormQuestion.question}
                             questionNum={perFormQuestion.question_num}
-                            componentNum={component.component_num}
+                            componentNum={componentNum}
                             answer={mappedQuestionResponses?.[perFormQuestion.id]?.answerDisplay}
                             notes={mappedQuestionResponses?.[perFormQuestion.id]?.notes}
                         />

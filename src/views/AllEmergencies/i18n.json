@@ -9,9 +9,11 @@
         "allEmergenciesGlide":"Glide",
         "allEmergenciesRequestedAmt":"Requested Amount",
         "allEmergenciesAffected":"# Affected",
-        "allEmergenciesCountry":"Countries",
-        "allEmergenciesViewAll":"View all emergencies",
+        "allEmergenciesCountry":"Country",
+        "allEmergenciesRegion":"Region",
+        "allEmergenciesViewAll":"View all Emergencies",
         "allEmergenciesFilterDisastersPlaceholder": "All Disaster Types",
-        "allEmergenciesFilterCountryPlaceholder": "All Countries"
+        "allEmergenciesFilterCountryPlaceholder": "All Countries",
+        "allEmergenciesFilterRegionPlaceholder": "All Regions"
     }
 }

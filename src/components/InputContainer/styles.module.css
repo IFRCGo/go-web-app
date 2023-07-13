@@ -6,18 +6,7 @@
         transition: var(--go-ui-duration-transition-medium) var(--go-ui-color-gray-10) ease-in-out;
         border-bottom: var(--go-ui-width-separator-thin) solid transparent;
         border-radius: var(--go-ui-border-radius-md);
-        background-color: var(--go-ui-color-gray-10);
         padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
-
-        &:hover,
-        &:focus-within {
-            border-bottom-color: var(--go-ui-color-primary-red);
-        }
-    }
-
-    .input-hint {
-        color: var(--go-ui-color-gray-70);
-        font-size: var(--go-ui-font-size-sm);
     }
 
     &.disabled {
@@ -40,12 +29,32 @@
         }
     }
 
-    .input-error {
-        position: absolute;
-        min-width: var(-go-ui-spacing-8xl);
+
+    &:not(.read-only) {
+        .input-section {
+            background-color: var(--go-ui-color-gray-10);
+        }
     }
 
-    &:hover:enabled {
+    &:not(.read-only):not(.disabled) {
+        .input-section {
+            &:hover,
+            &:focus-within {
+                border-bottom-color: var(--go-ui-color-primary-red);
+            }
+        }
+    }
+
+    .input-hint {
+        color: var(--go-ui-color-gray-70);
+        font-size: var(--go-ui-font-size-sm);
+    }
+    .input-error {
+        position: absolute;
+        min-width: 10rem;
+    }
+
+    &:not(.disabled):not(.read-only):hover:enabled {
         .input-section {
             border-bottom-color: var(--go-ui-color-primary-red);
         }

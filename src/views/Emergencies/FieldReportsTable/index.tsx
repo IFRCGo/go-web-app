@@ -38,7 +38,6 @@ function FieldReportsTable() {
     const { sorting } = sortState;
 
     const {
-        country: countryRoute,
         emergency: emergencyRoute,
         allFieldReports: allFieldReportsRoute,
     } = useContext(RouteContext);
@@ -83,10 +82,9 @@ function FieldReportsTable() {
                 'countries',
                 strings.fieldReportsTableCountry,
                 (item) => item.countries,
-                countryRoute.absolutePath,
             ),
         ]),
-        [strings, countryRoute, emergencyRoute],
+        [strings, emergencyRoute],
     );
 
     let ordering;
@@ -96,7 +94,7 @@ function FieldReportsTable() {
             : sorting.name;
     }
 
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const PAGE_SIZE = 5;
     const {
@@ -133,14 +131,6 @@ function FieldReportsTable() {
             heading={heading}
             headerDescriptionClassName={styles.filters}
             withHeaderBorder
-            footerActions={(
-                <Pager
-                    activePage={page}
-                    itemsCount={fieldReportResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
-                    onActivePageChange={setPage}
-                />
-            )}
             actions={(
                 <Link
                     to={allFieldReportsRoute.absolutePath}
@@ -149,6 +139,14 @@ function FieldReportsTable() {
                 >
                     {strings.fieldReportsTableViewAllReports}
                 </Link>
+            )}
+            footerActions={(
+                <Pager
+                    activePage={page}
+                    itemsCount={fieldReportResponse?.count ?? 0}
+                    maxItemsPerPage={PAGE_SIZE}
+                    onActivePageChange={setPage}
+                />
             )}
         >
             <SortContext.Provider value={sortState}>

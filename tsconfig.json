@@ -8,7 +8,6 @@
             "#contexts/*": ["./src/contexts/*"],
             "#hooks/*": ["./src/hooks/*"],
             "#strings/*": ["./src/strings/*"],
-            "#types/*": ["./src/types/*"],
             "#utils/*": ["./src/utils/*"],
             "#views/*": ["./src/views/*"]
         },

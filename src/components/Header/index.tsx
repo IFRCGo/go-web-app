@@ -46,7 +46,10 @@ function Header(props: Props) {
             className={styles.heading}
         >
             {ellipsizeHeading ? (
-                <div className={styles.overflowWrapper}>
+                <div
+                    className={styles.overflowWrapper}
+                    title={typeof heading === 'string' ? heading : undefined}
+                >
                     {heading}
                 </div>
             ) : heading}

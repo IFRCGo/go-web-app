@@ -1,0 +1,55 @@
+{
+    "namespace": "search",
+    "strings": {
+        "searchEmergencyTableTitle": "Title",
+        "searchEmergencyTableAppealType": "Appeal Type",
+        "searchEmergencyTableDisasterType": "Disaster Type",
+        "searchEmergencyTableFundingRequirements": "Funding Requirements",
+        "searchEmergencyTableFundingCoverage": "Funding Coverage",
+        "searchEmergencyTableCountry": "Country",
+        "searchEmergencyTableMultipleCountries": "Multiple Countries",
+        "searchIfrcEmergencies": "Emergencies",
+
+        "searchFieldReportTableDate": "Date",
+        "searchFieldReportTableType": "Type",
+        "searchFieldReportTableTitle": "Title",
+        "searchIfrcReport": "Reports",
+
+        "searchProjectTableEmergency": "Emergency",
+        "searchProjectTableNationalSociety": "National Society/ERU",
+        "searchProjectTableProjectName": "Project/Activity Name",
+        "searchProjectTableStartEndDate": "Start-End Dates",
+        "searchProjectTableProvince": "Province/Region",
+        "searchProjectTableSector": "Sector",
+        "searchProjectTablePeopleTargeted": "People Targeted",
+        "searchIfrcProjects": "Projects",
+
+        "searchIFRCRapidResponseDeployment": "Ongoing Rapid Response Deployments",
+        "searchRapidDeploymentTableStartDate":"Start Date",
+        "searchRapidDeploymentTableEndDate":"End Date",
+        "searchRapidDeploymentTableName":"Name",
+        "searchRapidDeploymentTablePosition":"Position",
+        "searchRapidDeploymentTableKeywords":"Keywords",
+        "searchRapidDeploymentTableDeployingParty":"Deploying Party",
+        "searchRapidDeploymentTableDeployedTo":"Deployed To",
+        "searchRapidDeploymentTableEmergency":"Emergency",
+
+        "searchSurgeAlertTableAlertDate": "Alert Date",
+        "searchSurgeAlertTableDuration": "Duration",
+        "searchSurgeAlertTableStartDate": "Start Date",
+        "searchSurgeAlertTablePosition": "Position",
+        "searchSurgeAlertTableKeywords": "Keywords",
+        "searchSurgeAlertTableEmergency": "Emergency",
+        "searchSurgeAlertTableCountry": "Country",
+        "searchSurgeAlertTableStatus": "Status",
+        "searchIfrcOpenSurgeAlerts": "Open Surge Alerts",
+
+        "searchSurgeDeploymentTableOwner": "Owner",
+        "searchSurgeDeploymentTableType": "Type",
+        "searchSurgeDeploymentTablePersonnelUnits": "Personnel Units",
+        "searchSurgeDeploymentTableEquipmentUnits": "Equipment Units",
+        "searchSurgeDeploymentsTableCountryDeployedTo": "Country Deployed to",
+        "searchSurgeDeploymentsTableEmergency": "Emergency",
+        "searchIfrcSurgeDeployments": "Deployed ERUs"
+    }
+}

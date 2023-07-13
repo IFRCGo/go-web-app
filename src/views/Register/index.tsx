@@ -33,44 +33,35 @@ import {
     isValidCountry,
     isValidNationalSociety,
 } from '#utils/common';
-import type { paths, components } from '#generated/types';
+import type { paths } from '#generated/types';
 import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
+import ServerEnumsContext from '#contexts/server-enums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type OrganizationType = components['schemas']['OrgTypeEnum'];
-interface OrganizationOptionType {
-    value: OrganizationType;
-    label: string;
-}
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
 
 type PostRegister = paths['/register']['post'];
-type RegisterResponse = PostRegister['responses']['200']['content']['application/json'];
+type RegisterRequestBody = PostRegister['requestBody']['content']['application/json'];
 
 type GetCountry = paths['/api/v2/country/']['get'];
 type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 
 const nsLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.society_name ?? '';
 
-type FormFields = PartialForm<RegisterResponse & { confirm_password: string }>;
+type FormFields = PartialForm<RegisterRequestBody & { confirm_password: string }>;
 const defaultFormValue: FormFields = {};
-const keySelector = (item: OrganizationOptionType) => item.value;
-const labelSelector = (item: OrganizationOptionType) => item.label;
+const keySelector = (item: OrganizationTypeOption) => item.key;
+const labelSelector = (item: OrganizationTypeOption) => item.value;
 
 const countryKeySelector = (item: NonNullable<CountryResponse['results']>[number]) => item.id;
 const countryLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.name ?? '';
-
-// FIXME: Need to make an Api for these options
-const organizationTypeOptions: OrganizationOptionType[] = [
-    { value: 'NTLS', label: 'National Society' },
-    { value: 'DLGN', label: 'IFRC' },
-    { value: 'SCRT', label: 'ICRC' },
-    { value: 'ICRC', label: 'Other' },
-];
 
 type FormSchema = ObjectSchema<FormFields>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
@@ -134,6 +125,7 @@ const formSchema: ObjectSchema<FormFields> = {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const { api_profile_org_types: organizationTypeOptions } = useContext(ServerEnumsContext);
     const { login: loginRoute } = useContext(RouteContext);
 
     const {
@@ -153,7 +145,7 @@ export function Component() {
     const {
         pending: registerPending,
         trigger: register,
-    } = useLazyRequest<RegisterResponse, FormFields>({
+    } = useLazyRequest<unknown, FormFields>({
         method: 'POST',
         url: 'register',
         body: (body) => body,

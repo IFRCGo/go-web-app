@@ -1,4 +1,9 @@
-import React, { useMemo } from 'react';
+import {
+    useMemo,
+    useContext,
+    useCallback,
+    useState,
+} from 'react';
 import {
     randomString,
     isNotDefined,
@@ -23,8 +28,9 @@ import { sumSafe } from '#utils/common';
 import BooleanInput from '#components/BooleanInput';
 import GoSingleFileInput from '#components/GoSingleFileInput';
 import useTranslation from '#hooks/useTranslation';
-import { stringKeySelector, stringValueSelector } from '#utils/selectors';
+import { stringValueSelector } from '#utils/selectors';
 import { paths } from '#generated/types';
+import ServerEnumsContext from '#contexts/server-enums';
 
 import InterventionInput from './InterventionInput';
 import RiskSecurityInput from './RiskSecurityInput';
@@ -37,17 +43,21 @@ import { PartialDref } from '../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type PlannedInterventionOption = NonNullable<GlobalEnumsResponse['dref_planned_intervention_title']>[number];
+
 type Value = PartialDref;
 type PlannedInterventionFormFields = NonNullable<PartialDref['planned_interventions']>[number];
 type RiskSecurityFormFields = NonNullable<PartialDref['risk_security']>[number];
 
-type GetDrefOptions = paths['/api/v2/dref-options/']['get'];
-type GetDrefOptionsResponse = GetDrefOptions['responses']['200']['content']['application/json'];
+function plannedInterventionKeySelector(option: PlannedInterventionOption) {
+    return option.key;
+}
 
 const emptyList: string[] = [];
 
 interface Props {
-    drefOptions: GetDrefOptionsResponse | undefined;
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
@@ -57,9 +67,11 @@ interface Props {
 
 function Operation(props: Props) {
     const strings = useTranslation(i18n);
+    const {
+        dref_planned_intervention_title: plannedInterventionOptions,
+    } = useContext(ServerEnumsContext);
 
     const {
-        drefOptions,
         value,
         setFieldValue,
         error: formError,
@@ -69,7 +81,7 @@ function Operation(props: Props) {
 
     const error = getErrorObject(formError);
 
-    const [selectedIntervention, setSelectedIntervention] = React.useState<string | undefined>();
+    const [selectedIntervention, setSelectedIntervention] = useState<PlannedInterventionOption['key'] | undefined>();
     const {
         setValue: onInterventionChange,
         removeValue: onInterventionRemove,
@@ -78,7 +90,7 @@ function Operation(props: Props) {
         setFieldValue,
     );
 
-    const handleInterventionAddButtonClick = React.useCallback((title: string | undefined) => {
+    const handleInterventionAddButtonClick = useCallback((title: PlannedInterventionOption['key'] | undefined) => {
         const newInterventionItem : PlannedInterventionFormFields = {
             client_id: randomString(),
             title,
@@ -93,7 +105,7 @@ function Operation(props: Props) {
         setSelectedIntervention(undefined);
     }, [setFieldValue, setSelectedIntervention]);
 
-    const warnings = React.useMemo(() => {
+    const warnings = useMemo(() => {
         if (isNotDefined(value?.total_targeted_population)) {
             return emptyList;
         }
@@ -126,21 +138,21 @@ function Operation(props: Props) {
         value?.total_targeted_population,
     ]);
 
-    const interventionMap = React.useMemo(() => (
+    const interventionMap = useMemo(() => (
         listToMap(
             value.planned_interventions,
-            (pi) => pi.title ?? '',
+            (plannedIntervention) => plannedIntervention.title ?? '',
             () => true,
         )
     ), [value.planned_interventions]);
 
     const filteredInterventionOptions = useMemo(
         () => (
-            drefOptions?.planned_interventions?.filter(
-                (pi) => !interventionMap?.[pi.value],
+            plannedInterventionOptions?.filter(
+                (pi) => !interventionMap?.[pi.key],
             )
         ),
-        [interventionMap, drefOptions],
+        [interventionMap, plannedInterventionOptions],
     );
 
     const isSurgePersonnelDeployed = value?.is_surge_personnel_deployed;
@@ -153,7 +165,7 @@ function Operation(props: Props) {
         setFieldValue,
     );
 
-    const handleRiskSecurityAdd = React.useCallback(() => {
+    const handleRiskSecurityAdd = useCallback(() => {
         const newRiskSecurityItem: RiskSecurityFormFields = {
             client_id: randomString(),
         };
@@ -166,7 +178,7 @@ function Operation(props: Props) {
         );
     }, [setFieldValue]);
 
-    const totalBudgetFromInterventions = React.useMemo(
+    const totalBudgetFromInterventions = useMemo(
         () => sumSafe(value?.planned_interventions?.map((pi) => pi.budget) ?? []),
         [value?.planned_interventions],
     );
@@ -179,12 +191,12 @@ function Operation(props: Props) {
     const interventionTitleMap = useMemo(
         () => (
             listToMap(
-                drefOptions?.planned_interventions,
-                stringKeySelector,
-                stringValueSelector,
+                plannedInterventionOptions,
+                (plannedIntervention) => plannedIntervention.key,
+                (plannedIntervention) => plannedIntervention.value,
             )
         ),
-        [drefOptions],
+        [plannedInterventionOptions],
     );
 
     // TODO: remove unused styling
@@ -430,7 +442,7 @@ function Operation(props: Props) {
                         name={undefined}
                         label={strings.drefFormInterventionsLabel}
                         options={filteredInterventionOptions}
-                        keySelector={stringKeySelector}
+                        keySelector={plannedInterventionKeySelector}
                         labelSelector={stringValueSelector}
                         onChange={setSelectedIntervention}
                         value={selectedIntervention}

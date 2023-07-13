@@ -1,0 +1,16 @@
+.emergency-details {
+    padding: var(--go-ui-spacing-5xl) 0;
+
+    .key-figure-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--go-ui-spacing-lg);
+
+        .key-figure {
+            flex-basis: 20rem;
+            border-radius: var(--go-ui-border-radius-md);
+            box-shadow: var(--go-ui-box-shadow-lg);
+        }
+    }
+}

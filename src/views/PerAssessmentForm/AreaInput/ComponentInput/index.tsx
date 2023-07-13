@@ -8,24 +8,34 @@ import { listToMap, _cs, isNotDefined } from '@togglecorp/fujs';
 import ExpandableContainer from '#components/ExpandableContainer';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
-import type { GET } from '#types/serverResponse';
+import type { paths } from '#generated/types';
+import { numericIdSelector } from '#utils/selectors';
 
-import { PartialAssessment } from '../../common';
+import type { PartialAssessment } from '../../schema';
 import QuestionInput from './QuestionInput';
 import styles from './styles.module.css';
 
-type PerFormQuestion = GET['api/v2/per-formquestion']['results'][number];
-type PerFormComponent = PerFormQuestion['component'];
-type Value = NonNullable<NonNullable<PartialAssessment['area_responses']>[number]['component_responses']>[number];
+type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+type RatingOption = NonNullable<PerOptionsResponse['componentratings']>[number];
+
+type AreaResponse = NonNullable<PartialAssessment['area_responses']>[number]
+type Value = NonNullable<AreaResponse['component_responses']>[number];
+
+type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+type PerFormQuestion = NonNullable<PerFormQuestionResponse['results']>[number];
+
+function ratingLabelSelector(option: RatingOption) {
+    return `${option.value} - ${option.title}`;
+}
 
 interface Props {
     className?: string;
-    component: PerFormComponent;
+    component: PerFormQuestion['component'];
     questions: PerFormQuestion[];
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
-    ratingOptions: GET['api/v2/per-options']['componentratings'] | undefined;
+    ratingOptions: PerOptionsResponse['componentratings'] | undefined;
     epi_considerations: boolean | null | undefined;
     urban_considerations: boolean | null | undefined;
     climate_environmental_considerations: boolean | null | undefined;
@@ -69,6 +79,12 @@ function ComponentInput(props: Props) {
         }),
     );
 
+    const componentNumber = component.component_num;
+
+    if (isNotDefined(componentNumber)) {
+        return null;
+    }
+
     return (
         <ExpandableContainer
             className={_cs(styles.componentInput, className)}
@@ -81,23 +97,22 @@ function ComponentInput(props: Props) {
                     name="rating"
                     value={value?.rating}
                     onChange={setFieldValue}
+                    // FIXME: use translation
                     placeholder="Select rating"
                     options={ratingOptions}
-                    keySelector={(performanceOption) => performanceOption.id}
-                    labelSelector={(performanceOption) => performanceOption.title}
+                    keySelector={numericIdSelector}
+                    labelSelector={ratingLabelSelector}
                 />
             )}
         >
             {questions?.map((question) => {
-                if (question.is_epi
-                    || question.is_benchmark
-                    || isNotDefined(question.question_num)) {
+                if (isNotDefined(question.question_num)) {
                     return null;
                 }
 
                 return (
                     <QuestionInput
-                        componentNumber={component.component_num}
+                        componentNumber={componentNumber}
                         key={question.id}
                         question={question}
                         index={questionResponseMapping[question.id]?.index}

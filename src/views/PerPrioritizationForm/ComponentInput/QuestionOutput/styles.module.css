@@ -10,7 +10,7 @@
 
         .numbering {
             flex-shrink: 0;
-            width: 2rem;
+            min-width: 1.5rem;
         }
 
         .question {

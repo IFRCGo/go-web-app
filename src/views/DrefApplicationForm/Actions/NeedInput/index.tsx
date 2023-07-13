@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { isDefined, randomString } from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 import {
     PartialForm,
     ArrayError,
@@ -19,7 +19,7 @@ import styles from './styles.module.css';
 
 type NeedFormFields = NonNullable<PartialDref['needs_identified']>[number];
 const defaultNeedValue: NeedFormFields = {
-    client_id: randomString(),
+    client_id: '-1',
 };
 
 interface Props {
