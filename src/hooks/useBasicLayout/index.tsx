@@ -13,7 +13,7 @@ const spacingTypeToClassNameMap: Record<SpacingType, string> = {
     loose: styles.looseSpacing,
 };
 
-interface Props {
+export interface Props {
     className?: string;
     icons?: React.ReactNode;
     children: React.ReactNode | null | undefined;

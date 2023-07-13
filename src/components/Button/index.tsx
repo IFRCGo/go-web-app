@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import type { Props as LayoutProps } from '#hooks/useBasicLayout';
 import useBasicLayout from '#hooks/useBasicLayout';
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
 import styles from './styles.module.css';
@@ -8,11 +9,22 @@ import styles from './styles.module.css';
 // NOTE: Adding a 'tertiary-on-dark' to use 'tertiary' button on darker backgrounds
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'tertiary-on-dark';
 
-const buttonVariantToStyleMap: Record<ButtonVariant, string> = {
+const buttonVariantToClassNameMap: Record<ButtonVariant, string> = {
     primary: styles.primary,
     secondary: styles.secondary,
     tertiary: styles.tertiary,
     'tertiary-on-dark': styles.tertiaryOnDark,
+};
+
+type SpacingType = NonNullable<LayoutProps['spacing']>;
+
+const spacingTypeToClassNameMap: Record<SpacingType, string> = {
+    none: styles.noSpacing,
+    compact: styles.compactSpacing,
+    cozy: styles.cozySpacing,
+    comfortable: styles.comfortableSpacing,
+    relaxed: styles.relaxedSpacing,
+    loose: styles.looseSpacing,
 };
 
 export interface ButtonFeatureProps {
@@ -25,6 +37,7 @@ export interface ButtonFeatureProps {
     disabled?: boolean;
     icons?: React.ReactNode;
     iconsContainerClassName?: string;
+    spacing?: SpacingType;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -39,11 +52,13 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
         icons,
         iconsContainerClassName: iconsClassName,
         variant = 'primary',
+        spacing = 'compact',
     } = props;
 
     const buttonClassName = _cs(
         styles.button,
-        buttonVariantToStyleMap[variant],
+        buttonVariantToClassNameMap[variant],
+        spacingTypeToClassNameMap[spacing],
         disabled && styles.disabled,
         className,
     );
@@ -59,7 +74,7 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
         iconsContainerClassName: iconsClassName,
         childrenContainerClassName: childrenClassName,
         actionsContainerClassName: actionsClassName,
-        spacing: 'compact',
+        spacing,
     });
 
     return {
@@ -88,6 +103,7 @@ function Button<N>(props: Props<N>) {
         onClick,
         variant,
         type = 'button',
+        spacing,
         ...otherProps
     } = props;
 
@@ -106,6 +122,7 @@ function Button<N>(props: Props<N>) {
         children,
         icons,
         actions,
+        spacing,
         // NOTE: disabling a button if there is on onClick handler
         disabled: disabled || (type !== 'submit' && !onClick),
     });

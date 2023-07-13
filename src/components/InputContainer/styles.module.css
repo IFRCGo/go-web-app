@@ -6,7 +6,11 @@
         transition: var(--go-ui-duration-transition-medium) var(--go-ui-color-gray-10) ease-in-out;
         border-bottom: var(--go-ui-width-separator-thin) solid transparent;
         border-radius: var(--go-ui-border-radius-md);
-        padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+        padding: 0 var(--go-ui-spacing-md);
+
+        .input {
+            padding: var(--go-ui-spacing-sm) 0;
+        }
     }
 
     &.disabled {
@@ -26,6 +30,7 @@
     &.general {
         .input-section {
             border-radius: 0;
+            border-bottom-color: var(--go-ui-color-separator);
         }
     }
 
