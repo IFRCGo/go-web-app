@@ -12,6 +12,7 @@ import SurgeMap from './SurgeMap';
 import SurgeAlertsTable from './SurgeAlertsTable';
 import PersonnelByEventTable from './PersonnelByEventTable';
 import EmergencyResponseUnitsTable from './EmergencyResponseUnitsTable';
+import Readiness from './Readiness';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -122,6 +123,7 @@ export function Component() {
             <SurgeAlertsTable />
             <PersonnelByEventTable />
             <EmergencyResponseUnitsTable />
+            <Readiness />
         </div>
     );
 }

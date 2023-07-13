@@ -1,0 +1,8 @@
+{
+    "namespace": "surge",
+    "strings": {
+        "emergencyResponseUnitOwnerCardLastUpdated": "Last updated:",
+        "emergencyResponseUnitOwnerCardReady": "{count} Ready ERUs",
+        "emergencyResponseUnitOwnerCardDeployed": "{count} Deployed ERUs"
+    }
+}

@@ -30,7 +30,7 @@ const personnelByEventKeySelector = (item: PersonnelByEventListItem) => item.id;
 const PAGE_SIZE = 25;
 
 function PersonnelByEventTable() {
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const {
         allDeployedPersonnel: allDeployedPersonnelRoute,

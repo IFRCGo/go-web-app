@@ -31,6 +31,7 @@ type GetEmergencyResponseUnits = paths['/api/v2/eru/']['get'];
 type GetEmergencyResponseUnitsResponse = GetEmergencyResponseUnits['responses']['200']['content']['application/json'];
 type EmergencyResponseUnitListItem = NonNullable<GetEmergencyResponseUnitsResponse['results']>[number];
 
+// FIXME: fetch type from api
 interface EmergencyResponseUnitType {
     key: number;
     label: string;
@@ -43,7 +44,7 @@ const emergencyResponseUnitTypeKeySelector = (item: EmergencyResponseUnitType) =
 const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType) => item.label;
 
 function EmergencyResponseUnitsTable() {
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [emergencyResponseUnitType, setEmergencyResponseType] = useInputState<EmergencyResponseUnitType['key'] | undefined>(undefined);
 
     const {
@@ -78,11 +79,6 @@ function EmergencyResponseUnitsTable() {
         },
     });
 
-    const handleEmergencyResponseUnitTypeChange = useCallback((value: EmergencyResponseUnitType['key'] | undefined) => {
-        setEmergencyResponseType(value);
-        setPage(0);
-    }, [setEmergencyResponseType]);
-
     const {
         pending: emergencyResponseUnitTypesPending,
         response: emergencyResponseUnitTypesResponse,
@@ -90,6 +86,11 @@ function EmergencyResponseUnitsTable() {
         url: 'api/v2/erutype/',
         preserveResponse: true,
     });
+
+    const handleEmergencyResponseUnitTypeChange = useCallback((value: EmergencyResponseUnitType['key'] | undefined) => {
+        setEmergencyResponseType(value);
+        setPage(1);
+    }, [setEmergencyResponseType]);
 
     const columns = useMemo(() => ([
         createStringColumn<EmergencyResponseUnitListItem, number>(

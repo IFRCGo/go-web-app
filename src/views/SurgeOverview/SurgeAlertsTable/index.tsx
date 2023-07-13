@@ -66,7 +66,7 @@ function getStatus(alert: SurgeAlertListItem, strings: Record<string, string>) {
 }
 
 function SurgeAlertsTable() {
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const {
         allSurgeAlerts: allSurgeAlertsRoute,
