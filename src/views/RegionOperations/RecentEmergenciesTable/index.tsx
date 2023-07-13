@@ -157,6 +157,7 @@ function EventItemsTable(props: Props) {
         >
             <SortContext.Provider value={sortState}>
                 <Table
+                    filtered={false}
                     pending={eventPending}
                     className={styles.table}
                     columns={columns}

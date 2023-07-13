@@ -123,6 +123,7 @@ function EventItemsTable() {
             <SortContext.Provider value={sortState}>
                 <Table
                     pending={eventPending}
+                    filtered={false}
                     className={styles.table}
                     columns={columns}
                     keySelector={keySelector}

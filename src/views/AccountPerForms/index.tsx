@@ -205,6 +205,7 @@ export function Component() {
                     keySelector={numericIdSelector}
                     data={aggregatedStatusResponse?.results}
                     rowModifier={rowModifier}
+                    filtered={false}
                 />
             </SortContext.Provider>
         </Container>
