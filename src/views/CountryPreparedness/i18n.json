@@ -1,0 +1,19 @@
+{
+    "namespace": "home",
+    "strings": {
+        "previousPerAssessment":"Previous PER Assessment",
+        "nSPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
+        "startDateTitle": "Start Date",
+        "perPhaseTitle": "Per Phase",
+        "focalPointTitle": "Focal Point",
+        "perCycleTitle": "Per Cycle",
+        "typeOfAssessmentTitle": "Type of Assessment",
+        "emailTitle": "Email",
+        "perAssessmentHeading": "Per Assessment Result",
+        "totalBenchmarkSummaryTitle": "Total Benchmark Summary: ",
+        "componentsByAreaHeading": "Components by Area",
+        "highlightedTopRatedComponentHeading": "Highlighted Top Rated Component",
+        "priorityComponentHeading": "Priority Components to be strengthened",
+        "componentHeading": "Component"
+    }
+}
