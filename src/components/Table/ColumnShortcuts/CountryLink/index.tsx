@@ -3,6 +3,7 @@ import Link from '#components/Link';
 
 import RouteContext from '#contexts/route';
 import { generatePath } from 'react-router-dom';
+import { isDefined } from '@togglecorp/fujs';
 
 export interface Props {
     id: number;
@@ -15,7 +16,12 @@ function CountryLink(props: Props) {
 
     return (
         <Link
-            to={generatePath(countryRoute.absolutePath, { countryId: id })}
+            to={
+                isDefined(id) ? generatePath(
+                    countryRoute.absolutePath,
+                    { countryId: id },
+                ) : undefined
+            }
         >
             {name}
         </Link>

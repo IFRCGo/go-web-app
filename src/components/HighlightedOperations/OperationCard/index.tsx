@@ -8,13 +8,13 @@ import NumberOutput from '#components/NumberOutput';
 import KeyFigure from '#components/KeyFigure';
 import Tooltip from '#components/Tooltip';
 import TextOutput from '#components/TextOutput';
+import SeverityIndicator from '#components/SeverityIndicator';
 import { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 
-import SeverityIndicator from './SeverityIndicator';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 

@@ -3,7 +3,7 @@ import {
     addCondition,
     undefinedValue,
     ObjectSchema,
-    // greaterThanOrEqualToCondition,
+    greaterThanOrEqualToCondition,
     requiredStringCondition,
     PurgeNull,
     nullValue,
@@ -155,16 +155,13 @@ const schema: DrefFormSchema = {
             selection_criteria: {},
             community_involved: {},
             disability_people_per: {
-                // FIXME: add these validations back
-                // validations: [greaterThanOrEqualToCondition(0), lessThanOrEqualToCondition(100)],
+                validations: [greaterThanOrEqualToCondition(0), lessThanOrEqualToCondition(100)],
             },
             people_per_urban: {
-                // FIXME: add these validations back
-                // validations: [greaterThanOrEqualToCondition(0), lessThanOrEqualToCondition(100)],
+                validations: [greaterThanOrEqualToCondition(0), lessThanOrEqualToCondition(100)],
             },
             people_per_local: {
-                // FIXME: add these validations back
-                // validations: [greaterThanOrEqualToCondition(0), lessThanOrEqualToCondition(100)],
+                validations: [greaterThanOrEqualToCondition(0), lessThanOrEqualToCondition(100)],
             },
             displaced_people: { validations: [positiveIntegerCondition] },
             people_targeted_with_early_actions: { validations: [positiveIntegerCondition] },

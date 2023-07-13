@@ -226,7 +226,7 @@ function SurgeMap(props: Props) {
             eruDeployedEvents: mapToList(
                 listToGroupList(
                     countryGroupedErus[clickedPointProperties.feature.properties.country_id] ?? [],
-                    (eru) => eru.event.id,
+                    (eru) => eru.event.id ?? -1,
                 ),
                 (eru) => ({
                     ...eru[0].event,

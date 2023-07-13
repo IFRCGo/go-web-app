@@ -1,6 +1,0 @@
-.province-list {
-    .province-name {
-        display: flex;
-        gap: var(--go-ui-spacing-sm);
-    }
-}

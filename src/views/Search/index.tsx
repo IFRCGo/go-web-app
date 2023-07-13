@@ -1,6 +1,13 @@
-import React, { useCallback, useMemo, useContext } from 'react';
-import { useNavigate, generatePath } from 'react-router-dom';
-import { isDefined, mapToList, isNotDefined } from '@togglecorp/fujs';
+import {
+    useCallback,
+    useMemo,
+    useState,
+} from 'react';
+import {
+    isDefined,
+    isNotDefined,
+    compareNumber,
+} from '@togglecorp/fujs';
 import {
     ChevronRightLineIcon,
     ChevronLeftLineIcon,
@@ -8,6 +15,7 @@ import {
     SearchLineIcon,
     SearchEyeLineIcon,
 } from '@ifrc-go/icons';
+
 import Container from '#components/Container';
 import Link from '#components/Link';
 import Button from '#components/Button';
@@ -15,197 +23,178 @@ import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import TextInput from '#components/TextInput';
 import useInputState from '#hooks/useInputState';
-import { useRequest } from '#utils/restRequest';
-import { getSearchValue } from '#utils/common';
-import { URL_SEARCH_KEY } from '#utils/constants';
-import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
+import useUrlSearchState from '#hooks/useUrlSearchState';
+import { resolveToString } from '#utils/translation';
+import { URL_SEARCH_KEY } from '#utils/constants';
+import { useRequest } from '#utils/restRequest';
+import { sumSafe } from '#utils/common';
+import { paths } from '#generated/types';
 
-import EmergencyTable, { EmergencyResult } from './EmergencyTable';
-import EmergencyPlanningTable, { EmergencyPlanningResult } from './EmergencyPlanningTable';
-import FieldReportTable, { FieldReportResponse } from './FieldReportTable';
-import ProjectTable, { ProjectResult } from './ProjectTable';
-import SurgeAlertTable, { SurgeAlertResult } from './SurgeAlertTable';
-import SurgeDeploymentTable, { SurgeDeploymentResult } from './SurgeDeploymentTable';
-import CountryList, { CountryResult } from './CountryList';
-import RegionList, { RegionResult } from './RegionList';
-import ProvinceList, { ProvinceResult } from './ProvinceList';
-import RapidResponseDeploymentTable, { RapidResponseResult } from './RapidDeploymentTable';
+import ResultTable from './ResultTable';
+import ResultList from './ResultList';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type SearchResult = {
-    countries: CountryResult[];
-    regions: RegionResult[];
-    district_province_response: ProvinceResult[];
-    emergency_planning: EmergencyPlanningResult[];
-    reports: FieldReportResponse[];
-    projects: ProjectResult[];
-    emergencies: EmergencyResult[];
-    surge_alerts: SurgeAlertResult[];
-    surge_deployments: SurgeDeploymentResult[];
-    rapid_response_deployments: RapidResponseResult[];
-}
+type GetSearch = paths['/api/v1/search/']['get'];
+// TODO missing query params
+// type SearchQueryParams = GetSearch['parameters']['query'];
+type SearchResponse = GetSearch['responses']['200']['content']['application/json'];
 
 const MAX_VIEW_PER_SECTION = 5;
-type ResultKeys = 'provinces' | 'regions' | 'countries' | 'emergencies' | 'emergencyPlannings' | 'projects' | 'surgeAlerts' | 'surgeDeployments' | 'fieldReports' | 'rapidResponse';
+type SearchResponseKeys = keyof SearchResponse;
+
+function isListTypeResult(
+    resultKey: SearchResponseKeys,
+): resultKey is Extract<SearchResponseKeys, 'regions' | 'countries' | 'district_province_response'> {
+    return resultKey === 'regions' || resultKey === 'countries' || resultKey === 'district_province_response';
+}
+
+const defaultRanking: Record<SearchResponseKeys, number> = {
+    regions: 1,
+    countries: 2,
+    district_province_response: 3,
+    emergencies: 4,
+    projects: 5,
+    surge_alerts: 6,
+    surge_deployments: 7,
+    reports: 8,
+    rapid_response_deployments: 9,
+};
 
 const feedbackLink = 'https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok5zbE6rDdGE9g_ZF6J45kKES69IsSyDatuGYF1UREdHUFlUWUY1TFg4TUEzNjNINkU1QUVEMi4u';
 
+// eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const urlSearchValue = getSearchValue(URL_SEARCH_KEY);
-    const {
-        search: searchRoute,
-    } = useContext(RouteContext);
-
-    const [activeView, setActiveView] = React.useState<ResultKeys | undefined>();
-    const [searchString, setSearchString] = useInputState<string | undefined>(
-        urlSearchValue,
+    const [urlSearchValue, setUrlSearchValue] = useUrlSearchState<string | undefined>(
+        URL_SEARCH_KEY,
+        (searchString) => searchString ?? undefined,
+        (searchString) => searchString,
     );
 
+    const [activeView, setActiveView] = useState<SearchResponseKeys | undefined>();
+    const [searchStringTemp, setSearchStringTemp] = useInputState(urlSearchValue);
+
     const strings = useTranslation(i18n);
-    const handleClearSearchInput = useCallback(() => {
-        setSearchString('');
-    }, [setSearchString]);
-
-    const viewAllStringMap: Record<ResultKeys, string> = useMemo(() => ({
-        provinces: strings.searchViewAllProvince,
-        regions: strings.searchViewAllRegions,
-        countries: strings.searchViewAllCountries,
-        emergencies: strings.searchViewAllEmergencies,
-        emergencyPlannings: strings.searchViewAllEmergenciesPlansAndReportingDocuments,
-        projects: strings.searchViewAllProjects,
-        surgeAlerts: strings.searchViewAllSurgeAlerts,
-        surgeDeployments: strings.searchViewAllSurgeDeployments,
-        fieldReports: strings.searchViewAllFieldReports,
-        rapidResponse: strings.searchViewAllRapidResponseDeployment,
-    }), [
-        strings.searchViewAllProvince,
-        strings.searchViewAllRegions,
-        strings.searchViewAllCountries,
-        strings.searchViewAllEmergencies,
-        strings.searchViewAllEmergenciesPlansAndReportingDocuments,
-        strings.searchViewAllProjects,
-        strings.searchViewAllSurgeAlerts,
-        strings.searchViewAllSurgeDeployments,
-        strings.searchViewAllFieldReports,
-        strings.searchViewAllRapidResponseDeployment,
-    ]);
-
     const {
         pending: searchPending,
         response: searchResponse,
-    } = useRequest<SearchResult>({
+    } = useRequest<SearchResponse>({
         url: 'api/v1/search/',
-        query: {
-            keyword: urlSearchValue,
-        },
+        query: { keyword: urlSearchValue },
         skip: isNotDefined(urlSearchValue),
     });
 
-    const [
-        resultsMap,
-        componentMap,
-        sortedScoreList,
-        isEmpty,
-    ] = React.useMemo(() => {
-        const initialResultMap = {
-            regions: searchResponse?.regions ?? [],
-            countries: searchResponse?.countries ?? [],
-            provinces: searchResponse?.district_province_response ?? [],
-            emergencies: searchResponse?.emergencies ?? [],
-            emergencyPlannings: searchResponse?.emergency_planning ?? [],
-            projects: searchResponse?.projects ?? [],
-            surgeAlerts: searchResponse?.surge_alerts ?? [],
-            surgeDeployments: searchResponse?.surge_deployments ?? [],
-            fieldReports: searchResponse?.reports ?? [],
-            rapidResponse: searchResponse?.rapid_response_deployments ?? [],
-        };
+    const headingStringMap = useMemo<Record<SearchResponseKeys, string>>(
+        () => ({
+            emergencies: strings.searchEmergenciesTitle,
+            reports: strings.searchReportsTitle,
+            projects: strings.searchProjectsTitle,
+            surge_alerts: strings.searchSurgeAlertsTitle,
+            surge_deployments: strings.searchSurgeDeploymentsTitle,
+            rapid_response_deployments: strings.searchRapidResponseDeploymentsTitle,
 
-        const initialComponentMap: Record<ResultKeys, React.ElementType> = {
-            regions: RegionList,
-            countries: CountryList,
-            provinces: ProvinceList,
-            emergencies: EmergencyTable,
-            emergencyPlannings: EmergencyPlanningTable,
-            projects: ProjectTable,
-            surgeAlerts: SurgeAlertTable,
-            surgeDeployments: SurgeDeploymentTable,
-            fieldReports: FieldReportTable,
-            rapidResponse: RapidResponseDeploymentTable,
-        };
+            district_province_response: strings.searchProvincesTitle,
+            regions: strings.searchRegionsTitle,
+            countries: strings.searchCountriesTitle,
+        }),
+        [strings],
+    );
 
-        const tableScoreList = mapToList(
-            initialResultMap,
-            (item, key) => ({
-                key: key as ResultKeys,
-                totalItems: item.length,
-                value: Math.max(0, ...(item.map((i) => i.score))),
-            }),
-        );
+    const handleClearSearchInput = useCallback(() => {
+        setSearchStringTemp(undefined);
+        setUrlSearchValue(undefined);
+    }, [setUrlSearchValue, setSearchStringTemp]);
 
-        const keysOrdering: {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            [key in ResultKeys]: number
-        } = {
-            regions: 0,
-            countries: 1,
-            provinces: 2,
-            emergencies: 3,
-            emergencyPlannings: 3,
-            projects: 3,
-            surgeAlerts: 3,
-            surgeDeployments: 3,
-            fieldReports: 3,
-            rapidResponse: 3,
-        };
+    const handleSearchInputKeyDown = useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key !== 'Enter') {
+                return;
+            }
 
-        const initialSortedScoreList = tableScoreList.sort((a, b) => (
-            keysOrdering[a.key] - keysOrdering[b.key] || b.value - a.value
-        ));
+            e.preventDefault();
+            const searchStringSafe = searchStringTemp?.trim() ?? '';
+            if (searchStringSafe.length > 2) {
+                setUrlSearchValue(searchStringSafe);
+            }
+        },
+        [
+            searchStringTemp,
+            setUrlSearchValue,
+        ],
+    );
 
-        const isTableEmpty = searchResponse
-            && tableScoreList.every((score) => score.totalItems === 0);
+    const rankedSearchResponseKeys = useMemo(
+        () => {
+            const searchResponseKeys = Object.keys(searchResponse ?? {}) as SearchResponseKeys[];
 
-        return [
-            initialResultMap,
-            initialComponentMap,
-            initialSortedScoreList,
-            isTableEmpty,
-        ];
-    }, [searchResponse]);
+            function getAverageScore(
+                results: { score: number | null | undefined }[] | undefined | null,
+            ) {
+                const scoreList = results?.map((result) => result.score);
+                if (isNotDefined(scoreList) || scoreList.length === 0) {
+                    return 0;
+                }
 
-    const ActiveComponent = activeView ? componentMap[activeView] : undefined;
+                const totalScore = sumSafe(scoreList) ?? 0;
+                return totalScore / scoreList.length;
+            }
 
-    const navigate = useNavigate();
-    const handleSearchInputEnter = useCallback(() => {
-        if ((searchString?.trim()?.length ?? 0) > 2) {
-            navigate(
-                generatePath(
-                    searchRoute.absolutePath,
-                    { searchString },
-                ),
+            searchResponseKeys.sort(
+                (a, b) => {
+                    const aScore = getAverageScore(searchResponse?.[a]) ?? 0;
+                    const bScore = getAverageScore(searchResponse?.[b]) ?? 0;
+
+                    const aDefaultRank = defaultRanking[a];
+                    const bDefaultRank = defaultRanking[b];
+
+                    return compareNumber(aScore, bScore, -1)
+                        || compareNumber(aDefaultRank, bDefaultRank, -1);
+                },
             );
-        }
-    }, [
-        navigate,
-        searchString,
-        searchRoute.absolutePath,
-    ]);
+            return searchResponseKeys;
+        },
+        [searchResponse],
+    );
+
+    const activeViewAction = useMemo(
+        () => {
+            if (isNotDefined(activeView)) {
+                return undefined;
+            }
+
+            return (
+                <Button
+                    name={undefined}
+                    variant="tertiary"
+                    icons={(
+                        <ChevronLeftLineIcon
+                            className={styles.backIcon}
+                        />
+                    )}
+                    onClick={setActiveView}
+                >
+                    {strings.searchGoBack}
+                </Button>
+            );
+        },
+        [activeView, strings],
+    );
 
     return (
         <Page
             className={styles.search}
             title={strings.searchPageTitle}
             heading={strings.searchPageSearchForKeyword}
+            descriptionContainerClassName={styles.pageDescription}
             description={(
-                <div className={styles.feedbackSection}>
+                <>
                     <TextInput
-                        className={styles.inputSection}
+                        className={styles.searchInput}
                         icons={<SearchLineIcon />}
                         variant="general"
-                        actions={searchString && (
+                        actions={searchStringTemp && (
                             <Button
                                 name={undefined}
                                 variant="tertiary"
@@ -215,35 +204,29 @@ export function Component() {
                             </Button>
                         )}
                         name="search"
-                        value={searchString}
-                        onChange={setSearchString}
+                        value={searchStringTemp}
+                        onChange={setSearchStringTemp}
                         placeholder={strings.searchEnterAtLeastThreeCharacters}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                handleSearchInputEnter();
-                            }
-                        }}
+                        onKeyDown={handleSearchInputKeyDown}
                     />
                     <div className={styles.feedback}>
-                        <div className={styles.feedbackText}>
+                        <div className={styles.text}>
                             {strings.searchPageFeedbackLinkText}
-                            &nbsp;
                         </div>
                         <Link
-                            variant="tertiary"
                             to={feedbackLink}
+                            variant="secondary"
                         >
                             {strings.searchPageFeedbackButton}
                         </Link>
                     </div>
-                </div>
+                </>
             )}
         >
-            {searchPending && <Container><BlockLoading /></Container>}
-            {!searchPending && isEmpty && (
+            {searchPending && <BlockLoading />}
+            {!searchPending && !searchResponse && (
                 <Container childrenContainerClassName={styles.emptySearchContent}>
-                    {isDefined(searchString) && searchString.trim().length > 2 ? (
+                    {isDefined(searchStringTemp) && searchStringTemp.trim().length > 2 ? (
                         <>
                             <SearchEyeLineIcon className={styles.icon} />
                             {strings.searchResultforQuery}
@@ -256,49 +239,72 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {!searchPending && (
+            {!searchPending && searchResponse && activeView && !isListTypeResult(activeView) && (
+                <ResultTable
+                    searchResponse={searchResponse}
+                    resultKey={activeView}
+                    heading={headingStringMap[activeView]}
+                    actions={activeViewAction}
+                />
+            )}
+            {!searchPending && searchResponse && activeView && isListTypeResult(activeView) && (
+                <ResultList
+                    searchResponse={searchResponse}
+                    resultKey={activeView}
+                    heading={headingStringMap[activeView]}
+                    actions={activeViewAction}
+                />
+            )}
+            {!searchPending && searchResponse && isNotDefined(activeView) && (
                 <div className={styles.content}>
-                    {activeView && ActiveComponent && (
-                        <ActiveComponent
-                            data={resultsMap[activeView]}
-                            actions={(
-                                <Button
-                                    className={styles.viewAll}
-                                    name={undefined}
-                                    variant="tertiary"
-                                    onClick={setActiveView}
-                                    icons={<ChevronLeftLineIcon />}
-                                >
-                                    {strings.searchGoBack}
-                                </Button>
-                            )}
-                        />
-                    )}
-                    {!activeView && sortedScoreList.map((score) => {
-                        const RenderComponent = componentMap[score.key];
-                        const data = resultsMap[score.key];
+                    {rankedSearchResponseKeys.map((searchResponseKey) => {
+                        // const RenderComponent = componentMap[searchResponseKey];
+                        const data = searchResponse?.[searchResponseKey];
 
-                        if (data.length === 0) {
+                        if (isNotDefined(data) || data.length === 0) {
                             return null;
                         }
 
-                        const truncatedData = data.slice(0, MAX_VIEW_PER_SECTION);
+                        const heading = headingStringMap[searchResponseKey];
+                        const action = (
+                            <Button
+                                name={searchResponseKey}
+                                variant="tertiary"
+                                actions={(
+                                    <ChevronRightLineIcon
+                                        className={styles.forwardIcon}
+                                    />
+                                )}
+                                onClick={setActiveView}
+                            >
+                                {resolveToString(
+                                    strings.searchViewAll,
+                                    { searchTitle: heading },
+                                )}
+                            </Button>
+                        );
+
+                        if (isListTypeResult(searchResponseKey)) {
+                            return (
+                                <ResultList
+                                    key={searchResponseKey}
+                                    searchResponse={searchResponse}
+                                    resultKey={searchResponseKey}
+                                    maxItems={MAX_VIEW_PER_SECTION}
+                                    heading={heading}
+                                    actions={action}
+                                />
+                            );
+                        }
 
                         return (
-                            <RenderComponent
-                                key={score.key}
-                                data={truncatedData}
-                                actions={data.length > MAX_VIEW_PER_SECTION && (
-                                    <Button
-                                        className={styles.viewAll}
-                                        name={score.key}
-                                        variant="tertiary"
-                                        onClick={setActiveView}
-                                        actions={<ChevronRightLineIcon />}
-                                    >
-                                        {viewAllStringMap[score.key]}
-                                    </Button>
-                                )}
+                            <ResultTable
+                                key={searchResponseKey}
+                                searchResponse={searchResponse}
+                                resultKey={searchResponseKey}
+                                maxItems={MAX_VIEW_PER_SECTION}
+                                heading={heading}
+                                actions={action}
                             />
                         );
                     })}
