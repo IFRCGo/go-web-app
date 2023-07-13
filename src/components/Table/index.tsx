@@ -44,8 +44,8 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     headersHidden?: boolean;
 
     // FIXME: make filtered and pending required
-    filtered?: boolean;
-    pending?: boolean;
+    filtered: boolean;
+    pending: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

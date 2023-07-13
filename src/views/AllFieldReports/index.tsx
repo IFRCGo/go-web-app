@@ -138,6 +138,10 @@ export function Component() {
         },
     });
 
+    const fieldReportFiltered = (
+        isDefined(filterDisasterType) || isDefined(filterCountry)
+    );
+
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
@@ -220,6 +224,7 @@ export function Component() {
                 <SortContext.Provider value={sortState}>
                     <Table
                         pending={fieldReportPending}
+                        filtered={fieldReportFiltered}
                         className={styles.table}
                         columns={columns}
                         keySelector={fieldReportKeySelector}

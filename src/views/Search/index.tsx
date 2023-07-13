@@ -245,6 +245,8 @@ export function Component() {
                     resultKey={activeView}
                     heading={headingStringMap[activeView]}
                     actions={activeViewAction}
+                    pending={false}
+                    filtered={false}
                 />
             )}
             {!searchPending && searchResponse && activeView && isListTypeResult(activeView) && (
@@ -305,6 +307,8 @@ export function Component() {
                                 maxItems={MAX_VIEW_PER_SECTION}
                                 heading={heading}
                                 actions={action}
+                                pending={false}
+                                filtered={false}
                             />
                         );
                     })}

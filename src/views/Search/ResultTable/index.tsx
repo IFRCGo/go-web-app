@@ -20,6 +20,8 @@ interface Props {
     maxItems?: number;
     heading: React.ReactNode;
     actions: React.ReactNode;
+    pending: boolean;
+    filtered: boolean;
 }
 
 function ResultTable(props: Props) {
@@ -29,6 +31,8 @@ function ResultTable(props: Props) {
         maxItems,
         heading,
         actions,
+        pending,
+        filtered,
     } = props;
 
     const columnMap = useColumns(searchResponse);
@@ -76,6 +80,8 @@ function ResultTable(props: Props) {
                 data={limitedData}
                 columns={mappings.columns}
                 keySelector={mappings.keySelector}
+                pending={pending}
+                filtered={filtered}
             />
         </Container>
     );

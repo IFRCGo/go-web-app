@@ -293,6 +293,7 @@ export function Component() {
                         columns={columns}
                         keySelector={eventKeySelector}
                         data={eventResponse?.results}
+                        filtered={false}
                     />
                 </SortContext.Provider>
             </Container>

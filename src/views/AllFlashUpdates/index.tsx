@@ -123,6 +123,7 @@ export function Component() {
                 <SortContext.Provider value={sortState}>
                     <Table
                         pending={flashUpdatePending}
+                        filtered={false}
                         className={styles.table}
                         columns={columns}
                         keySelector={keySelector}

@@ -305,6 +305,7 @@ export function Component(props: Props) {
                     data={projectResponse?.results}
                     columns={projectColumns}
                     keySelector={idSelector}
+                    filtered={false}
                 />
             </Container>
             <Container
@@ -325,6 +326,7 @@ export function Component(props: Props) {
                     data={activityResponse?.results}
                     columns={activityColumns}
                     keySelector={idSelector}
+                    filtered={false}
                 />
             </Container>
         </Container>

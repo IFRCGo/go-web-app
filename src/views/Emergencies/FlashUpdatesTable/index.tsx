@@ -135,6 +135,7 @@ function FlashUpdateTable() {
         >
             <SortContext.Provider value={sortState}>
                 <Table
+                    filtered={false}
                     pending={flashUpdatePending}
                     className={styles.table}
                     columns={columns}

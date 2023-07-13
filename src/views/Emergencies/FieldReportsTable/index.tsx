@@ -152,6 +152,7 @@ function FieldReportsTable() {
             <SortContext.Provider value={sortState}>
                 <Table
                     pending={fieldReportPending}
+                    filtered={false}
                     className={styles.table}
                     columns={columns}
                     keySelector={fieldReportKeySelector}

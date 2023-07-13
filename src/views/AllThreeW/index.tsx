@@ -118,6 +118,7 @@ export function Component() {
             >
                 <Table
                     pending={projectResponsePending}
+                    filtered={false}
                     className={styles.projectTable}
                     data={projectResponse?.results}
                     columns={projectColumns}
