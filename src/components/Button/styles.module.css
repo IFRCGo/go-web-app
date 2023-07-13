@@ -31,6 +31,33 @@
         flex-grow: 1;
     }
 
+    &.primary,
+    &.secondary {
+        &.no-spacing {
+            --padding: 0;
+        }
+
+        &.compact-spacing {
+            --padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-md);
+        }
+
+        &.cozy-spacing {
+            --padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-lg);
+        }
+
+        &.comfortable-spacing {
+            --padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-xl);
+        }
+
+        &.relaxed-spacing {
+            --padding: var(--go-ui-spacing-md) var(--go-ui-spacing-2xl);
+        }
+
+        &.loose-spacing {
+            --padding: var(--go-ui-spacing-lg) var(--go-ui-spacing-3xl);
+        }
+    }
+
     &.primary {
         --color-border: var(--go-ui-color-primary-red);
         --color-background: var(--go-ui-color-primary-red);
@@ -102,4 +129,5 @@
     &:not(.disabled) {
         --cursor: pointer;
     }
+
 }

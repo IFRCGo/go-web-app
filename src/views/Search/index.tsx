@@ -182,6 +182,23 @@ export function Component() {
         [activeView, strings],
     );
 
+    const MIN_SEARCH_TEXT_LENGTH = 3;
+    const trimmedSearchString = isDefined(searchStringTemp) ? searchStringTemp.trim() : '';
+    const emptyText = useMemo(
+        () => {
+            if (trimmedSearchString.length < MIN_SEARCH_TEXT_LENGTH) {
+                return strings.searchThreeCharactersRequired;
+            }
+
+            if (urlSearchValue !== trimmedSearchString) {
+                return strings.searchHint;
+            }
+
+            return strings.searchResultforQuery;
+        },
+        [strings, urlSearchValue, trimmedSearchString],
+    );
+
     return (
         <Page
             className={styles.search}
@@ -190,25 +207,36 @@ export function Component() {
             descriptionContainerClassName={styles.pageDescription}
             description={(
                 <>
-                    <TextInput
-                        className={styles.searchInput}
-                        icons={<SearchLineIcon />}
-                        variant="general"
-                        actions={searchStringTemp && (
-                            <Button
-                                name={undefined}
-                                variant="tertiary"
-                                onClick={handleClearSearchInput}
-                            >
-                                <CloseLineIcon />
-                            </Button>
-                        )}
-                        name="search"
-                        value={searchStringTemp}
-                        onChange={setSearchStringTemp}
-                        placeholder={strings.searchEnterAtLeastThreeCharacters}
-                        onKeyDown={handleSearchInputKeyDown}
-                    />
+                    <div className={styles.searchInputContainer}>
+                        <TextInput
+                            name="search"
+                            className={styles.searchInput}
+                            variant="general"
+                            hint={strings.searchHint}
+                            icons={<SearchLineIcon />}
+                            actions={searchStringTemp && (
+                                <Button
+                                    name={undefined}
+                                    variant="tertiary"
+                                    onClick={handleClearSearchInput}
+                                >
+                                    <CloseLineIcon className={styles.closeIcon} />
+                                </Button>
+                            )}
+                            value={searchStringTemp}
+                            onChange={setSearchStringTemp}
+                            placeholder={strings.searchEnterAtLeastThreeCharacters}
+                            onKeyDown={handleSearchInputKeyDown}
+                        />
+                        <Button
+                            name={trimmedSearchString}
+                            onClick={setUrlSearchValue}
+                            disabled={trimmedSearchString.length < MIN_SEARCH_TEXT_LENGTH}
+                            spacing="comfortable"
+                        >
+                            {strings.searchGoButtonLabel}
+                        </Button>
+                    </div>
                     <div className={styles.feedback}>
                         <div className={styles.text}>
                             {strings.searchPageFeedbackLinkText}
@@ -226,17 +254,10 @@ export function Component() {
             {searchPending && <BlockLoading />}
             {!searchPending && !searchResponse && (
                 <Container childrenContainerClassName={styles.emptySearchContent}>
-                    {isDefined(searchStringTemp) && searchStringTemp.trim().length > 2 ? (
-                        <>
-                            <SearchEyeLineIcon className={styles.icon} />
-                            {strings.searchResultforQuery}
-                        </>
-                    ) : (
-                        <>
-                            <SearchLineIcon className={styles.icon} />
-                            {strings.searchThreeCharactersRequired}
-                        </>
-                    )}
+                    <SearchLineIcon className={styles.icon} />
+                    <div>
+                        {emptyText}
+                    </div>
                 </Container>
             )}
             {!searchPending && searchResponse && activeView && !isListTypeResult(activeView) && (
