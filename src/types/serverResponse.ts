@@ -75,7 +75,7 @@ interface PerComponentRatingItem {
     value: number;
 }
 
-export interface PerAssessmentResponse {
+interface PerAssessmentResponse {
     id: number;
     is_draft: boolean;
     overview: number;
@@ -226,7 +226,7 @@ interface PerWorkPlanResponse {
     };
 }
 
-export interface CountryPlanApiResponse {
+interface CountryPlanApiResponse {
     country: number;
     id: number;
 }
@@ -277,5 +277,5 @@ export interface GET {
     'api/v2/per-prioritization/:id': PerPrioritizationResponse;
     'api/v2/per-work-plan/:id': PerWorkPlanResponse;
     'api/v2/country-plan/:id': CountryPlanApiResponse;
-    'api/v2/per-country/:id': PerCountryApiResponse;
+    'api/v2/per-country/?country_id:id': PerCountryApiResponse;
 }

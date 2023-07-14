@@ -13,6 +13,12 @@
     }
 }
 
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
 .answer-counts {
     display: flex;
     gap: var(--go-ui-spacing-lg);
@@ -48,4 +54,9 @@
 .highlighted-component {
     box-shadow: var(--go-ui-box-shadow-lg);
     padding: var(--go-ui-spacing-2xl);
+}
+
+.highlighted-component-list {
+    display: flex;
+    justify-content: space-between;
 }

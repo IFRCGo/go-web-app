@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { PartialForm, useForm } from '@togglecorp/toggle-form';
+import { useCallback, useState } from 'react';
+import { useForm, removeNull } from '@togglecorp/toggle-form';
 import {
     isDefined,
     isNotDefined,
@@ -10,57 +10,26 @@ import {
 
 import { sumSafe } from '#utils/common';
 import { getDatesSeparatedByYear } from '#utils/chart';
-import { GET, PerAssessmentResponse, PerCountryApiResponse } from '#types/serverResponse';
-import { ListResponse, useRequest } from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
+
+import { PerCountryApiResponse } from '../../types/serverResponse';
 import PieChart from '#views/GlobalThreeW/PieChart';
 import useTranslation from '#hooks/useTranslation';
-import { assessmentSchema } from '#views/PerAssessmentForm/common';
+import { assessmentSchema } from '#views/PerAssessmentForm/schema';
 import Container from '#components/Container';
 import Page from '#components/Page';
 import TextOutput from '#components/TextOutput';
 import ProgressBar from '#components/ProgressBar';
 import BarChart from '#components/BarChart';
 import TimeSeriesChart from '#components/TimeSeriesChart';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type AssessmentResponse = GET['api/v2/per-assessment/:id'];
-type AreaResponse = AssessmentResponse['area_responses'][number];
-type ComponentResponse = AreaResponse['component_responses'][number];
-interface AssessmentFormFields extends Omit<AssessmentResponse, 'id' | 'user' | 'area_responses'> {
-    area_responses: (Omit<AreaResponse, 'area_details' | 'id' | 'is_draft' | 'component_responses'> & {
-        component_responses: Omit<ComponentResponse, 'rating_details'>[];
-    })[];
-}
-type PartialAssessment = PartialForm<AssessmentFormFields, 'area' | 'component' | 'question' | 'consideration'>;
-
-type PerFormQuestionResponse = GET['api/v2/per-formquestion'];
-type PerFormArea = PerFormQuestionResponse['results'][number]['component']['area'];
-const defaultFormAreas: PerFormArea[] = [];
-
-type DATA_KEY = 'dref' | 'emergencyAppeal';
-
-function perAssessmentRatingTypeKeySelector(
-    perAssessmentRatingType: PerAssessmentResponse['area_responses'][number],
-) {
-    return perAssessmentRatingType.id;
-}
-
-const defaultFormValue: PartialAssessment = {
-    is_draft: true,
-    area_responses: [],
-};
-
-const getFormattedKey = (dateFromProps: string | Date) => {
-    const date = new Date(dateFromProps);
-    return `${date.getFullYear()}-${date.getMonth()}`;
-};
-
-const now = new Date();
-const startDate = new Date(now.getFullYear() - 10, 0, 1);
-const endDate = new Date(now.getFullYear(), 11, 31);
-const dateList = getDatesSeparatedByYear(startDate, endDate);
+type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
+type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
 
 const dataKeyToClassNameMap = {
     dref: styles.dref,
@@ -69,6 +38,29 @@ const dataKeyToClassNameMap = {
 
 const classNameSelector = (dataKey: DATA_KEY) => dataKeyToClassNameMap[dataKey];
 const xAxisFormatter = (date: Date) => date.toLocaleString(undefined, { year: 'numeric' });
+
+function perAssessmentRatingTypeKeySelector(
+    perAssessmentRatingType: AssessmentResponse['area_responses'][number],
+) {
+    return perAssessmentRatingType.id;
+}
+
+type DATA_KEY = 'componentrating' | 'emergencyAppeal';
+
+const dataKeys: DATA_KEY[] = [
+    'componentrating',
+    'emergencyAppeal',
+];
+
+const getFormattedKey = (dateFromProps: string | Date) => {
+    const date = new Date(dateFromProps);
+    return `${date.getFullYear()}-${date.getMonth()}`;
+};
+
+const now = new Date();
+const startDate = new Date(now.getFullYear() - 5, 0, 1);
+const endDate = new Date(now.getFullYear(), 11, 31);
+const dateList = getDatesSeparatedByYear(startDate, endDate);
 
 const PIE_COLORS = [
     'var(--go-ui-color-red-90)',
@@ -86,19 +78,18 @@ export function Component() {
         setValue,
     } = useForm(
         assessmentSchema,
-        { value: defaultFormValue },
+        { value: {} },
     );
 
     const strings = useTranslation(i18n);
 
     const {
-        pending: perAssessmentPending,
         response: perAssessmentResponse,
-    } = useRequest<PerAssessmentResponse>({
+    } = useRequest<AssessmentResponse>({
         url: `api/v2/per-assessment/19`,
         onSuccess: (response) => {
             if (response) {
-                setValue(response);
+                setValue(removeNull(response));
             }
         },
     });
@@ -110,33 +101,23 @@ export function Component() {
     );
 
     const highlightedComponent = ratingDetail?.map(
-        (rating) => rating.find(item => item?.value === 5)
+        (rating) => rating?.find(item => item?.value === 5)
     );
-
-    const highlightedRatingDetail = perAssessmentResponse?.area_responses?.map(
-        (component) => component.component_responses?.map(
-            (rating) => rating.component
-        )
-    );
-
-    console.warn('highlighted', highlightedRatingDetail);
 
     //FIX ME: Add From Service response
     const {
-        pending: perCountryPending,
         response: perCountryResponse,
-    } = useRequest<ListResponse<PerCountryApiResponse>>({
+    } = useRequest<PerCountryApiResponse>({
         url: `api/v2/per-country/?country_id=123`,
     });
 
     const {
-        pending: perOptionsPending,
         response: perOptionsResponse,
-    } = useRequest<GET['api/v2/per-options']>({
+    } = useRequest<PerOptionsResponse>({
         url: 'api/v2/per-options',
     });
+
     const {
-        pending: questionsPending,
         response: questionsResponse,
     } = useRequest<PerFormQuestionResponse>({
         url: 'api/v2/per-formquestion/',
@@ -262,9 +243,16 @@ export function Component() {
         }),
     );
 
+    const chartValueSelector = useCallback(
+        (dataKey: DATA_KEY, date: Date) => (
+            perOptionsResponse?.componentratings?.[dataKey]?.[getFormattedKey(date)]?.count ?? 0
+        ),
+        [perOptionsResponse],
+    );
+
     return (
         <Page
-            heading='NS Preparedness and Response Capacity'
+            heading={strings.nSPreparednessAndResponseCapacityHeading}
         >
             <Container
                 childrenContainerClassName={styles.perCountryDetails}
@@ -272,62 +260,74 @@ export function Component() {
                 <div className={styles.contactList}>
                     <div className={styles.contactDetails}>
                         <div>
-                            Start Date
+                            {strings.startDateTitle}
                         </div>
                         <h4>
-                            {perCountryResponse?.results?.map((i) => i.date_of_assessment)}
+                            {perCountryResponse?.date_of_assessment}
                         </h4>
                     </div>
                     <div className={styles.contactDetails}>
                         <div>
-                            Per Phase
+                            {strings.perPhaseTitle}
                         </div>
                         <h4>
-                            {perCountryResponse?.results?.map((i) => i.phase_display)}
+                            {perCountryResponse?.phase_display}
                         </h4>
                     </div>
                     <div className={styles.contactDetails}>
                         <div>
-                            Focal Point
+                            {strings.focalPointTitle}
                         </div>
                         <h4>
-                            {perCountryResponse?.results?.map((i) => i.ns_focal_point_name)}
+                            {perCountryResponse?.ns_focal_point_name}
                         </h4>
                     </div>
                 </div>
                 <div className={styles.contactList}>
                     <div className={styles.contactDetails}>
                         <div>
-                            Per Cycle
+                            {strings.perCycleTitle}
                         </div>
                         <h4>
-                            {perCountryResponse?.results?.map((i) => i.phase)}
+                            {perCountryResponse?.phase}
                         </h4>
                     </div>
                     <div className={styles.contactDetails}>
                         <div>
-                            Type of Assessment
+                            {strings.typeOfAssessmentTitle}
                         </div>
                         <h4>
-                            {perCountryResponse?.results?.map((i) => i.type_of_assessment?.name)}
+                            {perCountryResponse?.type_of_assessment?.name}
                         </h4>
                     </div>
                     <div className={styles.contactDetails}>
                         <div>
-                            Email
+                            {strings.emailTitle}
                         </div>
                         <h4>
-                            {perCountryResponse?.results?.map((i) => i.ns_focal_point_email)}
+                            {perCountryResponse?.ns_focal_point_email}
                         </h4>
                     </div>
                 </div>
             </Container>
             <Container
-                heading="Per Assessment Result"
+                heading={strings.perAssessmentHeading}
                 withHeaderBorder
+                childrenContainerClassName={styles.progressBar}
             >
+                <PieChart
+                    data={statusGroupedComponentList ?? []}
+                    valueSelector={(statusGroupedComponent) => (
+                        statusGroupedComponent.components.length
+                    )}
+                    labelSelector={
+                        (statusGroupedComponent) => `${statusGroupedComponent.ratingValue}-${statusGroupedComponent.ratingDisplay}`
+                    }
+                    keySelector={perAssessmentRatingTypeKeySelector}
+                    colors={PIE_COLORS}
+                />
                 <ProgressBar
-                    title="Total Benchmark Summary: "
+                    title={strings.totalBenchmarkSummaryTitle}
                     showPercentageInTitle
                     value={allAnsweredResponses?.length ?? 0}
                     totalValue={questionsResponse?.count}
@@ -345,20 +345,9 @@ export function Component() {
                         </div>
                     )}
                 />
-                <PieChart
-                    data={statusGroupedComponentList}
-                    valueSelector={(statusGroupedComponent) => (
-                        statusGroupedComponent.components.length
-                    )}
-                    labelSelector={
-                        (statusGroupedComponent) => `${statusGroupedComponent.ratingValue}-${statusGroupedComponent.ratingDisplay}`
-                    }
-                    keySelector={perAssessmentRatingTypeKeySelector}
-                    colors={PIE_COLORS}
-                />
             </Container>
             <Container
-                heading="Components by Area"
+                heading={strings.componentsByAreaHeading}
                 withHeaderBorder
             >
                 <BarChart
@@ -370,8 +359,8 @@ export function Component() {
                     labelSelector={(rating) => rating.areaDisplay}
                 />
             </Container>
-            {/* <Container
-                heading={strings.PreviousPerAssessment}
+            <Container
+                heading={strings.previousPerAssessment}
                 withHeaderBorder
             >
                 <TimeSeriesChart
@@ -384,15 +373,25 @@ export function Component() {
                     onTimePointClick={setActivePointKey}
                     xAxisFormatter={xAxisFormatter}
                 />
-            </Container> */}
-            <Container
-                heading="Highlighted Top Rated Component"
-                withHeaderBorder
-            >
-                <div className={styles.highlightedComponent}>
-                    {highlightedComponent?.map((i) => i?.title)}
-                </div>
             </Container>
+            <div className={styles.highlightedComponentList}>
+                <Container
+                    heading={strings.highlightedTopRatedComponentHeading}
+                    withHeaderBorder
+                >
+                    <div className={styles.highlightedComponent}>
+                        {highlightedComponent?.map((i) => i?.title)}
+                    </div>
+                </Container>
+                <Container
+                    heading={strings.priorityComponentHeading}
+                    withHeaderBorder
+                >
+                    <div className={styles.highlightedComponent}>
+                        {strings.componentHeading}
+                    </div>
+                </Container>
+            </div>
         </Page>
     );
 }

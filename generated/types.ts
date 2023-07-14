@@ -46,6 +46,12 @@ export interface paths {
   "/api/v2/admin2/{id}/": {
     get: operations["api_v2_admin2_retrieve"];
   };
+  "/api/v2/aggregated-per-process-status/": {
+    get: operations["api_v2_aggregated_per_process_status_list"];
+  };
+  "/api/v2/aggregated-per-process-status/{id}/": {
+    get: operations["api_v2_aggregated_per_process_status_retrieve"];
+  };
   "/api/v2/appeal/": {
     /** Used to get Appeals from AppealHistory. Has no 'read' option, just 'list'. */
     get: operations["api_v2_appeal_list"];
@@ -105,9 +111,6 @@ export interface paths {
   "/api/v2/data-bank/country-overview/{country__iso__iexact}/": {
     get: operations["api_v2_data_bank_country_overview_retrieve"];
   };
-  "/api/v2/del_perworkplan": {
-    post: operations["api_v2_del_perworkplan_create"];
-  };
   "/api/v2/del_subscription/": {
     post: operations["api_v2_del_subscription_create"];
   };
@@ -120,14 +123,14 @@ export interface paths {
      * Returns count of Personnel Deployments
      * for last 12 months, aggregated by month.
      */
-    get: operations["api_v2_deployment_aggregated_by_month_retrieve"];
+    get: operations["api_v2_deployment_aggregated_by_month_list"];
   };
   "/api/v2/deployment/aggregated_by_ns": {
     /**
      * Returns count of Personnel Deployments
      * by National Society, for the current year.
      */
-    get: operations["api_v2_deployment_aggregated_by_ns_retrieve"];
+    get: operations["api_v2_deployment_aggregated_by_ns_list"];
   };
   "/api/v2/disaster_type/": {
     get: operations["api_v2_disaster_type_list"];
@@ -282,10 +285,6 @@ export interface paths {
      */
     post: operations["api_v2_dref_op_update_publish_create"];
   };
-  "/api/v2/dref-options/": {
-    /** Options for various attribute related to Dref */
-    get: operations["api_v2_dref_options_retrieve"];
-  };
   "/api/v2/dref-share/": {
     post: operations["api_v2_dref_share_create"];
   };
@@ -419,9 +418,6 @@ export interface paths {
   "/api/v2/export-flash-update/{id}/": {
     get: operations["api_v2_export_flash_update_retrieve"];
   };
-  "/api/v2/exportperresults/": {
-    get: operations["api_v2_exportperresults_retrieve"];
-  };
   "/api/v2/external_partner/": {
     get: operations["api_v2_external_partner_list"];
   };
@@ -469,6 +465,10 @@ export interface paths {
     delete: operations["api_v2_flash_update_destroy"];
     patch: operations["api_v2_flash_update_partial_update"];
   };
+  "/api/v2/global-enums/": {
+    /** Return a list of all enums. */
+    get: operations["api_v2_global_enums_retrieve"];
+  };
   "/api/v2/global-project/ns-ongoing-projects-stats/": {
     get: operations["api_v2_global_project_ns_ongoing_projects_stats_retrieve"];
   };
@@ -490,11 +490,11 @@ export interface paths {
   "/api/v2/language/{id}/bulk-action/": {
     post: operations["api_v2_language_bulk_action_create"];
   };
-  "/api/v2/latest_country_overview/": {
-    get: operations["api_v2_latest_country_overview_list"];
+  "/api/v2/latest-per-overview/": {
+    get: operations["api_v2_latest_per_overview_list"];
   };
-  "/api/v2/latest_country_overview/{id}/": {
-    get: operations["api_v2_latest_country_overview_retrieve"];
+  "/api/v2/latest-per-overview/{id}/": {
+    get: operations["api_v2_latest_per_overview_retrieve"];
   };
   "/api/v2/local-unit/": {
     get: operations["api_v2_local_unit_list"];
@@ -523,16 +523,28 @@ export interface paths {
   "/api/v2/partner_deployment/{id}/": {
     get: operations["api_v2_partner_deployment_retrieve"];
   };
-  "/api/v2/per/": {
-    get: operations["api_v2_per_list"];
+  "/api/v2/per-assessment/": {
+    get: operations["api_v2_per_assessment_list"];
+    post: operations["api_v2_per_assessment_create"];
   };
-  "/api/v2/per-assessmenttype/": {
-    /** PER Overview's capacity assessment types */
-    get: operations["api_v2_per_assessmenttype_list"];
+  "/api/v2/per-assessment/{id}/": {
+    get: operations["api_v2_per_assessment_retrieve"];
+    put: operations["api_v2_per_assessment_update"];
+    delete: operations["api_v2_per_assessment_destroy"];
+    patch: operations["api_v2_per_assessment_partial_update"];
   };
-  "/api/v2/per-assessmenttype/{id}/": {
-    /** PER Overview's capacity assessment types */
-    get: operations["api_v2_per_assessmenttype_retrieve"];
+  "/api/v2/per-country/": {
+    get: operations["api_v2_per_country_list"];
+  };
+  "/api/v2/per-country/{id}/": {
+    get: operations["api_v2_per_country_retrieve"];
+  };
+  "/api/v2/per-file/": {
+    get: operations["api_v2_per_file_list"];
+    post: operations["api_v2_per_file_create"];
+  };
+  "/api/v2/per-file/multiple/": {
+    post: operations["api_v2_per_file_multiple_create"];
   };
   "/api/v2/per-formanswer/": {
     /** PER Form Answers Viewset */
@@ -566,64 +578,44 @@ export interface paths {
     /** PER Form Questions Viewset */
     get: operations["api_v2_per_formquestion_retrieve"];
   };
-  "/api/v2/per/{id}/": {
-    get: operations["api_v2_per_retrieve"];
+  "/api/v2/per-options/": {
+    get: operations["api_v2_per_options_retrieve"];
   };
-  "/api/v2/per_country_duedate/": {
-    /** Countries and their forms which were submitted since last due date */
-    get: operations["api_v2_per_country_duedate_list"];
+  "/api/v2/per-overview/": {
+    get: operations["api_v2_per_overview_list"];
+    post: operations["api_v2_per_overview_create"];
   };
-  "/api/v2/per_country_duedate/{id}/": {
-    /** Countries and their forms which were submitted since last due date */
-    get: operations["api_v2_per_country_duedate_retrieve"];
+  "/api/v2/per-overview/{id}/": {
+    get: operations["api_v2_per_overview_retrieve"];
+    put: operations["api_v2_per_overview_update"];
+    delete: operations["api_v2_per_overview_destroy"];
+    patch: operations["api_v2_per_overview_partial_update"];
   };
-  "/api/v2/per_engaged_ns_percentage/": {
-    /** National Societies engaged in per process */
-    get: operations["api_v2_per_engaged_ns_percentage_list"];
+  "/api/v2/per-prioritization/": {
+    get: operations["api_v2_per_prioritization_list"];
+    post: operations["api_v2_per_prioritization_create"];
   };
-  "/api/v2/per_engaged_ns_percentage/{id}/": {
-    /** National Societies engaged in per process */
-    get: operations["api_v2_per_engaged_ns_percentage_retrieve"];
+  "/api/v2/per-prioritization/{id}/": {
+    get: operations["api_v2_per_prioritization_retrieve"];
+    put: operations["api_v2_per_prioritization_update"];
+    delete: operations["api_v2_per_prioritization_destroy"];
+    patch: operations["api_v2_per_prioritization_partial_update"];
   };
-  "/api/v2/per_global_preparedness/": {
-    /** Global Preparedness Highlights */
-    get: operations["api_v2_per_global_preparedness_list"];
+  "/api/v2/per-process-status/": {
+    get: operations["api_v2_per_process_status_list"];
   };
-  "/api/v2/per_global_preparedness/{id}/": {
-    /** Global Preparedness Highlights */
-    get: operations["api_v2_per_global_preparedness_retrieve"];
+  "/api/v2/per-process-status/{id}/": {
+    get: operations["api_v2_per_process_status_retrieve"];
   };
-  "/api/v2/per_mission/": {
-    /** Shows if a user has permission to PER frontend tab or not */
-    get: operations["api_v2_per_mission_list"];
+  "/api/v2/per-work-plan/": {
+    get: operations["api_v2_per_work_plan_list"];
+    post: operations["api_v2_per_work_plan_create"];
   };
-  "/api/v2/per_mission/{id}/": {
-    /** Shows if a user has permission to PER frontend tab or not */
-    get: operations["api_v2_per_mission_retrieve"];
-  };
-  "/api/v2/per_ns_phase/": {
-    /** NS PER Process Phase Viewset */
-    get: operations["api_v2_per_ns_phase_list"];
-  };
-  "/api/v2/per_ns_phase/{id}/": {
-    /** NS PER Process Phase Viewset */
-    get: operations["api_v2_per_ns_phase_retrieve"];
-  };
-  "/api/v2/percountry/": {
-    /** shows the (PER editable) countries for a user. */
-    get: operations["api_v2_percountry_list"];
-  };
-  "/api/v2/percountry/{id}/": {
-    /** shows the (PER editable) countries for a user. */
-    get: operations["api_v2_percountry_retrieve"];
-  };
-  "/api/v2/perdata/": {
-    /** Can use 'new' GET parameter for using data only after the last due_date */
-    get: operations["api_v2_perdata_list"];
-  };
-  "/api/v2/perdata/{id}/": {
-    /** Can use 'new' GET parameter for using data only after the last due_date */
-    get: operations["api_v2_perdata_retrieve"];
+  "/api/v2/per-work-plan/{id}/": {
+    get: operations["api_v2_per_work_plan_retrieve"];
+    put: operations["api_v2_per_work_plan_update"];
+    delete: operations["api_v2_per_work_plan_destroy"];
+    patch: operations["api_v2_per_work_plan_partial_update"];
   };
   "/api/v2/perdocs/": {
     /** To collect PER Documents */
@@ -632,22 +624,6 @@ export interface paths {
   "/api/v2/perdocs/{id}/": {
     /** To collect PER Documents */
     get: operations["api_v2_perdocs_retrieve"];
-  };
-  "/api/v2/peroverview/": {
-    /** PER Overview Viewset */
-    get: operations["api_v2_peroverview_list"];
-  };
-  "/api/v2/peroverview/{id}/": {
-    /** PER Overview Viewset */
-    get: operations["api_v2_peroverview_retrieve"];
-  };
-  "/api/v2/peroverviewstrict/": {
-    /** PER Overview Viewset - strict */
-    get: operations["api_v2_peroverviewstrict_list"];
-  };
-  "/api/v2/peroverviewstrict/{id}/": {
-    /** PER Overview Viewset - strict */
-    get: operations["api_v2_peroverviewstrict_retrieve"];
   };
   "/api/v2/personnel/": {
     get: operations["api_v2_personnel_list"];
@@ -666,22 +642,6 @@ export interface paths {
   };
   "/api/v2/personnel_deployment/{id}/": {
     get: operations["api_v2_personnel_deployment_retrieve"];
-  };
-  "/api/v2/perstat/": {
-    /** Shows name, code, country_id, language of filled forms */
-    get: operations["api_v2_perstat_list"];
-  };
-  "/api/v2/perstat/{id}/": {
-    /** Shows name, code, country_id, language of filled forms */
-    get: operations["api_v2_perstat_retrieve"];
-  };
-  "/api/v2/perworkplan/": {
-    /** PER Work Plan Viewset */
-    get: operations["api_v2_perworkplan_list"];
-  };
-  "/api/v2/perworkplan/{id}/": {
-    /** PER Work Plan Viewset */
-    get: operations["api_v2_perworkplan_retrieve"];
   };
   "/api/v2/primarysector": {
     get: operations["api_v2_primarysector_retrieve"];
@@ -861,12 +821,6 @@ export interface paths {
   "/change_password": {
     post: operations["change_password_create"];
   };
-  "/createperoverview": {
-    post: operations["createperoverview_create"];
-  };
-  "/deleteperoverview": {
-    post: operations["deleteperoverview_create"];
-  };
   "/get_auth_token": {
     post: operations["get_auth_token_create"];
   };
@@ -879,20 +833,8 @@ export interface paths {
   "/resend_validation": {
     post: operations["resend_validation_create"];
   };
-  "/sendperworkplan": {
-    post: operations["sendperworkplan_create"];
-  };
   "/show_username": {
     post: operations["show_username_create"];
-  };
-  "/updatemultipleperforms": {
-    post: operations["updatemultipleperforms_create"];
-  };
-  "/updateperform": {
-    post: operations["updateperform_create"];
-  };
-  "/updateperoverview": {
-    post: operations["updateperoverview_create"];
   };
   "/validate_user": {
     get: operations["validate_user_retrieve"];
@@ -907,18 +849,18 @@ export interface components {
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     Action: {
       id: number;
-      organizations?: components["schemas"]["OrganizationsEnum"][];
+      organizations?: components["schemas"]["Key1aeEnum"][];
       field_report_types?: components["schemas"]["FieldReportTypesEnum"][];
       category?: components["schemas"]["CategoryA87Enum"];
-      /** Name [en] */
-      name?: string | null;
       /** Tooltip text [en] */
       tooltip_text?: string | null;
+      /** Name [en] */
+      name?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     ActionsTaken: {
-      organization: components["schemas"]["OrganizationEnum"];
+      organization: components["schemas"]["Key1aeEnum"];
       actions: components["schemas"]["Action"][];
       id: number;
       /** Summary [en] */
@@ -945,10 +887,24 @@ export interface components {
       district_id: number;
       name: string;
       code: string;
-      bbox: string;
-      centroid: string;
+      bbox: { [key: string]: unknown };
+      centroid: { [key: string]: unknown };
       /** @description Is this a deprecated area? */
       is_deprecated?: boolean;
+    };
+    AggregateDeployments: {
+      active_deployments?: number;
+      active_erus?: number;
+      deployment_this_year?: number;
+    };
+    AggregateHeaderFigures: {
+      active_drefs: number;
+      active_appeals: number;
+      total_appeals: number;
+      target_population: number;
+      amount_requested: number;
+      amount_requested_dref_included: number;
+      amount_funded: number;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     AnnualSplit: {
@@ -964,6 +920,74 @@ export interface components {
       reached_female?: number | null;
       reached_other?: number | null;
       reached_total?: number | null;
+    };
+    ApiActionCategoryEnum: {
+      key: components["schemas"]["KeyA87Enum"];
+      value: string;
+    };
+    ApiActionOrgEnum: {
+      key: components["schemas"]["Key1aeEnum"];
+      value: string;
+    };
+    ApiActionTypeEnum: {
+      key: components["schemas"]["KeyAc2Enum"];
+      value: string;
+    };
+    ApiAlertLevelEnum: {
+      key: components["schemas"]["Key1d2Enum"];
+      value: string;
+    };
+    ApiAppealStatusEnum: {
+      key: components["schemas"]["Key02bEnum"];
+      value: string;
+    };
+    ApiAppealTypeEnum: {
+      key: components["schemas"]["Key02bEnum"];
+      value: string;
+    };
+    ApiCountryTypeEnum: {
+      key: components["schemas"]["Key0c0Enum"];
+      value: string;
+    };
+    ApiEpisourceChoicesEnum: {
+      key: components["schemas"]["Key1d2Enum"];
+      value: string;
+    };
+    ApiFieldReportRecentAffectedEnum: {
+      key: components["schemas"]["RecentAffectedEnum"];
+      value: string;
+    };
+    ApiFieldReportStatusEnum: {
+      key: components["schemas"]["KeyBb2Enum"];
+      value: string;
+    };
+    ApiPositionTypeEnum: {
+      key: components["schemas"]["Key0c0Enum"];
+      value: string;
+    };
+    ApiProfileOrgTypesEnum: {
+      key: components["schemas"]["Key5fbEnum"];
+      value: string;
+    };
+    ApiRegionNameEnum: {
+      key: components["schemas"]["NameEnum"];
+      value: string;
+    };
+    ApiRequestChoicesEnum: {
+      key: components["schemas"]["Key02bEnum"];
+      value: string;
+    };
+    ApiTabNumberEnum: {
+      key: components["schemas"]["KeyA36Enum"];
+      value: string;
+    };
+    ApiVisibilityCharChoicesEnum: {
+      key: components["schemas"]["KeyD95Enum"];
+      value: string;
+    };
+    ApiVisibilityChoicesEnum: {
+      key: components["schemas"]["KeyD1bEnum"];
+      value: string;
     };
     Appeal: {
       event_name: string;
@@ -995,6 +1019,14 @@ export interface components {
       name?: string | null;
       translation_module_original_language: string;
     };
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    AppealEnum: 0 | 1 | 2 | 3;
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     AppealHistory: {
       /** Appeal ID */
@@ -1002,9 +1034,9 @@ export interface components {
       name: string;
       dtype: components["schemas"]["DisasterType"];
       /** Appeal type */
-      atype?: components["schemas"]["TypeOfDrefEnum"];
+      atype?: components["schemas"]["Atype02bEnum"];
       atype_display: string;
-      status?: components["schemas"]["TypeOfDrefEnum"];
+      status?: components["schemas"]["Status02bEnum"];
       status_display: string;
       code: string;
       sector: string;
@@ -1028,55 +1060,42 @@ export interface components {
       region: components["schemas"]["Region"];
       id: string;
     };
+    /** @description Mixin adds nested create feature */
+    AreaResponse: {
+      id: number;
+      area_details: components["schemas"]["FormArea"];
+      area: number;
+      component_responses?: components["schemas"]["FormComponentResponse"][];
+    };
+    /**
+     * @description * `per` - Per
+     * * `drce` - Drce
+     * * `wpns` - WPNS
+     * @enum {string}
+     */
+    AssessmentMethodEnum: "per" | "drce" | "wpns";
     AssessmentType: {
       id: number;
       name: string;
-      /** Name [en] */
-      name_en?: string | null;
-      /** Name [es] */
-      name_es?: string | null;
-      /** Name [fr] */
-      name_fr?: string | null;
-      /** Name [ar] */
-      name_ar?: string | null;
-      /**
-       * Entity Original language
-       * @description Language used to create this entity
-       *
-       * * `en` - English
-       * * `es` - Spanish
-       * * `fr` - French
-       * * `ar` - Arabic
-       */
-      translation_module_original_language?: components["schemas"]["TranslationModuleOriginalLanguageEnum"];
-      /**
-       * Skip auto translation
-       * @description Skip auto translation operation for this entity?
-       */
-      translation_module_skip_auto_translation?: boolean;
     };
     /**
-     * @description * `0` - fact
-     * * `1` - SIMS
-     * * `2` - ERU
-     * * `3` - DHEOPS
-     * * `4` - HEOPS
-     * * `5` - surge
-     * * `6` - rapid response
+     * @description * `0` - DREF
+     * * `1` - Emergency Appeal
+     * * `2` - International Appeal
+     * * `3` - Forecast Based Action
      * @enum {integer}
      */
-    Atype068Enum: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    Atype02bEnum: 0 | 1 | 2 | 3;
     /** @enum {undefined} */
     BlankEnum: "";
     /**
-     * @description * `0` - information
-     * * `1` - deployment
-     * * `2` - alert
-     * * `3` - shelter
-     * * `4` - stand down
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
      * @enum {integer}
      */
-    Category86cEnum: 0 | 1 | 2 | 3 | 4;
+    BulletinEnum: 0 | 1 | 2 | 3;
     /**
      * @description * `General` - General
      * * `Health` - Health
@@ -1089,6 +1108,12 @@ export interface components {
       | "Health"
       | "NS Institutional Strengthening"
       | "Socioeconomic Interventions";
+    ChangePassword: {
+      username: string;
+      password: string;
+      new_password: string;
+      token: string;
+    };
     CharKeyValue: {
       key: string;
       value: string;
@@ -1111,7 +1136,7 @@ export interface components {
       dref: components["schemas"]["MiniDref"];
       status?:
         | (
-            | components["schemas"]["Status923Enum"]
+            | components["schemas"]["OperationTypeEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
@@ -1155,12 +1180,12 @@ export interface components {
       fdrs?: string | null;
       /** Format: decimal */
       average_household_size?: string | null;
-      /** Society name [en] */
-      society_name?: string | null;
-      /** Overview [en] */
-      overview?: string | null;
       /** Name [en] */
       name?: string | null;
+      /** Overview [en] */
+      overview?: string | null;
+      /** Society name [en] */
+      society_name?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -1203,19 +1228,19 @@ export interface components {
        */
       record_type?: components["schemas"]["RecordTypeEnum"];
       record_type_display: string;
-      bbox: string;
-      centroid: string;
+      bbox: { [key: string]: unknown };
+      centroid: { [key: string]: unknown };
       /** @description Is this an independent country? */
       independent?: boolean | null;
       /** @description Is this an active, valid country? */
       is_deprecated?: boolean;
       fdrs?: string | null;
-      /** Society name [en] */
-      society_name?: string | null;
-      /** Overview [en] */
-      overview?: string | null;
       /** Name [en] */
       name?: string | null;
+      /** Overview [en] */
+      overview?: string | null;
+      /** Society name [en] */
+      society_name?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -1383,14 +1408,14 @@ export interface components {
       /** RDRT Trained */
       wash_rdrt_trained?: number | null;
       has_country_plan: boolean;
-      /** Society name [en] */
-      society_name?: string | null;
-      /** Label for Additional Tab [en] */
-      additional_tab_name?: string | null;
-      /** Overview [en] */
-      overview?: string | null;
       /** Name [en] */
       name?: string | null;
+      /** Overview [en] */
+      overview?: string | null;
+      /** Label for Additional Tab [en] */
+      additional_tab_name?: string | null;
+      /** Society name [en] */
+      society_name?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -1535,49 +1560,49 @@ export interface components {
        */
       sit_fields_date?: string | null;
       visibility?: components["schemas"]["VisibilityD1bEnum"];
-      bulletin?: components["schemas"]["TypeOfDrefEnum"];
-      dref?: components["schemas"]["TypeOfDrefEnum"];
+      bulletin?: components["schemas"]["BulletinEnum"];
+      dref?: components["schemas"]["DrefEnum"];
       dref_amount?: number | null;
-      appeal?: components["schemas"]["TypeOfDrefEnum"];
+      appeal?: components["schemas"]["AppealEnum"];
       appeal_amount?: number | null;
-      imminent_dref?: components["schemas"]["TypeOfDrefEnum"];
+      imminent_dref?: components["schemas"]["ImminentDrefEnum"];
       imminent_dref_amount?: number | null;
-      forecast_based_action?: components["schemas"]["TypeOfDrefEnum"];
+      forecast_based_action?: components["schemas"]["ForecastBasedActionEnum"];
       forecast_based_action_amount?: number | null;
-      rdrt?: components["schemas"]["TypeOfDrefEnum"];
+      rdrt?: components["schemas"]["RdrtEnum"];
       /** Number of RDRT */
       num_rdrt?: number | null;
-      fact?: components["schemas"]["TypeOfDrefEnum"];
+      fact?: components["schemas"]["FactEnum"];
       /** Number of fact */
       num_fact?: number | null;
-      ifrc_staff?: components["schemas"]["TypeOfDrefEnum"];
+      ifrc_staff?: components["schemas"]["IfrcStaffEnum"];
       /** Number of IFRC staff */
       num_ifrc_staff?: number | null;
-      eru_base_camp?: components["schemas"]["TypeOfDrefEnum"];
+      eru_base_camp?: components["schemas"]["EruBaseCampEnum"];
       eru_base_camp_units?: number | null;
-      eru_basic_health_care?: components["schemas"]["TypeOfDrefEnum"];
+      eru_basic_health_care?: components["schemas"]["EruBasicHealthCareEnum"];
       /** ERU basic health units */
       eru_basic_health_care_units?: number | null;
-      eru_it_telecom?: components["schemas"]["TypeOfDrefEnum"];
+      eru_it_telecom?: components["schemas"]["EruItTelecomEnum"];
       eru_it_telecom_units?: number | null;
-      eru_logistics?: components["schemas"]["TypeOfDrefEnum"];
+      eru_logistics?: components["schemas"]["EruLogisticsEnum"];
       eru_logistics_units?: number | null;
-      eru_deployment_hospital?: components["schemas"]["TypeOfDrefEnum"];
+      eru_deployment_hospital?: components["schemas"]["EruDeploymentHospitalEnum"];
       eru_deployment_hospital_units?: number | null;
-      eru_referral_hospital?: components["schemas"]["TypeOfDrefEnum"];
+      eru_referral_hospital?: components["schemas"]["EruReferralHospitalEnum"];
       eru_referral_hospital_units?: number | null;
-      eru_relief?: components["schemas"]["TypeOfDrefEnum"];
+      eru_relief?: components["schemas"]["EruReliefEnum"];
       eru_relief_units?: number | null;
       /** ERU water sanitaion M15 */
-      eru_water_sanitation_15?: components["schemas"]["TypeOfDrefEnum"];
+      eru_water_sanitation_15?: components["schemas"]["EruWaterSanitation15Enum"];
       /** ERU water sanitaion M15 units */
       eru_water_sanitation_15_units?: number | null;
       /** ERU water sanitaion M40 */
-      eru_water_sanitation_40?: components["schemas"]["TypeOfDrefEnum"];
+      eru_water_sanitation_40?: components["schemas"]["EruWaterSanitation40Enum"];
       /** ERU water sanitaion M40 units */
       eru_water_sanitation_40_units?: number | null;
       /** ERU water sanitaion MSM20 */
-      eru_water_sanitation_20?: components["schemas"]["TypeOfDrefEnum"];
+      eru_water_sanitation_20?: components["schemas"]["EruWaterSanitation20Enum"];
       /** ERU water sanitaion MSM20 units */
       eru_water_sanitation_20_units?: number | null;
       /** Description (Health) */
@@ -1627,14 +1652,28 @@ export interface components {
       regions?: number[];
       external_partners?: number[];
       supported_activities?: number[];
-      /** Actions taken (others) [en] */
-      actions_others?: string | null;
-      /** Sources (other) [en] */
-      other_sources?: string | null;
-      /** Summary [en] */
-      summary?: string | null;
       /** Description [en] */
       description?: string | null;
+      /** Sources (other) [en] */
+      other_sources?: string | null;
+      /** Actions taken (others) [en] */
+      actions_others?: string | null;
+      /** Summary [en] */
+      summary?: string | null;
+    };
+    /** @description Mixin adds nested create feature */
+    CustomPerWorkPlanComponent: {
+      id: number;
+      actions?: string | null;
+      /** Format: date */
+      due_date?: string | null;
+      status?: components["schemas"]["StatusB4fEnum"];
+      supported_by?: number | null;
+    };
+    DeploymentByNS: {
+      id: number;
+      society_name: string;
+      deployments_count?: number | null;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     DeploymentMiniUser: {
@@ -1653,10 +1692,62 @@ export interface components {
     DeploymentsByEvent: {
       id: number;
       personnel_count: number;
-      organizations_from: string;
+      organizations_from: unknown[];
       /** Name [en] */
       name?: string | null;
       translation_module_original_language: string;
+    };
+    DeploymentsByMonth: {
+      date: string;
+      count: number;
+    };
+    DeploymentsEmergencyProjectActivityLeadEnum: {
+      key: components["schemas"]["Key5c9Enum"];
+      value: string;
+    };
+    DeploymentsEmergencyProjectActivityPeopleHouseholdsEnum: {
+      key: components["schemas"]["Key9bdEnum"];
+      value: string;
+    };
+    DeploymentsEmergencyProjectStatusEnum: {
+      key: components["schemas"]["KeyD08Enum"];
+      value: string;
+    };
+    DeploymentsEruTypeEnum: {
+      key: components["schemas"]["Key187Enum"];
+      value: string;
+    };
+    DeploymentsPersonnelTypeEnum: {
+      key: components["schemas"]["KeyA83Enum"];
+      value: string;
+    };
+    DeploymentsPersonnleMolnixStatusEnum: {
+      key: components["schemas"]["DeploymentsPersonnleMolnixStatusEnumKeyEnum"];
+      value: string;
+    };
+    /**
+     * @description * `active` - ACTIVE
+     * * `hidden` - HIDDEN
+     * * `draft` - DRAFT
+     * * `deleted` - DELETED
+     * @enum {string}
+     */
+    DeploymentsPersonnleMolnixStatusEnumKeyEnum:
+      | "active"
+      | "hidden"
+      | "draft"
+      | "deleted";
+    DeploymentsProjectOperationTypeEnum: {
+      key: components["schemas"]["OperationTypeEnum"];
+      value: string;
+    };
+    DeploymentsProjectProgrammeTypeEnum: {
+      key: components["schemas"]["Key1d2Enum"];
+      value: string;
+    };
+    DeploymentsProjectStatusEnum: {
+      key: components["schemas"]["Key1d2Enum"];
+      value: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     DetailEvent: {
@@ -1700,18 +1791,18 @@ export interface components {
       links: components["schemas"]["EventLink"][];
       emergency_response_contact_email?: string | null;
       countries_for_preview: components["schemas"]["MiniCountry"][];
-      response_activity_count: string;
+      response_activity_count: number;
       visibility?: components["schemas"]["VisibilityD1bEnum"];
-      active_deployments: string;
+      active_deployments: number;
+      /** Summary [en] */
+      summary?: string | null;
+      /** Name [en] */
+      name?: string | null;
       /**
        * Slug [en]
        * @description Optional string for a clean URL. For example, go.ifrc.org/emergency/hurricane-katrina-2019. The string cannot start with a number and is forced to be lowercase. Recommend using hyphens over underscores. Special characters like # is not allowed.
        */
       slug?: string | null;
-      /** Summary [en] */
-      summary?: string | null;
-      /** Name [en] */
-      name?: string | null;
       translation_module_original_language: string;
     };
     /**
@@ -1724,10 +1815,10 @@ export interface components {
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     DisasterType: {
       id: number;
-      /** Summary [en] */
-      summary?: string | null;
       /** Name [en] */
       name?: string | null;
+      /** Summary [en] */
+      summary?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -1796,7 +1887,7 @@ export interface components {
       risk_security?: components["schemas"]["RiskSecurity"][];
       /** Format: date-time */
       modified_at?: string;
-      dref_access_user_list: string;
+      dref_access_user_list: number[];
       /** Format: date-time */
       created_at: string;
       /** Dref type */
@@ -1821,7 +1912,7 @@ export interface components {
         | null;
       status?:
         | (
-            | components["schemas"]["Status923Enum"]
+            | components["schemas"]["OperationTypeEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
@@ -1870,20 +1961,20 @@ export interface components {
       /** @description Estimated number of targeted people */
       total_targeted_population?: number | null;
       /**
-       * Format: decimal
+       * Format: double
        * @description Estimated % people disability
        */
-      disability_people_per?: string | null;
+      disability_people_per?: number | null;
       /**
-       * Format: decimal
+       * Format: double
        * @description Estimated % people Urban
        */
-      people_per_urban?: string | null;
+      people_per_urban?: number | null;
       /**
-       * Format: decimal
+       * Format: double
        * @description Estimated % people Rural
        */
-      people_per_local?: string | null;
+      people_per_local?: number | null;
       /** @description Number of persons targeted with early actions */
       people_targeted_with_early_actions?: number | null;
       /** @description Estimated number of displaced people */
@@ -1958,80 +2049,37 @@ export interface components {
       country?: number | null;
       users?: number[];
       district?: number[];
-      /** People assisted [en] */
-      people_assisted?: string | null;
-      /** Response strategy [en] */
-      response_strategy?: string | null;
+      /** Lessons learned [en] */
+      lessons_learned?: string | null;
+      /** Risk Security Concern [en] */
+      risk_security_concern?: string | null;
       /** Icrc [en] */
       icrc?: string | null;
-      /** Un or other [en] */
-      un_or_other_actor?: string | null;
-      /**
-       * Identified gaps [en]
-       * @description Any identified gaps/limitations in the assessment
-       */
-      identified_gaps?: string | null;
-      /**
-       * Selection criteria [en]
-       * @description Selection criteria for affected people
-       */
-      selection_criteria?: string | null;
-      /** Ifrc [en] */
-      ifrc?: string | null;
-      /**
-       * Organization [en]
-       * @description Does the NS have Communications capacity?
-       */
-      communication?: string | null;
-      /** Ns request text [en] */
-      ns_request_text?: string | null;
       /**
        * Operation objective [en]
        * @description Overall objective of the operation
        */
       operation_objective?: string | null;
-      /** Title [en] */
-      title?: string | null;
-      /** Lessons learned [en] */
-      lessons_learned?: string | null;
       /**
-       * Event scope [en]
-       * @description Scope and scale of event
+       * Selection criteria [en]
+       * @description Selection criteria for affected people
        */
-      event_scope?: string | null;
-      /**
-       * Human resource [en]
-       * @description how many volunteers and staff involved in the response?
-       */
-      human_resource?: string | null;
-      /** National authorities [en] */
-      national_authorities?: string | null;
+      selection_criteria?: string | null;
+      /** Un or other [en] */
+      un_or_other_actor?: string | null;
+      /** Partner national society [en] */
+      partner_national_society?: string | null;
+      /** Title prefix [en] */
+      title_prefix?: string | null;
+      /** Ns request text [en] */
+      ns_request_text?: string | null;
+      /** Event description [en] */
+      event_description?: string | null;
       /**
        * Surge personnel deployed [en]
        * @description Will a Surge personnel be deployed?
        */
       surge_personnel_deployed?: string | null;
-      /** Partner national society [en] */
-      partner_national_society?: string | null;
-      /**
-       * Major coordination mechanism [en]
-       * @description List major coordination mechanisms in place
-       */
-      major_coordination_mechanism?: string | null;
-      /**
-       * Logistic capacity of ns [en]
-       * @description what is the logistics capacity of the National Society?
-       */
-      logistic_capacity_of_ns?: string | null;
-      /** Event description [en] */
-      event_description?: string | null;
-      /**
-       * Pmer [en]
-       * @description Does the NS have PMER capacity?
-       */
-      pmer?: string | null;
-      /** Title prefix [en] */
-      title_prefix?: string | null;
       /** Dref recurrent text [en] */
       dref_recurrent_text?: string | null;
       /**
@@ -2039,11 +2087,78 @@ export interface components {
        * @description Description of anticipatory actions or imminent disaster
        */
       anticipatory_actions?: string | null;
+      /** Response strategy [en] */
+      response_strategy?: string | null;
+      /**
+       * Event scope [en]
+       * @description Scope and scale of event
+       */
+      event_scope?: string | null;
+      /** People assisted [en] */
+      people_assisted?: string | null;
+      /** Title [en] */
+      title?: string | null;
+      /** National authorities [en] */
+      national_authorities?: string | null;
       /** Event text [en] */
       event_text?: string | null;
-      /** Risk Security Concern [en] */
-      risk_security_concern?: string | null;
+      /**
+       * Pmer [en]
+       * @description Does the NS have PMER capacity?
+       */
+      pmer?: string | null;
+      /**
+       * Identified gaps [en]
+       * @description Any identified gaps/limitations in the assessment
+       */
+      identified_gaps?: string | null;
+      /**
+       * Logistic capacity of ns [en]
+       * @description what is the logistics capacity of the National Society?
+       */
+      logistic_capacity_of_ns?: string | null;
+      /** Ifrc [en] */
+      ifrc?: string | null;
+      /**
+       * Human resource [en]
+       * @description how many volunteers and staff involved in the response?
+       */
+      human_resource?: string | null;
+      /**
+       * Major coordination mechanism [en]
+       * @description List major coordination mechanisms in place
+       */
+      major_coordination_mechanism?: string | null;
+      /**
+       * Organization [en]
+       * @description Does the NS have Communications capacity?
+       */
+      communication?: string | null;
     };
+    DrefDrefDisasterCategoryEnum: {
+      key: components["schemas"]["Key1d2Enum"];
+      value: string;
+    };
+    DrefDrefDrefTypeEnum: {
+      key: components["schemas"]["Key02bEnum"];
+      value: string;
+    };
+    DrefDrefOnsetTypeEnum: {
+      key: components["schemas"]["Key3a3Enum"];
+      value: string;
+    };
+    DrefDrefStatusEnum: {
+      key: components["schemas"]["OperationTypeEnum"];
+      value: string;
+    };
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    DrefEnum: 0 | 1 | 2 | 3;
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     DrefFile: {
       id: number;
@@ -2107,7 +2222,7 @@ export interface components {
         | null;
       status?:
         | (
-            | components["schemas"]["Status923Enum"]
+            | components["schemas"]["OperationTypeEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
@@ -2208,24 +2323,32 @@ export interface components {
       financial_report?: number | null;
       district?: number[];
       users?: number[];
-      /** Event description [en] */
-      event_description?: string | null;
-      /** Title [en] */
-      title?: string | null;
-      /** Response strategy [en] */
-      response_strategy?: string | null;
-      /** Icrc [en] */
-      icrc?: string | null;
-      /** Event scope [en] */
-      event_scope?: string | null;
-      /** Partner national society [en] */
-      partner_national_society?: string | null;
-      /** Un or other [en] */
-      un_or_other_actor?: string | null;
-      /** Ifrc [en] */
-      ifrc?: string | null;
       /** Title prefix [en] */
       title_prefix?: string | null;
+      /** National authorities [en] */
+      national_authorities?: string | null;
+      /** Un or other [en] */
+      un_or_other_actor?: string | null;
+      /** Risk Security Concern [en] */
+      risk_security_concern?: string | null;
+      /** Event description [en] */
+      event_description?: string | null;
+      /** Event text [en] */
+      event_text?: string | null;
+      /** Anticipatory actions [en] */
+      anticipatory_actions?: string | null;
+      /** Icrc [en] */
+      icrc?: string | null;
+      /** Operation objective [en] */
+      operation_objective?: string | null;
+      /** Ifrc [en] */
+      ifrc?: string | null;
+      /** Response strategy [en] */
+      response_strategy?: string | null;
+      /** Event scope [en] */
+      event_scope?: string | null;
+      /** Financial Report Description [en] */
+      financial_report_description?: string | null;
       /**
        * Selection criteria [en]
        * @description Selection criteria for affected people
@@ -2233,20 +2356,20 @@ export interface components {
       selection_criteria?: string | null;
       /** Major coordination mechanism [en] */
       major_coordination_mechanism?: string | null;
-      /** Financial Report Description [en] */
-      financial_report_description?: string | null;
-      /** Anticipatory actions [en] */
-      anticipatory_actions?: string | null;
-      /** Event text [en] */
-      event_text?: string | null;
-      /** National authorities [en] */
-      national_authorities?: string | null;
-      /** Operation objective [en] */
-      operation_objective?: string | null;
       /** National Society conducted description [en] */
       national_society_conducted_description?: string | null;
-      /** Risk Security Concern [en] */
-      risk_security_concern?: string | null;
+      /** Title [en] */
+      title?: string | null;
+      /** Partner national society [en] */
+      partner_national_society?: string | null;
+    };
+    DrefIdentifiedNeedTitleEnum: {
+      key: components["schemas"]["Key37cEnum"];
+      value: string;
+    };
+    DrefNationalSocietyActionTitleEnum: {
+      key: components["schemas"]["Key0ddEnum"];
+      value: string;
     };
     /** @description Mixin adds update nested feature */
     DrefOperationalUpdate: {
@@ -2296,7 +2419,7 @@ export interface components {
         | null;
       status?:
         | (
-            | components["schemas"]["Status923Enum"]
+            | components["schemas"]["OperationTypeEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
@@ -2431,68 +2554,72 @@ export interface components {
       country?: number | null;
       district?: number[];
       users?: number[];
-      /** People assisted [en] */
-      people_assisted?: string | null;
-      /** Response strategy [en] */
-      response_strategy?: string | null;
+      /** Risk Security Concern [en] */
+      risk_security_concern?: string | null;
       /** Icrc [en] */
       icrc?: string | null;
-      /** Un or other [en] */
-      un_or_other_actor?: string | null;
+      /** Operation objective [en] */
+      operation_objective?: string | null;
       /**
        * Selection criteria [en]
        * @description Selection criteria for affected people
        */
       selection_criteria?: string | null;
-      /** Ifrc [en] */
-      ifrc?: string | null;
-      /**
-       * Organization [en]
-       * @description Does the NS have Communications capacity?
-       */
-      communication?: string | null;
-      /** Operation objective [en] */
-      operation_objective?: string | null;
-      /** Title [en] */
-      title?: string | null;
-      /** Event scope [en] */
-      event_scope?: string | null;
-      /**
-       * Human resource [en]
-       * @description how many volunteers and staff involved in the response?
-       */
-      human_resource?: string | null;
-      /** National authorities [en] */
-      national_authorities?: string | null;
+      /** Un or other [en] */
+      un_or_other_actor?: string | null;
+      /** Partner national society [en] */
+      partner_national_society?: string | null;
+      /** Title prefix [en] */
+      title_prefix?: string | null;
+      /** Event description [en] */
+      event_description?: string | null;
       /**
        * Surge personnel deployed [en]
        * @description Will a Surge personnel be deployed?
        */
       surge_personnel_deployed?: string | null;
-      /** Partner national society [en] */
-      partner_national_society?: string | null;
-      /** Major coordination mechanism [en] */
-      major_coordination_mechanism?: string | null;
-      /**
-       * Logistic capacity of ns [en]
-       * @description what is the logistics capacity of the National Society?
-       */
-      logistic_capacity_of_ns?: string | null;
-      /** Event description [en] */
-      event_description?: string | null;
+      /** Anticipatory actions [en] */
+      anticipatory_actions?: string | null;
+      /** Response strategy [en] */
+      response_strategy?: string | null;
+      /** Event scope [en] */
+      event_scope?: string | null;
+      /** People assisted [en] */
+      people_assisted?: string | null;
+      /** Title [en] */
+      title?: string | null;
+      /** National authorities [en] */
+      national_authorities?: string | null;
       /**
        * Pmer [en]
        * @description Does the NS have PMER capacity?
        */
       pmer?: string | null;
-      /** Title prefix [en] */
-      title_prefix?: string | null;
+      /**
+       * Logistic capacity of ns [en]
+       * @description what is the logistics capacity of the National Society?
+       */
+      logistic_capacity_of_ns?: string | null;
+      /** Ifrc [en] */
+      ifrc?: string | null;
+      /**
+       * Human resource [en]
+       * @description how many volunteers and staff involved in the response?
+       */
+      human_resource?: string | null;
+      /** Major coordination mechanism [en] */
+      major_coordination_mechanism?: string | null;
+      /**
+       * Organization [en]
+       * @description Does the NS have Communications capacity?
+       */
+      communication?: string | null;
       /** Please explain how is the operation is transitioning from Anticipatory to Response [en] */
       anticipatory_to_response?: string | null;
-      /** Anticipatory actions [en] */
-      anticipatory_actions?: string | null;
-      /** Risk Security Concern [en] */
-      risk_security_concern?: string | null;
+    };
+    DrefPlannedInterventionTitleEnum: {
+      key: components["schemas"]["Key526Enum"];
+      value: string;
     };
     DrefShareUser: {
       id: number;
@@ -2527,7 +2654,7 @@ export interface components {
       units?: number;
       equipment_units?: number;
       deployed_to: components["schemas"]["MiniCountry"];
-      event: components["schemas"]["ListEvent"];
+      event?: components["schemas"]["ListEvent"] | null;
       eru_owner: components["schemas"]["ERUOwner"];
       available?: boolean;
       id: number;
@@ -2632,7 +2759,7 @@ export interface components {
       event: number;
       country: number;
       districts?: number[];
-      status?: components["schemas"]["EmergencyProjectStatusEnum"];
+      status?: components["schemas"]["StatusD08Enum"];
       /** Format: date-time */
       created_at: string;
       /** Format: date-time */
@@ -2805,24 +2932,92 @@ export interface components {
       activity_people_households: components["schemas"]["CharKeyValue"][];
     };
     /**
-     * @description * `on_going` - Ongoing
-     * * `complete` - Complete
-     * * `planned` - Planned
-     * @enum {string}
-     */
-    EmergencyProjectStatusEnum: "on_going" | "complete" | "planned";
-    EngagedNSPercentage: {
-      id: number;
-      country__count: number;
-      forms_sent: number;
-    };
-    /**
      * @description * `0` - Ministry of health
      * * `1` - WHO
      * * `2` - OTHER
      * @enum {integer}
      */
     EpiFiguresSourceEnum: 0 | 1 | 2;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruBaseCampEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruBasicHealthCareEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruDeploymentHospitalEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruItTelecomEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruLogisticsEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruReferralHospitalEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruReliefEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruWaterSanitation15Enum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruWaterSanitation20Enum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    EruWaterSanitation40Enum: 0 | 1 | 2 | 3;
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     EventContact: {
       /** Type */
@@ -2844,10 +3039,10 @@ export interface components {
       thumbnail: string;
       /** Format: uri */
       file: string;
-      /** Title [en] */
-      title?: string | null;
       /** Description [en] */
       description?: string | null;
+      /** Title [en] */
+      title?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -2855,10 +3050,10 @@ export interface components {
       id: number;
       /** Format: uri */
       url: string;
-      /** Title [en] */
-      title?: string | null;
       /** Description [en] */
       description?: string | null;
+      /** Title [en] */
+      title?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -2874,6 +3069,14 @@ export interface components {
       /** Format: uri */
       url: string;
     };
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    FactEnum: 0 | 1 | 2 | 3;
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     FieldReportContact: {
       /** Type */
@@ -2895,14 +3098,14 @@ export interface components {
     FlashAction: {
       name: string;
       id: number;
-      organizations?: components["schemas"]["OrganizationsEnum"][];
+      organizations?: components["schemas"]["Key1aeEnum"][];
       category?: components["schemas"]["CategoryA87Enum"];
       tooltip_text?: string | null;
       client_id?: string | null;
     };
     /** @description Mixin adds update nested feature */
     FlashActionsTaken: {
-      organization: components["schemas"]["OrganizationEnum"];
+      organization: components["schemas"]["Key1aeEnum"];
       organization_display: string;
       actions?: number[];
       action_details: components["schemas"]["FlashAction"][];
@@ -3014,91 +3217,138 @@ export interface components {
       map?: number[];
       graphics?: number[];
     };
+    FlashUpdateFlashUpdateFlashShareWithEnum: {
+      key: components["schemas"]["Key5e9Enum"];
+      value: string;
+    };
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    ForecastBasedActionEnum: 0 | 1 | 2 | 3;
     FormAnswer: {
       id: number;
       text: string;
-      /** Text [en] */
-      text_en?: string | null;
-      /** Text [es] */
-      text_es?: string | null;
-      /** Text [fr] */
-      text_fr?: string | null;
-      /** Text [ar] */
-      text_ar?: string | null;
-      /**
-       * Entity Original language
-       * @description Language used to create this entity
-       *
-       * * `en` - English
-       * * `es` - Spanish
-       * * `fr` - French
-       * * `ar` - Arabic
-       */
-      translation_module_original_language?: components["schemas"]["TranslationModuleOriginalLanguageEnum"];
-      /**
-       * Skip auto translation
-       * @description Skip auto translation operation for this entity?
-       */
-      translation_module_skip_auto_translation?: boolean;
     };
     FormArea: {
       id: number;
       title: string;
-      /** Title [en] */
-      title_en?: string | null;
-      /** Title [es] */
-      title_es?: string | null;
-      /** Title [fr] */
-      title_fr?: string | null;
-      /** Title [ar] */
-      title_ar?: string | null;
       /** Area number */
       area_num?: number;
-      /**
-       * Entity Original language
-       * @description Language used to create this entity
-       *
-       * * `en` - English
-       * * `es` - Spanish
-       * * `fr` - French
-       * * `ar` - Arabic
-       */
-      translation_module_original_language?: components["schemas"]["TranslationModuleOriginalLanguageEnum"];
-      /**
-       * Skip auto translation
-       * @description Skip auto translation operation for this entity?
-       */
-      translation_module_skip_auto_translation?: boolean;
     };
+    /** @description Mixin adds nested create feature */
     FormComponent: {
-      area: components["schemas"]["FormArea"];
+      id: number;
       title: string;
       /** Component number */
       component_num?: number;
-      component_letter?: string | null;
       description?: string | null;
+      area: number;
+    };
+    /** @description Mixin adds nested create feature */
+    FormComponentResponse: {
       id: number;
+      /** Form Component */
+      component: number;
+      rating?: number | null;
+      question_responses?: components["schemas"]["QuestionResponses"][];
+      rating_details: components["schemas"]["PerComponentRating"];
+      component_details: components["schemas"]["FormComponent"];
+      urban_considerations?: string | null;
+      epi_considerations?: string | null;
+      climate_environmental_considerations?: string | null;
+    };
+    /** @description Mixin adds nested create feature */
+    FormPrioritization: {
+      id: number;
+      overview?: number | null;
+      component_responses?: components["schemas"]["FormPrioritizationComponent"][];
+      is_draft?: boolean;
+    };
+    /** @description Mixin adds nested create feature */
+    FormPrioritizationComponent: {
+      id: number;
+      component: number;
+      is_prioritized?: boolean | null;
+      justification_text?: string | null;
+      component_details: components["schemas"]["MiniFormComponent"];
     };
     FormQuestion: {
-      component: components["schemas"]["FormComponent"];
+      component: components["schemas"]["MiniFormComponent"];
       question: string;
       /** Question number */
       question_num?: number | null;
       answers: components["schemas"]["FormAnswer"][];
-      is_epi?: boolean;
-      is_benchmark?: boolean;
       description?: string | null;
       id: number;
     };
-    FormStat: {
-      area: components["schemas"]["FormArea"];
-      overview: components["schemas"]["IsFinalOverview"];
-      id: number;
+    GlobalEnum: {
+      dref_national_society_action_title?: components["schemas"]["DrefNationalSocietyActionTitleEnum"][];
+      dref_identified_need_title?: components["schemas"]["DrefIdentifiedNeedTitleEnum"][];
+      dref_planned_intervention_title?: components["schemas"]["DrefPlannedInterventionTitleEnum"][];
+      dref_dref_dref_type?: components["schemas"]["DrefDrefDrefTypeEnum"][];
+      dref_dref_onset_type?: components["schemas"]["DrefDrefOnsetTypeEnum"][];
+      dref_dref_disaster_category?: components["schemas"]["DrefDrefDisasterCategoryEnum"][];
+      dref_dref_status?: components["schemas"]["DrefDrefStatusEnum"][];
+      api_region_name?: components["schemas"]["ApiRegionNameEnum"][];
+      api_country_type?: components["schemas"]["ApiCountryTypeEnum"][];
+      api_visibility_choices?: components["schemas"]["ApiVisibilityChoicesEnum"][];
+      api_visibility_char_choices?: components["schemas"]["ApiVisibilityCharChoicesEnum"][];
+      api_position_type?: components["schemas"]["ApiPositionTypeEnum"][];
+      api_tab_number?: components["schemas"]["ApiTabNumberEnum"][];
+      api_alert_level?: components["schemas"]["ApiAlertLevelEnum"][];
+      api_appeal_type?: components["schemas"]["ApiAppealTypeEnum"][];
+      api_appeal_status?: components["schemas"]["ApiAppealStatusEnum"][];
+      api_request_choices?: components["schemas"]["ApiRequestChoicesEnum"][];
+      api_episource_choices?: components["schemas"]["ApiEpisourceChoicesEnum"][];
+      api_field_report_status?: components["schemas"]["ApiFieldReportStatusEnum"][];
+      api_field_report_recent_affected?: components["schemas"]["ApiFieldReportRecentAffectedEnum"][];
+      api_action_org?: components["schemas"]["ApiActionOrgEnum"][];
+      api_action_type?: components["schemas"]["ApiActionTypeEnum"][];
+      api_action_category?: components["schemas"]["ApiActionCategoryEnum"][];
+      api_profile_org_types?: components["schemas"]["ApiProfileOrgTypesEnum"][];
+      flash_update_flash_update_flash_share_with?: components["schemas"]["FlashUpdateFlashUpdateFlashShareWithEnum"][];
+      deployments_eru_type?: components["schemas"]["DeploymentsEruTypeEnum"][];
+      deployments_personnel_type?: components["schemas"]["DeploymentsPersonnelTypeEnum"][];
+      deployments_personnle_molnix_status?: components["schemas"]["DeploymentsPersonnleMolnixStatusEnum"][];
+      deployments_project_programme_type?: components["schemas"]["DeploymentsProjectProgrammeTypeEnum"][];
+      deployments_project_status?: components["schemas"]["DeploymentsProjectStatusEnum"][];
+      deployments_project_operation_type?: components["schemas"]["DeploymentsProjectOperationTypeEnum"][];
+      deployments_emergency_project_activity_lead?: components["schemas"]["DeploymentsEmergencyProjectActivityLeadEnum"][];
+      deployments_emergency_project_status?: components["schemas"]["DeploymentsEmergencyProjectStatusEnum"][];
+      deployments_emergency_project_activity_people_households?: components["schemas"]["DeploymentsEmergencyProjectActivityPeopleHouseholdsEnum"][];
+      per_workplanstatus?: components["schemas"]["PerWorkplanstatusEnum"][];
+      per_perphases?: components["schemas"]["PerPerphasesEnum"][];
+      per_overviewassessmentmethods?: components["schemas"]["PerOverviewassessmentmethodsEnum"][];
     };
-    GlobalPreparedness: {
+    GlobalProjectNSOngoingProjectsStats: {
       id: number;
-      code: string;
-      question_id: string;
+      name: string;
+      iso3: string;
+      society_name: string;
+      ongoing_projects?: number | null;
+      target_total?: number | null;
+      budget_amount_total?: number | null;
+      operation_types: unknown[] | null;
+      projects_per_sector: unknown[] | null;
+      operation_types_display: unknown[] | null;
+    };
+    GlobalProjectOverview: {
+      total_ongoing_projects?: number | null;
+      ns_with_ongoing_activities?: number | null;
+      target_total?: number | null;
+      projects_per_sector:
+        | components["schemas"]["OverviewProjectsPerSector"][]
+        | null;
+      projects_per_programme_type:
+        | components["schemas"]["OverviewProjectsPerProgrammeType"][]
+        | null;
+      projects_per_secondary_sectors:
+        | components["schemas"]["OverviewProjectsPerSecondarySectors"][]
+        | null;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     GoHistorical: {
@@ -3121,18 +3371,151 @@ export interface components {
       id: number;
       image_url: string;
       title_display: string;
+      /** Description [en] */
+      description?: string | null;
       /** Title [en] */
       title?:
         | (
-            | components["schemas"]["IdentifiedNeedTitleEnum"]
+            | components["schemas"]["Title37cEnum"]
             | components["schemas"]["BlankEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
-      /** Description [en] */
-      description?: string | null;
       translation_module_original_language: string;
     };
+    /**
+     * @description * `0` - Yellow
+     * * `1` - Orange
+     * * `2` - Red
+     * @enum {integer}
+     */
+    IfrcSeverityLevelEnum: 0 | 1 | 2;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    IfrcStaffEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    ImminentDrefEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `0` - Active
+     * * `1` - Closed
+     * * `2` - Frozen
+     * * `3` - Archived
+     * @enum {integer}
+     */
+    Key02bEnum: 0 | 1 | 2 | 3;
+    /**
+     * @description * `1` - Country
+     * * `2` - Cluster
+     * * `3` - Region
+     * * `4` - Country Office
+     * * `5` - Representative Office
+     * @enum {integer}
+     */
+    Key0c0Enum: 1 | 2 | 3 | 4 | 5;
+    /**
+     * @description * `national_society_readiness` - National Society Readiness
+     * * `assessment` - Assessment
+     * * `coordination` - Coordination
+     * * `resource_mobilization` - Resource Mobilization
+     * * `activation_of_contingency_plans` - Activation Of Contingency Plans
+     * * `national_society_eoc` - National Society EOC
+     * * `shelter_housing_and_settlements` - Shelter, Housing And Settlements
+     * * `livelihoods_and_basic_needs` - Livelihoods And Basic Needs
+     * * `health` - Health
+     * * `water_sanitation_and_hygiene` - Water, Sanitation And Hygiene
+     * * `protection_gender_and_inclusion` - Protection, Gender And Inclusion
+     * * `education` - Education
+     * * `migration` - Migration
+     * * `risk_reduction_climate_adaptation_and_recovery` - Risk Reduction, Climate Adaptation And Recovery
+     * * `community_engagement_and _accountability` - Community Engagement And Accountability
+     * * `environment_sustainability ` - Environment Sustainability
+     * * `multi-purpose_cash` - Multi-purpose Cash
+     * * `other` - Other
+     * @enum {string}
+     */
+    Key0ddEnum:
+      | "national_society_readiness"
+      | "assessment"
+      | "coordination"
+      | "resource_mobilization"
+      | "activation_of_contingency_plans"
+      | "national_society_eoc"
+      | "shelter_housing_and_settlements"
+      | "livelihoods_and_basic_needs"
+      | "health"
+      | "water_sanitation_and_hygiene"
+      | "protection_gender_and_inclusion"
+      | "education"
+      | "migration"
+      | "risk_reduction_climate_adaptation_and_recovery"
+      | "community_engagement_and _accountability"
+      | "environment_sustainability "
+      | "multi-purpose_cash"
+      | "other";
+    /**
+     * @description * `0` - Basecamp
+     * * `1` - IT & Telecom
+     * * `2` - Logistics
+     * * `3` - RCRC Emergency Hospital
+     * * `4` - RCRC Emergency Clinic
+     * * `5` - Relief
+     * * `6` - Wash M15
+     * * `7` - Wash MSM20
+     * * `8` - Wash M40
+     * * `9` - Water Supply and rehabilitation
+     * * `10` - Household Water Treatment and safe storage
+     * * `11` - Cholera Case management at Community level
+     * * `12` - Safe and Dignified Burials
+     * * `13` - Community Based Surveillance
+     * * `14` - Base Camp – S
+     * * `15` - Base Camp – M
+     * * `16` - Base Camp – L
+     * @enum {integer}
+     */
+    Key187Enum:
+      | 0
+      | 1
+      | 2
+      | 3
+      | 4
+      | 5
+      | 6
+      | 7
+      | 8
+      | 9
+      | 10
+      | 11
+      | 12
+      | 13
+      | 14
+      | 15
+      | 16;
+    /**
+     * @description * `NTLS` - National Society
+     * * `PNS` - RCRC
+     * * `FDRN` - Federation
+     * * `GOV` - Government
+     * @enum {string}
+     */
+    Key1aeEnum: "NTLS" | "PNS" | "FDRN" | "GOV";
+    /**
+     * @description * `0` - Yellow
+     * * `1` - Orange
+     * * `2` - Red
+     * @enum {integer}
+     */
+    Key1d2Enum: 0 | 1 | 2;
     /**
      * @description * `shelter_housing_and_settlements` - Shelter Housing And Settlements
      * * `livelihoods_and_basic_needs` - Livelihoods And Basic Needs
@@ -3148,7 +3531,7 @@ export interface components {
      * * `shelter_cluster_coordination` - Shelter Cluster Coordination
      * @enum {string}
      */
-    IdentifiedNeedTitleEnum:
+    Key37cEnum:
       | "shelter_housing_and_settlements"
       | "livelihoods_and_basic_needs"
       | "health"
@@ -3162,16 +3545,134 @@ export interface components {
       | "environment_sustainability "
       | "shelter_cluster_coordination";
     /**
-     * @description * `0` - Yellow
-     * * `1` - Orange
-     * * `2` - Red
+     * @description * `1` - Slow
+     * * `2` - Sudden
      * @enum {integer}
      */
-    IfrcSeverityLevelEnum: 0 | 1 | 2;
-    IsFinalOverview: {
-      id: number;
-      is_finalized?: boolean;
-    };
+    Key3a3Enum: 1 | 2;
+    /**
+     * @description * `shelter_housing_and_settlements` - Shelter Housing And Settlements
+     * * `livelihoods_and_basic_needs` - Livelihoods And Basic Needs
+     * * `health` - Health
+     * * `water_sanitation_and_hygiene` - Water, Sanitation And Hygiene
+     * * `protection_gender_and_inclusion` - Protection, Gender And Inclusion
+     * * `education` - Education
+     * * `migration` - Migration
+     * * `risk_reduction_climate_adaptation_and_recovery_` - Risk Reduction, Climate Adaptation And Recovery
+     * * `secretariat_services` - Secretariat Services
+     * * `national_society_strengthening` - National Society Strengthening
+     * * `multi-purpose_cash` - Multi-purpose Cash
+     * * `environmental_sustainability` - Environmental Sustainability
+     * * `community_engagement_and_accountability` - Community Engagement And Accountability
+     * @enum {string}
+     */
+    Key526Enum:
+      | "shelter_housing_and_settlements"
+      | "livelihoods_and_basic_needs"
+      | "health"
+      | "water_sanitation_and_hygiene"
+      | "protection_gender_and_inclusion"
+      | "education"
+      | "migration"
+      | "risk_reduction_climate_adaptation_and_recovery_"
+      | "secretariat_services"
+      | "national_society_strengthening"
+      | "multi-purpose_cash"
+      | "environmental_sustainability"
+      | "community_engagement_and_accountability";
+    /**
+     * @description * `national_society` - National Society
+     * * `deployed_eru` - Deployed ERU
+     * @enum {string}
+     */
+    Key5c9Enum: "national_society" | "deployed_eru";
+    /**
+     * @description * `ifrc_secretariat` - IFRC Secretariat
+     * @enum {string}
+     */
+    Key5e9Enum: "ifrc_secretariat";
+    /**
+     * @description * `NTLS` - National Society
+     * * `DLGN` - Delegation
+     * * `SCRT` - Secretariat
+     * * `ICRC` - ICRC
+     * * `OTHR` - Other
+     * @enum {string}
+     */
+    Key5fbEnum: "NTLS" | "DLGN" | "SCRT" | "ICRC" | "OTHR";
+    /**
+     * @description * `people` - People
+     * * `households` - Households
+     * @enum {string}
+     */
+    Key9bdEnum: "people" | "households";
+    /**
+     * @description * `per` - Per
+     * * `drce` - Drce
+     * * `wpns` - WPNS
+     * @enum {string}
+     */
+    KeyA19Enum: "per" | "drce" | "wpns";
+    /**
+     * @description * `1` - Tab 1
+     * * `2` - Tab 2
+     * * `3` - Tab 3
+     * @enum {integer}
+     */
+    KeyA36Enum: 1 | 2 | 3;
+    /**
+     * @description * `fact` - FACT
+     * * `heop` - HEOP
+     * * `rdrt` - RDRT
+     * * `ifrc` - IFRC
+     * * `eru` - ERU HR
+     * * `rr` - Rapid Response
+     * @enum {string}
+     */
+    KeyA83Enum: "fact" | "heop" | "rdrt" | "ifrc" | "eru" | "rr";
+    /**
+     * @description * `General` - General
+     * * `Health` - Health
+     * * `NS Institutional Strengthening` - NS Institutional Strengthening
+     * * `Socioeconomic Interventions` - Socioeconomic Interventions
+     * @enum {string}
+     */
+    KeyA87Enum:
+      | "General"
+      | "Health"
+      | "NS Institutional Strengthening"
+      | "Socioeconomic Interventions";
+    /**
+     * @description * `EVT` - Event
+     * * `EW` - Early Warning
+     * * `EPI` - Epidemic
+     * * `COVID` - COVID-19
+     * @enum {string}
+     */
+    KeyAc2Enum: "EVT" | "EW" | "EPI" | "COVID";
+    /**
+     * @description * `0` - standby
+     * * `1` - ongoing
+     * * `2` - cancelled
+     * * `3` - delayed
+     * * `4` - pending
+     * * `5` - need improvements
+     * * `6` - finished
+     * * `7` - approved
+     * * `8` - closed
+     * @enum {integer}
+     */
+    KeyB4fEnum: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    /**
+     * @description * `0` - Unknown
+     * * `2` - Two
+     * * `3` - Three
+     * * `8` - Early Warning
+     * * `9` - Event-related
+     * * `10` - Ten
+     * @enum {integer}
+     */
+    KeyBb2Enum: 0 | 2 | 3 | 8 | 9 | 10;
     KeyClimateEvent: {
       id: number;
       month_display: string;
@@ -3194,6 +3695,29 @@ export interface components {
        */
       avg_rainfall_precipitation: number;
     };
+    /**
+     * @description * `on_going` - Ongoing
+     * * `complete` - Complete
+     * * `planned` - Planned
+     * @enum {string}
+     */
+    KeyD08Enum: "on_going" | "complete" | "planned";
+    /**
+     * @description * `1` - Membership
+     * * `2` - IFRC Only
+     * * `3` - Public
+     * * `4` - IFRC_NS
+     * @enum {integer}
+     */
+    KeyD1bEnum: 1 | 2 | 3 | 4;
+    /**
+     * @description * `logged_in_user` - Membership
+     * * `ifrc_only` - IFRC Only
+     * * `public` - Public
+     * * `ifrc_ns` - IFRC_NS
+     * @enum {string}
+     */
+    KeyD95Enum: "logged_in_user" | "ifrc_only" | "public" | "ifrc_ns";
     KeyDocument: {
       id: number;
       group_display: string;
@@ -3218,7 +3742,7 @@ export interface components {
       id: number;
       country_id: number | null;
       assessment_number?: number;
-      /** Format: date-time */
+      /** Format: date */
       date_of_assessment: string;
       type_of_assessment: components["schemas"]["AssessmentType"];
     };
@@ -3254,16 +3778,16 @@ export interface components {
       tab_two_title?: string | null;
       tab_three_title?: string | null;
       emergency_response_contact_email?: string | null;
-      active_deployments: string;
+      active_deployments: number;
+      /** Summary [en] */
+      summary?: string | null;
+      /** Name [en] */
+      name?: string | null;
       /**
        * Slug [en]
        * @description Optional string for a clean URL. For example, go.ifrc.org/emergency/hurricane-katrina-2019. The string cannot start with a number and is forced to be lowercase. Recommend using hyphens over underscores. Special characters like # is not allowed.
        */
       slug?: string | null;
-      /** Summary [en] */
-      summary?: string | null;
-      /** Name [en] */
-      name?: string | null;
       translation_module_original_language: string;
     };
     ListEventDeployments: {
@@ -3398,49 +3922,49 @@ export interface components {
        */
       sit_fields_date?: string | null;
       visibility?: components["schemas"]["VisibilityD1bEnum"];
-      bulletin?: components["schemas"]["TypeOfDrefEnum"];
-      dref?: components["schemas"]["TypeOfDrefEnum"];
+      bulletin?: components["schemas"]["BulletinEnum"];
+      dref?: components["schemas"]["DrefEnum"];
       dref_amount?: number | null;
-      appeal?: components["schemas"]["TypeOfDrefEnum"];
+      appeal?: components["schemas"]["AppealEnum"];
       appeal_amount?: number | null;
-      imminent_dref?: components["schemas"]["TypeOfDrefEnum"];
+      imminent_dref?: components["schemas"]["ImminentDrefEnum"];
       imminent_dref_amount?: number | null;
-      forecast_based_action?: components["schemas"]["TypeOfDrefEnum"];
+      forecast_based_action?: components["schemas"]["ForecastBasedActionEnum"];
       forecast_based_action_amount?: number | null;
-      rdrt?: components["schemas"]["TypeOfDrefEnum"];
+      rdrt?: components["schemas"]["RdrtEnum"];
       /** Number of RDRT */
       num_rdrt?: number | null;
-      fact?: components["schemas"]["TypeOfDrefEnum"];
+      fact?: components["schemas"]["FactEnum"];
       /** Number of fact */
       num_fact?: number | null;
-      ifrc_staff?: components["schemas"]["TypeOfDrefEnum"];
+      ifrc_staff?: components["schemas"]["IfrcStaffEnum"];
       /** Number of IFRC staff */
       num_ifrc_staff?: number | null;
-      eru_base_camp?: components["schemas"]["TypeOfDrefEnum"];
+      eru_base_camp?: components["schemas"]["EruBaseCampEnum"];
       eru_base_camp_units?: number | null;
-      eru_basic_health_care?: components["schemas"]["TypeOfDrefEnum"];
+      eru_basic_health_care?: components["schemas"]["EruBasicHealthCareEnum"];
       /** ERU basic health units */
       eru_basic_health_care_units?: number | null;
-      eru_it_telecom?: components["schemas"]["TypeOfDrefEnum"];
+      eru_it_telecom?: components["schemas"]["EruItTelecomEnum"];
       eru_it_telecom_units?: number | null;
-      eru_logistics?: components["schemas"]["TypeOfDrefEnum"];
+      eru_logistics?: components["schemas"]["EruLogisticsEnum"];
       eru_logistics_units?: number | null;
-      eru_deployment_hospital?: components["schemas"]["TypeOfDrefEnum"];
+      eru_deployment_hospital?: components["schemas"]["EruDeploymentHospitalEnum"];
       eru_deployment_hospital_units?: number | null;
-      eru_referral_hospital?: components["schemas"]["TypeOfDrefEnum"];
+      eru_referral_hospital?: components["schemas"]["EruReferralHospitalEnum"];
       eru_referral_hospital_units?: number | null;
-      eru_relief?: components["schemas"]["TypeOfDrefEnum"];
+      eru_relief?: components["schemas"]["EruReliefEnum"];
       eru_relief_units?: number | null;
       /** ERU water sanitaion M15 */
-      eru_water_sanitation_15?: components["schemas"]["TypeOfDrefEnum"];
+      eru_water_sanitation_15?: components["schemas"]["EruWaterSanitation15Enum"];
       /** ERU water sanitaion M15 units */
       eru_water_sanitation_15_units?: number | null;
       /** ERU water sanitaion M40 */
-      eru_water_sanitation_40?: components["schemas"]["TypeOfDrefEnum"];
+      eru_water_sanitation_40?: components["schemas"]["EruWaterSanitation40Enum"];
       /** ERU water sanitaion M40 units */
       eru_water_sanitation_40_units?: number | null;
       /** ERU water sanitaion MSM20 */
-      eru_water_sanitation_20?: components["schemas"]["TypeOfDrefEnum"];
+      eru_water_sanitation_20?: components["schemas"]["EruWaterSanitation20Enum"];
       /** ERU water sanitaion MSM20 units */
       eru_water_sanitation_20_units?: number | null;
       /** Description (Health) */
@@ -3486,30 +4010,14 @@ export interface components {
       regions?: number[];
       external_partners?: number[];
       supported_activities?: number[];
-      /** Actions taken (others) [en] */
-      actions_others?: string | null;
-      /** Sources (other) [en] */
-      other_sources?: string | null;
-      /** Summary [en] */
-      summary?: string | null;
       /** Description [en] */
       description?: string | null;
-    };
-    ListForm: {
-      area: components["schemas"]["FormArea"];
-      overview: components["schemas"]["IsFinalOverview"];
-      /** Format: date-time */
-      updated_at: string;
-      comment?: string | null;
-      user: components["schemas"]["UserName"];
-      id: number;
-    };
-    ListFormData: {
-      form: number;
-      question_id: number | null;
-      selected_answer: components["schemas"]["FormAnswer"];
-      notes?: string | null;
-      id: number;
+      /** Sources (other) [en] */
+      other_sources?: string | null;
+      /** Actions taken (others) [en] */
+      actions_others?: string | null;
+      /** Summary [en] */
+      summary?: string | null;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     ListMiniEvent: {
@@ -3518,13 +4026,13 @@ export interface components {
       auto_generated_source: string;
       emergency_response_contact_email?: string | null;
       countries_for_preview: components["schemas"]["MiniCountry"][];
+      /** Name [en] */
+      name?: string | null;
       /**
        * Slug [en]
        * @description Optional string for a clean URL. For example, go.ifrc.org/emergency/hurricane-katrina-2019. The string cannot start with a number and is forced to be lowercase. Recommend using hyphens over underscores. Special characters like # is not allowed.
        */
       slug?: string | null;
-      /** Name [en] */
-      name?: string | null;
       translation_module_original_language: string;
     };
     ListNiceDoc: {
@@ -3534,7 +4042,7 @@ export interface components {
       document?: string | null;
       /** Format: uri */
       document_url?: string;
-      visibility?: components["schemas"]["Visibility923Enum"];
+      visibility?: components["schemas"]["OperationTypeEnum"];
       visibility_display: string;
     };
     LocalUnit: {
@@ -3641,10 +4149,10 @@ export interface components {
       fdrs?: string | null;
       /** Format: decimal */
       average_household_size?: string | null;
-      /** Society name [en] */
-      society_name?: string | null;
       /** Name [en] */
       name?: string | null;
+      /** Society name [en] */
+      society_name?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -3681,8 +4189,8 @@ export interface components {
        * @description Is it an enclave away from parent country?
        */
       is_enclave?: boolean;
-      bbox: string;
-      centroid: string;
+      bbox: { [key: string]: unknown } | null;
+      centroid: { [key: string]: unknown } | null;
       /** @description Is this an active, valid district? */
       is_deprecated?: boolean;
     };
@@ -3718,20 +4226,20 @@ export interface components {
       appeal_code?: string | null;
       /** Format: date-time */
       created_at: string;
-      operational_update_details: string;
-      final_report_details: string;
+      operational_update_details: components["schemas"]["MiniOperationalUpdateActive"];
+      final_report_details: components["schemas"]["MiniDrefFinalReportActive"];
       /** @description Affected County */
       country?: number | null;
       country_details: components["schemas"]["MiniCountry"];
-      has_ops_update: string;
-      has_final_report: string;
+      has_ops_update: boolean;
+      has_final_report: boolean;
       application_type: string;
       application_type_display: string;
-      unpublished_op_update_count: string;
-      unpublished_final_report_count: string;
+      unpublished_op_update_count: number;
+      unpublished_final_report_count: number;
       status?:
         | (
-            | components["schemas"]["Status923Enum"]
+            | components["schemas"]["OperationTypeEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
@@ -3747,6 +4255,31 @@ export interface components {
       title?: string | null;
       translation_module_original_language: string;
     };
+    MiniDrefFinalReportActive: {
+      id: number;
+      title?: string | null;
+      is_published?: boolean;
+      national_society?: number | null;
+      disaster_type?: number | null;
+      type_of_dref_display: string;
+      appeal_code?: string | null;
+      /** Format: date-time */
+      created_at: string;
+      /** @description Affected County */
+      country?: number | null;
+      country_details: components["schemas"]["MiniCountry"];
+      application_type: string;
+      application_type_display: string;
+      status?:
+        | (
+            | components["schemas"]["OperationTypeEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      status_display: string;
+      /** Format: date */
+      date_of_approval?: string | null;
+    };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     MiniEvent: {
       /** Disaster type */
@@ -3759,13 +4292,13 @@ export interface components {
       parent_event?: number | null;
       emergency_response_contact_email?: string | null;
       countries_for_preview: components["schemas"]["MiniCountry"][];
+      /** Name [en] */
+      name?: string | null;
       /**
        * Slug [en]
        * @description Optional string for a clean URL. For example, go.ifrc.org/emergency/hurricane-katrina-2019. The string cannot start with a number and is forced to be lowercase. Recommend using hyphens over underscores. Special characters like # is not allowed.
        */
       slug?: string | null;
-      /** Name [en] */
-      name?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -3903,11 +4436,18 @@ export interface components {
        * * `6` - Other, potentially
        */
       recent_affected?: components["schemas"]["RecentAffectedEnum"];
-      /** Summary [en] */
-      summary?: string | null;
       /** Description [en] */
       description?: string | null;
+      /** Summary [en] */
+      summary?: string | null;
       translation_module_original_language: string;
+    };
+    MiniFormComponent: {
+      id: number;
+      /** Component number */
+      component_num?: number;
+      title: string;
+      area: components["schemas"]["FormArea"];
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     MiniOperationalUpdate: {
@@ -3918,10 +4458,65 @@ export interface components {
       title?: string | null;
       translation_module_original_language: string;
     };
+    MiniOperationalUpdateActive: {
+      id: number;
+      title?: string | null;
+      national_society?: number | null;
+      disaster_type?: number | null;
+      /** Onset type */
+      type_of_onset?:
+        | (
+            | components["schemas"]["TypeOfOnsetEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      /** Dref type */
+      type_of_dref?:
+        | (
+            | components["schemas"]["TypeOfDrefEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      disaster_category?:
+        | (
+            | components["schemas"]["DisasterCategoryEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      disaster_category_display: string;
+      type_of_onset_display: string;
+      type_of_dref_display: string;
+      appeal_code?: string | null;
+      /** Format: date-time */
+      created_at: string;
+      operational_update_number?: number | null;
+      /** @description Affected County */
+      country?: number | null;
+      country_details: components["schemas"]["MiniCountry"];
+      application_type: string;
+      application_type_display: string;
+      is_published?: boolean;
+      status?:
+        | (
+            | components["schemas"]["OperationTypeEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      status_display: string;
+      /** Format: date */
+      date_of_approval?: string | null;
+    };
+    MiniOverview: {
+      id: number;
+      /** Format: date */
+      workplan_development_date?: string | null;
+      user?: number | null;
+      user_details: components["schemas"]["PerMiniUser"];
+    };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     MiniSubscription: {
       /** Subscription type */
-      stype?: components["schemas"]["StypeEnum"];
+      stype?: components["schemas"]["OperationTypeEnum"];
       /** Record type */
       rtype?: components["schemas"]["RtypeEnum"];
       country?: number | null;
@@ -3956,14 +4551,6 @@ export interface components {
      * @enum {integer}
      */
     MonthEnum: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-    NSPhase: {
-      id: number;
-      country?: number;
-      phase?: components["schemas"]["PhaseEnum"];
-      phase_display: string;
-      /** Format: date-time */
-      updated_at: string;
-    };
     /**
      * @description * `0` - Africa
      * * `1` - Americas
@@ -3976,56 +4563,11 @@ export interface components {
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     NationalSocietyAction: {
       id: number;
-      title: components["schemas"]["NationalSocietyActionTitleEnum"];
+      title: components["schemas"]["Title0ddEnum"];
       image_url: string;
       title_display: string;
       /** Description [en] */
       description?: string | null;
-      translation_module_original_language: string;
-    };
-    /**
-     * @description * `national_society_readiness` - National Society Readiness
-     * * `assessment` - Assessment
-     * * `coordination` - Coordination
-     * * `resource_mobilization` - Resource Mobilization
-     * * `activation_of_contingency_plans` - Activation Of Contingency Plans
-     * * `national_society_eoc` - National Society EOC
-     * * `shelter_housing_and_settlements` - Shelter, Housing And Settlements
-     * * `livelihoods_and_basic_needs` - Livelihoods And Basic Needs
-     * * `health` - Health
-     * * `water_sanitation_and_hygiene` - Water, Sanitation And Hygiene
-     * * `protection_gender_and_inclusion` - Protection, Gender And Inclusion
-     * * `education` - Education
-     * * `migration` - Migration
-     * * `risk_reduction_climate_adaptation_and_recovery` - Risk Reduction, Climate Adaptation And Recovery
-     * * `community_engagement_and _accountability` - Community Engagement And Accountability
-     * * `environment_sustainability ` - Environment Sustainability
-     * * `multi-purpose_cash` - Multi-purpose Cash
-     * * `other` - Other
-     * @enum {string}
-     */
-    NationalSocietyActionTitleEnum:
-      | "national_society_readiness"
-      | "assessment"
-      | "coordination"
-      | "resource_mobilization"
-      | "activation_of_contingency_plans"
-      | "national_society_eoc"
-      | "shelter_housing_and_settlements"
-      | "livelihoods_and_basic_needs"
-      | "health"
-      | "water_sanitation_and_hygiene"
-      | "protection_gender_and_inclusion"
-      | "education"
-      | "migration"
-      | "risk_reduction_climate_adaptation_and_recovery"
-      | "community_engagement_and _accountability"
-      | "environment_sustainability "
-      | "multi-purpose_cash"
-      | "other";
-    /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
-    NotCountry: {
-      id: number;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -4040,11 +4582,24 @@ export interface components {
     /** @enum {undefined} */
     NullEnum: null;
     /**
-     * @description * `0` - Programme
-     * * `1` - Emergency Operation
+     * @description * `0` - In Progress
+     * * `1` - Completed
      * @enum {integer}
      */
     OperationTypeEnum: 0 | 1;
+    OptionsAssessmentType: {
+      id: number;
+      name: string;
+    };
+    OptionsFormAnswer: {
+      id: number;
+      text: string;
+    };
+    OptionsPerComponentRating: {
+      id: number;
+      title: string;
+      value: number;
+    };
     /**
      * @description * `NTLS` - National Society
      * * `DLGN` - Delegation
@@ -4054,64 +4609,20 @@ export interface components {
      * @enum {string}
      */
     OrgTypeEnum: "NTLS" | "DLGN" | "SCRT" | "ICRC" | "OTHR";
-    /**
-     * @description * `NTLS` - National Society
-     * * `PNS` - RCRC
-     * * `FDRN` - Federation
-     * * `GOV` - Government
-     * @enum {string}
-     */
-    OrganizationEnum: "NTLS" | "PNS" | "FDRN" | "GOV";
-    /**
-     * @description * `NTLS` - National Society
-     * * `PNS` - RCRC
-     * * `FDRN` - Federation
-     * * `GOV` - Government
-     * @enum {string}
-     */
-    OrganizationsEnum: "NTLS" | "PNS" | "FDRN" | "GOV";
-    Overview: {
-      id: number;
-      user: components["schemas"]["PerMiniUser"];
-      country: components["schemas"]["RegoCountry"];
-      type_of_assessment: components["schemas"]["AssessmentType"];
-      included_forms: string;
-      assessment_number?: number;
-      branches_involved?: string | null;
-      /** Format: date-time */
-      created_at: string;
-      /** Format: date-time */
-      date_of_assessment: string;
-      /**
-       * Estimated date of mid term review
-       * Format: date-time
-       */
-      date_of_mid_term_review?: string | null;
-      /**
-       * Estimated date of next assessment
-       * Format: date-time
-       */
-      date_of_next_asmt?: string | null;
-      facilitator_name?: string | null;
-      facilitator_email?: string | null;
-      facilitator_phone?: string | null;
-      /** Facilitator other contacts */
-      facilitator_contact?: string | null;
-      is_epi?: boolean;
-      is_finalized?: boolean;
-      /** What method has this assessment used */
-      method_asmt_used?: string | null;
-      ns_focal_point_name?: string | null;
-      ns_focal_point_email?: string | null;
-      ns_focal_point_phone?: string | null;
-      other_consideration?: string | null;
-      partner_focal_point_name?: string | null;
-      partner_focal_point_email?: string | null;
-      partner_focal_point_phone?: string | null;
-      /** Partner focal point organization name */
-      partner_focal_point_organization?: string | null;
-      /** Format: date-time */
-      updated_at: string;
+    OverviewProjectsPerProgrammeType: {
+      programme_type: number;
+      programme_type_display: string;
+      count: number;
+    };
+    OverviewProjectsPerSecondarySectors: {
+      secondary_sectors: number;
+      secondary_sectors_display: string;
+      count: number;
+    };
+    OverviewProjectsPerSector: {
+      primary_sector: number;
+      primary_sector_display: string;
+      count: number;
     };
     PaginatedActionList: {
       /** @example 123 */
@@ -4140,13 +4651,6 @@ export interface components {
       next?: string | null;
       previous?: string | null;
       results?: components["schemas"]["AppealHistory"][];
-    };
-    PaginatedAssessmentTypeList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["AssessmentType"][];
     };
     PaginatedCompletedDrefOperationsList: {
       /** @example 123 */
@@ -4288,13 +4792,6 @@ export interface components {
       previous?: string | null;
       results?: components["schemas"]["EmergencyProject"][];
     };
-    PaginatedEngagedNSPercentageList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["EngagedNSPercentage"][];
-    };
     PaginatedExternalPartnerList: {
       /** @example 123 */
       count?: number;
@@ -4337,26 +4834,19 @@ export interface components {
       previous?: string | null;
       results?: components["schemas"]["FormComponent"][];
     };
+    PaginatedFormPrioritizationList: {
+      /** @example 123 */
+      count?: number;
+      next?: string | null;
+      previous?: string | null;
+      results?: components["schemas"]["FormPrioritization"][];
+    };
     PaginatedFormQuestionList: {
       /** @example 123 */
       count?: number;
       next?: string | null;
       previous?: string | null;
       results?: components["schemas"]["FormQuestion"][];
-    };
-    PaginatedFormStatList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["FormStat"][];
-    };
-    PaginatedGlobalPreparednessList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["GlobalPreparedness"][];
     };
     PaginatedGoHistoricalList: {
       /** @example 123 */
@@ -4393,20 +4883,6 @@ export interface components {
       previous?: string | null;
       results?: components["schemas"]["ListFieldReport"][];
     };
-    PaginatedListFormDataList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["ListFormData"][];
-    };
-    PaginatedListFormList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["ListForm"][];
-    };
     PaginatedListNiceDocList: {
       /** @example 123 */
       count?: number;
@@ -4428,13 +4904,6 @@ export interface components {
       previous?: string | null;
       results?: components["schemas"]["MainContact"][];
     };
-    PaginatedMiniCountryList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["MiniCountry"][];
-    };
     PaginatedMiniDistrictGeoList: {
       /** @example 123 */
       count?: number;
@@ -4449,20 +4918,6 @@ export interface components {
       previous?: string | null;
       results?: components["schemas"]["MiniDref"][];
     };
-    PaginatedNSPhaseList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["NSPhase"][];
-    };
-    PaginatedNotCountryList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["NotCountry"][];
-    };
     PaginatedNsList: {
       /** @example 123 */
       count?: number;
@@ -4470,19 +4925,47 @@ export interface components {
       previous?: string | null;
       results?: components["schemas"]["Ns"][];
     };
-    PaginatedOverviewList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["Overview"][];
-    };
     PaginatedPartnerDeploymentList: {
       /** @example 123 */
       count?: number;
       next?: string | null;
       previous?: string | null;
       results?: components["schemas"]["PartnerDeployment"][];
+    };
+    PaginatedPerAssessmentList: {
+      /** @example 123 */
+      count?: number;
+      next?: string | null;
+      previous?: string | null;
+      results?: components["schemas"]["PerAssessment"][];
+    };
+    PaginatedPerFileList: {
+      /** @example 123 */
+      count?: number;
+      next?: string | null;
+      previous?: string | null;
+      results?: components["schemas"]["PerFile"][];
+    };
+    PaginatedPerOverviewList: {
+      /** @example 123 */
+      count?: number;
+      next?: string | null;
+      previous?: string | null;
+      results?: components["schemas"]["PerOverview"][];
+    };
+    PaginatedPerProcessList: {
+      /** @example 123 */
+      count?: number;
+      next?: string | null;
+      previous?: string | null;
+      results?: components["schemas"]["PerProcess"][];
+    };
+    PaginatedPerWorkPlanList: {
+      /** @example 123 */
+      count?: number;
+      next?: string | null;
+      previous?: string | null;
+      results?: components["schemas"]["PerWorkPlan"][];
     };
     PaginatedPersonnelDeploymentList: {
       /** @example 123 */
@@ -4512,6 +4995,13 @@ export interface components {
       previous?: string | null;
       results?: components["schemas"]["Project"][];
     };
+    PaginatedPublicPerCountryList: {
+      /** @example 123 */
+      count?: number;
+      next?: string | null;
+      previous?: string | null;
+      results?: components["schemas"]["PublicPerCountry"][];
+    };
     PaginatedRegionGeoList: {
       /** @example 123 */
       count?: number;
@@ -4539,13 +5029,6 @@ export interface components {
       next?: string | null;
       previous?: string | null;
       results?: components["schemas"]["RegionalProject"][];
-    };
-    PaginatedShortFormList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["ShortForm"][];
     };
     PaginatedSituationReportList: {
       /** @example 123 */
@@ -4595,13 +5078,6 @@ export interface components {
       next?: string | null;
       previous?: string | null;
       results?: components["schemas"]["User"][];
-    };
-    PaginatedWorkPlanList: {
-      /** @example 123 */
-      count?: number;
-      next?: string | null;
-      previous?: string | null;
-      results?: components["schemas"]["WorkPlan"][];
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     PartnerDeployment: {
@@ -4749,49 +5225,49 @@ export interface components {
        */
       sit_fields_date?: string | null;
       visibility?: components["schemas"]["VisibilityD1bEnum"];
-      bulletin?: components["schemas"]["TypeOfDrefEnum"];
-      dref?: components["schemas"]["TypeOfDrefEnum"];
+      bulletin?: components["schemas"]["BulletinEnum"];
+      dref?: components["schemas"]["DrefEnum"];
       dref_amount?: number | null;
-      appeal?: components["schemas"]["TypeOfDrefEnum"];
+      appeal?: components["schemas"]["AppealEnum"];
       appeal_amount?: number | null;
-      imminent_dref?: components["schemas"]["TypeOfDrefEnum"];
+      imminent_dref?: components["schemas"]["ImminentDrefEnum"];
       imminent_dref_amount?: number | null;
-      forecast_based_action?: components["schemas"]["TypeOfDrefEnum"];
+      forecast_based_action?: components["schemas"]["ForecastBasedActionEnum"];
       forecast_based_action_amount?: number | null;
-      rdrt?: components["schemas"]["TypeOfDrefEnum"];
+      rdrt?: components["schemas"]["RdrtEnum"];
       /** Number of RDRT */
       num_rdrt?: number | null;
-      fact?: components["schemas"]["TypeOfDrefEnum"];
+      fact?: components["schemas"]["FactEnum"];
       /** Number of fact */
       num_fact?: number | null;
-      ifrc_staff?: components["schemas"]["TypeOfDrefEnum"];
+      ifrc_staff?: components["schemas"]["IfrcStaffEnum"];
       /** Number of IFRC staff */
       num_ifrc_staff?: number | null;
-      eru_base_camp?: components["schemas"]["TypeOfDrefEnum"];
+      eru_base_camp?: components["schemas"]["EruBaseCampEnum"];
       eru_base_camp_units?: number | null;
-      eru_basic_health_care?: components["schemas"]["TypeOfDrefEnum"];
+      eru_basic_health_care?: components["schemas"]["EruBasicHealthCareEnum"];
       /** ERU basic health units */
       eru_basic_health_care_units?: number | null;
-      eru_it_telecom?: components["schemas"]["TypeOfDrefEnum"];
+      eru_it_telecom?: components["schemas"]["EruItTelecomEnum"];
       eru_it_telecom_units?: number | null;
-      eru_logistics?: components["schemas"]["TypeOfDrefEnum"];
+      eru_logistics?: components["schemas"]["EruLogisticsEnum"];
       eru_logistics_units?: number | null;
-      eru_deployment_hospital?: components["schemas"]["TypeOfDrefEnum"];
+      eru_deployment_hospital?: components["schemas"]["EruDeploymentHospitalEnum"];
       eru_deployment_hospital_units?: number | null;
-      eru_referral_hospital?: components["schemas"]["TypeOfDrefEnum"];
+      eru_referral_hospital?: components["schemas"]["EruReferralHospitalEnum"];
       eru_referral_hospital_units?: number | null;
-      eru_relief?: components["schemas"]["TypeOfDrefEnum"];
+      eru_relief?: components["schemas"]["EruReliefEnum"];
       eru_relief_units?: number | null;
       /** ERU water sanitaion M15 */
-      eru_water_sanitation_15?: components["schemas"]["TypeOfDrefEnum"];
+      eru_water_sanitation_15?: components["schemas"]["EruWaterSanitation15Enum"];
       /** ERU water sanitaion M15 units */
       eru_water_sanitation_15_units?: number | null;
       /** ERU water sanitaion M40 */
-      eru_water_sanitation_40?: components["schemas"]["TypeOfDrefEnum"];
+      eru_water_sanitation_40?: components["schemas"]["EruWaterSanitation40Enum"];
       /** ERU water sanitaion M40 units */
       eru_water_sanitation_40_units?: number | null;
       /** ERU water sanitaion MSM20 */
-      eru_water_sanitation_20?: components["schemas"]["TypeOfDrefEnum"];
+      eru_water_sanitation_20?: components["schemas"]["EruWaterSanitation20Enum"];
       /** ERU water sanitaion MSM20 units */
       eru_water_sanitation_20_units?: number | null;
       /** Description (Health) */
@@ -4841,14 +5317,14 @@ export interface components {
       regions?: number[];
       external_partners?: number[];
       supported_activities?: number[];
-      /** Actions taken (others) [en] */
-      actions_others?: string | null;
-      /** Sources (other) [en] */
-      other_sources?: string | null;
-      /** Summary [en] */
-      summary?: string | null;
       /** Description [en] */
       description?: string | null;
+      /** Sources (other) [en] */
+      other_sources?: string | null;
+      /** Actions taken (others) [en] */
+      actions_others?: string | null;
+      /** Summary [en] */
+      summary?: string | null;
     };
     /** @description Mixin adds update nested feature */
     PatchedDref: {
@@ -4877,7 +5353,7 @@ export interface components {
       risk_security?: components["schemas"]["RiskSecurity"][];
       /** Format: date-time */
       modified_at?: string;
-      dref_access_user_list?: string;
+      dref_access_user_list?: number[];
       /** Format: date-time */
       created_at?: string;
       /** Dref type */
@@ -4902,7 +5378,7 @@ export interface components {
         | null;
       status?:
         | (
-            | components["schemas"]["Status923Enum"]
+            | components["schemas"]["OperationTypeEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
@@ -4951,20 +5427,20 @@ export interface components {
       /** @description Estimated number of targeted people */
       total_targeted_population?: number | null;
       /**
-       * Format: decimal
+       * Format: double
        * @description Estimated % people disability
        */
-      disability_people_per?: string | null;
+      disability_people_per?: number | null;
       /**
-       * Format: decimal
+       * Format: double
        * @description Estimated % people Urban
        */
-      people_per_urban?: string | null;
+      people_per_urban?: number | null;
       /**
-       * Format: decimal
+       * Format: double
        * @description Estimated % people Rural
        */
-      people_per_local?: string | null;
+      people_per_local?: number | null;
       /** @description Number of persons targeted with early actions */
       people_targeted_with_early_actions?: number | null;
       /** @description Estimated number of displaced people */
@@ -5039,80 +5515,37 @@ export interface components {
       country?: number | null;
       users?: number[];
       district?: number[];
-      /** People assisted [en] */
-      people_assisted?: string | null;
-      /** Response strategy [en] */
-      response_strategy?: string | null;
+      /** Lessons learned [en] */
+      lessons_learned?: string | null;
+      /** Risk Security Concern [en] */
+      risk_security_concern?: string | null;
       /** Icrc [en] */
       icrc?: string | null;
-      /** Un or other [en] */
-      un_or_other_actor?: string | null;
-      /**
-       * Identified gaps [en]
-       * @description Any identified gaps/limitations in the assessment
-       */
-      identified_gaps?: string | null;
-      /**
-       * Selection criteria [en]
-       * @description Selection criteria for affected people
-       */
-      selection_criteria?: string | null;
-      /** Ifrc [en] */
-      ifrc?: string | null;
-      /**
-       * Organization [en]
-       * @description Does the NS have Communications capacity?
-       */
-      communication?: string | null;
-      /** Ns request text [en] */
-      ns_request_text?: string | null;
       /**
        * Operation objective [en]
        * @description Overall objective of the operation
        */
       operation_objective?: string | null;
-      /** Title [en] */
-      title?: string | null;
-      /** Lessons learned [en] */
-      lessons_learned?: string | null;
       /**
-       * Event scope [en]
-       * @description Scope and scale of event
+       * Selection criteria [en]
+       * @description Selection criteria for affected people
        */
-      event_scope?: string | null;
-      /**
-       * Human resource [en]
-       * @description how many volunteers and staff involved in the response?
-       */
-      human_resource?: string | null;
-      /** National authorities [en] */
-      national_authorities?: string | null;
+      selection_criteria?: string | null;
+      /** Un or other [en] */
+      un_or_other_actor?: string | null;
+      /** Partner national society [en] */
+      partner_national_society?: string | null;
+      /** Title prefix [en] */
+      title_prefix?: string | null;
+      /** Ns request text [en] */
+      ns_request_text?: string | null;
+      /** Event description [en] */
+      event_description?: string | null;
       /**
        * Surge personnel deployed [en]
        * @description Will a Surge personnel be deployed?
        */
       surge_personnel_deployed?: string | null;
-      /** Partner national society [en] */
-      partner_national_society?: string | null;
-      /**
-       * Major coordination mechanism [en]
-       * @description List major coordination mechanisms in place
-       */
-      major_coordination_mechanism?: string | null;
-      /**
-       * Logistic capacity of ns [en]
-       * @description what is the logistics capacity of the National Society?
-       */
-      logistic_capacity_of_ns?: string | null;
-      /** Event description [en] */
-      event_description?: string | null;
-      /**
-       * Pmer [en]
-       * @description Does the NS have PMER capacity?
-       */
-      pmer?: string | null;
-      /** Title prefix [en] */
-      title_prefix?: string | null;
       /** Dref recurrent text [en] */
       dref_recurrent_text?: string | null;
       /**
@@ -5120,10 +5553,53 @@ export interface components {
        * @description Description of anticipatory actions or imminent disaster
        */
       anticipatory_actions?: string | null;
+      /** Response strategy [en] */
+      response_strategy?: string | null;
+      /**
+       * Event scope [en]
+       * @description Scope and scale of event
+       */
+      event_scope?: string | null;
+      /** People assisted [en] */
+      people_assisted?: string | null;
+      /** Title [en] */
+      title?: string | null;
+      /** National authorities [en] */
+      national_authorities?: string | null;
       /** Event text [en] */
       event_text?: string | null;
-      /** Risk Security Concern [en] */
-      risk_security_concern?: string | null;
+      /**
+       * Pmer [en]
+       * @description Does the NS have PMER capacity?
+       */
+      pmer?: string | null;
+      /**
+       * Identified gaps [en]
+       * @description Any identified gaps/limitations in the assessment
+       */
+      identified_gaps?: string | null;
+      /**
+       * Logistic capacity of ns [en]
+       * @description what is the logistics capacity of the National Society?
+       */
+      logistic_capacity_of_ns?: string | null;
+      /** Ifrc [en] */
+      ifrc?: string | null;
+      /**
+       * Human resource [en]
+       * @description how many volunteers and staff involved in the response?
+       */
+      human_resource?: string | null;
+      /**
+       * Major coordination mechanism [en]
+       * @description List major coordination mechanisms in place
+       */
+      major_coordination_mechanism?: string | null;
+      /**
+       * Organization [en]
+       * @description Does the NS have Communications capacity?
+       */
+      communication?: string | null;
     };
     /** @description Mixin adds update nested feature */
     PatchedDrefFinalReport: {
@@ -5171,7 +5647,7 @@ export interface components {
         | null;
       status?:
         | (
-            | components["schemas"]["Status923Enum"]
+            | components["schemas"]["OperationTypeEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
@@ -5272,24 +5748,32 @@ export interface components {
       financial_report?: number | null;
       district?: number[];
       users?: number[];
-      /** Event description [en] */
-      event_description?: string | null;
-      /** Title [en] */
-      title?: string | null;
-      /** Response strategy [en] */
-      response_strategy?: string | null;
-      /** Icrc [en] */
-      icrc?: string | null;
-      /** Event scope [en] */
-      event_scope?: string | null;
-      /** Partner national society [en] */
-      partner_national_society?: string | null;
-      /** Un or other [en] */
-      un_or_other_actor?: string | null;
-      /** Ifrc [en] */
-      ifrc?: string | null;
       /** Title prefix [en] */
       title_prefix?: string | null;
+      /** National authorities [en] */
+      national_authorities?: string | null;
+      /** Un or other [en] */
+      un_or_other_actor?: string | null;
+      /** Risk Security Concern [en] */
+      risk_security_concern?: string | null;
+      /** Event description [en] */
+      event_description?: string | null;
+      /** Event text [en] */
+      event_text?: string | null;
+      /** Anticipatory actions [en] */
+      anticipatory_actions?: string | null;
+      /** Icrc [en] */
+      icrc?: string | null;
+      /** Operation objective [en] */
+      operation_objective?: string | null;
+      /** Ifrc [en] */
+      ifrc?: string | null;
+      /** Response strategy [en] */
+      response_strategy?: string | null;
+      /** Event scope [en] */
+      event_scope?: string | null;
+      /** Financial Report Description [en] */
+      financial_report_description?: string | null;
       /**
        * Selection criteria [en]
        * @description Selection criteria for affected people
@@ -5297,20 +5781,12 @@ export interface components {
       selection_criteria?: string | null;
       /** Major coordination mechanism [en] */
       major_coordination_mechanism?: string | null;
-      /** Financial Report Description [en] */
-      financial_report_description?: string | null;
-      /** Anticipatory actions [en] */
-      anticipatory_actions?: string | null;
-      /** Event text [en] */
-      event_text?: string | null;
-      /** National authorities [en] */
-      national_authorities?: string | null;
-      /** Operation objective [en] */
-      operation_objective?: string | null;
       /** National Society conducted description [en] */
       national_society_conducted_description?: string | null;
-      /** Risk Security Concern [en] */
-      risk_security_concern?: string | null;
+      /** Title [en] */
+      title?: string | null;
+      /** Partner national society [en] */
+      partner_national_society?: string | null;
     };
     /** @description Mixin adds update nested feature */
     PatchedDrefOperationalUpdate: {
@@ -5360,7 +5836,7 @@ export interface components {
         | null;
       status?:
         | (
-            | components["schemas"]["Status923Enum"]
+            | components["schemas"]["OperationTypeEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
@@ -5495,68 +5971,68 @@ export interface components {
       country?: number | null;
       district?: number[];
       users?: number[];
-      /** People assisted [en] */
-      people_assisted?: string | null;
-      /** Response strategy [en] */
-      response_strategy?: string | null;
+      /** Risk Security Concern [en] */
+      risk_security_concern?: string | null;
       /** Icrc [en] */
       icrc?: string | null;
-      /** Un or other [en] */
-      un_or_other_actor?: string | null;
+      /** Operation objective [en] */
+      operation_objective?: string | null;
       /**
        * Selection criteria [en]
        * @description Selection criteria for affected people
        */
       selection_criteria?: string | null;
-      /** Ifrc [en] */
-      ifrc?: string | null;
-      /**
-       * Organization [en]
-       * @description Does the NS have Communications capacity?
-       */
-      communication?: string | null;
-      /** Operation objective [en] */
-      operation_objective?: string | null;
-      /** Title [en] */
-      title?: string | null;
-      /** Event scope [en] */
-      event_scope?: string | null;
-      /**
-       * Human resource [en]
-       * @description how many volunteers and staff involved in the response?
-       */
-      human_resource?: string | null;
-      /** National authorities [en] */
-      national_authorities?: string | null;
+      /** Un or other [en] */
+      un_or_other_actor?: string | null;
+      /** Partner national society [en] */
+      partner_national_society?: string | null;
+      /** Title prefix [en] */
+      title_prefix?: string | null;
+      /** Event description [en] */
+      event_description?: string | null;
       /**
        * Surge personnel deployed [en]
        * @description Will a Surge personnel be deployed?
        */
       surge_personnel_deployed?: string | null;
-      /** Partner national society [en] */
-      partner_national_society?: string | null;
-      /** Major coordination mechanism [en] */
-      major_coordination_mechanism?: string | null;
-      /**
-       * Logistic capacity of ns [en]
-       * @description what is the logistics capacity of the National Society?
-       */
-      logistic_capacity_of_ns?: string | null;
-      /** Event description [en] */
-      event_description?: string | null;
+      /** Anticipatory actions [en] */
+      anticipatory_actions?: string | null;
+      /** Response strategy [en] */
+      response_strategy?: string | null;
+      /** Event scope [en] */
+      event_scope?: string | null;
+      /** People assisted [en] */
+      people_assisted?: string | null;
+      /** Title [en] */
+      title?: string | null;
+      /** National authorities [en] */
+      national_authorities?: string | null;
       /**
        * Pmer [en]
        * @description Does the NS have PMER capacity?
        */
       pmer?: string | null;
-      /** Title prefix [en] */
-      title_prefix?: string | null;
+      /**
+       * Logistic capacity of ns [en]
+       * @description what is the logistics capacity of the National Society?
+       */
+      logistic_capacity_of_ns?: string | null;
+      /** Ifrc [en] */
+      ifrc?: string | null;
+      /**
+       * Human resource [en]
+       * @description how many volunteers and staff involved in the response?
+       */
+      human_resource?: string | null;
+      /** Major coordination mechanism [en] */
+      major_coordination_mechanism?: string | null;
+      /**
+       * Organization [en]
+       * @description Does the NS have Communications capacity?
+       */
+      communication?: string | null;
       /** Please explain how is the operation is transitioning from Anticipatory to Response [en] */
       anticipatory_to_response?: string | null;
-      /** Anticipatory actions [en] */
-      anticipatory_actions?: string | null;
-      /** Risk Security Concern [en] */
-      risk_security_concern?: string | null;
     };
     /** @description Mixin adds update nested feature */
     PatchedEmergencyProject: {
@@ -5579,7 +6055,7 @@ export interface components {
       event?: number;
       country?: number;
       districts?: number[];
-      status?: components["schemas"]["EmergencyProjectStatusEnum"];
+      status?: components["schemas"]["StatusD08Enum"];
       /** Format: date-time */
       created_at?: string;
       /** Format: date-time */
@@ -5667,6 +6143,96 @@ export interface components {
       map?: number[];
       graphics?: number[];
     };
+    /** @description Mixin adds nested create feature */
+    PatchedFormPrioritization: {
+      id?: number;
+      overview?: number | null;
+      component_responses?: components["schemas"]["FormPrioritizationComponent"][];
+      is_draft?: boolean;
+    };
+    /** @description Mixin adds nested create feature */
+    PatchedPerAssessment: {
+      id?: number;
+      area_responses?: components["schemas"]["AreaResponse"][];
+      is_draft?: boolean;
+      overview?: number | null;
+      user?: number | null;
+    };
+    /** @description Mixin adds nested create feature */
+    PatchedPerOverview: {
+      id?: number;
+      type_of_assessment_details?: components["schemas"]["AssessmentType"];
+      country_details?: components["schemas"]["MiniCountry"];
+      user_details?: components["schemas"]["UserName"];
+      assessment_number?: number | null;
+      orientation_documents_details?: components["schemas"]["PerFile"][];
+      /** Format: date-time */
+      created_at?: string;
+      /** Format: date-time */
+      updated_at?: string;
+      /** Format: date */
+      date_of_orientation?: string | null;
+      branches_involved?: string | null;
+      /** Format: date */
+      date_of_assessment?: string;
+      /** What method has this assessment used */
+      assessment_method?:
+        | (
+            | components["schemas"]["AssessmentMethodEnum"]
+            | components["schemas"]["BlankEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      /** Do you want to assess the preparedness of your National Society for epidemics and pandemics? */
+      assess_preparedness_of_country?: boolean | null;
+      /** Do you want to assess the urban aspects of your National Society? */
+      assess_urban_aspect_of_country?: boolean | null;
+      /** Do you want to assess the climate and environment of your National Society? */
+      assess_climate_environment_of_country?: boolean | null;
+      /** Format: date */
+      date_of_previous_assessment?: string | null;
+      /** Format: date */
+      workplan_development_date?: string | null;
+      /** Format: date */
+      workplan_revision_date?: string | null;
+      facilitator_name?: string | null;
+      facilitator_email?: string | null;
+      facilitator_phone?: string | null;
+      /** Facilitator other contacts */
+      facilitator_contact?: string | null;
+      ns_focal_point_name?: string | null;
+      ns_focal_point_email?: string | null;
+      ns_focal_point_phone?: string | null;
+      partner_focal_point_name?: string | null;
+      partner_focal_point_email?: string | null;
+      partner_focal_point_phone?: string | null;
+      /** Partner focal point organization name */
+      partner_focal_point_organization?: string | null;
+      ns_second_focal_point_name?: string | null;
+      ns_second_focal_point_email?: string | null;
+      ns_second_focal_point_phone?: string | null;
+      phase?:
+        | (
+            | components["schemas"]["PhaseEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      is_draft?: boolean;
+      country?: number | null;
+      user?: number | null;
+      type_of_assessment?: number | null;
+      type_of_previous_assessment?: number | null;
+      orientation_documents?: number[];
+    };
+    /** @description Mixin adds nested create feature */
+    PatchedPerWorkPlan: {
+      id?: number;
+      overview?: number | null;
+      component_responses?: components["schemas"]["PerWorkPlanComponent"][];
+      custom_component_responses?: components["schemas"]["CustomPerWorkPlanComponent"][];
+      overview_details?: components["schemas"]["MiniOverview"];
+      is_draft?: boolean;
+    };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     PatchedProfile: {
       country?: components["schemas"]["MiniCountry"];
@@ -5744,7 +6310,7 @@ export interface components {
       reached_female?: number | null;
       reached_other?: number | null;
       reached_total?: number | null;
-      visibility?: components["schemas"]["ProjectVisibilityEnum"];
+      visibility?: components["schemas"]["VisibilityD95Enum"];
       translation_module_original_language?: string;
       /**
        * Skip auto translation
@@ -5785,7 +6351,7 @@ export interface components {
       dtype?: number | null;
       lookup_id?: string;
       /** Subscription type */
-      stype?: components["schemas"]["StypeEnum"];
+      stype?: components["schemas"]["OperationTypeEnum"];
       stype_display?: string;
       /** Record type */
       rtype?: components["schemas"]["RtypeEnum"];
@@ -5810,7 +6376,7 @@ export interface components {
        * @description Designates that this user has all permissions without explicitly assigning them.
        */
       is_superuser?: boolean;
-      is_ifrc_admin?: string;
+      is_ifrc_admin?: boolean;
     };
     /**
      * @description * `people` - People
@@ -5818,6 +6384,28 @@ export interface components {
      * @enum {string}
      */
     PeopleHouseholdsEnum: "people" | "households";
+    /** @description Mixin adds nested create feature */
+    PerAssessment: {
+      id: number;
+      area_responses?: components["schemas"]["AreaResponse"][];
+      is_draft?: boolean;
+      overview?: number | null;
+      user?: number | null;
+    };
+    PerComponentRating: {
+      id: number;
+      title: string;
+      value: number;
+    };
+    PerFile: {
+      id: number;
+      created_by_details: components["schemas"]["UserName"];
+      /** Format: uri */
+      file: string;
+      caption?: string | null;
+      client_id?: string | null;
+      created_by: number;
+    };
     PerMiniUser: {
       id: number;
       first_name?: string;
@@ -5827,6 +6415,129 @@ export interface components {
        * Format: email
        */
       email?: string;
+    };
+    PerOptions: {
+      componentratings: components["schemas"]["OptionsPerComponentRating"][];
+      answers: components["schemas"]["OptionsFormAnswer"][];
+      overviewassessmenttypes: components["schemas"]["OptionsAssessmentType"][];
+    };
+    /** @description Mixin adds nested create feature */
+    PerOverview: {
+      id: number;
+      type_of_assessment_details: components["schemas"]["AssessmentType"];
+      country_details: components["schemas"]["MiniCountry"];
+      user_details: components["schemas"]["UserName"];
+      assessment_number?: number | null;
+      orientation_documents_details: components["schemas"]["PerFile"][];
+      /** Format: date-time */
+      created_at: string;
+      /** Format: date-time */
+      updated_at: string;
+      /** Format: date */
+      date_of_orientation?: string | null;
+      branches_involved?: string | null;
+      /** Format: date */
+      date_of_assessment: string;
+      /** What method has this assessment used */
+      assessment_method?:
+        | (
+            | components["schemas"]["AssessmentMethodEnum"]
+            | components["schemas"]["BlankEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      /** Do you want to assess the preparedness of your National Society for epidemics and pandemics? */
+      assess_preparedness_of_country?: boolean | null;
+      /** Do you want to assess the urban aspects of your National Society? */
+      assess_urban_aspect_of_country?: boolean | null;
+      /** Do you want to assess the climate and environment of your National Society? */
+      assess_climate_environment_of_country?: boolean | null;
+      /** Format: date */
+      date_of_previous_assessment?: string | null;
+      /** Format: date */
+      workplan_development_date?: string | null;
+      /** Format: date */
+      workplan_revision_date?: string | null;
+      facilitator_name?: string | null;
+      facilitator_email?: string | null;
+      facilitator_phone?: string | null;
+      /** Facilitator other contacts */
+      facilitator_contact?: string | null;
+      ns_focal_point_name?: string | null;
+      ns_focal_point_email?: string | null;
+      ns_focal_point_phone?: string | null;
+      partner_focal_point_name?: string | null;
+      partner_focal_point_email?: string | null;
+      partner_focal_point_phone?: string | null;
+      /** Partner focal point organization name */
+      partner_focal_point_organization?: string | null;
+      ns_second_focal_point_name?: string | null;
+      ns_second_focal_point_email?: string | null;
+      ns_second_focal_point_phone?: string | null;
+      phase?:
+        | (
+            | components["schemas"]["PhaseEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      is_draft?: boolean;
+      country?: number | null;
+      user?: number | null;
+      type_of_assessment?: number | null;
+      type_of_previous_assessment?: number | null;
+      orientation_documents?: number[];
+    };
+    PerOverviewassessmentmethodsEnum: {
+      key: components["schemas"]["KeyA19Enum"];
+      value: string;
+    };
+    PerPerphasesEnum: {
+      key: components["schemas"]["Key0c0Enum"];
+      value: string;
+    };
+    PerProcess: {
+      id: number;
+      assessment_number?: number;
+      /** Format: date */
+      date_of_assessment: string;
+      country?: number | null;
+      country_details: components["schemas"]["MiniCountry"];
+      assessment: number | null;
+      prioritization: number | null;
+      workplan: number | null;
+      phase?:
+        | (
+            | components["schemas"]["PhaseEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      phase_display: string;
+    };
+    /** @description Mixin adds nested create feature */
+    PerWorkPlan: {
+      id: number;
+      overview?: number | null;
+      component_responses?: components["schemas"]["PerWorkPlanComponent"][];
+      custom_component_responses?: components["schemas"]["CustomPerWorkPlanComponent"][];
+      overview_details: components["schemas"]["MiniOverview"];
+      is_draft?: boolean;
+    };
+    /** @description Mixin adds nested create feature */
+    PerWorkPlanComponent: {
+      id: number;
+      component: number;
+      actions?: string | null;
+      /** Format: date */
+      due_date?: string | null;
+      status?: components["schemas"]["StatusB4fEnum"];
+      supported_by?: number | null;
+      status_display: string;
+      component_details: components["schemas"]["FormComponent"];
+      supported_by_details: components["schemas"]["MiniCountry"];
+    };
+    PerWorkplanstatusEnum: {
+      key: components["schemas"]["KeyB4fEnum"];
+      value: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     PersonnelDeployment: {
@@ -5844,7 +6555,7 @@ export interface components {
       start_date?: string | null;
       /** Format: date-time */
       end_date?: string | null;
-      type: components["schemas"]["PersonnelSerializerAnonTypeEnum"];
+      type: components["schemas"]["TypeA83Enum"];
       country_from: components["schemas"]["MiniCountry"];
       country_to: components["schemas"]["MiniCountry"];
       deployment: components["schemas"]["PersonnelDeployment"];
@@ -5857,31 +6568,14 @@ export interface components {
       translation_module_original_language: string;
     };
     /**
-     * @description * `fact` - FACT
-     * * `heop` - HEOP
-     * * `rdrt` - RDRT
-     * * `ifrc` - IFRC
-     * * `eru` - ERU HR
-     * * `rr` - Rapid Response
-     * @enum {string}
-     */
-    PersonnelSerializerAnonTypeEnum:
-      | "fact"
-      | "heop"
-      | "rdrt"
-      | "ifrc"
-      | "eru"
-      | "rr";
-    /**
-     * @description * `0` - baseline
-     * * `1` - orientation
-     * * `2` - assessment
-     * * `3` - prioritization
-     * * `4` - plan of action
-     * * `5` - action and accountability
+     * @description * `1` - Orientation
+     * * `2` - Assessment
+     * * `3` - Prioritisation
+     * * `4` - WorkPlan
+     * * `5` - Action And Accoutability
      * @enum {integer}
      */
-    PhaseEnum: 0 | 1 | 2 | 3 | 4 | 5;
+    PhaseEnum: 1 | 2 | 3 | 4 | 5;
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     PlannedIntervention: {
       id: number;
@@ -5900,22 +6594,22 @@ export interface components {
        * @description Skip auto translation operation for this entity?
        */
       translation_module_skip_auto_translation?: boolean;
+      /** Progress Towards Outcome [en] */
+      progress_towards_outcome?: string | null;
+      /** Lessons learnt [en] */
+      lessons_learnt?: string | null;
       /** Challenges [en] */
       challenges?: string | null;
+      /** Description [en] */
+      description?: string | null;
       /** Title [en] */
       title?:
         | (
-            | components["schemas"]["PlannedInterventionTitleEnum"]
+            | components["schemas"]["Title526Enum"]
             | components["schemas"]["BlankEnum"]
             | components["schemas"]["NullEnum"]
           )
         | null;
-      /** Lessons learnt [en] */
-      lessons_learnt?: string | null;
-      /** Description [en] */
-      description?: string | null;
-      /** Progress Towards Outcome [en] */
-      progress_towards_outcome?: string | null;
       /** Narrative description of achievements [en] */
       narrative_description_of_achievements?: string | null;
     };
@@ -5934,36 +6628,6 @@ export interface components {
       title?: string | null;
     };
     /**
-     * @description * `shelter_housing_and_settlements` - Shelter Housing And Settlements
-     * * `livelihoods_and_basic_needs` - Livelihoods And Basic Needs
-     * * `health` - Health
-     * * `water_sanitation_and_hygiene` - Water, Sanitation And Hygiene
-     * * `protection_gender_and_inclusion` - Protection, Gender And Inclusion
-     * * `education` - Education
-     * * `migration` - Migration
-     * * `risk_reduction_climate_adaptation_and_recovery_` - Risk Reduction, Climate Adaptation And Recovery
-     * * `secretariat_services` - Secretariat Services
-     * * `national_society_strengthening` - National Society Strengthening
-     * * `multi-purpose_cash` - Multi-purpose Cash
-     * * `environmental_sustainability` - Environmental Sustainability
-     * * `community_engagement_and_accountability` - Community Engagement And Accountability
-     * @enum {string}
-     */
-    PlannedInterventionTitleEnum:
-      | "shelter_housing_and_settlements"
-      | "livelihoods_and_basic_needs"
-      | "health"
-      | "water_sanitation_and_hygiene"
-      | "protection_gender_and_inclusion"
-      | "education"
-      | "migration"
-      | "risk_reduction_climate_adaptation_and_recovery_"
-      | "secretariat_services"
-      | "national_society_strengthening"
-      | "multi-purpose_cash"
-      | "environmental_sustainability"
-      | "community_engagement_and_accountability";
-    /**
      * @description * `1` - Top
      * * `2` - High
      * * `3` - Middle
@@ -5972,13 +6636,6 @@ export interface components {
      * @enum {integer}
      */
     PositionEnum: 1 | 2 | 3 | 4 | 5;
-    /**
-     * @description * `0` - low
-     * * `1` - medium
-     * * `2` - high
-     * @enum {integer}
-     */
-    PrioritizationEnum: 0 | 1 | 2;
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     Profile: {
       country: components["schemas"]["MiniCountry"];
@@ -6063,7 +6720,7 @@ export interface components {
       reached_female?: number | null;
       reached_other?: number | null;
       reached_total?: number | null;
-      visibility?: components["schemas"]["ProjectVisibilityEnum"];
+      visibility?: components["schemas"]["VisibilityD95Enum"];
       translation_module_original_language: string;
       /**
        * Skip auto translation
@@ -6094,24 +6751,43 @@ export interface components {
       /** Name [en] */
       name?: string | null;
     };
-    /**
-     * @description * `logged_in_user` - Membership
-     * * `ifrc_only` - IFRC Only
-     * * `public` - Public
-     * * `ifrc_ns` - IFRC_NS
-     * @enum {string}
-     */
-    ProjectVisibilityEnum:
-      | "logged_in_user"
-      | "ifrc_only"
-      | "public"
-      | "ifrc_ns";
+    PublicPerCountry: {
+      id: number;
+      /** Format: date */
+      date_of_assessment: string;
+      phase?:
+        | (
+            | components["schemas"]["PhaseEnum"]
+            | components["schemas"]["NullEnum"]
+          )
+        | null;
+      assessment_number?: number;
+      ns_focal_point_name?: string | null;
+      ns_focal_point_email?: string | null;
+      type_of_assessment: components["schemas"]["AssessmentType"];
+      phase_display: string;
+    };
+    /** @description Mixin adds nested create feature */
+    QuestionResponses: {
+      id: number;
+      question: number;
+      answer: number;
+      notes?: string | null;
+    };
     /**
      * @description * `active` - Active
      * * `not_active` - Not Active
      * @enum {string}
      */
     RainySeasonEnum: "active" | "not_active";
+    /**
+     * @description * `0` - No
+     * * `1` - Requested
+     * * `2` - Planned
+     * * `3` - Complete
+     * @enum {integer}
+     */
+    RdrtEnum: 0 | 1 | 2 | 3;
     /**
      * @description * `0` - Unknown
      * * `1` - Red Cross / Red Crescent
@@ -6154,10 +6830,10 @@ export interface components {
     RegionEmergencySnippet: {
       region: number;
       id: number;
-      /** Title [en] */
-      title?: string | null;
       /** Snippet [en] */
       snippet?: string | null;
+      /** Title [en] */
+      title?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -6192,20 +6868,20 @@ export interface components {
     RegionPreparednessSnippet: {
       region: number;
       id: number;
-      /** Title [en] */
-      title?: string | null;
       /** Snippet [en] */
       snippet?: string | null;
+      /** Title [en] */
+      title?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     RegionProfileSnippet: {
       region: number;
       id: number;
-      /** Title [en] */
-      title?: string | null;
       /** Snippet [en] */
       snippet?: string | null;
+      /** Title [en] */
+      title?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -6254,14 +6930,29 @@ export interface components {
       /** Name [en] */
       name?: string | null;
     };
+    Registration: {
+      /** Format: email */
+      email: string;
+      password: string;
+      first_name: string;
+      last_name: string;
+      country: number;
+      organization_type: string;
+      organization: string;
+      justification: string;
+      city: string;
+      department?: string;
+      position?: string;
+      phone_number?: string;
+    };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     RegoCountry: {
       region?: number | null;
       id: number;
-      /** Society name [en] */
-      society_name?: string | null;
       /** Name [en] */
       name?: string | null;
+      /** Society name [en] */
+      society_name?: string | null;
       translation_module_original_language: string;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
@@ -6275,7 +6966,7 @@ export interface components {
       code?: string | null;
       /** Format: decimal */
       amount_funded?: string;
-      status?: components["schemas"]["TypeOfDrefEnum"];
+      status?: components["schemas"]["Status02bEnum"];
       status_display: string;
       /** Format: date-time */
       start_date?: string | null;
@@ -6292,10 +6983,10 @@ export interface components {
        * @description Skip auto translation operation for this entity?
        */
       translation_module_skip_auto_translation?: boolean;
-      /** Mitigation [en] */
-      mitigation?: string | null;
       /** Risk [en] */
       risk?: string | null;
+      /** Mitigation [en] */
+      mitigation?: string | null;
     };
     /**
      * @description * `0` - event
@@ -6316,6 +7007,141 @@ export interface components {
      * @enum {integer}
      */
     RtypeEnum: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
+    Search: {
+      regions?: components["schemas"]["SearchRegion"][] | null;
+      district_province_response?:
+        | components["schemas"]["SearchDistrict"][]
+        | null;
+      countries?: components["schemas"]["SearchCountry"][] | null;
+      emergencies?: components["schemas"]["SearchEmergency"][] | null;
+      surge_alerts?: components["schemas"]["SearchSurgeAlert"][] | null;
+      projects?: components["schemas"]["SearchProjects"][] | null;
+      surge_deployments?:
+        | components["schemas"]["SearchSurgeDeployment"][]
+        | null;
+      rapid_response_deployments?:
+        | components["schemas"]["SearchRapidResponseDeployments"][]
+        | null;
+      reports?: components["schemas"]["SearchReport"][] | null;
+    };
+    SearchCountry: {
+      id: number;
+      name: string;
+      society_name: string;
+      iso3: string;
+      /** Format: double */
+      score: number;
+    };
+    SearchDistrict: {
+      id: number;
+      name: string;
+      country: string;
+      country_id: number;
+      /** Format: double */
+      score: number;
+    };
+    SearchEmergency: {
+      id: number;
+      name: string;
+      disaster_type: string;
+      funding_requirements: string;
+      funding_coverage: string;
+      /** Format: date-time */
+      start_date: string;
+      countries: components["schemas"]["SearchMiniCountry"][];
+      severity_level_display: string;
+      appeal_type: string;
+      /** Format: double */
+      score: number;
+      severity_level: number;
+    };
+    SearchMiniCountry: {
+      id: number;
+      name: string;
+    };
+    SearchProjects: {
+      id: number;
+      name: string;
+      event_name: string;
+      national_society: string;
+      tags: unknown[];
+      sector: string;
+      /** Format: date-time */
+      start_date: string;
+      /** Format: date-time */
+      end_date: string;
+      regions: unknown[];
+      people_targeted: number;
+      event_id: number;
+      national_society_id: number;
+      /** Format: double */
+      score: number;
+    };
+    SearchRapidResponseDeployments: {
+      id: number;
+      name: string;
+      event_name: string;
+      event_id: number;
+      /** Format: date-time */
+      start_date: string;
+      /** Format: date-time */
+      end_date: string;
+      position: string | null;
+      type: string;
+      deploying_country_name: string;
+      deploying_country_id: number;
+      deployed_to_country_name: string;
+      deployed_to_country_id: number;
+      /** Format: double */
+      score: number;
+    };
+    SearchRegion: {
+      id: number;
+      name: string;
+      /** Format: double */
+      score: number;
+    };
+    SearchReport: {
+      id: number;
+      name: string;
+      /** Format: date-time */
+      created_at: string;
+      type: string;
+      /** Format: double */
+      score: number;
+    };
+    SearchSurgeAlert: {
+      id: number;
+      name: string;
+      keywords: unknown[];
+      event_name: string;
+      country: string;
+      /** Format: date-time */
+      start_date: string;
+      /** Format: date-time */
+      alert_date: string;
+      event_id: number;
+      status: string;
+      deadline: string;
+      surge_type: string;
+      country_id: number;
+      /** Format: double */
+      score: number;
+    };
+    SearchSurgeDeployment: {
+      id: number;
+      event_name: string;
+      deployed_country: string;
+      type: string;
+      owner: string;
+      personnel_units: number;
+      equipment_units: number;
+      event_id: number;
+      deployed_country_id: number;
+      deployed_country_name: string;
+      /** Format: double */
+      score: number;
+    };
     SeasonalCalender: {
       id: number;
       /** Format: date-time */
@@ -6363,13 +7189,6 @@ export interface components {
      * @enum {string}
      */
     ShareWithEnum: "ifrc_secretariat";
-    ShortForm: {
-      area: components["schemas"]["FormArea"];
-      overview: components["schemas"]["IsFinalOverview"];
-      /** Format: date-time */
-      updated_at: string;
-      id: number;
-    };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     SituationReport: {
       /** Format: date-time */
@@ -6426,6 +7245,14 @@ export interface components {
       value: string;
     };
     /**
+     * @description * `0` - Active
+     * * `1` - Closed
+     * * `2` - Frozen
+     * * `3` - Archived
+     * @enum {integer}
+     */
+    Status02bEnum: 0 | 1 | 2 | 3;
+    /**
      * @description * `0` - Planned
      * * `1` - Ongoing
      * * `2` - Completed
@@ -6433,11 +7260,18 @@ export interface components {
      */
     Status1d2Enum: 0 | 1 | 2;
     /**
-     * @description * `0` - In Progress
-     * * `1` - Completed
+     * @description * `0` - standby
+     * * `1` - ongoing
+     * * `2` - cancelled
+     * * `3` - delayed
+     * * `4` - pending
+     * * `5` - need improvements
+     * * `6` - finished
+     * * `7` - approved
+     * * `8` - closed
      * @enum {integer}
      */
-    Status923Enum: 0 | 1;
+    StatusB4fEnum: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
     /**
      * @description * `0` - Unknown
      * * `2` - Two
@@ -6448,6 +7282,13 @@ export interface components {
      * @enum {integer}
      */
     StatusBb2Enum: 0 | 2 | 3 | 8 | 9 | 10;
+    /**
+     * @description * `on_going` - Ongoing
+     * * `complete` - Complete
+     * * `planned` - Planned
+     * @enum {string}
+     */
+    StatusD08Enum: "on_going" | "complete" | "planned";
     StrategicPriority: {
       id: number;
       country_plan: number;
@@ -6473,12 +7314,6 @@ export interface components {
       | "growing_gaps_in_health_and_wellbeing"
       | "migration_and_identity"
       | "value_power_and_inclusion";
-    /**
-     * @description * `0` - new
-     * * `1` - edit
-     * @enum {integer}
-     */
-    StypeEnum: 0 | 1;
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     Subscription: {
       user: number;
@@ -6489,7 +7324,7 @@ export interface components {
       dtype?: number | null;
       lookup_id: string;
       /** Subscription type */
-      stype?: components["schemas"]["StypeEnum"];
+      stype?: components["schemas"]["OperationTypeEnum"];
       stype_display: string;
       /** Record type */
       rtype?: components["schemas"]["RtypeEnum"];
@@ -6513,9 +7348,9 @@ export interface components {
       created_at: string;
       id: number;
       /** Alert type */
-      atype?: components["schemas"]["Atype068Enum"];
+      atype?: components["schemas"]["RecentAffectedEnum"];
       atype_display: string;
-      category?: components["schemas"]["Category86cEnum"];
+      category?: components["schemas"]["NameEnum"];
       category_display: string;
       molnix_id?: number | null;
       molnix_tags: components["schemas"]["MolnixTag"][];
@@ -6568,15 +7403,15 @@ export interface components {
       tab_two_title?: string | null;
       tab_three_title?: string | null;
       emergency_response_contact_email?: string | null;
+      /** Summary [en] */
+      summary?: string | null;
+      /** Name [en] */
+      name?: string | null;
       /**
        * Slug [en]
        * @description Optional string for a clean URL. For example, go.ifrc.org/emergency/hurricane-katrina-2019. The string cannot start with a number and is forced to be lowercase. Recommend using hyphens over underscores. Special characters like # is not allowed.
        */
       slug?: string | null;
-      /** Summary [en] */
-      summary?: string | null;
-      /** Name [en] */
-      name?: string | null;
       translation_module_original_language: string;
     };
     /**
@@ -6586,6 +7421,104 @@ export interface components {
      * @enum {integer}
      */
     TabEnum: 1 | 2 | 3;
+    /**
+     * @description * `national_society_readiness` - National Society Readiness
+     * * `assessment` - Assessment
+     * * `coordination` - Coordination
+     * * `resource_mobilization` - Resource Mobilization
+     * * `activation_of_contingency_plans` - Activation Of Contingency Plans
+     * * `national_society_eoc` - National Society EOC
+     * * `shelter_housing_and_settlements` - Shelter, Housing And Settlements
+     * * `livelihoods_and_basic_needs` - Livelihoods And Basic Needs
+     * * `health` - Health
+     * * `water_sanitation_and_hygiene` - Water, Sanitation And Hygiene
+     * * `protection_gender_and_inclusion` - Protection, Gender And Inclusion
+     * * `education` - Education
+     * * `migration` - Migration
+     * * `risk_reduction_climate_adaptation_and_recovery` - Risk Reduction, Climate Adaptation And Recovery
+     * * `community_engagement_and _accountability` - Community Engagement And Accountability
+     * * `environment_sustainability ` - Environment Sustainability
+     * * `multi-purpose_cash` - Multi-purpose Cash
+     * * `other` - Other
+     * @enum {string}
+     */
+    Title0ddEnum:
+      | "national_society_readiness"
+      | "assessment"
+      | "coordination"
+      | "resource_mobilization"
+      | "activation_of_contingency_plans"
+      | "national_society_eoc"
+      | "shelter_housing_and_settlements"
+      | "livelihoods_and_basic_needs"
+      | "health"
+      | "water_sanitation_and_hygiene"
+      | "protection_gender_and_inclusion"
+      | "education"
+      | "migration"
+      | "risk_reduction_climate_adaptation_and_recovery"
+      | "community_engagement_and _accountability"
+      | "environment_sustainability "
+      | "multi-purpose_cash"
+      | "other";
+    /**
+     * @description * `shelter_housing_and_settlements` - Shelter Housing And Settlements
+     * * `livelihoods_and_basic_needs` - Livelihoods And Basic Needs
+     * * `health` - Health
+     * * `water_sanitation_and_hygiene` - Water, Sanitation And Hygiene
+     * * `protection_gender_and_inclusion` - Protection, Gender And Inclusion
+     * * `education` - Education
+     * * `migration` - Migration
+     * * `multi_purpose_cash_grants` - Multi purpose cash grants
+     * * `risk_reduction_climate_adaptation_and_recovery` - Risk Reduction, Climate Adaptation And Recovery
+     * * `community_engagement_and _accountability` - Community Engagement And Accountability
+     * * `environment_sustainability ` - Environment Sustainability
+     * * `shelter_cluster_coordination` - Shelter Cluster Coordination
+     * @enum {string}
+     */
+    Title37cEnum:
+      | "shelter_housing_and_settlements"
+      | "livelihoods_and_basic_needs"
+      | "health"
+      | "water_sanitation_and_hygiene"
+      | "protection_gender_and_inclusion"
+      | "education"
+      | "migration"
+      | "multi_purpose_cash_grants"
+      | "risk_reduction_climate_adaptation_and_recovery"
+      | "community_engagement_and _accountability"
+      | "environment_sustainability "
+      | "shelter_cluster_coordination";
+    /**
+     * @description * `shelter_housing_and_settlements` - Shelter Housing And Settlements
+     * * `livelihoods_and_basic_needs` - Livelihoods And Basic Needs
+     * * `health` - Health
+     * * `water_sanitation_and_hygiene` - Water, Sanitation And Hygiene
+     * * `protection_gender_and_inclusion` - Protection, Gender And Inclusion
+     * * `education` - Education
+     * * `migration` - Migration
+     * * `risk_reduction_climate_adaptation_and_recovery_` - Risk Reduction, Climate Adaptation And Recovery
+     * * `secretariat_services` - Secretariat Services
+     * * `national_society_strengthening` - National Society Strengthening
+     * * `multi-purpose_cash` - Multi-purpose Cash
+     * * `environmental_sustainability` - Environmental Sustainability
+     * * `community_engagement_and_accountability` - Community Engagement And Accountability
+     * @enum {string}
+     */
+    Title526Enum:
+      | "shelter_housing_and_settlements"
+      | "livelihoods_and_basic_needs"
+      | "health"
+      | "water_sanitation_and_hygiene"
+      | "protection_gender_and_inclusion"
+      | "education"
+      | "migration"
+      | "risk_reduction_climate_adaptation_and_recovery_"
+      | "secretariat_services"
+      | "national_society_strengthening"
+      | "multi-purpose_cash"
+      | "environmental_sustainability"
+      | "community_engagement_and_accountability";
     /**
      * @description * `en` - English
      * * `es` - Spanish
@@ -6633,10 +7566,20 @@ export interface components {
       | 15
       | 16;
     /**
-     * @description * `0` - DREF
-     * * `1` - Emergency Appeal
-     * * `2` - International Appeal
-     * * `3` - Forecast Based Action
+     * @description * `fact` - FACT
+     * * `heop` - HEOP
+     * * `rdrt` - RDRT
+     * * `ifrc` - IFRC
+     * * `eru` - ERU HR
+     * * `rr` - Rapid Response
+     * @enum {string}
+     */
+    TypeA83Enum: "fact" | "heop" | "rdrt" | "ifrc" | "eru" | "rr";
+    /**
+     * @description * `0` - Imminent
+     * * `1` - Assessment
+     * * `2` - Response
+     * * `3` - Loan
      * @enum {integer}
      */
     TypeOfDrefEnum: 0 | 1 | 2 | 3;
@@ -6665,7 +7608,7 @@ export interface components {
        * @description Designates that this user has all permissions without explicitly assigning them.
        */
       is_superuser?: boolean;
-      is_ifrc_admin: string;
+      is_ifrc_admin: boolean;
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     UserMe: {
@@ -6686,10 +7629,10 @@ export interface components {
        * @description Designates that this user has all permissions without explicitly assigning them.
        */
       is_superuser?: boolean;
-      is_ifrc_admin: string;
-      is_admin_for_countries: string;
-      is_admin_for_regions: string;
-      lang_permissions: string;
+      is_ifrc_admin: boolean;
+      is_admin_for_countries: number[];
+      is_admin_for_regions: number[];
+      lang_permissions: { [key: string]: unknown };
     };
     /** @description Custom ModelSerializer with translaion logic (Also works for normal models) */
     UserName: {
@@ -6700,12 +7643,6 @@ export interface components {
       last_name?: string;
     };
     /**
-     * @description * `0` - hidden
-     * * `1` - visible
-     * @enum {integer}
-     */
-    Visibility923Enum: 0 | 1;
-    /**
      * @description * `1` - Membership
      * * `2` - IFRC Only
      * * `3` - Public
@@ -6713,6 +7650,14 @@ export interface components {
      * @enum {integer}
      */
     VisibilityD1bEnum: 1 | 2 | 3 | 4;
+    /**
+     * @description * `logged_in_user` - Membership
+     * * `ifrc_only` - IFRC Only
+     * * `public` - Public
+     * * `ifrc_ns` - IFRC_NS
+     * @enum {string}
+     */
+    VisibilityD95Enum: "logged_in_user" | "ifrc_only" | "public" | "ifrc_ns";
     WBCountryPopulation: {
       id: number;
       iso?: string | null;
@@ -6729,38 +7674,6 @@ export interface components {
       population: number;
       year: string;
     };
-    WorkPlan: {
-      id: number;
-      user: components["schemas"]["PerMiniUser"];
-      prioritization_display: string;
-      status_display: string;
-      prioritization?: components["schemas"]["PrioritizationEnum"];
-      components?: string | null;
-      benchmark?: string | null;
-      actions?: string | null;
-      comments?: string | null;
-      /** Format: date-time */
-      timeline: string;
-      status?: components["schemas"]["WorkPlanStatusEnum"];
-      support_required?: boolean;
-      focal_point?: string | null;
-      code?: string | null;
-      question_id?: string | null;
-      country?: number | null;
-    };
-    /**
-     * @description * `0` - standby
-     * * `1` - ongoing
-     * * `2` - cancelled
-     * * `3` - delayed
-     * * `4` - pending
-     * * `5` - need improvements
-     * * `6` - finished
-     * * `7` - approved
-     * * `8` - closed
-     * @enum {integer}
-     */
-    WorkPlanStatusEnum: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   };
 }
 
@@ -6827,8 +7740,12 @@ export interface operations {
       };
     };
     responses: {
-      /** No response body */
-      200: unknown;
+      200: {
+        content: {
+          "application/json": components["schemas"]["Search"];
+          "text/csv": components["schemas"]["Search"];
+        };
+      };
     };
   };
   api_v2_action_list: {
@@ -6993,6 +7910,49 @@ export interface operations {
       };
     };
   };
+  api_v2_aggregated_per_process_status_list: {
+    parameters: {
+      query: {
+        country?: number[];
+        format?: "csv" | "json";
+        /** Number of results to return per page. */
+        limit?: number;
+        /** The initial index from which to return the results. */
+        offset?: number;
+        /** Which field to use when ordering the results. */
+        ordering?: string;
+        /** A search term. */
+        search?: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PaginatedPerProcessList"];
+          "text/csv": components["schemas"]["PaginatedPerProcessList"];
+        };
+      };
+    };
+  };
+  api_v2_aggregated_per_process_status_retrieve: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this PER General Overview. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerProcess"];
+          "text/csv": components["schemas"]["PerProcess"];
+        };
+      };
+    };
+  };
   /** Used to get Appeals from AppealHistory. Has no 'read' option, just 'list'. */
   api_v2_appeal_list: {
     parameters: {
@@ -7059,8 +8019,12 @@ export interface operations {
       };
     };
     responses: {
-      /** No response body */
-      200: unknown;
+      200: {
+        content: {
+          "application/json": components["schemas"]["AggregateHeaderFigures"];
+          "text/csv": components["schemas"]["AggregateHeaderFigures"];
+        };
+      };
     };
   };
   api_v2_appeal_document_list: {
@@ -7440,17 +8404,6 @@ export interface operations {
       };
     };
   };
-  api_v2_del_perworkplan_create: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-    };
-    responses: {
-      /** No response body */
-      200: unknown;
-    };
-  };
   api_v2_del_subscription_create: {
     parameters: {
       query: {
@@ -7470,38 +8423,50 @@ export interface operations {
       };
     };
     responses: {
-      /** No response body */
-      200: unknown;
+      200: {
+        content: {
+          "application/json": components["schemas"]["AggregateDeployments"];
+          "text/csv": components["schemas"]["AggregateDeployments"];
+        };
+      };
     };
   };
   /**
    * Returns count of Personnel Deployments
    * for last 12 months, aggregated by month.
    */
-  api_v2_deployment_aggregated_by_month_retrieve: {
+  api_v2_deployment_aggregated_by_month_list: {
     parameters: {
       query: {
         format?: "csv" | "json";
       };
     };
     responses: {
-      /** No response body */
-      200: unknown;
+      200: {
+        content: {
+          "application/json": components["schemas"]["DeploymentsByMonth"][];
+          "text/csv": components["schemas"]["DeploymentsByMonth"][];
+        };
+      };
     };
   };
   /**
    * Returns count of Personnel Deployments
    * by National Society, for the current year.
    */
-  api_v2_deployment_aggregated_by_ns_retrieve: {
+  api_v2_deployment_aggregated_by_ns_list: {
     parameters: {
       query: {
         format?: "csv" | "json";
       };
     };
     responses: {
-      /** No response body */
-      200: unknown;
+      200: {
+        content: {
+          "application/json": components["schemas"]["DeploymentByNS"][];
+          "text/csv": components["schemas"]["DeploymentByNS"][];
+        };
+      };
     };
   };
   api_v2_disaster_type_list: {
@@ -8289,18 +9254,6 @@ export interface operations {
       };
     };
   };
-  /** Options for various attribute related to Dref */
-  api_v2_dref_options_retrieve: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-    };
-    responses: {
-      /** No response body */
-      200: unknown;
-    };
-  };
   api_v2_dref_share_create: {
     parameters: {
       query: {
@@ -8746,6 +9699,48 @@ export interface operations {
   api_v2_eru_owner_list: {
     parameters: {
       query: {
+        /** available */
+        available?: boolean;
+        /**
+         * eru_type
+         *
+         * * `0` - Basecamp
+         * * `1` - IT & Telecom
+         * * `2` - Logistics
+         * * `3` - RCRC Emergency Hospital
+         * * `4` - RCRC Emergency Clinic
+         * * `5` - Relief
+         * * `6` - Wash M15
+         * * `7` - Wash MSM20
+         * * `8` - Wash M40
+         * * `9` - Water Supply and rehabilitation
+         * * `10` - Household Water Treatment and safe storage
+         * * `11` - Cholera Case management at Community level
+         * * `12` - Safe and Dignified Burials
+         * * `13` - Community Based Surveillance
+         * * `14` - Base Camp – S
+         * * `15` - Base Camp – M
+         * * `16` - Base Camp – L
+         */
+        eru_type?: (
+          | 0
+          | 1
+          | 10
+          | 11
+          | 12
+          | 13
+          | 14
+          | 15
+          | 16
+          | 2
+          | 3
+          | 4
+          | 5
+          | 6
+          | 7
+          | 8
+          | 9
+        )[];
         format?: "csv" | "json";
         /** Number of results to return per page. */
         limit?: number;
@@ -8992,21 +9987,6 @@ export interface operations {
     responses: {
       /** No response body */
       200: unknown;
-    };
-  };
-  api_v2_exportperresults_retrieve: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["LatestCountryOverview"];
-          "text/csv": components["schemas"]["LatestCountryOverview"];
-        };
-      };
     };
   };
   api_v2_external_partner_list: {
@@ -9416,6 +10396,22 @@ export interface operations {
       };
     };
   };
+  /** Return a list of all enums. */
+  api_v2_global_enums_retrieve: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["GlobalEnum"];
+          "text/csv": components["schemas"]["GlobalEnum"];
+        };
+      };
+    };
+  };
   api_v2_global_project_ns_ongoing_projects_stats_retrieve: {
     parameters: {
       query: {
@@ -9423,8 +10419,12 @@ export interface operations {
       };
     };
     responses: {
-      /** No response body */
-      200: unknown;
+      200: {
+        content: {
+          "application/json": components["schemas"]["GlobalProjectNSOngoingProjectsStats"];
+          "text/csv": components["schemas"]["GlobalProjectNSOngoingProjectsStats"];
+        };
+      };
     };
   };
   api_v2_global_project_overview_retrieve: {
@@ -9434,8 +10434,12 @@ export interface operations {
       };
     };
     responses: {
-      /** No response body */
-      200: unknown;
+      200: {
+        content: {
+          "application/json": components["schemas"]["GlobalProjectOverview"];
+          "text/csv": components["schemas"]["GlobalProjectOverview"];
+        };
+      };
     };
   };
   api_v2_go_historical_list: {
@@ -9522,7 +10526,7 @@ export interface operations {
       200: unknown;
     };
   };
-  api_v2_latest_country_overview_list: {
+  api_v2_latest_per_overview_list: {
     parameters: {
       query: {
         format?: "csv" | "json";
@@ -9545,7 +10549,7 @@ export interface operations {
       };
     };
   };
-  api_v2_latest_country_overview_retrieve: {
+  api_v2_latest_per_overview_retrieve: {
     parameters: {
       query: {
         format?: "csv" | "json";
@@ -9763,33 +10767,7 @@ export interface operations {
       };
     };
   };
-  api_v2_per_list: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-        id?: number;
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        overview_id?: number;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedListFormList"];
-          "text/csv": components["schemas"]["PaginatedListFormList"];
-        };
-      };
-    };
-  };
-  /** PER Overview's capacity assessment types */
-  api_v2_per_assessmenttype_list: {
+  api_v2_per_assessment_list: {
     parameters: {
       query: {
         format?: "csv" | "json";
@@ -9806,29 +10784,225 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["PaginatedAssessmentTypeList"];
-          "text/csv": components["schemas"]["PaginatedAssessmentTypeList"];
+          "application/json": components["schemas"]["PaginatedPerAssessmentList"];
+          "text/csv": components["schemas"]["PaginatedPerAssessmentList"];
         };
       };
     };
   };
-  /** PER Overview's capacity assessment types */
-  api_v2_per_assessmenttype_retrieve: {
+  api_v2_per_assessment_create: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["PerAssessment"];
+          "text/csv": components["schemas"]["PerAssessment"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerAssessment"];
+        "application/x-www-form-urlencoded": components["schemas"]["PerAssessment"];
+        "multipart/form-data": components["schemas"]["PerAssessment"];
+      };
+    };
+  };
+  api_v2_per_assessment_retrieve: {
     parameters: {
       query: {
         format?: "csv" | "json";
       };
       path: {
-        /** A unique integer value identifying this PER Assessment Type. */
+        /** A unique integer value identifying this per assessment. */
         id: number;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["AssessmentType"];
-          "text/csv": components["schemas"]["AssessmentType"];
+          "application/json": components["schemas"]["PerAssessment"];
+          "text/csv": components["schemas"]["PerAssessment"];
         };
+      };
+    };
+  };
+  api_v2_per_assessment_update: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this per assessment. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerAssessment"];
+          "text/csv": components["schemas"]["PerAssessment"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerAssessment"];
+        "application/x-www-form-urlencoded": components["schemas"]["PerAssessment"];
+        "multipart/form-data": components["schemas"]["PerAssessment"];
+      };
+    };
+  };
+  api_v2_per_assessment_destroy: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this per assessment. */
+        id: number;
+      };
+    };
+    responses: {
+      /** No response body */
+      204: never;
+    };
+  };
+  api_v2_per_assessment_partial_update: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this per assessment. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerAssessment"];
+          "text/csv": components["schemas"]["PerAssessment"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PatchedPerAssessment"];
+        "application/x-www-form-urlencoded": components["schemas"]["PatchedPerAssessment"];
+        "multipart/form-data": components["schemas"]["PatchedPerAssessment"];
+      };
+    };
+  };
+  api_v2_per_country_list: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+        /** Number of results to return per page. */
+        limit?: number;
+        /** The initial index from which to return the results. */
+        offset?: number;
+        /** Which field to use when ordering the results. */
+        ordering?: string;
+        /** A search term. */
+        search?: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PaginatedPublicPerCountryList"];
+          "text/csv": components["schemas"]["PaginatedPublicPerCountryList"];
+        };
+      };
+    };
+  };
+  api_v2_per_country_retrieve: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PublicPerCountry"];
+          "text/csv": components["schemas"]["PublicPerCountry"];
+        };
+      };
+    };
+  };
+  api_v2_per_file_list: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+        /** Number of results to return per page. */
+        limit?: number;
+        /** The initial index from which to return the results. */
+        offset?: number;
+        /** Which field to use when ordering the results. */
+        ordering?: string;
+        /** A search term. */
+        search?: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PaginatedPerFileList"];
+          "text/csv": components["schemas"]["PaginatedPerFileList"];
+        };
+      };
+    };
+  };
+  api_v2_per_file_create: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["PerFile"];
+          "text/csv": components["schemas"]["PerFile"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerFile"];
+        "application/x-www-form-urlencoded": components["schemas"]["PerFile"];
+        "multipart/form-data": components["schemas"]["PerFile"];
+      };
+    };
+  };
+  api_v2_per_file_multiple_create: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerFile"];
+          "text/csv": components["schemas"]["PerFile"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerFile"];
+        "application/x-www-form-urlencoded": components["schemas"]["PerFile"];
+        "multipart/form-data": components["schemas"]["PerFile"];
       };
     };
   };
@@ -10014,67 +11188,154 @@ export interface operations {
       };
     };
   };
-  api_v2_per_retrieve: {
+  api_v2_per_options_retrieve: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerOptions"];
+          "text/csv": components["schemas"]["PerOptions"];
+        };
+      };
+    };
+  };
+  api_v2_per_overview_list: {
+    parameters: {
+      query: {
+        country?: number[];
+        format?: "csv" | "json";
+        /** Number of results to return per page. */
+        limit?: number;
+        /** The initial index from which to return the results. */
+        offset?: number;
+        /** Which field to use when ordering the results. */
+        ordering?: string;
+        /** A search term. */
+        search?: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PaginatedPerOverviewList"];
+          "text/csv": components["schemas"]["PaginatedPerOverviewList"];
+        };
+      };
+    };
+  };
+  api_v2_per_overview_create: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["PerOverview"];
+          "text/csv": components["schemas"]["PerOverview"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerOverview"];
+        "application/x-www-form-urlencoded": components["schemas"]["PerOverview"];
+        "multipart/form-data": components["schemas"]["PerOverview"];
+      };
+    };
+  };
+  api_v2_per_overview_retrieve: {
     parameters: {
       query: {
         format?: "csv" | "json";
       };
       path: {
-        /** A unique integer value identifying this Form. */
+        /** A unique integer value identifying this PER General Overview. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerOverview"];
+          "text/csv": components["schemas"]["PerOverview"];
+        };
+      };
+    };
+  };
+  api_v2_per_overview_update: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this PER General Overview. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerOverview"];
+          "text/csv": components["schemas"]["PerOverview"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerOverview"];
+        "application/x-www-form-urlencoded": components["schemas"]["PerOverview"];
+        "multipart/form-data": components["schemas"]["PerOverview"];
+      };
+    };
+  };
+  api_v2_per_overview_destroy: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this PER General Overview. */
         id: number;
       };
     };
     responses: {
       /** No response body */
-      200: unknown;
+      204: never;
     };
   };
-  /** Countries and their forms which were submitted since last due date */
-  api_v2_per_country_duedate_list: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedShortFormList"];
-          "text/csv": components["schemas"]["PaginatedShortFormList"];
-        };
-      };
-    };
-  };
-  /** Countries and their forms which were submitted since last due date */
-  api_v2_per_country_duedate_retrieve: {
+  api_v2_per_overview_partial_update: {
     parameters: {
       query: {
         format?: "csv" | "json";
       };
       path: {
-        /** A unique integer value identifying this Form. */
+        /** A unique integer value identifying this PER General Overview. */
         id: number;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["ShortForm"];
-          "text/csv": components["schemas"]["ShortForm"];
+          "application/json": components["schemas"]["PerOverview"];
+          "text/csv": components["schemas"]["PerOverview"];
         };
       };
     };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PatchedPerOverview"];
+        "application/x-www-form-urlencoded": components["schemas"]["PatchedPerOverview"];
+        "multipart/form-data": components["schemas"]["PatchedPerOverview"];
+      };
+    };
   };
-  /** National Societies engaged in per process */
-  api_v2_per_engaged_ns_percentage_list: {
+  api_v2_per_prioritization_list: {
     parameters: {
       query: {
         format?: "csv" | "json";
@@ -10084,6 +11345,7 @@ export interface operations {
         offset?: number;
         /** Which field to use when ordering the results. */
         ordering?: string;
+        overview?: number;
         /** A search term. */
         search?: string;
       };
@@ -10091,260 +11353,293 @@ export interface operations {
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["PaginatedEngagedNSPercentageList"];
-          "text/csv": components["schemas"]["PaginatedEngagedNSPercentageList"];
+          "application/json": components["schemas"]["PaginatedFormPrioritizationList"];
+          "text/csv": components["schemas"]["PaginatedFormPrioritizationList"];
         };
       };
     };
   };
-  /** National Societies engaged in per process */
-  api_v2_per_engaged_ns_percentage_retrieve: {
+  api_v2_per_prioritization_create: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["FormPrioritization"];
+          "text/csv": components["schemas"]["FormPrioritization"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["FormPrioritization"];
+        "application/x-www-form-urlencoded": components["schemas"]["FormPrioritization"];
+        "multipart/form-data": components["schemas"]["FormPrioritization"];
+      };
+    };
+  };
+  api_v2_per_prioritization_retrieve: {
     parameters: {
       query: {
         format?: "csv" | "json";
       };
       path: {
-        /** A unique integer value identifying this region. */
+        /** A unique integer value identifying this form prioritization. */
         id: number;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["EngagedNSPercentage"];
-          "text/csv": components["schemas"]["EngagedNSPercentage"];
+          "application/json": components["schemas"]["FormPrioritization"];
+          "text/csv": components["schemas"]["FormPrioritization"];
         };
       };
     };
   };
-  /** Global Preparedness Highlights */
-  api_v2_per_global_preparedness_list: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedGlobalPreparednessList"];
-          "text/csv": components["schemas"]["PaginatedGlobalPreparednessList"];
-        };
-      };
-    };
-  };
-  /** Global Preparedness Highlights */
-  api_v2_per_global_preparedness_retrieve: {
+  api_v2_per_prioritization_update: {
     parameters: {
       query: {
         format?: "csv" | "json";
       };
       path: {
-        /** A unique integer value identifying this Form. */
+        /** A unique integer value identifying this form prioritization. */
         id: number;
       };
     };
     responses: {
       200: {
         content: {
-          "application/json": components["schemas"]["GlobalPreparedness"];
-          "text/csv": components["schemas"]["GlobalPreparedness"];
+          "application/json": components["schemas"]["FormPrioritization"];
+          "text/csv": components["schemas"]["FormPrioritization"];
         };
       };
     };
-  };
-  /** Shows if a user has permission to PER frontend tab or not */
-  api_v2_per_mission_list: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedNotCountryList"];
-          "text/csv": components["schemas"]["PaginatedNotCountryList"];
-        };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["FormPrioritization"];
+        "application/x-www-form-urlencoded": components["schemas"]["FormPrioritization"];
+        "multipart/form-data": components["schemas"]["FormPrioritization"];
       };
     };
   };
-  /** Shows if a user has permission to PER frontend tab or not */
-  api_v2_per_mission_retrieve: {
+  api_v2_per_prioritization_destroy: {
     parameters: {
       query: {
         format?: "csv" | "json";
       };
       path: {
-        /** A unique integer value identifying this country. */
-        id: number;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["NotCountry"];
-          "text/csv": components["schemas"]["NotCountry"];
-        };
-      };
-    };
-  };
-  /** NS PER Process Phase Viewset */
-  api_v2_per_ns_phase_list: {
-    parameters: {
-      query: {
-        country?: number;
-        format?: "csv" | "json";
-        id?: number;
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        phase?: number;
-        /** A search term. */
-        search?: string;
-        updated_at?: string;
-        updated_at__gt?: string;
-        updated_at__gte?: string;
-        updated_at__lt?: string;
-        updated_at__lte?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedNSPhaseList"];
-          "text/csv": components["schemas"]["PaginatedNSPhaseList"];
-        };
-      };
-    };
-  };
-  /** NS PER Process Phase Viewset */
-  api_v2_per_ns_phase_retrieve: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-      path: {
-        /** A unique integer value identifying this NS PER Process Phase. */
-        id: number;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["NSPhase"];
-          "text/csv": components["schemas"]["NSPhase"];
-        };
-      };
-    };
-  };
-  /** shows the (PER editable) countries for a user. */
-  api_v2_percountry_list: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedMiniCountryList"];
-          "text/csv": components["schemas"]["PaginatedMiniCountryList"];
-        };
-      };
-    };
-  };
-  /** shows the (PER editable) countries for a user. */
-  api_v2_percountry_retrieve: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-      path: {
-        /** A unique integer value identifying this country. */
-        id: number;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["MiniCountry"];
-          "text/csv": components["schemas"]["MiniCountry"];
-        };
-      };
-    };
-  };
-  /** Can use 'new' GET parameter for using data only after the last due_date */
-  api_v2_perdata_list: {
-    parameters: {
-      query: {
-        form?: number;
-        form__gt?: number;
-        form__gte?: number;
-        form__lt?: number;
-        form__lte?: number;
-        format?: "csv" | "json";
-        id?: number;
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedListFormDataList"];
-          "text/csv": components["schemas"]["PaginatedListFormDataList"];
-        };
-      };
-    };
-  };
-  /** Can use 'new' GET parameter for using data only after the last due_date */
-  api_v2_perdata_retrieve: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-      path: {
-        /** A unique integer value identifying this Form Data. */
+        /** A unique integer value identifying this form prioritization. */
         id: number;
       };
     };
     responses: {
       /** No response body */
-      200: unknown;
+      204: never;
+    };
+  };
+  api_v2_per_prioritization_partial_update: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this form prioritization. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["FormPrioritization"];
+          "text/csv": components["schemas"]["FormPrioritization"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PatchedFormPrioritization"];
+        "application/x-www-form-urlencoded": components["schemas"]["PatchedFormPrioritization"];
+        "multipart/form-data": components["schemas"]["PatchedFormPrioritization"];
+      };
+    };
+  };
+  api_v2_per_process_status_list: {
+    parameters: {
+      query: {
+        country?: number[];
+        format?: "csv" | "json";
+        /** Number of results to return per page. */
+        limit?: number;
+        /** The initial index from which to return the results. */
+        offset?: number;
+        /** Which field to use when ordering the results. */
+        ordering?: string;
+        /** A search term. */
+        search?: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PaginatedPerProcessList"];
+          "text/csv": components["schemas"]["PaginatedPerProcessList"];
+        };
+      };
+    };
+  };
+  api_v2_per_process_status_retrieve: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this PER General Overview. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerProcess"];
+          "text/csv": components["schemas"]["PerProcess"];
+        };
+      };
+    };
+  };
+  api_v2_per_work_plan_list: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+        /** Number of results to return per page. */
+        limit?: number;
+        /** The initial index from which to return the results. */
+        offset?: number;
+        /** Which field to use when ordering the results. */
+        ordering?: string;
+        overview?: number;
+        /** A search term. */
+        search?: string;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PaginatedPerWorkPlanList"];
+          "text/csv": components["schemas"]["PaginatedPerWorkPlanList"];
+        };
+      };
+    };
+  };
+  api_v2_per_work_plan_create: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+    };
+    responses: {
+      201: {
+        content: {
+          "application/json": components["schemas"]["PerWorkPlan"];
+          "text/csv": components["schemas"]["PerWorkPlan"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerWorkPlan"];
+        "application/x-www-form-urlencoded": components["schemas"]["PerWorkPlan"];
+        "multipart/form-data": components["schemas"]["PerWorkPlan"];
+      };
+    };
+  };
+  api_v2_per_work_plan_retrieve: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this per work plan. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerWorkPlan"];
+          "text/csv": components["schemas"]["PerWorkPlan"];
+        };
+      };
+    };
+  };
+  api_v2_per_work_plan_update: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this per work plan. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerWorkPlan"];
+          "text/csv": components["schemas"]["PerWorkPlan"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PerWorkPlan"];
+        "application/x-www-form-urlencoded": components["schemas"]["PerWorkPlan"];
+        "multipart/form-data": components["schemas"]["PerWorkPlan"];
+      };
+    };
+  };
+  api_v2_per_work_plan_destroy: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this per work plan. */
+        id: number;
+      };
+    };
+    responses: {
+      /** No response body */
+      204: never;
+    };
+  };
+  api_v2_per_work_plan_partial_update: {
+    parameters: {
+      query: {
+        format?: "csv" | "json";
+      };
+      path: {
+        /** A unique integer value identifying this per work plan. */
+        id: number;
+      };
+    };
+    responses: {
+      200: {
+        content: {
+          "application/json": components["schemas"]["PerWorkPlan"];
+          "text/csv": components["schemas"]["PerWorkPlan"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PatchedPerWorkPlan"];
+        "application/x-www-form-urlencoded": components["schemas"]["PatchedPerWorkPlan"];
+        "multipart/form-data": components["schemas"]["PatchedPerWorkPlan"];
+      };
     };
   };
   /** To collect PER Documents */
@@ -10386,98 +11681,6 @@ export interface operations {
     responses: {
       /** No response body */
       200: unknown;
-    };
-  };
-  /** PER Overview Viewset */
-  api_v2_peroverview_list: {
-    parameters: {
-      query: {
-        country?: number;
-        format?: "csv" | "json";
-        id?: number;
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedOverviewList"];
-          "text/csv": components["schemas"]["PaginatedOverviewList"];
-        };
-      };
-    };
-  };
-  /** PER Overview Viewset */
-  api_v2_peroverview_retrieve: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-      path: {
-        /** A unique integer value identifying this PER General Overview. */
-        id: number;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["Overview"];
-          "text/csv": components["schemas"]["Overview"];
-        };
-      };
-    };
-  };
-  /** PER Overview Viewset - strict */
-  api_v2_peroverviewstrict_list: {
-    parameters: {
-      query: {
-        country?: number;
-        format?: "csv" | "json";
-        id?: number;
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedOverviewList"];
-          "text/csv": components["schemas"]["PaginatedOverviewList"];
-        };
-      };
-    };
-  };
-  /** PER Overview Viewset - strict */
-  api_v2_peroverviewstrict_retrieve: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-      path: {
-        /** A unique integer value identifying this PER General Overview. */
-        id: number;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["Overview"];
-          "text/csv": components["schemas"]["Overview"];
-        };
-      };
     };
   };
   api_v2_personnel_list: {
@@ -10623,92 +11826,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["PersonnelDeployment"];
           "text/csv": components["schemas"]["PersonnelDeployment"];
-        };
-      };
-    };
-  };
-  /** Shows name, code, country_id, language of filled forms */
-  api_v2_perstat_list: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedFormStatList"];
-          "text/csv": components["schemas"]["PaginatedFormStatList"];
-        };
-      };
-    };
-  };
-  /** Shows name, code, country_id, language of filled forms */
-  api_v2_perstat_retrieve: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-      path: {
-        /** A unique integer value identifying this Form. */
-        id: number;
-      };
-    };
-    responses: {
-      /** No response body */
-      200: unknown;
-    };
-  };
-  /** PER Work Plan Viewset */
-  api_v2_perworkplan_list: {
-    parameters: {
-      query: {
-        country?: number;
-        format?: "csv" | "json";
-        id?: number;
-        /** Number of results to return per page. */
-        limit?: number;
-        /** The initial index from which to return the results. */
-        offset?: number;
-        /** Which field to use when ordering the results. */
-        ordering?: string;
-        /** A search term. */
-        search?: string;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["PaginatedWorkPlanList"];
-          "text/csv": components["schemas"]["PaginatedWorkPlanList"];
-        };
-      };
-    };
-  };
-  /** PER Work Plan Viewset */
-  api_v2_perworkplan_retrieve: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-      path: {
-        /** A unique integer value identifying this PER Work Plan. */
-        id: number;
-      };
-    };
-    responses: {
-      200: {
-        content: {
-          "application/json": components["schemas"]["WorkPlan"];
-          "text/csv": components["schemas"]["WorkPlan"];
         };
       };
     };
@@ -11975,27 +13092,12 @@ export interface operations {
       /** No response body */
       200: unknown;
     };
-  };
-  createperoverview_create: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ChangePassword"];
+        "application/x-www-form-urlencoded": components["schemas"]["ChangePassword"];
+        "multipart/form-data": components["schemas"]["ChangePassword"];
       };
-    };
-    responses: {
-      /** No response body */
-      200: unknown;
-    };
-  };
-  deleteperoverview_create: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-    };
-    responses: {
-      /** No response body */
-      200: unknown;
     };
   };
   get_auth_token_create: {
@@ -12027,8 +13129,19 @@ export interface operations {
       };
     };
     responses: {
-      /** No response body */
-      200: unknown;
+      200: {
+        content: {
+          "application/json": components["schemas"]["Registration"];
+          "text/csv": components["schemas"]["Registration"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["Registration"];
+        "application/x-www-form-urlencoded": components["schemas"]["Registration"];
+        "multipart/form-data": components["schemas"]["Registration"];
+      };
     };
   };
   resend_validation_create: {
@@ -12042,51 +13155,7 @@ export interface operations {
       200: unknown;
     };
   };
-  sendperworkplan_create: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-    };
-    responses: {
-      /** No response body */
-      200: unknown;
-    };
-  };
   show_username_create: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-    };
-    responses: {
-      /** No response body */
-      200: unknown;
-    };
-  };
-  updatemultipleperforms_create: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-    };
-    responses: {
-      /** No response body */
-      200: unknown;
-    };
-  };
-  updateperform_create: {
-    parameters: {
-      query: {
-        format?: "csv" | "json";
-      };
-    };
-    responses: {
-      /** No response body */
-      200: unknown;
-    };
-  };
-  updateperoverview_create: {
     parameters: {
       query: {
         format?: "csv" | "json";
