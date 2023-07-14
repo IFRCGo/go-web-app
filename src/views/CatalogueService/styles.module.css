@@ -1,0 +1,5 @@
+.catalogue-service {
+    .heading {
+        padding: var(--go-ui-spacing-sm) 0;
+    }
+}
