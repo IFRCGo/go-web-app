@@ -13,7 +13,7 @@ import {
     createLinkColumn,
     createStringColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
@@ -74,10 +74,25 @@ function SurgeAlertsTable() {
         emergency: emergencyRoute,
     } = useContext(RouteContext);
 
+    const strings = useTranslation(i18n);
+
     const sortState = useSortState();
     const { sorting } = sortState;
 
-    const strings = useTranslation(i18n);
+    const {
+        pending: surgeAlertsPending,
+        response: surgeAlertsResponse,
+    } = useRequest<GetSurgeAlertResponse>({
+        url: 'api/v2/surge_alert/',
+        preserveResponse: true,
+        query: {
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * (page - 1),
+            is_active: true,
+            created_at__gte: aMonthAgo.toISOString(),
+            ordering: getOrdering(sorting),
+        },
+    });
 
     const columns = useMemo(() => ([
         createDateColumn<SurgeAlertListItem, number>(
@@ -141,28 +156,6 @@ function SurgeAlertsTable() {
         ),
     ]), [strings, emergencyRoute, countryRoute]);
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
-    const {
-        pending: surgeAlertsPending,
-        response: surgeAlertsResponse,
-    } = useRequest<GetSurgeAlertResponse>({
-        url: 'api/v2/surge_alert/',
-        preserveResponse: true,
-        query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
-            is_active: true,
-            created_at__gte: aMonthAgo.toISOString(),
-            ordering,
-        },
-    });
-
     return (
         <Container
             className={styles.surgeAlertsTable}
@@ -192,6 +185,7 @@ function SurgeAlertsTable() {
                     columns={columns}
                     keySelector={surgeAlertKeySelector}
                     data={surgeAlertsResponse?.results}
+                    filtered={false}
                 />
             </SortContext.Provider>
         </Container>

@@ -34,8 +34,8 @@
         .figure {
             display: flex;
             flex-basis: 50%;
-            flex-grow: 1;
             flex-direction: column;
+            flex-grow: 1;
             padding: var(--go-ui-spacing-sm);
             gap: var(--go-ui-spacing-xs);
 

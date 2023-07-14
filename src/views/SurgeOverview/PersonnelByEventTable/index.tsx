@@ -12,7 +12,7 @@ import {
     createNumberColumn,
     createStringColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
@@ -37,10 +37,23 @@ function PersonnelByEventTable() {
         emergency: emergencyRoute,
     } = useContext(RouteContext);
 
+    const strings = useTranslation(i18n);
+
     const sortState = useSortState();
     const { sorting } = sortState;
 
-    const strings = useTranslation(i18n);
+    const {
+        pending: personnelByEventPending,
+        response: personnelByEventResponse,
+    } = useRequest<GetPersonnelByEventResponse>({
+        url: 'api/v2/personnel_by_event/',
+        preserveResponse: true,
+        query: {
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * (page - 1),
+            ordering: getOrdering(sorting),
+        },
+    });
 
     const columns = useMemo(() => ([
         createLinkColumn<PersonnelByEventListItem, number>(
@@ -73,26 +86,6 @@ function PersonnelByEventTable() {
         ),
     ]), [strings, emergencyRoute]);
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
-    const {
-        pending: personnelByEventPending,
-        response: personnelByEventResponse,
-    } = useRequest<GetPersonnelByEventResponse>({
-        url: 'api/v2/personnel_by_event/',
-        preserveResponse: true,
-        query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
-            ordering,
-        },
-    });
-
     return (
         <Container
             className={styles.personnelByEventTable}
@@ -121,6 +114,7 @@ function PersonnelByEventTable() {
                     columns={columns}
                     keySelector={personnelByEventKeySelector}
                     data={personnelByEventResponse?.results as PersonnelByEventListItem[]}
+                    filtered={false}
                 />
             </SortContext.Provider>
         </Container>

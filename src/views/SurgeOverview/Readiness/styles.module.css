@@ -24,16 +24,13 @@
         }
 
         .eru-owners-list {
-            flex-grow: 1;
             display: grid;
+            flex-grow: 1;
             grid-gap: var(--go-ui-spacing-2xl);
             grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 
             @media screen and (max-width: 30rem) {
                 grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-            }
-
-            .eru-owner {
             }
         }
     }

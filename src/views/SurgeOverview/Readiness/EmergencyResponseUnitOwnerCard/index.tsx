@@ -7,7 +7,6 @@ import Link from '#components/Link';
 import Header from '#components/Header';
 import TextOutput from '#components/TextOutput';
 import Heading from '#components/Heading';
-import DateOutput from '#components/DateOutput';
 import { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
@@ -20,11 +19,12 @@ type GetERUOwners = paths['/api/v2/eru_owner/']['get'];
 type GetERUOwnersResponse = GetERUOwners['responses']['200']['content']['application/json'];
 type ERUOwnerListItem = NonNullable<GetERUOwnersResponse['results']>[number];
 
+const emergencyResponseUnitKeySelector = (item: ERUOwnerListItem['eru_set'][number]) => item.id;
+
 interface Props {
     className?: string;
     data: ERUOwnerListItem;
 }
-const emergencyResponseUnitKeySelector = (item: ERUOwnerListItem['eru_set'][number]) => item.id;
 
 function EmergencyResponseUnitOwnerCard(props: Props) {
     const {
@@ -93,8 +93,9 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
                         <div className={styles.label}>
                             {strings.emergencyResponseUnitOwnerCardLastUpdated}
                         </div>
-                        <DateOutput
+                        <TextOutput
                             value={updated_at}
+                            valueType="date"
                         />
                     </div>
                 )}

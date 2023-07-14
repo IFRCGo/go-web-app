@@ -5,13 +5,14 @@ import {
     useCallback,
 } from 'react';
 import { generatePath } from 'react-router-dom';
+import { isDefined } from '@togglecorp/fujs';
 
 import Table from '#components/Table';
 import SelectInput from '#components/SelectInput';
 import Link from '#components/Link';
 import Container from '#components/Container';
 import useInputState from '#hooks/useInputState';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
@@ -58,12 +59,6 @@ function EmergencyResponseUnitsTable() {
     const sortState = useSortState();
     const { sorting } = sortState;
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
     const {
         pending: emergencyResponseUnitsPending,
         response: emergencyResponseUnitsResponse,
@@ -74,7 +69,7 @@ function EmergencyResponseUnitsTable() {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             deployed_to__isnull: false,
-            ordering,
+            ordering: getOrdering(sorting),
             type: emergencyResponseUnitType,
         },
     });
@@ -200,6 +195,7 @@ function EmergencyResponseUnitsTable() {
                     columns={columns}
                     keySelector={emergencyResponseUnitKeySelector}
                     data={emergencyResponseUnitsResponse?.results}
+                    filtered={isDefined(emergencyResponseUnitType)}
                 />
             </SortContext.Provider>
         </Container>

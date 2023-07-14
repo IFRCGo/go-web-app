@@ -72,7 +72,6 @@ function Readiness() {
 
     const rendererParams = useCallback((_: ERUOwnerListItem['id'], eruOwner: ERUOwnerListItem) => ({
         data: eruOwner,
-        className: styles.eruOwner,
     }), []);
 
     const handleClearFilter = useCallback(() => {
