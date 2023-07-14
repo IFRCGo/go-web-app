@@ -51,6 +51,7 @@ import styles from './styles.module.css';
 const defaultFormValue: PartialAssessment = {
     is_draft: true,
     area_responses: [],
+    overview: [],
 };
 
 type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
@@ -198,6 +199,7 @@ export function Component() {
             savePerAssessment({
                 ...formValues as AssessmentResponse,
                 is_draft: true,
+                overview: Number(perId),
             });
         },
         [savePerAssessment, assessmentId, perId],

@@ -19,6 +19,7 @@ type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 export const assessmentSchema: AssessmentSchema = {
     fields: (): AssessmentSchemaFields => ({
         is_draft: {},
+        overview: {},
         area_responses: {
             keySelector: (areaResponse) => areaResponse.area,
             member: () => ({
