@@ -36,7 +36,7 @@ oneYearAgo.setMonth(oneYearAgo.getMonth() + 1);
 oneYearAgo.setHours(0, 0, 0, 0);
 
 const xAxisFormatter = (date: Date) => date.toLocaleString(
-    undefined,
+    navigator.language,
     { month: 'short' },
 );
 
@@ -63,13 +63,13 @@ export function Component() {
     const {
         response: deploymentsByNationalSocietyResponse,
     } = useRequest<GetDeploymentsByNationalSocietyResponse>({
-        url: '/api/v2/deployment/aggregated_by_ns/',
+        url: '/api/v2/deployment/aggregated_by_ns',
     });
 
     const {
         response: deploymentsByMonth,
     } = useRequest<GetDeploymentsByMonthResponse>({
-        url: '/api/v2/deployment/aggregated_by_month/',
+        url: '/api/v2/deployment/aggregated_by_month',
     });
 
     const dateList = useMemo(

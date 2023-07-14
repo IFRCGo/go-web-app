@@ -66,20 +66,20 @@ function Filters(props: Props) {
     const strings = useTranslation(i18n);
 
     const { response: countriesResponse } = useRequest<CountriesResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: { limit: 500 },
     });
 
     const { response: primarySectorResponse } = useRequest<SectorItem[]>({
-        url: 'api/v2/primarysector/',
+        url: '/api/v2/primarysector',
     });
 
     const { response: secondarySectorResponse } = useRequest<SectorItem[]>({
-        url: 'api/v2/secondarysector/',
+        url: '/api/v2/secondarysector',
     });
 
     const { response: programmeTypeResponse } = useRequest<ProgrammeType[]>({
-        url: 'api/v2/programmetype/',
+        url: '/api/v2/programmetype',
     });
 
     const nsList = useMemo(

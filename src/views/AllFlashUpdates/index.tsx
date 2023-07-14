@@ -79,7 +79,7 @@ export function Component() {
         pending: flashUpdatePending,
         response: flashUpdateResponse,
     } = useRequest<FlashUpdateResponse>({
-        url: 'api/v2/flash-update/',
+        url: '/api/v2/flash-update/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,

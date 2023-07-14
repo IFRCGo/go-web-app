@@ -101,7 +101,7 @@ function FieldReportsTable() {
         pending: fieldReportPending,
         response: fieldReportResponse,
     } = useRequest<FieldReportResponse>({
-        url: 'api/v2/field_report/',
+        url: '/api/v2/field_report/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,

@@ -1,12 +1,13 @@
-import { resolve as resolveUrl } from 'url';
 import {
     isDefined,
     isFalsyString,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import { ContextInterface } from '@togglecorp/toggle-request';
 import { nonFieldError } from '@togglecorp/toggle-form';
 import { UserAuth } from '#contexts/user';
-import { USER_STORAGE_KEY } from '#utils/constants';
+import { KEY_USER_STORAGE } from '#utils/constants';
+import { resolveUrl } from '#utils/resolveUrl';
 
 import {
     riskApi,
@@ -34,6 +35,8 @@ export interface TransformedError {
 }
 
 export interface AdditionalOptions {
+    apiType?: 'go' | 'risk';
+    pathVariables?: Record<string, number | string | undefined>;
     formData?: boolean;
     isCsvRequest?: boolean;
     enforceEnglish?: boolean;
@@ -93,29 +96,69 @@ function transformError(response: ResponseError, fallbackMessage: string): Trans
     return { [nonFieldError]: fallbackMessage };
 }
 
+export function resolvePath(
+    path: string,
+    params: Record<string, string | number | undefined> | undefined,
+) {
+    if (isNotDefined(path)) {
+        return '';
+    }
+
+    if (isNotDefined(params)) {
+        return path;
+    }
+
+    const parts = path.split('{');
+    const resolvedParts = parts.map((part) => {
+        const endIndex = part.indexOf('}');
+
+        if (endIndex === -1) {
+            return part;
+        }
+
+        const key = part.substring(0, endIndex);
+        const value = params[key];
+        if (isNotDefined(value)) {
+            // eslint-disable-next-line no-console
+            console.error(`resolveUrlPath: value for key "${key}" not provided`);
+            return '';
+        }
+
+        return part.replace(`${key}}`, String(value));
+    });
+
+    return resolvedParts.join('');
+}
+
 type GoContextInterface = ContextInterface<
-unknown,
-ResponseError,
-TransformedError,
-AdditionalOptions
+    unknown,
+    ResponseError,
+    TransformedError,
+    AdditionalOptions
 >;
 
-const riskPrefix = 'risk://';
-export const processGoUrls: GoContextInterface['transformUrl'] = (url) => {
+export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additionalOptions) => {
     if (isFalsyString(url)) {
         return '';
     }
 
-    if (url.startsWith(riskPrefix)) {
-        const cleanedUrl = url.slice(riskPrefix.length - 1);
-        return resolveUrl(riskApi, cleanedUrl);
-    }
-
+    // external URL
     if (/^https?:\/\//i.test(url)) {
         return url;
     }
 
-    return resolveUrl(api, url);
+    const {
+        apiType,
+        pathVariables,
+    } = additionalOptions;
+
+    const resolvedPath = resolvePath(url, pathVariables);
+
+    if (apiType === 'risk') {
+        return resolveUrl(riskApi, resolvedPath);
+    }
+
+    return resolveUrl(api, resolvedPath);
 };
 
 type Literal = string | number | boolean | File;
@@ -159,7 +202,7 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     } = extraOptions;
 
     const currentLanguage = 'en';
-    const user = getFromStorage<UserAuth | undefined>(USER_STORAGE_KEY);
+    const user = getFromStorage<UserAuth | undefined>(KEY_USER_STORAGE);
     const token = user?.token;
 
     const defaultHeaders = {

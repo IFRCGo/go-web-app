@@ -11,7 +11,7 @@ import {
 } from '@togglecorp/fujs';
 
 import Message from '#components/Message';
-import { DEFAULT_TABLE_COLUMN_WIDTH } from '#utils/constants';
+import { WIDTH_DEFAULT_TABLE_COLUMN } from '#utils/constants';
 
 import TableBodyContent from './TableBodyContent';
 import TableHeader from './TableHeader';
@@ -20,7 +20,7 @@ import type { Column, VerifyColumn, RowOptions } from './types';
 import styles from './styles.module.css';
 
 function getColumnWidth<D, K, C, H>(column: Column<D, K, C, H>, width: number) {
-    return width ?? column.columnWidth ?? DEFAULT_TABLE_COLUMN_WIDTH;
+    return width ?? column.columnWidth ?? WIDTH_DEFAULT_TABLE_COLUMN;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

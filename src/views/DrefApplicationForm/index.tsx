@@ -134,7 +134,10 @@ export function Component() {
 
     const { pending: fetchingDref } = useRequest<GetDrefResponse>({
         skip: isFalsyString(drefId),
-        url: `api/v2/dref/${drefId}`,
+        url: '/api/v2/dref/{id}/',
+        pathVariables: {
+            id: drefId,
+        },
         onSuccess: (response) => {
             handleDrefLoad(response);
             const {

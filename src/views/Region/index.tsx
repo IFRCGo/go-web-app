@@ -54,7 +54,10 @@ export function Component() {
         response: regionResponse,
     } = useRequest<RegionResponse>({
         skip: !regionId,
-        url: `api/v2/region/${regionId}/`,
+        url: '/api/v2/region/{id}/',
+        pathVariables: {
+            id: regionId,
+        },
     });
 
     const {
@@ -62,7 +65,7 @@ export function Component() {
         response: aggregatedAppealResponse,
     } = useRequest<AggregatedAppealResponse>({
         skip: !regionId,
-        url: 'api/v2/appeal/aggregated/',
+        url: '/api/v2/appeal/aggregated',
         query: { region: regionId },
     });
 

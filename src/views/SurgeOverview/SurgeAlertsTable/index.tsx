@@ -83,7 +83,7 @@ function SurgeAlertsTable() {
         pending: surgeAlertsPending,
         response: surgeAlertsResponse,
     } = useRequest<GetSurgeAlertResponse>({
-        url: 'api/v2/surge_alert/',
+        url: '/api/v2/surge_alert/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,

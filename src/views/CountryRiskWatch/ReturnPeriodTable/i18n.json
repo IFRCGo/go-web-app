@@ -1,0 +1,13 @@
+{
+    "namespace": "countryRisk",
+    "strings": {
+        "returnPeriodTableHeading": "Expected Return Periods",
+        "returnPeriodTableReturnPeriodTitle": "Return Period / Expected Frequency",
+        "returnPeriodTableDisplacementTitle": "People at Risk of Displacement",
+        "returnPeriodTableDisplacementDescription": "Figures provided by IDMC from its {source}",
+        "returnPeriodTableDisplacementSource": "Disaster Displacement Risk Model",
+        "returnPeriodTableEconomicLossesTitle": "Economic Losses (USD)",
+        "returnPeriodTableEconomicLossesDescription": "Figures taken from {source}",
+        "returnPeriodTableEconomicLossesSource": "World Bank Disaster Risk Country Profiles"
+    }
+}

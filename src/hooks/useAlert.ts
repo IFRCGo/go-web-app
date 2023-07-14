@@ -2,7 +2,7 @@ import { useContext, useCallback, useMemo } from 'react';
 import { randomString } from '@togglecorp/fujs';
 
 import AlertContext, { AlertType } from '#contexts/alert';
-import { DEFAULT_ALERT_DISMISS_DURATION } from '#utils/constants';
+import { DURATION_DEFAULT_ALERT_DISMISS } from '#utils/constants';
 
 interface AddAlertOption {
     name?: string;
@@ -24,7 +24,7 @@ function useAlertContext() {
         const name = options?.name ?? randomString(16);
         addAlert({
             variant: options?.variant ?? 'info',
-            duration: options?.duration ?? DEFAULT_ALERT_DISMISS_DURATION,
+            duration: options?.duration ?? DURATION_DEFAULT_ALERT_DISMISS,
             name: options?.name ?? name,
             title,
             description: options?.description,

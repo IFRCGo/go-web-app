@@ -146,7 +146,7 @@ export function Component() {
         pending: appealsPending,
         response: appealsResponse,
     } = useRequest<AppealResponse>({
-        url: 'api/v2/appeal/',
+        url: '/api/v2/appeal/',
         preserveResponse: true,
         query,
     });
@@ -155,14 +155,14 @@ export function Component() {
         pending: disasterTypePending,
         response: disasterTypeResponse,
     } = useRequest<DisasterTypeResponse>({
-        url: 'api/v2/disaster_type/',
+        url: '/api/v2/disaster_type/',
     });
 
     const {
         pending: countryPending,
         response: countryResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: { limit: 500 },
     });
 
@@ -170,7 +170,7 @@ export function Component() {
         pending: regionPending,
         response: regionResponse,
     } = useRequest<RegionResponse>({
-        url: 'api/v2/region/',
+        url: '/api/v2/region/',
     });
 
     const countryOptions = useMemo(

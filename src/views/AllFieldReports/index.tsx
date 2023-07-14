@@ -127,7 +127,7 @@ export function Component() {
         pending: fieldReportPending,
         response: fieldReportResponse,
     } = useRequest<FieldReportResponse>({
-        url: 'api/v2/field_report/',
+        url: '/api/v2/field_report/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
@@ -146,14 +146,14 @@ export function Component() {
         pending: disasterTypePending,
         response: disasterTypeResponse,
     } = useRequest<DisasterTypeResponse>({
-        url: 'api/v2/disaster_type/',
+        url: '/api/v2/disaster_type/',
     });
 
     const {
         pending: countryPending,
         response: countryResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: { limit: 500 },
     });
 

@@ -2,7 +2,7 @@
     position: sticky;
     top: 0;
     z-index: 1;
-    border-bottom: var(--go-ui-width-separator-md) solid var(--go-ui-color-gray-30);
+    border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
     background-color: var(--go-ui-color-white);
 
     .resize-handle {

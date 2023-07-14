@@ -13,7 +13,6 @@ import {
     ChevronLeftLineIcon,
     CloseLineIcon,
     SearchLineIcon,
-    SearchEyeLineIcon,
 } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
@@ -26,7 +25,7 @@ import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import { resolveToString } from '#utils/translation';
-import { URL_SEARCH_KEY } from '#utils/constants';
+import { KEY_URL_SEARCH } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 import { paths } from '#generated/types';
@@ -68,7 +67,7 @@ const feedbackLink = 'https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const [urlSearchValue, setUrlSearchValue] = useUrlSearchState<string | undefined>(
-        URL_SEARCH_KEY,
+        KEY_URL_SEARCH,
         (searchString) => searchString ?? undefined,
         (searchString) => searchString,
     );
@@ -81,7 +80,7 @@ export function Component() {
         pending: searchPending,
         response: searchResponse,
     } = useRequest<SearchResponse>({
-        url: 'api/v1/search/',
+        url: '/api/v1/search/',
         query: { keyword: urlSearchValue },
         skip: isNotDefined(urlSearchValue),
     });

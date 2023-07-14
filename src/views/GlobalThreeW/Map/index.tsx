@@ -29,14 +29,16 @@ import {
     defaultMapOptions,
     getPointCirclePaint,
     getPointCircleHaloPaint,
+    pointColorMap,
+} from '#utils/map';
+import {
     COLOR_RED,
     COLOR_BLUE,
     COLOR_ORANGE,
-    pointColorMap,
     OPERATION_TYPE_EMERGENCY,
     OPERATION_TYPE_MULTI,
     OPERATION_TYPE_PROGRAMME,
-} from '#utils/map';
+} from '#utils/constants';
 
 import {
     NSOngoingProjectStat,
@@ -150,14 +152,14 @@ function GlobalThreeWMap(props: Props) {
     const {
         response: countriesResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: { limit: 500 },
     });
 
     const {
         response: operationTypeResponse,
     } = useRequest<OperationType[]>({
-        url: 'api/v2/operationtype/',
+        url: '/api/v2/operationtype',
     });
 
     const countries = countriesResponse?.results;

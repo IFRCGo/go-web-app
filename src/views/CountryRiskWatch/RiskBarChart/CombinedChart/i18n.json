@@ -1,0 +1,10 @@
+{
+    "namespace": "countryRisk",
+    "strings": {
+        "riskBarChartVeryLowLabel": "Very low",
+        "riskBarChartLowLabel": "Low",
+        "riskBarChartMediumLabel": "Medium",
+        "riskBarChartHighLabel": "High",
+        "riskBarChartVeryHighLabel": "Very high"
+    }
+}

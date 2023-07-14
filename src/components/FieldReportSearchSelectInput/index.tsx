@@ -51,7 +51,7 @@ function FieldReportSelectInput<NAME>(
         response,
     } = useRequest<GetFieldReportResponse>({
         skip: (searchText?.length ?? 0) === 0 || !opened,
-        url: 'api/v2/field_report/',
+        url: '/api/v2/field_report/',
         query,
     });
 

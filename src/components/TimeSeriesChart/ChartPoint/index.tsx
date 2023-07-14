@@ -1,4 +1,4 @@
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
@@ -6,8 +6,8 @@ interface Props {
     className?: string;
     hovered?: boolean;
     active?: boolean;
-    x: number;
-    y: number;
+    x: number | undefined;
+    y: number | undefined;
 }
 
 function ChartPoint(props: Props) {
@@ -18,6 +18,10 @@ function ChartPoint(props: Props) {
         x,
         y,
     } = props;
+
+    if (isNotDefined(x) || isNotDefined(y)) {
+        return null;
+    }
 
     return (
         <g className={_cs(styles.chartPoint, className)}>

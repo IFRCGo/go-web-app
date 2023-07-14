@@ -53,7 +53,7 @@ export function Component() {
         pending: aggregatedStatusPending,
         response: aggregatedStatusResponse,
     } = useRequest<PerProcessStatusResponse>({
-        url: 'api/v2/aggregated-per-process-status',
+        url: '/api/v2/aggregated-per-process-status/',
         query: {
             ordering: getOrdering(sorting),
         },
@@ -64,7 +64,7 @@ export function Component() {
         response: countryStatusResponse,
     } = useRequest<AggregatedPerProcessStatusResponse>({
         skip: isNotDefined(expandedRow),
-        url: 'api/v2/per-process-status',
+        url: '/api/v2/per-process-status/',
         query: {
             country: expandedRow?.country,
         },

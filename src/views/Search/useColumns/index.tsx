@@ -67,7 +67,7 @@ function getEmergencyColumns(
             strings.searchEmergencyTableFundingRequirements,
             (emergency) => Number(emergency.funding_requirements),
             {
-                unit: ' CHF',
+                suffix: ' CHF',
             },
         ),
         createProgressColumn<EmergencyResult, number>(

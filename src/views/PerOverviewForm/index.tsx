@@ -115,7 +115,7 @@ export function Component() {
     const {
         response: countryResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: {
             limit: 500,
         },
@@ -124,12 +124,15 @@ export function Component() {
     const {
         response: perOptionsResponse,
     } = useRequest<PerOptionsResponse>({
-        url: 'api/v2/per-options/',
+        url: '/api/v2/per-options/',
     });
 
     useRequest<PerOverviewResponse>({
         skip: isNotDefined(perId),
-        url: `api/v2/per-overview/${perId}`,
+        url: '/api/v2/per-overview/{id}/',
+        pathVariables: {
+            id: perId,
+        },
         onSuccess: (response) => {
             const {
                 orientation_documents_details,
@@ -154,7 +157,7 @@ export function Component() {
     });
 
     useRequest<LatestPerOverviewResponse>({
-        url: 'api/v2/latest-per-overview/',
+        url: '/api/v2/latest-per-overview/',
         skip: isNotDefined(value?.country) || isDefined(value?.is_draft),
         query: {
             country_id: value?.country,

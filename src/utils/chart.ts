@@ -1,33 +1,69 @@
+import { isNotDefined } from '@togglecorp/fujs';
+import { splitList } from '#utils/common';
+
 export interface Point {
     x: number;
     y: number;
 }
 
-export interface Boundary {
+export interface Bounds {
     min: number;
     max: number;
 }
 
+type Scale = 'linear' | 'exponential' | 'log10' | 'sqrt' | 'cbrt';
+// TODO: Add test
+function scaleNormalizedValue(normalizedValue: number, type: Scale) {
+    if (type === 'exponential') {
+        return Math.exp(normalizedValue) / Math.exp(1);
+    }
+
+    if (type === 'log10') {
+        if (normalizedValue === 0) {
+            return 0;
+        }
+
+        return normalizedValue * Math.log10(normalizedValue * 10);
+    }
+
+    if (type === 'sqrt') {
+        return Math.sqrt(normalizedValue);
+    }
+
+    if (type === 'cbrt') {
+        return Math.cbrt(normalizedValue);
+    }
+
+    return normalizedValue;
+}
+
+// TODO: Update test
 export function getScaleFunction(
-    domain: Boundary,
-    range: Boundary,
+    domain: Bounds,
+    range: Bounds,
     offset: {
         start: number,
         end: number,
     },
     inverted = false,
+    scale: Scale = 'linear',
 ) {
     const rangeSize = (range.max - range.min) - (offset.start + offset.end);
     const domainSize = domain.max - domain.min;
 
     return (value: number) => {
-        const normalizedValue = (value - domain.min) / domainSize;
-
-        if (inverted) {
-            return (rangeSize + offset.start) - (rangeSize * normalizedValue);
+        if (domainSize === 0) {
+            return domain.min;
         }
 
-        return offset.start + rangeSize * normalizedValue;
+        const normalizedValue = (value - domain.min) / domainSize;
+        const scaledValue = scaleNormalizedValue(normalizedValue, scale);
+
+        if (inverted) {
+            return (rangeSize + offset.start) - (rangeSize * scaledValue);
+        }
+
+        return offset.start + rangeSize * scaledValue;
     };
 }
 
@@ -99,4 +135,40 @@ export function getPathData(pointList: Point[] | undefined) {
 
         return `L${point.x} ${point.y}`;
     }).join(' ');
+}
+
+interface UnsafePoint {
+    x: number | undefined;
+    y: number | undefined;
+}
+
+// TODO: Add test
+export function getDiscretePathDataList(pointList: UnsafePoint[] | undefined) {
+    if (isNotDefined(pointList)) {
+        return undefined;
+    }
+
+    const splittedList = splitList(
+        pointList,
+        (item) => isNotDefined(item.x) || isNotDefined(item.y),
+    );
+
+    const discretePaths = splittedList.map(
+        (pointListSplit) => getPathData(pointListSplit as Point[]),
+    );
+
+    return discretePaths;
+}
+
+// TODO: Add test
+export function getPrettyBreakableBounds(initialBounds: Bounds, numBreaks = 5): Bounds {
+    const diff = initialBounds.max - initialBounds.min;
+    const potentialGap = Math.ceil(diff / numBreaks);
+
+    const newMax = initialBounds.min + potentialGap * numBreaks;
+
+    return {
+        ...initialBounds,
+        max: newMax,
+    };
 }

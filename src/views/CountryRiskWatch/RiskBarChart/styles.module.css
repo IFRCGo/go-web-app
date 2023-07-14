@@ -1,0 +1,24 @@
+.risk-bar-chart {
+    .filters {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-xl);
+        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    }
+
+    .legend {
+        display: flex;
+        gap: var(--go-ui-spacing-xl);
+        padding: var(--go-ui-spacing-lg);
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--go-ui-spacing-sm);
+
+            .color {
+                width: 0.8rem;
+                height: 0.8rem;
+            }
+        }
+    }
+}

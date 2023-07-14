@@ -42,7 +42,10 @@ export function Component() {
         retrigger: refetchStatusResponse,
     } = useRequest<PerProcessStatusResponse>({
         skip: isNotDefined(perId),
-        url: `api/v2/per-process-status/${perId}/`,
+        url: '/api/v2/per-process-status/{id}/',
+        pathVariables: {
+            id: perId,
+        },
     });
 
     const currentStep = statusResponse?.phase

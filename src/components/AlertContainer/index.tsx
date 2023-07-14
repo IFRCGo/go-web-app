@@ -9,7 +9,7 @@ import { _cs } from '@togglecorp/fujs';
 import AlertContext from '#contexts/alert';
 import Alert from '#components/Alert';
 import Portal from '#components/Portal';
-import { DEFAULT_ALERT_DISMISS_DURATION } from '#utils/constants';
+import { DURATION_DEFAULT_ALERT_DISMISS } from '#utils/constants';
 
 import styles from './styles.module.css';
 
@@ -43,7 +43,7 @@ function AlertContainer(props: Props) {
                         removeAlert(alert.name);
                         delete dismissTimeout.current[alert.name];
                     },
-                    alert.duration ?? DEFAULT_ALERT_DISMISS_DURATION,
+                    alert.duration ?? DURATION_DEFAULT_ALERT_DISMISS,
                 );
             });
         },

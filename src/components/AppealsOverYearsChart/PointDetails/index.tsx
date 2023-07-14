@@ -3,22 +3,19 @@ import { _cs } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface Aggregate {
-    count: number;
-    amount_funded: string;
-    beneficiaries: number;
-    timespan: string;
-}
+type AggregateResponse = paths['/api/v1/aggregate/']['get']['responses']['200']['content']['application/json'];
+type AggregateItem = AggregateResponse[number];
 
 interface Props {
     data?: {
         date: Date;
-        dref?: Aggregate;
-        emergencyAppeal?: Aggregate;
+        dref?: AggregateItem;
+        emergencyAppeal?: AggregateItem;
     }
     action?: React.ReactNode;
     className?: string;

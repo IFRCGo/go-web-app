@@ -53,7 +53,10 @@ function ObsoletePayloadResolutionModal(props: Props) {
         response: drefResponse,
     } = useRequest<GetDrefResponse>({
         skip: !drefId,
-        url: `api/v2/dref/${drefId}/`,
+        url: '/api/v2/dref/{id}/',
+        pathVariables: {
+            id: drefId,
+        },
     });
 
     return (

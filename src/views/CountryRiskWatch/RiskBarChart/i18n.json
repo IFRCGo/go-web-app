@@ -1,0 +1,10 @@
+{
+    "namespace": "countryRisk",
+    "strings": {
+        "riskBarChartTitle": "Average Risks by Month",
+        "riskBarChartFilterHazardPlaceholder": "All Hazard types",
+        "riskBarChartRiskScoreLabel": "Risk Score",
+        "riskBarChartExposureLabel": "People Exposed",
+        "riskBarChartDisplacementLabel": "People at Risk of Displacement"
+    }
+}

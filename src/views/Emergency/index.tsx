@@ -39,7 +39,10 @@ export function Component() {
         response: emergencyResponse,
     } = useRequest<EventResponse>({
         skip: !emergencyId,
-        url: `api/v2/event/${emergencyId}/`,
+        url: '/api/v2/event/{id}/',
+        pathVariables: {
+            id: emergencyId,
+        },
     });
 
     const peopleTargeted = sumSafe(

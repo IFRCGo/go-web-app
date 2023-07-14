@@ -73,7 +73,7 @@ function HighlightedOperations(props: Props) {
         pending: featuredEmergencyPending,
         response: featuredEmergencyResponse,
     } = useRequest<EventResponse>({
-        url: 'api/v2/event/',
+        url: '/api/v2/event/',
         query,
     });
 
@@ -83,7 +83,7 @@ function HighlightedOperations(props: Props) {
         retrigger: retriggerUserDetails,
     } = useRequest<UserResponse>({
         skip: !userDetails,
-        url: 'api/v2/user/me/',
+        url: '/api/v2/user/me/',
     });
 
     const subscriptionMap = listToMap(

@@ -33,7 +33,7 @@ export function Component() {
         response: projectResponse,
         pending: projectResponsePending,
     } = useRequest<ProjectsResponse>({
-        url: 'api/v2/project/',
+        url: '/api/v2/project/',
         preserveResponse: true,
         query: {
             limit: ITEM_PER_PAGE,

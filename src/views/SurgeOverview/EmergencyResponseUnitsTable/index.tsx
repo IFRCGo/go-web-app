@@ -63,7 +63,7 @@ function EmergencyResponseUnitsTable() {
         pending: emergencyResponseUnitsPending,
         response: emergencyResponseUnitsResponse,
     } = useRequest<GetEmergencyResponseUnitsResponse>({
-        url: 'api/v2/eru/',
+        url: '/api/v2/eru/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
@@ -78,7 +78,7 @@ function EmergencyResponseUnitsTable() {
         pending: emergencyResponseUnitTypesPending,
         response: emergencyResponseUnitTypesResponse,
     } = useRequest<EmergencyResponseUnitType[]>({
-        url: 'api/v2/erutype/',
+        url: '/api/v2/erutype',
         preserveResponse: true,
     });
 

@@ -78,7 +78,7 @@ export function Component() {
         pending: countriesPending,
         response: countriesResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country',
+        url: '/api/v2/country/',
         query: { limit: 500 },
     });
 
@@ -87,14 +87,20 @@ export function Component() {
         response: prioritizationResponse,
     } = useRequest<PrioritizationResponse>({
         skip: isNotDefined(statusResponse?.prioritization),
-        url: `api/v2/per-prioritization/${statusResponse?.prioritization}`,
+        url: '/api/v2/per-prioritization/{id}/',
+        pathVariables: {
+            id: statusResponse?.prioritization ?? undefined,
+        },
     });
 
     const {
         pending: workPlanPending,
     } = useRequest<WorkPlanResponse>({
         skip: isNotDefined(statusResponse?.workplan),
-        url: `api/v2/per-work-plan/${statusResponse?.workplan}`,
+        url: '/api/v2/per-work-plan/{id}/',
+        pathVariables: {
+            id: statusResponse?.workplan ?? undefined,
+        },
         onSuccess: (response) => {
             const {
                 custom_component_responses,

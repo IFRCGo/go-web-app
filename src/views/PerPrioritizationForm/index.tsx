@@ -72,14 +72,14 @@ export function Component() {
     const {
         response: perOptionsResponse,
     } = useRequest<PerOptionsResponse>({
-        url: 'api/v2/per-options',
+        url: '/api/v2/per-options/',
     });
 
     const {
         pending: formComponentPending,
         response: formComponentResponse,
     } = useRequest<PerFormComponentResponse>({
-        url: 'api/v2/per-formcomponent/',
+        url: '/api/v2/per-formcomponent/',
         query: {
             limit: 500,
         },
@@ -88,7 +88,7 @@ export function Component() {
     const {
         response: questionsResponse,
     } = useRequest<PerFormQuestionResponse>({
-        url: 'api/v2/per-formquestion/',
+        url: '/api/v2/per-formquestion/',
         query: {
             limit: 500,
         },
@@ -96,7 +96,10 @@ export function Component() {
 
     const { pending: prioritizationPending } = useRequest<PrioritizationResponse>({
         skip: isNotDefined(statusResponse?.prioritization),
-        url: `api/v2/per-prioritization/${statusResponse?.prioritization}`,
+        url: '/api/v2/per-prioritization/{id}/',
+        pathVariables: {
+            id: statusResponse?.prioritization ?? undefined,
+        },
         onSuccess: (response) => {
             setValue(removeNull(response));
         },
@@ -107,7 +110,10 @@ export function Component() {
         response: perAssessmentResponse,
     } = useRequest<AssessmentResponse>({
         skip: isNotDefined(statusResponse?.assessment),
-        url: `api/v2/per-assessment/${statusResponse?.assessment}`,
+        url: '/api/v2/per-assessment/{id}/',
+        pathVariables: {
+            id: statusResponse?.assessment ?? undefined,
+        },
     });
     const {
         setValue: setComponentValue,

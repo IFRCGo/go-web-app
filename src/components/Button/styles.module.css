@@ -2,13 +2,13 @@
     --color-border: transparent;
     --color-text: transparent;
     --color-background: transparent;
-    --font-size: var(--go-ui-font-size-md);
+    --font-size: inherit;
     --border-radius: var(--go-ui-border-radius-full);
     --text-transform: none;
     --cursor: default;
     --padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-lg);
 
-    display: flex;
+    display: inline-flex;
     position: relative;
     align-items: center;
     border: var(--go-ui-width-separator-sm) solid var(--color-border);

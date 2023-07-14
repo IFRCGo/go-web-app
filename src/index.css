@@ -108,7 +108,6 @@
     --go-ui-duration-animation-medium: .5s;
     --go-ui-duration-animation-slow: 1.2s;
 
-    --go-ui-color-text-light: rgba(0, 0, 0, 0.5);
 
     --go-ui-color-primary-red: #F5333F;
     --go-ui-color-primary-blue: #011E41;
@@ -154,6 +153,9 @@
     --go-ui-color-blue-70: #4D617A;
     --go-ui-color-blue-80: #344B67;
     --go-ui-color-blue-90: #011E41;
+
+    --go-ui-color-text: var(--go-ui-color-primary-gray);
+    --go-ui-color-text-light: rgba(0, 0, 0, 0.5);
 
     --go-ui-color-positive: var(--go-ui-color-green);
     --go-ui-color-information: var(--go-ui-color-blue);
@@ -228,7 +230,7 @@ html {
 
 body {
     line-height: var(--go-ui-line-height-normal);
-    color: var(--go-ui-color-primary-gray);
+    color: var(--go-ui-color-text);
     font-family: var(--go-ui-font-family-sans-serif);
     font-size: var(--go-ui-font-size-md);
     font-weight: var(--go-ui-font-weight-normal);
