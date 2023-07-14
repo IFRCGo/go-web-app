@@ -692,6 +692,48 @@ const allFlashUpdates = customWrapRoute({
     },
 });
 
+const allSurgeAlerts = customWrapRoute({
+    path: 'alerts/all',
+    component: {
+        render: () => import('#views/AllSurgeAlerts'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Surge Alerts',
+        visibility: 'anything',
+    },
+});
+
+const allDeployedPersonnel = customWrapRoute({
+    path: 'personnel/all',
+    component: {
+        render: () => import('#views/AllDeployedPersonnel'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Deployed Personnel',
+        visibility: 'anything',
+    },
+});
+
+const allDeployedEmergencyResponseUnits = customWrapRoute({
+    path: 'eru/all',
+    component: {
+        render: () => import('#views/AllDeployedEmergencyResponseUnits'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Deployed Emergency Response Units',
+        visibility: 'anything',
+    },
+});
+
 const newDrefApplicationForm = customWrapRoute({
     path: 'dref-application/new',
     component: {
@@ -893,7 +935,10 @@ const wrappedRoutes = {
     allAppeals,
     allEmergencies,
     allFieldReports,
+    allSurgeAlerts,
     allFlashUpdates,
+    allDeployedPersonnel,
+    allDeployedEmergencyResponseUnits,
     goUI,
     newDrefApplicationForm,
     drefApplicationForm,

@@ -1,0 +1,12 @@
+{
+    "namespace": "surge",
+    "strings": {
+        "personnelByEventTableHeading": "Ongoing Rapid Response Deployments By Emergency",
+        "personnelViewAll": "View All Deployed Personnel",
+        "personnelByEventTableEmergency": "Emergency",
+        "personnelByEventTableOrganization": "Deploying Organization",
+        "personnelByEventTableSurgeType": "Surge Type",
+        "rapidResponseSurgeType": "Rapid Response",
+        "personnelByEventTablePersonnelCount": "Number of Deployments"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "namespace": "surge",
+    "strings": {
+        "eruOwnersTableHeading": "National Societies",
+        "eruOwnersTableFilterReady": "Filter Ready ERUs",
+        "eruOwnersTableFilterClear": "Reset Filters"
+    }
+}

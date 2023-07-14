@@ -1,0 +1,39 @@
+.surge-overview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-4xl);
+
+    .charts {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-2xl);
+        grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+
+        @media screen and (max-width: 30rem) {
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        }
+
+        .deployments-by-national-society {
+            border-radius: var(--go-ui-border-radius-lg);
+            box-shadow: var(--go-ui-box-shadow-lg);
+            padding: var(--go-ui-spacing-xl);
+        }
+
+        .deployments-over-last-year {
+            border-radius: var(--go-ui-border-radius-lg);
+            box-shadow: var(--go-ui-box-shadow-lg);
+            padding: var(--go-ui-spacing-xl);
+
+            .time-series-chart {
+                width: 100%;
+                height: 10rem;
+
+                .deployments-chart {
+                    color: var(--go-ui-color-primary-red);
+                    stroke: var(--go-ui-color-primary-red);
+                    stroke-width: var(1pt);
+                    fill: none;
+                }
+            }
+        }
+    }
+}

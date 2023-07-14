@@ -1,0 +1,17 @@
+{
+    "namespace": "surge",
+    "strings": {
+        "surgeAlertsTableHeading": "Open Surge Alerts",
+        "surgeAlertStoodDown": "Stood down",
+        "surgeAlertClosed": "Closed",
+        "surgeAlertOpen": "Open",
+        "surgeAlertsTableAlertDate": "Alert Date",
+        "surgeAlertsTableDuration": "Duration",
+        "surgeAlertsTablePosition": "Position",
+        "surgeAlertsTableKeywords": "Keywords",
+        "surgeAlertsTableEmergency": "Emergency",
+        "surgeAlertsTableCountry": "Country",
+        "surgeAlertsTableStatus": "Status",
+        "surgeAlertsViewAll": "View All Surge Alerts"
+    }
+}
