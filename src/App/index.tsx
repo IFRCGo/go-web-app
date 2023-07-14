@@ -15,7 +15,7 @@ import UserContext, { UserAuth, UserContextProps } from '#contexts/user';
 import AlertContext, { AlertParams, AlertContextProps } from '#contexts/alert';
 import RouteContext from '#contexts/route';
 import { RequestContext } from '#utils/restRequest';
-import { USER_STORAGE_KEY } from '#utils/constants';
+import { KEY_USER_STORAGE } from '#utils/constants';
 import {
     processGoUrls,
     processGoOptions,
@@ -46,7 +46,7 @@ function App() {
     const [userAuth, setUserAuth] = useState<UserAuth>();
 
     const hydrateUserAuth = useCallback(() => {
-        const userDetailsFromStorage = getFromStorage<UserAuth>(USER_STORAGE_KEY);
+        const userDetailsFromStorage = getFromStorage<UserAuth>(KEY_USER_STORAGE);
         if (userDetailsFromStorage) {
             setUserAuth(userDetailsFromStorage);
         }
@@ -106,14 +106,14 @@ function App() {
     }), [alerts, addAlert, updateAlert, removeAlert]);
 
     const removeUserAuth = useCallback(() => {
-        removeFromStorage(USER_STORAGE_KEY);
+        removeFromStorage(KEY_USER_STORAGE);
         setUserAuth(undefined);
     }, []);
 
     const setAndStoreUserAuth = useCallback((newUserDetails: UserAuth) => {
         setUserAuth(newUserDetails);
         setToStorage(
-            USER_STORAGE_KEY,
+            KEY_USER_STORAGE,
             newUserDetails,
         );
     }, []);

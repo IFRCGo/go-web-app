@@ -3,14 +3,14 @@ export interface Point {
     y: number;
 }
 
-export interface Boundary {
+export interface Bounds {
     min: number;
     max: number;
 }
 
 export function getScaleFunction(
-    domain: Boundary,
-    range: Boundary,
+    domain: Bounds,
+    range: Bounds,
     offset: {
         start: number,
         end: number,
@@ -99,4 +99,16 @@ export function getPathData(pointList: Point[] | undefined) {
 
         return `L${point.x} ${point.y}`;
     }).join(' ');
+}
+
+export function getPrettyBreakableBounds(initialBounds: Bounds, numBreaks = 5): Bounds {
+    const diff = initialBounds.max - initialBounds.min;
+    const potentialGap = Math.ceil(diff / numBreaks);
+
+    const newMax = initialBounds.min + potentialGap * numBreaks;
+
+    return {
+        ...initialBounds,
+        max: newMax,
+    };
 }

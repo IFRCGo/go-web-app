@@ -29,14 +29,16 @@ import {
     defaultMapOptions,
     getPointCirclePaint,
     getPointCircleHaloPaint,
+    pointColorMap,
+} from '#utils/map';
+import {
     COLOR_RED,
     COLOR_BLUE,
     COLOR_ORANGE,
-    pointColorMap,
     OPERATION_TYPE_EMERGENCY,
     OPERATION_TYPE_MULTI,
     OPERATION_TYPE_PROGRAMME,
-} from '#utils/map';
+} from '#utils/constants';
 
 import {
     NSOngoingProjectStat,

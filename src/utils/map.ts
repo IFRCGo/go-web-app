@@ -1,3 +1,12 @@
+import {
+    COLOR_BLUE,
+    COLOR_RED,
+    COLOR_ORANGE,
+    OPERATION_TYPE_EMERGENCY,
+    OPERATION_TYPE_MULTI,
+    OPERATION_TYPE_PROGRAMME,
+} from '#utils/constants';
+
 export const defaultMapStyle = 'mapbox://styles/go-ifrc/ckrfe16ru4c8718phmckdfjh0';
 
 export const defaultMapOptions: Omit<mapboxgl.MapboxOptions, 'style' | 'container'> = {
@@ -13,27 +22,6 @@ export const defaultMapOptions: Omit<mapboxgl.MapboxOptions, 'style' | 'containe
     preserveDrawingBuffer: true,
     // interactive: false,
 };
-
-export const ADAM_COLOR_RED = '#c03a2b';
-export const ADAM_COLOR_ORANGE = '#f8aa05';
-export const ADAM_COLOR_GREEN = '#38a800';
-export const ADAM_COLOR_CONES = '#256db6';
-
-export const COLOR_WHITE = '#ffffff';
-export const COLOR_TEXT = '#707070';
-export const COLOR_LIGHT_GREY = '#e0e0e0';
-export const COLOR_DARK_GREY = '#a5a5a5';
-export const COLOR_BLACK = '#000000';
-export const COLOR_LIGHT_YELLOW = '#ffd470';
-export const COLOR_YELLOW = '#ff9e00';
-export const COLOR_BLUE = '#4c5d9b';
-export const COLOR_ORANGE = '#ff6b00';
-export const COLOR_RED = '#f5333f';
-export const COLOR_DARK_RED = '#730413';
-
-export const OPERATION_TYPE_PROGRAMME = 0;
-export const OPERATION_TYPE_EMERGENCY = 1;
-export const OPERATION_TYPE_MULTI = -1;
 
 export const pointColorMap: {
   [key: number]: string;

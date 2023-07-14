@@ -6,7 +6,7 @@ import {
 import { ContextInterface } from '@togglecorp/toggle-request';
 import { nonFieldError } from '@togglecorp/toggle-form';
 import { UserAuth } from '#contexts/user';
-import { USER_STORAGE_KEY } from '#utils/constants';
+import { KEY_USER_STORAGE } from '#utils/constants';
 
 import {
     riskApi,
@@ -159,7 +159,7 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     } = extraOptions;
 
     const currentLanguage = 'en';
-    const user = getFromStorage<UserAuth | undefined>(USER_STORAGE_KEY);
+    const user = getFromStorage<UserAuth | undefined>(KEY_USER_STORAGE);
     const token = user?.token;
 
     const defaultHeaders = {
