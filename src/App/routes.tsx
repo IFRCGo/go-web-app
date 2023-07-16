@@ -557,8 +557,8 @@ const preparedness = customWrapRoute({
     },
 });
 
-const threeW = customWrapRoute({
-    path: 'three-w',
+const globalThreeW = customWrapRoute({
+    path: 'global-three-w',
     component: {
         render: () => import('#views/GlobalThreeW'),
         props: {},
@@ -566,8 +566,78 @@ const threeW = customWrapRoute({
     parent: root,
     wrapperComponent: Auth,
     context: {
+        title: 'Global Three W',
+        visibility: 'anything',
+    },
+});
+
+const threeW = customWrapRoute({
+    path: 'three-w',
+    component: {
+        render: () => import('#views/ThreeW'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
         title: 'Three W',
         visibility: 'anything',
+    },
+});
+
+const newThreeWProject = customWrapRoute({
+    path: 'project/new',
+    component: {
+        render: () => import('#views/ThreeWProjectForm'),
+        props: {},
+    },
+    parent: threeW,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New 3w project',
+        visibility: 'is-authenticated',
+    },
+});
+
+const threeWProjectEdit = customWrapRoute({
+    path: 'project/:projectId/edit',
+    component: {
+        render: () => import('#views/ThreeWProjectForm'),
+        props: {},
+    },
+    parent: threeW,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Edit 3W project',
+        visibility: 'is-authenticated',
+    },
+});
+
+const newThreeWActivity = customWrapRoute({
+    path: 'activity/new',
+    component: {
+        render: () => import('#views/GlobalThreeW'),
+        props: {},
+    },
+    parent: threeW,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New 3w activity',
+        visibility: 'is-authenticated',
+    },
+});
+
+const threeWActivityEdit = customWrapRoute({
+    path: 'activity/:activityId/edit',
+    component: {
+        render: () => import('#views/GlobalThreeW'),
+        props: {},
+    },
+    parent: threeW,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Edit 3W Activity',
+        visibility: 'is-authenticated',
     },
 });
 
@@ -1594,6 +1664,11 @@ const wrappedRoutes = {
     surgeIndex,
     preparedness,
     threeW,
+    globalThreeW,
+    newThreeWProject,
+    threeWProjectEdit,
+    threeWActivityEdit,
+    newThreeWActivity,
     account,
     accountIndex,
     accountInformation,

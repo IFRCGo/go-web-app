@@ -66,6 +66,7 @@ export type SearchMultiSelectInputProps<
         | 'onFocusedKeyChange'
         | 'hasValue'
         | 'hideOptionFilter'
+        | OMISSION
     >
 );
 const emptyList: unknown[] = [];

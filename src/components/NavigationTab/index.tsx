@@ -17,6 +17,7 @@ interface Props {
     title?: string;
     to?: string;
     parentRoute?: boolean;
+    disabled?: boolean;
 }
 
 function NavigationTab(props: Props) {
@@ -27,6 +28,7 @@ function NavigationTab(props: Props) {
         title,
         stepCompleted,
         parentRoute = false,
+        disabled,
     } = props;
 
     const {
@@ -55,9 +57,13 @@ function NavigationTab(props: Props) {
             return _cs(
                 styles.active,
                 defaultClassName,
+                disabled && styles.disabled,
             );
         },
-        [defaultClassName],
+        [
+            defaultClassName,
+            disabled,
+        ],
     );
 
     const navChild = (
@@ -87,6 +93,14 @@ function NavigationTab(props: Props) {
         </>
     );
 
+    const handleClick = useCallback((
+        event: React.MouseEvent<HTMLAnchorElement> | undefined,
+    ) => {
+        if (disabled) {
+            event?.preventDefault();
+        }
+    }, [disabled]);
+
     if (!to) {
         return (
             <div className={_cs(defaultClassName, styles.disabled)}>
@@ -99,6 +113,7 @@ function NavigationTab(props: Props) {
         <NavLink
             to={to}
             className={getClassName}
+            onClick={handleClick}
             end={!parentRoute}
             title={title}
         >

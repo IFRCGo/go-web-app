@@ -37,3 +37,11 @@ export const CATEGORY_RISK_LOW = 2;
 export const CATEGORY_RISK_MEDIUM = 3;
 export const CATEGORY_RISK_HIGH = 4;
 export const CATEGORY_RISK_VERY_HIGH = 5;
+export const URL_SEARCH_KEY = 'keyword';
+
+export const PROGRAMME_TYPE_MULTILATERAL = 1;
+export const PROGRAMME_TYPE_DOMESTIC = 2;
+
+export const PROJECT_STATUS_COMPLETED = 2;
+export const PROJECT_STATUS_ONGOING = 1;
+export const PROJECT_STATUS_PLANNED = 0;

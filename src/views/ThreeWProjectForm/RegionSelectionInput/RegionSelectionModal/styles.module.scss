@@ -1,0 +1,86 @@
+@import '~styles/settings/variables';
+
+.modal {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
+  max-height: 70rem;
+  max-width: 80rem;
+  padding: $spacing*2;
+  gap: $spacing*2;
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .modal-content {
+    flex-grow: 1;
+    padding: 0;
+    overflow: auto;
+
+    .secondary-header {
+      padding: 0;
+    }
+
+    .main-content {
+      display: flex;
+      overflow: auto;
+
+      .map-container {
+        flex-grow: 1;
+        outline: none;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .map-content {
+          width: 100%;
+          height: 100%;
+        }
+
+        .map-disclaimer {
+          position: absolute;
+          left: $mapbox-icon-width + $spacing*0.5;
+          bottom: $spacing*0.25;
+        }
+
+        :global {
+          .mapboxgl-popup {
+            height: 18rem;
+          }
+        }
+
+        .wrapper-for-sidebar {
+          display: flex;
+          flex-grow: 1;
+          position: relative;
+
+          .map {
+            flex-grow: 1;
+          }
+        }
+      }
+
+      .side-bar {
+        display: flex;
+        flex-direction: column;
+        width: calc(8rem + 18%);
+        padding: 0 $spacing;
+        overflow: auto;
+        gap: $spacing;
+
+        .district-input {
+          flex-shrink: 0;
+        }
+
+        .output {
+          flex-grow: 1;
+          overflow: auto;
+        }
+      }
+    }
+  }
+}

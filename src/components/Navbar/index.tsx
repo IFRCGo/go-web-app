@@ -38,8 +38,9 @@ function Navbar(props: Props) {
         emergencies: emergenciesRoute,
         surge: surgeRoute,
         preparedness: preparednessRoute,
-        threeW: threeWRoute,
+        globalThreeW: globalThreeWRoute,
         search: searchRoute,
+        newThreeWActivity: newThreeWActivityFromRoute,
         newDrefApplicationForm: newDrefApplicationFormRoute,
     } = useContext(RouteContext);
 
@@ -117,7 +118,7 @@ function Navbar(props: Props) {
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             type="link"
-                            to="/"
+                            to={newThreeWActivityFromRoute.absolutePath}
                         >
                             {strings.headerDropdownNew3WActivity}
                         </DropdownMenuItem>
@@ -176,7 +177,7 @@ function Navbar(props: Props) {
                             {strings.headerMenuPreparedness}
                         </NavigationTab>
                         <NavigationTab
-                            to={threeWRoute.absolutePath}
+                            to={globalThreeWRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuThreeWTooltip}
                             parentRoute

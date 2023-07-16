@@ -1,0 +1,16 @@
+{
+    "namespace": "three-w-project-form",
+    "strings": {
+        "threeWYear":"Year",
+        "threeWTargetMale":"Male targeted",
+        "threeWReachedMale":"Male reached",
+        "threeWReachedFemale":"Female reached",
+        "threeWReachedOther":"Other reached",
+        "threeWReachedTotal":"Total reached",
+        "threeWTargetTotal":"Total targeted",
+        "threeWTargetOther":"Other targeted",
+        "threeWTargetFemale":"Female targeted",
+        "threeWBudgetAmount":"Budget Amount (CHF)"
+    }
+}
+
