@@ -720,6 +720,34 @@ const catalogueEmergency = customWrapRoute({
     },
 });
 
+const catalogueEmergencyIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueEmergencyIndex'),
+        props: {},
+    },
+    parent: catalogueEmergency,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const assessmentCell = customWrapRoute({
+    path: 'assessment-cell',
+    component: {
+        render: () => import('#views/AssessmentCell'),
+        props: {},
+    },
+    parent: catalogueEmergency,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Assessment Cell',
+        visibility: 'anything',
+    },
+});
+
 const catalogueService = customWrapRoute({
     path: 'service',
     component: {
@@ -999,6 +1027,8 @@ const wrappedRoutes = {
     catalogueEmergency,
     catalogueService,
     catalogueIndex,
+    assessmentCell,
+    catalogueEmergencyIndex,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

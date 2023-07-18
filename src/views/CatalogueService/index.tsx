@@ -16,18 +16,13 @@ export function Component() {
             headingLevel={2}
             heading={strings.catalogueServiceTitle}
             className={styles.catalogueService}
+            childrenContainerClassName={styles.content}
         >
             <Heading className={styles.heading}>
                 {strings.rapidResponseAndAssets}
             </Heading>
-            <div>
-                {strings.rapidResponseAndAssetsDetailsTop}
-            </div>
-            <br />
-            <div>
-                {strings.rapidResponseAndAssetsDetailsBottom}
-            </div>
-            <br />
+            <div>{strings.rapidResponseAndAssetsDetailsTop}</div>
+            <div>{strings.rapidResponseAndAssetsDetailsBottom}</div>
             <Heading className={styles.heading}>
                 {strings.coreCompetencyFramework}
             </Heading>
@@ -45,7 +40,6 @@ export function Component() {
                     },
                 )}
             </div>
-            <br />
             <div>
                 {resolveToComponent(
                     strings.coreCompetencyFrameworkDetailsBottom,
