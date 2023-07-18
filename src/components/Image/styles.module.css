@@ -1,0 +1,11 @@
+.image-container {
+    margin: 0;
+
+    .image {
+        object-fit: cover;
+        display: block;
+        object-position: center center;
+        width: 100%;
+        height: auto;
+    }
+}
