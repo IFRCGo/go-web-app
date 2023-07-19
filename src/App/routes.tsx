@@ -706,6 +706,37 @@ const allSurgeAlerts = customWrapRoute({
     },
 });
 
+const catalogueService = customWrapRoute({
+    path: 'service',
+    component: {
+        render: () => import('#views/CatalogueService'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Surge Services Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const catalogueIndex = customWrapRoute({
+    parent: surgeCatalogue,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: catalogueService.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Surge Catalogue index',
+        visibility: 'anything',
+    },
+});
+
 const catalogueEmergency = customWrapRoute({
     path: 'emergency',
     component: {
@@ -748,33 +779,30 @@ const assessmentCell = customWrapRoute({
     },
 });
 
-const catalogueService = customWrapRoute({
-    path: 'service',
+const catalogueBasecamp = customWrapRoute({
+    path: 'basecamp',
     component: {
-        render: () => import('#views/CatalogueService'),
+        render: () => import('#views/CatalogueBasecamp'),
         props: {},
     },
     parent: surgeCatalogue,
     wrapperComponent: Auth,
     context: {
-        title: 'Surge Services Catalogue',
+        title: 'Basecamp Catalogue',
         visibility: 'anything',
     },
 });
 
-const catalogueIndex = customWrapRoute({
-    parent: surgeCatalogue,
+const catalogueBasecampIndex = customWrapRoute({
     index: true,
     component: {
-        eagerLoad: true,
-        render: Navigate,
-        props: {
-            to: catalogueService.path as string,
-            replace: true,
-        },
+        render: () => import('#views/CatalogueBasecampIndex'),
+        props: {},
     },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
     context: {
-        title: 'Surge Catalogue index',
+        title: 'Basecampe Catalogue',
         visibility: 'anything',
     },
 });
@@ -1024,11 +1052,13 @@ const wrappedRoutes = {
     perAssessmentForm,
     perPrioritizationForm,
     perWorkPlanForm,
-    catalogueEmergency,
     catalogueService,
     catalogueIndex,
-    assessmentCell,
+    catalogueEmergency,
     catalogueEmergencyIndex,
+    assessmentCell,
+    catalogueBasecamp,
+    catalogueBasecampIndex,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

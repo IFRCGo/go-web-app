@@ -6,4 +6,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'CatalogueEmergency';
+Component.displayName = 'CatalogueBasecamp';
