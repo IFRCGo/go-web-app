@@ -31,6 +31,7 @@ export function Component() {
         {
             title: strings.primaryDataCollectionOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETQ2bJvxaQNGoXzEjf2IjNcB16FwnTxS-Jct1yf539FZ3A',
+            withExternalLinkIcon: true,
         },
         {
             title: strings.mappingAndVisualizationOfficer,
