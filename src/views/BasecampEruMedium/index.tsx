@@ -132,6 +132,13 @@ export function Component() {
                     label={strings.totalPersonnelLabel}
                     strongLabel
                 />
+                <TextOutput
+                    descriptionClassName={styles.description}
+                    value={strings.compositionValue}
+                    label={strings.compositionLabel}
+                    strongLabel
+                />
+                <div>{strings.compositionDescription}</div>
             </Container>
             <Container
                 heading={strings.standardComponents}
