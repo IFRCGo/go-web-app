@@ -807,6 +807,62 @@ const catalogueBasecampIndex = customWrapRoute({
     },
 });
 
+const basecampEruSmall = customWrapRoute({
+    path: 'eru-small',
+    component: {
+        render: () => import('#views/BasecampEruSmall'),
+        props: {},
+    },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp ERU Small',
+        visibility: 'anything',
+    },
+});
+
+const basecampEruMedium = customWrapRoute({
+    path: 'eru-medium',
+    component: {
+        render: () => import('#views/BasecampEruMedium'),
+        props: {},
+    },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp ERU Medium',
+        visibility: 'anything',
+    },
+});
+
+const basecampEruLarge = customWrapRoute({
+    path: 'eru-large',
+    component: {
+        render: () => import('#views/BasecampEruLarge'),
+        props: {},
+    },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp ERU Large',
+        visibility: 'anything',
+    },
+});
+
+const basecampFacilityManagement = customWrapRoute({
+    path: 'facility-management',
+    component: {
+        render: () => import('#views/BasecampFacilityManagement'),
+        props: {},
+    },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp Facility Management',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     path: 'personnel/all',
     component: {
@@ -1059,6 +1115,10 @@ const wrappedRoutes = {
     assessmentCell,
     catalogueBasecamp,
     catalogueBasecampIndex,
+    basecampEruSmall,
+    basecampEruMedium,
+    basecampEruLarge,
+    basecampFacilityManagement,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
