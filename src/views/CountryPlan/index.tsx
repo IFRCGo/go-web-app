@@ -1,12 +1,12 @@
+import { useOutletContext, useParams } from 'react-router-dom';
 import { MdDownload } from 'react-icons/md';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 
-import type { Country } from '#types/country';
-import type { GET } from '#types/serverResponse';
 import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import { paths } from '#generated/types';
 
+import { CountryOutletContext } from '#utils/country';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import Header from '#components/Header';
@@ -20,7 +20,6 @@ import styles from './styles.module.css';
 
 interface Props {
     className?: string;
-    countryDetails?: Country;
     hasCountryPlan?: boolean;
 }
 
@@ -28,10 +27,11 @@ interface Props {
 export function Component(props: Props) {
     const {
         className,
-        countryDetails,
         hasCountryPlan,
     } = props;
 
+    const { countryResponse } = useOutletContext<CountryOutletContext>();
+    const { countryId } = useParams<{ countryId: string }>();
     const strings = useTranslation(i18n);
 
     type GetCountryPlan = paths['/api/v2/country-plan/{country}/']['get'];
@@ -41,8 +41,9 @@ export function Component(props: Props) {
         pending: countryPlanPending,
         response: countryPlanResponse,
     } = useRequest<GetCountryPlanResponse>({
-        skip: isNotDefined(countryDetails?.id) || !hasCountryPlan,
-        url: 'api/v2/country-plan/{countryDetails?.id}/',
+        skip: isNotDefined(countryResponse?.id) || !hasCountryPlan,
+        url: '/api/v2/country-plan',
+        query: { country: countryId },
     });
 
     return (
