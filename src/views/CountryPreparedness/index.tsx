@@ -1,11 +1,12 @@
-import { useCallback, useState } from 'react';
-import { useForm, removeNull } from '@togglecorp/toggle-form';
+import { useCallback, useMemo, useState } from 'react';
 import {
+    compareNumber,
     isDefined,
     isNotDefined,
     listToGroupList,
     listToMap,
     mapToList,
+    unique,
 } from '@togglecorp/fujs';
 
 import { sumSafe } from '#utils/common';
@@ -14,7 +15,6 @@ import { useRequest } from '#utils/restRequest';
 
 import PieChart from '#views/GlobalThreeW/PieChart';
 import useTranslation from '#hooks/useTranslation';
-import { assessmentSchema } from '#views/PerAssessmentForm/schema';
 import Container from '#components/Container';
 import Page from '#components/Page';
 import TextOutput from '#components/TextOutput';
@@ -25,20 +25,22 @@ import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import ComponentInput from './ComponentInput';
 
 type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['get']['responses']['200']['content']['application/json'];
 type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
 type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+type PerFormComponentResponse = paths['/api/v2/per-formcomponent/']['get']['responses']['200']['content']['application/json'];
 
 type GetPerCountry = paths['/api/v2/per-country/'];
 type PerCountryResponse = GetPerCountry['get']['responses']['200']['content']['application/json'];
 
 const dataKeyToClassNameMap = {
-    dref: styles.dref,
-    emergencyAppeal: styles.emergencyAppeal,
+    componentrating: styles.componentRating,
+    year: styles.year,
 };
 
-type DATA_KEY = 'componentrating' | 'emergencyAppeal';
+type DATA_KEY = 'componentrating' | 'year';
 
 const classNameSelector = (dataKey: DATA_KEY) => dataKeyToClassNameMap[dataKey];
 const xAxisFormatter = (date: Date) => date.toLocaleString(undefined, { year: 'numeric' });
@@ -51,7 +53,7 @@ function perAssessmentRatingTypeKeySelector(
 
 const dataKeys: DATA_KEY[] = [
     'componentrating',
-    'emergencyAppeal',
+    'year',
 ];
 
 const getFormattedKey = (dateFromProps: string | Date) => {
@@ -80,20 +82,20 @@ export function Component() {
     const {
         response: perAssessmentResponse,
     } = useRequest<AssessmentResponse>({
-        url: 'api/v2/per-assessment/5',
+        url: 'api/v2/per-assessment/6',
     });
 
     console.info(perAssessmentResponse);
 
-    const ratingDetail = perAssessmentResponse?.area_responses?.map(
-        (component) => component.component_responses?.map(
-            (rating) => rating.rating_details,
-        ),
-    );
-
-    const highlightedComponent = ratingDetail?.map(
-        (rating) => rating?.find((item) => item?.value === 5),
-    );
+    const {
+        pending: formComponentPending,
+        response: formComponentResponse,
+    } = useRequest<PerFormComponentResponse>({
+        url: 'api/v2/per-formcomponent/',
+        query: {
+            limit: 500,
+        },
+    });
 
     const {
         response: perCountryResponse,
@@ -125,6 +127,16 @@ export function Component() {
         () => getFormattedKey(dateList[dateList.length - 1]),
     );
 
+    const ratingDetail = perAssessmentResponse?.area_responses?.map(
+        (component) => component.component_responses?.map(
+            (rating) => rating.rating_details,
+        ),
+    );
+
+    const highlightedComponent = unique(
+        ratingDetail?.map((rating) => rating?.find((item) => item?.value === 5),
+        ));
+
     const allAnsweredResponses = perAssessmentResponse?.area_responses?.map(
         (areaResponse) => areaResponse?.component_responses?.map(
             (componentResponse) => componentResponse.question_responses,
@@ -135,8 +147,8 @@ export function Component() {
 
     const areaIdToTitleMap = listToMap(
         questionsResponse?.results ?? [],
-        (question) => question.component.area.id,
-        (question) => question.component.area.title,
+        (question) => question?.component.area.id,
+        (question) => question?.component.area.title,
     );
 
     const ratingIdToValueMap = listToMap(
@@ -245,6 +257,45 @@ export function Component() {
         [perOptionsResponse],
     );
 
+    const componentResponseMapping = listToMap(
+        perAssessmentResponse?.component_responses ?? [],
+        (componentResponse) => componentResponse.component,
+        (componentResponse, _, index) => ({
+            index,
+            value: componentResponse,
+        }),
+    );
+
+    const assessmentComponentResponses = useMemo(
+        () => (
+            perAssessmentResponse?.area_responses?.flatMap(
+                (areaResponse) => areaResponse.component_responses,
+            ) ?? []
+        ),
+        [perAssessmentResponse],
+    );
+
+    const assessmentQuestionResponsesByComponent = useMemo(
+        () => (
+            listToMap(
+                assessmentComponentResponses?.filter(isDefined),
+                (componentResponse) => componentResponse.component,
+                (componentResponse) => componentResponse.question_responses,
+            )
+        ),
+        [assessmentComponentResponses],
+    );
+
+    const assessmentComponentResponseMap = useMemo(
+        () => (
+            listToMap(
+                assessmentComponentResponses?.filter(isDefined),
+                (componentResponse) => componentResponse.component,
+            )
+        ),
+        [assessmentComponentResponses],
+    );
+
     return (
         <Page
             heading={strings.nSPreparednessAndResponseCapacityHeading}
@@ -258,49 +309,27 @@ export function Component() {
                         value={aggregatedPer?.date_of_assessment}
                         valueType="date"
                     />
-                    {/* FIXME: use TextOutput component */}
-                    <div className={styles.contactDetails}>
-                        <div>
-                            {strings.perPhaseTitle}
-                        </div>
-                        <h4>
-                            {aggregatedPer?.phase_display}
-                        </h4>
-                    </div>
-                    <div className={styles.contactDetails}>
-                        <div>
-                            {strings.focalPointTitle}
-                        </div>
-                        <h4>
-                            {aggregatedPer?.ns_focal_point_name}
-                        </h4>
-                    </div>
-                </div>
-                <div className={styles.contactList}>
-                    <div className={styles.contactDetails}>
-                        <div>
-                            {strings.perCycleTitle}
-                        </div>
-                        <h4>
-                            {aggregatedPer?.phase}
-                        </h4>
-                    </div>
-                    <div className={styles.contactDetails}>
-                        <div>
-                            {strings.typeOfAssessmentTitle}
-                        </div>
-                        <h4>
-                            {aggregatedPer?.type_of_assessment?.name}
-                        </h4>
-                    </div>
-                    <div className={styles.contactDetails}>
-                        <div>
-                            {strings.emailTitle}
-                        </div>
-                        <h4>
-                            {aggregatedPer?.ns_focal_point_email}
-                        </h4>
-                    </div>
+                    <TextOutput
+                        label={strings.perPhaseTitle}
+                        value={aggregatedPer?.phase_display}
+                    />
+                    <TextOutput
+                        label={strings.focalPointTitle}
+                        value={aggregatedPer?.ns_focal_point_name}
+                    />
+                    <TextOutput
+                        label={strings.perCycleTitle}
+                        value={aggregatedPer?.phase}
+                        valueType="number"
+                    />
+                    <TextOutput
+                        label={strings.typeOfAssessmentTitle}
+                        value={aggregatedPer?.type_of_assessment?.name}
+                    />
+                    <TextOutput
+                        label={strings.emailTitle}
+                        value={aggregatedPer?.ns_focal_point_email}
+                    />
                 </div>
             </Container>
             <Container
@@ -363,24 +392,41 @@ export function Component() {
                     xAxisFormatter={xAxisFormatter}
                 />
             </Container>
-            <div className={styles.highlightedComponentList}>
-                <Container
-                    heading={strings.highlightedTopRatedComponentHeading}
-                    withHeaderBorder
-                >
-                    <div className={styles.highlightedComponent}>
-                        {highlightedComponent?.map((i) => i?.title)}
-                    </div>
-                </Container>
-                <Container
-                    heading={strings.priorityComponentHeading}
-                    withHeaderBorder
-                >
-                    <div className={styles.highlightedComponent}>
-                        {strings.componentHeading}
-                    </div>
-                </Container>
-            </div>
+            <Container
+                heading={strings.highlightedTopRatedComponentHeading}
+                withHeaderBorder
+            >
+                <div className={styles.highlightedComponent}>
+                    {highlightedComponent?.map((i) => i?.title)}
+                </div>
+            </Container>
+            <Container
+                heading={strings.componentRatingResultsHeading}
+                withHeaderBorder
+            >
+                {formComponentResponse?.results?.map((component) => {
+                    const ratingDetail = assessmentComponentResponseMap?.[component.id]?.rating_details;
+                    const sortedRating = ratingDetail?.map((rating) => rating.sort(
+                        (rating1, rating2) => compareNumber(rating1.value, rating2.value),
+                    ));
+
+                    const ratingDisplay = isDefined(sortedRating)
+                        ? `${rating.value} - ${rating.title}`
+                        : undefined;
+
+                    return (
+                        <ComponentInput
+                            key={component.id}
+                            index={componentResponseMapping[component.id]?.index}
+                            value={componentResponseMapping[component.id]?.value}
+                            onChange={undefined}
+                            component={component}
+                            questionResponses={assessmentQuestionResponsesByComponent[component.id]}
+                            ratingDisplay={ratingDisplay}
+                        />
+                    );
+                })}
+            </Container>
         </Page>
     );
 }

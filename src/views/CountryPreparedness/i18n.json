@@ -13,7 +13,7 @@
         "totalBenchmarkSummaryTitle": "Total Benchmark Summary: ",
         "componentsByAreaHeading": "Components by Area",
         "highlightedTopRatedComponentHeading": "Highlighted Top Rated Component",
-        "priorityComponentHeading": "Priority Components to be strengthened",
+        "componentRatingResultsHeading": "Components Rating Results",
         "componentHeading": "Component"
     }
 }
