@@ -864,6 +864,48 @@ const basecampFacilityManagement = customWrapRoute({
     },
 });
 
+const catalogueCash = customWrapRoute({
+    path: 'cash',
+    component: {
+        render: () => import('#views/CatalogueCash'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cash and Vouchers Assitance Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const catalogueCashIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueCashIndex'),
+        props: {},
+    },
+    parent: catalogueCash,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cash and Vouchers Assitance Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const catalogueCVA = customWrapRoute({
+    path: 'cva',
+    component: {
+        render: () => import('#views/CatalogueCVA'),
+        props: {},
+    },
+    parent: catalogueCash,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cash and Vouchers Assitance Catalogue',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     path: 'personnel/all',
     component: {
@@ -1120,6 +1162,9 @@ const wrappedRoutes = {
     basecampEruMedium,
     basecampEruLarge,
     basecampFacilityManagement,
+    catalogueCash,
+    catalogueCashIndex,
+    catalogueCVA,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

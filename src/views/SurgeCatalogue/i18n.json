@@ -3,6 +3,7 @@
     "strings": {
         "catalogueService": "Catalogue",
         "catalogueEmergency": "Emergency Needs Assessment",
-        "catalogueBasecamp": "Basecamp"
+        "catalogueBasecamp": "Basecamp",
+        "catalogueCash": "Cash and Vouchers Assistance (CVA)"
     }
 }

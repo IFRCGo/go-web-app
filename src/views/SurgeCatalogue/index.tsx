@@ -13,6 +13,7 @@ export function Component() {
         catalogueService: catalogueServiceRoute,
         catalogueEmergency: catalogueEmergencyRoute,
         catalogueBasecamp: catalogueBasecampRoute,
+        catalogueCash: catalogueCashRoute,
     } = useContext(RouteContext);
 
     const strings = useTranslation(i18n);
@@ -40,6 +41,13 @@ export function Component() {
                     )}
                 >
                     {strings.catalogueBasecamp}
+                </NavigationTab>
+                <NavigationTab
+                    to={generatePath(
+                        catalogueCashRoute.absolutePath,
+                    )}
+                >
+                    {strings.catalogueCash}
                 </NavigationTab>
             </NavigationTabList>
             <Outlet />
