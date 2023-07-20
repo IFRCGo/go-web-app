@@ -1,27 +1,20 @@
-import { useState, useCallback } from 'react';
+import { useRequest } from '@togglecorp/toggle-request';
 import {
     listToMap,
     listToGroupList,
     mapToList,
-    isNotDefined,
 } from '@togglecorp/fujs';
 import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
 
-import ExpandableContainer from '#components/ExpandableContainer';
-import BlockLoading from '#components/BlockLoading';
 import TextInput from '#components/TextInput';
-import TextOutput from '#components/TextOutput';
-import Checkbox from '#components/Checkbox';
-import { useRequest } from '#utils/restRequest';
 import type { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 
+import Container from '#components/Container';
 import type { PartialPrioritization } from '../schema';
-import QuestionOutput from './QuestionOutput';
 
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
-import Container from '#components/Container';
 
 type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
 type AreaResponse = NonNullable<AssessmentResponse['area_responses']>[number];

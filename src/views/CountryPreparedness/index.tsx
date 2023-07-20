@@ -1,6 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
 import {
-    compareNumber,
+    useCallback,
+    useMemo,
+    useState,
+} from 'react';
+import { useForm, useFormArray } from '@togglecorp/toggle-form';
+
+import {
     isDefined,
     isNotDefined,
     listToGroupList,
@@ -12,28 +17,27 @@ import {
 import { sumSafe } from '#utils/common';
 import { getDatesSeparatedByYear } from '#utils/chart';
 import { useRequest } from '#utils/restRequest';
-
 import PieChart from '#views/GlobalThreeW/PieChart';
+import { prioritizationSchema } from '#views/PerPrioritizationForm/schema';
 import useTranslation from '#hooks/useTranslation';
+import type { paths } from '#generated/types';
+
 import Container from '#components/Container';
 import Page from '#components/Page';
 import TextOutput from '#components/TextOutput';
 import ProgressBar from '#components/ProgressBar';
 import BarChart from '#components/BarChart';
 import TimeSeriesChart from '#components/TimeSeriesChart';
-import { paths } from '#generated/types';
+import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import ComponentInput from './ComponentInput';
 
 type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['get']['responses']['200']['content']['application/json'];
 type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
 type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
 type PerFormComponentResponse = paths['/api/v2/per-formcomponent/']['get']['responses']['200']['content']['application/json'];
-
-type GetPerCountry = paths['/api/v2/per-country/'];
-type PerCountryResponse = GetPerCountry['get']['responses']['200']['content']['application/json'];
+type PerCountryResponse = paths['/api/v2/per-country/']['get']['responses']['200']['content']['application/json'];
 
 const dataKeyToClassNameMap = {
     componentrating: styles.componentRating,
@@ -80,6 +84,15 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const {
+        setFieldValue,
+    } = useForm(
+        prioritizationSchema,
+        {
+            value: {},
+        },
+    );
+
+    const {
         response: perAssessmentResponse,
     } = useRequest<AssessmentResponse>({
         url: 'api/v2/per-assessment/6',
@@ -88,7 +101,6 @@ export function Component() {
     console.info(perAssessmentResponse);
 
     const {
-        pending: formComponentPending,
         response: formComponentResponse,
     } = useRequest<PerFormComponentResponse>({
         url: 'api/v2/per-formcomponent/',
@@ -122,6 +134,10 @@ export function Component() {
             limit: 500,
         },
     });
+
+    const {
+        setValue: setComponentValue,
+    } = useFormArray('component_responses', setFieldValue);
 
     const [activePointKey, setActivePointKey] = useState<string>(
         () => getFormattedKey(dateList[dateList.length - 1]),
@@ -397,7 +413,7 @@ export function Component() {
                 withHeaderBorder
             >
                 <div className={styles.highlightedComponent}>
-                    {highlightedComponent?.map((i) => i?.title)}
+                    {highlightedComponent?.map((component) => component?.title)}
                 </div>
             </Container>
             <Container
@@ -405,12 +421,8 @@ export function Component() {
                 withHeaderBorder
             >
                 {formComponentResponse?.results?.map((component) => {
-                    const ratingDetail = assessmentComponentResponseMap?.[component.id]?.rating_details;
-                    const sortedRating = ratingDetail?.map((rating) => rating.sort(
-                        (rating1, rating2) => compareNumber(rating1.value, rating2.value),
-                    ));
-
-                    const ratingDisplay = isDefined(sortedRating)
+                    const rating = assessmentComponentResponseMap?.[component.id]?.rating_details;
+                    const ratingDisplay = isDefined(rating)
                         ? `${rating.value} - ${rating.title}`
                         : undefined;
 
@@ -419,7 +431,7 @@ export function Component() {
                             key={component.id}
                             index={componentResponseMapping[component.id]?.index}
                             value={componentResponseMapping[component.id]?.value}
-                            onChange={undefined}
+                            onChange={setComponentValue}
                             component={component}
                             questionResponses={assessmentQuestionResponsesByComponent[component.id]}
                             ratingDisplay={ratingDisplay}
