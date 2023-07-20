@@ -14,6 +14,7 @@ export function Component() {
         catalogueEmergency: catalogueEmergencyRoute,
         catalogueBasecamp: catalogueBasecampRoute,
         catalogueCash: catalogueCashRoute,
+        catalogueCommunityEngagement: catalogueCommunityEngagementRoute,
     } = useContext(RouteContext);
 
     const strings = useTranslation(i18n);
@@ -48,6 +49,13 @@ export function Component() {
                     )}
                 >
                     {strings.catalogueCash}
+                </NavigationTab>
+                <NavigationTab
+                    to={generatePath(
+                        catalogueCommunityEngagementRoute.absolutePath,
+                    )}
+                >
+                    {strings.catalogueCommunityEngagement}
                 </NavigationTab>
             </NavigationTabList>
             <Outlet />

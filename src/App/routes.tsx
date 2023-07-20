@@ -906,6 +906,48 @@ const cashAndVoucherAssistance = customWrapRoute({
     },
 });
 
+const catalogueCommunityEngagement = customWrapRoute({
+    path: 'community',
+    component: {
+        render: () => import('#views/CatalogueCommunityEngagement'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Engagement and Accountability (CEA)',
+        visibility: 'anything',
+    },
+});
+
+const catalogueCommunityEngagementIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueCommunityEngagementIndex'),
+        props: {},
+    },
+    parent: catalogueCommunityEngagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Engagement and Accountability (CEA)',
+        visibility: 'anything',
+    },
+});
+
+const communityEngagement = customWrapRoute({
+    path: 'community-engagement-accountability',
+    component: {
+        render: () => import('#views/CommunityEngagement'),
+        props: {},
+    },
+    parent: catalogueCommunityEngagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Engagement and Accountability (CEA)',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     path: 'personnel/all',
     component: {
@@ -1165,6 +1207,9 @@ const wrappedRoutes = {
     catalogueCash,
     catalogueCashIndex,
     cashAndVoucherAssistance,
+    catalogueCommunityEngagement,
+    catalogueCommunityEngagementIndex,
+    communityEngagement,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

@@ -18,7 +18,7 @@ export function Component() {
 
     const cvaServicesData: LinkData[] = [
         {
-            title: strings.cvaTitleShort,
+            title: strings.cvaServicesLinkTitle,
             to: generatePath(cashAndVoucherAssistanceRoute.absolutePath),
             withForwardIcon: true,
         },
@@ -97,7 +97,7 @@ export function Component() {
                 childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
-                    title={strings.cvaTitle}
+                    title={strings.cvaRapidResponse}
                     data={cvaServicesData}
                 />
                 <div />
