@@ -47,6 +47,7 @@
         "specificationsCostLabel": "Cost (Indicative)",
         "specificationsCostValue": "CHF 300,000",
         "specificationsNationalSocietyLabel": "National societies providing this service",
-        "specificationsNationalSocietyValue": "Danish, Italian"
+        "specificationsNationalSocietyValue": "Danish, Italian",
+        "goBack": "Go Back"
     }
 }

@@ -30,6 +30,7 @@ export function Component() {
                     onClick={handleBackButtonClick}
                     ariaLabel="go-back"
                     variant="tertiary"
+                    title={strings.goBack}
                 >
                     <ChevronLeftLineIcon />
                 </IconButton>

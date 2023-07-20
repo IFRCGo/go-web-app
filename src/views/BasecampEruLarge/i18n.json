@@ -50,6 +50,7 @@
         "specificationsNationalSocietyLabel": "National societies providing this service",
         "specificationsNationalSocietyValue": "Danish, Italian",
         "variationTitle": "Variation on Configuration",
-        "variationDetails": "Camp can be scaled up or down depending on the situation, within all the modules."
+        "variationDetails": "Camp can be scaled up or down depending on the situation, within all the modules.",
+        "goBack": "Go Back"
     }
 }
