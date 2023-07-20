@@ -873,7 +873,7 @@ const catalogueCash = customWrapRoute({
     parent: surgeCatalogue,
     wrapperComponent: Auth,
     context: {
-        title: 'Cash and Vouchers Assitance Catalogue',
+        title: 'Cash and Vouchers Assistance Catalogue',
         visibility: 'anything',
     },
 });
@@ -887,21 +887,21 @@ const catalogueCashIndex = customWrapRoute({
     parent: catalogueCash,
     wrapperComponent: Auth,
     context: {
-        title: 'Cash and Vouchers Assitance Catalogue',
+        title: 'Cash and Vouchers Assistance Catalogue',
         visibility: 'anything',
     },
 });
 
-const catalogueCVA = customWrapRoute({
+const cashAndVoucherAssistance = customWrapRoute({
     path: 'cva',
     component: {
-        render: () => import('#views/CatalogueCVA'),
+        render: () => import('#views/CashAndVoucherAssistance'),
         props: {},
     },
     parent: catalogueCash,
     wrapperComponent: Auth,
     context: {
-        title: 'Cash and Vouchers Assitance Catalogue',
+        title: 'Cash and Vouchers Assistance',
         visibility: 'anything',
     },
 });
@@ -1164,7 +1164,7 @@ const wrappedRoutes = {
     basecampFacilityManagement,
     catalogueCash,
     catalogueCashIndex,
-    catalogueCVA,
+    cashAndVoucherAssistance,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

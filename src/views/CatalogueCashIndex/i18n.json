@@ -1,7 +1,7 @@
 {
     "namespace": "surge",
     "strings": {
-        "catalogueCashTitle": "Cash and Vouchers Assitance (CVA)",
+        "catalogueCashTitle": "Cash and Vouchers Assistance (CVA)",
         "cashDetails": "CVA refers to all programs where cash transfers or vouchers for goods or services are directly provided to recipients. In the context of humanitarian assistance, the term is used to refer to the provision of cash transfers or vouchers given to individuals, household or community recipients; not to governments or other state actors. This excludes remittances and microfinance in humanitarian interventions (although microfinance and money transfer institutions may be used for the actual delivery of cash).",
         "cashRapidResponsePersonnelTitle": "Rapid Response Personnel",
         "cashServicesTitle": "Services",
@@ -15,9 +15,9 @@
         "cashRoleProfiles": "Role Profiles",
         "technicalCompetencyFramework": "Technical Competency Framework",
         "technicalCompetencyFrameworkDetails": "Tiered compentencies describing the knowledge and skills expected of personnel in this sector.",
-        "cashAndVoucherAssitanceCoordinator": "Cash and Voucher Assistance Coordinator",
-        "cashAndVoucherAssitanceOfficer": "Cash and Voucher Assistance Officer",
-        "cashAndVoucherAssitanceImOfficer": "Cash and Voucher Assistance IM Officer",
+        "cashAndVoucherAssistanceCoordinator": "Cash and Voucher Assistance Coordinator",
+        "cashAndVoucherAssistanceOfficer": "Cash and Voucher Assistance Officer",
+        "cashAndVoucherAssistanceImOfficer": "Cash and Voucher Assistance IM Officer",
         "technicalFrameworkCVA": "CVA"
     }
 }

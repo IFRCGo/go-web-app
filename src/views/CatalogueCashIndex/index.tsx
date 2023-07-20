@@ -13,13 +13,13 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
     const {
-        catalogueCVA: catalogueCVARoute,
+        cashAndVoucherAssistance: cashAndVoucherAssistanceRoute,
     } = useContext(RouteContext);
 
     const cvaServicesData: LinkData[] = [
         {
             title: strings.cvaTitleShort,
-            to: generatePath(catalogueCVARoute.absolutePath),
+            to: generatePath(cashAndVoucherAssistanceRoute.absolutePath),
             withForwardIcon: true,
         },
     ];
@@ -42,17 +42,17 @@ export function Component() {
 
     const roleProfiles: LinkData[] = [
         {
-            title: strings.cashAndVoucherAssitanceCoordinator,
+            title: strings.cashAndVoucherAssistanceCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EY4PZ_4Zt01AkY8aAyTD_84BJIYbk78-E9lu310swDYeZg',
             withExternalLinkIcon: true,
         },
         {
-            title: strings.cashAndVoucherAssitanceOfficer,
+            title: strings.cashAndVoucherAssistanceOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb-QC0lSSSVKkcqqGs1uER4BSlltRKy-prrfR0AAxg4cpQ',
             withExternalLinkIcon: true,
         },
         {
-            title: strings.cashAndVoucherAssitanceImOfficer,
+            title: strings.cashAndVoucherAssistanceImOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ec5qjRdtWQRDkIgNhvtPbHIByntzDCXX1dyPLVQhojvMsQ',
             withExternalLinkIcon: true,
         },
