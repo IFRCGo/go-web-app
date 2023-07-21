@@ -1,23 +1,31 @@
-import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useContext } from 'react';
+import { generatePath } from 'react-router-dom';
+
+import RouteContext from '#contexts/route';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
 import Image from '#components/Image';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
+import useGoBack from '#hooks/useGoBack';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const navigate = useNavigate();
+    const {
+        catalogueCash: catalogueCashRoute,
+    } = useContext(RouteContext);
+
+    const goBack = useGoBack();
 
     const handleBackButtonClick = useCallback(() => {
-        navigate(-1);
-    }, [navigate]);
+        goBack(generatePath(catalogueCashRoute.absolutePath));
+    }, [goBack, catalogueCashRoute.absolutePath]);
 
     return (
         <Container
@@ -28,7 +36,7 @@ export function Component() {
                 <IconButton
                     name={undefined}
                     onClick={handleBackButtonClick}
-                    ariaLabel="go-back"
+                    ariaLabel={strings.goBack}
                     variant="tertiary"
                     title={strings.goBack}
                 >
@@ -165,16 +173,6 @@ export function Component() {
                 withHeaderBorder
                 childrenContainerClassName={styles.innerContent}
             >
-                <TextOutput
-                    value={strings.specificationsWeightValue}
-                    label={strings.specificationsWeightLabel}
-                    strongLabel
-                />
-                <TextOutput
-                    value={strings.specificationsVolumeValue}
-                    label={strings.specificationsVolumeLabel}
-                    strongLabel
-                />
                 <TextOutput
                     value={strings.specificationsCostValue}
                     label={strings.specificationsCostLabel}

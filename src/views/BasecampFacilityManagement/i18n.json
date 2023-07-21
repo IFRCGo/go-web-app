@@ -20,6 +20,7 @@
         "specificationsCostLabel": "Cost (Indicative)",
         "specificationsCostValue": "Varies",
         "specificationsNationalSocietyLabel": "National societies providing this service",
-        "specificationsNationalSocietyValue": "Danish"
+        "specificationsNationalSocietyValue": "Danish",
+        "goBack": "Go Back"
     }
 }
