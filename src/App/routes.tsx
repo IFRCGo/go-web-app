@@ -948,6 +948,76 @@ const communityEngagement = customWrapRoute({
     },
 });
 
+const catalogueCommunication = customWrapRoute({
+    path: 'communication',
+    component: {
+        render: () => import('#views/CatalogueCommunication'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication',
+        visibility: 'anything',
+    },
+});
+
+const catalogueCommunicationIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueCommunicationIndex'),
+        props: {},
+    },
+    parent: catalogueCommunication,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication',
+        visibility: 'anything',
+    },
+});
+
+const communicationErtOne = customWrapRoute({
+    path: 'cert-1',
+    component: {
+        render: () => import('#views/CommunicationErtOne'),
+        props: {},
+    },
+    parent: catalogueCommunication,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication Emergency Response Tool 1',
+        visibility: 'anything',
+    },
+});
+
+const communicationErtTwo = customWrapRoute({
+    path: 'cert-2',
+    component: {
+        render: () => import('#views/CommunicationErtTwo'),
+        props: {},
+    },
+    parent: catalogueCommunication,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication Emergency Response Tool 2',
+        visibility: 'anything',
+    },
+});
+
+const communicationErtThree = customWrapRoute({
+    path: 'cert-3',
+    component: {
+        render: () => import('#views/CommunicationErtThree'),
+        props: {},
+    },
+    parent: catalogueCommunication,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication Emergency Response Tool 3',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     path: 'personnel/all',
     component: {
@@ -1210,6 +1280,11 @@ const wrappedRoutes = {
     catalogueCommunityEngagement,
     catalogueCommunityEngagementIndex,
     communityEngagement,
+    catalogueCommunication,
+    catalogueCommunicationIndex,
+    communicationErtOne,
+    communicationErtTwo,
+    communicationErtThree,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
