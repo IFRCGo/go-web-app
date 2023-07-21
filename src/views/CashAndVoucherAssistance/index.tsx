@@ -73,7 +73,7 @@ export function Component() {
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/cash-cva_05.jpg"
-                    caption={strings.cashAndVoucherAssistanceImageFour}
+                    caption={strings.cashAndVoucherAssistanceImageFive}
                     height="16rem"
                     imageClassName={styles.image}
                 />
