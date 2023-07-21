@@ -2,7 +2,9 @@ version: '3.8'
 services:
   react:
     build: .
-    command: sh -c 'yarn install && yarn dev --host'
+    command: sh -c 'yarn install && yarn start --host'
+    env_file:
+      - .env
     volumes:
       - .:/code
     ports:

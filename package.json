@@ -25,7 +25,9 @@
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
         "surge:deploy": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); cp build/index.html build/200.html; surge -p build/ -d https://ifrc-go-$branch.surge.sh",
-        "surge:teardown": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); surge teardown https://ifrc-go-$branch.surge.sh"
+        "surge:teardown": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); surge teardown https://ifrc-go-$branch.surge.sh",
+        "cypress:run": "cypress run --config video=false --component",
+        "cypress:open": "cypress open"
     },
     "dependencies": {
         "@ifrc-go/icons": "^1.1.4",
@@ -57,6 +59,7 @@
         "@vitejs/plugin-react-swc": "^3.0.0",
         "autoprefixer": "^10.4.14",
         "cross-var": "^1.1.0",
+        "cypress": "^12.7.2",
         "dotenv-cli": "^7.2.1",
         "eslint": "^8.40.0",
         "eslint-config-airbnb": "^19.0.4",
