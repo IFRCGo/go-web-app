@@ -1,0 +1,18 @@
+{
+    "namespace": "surge",
+    "strings": {
+        "catalogueBasecampTitle": "Basecamp",
+        "basecampDetails": "The Base Camp provides Red Cross Red Crescent staff (both host National Society and International Federation staff) engaged in emergency operations with appropriate living and working conditions. The Base Camp offers tented accommodation, conditioned for hot and cold climates, toilets, hot showers, recreational facilities, a kitchen, offices, administrative, and coordination facilities in locations where these are not available for Red Cross Red Crescent staff.",
+        "basecampServicesTitle": "Services",
+        "basecampEmergencyResponseUnit": "Emergency Response Unit",
+        "basecampEruSmallTitle": "ERU Basecamp - Small",
+        "basecampEruMediumTitle": "ERU Basecamp - Medium",
+        "basecampEruLargeTitle": "ERU Basecamp - Large",
+        "eruSmallDetails": "Accommodation up to 10 persons.",
+        "eruMediumDetails": "Accommodation up to 16 - 50 persons.",
+        "eruLargeDetails": "Accommodation up to 60 - 100 persons.",
+        "basecampFacilityManagementTitle": "Facility Management",
+        "basecampFacilityManagementDetails": "All aspects of facility management.",
+        "learnMore": "Learn More"
+    }
+}

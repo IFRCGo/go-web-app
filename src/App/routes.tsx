@@ -706,6 +706,163 @@ const allSurgeAlerts = customWrapRoute({
     },
 });
 
+const catalogueService = customWrapRoute({
+    path: 'service',
+    component: {
+        render: () => import('#views/CatalogueService'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Surge Services Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const catalogueIndex = customWrapRoute({
+    parent: surgeCatalogue,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: catalogueService.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Surge Catalogue index',
+        visibility: 'anything',
+    },
+});
+
+const catalogueEmergency = customWrapRoute({
+    path: 'emergency',
+    component: {
+        render: () => import('#views/CatalogueEmergency'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const catalogueEmergencyIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueEmergencyIndex'),
+        props: {},
+    },
+    parent: catalogueEmergency,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const assessmentCell = customWrapRoute({
+    path: 'assessment-cell',
+    component: {
+        render: () => import('#views/AssessmentCell'),
+        props: {},
+    },
+    parent: catalogueEmergency,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Assessment Cell',
+        visibility: 'anything',
+    },
+});
+
+const catalogueBasecamp = customWrapRoute({
+    path: 'basecamp',
+    component: {
+        render: () => import('#views/CatalogueBasecamp'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const catalogueBasecampIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueBasecampIndex'),
+        props: {},
+    },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecampe Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const basecampEruSmall = customWrapRoute({
+    path: 'eru-small',
+    component: {
+        render: () => import('#views/BasecampEruSmall'),
+        props: {},
+    },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp ERU Small',
+        visibility: 'anything',
+    },
+});
+
+const basecampEruMedium = customWrapRoute({
+    path: 'eru-medium',
+    component: {
+        render: () => import('#views/BasecampEruMedium'),
+        props: {},
+    },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp ERU Medium',
+        visibility: 'anything',
+    },
+});
+
+const basecampEruLarge = customWrapRoute({
+    path: 'eru-large',
+    component: {
+        render: () => import('#views/BasecampEruLarge'),
+        props: {},
+    },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp ERU Large',
+        visibility: 'anything',
+    },
+});
+
+const basecampFacilityManagement = customWrapRoute({
+    path: 'facility-management',
+    component: {
+        render: () => import('#views/BasecampFacilityManagement'),
+        props: {},
+    },
+    parent: catalogueBasecamp,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp Facility Management',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     path: 'personnel/all',
     component: {
@@ -951,6 +1108,17 @@ const wrappedRoutes = {
     perAssessmentForm,
     perPrioritizationForm,
     perWorkPlanForm,
+    catalogueService,
+    catalogueIndex,
+    catalogueEmergency,
+    catalogueEmergencyIndex,
+    assessmentCell,
+    catalogueBasecamp,
+    catalogueBasecampIndex,
+    basecampEruSmall,
+    basecampEruMedium,
+    basecampEruLarge,
+    basecampFacilityManagement,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

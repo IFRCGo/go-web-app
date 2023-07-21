@@ -1,0 +1,24 @@
+.catalogue-info-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--go-ui-border-radius-md);
+    box-shadow: var(--go-ui-box-shadow-lg);
+
+    .header {
+        padding: var(--go-ui-spacing-md);
+    }
+
+    .divider {
+        flex-shrink: 0;
+        background-color: var(--go-ui-color-separator);
+        height: var(--go-ui-width-separator-sm);
+    }
+
+    .description {
+        padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+    }
+
+    .link {
+        padding: var(--go-ui-spacing-sm);
+    }
+}
