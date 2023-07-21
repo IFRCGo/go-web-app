@@ -1,62 +1,44 @@
 .country-plan {
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-4xl);
-    padding: var(--go-ui-spacing-3xl) var(--go-ui-spacing-md);
+    padding: var(--go-ui-spacing-4xl) 0;
 
-    .header {
-        .heading-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
+    .actions {
+        flex-shrink: unset;
+        flex-wrap: wrap;
 
-            .heading {
-                flex-grow: unset;
-            }
+        .icon {
+            font-size: var(--go-ui-font-size-icon-multiplier);
         }
     }
 
-    .download-links {
+    .content {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-md);
-    }
+        gap: var(--go-ui-spacing-4xl);
+        padding: var(--go-ui-spacing-4xl) 0;
 
-    .stats {
-        display: flex;
-        justify-content: center;
-        gap: var(--go-ui-spacing-md);
+        .key-figures {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-lg);
+            justify-content: center;
 
-        .separator {
-            align-self: stretch;
-            flex-basis: var(--go-ui-spacing-px);
-            flex-grow: 0;
-            flex-shrink: 0;
-            margin: var(--go-ui-spacing-md);
-            background-color: var(--go-ui-color-gray-30);
-        }
-    }
-
-    .tables-section {
-        display: flex;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        gap: var(--go-ui-spacing-2xl);
-
-        .strategic-priority-table {
-            flex-grow: 1;
+            .key-figure {
+                flex-basis: 16rem;
+                border-radius: var(--go-ui-border-radius-md);
+                box-shadow: var(--go-ui-box-shadow-md);
+            }
         }
 
-        .coordination-table {
-            flex-grow: 1;
-        }
-    }
+        .tables-section {
+            display: flex;
+            gap: var(--go-ui-spacing-3xl);
+            flex-wrap: wrap;
 
-    .errored,
-    .no-plan {
-        display: flex;
-        justify-content: center;
-        color: var(--go-ui-color-gray-60);
-        font-size: var(--go-ui-font-size-md);
+            .strategic-priority-table,
+            .membership-coordination-table {
+                flex-grow: 1;
+                overflow-x: auto;
+            }
+        }
     }
 }

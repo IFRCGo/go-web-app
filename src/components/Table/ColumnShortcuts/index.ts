@@ -403,6 +403,7 @@ export function createElementColumn<DATA, KEY, ELEMENT_PROPS>(
         },
         cellRenderer: renderer,
         cellRendererParams: rendererParams,
+        headerContainerClassName: options?.headerContainerClassName,
         cellRendererClassName: options?.cellRendererClassName,
         columnClassName: options?.columnClassName,
         headerCellRendererClassName: options?.headerCellRendererClassName,

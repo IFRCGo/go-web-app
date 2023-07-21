@@ -1,6 +1,6 @@
 import { useOutletContext, useParams } from 'react-router-dom';
-import { MdDownload } from 'react-icons/md';
-import { _cs, isNotDefined } from '@togglecorp/fujs';
+import { DownloadLineIcon } from '@ifrc-go/icons';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
@@ -9,46 +9,73 @@ import { paths } from '#generated/types';
 import { CountryOutletContext } from '#utils/country';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
-import Header from '#components/Header';
 import BlockLoading from '#components/BlockLoading';
 import Message from '#components/Message';
+import Container from '#components/Container';
+import { resolveToString } from '#utils/translation';
+
 import StrategicPrioritiesTable from './StrategicPrioritiesTable';
 import MembershipCoordinationTable from './MembershipCoordinationTable';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface Props {
-    className?: string;
-    hasCountryPlan?: boolean;
-}
+type GetCountryPlan = paths['/api/v2/country-plan/{country}/']['get'];
+type GetCountryPlanResponse = GetCountryPlan['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
-export function Component(props: Props) {
-    const {
-        className,
-        hasCountryPlan,
-    } = props;
-
+export function Component() {
     const { countryResponse } = useOutletContext<CountryOutletContext>();
     const { countryId } = useParams<{ countryId: string }>();
     const strings = useTranslation(i18n);
-
-    type GetCountryPlan = paths['/api/v2/country-plan/{country}/']['get'];
-    type GetCountryPlanResponse = GetCountryPlan['responses']['200']['content']['application/json'];
 
     const {
         pending: countryPlanPending,
         response: countryPlanResponse,
     } = useRequest<GetCountryPlanResponse>({
-        skip: isNotDefined(countryResponse?.id) || !hasCountryPlan,
-        url: '/api/v2/country-plan',
-        query: { country: countryId },
+        skip: isNotDefined(countryId) || !countryResponse?.has_country_plan,
+        url: `/api/v2/country-plan/${countryId}`,
     });
 
     return (
-        <div className={_cs(styles.countryPlan, className)}>
-            {hasCountryPlan && (
+        <Container
+            className={styles.countryPlan}
+            heading={resolveToString(
+                strings.countryPlanTitle,
+                { countryName: countryResponse?.name ?? '-' },
+            )}
+            headingLevel={2}
+            childrenContainerClassName={styles.content}
+            actionsContainerClassName={styles.actions}
+            withHeaderBorder
+            actions={(
+                <>
+                    <Link
+                        variant="secondary"
+                        to={countryPlanResponse?.public_plan_file ?? undefined}
+                        className={styles.downloadLink}
+                        icons={<DownloadLineIcon className={styles.icon} />}
+                    >
+                        {resolveToString(
+                            strings.countryPlanDownloadPlan,
+                            { countryName: countryResponse?.name },
+                        )}
+                    </Link>
+                    <Link
+                        variant="secondary"
+                        to={countryPlanResponse?.internal_plan_file}
+                        className={styles.downloadLink}
+                        icons={<DownloadLineIcon className={styles.icon} />}
+                    >
+                        {resolveToString(
+                            strings.countryPlanDownloadPlanInternal,
+                            { countryName: countryResponse?.name },
+                        )}
+                    </Link>
+                </>
+            )}
+        >
+            {!countryResponse?.has_country_plan && (
                 <Message
                     message={strings.countryPlanNoCountryPlan}
                 />
@@ -56,52 +83,21 @@ export function Component(props: Props) {
             {countryPlanPending && (
                 <BlockLoading />
             )}
-            {hasCountryPlan && !countryPlanPending && !countryPlanResponse && (
+            {countryResponse?.has_country_plan && !countryPlanPending && !countryPlanResponse && (
                 <div className={styles.errored}>
                     {strings.countryPlanLoadFailureMessage}
                 </div>
             )}
-            {!countryPlanPending && countryPlanResponse && (
+            {countryResponse?.has_country_plan && !countryPlanPending && countryPlanResponse && (
                 <>
-                    <Header
-                        className={styles.header}
-                        headingContainerClassName={styles.headingContainer}
-                        headingLevel={1}
-                        heading={strings.activeCountryPlanTitle}
-                        actions={undefined}
-                    />
-                    {(countryPlanResponse.internal_plan_file
-                    || countryPlanResponse.public_plan_file) && (
-                        <div className={styles.downloadLinks}>
-                            {countryPlanResponse.public_plan_file && (
-                                <Link
-                                    variant="secondary"
-                                    to={countryPlanResponse.public_plan_file}
-                                    className={styles.downloadLink}
-                                    icons={<MdDownload />}
-                                >
-                                    {strings.countryPlanDownloadPlan}
-                                </Link>
-                            )}
-                            {countryPlanResponse.internal_plan_file && (
-                                <Link
-                                    variant="secondary"
-                                    to={countryPlanResponse.internal_plan_file}
-                                    className={styles.downloadLink}
-                                    icons={<MdDownload />}
-                                >
-                                    {strings.countryPlanDownloadPlanInternal}
-                                </Link>
-                            )}
-                        </div>
-                    )}
-                    <div className={styles.stats}>
+                    <div className={styles.keyFigures}>
                         <KeyFigure
+                            className={styles.keyFigure}
                             value={countryPlanResponse.requested_amount}
                             description={strings.countryPlanKeyFigureRequestedAmount}
                         />
-                        <div className={styles.separator} />
                         <KeyFigure
+                            className={styles.keyFigure}
                             value={countryPlanResponse.people_targeted}
                             description={strings.countryPlanPeopleTargeted}
                         />
@@ -109,16 +105,16 @@ export function Component(props: Props) {
                     <div className={styles.tablesSection}>
                         <StrategicPrioritiesTable
                             className={styles.strategicPriorityTable}
-                            data={countryPlanResponse.strategic_priorities}
+                            priorityData={countryPlanResponse.strategic_priorities}
                         />
                         <MembershipCoordinationTable
-                            className={styles.coordinationTable}
-                            data={countryPlanResponse.membership_coordinations}
+                            className={styles.membershipCoordinationTable}
+                            membershipData={countryPlanResponse.membership_coordinations}
                         />
                     </div>
                 </>
             )}
-        </div>
+        </Container>
     );
 }
 

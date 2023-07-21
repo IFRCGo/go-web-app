@@ -1,11 +1,11 @@
-.container {
+.table {
     display: flex;
     position: relative;
     flex-direction: column;
     min-height: 15rem;
     overflow-x: auto;
 
-    .table {
+    .table-element {
         /* NOTE: This will ensure that the z-index in
          * children elements doesn't affect rest of the page */
         position: relative;

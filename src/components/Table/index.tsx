@@ -30,7 +30,7 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     keySelector: (data: D, index: number) => K;
     columns: C[] & VerifyColumn<C, D, K>;
     data: D[] | undefined | null;
-    containerClassName?: string;
+    tableElementClassName?: string;
     captionClassName?: string;
     headerRowClassName?: string;
     headerCellClassName?: string | ((columnKey: string) => (string | undefined));
@@ -57,7 +57,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         keySelector,
         columns,
         caption,
-        containerClassName,
+        tableElementClassName,
         className,
         captionClassName,
         headerRowClassName,
@@ -169,11 +169,11 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
     return (
         <div
             ref={containerRef}
-            className={_cs(styles.container, containerClassName)}
+            className={_cs(styles.table, className)}
         >
             {Object.keys(columnWidths).length > 0 && (
                 <table
-                    className={_cs(styles.table, className)}
+                    className={_cs(styles.tableElement, tableElementClassName)}
                     style={fixedColumnWidth ? { width: `${width}px` } : undefined}
                     id={tableName}
                 >

@@ -1,121 +1,138 @@
 import { useMemo } from 'react';
-import { IoCheckmarkCircleSharp } from 'react-icons/io5';
+import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import {
     _cs,
     isDefined,
     listToGroupList,
     listToMap,
+    mapToList,
     unique,
 } from '@togglecorp/fujs';
 
-import { MembershipCoordination } from '#types/serverResponse';
 import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
 import Table from '#components/Table';
 import { createElementColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
+import { paths } from '#generated/types';
+import { numericKeySelector } from '#utils/selectors';
 
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
 
-interface IconRendererProps {
-    item: number;
-    sector: {
-        key: string;
-        value: string;
+type GetCountryPlan = paths['/api/v2/country-plan/{country}/']['get'];
+type GetCountryPlanResponse = GetCountryPlan['responses']['200']['content']['application/json'];
+
+interface IconProps {
+    shouldShow: boolean;
+}
+
+function Icon(props: IconProps) {
+    const { shouldShow } = props;
+
+    if (!shouldShow) {
+        return null;
     }
+
+    return <CheckboxCircleLineIcon className={styles.icon} />;
 }
 
 interface Props {
     className?: string;
-    data: MembershipCoordination[] | undefined;
+    membershipData: GetCountryPlanResponse['membership_coordinations'] | undefined;
 }
 
-function keySelector(value: number) {
-    return value;
-}
-// eslint-disable-next-line import/prefer-default-export
-function MemberCoordinationTable(props: Props) {
+function MembershipCoordinationTable(props: Props) {
     const {
         className,
-        data = [],
+        membershipData,
     } = props;
 
     const strings = useTranslation(i18n);
 
-    const sectors = useMemo(
-        () => (
-            unique(
-                data.map((d) => ({ key: d.sector, value: d.sector_display })),
-                (d) => d.key,
-            )
-        ),
-        [data],
-    );
+    const tableData = useMemo(
+        () => {
+            if (!membershipData) {
+                return undefined;
+            }
 
-    const nsIdToNameMap = useMemo(
-        () => (
-            listToMap(
-                unique(
-                    data.filter((d) => isDefined(d.id)),
-                    (d) => d.national_society,
+            const membershipWithUniqueSectors = unique(
+                membershipData,
+                (membership) => membership.sector,
+            );
+
+            const nationalSocieties = mapToList(
+                listToGroupList(
+                    // NOTE: entries with null ids are included
+                    // to include all the sectors so we can ignore
+                    // them here
+                    membershipData.filter(
+                        (membership) => isDefined(membership.id),
+                    ),
+                    (membership) => membership.national_society,
                 ),
-                (d) => d.national_society,
-                (d) => d.national_society_name,
-            )
-        ),
-        [data],
+                (membershipList, key) => ({
+                    key: Number(key),
+                    national_society: membershipList[0].national_society,
+                    national_society_name: membershipList[0].national_society_name,
+                    sectors: listToMap(
+                        membershipList,
+                        (membership) => membership.sector,
+                        () => true,
+                    ),
+                }),
+            );
+
+            type NationalSocietyElement = (typeof nationalSocieties)[number];
+            const columns = [
+                createStringColumn<NationalSocietyElement, number>(
+                    'national_society_name',
+                    strings.countryPlanNameOfPNS,
+                    (item) => item.national_society_name,
+                ),
+                ...membershipWithUniqueSectors.map(
+                    (membership) => (
+                        createElementColumn<NationalSocietyElement, number, IconProps>(
+                            membership.sector,
+                            membership.sector_display,
+                            Icon,
+                            (_, item) => ({
+                                shouldShow: item.sectors[membership.sector] ?? false,
+                            }),
+                            { headerCellRendererClassName: styles.sectorHeading },
+                        )
+                    ),
+                ),
+            ];
+
+            return {
+                membershipWithUniqueSectors,
+                nationalSocieties,
+                columns,
+            };
+        },
+        [strings, membershipData],
     );
 
-    const nsGroupedCoordination = useMemo(() => (
-        listToGroupList(
-            data.filter((d) => isDefined(d.id)),
-            (d) => d.national_society,
-            (d) => d.sector,
-        )
-    ), [data]);
-    const nsGroupedCoordinationKeys = Object.keys(nsGroupedCoordination).map((d) => +d);
-
-    const columns = useMemo(() => {
-        const IconRenderer = ({ item, sector }: IconRendererProps) => {
-            const nsSectors = nsGroupedCoordination[item];
-            const nsSectorMap = listToMap(nsSectors, (d) => d, () => true);
-            return (nsSectorMap[sector.key] ? (
-                <div className={styles.checkmarkContainer}>
-                    <IoCheckmarkCircleSharp />
-                </div>
-            ) : null);
-        };
-        return [
-            createStringColumn<number, number>(
-                'national_society_name',
-                strings.countryPlanNameOfPNS,
-                // className={styles.rotated}
-                (item) => (nsIdToNameMap[item]),
-            ),
-            ...sectors.map((sector) => (
-                createElementColumn<number, number, IconRendererProps>(
-                    sector.key,
-                    sector.value,
-                    IconRenderer,
-                    (_, data) => ({ item: data, sector }),
-                )
-            )),
-        ];
-    }, []);
+    if (!tableData) {
+        return null;
+    }
 
     return (
         <Container
             className={_cs(styles.membershipCoordinationTable, className)}
             heading={strings.countryPlanMembershipCoordinationTableTitle}
+            withHeaderBorder
         >
             <Table
-                className={styles.inProgressDrefTable}
-                data={nsGroupedCoordinationKeys}
-                columns={columns}
-                keySelector={keySelector}
+                pending={false}
+                filtered={false}
+                className={styles.membershipCoordinationTable}
+                data={tableData.nationalSocieties}
+                columns={tableData.columns}
+                keySelector={numericKeySelector}
             />
         </Container>
     );
 }
 
-export default MemberCoordinationTable;
+export default MembershipCoordinationTable;

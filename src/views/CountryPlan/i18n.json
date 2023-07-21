@@ -1,9 +1,8 @@
 {
     "namespace": "countryPlan",
     "strings": {
-        "countryPageTitle": "IFRC GO - {countryName}",
+        "countryPlanTitle": "{countryName} Country Plan",
         "countryPlanNoCountryPlan": "This country hasn't published any Country Plan yet!",
-        "activeCountryPlanTitle": "Active Country Plan",
         "countryPlanStrategicPrioritiesTableHeading": "Strategic Priorities",
         "countryPlanPeopleTargeted": "People Targeted",
         "countryPlanStrategicPriority": "Strategic Priority",
