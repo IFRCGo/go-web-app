@@ -240,7 +240,7 @@ function Operation(props: Props) {
                     description={strings.drefFormPeopleAssistedThroughOperationDescription}
                 >
                     <TextArea
-                        label={strings.drefFormDescription}
+                        label={strings.drefFormOperationDescription}
                         name="people_assisted"
                         onChange={setFieldValue}
                         value={value.people_assisted}
@@ -252,7 +252,7 @@ function Operation(props: Props) {
                     description={strings.drefFormSelectionCriteriaDescription}
                 >
                     <TextArea
-                        label={strings.drefFormDescription}
+                        label={strings.drefFormOperationDescription}
                         name="selection_criteria"
                         onChange={setFieldValue}
                         value={value.selection_criteria}
@@ -477,7 +477,7 @@ function Operation(props: Props) {
                     title={strings.drefFormHumanResourceDescription}
                 >
                     <TextArea
-                        label={strings.drefFormDescription}
+                        label={strings.drefFormOperationDescription}
                         name="human_resource"
                         onChange={setFieldValue}
                         value={value.human_resource}
@@ -500,7 +500,7 @@ function Operation(props: Props) {
                     {isSurgePersonnelDeployed
                         && (
                             <TextArea
-                                label={strings.drefFormDescription}
+                                label={strings.drefFormOperationDescription}
                                 name="surge_personnel_deployed"
                                 onChange={setFieldValue}
                                 value={value.surge_personnel_deployed}
@@ -516,7 +516,7 @@ function Operation(props: Props) {
                             description={strings.drefFormLogisticCapacityOfNsDescription}
                         >
                             <TextArea
-                                label={strings.drefFormDescription}
+                                label={strings.drefFormOperationDescription}
                                 name="logistic_capacity_of_ns"
                                 onChange={setFieldValue}
                                 value={value.logistic_capacity_of_ns}
@@ -528,7 +528,7 @@ function Operation(props: Props) {
                             description={strings.drefFormPmerDescription}
                         >
                             <TextArea
-                                label={strings.drefFormDescription}
+                                label={strings.drefFormOperationDescription}
                                 name="pmer"
                                 onChange={setFieldValue}
                                 value={value.pmer}
@@ -540,7 +540,7 @@ function Operation(props: Props) {
                             description={strings.drefFormCommunicationDescription}
                         >
                             <TextArea
-                                label={strings.drefFormDescription}
+                                label={strings.drefFormOperationDescription}
                                 name="communication"
                                 onChange={setFieldValue}
                                 value={value.communication}

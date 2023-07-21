@@ -16,6 +16,7 @@ export function Component() {
     const navigate = useNavigate();
 
     const handleBackButtonClick = useCallback(() => {
+        // TODO: let point to basecamp page
         navigate(-1);
     }, [navigate]);
 
@@ -40,30 +41,35 @@ export function Component() {
         >
             <div className={styles.imageList}>
                 <Image
+                    // FIXME: use css for styling
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_01.jpg"
                     caption={strings.basecampEruLargeImageOne}
                     height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
+                    // FIXME: use css for styling
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_02.jpg"
                     caption={strings.basecampEruLargeImageTwo}
                     height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
+                    // FIXME: use css for styling
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_03.jpg"
                     caption={strings.basecampEruLargeImageThree}
                     height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
+                    // FIXME: use css for styling
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_04.jpg"
                     caption={strings.basecampEruLargeImageFour}
                     height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
+                    // FIXME: use css for styling
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_05.jpg"
                     caption={strings.basecampEruLargeImageFive}
                     height="16rem"
