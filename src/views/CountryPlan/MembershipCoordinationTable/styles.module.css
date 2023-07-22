@@ -1,0 +1,10 @@
+.membership-coordination-table {
+    .icon {
+        color: var(--go-ui-color-primary-red);
+    }
+
+    .sector-heading {
+        transform: rotate(180deg);
+        writing-mode: vertical-lr;
+    }
+}

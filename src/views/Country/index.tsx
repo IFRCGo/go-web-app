@@ -1,5 +1,5 @@
 import { useParams, Outlet, generatePath } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import {
     DrefIcon,
     AppealsIcon,
@@ -14,59 +14,17 @@ import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import KeyFigure from '#components/KeyFigure';
-import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
+import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import { CountryOutletContext } from '#utils/country';
+import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface CountryResponse {
-    additional_tab_name: string;
-    contacts: unknown[];
-    has_country_plan: boolean;
-    id: number;
-    inform_score: number | null;
-    iso: string;
-    key_priorities: string;
-    links: unknown[];
-    name : string;
-    nsi_annual_fdrs_reporting: null;
-    nsi_branches : null;
-    nsi_cmc_dashboard_compliance: null;
-    nsi_domestically_generated_income: null;
-    nsi_expenditures: null;
-    nsi_gov_financial_support: null;
-    nsi_income: null;
-    nsi_policy_implementation: null;
-    nsi_risk_management_framework: null;
-    nsi_staff: null;
-    nsi_trained_in_first_aid: null;
-    nsi_volunteers: null;
-    nsi_youth: null;
-    overview: null;
-    region: number;
-    society_name: string;
-    society_url: string;
-    url_ifrc: string;
-    wash_kit2: null;
-    wash_kit5: null;
-    wash_kit10: null;
-    wash_ndrt_trained: null;
-    wash_rdrt_trained: null;
-    wash_staff_at_branch: null;
-    wash_staff_at_hq: null;
-}
-
-interface AggregatedAppealResponse {
-    active_appeals: number | null;
-    active_drefs: number | null;
-    amount_funded: number | null;
-    amount_requested: number | null;
-    amount_requested_dref_included: number | null;
-    target_population: number | null;
-    total_appeals: number | null;
-}
+type CountryResponse = paths['/api/v2/country/{id}/']['get']['responses']['200']['content']['application/json'];
+type AggregatedAppealResponse = paths['/api/v2/appeal/aggregated']['get']['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -99,6 +57,13 @@ export function Component() {
         url: 'api/v2/appeal/aggregated/',
         query: { country: countryId },
     });
+
+    const outletContext = useMemo<CountryOutletContext>(
+        () => ({
+            countryResponse,
+        }),
+        [countryResponse],
+    );
 
     const pending = countryResponsePending || aggregatedAppealPending;
 
@@ -210,7 +175,9 @@ export function Component() {
                     {strings.countryAdditionalInfoTab}
                 </NavigationTab>
             </NavigationTabList>
-            <Outlet />
+            <Outlet
+                context={outletContext}
+            />
         </Page>
     );
 }
