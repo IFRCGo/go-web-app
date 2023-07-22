@@ -1,8 +1,8 @@
 {
     "namespace": "home",
     "strings": {
+        "nsPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
         "previousPerAssessment":"Previous PER Assessment",
-        "nSPreparednessAndResponseCapacityHeading": "NS Preparedness and Response Capacity",
         "startDateTitle": "Start Date",
         "perPhaseTitle": "Per Phase",
         "focalPointTitle": "Focal Point",

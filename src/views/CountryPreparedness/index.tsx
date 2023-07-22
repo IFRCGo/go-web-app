@@ -1,79 +1,45 @@
 import {
-    useCallback,
     useMemo,
-    useState,
 } from 'react';
-import { useForm, useFormArray } from '@togglecorp/toggle-form';
+import { useParams } from 'react-router-dom';
 
 import {
+    compareNumber,
     isDefined,
     isNotDefined,
     listToGroupList,
     listToMap,
     mapToList,
-    unique,
 } from '@togglecorp/fujs';
 
 import { sumSafe } from '#utils/common';
-import { getDatesSeparatedByYear } from '#utils/chart';
 import { useRequest } from '#utils/restRequest';
 import PieChart from '#views/GlobalThreeW/PieChart';
-import { prioritizationSchema } from '#views/PerPrioritizationForm/schema';
 import useTranslation from '#hooks/useTranslation';
 import type { paths } from '#generated/types';
+import KeyFigure from '#components/KeyFigure';
 
 import Container from '#components/Container';
-import Page from '#components/Page';
 import TextOutput from '#components/TextOutput';
-import ProgressBar from '#components/ProgressBar';
-import BarChart from '#components/BarChart';
-import TimeSeriesChart from '#components/TimeSeriesChart';
-import ComponentInput from './ComponentInput';
+import { numericCountSelector, numericIdSelector, stringTitleSelector } from '#utils/selectors';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import RatingByAreaChart from './RatingByAreaChart';
+import Header from '#components/Header';
 
-type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['get']['responses']['200']['content']['application/json'];
-type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
-type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
-type PerFormComponentResponse = paths['/api/v2/per-formcomponent/']['get']['responses']['200']['content']['application/json'];
-type PerCountryResponse = paths['/api/v2/per-country/']['get']['responses']['200']['content']['application/json'];
+type GetLatestPerOverview = paths['/api/v2/latest-per-overview/']['get'];
+type LatestPerOverviewResponse = GetLatestPerOverview['responses']['200']['content']['application/json'];
 
-const dataKeyToClassNameMap = {
-    componentrating: styles.componentRating,
-    year: styles.year,
-};
+type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
+type PerOverviewResponse = paths['/api/v2/per-overview/{id}/']['get']['responses']['200']['content']['application/json'];
+type PerAssessmentResponse = paths['/api/v2/per-assessment/{id}/']['get']['responses']['200']['content']['application/json'];
 
-type DATA_KEY = 'componentrating' | 'year';
-
-const classNameSelector = (dataKey: DATA_KEY) => dataKeyToClassNameMap[dataKey];
-const xAxisFormatter = (date: Date) => date.toLocaleString(undefined, { year: 'numeric' });
-
-function perAssessmentRatingTypeKeySelector(
-    perAssessmentRatingType: NonNullable<AssessmentResponse['area_responses']>[number],
-) {
-    return perAssessmentRatingType.id;
-}
-
-const dataKeys: DATA_KEY[] = [
-    'componentrating',
-    'year',
-];
-
-const getFormattedKey = (dateFromProps: string | Date) => {
-    const date = new Date(dateFromProps);
-    return `${date.getFullYear()}-${date.getMonth()}`;
-};
-
-const now = new Date();
-const startDate = new Date(now.getFullYear() - 5, 0, 1);
-const endDate = new Date(now.getFullYear(), 11, 31);
-const dateList = getDatesSeparatedByYear(startDate, endDate);
+type PerFormAnswerResponse = paths['/api/v2/per-formanswer/']['get']['responses']['200']['content']['application/json'];
 
 const PIE_COLORS = [
     'var(--go-ui-color-red-90)',
-    'var(--go-ui-color-red-70)',
-    'var(--go-ui-color-red-50)',
+    'var(--go-ui-color-red-60)',
     'var(--go-ui-color-red-40)',
     'var(--go-ui-color-red-20)',
     'var(--go-ui-color-red-10)',
@@ -82,317 +48,212 @@ const PIE_COLORS = [
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const { countryId } = useParams<{ countryId: string }>();
 
-    const {
-        setFieldValue,
-    } = useForm(
-        prioritizationSchema,
-        {
-            value: {},
-        },
-    );
-
-    const {
-        response: perAssessmentResponse,
-    } = useRequest<AssessmentResponse>({
-        url: 'api/v2/per-assessment/6',
+    const { response: formAnswerResponse } = useRequest<PerFormAnswerResponse>({
+        url: '/api/v2/per-formanswer/',
     });
 
-    console.info(perAssessmentResponse);
-
-    const {
-        response: formComponentResponse,
-    } = useRequest<PerFormComponentResponse>({
-        url: 'api/v2/per-formcomponent/',
-        query: {
-            limit: 500,
-        },
+    const { response: latestPerResponse } = useRequest<LatestPerOverviewResponse>({
+        url: '/api/v2/latest-per-overview/',
+        skip: isNotDefined(countryId),
+        query: { country_id: countryId },
     });
 
+    const perId = latestPerResponse?.results?.[0]?.id;
+
     const {
-        response: perCountryResponse,
-    } = useRequest<PerCountryResponse>({
-        url: 'api/v2/per-country/',
-        query: {
-            country_id: 123,
-        },
+        response: processStatusResponse,
+    } = useRequest<PerProcessStatusResponse>({
+        skip: isNotDefined(perId),
+        url: `api/v2/per-process-status/${perId}/`,
     });
 
-    const aggregatedPer = perCountryResponse?.results?.[0];
-
-    const {
-        response: perOptionsResponse,
-    } = useRequest<PerOptionsResponse>({
-        url: 'api/v2/per-options',
+    const { response: overviewResponse } = useRequest<PerOverviewResponse>({
+        skip: isNotDefined(perId),
+        url: `/api/v2/per-overview/${perId}/`,
     });
 
-    const {
-        response: questionsResponse,
-    } = useRequest<PerFormQuestionResponse>({
-        url: 'api/v2/per-formquestion/',
-        query: {
-            limit: 500,
-        },
+    const { response: assessmentResponse } = useRequest<PerAssessmentResponse>({
+        skip: isNotDefined(processStatusResponse?.assessment),
+        url: `/api/v2/per-assessment/${processStatusResponse?.assessment}/`,
     });
 
-    const {
-        setValue: setComponentValue,
-    } = useFormArray('component_responses', setFieldValue);
-
-    const [activePointKey, setActivePointKey] = useState<string>(
-        () => getFormattedKey(dateList[dateList.length - 1]),
-    );
-
-    const ratingDetail = perAssessmentResponse?.area_responses?.map(
-        (component) => component.component_responses?.map(
-            (rating) => rating.rating_details,
+    const formAnswerMap = useMemo(
+        () => (
+            listToMap(
+                formAnswerResponse?.results ?? [],
+                (answer) => answer.id,
+                (answer) => answer.text,
+            )
         ),
+        [formAnswerResponse],
     );
 
-    const highlightedComponent = unique(
-        ratingDetail?.map((rating) => rating?.find((item) => item?.value === 5),
-        ));
-
-    const allAnsweredResponses = perAssessmentResponse?.area_responses?.map(
-        (areaResponse) => areaResponse?.component_responses?.map(
-            (componentResponse) => componentResponse.question_responses,
-        ),
-    ).flat(2).filter(
-        (questionResponse) => isDefined(questionResponse?.answer),
-    );
-
-    const areaIdToTitleMap = listToMap(
-        questionsResponse?.results ?? [],
-        (question) => question?.component.area.id,
-        (question) => question?.component.area.title,
-    );
-
-    const ratingIdToValueMap = listToMap(
-        perOptionsResponse?.componentratings,
-        (rating) => rating.id,
-        (rating) => rating.value,
-    );
-
-    const groupedResponses = listToGroupList(
-        allAnsweredResponses ?? [],
-        (response) => response?.answer ?? -1,
-    );
-
-    const answerIdToLabelMap = listToMap(
-        perOptionsResponse?.answers,
-        (answer) => answer.id,
-        (answer) => answer.text,
-    );
-
-    const groupedResponseList = mapToList(
-        groupedResponses,
-        (responses, answer) => {
-            if (isNotDefined(answer)) {
+    const assessmentStats = useMemo(
+        () => {
+            if (!assessmentResponse) {
                 return undefined;
             }
 
-            const numericAnswer = Number(answer);
-
-            if (numericAnswer === -1) {
-                return undefined;
-            }
-
-            return {
-                answer: numericAnswer,
-                responses,
-                answerDisplay: answerIdToLabelMap?.[Number(answer)],
-            };
-        },
-    ).filter(isDefined);
-
-    const averageRatingByAreaMap = listToMap(
-        perAssessmentResponse?.area_responses ?? [],
-        (areaResponse) => areaResponse?.area ?? -1,
-        (areaResponse) => {
-            const filteredComponents = areaResponse?.component_responses?.filter(
-                (component) => !!component?.rating,
-            ) ?? [];
-
-            if (filteredComponents.length === 0) {
-                return 0;
-            }
-
-            const ratings = filteredComponents.map(
-                (component) => (
-                    isDefined(component.rating)
-                        ? ratingIdToValueMap?.[component.rating]
-                        : 0
+            const componentList = assessmentResponse.area_responses?.flatMap(
+                (areaResponse) => (
+                    areaResponse.component_responses?.map(
+                        (componentResponse) => ({
+                            area: areaResponse.area_details,
+                            rating: componentResponse.rating_details,
+                            details: componentResponse.component_details,
+                        }),
+                    )
                 ),
+            ).filter(isDefined) ?? [];
+
+            function getAverage(list: number[]) {
+                if (list.length === 0) {
+                    return 0;
+                }
+
+                const total = sumSafe(list);
+                if (isNotDefined(total)) {
+                    return 0;
+                }
+
+                return total / list.length;
+            }
+
+            const ratingByArea = mapToList(
+                listToGroupList(
+                    componentList,
+                    (component) => component.area.id,
+                ),
+                (groupedComponentList) => ({
+                    id: groupedComponentList[0].area.id,
+                    title: groupedComponentList[0].area.title,
+                    value: getAverage(
+                        groupedComponentList.map((component) => component.rating.value),
+                    ),
+                }),
             );
 
-            const ratingSum = sumSafe(ratings) ?? 0;
-            const avgRating = ratingSum / filteredComponents.length;
+            const averageRating = getAverage(
+                componentList.map((component) => component.rating.value),
+            );
 
-            return avgRating;
+            const ratingCounts = mapToList(
+                listToGroupList(
+                    componentList,
+                    (component) => component.rating.value,
+                ),
+                (ratingList) => ({
+                    id: ratingList[0].rating.id,
+                    value: ratingList[0].rating.value,
+                    count: ratingList.length,
+                    title: ratingList[0].rating.title,
+                }),
+            ).sort((a, b) => (
+                compareNumber(a.value, b.value, -1)
+            ));
+
+            const componentAnswerList = assessmentResponse.area_responses?.flatMap(
+                (areaResponse) => (
+                    areaResponse.component_responses?.flatMap(
+                        (componentResponse) => componentResponse.question_responses,
+                    )
+                ),
+            ).filter(isDefined) ?? [];
+
+            const answerCounts = mapToList(
+                listToGroupList(
+                    componentAnswerList,
+                    (questionResponse) => questionResponse.answer,
+                ),
+                (answerList) => ({
+                    id: answerList[0].answer,
+                    label: formAnswerMap[answerList[0].answer] ?? '-',
+                    count: answerList.length,
+                }),
+            );
+
+            return {
+                ratingCounts,
+                averageRating,
+                answerCounts,
+                ratingByArea,
+            };
         },
-    );
-
-    const averageRatingByAreaList = mapToList(
-        areaIdToTitleMap,
-        (title, areaId) => ({
-            areaId,
-            rating: averageRatingByAreaMap[Number(areaId)] ?? 0,
-            areaDisplay: title,
-        }),
-    );
-
-    const ratingIdToTitleMap = listToMap(
-        perOptionsResponse?.componentratings,
-        (rating) => rating.id,
-        (rating) => rating.title,
-    );
-
-    const allAnsweredComponents = perAssessmentResponse?.area_responses?.map(
-        (areaResponse) => areaResponse?.component_responses,
-    ).flat().filter((component) => !!component?.rating);
-
-    const ratingGroupedComponents = listToGroupList(
-        allAnsweredComponents,
-        (component) => component?.rating ?? 0,
-    );
-
-    const statusGroupedComponentList = mapToList(
-        ratingGroupedComponents,
-        (components, rating) => ({
-            ratingId: Number(rating),
-            ratingValue: ratingIdToValueMap?.[Number(rating)],
-            ratingDisplay: ratingIdToTitleMap?.[Number(rating)],
-            components,
-        }),
-    );
-
-    const chartValueSelector = useCallback(
-        (dataKey: DATA_KEY, date: Date) => (
-            perOptionsResponse?.componentratings?.[dataKey]?.[getFormattedKey(date)]?.count ?? 0
-        ),
-        [perOptionsResponse],
-    );
-
-    const componentResponseMapping = listToMap(
-        perAssessmentResponse?.component_responses ?? [],
-        (componentResponse) => componentResponse.component,
-        (componentResponse, _, index) => ({
-            index,
-            value: componentResponse,
-        }),
-    );
-
-    const assessmentComponentResponses = useMemo(
-        () => (
-            perAssessmentResponse?.area_responses?.flatMap(
-                (areaResponse) => areaResponse.component_responses,
-            ) ?? []
-        ),
-        [perAssessmentResponse],
-    );
-
-    const assessmentQuestionResponsesByComponent = useMemo(
-        () => (
-            listToMap(
-                assessmentComponentResponses?.filter(isDefined),
-                (componentResponse) => componentResponse.component,
-                (componentResponse) => componentResponse.question_responses,
-            )
-        ),
-        [assessmentComponentResponses],
-    );
-
-    const assessmentComponentResponseMap = useMemo(
-        () => (
-            listToMap(
-                assessmentComponentResponses?.filter(isDefined),
-                (componentResponse) => componentResponse.component,
-            )
-        ),
-        [assessmentComponentResponses],
+        [assessmentResponse, formAnswerMap],
     );
 
     return (
-        <Page
-            heading={strings.nSPreparednessAndResponseCapacityHeading}
-        >
-            <Container
-                childrenContainerClassName={styles.perCountryDetails}
-            >
-                <div className={styles.contactList}>
-                    <TextOutput
-                        label={strings.startDateTitle}
-                        value={aggregatedPer?.date_of_assessment}
-                        valueType="date"
-                    />
-                    <TextOutput
-                        label={strings.perPhaseTitle}
-                        value={aggregatedPer?.phase_display}
-                    />
-                    <TextOutput
-                        label={strings.focalPointTitle}
-                        value={aggregatedPer?.ns_focal_point_name}
-                    />
-                    <TextOutput
-                        label={strings.perCycleTitle}
-                        value={aggregatedPer?.phase}
-                        valueType="number"
-                    />
-                    <TextOutput
-                        label={strings.typeOfAssessmentTitle}
-                        value={aggregatedPer?.type_of_assessment?.name}
-                    />
-                    <TextOutput
-                        label={strings.emailTitle}
-                        value={aggregatedPer?.ns_focal_point_email}
-                    />
-                </div>
-            </Container>
+        <div className={styles.countryPreparedness}>
+            <Header
+                heading={strings.nsPreparednessAndResponseCapacityHeading}
+                headingLevel={2}
+            />
+            <div className={styles.latestPerDetails}>
+                <TextOutput
+                    label={strings.startDateTitle}
+                    value={overviewResponse?.date_of_assessment}
+                    valueType="date"
+                />
+                <TextOutput
+                    label={strings.perPhaseTitle}
+                    value={processStatusResponse?.phase_display}
+                />
+                <TextOutput
+                    label={strings.focalPointTitle}
+                    value={overviewResponse?.ns_focal_point_name}
+                />
+                <TextOutput
+                    label={strings.perCycleTitle}
+                    value={overviewResponse?.phase}
+                    valueType="number"
+                />
+                <TextOutput
+                    label={strings.typeOfAssessmentTitle}
+                    value={overviewResponse?.type_of_assessment_details?.name}
+                />
+                <TextOutput
+                    label={strings.emailTitle}
+                    value={overviewResponse?.ns_focal_point_email}
+                />
+            </div>
             <Container
                 heading={strings.perAssessmentHeading}
                 withHeaderBorder
                 childrenContainerClassName={styles.progressBar}
             >
-                <PieChart
-                    data={statusGroupedComponentList ?? []}
-                    valueSelector={(d) => d.ratingValue ?? 0}
-                    labelSelector={(d) => d.ratingDisplay}
-                    keySelector={(d) => d.ratingId}
-                    colors={PIE_COLORS}
+                {assessmentStats && (
+                    <PieChart
+                        data={assessmentStats.ratingCounts}
+                        valueSelector={numericCountSelector}
+                        labelSelector={stringTitleSelector}
+                        keySelector={numericIdSelector}
+                        colors={PIE_COLORS}
+                    />
+                )}
+                <KeyFigure
+                    value={assessmentStats?.averageRating}
+                    description="Average Component Rating"
                 />
-                <ProgressBar
-                    title={strings.totalBenchmarkSummaryTitle}
-                    showPercentageInTitle
-                    value={allAnsweredResponses?.length ?? 0}
-                    totalValue={questionsResponse?.count}
-                    description={(
-                        <div className={styles.answerCounts}>
-                            {groupedResponseList.map(
-                                (groupedResponse) => (
-                                    <TextOutput
-                                        key={groupedResponse.answer}
-                                        label={groupedResponse.answerDisplay}
-                                        value={groupedResponse.responses.length}
-                                    />
-                                ),
-                            )}
-                        </div>
-                    )}
-                />
+                {assessmentStats?.answerCounts.map(
+                    (answer) => (
+                        <KeyFigure
+                            value={answer.count}
+                            description={answer.label}
+                        />
+                    ),
+                )}
             </Container>
             <Container
                 heading={strings.componentsByAreaHeading}
                 withHeaderBorder
             >
-                <BarChart
-                    className={styles.avgComponentRating}
-                    data={averageRatingByAreaList ?? []}
-                    // FIXME: don't use inline selectors
-                    keySelector={(rating) => rating.areaId}
-                    valueSelector={(rating) => rating.rating}
-                    labelSelector={(rating) => rating.areaDisplay}
+                <RatingByAreaChart
+                    data={assessmentStats?.ratingByArea}
                 />
             </Container>
+            {/*
             <Container
                 heading={strings.previousPerAssessment}
                 withHeaderBorder
@@ -439,7 +300,8 @@ export function Component() {
                     );
                 })}
             </Container>
-        </Page>
+              */}
+        </div>
     );
 }
 

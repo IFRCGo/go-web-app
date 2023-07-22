@@ -20,10 +20,18 @@ export function stringNameSelector(option: { name: string }) {
     return option.name;
 }
 
+export function stringTitleSelector(option: { title: string }) {
+    return option.title;
+}
+
 export function stringKeySelector(option: { key: string }) {
     return option.key;
 }
 
 export function numericKeySelector(option: { key: number }) {
     return option.key;
+}
+
+export function numericCountSelector(option: { count: number }) {
+    return option.count;
 }

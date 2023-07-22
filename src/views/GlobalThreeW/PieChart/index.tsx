@@ -113,7 +113,11 @@ function PieChart<D>(props: Props<D>) {
                             className={styles.path}
                             d={getPathData(PIE_RADIUS, datum.startAngle, datum.endAngle)}
                             fill={colors[i]}
-                        />
+                        >
+                            <title>
+                                {`${datum.label}: ${datum.value}`}
+                            </title>
+                        </path>
                     ))}
                 </g>
             </svg>

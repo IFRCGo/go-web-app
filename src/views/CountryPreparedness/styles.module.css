@@ -1,63 +1,16 @@
-.per-country-details{
+.country-preparedness {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-4xl) 0;
+    gap: var(--go-ui-spacing-4xl);
 
-    box-shadow: var(--go-ui-box-shadow-lg);
-    .contact-list {
-        display: flex;
-        justify-content: space-evenly;
+    .latest-per-details {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-xl);
+        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 
-        .contact-details {
-            display: flex;
-            align-items: center;
-            gap: var(--go-ui-spacing-4xl);
+        @media screen and (max-width: 30rem) {
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
         }
     }
-}
-
-.progress-bar {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
-
-.answer-counts {
-    display: flex;
-    gap: var(--go-ui-spacing-lg);
-}
-
-.yearly-chart {
-    --color-dref: var(--go-ui-color-primary-blue);
-    --color-emergency-appeal: var(--go-ui-color-primary-red);
-    min-height: 24rem;
-
-    .chart-container {
-        display: flex;
-        position: relative;
-        flex-wrap: wrap;
-
-        .loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .timeline-chart {
-            flex-basis: 40rem;
-            flex-grow: 2;
-            height: 22rem;
-            --path-stroke-width: 1pt;
-        }
-    }
-}
-
-.highlighted-component {
-    box-shadow: var(--go-ui-box-shadow-lg);
-    padding: var(--go-ui-spacing-2xl);
-}
-
-.highlighted-component-list {
-    display: flex;
-    justify-content: space-between;
 }
