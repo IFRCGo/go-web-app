@@ -128,6 +128,18 @@ const estimationPriorityMap: Record<IpcEstimationType, number> = {
 };
 
 export function getPrioritizedIpcData(data: IpcData) {
+    // For IPC, we can have multiple estimations or observed value
+    // for same year and month.
+    // So we need to prioritize entries that is from latest
+    // observation or predection
+    // So the priority order is
+    // Observed > Estimated
+    // Latest analysis date
+
+    // We sort the data by year, month first and then priority
+    // so that it's easier to extract the unique values
+    // NOTE: unique will keep first entry as unique and discard
+    // duplicate, so we need to sort by highest priority first
     const sortedData = data?.map(
         (item) => {
             if (isFalsyString(item.estimation_type) || item.estimation_type === '') {
@@ -191,6 +203,9 @@ export function getFiRiskDataItem(data: IpcData | undefined) {
 
     const uniqueData = getPrioritizedIpcData(data);
     const ipcRiskDataItem = getAverageIpcData(uniqueData);
+
+    // To get additional information (i.e. hazard type display, country details
+    // which is common to all entry
     const firstData = data[0];
 
     return {
@@ -223,10 +238,12 @@ export function getWfRiskDataItem(data: GwisData | undefined) {
         (item) => avgSafe(item),
     );
 
-    const firstYearData = data[0];
     const monthlyValueList = Object.values(gwisRiskDataItem);
     const annual_average = avgSafe(monthlyValueList);
 
+    // To get additional information (i.e. hazard type display, country details
+    // which is common to all entry
+    const firstYearData = data[0];
     return {
         hazard_type: 'WF' as const,
         hazard_type_display: firstYearData?.hazard_type_display,
@@ -244,11 +261,21 @@ export function hasSomeDefinedValue(riskDataItem: RiskDataItem) {
     ).some(Boolean);
 }
 
-export function riskScoreToCategory(score: number | undefined | null, hazardType: HazardType) {
+type RiskCategory = 1 | 2 | 3 | 4 | 5;
+
+export function riskScoreToCategory(
+    score: number | undefined | null,
+    hazardType: HazardType,
+) {
     if (isNotDefined(score) || score < 0) {
         return undefined;
     }
 
+    // Wildfire categorization loosely based on
+    // https://link.springer.com/article/10.1007/s11069-021-05054-4/tables/2
+    //
+    // Inform risk categorization based on
+    // https://drmkc.jrc.ec.europa.eu/inform-index/INFORM-Risk/Results-and-data/moduleId/1782/id/453/controller/Admin/action/Results#inline-nav-2
     const scoreCategories = hazardType === 'WF' ? [
         { score: 1000, category: CATEGORY_RISK_VERY_HIGH },
         { score: 17, category: CATEGORY_RISK_HIGH },
@@ -263,13 +290,15 @@ export function riskScoreToCategory(score: number | undefined | null, hazardType
         { score: 2, category: CATEGORY_RISK_VERY_LOW },
     ];
 
-    const currentCategory = scoreCategories.reverse().filter(
+    // Find category by comparing score to set of categories
+    // We start from the smallest first so we reverse the list
+    const currentCategory = scoreCategories.reverse().find(
         (category) => score <= category.score,
     );
 
-    if (currentCategory.length === 0) {
+    if (isNotDefined(currentCategory)) {
         return undefined;
     }
 
-    return currentCategory[0].category;
+    return currentCategory.category as RiskCategory;
 }

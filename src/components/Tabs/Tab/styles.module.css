@@ -158,7 +158,7 @@
 
     &.disabled {
         .step-circle {
-            opacity: var(--go-ui-opacity-5);
+            opacity: var(--go-ui-opacity-disabled-element);
             filter: saturate(50%);
         }
     }

@@ -12,6 +12,7 @@ import {
     mapToMap,
 } from '@togglecorp/fujs';
 
+import ChartAxes from '#components/ChartAxes';
 import useSizeTracking from '#hooks/useSizeTracking';
 import { formatNumber, maxSafe } from '#utils/common';
 import {
@@ -26,7 +27,6 @@ import {
 } from '#utils/constants';
 import { paths } from '#generated/riskTypes';
 
-import ChartAxes from '../ChartAxes';
 import styles from './styles.module.css';
 
 type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
@@ -107,7 +107,9 @@ function FoodInsecurityChart(props: Props) {
 
             const yearKeys = Object.keys(yearGroupedData);
             const currentYear = new Date().getFullYear();
-            const predictionYear = yearKeys[yearKeys.length - 1];
+            const predictionYear = yearKeys.length === 0
+                ? undefined
+                : yearKeys[yearKeys.length - 1];
 
             const chartPoints = Array.from(Array(12).keys()).map(
                 (monthKey) => {
@@ -220,11 +222,11 @@ function FoodInsecurityChart(props: Props) {
                 {chartData.yearlyPathPoints.map(
                     (pathPoints, i) => (
                         getDiscretePathDataList(pathPoints.points)?.map(
-                            (discretePaths) => (
+                            (discretePath) => (
                                 <path
                                     className={styles.path}
-                                    key={pathPoints.key}
-                                    d={discretePaths}
+                                    key={`${pathPoints.key}-${discretePath}`}
+                                    d={discretePath}
                                     stroke={pathPoints.key === chartData.predictionYear
                                         ? COLOR_PRIMARY_RED : colors[i]}
                                 />
@@ -233,10 +235,11 @@ function FoodInsecurityChart(props: Props) {
                     ),
                 )}
                 {getDiscretePathDataList(chartData.averagePathPoints)?.map(
-                    (discretePaths) => (
+                    (discretePath) => (
                         <path
+                            key={discretePath}
                             className={styles.averagePath}
-                            d={discretePaths}
+                            d={discretePath}
                             stroke={COLOR_HAZARD_FOOD_INSECURITY}
                         />
                     ),
@@ -259,6 +262,7 @@ function FoodInsecurityChart(props: Props) {
 
                                         return (
                                             <circle
+                                                key={year}
                                                 className={styles.point}
                                                 cx={point.x}
                                                 cy={y}

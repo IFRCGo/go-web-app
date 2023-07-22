@@ -11,6 +11,7 @@ import {
     mapToMap,
 } from '@togglecorp/fujs';
 
+import ChartAxes from '#components/ChartAxes';
 import useSizeTracking from '#hooks/useSizeTracking';
 import useTranslation from '#hooks/useTranslation';
 import { getScaleFunction } from '#utils/chart';
@@ -33,7 +34,6 @@ import {
     CATEGORY_RISK_VERY_LOW,
 } from '#utils/constants';
 
-import ChartAxes from '../ChartAxes';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -215,6 +215,10 @@ function CombinedChart(props: Props) {
                 ),
             );
 
+            if (maxValueList.length === 0) {
+                return 0;
+            }
+
             return Math.max(...maxValueList);
         },
         [filteredRiskData],
@@ -233,6 +237,10 @@ function CombinedChart(props: Props) {
 
     const yAxisPoints = useMemo(
         () => {
+            if (maxValue === 0) {
+                return [];
+            }
+
             const numYAxisPoints = 6;
             const diff = maxValue / (numYAxisPoints - 1);
 
@@ -351,13 +359,15 @@ function CombinedChart(props: Props) {
                                             + (barWidth + barGap) * i
                                             + barMonthPadding}
                                         y={datum.y[hazard] ?? 0}
-                                        width={barWidth}
+                                        width={Math.max(barWidth, 0)}
                                         height={(
                                             isDefined(datum.y[hazard])
-                                                ? chartBounds.height
-                                                    - (datum.y[hazard] ?? 0)
-                                                    - chartMargin.bottom
-                                                : 0
+                                                ? Math.max(
+                                                    chartBounds.height
+                                                        - (datum.y[hazard] ?? 0)
+                                                        - chartMargin.bottom,
+                                                    0,
+                                                ) : 0
                                         )}
                                         fill={hazardTypeToColorMap[hazard]}
                                     >

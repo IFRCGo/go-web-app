@@ -6,10 +6,6 @@ import RawButton from '#components/RawButton';
 
 import styles from './styles.module.css';
 
-const date = new Date();
-date.setDate(1);
-date.setMonth(0);
-
 const keyList = Array.from(Array(12).keys());
 const defaultValue = listToMap(
     keyList,
@@ -78,6 +74,7 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
                         // Clicked on previously selected month
                         || (numTruthyValues === 1 && prevValue?.[month])
                     ) {
+                        // Selecting only single value
                         return {
                             ...defaultValue,
                             [month]: true,
@@ -87,6 +84,7 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
                     const truthyValueStartIndex = prevValueList.findIndex(Boolean);
                     const newValueList = [...prevValueList];
                     const lengthDiff = Math.abs(month - truthyValueStartIndex);
+                    // Fill selection start to end with true
                     newValueList.splice(
                         Math.min(truthyValueStartIndex, month),
                         lengthDiff,
@@ -94,11 +92,13 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
                     );
                     const maxIndex = Math.max(truthyValueStartIndex, month) + 1;
                     const remaining = newValueList.length - maxIndex;
+                    // Fill remaining trailing value with false
                     newValueList.splice(
                         maxIndex,
                         remaining,
                         ...Array(remaining).fill(false),
                     );
+                    // Make sure that yearly average is always false when selecting a range
                     newValueList.splice(12, 1, false);
 
                     return listToMap(
@@ -118,7 +118,10 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
             <div className={styles.monthList}>
                 {keyList.map(
                     (key) => {
+                        const date = new Date();
+                        date.setDate(1);
                         date.setMonth(key);
+
                         const monthName = date.toLocaleString(
                             navigator.language,
                             { month: 'short' },

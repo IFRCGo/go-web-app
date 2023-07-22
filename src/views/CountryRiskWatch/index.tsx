@@ -44,6 +44,9 @@ export function Component() {
         },
     });
 
+    // NOTE: we always get 1 child in the response
+    const riskResponse = countryRiskResponse?.[0];
+
     return (
         <div className={styles.countryRiskWatch}>
             <Container
@@ -59,7 +62,7 @@ export function Component() {
                     onChange={setSelectedMonths}
                 />
                 <RiskTable
-                    riskData={countryRiskResponse?.[0]}
+                    riskData={riskResponse}
                     selectedMonths={selectedMonths}
                     dataPending={pendingCountryRiskResponse}
                 />
@@ -84,14 +87,14 @@ export function Component() {
             </div>
             <RiskBarChart
                 pending={pendingCountryRiskResponse}
-                riskData={countryRiskResponse?.[0]}
+                riskData={riskResponse}
             />
             <PossibleEarlyActionTable
                 countryId={Number(countryId)}
                 countryResponse={countryResponse}
             />
             <ReturnPeriodTable
-                data={countryRiskResponse?.[0]?.return_period_data}
+                data={riskResponse?.return_period_data}
             />
             <HistoricalDataChart countryId={Number(countryId)} />
         </div>

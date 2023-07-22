@@ -13,9 +13,6 @@ import {
     createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
 import Link from '#components/Link';
-import type { paths } from '#generated/riskTypes';
-import { resolveToComponent } from '#utils/translation';
-
 import useTranslation from '#hooks/useTranslation';
 import { minSafe } from '#utils/common';
 import {
@@ -24,7 +21,17 @@ import {
     getFiRiskDataItem,
     getWfRiskDataItem,
     hasSomeDefinedValue,
+    riskScoreToCategory,
 } from '#utils/risk';
+import {
+    CATEGORY_RISK_HIGH,
+    CATEGORY_RISK_LOW,
+    CATEGORY_RISK_MEDIUM,
+    CATEGORY_RISK_VERY_HIGH,
+    CATEGORY_RISK_VERY_LOW,
+} from '#utils/constants';
+import { resolveToComponent } from '#utils/translation';
+import type { paths } from '#generated/riskTypes';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -83,35 +90,32 @@ function RiskTable(props: Props) {
 
     type HazardTypeOption = (typeof hazardTypeList)[number];
 
-    const riskScoreToCategory = useCallback(
+    const hazardKeySelector = useCallback(
+        (d: HazardTypeOption) => d.hazard_type,
+        [],
+    );
+
+    const riskScoreToLabel = useCallback(
         (score: number | undefined | null, hazardType: HazardTypeOption['hazard_type']) => {
             if (isNotDefined(score) || score < 0) {
                 return '-';
             }
 
-            const scoreCategories = hazardType === 'WF' ? [
-                { score: 1000, label: strings.riskScoreVeryHighLabel },
-                { score: 17, label: strings.riskScoreHighLabel },
-                { score: 9, label: strings.riskScoreMediumLabel },
-                { score: 5, label: strings.riskScoreLowLabel },
-                { score: 2, label: strings.riskScoreVeryLowLabel },
-            ] : [
-                { score: 10, label: strings.riskScoreVeryHighLabel },
-                { score: 6.5, label: strings.riskScoreHighLabel },
-                { score: 5, label: strings.riskScoreMediumLabel },
-                { score: 3.5, label: strings.riskScoreLowLabel },
-                { score: 2, label: strings.riskScoreVeryLowLabel },
-            ];
+            const riskCategory = riskScoreToCategory(score, hazardType);
 
-            const currentCategory = scoreCategories.reverse().filter(
-                (category) => score <= category.score,
-            );
-
-            if (currentCategory.length === 0) {
+            if (isNotDefined(riskCategory)) {
                 return strings.riskScoreNotApplicableLabel;
             }
 
-            return currentCategory[0].label;
+            const riskCategoryToLabelMap = {
+                [CATEGORY_RISK_VERY_HIGH]: strings.riskScoreVeryHighLabel,
+                [CATEGORY_RISK_HIGH]: strings.riskScoreHighLabel,
+                [CATEGORY_RISK_MEDIUM]: strings.riskScoreMediumLabel,
+                [CATEGORY_RISK_LOW]: strings.riskScoreLowLabel,
+                [CATEGORY_RISK_VERY_LOW]: strings.riskScoreVeryLowLabel,
+            };
+
+            return riskCategoryToLabelMap[riskCategory];
         },
         [strings],
     );
@@ -158,7 +162,7 @@ function RiskTable(props: Props) {
             createStringColumn<HazardTypeOption, string>(
                 'riskScore',
                 strings.riskTableInformTitle,
-                (option) => riskScoreToCategory(
+                (option) => riskScoreToLabel(
                     getDisplacementForSelectedMonths(
                         selectedMonths,
                         informSeasonalRiskData[option.hazard_type],
@@ -209,6 +213,11 @@ function RiskTable(props: Props) {
                 'displacement',
                 strings.riskTableDisplacementTitle,
                 (option) => {
+                    // NOTE: Naturally displacement should always be greater than
+                    // or equal to the exposure. To follow that logic we reduce
+                    // displacement value to show the exposure in case displacement
+                    // is greater than exposure
+
                     const exposure = getDisplacementForSelectedMonths(
                         selectedMonths,
                         exposureRiskData[option.hazard_type],
@@ -237,7 +246,7 @@ function RiskTable(props: Props) {
             exposureRiskData,
             informSeasonalRiskData,
             strings,
-            riskScoreToCategory,
+            riskScoreToLabel,
             selectedMonths,
         ],
     );
@@ -249,7 +258,7 @@ function RiskTable(props: Props) {
             className={_cs(styles.riskTable, className)}
             data={hazardTypeList}
             columns={riskTableColumns}
-            keySelector={(d: HazardTypeOption) => d.hazard_type}
+            keySelector={hazardKeySelector}
         />
     );
 }

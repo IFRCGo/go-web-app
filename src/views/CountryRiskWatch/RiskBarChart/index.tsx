@@ -45,6 +45,10 @@ type RiskMetricOption = {
     applicableHazards: Record<HazardType, boolean>;
 }
 
+function riskMetricKeySelector(option: RiskMetricOption) {
+    return option.key;
+}
+
 function hazardTypeKeySelector(option: HazardTypeOption) {
     return option.hazard_type;
 }
@@ -184,7 +188,7 @@ function RiskBarChart(props: Props) {
                     <SelectInput
                         name={undefined}
                         options={riskMetricOptions}
-                        keySelector={(option) => option.key}
+                        keySelector={riskMetricKeySelector}
                         labelSelector={stringLabelSelector}
                         value={selectedRiskMetric}
                         onChange={handleRiskMetricChange}

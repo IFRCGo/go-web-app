@@ -1,5 +1,4 @@
 import {
-    Fragment,
     useMemo,
     useRef,
 } from 'react';
@@ -16,24 +15,25 @@ import {
     StormIcon,
 } from '@ifrc-go/icons';
 
-import { useRequest } from '#utils/restRequest';
-import type { paths } from '#generated/types';
 import Container from '#components/Container';
 import SelectInput from '#components/SelectInput';
 import DropdownMenu from '#components/DropdownMenu';
 import TextOutput from '#components/TextOutput';
+import ChartAxes from '#components/ChartAxes';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import useSizeTracking from '#hooks/useSizeTracking';
+import { useRequest } from '#utils/restRequest';
 import { numericIdSelector, stringNameSelector } from '#utils/selectors';
 import { getPrettyBreakableBounds, getScaleFunction } from '#utils/chart';
-import { formatNumber, sumSafe } from '#utils/common';
+import { formatNumber, getNumberOfDaysInMonth, sumSafe } from '#utils/common';
 import {
     COLOR_HAZARD_CYCLONE,
     COLOR_HAZARD_DROUGHT,
     COLOR_HAZARD_FLOOD,
     COLOR_HAZARD_FOOD_INSECURITY,
 } from '#utils/constants';
+import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -47,6 +47,8 @@ type DisasterType = Omit<PartialDisasterType, 'name'> & {
     name: string;
 }
 
+// TODO: Add a flag in database to mark these
+// disaster as risk hazards
 const DISASTER_FLOOD = 12;
 const DISASTER_FLASH_FLOOD = 27;
 const DISASTER_CYCLONE = 4;
@@ -62,7 +64,7 @@ const validDisastersForChart: Record<number, boolean> = {
 };
 
 const X_AXIS_HEIGHT = 24;
-const Y_AXIS_WIDTH = 24;
+const Y_AXIS_WIDTH = 32;
 const CHART_OFFSET = 16;
 
 const chartMargin = {
@@ -116,6 +118,23 @@ function getNumAffected(event: EventItem) {
             (appeal) => appeal.num_beneficiaries,
         ),
     ) ?? 0;
+}
+
+interface ChartPoint {
+    x: number;
+    y: number;
+    label: string | undefined;
+}
+
+function chartPointSelector(chartPoint: ChartPoint) {
+    return chartPoint;
+}
+
+function formatDate(date: Date) {
+    return date.toLocaleString(
+        navigator.language,
+        { month: 'short' },
+    );
 }
 
 interface Props {
@@ -176,6 +195,11 @@ function HistoricalDataChart(props: Props) {
             }
 
             const numAffectedList = filteredEvents.map(getNumAffected);
+
+            if (numAffectedList.length === 0) {
+                return 0;
+            }
+
             return Math.max(...numAffectedList);
         },
         [filteredEvents],
@@ -219,11 +243,13 @@ function HistoricalDataChart(props: Props) {
                     const disasterDate = new Date(event.disaster_start_date);
                     const date = disasterDate.getDate();
                     const month = disasterDate.getMonth();
-                    disasterDate.setMonth(month + 1);
-                    disasterDate.setDate(0);
-                    const totalDays = disasterDate.getDate();
-                    const monthValue = month + date / totalDays;
 
+                    const totalDays = getNumberOfDaysInMonth(
+                        disasterDate.getFullYear(),
+                        month,
+                    );
+
+                    const monthValue = month + date / totalDays;
                     const numAffected = getNumAffected(event);
 
                     return {
@@ -243,6 +269,10 @@ function HistoricalDataChart(props: Props) {
 
     const yAxisPoints = useMemo(
         () => {
+            if (isNotDefined(maxValue) || maxValue === 0) {
+                return [];
+            }
+
             const numYAxisPoints = 6;
             const diff = maxValue / (numYAxisPoints - 1);
 
@@ -250,9 +280,12 @@ function HistoricalDataChart(props: Props) {
                 (key) => {
                     const value = diff * key;
                     return {
-                        key,
-                        dataValue: value,
-                        value: yScale(value),
+                        x: Y_AXIS_WIDTH,
+                        y: yScale(value),
+                        label: formatNumber(
+                            value,
+                            { compact: true, maximumFractionDigits: 0 },
+                        ),
                     };
                 },
             );
@@ -263,24 +296,19 @@ function HistoricalDataChart(props: Props) {
     const xAxisPoints = useMemo(
         () => {
             const currentYear = new Date().getFullYear();
-            const formatDate = (date: Date) => date.toLocaleString(
-                navigator.language,
-                { month: 'short' },
-            );
-
             return Array.from(Array(12).keys()).map(
                 (key) => {
                     const date = new Date(currentYear, key, 1);
 
                     return {
-                        key,
+                        x: xScale(key),
+                        y: chartBounds.height - X_AXIS_HEIGHT + CHART_OFFSET,
                         label: formatDate(date),
-                        value: xScale(key),
                     };
                 },
             );
         },
-        [xScale],
+        [xScale, chartBounds],
     );
 
     return (
@@ -310,48 +338,15 @@ function HistoricalDataChart(props: Props) {
                 className={styles.chartContainer}
             >
                 <svg className={styles.svg}>
-                    {yAxisPoints.map((point) => (
-                        <Fragment key={point.key}>
-                            <text
-                                className={styles.yAxisTickText}
-                                x={CHART_OFFSET}
-                                y={point.value}
-                            >
-                                {formatNumber(
-                                    point.dataValue,
-                                    { compact: true, maximumFractionDigits: 0 },
-                                )}
-                            </text>
-                            <line
-                                className={styles.xAxisGridLine}
-                                x1={chartMargin.left - CHART_OFFSET}
-                                y1={point.value}
-                                x2={chartBounds.width - CHART_OFFSET}
-                                y2={point.value}
-                            />
-                        </Fragment>
-                    ))}
-                    {xAxisPoints.map((point) => (
-                        <Fragment key={point.key}>
-                            <line
-                                className={styles.yAxisGridLine}
-                                x1={point.value}
-                                y1={0}
-                                x2={point.value}
-                                y2={chartBounds.height - CHART_OFFSET}
-                            />
-                            <text
-                                className={styles.xAxisTickText}
-                                x={point.value}
-                                y={chartBounds.height - CHART_OFFSET}
-                                style={{
-                                    transformOrigin: `${point.value}px ${chartBounds.height - X_AXIS_HEIGHT}px`,
-                                }}
-                            >
-                                {point.label}
-                            </text>
-                        </Fragment>
-                    ))}
+                    <ChartAxes
+                        xAxisPoints={xAxisPoints}
+                        yAxisPoints={yAxisPoints}
+                        chartOffset={CHART_OFFSET}
+                        chartBounds={chartBounds}
+                        chartMargin={chartMargin}
+                        xAxisTickSelector={chartPointSelector}
+                        yAxisTickSelector={chartPointSelector}
+                    />
                 </svg>
                 {chartData?.map(
                     (point) => {

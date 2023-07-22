@@ -298,6 +298,7 @@ export function formatNumber(
         compact,
         separatorHidden,
     } = options;
+
     const formattingOptions: Intl.NumberFormatOptions = {};
 
     if (isTruthyString(unit)) {
@@ -318,10 +319,7 @@ export function formatNumber(
     if (isDefined(maximumFractionDigits)) {
         formattingOptions.maximumFractionDigits = maximumFractionDigits;
     } else {
-        formattingOptions.maximumFractionDigits = 2;
-        if (Math.abs(value) >= 1000) {
-            formattingOptions.maximumFractionDigits = 0;
-        }
+        formattingOptions.maximumFractionDigits = Math.abs(value) >= 1000 ? 0 : 2;
     }
 
     const newValue = new Intl.NumberFormat(navigator.language, formattingOptions)
@@ -353,4 +351,9 @@ export function splitList<ITEM>(
             return newList;
         },
     ).filter(isDefined);
+}
+
+export function getNumberOfDaysInMonth(year: number, month: number) {
+    const dateWithLastDateOfPrevMonth = new Date(year, month + 1, 0);
+    return dateWithLastDateOfPrevMonth.getDate();
 }

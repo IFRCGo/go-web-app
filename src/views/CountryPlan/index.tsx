@@ -34,7 +34,10 @@ export function Component() {
         response: countryPlanResponse,
     } = useRequest<GetCountryPlanResponse>({
         skip: isNotDefined(countryId) || !countryResponse?.has_country_plan,
-        url: `/api/v2/country-plan/${countryId}`,
+        url: '/api/v2/country-plan/{country}/',
+        pathVariables: {
+            country: countryId,
+        },
     });
 
     return (

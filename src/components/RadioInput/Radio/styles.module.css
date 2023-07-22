@@ -31,7 +31,7 @@
     }
 
     &.disabled {
-        opacity: var(--go-ui-opacity-50);
+        opacity: var(--go-ui-opacity-disabled-element);
     }
 
     &:not(.disabled) {

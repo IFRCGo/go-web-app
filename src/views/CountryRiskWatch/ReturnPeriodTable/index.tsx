@@ -120,11 +120,9 @@ function ReturnPeriodTable(props: Props) {
 
     const transformedReturnPeriods = useMemo<TransformedReturnPeriodData[]>(
         () => {
-            const filteredData = data?.filter(
+            const value = data?.find(
                 (d) => d.hazard_type === hazardType,
             );
-
-            const value = filteredData?.[0];
 
             return [
                 {

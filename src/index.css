@@ -162,26 +162,12 @@
     --go-ui-color-warning: var(--go-ui-color-yellow);
     --go-ui-color-negative: var(--go-ui-color-red);
     --go-ui-color-separator: rgb(0 0 0 / 0.1);
-    --go-ui-color-background: #F7F7F7;
+    --go-ui-color-background: #f7f7f7;
     --go-ui-color-foreground: #ffffff;
     --go-ui-color-background-overlay: rgb(255 255 255 / .88);
 
-    --go-ui-opacity-0: 0;
-    --go-ui-opacity-5: 0.05;
-    --go-ui-opacity-10: 0.1;
-    --go-ui-opacity-20: 0.2;
-    --go-ui-opacity-25: 0.25;
-    --go-ui-opacity-30: 0.3;
-    --go-ui-opacity-40: 0.4;
-    --go-ui-opacity-50: 0.5;
-    --go-ui-opacity-60: 0.6;
-    --go-ui-opacity-70: 0.7;
-    --go-ui-opacity-75: 0.75;
-    --go-ui-opacity-80: 0.8;
-    --go-ui-opacity-90: 0.9;
-    --go-ui-opacity-95: 0.95;
-    --go-ui-opacity-100: 1;
     --go-ui-opacity-disabled-element: 0.5;
+    --go-ui-opacity-chart-point: 0.8;
 
     --go-ui-width-min-modal: 18rem;
     --go-ui-height-min-modal: 11rem;

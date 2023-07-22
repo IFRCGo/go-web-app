@@ -108,6 +108,8 @@ export function resolvePath(
         return path;
     }
 
+    // TODO: use regex to parse and resolve path Variables
+    // TODO: Write test
     const parts = path.split('{');
     const resolvedParts = parts.map((part) => {
         const endIndex = part.indexOf('}');
@@ -154,11 +156,10 @@ export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additi
 
     const resolvedPath = resolvePath(url, pathVariables);
 
-    if (apiType === 'risk') {
-        return resolveUrl(riskApi, resolvedPath);
-    }
-
-    return resolveUrl(api, resolvedPath);
+    return resolveUrl(
+        apiType === 'risk' ? riskApi : api,
+        resolvedPath,
+    );
 };
 
 type Literal = string | number | boolean | File;

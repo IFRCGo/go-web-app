@@ -1,17 +1,21 @@
-import { paths } from '#generated/riskTypes';
+import { useMemo, useRef } from 'react';
 import { isDefined, listToGroupList, mapToList } from '@togglecorp/fujs';
 
-import { avgSafe, formatNumber } from '#utils/common';
-import { getDiscretePathDataList, getPathData, getScaleFunction } from '#utils/chart';
-import { useMemo, useRef } from 'react';
+import ChartAxes from '#components/ChartAxes';
 import useSizeTracking from '#hooks/useSizeTracking';
+import { avgSafe, formatNumber } from '#utils/common';
+import {
+    getDiscretePathDataList,
+    getPathData,
+    getScaleFunction,
+} from '#utils/chart';
 import {
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_BLUE,
     COLOR_PRIMARY_RED,
 } from '#utils/constants';
+import { paths } from '#generated/riskTypes';
 
-import ChartAxes from '../ChartAxes';
 import styles from './styles.module.css';
 
 type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
@@ -88,7 +92,10 @@ function WildfireChart(props: Props) {
                 },
             );
 
-            const maxValue = Math.max(...aggregatedList.map((dataItem) => dataItem.maxValue));
+            const maxValue = aggregatedList.length === 0
+                ? 0
+                : Math.max(...aggregatedList.map((dataItem) => dataItem.maxValue));
+
             const yScale = getScaleFunction(
                 { min: 0, max: maxValue },
                 { min: 0, max: chartBounds.height },
@@ -136,16 +143,18 @@ function WildfireChart(props: Props) {
 
             const numYAxisPoints = 6;
             const diff = maxValue / (numYAxisPoints - 1);
-            const yAxisPoints = Array.from(Array(numYAxisPoints).keys()).map(
-                (key) => {
-                    const value = diff * key;
-                    return {
-                        x: Y_AXIS_WIDTH,
-                        y: yScale(value),
-                        label: formatNumber(value, { compact: true, maximumFractionDigits: 0 }),
-                    };
-                },
-            );
+            const yAxisPoints = maxValue === 0
+                ? []
+                : Array.from(Array(numYAxisPoints).keys()).map(
+                    (key) => {
+                        const value = diff * key;
+                        return {
+                            x: Y_AXIS_WIDTH,
+                            y: yScale(value),
+                            label: formatNumber(value, { compact: true, maximumFractionDigits: 0 }),
+                        };
+                    },
+                );
 
             const xAxisPoints = aggregatedList.map(
                 (dataItem) => ({
