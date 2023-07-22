@@ -6,6 +6,7 @@ import {
     getErrorObject,
     PartialForm,
     createSubmitHandler,
+    nullValue,
 } from '@togglecorp/toggle-form';
 
 import Button from '#components/Button';
@@ -36,6 +37,7 @@ const formSchema: ObjectSchema<FormFields> = {
             && value?.confirmNewPassword
             && value.new_password !== value.confirmNewPassword
         ) {
+            // FIXME: use translation
             return 'Passwords do not match!';
         }
         return undefined;
@@ -54,6 +56,7 @@ const formSchema: ObjectSchema<FormFields> = {
         confirmNewPassword: {
             required: true,
             requiredValidation: requiredStringCondition,
+            forceValue: nullValue,
         },
     }),
 };
@@ -63,13 +66,11 @@ interface Props {
 }
 
 function ChangePasswordsModal(props: Props) {
-    const {
-        handleModalCloseButton,
-    } = props;
+    const { handleModalCloseButton } = props;
 
     const strings = useTranslation(i18n);
     const alert = useAlert();
-    const { userDetails } = useContext(UserContext);
+    const { userAuth } = useContext(UserContext);
 
     const {
         value: formValue,
@@ -89,9 +90,8 @@ function ChangePasswordsModal(props: Props) {
         url: '/change_password',
         body: (body) => body,
         onSuccess: () => {
-            const message = strings.successfullyChangedPassword;
             alert.show(
-                message,
+                strings.changePasswordSuccessMessage,
                 { variant: 'success' },
             );
             handleModalCloseButton();
@@ -103,14 +103,11 @@ function ChangePasswordsModal(props: Props) {
                 },
             } = error;
 
-            setError(formErrors);
             // FIXME: Error message from server is not properly sent
-            // eslint-disable-next-line no-console
-            console.log('Server error::>>', formErrors);
+            setError(formErrors);
 
-            const message = strings.changePasswordFailed;
             alert.show(
-                message,
+                strings.changePasswordFailureMessage,
                 { variant: 'danger' },
             );
         },
@@ -119,11 +116,11 @@ function ChangePasswordsModal(props: Props) {
     const handleConfirmPasswordChange = useCallback((formValues: PartialForm<FormFields>) => {
         const passwordFormValues = {
             ...formValues,
-            username: userDetails?.username,
-            token: userDetails?.token,
+            username: userAuth?.username,
+            token: userAuth?.token,
         };
         updatePassword(passwordFormValues as FormFields);
-    }, [userDetails, updatePassword]);
+    }, [userAuth, updatePassword]);
 
     const handleSubmitPassword = createSubmitHandler(
         validate,
@@ -133,7 +130,7 @@ function ChangePasswordsModal(props: Props) {
 
     return (
         <Modal
-            heading={strings.changeUserPassword}
+            heading={strings.changePasswordModalHeading}
             headingLevel={3}
             onClose={handleModalCloseButton}
             hideCloseButton
@@ -145,14 +142,14 @@ function ChangePasswordsModal(props: Props) {
                         variant="secondary"
                         onClick={handleModalCloseButton}
                     >
-                        {strings.cancelButton}
+                        {strings.changePasswordCancelButtonLabel}
                     </Button>
                     <Button
                         name={undefined}
                         onClick={handleSubmitPassword}
                         disabled={updatePasswordPending}
                     >
-                        {strings.confirmButton}
+                        {strings.changePasswordConfirmButtonLabel}
                     </Button>
                 </>
             )}
@@ -165,7 +162,7 @@ function ChangePasswordsModal(props: Props) {
             <TextInput
                 name="password"
                 type="password"
-                label={strings.oldPassword}
+                label={strings.oldPasswordInputLabel}
                 value={formValue.password}
                 onChange={setFieldValue}
                 error={fieldError?.password}
@@ -173,7 +170,7 @@ function ChangePasswordsModal(props: Props) {
             <TextInput
                 name="new_password"
                 type="password"
-                label={strings.newPassword}
+                label={strings.newPasswordInputLabel}
                 value={formValue.new_password}
                 onChange={setFieldValue}
                 error={fieldError?.new_password}
@@ -181,7 +178,7 @@ function ChangePasswordsModal(props: Props) {
             <TextInput
                 name="confirmNewPassword"
                 type="password"
-                label={strings.confirmNewPassword}
+                label={strings.confirmNewPasswordInputLabel}
                 value={formValue.confirmNewPassword}
                 onChange={setFieldValue}
                 error={fieldError?.confirmNewPassword}

@@ -1,13 +1,13 @@
 {
-    "namespace": "account",
+    "namespace": "accountInformation",
     "strings": {
-        "changeUserPassword": "Change User Password",
-        "oldPassword": "Old Password",
-        "newPassword": "New Password",
-        "confirmNewPassword": "Confirm New Password",
-        "cancelButton": "Cancel",
-        "confirmButton": "Confirm",
-        "successfullyChangedPassword": "Successfully changed password!",
-        "changePasswordFailed": "Failed to change password!"
+        "changePasswordModalHeading": "Change User Password",
+        "oldPasswordInputLabel": "Old Password",
+        "newPasswordInputLabel": "New Password",
+        "confirmNewPasswordInputLabel": "Confirm New Password",
+        "changePasswordCancelButtonLabel": "Cancel",
+        "changePasswordConfirmButtonLabel": "Confirm",
+        "changePasswordSuccessMessage": "Successfully changed password!",
+        "changePasswordFailureMessage": "Failed to change password!"
     }
 }

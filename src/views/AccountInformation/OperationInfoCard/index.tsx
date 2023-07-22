@@ -78,12 +78,14 @@ function OperationInfoCard(props: Props) {
                     disabled={pending || subscriptionPending}
                     onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
                 >
-                    {isSubscribed ? strings.operationUnfollow : strings.operationFollow}
+                    {isSubscribed
+                        ? strings.operationUnfollowButtonLabel
+                        : strings.operationFollowButtonLabel}
                 </Button>
             )}
         >
             <TextOutput
-                label={strings.operationLastUpdated}
+                label={strings.operationLastUpdatedLabel}
                 value={updated_at}
                 valueType="date"
             />

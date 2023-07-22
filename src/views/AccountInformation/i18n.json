@@ -1,21 +1,18 @@
 {
-    "namespace": "account",
+    "namespace": "accountInformation",
     "strings": {
-        "operationFollowing": "Operations Following",
-        "operationLastUpdated": "Last Updated",
-        "currentlyFollowing": "Currently Following Operations",
-        "accountInformationTitle": "Account Information",
-        "noUserDetails": "Sorry could not fetch user details!",
-        "userName": "UserName",
-        "fullName": "FullName",
-        "location": "Location",
-        "email": "Email",
-        "phoneNumber": "Phone Number",
-        "organization": "Organization",
-        "organizationType": "Organization Type",
-        "department": "Department",
-        "position": "Position",
-        "changePassword": "Change Password",
-        "editProfile": "Edit Profile"
+        "operationFollowingHeading": "Operations Following",
+        "accountInformationHeading": "Account Information",
+        "usernameLabel": "Username",
+        "fullNameLabel": "Full Name",
+        "locationLabel": "Location",
+        "emailLabel": "Email",
+        "phoneNumberLabel": "Phone Number",
+        "organizationLabel": "Organization",
+        "organizationTypeLabel": "Organization Type",
+        "departmentLabel": "Department",
+        "positionLabel": "Position",
+        "changePasswordButtonLabel": "Change Password",
+        "editProfileButtonLabel": "Edit Profile"
     }
 }

@@ -3,8 +3,8 @@ import {
     PartialForm,
     addCondition,
     undefinedValue,
+    emailCondition,
 } from '@togglecorp/toggle-form';
-import { emailCondition } from '#utils/form';
 
 import type { paths } from '#generated/types';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';

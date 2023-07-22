@@ -7,7 +7,9 @@ import {
     listToMap,
     sum,
     isTruthyString,
+    isValidEmail,
 } from '@togglecorp/fujs';
+import type { Maybe } from '@togglecorp/fujs';
 
 import { components } from '#generated/types';
 
@@ -214,4 +216,15 @@ export function getDuration(start: Date, end: Date) {
 
     const seconds = Math.round(timeDiff / 1000);
     return formatTimeDurationForSecs(seconds);
+}
+
+export function isWhitelistedEmail<T>(email: string, whitelistedDomains: Maybe<T[]>) {
+    if (!isValidEmail(email) || isNotDefined(whitelistedDomains)) {
+        return false;
+    }
+
+    // Looking for an EXACT match in the domain whitelist
+    // (it finds even if UPPERCASE letters were used)
+    const userMailDomain = email.substring(email.lastIndexOf('@') + 1);
+    return whitelistedDomains.some((domain) => domain === userMailDomain);
 }

@@ -1,8 +1,8 @@
 {
     "namespace": "accountInformation",
     "strings": {
-        "operationLastUpdated": "Last updated",
-        "operationFollow": "Follow",
-        "operationUnfollow": "Unfollow"
+        "operationLastUpdatedLabel": "Last updated",
+        "operationFollowButtonLabel": "Follow",
+        "operationUnfollowButtonLabel": "Unfollow"
     }
 }

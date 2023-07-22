@@ -7,14 +7,14 @@ import {
     requiredStringCondition,
     PurgeNull,
     nullValue,
+    lessThanOrEqualToCondition,
+    emailCondition,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
 
 import {
     positiveNumberCondition,
     positiveIntegerCondition,
-    emailCondition,
-    lessThanOrEqualToCondition,
 } from '#utils/form';
 import { paths } from '#generated/types';
 import { TYPE_ASSESSMENT } from './common';
@@ -297,13 +297,13 @@ const schema: DrefFormSchema = {
             ['type_of_dref'],
             assessmentAffectedFields,
             () => {
-                type ReturnType = Pick<
+                type ConditionalReturnType = Pick<
                     DrefFormSchemaFields,
                     (typeof assessmentAffectedFields)[number]
                 >;
 
                 if (formValue?.type_of_dref !== TYPE_ASSESSMENT) {
-                    const schemaForNonAssessment: ReturnType = {
+                    const schemaForNonAssessment: ConditionalReturnType = {
                         did_it_affect_same_area: {},
                         did_it_affect_same_population: {},
                         did_ns_respond: {},
@@ -336,7 +336,7 @@ const schema: DrefFormSchema = {
                     return schemaForNonAssessment;
                 }
 
-                const schemaForAssessment: ReturnType = {
+                const schemaForAssessment: ConditionalReturnType = {
                     did_it_affect_same_area: { forceValue: nullValue },
                     did_it_affect_same_population: { forceValue: nullValue },
                     did_ns_respond: { forceValue: nullValue },

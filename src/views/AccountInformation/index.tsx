@@ -3,7 +3,7 @@ import Container from '#components/Container';
 import {
     listToMap,
     isDefined,
-    isFalsyString,
+    isTruthyString,
 } from '@togglecorp/fujs';
 import {
     PencilFillIcon,
@@ -16,9 +16,7 @@ import TextOutput from '#components/TextOutput';
 import BlockLoading from '#components/BlockLoading';
 
 import useTranslation from '#hooks/useTranslation';
-import {
-    useRequest,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import UserContext from '#contexts/user';
 import type { paths } from '#generated/types';
 
@@ -31,9 +29,6 @@ import styles from './styles.module.css';
 type GetUserMeResponse = paths['/api/v2/user/me/']['get'];
 type UserMeResponse = GetUserMeResponse['responses']['200']['content']['application/json'];
 
-type GetUser = paths['/api/v2/user/']['get'];
-type UserResponse = GetUser['responses']['200']['content']['application/json'];
-
 type GetOperations = paths['/api/v2/event/']['get'];
 type OperationsResponse = GetOperations['responses']['200']['content']['application/json'];
 
@@ -44,7 +39,7 @@ const keySelector = (emergency: NonNullable<OperationsResponse['results']>[numbe
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { userAuth: userDetails } = useContext(UserContext);
+    const { userAuth } = useContext(UserContext);
 
     const [page, setPage] = useState(0);
     const [showEditProfileModal, setShowEditProfileModal] = useState(false);
@@ -65,23 +60,11 @@ export function Component() {
     });
 
     const {
-        error: userDetailsError,
-        pending: userDetailsPending,
-        response: userDetailsResponse,
-    } = useRequest<UserResponse>({
-        skip: isFalsyString(userDetails?.username),
-        url: 'api/v2/user/',
-        query: {
-            username: userDetails?.username,
-        },
-    });
-
-    const {
         pending: mePending,
         response: meResponse,
         retrigger: retriggerUserDetails,
     } = useRequest<UserMeResponse>({
-        skip: !userDetails,
+        skip: !userAuth,
         url: 'api/v2/user/me/',
     });
 
@@ -116,14 +99,12 @@ export function Component() {
     }, []);
 
     const eventList = operationsRes?.results;
-    const userInformation = userDetailsResponse?.results?.[0];
-    const userInformationPending = userDetailsPending || userDetailsError || !userDetailsResponse;
 
     return (
         <div className={styles.accountInformation}>
             <Container
                 className={styles.operationsFollowing}
-                heading={strings.operationFollowing}
+                heading={strings.operationFollowingHeading}
                 withHeaderBorder
                 headingLevel={2}
                 footerActions={(
@@ -149,7 +130,7 @@ export function Component() {
             </Container>
             <Container
                 className={styles.userInformation}
-                heading={strings.accountInformationTitle}
+                heading={strings.accountInformationHeading}
                 withHeaderBorder
                 headingLevel={2}
                 footerActions={(
@@ -157,88 +138,73 @@ export function Component() {
                         name
                         className={styles.changePasswordButton}
                         onClick={setShowChangePasswordModal}
-                        variant="tertiary"
+                        variant="secondary"
                     >
-                        {strings.changePassword}
+                        {strings.changePasswordButtonLabel}
                     </Button>
                 )}
-                actions={!!userDetailsResponse && (
+                actions={(
                     <Button
                         name
                         icons={(<PencilFillIcon />)}
                         onClick={setShowEditProfileModal}
                         variant="secondary"
+                        disabled={!meResponse}
                     >
-                        {strings.editProfile}
+                        {strings.editProfileButtonLabel}
                     </Button>
                 )}
                 childrenContainerClassName={styles.content}
             >
-                {userInformationPending ? (
-                    <BlockLoading
-                        message={strings.noUserDetails}
-                    />
+                {mePending ? (
+                    <BlockLoading />
                 ) : (
                     <>
                         <TextOutput
-                            className={styles.userInfoRow}
-                            label={strings.userName}
-                            description={((userInformation?.username) ?? '--')}
-                            descriptionClassName={styles.userInfo}
+                            label={strings.usernameLabel}
+                            value={meResponse?.username || '--'}
                         />
                         <TextOutput
-                            className={styles.userInfoRow}
-                            label={strings.fullName}
-                            description={((`${userInformation?.first_name} ${userInformation?.last_name}`) ?? '--')}
-                            descriptionClassName={styles.userInfo}
+                            label={strings.fullNameLabel}
+                            value={
+                                [meResponse?.first_name, meResponse?.last_name]
+                                    .filter(isTruthyString).join(' ') || '--'
+                            }
                         />
                         <TextOutput
-                            className={styles.userInfoRow}
-                            label={strings.location}
-                            description={((userInformation?.profile?.city) ?? '--')}
-                            descriptionClassName={styles.userInfo}
+                            label={strings.locationLabel}
+                            description={meResponse?.profile?.city || '--'}
                         />
                         <TextOutput
-                            className={styles.userInfoRow}
-                            label={strings.email}
-                            description={((userInformation?.email) ?? '--')}
-                            descriptionClassName={styles.userInfo}
+                            label={strings.emailLabel}
+                            description={meResponse?.email || '--'}
                         />
                         <TextOutput
-                            className={styles.userInfoRow}
-                            label={strings.phoneNumber}
-                            description={((userInformation?.profile?.phone_number) ?? '--')}
-                            descriptionClassName={styles.userInfo}
+                            label={strings.phoneNumberLabel}
+                            description={meResponse?.profile?.phone_number || '--'}
                         />
                         <TextOutput
-                            className={styles.userInfoRow}
-                            label={strings.organization}
-                            description={((userInformation?.profile?.org) || '--')}
-                            descriptionClassName={styles.userInfo}
+                            label={strings.organizationLabel}
+                            description={meResponse?.profile?.org || '--'}
                         />
                         <TextOutput
-                            className={styles.userInfoRow}
-                            label={strings.organizationType}
-                            description={((userInformation?.profile?.org_type) ?? '--')}
-                            descriptionClassName={styles.userInfo}
+                            label={strings.organizationTypeLabel}
+                            description={meResponse?.profile?.org_type || '--'}
                         />
                         <TextOutput
-                            className={styles.userInfoRow}
-                            label={strings.department}
-                            description={((userInformation?.profile?.department) ?? '--')}
-                            descriptionClassName={styles.userInfo}
+                            label={strings.departmentLabel}
+                            description={meResponse?.profile?.department || '--'}
                         />
                         <TextOutput
-                            className={styles.userInfoRow}
-                            label={strings.position}
-                            description={((userInformation?.profile?.position) ?? '--')}
-                            descriptionClassName={styles.userInfo}
+                            label={strings.positionLabel}
+                            description={meResponse?.profile?.position || '--'}
                         />
                     </>
                 )}
             </Container>
             {showEditProfileModal && (
                 <EditAccountInfo
+                    userDetails={meResponse}
                     handleModalCloseButton={onEditProfileCancel}
                 />
             )}

@@ -7,14 +7,12 @@ import {
     useForm,
     ObjectSchema,
     requiredStringCondition,
-    emailCondition,
     getErrorObject,
-    getErrorString,
     PartialForm,
     createSubmitHandler,
     useFormObject,
 } from '@togglecorp/toggle-form';
-import { isTruthyString, isDefined } from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import Modal from '#components/Modal';
@@ -29,56 +27,45 @@ import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
-import {
-    isValidCountry,
-    isValidNationalSociety,
-} from '#utils/common';
-import type { paths, components } from '#generated/types';
+import { isValidNationalSociety } from '#utils/common';
+import { stringLabelSelector, stringValueSelector } from '#utils/selectors';
+import ServerEnumsContext from '#contexts/server-enums';
+import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type OrganizationType = components['schemas']['OrgTypeEnum'];
-interface OrganizationOptionType {
-    key: OrganizationType;
-    value: string;
-}
+type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
+type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
 
 type GetCountry = paths['/api/v2/country/']['get'];
 type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 
-type GetOrganizationList = paths['/api/v2/global-enums/']['get'];
-type OrganizationListResponse = GetOrganizationList['responses']['200']['content']['application/json'];
+type GetUserMeResponse = paths['/api/v2/user/me/']['get'];
+type UserMeResponse = GetUserMeResponse['responses']['200']['content']['application/json'];
 
 type PatchAccountInfo = paths['/api/v2/user/{id}/']['patch'];
-type AccountEditResponse = PatchAccountInfo['requestBody']['content']['application/json'];
+type AccountRequestBody = PatchAccountInfo['requestBody']['content']['application/json'];
+type AccountProfile = NonNullable<AccountRequestBody['profile']>;
 
-type FormFields = PartialForm<AccountEditResponse>;
+type FormFields = Pick<AccountRequestBody, 'first_name' | 'last_name'> & {
+    profile?: Omit<AccountProfile, 'org_type' | 'country'> & {
+        org_type: Exclude<AccountProfile['org_type'], ''>
+    };
+};
 
-const defaultFormValue: FormFields = {};
+type PartialFormFields = PartialForm<FormFields>;
 
-const nsLabelSelector = (item: { label: string }) => item.label;
+const organizationTypeKeySelector = (item: OrganizationTypeOption) => item.key;
 
-const keySelector = (item: OrganizationOptionType) => item.key;
-const labelSelector = (item: OrganizationOptionType) => item.value;
-
-const countryKeySelector = (item: NonNullable<CountryResponse['results']>[number]) => item.id;
-const countryLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.name ?? '';
-
-function clearEmptyString<T extends string>(val: T | undefined | ''): T | undefined {
-    if (val === '') {
-        return undefined;
-    }
-    return val;
-}
-
-type FormSchema = ObjectSchema<FormFields>;
+type FormSchema = ObjectSchema<PartialFormFields>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
 
-type ProfileSchema = ObjectSchema<NonNullable<FormFields['profile']>>;
+type ProfileSchema = ObjectSchema<PartialFormFields['profile']>;
 type ProfileSchemaFields = ReturnType<ProfileSchema['fields']>
 
-const formSchema: ObjectSchema<FormFields> = {
+const formSchema: FormSchema = {
     fields: (): FormSchemaFields => ({
         first_name: {
             required: true,
@@ -86,14 +73,10 @@ const formSchema: ObjectSchema<FormFields> = {
         },
         last_name: {
             required: true,
-        },
-        email: {
-            required: true,
-            requiredValidation: emailCondition,
+            requiredValidation: requiredStringCondition,
         },
         profile: {
             fields: (): ProfileSchemaFields => ({
-                country: {},
                 org: {},
                 org_type: {},
                 city: {},
@@ -106,16 +89,32 @@ const formSchema: ObjectSchema<FormFields> = {
 };
 
 interface Props {
+    userDetails: UserMeResponse | undefined;
     handleModalCloseButton: () => void;
 }
 
 function EditAccountInfo(props: Props) {
     const {
+        userDetails,
         handleModalCloseButton,
     } = props;
 
+    const defaultFormValue: PartialFormFields = {
+        first_name: userDetails?.first_name,
+        last_name: userDetails?.last_name,
+        profile: {
+            city: userDetails?.profile?.city,
+            org_type: userDetails?.profile?.org_type === ''
+                ? undefined : userDetails?.profile?.org_type,
+            org: userDetails?.profile?.org,
+            department: userDetails?.profile?.department,
+            phone_number: userDetails?.profile?.phone_number,
+        },
+    };
+
     const strings = useTranslation(i18n);
-    const { userAuth: userDetails } = useContext(UserContext);
+    const { userAuth } = useContext(UserContext);
+    const { api_profile_org_types: organizationTypeOptions } = useContext(ServerEnumsContext);
 
     const {
         value: formValue,
@@ -127,7 +126,7 @@ function EditAccountInfo(props: Props) {
 
     const alert = useAlert();
 
-    const setProfileFieldValue = useFormObject<'profile', NonNullable<FormFields['profile']>>(
+    const setProfileFieldValue = useFormObject<'profile', NonNullable<PartialFormFields['profile']>>(
         'profile' as const,
         setFieldValue,
         {},
@@ -140,14 +139,13 @@ function EditAccountInfo(props: Props) {
     const {
         pending: updateAccountPending,
         trigger: updateAccountInfo,
-    } = useLazyRequest<AccountEditResponse, FormFields>({
+    } = useLazyRequest<AccountRequestBody, FormFields>({
         method: 'PATCH',
-        url: `/api/v2/user/${userDetails?.id}/`,
+        url: `/api/v2/user/${userAuth?.id}/`,
         body: (body) => body,
         onSuccess: () => {
-            const message = strings.successfullyEditedAccount;
             alert.show(
-                message,
+                strings.editAccoutSuccessfulMessage,
                 { variant: 'success' },
             );
             handleModalCloseButton();
@@ -162,32 +160,17 @@ function EditAccountInfo(props: Props) {
             setError(formErrors);
             // FIXME: Error message from server is not properly sent
 
-            const message = strings.editAccountFailure;
             alert.show(
-                message,
+                strings.editAccountFailureMessage,
                 { variant: 'danger' },
             );
         },
-    });
-
-    const { response: organizationOptionsResponse } = useRequest<OrganizationListResponse>({
-        url: 'api/v2/global-enums/',
-        query: { limit: 500 },
     });
 
     const { response: countriesResponse } = useRequest<CountryResponse>({
         url: 'api/v2/country/',
         query: { limit: 500 },
     });
-
-    const organizationTypeOptions = organizationOptionsResponse?.api_profile_org_types;
-
-    const countryList = useMemo(
-        () => countriesResponse?.results?.filter(
-            (country) => isValidCountry(country) && isTruthyString(country.name),
-        ),
-        [countriesResponse],
-    );
 
     const nationalSocietyOptions = useMemo(
         () => countriesResponse?.results
@@ -208,17 +191,19 @@ function EditAccountInfo(props: Props) {
     const handleFormSubmit = createSubmitHandler(validate, setError, handleConfirmProfileEdit);
 
     const handleOrganizationNameChange = useCallback(
-        (val: OrganizationType | undefined) => {
+        (val: OrganizationTypeOption['key'] | undefined) => {
             setProfileFieldValue(undefined, 'org');
             setProfileFieldValue(val, 'org_type');
         },
         [setProfileFieldValue],
     );
 
+    const profileError = getErrorObject(fieldError?.profile);
+
     return (
         <Modal
             className={styles.editAccountInfo}
-            heading={strings.editUserProfile}
+            heading={strings.editUserProfileHeading}
             headingLevel={3}
             onClose={handleModalCloseButton}
             hideCloseButton
@@ -229,14 +214,14 @@ function EditAccountInfo(props: Props) {
                         variant="secondary"
                         onClick={handleModalCloseButton}
                     >
-                        Cancel
+                        {strings.editProfileCancelButtonLabel}
                     </Button>
                     <Button
                         name={undefined}
                         onClick={handleFormSubmit}
                         disabled={updateAccountPending}
                     >
-                        Confirm
+                        {strings.editProfileConfirmButtonLabel}
                     </Button>
                 </>
             )}
@@ -248,78 +233,68 @@ function EditAccountInfo(props: Props) {
             />
             <TextInput
                 name="first_name"
-                label={strings.accountFirstName}
+                label={strings.firstNameInputLabel}
                 value={formValue.first_name}
                 onChange={setFieldValue}
                 error={fieldError?.first_name}
             />
             <TextInput
                 name="last_name"
-                label={strings.accountLastName}
+                label={strings.lastNameInputLabel}
                 value={formValue.last_name}
                 onChange={setFieldValue}
                 error={fieldError?.last_name}
             />
-            <SelectInput
-                label={strings.accountCountry}
-                name="country"
-                value={formValue?.profile?.country}
-                onChange={setProfileFieldValue}
-                keySelector={countryKeySelector}
-                labelSelector={countryLabelSelector}
-                options={countryList}
-                error={getErrorString(fieldError?.profile)}
-            />
             <TextInput
                 name="city"
-                label={strings.accountCity}
+                label={strings.cityInputLabel}
                 value={formValue?.profile?.city}
                 onChange={setProfileFieldValue}
-                error={getErrorString(fieldError?.profile)}
+                error={profileError?.city}
             />
             <SelectInput
-                label={strings.accountOrganizationType}
+                label={strings.organizationTypeInputLabel}
                 name="org_type"
-                value={clearEmptyString(formValue?.profile?.org_type)}
+                value={formValue?.profile?.org_type}
                 onChange={handleOrganizationNameChange}
-                keySelector={keySelector}
-                labelSelector={labelSelector}
+                keySelector={organizationTypeKeySelector}
+                labelSelector={stringValueSelector}
                 options={organizationTypeOptions}
-                error={getErrorString(fieldError?.profile)}
+                error={profileError?.org_type}
             />
             {isNationalSociety ? (
                 <SelectInput
-                    label={strings.accountOrganizationName}
+                    label={strings.organizationNameInputLabel}
                     name="org"
                     value={formValue?.profile?.org}
                     onChange={setProfileFieldValue}
-                    keySelector={nsLabelSelector}
-                    labelSelector={nsLabelSelector}
+                    keySelector={stringLabelSelector}
+                    labelSelector={stringLabelSelector}
                     options={nationalSocietyOptions}
-                    error={getErrorString(fieldError?.profile)}
+                    error={profileError?.org}
                 />
             ) : (
                 <TextInput
                     name="org"
-                    label={strings.accountOrganizationName}
+                    label={strings.organizationNameInputLabel}
                     value={formValue?.profile?.org}
                     onChange={setProfileFieldValue}
-                    error={getErrorString(fieldError?.profile)}
+                    error={profileError?.org}
                 />
             )}
             <TextInput
                 name="department"
-                label={strings.accountDepartment}
+                label={strings.departmentInputLabel}
                 value={formValue?.profile?.department}
                 onChange={setProfileFieldValue}
-                error={getErrorString(fieldError?.profile)}
+                error={profileError?.department}
             />
             <TextInput
                 name="phone_number"
-                label={strings.accountPhoneNumber}
+                label={strings.phoneNumberInputLabel}
                 value={formValue?.profile?.phone_number}
                 onChange={setProfileFieldValue}
-                error={getErrorString(fieldError?.profile)}
+                error={profileError?.phone_number}
             />
         </Modal>
     );

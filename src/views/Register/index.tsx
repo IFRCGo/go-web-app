@@ -17,6 +17,7 @@ import {
     createSubmitHandler,
     undefinedValue,
 } from '@togglecorp/toggle-form';
+import { isDefined } from '@togglecorp/fujs';
 
 import RouteContext from '#contexts/route';
 import Page from '#components/Page';
@@ -26,21 +27,21 @@ import TextArea from '#components/TextArea';
 import Link from '#components/Link';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
-
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { resolveToComponent } from '#utils/translation';
+import { numericIdSelector, stringNameSelector } from '#utils/selectors';
 import {
     isValidCountry,
     isValidNationalSociety,
+    isWhitelistedEmail,
 } from '#utils/common';
-import type { paths } from '#generated/types';
-import { isWhitelistedEmail } from '#utils/form';
 import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
 import ServerEnumsContext from '#contexts/server-enums';
+import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -64,9 +65,6 @@ type FormFields = PartialForm<RegisterRequestBody & { confirm_password: string }
 const defaultFormValue: FormFields = {};
 const keySelector = (item: OrganizationTypeOption) => item.key;
 const labelSelector = (item: OrganizationTypeOption) => item.value;
-
-const countryKeySelector = (item: NonNullable<CountryResponse['results']>[number]) => item.id;
-const countryLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.name ?? item.id;
 
 type FormSchema = ObjectSchema<FormFields>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
@@ -193,7 +191,15 @@ export function Component() {
     });
 
     const countryList = useMemo(
-        () => countriesResponse?.results?.filter(isValidCountry),
+        () => countriesResponse?.results?.map(
+            (country) => {
+                if (!isValidCountry(country)) {
+                    return undefined;
+                }
+
+                return country;
+            },
+        ).filter(isDefined),
         [countriesResponse],
     );
 
@@ -203,7 +209,7 @@ export function Component() {
     );
 
     const whitelistedDomains = whiteListDomainResponse?.results;
-    const validEmail = formValue.email
+    const validIfrcEmail = formValue.email
         && isWhitelistedEmail(formValue.email.toLowerCase(), whitelistedDomains);
 
     const handleRegister = useCallback((formValues: PartialForm<FormFields>) => {
@@ -299,11 +305,11 @@ export function Component() {
                 <SelectInput
                     label={strings.registerCountry}
                     name="country"
+                    options={countryList}
+                    keySelector={numericIdSelector}
+                    labelSelector={stringNameSelector}
                     value={formValue?.country}
                     onChange={setFieldValue}
-                    keySelector={countryKeySelector}
-                    labelSelector={countryLabelSelector}
-                    options={countryList}
                     error={fieldError?.country}
                     disabled={registerPending}
                     withAsterisk
@@ -378,7 +384,7 @@ export function Component() {
                     disabled={registerPending}
                     withAsterisk
                 />
-                {!validEmail && (
+                {!validIfrcEmail && (
                     <>
                         <div className={styles.justifyNote}>
                             {strings.registerJustify}
@@ -401,7 +407,7 @@ export function Component() {
                     onClick={handleFormSubmit}
                     disabled={registerPending}
                 >
-                    {!validEmail ? strings.requestAccess : strings.registerSubmit}
+                    {!validIfrcEmail ? strings.requestAccess : strings.registerSubmit}
                 </Button>
                 <div className={styles.login}>
                     {loginInfo}
