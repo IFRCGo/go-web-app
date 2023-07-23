@@ -13,7 +13,6 @@ import {
     ChevronLeftLineIcon,
     CloseLineIcon,
     SearchLineIcon,
-    SearchEyeLineIcon,
 } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
@@ -26,7 +25,7 @@ import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import { resolveToString } from '#utils/translation';
-import { URL_SEARCH_KEY } from '#utils/constants';
+import { KEY_URL_SEARCH } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 import { paths } from '#generated/types';
@@ -68,7 +67,7 @@ const feedbackLink = 'https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const [urlSearchValue, setUrlSearchValue] = useUrlSearchState<string | undefined>(
-        URL_SEARCH_KEY,
+        KEY_URL_SEARCH,
         (searchString) => searchString ?? undefined,
         (searchString) => searchString,
     );
@@ -81,7 +80,7 @@ export function Component() {
         pending: searchPending,
         response: searchResponse,
     } = useRequest<SearchResponse>({
-        url: 'api/v1/search/',
+        url: '/api/v1/search/',
         query: { keyword: urlSearchValue },
         skip: isNotDefined(urlSearchValue),
     });
@@ -182,6 +181,23 @@ export function Component() {
         [activeView, strings],
     );
 
+    const MIN_SEARCH_TEXT_LENGTH = 3;
+    const trimmedSearchString = isDefined(searchStringTemp) ? searchStringTemp.trim() : '';
+    const emptyText = useMemo(
+        () => {
+            if (trimmedSearchString.length < MIN_SEARCH_TEXT_LENGTH) {
+                return strings.searchThreeCharactersRequired;
+            }
+
+            if (urlSearchValue !== trimmedSearchString) {
+                return strings.searchHint;
+            }
+
+            return strings.searchResultforQuery;
+        },
+        [strings, urlSearchValue, trimmedSearchString],
+    );
+
     return (
         <Page
             className={styles.search}
@@ -190,25 +206,36 @@ export function Component() {
             descriptionContainerClassName={styles.pageDescription}
             description={(
                 <>
-                    <TextInput
-                        className={styles.searchInput}
-                        icons={<SearchLineIcon />}
-                        variant="general"
-                        actions={searchStringTemp && (
-                            <Button
-                                name={undefined}
-                                variant="tertiary"
-                                onClick={handleClearSearchInput}
-                            >
-                                <CloseLineIcon />
-                            </Button>
-                        )}
-                        name="search"
-                        value={searchStringTemp}
-                        onChange={setSearchStringTemp}
-                        placeholder={strings.searchEnterAtLeastThreeCharacters}
-                        onKeyDown={handleSearchInputKeyDown}
-                    />
+                    <div className={styles.searchInputContainer}>
+                        <TextInput
+                            name="search"
+                            className={styles.searchInput}
+                            variant="general"
+                            hint={strings.searchHint}
+                            icons={<SearchLineIcon />}
+                            actions={searchStringTemp && (
+                                <Button
+                                    name={undefined}
+                                    variant="tertiary"
+                                    onClick={handleClearSearchInput}
+                                >
+                                    <CloseLineIcon className={styles.closeIcon} />
+                                </Button>
+                            )}
+                            value={searchStringTemp}
+                            onChange={setSearchStringTemp}
+                            placeholder={strings.searchEnterAtLeastThreeCharacters}
+                            onKeyDown={handleSearchInputKeyDown}
+                        />
+                        <Button
+                            name={trimmedSearchString}
+                            onClick={setUrlSearchValue}
+                            disabled={trimmedSearchString.length < MIN_SEARCH_TEXT_LENGTH}
+                            spacing="comfortable"
+                        >
+                            {strings.searchGoButtonLabel}
+                        </Button>
+                    </div>
                     <div className={styles.feedback}>
                         <div className={styles.text}>
                             {strings.searchPageFeedbackLinkText}
@@ -226,17 +253,10 @@ export function Component() {
             {searchPending && <BlockLoading />}
             {!searchPending && !searchResponse && (
                 <Container childrenContainerClassName={styles.emptySearchContent}>
-                    {isDefined(searchStringTemp) && searchStringTemp.trim().length > 2 ? (
-                        <>
-                            <SearchEyeLineIcon className={styles.icon} />
-                            {strings.searchResultforQuery}
-                        </>
-                    ) : (
-                        <>
-                            <SearchLineIcon className={styles.icon} />
-                            {strings.searchThreeCharactersRequired}
-                        </>
-                    )}
+                    <SearchLineIcon className={styles.icon} />
+                    <div>
+                        {emptyText}
+                    </div>
                 </Container>
             )}
             {!searchPending && searchResponse && activeView && !isListTypeResult(activeView) && (

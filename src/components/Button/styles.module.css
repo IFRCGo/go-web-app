@@ -2,13 +2,13 @@
     --color-border: transparent;
     --color-text: transparent;
     --color-background: transparent;
-    --font-size: var(--go-ui-font-size-md);
+    --font-size: inherit;
     --border-radius: var(--go-ui-border-radius-full);
     --text-transform: none;
     --cursor: default;
     --padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-lg);
 
-    display: flex;
+    display: inline-flex;
     position: relative;
     align-items: center;
     border: var(--go-ui-width-separator-sm) solid var(--color-border);
@@ -29,6 +29,33 @@
         display: flex;
         align-items: center;
         flex-grow: 1;
+    }
+
+    &.primary,
+    &.secondary {
+        &.no-spacing {
+            --padding: 0;
+        }
+
+        &.compact-spacing {
+            --padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-md);
+        }
+
+        &.cozy-spacing {
+            --padding: var(--go-ui-spacing-2xs) var(--go-ui-spacing-lg);
+        }
+
+        &.comfortable-spacing {
+            --padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-xl);
+        }
+
+        &.relaxed-spacing {
+            --padding: var(--go-ui-spacing-md) var(--go-ui-spacing-2xl);
+        }
+
+        &.loose-spacing {
+            --padding: var(--go-ui-spacing-lg) var(--go-ui-spacing-3xl);
+        }
     }
 
     &.primary {
@@ -102,4 +129,5 @@
     &:not(.disabled) {
         --cursor: pointer;
     }
+
 }

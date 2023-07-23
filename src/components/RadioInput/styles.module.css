@@ -11,7 +11,7 @@
     }
 
     &.disabled {
-        opacity: var(--go-ui-opacity-50);
+        opacity: var(--go-ui-opacity-disabled-element);
         filter: saturate(50%);
     }
 

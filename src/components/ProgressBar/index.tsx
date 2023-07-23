@@ -35,7 +35,7 @@ function ProgressBar(props: Props) {
                     {showPercentageInTitle && (
                         <NumberOutput
                             value={percentage}
-                            unit="%"
+                            suffix="%"
                         />
                     )}
                 </div>

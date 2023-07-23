@@ -1,0 +1,10 @@
+.combined-chart {
+    background-color: var(--go-ui-color-background);
+    height: 20rem;
+
+    .svg {
+        width: 100%;
+        height: 100%;
+    }
+}
+

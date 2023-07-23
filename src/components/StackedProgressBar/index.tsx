@@ -43,7 +43,7 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                     >
                         <NumberOutput
                             value={(100 * datum.value) / total}
-                            unit="%"
+                            suffix="%"
                         />
                         {' - '}
                         <NumberOutput

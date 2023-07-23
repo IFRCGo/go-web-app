@@ -143,14 +143,14 @@ function ActiveOperationMap(props: Props) {
     const {
         response: appealResponse,
     } = useRequest<AppealResponse>({
-        url: 'api/v2/appeal/',
+        url: '/api/v2/appeal/',
         query,
     });
 
     const {
         response: countryResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         // FIXME: only pull countries in the region
         query: {
             limit: 500,

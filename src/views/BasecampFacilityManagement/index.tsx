@@ -15,6 +15,7 @@ export function Component() {
     const navigate = useNavigate();
 
     const handleBackButtonClick = useCallback(() => {
+        // TODO: let point to basecamp page
         navigate(-1);
     }, [navigate]);
 

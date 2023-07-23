@@ -75,7 +75,7 @@ export function Component() {
         pending: nsProjectsPending,
         response: nsProjectsResponse,
     } = useRequest<ListResponse<NSOngoingProjectStat>>({
-        url: 'api/v2/global-project/ns-ongoing-projects-stats/',
+        url: '/api/v2/global-project/ns-ongoing-projects-stats/',
         query: {
             ...filters,
         },
@@ -85,7 +85,7 @@ export function Component() {
         pending: projectsOverviewPending,
         response: projectsOverviewResponse,
     } = useRequest<GlobalProjectsOverview>({
-        url: 'api/v2/global-project/overview/',
+        url: '/api/v2/global-project/overview/',
     });
 
     const numActiveSocieties = projectsOverviewResponse?.ns_with_ongoing_activities;

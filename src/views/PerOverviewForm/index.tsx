@@ -37,11 +37,8 @@ import { isValidNationalSociety } from '#utils/common';
 import RouteContext from '#contexts/route';
 import ServerEnumsContext from '#contexts/server-enums';
 import type { paths } from '#generated/types';
-import {
-    PerProcessOutletContext,
-    STEP_OVERVIEW,
-    STEP_ASSESSMENT,
-} from '#utils/per';
+import { STEP_OVERVIEW, STEP_ASSESSMENT } from '#utils/per';
+import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
     booleanValueSelector,
     stringLabelSelector,
@@ -115,7 +112,7 @@ export function Component() {
     const {
         response: countryResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: {
             limit: 500,
         },
@@ -124,12 +121,15 @@ export function Component() {
     const {
         response: perOptionsResponse,
     } = useRequest<PerOptionsResponse>({
-        url: 'api/v2/per-options/',
+        url: '/api/v2/per-options/',
     });
 
     useRequest<PerOverviewResponse>({
         skip: isNotDefined(perId),
-        url: `api/v2/per-overview/${perId}`,
+        url: '/api/v2/per-overview/{id}/',
+        pathVariables: {
+            id: perId,
+        },
         onSuccess: (response) => {
             const {
                 orientation_documents_details,
@@ -154,7 +154,7 @@ export function Component() {
     });
 
     useRequest<LatestPerOverviewResponse>({
-        url: 'api/v2/latest-per-overview/',
+        url: '/api/v2/latest-per-overview/',
         skip: isNotDefined(value?.country) || isDefined(value?.is_draft),
         query: {
             country_id: value?.country,

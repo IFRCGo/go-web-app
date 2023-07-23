@@ -70,7 +70,10 @@ function CopyFieldReportSection(props: Props) {
 
     useRequest<FieldReportItem>({
         skip: !value?.field_report,
-        url: `api/v2/field_report/${value?.field_report}`,
+        url: '/api/v2/field_report/{id}/',
+        pathVariables: {
+            id: value?.field_report,
+        },
         onSuccess: (fr) => {
             if (!fr) {
                 return;

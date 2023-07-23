@@ -15,8 +15,8 @@ import {
     STEP_PRIORITIZATION,
     STEP_ASSESSMENT,
     STEP_OVERVIEW,
-    PerProcessOutletContext,
 } from '#utils/per';
+import type { PerProcessOutletContext } from '#utils/outletContext';
 import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
@@ -42,7 +42,10 @@ export function Component() {
         retrigger: refetchStatusResponse,
     } = useRequest<PerProcessStatusResponse>({
         skip: isNotDefined(perId),
-        url: `api/v2/per-process-status/${perId}/`,
+        url: '/api/v2/per-process-status/{id}/',
+        pathVariables: {
+            id: perId,
+        },
     });
 
     const currentStep = statusResponse?.phase

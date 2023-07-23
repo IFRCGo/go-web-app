@@ -5,6 +5,8 @@ import {
     _cs,
 } from '@togglecorp/fujs';
 
+import { formatNumber } from '#utils/common';
+
 import styles from './styles.module.css';
 
 export interface Props {
@@ -29,10 +31,11 @@ export interface Props {
      * Text for tooltip
      */
     tooltip?: number | string | null | undefined;
-
     currency?: boolean;
+    unit?: Intl.NumberFormatOptions['unit'];
+    suffix?: React.ReactNode;
+    maximumFractionDigits?: Intl.NumberFormatOptions['maximumFractionDigits'];
 
-    unit?: React.ReactNode;
 }
 
 /**
@@ -48,6 +51,8 @@ function NumberOutput(props: Props) {
         value,
         tooltip,
         unit,
+        suffix,
+        maximumFractionDigits,
     } = props;
 
     const val = useMemo(
@@ -55,29 +60,27 @@ function NumberOutput(props: Props) {
             if (isNotDefined(value)) {
                 return invalidText;
             }
-            const options: Intl.NumberFormatOptions = {};
-            if (currency) {
-                options.currencyDisplay = 'narrowSymbol';
-                options.style = 'currency';
-            }
-            if (compact) {
-                options.notation = 'compact';
-                options.compactDisplay = 'short';
-            }
 
-            options.useGrouping = !separatorHidden;
-            options.maximumFractionDigits = 2;
-
-            if (Math.abs(value) >= 1000) {
-                options.maximumFractionDigits = 0;
-            }
-
-            const newValue = new Intl.NumberFormat(navigator.language, options)
-                .format(value);
-
-            return newValue;
+            return formatNumber(
+                value,
+                {
+                    currency,
+                    compact,
+                    separatorHidden,
+                    maximumFractionDigits,
+                    unit,
+                },
+            );
         },
-        [invalidText, value, compact, separatorHidden, currency],
+        [
+            invalidText,
+            value,
+            compact,
+            separatorHidden,
+            currency,
+            unit,
+            maximumFractionDigits,
+        ],
     );
 
     return (
@@ -86,11 +89,7 @@ function NumberOutput(props: Props) {
             title={isDefined(tooltip) ? String(tooltip) : undefined}
         >
             {val}
-            {isDefined(value) && unit && (
-                <span>
-                    {unit}
-                </span>
-            )}
+            {suffix}
         </div>
     );
 }

@@ -8,7 +8,7 @@ export function Component() {
 
     return (
         <div>
-            {strings.emergencyTempContent}
+            {strings.emergencyActivitiesTempContent}
         </div>
     );
 }

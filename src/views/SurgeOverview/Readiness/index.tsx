@@ -43,7 +43,7 @@ function Readiness() {
         pending: eruOwnersPending,
         response: eruOwnersResponse,
     } = useRequest<GetERUOwnersResponse>({
-        url: 'api/v2/eru_owner/',
+        url: '/api/v2/eru_owner/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
@@ -58,7 +58,7 @@ function Readiness() {
         pending: emergencyResponseUnitTypesPending,
         response: emergencyResponseUnitTypesResponse,
     } = useRequest<EmergencyResponseUnitType[]>({
-        url: 'api/v2/erutype/',
+        url: '/api/v2/erutype',
     });
 
     const handleERUOwnerTypesChange = useCallback((values: EmergencyResponseUnitType['key'][] | undefined) => {

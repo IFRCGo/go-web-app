@@ -218,7 +218,7 @@ export function Component() {
     });
 
     const { response: countriesResponse } = useRequest<CountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: { limit: 500 },
     });
 

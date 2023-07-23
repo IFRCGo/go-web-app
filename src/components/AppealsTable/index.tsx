@@ -193,7 +193,7 @@ function AppealsTable(props: Props) {
         pending: appealsPending,
         response: appealsResponse,
     } = useRequest<ListResponse<AppealListItem>>({
-        url: 'api/v2/appeal/',
+        url: '/api/v2/appeal/',
         preserveResponse: true,
         query,
     });
@@ -212,7 +212,7 @@ function AppealsTable(props: Props) {
         pending: disasterTypePending,
         response: disasterTypeResponse,
     } = useRequest<ListResponse<DisasterListItem>>({
-        url: 'api/v2/disaster_type/',
+        url: '/api/v2/disaster_type/',
     });
 
     return (

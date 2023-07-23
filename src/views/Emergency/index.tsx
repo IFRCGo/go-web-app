@@ -14,7 +14,7 @@ import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
-import type { EmergencyOutletContext } from '#utils/emergency';
+import type { EmergencyOutletContext } from '#utils/outletContext';
 import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
@@ -39,7 +39,10 @@ export function Component() {
         response: emergencyResponse,
     } = useRequest<EventResponse>({
         skip: !emergencyId,
-        url: `api/v2/event/${emergencyId}/`,
+        url: '/api/v2/event/{id}/',
+        pathVariables: {
+            id: emergencyId,
+        },
     });
 
     const peopleTargeted = sumSafe(

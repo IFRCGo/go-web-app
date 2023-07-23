@@ -6,7 +6,7 @@ import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import { paths } from '#generated/types';
 
-import { CountryOutletContext } from '#utils/country';
+import type { CountryOutletContext } from '#utils/outletContext';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import BlockLoading from '#components/BlockLoading';
@@ -34,7 +34,10 @@ export function Component() {
         response: countryPlanResponse,
     } = useRequest<GetCountryPlanResponse>({
         skip: isNotDefined(countryId) || !countryResponse?.has_country_plan,
-        url: `/api/v2/country-plan/${countryId}`,
+        url: '/api/v2/country-plan/{country}/',
+        pathVariables: {
+            country: countryId,
+        },
     });
 
     return (

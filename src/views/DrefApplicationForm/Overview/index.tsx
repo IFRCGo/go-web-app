@@ -110,7 +110,7 @@ function Overview(props: Props) {
     const {
         response: countryResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country',
+        url: '/api/v2/country/',
     });
 
     type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
@@ -119,7 +119,7 @@ function Overview(props: Props) {
         pending: fetchingDisasterTypes,
         response: disasterTypesResponse,
     } = useRequest<DisasterTypeResponse>({
-        url: 'api/v2/disaster_type/',
+        url: '/api/v2/disaster_type/',
     });
 
     type GetDistrict = paths['/api/v2/district/']['get'];
@@ -129,7 +129,7 @@ function Overview(props: Props) {
         response: districtsResponse,
     } = useRequest<DistrictResponse>({
         skip: isNotDefined(value?.country),
-        url: 'api/v2/district/',
+        url: '/api/v2/district/',
         query: {
             country: value?.country,
             limit: 100,

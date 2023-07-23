@@ -33,6 +33,8 @@ function BarChart<D>(props: Props<D>) {
         [data, keySelector, valueSelector, labelSelector],
     );
 
+    // NOTE: we do not need to check if Math.max will be Infinity as the render
+    // loop will not run
     const maxValue = Math.max(...renderData.map((datum) => datum.value));
     const maxValueSafe = maxValue === 0 ? 1 : maxValue;
 

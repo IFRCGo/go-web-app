@@ -83,6 +83,8 @@ function DropdownMenu(props: Props) {
         buttonRef,
     );
 
+    const hasActions = !!actions || !hideDropdownIcon;
+
     return (
         <>
             <Button
@@ -91,7 +93,7 @@ function DropdownMenu(props: Props) {
                 elementRef={buttonRef}
                 onClick={handleMenuClick}
                 variant={variant}
-                actions={(
+                actions={hasActions ? (
                     <>
                         {actions}
                         {!hideDropdownIcon && (showDropdown
@@ -99,7 +101,7 @@ function DropdownMenu(props: Props) {
                             : <ArrowDownSmallFillIcon />
                         )}
                     </>
-                )}
+                ) : undefined}
                 icons={icons}
             >
                 {label}

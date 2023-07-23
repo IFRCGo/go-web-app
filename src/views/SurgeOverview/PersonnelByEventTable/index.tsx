@@ -46,7 +46,7 @@ function PersonnelByEventTable() {
         pending: personnelByEventPending,
         response: personnelByEventResponse,
     } = useRequest<GetPersonnelByEventResponse>({
-        url: 'api/v2/personnel_by_event/',
+        url: '/api/v2/personnel_by_event/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,

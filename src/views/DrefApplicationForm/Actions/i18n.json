@@ -6,7 +6,7 @@
         "drefFormAssessmentReportUploadLabel": "Assessment Report (Optional)",
         "drefFormCoordinationMechanism": "Are there major coordination mechanisms in place?",
         "drefFormCoordinationMechanismDescription": "List coordination mechanisms/platform in place at local/district and national level. Indicate the lead authorities/agencies. How the National Society is involved/positioned in this coordination. Does the NS in any lead/co-lead role? Any identified gap/overlap in the coordination (e.g., sector missing…)?",
-        "drefFormDescription": "Description",
+        "drefFormActionDescription": "Description",
         "drefFormDidNationalSocietyStartedImminent": "Did the National Society started any anticipatory actions?",
         "drefFormDidNationalSocietyStartedSlow": "Has the National Society started any actions?",
         "drefFormGapsInAssessment": "Any identified gaps/limitations in the assessment",

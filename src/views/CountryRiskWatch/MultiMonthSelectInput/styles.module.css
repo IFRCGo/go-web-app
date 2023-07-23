@@ -1,0 +1,129 @@
+.multi-month-select-input {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--go-ui-spacing-md);
+
+    .month {
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        --circle-size: 0.8rem;
+
+        .name {
+            transition: var(--go-ui-duration-transition-medium) ease-in-out transform;
+            font-weight: var(--go-ui-font-weight-medium);
+        }
+
+        .visual-que {
+            display: flex;
+            align-items: center;
+            height: var(--circle-size);
+
+            .end-border,
+            .start-border {
+                flex-grow: 1;
+                background-color: var(--go-ui-color-separator);
+                height: var(--go-ui-width-separator-sm);
+            }
+
+            .circle {
+                transition: var(--go-ui-duration-transition-medium) ease-in-out all;
+                border-radius: 50%;
+                background-color: var(--go-ui-color-separator);
+                width: var(--go-ui-width-separator-sm);
+                height: 100%;
+            }
+        }
+
+        &:first-child {
+            .visual-que {
+                .start-border {
+                    background-color: transparent;
+                }
+            }
+        }
+
+        &:last-child {
+            .visual-que {
+                .end-border {
+                    background-color: transparent;
+                }
+            }
+        }
+
+        &.active {
+            color: var(--go-ui-color-primary-red);
+
+            .visual-que {
+                .circle {
+                    background-color: var(--go-ui-color-primary-red);
+                    height: var(--go-ui-width-separator-sm);
+                }
+            }
+
+            &.active ~ .active {
+                .start-border {
+                    background-color: var(--go-ui-color-primary-red);
+                }
+            }
+
+            &:not(:nth-last-child(1 of .active)) {
+                .end-border {
+                    background-color: var(--go-ui-color-primary-red);
+                }
+            }
+
+            &:not(.active ~ .active) {
+                .visual-que {
+                    .circle {
+                        width: var(--circle-size);
+                        height: 100%;
+                    }
+                }
+            }
+
+            &:nth-last-child(1 of .active) {
+                .visual-que {
+                    .circle {
+                        width: var(--circle-size);
+                        height: 100%;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .month-list {
+        display: flex;
+        flex-grow: 1;
+
+        .month {
+            flex-grow: 1;
+        }
+    }
+
+    .separator {
+        background-color: var(--go-ui-color-separator);
+        width: var(--go-ui-width-separator-sm);
+        height: 1.5rem;
+    }
+
+    @media screen and (max-width: 40rem) {
+        flex-wrap: wrap;
+
+        .separator {
+            display: none;
+        }
+
+        .month-list {
+            .month {
+                .name {
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+    }
+}

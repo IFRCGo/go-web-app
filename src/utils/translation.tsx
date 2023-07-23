@@ -21,7 +21,7 @@ export function resolveToString(
         const value = params[key];
         if (isNotDefined(value)) {
             // eslint-disable-next-line no-console
-            console.error(`value for key "${key}" not provided`);
+            console.error(`resolveToString: value for key "${key}" not provided`);
             return '';
         }
 
@@ -49,7 +49,7 @@ export function resolveToComponent(template: string, params = emptyObject) {
         const value = params[key];
         if (isNotDefined(value)) {
             // eslint-disable-next-line no-console
-            console.error(`value for key "${key}" not provided`);
+            console.error(`resolveToComponent: value for key "${key}" not provided`);
             return null;
         }
 

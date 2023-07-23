@@ -17,8 +17,8 @@ import KeyFigure from '#components/KeyFigure';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
-import { CountryOutletContext } from '#utils/country';
-import { paths } from '#generated/types';
+import type { CountryOutletContext } from '#utils/outletContext';
+import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -46,7 +46,10 @@ export function Component() {
         response: countryResponse,
     } = useRequest<CountryResponse>({
         skip: !countryId,
-        url: `api/v2/country/${countryId}/`,
+        url: '/api/v2/country/{id}/',
+        pathVariables: {
+            id: countryId,
+        },
     });
 
     const {
@@ -54,7 +57,7 @@ export function Component() {
         response: aggregatedAppealResponse,
     } = useRequest<AggregatedAppealResponse>({
         skip: !countryId,
-        url: 'api/v2/appeal/aggregated/',
+        url: '/api/v2/appeal/aggregated',
         query: { country: countryId },
     });
 

@@ -115,7 +115,7 @@ function EventItemsTable(props: Props) {
         pending: eventPending,
         response: eventResponse,
     } = useRequest<EventResponse>({
-        url: 'api/v2/event/',
+        url: '/api/v2/event/',
         preserveResponse: true,
         query,
     });

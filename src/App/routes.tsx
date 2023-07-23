@@ -707,6 +707,7 @@ const allSurgeAlerts = customWrapRoute({
 });
 
 const catalogueService = customWrapRoute({
+    // TODO: Rename to `service` to `details`
     path: 'service',
     component: {
         render: () => import('#views/CatalogueService'),

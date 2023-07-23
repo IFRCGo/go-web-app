@@ -37,7 +37,7 @@ export function Component() {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
     } = useRequest<AggregatedAppealResponse>({
-        url: 'api/v2/appeal/aggregated/',
+        url: '/api/v2/appeal/aggregated',
     });
 
     const pending = aggregatedAppealPending;

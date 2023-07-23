@@ -117,7 +117,7 @@ function EmergenciesMap(props: Props) {
     const {
         response: countryResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: {
             limit: 500,
         },

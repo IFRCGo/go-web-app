@@ -9,11 +9,14 @@ import Button from '#components/Button';
 import { getDatesSeparatedByMonths } from '#utils/chart';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
+import { paths } from '#generated/types';
 
 import PointDetails from '../PointDetails';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type AggregateResponse = paths['/api/v1/aggregate/']['get']['responses']['200']['content']['application/json'];
 
 const APPEAL_TYPE_EMERGENCY = 1;
 const APPEAL_TYPE_DREF = 0;
@@ -31,12 +34,12 @@ const dataKeyToClassNameMap = {
 };
 const classNameSelector = (dataKey: DATA_KEY) => dataKeyToClassNameMap[dataKey];
 const xAxisFormatter = (date: Date) => date.toLocaleString(
-    undefined,
+    navigator.language,
     { month: 'short' },
 );
 
 const dateFormatter = new Intl.DateTimeFormat(
-    undefined,
+    navigator.language,
     { month: 'long' },
 );
 
@@ -44,15 +47,6 @@ const getFormattedKey = (dateFromProps: string | Date) => {
     const date = new Date(dateFromProps);
     return `${date.getFullYear()}-${date.getMonth()}`;
 };
-
-interface AggregateResponse {
-    aggregate: {
-        timespan: string;
-        count: number;
-        amount_funded: string;
-        beneficiaries: number;
-    }[];
-}
 
 interface Props {
     regionId?: number;
@@ -94,7 +88,7 @@ function MonthlyChart(props: Props) {
         pending: monthlyEmergencyAppealPending,
         response: monthlyEmergencyAppealResponse,
     } = useRequest<AggregateResponse>({
-        url: 'api/v1/aggregate/',
+        url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_EMERGENCY,
             ...queryParams,
@@ -105,7 +99,7 @@ function MonthlyChart(props: Props) {
         response: monthlyDrefResponse,
         pending: monthlyDrefPending,
     } = useRequest<AggregateResponse>({
-        url: 'api/v1/aggregate/',
+        url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_DREF,
             ...queryParams,
@@ -121,12 +115,12 @@ function MonthlyChart(props: Props) {
             }
 
             const drefData = listToMap(
-                monthlyDrefResponse.aggregate,
+                monthlyDrefResponse,
                 (appeal) => getFormattedKey(appeal.timespan),
             );
 
             const emergencyAppealData = listToMap(
-                monthlyEmergencyAppealResponse.aggregate,
+                monthlyEmergencyAppealResponse,
                 (appeal) => getFormattedKey(appeal.timespan),
             );
 
@@ -145,8 +139,8 @@ function MonthlyChart(props: Props) {
         (date) => getFormattedKey(date),
         (date, key) => ({
             date,
-            dref: combinedData?.dref[key],
-            emergencyAppeal: combinedData?.emergencyAppeal[key],
+            dref: combinedData?.dref?.[key],
+            emergencyAppeal: combinedData?.emergencyAppeal?.[key],
         }),
     );
 
@@ -157,7 +151,7 @@ function MonthlyChart(props: Props) {
     );
     const chartValueSelector = useCallback(
         (dataKey: DATA_KEY, date: Date) => (
-            combinedData?.[dataKey]?.[getFormattedKey(date)]?.count ?? 0
+            combinedData?.[dataKey]?.[getFormattedKey(date)]?.count
         ),
         [combinedData],
     );

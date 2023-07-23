@@ -166,7 +166,7 @@ export function Component() {
         pending: eventPending,
         response: eventResponse,
     } = useRequest<EventResponse>({
-        url: 'api/v2/event/',
+        url: '/api/v2/event/',
         preserveResponse: true,
         query,
     });
@@ -175,21 +175,21 @@ export function Component() {
         pending: disasterTypePending,
         response: disasterTypeResponse,
     } = useRequest<DisasterTypeResponse>({
-        url: 'api/v2/disaster_type/',
+        url: '/api/v2/disaster_type/',
     });
 
     const {
         pending: regionPending,
         response: regionResponse,
     } = useRequest<RegionResponse>({
-        url: 'api/v2/region/',
+        url: '/api/v2/region/',
     });
 
     const {
         pending: countryPending,
         response: countryResponse,
     } = useRequest<CountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: { limit: 500 },
     });
 

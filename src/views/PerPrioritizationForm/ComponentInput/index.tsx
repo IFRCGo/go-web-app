@@ -60,7 +60,7 @@ function ComponentsInput(props: Props) {
         response: formQuestions,
     } = useRequest<PerFormQuestionResponse>({
         skip: !expanded,
-        url: 'api/v2/per-formquestion/',
+        url: '/api/v2/per-formquestion/',
         query: {
             limit: 500,
             component: component.id,

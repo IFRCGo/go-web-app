@@ -120,7 +120,7 @@ function SurgeMap(props: Props) {
     const {
         response: eruResponse,
     } = useRequest<GetEmergencyResponseUnitResponse>({
-        url: 'api/v2/eru/',
+        url: '/api/v2/eru/',
         query: eruQuery,
     });
 
@@ -134,7 +134,7 @@ function SurgeMap(props: Props) {
     const {
         response: countryResponse,
     } = useRequest<GetCountryResponse>({
-        url: 'api/v2/country/',
+        url: '/api/v2/country/',
         query: {
             limit: 500,
         },

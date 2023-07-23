@@ -27,6 +27,7 @@ function Image(props: Props) {
     return (
         <figure className={_cs(styles.imageContainer, className)}>
             <img
+                // FIXME: use css for styling
                 src={src}
                 alt={alt}
                 className={_cs(styles.image, imageClassName)}

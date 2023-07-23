@@ -1,0 +1,10 @@
+{
+    "namespace": "countryRisk",
+    "strings": {
+        "historicalChartHeading": "Past Events and Historical Impact",
+        "peopleAffectedLabel": "People Affected",
+        "hazardFilterPlaceholder": "All Hazards",
+        "fundedLabel": "Funding (CHF)",
+        "fundingCoverageLabel": "% Funding Coverage"
+    }
+}

@@ -54,6 +54,9 @@ type Options<D, K, CompProps, HeaderProps> = {
     columnWidth?: Column<D, K, CompProps, HeaderProps>['columnWidth'];
     columnStretch?: Column<D, K, CompProps, HeaderProps>['columnStretch'];
     columnStyle?: Column<D, K, CompProps, HeaderProps>['columnStyle'];
+
+    headerInfoTitle?: HeaderCellProps['infoTitle'];
+    headerInfoDescription?: HeaderCellProps['infoDescription'];
 }
 
 export function createBooleanColumn<D, K>(
@@ -74,6 +77,8 @@ export function createBooleanColumn<D, K>(
         headerContainerClassName: options?.headerContainerClassName,
         headerCellRendererParams: {
             sortable: options?.sortable,
+            infoTitle: options?.headerInfoTitle,
+            infoDescription: options?.headerInfoDescription,
         },
         cellRendererClassName: options?.cellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
@@ -108,6 +113,8 @@ export function createProgressColumn<D, K>(
         headerContainerClassName: options?.headerContainerClassName,
         headerCellRendererParams: {
             sortable: options?.sortable,
+            infoTitle: options?.headerInfoTitle,
+            infoDescription: options?.headerInfoDescription,
         },
         cellRendererClassName: options?.cellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
@@ -143,7 +150,7 @@ export function createEmptyColumn<D, K>() {
     return item;
 }
 
-export function createStringColumn<D, K>(
+export function createStringColumn<D, K extends string | number>(
     id: string,
     title: string,
     accessor: (item: D) => string | undefined | null,
@@ -161,6 +168,8 @@ export function createStringColumn<D, K>(
         headerContainerClassName: options?.headerContainerClassName,
         headerCellRendererParams: {
             sortable: options?.sortable,
+            infoTitle: options?.headerInfoTitle,
+            infoDescription: options?.headerInfoDescription,
         },
         cellRendererClassName: options?.cellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
@@ -177,12 +186,13 @@ export function createStringColumn<D, K>(
     return item;
 }
 
-export function createNumberColumn<D, K>(
+export function createNumberColumn<D, K extends string | number>(
     id: string,
     title: string,
     accessor: (item: D) => number | undefined | null,
     options?: Options<D, K, NumberOutputProps, HeaderCellProps> & {
-        unit?: React.ReactNode;
+        suffix?: NumberOutputProps['suffix'];
+        maximumFractionDigits?: NumberOutputProps['maximumFractionDigits'];
     },
 ) {
     const item: Column<D, K, NumberOutputProps, HeaderCellProps> & {
@@ -200,7 +210,8 @@ export function createNumberColumn<D, K>(
         headerContainerClassName: options?.headerContainerClassName,
         headerCellRendererParams: {
             sortable: options?.sortable,
-            titleClassName: styles.title,
+            infoTitle: options?.headerInfoTitle,
+            infoDescription: options?.headerInfoDescription,
         },
         cellRendererClassName: _cs(
             styles.numberCell,
@@ -210,8 +221,9 @@ export function createNumberColumn<D, K>(
         cellRenderer: NumberOutput,
         cellRendererParams: (_: K, datum: D): NumberOutputProps => ({
             value: accessor(datum),
-            unit: options?.unit,
+            suffix: options?.suffix,
             compact: true,
+            maximumFractionDigits: options?.maximumFractionDigits,
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
@@ -240,6 +252,8 @@ export function createDateColumn<D, K>(
         headerContainerClassName: options?.headerContainerClassName,
         headerCellRendererParams: {
             sortable: options?.sortable,
+            infoTitle: options?.headerInfoTitle,
+            infoDescription: options?.headerInfoDescription,
         },
         cellRendererClassName: options?.cellRendererClassName,
         cellContainerClassName: options?.cellContainerClassName,
@@ -274,6 +288,8 @@ export function createDateRangeColumn<D, K>(
         headerContainerClassName: options?.headerContainerClassName,
         headerCellRendererParams: {
             sortable: options?.sortable,
+            infoTitle: options?.headerInfoTitle,
+            infoDescription: options?.headerInfoDescription,
         },
         cellRendererClassName: options?.cellRendererClassName,
         cellRenderer: DateRangeOutput,
@@ -309,6 +325,8 @@ export function createLinkColumn<D, K>(
         headerCellRenderer: HeaderCell,
         headerCellRendererParams: {
             sortable: options?.sortable,
+            infoTitle: options?.headerInfoTitle,
+            infoDescription: options?.headerInfoDescription,
         },
         cellRenderer: Link,
         cellRendererParams: (_: K, datum: D): LinkProps => ({

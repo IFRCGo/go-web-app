@@ -268,7 +268,7 @@ function Actions(props: Props) {
                     description={strings.drefFormIfrcDescription}
                 >
                     <TextArea
-                        label={strings.drefFormDescription}
+                        label={strings.drefFormActionDescription}
                         name="ifrc"
                         onChange={setFieldValue}
                         value={value.ifrc}
@@ -280,7 +280,7 @@ function Actions(props: Props) {
                     description={strings.drefFormIcrcDescription}
                 >
                     <TextArea
-                        label={strings.drefFormDescription}
+                        label={strings.drefFormActionDescription}
                         name="icrc"
                         onChange={setFieldValue}
                         value={value.icrc}
@@ -317,7 +317,7 @@ function Actions(props: Props) {
                     title={strings.drefFormNationalAuthorities}
                 >
                     <TextArea
-                        label={strings.drefFormDescription}
+                        label={strings.drefFormActionDescription}
                         name="national_authorities"
                         onChange={setFieldValue}
                         value={value.national_authorities}
@@ -330,7 +330,7 @@ function Actions(props: Props) {
                     multiRow
                 >
                     <TextArea
-                        label={strings.drefFormDescription}
+                        label={strings.drefFormActionDescription}
                         name="un_or_other_actor"
                         onChange={setFieldValue}
                         value={value.un_or_other_actor}
@@ -356,7 +356,7 @@ function Actions(props: Props) {
                             description={strings.drefFormCoordinationMechanismDescription}
                         >
                             <TextArea
-                                label={strings.drefFormDescription}
+                                label={strings.drefFormActionDescription}
                                 name="major_coordination_mechanism"
                                 onChange={setFieldValue}
                                 value={value.major_coordination_mechanism}
@@ -430,7 +430,7 @@ function Actions(props: Props) {
                                 multiRow
                             >
                                 <TextArea
-                                    label={strings.drefFormDescription}
+                                    label={strings.drefFormActionDescription}
                                     name="identified_gaps"
                                     onChange={setFieldValue}
                                     value={value.identified_gaps}

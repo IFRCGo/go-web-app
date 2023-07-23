@@ -4,7 +4,6 @@ import {
     useContext,
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
-// TODO: use proper icons
 import {
     ArrowUpDownFillIcon,
     ArrowDownFillIcon,
@@ -12,6 +11,7 @@ import {
 } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
+import InfoPopup from '#components/InfoPopup';
 
 import type { BaseHeader, SortDirection } from '../types';
 import { SortContext } from '../useSorting';
@@ -21,6 +21,8 @@ import styles from './styles.module.css';
 export interface HeaderCellProps extends BaseHeader {
     sortable?: boolean;
     defaultSortDirection?: SortDirection;
+    infoTitle?: React.ReactNode;
+    infoDescription?: React.ReactNode;
 }
 
 function HeaderCell(props: HeaderCellProps) {
@@ -32,6 +34,8 @@ function HeaderCell(props: HeaderCellProps) {
 
         sortable,
         defaultSortDirection = 'asc',
+        infoTitle,
+        infoDescription,
     } = props;
 
     const {
@@ -92,6 +96,12 @@ function HeaderCell(props: HeaderCellProps) {
             <div className={_cs(titleClassName, styles.title)}>
                 {title}
             </div>
+            {infoTitle && infoDescription && (
+                <InfoPopup
+                    title={infoTitle}
+                    description={infoDescription}
+                />
+            )}
         </div>
     );
 }

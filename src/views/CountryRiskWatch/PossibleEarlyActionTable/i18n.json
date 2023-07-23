@@ -1,0 +1,17 @@
+{
+    "namespace": "countryRisk",
+    "strings": {
+        "earlyActionTableHeading": "Possible Early Actions",
+        "earlyActionTableHazardTitle": "Hazard",
+        "earlyActionTablePossibleActionTitle": "Possible Early Actions",
+        "earlyActionTableLocationTitle": "Location",
+        "earlyActionTableSectorTitle": "Sector",
+        "earlyActionTablePurposeTitle": "Intended Purpose",
+        "earlyActionTableOrganisationTitle": "Organisation",
+        "earlyActionTableDateTitle": "Implementation Date",
+        "earlyActionTableImpactTitle": "Impact/Action",
+        "earlyActionTableEvidenceTitle": "Evidence of Success",
+        "earlyActionTableFilterHazardTypePlaceholder": "All Hazard Types",
+        "earlyActionTableFilterSectorPlaceholder": "All Sectors"
+    }
+}

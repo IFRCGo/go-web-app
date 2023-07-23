@@ -50,7 +50,7 @@ export function Component() {
         response: operationsRes,
         pending: operationsPending,
     } = useRequest<OperationsResponse>({
-        url: 'api/v2/event/',
+        url: '/api/v2/event/',
         query: {
             is_featured: 1,
             limit: ITEM_PER_PAGE,
@@ -65,7 +65,7 @@ export function Component() {
         retrigger: retriggerUserDetails,
     } = useRequest<UserMeResponse>({
         skip: !userAuth,
-        url: 'api/v2/user/me/',
+        url: '/api/v2/user/me/',
     });
 
     const subscriptionMap = listToMap(

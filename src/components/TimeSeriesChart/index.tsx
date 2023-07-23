@@ -5,7 +5,13 @@ import {
     useState,
     Fragment,
 } from 'react';
-import { listToMap, _cs, bound } from '@togglecorp/fujs';
+import {
+    listToMap,
+    _cs,
+    bound,
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 import useSizeTracking from '#hooks/useSizeTracking';
 import {
     getBounds,
@@ -36,7 +42,7 @@ interface Props<K> {
     className?: string;
     dataKeys: K[];
     timePoints: Date[];
-    valueSelector: (dataKey: K, date: Date) => number;
+    valueSelector: (dataKey: K, date: Date) => number | undefined;
     classNameSelector: (dataKey: K) => string;
     activePointKey?: string;
     onTimePointClick?: (dateKey: string) => void;
@@ -58,14 +64,14 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
     const [hoveredPointKey, setHoveredPointKey] = useState<string | undefined>();
 
     const svgRef = useRef<SVGSVGElement>(null);
-    const bounds = useSizeTracking(svgRef);
+    const chartBounds = useSizeTracking(svgRef);
 
     const [
         chartPoints,
         yAxisPoints,
     ] = useMemo(
         () => {
-            if (!bounds) {
+            if (!chartBounds) {
                 return [
                     [],
                     [],
@@ -78,7 +84,7 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
                     value: valueSelector(dataKey, timePoint),
                 }));
 
-                const valueList = dataValues.map((value) => value.value);
+                const valueList = dataValues.map((value) => value.value).filter(isDefined);
                 const maxValue = valueList.length === 0 ? 0 : Math.max(...valueList);
 
                 return {
@@ -96,7 +102,7 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
             const xBounds = getBounds(numMonthsList);
             const xScale = getScaleFunction(
                 xBounds,
-                { min: 0, max: bounds.width },
+                { min: 0, max: chartBounds.width },
                 { start: chartMargin.left, end: chartMargin.right },
             );
 
@@ -110,7 +116,7 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
             };
             const yScale = getScaleFunction(
                 { min: 0, max: yBounds.max },
-                { min: 0, max: bounds.height },
+                { min: 0, max: chartBounds.height },
                 { start: chartMargin.top, end: chartMargin.bottom },
                 true,
             );
@@ -146,11 +152,11 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
                     yValues: listToMap(
                         timePoint.dataValues,
                         (datum) => datum.key,
-                        (datum) => yScale(datum.value),
+                        (datum) => (isDefined(datum.value) ? yScale(datum.value) : undefined),
                     ),
                     rect: {
                         start: rectStart,
-                        width: bound(rectEnd - rectStart, 0, bounds.width),
+                        width: bound(rectEnd - rectStart, 0, chartBounds.width),
                     },
                     date: timePoint.date,
                     numMonths: timePoint.numMonths,
@@ -163,7 +169,7 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
                 yAxisData,
             ] as const;
         },
-        [bounds, dataKeys, timePoints, valueSelector],
+        [chartBounds, dataKeys, timePoints, valueSelector],
     );
 
     const handleRectMouseClick: React.MouseEventHandler<SVGRectElement> = useCallback((e) => {
@@ -199,7 +205,7 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
                         className={styles.xAxisGridLine}
                         x1={chartMargin.left - CHART_OFFSET}
                         y1={point.value}
-                        x2={bounds.width - CHART_OFFSET}
+                        x2={chartBounds.width - CHART_OFFSET}
                         y2={point.value}
                     />
                 </Fragment>
@@ -209,10 +215,19 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
                     key={dataKey}
                     className={_cs(styles.path, classNameSelector(dataKey))}
                     d={getPathData(
-                        chartPoints.map((point) => ({
-                            x: point.x,
-                            y: point.yValues[dataKey],
-                        })),
+                        chartPoints.map((point) => {
+                            const { x } = point;
+                            const y = point.yValues[dataKey];
+
+                            if (isNotDefined(x) || isNotDefined(y)) {
+                                return undefined;
+                            }
+
+                            return {
+                                x,
+                                y: y as number,
+                            };
+                        }).filter(isDefined),
                     )}
                 />
             ))}
@@ -225,9 +240,9 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
                         <text
                             className={styles.xAxisTickText}
                             x={point.x}
-                            y={bounds.height - X_AXIS_HEIGHT}
+                            y={chartBounds.height - X_AXIS_HEIGHT}
                             style={{
-                                transformOrigin: `${point.x}px ${bounds.height - X_AXIS_HEIGHT}px`,
+                                transformOrigin: `${point.x}px ${chartBounds.height - X_AXIS_HEIGHT}px`,
                             }}
                         >
                             {xAxisFormatter(point.date)}
@@ -240,7 +255,7 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
                             x1={point.x}
                             y1={0}
                             x2={point.x}
-                            y2={bounds.height - chartMargin.bottom + CHART_OFFSET}
+                            y2={chartBounds.height - chartMargin.bottom + CHART_OFFSET}
                         />
                         {dataKeys.map((dataKey) => (
                             <ChartPoint
@@ -258,7 +273,11 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
                             x={point.rect.start}
                             y={CHART_OFFSET}
                             width={point.rect.width}
-                            height={bound(bounds.height - chartMargin.bottom, 0, bounds.height)}
+                            height={bound(
+                                chartBounds.height - chartMargin.bottom,
+                                0,
+                                chartBounds.height,
+                            )}
                             onMouseEnter={handleRectMouseEnter}
                             onMouseOut={handleRectMouseOut}
                             onMouseDown={handleRectMouseClick}

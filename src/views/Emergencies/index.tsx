@@ -26,7 +26,6 @@ import { getDatesSeparatedByMonths } from '#utils/chart';
 import { sumSafe } from '#utils/common';
 import { paths } from '#generated/types';
 
-import type { AggregateEventResponse } from './types';
 import Map from './Map';
 import FieldReportTable from './FieldReportsTable';
 import EmergenciesTable from './EmergenciesTable';
@@ -44,7 +43,7 @@ function timeseriesChartClassNameSelector() {
 }
 
 const xAxisFormatter = (date: Date) => date.toLocaleString(
-    undefined,
+    navigator.language,
     { month: 'short' },
 );
 
@@ -73,6 +72,7 @@ oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 oneYearAgo.setHours(0, 0, 0, 0);
 
 type EventResponse = paths['/api/v2/event/']['get']['responses']['200']['content']['application/json'];
+type AggregateResponse = paths['/api/v1/aggregate/']['get']['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -81,7 +81,7 @@ export function Component() {
         pending: eventsPending,
         response: eventsResponse,
     } = useRequest<EventResponse>({
-        url: 'api/v2/event/',
+        url: '/api/v2/event/',
         query: {
             limit: 500,
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
@@ -92,8 +92,8 @@ export function Component() {
     const {
         // pending: aggregateEventPending,
         response: aggregateEventResponse,
-    } = useRequest<AggregateEventResponse>({
-        url: 'api/v1/aggregate/',
+    } = useRequest<AggregateResponse>({
+        url: '/api/v1/aggregate/',
         query: {
             model_type: 'event',
             unit: 'month',
@@ -189,7 +189,7 @@ export function Component() {
     const aggregateDataMap = useMemo(
         () => (
             listToMap(
-                aggregateEventResponse?.aggregate ?? [],
+                aggregateEventResponse ?? [],
                 (aggregate) => getFormattedKey(aggregate.timespan),
             )
         ),

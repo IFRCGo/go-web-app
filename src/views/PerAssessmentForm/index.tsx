@@ -36,7 +36,8 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { STEP_ASSESSMENT, PerProcessOutletContext } from '#utils/per';
+import { STEP_ASSESSMENT } from '#utils/per';
+import type { PerProcessOutletContext } from '#utils/outletContext';
 import type { paths } from '#generated/types';
 
 import {
@@ -95,14 +96,14 @@ export function Component() {
         pending: perOptionsPending,
         response: perOptionsResponse,
     } = useRequest<PerOptionsResponse>({
-        url: 'api/v2/per-options',
+        url: '/api/v2/per-options/',
     });
 
     const {
         pending: questionsPending,
         response: questionsResponse,
     } = useRequest<PerFormQuestionResponse>({
-        url: 'api/v2/per-formquestion/',
+        url: '/api/v2/per-formquestion/',
         query: {
             limit: 500,
         },
@@ -124,14 +125,20 @@ export function Component() {
         response: perOverviewResponse,
     } = useRequest<PerOverviewResponse>({
         skip: isNotDefined(statusResponse?.id),
-        url: `api/v2/per-overview/${statusResponse?.id}`,
+        url: '/api/v2/per-overview/{id}/',
+        pathVariables: {
+            id: statusResponse?.id,
+        },
     });
 
     const {
         pending: perAssesmentPending,
     } = useRequest<AssessmentResponse>({
         skip: isNotDefined(statusResponse?.id),
-        url: `api/v2/per-assessment/${assessmentId}`,
+        url: '/api/v2/per-assessment/{id}/',
+        pathVariables: {
+            id: assessmentId ?? undefined,
+        },
         onSuccess: (response) => {
             if (response) {
                 setValue(removeNull(response));

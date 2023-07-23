@@ -1,3 +1,10 @@
+import type {
+    CirclePaint,
+    CircleLayer,
+    FillLayer,
+    SymbolLayer,
+} from 'mapbox-gl';
+
 import {
     COLOR_BLACK,
     COLOR_RED,
@@ -5,13 +12,7 @@ import {
     COLOR_BLUE,
     COLOR_LIGHT_GREY,
     COLOR_DARK_GREY,
-} from '#utils/map';
-import type {
-    CirclePaint,
-    CircleLayer,
-    FillLayer,
-    SymbolLayer,
-} from 'mapbox-gl';
+} from '#utils/constants';
 
 import i18n from './i18n.json';
 

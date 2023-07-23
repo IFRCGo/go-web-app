@@ -18,7 +18,7 @@ import useTranslation from '#hooks/useTranslation';
 import type { paths } from '#generated/types';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
-import type { RegionOutletContext } from '#utils/region';
+import type { RegionOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -54,7 +54,10 @@ export function Component() {
         response: regionResponse,
     } = useRequest<RegionResponse>({
         skip: !regionId,
-        url: `api/v2/region/${regionId}/`,
+        url: '/api/v2/region/{id}/',
+        pathVariables: {
+            id: regionId,
+        },
     });
 
     const {
@@ -62,7 +65,7 @@ export function Component() {
         response: aggregatedAppealResponse,
     } = useRequest<AggregatedAppealResponse>({
         skip: !regionId,
-        url: 'api/v2/appeal/aggregated/',
+        url: '/api/v2/appeal/aggregated',
         query: { region: regionId },
     });
 

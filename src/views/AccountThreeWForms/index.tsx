@@ -128,7 +128,7 @@ export function Component(props: Props) {
         response: projectResponse,
         pending: projectResponsePending,
     } = useRequest<ProjectsResponse>({
-        url: 'api/v2/project/',
+        url: '/api/v2/project/',
         preserveResponse: true,
         query: {
             limit: ITEM_PER_PAGE,
@@ -140,7 +140,7 @@ export function Component(props: Props) {
         response: activityResponse,
         pending: activityResponsePending,
     } = useRequest<ActivitiesResponse>({
-        url: 'api/v2/emergency-project/',
+        url: '/api/v2/emergency-project/',
         preserveResponse: true,
         query: {
             limit: ITEM_PER_PAGE,

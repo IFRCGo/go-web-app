@@ -16,7 +16,7 @@
         }
 
         &.hovered {
-            r: var(--point-hover-radius);
+            fill: currentColor;
         }
     }
 

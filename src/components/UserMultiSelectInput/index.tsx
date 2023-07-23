@@ -54,7 +54,7 @@ function UserMultiSelectInput<const NAME>(
         response,
     } = useRequest<ListResponse<User>>({
         skip: !dropdownShown || safeSearchText.length < 2,
-        url: 'api/v2/users/',
+        url: '/api/v2/users/',
         query: {
             name: debouncedSearchText,
             limit: 20,

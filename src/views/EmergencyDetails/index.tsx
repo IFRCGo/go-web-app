@@ -4,7 +4,7 @@ import useTranslation from '#hooks/useTranslation';
 import KeyFigure from '#components/KeyFigure';
 import TextOutput from '#components/TextOutput';
 import Container from '#components/Container';
-import type { EmergencyOutletContext } from '#utils/emergency';
+import type { EmergencyOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

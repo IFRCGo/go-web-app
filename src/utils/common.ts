@@ -11,7 +11,9 @@ import {
 
 import { components } from '#generated/types';
 
-export function sumSafe(list: (number | undefined | null)[] | null | undefined) {
+type UnsafeNumberList = (number | undefined | null)[] | null | undefined;
+
+function getNumberListSafe(list: UnsafeNumberList) {
     if (!list) {
         return undefined;
     }
@@ -22,7 +24,44 @@ export function sumSafe(list: (number | undefined | null)[] | null | undefined) 
         return undefined;
     }
 
+    return safeList;
+}
+
+export function sumSafe(list: UnsafeNumberList) {
+    const safeList = getNumberListSafe(list);
+    if (!safeList || safeList.length === 0) {
+        return undefined;
+    }
+
     return sum(safeList);
+}
+
+export function maxSafe(list: UnsafeNumberList) {
+    const safeList = getNumberListSafe(list);
+    if (!safeList || safeList.length === 0) {
+        return undefined;
+    }
+
+    return Math.max(...safeList);
+}
+
+export function minSafe(list: UnsafeNumberList) {
+    const safeList = getNumberListSafe(list);
+    if (!safeList || safeList.length === 0) {
+        return undefined;
+    }
+
+    return Math.min(...safeList);
+}
+
+export function avgSafe(list: UnsafeNumberList) {
+    const safeList = getNumberListSafe(list);
+    if (!safeList || safeList.length === 0) {
+        return undefined;
+    }
+
+    const listSum = sum(safeList);
+    return listSum / safeList.length;
 }
 
 export function compareLabel<O extends { label: string }>(a: O, b: O) {
@@ -230,4 +269,94 @@ export function isWhitelistedEmail(
         .filter((item) => item.is_active)
         .map((item) => item.domain_name.toLowerCase())
         .includes(userMailDomain);
+}
+
+interface FormatNumberOptions {
+    currency?: boolean;
+    unit?: Intl.NumberFormatOptions['unit'];
+    maximumFractionDigits?: Intl.NumberFormatOptions['maximumFractionDigits'];
+    compact?: boolean;
+    separatorHidden?: boolean,
+}
+
+export function formatNumber(
+    value: number | null | undefined,
+    options?: FormatNumberOptions,
+) {
+    if (isNotDefined(value)) {
+        return undefined;
+    }
+
+    if (!options) {
+        return new Intl.NumberFormat(navigator.language).format(value);
+    }
+
+    const {
+        currency,
+        unit,
+        maximumFractionDigits,
+        compact,
+        separatorHidden,
+    } = options;
+
+    const formattingOptions: Intl.NumberFormatOptions = {};
+
+    if (isTruthyString(unit)) {
+        formattingOptions.unit = unit;
+        formattingOptions.unitDisplay = 'short';
+    }
+    if (currency) {
+        formattingOptions.currencyDisplay = 'narrowSymbol';
+        formattingOptions.style = 'currency';
+    }
+    if (compact) {
+        formattingOptions.notation = 'compact';
+        formattingOptions.compactDisplay = 'short';
+    }
+
+    formattingOptions.useGrouping = !separatorHidden;
+
+    if (isDefined(maximumFractionDigits)) {
+        formattingOptions.maximumFractionDigits = maximumFractionDigits;
+    } else {
+        formattingOptions.maximumFractionDigits = Math.abs(value) >= 1000 ? 0 : 2;
+    }
+
+    const newValue = new Intl.NumberFormat(navigator.language, formattingOptions)
+        .format(value);
+
+    return newValue;
+}
+
+export function splitList<X, Y>(
+    list: (X | Y)[],
+    splitPointSelector: (item: X | Y, i: number) => item is X,
+): Y[][] {
+    const breakpointIndices = list.map(
+        (item, i) => (splitPointSelector(item, i) ? i : undefined),
+    ).filter(isDefined);
+
+    if (breakpointIndices.length === 0) {
+        return [list as Y[]];
+    }
+
+    return [...breakpointIndices, list.length].map(
+        (breakpointIndex, i) => {
+            const prevIndex = i === 0
+                ? 0
+                : breakpointIndices[i - 1] + 1;
+
+            if (prevIndex === breakpointIndex) {
+                return undefined;
+            }
+
+            const newList = list.slice(prevIndex, breakpointIndex);
+            return newList as Y[];
+        },
+    ).filter(isDefined);
+}
+
+export function getNumberOfDaysInMonth(year: number, month: number) {
+    const dateWithLastDateOfPrevMonth = new Date(year, month + 1, 0);
+    return dateWithLastDateOfPrevMonth.getDate();
 }

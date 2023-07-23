@@ -8,7 +8,7 @@ import Link from '#components/Link';
 import HtmlOutput from '#components/HtmlOutput';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
-import type { RegionOutletContext } from '#utils/region';
+import type { RegionOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

@@ -22,7 +22,7 @@ export function Component() {
     const isLoading = state === 'loading';
     const isLoadingDebounced = useDebouncedValue(isLoading);
     const { response: serverEnums } = useRequest<GlobalEnumsResponse>({
-        url: 'api/v2/global-enums/',
+        url: '/api/v2/global-enums/',
     });
 
     return (
