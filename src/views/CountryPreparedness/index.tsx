@@ -1,6 +1,4 @@
-import {
-    useMemo,
-} from 'react';
+import { Fragment, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import {
@@ -21,8 +19,13 @@ import KeyFigure from '#components/KeyFigure';
 
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
-import Header from '#components/Header';
-import { numericCountSelector, numericIdSelector, stringTitleSelector } from '#utils/selectors';
+import ProgressBar from '#components/ProgressBar';
+import StackedProgressBar from '#components/StackedProgressBar';
+import {
+    numericCountSelector,
+    numericIdSelector,
+    stringTitleSelector,
+} from '#utils/selectors';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -31,19 +34,26 @@ import RatingByAreaChart from './RatingByAreaChart';
 type GetLatestPerOverview = paths['/api/v2/latest-per-overview/']['get'];
 type LatestPerOverviewResponse = GetLatestPerOverview['responses']['200']['content']['application/json'];
 
+type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+type PerFormAreaResponse = paths['/api/v2/per-formarea/']['get']['responses']['200']['content']['application/json'];
 type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
 type PerOverviewResponse = paths['/api/v2/per-overview/{id}/']['get']['responses']['200']['content']['application/json'];
 type PerAssessmentResponse = paths['/api/v2/per-assessment/{id}/']['get']['responses']['200']['content']['application/json'];
+type PerPrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['get']['responses']['200']['content']['application/json'];
 
 type PerFormAnswerResponse = paths['/api/v2/per-formanswer/']['get']['responses']['200']['content']['application/json'];
 
-const PIE_COLORS = [
+const primaryRedColorShades = [
     'var(--go-ui-color-red-90)',
     'var(--go-ui-color-red-60)',
     'var(--go-ui-color-red-40)',
     'var(--go-ui-color-red-20)',
     'var(--go-ui-color-red-10)',
 ];
+
+function primaryRedColorShadeSelector(_: unknown, i: number) {
+    return primaryRedColorShades[i];
+}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -52,6 +62,20 @@ export function Component() {
 
     const { response: formAnswerResponse } = useRequest<PerFormAnswerResponse>({
         url: '/api/v2/per-formanswer/',
+    });
+
+    const {
+        // pending: perOptionsPending,
+        response: perOptionsResponse,
+    } = useRequest<PerOptionsResponse>({
+        url: '/api/v2/per-options/',
+    });
+
+    const {
+        // pending: perOptionsPending,
+        response: perFormAreaResponse,
+    } = useRequest<PerFormAreaResponse>({
+        url: '/api/v2/per-formarea/',
     });
 
     const { response: latestPerResponse } = useRequest<LatestPerOverviewResponse>({
@@ -88,6 +112,14 @@ export function Component() {
         },
     });
 
+    const { response: prioritizationResponse } = useRequest<PerPrioritizationResponse>({
+        skip: isNotDefined(processStatusResponse?.prioritization),
+        url: '/api/v2/per-prioritization/{id}/',
+        pathVariables: {
+            id: processStatusResponse?.prioritization ?? undefined,
+        },
+    });
+
     const formAnswerMap = useMemo(
         () => (
             listToMap(
@@ -117,6 +149,12 @@ export function Component() {
                 ),
             ).filter(isDefined) ?? [];
 
+            const topRatedComponents = [...componentList].sort(
+                (a, b) => (
+                    compareNumber(a.rating.value, b.rating.value, -1)
+                ),
+            ).slice(0, 5);
+
             function getAverage(list: number[]) {
                 if (list.length === 0) {
                     return 0;
@@ -137,6 +175,7 @@ export function Component() {
                 ),
                 (groupedComponentList) => ({
                     id: groupedComponentList[0].area.id,
+                    areaNum: groupedComponentList[0].area.area_num,
                     title: groupedComponentList[0].area.title,
                     value: getAverage(
                         groupedComponentList.map((component) => component.rating.value),
@@ -188,129 +227,181 @@ export function Component() {
                 averageRating,
                 answerCounts,
                 ratingByArea,
+                topRatedComponents,
+                componentList,
             };
         },
         [assessmentResponse, formAnswerMap],
     );
 
+    const prioritizationStats = useMemo(
+        () => {
+            if (!prioritizationResponse || !assessmentStats) {
+                return undefined;
+            }
+
+            const ratingByComponentId = listToMap(
+                assessmentStats.componentList,
+                (component) => component.details.id,
+                (component) => component.rating,
+            );
+
+            const componentsWithRating = prioritizationResponse.component_responses?.map(
+                (componentResponse) => ({
+                    id: componentResponse.id,
+                    details: componentResponse.component_details,
+                    rating: ratingByComponentId[componentResponse.component],
+                }),
+            );
+
+            return {
+                componentsWithRating,
+            };
+        },
+        [prioritizationResponse, assessmentStats],
+    );
+
     return (
-        <div className={styles.countryPreparedness}>
-            <Header
-                heading={strings.nsPreparednessAndResponseCapacityHeading}
-                headingLevel={2}
-            />
+        <Container
+            className={styles.countryPreparedness}
+            childrenContainerClassName={styles.preparednessContent}
+            heading={strings.nsPreparednessAndResponseCapacityHeading}
+            headingLevel={2}
+        >
             <div className={styles.latestPerDetails}>
                 <TextOutput
-                    label={strings.startDateTitle}
+                    label={strings.startDateLabel}
                     value={overviewResponse?.date_of_assessment}
                     valueType="date"
                 />
                 <TextOutput
-                    label={strings.perPhaseTitle}
+                    label={strings.perPhaseLabel}
                     value={processStatusResponse?.phase_display}
                 />
                 <TextOutput
-                    label={strings.focalPointTitle}
+                    label={strings.focalPointNameLabel}
                     value={overviewResponse?.ns_focal_point_name}
                 />
                 <TextOutput
-                    label={strings.perCycleTitle}
+                    label={strings.perCycleLabel}
                     value={overviewResponse?.phase}
                     valueType="number"
                 />
                 <TextOutput
-                    label={strings.typeOfAssessmentTitle}
+                    label={strings.typeOfAssessmentLabel}
                     value={overviewResponse?.type_of_assessment_details?.name}
                 />
                 <TextOutput
-                    label={strings.emailTitle}
+                    label={strings.focalPointEmailLitle}
                     value={overviewResponse?.ns_focal_point_email}
                 />
             </div>
             <Container
                 heading={strings.perAssessmentHeading}
                 withHeaderBorder
-                childrenContainerClassName={styles.progressBar}
+                childrenContainerClassName={styles.assessmentResultsContent}
             >
-                {assessmentStats && (
-                    <PieChart
-                        data={assessmentStats.ratingCounts}
-                        valueSelector={numericCountSelector}
-                        labelSelector={stringTitleSelector}
-                        keySelector={numericIdSelector}
-                        colors={PIE_COLORS}
-                    />
-                )}
+                <PieChart
+                    data={assessmentStats?.ratingCounts ?? []}
+                    valueSelector={numericCountSelector}
+                    labelSelector={stringTitleSelector}
+                    keySelector={numericIdSelector}
+                    colors={primaryRedColorShades}
+                />
+            </Container>
+            <Container
+                heading={strings.totalBenchmarkSummaryHeading}
+                childrenContainerClassName={styles.benchmarkSummaryContent}
+                withHeaderBorder
+            >
+                <StackedProgressBar
+                    data={assessmentStats?.answerCounts ?? []}
+                    valueSelector={(answerCount) => answerCount.count}
+                    labelSelector={(answerCount) => `${answerCount.count} ${answerCount.label}`}
+                    colorSelector={primaryRedColorShadeSelector}
+                />
                 <KeyFigure
                     value={assessmentStats?.averageRating}
-                    description="Average Component Rating"
+                    description={strings.averageComponentRatingLabel}
                 />
-                {assessmentStats?.answerCounts.map(
-                    (answer) => (
-                        <KeyFigure
-                            value={answer.count}
-                            description={answer.label}
-                        />
-                    ),
-                )}
             </Container>
             <Container
                 heading={strings.componentsByAreaHeading}
                 withHeaderBorder
             >
                 <RatingByAreaChart
+                    ratingOptions={perOptionsResponse?.componentratings}
+                    formAreaOptions={perFormAreaResponse?.results}
                     data={assessmentStats?.ratingByArea}
                 />
             </Container>
-            {/*
             <Container
-                heading={strings.previousPerAssessment}
+                heading={strings.previousPerAssessmentHeading}
                 withHeaderBorder
             >
-                <TimeSeriesChart
-                    className={styles.timelineChart}
-                    timePoints={dateList}
-                    dataKeys={dataKeys}
-                    valueSelector={chartValueSelector}
-                    classNameSelector={classNameSelector}
-                    activePointKey={activePointKey}
-                    onTimePointClick={setActivePointKey}
-                    xAxisFormatter={xAxisFormatter}
-                />
+                Chart not available
             </Container>
             <Container
                 heading={strings.highlightedTopRatedComponentHeading}
                 withHeaderBorder
+                childrenContainerClassName={styles.topRatedComponentContent}
             >
-                <div className={styles.highlightedComponent}>
-                    {highlightedComponent?.map((component) => component?.title)}
-                </div>
+                {assessmentStats?.topRatedComponents.map(
+                    (component) => (
+                        <Container
+                            key={component.details.id}
+                            className={styles.topRatedComponent}
+                            heading={component.rating.title}
+                            headingLevel={5}
+                            withHeaderBorder
+                            withInternalPadding
+                        >
+                            {component.details.title}
+                        </Container>
+                    ),
+                )}
             </Container>
             <Container
-                heading={strings.componentRatingResultsHeading}
+                heading={strings.priorityComponentToBeStrengthenedHeading}
+                childrenContainerClassName={styles.priorityComponentsContent}
                 withHeaderBorder
             >
-                {formComponentResponse?.results?.map((component) => {
-                    const rating = assessmentComponentResponseMap?.[component.id]?.rating_details;
-                    const ratingDisplay = isDefined(rating)
-                        ? `${rating.value} - ${rating.title}`
-                        : undefined;
-
-                    return (
-                        <ComponentInput
-                            key={component.id}
-                            index={componentResponseMapping[component.id]?.index}
-                            value={componentResponseMapping[component.id]?.value}
-                            onChange={setComponentValue}
-                            component={component}
-                            questionResponses={assessmentQuestionResponsesByComponent[component.id]}
-                            ratingDisplay={ratingDisplay}
+                {prioritizationStats?.componentsWithRating?.map(
+                    (component) => (
+                        <ProgressBar
+                            className={styles.priorityComponent}
+                            value={component.rating?.value ?? 0}
+                            totalValue={5}
+                            title={component.details.title}
                         />
-                    );
-                })}
+                    ),
+                )}
             </Container>
-              */}
-        </div>
+            <Container
+                className={styles.ratingResults}
+                heading={strings.componentRatingResultsHeading}
+                withHeaderBorder
+                childrenContainerClassName={styles.ratingResultsContent}
+            >
+                {assessmentStats?.componentList.map(
+                    (component) => (
+                        <Fragment
+                            key={component.details.id}
+                        >
+                            <ProgressBar
+                                value={component.rating.value}
+                                totalValue={5}
+                                title={`${component.details.component_num}: ${component.details.title}`}
+                            />
+                            <div className={styles.rating}>
+                                {`${component.rating.value} - ${component.rating.title}`}
+                            </div>
+                            <div />
+                        </Fragment>
+                    ),
+                )}
+            </Container>
+        </Container>
     );
 }
 

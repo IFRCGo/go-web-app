@@ -91,6 +91,7 @@ function ComponentInput(props: Props) {
             key={component.id}
             heading={`${component.component_num}. ${component.title}`}
             childrenContainerClassName={styles.questionList}
+            withHeaderBorder
             actions={(
                 <SelectInput
                     className={styles.statusSelection}

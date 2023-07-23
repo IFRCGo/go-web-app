@@ -1,7 +1,7 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import NumberOutput from '#components/NumberOutput';
+// import NumberOutput from '#components/NumberOutput';
 import { sumSafe } from '#utils/common';
 
 import styles from './styles.module.css';
@@ -35,6 +35,7 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
     // TODO: Discuss UI of this component
     return (
         <div className={_cs(styles.stackedBarChart, className)}>
+            {/*
             <div className={styles.barInfoContainer}>
                 {renderData.map((datum) => (
                     <div
@@ -52,6 +53,7 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                     </div>
                 ))}
             </div>
+              */}
             <div className={styles.track}>
                 {renderData.map((datum) => (
                     <div
@@ -66,18 +68,11 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
             </div>
             <div className={styles.labelList}>
                 {renderData.map((datum) => (
-                    <div
-                        className={styles.labelContainer}
-                        style={{
-                            width: `${(100 * datum.value) / total}%`,
-                        }}
-                    >
-                        {/*
+                    <div className={styles.labelContainer}>
                         <div
                             className={styles.colorDot}
                             style={{ backgroundColor: datum.color }}
                         />
-                        */}
                         <div
                             className={styles.label}
                             title={typeof datum.label === 'string' ? datum.label : undefined}

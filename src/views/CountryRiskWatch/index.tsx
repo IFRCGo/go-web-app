@@ -87,7 +87,7 @@ export function Component() {
             </div>
             <RiskBarChart
                 pending={pendingCountryRiskResponse}
-                riskData={riskResponse}
+                seasonalRiskData={riskResponse}
             />
             <PossibleEarlyActionTable
                 countryId={Number(countryId)}

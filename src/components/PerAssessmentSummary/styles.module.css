@@ -1,12 +1,10 @@
 .per-assessment-summary {
     .content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-4xl);
+        display: grid;
+        grid-gap: var(--go-ui-spacing-2xl);
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
 
         .total-progress {
-            max-width: 30rem;
-
             .answer-counts {
                 display: flex;
                 gap: var(--go-ui-spacing-lg);
@@ -14,12 +12,29 @@
         }
 
         .component-rating {
-            max-width: 60rem;
-            color: inherit;
+            grid-column: auto / span 2;
         }
 
         .avg-component-rating {
-            max-width: 30rem;
+            display: flex;
+            gap: var(--go-ui-spacing-sm);
+
+            .area-rating {
+                display: flex;
+                flex-direction: column;
+
+                .bar-container {
+                    display: flex;
+                    align-items: flex-end;
+                    background-color: var(--go-ui-color-separator);
+                    height: 3rem;
+
+                    .filled-bar {
+                        background-color: var(--go-ui-color-primary-blue);
+                        width: 100%;
+                    }
+                }
+            }
         }
     }
 }

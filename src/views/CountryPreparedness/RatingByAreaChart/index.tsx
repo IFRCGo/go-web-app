@@ -1,14 +1,29 @@
 import { useMemo, useRef } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
+import ChartAxes from '#components/ChartAxes';
 import useSizeTracking from '#hooks/useSizeTracking';
 import { getScaleFunction } from '#utils/chart';
+import { paths } from '#generated/types';
 
 import styles from './styles.module.css';
 
-const X_AXIS_HEIGHT = 24;
-const Y_AXIS_WIDTH = 32;
-const CHART_OFFSET = 16;
+type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+type PerFormAreaResponse = paths['/api/v2/per-formarea/']['get']['responses']['200']['content']['application/json'];
+
+interface ChartPoint {
+    x: number;
+    y: number;
+    label: string | undefined;
+}
+
+function chartPointSelector(chartPoint: ChartPoint) {
+    return chartPoint;
+}
+
+const X_AXIS_HEIGHT = 50;
+const Y_AXIS_WIDTH = 90;
+const CHART_OFFSET = 10;
 
 const chartMargin = {
     left: Y_AXIS_WIDTH + CHART_OFFSET,
@@ -20,13 +35,21 @@ const chartMargin = {
 interface Props {
     data: {
         id: number;
+        areaNum: number | undefined;
         title: string;
         value: number;
     }[] | undefined;
+    ratingOptions: PerOptionsResponse['componentratings'] | undefined;
+    formAreaOptions: PerFormAreaResponse['results'] | undefined;
+    // areaOptions: PerOptionsResponse[''];
 }
 
 function RatingByAreaChart(props: Props) {
-    const { data } = props;
+    const {
+        data,
+        ratingOptions,
+        formAreaOptions,
+    } = props;
 
     const containerRef = useRef<HTMLDivElement>(null);
     const chartBounds = useSizeTracking(containerRef);
@@ -46,11 +69,27 @@ function RatingByAreaChart(props: Props) {
             const yScale = getScaleFunction(
                 { min: 0, max: 5 },
                 { min: 0, max: chartBounds.height },
-                { start: chartMargin.left, end: chartMargin.right },
+                { start: chartMargin.top, end: chartMargin.bottom },
                 true,
             );
 
-            return data.map(
+            const xAxisPoints = formAreaOptions?.map(
+                (areaOption, i) => ({
+                    x: xScale(i),
+                    y: Math.max(chartBounds.height - chartMargin.bottom, 0),
+                    label: areaOption.title,
+                }),
+            ) ?? [];
+
+            const yAxisPoints = ratingOptions?.map(
+                (option, i) => ({
+                    x: 0,
+                    y: yScale(i),
+                    label: option.title,
+                }),
+            ) ?? [];
+
+            const chartPoints = data.map(
                 (datum, i) => ({
                     key: i,
                     x: xScale(i),
@@ -59,11 +98,19 @@ function RatingByAreaChart(props: Props) {
                     value: datum.value,
                 }),
             );
+
+            return {
+                chart: chartPoints,
+                xAxis: xAxisPoints,
+                yAxis: yAxisPoints,
+            };
         },
-        [data, chartBounds],
+        [data, chartBounds, ratingOptions, formAreaOptions],
     );
 
-    const barWidth = (chartBounds.width / 5) * 0.9;
+    const maxBarWidth = (chartBounds.width / 5);
+    const barWidth = Math.max(maxBarWidth * 0.6, 10);
+    const barGap = (maxBarWidth - barWidth) / 4;
 
     return (
         <div
@@ -71,15 +118,26 @@ function RatingByAreaChart(props: Props) {
             ref={containerRef}
         >
             <svg className={styles.svg}>
-                {points?.map(
+                {points && (
+                    <ChartAxes
+                        xAxisPoints={points.xAxis}
+                        yAxisPoints={points.yAxis}
+                        chartOffset={CHART_OFFSET}
+                        chartMargin={chartMargin}
+                        chartBounds={chartBounds}
+                        xAxisTickSelector={chartPointSelector}
+                        yAxisTickSelector={chartPointSelector}
+                    />
+                )}
+                {points?.chart.map(
                     (point) => (
                         <rect
                             key={point.key}
                             className={styles.rect}
-                            x={point.x}
+                            x={point.x + barGap}
                             y={point.y}
                             width={barWidth}
-                            height={Math.max(chartBounds.height - point.y, 0)}
+                            height={Math.max(chartBounds.height - point.y - chartMargin.bottom, 0)}
                         >
                             <title>
                                 {`${point.label}: ${point.value}`}

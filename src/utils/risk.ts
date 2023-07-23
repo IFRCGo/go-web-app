@@ -269,7 +269,7 @@ export function riskScoreToCategory(
     score: number | undefined | null,
     hazardType: HazardType,
 ) {
-    if (isNotDefined(score) || score < 0) {
+    if (isNotDefined(score) || score <= 0) {
         return undefined;
     }
 

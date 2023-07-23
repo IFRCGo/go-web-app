@@ -110,21 +110,24 @@ function WildfireChart(props: Props) {
 
             const averagePoints = aggregatedList.map(
                 (dataItem) => ({
-                    x: xScale(dataItem.month),
+                    // NOTE: offsetting to middle of the month
+                    x: xScale(dataItem.month + 0.5),
                     y: yScale(dataItem.average),
                 }),
             );
 
             const minPoints = aggregatedList.map(
                 (dataItem) => ({
-                    x: xScale(dataItem.month),
+                    // NOTE: offsetting to middle of the month
+                    x: xScale(dataItem.month + 0.5),
                     y: yScale(dataItem.min),
                 }),
             );
 
             const maxPoints = aggregatedList.map(
                 (dataItem) => ({
-                    x: xScale(dataItem.month),
+                    // NOTE: offsetting to middle of the month
+                    x: xScale(dataItem.month + 0.5),
                     y: yScale(dataItem.max),
                 }),
             );
@@ -136,7 +139,8 @@ function WildfireChart(props: Props) {
 
             const currentPoints = aggregatedList.map(
                 (dataItem) => ({
-                    x: xScale(dataItem.month),
+                    // NOTE: offsetting to middle of the month
+                    x: xScale(dataItem.month + 0.5),
                     y: isDefined(dataItem.current) ? yScale(dataItem.current) : undefined,
                 }),
             );

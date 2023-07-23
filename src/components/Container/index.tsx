@@ -3,32 +3,46 @@ import { _cs } from '@togglecorp/fujs';
 import Header, { Props as HeaderProps } from '#components/Header';
 import Footer from '#components/Footer';
 import { Props as HeadingProps } from '#components/Heading';
+
 import styles from './styles.module.css';
 
+type SpacingType = 'none' | 'compact' | 'cozy' | 'comfortable' | 'relaxed' | 'loose';
+
+const spacingTypeToClassNameMap: Record<SpacingType, string> = {
+    none: styles.noSpacing,
+    compact: styles.compactSpacing,
+    cozy: styles.cozySpacing,
+    comfortable: styles.comfortableSpacing,
+    relaxed: styles.relaxedSpacing,
+    loose: styles.looseSpacing,
+};
+
 export interface Props {
-    className?: string;
-    icons?: React.ReactNode;
-    heading?: React.ReactNode;
-    headingLevel?: HeadingProps['level'],
-    headingContainerClassName?: string;
     actions?: React.ReactNode;
     actionsContainerClassName?: string;
     children: React.ReactNode;
-    footerIcons?: React.ReactNode;
-    footerContent?: React.ReactNode;
-    footerContentClassName?: string;
-    footerClassName?: string;
+    childrenContainerClassName?: string,
+    className?: string;
+    ellipsizeHeading?: boolean;
+    filters?: React.ReactNode;
+    filtersContainerClassName?: string;
     footerActions?: React.ReactNode;
     footerActionsContainerClassName?: string;
+    footerClassName?: string;
+    footerContent?: React.ReactNode;
+    footerContentClassName?: string;
+    footerIcons?: React.ReactNode;
     headerClassName?: string;
     headerDescription?: React.ReactNode;
     headerDescriptionClassName?: string;
     headerElementRef?: HeaderProps['elementRef'];
-    childrenContainerClassName?: string,
+    heading?: React.ReactNode;
+    headingContainerClassName?: string;
+    headingLevel?: HeadingProps['level'],
+    icons?: React.ReactNode;
+    spacing?: SpacingType;
     withHeaderBorder?: boolean;
-    ellipsizeHeading?: boolean;
-    filtersContainerClassName?: string;
-    filters?: React.ReactNode;
+    withInternalPadding?: boolean;
 }
 
 function Container(props: Props) {
@@ -39,6 +53,8 @@ function Container(props: Props) {
         childrenContainerClassName,
         className,
         ellipsizeHeading,
+        filters,
+        filtersContainerClassName,
         footerActions,
         footerActionsContainerClassName,
         footerClassName,
@@ -46,22 +62,29 @@ function Container(props: Props) {
         footerContentClassName,
         footerIcons,
         headerClassName,
-        headingContainerClassName,
         headerDescription,
         headerDescriptionClassName,
         headerElementRef,
         heading,
+        headingContainerClassName,
         headingLevel,
         icons,
+        spacing = 'comfortable',
         withHeaderBorder,
-        filters,
-        filtersContainerClassName,
+        withInternalPadding,
     } = props;
 
     const showFooter = footerIcons || footerContent || footerActions;
 
     return (
-        <div className={_cs(styles.container, className)}>
+        <div
+            className={_cs(
+                styles.container,
+                spacingTypeToClassNameMap[spacing],
+                withInternalPadding && styles.withInternalPadding,
+                className,
+            )}
+        >
             <Header
                 actions={actions}
                 className={_cs(styles.header, headerClassName)}
@@ -78,7 +101,7 @@ function Container(props: Props) {
             </Header>
             {withHeaderBorder && <div className={styles.border} />}
             {filters && (
-                <div className={filtersContainerClassName}>
+                <div className={_cs(styles.filter, filtersContainerClassName)}>
                     {filters}
                 </div>
             )}

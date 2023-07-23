@@ -1,7 +1,9 @@
 .container {
+    --spacing: var(--go-ui-spacing-lg);
+
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-lg);
+    gap: var(--spacing);
 
     .header {
         flex-shrink: 0;
@@ -21,5 +23,49 @@
 
     .footer {
         flex-shrink: 0;
+    }
+
+    &.with-internal-padding {
+        padding: var(--spacing) 0;
+
+        .header {
+            padding: 0 var(--spacing);
+        }
+
+        .content {
+            padding: 0 var(--spacing);
+        }
+
+        .filter {
+            padding: 0 var(--spacing);
+        }
+
+        .footer {
+            padding: 0 var(--spacing);
+        }
+    }
+
+    &.no-spacing {
+        --spacing: 0;
+    }
+
+    &.compact-spacing {
+        --spacing: var(--go-ui-spacing-sm);
+    }
+
+    &.cozy-spacing {
+        --spacing: var(--go-ui-spacing-md);
+    }
+
+    &.comfortable-spacing {
+        --spacing: var(--go-ui-spacing-lg);
+    }
+
+    &.relaxed-spacing {
+        --spacing: var(--go-ui-spacing-xl);
+    }
+
+    &.loose-spacing {
+        --spacing: var(--go-ui-spacing-2xl);
     }
 }

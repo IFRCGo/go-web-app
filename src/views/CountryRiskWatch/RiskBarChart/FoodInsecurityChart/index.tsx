@@ -43,8 +43,8 @@ const colors = [
     '#011e41',
 ];
 
-const X_AXIS_HEIGHT = 16;
-const Y_AXIS_WIDTH = 32;
+const X_AXIS_HEIGHT = 24;
+const Y_AXIS_WIDTH = 48;
 const CHART_OFFSET = 16;
 
 const chartMargin = {
@@ -134,7 +134,8 @@ function FoodInsecurityChart(props: Props) {
 
                     return {
                         key: monthKey,
-                        x: xScale(monthKey),
+                        x: xScale(monthKey + 0.5),
+                        xStart: xScale(monthKey),
                         y,
                         value,
                         date,
@@ -185,16 +186,14 @@ function FoodInsecurityChart(props: Props) {
 
     const xAxisTickSelector = useCallback(
         (chartPoint: (typeof chartData)['points'][number]) => ({
-            x: chartPoint.x,
-            y: chartBounds.height - CHART_OFFSET,
+            x: chartPoint.xStart,
             label: xAxisFormatter(chartPoint.date),
         }),
-        [chartBounds],
+        [],
     );
 
     const yAxisTickSelector = useCallback(
         (chartPoint: (typeof chartData)['yAxisPoints'][number]) => ({
-            x: Y_AXIS_WIDTH,
             y: chartPoint.value,
             label: formatNumber(
                 chartPoint.dataValue,

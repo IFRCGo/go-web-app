@@ -23,6 +23,7 @@
         border-radius: calc(0.5 * var(--height));
         background-color: var(--go-ui-color-gray-50);
         height: var(--height);
+        overflow: hidden;
 
         .bar {
             height: 100%;
@@ -31,6 +32,8 @@
 
     .label-list {
         display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-md);
 
         .label-container {
             display: flex;
