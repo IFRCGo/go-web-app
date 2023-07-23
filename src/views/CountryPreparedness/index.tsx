@@ -21,12 +21,12 @@ import KeyFigure from '#components/KeyFigure';
 
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
+import Header from '#components/Header';
 import { numericCountSelector, numericIdSelector, stringTitleSelector } from '#utils/selectors';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 import RatingByAreaChart from './RatingByAreaChart';
-import Header from '#components/Header';
 
 type GetLatestPerOverview = paths['/api/v2/latest-per-overview/']['get'];
 type LatestPerOverviewResponse = GetLatestPerOverview['responses']['200']['content']['application/json'];
@@ -66,17 +66,26 @@ export function Component() {
         response: processStatusResponse,
     } = useRequest<PerProcessStatusResponse>({
         skip: isNotDefined(perId),
-        url: `api/v2/per-process-status/${perId}/`,
+        url: '/api/v2/per-process-status/{id}/',
+        pathVariables: {
+            id: perId,
+        },
     });
 
     const { response: overviewResponse } = useRequest<PerOverviewResponse>({
         skip: isNotDefined(perId),
-        url: `/api/v2/per-overview/${perId}/`,
+        url: '/api/v2/per-overview/{id}/',
+        pathVariables: {
+            id: perId,
+        },
     });
 
     const { response: assessmentResponse } = useRequest<PerAssessmentResponse>({
         skip: isNotDefined(processStatusResponse?.assessment),
-        url: `/api/v2/per-assessment/${processStatusResponse?.assessment}/`,
+        url: '/api/v2/per-assessment/{id}/',
+        pathVariables: {
+            id: processStatusResponse?.assessment ?? undefined,
+        },
     });
 
     const formAnswerMap = useMemo(

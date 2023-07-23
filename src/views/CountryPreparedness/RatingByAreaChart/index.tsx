@@ -1,9 +1,10 @@
-import useSizeTracking from '#hooks/useSizeTracking';
 import { useMemo, useRef } from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
+
+import useSizeTracking from '#hooks/useSizeTracking';
+import { getScaleFunction } from '#utils/chart';
 
 import styles from './styles.module.css';
-import { isDefined, isNotDefined } from '@togglecorp/fujs';
-import { getScaleFunction } from '#utils/chart';
 
 const X_AXIS_HEIGHT = 24;
 const Y_AXIS_WIDTH = 32;
