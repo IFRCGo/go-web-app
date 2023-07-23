@@ -162,42 +162,42 @@ export function Component() {
                     <>
                         <TextOutput
                             label={strings.usernameLabel}
-                            value={meResponse?.username || '--'}
+                            value={meResponse?.username}
                         />
                         <TextOutput
                             label={strings.fullNameLabel}
                             value={
                                 [meResponse?.first_name, meResponse?.last_name]
-                                    .filter(isTruthyString).join(' ') || '--'
+                                    .filter(isTruthyString).join(' ')
                             }
                         />
                         <TextOutput
                             label={strings.locationLabel}
-                            description={meResponse?.profile?.city || '--'}
+                            value={meResponse?.profile?.city}
                         />
                         <TextOutput
                             label={strings.emailLabel}
-                            description={meResponse?.email || '--'}
+                            value={meResponse?.email}
                         />
                         <TextOutput
                             label={strings.phoneNumberLabel}
-                            description={meResponse?.profile?.phone_number || '--'}
+                            value={meResponse?.profile?.phone_number}
                         />
                         <TextOutput
                             label={strings.organizationLabel}
-                            description={meResponse?.profile?.org || '--'}
+                            value={meResponse?.profile?.org}
                         />
                         <TextOutput
                             label={strings.organizationTypeLabel}
-                            description={meResponse?.profile?.org_type || '--'}
+                            value={meResponse?.profile?.org_type}
                         />
                         <TextOutput
                             label={strings.departmentLabel}
-                            description={meResponse?.profile?.department || '--'}
+                            value={meResponse?.profile?.department}
                         />
                         <TextOutput
                             label={strings.positionLabel}
-                            description={meResponse?.profile?.position || '--'}
+                            value={meResponse?.profile?.position}
                         />
                     </>
                 )}

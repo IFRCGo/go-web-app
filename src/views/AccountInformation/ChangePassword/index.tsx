@@ -6,7 +6,7 @@ import {
     getErrorObject,
     PartialForm,
     createSubmitHandler,
-    nullValue,
+    undefinedValue,
 } from '@togglecorp/toggle-form';
 
 import Button from '#components/Button';
@@ -56,7 +56,7 @@ const formSchema: ObjectSchema<FormFields> = {
         confirmNewPassword: {
             required: true,
             requiredValidation: requiredStringCondition,
-            forceValue: nullValue,
+            forceValue: undefinedValue,
         },
     }),
 };

@@ -16,8 +16,9 @@ import {
     PartialForm,
     createSubmitHandler,
     undefinedValue,
+    addCondition,
 } from '@togglecorp/toggle-form';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isValidEmail } from '@togglecorp/fujs';
 
 import RouteContext from '#contexts/route';
 import Page from '#components/Page';
@@ -66,10 +67,10 @@ const defaultFormValue: FormFields = {};
 const keySelector = (item: OrganizationTypeOption) => item.key;
 const labelSelector = (item: OrganizationTypeOption) => item.value;
 
-type FormSchema = ObjectSchema<FormFields>;
+type FormSchema = ObjectSchema<FormFields, FormFields, { whitelistedDomains: WhiteListResponse['results'] }>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
 
-const formSchema: ObjectSchema<FormFields> = {
+const formSchema: FormSchema = {
     validation: (value) => {
         if (
             value?.password
@@ -82,47 +83,75 @@ const formSchema: ObjectSchema<FormFields> = {
         return undefined;
     },
 
-    fields: (): FormSchemaFields => ({
-        first_name: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-        },
-        last_name: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-        },
-        email: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-            validations: [emailCondition],
-        },
-        password: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-        },
-        confirm_password: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-            forceValue: undefinedValue,
-        },
-        organization: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-        },
-        organization_type: {
-            required: true,
-        },
-        country: {
-            required: true,
-        },
-        city: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-        },
-        department: {},
-        position: {},
-        phone_number: {},
-    }),
+    fields: (value, _, context): FormSchemaFields => {
+        let fields: FormSchemaFields = {
+            first_name: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            last_name: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            email: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+                validations: [emailCondition],
+            },
+            password: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            confirm_password: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+                forceValue: undefinedValue,
+            },
+            organization: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            organization_type: {
+                required: true,
+            },
+            country: {
+                required: true,
+            },
+            city: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            department: {},
+            position: {},
+            phone_number: {},
+        };
+        fields = addCondition(
+            fields,
+            value,
+            ['email'],
+            ['justification'],
+            (safeValue) => {
+                const isValidIfrcEmail = isDefined(safeValue)
+                    && isDefined(safeValue.email)
+                    && isValidEmail(safeValue.email)
+                    && context.whitelistedDomains
+                    && isWhitelistedEmail(safeValue.email, context.whitelistedDomains);
+                return isValidIfrcEmail
+                    ? {
+                        justification: {
+                            forceValue: undefinedValue,
+                        },
+                    }
+                    : {
+                        justification: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                    };
+            },
+        );
+        return fields;
+    },
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -131,13 +160,24 @@ export function Component() {
     const { api_profile_org_types: organizationTypes } = useContext(ServerEnumsContext);
     const { login: loginRoute } = useContext(RouteContext);
 
+    const { response: whiteListDomainResponse } = useRequest<WhiteListResponse>({
+        url: '/api/v2/domainwhitelist/',
+        query: { limit: 9999 },
+    });
+
+    const whitelistedDomains = whiteListDomainResponse?.results;
+
     const {
         value: formValue,
         error: formError,
         setFieldValue,
         setError,
         validate,
-    } = useForm(formSchema, { value: defaultFormValue });
+    } = useForm(
+        formSchema,
+        { value: defaultFormValue },
+        { whitelistedDomains },
+    );
 
     const alert = useAlert();
     const navigate = useNavigate();
@@ -168,9 +208,6 @@ export function Component() {
             } = error;
 
             setError(formErrors);
-            // FIXME: Error message from server is not properly sent
-            // eslint-disable-next-line no-console
-            console.log('Server error::>>', formErrors);
 
             const message = strings.registrationFailure;
             alert.show(
@@ -178,11 +215,6 @@ export function Component() {
                 { variant: 'danger' },
             );
         },
-    });
-
-    const { response: whiteListDomainResponse } = useRequest<WhiteListResponse>({
-        url: '/api/v2/domainwhitelist/',
-        query: { limit: 9999 },
     });
 
     const { response: countriesResponse } = useRequest<CountryResponse>({
@@ -208,9 +240,10 @@ export function Component() {
         [countriesResponse?.results],
     );
 
-    const whitelistedDomains = whiteListDomainResponse?.results;
-    const validIfrcEmail = formValue.email
-        && isWhitelistedEmail(formValue.email.toLowerCase(), whitelistedDomains);
+    const isValidIfrcEmail = isDefined(formValue.email)
+        && isValidEmail(formValue.email)
+        && whitelistedDomains
+        && isWhitelistedEmail(formValue.email, whitelistedDomains);
 
     const handleRegister = useCallback((formValues: PartialForm<FormFields>) => {
         register(formValues as FormFields);
@@ -384,7 +417,7 @@ export function Component() {
                     disabled={registerPending}
                     withAsterisk
                 />
-                {!validIfrcEmail && (
+                {!isValidIfrcEmail && (
                     <>
                         <div className={styles.justifyNote}>
                             {strings.registerJustify}
@@ -407,7 +440,9 @@ export function Component() {
                     onClick={handleFormSubmit}
                     disabled={registerPending}
                 >
-                    {!validIfrcEmail ? strings.requestAccess : strings.registerSubmit}
+                    {!isValidIfrcEmail
+                        ? strings.requestAccess
+                        : strings.registerSubmit}
                 </Button>
                 <div className={styles.login}>
                     {loginInfo}

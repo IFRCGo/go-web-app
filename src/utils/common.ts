@@ -7,9 +7,7 @@ import {
     listToMap,
     sum,
     isTruthyString,
-    isValidEmail,
 } from '@togglecorp/fujs';
-import type { Maybe } from '@togglecorp/fujs';
 
 import { components } from '#generated/types';
 
@@ -218,13 +216,18 @@ export function getDuration(start: Date, end: Date) {
     return formatTimeDurationForSecs(seconds);
 }
 
-export function isWhitelistedEmail<T>(email: string, whitelistedDomains: Maybe<T[]>) {
-    if (!isValidEmail(email) || isNotDefined(whitelistedDomains)) {
-        return false;
-    }
-
+export function isWhitelistedEmail(
+    email: string,
+    whitelistedDomains: { domain_name: string; is_active?: boolean }[],
+) {
+    // FIXME: add tests
     // Looking for an EXACT match in the domain whitelist
     // (it finds even if UPPERCASE letters were used)
-    const userMailDomain = email.substring(email.lastIndexOf('@') + 1);
-    return whitelistedDomains.some((domain) => domain === userMailDomain);
+    const userMailDomain = email
+        .toLowerCase()
+        .substring(email.lastIndexOf('@') + 1);
+    return whitelistedDomains
+        .filter((item) => item.is_active)
+        .map((item) => item.domain_name.toLowerCase())
+        .includes(userMailDomain);
 }
