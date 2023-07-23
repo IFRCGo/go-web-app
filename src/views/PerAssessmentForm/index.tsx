@@ -36,7 +36,8 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { STEP_ASSESSMENT, PerProcessOutletContext } from '#utils/per';
+import { STEP_ASSESSMENT } from '#utils/per';
+import type { PerProcessOutletContext } from '#utils/outletContext';
 import type { paths } from '#generated/types';
 
 import {

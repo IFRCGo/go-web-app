@@ -142,19 +142,23 @@ interface UnsafePoint {
     y: number | undefined;
 }
 
+function isUnsafePoint(point: Point | UnsafePoint): point is UnsafePoint {
+    return isNotDefined(point.x) || isNotDefined(point.y);
+}
+
 // TODO: Add test
 export function getDiscretePathDataList(pointList: UnsafePoint[] | undefined) {
     if (isNotDefined(pointList)) {
         return undefined;
     }
 
-    const splittedList = splitList(
+    const splittedList = splitList<UnsafePoint, Point>(
         pointList,
-        (item) => isNotDefined(item.x) || isNotDefined(item.y),
+        isUnsafePoint,
     );
 
     const discretePaths = splittedList.map(
-        (pointListSplit) => getPathData(pointListSplit as Point[]),
+        (pointListSplit) => getPathData(pointListSplit),
     );
 
     return discretePaths;

@@ -37,11 +37,8 @@ import { isValidNationalSociety } from '#utils/common';
 import RouteContext from '#contexts/route';
 import ServerEnumsContext from '#contexts/server-enums';
 import type { paths } from '#generated/types';
-import {
-    PerProcessOutletContext,
-    STEP_OVERVIEW,
-    STEP_ASSESSMENT,
-} from '#utils/per';
+import { STEP_OVERVIEW, STEP_ASSESSMENT } from '#utils/per';
+import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
     booleanValueSelector,
     stringLabelSelector,

@@ -29,7 +29,7 @@ function getNumberListSafe(list: UnsafeNumberList) {
 
 export function sumSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList) {
+    if (!safeList || safeList.length === 0) {
         return undefined;
     }
 
@@ -38,7 +38,7 @@ export function sumSafe(list: UnsafeNumberList) {
 
 export function maxSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList) {
+    if (!safeList || safeList.length === 0) {
         return undefined;
     }
 
@@ -47,7 +47,7 @@ export function maxSafe(list: UnsafeNumberList) {
 
 export function minSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList) {
+    if (!safeList || safeList.length === 0) {
         return undefined;
     }
 
@@ -328,27 +328,30 @@ export function formatNumber(
     return newValue;
 }
 
-export function splitList<ITEM>(
-    list: Array<ITEM>,
-    splitPointSelector: (item: ITEM, i: number) => boolean,
-) {
+export function splitList<X, Y>(
+    list: (X | Y)[],
+    splitPointSelector: (item: X | Y, i: number) => item is X,
+): Y[][] {
     const breakpointIndices = list.map(
         (item, i) => (splitPointSelector(item, i) ? i : undefined),
     ).filter(isDefined);
 
     if (breakpointIndices.length === 0) {
-        return [list];
+        return [list as Y[]];
     }
 
     return [...breakpointIndices, list.length].map(
         (breakpointIndex, i) => {
-            const prevIndex = i === 0 ? 0 : breakpointIndices[i - 1] + 1;
+            const prevIndex = i === 0
+                ? 0
+                : breakpointIndices[i - 1] + 1;
+
             if (prevIndex === breakpointIndex) {
                 return undefined;
             }
 
             const newList = list.slice(prevIndex, breakpointIndex);
-            return newList;
+            return newList as Y[];
         },
     ).filter(isDefined);
 }

@@ -96,6 +96,7 @@ function transformError(response: ResponseError, fallbackMessage: string): Trans
     return { [nonFieldError]: fallbackMessage };
 }
 
+// FIXME: Add test
 export function resolvePath(
     path: string,
     params: Record<string, string | number | undefined> | undefined,
@@ -104,32 +105,20 @@ export function resolvePath(
         return '';
     }
 
-    if (isNotDefined(params)) {
-        return path;
-    }
+    const resolvedUrl = path.replace(
+        /{(\w+)}/g,
+        (matchedText, matchedGroup) => {
+            const value = params?.[matchedGroup];
+            if (isNotDefined(value)) {
+                // eslint-disable-next-line no-console
+                console.error(`resolveUrlPath: value for key "${matchedGroup}" not provided in ${path}`);
+                return matchedText;
+            }
+            return String(value);
+        },
+    );
 
-    // TODO: use regex to parse and resolve path Variables
-    // TODO: Write test
-    const parts = path.split('{');
-    const resolvedParts = parts.map((part) => {
-        const endIndex = part.indexOf('}');
-
-        if (endIndex === -1) {
-            return part;
-        }
-
-        const key = part.substring(0, endIndex);
-        const value = params[key];
-        if (isNotDefined(value)) {
-            // eslint-disable-next-line no-console
-            console.error(`resolveUrlPath: value for key "${key}" not provided`);
-            return '';
-        }
-
-        return part.replace(`${key}}`, String(value));
-    });
-
-    return resolvedParts.join('');
+    return resolvedUrl;
 }
 
 type GoContextInterface = ContextInterface<

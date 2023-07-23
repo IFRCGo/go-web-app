@@ -6,7 +6,7 @@ import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import { paths } from '#generated/types';
 
-import { CountryOutletContext } from '#utils/country';
+import type { CountryOutletContext } from '#utils/outletContext';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import BlockLoading from '#components/BlockLoading';

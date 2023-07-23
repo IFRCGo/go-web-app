@@ -16,7 +16,8 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { STEP_PRIORITIZATION, PerProcessOutletContext } from '#utils/per';
+import type { PerProcessOutletContext } from '#utils/outletContext';
+import { STEP_PRIORITIZATION } from '#utils/per';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import Portal from '#components/Portal';

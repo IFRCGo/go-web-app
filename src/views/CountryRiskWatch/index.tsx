@@ -5,7 +5,7 @@ import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import type { paths } from '#generated/riskTypes';
-import type { CountryOutletContext } from '#utils/country';
+import type { CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
 import MultiMonthSelectInput from './MultiMonthSelectInput';

@@ -18,8 +18,3 @@ export function getNumAffected(event: EventListItem) {
         latestFieldReport?.num_affected,
     ]);
 }
-
-type EmergencyResponse = paths['/api/v2/event/{id}/']['get']['responses']['200']['content']['application/json'];
-export interface EmergencyOutletContext {
-    emergencyResponse: EmergencyResponse | undefined;
-}

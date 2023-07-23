@@ -18,7 +18,7 @@ import useTranslation from '#hooks/useTranslation';
 import type { paths } from '#generated/types';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
-import type { RegionOutletContext } from '#utils/region';
+import type { RegionOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

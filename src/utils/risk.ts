@@ -84,6 +84,8 @@ export const monthNumberToNameMap: Record<number, keyof RiskDataItem> = {
     9: 'october',
     10: 'november',
     11: 'december',
+    // FIXME: we should not have these different
+    // class of data into same list
     12: 'annual_average',
 };
 

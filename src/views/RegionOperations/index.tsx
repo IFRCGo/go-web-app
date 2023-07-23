@@ -6,7 +6,7 @@ import Container from '#components/Container';
 import HtmlOutput from '#components/HtmlOutput';
 import AppealsTable from '#components/AppealsTable';
 import AppealsOverYearsChart from '#components/AppealsOverYearsChart';
-import type { RegionOutletContext } from '#utils/region';
+import type { RegionOutletContext } from '#utils/outletContext';
 
 import RecentEmergenciesTable from './RecentEmergenciesTable';
 import styles from './styles.module.css';

@@ -17,7 +17,7 @@ import KeyFigure from '#components/KeyFigure';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
-import type { CountryOutletContext } from '#utils/country';
+import type { CountryOutletContext } from '#utils/outletContext';
 import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';

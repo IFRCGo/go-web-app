@@ -28,9 +28,3 @@ export function getCurrentPerProcessStep(status: PerProcessStatusResponse | unde
 
     return STEP_OVERVIEW;
 }
-
-export interface PerProcessOutletContext {
-    statusResponse: PerProcessStatusResponse | undefined,
-    refetchStatusResponse: () => void,
-    actionDivRef: React.RefObject<HTMLDivElement>,
-}
