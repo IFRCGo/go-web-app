@@ -215,3 +215,19 @@ export function getDuration(start: Date, end: Date) {
     const seconds = Math.round(timeDiff / 1000);
     return formatTimeDurationForSecs(seconds);
 }
+
+export function isWhitelistedEmail(
+    email: string,
+    whitelistedDomains: { domain_name: string; is_active?: boolean }[],
+) {
+    // FIXME: add tests
+    // Looking for an EXACT match in the domain whitelist
+    // (it finds even if UPPERCASE letters were used)
+    const userMailDomain = email
+        .toLowerCase()
+        .substring(email.lastIndexOf('@') + 1);
+    return whitelistedDomains
+        .filter((item) => item.is_active)
+        .map((item) => item.domain_name.toLowerCase())
+        .includes(userMailDomain);
+}

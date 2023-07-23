@@ -17,6 +17,7 @@ interface BaseProps {
     strongLabel?: boolean;
     strongDescription?: boolean;
     withoutLabelColon?: boolean;
+    invalidText?: React.ReactNode;
 }
 
 interface NumberProps extends NumberOutputProps {
@@ -49,17 +50,19 @@ function TextOutput(props: Props) {
         strongValue,
         strongDescription,
         withoutLabelColon,
+        invalidText = '-',
         ...otherProps
     } = props;
 
     const { value: propValue } = props;
-    let valueComponent: React.ReactNode = propValue;
+    let valueComponent: React.ReactNode = propValue || invalidText;
 
     if (otherProps.valueType === 'number') {
         valueComponent = (
             <NumberOutput
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...otherProps}
+                invalidText={invalidText}
             />
         );
     } else if (otherProps.valueType === 'date') {
@@ -67,6 +70,7 @@ function TextOutput(props: Props) {
             <DateOutput
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...otherProps}
+                invalidText={invalidText}
             />
         );
     }

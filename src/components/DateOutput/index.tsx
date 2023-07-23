@@ -11,6 +11,7 @@ export interface Props {
     className?: string;
     value?: string | number | null;
     format?: string;
+    invalidText?: React.ReactNode;
 }
 
 function DateOutput(props: Props) {
@@ -18,6 +19,7 @@ function DateOutput(props: Props) {
         value,
         format = 'dd-MM-yyyy',
         className,
+        invalidText,
     } = props;
 
     const formattedValueList = useMemo(() => {
@@ -32,7 +34,7 @@ function DateOutput(props: Props) {
 
     return (
         <div className={_cs(styles.dateOutput, className)}>
-            {formattedDate?.value}
+            {formattedDate?.value || invalidText}
         </div>
     );
 }

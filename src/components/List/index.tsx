@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { _cs } from '@togglecorp/fujs';
 import Message from '#components/Message';
 
 import GroupedList from './GroupedList';
@@ -10,6 +11,8 @@ import {
     GroupCommonProps,
     emptyList,
 } from './common';
+
+import styles from './styles.module.css';
 
 // eslint-disable-next-line max-len
 export type Props<D, P, K extends OptionKey, GP, GK extends OptionKey> = (
@@ -37,6 +40,7 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
         filtered,
 
         message: messageFromProps,
+        withMessageOverContent,
         errorMessage,
         emptyMessage,
         pendingMessage,
@@ -63,6 +67,7 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
 
     const message = (
         <Message
+            className={_cs(styles.message, withMessageOverContent && styles.withMessageOverContent)}
             empty={empty}
             pending={pending}
             errored={errored}

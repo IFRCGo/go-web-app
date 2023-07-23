@@ -1,0 +1,18 @@
+{
+    "namespace": "accountInformation",
+    "strings": {
+        "operationFollowingHeading": "Operations Following",
+        "accountInformationHeading": "Account Information",
+        "usernameLabel": "Username",
+        "fullNameLabel": "Full Name",
+        "locationLabel": "Location",
+        "emailLabel": "Email",
+        "phoneNumberLabel": "Phone Number",
+        "organizationLabel": "Organization",
+        "organizationTypeLabel": "Organization Type",
+        "departmentLabel": "Department",
+        "positionLabel": "Position",
+        "changePasswordButtonLabel": "Change Password",
+        "editProfileButtonLabel": "Edit Profile"
+    }
+}

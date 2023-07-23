@@ -102,7 +102,7 @@ function Modal(props: Props) {
                             className={_cs(headerClassName, styles.modalHeader)}
                             heading={heading}
                             headingLevel={headingLevel}
-                            actions={hideCloseButton && (
+                            actions={!hideCloseButton && (
                                 <IconButton
                                     name={undefined}
                                     onClick={onClose}

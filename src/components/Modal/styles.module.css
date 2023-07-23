@@ -29,7 +29,7 @@
 
     .modal {
         --padding: var(--go-ui-spacing-2xl);
-        --spacing: var(--go-ui-spacing-md);
+        --spacing: var(--go-ui-spacing-2xl);
 
         display: flex;
         flex-direction: column;
@@ -56,11 +56,8 @@
         }
 
         .modal-body {
-            display: flex;
-            flex-direction: column;
             flex-grow: 1;
             overflow: auto;
-            gap: var(--spacing);
         }
     }
 }
