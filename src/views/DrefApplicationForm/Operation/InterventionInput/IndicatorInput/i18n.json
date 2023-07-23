@@ -1,5 +1,5 @@
 {
-    "namespace": "dref",
+    "namespace": "drefApplicationForm",
     "strings": {
         "drefFormIndicatorTitleLabel": "Title",
         "drefFormIndicatorTargetLabel": "Target",

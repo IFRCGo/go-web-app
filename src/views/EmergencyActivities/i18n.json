@@ -1,5 +1,5 @@
 {
-    "namespace": "emergency",
+    "namespace": "emergencyActivities",
     "strings": {
         "emergencyActivitiesTempContent":"Emergency Activities"
     }

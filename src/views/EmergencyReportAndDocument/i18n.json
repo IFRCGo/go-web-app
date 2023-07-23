@@ -1,5 +1,5 @@
 {
-    "namespace": "emergency",
+    "namespace": "emergencyReportAndDocument",
     "strings": {
         "emergencyReportAndDocumentTempContent": "Emergency Reports / Documents"
     }

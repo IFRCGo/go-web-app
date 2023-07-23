@@ -1,5 +1,5 @@
 {
-    "namespace": "surge",
+    "namespace": "surgeOverview",
     "strings": {
         "surgeAlertsTableHeading": "Open Surge Alerts",
         "surgeAlertStoodDown": "Stood down",

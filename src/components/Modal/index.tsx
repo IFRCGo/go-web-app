@@ -108,6 +108,8 @@ function Modal(props: Props) {
                                     onClick={onClose}
                                     ariaLabel="Close"
                                     variant="tertiary"
+                                    // FIXME: use translation
+                                    title="Close"
                                 >
                                     <CloseFillIcon />
                                 </IconButton>

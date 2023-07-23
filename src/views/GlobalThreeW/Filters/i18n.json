@@ -1,5 +1,5 @@
 {
-    "namespace": "threeW",
+    "namespace": "globalThreeW",
     "strings": {
         "threeWFilterReportingNs": "National Societies",
         "threeWFilterProgrammeTypes": "Programme Types",

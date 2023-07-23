@@ -1,5 +1,5 @@
 {
-    "namespace": "surge",
+    "namespace": "catalogueCash",
     "strings": {
         "catalogueCashTitle": "Cash and Vouchers Assistance (CVA)",
         "cashDetails": "CVA refers to all programs where cash transfers or vouchers for goods or services are directly provided to recipients. In the context of humanitarian assistance, the term is used to refer to the provision of cash transfers or vouchers given to individuals, household or community recipients; not to governments or other state actors. This excludes remittances and microfinance in humanitarian interventions (although microfinance and money transfer institutions may be used for the actual delivery of cash).",

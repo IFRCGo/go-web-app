@@ -1,5 +1,5 @@
 {
-    "namespace": "countryRisk",
+    "namespace": "countryRiskWatch",
     "strings": {
         "riskBarChartTitle": "Average Risks by Month",
         "riskBarChartFilterHazardPlaceholder": "All Hazard types",

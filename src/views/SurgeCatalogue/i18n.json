@@ -1,5 +1,5 @@
 {
-    "namespace": "surge",
+    "namespace": "surgeCatalogue",
     "strings": {
         "catalogueService": "Catalogue",
         "catalogueEmergency": "Emergency Needs Assessment",

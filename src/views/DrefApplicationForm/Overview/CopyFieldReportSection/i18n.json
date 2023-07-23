@@ -1,5 +1,5 @@
 {
-    "namespace": "dref",
+    "namespace": "drefApplicationForm",
     "strings": {
         "drefFormCopyFRFailureMessage": "Failed to get details for selected field report",
         "drefFormCopyFRSuccessMessage": "Successfully copied some data from the selected field report",

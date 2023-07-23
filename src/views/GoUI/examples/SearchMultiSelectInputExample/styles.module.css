@@ -1,7 +1,0 @@
-.search-multi-select-example {
-    display: flex;
-    flex-direction: column;
-    padding: var(--go-ui-spacing-md);
-    width: 50%;
-    gap: var(--go-ui-spacing-md);
-}

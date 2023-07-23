@@ -1,5 +1,5 @@
 {
-    "namespace":"account",
+    "namespace":"accountPerForms",
     "strings":{
         "tableEditLabel": "Edit {phaseDisplay}",
         "tableViewWorkPlan": "View Work Plan"

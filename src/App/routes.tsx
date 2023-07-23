@@ -1186,20 +1186,6 @@ const perWorkPlanForm = customWrapRoute({
     },
 });
 
-const goUI = customWrapRoute({
-    path: 'go-ui',
-    component: {
-        render: () => import('#views/GoUI'),
-        props: {},
-    },
-    parent: root,
-    wrapperComponent: Auth,
-    context: {
-        title: 'GO UI',
-        visibility: 'anything',
-    },
-});
-
 const wrappedRoutes = {
     root,
     login,
@@ -1251,7 +1237,6 @@ const wrappedRoutes = {
     allFlashUpdates,
     allDeployedPersonnel,
     allDeployedEmergencyResponseUnits,
-    goUI,
     newDrefApplicationForm,
     drefApplicationForm,
     fieldReportFormNew,

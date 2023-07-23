@@ -1,5 +1,5 @@
 {
-    "namespace": "emergency",
+    "namespace": "emergencies",
     "strings": {
         "emergenciesTitle": "IFRC GO - Emergencies",
         "emergenciesTableTitle":"Emergencies in the last 30 days",

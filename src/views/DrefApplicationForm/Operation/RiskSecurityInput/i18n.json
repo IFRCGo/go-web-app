@@ -1,5 +1,5 @@
 {
-    "namespace": "dref",
+    "namespace": "drefApplicationForm",
     "strings": {
         "drefFormRiskSecurityRiskLabel": "Risk",
         "drefFormRiskSecurityMitigationLabel": "Mitigation action"

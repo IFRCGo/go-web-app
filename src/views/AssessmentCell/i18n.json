@@ -1,5 +1,5 @@
 {
-    "namespace": "surge",
+    "namespace": "assessmentCell",
     "strings": {
         "assessmentCellTitle": "Assessment Cell",
         "capacity": "Capacity",

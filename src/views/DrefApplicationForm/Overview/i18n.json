@@ -1,5 +1,5 @@
 {
-    "namespace": "dref",
+    "namespace": "drefApplicationForm",
     "strings": {
         "drefFormSelectUsersLabel": "Select Users",
         "drefFormSharingHeading": "Sharing",

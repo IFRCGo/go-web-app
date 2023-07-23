@@ -49,7 +49,7 @@ export function Component() {
             <div className={styles.imageList}>
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/comms-comms_01.jpg"
-                    caption={strings.communicationErtTwoImageTwo}
+                    caption={strings.communicationErtTwoImageOne}
                     height="16rem"
                     imageClassName={styles.image}
                 />
@@ -72,7 +72,7 @@ export function Component() {
                 withHeaderBorder
                 childrenContainerClassName={styles.content}
             >
-                <div>{strings.capacityDetailsSectionTwo}</div>
+                <div>{strings.capacityDetailsSectionOne}</div>
                 <ul>
                     <li>
                         {strings.certTwoServiceListItemOne}

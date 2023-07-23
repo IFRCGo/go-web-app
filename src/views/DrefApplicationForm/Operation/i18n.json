@@ -1,5 +1,5 @@
 {
-    "namespace": "dref",
+    "namespace": "drefApplicationForm",
     "strings": {
         "drefFormObjectiveAndStrategy": "Objective and Strategy Rationale",
         "drefFormObjectiveOperation": "Overall objective of the operation",

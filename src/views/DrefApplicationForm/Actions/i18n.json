@@ -1,5 +1,5 @@
 {
-    "namespace": "dref",
+    "namespace": "drefApplicationForm",
     "strings": {
         "drefFormActionFieldsLabel": "Select the needs that apply.",
         "drefFormAssessmentReportUploadButtonLabel": "Upload assesment report",
