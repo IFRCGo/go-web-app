@@ -1,5 +1,5 @@
 {
-    "namespace": "perProcessOverview",
+    "namespace": "perOverviewForm",
     "strings": {
         "perFormNationalSociety": "National Society",
         "perFormOrientation": "Orientation",

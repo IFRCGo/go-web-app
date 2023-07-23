@@ -1,5 +1,5 @@
 {
-    "namespace": "emergency",
+    "namespace": "emergencySurge",
     "strings": {
         "emergencySurgeTempContent":"Emergency Surge"
     }

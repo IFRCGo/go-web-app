@@ -1,5 +1,5 @@
 {
-    "namespace": "threeW",
+    "namespace": "globalThreeW",
     "strings": {
         "globalThreeWAddProjectButtonLabel": "Add 3W Project",
         "globalThreeWChartProjectPerSectorTitle": "Project Per Sector",

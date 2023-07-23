@@ -1,5 +1,5 @@
 {
-    "namespace": "countryRisk",
+    "namespace": "countryRiskWatch",
     "strings": {
         "returnPeriodTableHeading": "Expected Return Periods",
         "returnPeriodTableReturnPeriodTitle": "Return Period / Expected Frequency",

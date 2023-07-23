@@ -1,0 +1,24 @@
+{
+    "namespace": "catalogueCommunication",
+    "strings": {
+        "catalogueCommunicationTitle": "Communications",
+        "communicationDetails": "Together with its member National Societies, the IFRC has developed a network of skilled communications professionals to provide management, strategic and technical support and advice to emergency operations, from rapid onset disasters to protracted crises in various contexts. Through our global coordination system, our communications specialists are able to reach millions of people and diverse audiences globally using a wide-range of communication channels.",
+        "communicationServicesTitle": "Services",
+        "communicationServicesErtTitle": "Rapid Response",
+        "certOneDetails": "Communications Emergency Response Tool (CERT) 1",
+        "certTwoDetails": "Communications Emergency Response Tool (CERT) 2",
+        "certThreeDetails": "Communications Emergency Response Tool (CERT) 3",
+        "learnMore": "Learn More",
+        "communicationRapidResponsePersonnelTitle": "Rapid Response Personnel",
+        "communicationRoleProfiles": "Role Profiles",
+        "communicationCoordinator": "Communications Coordinator",
+        "communicationTeamLeader": "Communications Team Leader",
+        "communicationOfficer": "Communications Officer",
+        "communicationAudioVisualOfficer": "Audio Visual Officer",
+        "communicationPhotographer": "Audio Visual Officer - Photographer",
+        "communicationVideographer": "Audio Visual Officer - Videographer",
+        "technicalCompetencyFramework": "Technical Competency Framework",
+        "technicalCompetencyFrameworkDetails": "Tiered compentencies describing the knowledge and skills expected of personnel in this sector.",
+        "technicalCompetencyFrameworkItemTitle": "Communications"
+    }
+}

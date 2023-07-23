@@ -1,11 +1,14 @@
-import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useContext } from 'react';
+import { generatePath } from 'react-router-dom';
+
+import RouteContext from '#contexts/route';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
 import Image from '#components/Image';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
+import useGoBack from '#hooks/useGoBack';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -14,12 +17,15 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const navigate = useNavigate();
+    const {
+        catalogueEmergency: catalogueEmergencyRoute,
+    } = useContext(RouteContext);
+
+    const goBack = useGoBack();
 
     const handleBackButtonClick = useCallback(() => {
-        // TODO: let point to basecamp page
-        navigate(-1);
-    }, [navigate]);
+        goBack(generatePath(catalogueEmergencyRoute.absolutePath));
+    }, [goBack, catalogueEmergencyRoute.absolutePath]);
 
     return (
         <Container
@@ -30,8 +36,9 @@ export function Component() {
                 <IconButton
                     name={undefined}
                     onClick={handleBackButtonClick}
-                    ariaLabel="go-back"
+                    ariaLabel={strings.goBack}
                     variant="tertiary"
+                    title={strings.goBack}
                 >
                     <ChevronLeftLineIcon />
                 </IconButton>

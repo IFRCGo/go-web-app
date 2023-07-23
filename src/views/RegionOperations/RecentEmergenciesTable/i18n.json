@@ -1,5 +1,5 @@
 {
-    "namespace": "region",
+    "namespace": "regionOperations",
     "strings": {
         "regionEmergenciesTableTitle": "Recent Emergencies ({numEmergencies})",
         "regionEmergenciesTableDate":"Start Date",

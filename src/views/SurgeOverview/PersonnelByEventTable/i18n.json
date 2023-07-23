@@ -1,5 +1,5 @@
 {
-    "namespace": "surge",
+    "namespace": "surgeOverview",
     "strings": {
         "personnelByEventTableHeading": "Ongoing Rapid Response Deployments By Emergency",
         "personnelViewAll": "View All Deployed Personnel",

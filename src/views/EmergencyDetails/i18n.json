@@ -1,5 +1,5 @@
 {
-    "namespace": "emergency",
+    "namespace": "emergencyDetails",
     "strings": {
         "emergencyKeyFiguresTitle": "Key Figures",
         "emergencyKeyFigureSource": "Source"

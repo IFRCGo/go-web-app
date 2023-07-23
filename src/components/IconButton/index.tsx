@@ -9,6 +9,7 @@ export interface Props<N> extends RawButtonProps<N> {
   ariaLabel: string;
   disabled?: boolean;
   round?: boolean;
+  title: string;
   variant: ButtonVariant;
 }
 

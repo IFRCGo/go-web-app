@@ -1,7 +1,0 @@
-.select-example {
-    display: flex;
-    flex-direction: column;
-    padding: var(--go-ui-spacing-2xl);
-    width: 50%;
-    gap: var(--go-ui-spacing-md);
-}

@@ -1,5 +1,5 @@
 {
-    "namespace": "surge",
+    "namespace": "catalogueService",
     "strings": {
         "catalogueServiceTitle": "Catalogue of Surge Services",
         "rapidResponseAndAssets": "Rapid Response Personnel and Assets",

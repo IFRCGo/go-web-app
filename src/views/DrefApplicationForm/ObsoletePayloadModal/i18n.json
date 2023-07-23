@@ -1,5 +1,5 @@
 {
-    "namespace": "dref",
+    "namespace": "drefApplicationForm",
     "strings": {
         "drefConflictWhileSaving": "There's a newer version of current DREF application which was modified by &nbsp;",
         "drefChangesWillBeOverridden": "If you continue saving, the previous changes will be overwritten by your changes.",

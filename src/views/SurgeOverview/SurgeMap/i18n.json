@@ -1,5 +1,5 @@
 {
-    "namespace": "surge",
+    "namespace": "surgeOverview",
     "strings": {
         "deployedErus": "Deployed ERUs",
         "eventPopoverEmpty": "No Current Deployments",

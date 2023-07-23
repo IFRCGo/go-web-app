@@ -864,6 +864,160 @@ const basecampFacilityManagement = customWrapRoute({
     },
 });
 
+const catalogueCash = customWrapRoute({
+    path: 'cash',
+    component: {
+        render: () => import('#views/CatalogueCash'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cash and Vouchers Assistance Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const catalogueCashIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueCashIndex'),
+        props: {},
+    },
+    parent: catalogueCash,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cash and Vouchers Assistance Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const cashAndVoucherAssistance = customWrapRoute({
+    path: 'cva',
+    component: {
+        render: () => import('#views/CashAndVoucherAssistance'),
+        props: {},
+    },
+    parent: catalogueCash,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cash and Vouchers Assistance',
+        visibility: 'anything',
+    },
+});
+
+const catalogueCommunityEngagement = customWrapRoute({
+    path: 'community',
+    component: {
+        render: () => import('#views/CatalogueCommunityEngagement'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Engagement and Accountability (CEA)',
+        visibility: 'anything',
+    },
+});
+
+const catalogueCommunityEngagementIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueCommunityEngagementIndex'),
+        props: {},
+    },
+    parent: catalogueCommunityEngagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Engagement and Accountability (CEA)',
+        visibility: 'anything',
+    },
+});
+
+const communityEngagement = customWrapRoute({
+    path: 'community-engagement-accountability',
+    component: {
+        render: () => import('#views/CommunityEngagement'),
+        props: {},
+    },
+    parent: catalogueCommunityEngagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Engagement and Accountability (CEA)',
+        visibility: 'anything',
+    },
+});
+
+const catalogueCommunication = customWrapRoute({
+    path: 'communication',
+    component: {
+        render: () => import('#views/CatalogueCommunication'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication',
+        visibility: 'anything',
+    },
+});
+
+const catalogueCommunicationIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueCommunicationIndex'),
+        props: {},
+    },
+    parent: catalogueCommunication,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication',
+        visibility: 'anything',
+    },
+});
+
+const communicationErtOne = customWrapRoute({
+    path: 'cert-1',
+    component: {
+        render: () => import('#views/CommunicationErtOne'),
+        props: {},
+    },
+    parent: catalogueCommunication,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication Emergency Response Tool 1',
+        visibility: 'anything',
+    },
+});
+
+const communicationErtTwo = customWrapRoute({
+    path: 'cert-2',
+    component: {
+        render: () => import('#views/CommunicationErtTwo'),
+        props: {},
+    },
+    parent: catalogueCommunication,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication Emergency Response Tool 2',
+        visibility: 'anything',
+    },
+});
+
+const communicationErtThree = customWrapRoute({
+    path: 'cert-3',
+    component: {
+        render: () => import('#views/CommunicationErtThree'),
+        props: {},
+    },
+    parent: catalogueCommunication,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication Emergency Response Tool 3',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     path: 'personnel/all',
     component: {
@@ -1032,20 +1186,6 @@ const perWorkPlanForm = customWrapRoute({
     },
 });
 
-const goUI = customWrapRoute({
-    path: 'go-ui',
-    component: {
-        render: () => import('#views/GoUI'),
-        props: {},
-    },
-    parent: root,
-    wrapperComponent: Auth,
-    context: {
-        title: 'GO UI',
-        visibility: 'anything',
-    },
-});
-
 const wrappedRoutes = {
     root,
     login,
@@ -1097,7 +1237,6 @@ const wrappedRoutes = {
     allFlashUpdates,
     allDeployedPersonnel,
     allDeployedEmergencyResponseUnits,
-    goUI,
     newDrefApplicationForm,
     drefApplicationForm,
     fieldReportFormNew,
@@ -1120,6 +1259,17 @@ const wrappedRoutes = {
     basecampEruMedium,
     basecampEruLarge,
     basecampFacilityManagement,
+    catalogueCash,
+    catalogueCashIndex,
+    cashAndVoucherAssistance,
+    catalogueCommunityEngagement,
+    catalogueCommunityEngagementIndex,
+    communityEngagement,
+    catalogueCommunication,
+    catalogueCommunicationIndex,
+    communicationErtOne,
+    communicationErtTwo,
+    communicationErtThree,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
