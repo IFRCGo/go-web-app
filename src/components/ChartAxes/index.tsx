@@ -1,9 +1,14 @@
 import { Fragment } from 'react';
+import { isDefined } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-interface Tick {
+interface TickX {
     x: number;
+    label: number | string | undefined;
+}
+
+interface TickY {
     y: number;
     label: number | string | undefined;
 }
@@ -16,9 +21,10 @@ interface Props<X, Y> {
         top: number;
         right: number;
         bottom: number;
-        left: number; };
-    xAxisTickSelector: (dataPoint: X) => Tick;
-    yAxisTickSelector: (dataPoint: Y) => Tick;
+        left: number;
+    };
+    xAxisTickSelector: (dataPoint: X) => TickX;
+    yAxisTickSelector: (dataPoint: Y) => TickY;
     chartBounds: {
         width: number;
         height: number;
@@ -36,10 +42,22 @@ function ChartAxes<X, Y>(props: Props<X, Y>) {
         chartBounds,
     } = props;
 
+    const xAxisTickWidth = Math.max(
+        (chartBounds.width - chartMargin.right - chartMargin.left)
+            / xAxisPoints.length,
+        0,
+    );
+    const yAxisTickHeight = Math.max(
+        (chartBounds.height - chartMargin.top - chartMargin.bottom)
+            / yAxisPoints.length,
+        0,
+    );
+
     return (
         <g>
             {xAxisPoints.map((pointData) => {
                 const tick = xAxisTickSelector(pointData);
+                const y = chartBounds.height - chartMargin.bottom;
 
                 return (
                     <Fragment key={tick.x}>
@@ -48,18 +66,28 @@ function ChartAxes<X, Y>(props: Props<X, Y>) {
                             x1={tick.x}
                             y1={chartMargin.top}
                             x2={tick.x}
-                            y2={tick.y}
+                            y2={y}
                         />
-                        <text
-                            className={styles.xAxisTickText}
+                        <foreignObject
                             x={tick.x}
-                            y={tick.y}
+                            y={y}
+                            width={xAxisTickWidth}
+                            height={chartMargin.bottom - chartOffset}
                             style={{
-                                transformOrigin: `${tick.x}px ${tick.y}px`,
+                                transformOrigin: `${tick.x}px ${y}px`,
                             }}
                         >
-                            {tick.label}
-                        </text>
+                            <div
+                                className={styles.xAxisTickText}
+                                style={{
+                                    width: xAxisTickWidth,
+                                    height: chartMargin.bottom - chartOffset,
+                                }}
+                                title={isDefined(tick.label) ? String(tick.label) : undefined}
+                            >
+                                {tick.label}
+                            </div>
+                        </foreignObject>
                     </Fragment>
                 );
             })}
@@ -68,20 +96,30 @@ function ChartAxes<X, Y>(props: Props<X, Y>) {
 
                 return (
                     <Fragment key={tick.y}>
-                        <text
-                            className={styles.yAxisTickText}
-                            x={tick.x}
-                            y={tick.y}
-                        >
-                            {tick.label}
-                        </text>
                         <line
                             className={styles.xAxisGridLine}
-                            x1={tick.x}
+                            x1={chartMargin.left}
                             y1={tick.y}
-                            x2={chartBounds.width - chartOffset}
+                            x2={chartBounds.width - chartMargin.right}
                             y2={tick.y}
                         />
+                        <foreignObject
+                            x={chartOffset}
+                            y={tick.y - yAxisTickHeight / 2}
+                            width={chartMargin.left - chartOffset}
+                            height={yAxisTickHeight}
+                        >
+                            <div
+                                className={styles.yAxisTickText}
+                                style={{
+                                    width: chartMargin.left - chartOffset,
+                                    height: yAxisTickHeight,
+                                }}
+                                title={isDefined(tick.label) ? String(tick.label) : undefined}
+                            >
+                                {tick.label}
+                            </div>
+                        </foreignObject>
                     </Fragment>
                 );
             })}

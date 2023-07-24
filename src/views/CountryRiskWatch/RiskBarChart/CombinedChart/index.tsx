@@ -91,14 +91,14 @@ function CombinedChart(props: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const chartBounds = useSizeTracking(containerRef);
 
-    const X_AXIS_HEIGHT = 16;
-    const Y_AXIS_WIDTH = selectedRiskMetricDetail.key === 'riskScore' ? 60 : 30;
-    const CHART_OFFSET = 16;
+    const X_AXIS_HEIGHT = 24;
+    const Y_AXIS_WIDTH = selectedRiskMetricDetail.key === 'riskScore' ? 72 : 48;
+    const CHART_OFFSET = 10;
 
     const chartMargin = useMemo(
         () => ({
             left: Y_AXIS_WIDTH + CHART_OFFSET,
-            top: CHART_OFFSET,
+            top: CHART_OFFSET * 2,
             right: CHART_OFFSET,
             bottom: X_AXIS_HEIGHT + CHART_OFFSET,
         }),

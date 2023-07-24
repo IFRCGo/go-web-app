@@ -12,7 +12,6 @@ import ExpandableContainer from '#components/ExpandableContainer';
 import ProgressBar from '#components/ProgressBar';
 import StackedProgressBar from '#components/StackedProgressBar';
 import TextOutput from '#components/TextOutput';
-import BarChart from '#components/BarChart';
 import { sumSafe } from '#utils/common';
 import type { paths } from '#generated/types';
 
@@ -152,10 +151,11 @@ function PerAssessmentSummary(props: Props) {
 
     const averageRatingByAreaList = mapToList(
         areaIdToTitleMap,
-        (title, areaId) => ({
+        (_, areaId) => ({
             areaId,
             rating: averageRatingByAreaMap[Number(areaId)] ?? 0,
-            areaDisplay: title,
+            // FIXME: use translation
+            areaDisplay: `Area ${areaId}`,
         }),
     );
 
@@ -169,6 +169,8 @@ function PerAssessmentSummary(props: Props) {
                 `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} questions answered.`
             )}
             childrenContainerClassName={styles.content}
+            withHeaderBorder
+            spacing="loose"
         >
             <div className={styles.totalProgress}>
                 <ProgressBar
@@ -205,14 +207,28 @@ function PerAssessmentSummary(props: Props) {
                     (statusGroupedComponent) => `${statusGroupedComponent.ratingValue}-${statusGroupedComponent.ratingDisplay}`
                 }
             />
-            <BarChart
-                className={styles.avgComponentRating}
-                data={averageRatingByAreaList}
-                // FIXME: don't use inline selectors
-                keySelector={(rating) => rating.areaId}
-                valueSelector={(rating) => rating.rating}
-                labelSelector={(rating) => rating.areaDisplay}
-            />
+            <div className={styles.avgComponentRating}>
+                {averageRatingByAreaList.map(
+                    (rating) => (
+                        <div
+                            className={styles.areaRating}
+                            key={rating.areaId}
+                        >
+                            <div className={styles.barContainer}>
+                                <div
+                                    className={styles.filledBar}
+                                    style={{
+                                        height: `${(100 * (rating.rating ?? 0)) / 5}%`,
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                {rating.areaDisplay}
+                            </div>
+                        </div>
+                    ),
+                )}
+            </div>
         </ExpandableContainer>
     );
 }

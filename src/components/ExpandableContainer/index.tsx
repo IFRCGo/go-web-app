@@ -8,7 +8,7 @@ import Button from '#components/Button';
 import Container, { Props as ContainerProps } from '../Container';
 import styles from './styles.module.css';
 
-export interface Props extends ContainerProps {
+export interface Props extends Omit<ContainerProps, 'withInternalPadding'> {
     initiallyExpanded?: boolean;
     onExpansionChange?: (isExpanded: boolean) => void;
     componentRef?: React.MutableRefObject<{
@@ -26,6 +26,7 @@ function ExpandableContainer(props: Props) {
         componentRef,
         childrenContainerClassName,
         onExpansionChange,
+        withHeaderBorder,
         ...otherProps
     } = props;
 
@@ -57,6 +58,8 @@ function ExpandableContainer(props: Props) {
             className={_cs(styles.expandableContainer, className)}
             headerClassName={_cs(styles.header, headerClassName)}
             childrenContainerClassName={_cs(styles.content, childrenContainerClassName)}
+            withInternalPadding
+            withHeaderBorder={withHeaderBorder && expanded}
             actions={(
                 <>
                     {actions}

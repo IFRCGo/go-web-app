@@ -1,12 +1,18 @@
 .y-axis-tick-text {
-    text-anchor: end;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--go-ui-spacing-xs);
+    text-align: right;
+    word-break: break-word;
     font-size: var(--go-ui-font-size-xs);
-    dominant-baseline: middle;
 }
 
 .x-axis-tick-text {
-    text-anchor: start;
     transition: var(--go-ui-duration-transition-medium) ease-in-out transform;
+    padding: var(--go-ui-spacing-xs);
+    text-align: center;
+    word-break: break-word;
     font-size: var(--go-ui-font-size-xs);
 
     @media screen and (max-width: 30rem) {
@@ -22,15 +28,5 @@
 
     &.hovered {
         stroke-opacity: 1;
-    }
-}
-
-.hover-rect {
-    fill-opacity: 0;
-    fill: var(--go-ui-color-gray-50);
-    pointer-events: none;
-
-    &:hover {
-        fill-opacity: 0.1;
     }
 }

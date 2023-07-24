@@ -205,6 +205,7 @@ export function Component() {
             savePerAssessment({
                 ...formValues as AssessmentResponse,
                 is_draft: true,
+                overview: Number(perId),
             });
         },
         [savePerAssessment, assessmentId, perId],

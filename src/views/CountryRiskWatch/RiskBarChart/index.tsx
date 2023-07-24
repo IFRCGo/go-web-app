@@ -5,6 +5,7 @@ import {
 import {
     isDefined,
     isNotDefined,
+    listToMap,
     unique,
 } from '@togglecorp/fujs';
 
@@ -71,12 +72,12 @@ const defaultApplicableHazards: Record<HazardType, boolean> = {
 
 interface Props {
     pending: boolean;
-    riskData: RiskData | undefined;
+    seasonalRiskData: RiskData | undefined;
 }
 
 function RiskBarChart(props: Props) {
     const {
-        riskData,
+        seasonalRiskData,
         pending,
     } = props;
     const strings = useTranslation(i18n);
@@ -128,12 +129,12 @@ function RiskBarChart(props: Props) {
     );
 
     const fiRiskDataItem = useMemo(
-        () => getFiRiskDataItem(riskData?.ipc_displacement_data),
-        [riskData],
+        () => getFiRiskDataItem(seasonalRiskData?.ipc_displacement_data),
+        [seasonalRiskData],
     );
     const wfRiskDataItem = useMemo(
-        () => getWfRiskDataItem(riskData?.gwis),
-        [riskData],
+        () => getWfRiskDataItem(seasonalRiskData?.gwis),
+        [seasonalRiskData],
     );
 
     const selectedRiskMetricDetail = useMemo(
@@ -144,24 +145,92 @@ function RiskBarChart(props: Props) {
     );
 
     const hazardTypeList = useMemo(
-        () => (
-            unique(
+        () => {
+            if (!seasonalRiskData) {
+                return [];
+            }
+
+            const {
+                idmc,
+                raster_displacement_data,
+                inform_seasonal,
+            } = seasonalRiskData;
+
+            const displacementData = idmc?.map(
+                (dataItem) => {
+                    if (!hasSomeDefinedValue(dataItem)) {
+                        return undefined;
+                    }
+
+                    return getDataWithTruthyHazardType(dataItem);
+                },
+            ).filter(isDefined) ?? [];
+            const exposureData = [
+                ...raster_displacement_data?.map(
+                    (dataItem) => {
+                        if (!hasSomeDefinedValue(dataItem)) {
+                            return undefined;
+                        }
+
+                        return getDataWithTruthyHazardType(dataItem);
+                    },
+                ) ?? [],
+                fiRiskDataItem,
+            ].filter(isDefined);
+            const riskScoreData = [
+                ...inform_seasonal?.map(
+                    (dataItem) => {
+                        if (!hasSomeDefinedValue(dataItem)) {
+                            return undefined;
+                        }
+
+                        return getDataWithTruthyHazardType(dataItem);
+                    },
+                ) ?? [],
+                wfRiskDataItem,
+            ].filter(isDefined);
+
+            const availableHazards: Record<RiskMetric, Record<HazardType, boolean>> = {
+                exposure: listToMap(
+                    exposureData,
+                    (data) => data.hazard_type,
+                    () => true,
+                ),
+                displacement: listToMap(
+                    displacementData,
+                    (data) => data.hazard_type,
+                    () => true,
+                ),
+                riskScore: listToMap(
+                    riskScoreData,
+                    (data) => data.hazard_type,
+                    () => true,
+                ),
+            };
+
+            return unique(
                 [
-                    ...riskData?.idmc?.filter(hasSomeDefinedValue) ?? [],
-                    ...riskData?.raster_displacement_data?.filter(hasSomeDefinedValue) ?? [],
-                    ...riskData?.inform_seasonal?.filter(hasSomeDefinedValue) ?? [],
-                    fiRiskDataItem,
-                    wfRiskDataItem,
-                ].filter(isDefined).map(getDataWithTruthyHazardType).filter(isDefined),
+                    ...displacementData,
+                    ...exposureData,
+                    ...riskScoreData,
+                ].map(getDataWithTruthyHazardType).filter(isDefined),
                 (data) => data.hazard_type,
             ).map((combinedData) => ({
                 hazard_type: combinedData.hazard_type,
                 hazard_type_display: combinedData.hazard_type_display,
             })).filter(
-                ({ hazard_type: hazard }) => selectedRiskMetricDetail?.applicableHazards[hazard],
-            )
-        ),
-        [riskData, fiRiskDataItem, wfRiskDataItem, selectedRiskMetricDetail],
+                ({ hazard_type: hazard }) => {
+                    if (!selectedRiskMetricDetail?.applicableHazards[hazard]
+                        || !availableHazards[selectedRiskMetricDetail.key][hazard]
+                    ) {
+                        return false;
+                    }
+
+                    return true;
+                },
+            );
+        },
+        [seasonalRiskData, fiRiskDataItem, wfRiskDataItem, selectedRiskMetricDetail],
     );
 
     const hazardListForDisplay = useMemo(
@@ -210,17 +279,17 @@ function RiskBarChart(props: Props) {
             {pending && <BlockLoading />}
             {!pending && selectedHazardType === 'FI' && (
                 <FoodInsecurityChart
-                    ipcData={riskData?.ipc_displacement_data}
+                    ipcData={seasonalRiskData?.ipc_displacement_data}
                 />
             )}
             {!pending && selectedHazardType === 'WF' && (
                 <WildfireChart
-                    gwisData={riskData?.gwis}
+                    gwisData={seasonalRiskData?.gwis}
                 />
             )}
             {!pending && selectedHazardType !== 'FI' && selectedHazardType !== 'WF' && (
                 <CombinedChart
-                    riskData={riskData}
+                    riskData={seasonalRiskData}
                     selectedRiskMetricDetail={selectedRiskMetricDetail}
                     selectedHazardType={selectedHazardType}
                     hazardListForDisplay={hazardListForDisplay}
