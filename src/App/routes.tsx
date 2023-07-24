@@ -1017,6 +1017,35 @@ const communicationErtThree = customWrapRoute({
     },
 });
 
+const catalogueHealth = customWrapRoute({
+    path: 'health',
+    component: {
+        render: () => import('#views/CatalogueHealth'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Health',
+        visibility: 'anything',
+    },
+
+});
+
+const catalogueHealthIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueHealthIndex'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Health',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     path: 'personnel/all',
     component: {
@@ -1269,6 +1298,8 @@ const wrappedRoutes = {
     communicationErtOne,
     communicationErtTwo,
     communicationErtThree,
+    catalogueHealth,
+    catalogueHealthIndex,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
