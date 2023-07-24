@@ -1,7 +1,7 @@
 {
     "namespace": "surgeCatalogue",
     "strings": {
-        "catalogueService": "Catalogue",
+        "catalogueServiceOverview": "Overview",
         "catalogueEmergency": "Emergency Needs Assessment",
         "catalogueBasecamp": "Basecamp",
         "catalogueCash": "Cash and Vouchers Assistance (CVA)",

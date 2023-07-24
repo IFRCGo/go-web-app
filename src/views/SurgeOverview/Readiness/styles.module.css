@@ -1,31 +1,23 @@
 .eru-owners-table {
-
     .content {
-        display: flex;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        gap: var(--go-ui-spacing-2xl);
+        display: grid;
+        grid-gap: var(--go-ui-spacing-2xl);
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        padding: var(--go-ui-spacing-4xl) 0;
+
+        @media screen and (max-width: 30rem) {
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        }
 
         .filter-container {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-lg);
-
-            .filter{
-                display: flex;
-                flex-direction: column;
-                flex-wrap: wrap;
-
-                @media screen and (max-width: 60rem) {
-                    display: flex;
-                    flex-direction: row;
-                }
-            }
+            grid-column: span 1;
+            align-self: start;
         }
 
         .eru-owners-list {
+            grid-column: span 2;
             display: grid;
-            flex-grow: 1;
+            align-self: start;
             grid-gap: var(--go-ui-spacing-2xl);
             grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 

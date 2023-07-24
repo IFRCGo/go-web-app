@@ -90,6 +90,7 @@ export function Component() {
                     to={generatePath(
                         surgeCatalogueRoute.absolutePath,
                     )}
+                    parentRoute
                 >
                     {strings.surgeCatalogueTab}
                 </NavigationTab>

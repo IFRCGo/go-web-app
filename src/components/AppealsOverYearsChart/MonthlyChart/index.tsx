@@ -181,6 +181,7 @@ function MonthlyChart(props: Props) {
                         data={activePointData}
                         action={activePointData && (
                             <Button
+                                variant="secondary"
                                 name={undefined}
                                 onClick={onBackButtonClick}
                             >

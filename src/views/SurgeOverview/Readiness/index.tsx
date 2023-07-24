@@ -86,6 +86,7 @@ function Readiness() {
                 strings.eruOwnersTableHeading,
                 { count: eruOwnersResponse?.count },
             )}
+            withHeaderBorder
             footerActions={(
                 <Pager
                     activePage={page}
@@ -98,10 +99,22 @@ function Readiness() {
         >
             <Container
                 heading={strings.eruOwnersTableFilterReady}
-                childrenContainerClassName={styles.filterContainer}
+                className={styles.filterContainer}
+                headingLevel={4}
+                footerContent={(
+                    <Button
+                        name={undefined}
+                        variant="secondary"
+                        onClick={handleClearFilter}
+                        disabled={emergencyResponseUnitTypesPending
+                        || isNotDefined(selectedERUTypes)}
+                    >
+                        {strings.eruOwnersTableFilterClear}
+                    </Button>
+                )}
             >
                 <CheckList
-                    listContainerClassName={styles.filter}
+                    direction="vertical"
                     name="eruType"
                     options={emergencyResponseUnitTypesResponse}
                     value={selectedERUTypes}
@@ -109,26 +122,17 @@ function Readiness() {
                     labelSelector={emergencyResponseUnitTypeLabelSelector}
                     onChange={handleERUOwnerTypesChange}
                 />
-                <Button
-                    name={undefined}
-                    variant="secondary"
-                    onClick={handleClearFilter}
-                    disabled={emergencyResponseUnitTypesPending || isNotDefined(selectedERUTypes)}
-                >
-                    {strings.eruOwnersTableFilterClear}
-                </Button>
             </Container>
-            <div className={styles.eruOwnersList}>
-                <List
-                    data={eruOwnersResponse?.results}
-                    pending={eruOwnersPending}
-                    errored={!!eruOwnersError}
-                    filtered={false}
-                    keySelector={eruOwnerKeySelector}
-                    renderer={EmergencyResponseUnitOwnerCard}
-                    rendererParams={rendererParams}
-                />
-            </div>
+            <List
+                className={styles.eruOwnersList}
+                data={eruOwnersResponse?.results}
+                pending={eruOwnersPending}
+                errored={!!eruOwnersError}
+                filtered={false}
+                keySelector={eruOwnerKeySelector}
+                renderer={EmergencyResponseUnitOwnerCard}
+                rendererParams={rendererParams}
+            />
         </Container>
     );
 }

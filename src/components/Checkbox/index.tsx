@@ -6,8 +6,7 @@ import DefaultCheckmark, { CheckmarkProps } from './Checkmark';
 import styles from './styles.module.css';
 
 export interface Props<N> {
-    className?: string;
-    checkmark?: (p: CheckmarkProps) => React.ReactElement;
+    className?: string; checkmark?: (p: CheckmarkProps) => React.ReactElement;
     checkmarkClassName?: string;
     checkmarkContainerClassName?: string;
     disabled?: boolean;

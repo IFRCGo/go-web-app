@@ -23,16 +23,16 @@
 
     &.level4 {
         --font-size: var(--go-ui-font-size-lg);
-        --line-height: var(--go-ui-line-height-normal);
+        --line-height: var(--go-ui-line-height-medium);
     }
 
     &.level5 {
         --font-size: var(--go-ui-font-size-md);
-        --line-height: var(--go-ui-line-height-normal);
+        --line-height: var(--go-ui-line-height-medium);
     }
 
     &.level6 {
         --font-size: var(--go-ui-font-size-sm);
-        --line-height: var(--go-ui-line-height-normal);
+        --line-height: var(--go-ui-line-height-medium);
     }
 }

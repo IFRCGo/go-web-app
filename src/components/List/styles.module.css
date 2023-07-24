@@ -1,9 +1,14 @@
-.message {
-    &.with-message-over-content {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+.list {
+    position: relative;
+
+    .message {
+        &.with-message-over-content {
+            background-color: var(--go-ui-color-background-overlay);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     }
 }

@@ -6,16 +6,17 @@ import ProgressBar from '#components/ProgressBar';
 import styles from './styles.module.css';
 
 interface Props {
-  className?: string;
-  children?: React.ReactNode;
-  title?: string;
-  contentClassName?: string;
-  value: number;
-  compactValue?: boolean;
-  description?: string;
-  progressBar?: boolean;
-  progressTotalValue?: number;
+    className?: string;
+    children?: React.ReactNode;
+    title?: string;
+    contentClassName?: string;
+    value: number;
+    compactValue?: boolean;
+    description?: string;
+    progressBar?: boolean;
+    progressTotalValue?: number;
 }
+
 function Card(props: Props) {
     const {
         className,
@@ -28,6 +29,7 @@ function Card(props: Props) {
         title,
         progressTotalValue = 100,
     } = props;
+
     return (
         <div
             className={_cs(

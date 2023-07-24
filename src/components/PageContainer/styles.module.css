@@ -3,6 +3,6 @@
         margin: 0 auto;
         padding: var(--go-ui-spacing-2xl);
         width: 100%;
-        max-width: 90rem;
+        max-width: var(--go-ui-page-width-max);
     }
 }

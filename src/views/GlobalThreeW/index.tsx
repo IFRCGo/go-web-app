@@ -98,10 +98,7 @@ export function Component() {
         strings.globalThreeWPageDescriptionP2,
         {
             contactLink: (
-                <Link
-                    to="mailto:im@ifrc.org"
-                    className={styles.imLink}
-                >
+                <Link to="mailto:im@ifrc.org">
                     IM@ifrc.org
                 </Link>
             ),
@@ -166,6 +163,8 @@ export function Component() {
                         <Container
                             heading={strings.globalThreeWChartProjectPerSectorTitle}
                             className={styles.chartContainer}
+                            withHeaderBorder
+                            withInternalPadding
                         >
                             <BarChart
                                 data={projectsOverviewResponse.projects_per_sector}
@@ -177,6 +176,8 @@ export function Component() {
                         <Container
                             heading={strings.globalThreeWChartProgrammeTypeTitle}
                             className={styles.chartContainer}
+                            withHeaderBorder
+                            withInternalPadding
                         >
                             <PieChart
                                 data={projectsOverviewResponse.projects_per_programme_type}
@@ -189,6 +190,8 @@ export function Component() {
                         <Container
                             heading={strings.globalThreeWChartTopTagsTitle}
                             className={styles.chartContainer}
+                            withHeaderBorder
+                            withInternalPadding
                         >
                             <BarChart
                                 data={projectsOverviewResponse.projects_per_secondary_sectors}
@@ -200,7 +203,8 @@ export function Component() {
                     </div>
                     <Container
                         heading={strings.globalThreeWKeyFigureOngoingProjectsTitle}
-                        headerDescription={(
+                        withHeaderBorder
+                        filters={(
                             <Filter
                                 value={filters}
                                 onChange={setFilters}
@@ -212,6 +216,7 @@ export function Component() {
                     <Container
                         heading={strings.PPPMapTitle}
                         headerDescription={strings.PPPMapDescription}
+                        withHeaderBorder
                     >
                         <iframe
                             title={strings.PPPMapTitle}

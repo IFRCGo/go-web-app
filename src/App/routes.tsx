@@ -706,9 +706,8 @@ const allSurgeAlerts = customWrapRoute({
     },
 });
 
-const catalogueService = customWrapRoute({
-    // TODO: Rename to `service` to `details`
-    path: 'service',
+const catalogueOverview = customWrapRoute({
+    path: 'overview',
     component: {
         render: () => import('#views/CatalogueService'),
         props: {},
@@ -728,7 +727,7 @@ const catalogueIndex = customWrapRoute({
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: catalogueService.path as string,
+            to: catalogueOverview.path as string,
             replace: true,
         },
     },
@@ -1248,7 +1247,7 @@ const wrappedRoutes = {
     perAssessmentForm,
     perPrioritizationForm,
     perWorkPlanForm,
-    catalogueService,
+    catalogueOverview,
     catalogueIndex,
     catalogueEmergency,
     catalogueEmergencyIndex,

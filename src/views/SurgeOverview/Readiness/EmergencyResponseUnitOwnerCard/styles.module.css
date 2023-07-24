@@ -1,29 +1,15 @@
 .emergency-response-unit-owner-card {
-    display: flex;
-    flex-direction: column;
     border-radius: var(--go-ui-border-radius-md);
     box-shadow: var(--go-ui-box-shadow-lg);
 
-    .header {
-        padding: var(--go-ui-spacing-md);
-    }
-
     .last-updated {
-        display: flex;
-        color: var(--go-ui-color-gray-60);
-        gap: var(--go-ui-spacing-sm);
-    }
-
-    .divider {
-        flex-shrink: 0;
-        background-color: var(--go-ui-color-separator);
-        height: var(--go-ui-width-separator-sm);
+        color: var(--go-ui-color-text-light);
     }
 
     .figures {
         display: flex;
+        gap: var(--go-ui-spacing-lg);
         flex-grow: 1;
-        padding: var(--go-ui-spacing-sm) 0;
 
         .separator {
             flex-shrink: 0;
@@ -36,11 +22,12 @@
             flex-basis: 50%;
             flex-direction: column;
             flex-grow: 1;
-            padding: var(--go-ui-spacing-sm);
-            gap: var(--go-ui-spacing-xs);
+            gap: var(--go-ui-spacing-md);
 
-            .heading {
-                padding-bottom: var(--go-ui-spacing-xs);
+            .list {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-md);
             }
         }
     }

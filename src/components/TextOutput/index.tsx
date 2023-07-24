@@ -78,38 +78,40 @@ function TextOutput(props: Props) {
     return (
         <div className={_cs(styles.textOutput, className)}>
             {icon}
-            {label && (
-                <div
-                    className={_cs(
-                        styles.label,
-                        strongLabel && styles.strong,
-                        labelClassName,
-                        !withoutLabelColon && styles.withColon,
-                    )}
-                >
-                    {label}
-                </div>
-            )}
-            <div
-                className={_cs(
-                    styles.value,
-                    strongValue && styles.strong,
-                    valueClassName,
+            <div className={styles.container}>
+                {label && (
+                    <div
+                        className={_cs(
+                            styles.label,
+                            strongLabel && styles.strong,
+                            labelClassName,
+                            !withoutLabelColon && styles.withColon,
+                        )}
+                    >
+                        {label}
+                    </div>
                 )}
-            >
-                {valueComponent}
-            </div>
-            {description && (
                 <div
                     className={_cs(
-                        styles.description,
-                        strongDescription && styles.strong,
-                        descriptionClassName,
+                        styles.value,
+                        strongValue && styles.strong,
+                        valueClassName,
                     )}
                 >
-                    {description}
+                    {valueComponent}
                 </div>
-            )}
+                {description && (
+                    <div
+                        className={_cs(
+                            styles.description,
+                            strongDescription && styles.strong,
+                            descriptionClassName,
+                        )}
+                    >
+                        {description}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

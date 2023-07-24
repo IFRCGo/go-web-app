@@ -1,9 +1,8 @@
 import { _cs, isDefined } from '@togglecorp/fujs';
 import { FocusLineIcon } from '@ifrc-go/icons';
 
-import Header from '#components/Header';
+import Container from '#components/Container';
 import Button from '#components/Button';
-import DateOutput from '#components/DateOutput';
 import NumberOutput from '#components/NumberOutput';
 import KeyFigure from '#components/KeyFigure';
 import Tooltip from '#components/Tooltip';
@@ -101,74 +100,73 @@ function OperationCard(props: Props) {
     }
 
     return (
-        <div className={_cs(styles.operationCard, className)}>
-            <Header
-                className={styles.header}
-                icons={ifrc_severity_level ? (
-                    <>
-                        <Tooltip className={styles.tooltip}>
-                            <TextOutput
-                                label={(
-                                    <SeverityIndicator
-                                        level={ifrc_severity_level}
-                                    />
-                                )}
-                                value={ifrc_severity_level_display}
-                                withoutLabelColon
-                            />
-                            <TextOutput
-                                label={<FocusLineIcon />}
-                                value={countriesInfoDisplay}
-                                withoutLabelColon
-                            />
-                        </Tooltip>
-                        <SeverityIndicator
-                            level={ifrc_severity_level}
+        <Container
+            className={_cs(styles.operationCard, className)}
+            heading={name}
+            headingLevel={4}
+            ellipsizeHeading
+            withInternalPadding
+            withHeaderBorder
+            spacing="relaxed"
+            icons={ifrc_severity_level ? (
+                <>
+                    <Tooltip className={styles.tooltip}>
+                        <TextOutput
+                            label={(
+                                <SeverityIndicator
+                                    level={ifrc_severity_level}
+                                />
+                            )}
+                            value={ifrc_severity_level_display}
+                            withoutLabelColon
                         />
-                    </>
-                ) : undefined}
-                heading={name}
-                headingLevel={4}
-                ellipsizeHeading
-                actions={(
-                    <Button
-                        name={id}
-                        variant="secondary"
-                        disabled={pending || subscriptionPending}
-                        onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
-                    >
-                        {isSubscribed ? strings.operationCardUnfollow : strings.operationCardFollow}
-                    </Button>
-                )}
-            >
-                <div className={styles.lastUpdated}>
-                    <div className={styles.label}>
-                        {strings.operationCardLastUpdated}
-                    </div>
-                    <DateOutput
-                        value={updated_at}
+                        <TextOutput
+                            label={<FocusLineIcon />}
+                            value={countriesInfoDisplay}
+                            withoutLabelColon
+                        />
+                    </Tooltip>
+                    <SeverityIndicator
+                        level={ifrc_severity_level}
                     />
-                </div>
-            </Header>
-            <div className={styles.divider} />
-            <div className={styles.figures}>
-                <KeyFigure
-                    className={styles.figure}
-                    value={targetedPopulation}
-                    description={strings.operationCardTargetedPopulation}
-                    compactValue
+                </>
+            ) : undefined}
+            actions={(
+                <Button
+                    name={id}
+                    variant="secondary"
+                    disabled={pending || subscriptionPending}
+                    onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
+                >
+                    {isSubscribed ? strings.operationCardUnfollow : strings.operationCardFollow}
+                </Button>
+            )}
+            headerDescription={(
+                <TextOutput
+                    className={styles.lastUpdated}
+                    label={strings.operationCardLastUpdated}
+                    value={updated_at}
+                    valueType="date"
                 />
-                <div className={styles.separator} />
-                <KeyFigure
-                    className={styles.figure}
-                    value={amountRequested}
-                    description={strings.operationCardFunding}
-                    compactValue
-                    progress={coverage}
-                    progressDescription={fundingCoverageDescription}
-                />
-            </div>
-        </div>
+            )}
+            childrenContainerClassName={styles.figures}
+        >
+            <KeyFigure
+                className={styles.figure}
+                value={targetedPopulation}
+                description={strings.operationCardTargetedPopulation}
+                compactValue
+            />
+            <div className={styles.separator} />
+            <KeyFigure
+                className={styles.figure}
+                value={amountRequested}
+                description={strings.operationCardFunding}
+                compactValue
+                progress={coverage}
+                progressDescription={fundingCoverageDescription}
+            />
+        </Container>
     );
 }
 

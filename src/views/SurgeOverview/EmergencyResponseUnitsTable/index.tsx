@@ -156,11 +156,11 @@ function EmergencyResponseUnitsTable() {
                 strings.emergencyResponseUnitsTableHeading,
                 { count: emergencyResponseUnitsResponse?.count },
             )}
-            headerDescriptionClassName={styles.filters}
-            headerDescription={(
+            withHeaderBorder
+            filtersContainerClassName={styles.filters}
+            filters={(
                 <SelectInput
                     placeholder={strings.emergencyResponseUnitTypeFilterPlaceholder}
-                    label={strings.emergencyResponseUnitTypeFilterLabel}
                     name={undefined}
                     value={emergencyResponseUnitType}
                     onChange={handleEmergencyResponseUnitTypeChange}

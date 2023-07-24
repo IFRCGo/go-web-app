@@ -5,10 +5,6 @@
         gap: var(--go-ui-spacing-lg);
     }
 
-    .im-link {
-        display: inline-block;
-    }
-
     .key-figures-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
@@ -39,7 +35,6 @@
             .chart-container {
                 border-radius: var(--go-ui-border-radius-lg);
                 box-shadow: var(--go-ui-box-shadow-lg);
-                padding: var(--go-ui-spacing-lg);
                 height: 100%;
             }
         }

@@ -219,10 +219,10 @@ function SearchSelectInput<
 
             return {
                 children: labelSelector(option),
-                containerClassName: _cs(styles.option, isActive && styles.active),
+                containerClassName: _cs(styles.optionContainer, isActive && styles.active),
                 title: labelSelector(option),
 
-                labelClassName: styles.label,
+                className: styles.option,
                 iconClassName: styles.icon,
             };
         },

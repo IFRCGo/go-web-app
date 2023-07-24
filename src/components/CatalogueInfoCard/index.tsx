@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import Container from '#components/Container';
 import Link, { Props as LinkProps } from '#components/Link';
 import List from '#components/List';
-import Header from '#components/Header';
 
 import styles from './styles.module.css';
 
@@ -32,7 +32,6 @@ function CatalogueInfoCard(props: Props) {
         (_: string, value: LinkProps) => ({
             to: value.to,
             children: value.title,
-            className: styles.link,
             withExternalLinkIcon: value.withExternalLinkIcon,
             withForwardIcon: value.withForwardIcon,
         }),
@@ -40,19 +39,18 @@ function CatalogueInfoCard(props: Props) {
     );
 
     return (
-        <div className={_cs(styles.catalogueInfoCard, className)}>
-            <Header
-                className={styles.header}
-                heading={title}
-                headingLevel={4}
-            />
-            <div className={styles.divider} />
-            {description && (
-                <div className={_cs(styles.description, descriptionClassName)}>
-                    {description}
-                </div>
-            )}
+        <Container
+            className={_cs(styles.catalogueInfoCard, className)}
+            heading={title}
+            headingLevel={4}
+            withHeaderBorder
+            withInternalPadding
+            headerDescriptionClassName={descriptionClassName}
+            headerDescription={description}
+            spacing="relaxed"
+        >
             <List
+                className={styles.list}
                 data={data}
                 keySelector={catalogueInfoKeySelector}
                 renderer={Link}
@@ -61,7 +59,7 @@ function CatalogueInfoCard(props: Props) {
                 filtered={false}
                 rendererParams={rendererParams}
             />
-        </div>
+        </Container>
     );
 }
 

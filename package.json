@@ -28,7 +28,7 @@
         "surge:teardown": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); surge teardown https://ifrc-go-$branch.surge.sh"
     },
     "dependencies": {
-        "@ifrc-go/icons": "^1.1.4",
+        "@ifrc-go/icons": "^1.2.0",
         "@mapbox/mapbox-gl-draw": "^1.2.0",
         "@tinymce/tinymce-react": "^4.3.0",
         "@togglecorp/fujs": "^2.0.0",

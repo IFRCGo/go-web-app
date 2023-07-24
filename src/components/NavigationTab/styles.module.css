@@ -23,6 +23,20 @@
         text-align: center;
     }
 
+    &.vertical {
+        .children-wrapper {
+            display: flex;
+            gap: var(--go-ui-spacing-md);
+            padding: var(--go-ui-spacing-md) 0;
+            text-align: left;
+        }
+
+        &.active {
+            text-decoration: underline;
+            color: var(--go-ui-color-primary-red);
+        }
+    }
+
     &.primary {
         position: relative;
         font-size: var(--go-ui-font-size-lg);
@@ -120,6 +134,7 @@
             }
         }
     }
+
 
     &.disabled {
         pointer-events: none;

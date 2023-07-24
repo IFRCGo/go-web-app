@@ -390,17 +390,15 @@ function ActiveOperationMap(props: Props) {
                 )}
             </Map>
             <div className={styles.footer}>
-                <div className={styles.left}>
-                    <RadioInput
-                        label={strings.explanationBubbleScalePoints}
-                        name={undefined}
-                        options={scaleOptions}
-                        keySelector={optionKeySelector}
-                        labelSelector={optionLabelSelector}
-                        value={scaleBy}
-                        onChange={setScaleBy}
-                    />
-                </div>
+                <RadioInput
+                    label={strings.explanationBubbleScalePoints}
+                    name={undefined}
+                    options={scaleOptions}
+                    keySelector={optionKeySelector}
+                    labelSelector={optionLabelSelector}
+                    value={scaleBy}
+                    onChange={setScaleBy}
+                />
                 <div className={styles.legend}>
                     {legendOptions.map((legendItem) => (
                         <div

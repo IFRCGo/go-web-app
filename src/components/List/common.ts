@@ -11,6 +11,7 @@ export interface GroupCommonProps {
 }
 
 export interface BaseProps<D, P, K extends OptionKey> {
+    className?: string;
     data: D[] | undefined;
     keySelector(datum: D, index: number): K;
     renderer: (props: P) => JSX.Element;
