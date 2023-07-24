@@ -2,8 +2,8 @@
     --decoration: none;
 
     display: inline-flex;
-    flex-wrap: nowrap;
     align-items: flex-start;
+    flex-wrap: nowrap;
     width: fit-content;
     text-decoration: var(--decoration);
 
