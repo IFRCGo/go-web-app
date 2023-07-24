@@ -33,3 +33,4 @@ tsconfig.tsbuildinfo
 
 stats.html
 generated/
+cypress/.env

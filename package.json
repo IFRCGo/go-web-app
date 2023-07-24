@@ -26,8 +26,9 @@
         "test:coverage": "vitest run --coverage",
         "surge:deploy": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); cp build/index.html build/200.html; surge -p build/ -d https://ifrc-go-$branch.surge.sh",
         "surge:teardown": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); branch=$(echo $branch  | tr ./ -); surge teardown https://ifrc-go-$branch.surge.sh",
-        "cypress:run": "cypress run --config video=false --component",
-        "cypress:open": "cypress open"
+        "cypress:comp": "cypress run --config video=false --component",
+        "cypress:e2e": "cypress run --config video=false --e2e 'should be sourced cypress/.env before'",
+        "cypress:window": "cypress open"
     },
     "dependencies": {
         "@ifrc-go/icons": "^1.1.4",
