@@ -10,12 +10,11 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 import Map, {
-    MapContainer,
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
 
-import GoMapDisclaimer from '#components/GoMapDisclaimer';
+import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
 import Link from '#components/Link';
@@ -256,10 +255,7 @@ function EmergenciesMap(props: Props) {
                 navControlShown
                 navControlPosition="top-right"
             >
-                <div className={styles.mapContainerWrapper}>
-                    <MapContainer className={styles.mapContainer} />
-                    <GoMapDisclaimer className={styles.mapDisclaimer} />
-                </div>
+                <MapContainerWithDisclaimer className={styles.mapContainer} />
                 <MapSource
                     sourceKey="composite"
                     managed={false}

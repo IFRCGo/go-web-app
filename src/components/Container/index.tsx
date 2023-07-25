@@ -3,10 +3,9 @@ import { _cs } from '@togglecorp/fujs';
 import Header, { Props as HeaderProps } from '#components/Header';
 import Footer from '#components/Footer';
 import { Props as HeadingProps } from '#components/Heading';
+import type { SpacingType } from '#components/types';
 
 import styles from './styles.module.css';
-
-type SpacingType = 'none' | 'compact' | 'cozy' | 'comfortable' | 'relaxed' | 'loose';
 
 const spacingTypeToClassNameMap: Record<SpacingType, string> = {
     none: styles.noSpacing,

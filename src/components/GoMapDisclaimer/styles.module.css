@@ -1,9 +1,0 @@
-.go-map-disclaimer {
-    opacity: 0.5;
-    font-size: var(--go-ui-font-size-sm);
-}
-
-.attribution {
-    display: flex;
-    gap: var(--go-ui-spacing-sm);
-}

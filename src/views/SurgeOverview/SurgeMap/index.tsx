@@ -13,26 +13,25 @@ import {
     sum,
 } from '@togglecorp/fujs';
 import Map, {
-    MapContainer,
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
 import { generatePath } from 'react-router-dom';
 
+import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import MapPopup from '#components/MapPopup';
-import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import RadioInput from '#components/RadioInput';
 import TextOutput from '#components/TextOutput';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
 } from '#utils/map';
 import RouteContext from '#contexts/route';
+import { useRequest } from '#utils/restRequest';
 
 import {
     ScaleOption,
@@ -260,10 +259,7 @@ function SurgeMap(props: Props) {
                 navControlShown
                 navControlPosition="top-right"
             >
-                <div className={styles.mapContainerWrapper}>
-                    <MapContainer className={styles.mapContainer} />
-                    <GoMapDisclaimer className={styles.mapDisclaimer} />
-                </div>
+                <MapContainerWithDisclaimer className={styles.mapContainer} />
                 <MapSource
                     sourceKey="composite"
                     managed={false}

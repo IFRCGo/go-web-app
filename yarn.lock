@@ -870,6 +870,63 @@
     "@togglecorp/fujs" "^1.9.2-beta.0"
     abort-controller "^3.0.0"
 
+"@turf/bbox@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/bbox/-/bbox-6.5.0.tgz#bec30a744019eae420dac9ea46fb75caa44d8dc5"
+  integrity sha512-RBbLaao5hXTYyyg577iuMtDB8ehxMlUqHEJiMs8jT1GHkFhr6sYre3lmLsPeYEi/ZKj5TP5tt7fkzNdJ4GIVyw==
+  dependencies:
+    "@turf/helpers" "^6.5.0"
+    "@turf/meta" "^6.5.0"
+
+"@turf/buffer@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/buffer/-/buffer-6.5.0.tgz#22bd0d05b4e1e73eaebc69b8f574a410ff704842"
+  integrity sha512-qeX4N6+PPWbKqp1AVkBVWFerGjMYMUyencwfnkCesoznU6qvfugFHNAngNqIBVnJjZ5n8IFyOf+akcxnrt9sNg==
+  dependencies:
+    "@turf/bbox" "^6.5.0"
+    "@turf/center" "^6.5.0"
+    "@turf/helpers" "^6.5.0"
+    "@turf/meta" "^6.5.0"
+    "@turf/projection" "^6.5.0"
+    d3-geo "1.7.1"
+    turf-jsts "*"
+
+"@turf/center@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/center/-/center-6.5.0.tgz#3bcb6bffcb8ba147430cfea84aabaed5dbdd4f07"
+  integrity sha512-T8KtMTfSATWcAX088rEDKjyvQCBkUsLnK/Txb6/8WUXIeOZyHu42G7MkdkHRoHtwieLdduDdmPLFyTdG5/e7ZQ==
+  dependencies:
+    "@turf/bbox" "^6.5.0"
+    "@turf/helpers" "^6.5.0"
+
+"@turf/clone@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/clone/-/clone-6.5.0.tgz#895860573881ae10a02dfff95f274388b1cda51a"
+  integrity sha512-mzVtTFj/QycXOn6ig+annKrM6ZlimreKYz6f/GSERytOpgzodbQyOgkfwru100O1KQhhjSudKK4DsQ0oyi9cTw==
+  dependencies:
+    "@turf/helpers" "^6.5.0"
+
+"@turf/helpers@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-6.5.0.tgz#f79af094bd6b8ce7ed2bd3e089a8493ee6cae82e"
+  integrity sha512-VbI1dV5bLFzohYYdgqwikdMVpe7pJ9X3E+dlr425wa2/sMJqYDhTO++ec38/pcPvPE6oD9WEEeU3Xu3gza+VPw==
+
+"@turf/meta@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-6.5.0.tgz#b725c3653c9f432133eaa04d3421f7e51e0418ca"
+  integrity sha512-RrArvtsV0vdsCBegoBtOalgdSOfkBrTJ07VkpiCnq/491W67hnMWmDu7e6Ztw0C3WldRYTXkg3SumfdzZxLBHA==
+  dependencies:
+    "@turf/helpers" "^6.5.0"
+
+"@turf/projection@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@turf/projection/-/projection-6.5.0.tgz#d2aad862370bf03f2270701115464a8406c144b2"
+  integrity sha512-/Pgh9mDvQWWu8HRxqpM+tKz8OzgauV+DiOcr3FCjD6ubDnrrmMJlsf6fFJmggw93mtVPrZRL6yyi9aYCQBOIvg==
+  dependencies:
+    "@turf/clone" "^6.5.0"
+    "@turf/helpers" "^6.5.0"
+    "@turf/meta" "^6.5.0"
+
 "@types/chai-subset@^1.3.3":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@types/chai-subset/-/chai-subset-1.3.3.tgz#97893814e92abd2c534de422cb377e0e0bdaac94"
@@ -2654,6 +2711,18 @@ csstype@^3.0.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
+
+d3-array@1:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.4.tgz#635ce4d5eea759f6f605863dbcfc30edc737f71f"
+  integrity sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw==
+
+d3-geo@1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/d3-geo/-/d3-geo-1.7.1.tgz#44bbc7a218b1fd859f3d8fd7c443ca836569ce99"
+  integrity sha512-O4AempWAr+P5qbk2bC2FuN/sDW4z+dN2wDf9QV3bxQt4M5HfOEeXLgJ/UKQW0+o1Dj8BE+L5kiDbdWUMjsmQpw==
+  dependencies:
+    d3-array "1"
 
 damerau-levenshtein@^1.0.8:
   version "1.0.8"
@@ -6976,6 +7045,11 @@ tunnel-agent@^0.6.0:
   integrity sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==
   dependencies:
     safe-buffer "^5.0.1"
+
+turf-jsts@*:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/turf-jsts/-/turf-jsts-1.2.3.tgz#59757f542afbff9a577bbf411f183b8f48d38aa4"
+  integrity sha512-Ja03QIJlPuHt4IQ2FfGex4F4JAr8m3jpaHbFbQrgwr7s7L6U8ocrHiF3J1+wf9jzhGKxvDeaCAnGDot8OjGFyA==
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"

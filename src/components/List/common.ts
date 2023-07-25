@@ -14,7 +14,7 @@ export interface BaseProps<D, P, K extends OptionKey> {
     className?: string;
     data: D[] | undefined;
     keySelector(datum: D, index: number): K;
-    renderer: (props: P) => JSX.Element;
+    renderer: React.ComponentType<P>;
     rendererClassName?: string;
     rendererParams: (key: K, datum: D, index: number, data: D[]) => P;
     pending: boolean;

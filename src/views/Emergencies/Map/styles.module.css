@@ -1,17 +1,6 @@
 .emergencies-map {
-    .map-container-wrapper {
-        position: relative;
-        z-index: 0;
-
-        .map-container {
-            height: 40rem;
-        }
-
-        .map-disclaimer {
-            position: absolute;
-            bottom: var(--go-ui-spacing-sm);
-            left: calc(var(--mapbox-icon-width) + var(--go-ui-spacing-xl));
-        }
+    .map-container {
+        height: 40rem;
     }
 
     .footer {

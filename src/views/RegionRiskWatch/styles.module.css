@@ -1,3 +1,5 @@
-.risk-watch {
-    color: inherit;
+.region-risk-watch {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-4xl) 0;
 }

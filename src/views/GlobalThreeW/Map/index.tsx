@@ -9,16 +9,15 @@ import {
     max,
 } from '@togglecorp/fujs';
 import Map, {
-    MapContainer,
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
 
+import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import MapPopup from '#components/MapPopup';
 import Link from '#components/Link';
 import TextOutput from '#components/TextOutput';
-import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import LegendItem from '#components/LegendItem';
 import RouteContext from '#contexts/route';
 import BarChart from '#components/BarChart';
@@ -271,10 +270,9 @@ function GlobalThreeWMap(props: Props) {
             navControlPosition="top-right"
             debug={false}
         >
-            <div className={_cs(styles.mapContainerWrapper, className)}>
-                <MapContainer className={_cs(styles.mapContainer, className)} />
-                <GoMapDisclaimer className={styles.mapDisclaimer} />
-            </div>
+            <MapContainerWithDisclaimer
+                className={_cs(styles.mapContainer, className)}
+            />
             {operationTypeOptions && (
                 <div className={styles.legend}>
                     {operationTypeOptions.map((d) => (

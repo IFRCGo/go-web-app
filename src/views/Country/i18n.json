@@ -2,6 +2,7 @@
     "namespace": "country",
     "strings": {
         "countryPageTitle": "IFRC GO - {countryName}",
+        "countryPageTitleFallbackCountry": "Country",
         "countryKeyFiguresActiveDrefs":"Active DREF Operations",
         "countryKeyFiguresActiveAppeals":"Active Emergency Appeals",
         "countryKeyFiguresBudget":"Funding Requirements (CHF)",

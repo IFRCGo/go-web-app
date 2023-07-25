@@ -86,7 +86,7 @@ export function Component() {
             createStringColumn<EventListItem, number>(
                 'dtype',
                 strings.allEmergenciesDisasterType,
-                (item) => item.dtype.name,
+                (item) => item.dtype?.name,
             ),
             createStringColumn<EventListItem, number>(
                 'glide',

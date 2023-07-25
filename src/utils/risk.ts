@@ -304,3 +304,37 @@ export function riskScoreToCategory(
 
     return currentCategory.category as RiskCategory;
 }
+
+export function isValidFeature(
+    maybeFeature: unknown,
+): maybeFeature is GeoJSON.Feature {
+    if (isNotDefined(maybeFeature)) {
+        return false;
+    }
+
+    if (typeof maybeFeature !== 'object') {
+        return false;
+    }
+
+    const safeObj = maybeFeature as GeoJSON.Feature;
+    if (safeObj.type !== 'Feature') {
+        return false;
+    }
+
+    return true;
+}
+
+export function isValidPointFeature(
+    maybePointFeature: unknown,
+): maybePointFeature is GeoJSON.Feature<GeoJSON.Point> {
+    if (!isValidFeature(maybePointFeature)) {
+        return false;
+    }
+
+    const safeObj = maybePointFeature as GeoJSON.Feature<GeoJSON.Point>;
+    if (safeObj.geometry.type !== 'Point') {
+        return false;
+    }
+
+    return true;
+}
