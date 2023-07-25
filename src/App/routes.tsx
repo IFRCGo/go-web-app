@@ -1046,6 +1046,160 @@ const catalogueHealthIndex = customWrapRoute({
     },
 });
 
+const healthEruClinic = customWrapRoute({
+    path: 'eru-clinic',
+    component: {
+        render: () => import('#views/HealthEruClinic'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'ERU Red Cross Red Crescent Emergency Clinic',
+        visibility: 'anything',
+    },
+});
+
+const healthEruHospital = customWrapRoute({
+    path: 'eru-hospital',
+    component: {
+        render: () => import('#views/HealthEruHospital'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'ERU Red Cross Red Crescent Emergency Hospital',
+        visibility: 'anything',
+    },
+});
+
+const healthSurgical = customWrapRoute({
+    path: 'eru-surgical',
+    component: {
+        render: () => import('#views/HealthSurgical'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Health Surgical',
+        visibility: 'anything',
+    },
+});
+
+const healthMaternalNewbornClinic = customWrapRoute({
+    path: 'maternal-newborn-clinic',
+    component: {
+        render: () => import('#views/HealthMaternalNewbornClinic'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Maternal NewBorn Health Clinic',
+        visibility: 'anything',
+    },
+});
+
+const healthEmergencyClinic = customWrapRoute({
+    path: 'emergency-clinic',
+    component: {
+        render: () => import('#views/HealthEmergencyClinic'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Mobile Clinic',
+        visibility: 'anything',
+    },
+});
+
+const healthEmergencyChloreaTreatment = customWrapRoute({
+    path: 'emergency-chlorea-treatment',
+    component: {
+        render: () => import('#views/HealthEmergencyChloreaTreatment'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Response Unit Chlorea Treatment Center',
+        visibility: 'anything',
+    },
+});
+
+const healthCCMC = customWrapRoute({
+    path: 'community-case-management-chlorea',
+    component: {
+        render: () => import('#views/HealthCCMC'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Case Management of Chlorea',
+        visibility: 'anything',
+    },
+});
+
+const healthCBS = customWrapRoute({
+    path: 'community-based-surveillance',
+    component: {
+        render: () => import('#views/HealthCBS'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Based Surveillance',
+        visibility: 'anything',
+    },
+});
+
+const healthBurials = customWrapRoute({
+    path: 'safe-dignified-burials',
+    component: {
+        render: () => import('#views/HealthBurials'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Safe and Dignified Burials',
+        visibility: 'anything',
+    },
+});
+
+const healthCCMM = customWrapRoute({
+    path: 'community-management-malnutrition',
+    component: {
+        render: () => import('#views/HealthCCMM'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Case Management of Malnutrition',
+        visibility: 'anything',
+    },
+});
+
+const healthPSS = customWrapRoute({
+    path: 'psychosocial-support',
+    component: {
+        render: () => import('#views/HealthPSS'),
+        props: {},
+    },
+    parent: catalogueHealth,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Resposne Unit Psychosocial Support',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     path: 'personnel/all',
     component: {
@@ -1300,6 +1454,17 @@ const wrappedRoutes = {
     communicationErtThree,
     catalogueHealth,
     catalogueHealthIndex,
+    healthEruClinic,
+    healthEruHospital,
+    healthSurgical,
+    healthMaternalNewbornClinic,
+    healthEmergencyClinic,
+    healthEmergencyChloreaTreatment,
+    healthCCMC,
+    healthCBS,
+    healthBurials,
+    healthCCMM,
+    healthPSS,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
