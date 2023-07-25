@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
+
 import NavigationTabContext, { NavigationTabVariant } from '#contexts/navigation-tab';
 
 import styles from './styles.module.css';
@@ -37,6 +38,7 @@ export default function TabList(props: Props) {
                     variant === 'secondary' && styles.secondary,
                     variant === 'tertiary' && styles.tertiary,
                     variant === 'step' && styles.step,
+                    variant === 'vertical' && styles.vertical,
                 )}
                 role="tablist"
             >

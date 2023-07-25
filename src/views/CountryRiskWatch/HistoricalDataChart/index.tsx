@@ -12,7 +12,7 @@ import {
     DroughtIcon,
     FloodIcon,
     FoodSecurityIcon,
-    StormIcon,
+    CycloneIcon,
 } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
@@ -103,7 +103,7 @@ const hazardIdToColorMap: Record<number, string> = {
 const hazardIdToIconMap: Record<number, React.ReactNode> = {
     [DISASTER_FLOOD]: <FloodIcon className={styles.hazardIcon} />,
     [DISASTER_FLASH_FLOOD]: <FloodIcon className={styles.hazardIcon} />,
-    [DISASTER_CYCLONE]: <StormIcon className={styles.hazardIcon} />,
+    [DISASTER_CYCLONE]: <CycloneIcon className={styles.hazardIcon} />,
     [DISASTER_FOOD_INSECURITY]: <FoodSecurityIcon className={styles.hazardIcon} />,
     [DISASTER_DROUGHT]: <DroughtIcon className={styles.hazardIcon} />,
 };

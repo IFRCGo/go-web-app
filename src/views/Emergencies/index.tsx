@@ -247,6 +247,7 @@ export function Component() {
                     heading={strings.emergenciesByTypeTitle}
                     className={styles.emergenciesByType}
                     withHeaderBorder
+                    withInternalPadding
                 >
                     <BarChart
                         data={emergenciesByType}
@@ -259,6 +260,7 @@ export function Component() {
                     heading={strings.emergenciesOverLastYearTitle}
                     className={styles.emergenciesOverLastYear}
                     withHeaderBorder
+                    withInternalPadding
                 >
                     {aggregateEventResponse && (
                         <TimeSeriesChart

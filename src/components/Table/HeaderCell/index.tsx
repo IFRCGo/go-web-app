@@ -5,9 +5,9 @@ import {
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import {
-    ArrowUpDownFillIcon,
-    ArrowDownFillIcon,
-    ArrowUpFillIcon,
+    ArrowDropDownLineIcon,
+    ArrowDropUpLineIcon,
+    TableSortingLineIcon,
 } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
@@ -88,9 +88,9 @@ function HeaderCell(props: HeaderCellProps) {
                     title="Sort column"
                     className={styles.sortButton}
                 >
-                    {!sortDirection && <ArrowUpDownFillIcon />}
-                    {sortDirection === 'asc' && <ArrowUpFillIcon />}
-                    {sortDirection === 'dsc' && <ArrowDownFillIcon />}
+                    {!sortDirection && <TableSortingLineIcon className={styles.icon} />}
+                    {sortDirection === 'asc' && <ArrowDropUpLineIcon className={styles.icon} />}
+                    {sortDirection === 'dsc' && <ArrowDropDownLineIcon className={styles.icon} />}
                 </Button>
             )}
             <div className={_cs(titleClassName, styles.title)}>

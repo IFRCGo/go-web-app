@@ -115,9 +115,9 @@ export function Component() {
                         onActivePageChange={setPage}
                     />
                 )}
-                childrenContainerClassName={styles.operationsList}
             >
                 <List
+                    className={styles.operationsList}
                     data={eventList}
                     pending={operationsPending}
                     errored={!!operationResponseError}

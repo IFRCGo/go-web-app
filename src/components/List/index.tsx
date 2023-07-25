@@ -29,6 +29,7 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
     props: Props<D, P, K, GP, GK>,
 ) {
     const {
+        className,
         data: dataFromProps,
         keySelector,
         renderer: Renderer,
@@ -68,35 +69,46 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
     const message = (
         <Message
             className={_cs(styles.message, withMessageOverContent && styles.withMessageOverContent)}
+            compact={compact}
             empty={empty}
-            pending={pending}
-            errored={errored}
-            filtered={filtered}
-            message={messageFromProps}
-            pendingMessage={pendingMessage}
             emptyMessage={emptyMessage}
             errorMessage={errorMessage}
+            errored={errored}
+            filtered={filtered}
             filteredMessage={filteredMessage}
-            compact={compact}
+            message={messageFromProps}
+            pending={pending}
+            pendingMessage={pendingMessage}
+            withoutBorder={withMessageOverContent}
         />
     );
 
+    let content: React.ReactNode = null;
+
     if (!hasGroup(props)) {
-        return (
+        content = (
             <>
-                {data.map(renderListItem)}
+                {(withMessageOverContent || !pending) && (
+                    data.map(renderListItem)
+                )}
+                {message}
+            </>
+        );
+    } else {
+        content = (
+            <>
+                <GroupedList
+                    {...props} /* eslint-disable-line react/jsx-props-no-spreading */
+                />
                 {message}
             </>
         );
     }
 
     return (
-        <>
-            <GroupedList
-                {...props} /* eslint-disable-line react/jsx-props-no-spreading */
-            />
-            {message}
-        </>
+        <div className={_cs(styles.list, className)}>
+            {content}
+        </div>
     );
 }
 

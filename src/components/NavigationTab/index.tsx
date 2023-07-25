@@ -13,9 +13,10 @@ import styles from './styles.module.css';
 interface Props {
     className?: string;
     children?: React.ReactNode;
-    to?: string;
-    title?: string;
     stepCompleted?: boolean;
+    title?: string;
+    to?: string;
+    parentRoute?: boolean;
 }
 
 function NavigationTab(props: Props) {
@@ -25,6 +26,7 @@ function NavigationTab(props: Props) {
         className,
         title,
         stepCompleted,
+        parentRoute = false,
     } = props;
 
     const { variant } = useContext(NavigationTabContext);
@@ -35,6 +37,7 @@ function NavigationTab(props: Props) {
         variant === 'secondary' && styles.secondary,
         variant === 'tertiary' && styles.tertiary,
         variant === 'step' && styles.step,
+        variant === 'vertical' && styles.vertical,
         stepCompleted && styles.completed,
         className,
     );
@@ -88,7 +91,7 @@ function NavigationTab(props: Props) {
         <NavLink
             to={to}
             className={getClassName}
-            end
+            end={!parentRoute}
             title={title}
         >
             {navChild}

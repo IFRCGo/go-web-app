@@ -1,9 +1,9 @@
 .navigation-tab-list {
     display: flex;
     position: relative;
-    overflow-x: auto;
 
     &.primary {
+        overflow-x: auto;
         .start-dummy-content,
         .end-dummy-content {
             align-self: flex-end;
@@ -17,6 +17,7 @@
         border-radius: calc(1em + var(--go-ui-spacing-md));
         background-color: var(--go-ui-color-background);
         width: fit-content;
+        overflow-x: auto;
     }
 
     &.tertiary {
@@ -25,14 +26,20 @@
         justify-content: flex-start;
         gap: var(--go-ui-spacing-md);
         width: fit-content;
+        overflow-x: auto;
     }
 
     &.step {
+        overflow-x: auto;
         gap: var(--go-ui-spacing-lg);
         .start-dummy-content,
         .end-dummy-content {
             align-self: flex-end;
             flex-grow: 1;
         }
+    }
+
+    &.vertical {
+        flex-direction: column;
     }
 }

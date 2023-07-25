@@ -138,6 +138,7 @@ function Navbar(props: Props) {
                             to={homeRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuHomeTooltip}
+                            parentRoute
                         >
                             {strings.headerMenuHome}
                         </NavigationTab>
@@ -146,6 +147,7 @@ function Navbar(props: Props) {
                             to={emergenciesRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuEmergenciesTooltip}
+                            parentRoute
                         >
                             {strings.headerMenuEmergencies}
                         </NavigationTab>
@@ -153,6 +155,7 @@ function Navbar(props: Props) {
                             to={surgeRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuSurgeTooltip}
+                            parentRoute
                         >
                             {strings.headerMenuSurge}
                         </NavigationTab>
@@ -160,6 +163,7 @@ function Navbar(props: Props) {
                             to={preparednessRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuPreparednessTooltip}
+                            parentRoute
                         >
                             {strings.headerMenuPreparedness}
                         </NavigationTab>
@@ -167,6 +171,7 @@ function Navbar(props: Props) {
                             to={threeWRoute.absolutePath}
                             className={styles.menuItem}
                             title={strings.headerMenuThreeWTooltip}
+                            parentRoute
                         >
                             {strings.headerMenuThreeW}
                         </NavigationTab>

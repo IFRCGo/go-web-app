@@ -2,9 +2,9 @@ import { useCallback, useContext } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { generatePath } from 'react-router-dom';
 
+import Container from '#components/Container';
 import List from '#components/List';
 import Link from '#components/Link';
-import Header from '#components/Header';
 import TextOutput from '#components/TextOutput';
 import Heading from '#components/Heading';
 import { paths } from '#generated/types';
@@ -62,87 +62,91 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
                         countryRoute.absolutePath,
                         { countryId: eru.deployed_to.id },
                     )}
+                    withUnderline
                 >
                     {eru.deployed_to.name}
                 </Link>
             ),
             label: eru.type_display,
             strongValue: true,
-            withoutLabelColon: true,
         }),
         [countryRoute],
     );
 
     return (
-        <div className={_cs(styles.emergencyResponseUnitOwnerCard, className)}>
-            <Header
-                className={styles.header}
-                heading={(
-                    <Link
-                        to={generatePath(
-                            countryRoute.absolutePath,
-                            { countryId: national_society_country.id },
-                        )}
-                    >
-                        {national_society_country.society_name}
-                    </Link>
-                )}
-                headingLevel={4}
-                actions={(
-                    <div className={styles.lastUpdated}>
-                        <div className={styles.label}>
-                            {strings.emergencyResponseUnitOwnerCardLastUpdated}
-                        </div>
-                        <TextOutput
-                            value={updated_at}
-                            valueType="date"
-                        />
-                    </div>
-                )}
-            />
-            <div className={styles.divider} />
-            <div className={styles.figures}>
-                <div className={styles.figure}>
-                    <Heading level={5} className={styles.heading}>
-                        {resolveToString(
-                            strings.emergencyResponseUnitOwnerCardReady,
-                            { count: readyEmergencyResponseUnits.length },
-                        )}
-                    </Heading>
-                    {readyEmergencyResponseUnits.length > 0 && (
-                        <List
-                            data={readyEmergencyResponseUnits}
-                            keySelector={emergencyResponseUnitKeySelector}
-                            renderer={TextOutput}
-                            errored={false}
-                            pending={false}
-                            filtered={false}
-                            rendererParams={rendererParams}
-                        />
+        <Container
+            className={_cs(styles.emergencyResponseUnitOwnerCard, className)}
+            withInternalPadding
+            withHeaderBorder
+            spacing="relaxed"
+            heading={(
+                <Link
+                    to={generatePath(
+                        countryRoute.absolutePath,
+                        { countryId: national_society_country.id },
                     )}
-                </div>
-                <div className={styles.separator} />
-                <div className={styles.figure}>
-                    <Heading level={5} className={styles.heading}>
-                        {resolveToString(
-                            strings.emergencyResponseUnitOwnerCardDeployed,
-                            { count: deployedEmergencyResponseUnits.length },
-                        )}
-                    </Heading>
-                    {deployedEmergencyResponseUnits.length > 0 && (
-                        <List
-                            data={deployedEmergencyResponseUnits}
-                            keySelector={emergencyResponseUnitKeySelector}
-                            renderer={TextOutput}
-                            errored={false}
-                            pending={false}
-                            filtered={false}
-                            rendererParams={rendererDeployedParams}
-                        />
+                >
+                    {national_society_country.society_name}
+                </Link>
+            )}
+            headerDescription={(
+                <TextOutput
+                    className={styles.lastUpdated}
+                    label={strings.emergencyResponseUnitOwnerCardLastUpdated}
+                    value={updated_at}
+                    valueType="date"
+                />
+            )}
+            childrenContainerClassName={styles.figures}
+        >
+            <div className={styles.figure}>
+                <Heading
+                    level={4}
+                    className={styles.heading}
+                >
+                    {resolveToString(
+                        strings.emergencyResponseUnitOwnerCardReady,
+                        { count: readyEmergencyResponseUnits.length },
                     )}
-                </div>
+                </Heading>
+                {readyEmergencyResponseUnits.length > 0 && (
+                    <List
+                        className={styles.list}
+                        data={readyEmergencyResponseUnits}
+                        keySelector={emergencyResponseUnitKeySelector}
+                        renderer={TextOutput}
+                        errored={false}
+                        pending={false}
+                        filtered={false}
+                        rendererParams={rendererParams}
+                    />
+                )}
             </div>
-        </div>
+            <div className={styles.separator} />
+            <div className={styles.figure}>
+                <Heading
+                    level={4}
+                    className={styles.heading}
+                >
+                    {resolveToString(
+                        strings.emergencyResponseUnitOwnerCardDeployed,
+                        { count: deployedEmergencyResponseUnits.length },
+                    )}
+                </Heading>
+                {deployedEmergencyResponseUnits.length > 0 && (
+                    <List
+                        className={styles.list}
+                        data={deployedEmergencyResponseUnits}
+                        keySelector={emergencyResponseUnitKeySelector}
+                        renderer={TextOutput}
+                        errored={false}
+                        pending={false}
+                        filtered={false}
+                        rendererParams={rendererDeployedParams}
+                    />
+                )}
+            </div>
+        </Container>
     );
 }
 

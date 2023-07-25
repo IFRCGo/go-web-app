@@ -1,20 +1,9 @@
-.option {
+.option-container {
     display: flex;
-    align-items: center;
     overflow: auto;
 
-    .icon {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-        opacity: 0;
-    }
-
-    .label {
+    .option {
         flex-grow: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 
     &.active {

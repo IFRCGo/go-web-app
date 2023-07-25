@@ -126,9 +126,9 @@ function HighlightedOperations(props: Props) {
                         : strings.highlightedOperationsViewAll}
                 </Link>
             )}
-            childrenContainerClassName={styles.emergencyList}
         >
             <List
+                className={styles.emergencyList}
                 data={featuredEmergencies}
                 pending={featuredEmergencyPending}
                 errored={!!featuredEmergencyResponseError}

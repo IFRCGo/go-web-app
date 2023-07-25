@@ -1,6 +1,6 @@
 .checkbox {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     cursor: pointer;
     gap: var(--go-ui-spacing-sm);
     --width: var(--go-ui-font-size-xl);
@@ -24,8 +24,8 @@
         .input {
             margin: 0;
             padding: 0;
-            width: var(--width);
-            height: var(--height);
+            width: 0;
+            height: 0;
             appearance: none;
         }
     }
@@ -36,8 +36,8 @@
         }
     }
 
-    &:not(:focus),
-    &:not(:hover) {
+    &:focus,
+    &:hover {
         .checkmark {
             color: var(--go-ui-color-primary-red);
         }

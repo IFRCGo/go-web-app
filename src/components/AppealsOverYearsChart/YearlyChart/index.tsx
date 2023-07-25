@@ -168,6 +168,7 @@ function YearlyChart(props: Props) {
                             <Button
                                 name={activePointData.date.getFullYear()}
                                 onClick={onYearClick}
+                                variant="secondary"
                             >
                                 {strings.homeYearlyChartViewMonthlyLabel}
                             </Button>

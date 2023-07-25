@@ -39,6 +39,7 @@ function PointDetails(props: Props) {
             headingLevel={4}
             withHeaderBorder
             actions={action}
+            withInternalPadding
         >
             {data && (
                 <>

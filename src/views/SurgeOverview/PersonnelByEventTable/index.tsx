@@ -90,6 +90,7 @@ function PersonnelByEventTable() {
         <Container
             className={styles.personnelByEventTable}
             heading={strings.personnelByEventTableHeading}
+            withHeaderBorder
             footerActions={(
                 <Pager
                     activePage={page}

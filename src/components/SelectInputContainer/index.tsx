@@ -260,6 +260,7 @@ function SelectInputContainer<
     if (props.grouped) {
         popup = (
             <List
+                className={styles.list}
                 data={options}
                 keySelector={optionKeySelector}
                 renderer={GenericOption}
@@ -279,6 +280,7 @@ function SelectInputContainer<
     } else {
         popup = (
             <List
+                className={styles.list}
                 data={options}
                 keySelector={optionKeySelector}
                 renderer={GenericOption}

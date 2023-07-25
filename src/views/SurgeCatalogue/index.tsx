@@ -1,16 +1,25 @@
 import { useContext } from 'react';
 import { Outlet, generatePath } from 'react-router-dom';
-import useTranslation from '#hooks/useTranslation';
+import {
+    BasecampIcon,
+    CashTransferIcon,
+    CoordinatedAssessementIcon,
+    PartnershipIcon,
+    PublicInformationIcon,
+} from '@ifrc-go/icons';
 
 import RouteContext from '#contexts/route';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
+import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const {
-        catalogueService: catalogueServiceRoute,
+        catalogueOverview: catalogueServiceRoute,
         catalogueEmergency: catalogueEmergencyRoute,
         catalogueBasecamp: catalogueBasecampRoute,
         catalogueCash: catalogueCashRoute,
@@ -21,20 +30,24 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     return (
-        <div>
-            <NavigationTabList>
+        <div className={styles.surgeCatalogue}>
+            <NavigationTabList
+                className={styles.tabList}
+                variant="vertical"
+            >
                 <NavigationTab
                     to={generatePath(
                         catalogueServiceRoute.absolutePath,
                     )}
                 >
-                    {strings.catalogueService}
+                    {strings.catalogueServiceOverview}
                 </NavigationTab>
                 <NavigationTab
                     to={generatePath(
                         catalogueEmergencyRoute.absolutePath,
                     )}
                 >
+                    <CoordinatedAssessementIcon className={styles.icon} />
                     {strings.catalogueEmergency}
                 </NavigationTab>
                 <NavigationTab
@@ -42,6 +55,7 @@ export function Component() {
                         catalogueBasecampRoute.absolutePath,
                     )}
                 >
+                    <BasecampIcon className={styles.icon} />
                     {strings.catalogueBasecamp}
                 </NavigationTab>
                 <NavigationTab
@@ -49,6 +63,7 @@ export function Component() {
                         catalogueCashRoute.absolutePath,
                     )}
                 >
+                    <CashTransferIcon className={styles.icon} />
                     {strings.catalogueCash}
                 </NavigationTab>
                 <NavigationTab
@@ -56,6 +71,7 @@ export function Component() {
                         catalogueCommunityEngagementRoute.absolutePath,
                     )}
                 >
+                    <PartnershipIcon className={styles.icon} />
                     {strings.catalogueCommunityEngagement}
                 </NavigationTab>
                 <NavigationTab
@@ -63,10 +79,13 @@ export function Component() {
                         catalogueCommunicationRoute.absolutePath,
                     )}
                 >
+                    <PublicInformationIcon className={styles.icon} />
                     {strings.catalogueCommunication}
                 </NavigationTab>
             </NavigationTabList>
-            <Outlet />
+            <div className={styles.content}>
+                <Outlet />
+            </div>
         </div>
     );
 }

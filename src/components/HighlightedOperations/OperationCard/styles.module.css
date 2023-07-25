@@ -1,30 +1,17 @@
 .operation-card {
-    display: flex;
-    flex-direction: column;
     border-radius: var(--go-ui-border-radius-md);
     box-shadow: var(--go-ui-box-shadow-lg);
 
-    .header {
-        padding: var(--go-ui-spacing-md);
-    }
-
     .last-updated {
         display: flex;
-        padding: 0 var(--go-ui-spacing-md);
-        padding: var(--go-ui-spacing-md);
-        color: var(--go-ui-color-gray-60);
+        color: var(--go-ui-color-text-light);
         gap: var(--go-ui-spacing-sm);
-    }
-
-    .divider {
-        flex-shrink: 0;
-        background-color: var(--go-ui-color-separator);
-        height: var(--go-ui-width-separator-sm);
     }
 
     .figures {
         display: flex;
         flex-grow: 1;
+        gap: var(--go-ui-spacing-lg);
 
         .separator {
             flex-shrink: 0;
@@ -35,6 +22,7 @@
         .figure {
             flex-basis: 0;
             flex-grow: 1;
+            padding: 0;
         }
     }
 }

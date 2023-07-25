@@ -535,10 +535,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@ifrc-go/icons@^1.1.4":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@ifrc-go/icons/-/icons-1.1.7.tgz#76e4e75f6ba40bc675baddf32a600c071b56b3df"
-  integrity sha512-4M7JcApiHzJ67bOZ1W2Ao1n4oJn/ARDMnpa+0bRJuqQ6d4xNGcSNYSsvI/7iVM4gb4/9znGfeIJWLV78mN9jKA==
+"@ifrc-go/icons@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@ifrc-go/icons/-/icons-1.2.0.tgz#413a49fc2c7acb66c80a83d29b347962d89426c9"
+  integrity sha512-zUeODc9Uq5xA9DLEWRt52U1fXdKE5/sPl6M3g5j8HuzUumVEilnxXc8gBXXSPpz/65MKMwLXqjlW8Ucp9eH3qQ==
 
 "@jridgewell/gen-mapping@^0.3.2":
   version "0.3.3"

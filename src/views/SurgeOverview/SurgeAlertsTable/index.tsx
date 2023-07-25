@@ -160,6 +160,7 @@ function SurgeAlertsTable() {
         <Container
             className={styles.surgeAlertsTable}
             heading={strings.surgeAlertsTableHeading}
+            withHeaderBorder
             footerActions={(
                 <Pager
                     activePage={page}

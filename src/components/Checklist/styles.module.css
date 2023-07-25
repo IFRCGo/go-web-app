@@ -1,4 +1,4 @@
-.check-list-input {
+.checklist {
     --spacing: var(--go-ui-spacing-sm);
     display: flex;
     flex-direction: column;

@@ -87,7 +87,7 @@ function CheckList<
     return (
         <div
             className={_cs(
-                styles.checkListInput,
+                styles.checklist,
                 className,
                 direction === 'horizontal' && styles.horizontal,
                 direction === 'vertical' && styles.vertical,
@@ -99,18 +99,17 @@ function CheckList<
             >
                 {label}
             </InputLabel>
-            <div className={_cs(styles.checkListContainer, listContainerClassName)}>
-                <List
-                    data={options}
-                    keySelector={keySelector}
-                    renderer={Checkbox}
-                    rendererParams={optionListRendererParams}
-                    rendererClassName={checkboxClassName}
-                    pending={false}
-                    errored={false}
-                    filtered={false}
-                />
-            </div>
+            <List
+                className={_cs(styles.checkListContainer, listContainerClassName)}
+                data={options}
+                keySelector={keySelector}
+                renderer={Checkbox}
+                rendererParams={optionListRendererParams}
+                rendererClassName={checkboxClassName}
+                pending={false}
+                errored={false}
+                filtered={false}
+            />
             <InputError className={errorContainerClassName}>
                 {error}
             </InputError>

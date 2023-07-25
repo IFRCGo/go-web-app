@@ -163,17 +163,16 @@ function RadioInput<
             >
                 {label}
             </InputLabel>
-            <div className={_cs(styles.radioListContainer, listContainerClassName)}>
-                <List
-                    data={options}
-                    rendererParams={rendererParams}
-                    renderer={renderer}
-                    keySelector={keySelector}
-                    errored={false}
-                    pending={false}
-                    filtered={false}
-                />
-            </div>
+            <List
+                className={_cs(styles.radioListContainer, listContainerClassName)}
+                data={options}
+                rendererParams={rendererParams}
+                renderer={renderer}
+                keySelector={keySelector}
+                errored={false}
+                pending={false}
+                filtered={false}
+            />
             {hint && (
                 <div className={_cs(styles.inputHint, hintContainerClassName)}>
                     {hint}

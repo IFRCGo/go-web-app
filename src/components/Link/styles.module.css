@@ -2,6 +2,7 @@
     --decoration: none;
 
     display: inline-flex;
+    align-items: flex-start;
     flex-wrap: nowrap;
     width: fit-content;
     text-decoration: var(--decoration);
