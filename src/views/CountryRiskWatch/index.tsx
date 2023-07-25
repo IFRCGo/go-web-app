@@ -4,7 +4,6 @@ import Container from '#components/Container';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
-import type { paths } from '#generated/riskTypes';
 import type { CountryOutletContext } from '#utils/outletContext';
 import { useRequest } from '#utils/restRequest';
 
@@ -17,11 +16,6 @@ import HistoricalDataChart from './HistoricalDataChart';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 import RiskBarChart from './RiskBarChart';
-
-type GetCountrySeasonal = paths['/api/v1/country-seasonal/']['get'];
-// FIXME: query type not available
-// type CountryRiskQuery = GetCountryRisk['parameters']['query'];
-type CountrySeasonal = GetCountrySeasonal['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -36,7 +30,7 @@ export function Component() {
     const {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
-    } = useRequest<CountrySeasonal>({
+    } = useRequest({
         apiType: 'risk',
         url: '/api/v1/country-seasonal/',
         query: {

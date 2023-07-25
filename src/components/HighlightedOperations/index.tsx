@@ -22,8 +22,6 @@ type EventQueryParams = GetEvent['parameters']['query'];
 type EventResponse = GetEvent['responses']['200']['content']['application/json'];
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
-type UserResponse = paths['/api/v2/user/me/']['get']['responses']['200']['content']['application/json'];
-
 const keySelector = (event: EventListItem) => event.id;
 
 type BaseProps = {
@@ -72,7 +70,7 @@ function HighlightedOperations(props: Props) {
         error: featuredEmergencyResponseError,
         pending: featuredEmergencyPending,
         response: featuredEmergencyResponse,
-    } = useRequest<EventResponse>({
+    } = useRequest({
         url: '/api/v2/event/',
         query,
     });
@@ -81,7 +79,7 @@ function HighlightedOperations(props: Props) {
         pending: mePending,
         response: meResponse,
         retrigger: retriggerUserDetails,
-    } = useRequest<UserResponse>({
+    } = useRequest({
         skip: !userDetails,
         url: '/api/v2/user/me/',
     });

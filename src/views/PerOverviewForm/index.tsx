@@ -59,10 +59,6 @@ type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
 type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
 type PerOverviewAssessmentMethods = NonNullable<GlobalEnumsResponse['per_overviewassessmentmethods']>[number];
 
-type LatestPerOverviewResponse = paths['/api/v2/latest-per-overview/']['get']['responses']['200']['content']['application/json'];
-
-type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
-
 type GetCountry = paths['/api/v2/country/']['get'];
 type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
@@ -111,7 +107,7 @@ export function Component() {
 
     const {
         response: countryResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
         query: {
             limit: 500,
@@ -120,15 +116,15 @@ export function Component() {
 
     const {
         response: perOptionsResponse,
-    } = useRequest<PerOptionsResponse>({
+    } = useRequest({
         url: '/api/v2/per-options/',
     });
 
-    useRequest<PerOverviewResponse>({
+    useRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-overview/{id}/',
         pathVariables: {
-            id: perId,
+            id: Number(perId),
         },
         onSuccess: (response) => {
             const {
@@ -153,12 +149,13 @@ export function Component() {
         },
     });
 
-    useRequest<LatestPerOverviewResponse>({
+    useRequest({
         url: '/api/v2/latest-per-overview/',
         skip: isNotDefined(value?.country) || isDefined(value?.is_draft),
         query: {
-            country_id: value?.country,
-        },
+            country_id: Number(value?.country),
+            // FIXME: typing for query not available
+        } as never,
         onSuccess: (response) => {
             const lastAssessment = response.results?.[0];
             if (lastAssessment) {
