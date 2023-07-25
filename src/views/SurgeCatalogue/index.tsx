@@ -4,6 +4,7 @@ import {
     BasecampIcon,
     CashTransferIcon,
     CoordinatedAssessementIcon,
+    HealthIcon,
     PartnershipIcon,
     PublicInformationIcon,
 } from '@ifrc-go/icons';
@@ -88,6 +89,7 @@ export function Component() {
                         catalogueHealthRoute.absolutePath,
                     )}
                 >
+                    <HealthIcon className={styles.icon} />
                     {strings.catalogueHealth}
                 </NavigationTab>
             </NavigationTabList>
