@@ -1,8 +1,8 @@
 {
     "entry": ["./src/index.tsx"],
-    "ignorePatterns": ["**/node_modules/**", "build/**"],
+    "ignorePatterns": ["**/node_modules/**", "build/**", "**/parked/**"],
     "ignoreUnimported": ["**/*.d.ts", "**/*.test.*"],
-    "ignoreUnused": [],
+    "ignoreUnused": ["@tinymce/tinymce-react"],
     "extensions": [".ts", ".js", ".tsx", ".jsx"],
     "aliases": {
         "#generated/*": ["./generated/*"],

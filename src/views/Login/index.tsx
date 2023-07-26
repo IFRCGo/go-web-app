@@ -12,6 +12,7 @@ import { isFalsyString } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import TextInput from '#components/TextInput';
+import PasswordInput from '#components/PasswordInput';
 import Link from '#components/Link';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
@@ -158,9 +159,8 @@ export function Component() {
                         error={fieldError?.username}
                         withAsterisk
                     />
-                    <TextInput
+                    <PasswordInput
                         name="password"
-                        type="password"
                         label={strings.loginPassword}
                         value={formValue.password}
                         onChange={setFieldValue}
