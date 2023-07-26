@@ -1,9 +1,6 @@
 import { useState, useMemo, useContext } from 'react';
 import { generatePath } from 'react-router-dom';
 
-import {
-    useRequest,
-} from '#utils/restRequest';
 import Table from '#components/Table';
 import Link from '#components/Link';
 import Container from '#components/Container';
@@ -15,14 +12,14 @@ import {
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
+import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import RouteContext from '#contexts/route';
-import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetPersonnelByEvent = paths['/api/v2/personnel_by_event/']['get'];
-type GetPersonnelByEventResponse = GetPersonnelByEvent['responses']['200']['content']['application/json'];
+type GetPersonnelByEventResponse = GoApiResponse<'/api/v2/personnel_by_event/'>;
 type PersonnelByEventListItem = NonNullable<GetPersonnelByEventResponse['results']>[number];
 
 const personnelByEventKeySelector = (item: PersonnelByEventListItem) => item.id;
@@ -45,7 +42,7 @@ function PersonnelByEventTable() {
     const {
         pending: personnelByEventPending,
         response: personnelByEventResponse,
-    } = useRequest<GetPersonnelByEventResponse>({
+    } = useRequest({
         url: '/api/v2/personnel_by_event/',
         preserveResponse: true,
         query: {

@@ -4,6 +4,7 @@ import { generatePath } from 'react-router-dom';
 
 import Page from '#components/Page';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
@@ -20,22 +21,18 @@ import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
-import { paths } from '#generated/types';
 import { isValidCountry } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryResponse = GoApiResponse<'/api/v2/country/'>;
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
-type GetFieldReport = paths['/api/v2/field_report/']['get'];
-type FieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
+type FieldReportResponse = GoApiResponse<'/api/v2/field_report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 
-type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
-type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
+type DisasterTypeResponse = GoApiResponse<'/api/v2/disaster_type/'>;
 type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
 const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
@@ -126,7 +123,7 @@ export function Component() {
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
-    } = useRequest<FieldReportResponse>({
+    } = useRequest({
         url: '/api/v2/field_report/',
         preserveResponse: true,
         query: {
@@ -145,14 +142,14 @@ export function Component() {
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
-    } = useRequest<DisasterTypeResponse>({
+    } = useRequest({
         url: '/api/v2/disaster_type/',
     });
 
     const {
         pending: countryPending,
         response: countryResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
     });

@@ -8,7 +8,6 @@ import TimeSeriesChart from '#components/TimeSeriesChart';
 import Button from '#components/Button';
 import { getDatesSeparatedByYear } from '#utils/chart';
 import useTranslation from '#hooks/useTranslation';
-import { paths } from '#generated/types';
 
 import PointDetails from '../PointDetails';
 
@@ -29,8 +28,6 @@ const getFormattedKey = (dateFromProps: string | Date) => {
     const date = new Date(dateFromProps);
     return `${date.getFullYear()}-${date.getMonth()}`;
 };
-
-type AggregateResponse = paths['/api/v1/aggregate/']['get']['responses']['200']['content']['application/json'];
 
 const now = new Date();
 const startDate = new Date(now.getFullYear() - 10, 0, 1);
@@ -76,23 +73,25 @@ function YearlyChart(props: Props) {
     const {
         pending: monthlyEmergencyAppealPending,
         response: monthlyEmergencyAppealResponse,
-    } = useRequest<AggregateResponse>({
+    } = useRequest({
         url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_EMERGENCY,
             ...queryParams,
-        },
+            // FIXME: need to fix the typing in server
+        } as never,
     });
 
     const {
         response: monthlyDrefResponse,
         pending: monthlyDrefPending,
-    } = useRequest<AggregateResponse>({
+    } = useRequest({
         url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_DREF,
             ...queryParams,
-        },
+            // FIXME: need to fix the typing in server
+        } as never,
     });
 
     const pending = monthlyEmergencyAppealPending || monthlyDrefPending;

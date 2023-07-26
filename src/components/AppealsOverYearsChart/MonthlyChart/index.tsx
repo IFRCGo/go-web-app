@@ -9,14 +9,11 @@ import Button from '#components/Button';
 import { getDatesSeparatedByMonths } from '#utils/chart';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
-import { paths } from '#generated/types';
 
 import PointDetails from '../PointDetails';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type AggregateResponse = paths['/api/v1/aggregate/']['get']['responses']['200']['content']['application/json'];
 
 const APPEAL_TYPE_EMERGENCY = 1;
 const APPEAL_TYPE_DREF = 0;
@@ -87,23 +84,25 @@ function MonthlyChart(props: Props) {
     const {
         pending: monthlyEmergencyAppealPending,
         response: monthlyEmergencyAppealResponse,
-    } = useRequest<AggregateResponse>({
+    } = useRequest({
         url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_EMERGENCY,
             ...queryParams,
-        },
+            // FIXME: need to fix typing in server
+        } as never,
     });
 
     const {
         response: monthlyDrefResponse,
         pending: monthlyDrefPending,
-    } = useRequest<AggregateResponse>({
+    } = useRequest({
         url: '/api/v1/aggregate/',
         query: {
             filter_atype: APPEAL_TYPE_DREF,
             ...queryParams,
-        },
+            // FIXME: need to fix the typing in server
+        } as never,
     });
 
     const pending = monthlyEmergencyAppealPending || monthlyDrefPending;

@@ -24,7 +24,6 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { getDatesSeparatedByMonths } from '#utils/chart';
 import { sumSafe } from '#utils/common';
-import { paths } from '#generated/types';
 
 import Map from './Map';
 import FieldReportTable from './FieldReportsTable';
@@ -71,16 +70,13 @@ const oneYearAgo = new Date();
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 oneYearAgo.setHours(0, 0, 0, 0);
 
-type EventResponse = paths['/api/v2/event/']['get']['responses']['200']['content']['application/json'];
-type AggregateResponse = paths['/api/v1/aggregate/']['get']['responses']['200']['content']['application/json'];
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const {
         pending: eventsPending,
         response: eventsResponse,
-    } = useRequest<EventResponse>({
+    } = useRequest({
         url: '/api/v2/event/',
         query: {
             limit: 500,
@@ -92,13 +88,14 @@ export function Component() {
     const {
         // pending: aggregateEventPending,
         response: aggregateEventResponse,
-    } = useRequest<AggregateResponse>({
+    } = useRequest({
         url: '/api/v1/aggregate/',
         query: {
             model_type: 'event',
             unit: 'month',
             start_date: encodeDate(oneYearAgo),
-        },
+            // FIXME: typings should be fixed in server
+        } as never,
     });
 
     const dateList = useMemo(

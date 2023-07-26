@@ -10,14 +10,13 @@ import {
     createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
 import { useRequest } from '#utils/restRequest';
-import type { paths } from '#generated/types';
+import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetProjects = paths['/api/v2/project/']['get'];
-type ProjectsResponse = GetProjects['responses']['200']['content']['application/json'];
+type ProjectsResponse = GoApiResponse<'/api/v2/project/'>;
 type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
 
 const ITEM_PER_PAGE = 15;
@@ -32,7 +31,7 @@ export function Component() {
     const {
         response: projectResponse,
         pending: projectResponsePending,
-    } = useRequest<ProjectsResponse>({
+    } = useRequest({
         url: '/api/v2/project/',
         preserveResponse: true,
         query: {

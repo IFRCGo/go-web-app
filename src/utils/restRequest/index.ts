@@ -80,12 +80,12 @@ type RiskApiUrlPaths = keyof riskApiPaths;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type GetGoApi<URL extends GoApiUrlPaths> = goApiPaths[URL] extends { get: any } ? goApiPaths[URL]['get'] : unknown;
-type GoApiResponse<
+export type GoApiResponse<
     URL extends GoApiUrlPaths
 > = GetGoApi<URL> extends GoApiResponseWithContent
     ? GetGoApi<URL>['responses']['200']['content']['application/json']
     : unknown;
-type GoApiUrlQuery<
+export type GoApiUrlQuery<
     URL extends GoApiUrlPaths
 > = GetGoApi<URL> extends GoApiUrlQueryWithContent ? GetGoApi<URL>['parameters']['query'] : unknown;
 type GoApiUrlPathVariables<
@@ -94,12 +94,12 @@ type GoApiUrlPathVariables<
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type GetRiskApi<URL extends RiskApiUrlPaths> = riskApiPaths[URL] extends { get: any } ? riskApiPaths[URL]['get'] : unknown;
-type RiskApiResponse<
+export type RiskApiResponse<
     URL extends RiskApiUrlPaths
 > = GetRiskApi<URL> extends RiskApiResponseWithContent
     ? GetRiskApi<URL>['responses']['200']['content']['application/json']
     : unknown;
-type RiskApiUrlQuery<
+export type RiskApiUrlQuery<
     URL extends RiskApiUrlPaths
 > = GetRiskApi<URL> extends RiskApiUrlQueryWithContent ? GetRiskApi<URL>['parameters']['query'] : unknown;
 type RiskApiUrlPathVariables<

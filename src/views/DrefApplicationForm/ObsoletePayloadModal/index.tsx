@@ -1,17 +1,16 @@
 import { isDefined } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import Button from '#components/Button';
 import Modal from '#components/Modal';
 import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
-import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetDref = paths['/api/v2/dref/{id}/']['get'];
-type GetDrefResponse = GetDref['responses']['200']['content']['application/json'];
+type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 
 // FIXME: use common function
 function getUserName(user: GetDrefResponse['modified_by_details'] | undefined) {
@@ -51,7 +50,7 @@ function ObsoletePayloadResolutionModal(props: Props) {
     const {
         pending: drefPending,
         response: drefResponse,
-    } = useRequest<GetDrefResponse>({
+    } = useRequest({
         skip: !drefId,
         url: '/api/v2/dref/{id}/',
         pathVariables: {

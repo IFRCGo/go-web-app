@@ -8,6 +8,7 @@ import {
     TargetedPopulationIcon,
     AppealsTwoIcon,
 } from '@ifrc-go/icons';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
@@ -15,26 +16,12 @@ import KeyFigure from '#components/KeyFigure';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
-import type { paths } from '#generated/types';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
 import type { RegionOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-interface AggregatedAppealResponse {
-    active_appeals: number | null;
-    active_drefs: number | null;
-    amount_funded: number | null;
-    amount_requested: number | null;
-    amount_requested_dref_included: number | null;
-    target_population: number | null;
-    total_appeals: number | null;
-}
-
-type RegionResponse = paths['/api/v2/region/{id}/']['get']['responses']['200']['content']['application/json'];
-// type AggregatedAppealResponse = paths['/api/v2/appeal/aggregated']['get']['responses']['200'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -52,21 +39,22 @@ export function Component() {
     const {
         pending: regionPending,
         response: regionResponse,
-    } = useRequest<RegionResponse>({
+    } = useRequest({
         skip: !regionId,
         url: '/api/v2/region/{id}/',
         pathVariables: {
-            id: regionId,
+            id: Number(regionId),
         },
     });
 
     const {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
-    } = useRequest<AggregatedAppealResponse>({
-        skip: !regionId,
+    } = useRequest({
+        skip: isNotDefined(regionId),
         url: '/api/v2/appeal/aggregated',
-        query: { region: regionId },
+        // FIXME: typings should be fixed in server
+        query: { region: Number(regionId) } as never,
     });
 
     const outletContext: RegionOutletContext = useMemo(

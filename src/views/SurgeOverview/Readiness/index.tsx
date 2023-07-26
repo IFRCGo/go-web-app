@@ -42,7 +42,7 @@ function Readiness() {
         error: eruOwnersError,
         pending: eruOwnersPending,
         response: eruOwnersResponse,
-    } = useRequest<GetERUOwnersResponse>({
+    } = useRequest({
         url: '/api/v2/eru_owner/',
         preserveResponse: true,
         query: {
@@ -51,13 +51,14 @@ function Readiness() {
             eru_type: selectedERUTypes,
             available: isDefined(selectedERUTypes)
                 && selectedERUTypes.length > 0 ? true : undefined,
-        },
+            // FIXME: typings should be fixed in the server
+        } as never,
     });
 
     const {
         pending: emergencyResponseUnitTypesPending,
         response: emergencyResponseUnitTypesResponse,
-    } = useRequest<EmergencyResponseUnitType[]>({
+    } = useRequest({
         url: '/api/v2/erutype',
     });
 
@@ -116,7 +117,8 @@ function Readiness() {
                 <CheckList
                     direction="vertical"
                     name="eruType"
-                    options={emergencyResponseUnitTypesResponse}
+                    // FIXME: typings should be fixed in the server
+                    options={emergencyResponseUnitTypesResponse as EmergencyResponseUnitType[]}
                     value={selectedERUTypes}
                     keySelector={emergencyResponseUnitTypeKeySelector}
                     labelSelector={emergencyResponseUnitTypeLabelSelector}

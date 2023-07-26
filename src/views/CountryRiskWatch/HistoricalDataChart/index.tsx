@@ -24,6 +24,7 @@ import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import useSizeTracking from '#hooks/useSizeTracking';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import { numericIdSelector, stringNameSelector } from '#utils/selectors';
 import { getPrettyBreakableBounds, getScaleFunction } from '#utils/chart';
 import { formatNumber, getNumberOfDaysInMonth, sumSafe } from '#utils/common';
@@ -33,14 +34,11 @@ import {
     COLOR_HAZARD_FLOOD,
     COLOR_HAZARD_FOOD_INSECURITY,
 } from '#utils/constants';
-import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetGoHistorical = paths['/api/v2/go-historical/']['get'];
-type GoHistoricalQuery = GetGoHistorical['parameters']['query'];
-type GoHistoricalResponse = GetGoHistorical['responses']['200']['content']['application/json'];
+type GoHistoricalResponse = GoApiResponse<'/api/v2/go-historical/'>;
 type EventItem = NonNullable<GoHistoricalResponse['results']>[number];
 type PartialDisasterType = EventItem['dtype'];
 type DisasterType = Omit<PartialDisasterType, 'name'> & {
@@ -63,9 +61,9 @@ const validDisastersForChart: Record<number, boolean> = {
     [DISASTER_DROUGHT]: true,
 };
 
-const X_AXIS_HEIGHT = 24;
-const Y_AXIS_WIDTH = 32;
-const CHART_OFFSET = 16;
+const X_AXIS_HEIGHT = 32;
+const Y_AXIS_WIDTH = 48;
+const CHART_OFFSET = 10;
 
 const chartMargin = {
     left: Y_AXIS_WIDTH + CHART_OFFSET,
@@ -148,14 +146,10 @@ function HistoricalDataChart(props: Props) {
     const chartContainerRef = useRef<HTMLDivElement>(null);
     const chartBounds = useSizeTracking(chartContainerRef);
 
-    const query = useMemo<GoHistoricalQuery>(
-        () => ({ countries: [countryId] }),
-        [countryId],
-    );
-    const { response: historicalDataResponse } = useRequest<GoHistoricalResponse>({
+    const { response: historicalDataResponse } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/go-historical/',
-        query,
+        query: { countries: [countryId] },
     });
 
     const disasterOptions = unique(

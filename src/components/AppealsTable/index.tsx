@@ -7,10 +7,8 @@ import {
 import { generatePath } from 'react-router-dom';
 import { isDefined, _cs } from '@togglecorp/fujs';
 
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import Table from '#components/Table';
 import SelectInput from '#components/SelectInput';
 import Container from '#components/Container';
@@ -26,23 +24,19 @@ import { useSortState, SortContext, getOrdering } from '#components/Table/useSor
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
-import { paths } from '#generated/types';
 import ServerEnumsContext from '#contexts/server-enums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetAppeal = paths['/api/v2/appeal/']['get'];
-type AppealQueryParams = GetAppeal['parameters']['query'];
-type AppealResponse = GetAppeal['responses']['200']['content']['application/json'];
+type AppealQueryParams = GoApiUrlQuery<'/api/v2/appeal/'>;
+type AppealResponse = GoApiResponse<'/api/v2/appeal/'>;
 type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
-type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
-type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
+type DisasterTypeResponse = GoApiResponse<'/api/v2/disaster_type/'>;
 type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[number];
 
 const appealKeySelector = (option: AppealListItem) => option.id;
@@ -192,7 +186,7 @@ function AppealsTable(props: Props) {
     const {
         pending: appealsPending,
         response: appealsResponse,
-    } = useRequest<ListResponse<AppealListItem>>({
+    } = useRequest({
         url: '/api/v2/appeal/',
         preserveResponse: true,
         query,
@@ -211,7 +205,7 @@ function AppealsTable(props: Props) {
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
-    } = useRequest<ListResponse<DisasterListItem>>({
+    } = useRequest({
         url: '/api/v2/disaster_type/',
     });
 

@@ -19,16 +19,15 @@ import Map, {
 } from '@togglecorp/re-map';
 import { generatePath } from 'react-router-dom';
 
-import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import MapPopup from '#components/MapPopup';
-import { paths } from '#generated/types';
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import RadioInput from '#components/RadioInput';
 import TextOutput from '#components/TextOutput';
 import useInputState from '#hooks/useInputState';
+import useTranslation from '#hooks/useTranslation';
+import { useRequest } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
@@ -49,17 +48,6 @@ import {
 } from './utils';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type GetEmergencyResponseUnit = paths['/api/v2/eru/']['get'];
-type GetEmergencyResponseUnitParams = GetEmergencyResponseUnit['parameters']['query'];
-type GetEmergencyResponseUnitResponse = GetEmergencyResponseUnit['responses']['200']['content']['application/json'];
-
-type GetPersonnel = paths['/api/v2/personnel/']['get'];
-type GetPersonnelParams = GetPersonnel['parameters']['query'];
-type GetPersonnelResponse = GetPersonnel['responses']['200']['content']['application/json'];
-
-type GetCountry = paths['/api/v2/country/']['get'];
-type GetCountryResponse = GetCountry['responses']['200']['content']['application/json'];
 
 const today = new Date().toISOString();
 
@@ -107,33 +95,30 @@ function SurgeMap(props: Props) {
     ] = useState<ClickedPoint | undefined>();
 
     const [scaleBy, setScaleBy] = useInputState<ScaleOption['value']>('eru');
-    const eruQuery: GetEmergencyResponseUnitParams = {
-        deployed_to__isnull: false,
-        limit: 1000, // FIXME: we should fix this unbounded request
-    };
-
-    const personnelQuery: GetPersonnelParams = {
-        end_date__gt: today,
-        limit: 1000, // FIXME: we should fix this unbounded request
-    };
 
     const {
         response: eruResponse,
-    } = useRequest<GetEmergencyResponseUnitResponse>({
+    } = useRequest({
         url: '/api/v2/eru/',
-        query: eruQuery,
+        query: {
+            deployed_to__isnull: false,
+            limit: 1000, // FIXME: we should fix this unbounded request
+        },
     });
 
     const {
         response: personnelResponse,
-    } = useRequest<GetPersonnelResponse>({
+    } = useRequest({
         url: '/api/v2/personnel/',
-        query: personnelQuery,
+        query: {
+            end_date__gt: today,
+            limit: 1000, // FIXME: we should fix this unbounded request
+        },
     });
 
     const {
         response: countryResponse,
-    } = useRequest<GetCountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
         query: {
             limit: 500,

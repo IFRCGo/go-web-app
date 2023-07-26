@@ -24,12 +24,12 @@ import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
 import MultiSelectInput from '#components/MultiSelectInput';
-import useTranslation from '#hooks/useTranslation';
 import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
-import UserMultiSelectInput, { User } from '#components/UserMultiSelectInput';
-import { paths } from '#generated/types';
+import UserMultiSelectInput from '#components/UserMultiSelectInput';
+import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import { isValidCountry, isValidNationalSociety } from '#utils/common';
 import {
     stringNameSelector,
@@ -45,14 +45,13 @@ import {
     TYPE_IMMINENT,
     TYPE_LOAN,
 } from '../common';
-
 import type { PartialDref } from '../schema';
 import ImageWithCaptionInput from '../ImageWithCaptionInput';
-
 import CopyFieldReportSection from './CopyFieldReportSection';
-
 import styles from './styles.module.css';
 import i18n from './i18n.json';
+
+type UserListItem = NonNullable<GoApiResponse<'/api/v2/user/'>['results']>[number];
 
 const disasterCategoryLink = 'https://www.ifrc.org/sites/default/files/2021-07/IFRC%20Emergency%20Response%20Framework%20-%202017.pdf';
 const totalPopulationRiskImminentLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
@@ -60,8 +59,7 @@ const totalPeopleAffectedSlowSuddenLink = 'https://ifrcorg.sharepoint.com/sites/
 const peopleTargetedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 const peopleInNeedLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type DrefTypeOption = NonNullable<GlobalEnumsResponse['dref_dref_dref_type']>[number];
 type DisasterCategoryOption = NonNullable<GlobalEnumsResponse['dref_dref_disaster_category']>[number];
 type OnsetTypeOption = NonNullable<GlobalEnumsResponse['dref_dref_onset_type']>[number];
@@ -102,32 +100,26 @@ function Overview(props: Props) {
     } = props;
 
     const [fetchedUsers, setFetechedUsers] = useState<
-        User[] | undefined | null
+        UserListItem[] | undefined | null
     >([]);
 
-    type GetCountry = paths['/api/v2/country/']['get'];
-    type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
     const {
         response: countryResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
     });
 
-    type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
-    type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
     const {
         pending: fetchingDisasterTypes,
         response: disasterTypesResponse,
-    } = useRequest<DisasterTypeResponse>({
+    } = useRequest({
         url: '/api/v2/disaster_type/',
     });
 
-    type GetDistrict = paths['/api/v2/district/']['get'];
-    type DistrictResponse = GetDistrict['responses']['200']['content']['application/json'];
     const {
         pending: districtsResponsePending,
         response: districtsResponse,
-    } = useRequest<DistrictResponse>({
+    } = useRequest({
         skip: isNotDefined(value?.country),
         url: '/api/v2/district/',
         query: {

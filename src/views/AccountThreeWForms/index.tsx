@@ -13,20 +13,18 @@ import {
     createElementColumn,
 } from '#components/Table/ColumnShortcuts';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
-import type { paths } from '#generated/types';
 
 import ThreeWTableActions from './ThreeWTableActions';
 import type { Props as ThreeWTableActionsProps } from './ThreeWTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetActivities = paths['/api/v2/emergency-project/']['get'];
-type ActivitiesResponse = GetActivities['responses']['200']['content']['application/json'];
+type ActivitiesResponse = GoApiResponse<'/api/v2/emergency-project/'>;
 type ActivityListItem = NonNullable<ActivitiesResponse['results']>[number];
 
-type GetProjects = paths['/api/v2/project/']['get'];
-type ProjectsResponse = GetProjects['responses']['200']['content']['application/json'];
+type ProjectsResponse = GoApiResponse<'/api/v2/project/'>;
 type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
 
 type DistrictDetails = ActivityListItem['districts_details'][number];
@@ -127,7 +125,7 @@ export function Component(props: Props) {
     const {
         response: projectResponse,
         pending: projectResponsePending,
-    } = useRequest<ProjectsResponse>({
+    } = useRequest({
         url: '/api/v2/project/',
         preserveResponse: true,
         query: {
@@ -139,7 +137,7 @@ export function Component(props: Props) {
     const {
         response: activityResponse,
         pending: activityResponsePending,
-    } = useRequest<ActivitiesResponse>({
+    } = useRequest({
         url: '/api/v2/emergency-project/',
         preserveResponse: true,
         query: {

@@ -49,7 +49,7 @@ function FieldReportSelectInput<NAME>(
     const {
         pending,
         response,
-    } = useRequest<GetFieldReportResponse>({
+    } = useRequest({
         skip: (searchText?.length ?? 0) === 0 || !opened,
         url: '/api/v2/field_report/',
         query,

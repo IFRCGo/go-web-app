@@ -23,13 +23,12 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import { resolveToString } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
-import { paths } from '#generated/types';
+import type { GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetEmergencyResponseUnits = paths['/api/v2/eru/']['get'];
-type GetEmergencyResponseUnitsResponse = GetEmergencyResponseUnits['responses']['200']['content']['application/json'];
+type GetEmergencyResponseUnitsResponse = GoApiResponse<'/api/v2/eru/'>;
 type EmergencyResponseUnitListItem = NonNullable<GetEmergencyResponseUnitsResponse['results']>[number];
 
 // FIXME: fetch type from api
@@ -62,7 +61,7 @@ function EmergencyResponseUnitsTable() {
     const {
         pending: emergencyResponseUnitsPending,
         response: emergencyResponseUnitsResponse,
-    } = useRequest<GetEmergencyResponseUnitsResponse>({
+    } = useRequest({
         url: '/api/v2/eru/',
         preserveResponse: true,
         query: {
@@ -77,7 +76,7 @@ function EmergencyResponseUnitsTable() {
     const {
         pending: emergencyResponseUnitTypesPending,
         response: emergencyResponseUnitTypesResponse,
-    } = useRequest<EmergencyResponseUnitType[]>({
+    } = useRequest({
         url: '/api/v2/erutype',
         preserveResponse: true,
     });
@@ -167,7 +166,8 @@ function EmergencyResponseUnitsTable() {
                     keySelector={emergencyResponseUnitTypeKeySelector}
                     labelSelector={emergencyResponseUnitTypeLabelSelector}
                     optionsPending={emergencyResponseUnitTypesPending}
-                    options={emergencyResponseUnitTypesResponse}
+                    // FIXME: typings should be fixed in the server
+                    options={emergencyResponseUnitTypesResponse as EmergencyResponseUnitType[]}
                 />
             )}
             footerActions={(

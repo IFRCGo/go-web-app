@@ -27,26 +27,20 @@ import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import { isValidNationalSociety } from '#utils/common';
 import { stringLabelSelector, stringValueSelector } from '#utils/selectors';
 import ServerEnumsContext from '#contexts/server-enums';
-import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
 
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type UserMeResponse = GoApiResponse<'/api/v2/user/me/'>;
 
-type GetUserMeResponse = paths['/api/v2/user/me/']['get'];
-type UserMeResponse = GetUserMeResponse['responses']['200']['content']['application/json'];
-
-type PatchAccountInfo = paths['/api/v2/user/{id}/']['patch'];
-type AccountRequestBody = PatchAccountInfo['requestBody']['content']['application/json'];
+type AccountRequestBody = GoApiResponse<'/api/v2/user/{id}/'>;
 type AccountProfile = NonNullable<AccountRequestBody['profile']>;
 
 type FormFields = Pick<AccountRequestBody, 'first_name' | 'last_name'> & {
@@ -167,7 +161,7 @@ function EditAccountInfo(props: Props) {
         },
     });
 
-    const { response: countriesResponse } = useRequest<CountryResponse>({
+    const { response: countriesResponse } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
     });

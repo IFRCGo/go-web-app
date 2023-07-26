@@ -12,17 +12,16 @@ import sanitizeHtml from 'sanitize-html';
 
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
+import FieldReportSelectInput from '#components/FieldReportSearchSelectInput';
+import type { FieldReportItem as FieldReportSearchItem } from '#components/FieldReportSearchSelectInput';
 import useInputState from '#hooks/useInputState';
 import useAlert from '#hooks/useAlert';
 import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
-import type { paths } from '#generated/types';
-
-import FieldReportSelectInput from '#components/FieldReportSearchSelectInput';
-import type { FieldReportItem as FieldReportSearchItem } from '#components/FieldReportSearchSelectInput';
 
 import type { PartialDref } from '../../schema';
 
@@ -30,8 +29,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 // FIXME: use from '/api/v2/field_report/{id}/'
-type GetFieldReport = paths['/api/v2/field_report/']['get'];
-type FieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
+type FieldReportResponse = GoApiResponse<'/api/v2/field_report/'>;
 type FieldReportItem = Omit<NonNullable<FieldReportResponse['results']>[number], 'districts'> & {
     contacts: {
         ctype: string;
@@ -68,11 +66,11 @@ function CopyFieldReportSection(props: Props) {
         FieldReportSearchItem[] | undefined | null
     >([]);
 
-    useRequest<FieldReportItem>({
-        skip: !value?.field_report,
+    useRequest({
+        skip: isNotDefined(value?.field_report),
         url: '/api/v2/field_report/{id}/',
         pathVariables: {
-            id: value?.field_report,
+            id: Number(value?.field_report),
         },
         onSuccess: (fr) => {
             if (!fr) {

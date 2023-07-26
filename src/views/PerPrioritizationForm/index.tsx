@@ -13,6 +13,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { isDefined, isNotDefined, listToMap } from '@togglecorp/fujs';
 import {
+    GoApiResponse,
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
@@ -26,7 +27,6 @@ import ConfirmButton from '#components/ConfirmButton';
 import BlockLoading from '#components/BlockLoading';
 import PerAssessmentSummary from '#components/PerAssessmentSummary';
 import useAlert from '#hooks/useAlert';
-import type { paths } from '#generated/types';
 
 import { prioritizationSchema } from './schema';
 import type { PartialPrioritization } from './schema';
@@ -35,11 +35,7 @@ import ComponentInput from './ComponentInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
-type PrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['get']['responses']['200']['content']['application/json'];
-type PerFormComponentResponse = paths['/api/v2/per-formcomponent/']['get']['responses']['200']['content']['application/json'];
-type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
-type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+type PrioritizationResponse = GoApiResponse<'/api/v2/per-prioritization/{id}/'>;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -72,14 +68,14 @@ export function Component() {
 
     const {
         response: perOptionsResponse,
-    } = useRequest<PerOptionsResponse>({
+    } = useRequest({
         url: '/api/v2/per-options/',
     });
 
     const {
         pending: formComponentPending,
         response: formComponentResponse,
-    } = useRequest<PerFormComponentResponse>({
+    } = useRequest({
         url: '/api/v2/per-formcomponent/',
         query: {
             limit: 500,
@@ -88,18 +84,18 @@ export function Component() {
 
     const {
         response: questionsResponse,
-    } = useRequest<PerFormQuestionResponse>({
+    } = useRequest({
         url: '/api/v2/per-formquestion/',
         query: {
             limit: 500,
         },
     });
 
-    const { pending: prioritizationPending } = useRequest<PrioritizationResponse>({
+    const { pending: prioritizationPending } = useRequest({
         skip: isNotDefined(statusResponse?.prioritization),
         url: '/api/v2/per-prioritization/{id}/',
         pathVariables: {
-            id: statusResponse?.prioritization ?? undefined,
+            id: Number(statusResponse?.prioritization),
         },
         onSuccess: (response) => {
             setValue(removeNull(response));
@@ -109,11 +105,11 @@ export function Component() {
     const {
         pending: perAssesmentPending,
         response: perAssessmentResponse,
-    } = useRequest<AssessmentResponse>({
+    } = useRequest({
         skip: isNotDefined(statusResponse?.assessment),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {
-            id: statusResponse?.assessment ?? undefined,
+            id: Number(statusResponse?.assessment),
         },
     });
     const {

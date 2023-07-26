@@ -10,17 +10,14 @@ import Page from '#components/Page';
 import NavigationTabList from '#components/NavigationTabList';
 import KeyFigure from '#components/KeyFigure';
 import NavigationTab from '#components/NavigationTab';
-import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 import type { EmergencyOutletContext } from '#utils/outletContext';
-import type { paths } from '#generated/types';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type EventResponse = paths['/api/v2/event/{id}/']['get']['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -37,11 +34,11 @@ export function Component() {
     const {
         // pending: emergencyPending,
         response: emergencyResponse,
-    } = useRequest<EventResponse>({
+    } = useRequest({
         skip: !emergencyId,
         url: '/api/v2/event/{id}/',
         pathVariables: {
-            id: emergencyId,
+            id: Number(emergencyId),
         },
     });
 

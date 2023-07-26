@@ -1,7 +1,7 @@
 import { useState, useMemo, useContext } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 import { generatePath } from 'react-router-dom';
-import { useRequest } from '#utils/restRequest';
+
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Link from '#components/Link';
@@ -15,15 +15,15 @@ import {
 import Pager from '#components/Pager';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
+import { useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
-import { paths } from '#generated/types';
+import type { GoApiResponse } from '#utils/restRequest';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetFieldReport = paths['/api/v2/field_report/']['get'];
-type FieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
+type FieldReportResponse = GoApiResponse<'/api/v2/field_report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 
 const thirtyDaysAgo = new Date();
@@ -100,7 +100,7 @@ function FieldReportsTable() {
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
-    } = useRequest<FieldReportResponse>({
+    } = useRequest({
         url: '/api/v2/field_report/',
         preserveResponse: true,
         query: {

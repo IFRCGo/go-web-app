@@ -25,29 +25,25 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import { isValidCountry, sumSafe } from '#utils/common';
-import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const PAGE_SIZE = 15;
 
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryResponse = GoApiResponse<'/api/v2/country/'>;
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
-type GetRegion = paths['/api/v2/region/']['get'];
-type RegionResponse = GetRegion['responses']['200']['content']['application/json'];
+type RegionResponse = GoApiResponse<'/api/v2/region/'>;
 type RegionListItem = NonNullable<RegionResponse['results']>[number];
 
-type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
-type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
+type DisasterTypeResponse = GoApiResponse<'/api/v2/disaster_type/'>;
 type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
-type GetEvent = paths['/api/v2/event/']['get'];
-type EventQueryParams = GetEvent['parameters']['query'];
-type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventResponse = GoApiResponse<'/api/v2/event/'>;
+type EventQueryParams = GoApiUrlQuery<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
 const eventKeySelector = (item: EventListItem) => item.id;
@@ -165,7 +161,7 @@ export function Component() {
     const {
         pending: eventPending,
         response: eventResponse,
-    } = useRequest<EventResponse>({
+    } = useRequest({
         url: '/api/v2/event/',
         preserveResponse: true,
         query,
@@ -174,21 +170,21 @@ export function Component() {
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
-    } = useRequest<DisasterTypeResponse>({
+    } = useRequest({
         url: '/api/v2/disaster_type/',
     });
 
     const {
         pending: regionPending,
         response: regionResponse,
-    } = useRequest<RegionResponse>({
+    } = useRequest({
         url: '/api/v2/region/',
     });
 
     const {
         pending: countryPending,
         response: countryResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
     });

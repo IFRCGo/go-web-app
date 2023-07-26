@@ -28,8 +28,8 @@ import TabPanel from '#components/Tabs/TabPanel';
 import Button from '#components/Button';
 import RawFileInput from '#components/RawFileInput';
 import NonFieldError from '#components/NonFieldError';
-
 import { useRequest, useLazyRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
@@ -56,8 +56,7 @@ import { getImportData } from './import';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetDref = paths['/api/v2/dref/{id}/']['get'];
-type GetDrefResponse = GetDref['responses']['200']['content']['application/json'];
+type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 
 type PutDref = paths['/api/v2/dref/{id}/']['put'];
 type PutDrefResponse = PutDref['responses']['200']['content']['application/json'];
@@ -132,11 +131,11 @@ export function Component() {
         [],
     );
 
-    const { pending: fetchingDref } = useRequest<GetDrefResponse>({
+    const { pending: fetchingDref } = useRequest({
         skip: isFalsyString(drefId),
         url: '/api/v2/dref/{id}/',
         pathVariables: {
-            id: drefId,
+            id: Number(drefId),
         },
         onSuccess: (response) => {
             handleDrefLoad(response);

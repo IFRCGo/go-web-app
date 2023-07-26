@@ -27,9 +27,10 @@ import type { RowOptions } from '#components/Table/types';
 import Link from '#components/Link';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
-import type { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
+
 import { numericIdSelector } from '#utils/selectors';
 
 import PerTableActions from './PerTableActions';
@@ -37,10 +38,9 @@ import type { Props as PerTableActionsProps } from './PerTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type AggregatedPerProcessStatusResponse = paths['/api/v2/aggregated-per-process-status/']['get']['responses']['200']['content']['application/json'];
+type AggregatedPerProcessStatusResponse = GoApiResponse<'/api/v2/aggregated-per-process-status/'>;
 type AggregatedPerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
 
-type PerProcessStatusResponse = paths['/api/v2/aggregated-per-process-status/']['get']['responses']['200']['content']['application/json'];
 type PerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
 
 // eslint-disable-next-line import/prefer-default-export
@@ -52,7 +52,7 @@ export function Component() {
     const {
         pending: aggregatedStatusPending,
         response: aggregatedStatusResponse,
-    } = useRequest<PerProcessStatusResponse>({
+    } = useRequest({
         url: '/api/v2/aggregated-per-process-status/',
         query: {
             ordering: getOrdering(sorting),
@@ -62,12 +62,13 @@ export function Component() {
     const {
         // pending: countryStatusPending,
         response: countryStatusResponse,
-    } = useRequest<AggregatedPerProcessStatusResponse>({
+    } = useRequest({
         skip: isNotDefined(expandedRow),
         url: '/api/v2/per-process-status/',
         query: {
-            country: expandedRow?.country,
-        },
+            country: Number(expandedRow?.country),
+            // FIXME: typings should be fixed in server
+        } as never,
     });
 
     const {

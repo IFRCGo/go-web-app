@@ -41,24 +41,19 @@ import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import ServerEnumsContext from '#contexts/server-enums';
 import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
-
 type PostRegister = paths['/register']['post'];
 type RegisterRequestBody = PostRegister['requestBody']['content']['application/json'];
-
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
-
-type GetDomainWhiteList = paths['/api/v2/domainwhitelist/']['get'];
-type WhiteListResponse = GetDomainWhiteList['responses']['200']['content']['application/json'];
+type CountryResponse = GoApiResponse<'/api/v2/country/'>;
+type WhiteListResponse = GoApiResponse<'/api/v2/domainwhitelist/'>;
 
 const nsLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.society_name ?? '';
 
@@ -160,7 +155,7 @@ export function Component() {
     const { api_profile_org_types: organizationTypes } = useContext(ServerEnumsContext);
     const { login: loginRoute } = useContext(RouteContext);
 
-    const { response: whiteListDomainResponse } = useRequest<WhiteListResponse>({
+    const { response: whiteListDomainResponse } = useRequest({
         url: '/api/v2/domainwhitelist/',
         query: { limit: 9999 },
     });
@@ -217,7 +212,7 @@ export function Component() {
         },
     });
 
-    const { response: countriesResponse } = useRequest<CountryResponse>({
+    const { response: countriesResponse } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
     });

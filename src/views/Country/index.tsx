@@ -18,13 +18,9 @@ import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { CountryOutletContext } from '#utils/outletContext';
-import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type CountryResponse = paths['/api/v2/country/{id}/']['get']['responses']['200']['content']['application/json'];
-type AggregatedAppealResponse = paths['/api/v2/appeal/aggregated']['get']['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -44,21 +40,22 @@ export function Component() {
     const {
         pending: countryResponsePending,
         response: countryResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         skip: !countryId,
         url: '/api/v2/country/{id}/',
         pathVariables: {
-            id: countryId,
+            id: Number(countryId),
         },
     });
 
     const {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
-    } = useRequest<AggregatedAppealResponse>({
+    } = useRequest({
         skip: !countryId,
         url: '/api/v2/appeal/aggregated',
-        query: { country: countryId },
+        // FIXME: typings should be fixed in the server
+        query: { country: Number(countryId) } as never,
     });
 
     const outletContext = useMemo<CountryOutletContext>(
