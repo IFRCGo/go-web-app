@@ -9,9 +9,10 @@ import {
 import type { paths } from '#generated/types';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
-type PerOverviewFields = paths['/api/v2/per-overview/{id}/']['put']['requestBody']['content']['application/json'];
+export type PerOverviewResponse = paths['/api/v2/per-overview/{id}/']['put']['responses']['200']['content']['application/json'];
+export type PerOverviewRequestBody = paths['/api/v2/per-overview/{id}/']['put']['requestBody']['content']['application/json'];
 export type PerOverviewFormFields = Omit<
-    PerOverviewFields,
+    PerOverviewRequestBody,
     'id'
     | 'country_details'
     | 'type_of_assessment_details'

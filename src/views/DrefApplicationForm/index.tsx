@@ -33,10 +33,7 @@ import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
-import { paths } from '#generated/types';
-
-import type { PartialDref } from './schema';
-import drefSchema from './schema';
+import drefSchema, { DrefRequestBody, DrefResponse } from './schema';
 import Overview from './Overview';
 import EventDetail from './EventDetail';
 import Actions from './Actions';
@@ -57,9 +54,6 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
-
-type PutDref = paths['/api/v2/dref/{id}/']['put'];
-type PutDrefResponse = PutDref['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -178,12 +172,13 @@ export function Component() {
     });
 
     const {
-        pending: drefSubmitPending,
-        trigger: submitDref,
-    } = useLazyRequest<PutDrefResponse, PartialDref>({
-        url: isTruthyString(drefId) ? `api/v2/dref/${drefId}` : 'api/v2/dref/',
-        method: isTruthyString(drefId) ? 'PUT' : 'POST',
-        body: (formFields) => formFields,
+        pending: updateDrefPending,
+        trigger: updateDref,
+    } = useLazyRequest({
+        url: '/api/v2/dref/{id}/',
+        method: 'PUT',
+        pathVariables: isDefined(drefId) ? { id: Number(drefId) } : undefined,
+        body: (formFields: DrefRequestBody) => formFields,
         onSuccess: (response) => {
             alert.show(
                 strings.drefFormSaveRequestSuccessMessage,
@@ -222,6 +217,54 @@ export function Component() {
         },
     });
 
+    const {
+        pending: createDrefPending,
+        trigger: createDref,
+    } = useLazyRequest({
+        url: '/api/v2/dref/',
+        method: 'POST',
+        body: (formFields: DrefRequestBody) => formFields,
+        onSuccess: (responseUnsafe) => {
+            const response = responseUnsafe as DrefResponse;
+            alert.show(
+                strings.drefFormSaveRequestSuccessMessage,
+                { variant: 'success' },
+            );
+            if (isTruthyString(drefId)) {
+                handleDrefLoad(response);
+            } else {
+                navigate(
+                    generatePath(
+                        drefApplicationFormRoute.absolutePath,
+                        { drefId: response.id },
+                    ),
+                );
+            }
+        },
+        onFailure: ({
+            value: { formErrors, messageForNotification },
+            debugMessage,
+        }) => {
+            // TODO: verify formErrors
+            setError(formErrors);
+
+            if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
+                setShowObsoletePayloadModal(true);
+            }
+
+            alert.show(
+                strings.drefFormSaveRequestFailureMessage,
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                    debugMessage,
+                },
+            );
+        },
+    });
+
+    const saveDrefPending = createDrefPending || updateDrefPending;
+
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
             const result = validate();
@@ -230,12 +273,19 @@ export function Component() {
                 return;
             }
 
-            submitDref({
-                ...result.value,
-                modified_at: modifiedAt ?? lastModifiedAtRef.current,
-            });
+            if (isDefined(drefId)) {
+                updateDref({
+                    ...result.value,
+                    modified_at: modifiedAt ?? lastModifiedAtRef.current,
+                } as DrefRequestBody);
+            } else {
+                createDref({
+                    ...result.value,
+                    modified_at: modifiedAt ?? lastModifiedAtRef.current,
+                } as DrefRequestBody);
+            }
         },
-        [validate, setError, submitDref],
+        [validate, setError, updateDref, createDref, drefId],
     );
     const handleObsoletePayloadOverwiteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
@@ -261,7 +311,7 @@ export function Component() {
         [],
     );
 
-    const pending = fetchingDref || drefSubmitPending;
+    const pending = fetchingDref || saveDrefPending;
     const minStep = 1;
     const maxStep = value?.type_of_dref === TYPE_LOAN ? 3 : 5;
 

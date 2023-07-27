@@ -8,7 +8,7 @@ import Pager from '#components/Pager';
 import SelectInput from '#components/SelectInput';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
+import { useRiskRequest } from '#utils/restRequest';
 import type { GoApiResponse, RiskApiResponse } from '#utils/restRequest';
 import {
     numericIdSelector,
@@ -98,7 +98,7 @@ function PossibleEarlyActionTable(props: Props) {
 
     const {
         response: earlyActionsOptionsResponse,
-    } = useRequest({
+    } = useRiskRequest({
         apiType: 'risk',
         url: '/api/v1/early-actions/options/',
     });
@@ -106,7 +106,7 @@ function PossibleEarlyActionTable(props: Props) {
     const {
         pending: pendingPossibleEarlyAction,
         response: possibleEarlyActionResponse,
-    } = useRequest({
+    } = useRiskRequest({
         skip: isNotDefined(countryId),
         apiType: 'risk',
         url: '/api/v1/early-actions/',

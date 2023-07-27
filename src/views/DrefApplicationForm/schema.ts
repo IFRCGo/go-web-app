@@ -35,18 +35,19 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
         : undefined;
 }
 
-type GetDref = paths['/api/v2/dref/{id}/']['get'];
-type DrefResponse = GetDref['responses']['200']['content']['application/json'];
+type PutDref = paths['/api/v2/dref/{id}/']['put'];
+export type DrefResponse = PutDref['responses']['200']['content']['application/json'];
+export type DrefRequestBody = PutDref['requestBody']['content']['application/json'];
 
-type NeedIdentifiedResponse = NonNullable<DrefResponse['needs_identified']>[number];
-type NsActionResponse = NonNullable<DrefResponse['national_society_actions']>[number];
-type InterventionResponse = NonNullable<DrefResponse['planned_interventions']>[number];
+type NeedIdentifiedResponse = NonNullable<DrefRequestBody['needs_identified']>[number];
+type NsActionResponse = NonNullable<DrefRequestBody['national_society_actions']>[number];
+type InterventionResponse = NonNullable<DrefRequestBody['planned_interventions']>[number];
 type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number];
-type RiskSecurityResponse = NonNullable<DrefResponse['risk_security']>[number];
-type ImagesFileResponse = NonNullable<DrefResponse['images_file']>[number];
+type RiskSecurityResponse = NonNullable<DrefRequestBody['risk_security']>[number];
+type ImagesFileResponse = NonNullable<DrefRequestBody['images_file']>[number];
 
-type EventMapFileResponse = NonNullable<DrefResponse['event_map_file']>;
-type CoverImageFileResponse = NonNullable<DrefResponse['cover_image_file']>;
+type EventMapFileResponse = NonNullable<DrefRequestBody['event_map_file']>;
+type CoverImageFileResponse = NonNullable<DrefRequestBody['cover_image_file']>;
 
 type NeedIdentifiedFormFields = Omit<NeedIdentifiedResponse, 'id' | 'image_url' | 'title_display'> & {
     client_id: string;
@@ -71,7 +72,7 @@ type RiskSecurityFormFields = Omit<RiskSecurityResponse, 'id'> & {
 }
 
 type DrefFormFields = Omit<
-    DrefResponse,
+    DrefRequestBody,
     'needs_identified'
     | 'national_society_actions'
     | 'planned_interventions'

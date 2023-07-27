@@ -20,29 +20,12 @@ import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 
 import type { PartialDref } from '../../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-// FIXME: use from '/api/v2/field_report/{id}/'
-type FieldReportResponse = GoApiResponse<'/api/v2/field_report/'>;
-type FieldReportItem = Omit<NonNullable<FieldReportResponse['results']>[number], 'districts'> & {
-    contacts: {
-        ctype: string;
-        name: string;
-        email: string;
-        title: string;
-        phone: string;
-    }[];
-    districts: {
-        id: number,
-        name: string;
-    }[];
-};
 
 type Value = PartialDref;
 interface Props {
@@ -86,8 +69,11 @@ function CopyFieldReportSection(props: Props) {
     const {
         pending: frDetailPending,
         trigger: triggerDetailRequest,
-    } = useLazyRequest<FieldReportItem, number>({
-        url: (frId) => `api/v2/field_report/${frId}`,
+    } = useLazyRequest<'/api/v2/field_report/{id}/', null, 'GET'>({
+        url: '/api/v2/field_report/{id}/',
+        pathVariables: isDefined(fieldReport)
+            ? { id: fieldReport }
+            : undefined,
         onSuccess: (fieldReportResponse) => {
             if (!fieldReportResponse) {
                 alert.show(
@@ -236,7 +222,7 @@ function CopyFieldReportSection(props: Props) {
             return;
         }
 
-        triggerDetailRequest(fieldReportId);
+        triggerDetailRequest(null);
     }, [triggerDetailRequest]);
 
     return (

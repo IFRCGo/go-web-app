@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import {
     isNotDefined,
+    isDefined,
     listToMap,
     randomString,
 } from '@togglecorp/fujs';
@@ -31,19 +32,17 @@ import { STEP_WORKPLAN } from '#utils/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
-import { paths } from '#generated/types';
 
 import CustomComponentInput from './CustomComponentInput';
 import ComponentInput from './ComponentInput';
 
 import {
+    WorkPlanBody,
     workplanSchema,
     PartialWorkPlan,
 } from './schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type WorkPlanResponse = paths['/api/v2/per-work-plan/{id}/']['get']['responses']['200']['content']['application/json'];
 
 const defaultValue: PartialWorkPlan = {};
 
@@ -149,10 +148,13 @@ export function Component() {
     const {
         pending: savePerWorkPlanPending,
         trigger: savePerWorkPlan,
-    } = useLazyRequest<WorkPlanResponse, PartialWorkPlan>({
-        url: `api/v2/per-work-plan/${statusResponse?.workplan}/`,
+    } = useLazyRequest({
+        url: '/api/v2/per-work-plan/{id}/',
+        pathVariables: statusResponse && isDefined(statusResponse.workplan)
+            ? { id: statusResponse.workplan }
+            : undefined,
         method: 'PUT',
-        body: (ctx) => ctx,
+        body: (ctx: WorkPlanBody) => ctx,
         onSuccess: (response) => {
             if (!response) {
                 // TODO: show proper error message
@@ -249,7 +251,7 @@ export function Component() {
             savePerWorkPlan({
                 ...formValues,
                 is_draft: true,
-            });
+            } as WorkPlanBody);
         },
         [savePerWorkPlan, statusResponse?.workplan],
     );
@@ -264,7 +266,7 @@ export function Component() {
             savePerWorkPlan({
                 ...formValues,
                 is_draft: false,
-            });
+            } as WorkPlanBody);
         },
         [savePerWorkPlan, statusResponse?.workplan],
     );

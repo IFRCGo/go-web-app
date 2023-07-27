@@ -110,7 +110,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                 accept="image/*"
                 value={fileInputValue}
                 onChange={handleFileInputChange}
-                url="api/v2/dref-files/multiple/"
+                url="/api/v2/dref-files/multiple/"
                 fileIdToUrlMap={fileIdToUrlMap}
                 setFileIdToUrlMap={setFileIdToUrlMap}
                 icons={icons}

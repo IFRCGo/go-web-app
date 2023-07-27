@@ -183,10 +183,10 @@ export function Component() {
     const {
         pending: registerPending,
         trigger: register,
-    } = useLazyRequest<unknown, FormFields>({
+    } = useLazyRequest({
         method: 'POST',
-        url: 'register',
-        body: (body) => body,
+        url: '/register',
+        body: (body: RegisterRequestBody) => body,
         onSuccess: () => {
             const message = strings.registrationSuccess;
             alert.show(
@@ -240,8 +240,8 @@ export function Component() {
         && whitelistedDomains
         && isWhitelistedEmail(formValue.email, whitelistedDomains);
 
-    const handleRegister = useCallback((formValues: PartialForm<FormFields>) => {
-        register(formValues as FormFields);
+    const handleRegister = useCallback((formValues: FormFields) => {
+        register(formValues as RegisterRequestBody);
     }, [register]);
 
     const handleFormSubmit = createSubmitHandler(validate, setError, handleRegister);

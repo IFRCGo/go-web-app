@@ -5,11 +5,11 @@ import {
 } from '@togglecorp/toggle-form';
 import { paths } from '#generated/types';
 
-type WorkPlanResponse = paths['/api/v2/per-work-plan/{id}/']['put']['requestBody']['content']['application/json'];
-type ComponentResponse = NonNullable<WorkPlanResponse['component_responses']>[number];
-type CustomComponentResponse = NonNullable<WorkPlanResponse['custom_component_responses']>[number];
+export type WorkPlanBody = paths['/api/v2/per-work-plan/{id}/']['put']['requestBody']['content']['application/json'];
+type ComponentResponse = NonNullable<WorkPlanBody['component_responses']>[number];
+type CustomComponentResponse = NonNullable<WorkPlanBody['custom_component_responses']>[number];
 
-type WorkPlanFormFields = Omit<WorkPlanResponse, 'id' | 'component_responses' | 'custom_component_responses'> & {
+type WorkPlanFormFields = Omit<WorkPlanBody, 'id' | 'component_responses' | 'custom_component_responses'> & {
     component_responses: Omit<ComponentResponse, 'id'>[];
     custom_component_responses: (Omit<CustomComponentResponse, 'id'> & {
         client_id: string;

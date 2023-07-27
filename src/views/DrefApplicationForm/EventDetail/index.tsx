@@ -226,7 +226,7 @@ function EventDetail(props: Props) {
                             accept=".pdf, .docx, .pptx"
                             fileIdToUrlMap={fileIdToUrlMap}
                             onChange={setFieldValue}
-                            url="api/v2/dref-files/"
+                            url="/api/v2/dref-files/"
                             value={value.supporting_document}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                         >

@@ -133,10 +133,13 @@ function EditAccountInfo(props: Props) {
     const {
         pending: updateAccountPending,
         trigger: updateAccountInfo,
-    } = useLazyRequest<AccountRequestBody, FormFields>({
+    } = useLazyRequest({
         method: 'PATCH',
-        url: `/api/v2/user/${userAuth?.id}/`,
-        body: (body) => body,
+        url: '/api/v2/user/{id}/',
+        pathVariables: userAuth && isDefined(userAuth.id)
+            ? { id: userAuth.id }
+            : undefined,
+        body: (body: AccountRequestBody) => body,
         onSuccess: () => {
             alert.show(
                 strings.editAccoutSuccessfulMessage,
@@ -178,8 +181,8 @@ function EditAccountInfo(props: Props) {
         [countriesResponse?.results],
     );
 
-    const handleConfirmProfileEdit = useCallback((formValues: PartialForm<FormFields>) => {
-        updateAccountInfo(formValues as FormFields);
+    const handleConfirmProfileEdit = useCallback((formValues: PartialFormFields) => {
+        updateAccountInfo(formValues as AccountRequestBody);
     }, [updateAccountInfo]);
 
     const handleFormSubmit = createSubmitHandler(validate, setError, handleConfirmProfileEdit);

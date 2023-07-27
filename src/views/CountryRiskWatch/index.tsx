@@ -5,7 +5,7 @@ import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import type { CountryOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
+import { useRiskRequest } from '#utils/restRequest';
 
 import MultiMonthSelectInput from './MultiMonthSelectInput';
 import RiskTable from './RiskTable';
@@ -30,7 +30,7 @@ export function Component() {
     const {
         pending: pendingCountryRiskResponse,
         response: countryRiskResponse,
-    } = useRequest({
+    } = useRiskRequest({
         apiType: 'risk',
         url: '/api/v1/country-seasonal/',
         query: {

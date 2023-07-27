@@ -422,7 +422,7 @@ function Operation(props: Props) {
                         accept=".pdf"
                         name="budget_file"
                         onChange={setFieldValue}
-                        url="api/v2/dref-files/"
+                        url="/api/v2/dref-files/"
                         value={value?.budget_file}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}

@@ -10,6 +10,7 @@ import {
     listToMap,
     compareNumber,
     listToGroupList,
+    isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
 import {
@@ -147,10 +148,13 @@ export function Component() {
     const {
         pending: savePerPending,
         trigger: savePerAssessment,
-    } = useLazyRequest<AssessmentResponse, AssessmentResponse>({
-        url: `api/v2/per-assessment/${assessmentId}/`,
+    } = useLazyRequest({
+        url: '/api/v2/per-assessment/{id}/',
+        pathVariables: isDefined(assessmentId)
+            ? { id: assessmentId }
+            : undefined,
         method: 'PUT',
-        body: (ctx) => ctx,
+        body: (ctx: AssessmentResponse) => ctx,
         onSuccess: (response) => {
             if (!response) {
                 // TODO: show proper error message

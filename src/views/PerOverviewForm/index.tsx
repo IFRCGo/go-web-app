@@ -48,6 +48,8 @@ import {
 } from '#utils/selectors';
 
 import {
+    PerOverviewRequestBody,
+    PerOverviewResponse,
     overviewSchema,
     PartialOverviewFormFields,
 } from './schema';
@@ -70,7 +72,6 @@ function perAssessmentMethodsKeySelector(option: PerOverviewAssessmentMethods) {
     return option.key;
 }
 
-type PerOverviewResponse = paths['/api/v2/per-overview/{id}/']['get']['responses']['200']['content']['application/json'];
 const emptyFileIdToUrlMap: Record<number, string> = {};
 
 // eslint-disable-next-line import/prefer-default-export
@@ -170,15 +171,15 @@ export function Component() {
     });
 
     const {
-        trigger: savePerOverview,
-        pending: savePerPending,
-    } = useLazyRequest<
-        PerOverviewResponse,
-        PartialOverviewFormFields
-    >({
-        url: perId ? `api/v2/per-overview/${perId}/` : 'api/v2/per-overview/',
-        method: perId ? 'PUT' : 'POST',
-        body: (ctx) => ctx,
+        trigger: updatePerOverview,
+        pending: updatePerPending,
+    } = useLazyRequest({
+        url: '/api/v2/per-overview/{id}/',
+        method: 'PUT',
+        pathVariables: isDefined(perId) ? {
+            id: Number(perId),
+        } : undefined,
+        body: (ctx: PerOverviewRequestBody) => ctx,
         onSuccess: (response) => {
             if (response && isDefined(response.id)) {
                 alert.show(
@@ -229,6 +230,68 @@ export function Component() {
         },
     });
 
+    const {
+        trigger: createPerOverview,
+        pending: createPerPending,
+    } = useLazyRequest({
+        url: '/api/v2/per-overview/',
+        method: 'POST',
+        body: (ctx: PerOverviewRequestBody) => ctx,
+        onSuccess: (responseUnsafe) => {
+            // FIXME: server should send type
+            const response = responseUnsafe as PerOverviewResponse;
+            if (response && isDefined(response.id)) {
+                alert.show(
+                    strings.perFormSaveRequestSuccessMessage,
+                    { variant: 'success' },
+                );
+
+                refetchStatusResponse();
+
+                // Redirect from new form to edit route
+                if (isNotDefined(perId) && response.phase === STEP_OVERVIEW) {
+                    navigate(
+                        generatePath(
+                            perOverviewFormRoute.absolutePath,
+                            { perId: String(response.id) },
+                        ),
+                    );
+                }
+
+                // Redirect to assessment form
+                if (response.phase === STEP_ASSESSMENT) {
+                    navigate(
+                        generatePath(
+                            perAssessmentFormRoute.absolutePath,
+                            { perId: String(response.id) },
+                        ),
+                    );
+                }
+            }
+            // TODO: log error?
+        },
+        onFailure: ({
+            value: {
+                messageForNotification,
+                // TODO:
+                // formErrors,
+            },
+            debugMessage,
+        }) => {
+            alert.show(
+                strings.perFormSaveRequestFailureMessage,
+                {
+                    variant: 'danger',
+                    debugMessage,
+                    description: messageForNotification,
+                },
+            );
+        },
+    });
+
+    const savePerPending = createPerPending || updatePerPending;
+
+    // FIXME: this should be removed
     const yesNoOptions = useMemo(
         () => [
             { value: true, label: strings.yesLabel },
@@ -254,22 +317,36 @@ export function Component() {
 
     const handleSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
-            savePerOverview({
-                ...formValues,
-                is_draft: formValues.is_draft ?? true,
-            });
+            if (isDefined(perId)) {
+                updatePerOverview({
+                    ...formValues,
+                    is_draft: formValues.is_draft ?? true,
+                } as PerOverviewRequestBody);
+            } else {
+                createPerOverview({
+                    ...formValues,
+                    is_draft: formValues.is_draft ?? true,
+                } as PerOverviewRequestBody);
+            }
         },
-        [savePerOverview],
+        [perId, updatePerOverview, createPerOverview],
     );
 
     const handleFinalSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
-            savePerOverview({
-                ...formValues,
-                is_draft: false,
-            });
+            if (isDefined(perId)) {
+                updatePerOverview({
+                    ...formValues,
+                    is_draft: false,
+                } as PerOverviewRequestBody);
+            } else {
+                createPerOverview({
+                    ...formValues,
+                    is_draft: false,
+                } as PerOverviewRequestBody);
+            }
         },
-        [savePerOverview],
+        [perId, updatePerOverview, createPerOverview],
     );
 
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
@@ -322,7 +399,7 @@ export function Component() {
                     <GoMultiFileInput
                         name="orientation_documents"
                         accept=".docx, .pdf"
-                        url="api/v2/per-file/multiple/"
+                        url="/api/v2/per-file/multiple/"
                         value={value?.orientation_documents}
                         onChange={setFieldValue}
                         fileIdToUrlMap={fileIdToUrlMap}

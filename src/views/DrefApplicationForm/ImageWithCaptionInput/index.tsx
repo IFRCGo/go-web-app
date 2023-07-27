@@ -57,7 +57,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                 accept="image/*"
                 value={value?.id}
                 onChange={setFieldValue}
-                url="api/v2/dref-files/"
+                url="/api/v2/dref-files/"
                 fileIdToUrlMap={fileIdToUrlMap}
                 setFileIdToUrlMap={setFileIdToUrlMap}
                 error={error?.id}

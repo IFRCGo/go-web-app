@@ -13,7 +13,6 @@ import {
 } from '@togglecorp/toggle-form';
 import { isDefined, isNotDefined, listToMap } from '@togglecorp/fujs';
 import {
-    GoApiResponse,
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
@@ -28,14 +27,12 @@ import BlockLoading from '#components/BlockLoading';
 import PerAssessmentSummary from '#components/PerAssessmentSummary';
 import useAlert from '#hooks/useAlert';
 
-import { prioritizationSchema } from './schema';
+import { prioritizationSchema, PrioritizationRequestBody } from './schema';
 import type { PartialPrioritization } from './schema';
 import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type PrioritizationResponse = GoApiResponse<'/api/v2/per-prioritization/{id}/'>;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -120,10 +117,13 @@ export function Component() {
     const {
         pending: savePerPrioritizationPending,
         trigger: savePerPrioritization,
-    } = useLazyRequest<PrioritizationResponse, PartialPrioritization>({
-        url: `api/v2/per-prioritization/${statusResponse?.prioritization}/`,
+    } = useLazyRequest({
+        url: '/api/v2/per-prioritization/{id}/',
+        pathVariables: statusResponse && isDefined(statusResponse.prioritization)
+            ? { id: statusResponse.prioritization }
+            : undefined,
         method: 'PUT',
-        body: (ctx) => ctx,
+        body: (ctx: PrioritizationRequestBody) => ctx,
         onSuccess: (response) => {
             if (response && isDefined(response.id)) {
                 alert.show(
@@ -200,7 +200,7 @@ export function Component() {
         savePerPrioritization({
             ...formValues,
             is_draft: true,
-        });
+        } as PrioritizationRequestBody);
     }, [savePerPrioritization, statusResponse]);
 
     const handleFinalSubmit = useCallback((formValues: PartialPrioritization) => {
@@ -212,7 +212,7 @@ export function Component() {
         savePerPrioritization({
             ...formValues,
             is_draft: false,
-        });
+        } as PrioritizationRequestBody);
     }, [savePerPrioritization, statusResponse]);
 
     const componentResponseMapping = listToMap(
