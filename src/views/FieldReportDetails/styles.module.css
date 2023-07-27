@@ -42,11 +42,6 @@
                 grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
             }
 
-            .field-report-value {
-                display: flex;
-                flex-direction: column;
-            }
-
             .field-report-label {
                 color: var(--go-ui-color-black);
                 font-size: var(--go-ui-font-size-lg);

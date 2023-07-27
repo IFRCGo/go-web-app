@@ -71,8 +71,11 @@ export function Component() {
                         value={fieldReportResponse?.created_at}
                         format="dd-MM-yyyy"
                     />
-                    {fieldReportResponse?.countries?.map((region) => region.region)}
+                    (
+                    {fieldReportResponse?.regions?.map((region) => region.name)}
+                    -
                     {fieldReportResponse?.districts?.map((district) => district.name)}
+                    )
                 </div>
                 <Header
                     heading={strings.numericDetailsTitle}
@@ -80,133 +83,111 @@ export function Component() {
                 />
                 <div className={styles.fieldReportDetails}>
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.injuredRCLabel}
                         value={fieldReportResponse?.num_injured}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.missingGovernmentLabel}
                         value={fieldReportResponse?.gov_num_injured}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.injuredOtherLabel}
                         value={fieldReportResponse?.other_num_injured}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.missingOtherFirstLabel}
                         value={fieldReportResponse?.num_missing}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.missingGovernmentLabel}
                         value={fieldReportResponse?.gov_num_missing}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.missingOtherSecondLabel}
                         value={fieldReportResponse?.other_num_missing}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.deadOtherFirstLabel}
                         value={fieldReportResponse?.num_dead}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.deadGovernmentLabel}
                         value={fieldReportResponse?.gov_num_dead}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.deadOtherSecondLabel}
                         value={fieldReportResponse?.other_num_dead}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.displacedRCLabel}
                         value={fieldReportResponse?.num_displaced}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.displacedGovernmentLabel}
                         value={fieldReportResponse?.gov_num_displaced}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.displacedGovernmentLabel}
                         value={fieldReportResponse?.other_num_displaced}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.affectedRCLabel}
                         value={fieldReportResponse?.num_displaced}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.affectedGovernmentLabel}
                         value={fieldReportResponse?.gov_num_displaced}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.affectedOtherLabel}
                         value={fieldReportResponse?.other_num_displaced}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.assistedRCLabel}
                         value={fieldReportResponse?.num_assisted}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.assistedGovernmentLabel}
                         value={fieldReportResponse?.gov_num_assisted}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.assistedOtherLabel}
                         value={fieldReportResponse?.other_num_assisted}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.localStaffLabel}
                         value={fieldReportResponse?.num_localstaff}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.volunteersLabel}
                         value={fieldReportResponse?.num_volunteers}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.ifrcStaffLabel}
                         value={fieldReportResponse?.ifrc_staff}
                     />
                     <TextOutput
-                        className={styles.fieldReportValue}
                         labelClassName={styles.fieldReportLabel}
                         label={strings.delegatedLabel}
                         value={fieldReportResponse?.num_expats_delegates}
@@ -221,7 +202,7 @@ export function Component() {
                         className={styles.descriptionValue}
                         labelClassName={styles.descriptionLabel}
                         label={strings.visibilityLabel}
-                        value={fieldReportResponse?.visibility}
+                        value={fieldReportResponse?.visibility_display}
                     />
                     <TextOutput
                         className={styles.descriptionValue}
