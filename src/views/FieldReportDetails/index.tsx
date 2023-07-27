@@ -59,6 +59,7 @@ export function Component() {
             <Link
                 className={styles.editLink}
                 to="edit"
+                withForwardIcon
             >
                 {strings.editReport}
             </Link>
