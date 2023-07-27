@@ -1,6 +1,6 @@
 import {
     RequestContext,
-    useRequest as useReq,
+    useRequest,
     useLazyRequest,
     RequestOptions,
     LazyRequestOptions,
@@ -14,7 +14,7 @@ import {
     AdditionalOptions,
 } from './go';
 
-type GoGetOptions<T extends keyof goApiPaths, OMISSION extends 'response' = never> = {
+type GoApiGetOption<PATH extends keyof goApiPaths, OMISSION extends 'response' = never> = {
     [key in keyof goApiPaths]: goApiPaths[key] extends {
         get: {
             parameters: {
@@ -32,13 +32,13 @@ type GoGetOptions<T extends keyof goApiPaths, OMISSION extends 'response' = neve
     }
         ? Omit<{
             url: key,
-            query: Query,
-            pathVariables: Path,
+            query?: Query,
+            pathVariables?: Path,
             response: Response,
         }, OMISSION>
         : never
-}[T]
-type GoPutOptions<T extends keyof goApiPaths, OMISSION extends 'response' = never> = {
+}[PATH]
+type GoApiPutOptions<PATH extends keyof goApiPaths, OMISSION extends 'response' = never> = {
     [key in keyof goApiPaths]: goApiPaths[key] extends {
         put: {
             parameters: {
@@ -67,8 +67,8 @@ type GoPutOptions<T extends keyof goApiPaths, OMISSION extends 'response' = neve
             body: Body,
         }, OMISSION>
         : never
-}[T]
-type GoPatchOptions<T extends keyof goApiPaths, OMISSION extends 'response' = never> = {
+}[PATH]
+type GoApiPatchOptions<PATH extends keyof goApiPaths, OMISSION extends 'response' = never> = {
     [key in keyof goApiPaths]: goApiPaths[key] extends {
         patch: {
             parameters: {
@@ -97,8 +97,8 @@ type GoPatchOptions<T extends keyof goApiPaths, OMISSION extends 'response' = ne
             body: Body,
         }, OMISSION>
         : never
-}[T]
-type GoPostOptions<T extends keyof goApiPaths, OMISSION extends 'response' = never> = {
+}[PATH]
+type GoApiPostOptions<PATH extends keyof goApiPaths, OMISSION extends 'response' = never> = {
     [key in keyof goApiPaths]: goApiPaths[key] extends {
         post: {
             parameters: {
@@ -127,8 +127,8 @@ type GoPostOptions<T extends keyof goApiPaths, OMISSION extends 'response' = nev
             body: Body,
         }, OMISSION>
         : never
-}[T]
-type GoDeleteOptions<T extends keyof goApiPaths> = {
+}[PATH]
+type GoApiDeleteOptions<PATH extends keyof goApiPaths> = {
     [key in keyof goApiPaths]: goApiPaths[key] extends {
         delete: {
             parameters: {
@@ -143,212 +143,235 @@ type GoDeleteOptions<T extends keyof goApiPaths> = {
             pathVariables: Path,
         }
         : never
-}[T]
+}[PATH]
 
-interface BasicGoType<U, M> {
-    url: U,
-    method: M,
-    apiType?: 'default'
-}
-interface BasicGoReturnType<R> {
-    response: R;
-    pending: boolean;
-    error: TransformedError | undefined;
-    retrigger: () => void;
-}
-
-// FIXME: Update here
-type GoOptions<T extends keyof goApiPaths, M extends 'get' | 'post' | 'put' | 'patch' | 'delete', OMISSION extends 'response' = never> = (
-    M extends 'get'
-        ? BasicGoType<T, M> & GoGetOptions<T, OMISSION>
-        : M extends 'put'
-            ? BasicGoType<T, M> & GoPutOptions<T, OMISSION>
-            : M extends 'patch'
-                ? BasicGoType<T, M> & GoPatchOptions<T, OMISSION>
-                : M extends 'post'
-                    ? BasicGoType<T, M> & GoPostOptions<T, OMISSION>
-                    : M extends 'delete'
-                        ? BasicGoType<T, M> & GoDeleteOptions<T>
-                        : never
-);
-// FIXME: Update here
-type GoResponse<T extends keyof goApiPaths, M extends 'get' | 'post' | 'put' | 'patch' | 'delete'> = (
-    M extends 'get'
-        ? BasicGoReturnType<GoGetOptions<T>['response']>
-        : M extends 'put'
-            ? BasicGoReturnType<GoPutOptions<T>['response']>
-            : M extends 'patch'
-                ? BasicGoReturnType<GoPatchOptions<T>['response']>
-                : M extends 'post'
-                    ? BasicGoReturnType<GoPostOptions<T>['response']>
-                    : M extends 'delete'
-                        ? BasicGoReturnType<undefined>
-                        : never
-);
-
-function fakeRequest<T extends keyof goApiPaths, M extends 'get' | 'post' | 'put' | 'patch' | 'delete'>(
-    requestOptions: GoOptions<T, M, 'response'>,
-): GoResponse<T, M> {
-    console.warn(requestOptions);
-    return {} as any;
-}
-
-const value = fakeRequest({
-    apiType: 'default',
-    url: '/api/v2/dref-final-report/{id}/',
-    method: 'delete',
-    pathVariables: { id: '12' },
-    query: { format: 'csv' },
-});
-console.warn(value);
-const value2 = fakeRequest<'/api/v2/dref-final-report/{id}/', 'get'>({
-    apiType: 'default' as const,
-    url: '/api/v2/dref-final-report/{id}/',
-    method: 'get',
-    pathVariables: { id: '20' },
-    query: { format: 'csv' },
-});
-console.warn(value2);
-const value3 = fakeRequest({
-    apiType: 'default' as const,
-    url: '/api/v2/dref-final-report/{id}/',
-    method: 'get',
-    pathVariables: { id: '20' },
-    query: { format: 'csv' },
-});
-console.warn(value3);
-const value4 = fakeRequest<'/api/v2/dref-final-report/{id}/', 'put'>({
-    apiType: 'default' as const,
-    url: '/api/v2/dref-final-report/{id}/',
-    method: 'put',
-    pathVariables: { id: '12' },
-    query: {},
-    body: {},
-});
-console.warn(value4);
-const value5 = fakeRequest({
-    apiType: 'default' as const,
-    url: '/api/v2/per-work-plan/{id}/',
-    method: 'put',
-    pathVariables: { id: 12 },
-    query: {},
-    body: {},
-});
-console.warn(value5);
-
-// No need to look below
-
-type GoApiUrlPaths = keyof goApiPaths;
-
-type GoApiResponseWithContent = {
-    'responses': {
-        '200': {
-            'content': {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                'application/json': unknown;
-            }
+type RiskApiGetOption<PATH extends keyof riskApiPaths, OMISSION extends 'response' = never> = {
+    [key in keyof riskApiPaths]: riskApiPaths[key] extends {
+        get: {
+            parameters: {
+                query?: infer Query,
+                path?: infer Path,
+            },
+            responses: {
+                200: {
+                    content: {
+                        'application/json': infer Response,
+                    },
+                },
+            },
+        },
+    }
+        ? Omit<{
+            url: key,
+            query?: Query,
+            pathVariables?: Path,
+            response: Response,
+        }, OMISSION>
+        : never
+}[PATH]
+type RiskApiPutOptions<PATH extends keyof riskApiPaths, OMISSION extends 'response' = never> = {
+    [key in keyof riskApiPaths]: riskApiPaths[key] extends {
+        put: {
+            parameters: {
+                query?: infer Query,
+                path?: infer Path,
+            },
+            responses: {
+                200: {
+                    content: {
+                        'application/json': infer Response,
+                    },
+                },
+            },
+            requestBody: {
+                content: {
+                    'application/json': infer Body,
+                }
+            },
+        },
+    }
+        ? Omit<{
+            url: key,
+            query: Query,
+            pathVariables: Path,
+            response: Response,
+            body: Body,
+        }, OMISSION>
+        : never
+}[PATH]
+type RiskApiPatchOptions<PATH extends keyof riskApiPaths, OMISSION extends 'response' = never> = {
+    [key in keyof riskApiPaths]: riskApiPaths[key] extends {
+        patch: {
+            parameters: {
+                query?: infer Query,
+                path?: infer Path,
+            },
+            responses: {
+                200: {
+                    content: {
+                        'application/json': infer Response,
+                    },
+                },
+            },
+            requestBody: {
+                content: {
+                    'application/json': infer Body,
+                }
+            },
+        },
+    }
+        ? Omit<{
+            url: key,
+            query: Query,
+            pathVariables: Path,
+            response: Response,
+            body: Body,
+        }, OMISSION>
+        : never
+}[PATH]
+type RiskApiPostOptions<PATH extends keyof riskApiPaths, OMISSION extends 'response' = never> = {
+    [key in keyof riskApiPaths]: riskApiPaths[key] extends {
+        post: {
+            parameters: {
+                query?: infer Query,
+                path?: infer Path,
+            },
+            responses: {
+                200: {
+                    content: {
+                        'application/json': infer Response,
+                    },
+                },
+            },
+            requestBody: {
+                content: {
+                    'application/json': infer Body,
+                }
+            },
+        },
+    }
+        ? Omit<{
+            url: key,
+            query: Query,
+            pathVariables: Path,
+            response: Response,
+            body: Body,
+        }, OMISSION>
+        : never
+}[PATH]
+type RiskApiDeleteOptions<PATH extends keyof riskApiPaths> = {
+    [key in keyof riskApiPaths]: riskApiPaths[key] extends {
+        delete: {
+            parameters: {
+                query?: infer Query,
+                path?: infer Path,
+            },
         }
     }
-}
-
-type GoApiUrlQueryWithContent = {
-    'parameters': {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        'query': object;
-    }
-}
-
-type GoApiUrlPathVariablesWithContent = {
-    'parameters': {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        'path': object;
-    }
-}
-
-type RiskApiResponseWithContent = {
-    'responses': {
-        '200': {
-            'content': {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                'application/json': any;
-            }
+        ? {
+            url: key,
+            query: Query,
+            pathVariables: Path,
         }
-    }
+        : never
+}[PATH]
+
+type GoApiRequestOptionsBase<URL, METHOD, API_TYPE> = Omit<RequestOptions<any, TransformedError, AdditionalOptions>, 'url' | 'method'> & {
+    url: URL,
+    method?: METHOD,
+    apiType: API_TYPE,
 }
 
-type RiskApiUrlQueryWithContent = {
-    'parameters': {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        'query': any;
-    }
+type RiskApiRequestOptionsBase<URL, METHOD, API_TYPE> = Omit<RequestOptions<any, TransformedError, AdditionalOptions>, 'url' | 'method'> & {
+    url: URL,
+    method?: METHOD,
+    apiType: API_TYPE,
 }
 
-type RiskApiUrlPathVariablesWithContent = {
-    'parameters': {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        'path': any;
-    }
-}
-
-type RiskApiUrlPaths = keyof riskApiPaths;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type GetGoApi<URL extends GoApiUrlPaths> = goApiPaths[URL] extends { get: any } ? goApiPaths[URL]['get'] : unknown;
-export type GoApiResponse<
-    URL extends GoApiUrlPaths
-> = GetGoApi<URL> extends GoApiResponseWithContent
-    ? GetGoApi<URL>['responses']['200']['content']['application/json']
-    : unknown;
-export type GoApiUrlQuery<
-    URL extends GoApiUrlPaths
-> = GetGoApi<URL> extends GoApiUrlQueryWithContent ? GetGoApi<URL>['parameters']['query'] : unknown;
-type GoApiUrlPathVariables<
-    URL extends GoApiUrlPaths
-> = GetGoApi<URL> extends GoApiUrlPathVariablesWithContent ? GetGoApi<URL>['parameters']['path'] : unknown;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type GetRiskApi<URL extends RiskApiUrlPaths> = riskApiPaths[URL] extends { get: any } ? riskApiPaths[URL]['get'] : unknown;
-export type RiskApiResponse<
-    URL extends RiskApiUrlPaths
-> = GetRiskApi<URL> extends RiskApiResponseWithContent
-    ? GetRiskApi<URL>['responses']['200']['content']['application/json']
-    : unknown;
-export type RiskApiUrlQuery<
-    URL extends RiskApiUrlPaths
-> = GetRiskApi<URL> extends RiskApiUrlQueryWithContent ? GetRiskApi<URL>['parameters']['query'] : unknown;
-type RiskApiUrlPathVariables<
-    URL extends RiskApiUrlPaths
-> = GetRiskApi<URL> extends RiskApiUrlPathVariablesWithContent ? GetRiskApi<URL>['parameters']['path'] : unknown;
-
-type DefaultRequestOptions<RESPONSE> = RequestOptions<
-    RESPONSE, TransformedError, AdditionalOptions
->;
-
-type RiskRequestOptions<URL extends RiskApiUrlPaths> = Omit<DefaultRequestOptions<RiskApiResponse<URL>>, 'url' | 'query'> & {
-    url: URL;
-    pathVariables?: RiskApiUrlPathVariables<URL>;
-    query?: RiskApiUrlQuery<URL>;
-}
-
-type GoRequestOptions<URL extends GoApiUrlPaths> = Omit<DefaultRequestOptions<GoApiResponse<URL>>, 'url' | 'query'> & {
-    url: URL;
-    pathVariables?: GoApiUrlPathVariables<URL>;
-    query?: GoApiUrlQuery<URL>;
-}
-
-type RiskApiRequestReturnType<URL extends RiskApiUrlPaths> = {
-    response: RiskApiResponse<URL> | undefined;
+interface UseRequestReturnTypeBase<RESPONSE> {
+    response: RESPONSE | undefined;
     pending: boolean;
     error: TransformedError | undefined;
     retrigger: () => void;
 }
 
-type GoApiRequestReturnType<URL extends GoApiUrlPaths> = {
-    response: GoApiResponse<URL> | undefined;
-    pending: boolean;
-    error: TransformedError | undefined;
-    retrigger: () => void;
-}
+type GoRequestOptions<
+    PATH extends keyof goApiPaths | keyof riskApiPaths,
+    METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | undefined,
+    API_TYPE extends 'default' | 'risk' = 'default',
+    OMISSION extends 'response' = never,
+> = (
+    API_TYPE extends 'risk'
+        ? PATH extends keyof riskApiPaths
+            ? METHOD extends 'GET' | undefined
+                ? RiskApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                    & RiskApiGetOption<PATH, OMISSION>
+                : METHOD extends 'PUT'
+                    ? RiskApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                        & RiskApiPutOptions<PATH, OMISSION>
+                    : METHOD extends 'PATCH'
+                        ? RiskApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                            & RiskApiPatchOptions<PATH, OMISSION>
+                        : METHOD extends 'POST'
+                            ? RiskApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                                & RiskApiPostOptions<PATH, OMISSION>
+                            : METHOD extends 'DELETE'
+                                ? RiskApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                                    & RiskApiDeleteOptions<PATH>
+                                : never
+            : never
+        : PATH extends keyof goApiPaths
+            ? METHOD extends 'GET' | undefined
+                ? GoApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                    & GoApiGetOption<PATH, OMISSION>
+                : METHOD extends 'PUT'
+                    ? GoApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                        & GoApiPutOptions<PATH, OMISSION>
+                    : METHOD extends 'PATCH'
+                        ? GoApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                            & GoApiPatchOptions<PATH, OMISSION>
+                        : METHOD extends 'POST'
+                            ? GoApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                                & GoApiPostOptions<PATH, OMISSION>
+                            : METHOD extends 'DELETE'
+                                ? GoApiRequestOptionsBase<PATH, METHOD, API_TYPE>
+                                    & GoApiDeleteOptions<PATH>
+                                : never
+        : never
+);
+type GoRequestReturn<
+    PATH extends keyof goApiPaths | keyof riskApiPaths,
+    METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | undefined,
+    API_TYPE extends 'risk' | 'default' = 'default',
+> = (
+    API_TYPE extends 'risk'
+        ? PATH extends keyof riskApiPaths
+            ? METHOD extends 'GET' | undefined
+                ? UseRequestReturnTypeBase<RiskApiGetOption<PATH>['response']>
+                : METHOD extends 'PUT'
+                    ? UseRequestReturnTypeBase<RiskApiPutOptions<PATH>['response']>
+                    : METHOD extends 'PATCH'
+                        ? UseRequestReturnTypeBase<RiskApiPatchOptions<PATH>['response']>
+                        : METHOD extends 'POST'
+                            ? UseRequestReturnTypeBase<RiskApiPostOptions<PATH>['response']>
+                            : METHOD extends 'DELETE'
+                                ? UseRequestReturnTypeBase<undefined>
+                                : never
+            : never
+        : PATH extends keyof goApiPaths
+            ? METHOD extends 'GET' | undefined
+                ? UseRequestReturnTypeBase<GoApiGetOption<PATH>['response']>
+                : METHOD extends 'PUT'
+                    ? UseRequestReturnTypeBase<GoApiPutOptions<PATH>['response']>
+                    : METHOD extends 'PATCH'
+                        ? UseRequestReturnTypeBase<GoApiPatchOptions<PATH>['response']>
+                        : METHOD extends 'POST'
+                            ? UseRequestReturnTypeBase<GoApiPostOptions<PATH>['response']>
+                            : METHOD extends 'DELETE'
+                                ? UseRequestReturnTypeBase<undefined>
+                                : never
+            : never
+);
 
 // TODO: add url typing
 // TODO: use path varialbes
@@ -361,21 +384,16 @@ const useGoLazyRequest: <R, C = unknown>(requestOptions: LazyRequestOptions<R, T
     context: C | undefined,
 } = useLazyRequest;
 
-function useReq<URL extends RiskApiUrlPaths>(
-    requestOptions: { apiType: 'risk' } & RiskRequestOptions<URL>
-): RiskApiRequestReturnType<URL>
-function useReq<URL extends GoApiUrlPaths>(
-    requestOptions: { apiType?: 'default' } & GoRequestOptions<URL>
-): GoApiRequestReturnType<URL>
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function useReq(requestOptions: any) {
-    return useReq(requestOptions);
-}
-
-// const useGoRequest: GoApiRequest & RiskApiRequest = useRequest;
+const useGoRequest: <
+    PATH extends keyof goApiPaths | keyof riskApiPaths,
+    METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | undefined,
+    API_TYPE extends 'risk' | 'default' = 'default',
+>(
+    requestOptions: GoRequestOptions<PATH, METHOD, API_TYPE, 'response'>
+) => GoRequestReturn<PATH, METHOD, API_TYPE> = useRequest;
 
 export {
     RequestContext,
-    useReq as useRequest,
+    useGoRequest as useRequest,
     useGoLazyRequest as useLazyRequest,
 };
