@@ -18,14 +18,14 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const {
-        catalogueCash: catalogueCashRoute,
+        catalogueHealth: catalogueHealthRoute,
     } = useContext(RouteContext);
 
     const goBack = useGoBack();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueCashRoute.absolutePath));
-    }, [goBack, catalogueCashRoute.absolutePath]);
+        goBack(generatePath(catalogueHealthRoute.absolutePath));
+    }, [goBack, catalogueHealthRoute.absolutePath]);
 
     return (
         <Container
