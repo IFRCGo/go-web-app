@@ -44,17 +44,19 @@ export function Component() {
             />
             <div className={styles.fieldReportSubtitle}>
                 {strings.populationMovementSubtitle}
-                {country && <Link
-                    className={styles.titleLink}
-                    to={'/countries/' + country.id + '#operations'}
-                >
-                    {country.name}
-                </Link>
-                }
+                {country
+                    && (
+                        <Link
+                            className={styles.titleLink}
+                            to={`/countries/${country.id}#operations`}
+                        >
+                            {country.name}
+                        </Link>
+                    )}
                 |
                 <Link
                     className={styles.titleLink}
-                    to={'/emergencies/' + fieldReportResponse?.event?.id}
+                    to={`/emergencies/${fieldReportResponse?.event?.id}`}
                 >
                     {fieldReportResponse?.summary}
                 </Link>
