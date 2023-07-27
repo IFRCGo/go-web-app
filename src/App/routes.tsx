@@ -1293,12 +1293,12 @@ const fieldReportsFormDetails = customWrapRoute({
     parent: root,
     wrapperComponent: Auth,
     context: {
-        title: 'All Field Reports',
+        title: 'Field Report Details',
         visibility: 'anything',
     },
 });
 
-//  FIX ME: Add field report form link
+// FIXME: Add field report form
 
 const fieldReportsFormEdit = customWrapRoute({
     path: 'field-reports/:fieldReportId/edit',

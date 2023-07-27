@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { useParams } from 'react-router-dom';
 import { isNotDefined } from '@togglecorp/fujs';
 import { useRequest } from '#utils/restRequest';
@@ -29,6 +31,8 @@ export function Component() {
             id: fieldReportId,
         },
     });
+    const countries = fieldReportResponse?.countries;
+    const country = (countries ?? [])[0];
 
     return (
         <Page
@@ -40,18 +44,17 @@ export function Component() {
             />
             <div className={styles.fieldReportSubtitle}>
                 {strings.populationMovementSubtitle}
-                <Link
+                {country && <Link
                     className={styles.titleLink}
-                    to={`/countries/${fieldReportResponse?.countries?.map((country) => country.id)}#operations`}
+                    to={'/countries/' + country.id + '#operations'}
                 >
-                    {fieldReportResponse?.countries?.map(
-                        (country) => country.name,
-                    )}
+                    {country.name}
                 </Link>
+                }
                 |
                 <Link
                     className={styles.titleLink}
-                    to={`/emergencies/${fieldReportResponse?.event?.id}`}
+                    to={'/emergencies/' + fieldReportResponse?.event?.id}
                 >
                     {fieldReportResponse?.summary}
                 </Link>
@@ -73,16 +76,16 @@ export function Component() {
                         format="dd-MM-yyyy"
                     />
                     (
-                    {fieldReportResponse?.regions?.map((region) => region.name)}
+                    {fieldReportResponse?.regions?.map((region) => region.name).join(',')}
                     -
-                    {fieldReportResponse?.districts?.map((district) => district.name)}
+                    {fieldReportResponse?.districts?.map((district) => district.name).join(',')}
                     )
                 </div>
                 <Header
                     heading={strings.numericDetailsTitle}
                     headingLevel={3}
                 />
-                <div className={styles.fieldReportDetails}>
+                <div className={styles.fieldReportDetail}>
                     <TextOutput
                         labelClassName={styles.fieldReportLabel}
                         label={strings.injuredRCLabel}
@@ -252,7 +255,7 @@ export function Component() {
                     headingLevel={4}
                 />
                 {fieldReportResponse?.contacts?.map((contact) => (
-                    <>
+                    <Fragment key={contact.id}>
                         <Header
                             heading={contact.ctype}
                             headingLevel={4}
@@ -260,7 +263,7 @@ export function Component() {
                         <div className={styles.information}>
                             {contact.name}
                         </div>
-                    </>
+                    </Fragment>
                 ))}
             </div>
         </Page>

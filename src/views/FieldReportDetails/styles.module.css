@@ -32,7 +32,7 @@
             color: var(--go-ui-color-gray-70);
         }
 
-        .field-report-details {
+        .field-report-detail {
             grid-column: 1 / -1;
             display: grid;
             grid-gap: var(--go-ui-spacing-xl);
