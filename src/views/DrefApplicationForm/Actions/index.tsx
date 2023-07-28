@@ -382,7 +382,7 @@ function Actions(props: Props) {
                                     name="assessment_report"
                                     accept=".pdf, .docx, .pptx"
                                     onChange={setFieldValue}
-                                    url="api/v2/dref-files/"
+                                    url="/api/v2/dref-files/"
                                     value={value?.assessment_report}
                                     fileIdToUrlMap={fileIdToUrlMap}
                                     setFileIdToUrlMap={setFileIdToUrlMap}

@@ -20,23 +20,13 @@ import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
-interface AggregatedAppealResponse {
-    active_appeals: number | null;
-    active_drefs: number | null;
-    amount_funded: number | null;
-    amount_requested: number | null;
-    amount_requested_dref_included: number | null;
-    target_population: number | null;
-    total_appeals: number | null;
-}
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
-    } = useRequest<AggregatedAppealResponse>({
+    } = useRequest({
         url: '/api/v2/appeal/aggregated',
     });
 

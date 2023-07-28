@@ -3,6 +3,7 @@ import {
     _cs,
     isDefined,
 } from '@togglecorp/fujs';
+import { nonFieldError } from '@togglecorp/toggle-form';
 
 import InputError from '#components/InputError';
 import Link from '#components/Link';
@@ -10,10 +11,14 @@ import { NameType } from '#components/types';
 import type { ButtonVariant } from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
-import { nonFieldError } from '@togglecorp/toggle-form';
+import { paths } from '#generated/types';
 import useAlert from '#hooks/useAlert';
 
 import styles from './styles.module.css';
+
+type supportedPaths = '/api/v2/per-file/multiple/' | '/api/v2/dref-files/multiple/' | '/api/v2/flash-update-file/multiple/';
+
+type RequestBody = paths[supportedPaths]['post']['requestBody']['content']['application/json'];
 
 interface FileUploadResult {
     id: number;
@@ -38,7 +43,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     onChange: (value: number[] | undefined, name: T) => void;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
-    url: string;
+    url: supportedPaths;
     value: number[] | undefined | null;
     variant?: ButtonVariant;
     hidePreview?: boolean;
@@ -74,20 +79,24 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     const {
         pending,
         trigger: triggerFileUpload,
-    } = useLazyRequest<FileUploadResult[], { files: File[] }>({
+    } = useLazyRequest({
         formData: true,
         url,
         method: 'POST',
-        body: (body) => {
+        body: (body: { files: File[] }) => {
             const formData = new FormData();
 
             body.files.forEach((file) => {
                 formData.append('file', file);
             });
 
-            return formData.getAll('file');
+            // FIXME: typing should be fixed in the server
+            return formData.getAll('file') as unknown as RequestBody;
         },
-        onSuccess: (response) => {
+        onSuccess: (responseUnsafe) => {
+            // FIXME: typing should be fixed in the server
+            const response = responseUnsafe as unknown as FileUploadResult[];
+
             const ids = response.map((val) => keySelector(val));
 
             if (setFileIdToUrlMap) {

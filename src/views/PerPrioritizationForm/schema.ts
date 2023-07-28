@@ -5,9 +5,10 @@ import {
 
 import type { paths } from '#generated/types';
 
-type PrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['put']['requestBody']['content']['application/json'];
-type ComponentResponse = NonNullable<PrioritizationResponse['component_responses']>[number];
-export type PrioritizationFormFields = Omit<PrioritizationResponse, 'id' | 'component_responses'> & ({
+export type PrioritizationRequestBody = paths['/api/v2/per-prioritization/{id}/']['put']['requestBody']['content']['application/json'];
+
+type ComponentResponse = NonNullable<PrioritizationRequestBody['component_responses']>[number];
+export type PrioritizationFormFields = Omit<PrioritizationRequestBody, 'id' | 'component_responses'> & ({
     component_responses: Omit<ComponentResponse, 'component_details'>[];
 });
 export type PartialPrioritization = PartialForm<PrioritizationFormFields, 'component'>

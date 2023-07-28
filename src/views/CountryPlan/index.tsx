@@ -2,10 +2,6 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import { DownloadLineIcon } from '@ifrc-go/icons';
 import { isNotDefined } from '@togglecorp/fujs';
 
-import { useRequest } from '#utils/restRequest';
-import useTranslation from '#hooks/useTranslation';
-import { paths } from '#generated/types';
-
 import type { CountryOutletContext } from '#utils/outletContext';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
@@ -13,15 +9,14 @@ import BlockLoading from '#components/BlockLoading';
 import Message from '#components/Message';
 import Container from '#components/Container';
 import { resolveToString } from '#utils/translation';
+import { useRequest } from '#utils/restRequest';
+import useTranslation from '#hooks/useTranslation';
 
 import StrategicPrioritiesTable from './StrategicPrioritiesTable';
 import MembershipCoordinationTable from './MembershipCoordinationTable';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type GetCountryPlan = paths['/api/v2/country-plan/{country}/']['get'];
-type GetCountryPlanResponse = GetCountryPlan['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -32,11 +27,11 @@ export function Component() {
     const {
         pending: countryPlanPending,
         response: countryPlanResponse,
-    } = useRequest<GetCountryPlanResponse>({
+    } = useRequest({
         skip: isNotDefined(countryId) || !countryResponse?.has_country_plan,
         url: '/api/v2/country-plan/{country}/',
         pathVariables: {
-            country: countryId,
+            country: Number(countryId),
         },
     });
 

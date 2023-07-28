@@ -17,8 +17,8 @@ import BlockLoading from '#components/BlockLoading';
 
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import UserContext from '#contexts/user';
-import type { paths } from '#generated/types';
 
 import OperationInfoCard, { Props as OperationInfoCardProps } from './OperationInfoCard';
 import ChangePasswordModal from './ChangePassword';
@@ -26,11 +26,7 @@ import EditAccountInfo from './EditAccountInfo';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetUserMeResponse = paths['/api/v2/user/me/']['get'];
-type UserMeResponse = GetUserMeResponse['responses']['200']['content']['application/json'];
-
-type GetOperations = paths['/api/v2/event/']['get'];
-type OperationsResponse = GetOperations['responses']['200']['content']['application/json'];
+type OperationsResponse = GoApiResponse<'/api/v2/event/'>;
 
 const ITEM_PER_PAGE = 5;
 
@@ -49,13 +45,14 @@ export function Component() {
         error: operationResponseError,
         response: operationsRes,
         pending: operationsPending,
-    } = useRequest<OperationsResponse>({
+    } = useRequest({
         url: '/api/v2/event/',
         query: {
             is_featured: 1,
             limit: ITEM_PER_PAGE,
             offset: ITEM_PER_PAGE * (page - 1),
-        },
+            // FIXME: typings should be fixed in server
+        } as never,
         preserveResponse: true,
     });
 
@@ -63,7 +60,7 @@ export function Component() {
         pending: mePending,
         response: meResponse,
         retrigger: retriggerUserDetails,
-    } = useRequest<UserMeResponse>({
+    } = useRequest({
         skip: !userAuth,
         url: '/api/v2/user/me/',
     });

@@ -20,6 +20,7 @@ import Map, {
 } from '@togglecorp/re-map';
 
 import { useRequest } from '#utils/restRequest';
+import type { GoApiUrlQuery } from '#utils/restRequest';
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
@@ -31,7 +32,6 @@ import {
     defaultMapStyle,
     defaultMapOptions,
 } from '#utils/map';
-import { paths } from '#generated/types';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
@@ -54,12 +54,7 @@ import {
 } from './utils';
 import styles from './styles.module.css';
 
-type GetAppeal = paths['/api/v2/appeal/']['get'];
-type AppealQueryParams = GetAppeal['parameters']['query'];
-type AppealResponse = GetAppeal['responses']['200']['content']['application/json'];
-
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type AppealQueryParams = GoApiUrlQuery<'/api/v2/appeal/'>;
 
 const today = new Date().toISOString();
 const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
@@ -142,14 +137,14 @@ function ActiveOperationMap(props: Props) {
     const strings = useTranslation(i18n);
     const {
         response: appealResponse,
-    } = useRequest<AppealResponse>({
+    } = useRequest({
         url: '/api/v2/appeal/',
         query,
     });
 
     const {
         response: countryResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
         // FIXME: only pull countries in the region
         query: {

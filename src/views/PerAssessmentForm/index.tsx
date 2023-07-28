@@ -10,6 +10,7 @@ import {
     listToMap,
     compareNumber,
     listToGroupList,
+    isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
 import {
@@ -57,8 +58,6 @@ const defaultFormValue: PartialAssessment = {
 type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
 type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
 type PerFormArea = NonNullable<PerFormQuestionResponse['results']>[number]['component']['area']
-type PerOverviewResponse = paths['/api/v2/per-overview/{id}/']['get']['responses']['200']['content']['application/json'];
-type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
 
 const defaultFormAreas: PerFormArea[] = [];
 
@@ -95,14 +94,14 @@ export function Component() {
     const {
         pending: perOptionsPending,
         response: perOptionsResponse,
-    } = useRequest<PerOptionsResponse>({
+    } = useRequest({
         url: '/api/v2/per-options/',
     });
 
     const {
         pending: questionsPending,
         response: questionsResponse,
-    } = useRequest<PerFormQuestionResponse>({
+    } = useRequest({
         url: '/api/v2/per-formquestion/',
         query: {
             limit: 500,
@@ -123,21 +122,21 @@ export function Component() {
 
     const {
         response: perOverviewResponse,
-    } = useRequest<PerOverviewResponse>({
+    } = useRequest({
         skip: isNotDefined(statusResponse?.id),
         url: '/api/v2/per-overview/{id}/',
         pathVariables: {
-            id: statusResponse?.id,
+            id: Number(statusResponse?.id),
         },
     });
 
     const {
         pending: perAssesmentPending,
-    } = useRequest<AssessmentResponse>({
+    } = useRequest({
         skip: isNotDefined(statusResponse?.id),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {
-            id: assessmentId ?? undefined,
+            id: Number(assessmentId),
         },
         onSuccess: (response) => {
             if (response) {
@@ -149,10 +148,13 @@ export function Component() {
     const {
         pending: savePerPending,
         trigger: savePerAssessment,
-    } = useLazyRequest<AssessmentResponse, AssessmentResponse>({
-        url: `api/v2/per-assessment/${assessmentId}/`,
+    } = useLazyRequest({
+        url: '/api/v2/per-assessment/{id}/',
+        pathVariables: isDefined(assessmentId)
+            ? { id: assessmentId }
+            : undefined,
         method: 'PUT',
-        body: (ctx) => ctx,
+        body: (ctx: AssessmentResponse) => ctx,
         onSuccess: (response) => {
             if (!response) {
                 // TODO: show proper error message
@@ -371,5 +373,3 @@ export function Component() {
         </form>
     );
 }
-
-Component.displayName = 'PerAssessmentForm';

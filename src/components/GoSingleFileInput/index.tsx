@@ -8,9 +8,14 @@ import type { ButtonVariant } from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
 import { nonFieldError } from '@togglecorp/toggle-form';
+import { paths } from '#generated/types';
 import useAlert from '#hooks/useAlert';
 
 import styles from './styles.module.css';
+
+type supportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/';
+
+type RequestBody = paths[supportedPaths]['post']['requestBody']['content']['application/json'];
 
 interface FileUploadResult {
     id: number;
@@ -29,7 +34,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     onChange: (value: number | undefined, name: T) => void;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
-    url: string;
+    url: supportedPaths;
     value: number | undefined | null;
     variant?: ButtonVariant;
     hidePreview?: boolean;
@@ -65,12 +70,14 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
     const {
         pending,
         trigger: triggerFileUpload,
-    } = useLazyRequest<FileUploadResult, { file: File }>({
+    } = useLazyRequest({
         formData: true,
         url,
         method: 'POST',
-        body: (body) => body,
-        onSuccess: (response) => {
+        body: (body: RequestBody) => body,
+        onSuccess: (responseUnsafe) => {
+            // FIXME: typing should be fixed in the server
+            const response = responseUnsafe as FileUploadResult;
             const id = keySelector(response);
             const file = valueSelector(response);
             onChange(id, name);
@@ -98,7 +105,8 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
 
     const handleChange = useCallback((file: File | undefined) => {
         if (file) {
-            triggerFileUpload({ file });
+            // FIXME: typing should be fixed in the server
+            triggerFileUpload({ file } as unknown as RequestBody);
         }
     }, [triggerFileUpload]);
 

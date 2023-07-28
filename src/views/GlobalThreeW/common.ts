@@ -42,7 +42,7 @@ export interface GlobalProjectsOverview {
     projects_per_secondary_sectors: ProjectPerSecondarySector[];
 }
 
-export function countSelector<D extends { count: number }>(d: D) {
+export function countSelector(d: { count: number | null | undefined }) {
     return d.count;
 }
 

@@ -27,8 +27,8 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import { resolveToString } from '#utils/translation';
 import { KEY_URL_SEARCH } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
-import { paths } from '#generated/types';
 
 import ResultTable from './ResultTable';
 import ResultList from './ResultList';
@@ -36,10 +36,8 @@ import ResultList from './ResultList';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetSearch = paths['/api/v1/search/']['get'];
 // TODO missing query params
-// type SearchQueryParams = GetSearch['parameters']['query'];
-type SearchResponse = GetSearch['responses']['200']['content']['application/json'];
+type SearchResponse = GoApiResponse<'/api/v1/search/'>;
 
 const MAX_VIEW_PER_SECTION = 5;
 type SearchResponseKeys = keyof SearchResponse;
@@ -79,10 +77,11 @@ export function Component() {
     const {
         pending: searchPending,
         response: searchResponse,
-    } = useRequest<SearchResponse>({
-        url: '/api/v1/search/',
-        query: { keyword: urlSearchValue },
+    } = useRequest({
         skip: isNotDefined(urlSearchValue),
+        url: '/api/v1/search/',
+        // FIXME: typings should be fixed in the server
+        query: { keyword: urlSearchValue } as never,
     });
 
     const headingStringMap = useMemo<Record<SearchResponseKeys, string>>(

@@ -23,7 +23,7 @@ import LegendItem from '#components/LegendItem';
 import RouteContext from '#contexts/route';
 import BarChart from '#components/BarChart';
 import { useRequest } from '#utils/restRequest';
-import type { paths } from '#generated/types';
+import type { GoApiResponse } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
@@ -41,16 +41,16 @@ import {
 } from '#utils/constants';
 
 import {
-    NSOngoingProjectStat,
     countSelector,
     projectPerSectorLabelSelector,
     projectPerSectorKeySelector,
 } from '../common';
 import styles from './styles.module.css';
 
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryResponse = GoApiResponse<'/api/v2/country/'>;
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
+
+type NsProjectsResponse = GoApiResponse<'/api/v2/global-project/ns-ongoing-projects-stats/'>;
 
 const redPointCirclePaint = getPointCirclePaint(COLOR_RED);
 const bluePointCirclePaint = getPointCirclePaint(COLOR_BLUE);
@@ -71,16 +71,18 @@ interface ClickedPoint {
 
 type NSProjectGeoJson = GeoJSON.FeatureCollection<GeoJSON.Point, GeoJsonProps>;
 
-function getPointType(projectStat: NSOngoingProjectStat) {
+// FIXME: typings should be fixed in the server
+function getPointType(projectStat: NsProjectsResponse) {
     const {
         operation_types,
         operation_types_display,
     } = projectStat;
 
-    if (operation_types.length === 1) {
+    if (operation_types?.length === 1) {
         return {
-            id: operation_types[0],
-            title: operation_types_display[0],
+            // FIXME: typings should be fixed in the server
+            id: operation_types[0] as number,
+            title: operation_types_display?.[0] as string,
         };
     }
 
@@ -95,7 +97,7 @@ function getGeoJson(
     countries: CountryListItem[],
     nsProjectsMap: Record<number, {
         countryId: number;
-        total: number;
+        total: number | undefined;
         type: {
             id: number;
             title: string;
@@ -107,14 +109,20 @@ function getGeoJson(
         type: 'FeatureCollection' as const,
         features: countries.map((country) => {
             const nsProject = nsProjectsMap[country.id];
-            if (!nsProject || nsProject.type.id !== operationType || !country.centroid) {
+            if (!nsProject
+                || nsProject.type.id !== operationType
+                || !country.centroid
+            ) {
                 return undefined;
             }
 
             return {
                 id: country.id,
                 type: 'Feature' as const,
-                properties: nsProject,
+                properties: {
+                    ...nsProject,
+                    total: nsProject.total ?? 0,
+                },
                 geometry: country.centroid as {
                     type: 'Point',
                     coordinates: [number, number],
@@ -124,21 +132,19 @@ function getGeoJson(
     };
 }
 
-interface OperationType {
-    key: number;
-    label: string;
-}
-
 interface Props {
     className?: string;
-    projectList?: NSOngoingProjectStat[];
+    projectList: NsProjectsResponse | undefined;
 }
 
 function GlobalThreeWMap(props: Props) {
     const {
         className,
-        projectList,
+        projectList: projectListFromProps,
     } = props;
+
+    // FIXME typings need to be fixed in server
+    const projectList = projectListFromProps as unknown as NsProjectsResponse[] | undefined;
 
     const {
         countryThreeW: countryThreeWRoute,
@@ -151,14 +157,14 @@ function GlobalThreeWMap(props: Props) {
 
     const {
         response: countriesResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
     });
 
     const {
         response: operationTypeResponse,
-    } = useRequest<OperationType[]>({
+    } = useRequest({
         url: '/api/v2/operationtype',
     });
 
@@ -166,7 +172,7 @@ function GlobalThreeWMap(props: Props) {
 
     const maxProjectCount = useMemo(() => (
         Math.max(
-            ...(projectList?.map((d) => d.ongoing_projects) ?? []),
+            ...(projectList?.map((d) => d.ongoing_projects ?? 0) ?? []),
             0,
         )
     ), [projectList]);
@@ -178,7 +184,7 @@ function GlobalThreeWMap(props: Props) {
                 (item) => item.id,
                 (item) => ({
                     countryId: item.id,
-                    total: item.ongoing_projects,
+                    total: item.ongoing_projects ?? undefined,
                     type: getPointType(item),
                 }),
             )
@@ -231,7 +237,8 @@ function GlobalThreeWMap(props: Props) {
             return {
                 ...clickedProjectItem,
                 maxScaleValue: max(
-                    clickedProjectItem.projects_per_sector,
+                    // FIXME typings should be fixed in the server
+                    clickedProjectItem.projects_per_sector as { count: number }[],
                     (projectItem) => projectItem.count,
                 ),
             };
@@ -257,6 +264,9 @@ function GlobalThreeWMap(props: Props) {
         [setClickedPointProperties],
     );
 
+    // FIXME: typings should be fixed in the server
+    const tempOpResponse = operationTypeResponse as { key: number, label: string}[] | undefined;
+
     return (
         <Map
             mapStyle={defaultMapStyle}
@@ -269,9 +279,9 @@ function GlobalThreeWMap(props: Props) {
                 <MapContainer className={_cs(styles.mapContainer, className)} />
                 <GoMapDisclaimer className={styles.mapDisclaimer} />
             </div>
-            {operationTypeResponse && (
+            {tempOpResponse && (
                 <div className={styles.legend}>
-                    {operationTypeResponse.map((d) => (
+                    {tempOpResponse.map((d) => (
                         <LegendItem
                             key={d.key}
                             label={d.label}
@@ -388,7 +398,12 @@ function GlobalThreeWMap(props: Props) {
                     >
                         <BarChart
                             className={styles.topProjectSectorsChart}
-                            data={selectedNsProjectStats.projects_per_sector}
+                            // FIXME: typings should be fixed in the server
+                            data={selectedNsProjectStats.projects_per_sector as {
+                                count: number;
+                                primary_sector: number;
+                                primary_sector_display: string;
+                            }[]}
                             keySelector={projectPerSectorKeySelector}
                             labelSelector={projectPerSectorLabelSelector}
                             valueSelector={countSelector}

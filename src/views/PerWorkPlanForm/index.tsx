@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import {
     isNotDefined,
+    isDefined,
     listToMap,
     randomString,
 } from '@togglecorp/fujs';
@@ -31,21 +32,17 @@ import { STEP_WORKPLAN } from '#utils/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
-import { paths } from '#generated/types';
 
 import CustomComponentInput from './CustomComponentInput';
 import ComponentInput from './ComponentInput';
 
 import {
+    WorkPlanBody,
     workplanSchema,
     PartialWorkPlan,
 } from './schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type CountryResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
-type WorkPlanResponse = paths['/api/v2/per-work-plan/{id}/']['get']['responses']['200']['content']['application/json'];
-type PrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['put']['responses']['200']['content']['application/json'];
 
 const defaultValue: PartialWorkPlan = {};
 
@@ -78,7 +75,7 @@ export function Component() {
     const {
         pending: countriesPending,
         response: countriesResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
     });
@@ -86,21 +83,21 @@ export function Component() {
     const {
         pending: prioritizationPending,
         response: prioritizationResponse,
-    } = useRequest<PrioritizationResponse>({
+    } = useRequest({
         skip: isNotDefined(statusResponse?.prioritization),
         url: '/api/v2/per-prioritization/{id}/',
         pathVariables: {
-            id: statusResponse?.prioritization ?? undefined,
+            id: Number(statusResponse?.prioritization),
         },
     });
 
     const {
         pending: workPlanPending,
-    } = useRequest<WorkPlanResponse>({
+    } = useRequest({
         skip: isNotDefined(statusResponse?.workplan),
         url: '/api/v2/per-work-plan/{id}/',
         pathVariables: {
-            id: statusResponse?.workplan ?? undefined,
+            id: Number(statusResponse?.workplan),
         },
         onSuccess: (response) => {
             const {
@@ -151,10 +148,13 @@ export function Component() {
     const {
         pending: savePerWorkPlanPending,
         trigger: savePerWorkPlan,
-    } = useLazyRequest<WorkPlanResponse, PartialWorkPlan>({
-        url: `api/v2/per-work-plan/${statusResponse?.workplan}/`,
+    } = useLazyRequest({
+        url: '/api/v2/per-work-plan/{id}/',
+        pathVariables: statusResponse && isDefined(statusResponse.workplan)
+            ? { id: statusResponse.workplan }
+            : undefined,
         method: 'PUT',
-        body: (ctx) => ctx,
+        body: (ctx: WorkPlanBody) => ctx,
         onSuccess: (response) => {
             if (!response) {
                 // TODO: show proper error message
@@ -251,7 +251,7 @@ export function Component() {
             savePerWorkPlan({
                 ...formValues,
                 is_draft: true,
-            });
+            } as WorkPlanBody);
         },
         [savePerWorkPlan, statusResponse?.workplan],
     );
@@ -266,7 +266,7 @@ export function Component() {
             savePerWorkPlan({
                 ...formValues,
                 is_draft: false,
-            });
+            } as WorkPlanBody);
         },
         [savePerWorkPlan, statusResponse?.workplan],
     );

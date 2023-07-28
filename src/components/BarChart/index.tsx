@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import NumberOutput from '#components/NumberOutput';
 
@@ -7,9 +7,9 @@ import styles from './styles.module.css';
 
 interface Props<D> {
     className?: string;
-    data: D[];
+    data: D[] | null | undefined;
     keySelector: (datum: D) => number | string;
-    valueSelector: (datum: D) => number;
+    valueSelector: (datum: D) => number | null | undefined;
     labelSelector: (datum: D) => React.ReactNode;
 }
 
@@ -24,11 +24,19 @@ function BarChart<D>(props: Props<D>) {
 
     const renderData = useMemo(
         () => (
-            data.map((datum) => ({
-                key: keySelector(datum),
-                value: valueSelector(datum),
-                label: labelSelector(datum),
-            })).sort((a, b) => b.value - a.value).slice(0, 5)
+            data?.map((datum) => {
+                const value = valueSelector(datum);
+
+                if (isNotDefined(value)) {
+                    return undefined;
+                }
+
+                return {
+                    key: keySelector(datum),
+                    value,
+                    label: labelSelector(datum),
+                };
+            }).filter(isDefined).sort((a, b) => b.value - a.value).slice(0, 5) ?? []
         ),
         [data, keySelector, valueSelector, labelSelector],
     );

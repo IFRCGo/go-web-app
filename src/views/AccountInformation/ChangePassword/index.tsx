@@ -24,9 +24,9 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PostChangePassword = paths['/change_password']['post'];
-type PasswordChangeResponse = PostChangePassword['requestBody']['content']['application/json'];
+type PasswordChangeRequestBody = PostChangePassword['requestBody']['content']['application/json'];
 
-type FormFields = PartialForm<PasswordChangeResponse & { confirmNewPassword: string }>;
+type FormFields = PartialForm<PasswordChangeRequestBody & { confirmNewPassword: string }>;
 
 const defaultFormValue: FormFields = {};
 
@@ -85,10 +85,10 @@ function ChangePasswordsModal(props: Props) {
     const {
         pending: updatePasswordPending,
         trigger: updatePassword,
-    } = useLazyRequest<PasswordChangeResponse, FormFields>({
+    } = useLazyRequest({
         method: 'POST',
         url: '/change_password',
-        body: (body) => body,
+        body: (body: PasswordChangeRequestBody) => body,
         onSuccess: () => {
             alert.show(
                 strings.changePasswordSuccessMessage,
@@ -113,13 +113,13 @@ function ChangePasswordsModal(props: Props) {
         },
     });
 
-    const handleConfirmPasswordChange = useCallback((formValues: PartialForm<FormFields>) => {
+    const handleConfirmPasswordChange = useCallback((formValues: FormFields) => {
         const passwordFormValues = {
             ...formValues,
             username: userAuth?.username,
             token: userAuth?.token,
         };
-        updatePassword(passwordFormValues as FormFields);
+        updatePassword(passwordFormValues as PasswordChangeRequestBody);
     }, [userAuth, updatePassword]);
 
     const handleSubmitPassword = createSubmitHandler(

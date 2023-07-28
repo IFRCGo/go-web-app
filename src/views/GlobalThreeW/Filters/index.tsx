@@ -2,28 +2,15 @@ import { useMemo, useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';
-import { useRequest } from '#utils/restRequest';
-import { isValidNationalSociety } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
-import type { paths } from '#generated/types';
+import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
+import { isValidNationalSociety } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type CountriesResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
-type CountryListItem = NonNullable<CountriesResponse['results']>[number];
-
-interface SectorItem {
-    key: number;
-    label: string;
-    color: string | null;
-    is_deprecated: boolean;
-}
-
-interface ProgrammeType {
-    key: number;
-    label: string;
-}
+type CountryListItem = NonNullable<GoApiResponse<'/api/v2/country/'>['results']>[number];
 
 export interface FilterValue {
     reporting_ns: number[];
@@ -65,20 +52,20 @@ function Filters(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const { response: countriesResponse } = useRequest<CountriesResponse>({
+    const { response: countriesResponse } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
     });
 
-    const { response: primarySectorResponse } = useRequest<SectorItem[]>({
+    const { response: primarySectorResponse } = useRequest({
         url: '/api/v2/primarysector',
     });
 
-    const { response: secondarySectorResponse } = useRequest<SectorItem[]>({
+    const { response: secondarySectorResponse } = useRequest({
         url: '/api/v2/secondarysector',
     });
 
-    const { response: programmeTypeResponse } = useRequest<ProgrammeType[]>({
+    const { response: programmeTypeResponse } = useRequest({
         url: '/api/v2/programmetype',
     });
 
@@ -115,7 +102,8 @@ function Filters(props: Props) {
             <MultiSelectInput
                 name="programme_type"
                 placeholder={strings.threeWFilterProgrammeTypes}
-                options={programmeTypeResponse}
+                // FIXME: typings should be fixed in the server
+                options={programmeTypeResponse as { key: number, label: string }[]}
                 value={value.programme_type}
                 keySelector={numericKeySelector}
                 labelSelector={stringLabelSelector}

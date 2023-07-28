@@ -3,7 +3,7 @@ import {
     useMemo,
     useContext,
 } from 'react';
-import { useRequest } from '#utils/restRequest';
+
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import NumberOutput from '#components/NumberOutput';
@@ -17,14 +17,14 @@ import {
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
+import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
-import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetFlashUpdate = paths['/api/v2/flash-update/']['get'];
-type FlashUpdateResponse = GetFlashUpdate['responses']['200']['content']['application/json'];
+type FlashUpdateResponse = GoApiResponse<'/api/v2/flash-update/'>;
 type FlashUpdateListItem = NonNullable<FlashUpdateResponse['results']>[number];
 
 const thirtyDaysAgo = new Date();
@@ -84,7 +84,7 @@ function FlashUpdateTable() {
     const {
         pending: flashUpdatePending,
         response: flashUpdateResponse,
-    } = useRequest<FlashUpdateResponse>({
+    } = useRequest({
         url: '/api/v2/flash-update/',
         preserveResponse: true,
         query: {

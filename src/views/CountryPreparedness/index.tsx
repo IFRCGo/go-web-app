@@ -14,7 +14,6 @@ import { sumSafe } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
 import PieChart from '#views/GlobalThreeW/PieChart';
 import useTranslation from '#hooks/useTranslation';
-import type { paths } from '#generated/types';
 import KeyFigure from '#components/KeyFigure';
 
 import Container from '#components/Container';
@@ -30,18 +29,6 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 import RatingByAreaChart from './RatingByAreaChart';
-
-type GetLatestPerOverview = paths['/api/v2/latest-per-overview/']['get'];
-type LatestPerOverviewResponse = GetLatestPerOverview['responses']['200']['content']['application/json'];
-
-type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
-type PerFormAreaResponse = paths['/api/v2/per-formarea/']['get']['responses']['200']['content']['application/json'];
-type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
-type PerOverviewResponse = paths['/api/v2/per-overview/{id}/']['get']['responses']['200']['content']['application/json'];
-type PerAssessmentResponse = paths['/api/v2/per-assessment/{id}/']['get']['responses']['200']['content']['application/json'];
-type PerPrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['get']['responses']['200']['content']['application/json'];
-
-type PerFormAnswerResponse = paths['/api/v2/per-formanswer/']['get']['responses']['200']['content']['application/json'];
 
 const primaryRedColorShades = [
     'var(--go-ui-color-red-90)',
@@ -60,63 +47,64 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { countryId } = useParams<{ countryId: string }>();
 
-    const { response: formAnswerResponse } = useRequest<PerFormAnswerResponse>({
+    const { response: formAnswerResponse } = useRequest({
         url: '/api/v2/per-formanswer/',
     });
 
     const {
         // pending: perOptionsPending,
         response: perOptionsResponse,
-    } = useRequest<PerOptionsResponse>({
+    } = useRequest({
         url: '/api/v2/per-options/',
     });
 
     const {
         // pending: perOptionsPending,
         response: perFormAreaResponse,
-    } = useRequest<PerFormAreaResponse>({
+    } = useRequest({
         url: '/api/v2/per-formarea/',
     });
 
-    const { response: latestPerResponse } = useRequest<LatestPerOverviewResponse>({
-        url: '/api/v2/latest-per-overview/',
+    const { response: latestPerResponse } = useRequest({
         skip: isNotDefined(countryId),
-        query: { country_id: countryId },
+        url: '/api/v2/latest-per-overview/',
+        // FIXME: typings should be fixed in server
+        query: { country_id: Number(countryId) } as never,
     });
 
     const perId = latestPerResponse?.results?.[0]?.id;
 
     const {
         response: processStatusResponse,
-    } = useRequest<PerProcessStatusResponse>({
+    } = useRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-process-status/{id}/',
         pathVariables: {
-            id: perId,
+            id: Number(perId),
         },
     });
 
-    const { response: overviewResponse } = useRequest<PerOverviewResponse>({
+    const { response: overviewResponse } = useRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-overview/{id}/',
         pathVariables: {
-            id: perId,
+            id: Number(perId),
         },
     });
 
-    const { response: assessmentResponse } = useRequest<PerAssessmentResponse>({
+    const { response: assessmentResponse } = useRequest({
         skip: isNotDefined(processStatusResponse?.assessment),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {
-            id: processStatusResponse?.assessment ?? undefined,
+            id: Number(processStatusResponse?.assessment),
         },
     });
 
-    const { response: prioritizationResponse } = useRequest<PerPrioritizationResponse>({
+    const { response: prioritizationResponse } = useRequest({
         skip: isNotDefined(processStatusResponse?.prioritization),
         url: '/api/v2/per-prioritization/{id}/',
         pathVariables: {
-            id: processStatusResponse?.prioritization ?? undefined,
+            id: Number(processStatusResponse?.prioritization),
         },
     });
 

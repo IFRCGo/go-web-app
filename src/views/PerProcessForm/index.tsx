@@ -9,6 +9,7 @@ import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
+
 import {
     getCurrentPerProcessStep,
     STEP_WORKPLAN,
@@ -17,12 +18,9 @@ import {
     STEP_OVERVIEW,
 } from '#utils/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
-import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -40,11 +38,11 @@ export function Component() {
     const {
         response: statusResponse,
         retrigger: refetchStatusResponse,
-    } = useRequest<PerProcessStatusResponse>({
+    } = useRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-process-status/{id}/',
         pathVariables: {
-            id: perId,
+            id: Number(perId),
         },
     });
 

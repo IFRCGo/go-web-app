@@ -42,11 +42,11 @@ function OperationInfoCard(props: Props) {
         trigger: triggerAddSubscription,
     } = useLazyRequest({
         method: 'POST',
-        body: (eventId) => ([{
+        body: (eventId: number) => ([{
             type: 'followedEvent',
             value: eventId,
         }]),
-        url: 'api/v2/add_subscription/',
+        url: '/api/v2/add_subscription/',
         onSuccess: requestSubscriptionRetrigger,
     });
 
@@ -55,10 +55,10 @@ function OperationInfoCard(props: Props) {
         trigger: triggerRemoveSubscription,
     } = useLazyRequest({
         method: 'POST',
-        body: (eventId) => ([{
+        body: (eventId: number) => ([{
             value: eventId,
         }]),
-        url: 'api/v2/del_subscription/',
+        url: '/api/v2/del_subscription/',
         onSuccess: requestSubscriptionRetrigger,
     });
 

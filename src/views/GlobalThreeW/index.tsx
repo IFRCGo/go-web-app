@@ -13,15 +13,11 @@ import Container from '#components/Container';
 import BarChart from '#components/BarChart';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 
 import Filter, { FilterValue } from './Filters';
 import PieChart from './PieChart';
 import {
-    NSOngoingProjectStat,
     GlobalProjectsOverview,
     countSelector,
     projectPerSectorLabelSelector,
@@ -74,17 +70,18 @@ export function Component() {
     const {
         pending: nsProjectsPending,
         response: nsProjectsResponse,
-    } = useRequest<ListResponse<NSOngoingProjectStat>>({
+    } = useRequest({
         url: '/api/v2/global-project/ns-ongoing-projects-stats/',
         query: {
             ...filters,
-        },
+            // FIXME: typings should be fixed in server
+        } as never,
     });
 
     const {
         pending: projectsOverviewPending,
         response: projectsOverviewResponse,
-    } = useRequest<GlobalProjectsOverview>({
+    } = useRequest({
         url: '/api/v2/global-project/overview/',
     });
 
@@ -211,7 +208,7 @@ export function Component() {
                             />
                         )}
                     >
-                        <Map projectList={nsProjectsResponse?.results} />
+                        <Map projectList={nsProjectsResponse} />
                     </Container>
                     <Container
                         heading={strings.PPPMapTitle}

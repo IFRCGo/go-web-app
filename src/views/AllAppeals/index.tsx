@@ -21,32 +21,27 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
-import { paths } from '#generated/types';
+import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import ServerEnumsContext from '#contexts/server-enums';
 import { isValidCountry } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryResponse = GoApiResponse<'/api/v2/country/'>;
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
-type GetRegion = paths['/api/v2/region/']['get'];
-type RegionResponse = GetRegion['responses']['200']['content']['application/json'];
+type RegionResponse = GoApiResponse<'/api/v2/region/'>;
 type RegionListItem = NonNullable<RegionResponse['results']>[number];
 
-type GetAppeal = paths['/api/v2/appeal/']['get'];
-type AppealQueryParams = GetAppeal['parameters']['query'];
-type AppealResponse = GetAppeal['responses']['200']['content']['application/json'];
+type AppealResponse = GoApiResponse<'/api/v2/appeal/'>;
+type AppealQueryParams = GoApiUrlQuery<'/api/v2/appeal/'>;
 type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
-type GetDisasterType = paths['/api/v2/disaster_type/']['get'];
-type DisasterTypeResponse = GetDisasterType['responses']['200']['content']['application/json'];
+type DisasterTypeResponse = GoApiResponse<'/api/v2/disaster_type/'>;
 type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[number];
 
 const appealKeySelector = (option: AppealListItem) => option.id;
@@ -145,7 +140,7 @@ export function Component() {
     const {
         pending: appealsPending,
         response: appealsResponse,
-    } = useRequest<AppealResponse>({
+    } = useRequest({
         url: '/api/v2/appeal/',
         preserveResponse: true,
         query,
@@ -154,14 +149,14 @@ export function Component() {
     const {
         pending: disasterTypePending,
         response: disasterTypeResponse,
-    } = useRequest<DisasterTypeResponse>({
+    } = useRequest({
         url: '/api/v2/disaster_type/',
     });
 
     const {
         pending: countryPending,
         response: countryResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
     });
@@ -169,7 +164,7 @@ export function Component() {
     const {
         pending: regionPending,
         response: regionResponse,
-    } = useRequest<RegionResponse>({
+    } = useRequest({
         url: '/api/v2/region/',
     });
 

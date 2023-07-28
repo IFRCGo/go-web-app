@@ -18,15 +18,14 @@ import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
-import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetEvent = paths['/api/v2/event/']['get'];
-type EventQueryParams = GetEvent['parameters']['query'];
-type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventResponse = GoApiResponse<'/api/v2/event/'>;
+type EventQueryParams = GoApiUrlQuery<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
 const thirtyDaysAgo = new Date();
@@ -102,7 +101,7 @@ function EventItemsTable() {
     const {
         pending: eventPending,
         response: eventResponse,
-    } = useRequest<EventResponse>({
+    } = useRequest({
         url: '/api/v2/event/',
         preserveResponse: true,
         query,

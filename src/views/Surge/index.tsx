@@ -14,12 +14,6 @@ import KeyFigure from '#components/KeyFigure';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-interface SurgeAggregatedResponse {
-    active_deployments: number;
-    active_erus: number;
-    deployments_this_year: number;
-}
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -33,7 +27,7 @@ export function Component() {
     const {
         pending: surgeAggregatedResponsePending,
         response: surgeAggregatedResponse,
-    } = useRequest<SurgeAggregatedResponse>({
+    } = useRequest({
         url: '/api/v2/deployment/aggregated',
     });
 
@@ -63,7 +57,7 @@ export function Component() {
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<ClinicIcon />}
-                                value={surgeAggregatedResponse.deployments_this_year}
+                                value={surgeAggregatedResponse.deployment_this_year}
                                 description={strings.deploymentsThisYearTitle}
                             />
                         </>

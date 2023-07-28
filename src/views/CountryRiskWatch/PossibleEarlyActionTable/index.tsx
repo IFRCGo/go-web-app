@@ -8,28 +8,24 @@ import Pager from '#components/Pager';
 import SelectInput from '#components/SelectInput';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
+import { useRiskRequest } from '#utils/restRequest';
+import type { GoApiResponse, RiskApiResponse } from '#utils/restRequest';
 import {
     numericIdSelector,
     stringKeySelector,
     stringNameSelector,
     stringValueSelector,
 } from '#utils/selectors';
-import type { paths as riskApiPaths } from '#generated/riskTypes';
-import type { paths as goApiPaths } from '#generated/types';
+import type { components as riskApiComponents } from '#generated/riskTypes';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetPossibleEarlyActions = riskApiPaths['/api/v1/early-actions/']['get'];
-type PossibleEarlyActionsQuery = GetPossibleEarlyActions['parameters']['query'];
+type HazardType = riskApiComponents['schemas']['HazardTypeEnum'];
 
-type PossibleEarlyActionsResponse = GetPossibleEarlyActions['responses']['200']['content']['application/json'];
+type PossibleEarlyActionsResponse = RiskApiResponse<'/api/v1/early-actions/'>;
 type ResponseItem = NonNullable<PossibleEarlyActionsResponse['results']>[number];
-
-type PossibleEarlyActionsOptionsResponse = riskApiPaths['/api/v1/early-actions/options/']['get']['responses']['200']['content']['application/json'];
-
-type CountryResponse = goApiPaths['/api/v2/country/{id}/']['get']['responses']['200']['content']['application/json'];
+type CountryResponse = GoApiResponse<'/api/v2/country/{id}/'>;
 
 const ITEM_PER_PAGE = 5;
 
@@ -100,20 +96,9 @@ function PossibleEarlyActionTable(props: Props) {
         [strings],
     );
 
-    const query = useMemo<PossibleEarlyActionsQuery>(
-        () => ({
-            limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (page - 1),
-            iso3: countryResponse?.iso3 ?? undefined,
-            hazard_type: hazardType as PossibleEarlyActionsQuery['hazard_type'],
-            sectors: sector,
-        }),
-        [page, countryResponse?.iso3, hazardType, sector],
-    );
-
     const {
         response: earlyActionsOptionsResponse,
-    } = useRequest<PossibleEarlyActionsOptionsResponse>({
+    } = useRiskRequest({
         apiType: 'risk',
         url: '/api/v1/early-actions/options/',
     });
@@ -121,11 +106,17 @@ function PossibleEarlyActionTable(props: Props) {
     const {
         pending: pendingPossibleEarlyAction,
         response: possibleEarlyActionResponse,
-    } = useRequest<PossibleEarlyActionsResponse>({
+    } = useRiskRequest({
         skip: isNotDefined(countryId),
         apiType: 'risk',
         url: '/api/v1/early-actions/',
-        query,
+        query: {
+            limit: ITEM_PER_PAGE,
+            offset: ITEM_PER_PAGE * (page - 1),
+            iso3: countryResponse?.iso3 ?? undefined,
+            hazard_type: [hazardType] as HazardType[],
+            sectors: sector,
+        },
     });
 
     const filtered = isDefined(hazardType) || isDefined(sector);

@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
-import { _cs, sum } from '@togglecorp/fujs';
+import { _cs, isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import LegendItem from '#components/LegendItem';
+import { sumSafe } from '#utils/common';
+
 import styles from './styles.module.css';
 
 const PIE_RADIUS = 70;
@@ -57,8 +59,8 @@ function getPathData(radius: number, startAngle: number, endAngleFromParams: num
 
 interface Props<D> {
     className?: string;
-    data: D[];
-    valueSelector: (datum: D) => number;
+    data: D[] | undefined | null;
+    valueSelector: (datum: D) => number | undefined | null;
     labelSelector: (datum: D) => React.ReactNode;
     keySelector: (datum: D) => number | string;
     colors: string[];
@@ -74,14 +76,18 @@ function PieChart<D>(props: Props<D>) {
         colors,
     } = props;
 
-    const totalValue = sum(data.map((datum) => valueSelector(datum)));
-    const totalValueSafe = totalValue === 0 ? 1 : totalValue;
+    const totalValue = sumSafe(data?.map((datum) => valueSelector(datum)) ?? []);
+    const totalValueSafe = isNotDefined(totalValue) || totalValue === 0 ? 1 : totalValue;
 
     const renderData = useMemo(
         () => {
             let endAngle = 0;
-            return data.map((datum) => {
+            return data?.map((datum) => {
                 const value = valueSelector(datum);
+                if (isNotDefined(value)) {
+                    return undefined;
+                }
+
                 const currentAngle = 360 * (value / totalValueSafe);
                 endAngle += currentAngle;
 
@@ -92,7 +98,7 @@ function PieChart<D>(props: Props<D>) {
                     startAngle: endAngle - currentAngle,
                     endAngle,
                 };
-            });
+            }).filter(isDefined) ?? [];
         },
         [data, keySelector, valueSelector, labelSelector, totalValueSafe],
     );

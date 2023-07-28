@@ -13,7 +13,7 @@ import TextInput from '#components/TextInput';
 import TextOutput from '#components/TextOutput';
 import Checkbox from '#components/Checkbox';
 import { useRequest } from '#utils/restRequest';
-import type { paths } from '#generated/types';
+import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 
 import type { PartialPrioritization } from '../schema';
@@ -22,13 +22,11 @@ import QuestionOutput from './QuestionOutput';
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
 
-type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
+type AssessmentResponse = GoApiResponse<'/api/v2/per-assessment/{id}/'>;
 type AreaResponse = NonNullable<AssessmentResponse['area_responses']>[number];
 type ComponentResponse = NonNullable<AreaResponse['component_responses']>[number];
-type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
 
-type PerFormComponentResponse = paths['/api/v2/per-formcomponent/']['get']['responses']['200']['content']['application/json'];
-
+type PerFormComponentResponse = GoApiResponse<'/api/v2/per-formcomponent/'>;
 type Value = NonNullable<PartialPrioritization['component_responses']>[number];
 
 interface Props {
@@ -58,7 +56,7 @@ function ComponentsInput(props: Props) {
     const {
         pending: formQuestionsPending,
         response: formQuestions,
-    } = useRequest<PerFormQuestionResponse>({
+    } = useRequest({
         skip: !expanded,
         url: '/api/v2/per-formquestion/',
         query: {

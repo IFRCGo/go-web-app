@@ -84,11 +84,13 @@ export function Component() {
 
     const {
         trigger: login,
-    } = useLazyRequest<ResponseFields, FormFields>({
+    } = useLazyRequest({
         method: 'POST',
-        url: 'get_auth_token',
-        body: (body) => body,
-        onSuccess: (response) => {
+        url: '/get_auth_token',
+        body: (body: FormFields) => body,
+        onSuccess: (responseUnsafe) => {
+            // FIXME: typings should be fixed in the server
+            const response = responseUnsafe as ResponseFields;
             setUser({
                 id: response.id,
                 username: response.username,

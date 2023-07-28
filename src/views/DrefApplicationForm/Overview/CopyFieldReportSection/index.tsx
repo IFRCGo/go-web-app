@@ -12,6 +12,8 @@ import sanitizeHtml from 'sanitize-html';
 
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
+import FieldReportSelectInput from '#components/FieldReportSearchSelectInput';
+import type { FieldReportItem as FieldReportSearchItem } from '#components/FieldReportSearchSelectInput';
 import useInputState from '#hooks/useInputState';
 import useAlert from '#hooks/useAlert';
 import {
@@ -19,32 +21,11 @@ import {
     useLazyRequest,
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
-import type { paths } from '#generated/types';
-
-import FieldReportSelectInput from '#components/FieldReportSearchSelectInput';
-import type { FieldReportItem as FieldReportSearchItem } from '#components/FieldReportSearchSelectInput';
 
 import type { PartialDref } from '../../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-// FIXME: use from '/api/v2/field_report/{id}/'
-type GetFieldReport = paths['/api/v2/field_report/']['get'];
-type FieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
-type FieldReportItem = Omit<NonNullable<FieldReportResponse['results']>[number], 'districts'> & {
-    contacts: {
-        ctype: string;
-        name: string;
-        email: string;
-        title: string;
-        phone: string;
-    }[];
-    districts: {
-        id: number,
-        name: string;
-    }[];
-};
 
 type Value = PartialDref;
 interface Props {
@@ -68,11 +49,11 @@ function CopyFieldReportSection(props: Props) {
         FieldReportSearchItem[] | undefined | null
     >([]);
 
-    useRequest<FieldReportItem>({
-        skip: !value?.field_report,
+    useRequest({
+        skip: isNotDefined(value?.field_report),
         url: '/api/v2/field_report/{id}/',
         pathVariables: {
-            id: value?.field_report,
+            id: Number(value?.field_report),
         },
         onSuccess: (fr) => {
             if (!fr) {
@@ -88,8 +69,11 @@ function CopyFieldReportSection(props: Props) {
     const {
         pending: frDetailPending,
         trigger: triggerDetailRequest,
-    } = useLazyRequest<FieldReportItem, number>({
-        url: (frId) => `api/v2/field_report/${frId}`,
+    } = useLazyRequest<'/api/v2/field_report/{id}/', null, 'GET'>({
+        url: '/api/v2/field_report/{id}/',
+        pathVariables: isDefined(fieldReport)
+            ? { id: fieldReport }
+            : undefined,
         onSuccess: (fieldReportResponse) => {
             if (!fieldReportResponse) {
                 alert.show(
@@ -238,7 +222,7 @@ function CopyFieldReportSection(props: Props) {
             return;
         }
 
-        triggerDetailRequest(fieldReportId);
+        triggerDetailRequest(null);
     }, [triggerDetailRequest]);
 
     return (

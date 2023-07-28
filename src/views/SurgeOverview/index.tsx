@@ -16,9 +16,6 @@ import Readiness from './Readiness';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetDeploymentsByMonth = paths['/api/v2/deployment/aggregated_by_month']['get'];
-type GetDeploymentsByMonthResponse = GetDeploymentsByMonth['responses']['200']['content']['application/json'];
-
 type GetDeploymentsByNationalSociety = paths['/api/v2/deployment/aggregated_by_ns']['get'];
 type GetDeploymentsByNationalSocietyResponse = GetDeploymentsByNationalSociety['responses']['200']['content']['application/json'];
 type DeploymentsByNationalSociety = GetDeploymentsByNationalSocietyResponse[number];
@@ -62,13 +59,13 @@ export function Component() {
 
     const {
         response: deploymentsByNationalSocietyResponse,
-    } = useRequest<GetDeploymentsByNationalSocietyResponse>({
+    } = useRequest({
         url: '/api/v2/deployment/aggregated_by_ns',
     });
 
     const {
         response: deploymentsByMonth,
-    } = useRequest<GetDeploymentsByMonthResponse>({
+    } = useRequest({
         url: '/api/v2/deployment/aggregated_by_month',
     });
 

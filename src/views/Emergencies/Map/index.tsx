@@ -15,7 +15,6 @@ import Map, {
     MapLayer,
 } from '@togglecorp/re-map';
 
-import { useRequest } from '#utils/restRequest';
 import GoMapDisclaimer from '#components/GoMapDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
@@ -23,19 +22,17 @@ import Link from '#components/Link';
 import MapPopup from '#components/MapPopup';
 import TextOutput from '#components/TextOutput';
 import useInputState from '#hooks/useInputState';
+import useTranslation from '#hooks/useTranslation';
+import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
 } from '#utils/map';
-import {
-    sumSafe,
-} from '#utils/common';
-
+import { sumSafe } from '#utils/common';
 import { resolveToComponent } from '#utils/translation';
-import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { getNumAffected } from '#utils/emergency';
-import { paths } from '#generated/types';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import {
@@ -59,12 +56,8 @@ const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
 };
 
-type GetEvent = paths['/api/v2/event/']['get'];
-type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
-
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
 
 interface CountryProperties {
     country_id: number;
@@ -116,7 +109,7 @@ function EmergenciesMap(props: Props) {
 
     const {
         response: countryResponse,
-    } = useRequest<CountryResponse>({
+    } = useRequest({
         url: '/api/v2/country/',
         query: {
             limit: 500,

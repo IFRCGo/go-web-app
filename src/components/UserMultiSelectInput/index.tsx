@@ -4,18 +4,11 @@ import SearchMultiSelectInput, {
     SearchMultiSelectInputProps,
 } from '#components/SearchMultiSelectInput';
 
-import {
-    useRequest,
-    ListResponse,
-} from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 
-export interface User {
-  id: number;
-  username: string;
-  first_name: string;
-  last_name: string;
-}
+type User = NonNullable<GoApiResponse<'/api/v2/user/'>['results']>[number];
 
 const keySelector = (d: User) => d.id;
 const labelSelector = (user: User) => {
@@ -52,7 +45,7 @@ function UserMultiSelectInput<const NAME>(
     const {
         pending,
         response,
-    } = useRequest<ListResponse<User>>({
+    } = useRequest({
         skip: !dropdownShown || safeSearchText.length < 2,
         url: '/api/v2/users/',
         query: {

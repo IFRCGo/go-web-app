@@ -20,16 +20,14 @@ import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import NumberOutput from '#components/NumberOutput';
 import { useRequest } from '#utils/restRequest';
+import type { GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
-import { paths } from '#generated/types';
 import { resolveToComponent } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetEvent = paths['/api/v2/event/']['get'];
-type EventQueryParams = GetEvent['parameters']['query'];
-type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
 const thirtyDaysAgo = new Date();
@@ -101,23 +99,19 @@ function EventItemsTable(props: Props) {
         [strings, emergencyRoute],
     );
 
-    const query = useMemo<EventQueryParams>(
-        () => ({
+    const {
+        pending: eventPending,
+        response: eventResponse,
+    } = useRequest({
+        url: '/api/v2/event/',
+        preserveResponse: true,
+        query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             ordering: getOrdering(sorting),
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
             regions__in: regionId,
-        }),
-        [page, sorting, regionId],
-    );
-    const {
-        pending: eventPending,
-        response: eventResponse,
-    } = useRequest<EventResponse>({
-        url: '/api/v2/event/',
-        preserveResponse: true,
-        query,
+        },
     });
 
     const heading = useMemo(
