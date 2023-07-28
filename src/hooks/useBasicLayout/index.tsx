@@ -1,8 +1,8 @@
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 
-import styles from './styles.module.css';
+import type { SpacingType } from '#components/types';
 
-type SpacingType = 'none' | 'compact' | 'cozy' | 'comfortable' | 'relaxed' | 'loose';
+import styles from './styles.module.css';
 
 const spacingTypeToClassNameMap: Record<SpacingType, string> = {
     none: styles.noSpacing,
@@ -22,6 +22,7 @@ export interface Props {
     childrenContainerClassName?: string;
     actionsContainerClassName?: string;
     spacing?: SpacingType;
+    noWrap?: boolean;
 }
 
 function useBasicLayout(props: Props) {
@@ -34,11 +35,13 @@ function useBasicLayout(props: Props) {
         childrenContainerClassName,
         actionsContainerClassName,
         spacing = 'comfortable',
+        noWrap,
     } = props;
 
     const containerClassName = _cs(
         styles.basicLayout,
         spacingTypeToClassNameMap[spacing],
+        !noWrap && styles.withFlexWrap,
         className,
     );
 

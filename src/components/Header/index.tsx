@@ -2,8 +2,18 @@ import { _cs } from '@togglecorp/fujs';
 
 import Heading, { Props as HeadingProps } from '#components/Heading';
 import useBasicLayout from '#hooks/useBasicLayout';
+import type { SpacingType } from '#components/types';
 
 import styles from './styles.module.css';
+
+const spacingTypeToClassNameMap: Record<SpacingType, string> = {
+    none: styles.noSpacing,
+    compact: styles.compactSpacing,
+    cozy: styles.cozySpacing,
+    comfortable: styles.comfortableSpacing,
+    relaxed: styles.relaxedSpacing,
+    loose: styles.looseSpacing,
+};
 
 export interface Props {
     className?: string;
@@ -22,6 +32,9 @@ export interface Props {
 
     icons?: React.ReactNode;
     iconsContainerClassName?: string;
+
+    wrapHeadingContent?: boolean;
+    spacing?: SpacingType;
 }
 
 function Header(props: Props) {
@@ -38,6 +51,8 @@ function Header(props: Props) {
         icons,
         iconsContainerClassName,
         headingContainerClassName,
+        wrapHeadingContent = false,
+        spacing = 'comfortable',
     } = props;
 
     const headingComp = heading ? (
@@ -67,6 +82,7 @@ function Header(props: Props) {
         className: headingContainerClassName,
         icons,
         iconsContainerClassName,
+        noWrap: !wrapHeadingContent,
     });
 
     if (!content && !children) {
@@ -77,8 +93,9 @@ function Header(props: Props) {
         <div
             className={_cs(
                 styles.header,
-                className,
+                spacingTypeToClassNameMap[spacing],
                 ellipsizeHeading && styles.headingEllipsized,
+                className,
             )}
             ref={elementRef}
         >

@@ -265,7 +265,7 @@ export function Component() {
         || perAssesmentPending;
 
     return (
-        <form className={styles.assessmentForm}>
+        <div className={styles.assessmentForm}>
             {pending && (
                 <BlockLoading />
             )}
@@ -278,47 +278,51 @@ export function Component() {
                 />
             )}
             {!pending && currentArea && (
-                <Tabs
-                    disabled={undefined}
-                    onChange={setCurrentArea}
-                    value={currentArea}
-                    variant="primary"
-                >
-                    <TabList
-                        className={styles.tabList}
-                    >
-                        {areas.map((area) => (
-                            <Tab
-                                key={area.id}
-                                name={area.id}
-                                step={area?.area_num}
-                            >
-                                {`${area.area_num}. ${area.title}`}
-                            </Tab>
-                        ))}
-                    </TabList>
-                    {areas.map((area) => (
-                        <TabPanel
-                            name={area.id}
-                            key={area.id}
+                <>
+                    <div className={styles.content}>
+                        <Tabs
+                            disabled={undefined}
+                            onChange={setCurrentArea}
+                            value={currentArea}
+                            variant="primary"
                         >
-                            <AreaInput
-                                key={area.id}
-                                area={area}
-                                questions={areaIdGroupedQuestion[area.id]}
-                                index={areaResponseMapping[area.id]?.index}
-                                value={areaResponseMapping[area.id]?.value}
-                                onChange={setAreaResponsesValue}
-                                ratingOptions={perOptionsResponse?.componentratings}
-                                epi_considerations={perOverviewResponse
-                                    ?.assess_preparedness_of_country}
-                                urban_considerations={perOverviewResponse
-                                    ?.assess_urban_aspect_of_country}
-                                climate_environmental_considerations={perOverviewResponse
-                                    ?.assess_climate_environment_of_country}
-                            />
-                        </TabPanel>
-                    ))}
+                            <TabList
+                                className={styles.tabList}
+                            >
+                                {areas.map((area) => (
+                                    <Tab
+                                        key={area.id}
+                                        name={area.id}
+                                        step={area?.area_num}
+                                    >
+                                        {`${area.area_num}. ${area.title}`}
+                                    </Tab>
+                                ))}
+                            </TabList>
+                            {areas.map((area) => (
+                                <TabPanel
+                                    name={area.id}
+                                    key={area.id}
+                                >
+                                    <AreaInput
+                                        key={area.id}
+                                        area={area}
+                                        questions={areaIdGroupedQuestion[area.id]}
+                                        index={areaResponseMapping[area.id]?.index}
+                                        value={areaResponseMapping[area.id]?.value}
+                                        onChange={setAreaResponsesValue}
+                                        ratingOptions={perOptionsResponse?.componentratings}
+                                        epi_considerations={perOverviewResponse
+                                            ?.assess_preparedness_of_country}
+                                        urban_considerations={perOverviewResponse
+                                            ?.assess_urban_aspect_of_country}
+                                        climate_environmental_considerations={perOverviewResponse
+                                            ?.assess_climate_environment_of_country}
+                                    />
+                                </TabPanel>
+                            ))}
+                        </Tabs>
+                    </div>
                     <div className={styles.actions}>
                         <div className={styles.pageActions}>
                             <Button
@@ -368,8 +372,8 @@ export function Component() {
                             </Button>
                         </Portal>
                     )}
-                </Tabs>
+                </>
             )}
-        </form>
+        </div>
     );
 }

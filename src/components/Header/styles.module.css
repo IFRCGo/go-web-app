@@ -1,11 +1,15 @@
 .header {
+    --spacing: var(--go-ui-spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+
     .header-content {
         display: flex;
     }
 
     &.heading-ellipsized {
         .header-content {
-            flex-wrap: unset;
             overflow: auto;
 
             .heading-container {
@@ -22,5 +26,29 @@
                 }
             }
         }
+    }
+
+    &.no-spacing {
+        --spacing: 0;
+    }
+
+    &.compact-spacing {
+        --spacing: var(--go-ui-spacing-xs);
+    }
+
+    &.cozy-spacing {
+        --spacing: var(--go-ui-spacing-sm);
+    }
+
+    &.comfortable-spacing {
+        --spacing: var(--go-ui-spacing-md);
+    }
+
+    &.relaxed-spacing {
+        --spacing: var(--go-ui-spacing-lg);
+    }
+
+    &.loose-spacing {
+        --spacing: var(--go-ui-spacing-xl);
     }
 }

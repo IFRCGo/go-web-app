@@ -4,8 +4,11 @@
 
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     gap: var(--gap);
+
+    &.with-flex-wrap {
+        flex-wrap: wrap;
+    }
 
     .icons-container {
         display: flex;
