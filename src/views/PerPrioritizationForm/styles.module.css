@@ -1,18 +1,22 @@
 .per-prioritization-form {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-xl);
-    color: inherit;
+    gap: var(--go-ui-spacing-3xl);
 
     .component-list {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-md);
+        gap: var(--go-ui-spacing-xl);
     }
+}
 
-    .actions {
-        display: flex;
-        justify-content: center;
-        padding: var(--go-ui-spacing-lg);
+.sort-by-dropdown-content {
+    .checkmark {
+        opacity: 0;
+        font-size: var(--go-ui-font-size-icon-multiplier);
+
+        &.active {
+            opacity: 1;
+        }
     }
 }

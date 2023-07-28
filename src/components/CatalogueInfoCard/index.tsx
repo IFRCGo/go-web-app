@@ -45,7 +45,7 @@ function CatalogueInfoCard(props: Props) {
             headingLevel={4}
             withHeaderBorder
             withInternalPadding
-            headerDescriptionClassName={descriptionClassName}
+            headerDescriptionContainerClassName={descriptionClassName}
             headerDescription={description}
             spacing="relaxed"
         >

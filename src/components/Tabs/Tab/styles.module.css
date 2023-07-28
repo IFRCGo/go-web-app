@@ -96,9 +96,9 @@
     padding: 0 var(--go-ui-spacing-xs);
 
     &.active {
-        background-color: var(--go-ui-color-white);
         border-color: var(--go-ui-color-gray-30);
         border-bottom-color: transparent;
+        background-color: var(--go-ui-color-white);
     }
 }
 

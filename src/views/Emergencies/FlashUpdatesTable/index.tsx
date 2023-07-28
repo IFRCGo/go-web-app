@@ -113,7 +113,7 @@ function FlashUpdateTable() {
         <Container
             className={styles.flashUpdatesTable}
             heading={heading}
-            headerDescriptionClassName={styles.filters}
+            headerDescriptionContainerClassName={styles.filters}
             withHeaderBorder
             footerActions={(
                 <Pager

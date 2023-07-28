@@ -1,7 +1,7 @@
 .assessment-form {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-4xl);
+    gap: var(--go-ui-spacing-3xl);
 
     .content {
         display: flex;
@@ -9,16 +9,9 @@
         gap: var(--go-ui-spacing-xl);
     }
 
-    .actions {
+    .footer-content {
         display: flex;
+        gap: var(--go-ui-spacing-xl);
         justify-content: center;
-        gap: var(--go-ui-spacing-lg);
-
-        .page-actions {
-            gap: var(--go-ui-spacing-lg);
-            display: flex;
-            flex-grow: 1;
-            justify-content: center;
-        }
     }
 }

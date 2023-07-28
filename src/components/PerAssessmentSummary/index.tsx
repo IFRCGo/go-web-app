@@ -166,7 +166,7 @@ function PerAssessmentSummary(props: Props) {
             heading="Summary"
             // FIXME: use translations
             headerDescription={(
-                `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} questions answered.`
+                `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} benchmarks.`
             )}
             childrenContainerClassName={styles.content}
             withHeaderBorder

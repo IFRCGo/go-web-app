@@ -1,10 +1,31 @@
 .component-input {
-    .header {
-        flex-wrap: nowrap;
-    }
-
-    .stats {
-        gap: var(--go-ui-spacing-xl);
+    .header-description {
         display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .additional-information {
+            display: flex;
+            align-items: flex-start;
+            flex-grow: 1;
+            gap: var(--go-ui-spacing-lg);
+            flex-wrap: wrap;
+
+            .separator {
+                align-self: stretch;
+                background-color: var(--go-ui-color-separator);
+                width: var(--go-ui-width-separator-md);
+            }
+
+            .answers-by-count {
+                display: flex;
+                gap: var(--go-ui-spacing-md);
+            }
+
+            .stats {
+                gap: var(--go-ui-spacing-xl);
+                display: flex;
+            }
+        }
     }
 }

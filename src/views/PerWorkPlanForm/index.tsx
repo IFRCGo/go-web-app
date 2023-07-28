@@ -22,6 +22,7 @@ import Button from '#components/Button';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import ConfirmButton from '#components/ConfirmButton';
+import TextOutput from '#components/TextOutput';
 import Portal from '#components/Portal';
 import {
     useLazyRequest,
@@ -92,6 +93,7 @@ export function Component() {
     });
 
     const {
+        response: workPlanResponse,
         pending: workPlanPending,
     } = useRequest({
         skip: isNotDefined(statusResponse?.workplan),
@@ -164,7 +166,7 @@ export function Component() {
             refetchStatusResponse();
 
             alert.show(
-                strings.perFormSaveRequestSuccessMessage,
+                strings.saveRequestSuccessMessage,
                 { variant: 'success' },
             );
 
@@ -214,7 +216,7 @@ export function Component() {
             };
             setError(transformedError);
             alert.show(
-                strings.perFormSaveRequestFailureMessage,
+                strings.saveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
@@ -302,17 +304,49 @@ export function Component() {
     const componentResponseError = getErrorObject(error?.component_responses);
     const customComponentError = getErrorObject(error?.custom_component_responses);
 
+    const readOnlyMode = statusResponse?.phase !== STEP_WORKPLAN;
+
     return (
-        <div className={styles.perWorkPlanForm}>
+        <Container
+            className={styles.perWorkPlanForm}
+            childrenContainerClassName={styles.content}
+            footerActions={(
+                <ConfirmButton
+                    name={undefined}
+                    variant="secondary"
+                    onConfirm={handleFormFinalSubmit}
+                    disabled={savePerWorkPlanPending
+                        || readOnlyMode}
+                    confirmHeading={strings.confirmHeading}
+                    confirmMessage={strings.confirmMessage}
+                >
+                    {strings.saveAndFinalizeWorkPlan}
+                </ConfirmButton>
+            )}
+            spacing="loose"
+        >
             {pending && (
                 <BlockLoading />
             )}
             {!pending && (
                 <>
+                    <div className={styles.overview}>
+                        <TextOutput
+                            label={strings.workPlanDate}
+                            value={workPlanResponse?.overview_details?.workplan_development_date}
+                        />
+                        <TextOutput
+                            label={strings.perResponsibleLabel}
+                            value="-"
+                        />
+                    </div>
                     <Container
-                        heading={strings.perFormPrioritizedComponentsHeading}
+                        className={styles.prioritizedComponents}
+                        heading={strings.prioritizedComponentsHeading}
                         childrenContainerClassName={styles.componentList}
                         withHeaderBorder
+                        withInternalPadding
+                        spacing="loose"
                     >
                         {prioritizationResponse?.component_responses?.map((componentResponse) => (
                             <ComponentInput
@@ -323,27 +357,33 @@ export function Component() {
                                 component={componentResponse.component_details}
                                 countryResults={countriesResponse?.results}
                                 error={componentResponseError?.[componentResponse.component]}
+                                readOnly={readOnlyMode}
                             />
                         ))}
                     </Container>
                     <Container
+                        className={styles.actions}
                         childrenContainerClassName={styles.actionList}
-                        heading={strings.perFormActionsHeading}
+                        heading={strings.actionsHeading}
                         withHeaderBorder
+                        withInternalPadding
+                        spacing="loose"
                         actions={(
                             <Button
                                 name={undefined}
                                 variant="secondary"
                                 onClick={handleAddCustomActivity}
                                 icons={<AddLineIcon />}
+                                disabled={readOnlyMode}
                             >
-                                {strings.perFormAddAnActionButton}
+                                {strings.addActionButtonLabel}
                             </Button>
                         )}
                     >
-                        {value?.custom_component_responses?.map((customComponent) => (
+                        {value?.custom_component_responses?.map((customComponent, i) => (
                             <CustomComponentInput
                                 key={customComponent.client_id}
+                                actionNumber={i + 1}
                                 index={
                                     customComponentResponseMapping[customComponent.client_id]?.index
                                 }
@@ -354,42 +394,30 @@ export function Component() {
                                 onRemove={removeCustomComponentValue}
                                 countryResults={countriesResponse?.results}
                                 error={customComponentError?.[customComponent.client_id]}
+                                readOnly={readOnlyMode}
                             />
                         ))}
                         {(value?.custom_component_responses?.length ?? 0) === 0 && (
                             <div>
-                                {strings.perFormNoActionsLabel}
+                                {strings.noActionsLabel}
                             </div>
                         )}
                     </Container>
-                    <div className={styles.formActions}>
-                        <ConfirmButton
-                            name={undefined}
-                            variant="secondary"
-                            onConfirm={handleFormFinalSubmit}
-                            disabled={savePerWorkPlanPending
-                                || statusResponse?.phase !== STEP_WORKPLAN}
-                            confirmHeading={strings.perWorkPlanConfirmHeading}
-                            confirmMessage={strings.perWorkPlanConfirmMessage}
-                        >
-                            {strings.perFormSaveAndFinalizeWorkPlan}
-                        </ConfirmButton>
-                    </div>
                     {actionDivRef?.current && (
                         <Portal container={actionDivRef.current}>
                             <Button
                                 name={undefined}
                                 onClick={handleFormSubmit}
                                 variant="secondary"
-                                disabled={statusResponse?.phase !== STEP_WORKPLAN}
+                                disabled={readOnlyMode}
                             >
-                                {strings.perWorkPlanSaveButtonLabel}
+                                {strings.saveButtonLabel}
                             </Button>
                         </Portal>
                     )}
                 </>
             )}
-        </div>
+        </Container>
     );
 }
 

@@ -1,4 +1,10 @@
-import { useState, useCallback, useContext } from 'react';
+import {
+    useState,
+    useCallback,
+    useContext,
+    useRef,
+    ElementRef,
+} from 'react';
 import {
     generatePath,
     useNavigate,
@@ -21,6 +27,7 @@ import {
     removeNull,
 } from '@togglecorp/toggle-form';
 
+import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import Portal from '#components/Portal';
 import Tabs from '#components/Tabs';
@@ -64,6 +71,7 @@ const defaultFormAreas: PerFormArea[] = [];
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
+    const formContentRef = useRef<ElementRef<'div'>>(null);
     const strings = useTranslation(i18n);
     const alert = useAlert();
     const navigate = useNavigate();
@@ -162,7 +170,7 @@ export function Component() {
             }
 
             alert.show(
-                strings.perFormSaveRequestSuccessMessage,
+                strings.saveRequestSuccessMessage,
                 { variant: 'success' },
             );
 
@@ -185,7 +193,7 @@ export function Component() {
             debugMessage,
         }) => {
             alert.show(
-                strings.perFormSaveRequestFailureMessage,
+                strings.saveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
@@ -234,6 +242,14 @@ export function Component() {
         setValue: setAreaResponsesValue,
     } = useFormArray('area_responses', setFieldValue);
 
+    const handlePrevNextButtonClick = useCallback(
+        (newArea: number) => {
+            formContentRef.current?.scrollIntoView();
+            setCurrentArea(newArea);
+        },
+        [],
+    );
+
     const areaResponseMapping = listToMap(
         value?.area_responses ?? [],
         (areaResponse) => areaResponse.area,
@@ -264,8 +280,12 @@ export function Component() {
         || perOptionsPending
         || perAssesmentPending;
 
+    const readOnlyMode = currentPerStep !== STEP_ASSESSMENT;
+
     return (
-        <div className={styles.assessmentForm}>
+        <div
+            className={styles.assessmentForm}
+        >
             {pending && (
                 <BlockLoading />
             )}
@@ -277,9 +297,51 @@ export function Component() {
                     areaIdToTitleMap={areaIdToTitleMap}
                 />
             )}
-            {!pending && currentArea && (
-                <>
-                    <div className={styles.content}>
+            {!pending && isDefined(currentArea) && (
+                <Container
+                    heading={strings.assessmentHeading}
+                    headingLevel={2}
+                    withHeaderBorder
+                    footerContentClassName={styles.footerContent}
+                    footerContent={(
+                        <>
+                            <Button
+                                name={currentArea - 1}
+                                variant="secondary"
+                                onClick={handlePrevNextButtonClick}
+                                disabled={isNotDefined(currentArea) || currentArea <= minArea}
+                            >
+                                {strings.prevButtonLabel}
+                            </Button>
+                            <Button
+                                name={currentArea + 1}
+                                variant="secondary"
+                                onClick={handlePrevNextButtonClick}
+                                disabled={isNotDefined(currentArea) || currentArea >= maxArea}
+                            >
+                                {strings.nextButtonLabel}
+                            </Button>
+                        </>
+                    )}
+                    footerActions={(
+                        <ConfirmButton
+                            name={undefined}
+                            onConfirm={handleFormFinalSubmit}
+                            confirmHeading={strings.submitAssessmentConfirmHeading}
+                            confirmMessage={strings.submitAssessmentConfirmMessage}
+                            disabled={isNotDefined(currentPerStep)
+                                || savePerPending
+                                || perAssesmentPending
+                                || currentPerStep !== STEP_ASSESSMENT}
+                        >
+                            {strings.submitAssessmentButtonLabel}
+                        </ConfirmButton>
+                    )}
+                >
+                    <div
+                        ref={formContentRef}
+                        className={styles.content}
+                    >
                         <Tabs
                             disabled={undefined}
                             onChange={setCurrentArea}
@@ -307,6 +369,7 @@ export function Component() {
                                     <AreaInput
                                         key={area.id}
                                         area={area}
+                                        readOnly={readOnlyMode}
                                         questions={areaIdGroupedQuestion[area.id]}
                                         index={areaResponseMapping[area.id]?.index}
                                         value={areaResponseMapping[area.id]?.value}
@@ -323,38 +386,6 @@ export function Component() {
                             ))}
                         </Tabs>
                     </div>
-                    <div className={styles.actions}>
-                        <div className={styles.pageActions}>
-                            <Button
-                                name={currentArea - 1}
-                                variant="secondary"
-                                onClick={setCurrentArea}
-                                disabled={isNotDefined(currentArea) || currentArea <= minArea}
-                            >
-                                {strings.perFormBackButton}
-                            </Button>
-                            <Button
-                                name={currentArea + 1}
-                                variant="secondary"
-                                onClick={setCurrentArea}
-                                disabled={isNotDefined(currentArea) || currentArea >= maxArea}
-                            >
-                                {strings.perFormNextButton}
-                            </Button>
-                        </div>
-                        <ConfirmButton
-                            name={undefined}
-                            onConfirm={handleFormFinalSubmit}
-                            confirmHeading={strings.perAssessmentConfirmHeading}
-                            confirmMessage={strings.perAssessmentConfirmMessage}
-                            disabled={isNotDefined(currentPerStep)
-                                || savePerPending
-                                || perAssesmentPending
-                                || currentPerStep !== STEP_ASSESSMENT}
-                        >
-                            {strings.perFormSubmitButton}
-                        </ConfirmButton>
-                    </div>
                     {actionDivRef.current && (
                         <Portal
                             container={actionDivRef.current}
@@ -366,13 +397,13 @@ export function Component() {
                                 disabled={isNotDefined(currentPerStep)
                                     || savePerPending
                                     || perAssesmentPending
-                                    || currentPerStep !== STEP_ASSESSMENT}
+                                    || readOnlyMode}
                             >
-                                {strings.perFormSaveButton}
+                                {strings.saveAssessmentButtonLabel}
                             </Button>
                         </Portal>
                     )}
-                </>
+                </Container>
             )}
         </div>
     );

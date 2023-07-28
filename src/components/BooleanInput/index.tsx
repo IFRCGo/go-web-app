@@ -12,6 +12,8 @@ interface Props<NAME> {
     hint?: React.ReactNode;
     error?: React.ReactNode;
     value: boolean | undefined | null;
+    disabled?: boolean;
+    readOnly?: boolean;
 }
 
 function BooleanInput<const NAME>(props: Props<NAME>) {
@@ -22,6 +24,8 @@ function BooleanInput<const NAME>(props: Props<NAME>) {
         error,
         onChange,
         value,
+        disabled,
+        readOnly,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -45,6 +49,8 @@ function BooleanInput<const NAME>(props: Props<NAME>) {
             labelSelector={stringLabelSelector}
             onChange={onChange}
             error={error}
+            disabled={disabled}
+            readOnly={readOnly}
         />
     );
 }

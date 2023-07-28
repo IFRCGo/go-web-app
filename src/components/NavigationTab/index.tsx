@@ -4,7 +4,7 @@ import {
     NavLink,
     NavLinkProps,
 } from 'react-router-dom';
-import { CheckLineIcon } from '@ifrc-go/icons';
+import { CheckFillIcon } from '@ifrc-go/icons';
 
 import NavigationTabContext from '#contexts/navigation-tab';
 
@@ -29,7 +29,10 @@ function NavigationTab(props: Props) {
         parentRoute = false,
     } = props;
 
-    const { variant } = useContext(NavigationTabContext);
+    const {
+        variant,
+        className: classNameFromContext,
+    } = useContext(NavigationTabContext);
 
     const defaultClassName = _cs(
         styles.navigationTab,
@@ -39,6 +42,7 @@ function NavigationTab(props: Props) {
         variant === 'step' && styles.step,
         variant === 'vertical' && styles.vertical,
         stepCompleted && styles.completed,
+        classNameFromContext,
         className,
     );
 
@@ -59,12 +63,16 @@ function NavigationTab(props: Props) {
     const navChild = (
         <>
             {variant === 'step' && (
-                <div className={styles.stepCircle}>
-                    <div className={styles.innerCircle}>
-                        {stepCompleted && (
-                            <CheckLineIcon className={styles.icon} />
-                        )}
+                <div className={styles.visualElements}>
+                    <div className={styles.progressBarStart} />
+                    <div className={styles.stepCircle}>
+                        <div className={styles.innerCircle}>
+                            {stepCompleted && (
+                                <CheckFillIcon className={styles.icon} />
+                            )}
+                        </div>
                     </div>
+                    <div className={styles.progressBarEnd} />
                 </div>
             )}
             {variant === 'primary' && (

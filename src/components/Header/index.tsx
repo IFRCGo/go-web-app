@@ -28,7 +28,12 @@ export interface Props {
 
     heading: React.ReactNode;
     headingLevel?: HeadingProps['level'];
+    headingSectionClassName?: string;
     headingContainerClassName?: string;
+    headingClassName?: string;
+
+    headingDescription?: React.ReactNode;
+    headingDescriptionContainerClassName?: string;
 
     icons?: React.ReactNode;
     iconsContainerClassName?: string;
@@ -47,9 +52,13 @@ function Header(props: Props) {
         elementRef,
         ellipsizeHeading,
         heading,
+        headingClassName,
         headingLevel,
+        headingDescription,
+        headingDescriptionContainerClassName,
         icons,
         iconsContainerClassName,
+        headingSectionClassName,
         headingContainerClassName,
         wrapHeadingContent = false,
         spacing = 'comfortable',
@@ -58,7 +67,7 @@ function Header(props: Props) {
     const headingComp = heading ? (
         <Heading
             level={headingLevel}
-            className={styles.heading}
+            className={_cs(styles.heading, headingClassName)}
         >
             {ellipsizeHeading ? (
                 <div
@@ -77,9 +86,23 @@ function Header(props: Props) {
     } = useBasicLayout({
         actions,
         actionsContainerClassName,
-        children: headingComp,
-        childrenContainerClassName: styles.headingContainer,
-        className: headingContainerClassName,
+        children: (
+            <>
+                {headingComp}
+                {headingDescription && (
+                    <div
+                        className={_cs(
+                            styles.headingDescription,
+                            headingDescriptionContainerClassName,
+                        )}
+                    >
+                        {headingDescription}
+                    </div>
+                )}
+            </>
+        ),
+        childrenContainerClassName: _cs(styles.headingContainer, headingContainerClassName),
+        className: headingSectionClassName,
         icons,
         iconsContainerClassName,
         noWrap: !wrapHeadingContent,
@@ -100,7 +123,7 @@ function Header(props: Props) {
             ref={elementRef}
         >
             {content && (
-                <div className={_cs(styles.headerContent, containerClassName)}>
+                <div className={_cs(styles.headingSection, containerClassName)}>
                     {content}
                 </div>
             )}

@@ -1,24 +1,17 @@
 {
-    "namespace": "perWorkPlanForm",
+    "namespace": "perWorkPlanFormForm",
     "strings": {
-        "perWorkPlanComponents": "Components",
-        "perWorkPlanActions": "Actions",
-        "perWorkPlanDueDate": "Due Date",
-        "perWorkPlanSupportedBy": "Supported by",
-        "perWorkPlanStatus": "Status",
-        "perFormSaveRequestSuccessMessage": "PER Process created/updated successfully",
-        "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
-        "perFormSaveAndFinalizeWorkPlan": "Save and Finalize Work-plan",
-        "perFormPrioritizedComponentsHeading": "Prioritized Components",
-        "perFormActionsHeading": "Actions",
-        "perFormAddAnActionButton": "Add an Action",
-        "perFormNoActionsLabel": "No Actions",
-        "perFormRemoveButton": "Remove",
-        "perFormActionsPlaceholder": "List the actions",
-        "perFormSelectNSPlaceholder": "Select NS",
-        "perFormSelectStatusLabel": "Select status",
-        "perWorkPlanConfirmHeading": "Confirm Work Plan",
-        "perWorkPlanConfirmMessage": "You're about to submit the results of PER Work Plan. Once submitted, the results cannot be edited. You'll be redirected to the accounts page",
-        "perWorkPlanSaveButtonLabel": "Save"
+        "workPlanDate": "Work-plan date",
+        "perResponsibleLabel": "Responsible",
+        "saveRequestSuccessMessage": "PER Process created/updated successfully",
+        "saveRequestFailureMessage": "Failed to create/update PER Process",
+        "saveAndFinalizeWorkPlan": "Save and Finalize Work-plan",
+        "prioritizedComponentsHeading": "Prioritized Components",
+        "actionsHeading": "Actions",
+        "addActionButtonLabel": "Add an Action",
+        "noActionsLabel": "No Actions",
+        "confirmHeading": "Confirm Work Plan",
+        "confirmMessage": "You're about to submit the results of PER Work Plan. Once submitted, the results cannot be edited. You'll be redirected to the accounts page",
+        "saveButtonLabel": "Save"
     }
 }

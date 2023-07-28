@@ -1,11 +1,9 @@
 import React from 'react';
-import { DeleteBinFillIcon } from '@ifrc-go/icons';
 
 import { _cs, isDefined } from '@togglecorp/fujs';
 import List from '#components/List';
 import InputLabel from '#components/InputLabel';
 import InputError from '#components/InputError';
-import Button from '#components/Button';
 import Radio, { Props as RadioProps } from './Radio';
 
 import styles from './styles.module.css';
@@ -93,13 +91,14 @@ function RadioInput<
 
         if (isClearableOptions) {
             // eslint-disable-next-line react/destructuring-assignment
-            props.onChange(radioKey, name);
+            props.onChange(radioKey === value ? undefined : radioKey, name);
         }
 
         if (!isClearableOptions && isDefined(radioKey)) {
             onChange(radioKey, name);
         }
     }, [
+        value,
         props,
         onChange,
         isClearableOptions,
@@ -147,16 +146,6 @@ function RadioInput<
                 className,
             )}
         >
-            {/* eslint-disable-next-line react/destructuring-assignment */}
-            {props.clearable && (
-                <Button
-                    name={undefined}
-                    className={styles.clearButton}
-                    onClick={handleRadioClick}
-                >
-                    <DeleteBinFillIcon />
-                </Button>
-            )}
             <InputLabel
                 className={labelContainerClassName}
                 disabled={disabled}

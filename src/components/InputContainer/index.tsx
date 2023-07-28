@@ -71,6 +71,7 @@ function InputContainer(props: Props) {
         children: input,
         childrenContainerClassName: styles.input,
         spacing: 'compact',
+        noWrap: true,
     });
 
     return (

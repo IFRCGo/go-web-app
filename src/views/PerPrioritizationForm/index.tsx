@@ -1,4 +1,9 @@
-import { useCallback, useContext, useMemo } from 'react';
+import {
+    useCallback,
+    useContext,
+    useMemo,
+    useState,
+} from 'react';
 import {
     generatePath,
     useNavigate,
@@ -11,21 +16,33 @@ import {
     useFormArray,
     removeNull,
 } from '@togglecorp/toggle-form';
-import { isDefined, isNotDefined, listToMap } from '@togglecorp/fujs';
 import {
-    useLazyRequest,
-    useRequest,
-} from '#utils/restRequest';
-import type { PerProcessOutletContext } from '#utils/outletContext';
-import { STEP_PRIORITIZATION } from '#utils/per';
-import RouteContext from '#contexts/route';
-import useTranslation from '#hooks/useTranslation';
+    _cs,
+    compareNumber,
+    isDefined,
+    isNotDefined,
+    listToMap,
+} from '@togglecorp/fujs';
+import { CheckLineIcon } from '@ifrc-go/icons';
+
+import Container from '#components/Container';
 import Portal from '#components/Portal';
 import Button from '#components/Button';
 import ConfirmButton from '#components/ConfirmButton';
 import BlockLoading from '#components/BlockLoading';
 import PerAssessmentSummary from '#components/PerAssessmentSummary';
+import DropdownMenu from '#components/DropdownMenu';
+import DropdownMenuItem from '#components/DropdownMenuItem';
+import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
+import { resolveToString } from '#utils/translation';
+import type { PerProcessOutletContext } from '#utils/outletContext';
+import { STEP_PRIORITIZATION } from '#utils/per';
+import {
+    useLazyRequest,
+    useRequest,
+} from '#utils/restRequest';
+import RouteContext from '#contexts/route';
 
 import { prioritizationSchema, PrioritizationRequestBody } from './schema';
 import type { PartialPrioritization } from './schema';
@@ -34,6 +51,8 @@ import ComponentInput from './ComponentInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type SortKey = 'component' | 'rating' | 'benchmark';
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
@@ -41,6 +60,7 @@ export function Component() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
     const { perWorkPlanForm: perWorkPlanFormRoute } = useContext(RouteContext);
+    const [sortBy, setSortBy] = useState<SortKey>('component');
 
     const {
         statusResponse,
@@ -109,6 +129,7 @@ export function Component() {
             id: Number(statusResponse?.assessment),
         },
     });
+
     const {
         setValue: setComponentValue,
         removeValue: removeComponentValue,
@@ -127,7 +148,7 @@ export function Component() {
         onSuccess: (response) => {
             if (response && isDefined(response.id)) {
                 alert.show(
-                    strings.perFormSaveRequestSuccessMessage,
+                    strings.saveRequestSuccessMessage,
                     { variant: 'success' },
                 );
 
@@ -151,7 +172,7 @@ export function Component() {
             debugMessage,
         }) => {
             alert.show(
-                strings.perFormSaveRequestFailureMessage,
+                strings.saveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
@@ -252,6 +273,61 @@ export function Component() {
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
 
+    const readOnlyMode = statusResponse?.phase !== STEP_PRIORITIZATION;
+
+    const handleSortChange = useCallback(
+        (newSort: SortKey) => {
+            setSortBy(newSort);
+        },
+        [],
+    );
+
+    const sortedFormComponents = useMemo(
+        () => (
+            [...formComponentResponse?.results ?? []].sort(
+                (a, b) => {
+                    if (sortBy === 'rating') {
+                        const ratingA = assessmentComponentResponseMap
+                            ?.[a.id]?.rating_details?.value ?? 0;
+                        const ratingB = assessmentComponentResponseMap
+                            ?.[b.id]?.rating_details?.value ?? 0;
+                        return compareNumber(ratingA, ratingB, -1);
+                    }
+
+                    if (sortBy === 'benchmark') {
+                        const benchmarkA = assessmentComponentResponseMap
+                            ?.[a.id]?.question_responses?.length ?? 0;
+                        const benchmarkB = assessmentComponentResponseMap
+                            ?.[b.id]?.question_responses?.length ?? 0;
+
+                        return compareNumber(benchmarkA, benchmarkB, -1);
+                    }
+
+                    return compareNumber(a.component_num, b.component_num);
+                },
+            )
+        ),
+        [formComponentResponse, assessmentComponentResponseMap, sortBy],
+    );
+
+    const sortOptions = useMemo<{
+        key: SortKey;
+        label: string;
+    }[]>(
+        () => ([
+            { key: 'component', label: strings.sortByComponentLabel },
+            { key: 'rating', label: strings.sortByRatingLabel },
+            { key: 'benchmark', label: strings.sortByBenchmarkLabel },
+        ]),
+        [strings],
+    );
+
+    const sortKeyToLabel = listToMap(
+        sortOptions,
+        (sortOption) => sortOption.key,
+        (sortOption) => sortOption.label,
+    );
+
     return (
         <div className={styles.perPrioritizationForm}>
             {pending && (
@@ -265,9 +341,58 @@ export function Component() {
                     areaIdToTitleMap={areaIdToTitleMap}
                 />
             )}
-            <div className={styles.componentList}>
-                {!pending && formComponentResponse?.results?.map((component) => {
-                    const rating = assessmentComponentResponseMap?.[component.id]?.rating_details;
+            <Container
+                heading={strings.prioritizationHeading}
+                headingLevel={2}
+                withHeaderBorder
+                spacing="loose"
+                actions={(
+                    <DropdownMenu
+                        label={resolveToString(
+                            strings.sortButtonLabel,
+                            { sort: sortKeyToLabel[sortBy] },
+                        )}
+                        variant="tertiary"
+                        dropdownContainerClassName={styles.sortByDropdownContent}
+                    >
+                        {sortOptions.map(
+                            (sortOption) => (
+                                <DropdownMenuItem
+                                    key={sortOption.key}
+                                    name={sortOption.key}
+                                    onClick={handleSortChange}
+                                    label={sortOption.label}
+                                    icon={(
+                                        <CheckLineIcon
+                                            className={_cs(
+                                                styles.checkmark,
+                                                sortOption.key === sortBy && styles.active,
+                                            )}
+                                        />
+                                    )}
+                                />
+                            ),
+                        )}
+                    </DropdownMenu>
+                )}
+                footerActions={(
+                    <ConfirmButton
+                        name={undefined}
+                        variant="secondary"
+                        onConfirm={handleFormFinalSubmit}
+                        disabled={savePerPrioritizationPending
+                            || statusResponse?.phase !== STEP_PRIORITIZATION}
+                        confirmHeading={strings.confirmHeading}
+                        confirmMessage={strings.confirmMessage}
+                    >
+                        {strings.perSelectAndAddToWorkPlan}
+                    </ConfirmButton>
+                )}
+                childrenContainerClassName={styles.componentList}
+            >
+                {!pending && sortedFormComponents.map((component) => {
+                    const rating = assessmentComponentResponseMap
+                        ?.[component.id]?.rating_details;
                     const ratingDisplay = isDefined(rating)
                         ? `${rating.value} - ${rating.title}`
                         : undefined;
@@ -280,27 +405,15 @@ export function Component() {
                             onChange={setComponentValue}
                             component={component}
                             onSelectionChange={handleSelectionChange}
-                            questionResponses={assessmentQuestionResponsesByComponent[component.id]}
+                            questionResponses={
+                                assessmentQuestionResponsesByComponent[component.id]
+                            }
                             ratingDisplay={ratingDisplay}
+                            readOnly={readOnlyMode}
                         />
                     );
                 })}
-            </div>
-            {!pending && (
-                <div className={styles.actions}>
-                    <ConfirmButton
-                        name={undefined}
-                        variant="secondary"
-                        onConfirm={handleFormFinalSubmit}
-                        disabled={savePerPrioritizationPending
-                            || statusResponse?.phase !== STEP_PRIORITIZATION}
-                        confirmHeading={strings.perPrioritizationConfirmHeading}
-                        confirmMessage={strings.perPrioritizationConfirmMessage}
-                    >
-                        {strings.perSelectAndAddToWorkPlan}
-                    </ConfirmButton>
-                </div>
-            )}
+            </Container>
             {actionDivRef.current && (
                 <Portal container={actionDivRef?.current}>
                     <Button
@@ -308,9 +421,9 @@ export function Component() {
                         variant="secondary"
                         onClick={handleFormSubmit}
                         disabled={savePerPrioritizationPending
-                            || statusResponse?.phase !== STEP_PRIORITIZATION}
+                            || readOnlyMode}
                     >
-                        {strings.perPrioritizationSaveLabel}
+                        {strings.saveLabel}
                     </Button>
                 </Portal>
             )}

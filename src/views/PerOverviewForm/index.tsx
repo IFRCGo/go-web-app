@@ -25,7 +25,7 @@ import InputSection from '#components/InputSection';
 import SelectInput from '#components/SelectInput';
 import DateInput from '#components/DateInput';
 import TextInput from '#components/TextInput';
-import RadioInput from '#components/RadioInput';
+import BooleanInput from '#components/BooleanInput';
 import ConfirmButton from '#components/ConfirmButton';
 import NumberInput from '#components/NumberInput';
 import GoMultiFileInput from '#components/GoMultiFileInput';
@@ -40,8 +40,6 @@ import type { paths } from '#generated/types';
 import { STEP_OVERVIEW, STEP_ASSESSMENT } from '#utils/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
-    booleanValueSelector,
-    stringLabelSelector,
     numericIdSelector,
     stringValueSelector,
     stringNameSelector,
@@ -183,7 +181,7 @@ export function Component() {
         onSuccess: (response) => {
             if (response && isDefined(response.id)) {
                 alert.show(
-                    strings.perFormSaveRequestSuccessMessage,
+                    strings.saveRequestSuccessMessage,
                     { variant: 'success' },
                 );
 
@@ -220,7 +218,7 @@ export function Component() {
             debugMessage,
         }) => {
             alert.show(
-                strings.perFormSaveRequestFailureMessage,
+                strings.saveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
@@ -242,7 +240,7 @@ export function Component() {
             const response = responseUnsafe as PerOverviewResponse;
             if (response && isDefined(response.id)) {
                 alert.show(
-                    strings.perFormSaveRequestSuccessMessage,
+                    strings.saveRequestSuccessMessage,
                     { variant: 'success' },
                 );
 
@@ -279,7 +277,7 @@ export function Component() {
             debugMessage,
         }) => {
             alert.show(
-                strings.perFormSaveRequestFailureMessage,
+                strings.saveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
@@ -290,15 +288,6 @@ export function Component() {
     });
 
     const savePerPending = createPerPending || updatePerPending;
-
-    // FIXME: this should be removed
-    const yesNoOptions = useMemo(
-        () => [
-            { value: true, label: strings.yesLabel },
-            { value: false, label: strings.noLabel },
-        ],
-        [strings],
-    );
 
     const nationalSocietyOptions = useMemo(
         () => (
@@ -353,14 +342,39 @@ export function Component() {
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
     const error = getErrorObject(formError);
 
+    const readOnlyMode = value?.is_draft === false;
+
     return (
-        <div className={styles.overviewForm}>
+        <Container
+            className={styles.overviewForm}
+            heading={readOnlyMode ? strings.overviewEditHeading : strings.overviewSetupHeading}
+            headingLevel={2}
+            childrenContainerClassName={styles.content}
+            withHeaderBorder
+            footerActions={(
+                <ConfirmButton
+                    name={undefined}
+                    confirmHeading={strings.submitConfirmHeading}
+                    confirmMessage={strings.submitConfirmMessage}
+                    onConfirm={handleFormFinalSubmit}
+                    disabled={(isDefined(statusResponse?.phase)
+                        && statusResponse?.phase !== STEP_OVERVIEW)
+                        || savePerPending}
+                >
+                    {strings.submitButtonLabel}
+                </ConfirmButton>
+            )}
+        >
             <NonFieldError error={formError} />
             <Container
+                className={styles.container}
                 childrenContainerClassName={styles.sectionContent}
+                withInternalPadding
+                spacing="loose"
             >
                 <InputSection
-                    title={strings.perFormNationalSociety}
+                    title={strings.nationalSocietyInputLabel}
+                    withoutPadding
                     twoColumn
                 >
                     <SelectInput
@@ -371,30 +385,35 @@ export function Component() {
                         labelSelector={nsLabelSelector}
                         value={value?.country}
                         error={getErrorString(error?.country)}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
             </Container>
             <Container
-                heading={strings.perFormOrientation}
-                withHeaderBorder
+                heading={strings.orientationSectionHeading}
+                className={styles.container}
                 childrenContainerClassName={styles.sectionContent}
+                withInternalPadding
+                withHeaderBorder
+                spacing="loose"
             >
                 <InputSection
-                    title={strings.perFormDateOfOrientation}
-                    description={strings.perFormDateOfOrientationDescription}
+                    title={strings.dateOfOrientationInputLabel}
+                    description={strings.dateOfOrientationInputDescription}
                     twoColumn
+                    withoutPadding
                 >
                     <DateInput
                         name="date_of_orientation"
                         onChange={setFieldValue}
                         value={value?.date_of_orientation}
                         error={error?.date_of_orientation}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormUploadADoc}
+                    title={strings.uploadADocInputLabel}
+                    withoutPadding
                 >
                     <GoMultiFileInput
                         name="orientation_documents"
@@ -405,33 +424,38 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={getErrorString(error?.orientation_documents)}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     >
-                        {strings.perFormUploadButtonLabel}
+                        {strings.uploadButtonLabel}
                     </GoMultiFileInput>
                 </InputSection>
             </Container>
             <Container
-                heading={strings.perFormAssessment}
-                withHeaderBorder
+                heading={strings.assessmentSectionHeading}
+                className={styles.container}
                 childrenContainerClassName={styles.sectionContent}
+                withHeaderBorder
+                withInternalPadding
+                spacing="loose"
             >
                 <InputSection
                     twoColumn
-                    title={strings.perFormDateOfAssessment}
-                    description={strings.perFormDateOfAssessmentDescription}
+                    title={strings.dateOfAssessmentInputLabel}
+                    description={strings.dateOfAssessmentInputDescription}
+                    withoutPadding
                 >
                     <DateInput
                         name="date_of_assessment"
                         onChange={setFieldValue}
                         value={value?.date_of_assessment}
                         error={error?.date_of_assessment}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
                 <InputSection
                     twoColumn
-                    title={strings.perFormTypeOfAssessment}
+                    title={strings.typeOfAssessmentInputLabel}
+                    withoutPadding
                 >
                     <SelectInput
                         name="type_of_assessment"
@@ -441,12 +465,13 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormDateOfPreviousPerAssessment}
+                    title={strings.dateOfPreviousPerAssessmentInputLabel}
                     twoColumn
+                    withoutPadding
                 >
                     <DateInput
                         name="date_of_previous_assessment"
@@ -456,8 +481,9 @@ export function Component() {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormTypeOfPreviousPerAssessment}
+                    title={strings.typeOfPreviousPerAssessmentInputLabel}
                     twoColumn
+                    withoutPadding
                 >
                     <SelectInput
                         name="type_of_previous_assessment"
@@ -470,20 +496,22 @@ export function Component() {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormBranchesInvolved}
-                    description={strings.perFormbranchesInvolvedDescription}
+                    title={strings.branchesInvolvedInputLabel}
+                    description={strings.branchesInvolvedInputDescription}
+                    withoutPadding
                 >
                     <TextInput
                         name="branches_involved"
                         value={value?.branches_involved}
                         onChange={setFieldValue}
                         error={error?.branches_involved}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormWhatMethodHasThisAssessmentUsed}
+                    title={strings.whatMethodHasThisAssessmentUsedInputLabel}
                     twoColumn
+                    withoutPadding
                 >
                     <SelectInput
                         name="assessment_method"
@@ -493,64 +521,62 @@ export function Component() {
                         labelSelector={stringValueSelector}
                         onChange={setFieldValue}
                         error={error?.assessment_method}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormEpiConsiderations}
-                    description={strings.perFormEpiConsiderationsDescription}
+                    title={strings.epiConsiderationsInputLabel}
+                    description={strings.epiConsiderationsInputDescription}
+                    withoutPadding
                 >
-                    <RadioInput
+                    <BooleanInput
                         name="assess_preparedness_of_country"
-                        options={yesNoOptions}
-                        keySelector={booleanValueSelector}
-                        labelSelector={stringLabelSelector}
                         value={value?.assess_preparedness_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_preparedness_of_country}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormUrbanConsiderations}
-                    description={strings.perFormUrbanConsiderationsDescription}
+                    title={strings.urbanConsiderationsInputLabel}
+                    description={strings.urbanConsiderationsInputDescription}
+                    withoutPadding
                 >
-                    <RadioInput
+                    <BooleanInput
                         name="assess_urban_aspect_of_country"
-                        options={yesNoOptions}
-                        keySelector={booleanValueSelector}
-                        labelSelector={stringLabelSelector}
                         value={value.assess_urban_aspect_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_urban_aspect_of_country}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormClimateAndEnvironmentalConsiderations}
-                    description={strings.perFormClimateAndEnvironmentalConsiderationsDescription}
+                    title={strings.climateAndEnvironmentalConsiderationsInputLabel}
+                    description={strings.climateAndEnvironmentalConsiderationsInputDescription}
+                    withoutPadding
                 >
-                    <RadioInput
+                    <BooleanInput
                         name="assess_climate_environment_of_country"
-                        options={yesNoOptions}
-                        keySelector={booleanValueSelector}
-                        labelSelector={stringLabelSelector}
                         value={value?.assess_climate_environment_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_climate_environment_of_country}
-                        readOnly={value?.is_draft === false}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
             </Container>
             <Container
-                heading={strings.perFormProcessCycleHeading}
-                withHeaderBorder
+                heading={strings.processCycleHeading}
+                className={styles.container}
                 childrenContainerClassName={styles.sectionContent}
+                withHeaderBorder
+                withInternalPadding
+                spacing="loose"
             >
                 <InputSection
-                    title={strings.perFormPerProcessCycleNumber}
-                    description={strings.perFormAssessmentNumberDescription}
+                    title={strings.perProcessCycleNumberInputLabel}
+                    description={strings.assessmentNumberInputDescription}
                     twoColumn
+                    withoutPadding
                 >
                     <NumberInput
                         readOnly
@@ -562,13 +588,17 @@ export function Component() {
                 </InputSection>
             </Container>
             <Container
-                heading={strings.perFormWorkPlanReviewsPlanned}
-                withHeaderBorder
+                heading={strings.workPlanHeading}
+                className={styles.container}
                 childrenContainerClassName={styles.sectionContent}
+                withHeaderBorder
+                withInternalPadding
+                spacing="loose"
             >
                 <InputSection
-                    title={strings.perFormWorkPlanDevelopmentDate}
+                    title={strings.workPlanDevelopmentDateInputLabel}
                     twoColumn
+                    withoutPadding
                 >
                     <DateInput
                         error={error?.workplan_development_date}
@@ -578,8 +608,9 @@ export function Component() {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormWorkPlanRevisionDate}
+                    title={strings.workPlanRevisionDateInputLabel}
                     twoColumn
+                    withoutPadding
                 >
                     <DateInput
                         name="workplan_revision_date"
@@ -590,32 +621,36 @@ export function Component() {
                 </InputSection>
             </Container>
             <Container
-                heading={strings.perFormContactInformation}
-                withHeaderBorder
+                heading={strings.contactInformationInputLabel}
+                className={styles.container}
                 childrenContainerClassName={styles.sectionContent}
+                withHeaderBorder
+                withInternalPadding
+                spacing="loose"
             >
                 <InputSection
-                    title={strings.perFormNsFocalPoint}
-                    description={strings.perFormNSFocalPointDescription}
+                    title={strings.nsFocalPointInputLabel}
+                    description={strings.nsFocalPointInputDescription}
                     multiRow
                     twoColumn
+                    withoutPadding
                 >
                     <TextInput
-                        label={strings.perFormFocalPointNameLabel}
+                        label={strings.focalPointNameInputLabel}
                         name="ns_focal_point_name"
                         value={value?.ns_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_name}
                     />
                     <TextInput
-                        label={strings.perFormFocalPointEmailLabel}
+                        label={strings.focalPointEmailInputLabel}
                         name="ns_focal_point_email"
                         value={value?.ns_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_email}
                     />
                     <TextInput
-                        label={strings.perFormFocalPointPhoneNumberLabel}
+                        label={strings.focalPointPhoneNumberInputLabel}
                         name="ns_focal_point_phone"
                         value={value?.ns_focal_point_phone}
                         onChange={setFieldValue}
@@ -623,27 +658,28 @@ export function Component() {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormNSSecondFocalPoint}
-                    description={strings.perFormNSSecondFocalPointDescription}
+                    title={strings.nsSecondFocalPointInputLabel}
+                    description={strings.nsSecondFocalPointInputDescription}
                     multiRow
                     twoColumn
+                    withoutPadding
                 >
                     <TextInput
-                        label={strings.perFormFocalPointNameLabel}
+                        label={strings.focalPointNameInputLabel}
                         name="ns_second_focal_point_name"
                         value={value?.ns_second_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_name}
                     />
                     <TextInput
-                        label={strings.perFormFocalPointEmailLabel}
+                        label={strings.focalPointEmailInputLabel}
                         name="ns_second_focal_point_email"
                         value={value?.ns_second_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_email}
                     />
                     <TextInput
-                        label={strings.perFormFocalPointPhoneNumberLabel}
+                        label={strings.focalPointPhoneNumberInputLabel}
                         name="ns_second_focal_point_phone"
                         value={value?.ns_second_focal_point_phone}
                         onChange={setFieldValue}
@@ -651,33 +687,34 @@ export function Component() {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormPartnerFocalPoint}
+                    title={strings.partnerFocalPointInputLabel}
                     multiRow
                     twoColumn
+                    withoutPadding
                 >
                     <TextInput
-                        label={strings.perFormFocalPointNameLabel}
+                        label={strings.focalPointNameInputLabel}
                         name="partner_focal_point_name"
                         value={value?.partner_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_name}
                     />
                     <TextInput
-                        label={strings.perFormFocalPointEmailLabel}
+                        label={strings.focalPointEmailInputLabel}
                         name="partner_focal_point_email"
                         value={value?.partner_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_email}
                     />
                     <TextInput
-                        label={strings.perFormFocalPointPhoneNumberLabel}
+                        label={strings.focalPointPhoneNumberInputLabel}
                         name="partner_focal_point_phone"
                         value={value?.partner_focal_point_phone}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_phone}
                     />
                     <TextInput
-                        label={strings.perFormFocalPointOrganizationLabel}
+                        label={strings.focalPointOrganizationInputLabel}
                         name="partner_focal_point_organization"
                         value={value?.partner_focal_point_organization}
                         onChange={setFieldValue}
@@ -685,33 +722,34 @@ export function Component() {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.perFormPERFacilitator}
+                    title={strings.perFacilitatorInputLabel}
                     multiRow
                     twoColumn
+                    withoutPadding
                 >
                     <TextInput
-                        label={strings.perFormFocalPointNameLabel}
+                        label={strings.focalPointNameInputLabel}
                         name="facilitator_name"
                         value={value?.facilitator_name}
                         onChange={setFieldValue}
                         error={error?.facilitator_name}
                     />
                     <TextInput
-                        label={strings.perFormFocalPointEmailLabel}
+                        label={strings.focalPointEmailInputLabel}
                         name="facilitator_email"
                         value={value?.facilitator_email}
                         onChange={setFieldValue}
                         error={error?.facilitator_email}
                     />
                     <TextInput
-                        label={strings.perFormFocalPointPhoneNumberLabel}
+                        label={strings.focalPointPhoneNumberInputLabel}
                         name="facilitator_phone"
                         value={value?.facilitator_phone}
                         onChange={setFieldValue}
                         error={error?.facilitator_phone}
                     />
                     <TextInput
-                        label={strings.perFormOtherContactMethodLabel}
+                        label={strings.otherContactMethodInputLabel}
                         name="facilitator_contact"
                         value={value?.facilitator_contact}
                         onChange={setFieldValue}
@@ -719,19 +757,6 @@ export function Component() {
                     />
                 </InputSection>
             </Container>
-            <div className={styles.actions}>
-                <ConfirmButton
-                    name={undefined}
-                    confirmHeading={strings.perOverviewConfirmHeading}
-                    confirmMessage={strings.perOverviewConfirmMessage}
-                    onConfirm={handleFormFinalSubmit}
-                    disabled={(isDefined(statusResponse?.phase)
-                        && statusResponse?.phase !== STEP_OVERVIEW)
-                        || savePerPending}
-                >
-                    {strings.perOverviewSetUpPerProcess}
-                </ConfirmButton>
-            </div>
             {actionDivRef.current && (
                 <Portal
                     container={actionDivRef.current}
@@ -744,11 +769,11 @@ export function Component() {
                             && statusResponse?.phase !== STEP_OVERVIEW)
                                 || savePerPending}
                     >
-                        {strings.perFormSaveLabel}
+                        {strings.saveButtonLabel}
                     </Button>
                 </Portal>
             )}
-        </div>
+        </Container>
     );
 }
 

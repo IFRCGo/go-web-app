@@ -208,18 +208,20 @@ export function Component() {
             filtersContainerClassName={styles.filters}
             filters={(
                 <>
-                    <CountrySearchSelectInput
-                        // FIXME: use translations
-                        placeholder="All Countries"
-                        name={undefined}
-                        value={filterCountry}
-                        onChange={setFilterCountry}
-                    />
                     <RegionSelectInput
                         placeholder="All Regions"
                         name={undefined}
                         value={filterRegion}
                         onChange={setFilterRegion}
+                        disabled={isDefined(filterCountry)}
+                    />
+                    <CountrySearchSelectInput
+                        // FIXME: use translations
+                        placeholder="All Countries"
+                        name={undefined}
+                        value={filterCountry}
+                        disabled={isDefined(filterRegion)}
+                        onChange={setFilterCountry}
                     />
                     <div />
                 </>

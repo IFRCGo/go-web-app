@@ -1,20 +1,14 @@
 {
     "namespace": "perAssessmentForm",
     "strings": {
-        "perFormArea1Tab": "Area 1: Policy strategy and standards",
-        "perFormArea2Tab": "Area 2: Analysis and planning",
-        "perFormArea3Tab": "Area 3: Operational Capacity",
-        "perFormArea4Tab": "Area 4: Coordination",
-        "perFormArea5Tab": "Area 5: Operations Support",
-        "perFormSaveRequestSuccessMessage": "PER Process created/updated successfully",
-        "perFormSaveRequestFailureMessage": "Failed to create/update PER Process",
-        "perFormBackButton": "Back",
-        "perFormNextButton": "Next",
-        "perFormSaveButton": "Save",
-        "perFormSubmitAssessmentButton": "Submit Assessment",
-        "perFormCancelButton": "Cancel",
-        "perFormSubmitButton": "Submit",
-        "perAssessmentConfirmHeading": "Submit PER Assessment Results",
-        "perAssessmentConfirmMessage": "You are about to submit the results of the PER Assessment. Once submitted, the results cannot be edited. You'll be redirected to the Prioritization form after the successful submission"
+        "assessmentHeading": "Assessment",
+        "saveRequestSuccessMessage": "PER Process created/updated successfully",
+        "saveRequestFailureMessage": "Failed to create/update PER Process",
+        "prevButtonLabel": "Prev",
+        "nextButtonLabel": "Next",
+        "saveAssessmentButtonLabel": "Save",
+        "submitAssessmentButtonLabel": "Submit",
+        "submitAssessmentConfirmHeading": "Submit PER Assessment Results",
+        "submitAssessmentConfirmMessage": "You are about to submit the results of the PER Assessment. Once submitted, the results cannot be edited. You'll be redirected to the Prioritization form after the successful submission"
     }
 }

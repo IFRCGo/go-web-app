@@ -292,7 +292,7 @@ export function Component() {
         >
             <Container
                 className={styles.appealsTable}
-                headerDescriptionClassName={styles.filters}
+                headerDescriptionContainerClassName={styles.filters}
                 headerDescription={(
                     <>
                         <SelectInput

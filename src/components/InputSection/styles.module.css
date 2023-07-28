@@ -2,7 +2,10 @@
     display: flex;
     background-color: var(--go-ui-color-primary-white);
     gap: var(--go-ui-spacing-xl);
-    padding: var(--go-ui-spacing-2xl);
+
+    &.with-padding {
+        padding: var(--go-ui-spacing-2xl);
+    }
 
     .section-title {
         display: flex;

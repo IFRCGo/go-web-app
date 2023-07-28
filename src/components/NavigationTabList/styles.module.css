@@ -31,7 +31,6 @@
 
     &.step {
         overflow-x: auto;
-        gap: var(--go-ui-spacing-lg);
         .start-dummy-content,
         .end-dummy-content {
             align-self: flex-end;

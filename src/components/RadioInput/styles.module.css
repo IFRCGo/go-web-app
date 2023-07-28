@@ -1,6 +1,5 @@
 .radio-input {
     display: flex;
-    position: relative;
     flex-direction: column;
     gap: var(--go-ui-spacing-md);
 
@@ -13,17 +12,6 @@
     &.disabled {
         opacity: var(--go-ui-opacity-disabled-element);
         filter: saturate(50%);
-    }
-
-    .clear-button {
-        position: absolute;
-        transition: var(--go-ui-duration-transition-medium) opacity ease-in-out;
-        opacity: 0;
-        border: 0;
-        background-color: transparent;
-        cursor: pointer;
-        inset-inline-end: 0;
-        inset-block-start: 0;
     }
 
     .input-hint {
