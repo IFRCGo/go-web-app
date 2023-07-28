@@ -21,7 +21,8 @@ interface CountryOptionItem {
 
 interface CountryOptionItemUnsafe {
     id: number;
-    name?: string | null | undefined;
+    name?: string | null;
+    society_name?: string | null;
 }
 
 type Props<NAME> = SearchSelectInputProps<
@@ -37,6 +38,7 @@ type Props<NAME> = SearchSelectInputProps<
     name: NAME;
     value: number | null | undefined;
     onChange: (newValue: number | undefined, name: NAME) => void;
+    selectionMode?: 'country' | 'nationalSociety';
 }
 
 function CountrySearchSelectInput<const NAME>(props: Props<NAME>) {
@@ -45,6 +47,7 @@ function CountrySearchSelectInput<const NAME>(props: Props<NAME>) {
         name,
         value,
         onChange,
+        selectionMode,
         ...otherProps
     } = props;
 
@@ -66,10 +69,19 @@ function CountrySearchSelectInput<const NAME>(props: Props<NAME>) {
                         [
                             ...newOptions.map(
                                 (potentialCountry) => {
-                                    if (isNotDefined(potentialCountry)
-                                        || isFalsyString(potentialCountry.name)
-                                        || isNotDefined(potentialCountry.id)
-                                    ) {
+                                    if (selectionMode === 'nationalSociety') {
+                                        if (isFalsyString(potentialCountry.society_name)) {
+                                            return undefined;
+                                        }
+
+                                        return {
+                                            ...potentialCountry,
+                                            id: potentialCountry.id,
+                                            name: potentialCountry.society_name,
+                                        };
+                                    }
+
+                                    if (isFalsyString(potentialCountry.name)) {
                                         return undefined;
                                     }
 
@@ -87,7 +99,7 @@ function CountrySearchSelectInput<const NAME>(props: Props<NAME>) {
                 ),
             );
         },
-        [],
+        [selectionMode],
     );
 
     const { trigger: getDetailsForSelectedCountry } = useLazyRequest<'/api/v2/country/{id}/', null>({
@@ -109,6 +121,7 @@ function CountrySearchSelectInput<const NAME>(props: Props<NAME>) {
             limit: 20,
             is_independent: true,
             is_deprecated: false,
+            is_nationalsociety: selectionMode === 'nationalSociety' ? true : undefined,
         },
         onSuccess: (response) => {
             addCachedOptions(response?.results);
