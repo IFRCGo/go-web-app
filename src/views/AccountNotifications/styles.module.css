@@ -1,0 +1,31 @@
+.account-notification {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-lg);
+
+    .report-collection {
+        padding: var(--go-ui-spacing-lg) 0;
+
+        .report-cards {
+            padding: var(--go-ui-spacing-lg);
+        }
+    }
+
+    .preferences {
+        padding: var(--go-ui-spacing-lg) 0;
+
+        .preference-types {
+            padding: var(--go-ui-spacing-lg) var(--go-ui-spacing-xl);
+
+            .check-box-collection {
+                display: grid;
+                grid-gap: var(--go-ui-spacing-2xl);
+                grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+            }
+        }
+
+        .check-list-description {
+            font-size: var(--go-ui-font-size-xs);
+        }
+    }
+}

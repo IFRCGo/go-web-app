@@ -1,0 +1,5 @@
+.submitted-reports {
+    display: flex;
+    flex-direction: column;
+    color: inherit;
+}

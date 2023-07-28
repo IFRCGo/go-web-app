@@ -1,0 +1,17 @@
+{
+    "namespace": "accountNotifications",
+    "strings": {
+        "accountSubmittedReports": "Submitted Field Reports",
+        "subscriptionPreferences": "Subscription Preferences",
+        "notificationTypes": "Notification types",
+        "notificationTypeDescription": "Set basic notification types",
+        "regionalNotifications": "Regional notifications",
+        "regionalNotificationTypeDescription": "Select one or more regions to receive notifications about.",
+        "countryLevelNotifications": "Country-Level notifications",
+        "disasterTypes": "Disaster Types",
+        "disasterNotifications": "Disaster notifications",
+        "disasterNotificationTypeDescription": "Select one or more disaster to receive notifications about.",
+        "surgeNotifications": "Surge notifications",
+        "otherNotifications": "Other Notifications"
+    }
+}
