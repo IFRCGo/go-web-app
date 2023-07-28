@@ -1298,18 +1298,16 @@ const fieldReportsFormDetails = customWrapRoute({
     },
 });
 
-// FIXME: Add field report form
-
 const fieldReportsFormEdit = customWrapRoute({
     path: 'field-reports/:fieldReportId/edit',
     component: {
-        render: () => import('#views/DrefApplicationForm'),
+        render: () => import('#views/FieldReportForm'),
         props: {},
     },
     parent: root,
     wrapperComponent: Auth,
     context: {
-        title: 'Dref Application Form',
+        title: 'Field Report Form',
         visibility: 'is-authenticated',
     },
 });

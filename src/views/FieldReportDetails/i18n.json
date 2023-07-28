@@ -1,10 +1,8 @@
 {
     "namespace": "fieldReportDetails",
     "strings": {
-        "populationMovementSubtitle": "Population Movement |",
         "editReport": "Edit Report",
-        "lastUpdatedByLabel": "Last updated by",
-        "onLabel": "on",
+        "lastUpdatedByLabel": "Last updated by {user} on {date} ({region} - {district})",
         "numericDetailsTitle": "Numeric Details (People)",
         "injuredRCLabel": "Injured (RC)",
         "injuredGovernmentLabel": "Injured (Government)",
@@ -35,8 +33,9 @@
         "requestForAssistanceHeading": "Request For Assistance",
         "governmentRequestsInternationalAssistanceLabel": "Government Requests International Assistance",
         "nSRequestsInternationalAssistanceLabel": "NS Requests International Assistance",
-        "informationBulletinPublishedLabel" : "Information Bulletin Published",
-        "externalPartnersSupportedActivitiesLabel" : "External partners / Supported activities",
+        "informationBulletinPublishedLabel": "Information Bulletin Published",
+        "actionsTakenByNationalSociety": "Actions taken by National Society",
+        "externalPartnersSupportedActivitiesLabel": "External partners / Supported activities",
         "contactTitle": "Contacts"
     }
 }
