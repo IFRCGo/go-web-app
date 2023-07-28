@@ -43,9 +43,13 @@ type GetOption<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' = 
             pathVariables?: NonNullable<SCHEMA[PATH]['get']['parameters']>['path'],
             mockResponse?: ResolveRes<Res>,
             response: ResolveRes<Res>,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldRetry?: (val: ResolveRes<Res>, run: number, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldPoll?: (val: ResolveRes<Res> | undefined, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onSuccess?: (val: ResolveRes<Res>, context: any) => void;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onFailure?: (val: TransformedError, context: any) => void;
         }, OMISSION>
         : never
@@ -71,9 +75,13 @@ type PutOptions<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' =
             pathVariables?: NonNullable<SCHEMA[PATH]['put']['parameters']>['path'],
             mockResponse?: ResolveRes<Res>,
             response: ResolveRes<Res>,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldRetry?: (val: ResolveRes<Res>, run: number, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldPoll?: (val: ResolveRes<Res> | undefined, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onSuccess?: (val: ResolveRes<Res>, context: any) => void;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onFailure?: (val: TransformedError, context: any) => void;
         }, OMISSION>
         : never
@@ -99,9 +107,13 @@ type PatchOptions<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response'
             pathVariables?: NonNullable<SCHEMA[PATH]['patch']['parameters']>['path'],
             mockResponse?: ResolveRes<Res>,
             response: ResolveRes<Res>,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldRetry?: (val: ResolveRes<Res>, run: number, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldPoll?: (val: ResolveRes<Res> | undefined, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onSuccess?: (val: ResolveRes<Res>, context: any) => void;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onFailure?: (val: TransformedError, context: any) => void;
         }, OMISSION>
         : never
@@ -127,9 +139,13 @@ type PostOptions<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' 
             pathVariables?: NonNullable<SCHEMA[PATH]['post']['parameters']>['path'],
             mockResponse?: ResolveRes<Res>,
             response: ResolveRes<Res>,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldRetry?: (val: ResolveRes<Res>, run: number, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldPoll?: (val: ResolveRes<Res> | undefined, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onSuccess?: (val: ResolveRes<Res>, context: any) => void;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onFailure?: (val: TransformedError, context: any) => void;
         }, OMISSION>
         : never
@@ -149,10 +165,15 @@ type DeleteOptions<SCHEMA, PATH extends keyof SCHEMA> = (
             query?: NonNullable<SCHEMA[PATH]['delete']['parameters']>['query'],
 
             pathVariables?: NonNullable<SCHEMA[PATH]['delete']['parameters']>['path'],
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             mockResponse?: any,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldRetry?: (val: any, run: number, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             shouldPoll?: (val: any, context: any) => number;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onSuccess?: (val: any, context: any) => void;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onFailure?: (val: TransformedError, context: any) => void;
         }
         : never
@@ -384,15 +405,20 @@ export type CustomLazyRequestOptions<
     OMISSION extends 'response' = never,
 > = (
     METHOD extends 'GET' | undefined
-        ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT> & LazyGetOption<SCHEMA, PATH, CONTEXT, OMISSION>
+        ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
+            & LazyGetOption<SCHEMA, PATH, CONTEXT, OMISSION>
         : METHOD extends 'PUT'
-            ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT> & LazyPutOptions<SCHEMA, PATH, CONTEXT, OMISSION>
+            ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
+                & LazyPutOptions<SCHEMA, PATH, CONTEXT, OMISSION>
             : METHOD extends 'PATCH'
-                ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT> & LazyPatchOptions<SCHEMA, PATH, CONTEXT, OMISSION>
+                ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
+                    & LazyPatchOptions<SCHEMA, PATH, CONTEXT, OMISSION>
                 : METHOD extends 'POST'
-                    ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT> & LazyPostOptions<SCHEMA, PATH, CONTEXT, OMISSION>
+                    ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
+                        & LazyPostOptions<SCHEMA, PATH, CONTEXT, OMISSION>
                     : METHOD extends 'DELETE'
-                        ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT> & LazyDeleteOptions<SCHEMA, PATH, CONTEXT>
+                        ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
+                            & LazyDeleteOptions<SCHEMA, PATH, CONTEXT>
                         : never
 );
 export type CustomLazyRequestReturn<
