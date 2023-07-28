@@ -24,14 +24,16 @@ import {
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import TableBodyContent from '#components/Table/TableBodyContent';
 import type { RowOptions } from '#components/Table/types';
+import CountrySearchSelectInput from '#components/CountrySearchSelectInput';
+import RegionSelectInput from '#components/RegionSelectInput';
 import Link from '#components/Link';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-
 import { numericIdSelector } from '#utils/selectors';
+import useInputState from '#hooks/useInputState';
 
 import PerTableActions from './PerTableActions';
 import type { Props as PerTableActionsProps } from './PerTableActions';
@@ -49,6 +51,9 @@ export function Component() {
     const sortState = useSortState({ name: 'date_of_assessment', direction: 'dsc' });
     const { sorting } = sortState;
     const [expandedRow, setExpandedRow] = useState<PerProcessStatusItem | undefined>();
+    const [filterCountry, setFilterCountry] = useInputState<number | undefined>(undefined);
+    const [filterRegion, setFilterRegion] = useInputState<number | undefined>(undefined);
+
     const {
         pending: aggregatedStatusPending,
         response: aggregatedStatusResponse,
@@ -56,6 +61,8 @@ export function Component() {
         url: '/api/v2/aggregated-per-process-status/',
         query: {
             ordering: getOrdering(sorting),
+            country: isDefined(filterCountry) ? [filterCountry] : undefined,
+            region: filterRegion,
         },
     });
 
@@ -197,6 +204,25 @@ export function Component() {
                 >
                     {strings.newProcessButtonLabel}
                 </Link>
+            )}
+            filtersContainerClassName={styles.filters}
+            filters={(
+                <>
+                    <CountrySearchSelectInput
+                        // FIXME: use translations
+                        placeholder="All Countries"
+                        name={undefined}
+                        value={filterCountry}
+                        onChange={setFilterCountry}
+                    />
+                    <RegionSelectInput
+                        placeholder="All Regions"
+                        name={undefined}
+                        value={filterRegion}
+                        onChange={setFilterRegion}
+                    />
+                    <div />
+                </>
             )}
         >
             <SortContext.Provider value={sortState}>

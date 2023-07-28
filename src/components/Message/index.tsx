@@ -35,7 +35,7 @@ function Message(props: Props) {
         withoutBorder,
     } = props;
 
-    let message: React.ReactNode = messageFromProps;
+    let messageContent: React.ReactNode = messageFromProps;
 
     const className = _cs(
         styles.message,
@@ -45,7 +45,7 @@ function Message(props: Props) {
     );
 
     if (pending) {
-        message = (
+        messageContent = (
             <BlockLoading
                 className={styles.blockLoading}
                 compact={compact}
@@ -54,19 +54,19 @@ function Message(props: Props) {
             />
         );
     } else if (errored) {
-        message = errorMessage;
+        messageContent = errorMessage;
     } else if (empty && filtered) {
-        message = filteredMessage;
+        messageContent = filteredMessage;
     } else if (empty && !filtered) {
-        message = emptyMessage;
+        messageContent = emptyMessage;
     }
 
-    if (!message) {
+    if (!messageContent) {
         return null;
     }
     return (
         <div className={className}>
-            {message}
+            {messageContent}
         </div>
     );
 }

@@ -1,6 +1,12 @@
 .account-per-forms {
     padding: var(--go-ui-spacing-3xl) 0;
 
+    .filters {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    }
+
     .sub-cell {
         border-bottom: unset;
         background-color: var(--go-ui-color-gray-20);

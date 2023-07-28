@@ -65,6 +65,7 @@ function QuestionInput(props: Props) {
             }
             headingLevel={5}
             childrenContainerClassName={styles.content}
+            headerDescription={question.description}
         >
             <RadioInput
                 name="answer"

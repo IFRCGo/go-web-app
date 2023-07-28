@@ -92,6 +92,7 @@ function ComponentInput(props: Props) {
             heading={`${component.component_num}. ${component.title}`}
             childrenContainerClassName={styles.questionList}
             withHeaderBorder
+            headerDescription={component.description}
             actions={(
                 <SelectInput
                     className={styles.statusSelection}
