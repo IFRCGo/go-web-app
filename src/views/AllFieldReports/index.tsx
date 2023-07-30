@@ -65,7 +65,10 @@ export function Component() {
         (country) => country,
     );
 
-    const { emergency: emergencyRoute } = useContext(RouteContext);
+    const {
+        emergency: emergencyRoute,
+        fieldReportDetails: fieldReportDetailsRoute,
+    } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -78,10 +81,16 @@ export function Component() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FieldReportListItem, number>(
+            createLinkColumn<FieldReportListItem, number>(
                 'summary',
                 strings.allFieldReportsName,
                 (item) => item.summary,
+                (item) => ({
+                    to: generatePath(
+                        fieldReportDetailsRoute.absolutePath,
+                        { fieldReportId: item.id },
+                    ),
+                }),
                 {
                     sortable: true,
                     columnClassName: styles.summary,
@@ -109,7 +118,7 @@ export function Component() {
                 (item) => item.countries,
             ),
         ]),
-        [strings, emergencyRoute],
+        [strings, emergencyRoute, fieldReportDetailsRoute],
     );
 
     let ordering;

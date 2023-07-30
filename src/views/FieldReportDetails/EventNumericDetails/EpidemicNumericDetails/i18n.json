@@ -1,0 +1,7 @@
+{
+    "namespace": "fieldReportDetails",
+    "strings": {
+        "cumulativeCasesLabel": "Cumulative Cases",
+        "suspectedCasesLabel": "Suspected Cases"
+    }
+}

@@ -1284,7 +1284,7 @@ const fieldReportFormNew = customWrapRoute({
     },
 });
 
-const fieldReportsFormDetails = customWrapRoute({
+const fieldReportDetails = customWrapRoute({
     path: 'field-reports/:fieldReportId',
     component: {
         render: () => import('#views/FieldReportDetails'),
@@ -1450,7 +1450,7 @@ const wrappedRoutes = {
     newDrefApplicationForm,
     drefApplicationForm,
     fieldReportFormNew,
-    fieldReportsFormDetails,
+    fieldReportDetails,
     flashUpdateFormNew,
     riskWatch,
     perProcessForm,

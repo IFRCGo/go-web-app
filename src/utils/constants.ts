@@ -36,3 +36,8 @@ export const CATEGORY_RISK_LOW = 2;
 export const CATEGORY_RISK_MEDIUM = 3;
 export const CATEGORY_RISK_HIGH = 4;
 export const CATEGORY_RISK_VERY_HIGH = 5;
+
+export const FIELD_REPORT_STATUS_EARLY_WARNING = 8;
+export const FIELD_REPORT_STATUS_EVENT = 9;
+
+export const DISASTER_TYPE_EPIDEMIC = 1;

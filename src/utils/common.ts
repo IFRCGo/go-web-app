@@ -1,3 +1,4 @@
+import { Children, Fragment, createElement } from 'react';
 import {
     isDefined,
     isNotDefined,
@@ -359,4 +360,29 @@ export function splitList<X, Y>(
 export function getNumberOfDaysInMonth(year: number, month: number) {
     const dateWithLastDateOfPrevMonth = new Date(year, month + 1, 0);
     return dateWithLastDateOfPrevMonth.getDate();
+}
+
+export function joinList(list: React.ReactNode[], separator: React.ReactNode) {
+    const joinedList = Children.toArray(list).reduce<React.ReactNode[]>(
+        (acc, child, index, children) => {
+            if (isNotDefined(child)) {
+                return acc;
+            }
+
+            acc.push(child);
+
+            if (index < (children.length - 1)) {
+                acc.push(separator);
+            }
+
+            return acc;
+        },
+        [],
+    );
+
+    return createElement(
+        Fragment,
+        {},
+        ...joinedList,
+    );
 }

@@ -1,0 +1,8 @@
+{
+    "namespace": "fieldReportDetails",
+    "strings": {
+        "potentiallyAffectedRCLabel": "Potentiall Affected (RC)",
+        "potentiallyAffectedGovernmentLabel": "Potentially Affected (Government)",
+        "potentiallyAffectedOtherLabel": "Potentially Affected (Other)"
+    }
+}

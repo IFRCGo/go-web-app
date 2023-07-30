@@ -1,0 +1,7 @@
+{
+    "namespace": "fieldReportDetails",
+    "strings": {
+        "covidCumulativeCasesLabel": "Cumulative Cases",
+        "covidCumulativeDeadLabel": "Cumulative Dead"
+    }
+}

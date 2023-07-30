@@ -40,6 +40,7 @@ function FieldReportsTable() {
     const {
         emergency: emergencyRoute,
         allFieldReports: allFieldReportsRoute,
+        fieldReportDetails: fieldReportDetailsRoute,
     } = useContext(RouteContext);
 
     const columns = useMemo(
@@ -53,10 +54,16 @@ function FieldReportsTable() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FieldReportListItem, number>(
+            createLinkColumn<FieldReportListItem, number>(
                 'summary',
                 strings.fieldReportsTableName,
                 (item) => item.summary,
+                (item) => ({
+                    to: generatePath(
+                        fieldReportDetailsRoute.absolutePath,
+                        { fieldReportId: item.id },
+                    ),
+                }),
                 {
                     sortable: true,
                     columnClassName: styles.summary,
@@ -84,7 +91,7 @@ function FieldReportsTable() {
                 (item) => item.countries,
             ),
         ]),
-        [strings, emergencyRoute],
+        [strings, emergencyRoute, fieldReportDetailsRoute],
     );
 
     let ordering;

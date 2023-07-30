@@ -1,56 +1,90 @@
 .field-report-details {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-xl);
-
-    .field-report-subtitle {
-        font-weight: var( --go-ui-font-weight-medium);
-
-        .title-link {
-            text-decoration: underline;
-        }
-    }
-
-    .edit-link {
-        color: var(--go-ui-color-primary-red);
-    }
-
-    .latest-updated-detail {
+    .description {
         display: flex;
-        flex-wrap: wrap;
-        gap: var(--go-ui-spacing-sm);
-        color: var(--go-ui-color-gray-70);
-    }
-
-    .list-of-detail{
-        display: flex;
+        align-items: center;
         flex-direction: column;
-        gap: var(--go-ui-spacing-3xl);
-        border-radius: var(--go-ui-border-radius-md);
-        box-shadow: var(--go-ui-box-shadow-md);
-        padding: var(--go-ui-spacing-3xl);
-        width: 100%;
+        text-align: center;
+        gap: var(--go-ui-spacing-sm);
 
-        .numeric-details {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-gap: var(--go-ui-spacing-xl);
-            grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+        .basic-info {
+            display: inline-flex;
+            font-size: var(--go-ui-font-size-lg);
+            font-weight: var(--go-ui-font-weight-medium);
+            gap: var(--go-ui-spacing-lg);
 
-            @media screen and (max-width: 30rem) {
-                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+            .separator {
+                flex-shrink: 0;
+                background-color: var(--go-ui-color-separator);
+                width: var(--go-ui-width-separator-md);
+                height: 1.5rem;
+            }
+
+            .title-link {
+                text-align: left;
             }
         }
 
-        .assistance-label {
-            color: var(--go-ui-color-black);
-            font-size: var(--go-ui-font-size-lg);
+        .latest-updated-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+            color: var(--go-ui-color-text-light);
+            gap: var(--go-ui-spacing-sm);
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-3xl);
+
+        .basic-details {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
         }
 
-        .information {
-            color: var(--go-ui-color-black);
-            font-size: var(--go-ui-font-size-lg);
+        .numeric-details {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        }
+
+        .request-for-assistance-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+        }
+
+        .actions-taken {
+            .action-list {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-sm);
+
+                .action-category {
+                    display: flex;
+                    align-items: center;
+                    gap: var(--go-ui-spacing-sm);
+
+                    .icon {
+                        font-size: var(--go-ui-font-size-icon-multiplier);
+                    }
+                }
+            }
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .contact {
+                .type {
+                    font-weight: var(--go-ui-font-weight-bold);
+                }
+            }
         }
     }
 }
