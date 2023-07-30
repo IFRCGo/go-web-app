@@ -25,6 +25,18 @@ type ResolveBody<T> = T extends {
 
 type Callable<C, R> = R | ((value: C) => R);
 
+type GetResponse<SCHEMA, PATH extends keyof SCHEMA> = (
+    SCHEMA[PATH] extends {
+        get: {
+            parameters?: {
+                query?: UrlParams,
+                path?: AdditionalOptions['pathVariables'],
+            },
+            responses: infer Res,
+        },
+    } ? ResolveRes<Res> : never
+);
+
 type GetOption<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' = never> = (
     SCHEMA[PATH] extends {
         get: {
@@ -52,7 +64,7 @@ type GetOption<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' = 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onFailure?: (val: TransformedError, context: any) => void;
         }, OMISSION>
-        : never
+        : unknown
 );
 type PutOptions<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' = never> = (
     SCHEMA[PATH] extends {
@@ -362,19 +374,18 @@ interface LazyRequestReturnBase<RESPONSE, C> {
 }
 
 export type CustomRequestOptions<
-    SCHEMA,
+    SCHEMA extends object,
     PATH extends keyof SCHEMA,
     METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | undefined,
-    OMISSION extends 'response' = never,
 > = (
     METHOD extends 'GET' | undefined
-        ? RequestOptionsBase<PATH, METHOD> & GetOption<SCHEMA, PATH, OMISSION>
+        ? RequestOptionsBase<PATH, METHOD> & GetOption<SCHEMA, PATH, 'response'>
         : METHOD extends 'PUT'
-            ? RequestOptionsBase<PATH, METHOD> & PutOptions<SCHEMA, PATH, OMISSION>
+            ? RequestOptionsBase<PATH, METHOD> & PutOptions<SCHEMA, PATH, 'response'>
             : METHOD extends 'PATCH'
-                ? RequestOptionsBase<PATH, METHOD> & PatchOptions<SCHEMA, PATH, OMISSION>
+                ? RequestOptionsBase<PATH, METHOD> & PatchOptions<SCHEMA, PATH, 'response'>
                 : METHOD extends 'POST'
-                    ? RequestOptionsBase<PATH, METHOD> & PostOptions<SCHEMA, PATH, OMISSION>
+                    ? RequestOptionsBase<PATH, METHOD> & PostOptions<SCHEMA, PATH, 'response'>
                     : METHOD extends 'DELETE'
                         ? RequestOptionsBase<PATH, METHOD> & DeleteOptions<SCHEMA, PATH>
                         : never
@@ -385,7 +396,7 @@ export type CustomRequestReturn<
     METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | undefined,
 > = (
     METHOD extends 'GET' | undefined
-        ? RequestReturnBase<GetOption<SCHEMA, PATH >['response']>
+        ? RequestReturnBase<GetResponse<SCHEMA, PATH>>
         : METHOD extends 'PUT'
             ? RequestReturnBase<PutOptions<SCHEMA, PATH>['response']>
             : METHOD extends 'PATCH'
@@ -428,7 +439,7 @@ export type CustomLazyRequestReturn<
     C,
 > = (
     METHOD extends 'GET' | undefined
-        ? LazyRequestReturnBase<GetOption<SCHEMA, PATH>['response'], C>
+        ? LazyRequestReturnBase<GetResponse<SCHEMA, PATH>, C>
         : METHOD extends 'PUT'
             ? LazyRequestReturnBase<PutOptions<SCHEMA, PATH>['response'], C>
             : METHOD extends 'PATCH'
