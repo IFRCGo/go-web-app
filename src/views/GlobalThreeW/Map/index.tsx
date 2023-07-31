@@ -39,6 +39,7 @@ import {
     OPERATION_TYPE_MULTI,
     OPERATION_TYPE_PROGRAMME,
 } from '#utils/constants';
+import ServerEnumsContext from '#contexts/server-enums';
 
 import {
     countSelector,
@@ -143,6 +144,10 @@ function GlobalThreeWMap(props: Props) {
         projectList: projectListFromProps,
     } = props;
 
+    const {
+        deployments_project_operation_type: operationTypeOptions,
+    } = useContext(ServerEnumsContext);
+
     // FIXME typings need to be fixed in server
     const projectList = projectListFromProps as unknown as NsProjectsResponse[] | undefined;
 
@@ -160,12 +165,6 @@ function GlobalThreeWMap(props: Props) {
     } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
-    });
-
-    const {
-        response: operationTypeResponse,
-    } = useRequest({
-        url: '/api/v2/operationtype',
     });
 
     const countries = countriesResponse?.results;
@@ -264,9 +263,6 @@ function GlobalThreeWMap(props: Props) {
         [setClickedPointProperties],
     );
 
-    // FIXME: typings should be fixed in the server
-    const tempOpResponse = operationTypeResponse as { key: number, label: string}[] | undefined;
-
     return (
         <Map
             mapStyle={defaultMapStyle}
@@ -279,12 +275,12 @@ function GlobalThreeWMap(props: Props) {
                 <MapContainer className={_cs(styles.mapContainer, className)} />
                 <GoMapDisclaimer className={styles.mapDisclaimer} />
             </div>
-            {tempOpResponse && (
+            {operationTypeOptions && (
                 <div className={styles.legend}>
-                    {tempOpResponse.map((d) => (
+                    {operationTypeOptions.map((d) => (
                         <LegendItem
                             key={d.key}
-                            label={d.label}
+                            label={d.value}
                             color={pointColorMap[d.key]}
                         />
                     ))}

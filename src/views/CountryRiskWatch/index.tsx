@@ -33,6 +33,7 @@ export function Component() {
     } = useRiskRequest({
         apiType: 'risk',
         url: '/api/v1/country-seasonal/',
+        // FIXME: typings need to be fixed in the server
         query: {
             iso3: countryResponse?.iso3?.toLowerCase(),
         },

@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useContext } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';
@@ -6,29 +6,25 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { isValidNationalSociety } from '#utils/common';
+import {
+    numericIdSelector,
+    numericKeySelector,
+    stringLabelSelector,
+    stringValueSelector,
+} from '#utils/selectors';
+import ServerEnumsContext from '#contexts/server-enums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type CountryListItem = NonNullable<GoApiResponse<'/api/v2/country/'>['results']>[number];
+// type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 
 export interface FilterValue {
     reporting_ns: number[];
     programme_type: number[];
     primary_sector: number[];
     secondary_sectors: number[];
-}
-
-function numericKeySelector<D extends { key: number }>(d: D) {
-    return d.key;
-}
-
-function stringLabelSelector<D extends { label: string }>(d: D) {
-    return d.label;
-}
-
-function countryKeySelector(country: CountryListItem) {
-    return country.id;
 }
 
 function countrySocietyNameSelector(country: CountryListItem) {
@@ -50,6 +46,9 @@ function Filters(props: Props) {
         disabled,
     } = props;
 
+    const {
+        deployments_project_programme_type: programmeTypeOptions,
+    } = useContext(ServerEnumsContext);
     const strings = useTranslation(i18n);
 
     const { response: countriesResponse } = useRequest({
@@ -63,10 +62,6 @@ function Filters(props: Props) {
 
     const { response: secondarySectorResponse } = useRequest({
         url: '/api/v2/secondarysector',
-    });
-
-    const { response: programmeTypeResponse } = useRequest({
-        url: '/api/v2/programmetype',
     });
 
     const nsList = useMemo(
@@ -94,7 +89,7 @@ function Filters(props: Props) {
                 placeholder={strings.threeWFilterReportingNs}
                 options={nsList}
                 value={value.reporting_ns}
-                keySelector={countryKeySelector}
+                keySelector={numericIdSelector}
                 labelSelector={countrySocietyNameSelector}
                 onChange={handleInputChange}
                 disabled={disabled}
@@ -102,11 +97,10 @@ function Filters(props: Props) {
             <MultiSelectInput
                 name="programme_type"
                 placeholder={strings.threeWFilterProgrammeTypes}
-                // FIXME: typings should be fixed in the server
-                options={programmeTypeResponse as { key: number, label: string }[]}
+                options={programmeTypeOptions}
                 value={value.programme_type}
                 keySelector={numericKeySelector}
-                labelSelector={stringLabelSelector}
+                labelSelector={stringValueSelector}
                 onChange={handleInputChange}
                 disabled={disabled}
             />
