@@ -1,9 +1,36 @@
 {
     "namespace": "surge",
     "strings": {
+        "threeWDetailsHeading": "3W Details",
+        "editProject": "Edit Project",
+        "lastModifiedOnTitle": "Last Modified On {date}",
         "tagsTitle": "Tags",
         "threeWTagsTooltip": "Projects are often multi-sector. The primary sector can be associated to sector ‘tags’.",
         "threeWStartDate": "Start Date",
-        "threeWEndDate": "End Date"
+        "threeWEndDate": "End Date",
+        "reportingNationalSocietyTitle": "Reporting National Society",
+        "countryAndRegionTitle": "Country And Region/Province",
+        "nSContactTitle": "NS contact name, role",
+        "nsContactLabel": "NS contact email",
+        "projectTypeLabel": "Project Type",
+        "programmeTypeLabel": "Programme Type",
+        "linkedOperationLabel": "Linked Operation",
+        "disasterTypeLabel": "Disaster Type",
+        "primarySectorLabel": "Primary Sector",
+        "budgetAmountLabel": "Budget Amount (CHF)",
+        "statusLabel": "Status",
+        "threeWYear": "Year",
+        "threeWBudgetAmount": "Budget Amount (CHF)",
+        "threeWMale": "Male",
+        "threeWFemale": "Female",
+        "threeWOther": "Other",
+        "threeWTotal": "Total",
+        "threeWPeopleReached1": "People Reached",
+        "threeWTargetMale": "Male targeted",
+        "threeWTargetFemale": "Female targeted",
+        "threeWTargetOther": "Other targeted",
+        "threeWTargetTotal": "Total targeted",
+        "peopleTargeted": "People Targeted",
+        "peopleReached": "People Reached"
     }
 }
