@@ -36,6 +36,7 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
+    readOnly?: boolean;
 }
 
 function QuestionInput(props: Props) {
@@ -45,6 +46,7 @@ function QuestionInput(props: Props) {
         value,
         question,
         componentNumber,
+        readOnly,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -65,6 +67,7 @@ function QuestionInput(props: Props) {
             }
             headingLevel={5}
             childrenContainerClassName={styles.content}
+            headerDescription={question.description}
         >
             <RadioInput
                 name="answer"
@@ -73,14 +76,18 @@ function QuestionInput(props: Props) {
                 labelSelector={answerLabelSelector}
                 value={value?.answer}
                 onChange={setFieldValue}
+                clearable
+                readOnly={readOnly}
             />
             <TextArea
                 className={styles.noteSection}
-                placeholder="Notes"
+                // FIXME: use translation
+                placeholder="Notes and verification means"
                 name="notes"
                 value={value?.notes}
                 onChange={setFieldValue}
                 rows={2}
+                readOnly={readOnly}
             />
         </Container>
     );

@@ -1,0 +1,13 @@
+{
+    "namespace": "perWorkPlanFormForm",
+    "strings": {
+        "actionInputHeading": "Action #{actionNumber}",
+        "actionInputRemoveButtonLabel": "Remove",
+        "actionInputActionsPlaceholder": "Enter actions",
+        "actionInputSupportedByLabel": "Supported by",
+        "actionInputSupportedByPlaceholder": "Select NS",
+        "actionInputDueDateLabel": "Due date",
+        "actionInputStatusLabel": "Status",
+        "actionInputStatusPlaceholder": "Select"
+    }
+}

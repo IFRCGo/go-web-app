@@ -1,11 +1,22 @@
 .header {
-    .header-content {
+    --spacing: var(--go-ui-spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+
+    .heading-section {
         display: flex;
+        gap: var(--spacing);
+
+        .heading-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing);
+        }
     }
 
     &.heading-ellipsized {
-        .header-content {
-            flex-wrap: unset;
+        .heading-section {
             overflow: auto;
 
             .heading-container {
@@ -22,5 +33,29 @@
                 }
             }
         }
+    }
+
+    &.no-spacing {
+        --spacing: 0;
+    }
+
+    &.compact-spacing {
+        --spacing: var(--go-ui-spacing-xs);
+    }
+
+    &.cozy-spacing {
+        --spacing: var(--go-ui-spacing-sm);
+    }
+
+    &.comfortable-spacing {
+        --spacing: var(--go-ui-spacing-md);
+    }
+
+    &.relaxed-spacing {
+        --spacing: var(--go-ui-spacing-lg);
+    }
+
+    &.loose-spacing {
+        --spacing: var(--go-ui-spacing-xl);
     }
 }

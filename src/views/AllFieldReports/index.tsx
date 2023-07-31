@@ -181,7 +181,7 @@ export function Component() {
         >
             <Container
                 className={styles.fieldReportsTable}
-                headerDescriptionClassName={styles.filters}
+                headerDescriptionContainerClassName={styles.filters}
                 headerDescription={(
                     <>
                         <SelectInput

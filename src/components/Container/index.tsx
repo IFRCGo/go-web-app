@@ -34,15 +34,20 @@ export interface Props {
     footerIcons?: React.ReactNode;
     headerClassName?: string;
     headerDescription?: React.ReactNode;
-    headerDescriptionClassName?: string;
+    headerDescriptionContainerClassName?: string;
+    headingDescription?: React.ReactNode;
+    headingDescriptionContainerClassName?: string;
     headerElementRef?: HeaderProps['elementRef'];
     heading?: React.ReactNode;
+    headingClassName?: string;
+    headingSectionClassName?: string;
     headingContainerClassName?: string;
     headingLevel?: HeadingProps['level'],
     icons?: React.ReactNode;
     spacing?: SpacingType;
     withHeaderBorder?: boolean;
     withInternalPadding?: boolean;
+    withoutWrapInHeading?: boolean;
 }
 
 function Container(props: Props) {
@@ -63,18 +68,24 @@ function Container(props: Props) {
         footerIcons,
         headerClassName,
         headerDescription,
-        headerDescriptionClassName,
+        headerDescriptionContainerClassName,
+        headingDescription,
+        headingDescriptionContainerClassName,
         headerElementRef,
         heading,
+        headingClassName,
+        headingSectionClassName,
         headingContainerClassName,
         headingLevel,
         icons,
         spacing = 'comfortable',
         withHeaderBorder,
         withInternalPadding,
+        withoutWrapInHeading = false,
     } = props;
 
     const showFooter = footerIcons || footerContent || footerActions;
+    const showHeader = heading || actions || icons || headerDescription || headingDescription;
 
     return (
         <div
@@ -85,20 +96,27 @@ function Container(props: Props) {
                 className,
             )}
         >
-            <Header
-                actions={actions}
-                className={_cs(styles.header, headerClassName)}
-                elementRef={headerElementRef}
-                actionsContainerClassName={actionsContainerClassName}
-                ellipsizeHeading={ellipsizeHeading}
-                heading={heading}
-                headingLevel={headingLevel}
-                icons={icons}
-                childrenContainerClassName={headerDescriptionClassName}
-                headingContainerClassName={headingContainerClassName}
-            >
-                {headerDescription}
-            </Header>
+            {showHeader && (
+                <Header
+                    actions={actions}
+                    className={_cs(styles.header, headerClassName)}
+                    elementRef={headerElementRef}
+                    actionsContainerClassName={actionsContainerClassName}
+                    ellipsizeHeading={ellipsizeHeading}
+                    heading={heading}
+                    headingLevel={headingLevel}
+                    icons={icons}
+                    childrenContainerClassName={headerDescriptionContainerClassName}
+                    headingSectionClassName={headingSectionClassName}
+                    headingClassName={headingClassName}
+                    headingContainerClassName={headingContainerClassName}
+                    wrapHeadingContent={!withoutWrapInHeading}
+                    headingDescription={headingDescription}
+                    headingDescriptionContainerClassName={headingDescriptionContainerClassName}
+                >
+                    {headerDescription}
+                </Header>
+            )}
             {withHeaderBorder && <div className={styles.border} />}
             {filters && (
                 <div className={_cs(styles.filter, filtersContainerClassName)}>

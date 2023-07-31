@@ -212,7 +212,7 @@ function AppealsTable(props: Props) {
     return (
         <Container
             className={_cs(styles.appealsTable, className)}
-            headerDescriptionClassName={styles.filters}
+            headerDescriptionContainerClassName={styles.filters}
             headerDescription={(
                 <>
                     <SelectInput

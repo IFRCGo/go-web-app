@@ -51,6 +51,7 @@ export type SelectInputContainerProps<
         hasValue: boolean;
         nonClearable?: boolean;
         onClear: () => void;
+        emptyMessage?: React.ReactNode;
     }, OMISSION>
     & Omit<InputContainerProps, 'input'>
     & ({
@@ -117,6 +118,7 @@ function SelectInputContainer<
         totalOptionsCount = 0,
         hasValue,
         autoFocus,
+        emptyMessage,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
@@ -255,44 +257,50 @@ function SelectInputContainer<
 
     const optionsCount = options.length;
 
-    let popup: React.ReactNode | null;
+    // FIXME: this message will not be shown ever because
+    // in list, message is only shown when it's empty
+    // FIXME: use translation
+    const infoMessage = totalOptionsCount - optionsCount > 0
+        ? `and ${totalOptionsCount - optionsCount} more`
+        : undefined;
+
     // eslint-disable-next-line react/destructuring-assignment
-    if (props.grouped) {
-        popup = (
-            <List
-                className={styles.list}
-                data={options}
-                keySelector={optionKeySelector}
-                renderer={GenericOption}
-                rendererParams={optionListRendererParams}
-                grouped
-                groupRenderer={OptionGroup}
-                groupRendererParams={groupRendererParams}
-                // eslint-disable-next-line react/destructuring-assignment
-                groupKeySelector={props.groupKeySelector}
-                errored={optionsErrored}
-                filtered={optionsFiltered}
-                pending={optionsPending}
-                message={totalOptionsCount - optionsCount > 0 ? `and ${totalOptionsCount - optionsCount} more` : undefined}
-                compact
-            />
-        );
-    } else {
-        popup = (
-            <List
-                className={styles.list}
-                data={options}
-                keySelector={optionKeySelector}
-                renderer={GenericOption}
-                rendererParams={optionListRendererParams}
-                errored={optionsErrored}
-                filtered={optionsFiltered}
-                pending={optionsPending}
-                message={totalOptionsCount - optionsCount > 0 ? `and ${totalOptionsCount - optionsCount} more` : undefined}
-                compact
-            />
-        );
-    }
+    const popupContent = props.grouped ? (
+        <List
+            className={styles.list}
+            data={options}
+            keySelector={optionKeySelector}
+            renderer={GenericOption}
+            rendererParams={optionListRendererParams}
+            grouped
+            groupRenderer={OptionGroup}
+            groupRendererParams={groupRendererParams}
+            // eslint-disable-next-line react/destructuring-assignment
+            groupKeySelector={props.groupKeySelector}
+            errored={optionsErrored}
+            filtered={optionsFiltered}
+            pending={optionsPending}
+            message={infoMessage}
+            emptyMessage={emptyMessage}
+            filteredMessage={emptyMessage}
+            compact
+        />
+    ) : (
+        <List
+            className={styles.list}
+            data={options}
+            keySelector={optionKeySelector}
+            renderer={GenericOption}
+            rendererParams={optionListRendererParams}
+            errored={optionsErrored}
+            filtered={optionsFiltered}
+            pending={optionsPending}
+            message={infoMessage}
+            emptyMessage={emptyMessage}
+            filteredMessage={emptyMessage}
+            compact
+        />
+    );
 
     return (
         <>
@@ -364,7 +372,7 @@ function SelectInputContainer<
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
                 >
-                    {popup}
+                    {popupContent}
                 </Popup>
             )}
         </>

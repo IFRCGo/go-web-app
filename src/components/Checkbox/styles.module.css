@@ -3,23 +3,11 @@
     align-items: flex-start;
     cursor: pointer;
     gap: var(--go-ui-spacing-sm);
-    --width: var(--go-ui-font-size-xl);
-    --height: var(--go-ui-font-size-xl);
 
     .inner {
         position: relative;
-        width: var(--width);
-        height: var(--height);
-
-        .checkmark {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: var(--go-ui-z-index-10);
-            font-size: var(--go-ui-font-size-xl);
-        }
+        line-height: 0;
+        font-size: var(--go-ui-font-size-icon-multiplier);
 
         .input {
             margin: 0;

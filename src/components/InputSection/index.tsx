@@ -14,6 +14,7 @@ export interface InputBaseProps {
     descriptionContainerClassName?: string;
     fullWidthColumn?: boolean;
     titleClassName?: string;
+    withoutPadding?: boolean;
 }
 
 type Props = InputBaseProps & ({
@@ -48,6 +49,7 @@ function InputSection(props: Props) {
         normalDescription,
         fullWidthColumn,
         titleClassName,
+        withoutPadding = false,
     } = props;
 
     return (
@@ -64,6 +66,7 @@ function InputSection(props: Props) {
                 props.threeColumn && styles.threeColumn,
                 !normalDescription && styles.specialDescription,
                 fullWidthColumn && styles.fullWidthColumn,
+                !withoutPadding && styles.withPadding,
             )}
         >
             <div

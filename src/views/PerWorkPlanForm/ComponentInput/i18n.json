@@ -1,0 +1,11 @@
+{
+    "namespace": "perWorkPlanFormForm",
+    "strings": {
+        "componentActionsInputPlaceholder": "Enter actions",
+        "componentSupportedByInputLabel": "Supported by",
+        "componentSupportedByInputPlaceholder": "Select NS",
+        "componentDueDateInputLabel": "Due date",
+        "componentStatusInputLabel": "Status",
+        "componentStatusInputPlaceholder": "Select"
+    }
+}

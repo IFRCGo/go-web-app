@@ -9,17 +9,15 @@ import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import BlockLoading from '#components/BlockLoading';
-import TextInput from '#components/TextInput';
+import TextArea from '#components/TextArea';
 import TextOutput from '#components/TextOutput';
 import Checkbox from '#components/Checkbox';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import useTranslation from '#hooks/useTranslation';
 
 import type { PartialPrioritization } from '../schema';
 import QuestionOutput from './QuestionOutput';
 
-import i18n from '../i18n.json';
 import styles from './styles.module.css';
 
 type AssessmentResponse = GoApiResponse<'/api/v2/per-assessment/{id}/'>;
@@ -37,9 +35,10 @@ interface Props {
     onSelectionChange: (checked: boolean, index: number, componentId: number) => void;
     questionResponses: ComponentResponse['question_responses'];
     ratingDisplay?: string | undefined | null;
+    readOnly?: boolean;
 }
 
-function ComponentsInput(props: Props) {
+function ComponentInput(props: Props) {
     const {
         index,
         value,
@@ -48,10 +47,10 @@ function ComponentsInput(props: Props) {
         onSelectionChange,
         questionResponses,
         ratingDisplay,
+        readOnly,
     } = props;
 
     const [expanded, setExpanded] = useState(false);
-    const strings = useTranslation(i18n);
 
     const {
         pending: formQuestionsPending,
@@ -119,39 +118,52 @@ function ComponentsInput(props: Props) {
         <ExpandableContainer
             className={styles.componentInput}
             onExpansionChange={setExpanded}
-            headingContainerClassName={styles.header}
-            // FIXME: use translations
-            heading={`${component?.component_num}. ${component.title} (${numResponses} answered)`}
-            headerDescriptionClassName={styles.stats}
-            headerDescription={expanded && answerStats.length > 0 ? (
-                answerStats.map((answerStat) => (
-                    <TextOutput
-                        key={answerStat.answer}
-                        label={answerStat.answer}
-                        value={answerStat.num}
-                    />
-                ))
-            ) : null}
+            heading={`${component?.component_num}. ${component.title}`}
+            headingLevel={4}
+            spacing="loose"
             icons={(
                 <Checkbox
                     name={index}
                     value={!!value}
                     onChange={handleCheck}
+                    readOnly={readOnly}
                 />
             )}
-            actions={(
+            withoutWrapInHeading
+            headerDescriptionContainerClassName={styles.headerDescription}
+            headerDescription={(
                 <>
-                    {ratingDisplay && (
+                    <div className={styles.additionalInformation}>
                         <div>
-                            {ratingDisplay}
+                            {/* FIXME: use translations */}
+                            {ratingDisplay ?? '0 - Not implemented'}
                         </div>
-                    )}
-                    <TextInput
+                        <div className={styles.separator} />
+                        <div>
+                            {/* FIXME: use translations */}
+                            {`${numResponses} benchmarks`}
+                        </div>
+                        {expanded && answerStats.length > 0 && (
+                            <div className={styles.answersByCount}>
+                                {answerStats.map((answerStat) => (
+                                    <TextOutput
+                                        key={answerStat.answer}
+                                        label={answerStat.answer}
+                                        value={answerStat.num}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <TextArea
                         name="justification_text"
                         value={value?.justification_text}
                         onChange={setFieldValue}
-                        placeholder={strings.perFormEnterJustification}
+                        // FIXME: use translation
+                        placeholder="Enter Justification"
                         disabled={!value}
+                        rows={2}
+                        readOnly={readOnly}
                     />
                 </>
             )}
@@ -181,4 +193,4 @@ function ComponentsInput(props: Props) {
     );
 }
 
-export default ComponentsInput;
+export default ComponentInput;

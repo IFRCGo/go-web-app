@@ -1,4 +1,10 @@
-import { useState, useCallback, useContext } from 'react';
+import {
+    useState,
+    useCallback,
+    useContext,
+    useRef,
+    ElementRef,
+} from 'react';
 import {
     generatePath,
     useNavigate,
@@ -21,6 +27,7 @@ import {
     removeNull,
 } from '@togglecorp/toggle-form';
 
+import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import Portal from '#components/Portal';
 import Tabs from '#components/Tabs';
@@ -64,6 +71,7 @@ const defaultFormAreas: PerFormArea[] = [];
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
+    const formContentRef = useRef<ElementRef<'div'>>(null);
     const strings = useTranslation(i18n);
     const alert = useAlert();
     const navigate = useNavigate();
@@ -162,7 +170,7 @@ export function Component() {
             }
 
             alert.show(
-                strings.perFormSaveRequestSuccessMessage,
+                strings.saveRequestSuccessMessage,
                 { variant: 'success' },
             );
 
@@ -185,7 +193,7 @@ export function Component() {
             debugMessage,
         }) => {
             alert.show(
-                strings.perFormSaveRequestFailureMessage,
+                strings.saveRequestFailureMessage,
                 {
                     variant: 'danger',
                     debugMessage,
@@ -234,6 +242,14 @@ export function Component() {
         setValue: setAreaResponsesValue,
     } = useFormArray('area_responses', setFieldValue);
 
+    const handlePrevNextButtonClick = useCallback(
+        (newArea: number) => {
+            formContentRef.current?.scrollIntoView();
+            setCurrentArea(newArea);
+        },
+        [],
+    );
+
     const areaResponseMapping = listToMap(
         value?.area_responses ?? [],
         (areaResponse) => areaResponse.area,
@@ -264,8 +280,12 @@ export function Component() {
         || perOptionsPending
         || perAssesmentPending;
 
+    const readOnlyMode = currentPerStep !== STEP_ASSESSMENT;
+
     return (
-        <form className={styles.assessmentForm}>
+        <div
+            className={styles.assessmentForm}
+        >
             {pending && (
                 <BlockLoading />
             )}
@@ -277,79 +297,94 @@ export function Component() {
                     areaIdToTitleMap={areaIdToTitleMap}
                 />
             )}
-            {!pending && currentArea && (
-                <Tabs
-                    disabled={undefined}
-                    onChange={setCurrentArea}
-                    value={currentArea}
-                    variant="primary"
-                >
-                    <TabList
-                        className={styles.tabList}
-                    >
-                        {areas.map((area) => (
-                            <Tab
-                                key={area.id}
-                                name={area.id}
-                                step={area?.area_num}
-                            >
-                                {`${area.area_num}. ${area.title}`}
-                            </Tab>
-                        ))}
-                    </TabList>
-                    {areas.map((area) => (
-                        <TabPanel
-                            name={area.id}
-                            key={area.id}
-                        >
-                            <AreaInput
-                                key={area.id}
-                                area={area}
-                                questions={areaIdGroupedQuestion[area.id]}
-                                index={areaResponseMapping[area.id]?.index}
-                                value={areaResponseMapping[area.id]?.value}
-                                onChange={setAreaResponsesValue}
-                                ratingOptions={perOptionsResponse?.componentratings}
-                                epi_considerations={perOverviewResponse
-                                    ?.assess_preparedness_of_country}
-                                urban_considerations={perOverviewResponse
-                                    ?.assess_urban_aspect_of_country}
-                                climate_environmental_considerations={perOverviewResponse
-                                    ?.assess_climate_environment_of_country}
-                            />
-                        </TabPanel>
-                    ))}
-                    <div className={styles.actions}>
-                        <div className={styles.pageActions}>
+            {!pending && isDefined(currentArea) && (
+                <Container
+                    heading={strings.assessmentHeading}
+                    headingLevel={2}
+                    withHeaderBorder
+                    footerContentClassName={styles.footerContent}
+                    footerContent={(
+                        <>
                             <Button
                                 name={currentArea - 1}
                                 variant="secondary"
-                                onClick={setCurrentArea}
+                                onClick={handlePrevNextButtonClick}
                                 disabled={isNotDefined(currentArea) || currentArea <= minArea}
                             >
-                                {strings.perFormBackButton}
+                                {strings.prevButtonLabel}
                             </Button>
                             <Button
                                 name={currentArea + 1}
                                 variant="secondary"
-                                onClick={setCurrentArea}
+                                onClick={handlePrevNextButtonClick}
                                 disabled={isNotDefined(currentArea) || currentArea >= maxArea}
                             >
-                                {strings.perFormNextButton}
+                                {strings.nextButtonLabel}
                             </Button>
-                        </div>
+                        </>
+                    )}
+                    footerActions={(
                         <ConfirmButton
                             name={undefined}
                             onConfirm={handleFormFinalSubmit}
-                            confirmHeading={strings.perAssessmentConfirmHeading}
-                            confirmMessage={strings.perAssessmentConfirmMessage}
+                            confirmHeading={strings.submitAssessmentConfirmHeading}
+                            confirmMessage={strings.submitAssessmentConfirmMessage}
                             disabled={isNotDefined(currentPerStep)
                                 || savePerPending
                                 || perAssesmentPending
                                 || currentPerStep !== STEP_ASSESSMENT}
                         >
-                            {strings.perFormSubmitButton}
+                            {strings.submitAssessmentButtonLabel}
                         </ConfirmButton>
+                    )}
+                >
+                    <div
+                        ref={formContentRef}
+                        className={styles.content}
+                    >
+                        <Tabs
+                            disabled={undefined}
+                            onChange={setCurrentArea}
+                            value={currentArea}
+                            variant="primary"
+                        >
+                            <TabList
+                                className={styles.tabList}
+                            >
+                                {areas.map((area) => (
+                                    <Tab
+                                        key={area.id}
+                                        name={area.id}
+                                        step={area?.area_num}
+                                    >
+                                        {`${area.area_num}. ${area.title}`}
+                                    </Tab>
+                                ))}
+                            </TabList>
+                            {areas.map((area) => (
+                                <TabPanel
+                                    name={area.id}
+                                    key={area.id}
+                                >
+                                    <AreaInput
+                                        key={area.id}
+                                        area={area}
+                                        readOnly={readOnlyMode}
+                                        questions={areaIdGroupedQuestion[area.id]}
+                                        index={areaResponseMapping[area.id]?.index}
+                                        value={areaResponseMapping[area.id]?.value}
+                                        onChange={setAreaResponsesValue}
+                                        ratingOptions={perOptionsResponse?.componentratings}
+                                        epi_considerations={perOverviewResponse
+                                            ?.assess_preparedness_of_country}
+                                        urban_considerations={perOverviewResponse
+                                            ?.assess_urban_aspect_of_country}
+                                        climate_environmental_considerations={perOverviewResponse
+                                            ?.assess_climate_environment_of_country}
+                                    />
+                                </TabPanel>
+                            ))}
+                        </Tabs>
                     </div>
                     {actionDivRef.current && (
                         <Portal
@@ -362,14 +397,14 @@ export function Component() {
                                 disabled={isNotDefined(currentPerStep)
                                     || savePerPending
                                     || perAssesmentPending
-                                    || currentPerStep !== STEP_ASSESSMENT}
+                                    || readOnlyMode}
                             >
-                                {strings.perFormSaveButton}
+                                {strings.saveAssessmentButtonLabel}
                             </Button>
                         </Portal>
                     )}
-                </Tabs>
+                </Container>
             )}
-        </form>
+        </div>
     );
 }

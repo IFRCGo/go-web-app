@@ -1,5 +1,4 @@
-import { useMemo, useContext } from 'react';
-import {
+import { useMemo, useContext } from 'react'; import {
     SetValueArg,
     useFormObject,
     Error,
@@ -7,6 +6,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
 
+import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
@@ -21,7 +21,8 @@ import {
 
 import { PartialWorkPlan } from '../schema';
 
-import i18n from '../i18n.json';
+import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type CountryResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
 type PrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['put']['responses']['200']['content']['application/json'];
@@ -49,6 +50,7 @@ interface Props {
     error: Error<Value> | undefined;
     component: ComponentResponse['component_details'];
     countryResults: CountryResponse['results'] | undefined;
+    readOnly?: boolean;
 }
 
 function ComponentInput(props: Props) {
@@ -59,6 +61,7 @@ function ComponentInput(props: Props) {
         component,
         countryResults,
         error: formError,
+        readOnly,
     } = props;
 
     const { per_workplanstatus } = useContext(ServerEnumsContext);
@@ -89,45 +92,55 @@ function ComponentInput(props: Props) {
     );
 
     return (
-        <>
-            <div>
-                {`${component?.component_num}. ${component?.title}`}
-            </div>
+        <Container
+            className={styles.componentInput}
+            heading={`${component?.component_num}. ${component?.title}`}
+            headingLevel={4}
+            spacing="compact"
+            childrenContainerClassName={styles.content}
+        >
             <TextArea
                 name="actions"
                 value={value?.actions}
                 onChange={onFieldChange}
-                placeholder={strings.perFormActionsPlaceholder}
+                placeholder={strings.componentActionsInputPlaceholder}
                 rows={2}
                 error={error?.actions}
+                readOnly={readOnly}
             />
             <DateInput
+                label={strings.componentDueDateInputLabel}
                 name="due_date"
                 value={value?.due_date}
                 onChange={onFieldChange}
                 error={error?.due_date}
+                readOnly={readOnly}
             />
             <SelectInput
                 name="supported_by"
-                placeholder={strings.perFormSelectNSPlaceholder}
+                label={strings.componentSupportedByInputLabel}
+                placeholder={strings.componentSupportedByInputPlaceholder}
                 options={nationalSocietyOptions}
                 onChange={onFieldChange}
                 keySelector={numericIdSelector}
                 labelSelector={nsLabelSelector}
                 value={value?.supported_by}
                 error={error?.supported_by}
+                readOnly={readOnly}
             />
             <SelectInput
                 name="status"
-                placeholder={strings.perFormSelectStatusLabel}
+                label={strings.componentStatusInputLabel}
+                placeholder={strings.componentStatusInputPlaceholder}
                 options={per_workplanstatus}
                 onChange={onFieldChange}
                 keySelector={statusKeySelector}
                 labelSelector={stringValueSelector}
                 value={value?.status}
                 error={error?.status}
+                readOnly={readOnly}
             />
-        </>
+        </Container>
     );
 }
 

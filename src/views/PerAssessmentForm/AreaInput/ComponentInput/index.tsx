@@ -39,6 +39,7 @@ interface Props {
     epi_considerations: boolean | null | undefined;
     urban_considerations: boolean | null | undefined;
     climate_environmental_considerations: boolean | null | undefined;
+    readOnly?: boolean;
 }
 
 function ComponentInput(props: Props) {
@@ -53,6 +54,7 @@ function ComponentInput(props: Props) {
         epi_considerations,
         urban_considerations,
         climate_environmental_considerations,
+        readOnly,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -92,19 +94,26 @@ function ComponentInput(props: Props) {
             heading={`${component.component_num}. ${component.title}`}
             childrenContainerClassName={styles.questionList}
             withHeaderBorder
-            actions={(
+            headerDescription={component.description}
+            headingClassName={styles.heading}
+            spacing="loose"
+            headingDescriptionContainerClassName={styles.statusSelectionContainer}
+            withoutWrapInHeading
+            headingDescription={(
                 <SelectInput
+                    readOnly={readOnly}
                     className={styles.statusSelection}
                     name="rating"
                     value={value?.rating}
                     onChange={setFieldValue}
                     // FIXME: use translation
-                    placeholder="Select rating"
+                    placeholder={readOnly ? 'Rating: 0 - Not implemented' : 'Select rating'}
                     options={ratingOptions}
                     keySelector={numericIdSelector}
                     labelSelector={ratingLabelSelector}
                 />
             )}
+            initiallyExpanded
         >
             {questions?.map((question) => {
                 if (isNotDefined(question.question_num)) {
@@ -119,9 +128,18 @@ function ComponentInput(props: Props) {
                         index={questionResponseMapping[question.id]?.index}
                         value={questionResponseMapping[question.id]?.value}
                         onChange={setQuestionValue}
+                        readOnly={readOnly}
                     />
                 );
             })}
+            <TextArea
+                // FIXME: use Translations
+                label="Notes"
+                name="notes"
+                value={value?.notes}
+                onChange={setFieldValue}
+                readOnly={readOnly}
+            />
             {epi_considerations && (
                 <TextArea
                     // TODO: add description
@@ -130,6 +148,7 @@ function ComponentInput(props: Props) {
                     name="epi_considerations"
                     value={value?.epi_considerations}
                     onChange={setFieldValue}
+                    readOnly={readOnly}
                 />
             )}
             {urban_considerations && (
@@ -140,6 +159,7 @@ function ComponentInput(props: Props) {
                     name="urban_considerations"
                     value={value?.urban_considerations}
                     onChange={setFieldValue}
+                    readOnly={readOnly}
                 />
             )}
             {climate_environmental_considerations && (
@@ -150,6 +170,7 @@ function ComponentInput(props: Props) {
                     name="climate_environmental_considerations"
                     value={value?.climate_environmental_considerations}
                     onChange={setFieldValue}
+                    readOnly={readOnly}
                 />
             )}
         </ExpandableContainer>

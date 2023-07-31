@@ -234,7 +234,7 @@ export function Component() {
         >
             <Container
                 className={styles.emergenciesTable}
-                headerDescriptionClassName={styles.filters}
+                headerDescriptionContainerClassName={styles.filters}
                 headerDescription={(
                     <>
                         <SelectInput

@@ -129,7 +129,7 @@ function FieldReportsTable() {
         <Container
             className={styles.fieldReportsTable}
             heading={heading}
-            headerDescriptionClassName={styles.filters}
+            headerDescriptionContainerClassName={styles.filters}
             withHeaderBorder
             actions={(
                 <Link

@@ -2,10 +2,11 @@
     position: relative;
 
     .input-section {
-        flex-wrap: nowrap;
+        align-items: center;
         transition: var(--go-ui-duration-transition-medium) var(--go-ui-color-gray-10) ease-in-out;
         border-bottom: var(--go-ui-width-separator-thin) solid transparent;
         border-radius: var(--go-ui-border-radius-md);
+        background-color: rgba(0, 0, 0, 0.05);
         padding: 0 var(--go-ui-spacing-md);
 
         .input {
@@ -31,13 +32,6 @@
         .input-section {
             border-radius: 0;
             border-bottom-color: var(--go-ui-color-separator);
-        }
-    }
-
-
-    &:not(.read-only) {
-        .input-section {
-            background-color: var(--go-ui-color-gray-10);
         }
     }
 

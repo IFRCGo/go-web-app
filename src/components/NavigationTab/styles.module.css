@@ -23,6 +23,104 @@
         text-align: center;
     }
 
+    &.step {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+        transition: var(--go-ui-duration-transition-medium) color, background-color ease-in-out;
+        padding: var(--go-ui-spacing-md) 0;
+        text-transform: uppercase;
+        color: var(--go-ui-color-gray-70);
+
+        .visual-elements {
+            display: flex;
+            align-items: center;
+            align-self: stretch;
+
+            .step-circle {
+                flex-shrink: 0;
+                transition: var(--go-ui-duration-transition-slow) border-color ease-in-out;
+                border: var(--border-width) solid transparent;
+                border-radius: 50%;
+                background-color: var(--go-ui-color-background);
+                padding: var(--go-ui-spacing-2xs);
+
+                .inner-circle {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: var(--go-ui-duration-transition-slow) background-color ease-in-out;
+                    border-radius: 50%;
+                    background-color: var(--go-ui-color-primary-blue);
+                    width: 1rem;
+                    height: 1rem;
+
+                    .icon {
+                        color: var(--go-ui-color-white);
+                        font-size: var(--go-ui-font-size-icon-multiplier);
+                    }
+                }
+            }
+
+            .progress-bar-end,
+            .progress-bar-start {
+                flex-grow: 1;
+                background-color: var(--go-ui-color-separator);
+                height: var(--go-ui-width-separator-thin);;
+            }
+        }
+
+        .children-wrapper {
+            padding: 0 var(--go-ui-spacing-2xl);
+        }
+
+        &:hover {
+            color: var(--go-ui-color-black);
+        }
+
+        &.active {
+            color: var(--go-ui-color-primary-red);
+
+            .step-circle {
+                border-color: var(--go-ui-color-primary-red);
+
+                .inner-circle {
+                    background-color: var(--go-ui-color-primary-red);
+                }
+            }
+        }
+
+        &:not(.disabled) {
+            .progress-bar-start {
+                background-color: var(--go-ui-color-primary-blue);
+            }
+        }
+
+        &.completed {
+            .progress-bar-end,
+            .progress-bar-start {
+                background-color: var(--go-ui-color-primary-blue);
+            }
+        }
+
+        &:nth-child(2) {
+            .visual-elements {
+                .progress-bar-start {
+                    background-color: transparent;
+                }
+            }
+        }
+
+        &:nth-last-child(2) {
+            .visual-elements {
+                .progress-bar-end {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
     &.vertical {
         .children-wrapper {
             display: flex;
@@ -84,57 +182,6 @@
             color: var(--go-ui-color-primary-red);
         }
     }
-
-    &.step {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        transition: var(--go-ui-duration-transition-medium) color, background-color ease-in-out;
-        padding: var(--go-ui-spacing-md);
-        text-transform: uppercase;
-        color: var(--go-ui-color-gray-70);
-
-        .step-circle {
-            transition: var(--go-ui-duration-transition-slow) border-color ease-in-out;
-            border: var(--border-width) solid transparent;
-            border-radius: 50%;
-            background-color: var(--go-ui-color-background);
-            padding: calc(var(--go-ui-spacing-px)* 4);
-
-            .inner-circle {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: var(--go-ui-duration-transition-slow) background-color ease-in-out;
-                border-radius: 50%;
-                background-color: var(--go-ui-color-gray-70);
-                width: 1rem;
-                height: 1rem;
-
-                .icon {
-                    padding: 0.1em;
-                    color: var(--go-ui-color-white);
-                }
-            }
-        }
-
-        &:hover {
-            color: var(--go-ui-color-black);
-        }
-
-        &.active {
-            color: var(--go-ui-color-primary-red);
-
-            .step-circle {
-                border-color: var(--go-ui-color-primary-red);
-
-                .inner-circle {
-                    background-color: var(--go-ui-color-primary-red);
-                }
-            }
-        }
-    }
-
 
     &.disabled {
         pointer-events: none;

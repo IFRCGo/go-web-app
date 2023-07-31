@@ -44,6 +44,7 @@ export const assessmentSchema: AssessmentSchema = {
                                 urban_considerations: {},
                                 epi_considerations: {},
                                 climate_environmental_considerations: {},
+                                notes: {},
                             }),
                         }),
                     },

@@ -16,7 +16,7 @@ import styles from './styles.module.css';
 type Def = { containerClassName?: string, title?: string; };
 type OptionKey = string | number;
 
-export type SearchSelectInputProps<
+export type Props<
     OPTION_KEY extends OptionKey,
     NAME,
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -48,6 +48,7 @@ export type SearchSelectInputProps<
         | 'nonClearable'
         | 'onClear'
         | 'onOptionClick'
+        | 'options'
         | 'optionKeySelector'
         | 'optionRenderer'
         | 'optionRendererParams'
@@ -84,7 +85,7 @@ function SearchSelectInput<
     OPTION extends object,
     RENDER_PROPS extends Def,
 >(
-    props: SearchSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS, never>,
+    props: Props<OPTION_KEY, NAME, OPTION, RENDER_PROPS, never>,
 ) {
     const {
         keySelector,

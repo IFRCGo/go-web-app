@@ -4,6 +4,7 @@ export type NavigationTabVariant = 'primary' | 'secondary' | 'tertiary' | 'step'
 
 export interface NavigationTabContextProps {
     variant?: NavigationTabVariant;
+    className?: string;
 }
 
 const NavigationTabContext = createContext<NavigationTabContextProps>({

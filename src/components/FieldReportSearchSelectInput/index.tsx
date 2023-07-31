@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import SearchSelectInput, {
-    SearchSelectInputProps,
+    Props,
 } from '#components/SearchSelectInput';
 
 import {
@@ -19,7 +19,7 @@ const keySelector = (d: FieldReportItem) => d.id;
 const labelSelector = (d: FieldReportItem) => d.summary || '???';
 
 type Def = { containerClassName?: string;}
-type FieldReportSelectInputProps<NAME> = SearchSelectInputProps<
+type FieldReportSelectInputProps<NAME> = Props<
     number,
     NAME,
     FieldReportItem,

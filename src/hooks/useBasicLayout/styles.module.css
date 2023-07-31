@@ -3,26 +3,29 @@
     --inner-gap: var(--go-ui-spacing-sm);
 
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    align-items: flex-start;
     gap: var(--gap);
+
+    &.with-flex-wrap {
+        flex-wrap: wrap;
+    }
 
     .icons-container {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         flex-shrink: 0;
         gap: var(--inner-gap);
     }
 
     .children-container {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         flex-grow: 1;
     }
 
     .actions-container {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         flex-shrink: 0;
         gap: var(--inner-gap);
     }

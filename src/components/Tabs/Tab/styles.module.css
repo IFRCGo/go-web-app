@@ -98,6 +98,7 @@
     &.active {
         border-color: var(--go-ui-color-gray-30);
         border-bottom-color: transparent;
+        background-color: var(--go-ui-color-white);
     }
 }
 
