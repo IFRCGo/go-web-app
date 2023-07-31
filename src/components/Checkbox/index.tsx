@@ -5,7 +5,7 @@ import DefaultCheckmark, { CheckmarkProps } from './Checkmark';
 
 import styles from './styles.module.css';
 
-export interface Props<N> {
+export interface Props<NAME> {
     className?: string;
     checkmark?: (p: CheckmarkProps) => React.ReactElement;
     checkmarkClassName?: string;
@@ -17,14 +17,14 @@ export interface Props<N> {
     invertedLogic?: boolean;
     label?: React.ReactNode;
     labelContainerClassName?: string;
-    name: N;
-    onChange: (value: boolean, name: N) => void;
+    name: NAME;
+    onChange: (value: boolean, name: NAME) => void;
     readOnly?: boolean;
     tooltip?: string;
     value: boolean | undefined | null;
 }
 
-function Checkbox<N>(props: Props<N>) {
+function Checkbox<const NAME>(props: Props<NAME>) {
     const {
         className: classNameFromProps,
         checkmark: Checkmark = DefaultCheckmark,

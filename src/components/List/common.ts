@@ -10,13 +10,13 @@ export interface GroupCommonProps {
     children: React.ReactNode;
 }
 
-export interface BaseProps<D, P, K extends OptionKey> {
+export interface BaseProps<DATUM, RENDERER_PROPS, KEY extends OptionKey> {
     className?: string;
-    data: D[] | undefined;
-    keySelector(datum: D, index: number): K;
-    renderer: React.ComponentType<P>;
+    data: DATUM[] | undefined;
+    keySelector(datum: DATUM, index: number): KEY;
+    renderer: React.ComponentType<RENDERER_PROPS>;
     rendererClassName?: string;
-    rendererParams: (key: K, datum: D, index: number, data: D[]) => P;
+    rendererParams: (key: KEY, datum: DATUM, index: number, data: DATUM[]) => RENDERER_PROPS;
     pending: boolean;
     errored: boolean;
     filtered: boolean;

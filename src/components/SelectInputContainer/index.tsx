@@ -10,8 +10,12 @@ import List from '#components/List';
 import useBlurEffect from '#hooks/useBlurEffect';
 import useKeyboard from '#hooks/useKeyboard';
 
-import GenericOption, { ContentBaseProps, OptionKey } from './GenericOption';
-import OptionGroup from './OptionGroup';
+import GenericOption, {
+    ContentBaseProps,
+    OptionKey,
+    Props as GenericOptionProps,
+} from './GenericOption';
+import OptionGroup, { Props as OptionGroupProps } from './OptionGroup';
 import styles from './styles.module.css';
 
 export type SelectInputContainerProps<
@@ -266,7 +270,12 @@ function SelectInputContainer<
 
     // eslint-disable-next-line react/destructuring-assignment
     const popupContent = props.grouped ? (
-        <List
+        <List<OPTION,
+            GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>,
+            OPTION_KEY,
+            OptionGroupProps,
+            string | number
+        >
             className={styles.list}
             data={options}
             keySelector={optionKeySelector}
@@ -286,7 +295,8 @@ function SelectInputContainer<
             compact
         />
     ) : (
-        <List
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        <List<OPTION, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>, OPTION_KEY, any, any>
             className={styles.list}
             data={options}
             keySelector={optionKeySelector}

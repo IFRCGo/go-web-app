@@ -11,9 +11,9 @@ import Checkbox, { Props as CheckboxProps } from '#components/Checkbox';
 import styles from './styles.module.css';
 
 export interface Props<
-    T extends OptionKey,
-    K,
-    O extends object,
+    KEY extends OptionKey,
+    NAME,
+    OPTION extends object,
 > {
     className?: string;
     checkboxClassName?: string;
@@ -23,23 +23,23 @@ export interface Props<
     errorContainerClassName?: string;
     hint?: React.ReactNode;
     hintContainerClassName?: string;
-    keySelector: (option: O) => T;
+    keySelector: (option: OPTION) => KEY;
     label?: React.ReactNode;
     labelContainerClassName?: string;
-    labelSelector: (option: O) => string;
+    labelSelector: (option: OPTION) => string;
     listContainerClassName?: string;
-    name: K;
-    onChange: (newValue: T[], name: K) => void;
-    options: O[] | undefined;
+    name: NAME;
+    onChange: (newValue: KEY[], name: NAME) => void;
+    options: OPTION[] | undefined;
     readOnly?: boolean;
-    value: T[] | undefined | null;
+    value: KEY[] | undefined | null;
 }
 
 function CheckList<
-    T extends OptionKey,
-    K,
-    O extends object,
->(props: Props<T, K, O>) {
+    KEY extends OptionKey,
+    const NAME,
+    OPTION extends object,
+>(props: Props<KEY, NAME, OPTION>) {
     const {
         className,
         checkboxClassName,
@@ -61,7 +61,7 @@ function CheckList<
         value,
     } = props;
 
-    const handleCheck = useCallback((isSelected: boolean, key: T) => {
+    const handleCheck = useCallback((isSelected: boolean, key: KEY) => {
         if (isSelected) {
             onChange([...(value ?? []), key], name);
         } else {
@@ -69,7 +69,7 @@ function CheckList<
         }
     }, [value, onChange, name]);
 
-    const optionListRendererParams = useCallback((key: T, data: O): CheckboxProps<T> => ({
+    const optionListRendererParams = useCallback((key: KEY, data: OPTION): CheckboxProps<KEY> => ({
         name: key,
         value: (value ?? []).some((v) => v === key),
         onChange: handleCheck,
@@ -99,7 +99,8 @@ function CheckList<
             >
                 {label}
             </InputLabel>
-            <List
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            <List<OPTION, CheckboxProps<KEY>, KEY, any, any>
                 className={_cs(styles.checkListContainer, listContainerClassName)}
                 data={options}
                 keySelector={keySelector}
