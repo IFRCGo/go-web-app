@@ -275,13 +275,6 @@ export function Component() {
 
     const readOnlyMode = statusResponse?.phase !== STEP_PRIORITIZATION;
 
-    const handleSortChange = useCallback(
-        (newSort: SortKey) => {
-            setSortBy(newSort);
-        },
-        [],
-    );
-
     const sortedFormComponents = useMemo(
         () => (
             [...formComponentResponse?.results ?? []].sort(
@@ -360,7 +353,7 @@ export function Component() {
                                 <DropdownMenuItem
                                     key={sortOption.key}
                                     name={sortOption.key}
-                                    onClick={handleSortChange}
+                                    onClick={setSortBy}
                                     label={sortOption.label}
                                     icon={(
                                         <CheckLineIcon

@@ -1,15 +1,13 @@
+import { useContext } from 'react';
+
 import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
-import { useRequest } from '#utils/restRequest';
-import { numericIdSelector } from '#utils/selectors';
-
-function regionNameSelector({ region_name }: { region_name: string }) {
-    return region_name;
-}
+import { numericKeySelector, stringValueSelector } from '#utils/selectors';
+import ServerEnumsContext from '#contexts/server-enums';
 
 interface RegionOption {
-    id: number;
-    region_name: string;
+    key: number;
+    value: string;
 }
 
 type Props<NAME> = SelectInputProps<
@@ -35,9 +33,9 @@ function RegionSelectInput<NAME>(props: Props<NAME>) {
         ...otherProps
     } = props;
 
-    const { response: regionResponse } = useRequest({
-        url: '/api/v2/region/',
-    });
+    const {
+        api_region_name: regionOptions,
+    } = useContext(ServerEnumsContext);
 
     return (
         <SelectInput
@@ -45,9 +43,9 @@ function RegionSelectInput<NAME>(props: Props<NAME>) {
             {...otherProps}
             className={className}
             name={name}
-            options={regionResponse?.results}
-            keySelector={numericIdSelector}
-            labelSelector={regionNameSelector}
+            options={regionOptions}
+            keySelector={numericKeySelector}
+            labelSelector={stringValueSelector}
             value={value}
             onChange={onChange}
         />

@@ -9,7 +9,7 @@ import { _cs, isDefined } from '@togglecorp/fujs';
 import DropdownMenu, { Props as DropdownMenuProps } from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
+import RouteContext from '#contexts/route'; import ServerEnumsContext from '#contexts/server-enums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -28,6 +28,9 @@ function RegionDropdown(props: Props) {
 
     const strings = useTranslation(i18n);
     const { region: regionRoute } = useContext(RouteContext);
+    const {
+        api_region_name: regionOptions,
+    } = useContext(ServerEnumsContext);
 
     const match = matchPath(
         {
@@ -50,47 +53,22 @@ function RegionDropdown(props: Props) {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
-            {/* TODO: Fetch these from server */}
-            <DropdownMenuItem
-                to={generatePath(regionRoute.absolutePath, { regionId: '0' })}
-                label={strings.regionNameAfrica}
-                className={_cs(
-                    styles.menuItem,
-                    match?.params?.regionId === '0' && styles.active,
-                )}
-            />
-            <DropdownMenuItem
-                to={generatePath(regionRoute.absolutePath, { regionId: '1' })}
-                label={strings.regionNameAmerica}
-                className={_cs(
-                    styles.menuItem,
-                    match?.params?.regionId === '1' && styles.active,
-                )}
-            />
-            <DropdownMenuItem
-                to={generatePath(regionRoute.absolutePath, { regionId: '2' })}
-                label={strings.regionNameAsia}
-                className={_cs(
-                    styles.menuItem,
-                    match?.params?.regionId === '2' && styles.active,
-                )}
-            />
-            <DropdownMenuItem
-                to={generatePath(regionRoute.absolutePath, { regionId: '3' })}
-                label={strings.regionNameEurope}
-                className={_cs(
-                    styles.menuItem,
-                    match?.params?.regionId === '3' && styles.active,
-                )}
-            />
-            <DropdownMenuItem
-                to={generatePath(regionRoute.absolutePath, { regionId: '4' })}
-                label={strings.regionNameMENA}
-                className={_cs(
-                    styles.menuItem,
-                    match?.params?.regionId === '4' && styles.active,
-                )}
-            />
+            {regionOptions?.map(
+                (region) => (
+                    <DropdownMenuItem
+                        key={region.key}
+                        to={generatePath(
+                            regionRoute.absolutePath,
+                            { regionId: String(region.key) },
+                        )}
+                        label={region.value}
+                        className={_cs(
+                            styles.menuItem,
+                            match?.params?.regionId === String(region.key) && styles.active,
+                        )}
+                    />
+                ),
+            )}
         </DropdownMenu>
     );
 }

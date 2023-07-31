@@ -1,4 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react';
 
 import SearchSelectInput from '#components/SearchSelectInput';
 import type { Props as SearchSelectInputProps } from '#components/SearchSelectInput';
@@ -38,6 +43,8 @@ type Props<NAME> = SearchSelectInputProps<
     name: NAME;
     value: number | null | undefined;
     onChange: (newValue: number | undefined, name: NAME) => void;
+    // We can either have country selection label by
+    // the name of country or name of its national society
     selectionMode?: 'country' | 'nationalSociety';
 }
 
@@ -128,6 +135,7 @@ function CountrySearchSelectInput<const NAME>(props: Props<NAME>) {
         },
     });
 
+    // Get country option for a value if option is not in cache
     useEffect(
         () => {
             if (isNotDefined(value)) {
@@ -136,10 +144,44 @@ function CountrySearchSelectInput<const NAME>(props: Props<NAME>) {
 
             const countryDetail = cachedOptions.find((option) => option.id === value);
             if (!countryDetail) {
+                // FIXME: Initial option should be provided externally.
+                // This might result in lots of simultaneous request.
+                // A quick fix can be a shared cached options
+                // although, it can still result in simultaneous requests.
                 getDetailsForSelectedCountry(null);
             }
         },
         [value, cachedOptions, getDetailsForSelectedCountry],
+    );
+
+    const sanitizedResults = useMemo(
+        () => (
+            searchResponse?.results?.map(
+                (country) => {
+                    if (selectionMode === 'nationalSociety') {
+                        if (isFalsyString(country.society_name)) {
+                            return undefined;
+                        }
+
+                        return {
+                            ...country,
+                            id: country.id,
+                            name: country.society_name,
+                        };
+                    }
+
+                    if (isFalsyString(country.name)) {
+                        return undefined;
+                    }
+
+                    return {
+                        ...country,
+                        name: country.name,
+                    };
+                },
+            ).filter(isDefined)
+        ),
+        [searchResponse, selectionMode],
     );
 
     return (
@@ -150,7 +192,7 @@ function CountrySearchSelectInput<const NAME>(props: Props<NAME>) {
             name={name}
             onSearchValueChange={setSearchText}
             optionsPending={searchPending}
-            searchOptions={cachedOptions}
+            searchOptions={sanitizedResults}
             options={cachedOptions}
             keySelector={numericIdSelector}
             labelSelector={stringNameSelector}
@@ -160,7 +202,7 @@ function CountrySearchSelectInput<const NAME>(props: Props<NAME>) {
             emptyMessage={searchTextSafe.length < MIN_SEARCH_LENGTH
                 ? (
                     <>
-                        {/* FIXME: use translation */}
+                        {/* FIXME: use translation and better message */}
                         <div>
                             Start typing country name
                         </div>

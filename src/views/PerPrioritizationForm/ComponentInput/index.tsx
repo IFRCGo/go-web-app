@@ -135,6 +135,7 @@ function ComponentInput(props: Props) {
                 <>
                     <div className={styles.additionalInformation}>
                         <div>
+                            {/* FIXME: use translations */}
                             {ratingDisplay ?? '0 - Not implemented'}
                         </div>
                         <div className={styles.separator} />
