@@ -3,6 +3,20 @@
     "strings": {
         "potentiallyAffectedRCLabel": "Potentiall Affected (RC)",
         "potentiallyAffectedGovernmentLabel": "Potentially Affected (Government)",
-        "potentiallyAffectedOtherLabel": "Potentially Affected (Other)"
+        "potentiallyAffectedOtherLabel": "Potentially Affected (Other)",
+        "peopleAtHighestRiskRcLabel": "People at Highest Risk (RC)",
+        "peopleAtHighestRiskGovernmentLabel": "People at Highest Risk (Government)",
+        "peopleAtHighestRiskOtherLabel": "People at Highest Risk (Other)",
+        "affectedPopCentresRCLabel": "Affected Pop Centres (RC)",
+        "affectedGovernmentLabel": "Affected (Government)",
+        "affectedPopCentersOtherLabel": "Affected Pop Centres (Other)",
+        "assistedRCLabel": "Assisted (RC)",
+        "assistedRCGovernmentLabel": "Assisted (Government)",
+        "assistedOtherLabel": "Assisted (Other)",
+        "sourceForDataMarkedLabel": "Sources for data marked as Other",
+        "riskAnalysis": "Risk Analysis",
+        "visibilityLabel": "Visibility",
+        "forecastedDateOfImpact":"Forecasted Date of Impact",
+        "reportDateLabel": "Report Date Label"
     }
 }

@@ -77,8 +77,7 @@ export function Component() {
 
     return (
         <Page
-            // FIXME: use translation
-            title="IFRC GO - Field Report Details"
+            title={strings.fieldReportDetailsHeading}
             className={styles.fieldReportDetails}
             heading={fieldReportResponse?.summary}
             actions={(
@@ -252,8 +251,7 @@ export function Component() {
                 ),
             )}
             <Container
-                // FIME: use translations
-                heading="Contacts"
+                heading={strings.contactTitle}
                 withHeaderBorder
                 childrenContainerClassName={styles.contactList}
             >

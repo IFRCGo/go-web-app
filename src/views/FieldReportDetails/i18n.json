@@ -1,6 +1,7 @@
 {
     "namespace": "fieldReportDetails",
     "strings": {
+        "fieldReportDetailsHeading": "IFRC GO - Field Report Details",
         "editReportButtonLabel": "Edit Report",
         "lastUpdatedByLabel": "Last updated by {user} on {date} ({region} - {district})",
         "numericDetailsTitle": "Numeric Details (People)",

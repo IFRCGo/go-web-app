@@ -1,4 +1,5 @@
 import KeyFigure from '#components/KeyFigure';
+import TextOutput from '#components/TextOutput';
 import type { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 
@@ -24,7 +25,50 @@ function EpidemicNumericDetails(props: Props) {
                 description={strings.suspectedCasesLabel}
                 value={value?.epi_suspected_cases}
             />
-            {/* TODO: add remaining fields */}
+            <KeyFigure
+                description={strings.assistedRcLabel}
+                value={value?.num_assisted}
+            />
+            <KeyFigure
+                description={strings.cumulativeDeadLabel}
+                value={value?.epi_num_dead}
+            />
+            <KeyFigure
+                description={strings.assistedGovernmentLabel}
+                value={value?.gov_num_assisted}
+            />
+            <KeyFigure
+                description={strings.numberOfCasesLabel}
+                value={value?.epi_cases_since_last_fr}
+            />
+            <KeyFigure
+                description={strings.assistedOtherLabel}
+                value={value?.other_num_assisted}
+            />
+            <KeyFigure
+                description={strings.numberOfNewDeathsLabel}
+                value={value?.epi_deaths_since_last_fr}
+            />
+            <KeyFigure
+                description={strings.localStaff}
+                value={value?.num_localstaff}
+            />
+            <TextOutput
+                label={strings.sourceLabel}
+                value={value?.sources?.map((source) => source?.stype)}
+            />
+            <TextOutput
+                label={strings.notesLabel}
+                value={value?.epi_notes_since_last_fr}
+            />
+            <TextOutput
+                label={strings.sourcesForDataMarkedLabel}
+                value={value?.other_sources}
+            />
+            <TextOutput
+                label={strings.dateOfData}
+                value={value?.sit_fields_date}
+            />
         </>
     );
 }

@@ -2,6 +2,17 @@
     "namespace": "fieldReportDetails",
     "strings": {
         "cumulativeCasesLabel": "Cumulative Cases",
-        "suspectedCasesLabel": "Suspected Cases"
+        "suspectedCasesLabel": "Suspected Cases",
+        "assistedRcLabel": "Assisted (RC)",
+        "cumulativeDeadLabel": "Cumulative Dead",
+        "assistedGovernmentLabel": "Assisted (Government)",
+        "numberOfCasesLabel": "Number of new cases since last Field Report",
+        "assistedOtherLabel": "Assisted (Other)",
+        "numberOfNewDeathsLabel":"Number of new deaths since last Field Report",
+        "localStaff": "Local Staff",
+        "sourceLabel": "Source",
+        "notesLabel": "Notes",
+        "sourcesForDataMarkedLabel": "Sources for data marked as Other",
+        "dateOfData": "Date of Date"
     }
 }
