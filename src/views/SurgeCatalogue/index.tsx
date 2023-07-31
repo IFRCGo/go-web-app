@@ -4,6 +4,7 @@ import {
     BasecampIcon,
     CashTransferIcon,
     CoordinatedAssessementIcon,
+    HealthIcon,
     PartnershipIcon,
     PublicInformationIcon,
 } from '@ifrc-go/icons';
@@ -25,6 +26,7 @@ export function Component() {
         catalogueCash: catalogueCashRoute,
         catalogueCommunityEngagement: catalogueCommunityEngagementRoute,
         catalogueCommunication: catalogueCommunicationRoute,
+        catalogueHealth: catalogueHealthRoute,
     } = useContext(RouteContext);
 
     const strings = useTranslation(i18n);
@@ -81,6 +83,14 @@ export function Component() {
                 >
                     <PublicInformationIcon className={styles.icon} />
                     {strings.catalogueCommunication}
+                </NavigationTab>
+                <NavigationTab
+                    to={generatePath(
+                        catalogueHealthRoute.absolutePath,
+                    )}
+                >
+                    <HealthIcon className={styles.icon} />
+                    {strings.catalogueHealth}
                 </NavigationTab>
             </NavigationTabList>
             <div className={styles.content}>
