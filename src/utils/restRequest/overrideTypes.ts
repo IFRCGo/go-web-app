@@ -1,6 +1,5 @@
 import {
     RequestOptions,
-    UrlParams,
     LazyRequestOptions,
 } from '@togglecorp/toggle-request';
 
@@ -9,319 +8,128 @@ import {
     AdditionalOptions,
 } from './go';
 
-type ResolveRes<T> = T extends {
+type ResolveResponseContent<RESPONSE> = RESPONSE extends {
     200 : {
         content: {
-            'application/json': infer Res
+            'application/json': infer Response
         }
     }
-} ? Res : unknown;
+} ? Response : unknown;
 
-type ResolveBody<T> = T extends {
+type ResolveRequestBody<REQUEST_BODY> = REQUEST_BODY extends {
     content: {
-        'application/json': infer Body,
+        'application/json': infer RequestBody,
     },
-} ? Body : unknown;
+} ? RequestBody : unknown;
 
-type Callable<C, R> = R | ((value: C) => R);
+type ResolvePath<PARAMETERS> = PARAMETERS extends {
+    path: infer Path,
+} ? Path : never;
+
+type ResolveQuery<PARAMETERS> = PARAMETERS extends {
+    query: infer Query,
+} ? Query: never;
 
 type GetResponse<SCHEMA, PATH extends keyof SCHEMA> = (
-    SCHEMA[PATH] extends {
-        get: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-            responses: infer Res,
-        },
-    } ? ResolveRes<Res> : never
+    SCHEMA[PATH] extends { get: { responses: infer Res } } ? ResolveResponseContent<Res> : never
+);
+type PutResponse<SCHEMA, PATH extends keyof SCHEMA> = (
+    SCHEMA[PATH] extends { put: { responses: infer Res } } ? ResolveResponseContent<Res> : never
+);
+type PostResponse<SCHEMA, PATH extends keyof SCHEMA> = (
+    SCHEMA[PATH] extends { post: { responses: infer Res } } ? ResolveResponseContent<Res> : never
+);
+type PatchResponse<SCHEMA, PATH extends keyof SCHEMA> = (
+    SCHEMA[PATH] extends { patch: { responses: infer Res } } ? ResolveResponseContent<Res> : never
 );
 
-type GetOption<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' = never> = (
+type CommonOption<Parameters, Responses, CONTEXT> = {
+    pathVariables?: ResolvePath<Parameters>,
+    query?: ResolveQuery<Parameters>,
+    mockResponse?: ResolveResponseContent<Responses>,
+    shouldRetry?: (
+        val: ResolveResponseContent<Responses>,
+        run: number,
+        context: CONTEXT,
+    ) => number;
+    shouldPoll?: (
+        val: ResolveResponseContent<Responses> | undefined,
+        context: CONTEXT
+    ) => number;
+    onSuccess?: (val: ResolveResponseContent<Responses>, context: CONTEXT) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onFailure?: (val: TransformedError, context: CONTEXT) => void;
+}
+
+type GetOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT = never> = (
     SCHEMA[PATH] extends {
         get: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-            responses: infer Res,
+            parameters: infer Parameters,
+            responses: infer Responses,
         },
-    }
-        ? Omit<{
-            url: PATH,
-            query?: NonNullable<SCHEMA[PATH]['get']['parameters']>['query'],
-            method?: 'GET',
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['get']['parameters']>['path'],
-            mockResponse?: ResolveRes<Res>,
-            response: ResolveRes<Res>,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldRetry?: (val: ResolveRes<Res>, run: number, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldPoll?: (val: ResolveRes<Res> | undefined, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onSuccess?: (val: ResolveRes<Res>, context: any) => void;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onFailure?: (val: TransformedError, context: any) => void;
-        }, OMISSION>
-        : unknown
+    } ? ({
+        url: PATH,
+        method?: 'GET',
+    } & CommonOption<Parameters, Responses, CONTEXT>) : unknown
 );
-type PutOptions<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' = never> = (
+
+type PutOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT = never> = (
     SCHEMA[PATH] extends {
         put: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-            responses: infer Res,
-            requestBody?: infer Body,
+            parameters: infer Parameters,
+            responses: infer Responses,
+            requestBody?: infer RequestBody,
         },
-    }
-        ? Omit<{
-            url: PATH,
-            query?: NonNullable<SCHEMA[PATH]['put']['parameters']>['query'],
-            method: 'PUT',
-            body: ResolveBody<Body>,
-            other?: Omit<RequestInit, 'body'> | undefined,
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['put']['parameters']>['path'],
-            mockResponse?: ResolveRes<Res>,
-            response: ResolveRes<Res>,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldRetry?: (val: ResolveRes<Res>, run: number, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldPoll?: (val: ResolveRes<Res> | undefined, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onSuccess?: (val: ResolveRes<Res>, context: any) => void;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onFailure?: (val: TransformedError, context: any) => void;
-        }, OMISSION>
-        : never
+    } ? ({
+        url: PATH,
+        method: 'PUT',
+        body: (context: CONTEXT) => ResolveRequestBody<RequestBody>,
+        other?: Omit<RequestInit, 'body'> | undefined,
+    } & CommonOption<Parameters, Responses, CONTEXT>) : unknown
 );
-type PatchOptions<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' = never> = (
+
+type PatchOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT = never> = (
     SCHEMA[PATH] extends {
         patch: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-            responses: infer Res,
-            requestBody?: infer Body,
+            parameters: infer Parameters,
+            responses: infer Responses,
+            requestBody?: infer RequestBody,
         },
-    }
-        ? Omit<{
-            url: PATH,
-            query?: NonNullable<SCHEMA[PATH]['patch']['parameters']>['query'],
-            method: 'PATCH',
-            body: ResolveBody<Body>,
-            other?: Omit<RequestInit, 'body'> | undefined,
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['patch']['parameters']>['path'],
-            mockResponse?: ResolveRes<Res>,
-            response: ResolveRes<Res>,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldRetry?: (val: ResolveRes<Res>, run: number, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldPoll?: (val: ResolveRes<Res> | undefined, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onSuccess?: (val: ResolveRes<Res>, context: any) => void;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onFailure?: (val: TransformedError, context: any) => void;
-        }, OMISSION>
-        : never
+    } ? ({
+        url: PATH,
+        method: 'PATCH',
+        body: (context: CONTEXT) => ResolveRequestBody<RequestBody>,
+        other?: Omit<RequestInit, 'body'> | undefined,
+    } & CommonOption<Parameters, Responses, CONTEXT>) : unknown
 );
-type PostOptions<SCHEMA, PATH extends keyof SCHEMA, OMISSION extends 'response' = never> = (
+
+type PostOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT = never> = (
     SCHEMA[PATH] extends {
         post: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-            responses: infer Res,
-            requestBody?: infer Body,
+            parameters: infer Parameters,
+            responses: infer Responses,
+            requestBody?: infer RequestBody,
         },
-    }
-        ? Omit<{
-            url: PATH,
-            query?: NonNullable<SCHEMA[PATH]['post']['parameters']>['query'],
-            method: 'POST'
-            body: ResolveBody<Body>,
-            other?: Omit<RequestInit, 'body'> | undefined,
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['post']['parameters']>['path'],
-            mockResponse?: ResolveRes<Res>,
-            response: ResolveRes<Res>,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldRetry?: (val: ResolveRes<Res>, run: number, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldPoll?: (val: ResolveRes<Res> | undefined, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onSuccess?: (val: ResolveRes<Res>, context: any) => void;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onFailure?: (val: TransformedError, context: any) => void;
-        }, OMISSION>
-        : never
+    } ? ({
+        url: PATH,
+        method: 'POST',
+        body: (context: CONTEXT) => ResolveRequestBody<RequestBody>,
+        other?: Omit<RequestInit, 'body'> | undefined,
+    } & CommonOption<Parameters, Responses, CONTEXT>) : unknown
 );
-type DeleteOptions<SCHEMA, PATH extends keyof SCHEMA> = (
+
+type DeleteOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT = never> = (
     SCHEMA[PATH] extends {
         delete: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
+            get: {
+                parameters: infer Parameters,
+                responses: infer Responses,
             },
         }
-    }
-        ? {
-            url: PATH,
-            method: 'DELETE'
-            query?: NonNullable<SCHEMA[PATH]['delete']['parameters']>['query'],
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['delete']['parameters']>['path'],
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            mockResponse?: any,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldRetry?: (val: any, run: number, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shouldPoll?: (val: any, context: any) => number;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onSuccess?: (val: any, context: any) => void;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onFailure?: (val: TransformedError, context: any) => void;
-        }
-        : never
-);
-
-type LazyGetOption<SCHEMA, PATH extends keyof SCHEMA, CONTEXT, OMISSION extends 'response' = never> = (
-    SCHEMA[PATH] extends {
-        get: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-            responses: infer Res,
-        },
-    }
-        ? Omit<{
-            url: Callable<CONTEXT, PATH>,
-            query?: Callable<CONTEXT, NonNullable<SCHEMA[PATH]['get']['parameters']>['query']>,
-            method?: Callable<CONTEXT, 'GET'>,
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['get']['parameters']>['path'],
-            mockResponse?: ResolveRes<Res>,
-            response: ResolveRes<Res>,
-            shouldRetry?: (val: ResolveRes<Res>, run: number, context: CONTEXT) => number;
-            shouldPoll?: (val: ResolveRes<Res> | undefined, context: CONTEXT) => number;
-            onSuccess?: (val: ResolveRes<Res>, context: CONTEXT) => void;
-            onFailure?: (val: TransformedError, context: CONTEXT) => void;
-        }, OMISSION>
-        : never
-);
-type LazyPutOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT, OMISSION extends 'response' = never> = (
-    SCHEMA[PATH] extends {
-        put: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-            responses: infer Res,
-            requestBody?: infer Body,
-        },
-    }
-        ? Omit<{
-            url: Callable<CONTEXT, PATH>,
-            query?: Callable<CONTEXT, NonNullable<SCHEMA[PATH]['put']['parameters']>['query']>,
-            method: Callable<CONTEXT, 'PUT'>,
-            body: Callable<CONTEXT, ResolveBody<Body>>,
-            other?: Callable<CONTEXT, Omit<RequestInit, 'body'>>,
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['put']['parameters']>['path'],
-            mockResponse?: ResolveRes<Res>,
-            response: ResolveRes<Res>,
-            shouldRetry?: (val: ResolveRes<Res>, run: number, context: CONTEXT) => number;
-            shouldPoll?: (val: ResolveRes<Res> | undefined, context: CONTEXT) => number;
-            onSuccess?: (val: ResolveRes<Res>, context: CONTEXT) => void;
-            onFailure?: (val: TransformedError, context: CONTEXT) => void;
-        }, OMISSION>
-        : never
-);
-type LazyPatchOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT, OMISSION extends 'response' = never> = (
-    SCHEMA[PATH] extends {
-        patch: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-            responses: infer Res,
-            requestBody?: infer Body,
-        },
-    }
-        ? Omit<{
-            url: Callable<CONTEXT, PATH>,
-            query?: Callable<CONTEXT, NonNullable<SCHEMA[PATH]['patch']['parameters']>['query']>,
-            method: Callable<CONTEXT, 'PATCH'>,
-            body: Callable<CONTEXT, ResolveBody<Body>>,
-            other?: Callable<CONTEXT, Omit<RequestInit, 'body'> | undefined>,
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['patch']['parameters']>['path'],
-            mockResponse?: ResolveRes<Res>,
-            response: ResolveRes<Res>,
-            shouldRetry?: (val: ResolveRes<Res>, run: number, context: CONTEXT) => number;
-            shouldPoll?: (val: ResolveRes<Res> | undefined, context: CONTEXT) => number;
-            onSuccess?: (val: ResolveRes<Res>, context: CONTEXT) => void;
-            onFailure?: (val: TransformedError, context: CONTEXT) => void;
-        }, OMISSION>
-        : never
-);
-type LazyPostOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT, OMISSION extends 'response' = never> = (
-    SCHEMA[PATH] extends {
-        post: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-            responses: infer Res,
-            requestBody?: infer Body,
-        },
-    }
-        ? Omit<{
-            url: Callable<CONTEXT, PATH>,
-            query?: Callable<CONTEXT, NonNullable<SCHEMA[PATH]['post']['parameters']>['query']>,
-            method: Callable<CONTEXT, 'POST'>,
-            body: Callable<CONTEXT, ResolveBody<Body>>,
-            other?: Callable<CONTEXT, Omit<RequestInit, 'body'> | undefined>,
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['post']['parameters']>['path'],
-            mockResponse?: ResolveRes<Res>,
-            response: ResolveRes<Res>,
-            shouldRetry?: (val: ResolveRes<Res>, run: number, context: CONTEXT) => number;
-            shouldPoll?: (val: ResolveRes<Res> | undefined, context: CONTEXT) => number;
-            onSuccess?: (val: ResolveRes<Res>, context: CONTEXT) => void;
-            onFailure?: (val: TransformedError, context: CONTEXT) => void;
-        }, OMISSION>
-        : never
-);
-type LazyDeleteOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT> = (
-    SCHEMA[PATH] extends {
-        delete: {
-            parameters?: {
-                query?: UrlParams,
-                path?: AdditionalOptions['pathVariables'],
-            },
-        }
-    }
-        ? {
-            url: Callable<CONTEXT, PATH>,
-            method: Callable<CONTEXT, 'DELETE'>,
-            query?: Callable<CONTEXT, NonNullable<SCHEMA[PATH]['delete']['parameters']>['query']>,
-
-            pathVariables?: NonNullable<SCHEMA[PATH]['delete']['parameters']>['path'],
-            mockResponse?: CONTEXT,
-            shouldRetry?: (val: CONTEXT, run: number, context: CONTEXT) => number;
-            shouldPoll?: (val: CONTEXT, context: CONTEXT) => number;
-            onSuccess?: (val: CONTEXT, context: CONTEXT) => void;
-            onFailure?: (val: TransformedError, context: CONTEXT) => void;
-        }
-        : never
+    } ? ({
+        url: PATH,
+        method: 'DELETE'
+    } & CommonOption<Parameters, Responses, CONTEXT>) : unknown
 );
 
 type RequestOptionsBase<URL, METHOD> = {
@@ -373,17 +181,19 @@ interface LazyRequestReturnBase<RESPONSE, C> {
     context: C | undefined;
 }
 
+export type VALID_METHOD = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
 export type CustomRequestOptions<
     SCHEMA extends object,
     PATH extends keyof SCHEMA,
-    METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | undefined,
+    METHOD extends VALID_METHOD | undefined,
 > = (
     METHOD extends 'GET' | undefined
-        ? RequestOptionsBase<PATH, METHOD> & GetOption<SCHEMA, PATH, 'response'>
+        ? RequestOptionsBase<PATH, METHOD> & GetOptions<SCHEMA, PATH>
         : METHOD extends 'PUT'
-            ? RequestOptionsBase<PATH, METHOD> & PutOptions<SCHEMA, PATH, 'response'>
+            ? RequestOptionsBase<PATH, METHOD> & PutOptions<SCHEMA, PATH>
             : METHOD extends 'PATCH'
-                ? RequestOptionsBase<PATH, METHOD> & PatchOptions<SCHEMA, PATH, 'response'>
+                ? RequestOptionsBase<PATH, METHOD> & PatchOptions<SCHEMA, PATH>
                 : METHOD extends 'POST'
                     ? RequestOptionsBase<PATH, METHOD> & PostOptions<SCHEMA, PATH, 'response'>
                     : METHOD extends 'DELETE'
@@ -393,16 +203,16 @@ export type CustomRequestOptions<
 export type CustomRequestReturn<
     SCHEMA,
     PATH extends keyof SCHEMA,
-    METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | undefined,
+    METHOD extends VALID_METHOD | undefined,
 > = (
     METHOD extends 'GET' | undefined
         ? RequestReturnBase<GetResponse<SCHEMA, PATH>>
         : METHOD extends 'PUT'
-            ? RequestReturnBase<PutOptions<SCHEMA, PATH>['response']>
+            ? RequestReturnBase<PutResponse<SCHEMA, PATH>>
             : METHOD extends 'PATCH'
-                ? RequestReturnBase<PatchOptions<SCHEMA, PATH>['response']>
+                ? RequestReturnBase<PatchResponse<SCHEMA, PATH>>
                 : METHOD extends 'POST'
-                    ? RequestReturnBase<PostOptions<SCHEMA, PATH>['response']>
+                    ? RequestReturnBase<PostResponse<SCHEMA, PATH>>
                     : METHOD extends 'DELETE'
                         ? RequestReturnBase<undefined>
                         : never
@@ -413,23 +223,22 @@ export type CustomLazyRequestOptions<
     PATH extends keyof SCHEMA,
     METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | undefined,
     CONTEXT,
-    OMISSION extends 'response' = never,
 > = (
     METHOD extends 'GET' | undefined
         ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
-            & LazyGetOption<SCHEMA, PATH, CONTEXT, OMISSION>
+            & GetOptions<SCHEMA, PATH, CONTEXT>
         : METHOD extends 'PUT'
             ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
-                & LazyPutOptions<SCHEMA, PATH, CONTEXT, OMISSION>
+                & PutOptions<SCHEMA, PATH, CONTEXT>
             : METHOD extends 'PATCH'
                 ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
-                    & LazyPatchOptions<SCHEMA, PATH, CONTEXT, OMISSION>
+                    & PatchOptions<SCHEMA, PATH, CONTEXT>
                 : METHOD extends 'POST'
                     ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
-                        & LazyPostOptions<SCHEMA, PATH, CONTEXT, OMISSION>
+                        & PostOptions<SCHEMA, PATH, CONTEXT>
                     : METHOD extends 'DELETE'
                         ? LazyRequestOptionsBase<PATH, METHOD, CONTEXT>
-                            & LazyDeleteOptions<SCHEMA, PATH, CONTEXT>
+                            & DeleteOptions<SCHEMA, PATH, CONTEXT>
                         : never
 );
 export type CustomLazyRequestReturn<
@@ -441,11 +250,11 @@ export type CustomLazyRequestReturn<
     METHOD extends 'GET' | undefined
         ? LazyRequestReturnBase<GetResponse<SCHEMA, PATH>, C>
         : METHOD extends 'PUT'
-            ? LazyRequestReturnBase<PutOptions<SCHEMA, PATH>['response'], C>
+            ? LazyRequestReturnBase<PutResponse<SCHEMA, PATH>, C>
             : METHOD extends 'PATCH'
-                ? LazyRequestReturnBase<PatchOptions<SCHEMA, PATH>['response'], C>
+                ? LazyRequestReturnBase<PatchResponse<SCHEMA, PATH>, C>
                 : METHOD extends 'POST'
-                    ? LazyRequestReturnBase<PostOptions<SCHEMA, PATH>['response'], C>
+                    ? LazyRequestReturnBase<PostResponse<SCHEMA, PATH>, C>
                     : METHOD extends 'DELETE'
                         ? LazyRequestReturnBase<undefined, C>
                         : never
