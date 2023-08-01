@@ -44,7 +44,8 @@
         "react-focus-on": "^3.8.1",
         "react-router-dom": "^6.11.1",
         "sanitize-html": "^2.10.0",
-        "url": "^0.11.0"
+        "url": "^0.11.0",
+        "vite-plugin-svgr": "^3.2.0"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^2.0.3",
