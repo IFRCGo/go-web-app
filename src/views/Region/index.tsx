@@ -42,6 +42,7 @@ export function Component() {
     } = useRequest({
         skip: !regionId,
         url: '/api/v2/region/{id}/',
+        // FIXME: the request is not triggered when pathVariables change
         pathVariables: {
             id: Number(regionId),
         },

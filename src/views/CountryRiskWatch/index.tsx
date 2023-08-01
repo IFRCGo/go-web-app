@@ -1,4 +1,7 @@
+import { useMemo } from 'react';
 import { useParams, useOutletContext } from 'react-router-dom';
+import { isDefined } from '@togglecorp/fujs';
+import getBbox from '@turf/bbox';
 
 import Container from '#components/Container';
 import Link from '#components/Link';
@@ -6,16 +9,17 @@ import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import type { CountryOutletContext } from '#utils/outletContext';
 import { useRiskRequest } from '#utils/restRequest';
+import PdcImminentEvents from '#components/PdcImminentEvents';
 
 import MultiMonthSelectInput from './MultiMonthSelectInput';
 import RiskTable from './RiskTable';
+import RiskBarChart from './RiskBarChart';
 import PossibleEarlyActionTable from './PossibleEarlyActionTable';
 import ReturnPeriodTable from './ReturnPeriodTable';
 import HistoricalDataChart from './HistoricalDataChart';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import RiskBarChart from './RiskBarChart';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -41,9 +45,21 @@ export function Component() {
 
     // NOTE: we always get 1 child in the response
     const riskResponse = countryRiskResponse?.[0];
+    const bbox = useMemo(
+        () => (countryResponse ? getBbox(countryResponse.bbox) : undefined),
+        [countryResponse],
+    );
 
     return (
         <div className={styles.countryRiskWatch}>
+            {countryResponse && isDefined(countryResponse.iso3) && (
+                <PdcImminentEvents
+                    variant="country"
+                    iso3={countryResponse.iso3}
+                    title={countryResponse.name}
+                    bbox={bbox}
+                />
+            )}
             <Container
                 heading={strings.risksByMonthHeading}
                 headingLevel={2}

@@ -14,20 +14,19 @@ import {
     unique,
 } from '@togglecorp/fujs';
 import Map, {
-    MapContainer,
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
 
-import { useRequest } from '#utils/restRequest';
-import type { GoApiUrlQuery } from '#utils/restRequest';
-import GoMapDisclaimer from '#components/GoMapDisclaimer';
+import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import MapPopup from '#components/MapPopup';
 import TextOutput from '#components/TextOutput';
 import useInputState from '#hooks/useInputState';
+import { useRequest } from '#utils/restRequest';
+import type { GoApiUrlQuery } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
@@ -288,10 +287,9 @@ function ActiveOperationMap(props: Props) {
                 navControlShown
                 navControlPosition="top-right"
             >
-                <div className={styles.mapContainerWrapper}>
-                    <MapContainer className={styles.mapContainer} />
-                    <GoMapDisclaimer className={styles.mapDisclaimer} />
-                </div>
+                <MapContainerWithDisclaimer
+                    className={styles.mapContainer}
+                />
                 <MapSource
                     sourceKey="composite"
                     managed={false}

@@ -35,6 +35,8 @@
         "@togglecorp/re-map": "^0.2.0-beta-4",
         "@togglecorp/toggle-form": "2.0.3",
         "@togglecorp/toggle-request": "^0.0.2",
+        "@turf/bbox": "^6.5.0",
+        "@turf/buffer": "^6.5.0",
         "docx4js": "^3.2.20",
         "mapbox-gl": "^1.13.0",
         "react": "^18.2.0",

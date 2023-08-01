@@ -1,0 +1,27 @@
+.map-container-with-disclaimer {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    z-index: 0;
+
+    .container {
+        flex-grow: 1;
+    }
+
+    .map-disclaimer {
+        position: absolute;
+        bottom: var(--go-ui-spacing-xs);
+        left: calc(var(--mapbox-icon-width) + var(--go-ui-spacing-xl));
+    }
+}
+
+.disclaimer-popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-sm);
+
+    .attribution {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+    }
+}

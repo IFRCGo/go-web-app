@@ -18,6 +18,7 @@ import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { CountryOutletContext } from '#utils/outletContext';
+import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -70,7 +71,10 @@ export function Component() {
     return (
         <Page
             className={styles.country}
-            title={strings.countryPageTitle}
+            title={resolveToString(
+                strings.countryPageTitle,
+                { countryName: countryResponse?.name ?? strings.countryPageTitleFallbackCountry },
+            )}
             heading={countryResponse?.name ?? '--'}
             infoContainerClassName={styles.keyFigureList}
             info={(

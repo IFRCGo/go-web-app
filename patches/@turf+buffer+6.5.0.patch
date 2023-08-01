@@ -1,0 +1,17 @@
+diff --git a/node_modules/@turf/buffer/package.json b/node_modules/@turf/buffer/package.json
+index f350d3e..8fe4032 100644
+--- a/node_modules/@turf/buffer/package.json
++++ b/node_modules/@turf/buffer/package.json
+@@ -35,11 +35,11 @@
+   "exports": {
+     "./package.json": "./package.json",
+     ".": {
++      "types": "./index.d.ts",
+       "import": "./dist/es/index.js",
+       "require": "./dist/js/index.js"
+     }
+   },
+-  "types": "index.d.ts",
+   "sideEffects": false,
+   "files": [
+     "dist",

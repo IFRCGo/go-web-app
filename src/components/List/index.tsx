@@ -25,8 +25,14 @@ function hasGroup<D, P, K extends OptionKey, GP, GK extends OptionKey>(
     return !!(props as BaseProps<D, P, K> & GroupOptions<D, GP, GK>).grouped;
 }
 
-function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends OptionKey>(
-    props: Props<D, P, K, GP, GK>,
+function List<
+    DATUM,
+    RENDERER_PROPS,
+    KEY extends OptionKey,
+    GroupProps extends GroupCommonProps,
+    GroupKey extends OptionKey
+>(
+    props: Props<DATUM, RENDERER_PROPS, KEY, GroupProps, GroupKey>,
 ) {
     const {
         className,
@@ -49,10 +55,10 @@ function List<D, P, K extends OptionKey, GP extends GroupCommonProps, GK extends
         compact,
     } = props;
 
-    const data = dataFromProps ?? (emptyList as D[]);
+    const data = dataFromProps ?? (emptyList as DATUM[]);
     const empty = !(data?.length && data.length > 0);
 
-    const renderListItem = useCallback((datum: D, i: number) => {
+    const renderListItem = useCallback((datum: DATUM, i: number) => {
         const key = keySelector(datum, i);
         const extraProps = rendererParams(key, datum, i, data);
 
