@@ -305,6 +305,7 @@ export function riskScoreToCategory(
     return currentCategory.category as RiskCategory;
 }
 
+// TODO: implement full validation
 export function isValidFeature(
     maybeFeature: unknown,
 ): maybeFeature is GeoJSON.Feature {
@@ -324,6 +325,7 @@ export function isValidFeature(
     return true;
 }
 
+// TODO: implement full validation
 export function isValidPointFeature(
     maybePointFeature: unknown,
 ): maybePointFeature is GeoJSON.Feature<GeoJSON.Point> {
@@ -332,7 +334,7 @@ export function isValidPointFeature(
     }
 
     const safeObj = maybePointFeature as GeoJSON.Feature<GeoJSON.Point>;
-    if (safeObj.geometry.type !== 'Point') {
+    if (safeObj.geometry && safeObj.geometry.type !== 'Point') {
         return false;
     }
 

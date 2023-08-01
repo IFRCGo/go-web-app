@@ -1,5 +1,5 @@
 import type { LngLatBoundsLike } from 'mapbox-gl';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import RiskImminentEventMap from '#components/RiskImminentEventMap';
@@ -60,15 +60,14 @@ function ImminentEvents(props: Props) {
     });
 
     const [activeEventId, setActiveEventId] = useState<number | string | undefined>(undefined);
-    const footprintCallbackRef = useRef<FootprintCallback | undefined>();
 
-    const { trigger: getFootprint } = useRiskLazyRequest({
+    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/imminent/{id}/exposure/', { successCallback: FootprintCallback }>({
         apiType: 'risk',
         url: '/api/v1/imminent/{id}/exposure/',
         pathVariables: isDefined(activeEventId) ? {
             id: Number(activeEventId),
         } : undefined,
-        onSuccess: (response) => {
+        onSuccess: (response, { successCallback }) => {
             const {
                 footprint_geojson,
                 storm_position_geojson,
@@ -79,50 +78,47 @@ function ImminentEvents(props: Props) {
             }
 
             const footprint = isValidFeature(footprint_geojson) ? footprint_geojson : undefined;
+            // FIXME: typings should be fixed in the server
             const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
                 ?.filter(isValidPointFeature);
 
-            if (footprintCallbackRef.current) {
-                const geoJson = {
-                    type: 'FeatureCollection' as const,
-                    features: [
-                        footprint ? {
-                            ...footprint,
-                            properties: {
-                                ...footprint.properties,
-                                type: 'exposure',
-                            },
-                        } : undefined,
-                        stormPositions ? {
-                            type: 'Feature',
-                            geometry: {
-                                type: 'LineString',
-                                coordinates: stormPositions.map(
-                                    (pointFeature) => (
-                                        pointFeature.geometry.coordinates
-                                    ),
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+                type: 'FeatureCollection' as const,
+                features: [
+                    footprint ? {
+                        ...footprint,
+                        properties: {
+                            ...footprint.properties,
+                            type: 'exposure',
+                        },
+                    } : undefined,
+                    stormPositions ? {
+                        type: 'Feature' as const,
+                        geometry: {
+                            type: 'LineString' as const,
+                            coordinates: stormPositions.map(
+                                (pointFeature) => (
+                                    pointFeature.geometry.coordinates
                                 ),
-                            },
+                            ),
+                        },
+                        properties: {
+                            type: 'track',
+                        },
+                    } : undefined,
+                    ...stormPositions?.map(
+                        (pointFeature) => ({
+                            ...pointFeature,
                             properties: {
-                                type: 'track',
+                                ...pointFeature.properties,
+                                type: 'track-point',
                             },
-                        } : undefined,
-                        ...stormPositions?.map(
-                            (pointFeature) => ({
-                                ...pointFeature,
-                                properties: {
-                                    ...pointFeature.properties,
-                                    type: 'track-point',
-                                },
-                            }),
-                        ) ?? [],
-                    ].filter(isDefined),
-                };
+                        }),
+                    ) ?? [],
+                ].filter(isDefined),
+            };
 
-                footprintCallbackRef.current(
-                    geoJson as GeoJSON.FeatureCollection<GeoJSON.Geometry>,
-                );
-            }
+            successCallback(geoJson);
         },
     });
 
@@ -161,8 +157,7 @@ function ImminentEvents(props: Props) {
     const footprintSelector = useCallback(
         (eventId: number | string | undefined, callback: FootprintCallback) => {
             setActiveEventId(eventId);
-            footprintCallbackRef.current = callback;
-            getFootprint(null);
+            getFootprint({ successCallback: callback });
         },
         [getFootprint],
     );

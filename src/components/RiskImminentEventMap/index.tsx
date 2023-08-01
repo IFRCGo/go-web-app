@@ -1,4 +1,4 @@
-import type { SymbolLayout, CirclePaint, LngLatBoundsLike } from 'mapbox-gl';
+import type { LngLatBoundsLike, SymbolLayer } from 'mapbox-gl';
 import { useCallback, useMemo, useState } from 'react';
 import {
     isDefined,
@@ -12,10 +12,7 @@ import Map, {
     MapImage,
     MapBounds,
 } from '@togglecorp/re-map';
-import {
-    ChevronRightLineIcon,
-    ChevronLeftLineIcon,
-} from '@ifrc-go/icons';
+import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import getBbox from '@turf/bbox';
 import getBuffer from '@turf/buffer';
 
@@ -26,18 +23,19 @@ import {
     defaultMapOptions,
     defaultMapStyle,
 } from '#utils/map';
-import { hazardTypeToColorMap } from '#utils/risk';
 import type { components } from '#generated/riskTypes';
-import {
-    COLOR_BLACK,
-    COLOR_WHITE,
-} from '#utils/constants';
+import { COLOR_WHITE } from '#utils/constants';
 
-import earthquakeIcon from '#assets/icons/risk/earthquake.png';
-import floodIcon from '#assets/icons/risk/flood.png';
-import cycloneIcon from '#assets/icons/risk/cyclone.png';
-import droughtIcon from '#assets/icons/risk/drought.png';
-import wildfireIcon from '#assets/icons/risk/wildfire.png';
+import {
+    exposureFillLayer,
+    geojsonSourceOptions,
+    hazardPointLayer,
+    trackOutlineLayer,
+    trackPointLayer,
+    hazardKeyToIconmap,
+    invisibleLayout,
+    hazardPointIconLayout,
+} from './mapStyles';
 
 import styles from './styles.module.css';
 
@@ -45,19 +43,6 @@ const mapImageOption = {
     sdf: true,
 };
 type HazardType = components['schemas']['HazardTypeEnum'];
-
-const hazardKeyToIconmap: Record<HazardType, string | null> = {
-    EQ: earthquakeIcon,
-    FL: floodIcon,
-    TC: cycloneIcon,
-    EP: null,
-    FI: null,
-    SS: null,
-    DR: droughtIcon,
-    TS: cycloneIcon,
-    CD: null,
-    WF: wildfireIcon,
-};
 
 const hazardKeys = Object.keys(hazardKeyToIconmap) as HazardType[];
 
@@ -99,13 +84,6 @@ const mapIcons = mapToList(
     (icon, key) => (icon ? ({ key, icon }) : undefined),
 ).filter(isDefined);
 
-const iconImage: SymbolLayout['icon-image'] = [
-    'match',
-    ['get', 'hazard_type'],
-    ...(mapIcons).flatMap(({ key }) => [key, `${key}-ICON`]),
-    '',
-];
-
 type EventPointProperties = {
     id: string | number,
     hazard_type: HazardType,
@@ -113,18 +91,13 @@ type EventPointProperties = {
 
 export type EventPointFeature = GeoJSON.Feature<GeoJSON.Point, EventPointProperties>;
 
-const geojsonSourceOptions: mapboxgl.GeoJSONSourceRaw = { type: 'geojson' };
-const hazardTypeColorPaint: CirclePaint['circle-color'] = [
-    'match',
-    ['get', 'hazard_type'],
-    ...mapToList(hazardTypeToColorMap, (value, key) => [key, value]).flat(),
-    COLOR_BLACK,
-];
-
 interface EventItemProps<EVENT> {
     data: EVENT;
-    icons?: React.ReactNode;
-    actions?: React.ReactNode;
+    onExpandClick: (eventId: number | string) => void;
+}
+
+interface EventDetailProps<EVENT> {
+    data: EVENT;
 }
 
 interface Props<EVENT> {
@@ -133,10 +106,12 @@ interface Props<EVENT> {
     pointFeatureSelector: (event: EVENT) => EventPointFeature | undefined;
     footprintSelector?: (
         eventId: string | number | undefined,
-        callback: (footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined) => void,
+        successCallback: (
+            footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined
+        ) => void,
     ) => void;
     listItemRenderer: React.ComponentType<EventItemProps<EVENT>>;
-    detailRenderer: React.ComponentType<EventItemProps<EVENT>>;
+    detailRenderer: React.ComponentType<EventDetailProps<EVENT>>;
     pending: boolean;
     sidePanelHeading: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
@@ -173,10 +148,6 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
         GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined
     >(undefined);
 
-    const pointFeatures: EventPointFeature[] = events?.map(
-        pointFeatureSelector,
-    ).filter(isDefined) ?? [];
-
     const bounds = useMemo(
         () => {
             if (isNotDefined(activeEvent)) {
@@ -204,10 +175,17 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
         [activeEvent, activePointFootprint, pointFeatureSelector, bbox],
     );
 
-    const pointFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Point> = {
-        type: 'FeatureCollection',
-        features: pointFeatures,
-    };
+    const pointFeatureCollection = useMemo<
+        GeoJSON.FeatureCollection<GeoJSON.Point, EventPointProperties>
+    >(
+        () => ({
+            type: 'FeatureCollection' as const,
+            features: events?.map(
+                pointFeatureSelector,
+            ).filter(isDefined) ?? [],
+        }),
+        [events, pointFeatureSelector],
+    );
 
     const promptForFootprint = useCallback(
         (eventId: string | number | undefined) => {
@@ -215,8 +193,9 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                 return;
             }
 
+            // FIXME: check if component is still
+            // mounted when we get the footprint
             footprintSelector(eventId, setActivePointFootprint);
-            // setActivePointFootprint(footprint);
         },
         [footprintSelector],
     );
@@ -243,17 +222,9 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
     );
 
     const eventListRendererParams = useCallback(
-        (eventId: string | number, event: EVENT) => ({
+        (_: string | number, event: EVENT) => ({
             data: event,
-            actions: (
-                <Button
-                    name={eventId}
-                    onClick={setActiveEventIdSafe}
-                    variant="tertiary"
-                >
-                    <ChevronRightLineIcon className={styles.icon} />
-                </Button>
-            ),
+            onExpandClick: setActiveEventIdSafe,
         }),
         [setActiveEventIdSafe],
     );
@@ -280,6 +251,15 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
         [loadedIcons],
     );
 
+    const hazardPointIconLayer = useMemo<Omit<SymbolLayer, 'id'>>(
+        () => ({
+            type: 'symbol',
+            paint: { 'icon-color': COLOR_WHITE },
+            layout: allIconsLoaded ? hazardPointIconLayout : invisibleLayout,
+        }),
+        [allIconsLoaded],
+    );
+
     return (
         <div className={styles.riskImminentEventMap}>
             <Map
@@ -288,6 +268,7 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                 navControlShown
                 navControlPosition="top-right"
             >
+                {/* FIXME: MapImage is not working in strict mode */}
                 {hazardKeys.map((key) => (
                     <HazardMapImage
                         key={key}
@@ -301,6 +282,7 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                     sourceOptions={geojsonSourceOptions}
                     geoJson={pointFeatureCollection}
                 >
+                    {/* FIXME: footprint layer should always be the bottom layer */}
                     {activePointFootprint && (
                         <MapSource
                             sourceKey="active-event-footprint"
@@ -309,78 +291,26 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                         >
                             <MapLayer
                                 layerKey="exposure-fill"
-                                layerOptions={{
-                                    type: 'fill',
-                                    filter: [
-                                        '==',
-                                        ['get', 'type'],
-                                        'exposure',
-                                    ],
-                                    paint: {
-                                        'fill-color': COLOR_BLACK,
-                                        'fill-opacity': 0.2,
-                                    },
-                                }}
+                                layerOptions={exposureFillLayer}
                             />
                             <MapLayer
                                 layerKey="track-outline"
-                                layerOptions={{
-                                    type: 'line',
-                                    filter: [
-                                        '==',
-                                        ['get', 'type'],
-                                        'track',
-                                    ],
-                                    paint: {
-                                        'line-color': COLOR_BLACK,
-                                        'line-opacity': 0.4,
-                                    },
-                                }}
+                                layerOptions={trackOutlineLayer}
                             />
                             <MapLayer
                                 layerKey="track-point"
-                                layerOptions={{
-                                    type: 'circle',
-                                    filter: [
-                                        '==',
-                                        ['get', 'type'],
-                                        'track-point',
-                                    ],
-                                    paint: {
-                                        'circle-radius': 4,
-                                        'circle-color': COLOR_BLACK,
-                                        'circle-opacity': 0.5,
-                                    },
-                                }}
+                                layerOptions={trackPointLayer}
                             />
                         </MapSource>
                     )}
                     <MapLayer
                         onClick={handlePointClick}
                         layerKey="point-circle"
-                        layerOptions={{
-                            type: 'circle',
-                            paint: {
-                                'circle-radius': 12,
-                                'circle-color': hazardTypeColorPaint,
-                                'circle-opacity': 0.8,
-                            },
-                        }}
+                        layerOptions={hazardPointLayer}
                     />
                     <MapLayer
                         layerKey="hazard-points-icon"
-                        layerOptions={{
-                            type: 'symbol',
-                            paint: {
-                                'icon-color': COLOR_WHITE,
-                            },
-                            layout: allIconsLoaded ? {
-                                visibility: 'visible',
-                                'icon-image': iconImage,
-                                'icon-size': 0.7,
-                                'icon-allow-overlap': true,
-                            } : { visibility: 'none' },
-                        }}
+                        layerOptions={hazardPointIconLayer}
                     />
                 </MapSource>
                 {bounds && (
@@ -406,6 +336,7 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                             <ChevronLeftLineIcon className={styles.icon} />
                         )}
                     >
+                        {/* FIXME: use translation */}
                         Back to events
                     </Button>
                 )}

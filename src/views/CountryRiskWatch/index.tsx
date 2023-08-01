@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useParams, useOutletContext } from 'react-router-dom';
 import { isDefined } from '@togglecorp/fujs';
 import getBbox from '@turf/bbox';
@@ -44,7 +45,10 @@ export function Component() {
 
     // NOTE: we always get 1 child in the response
     const riskResponse = countryRiskResponse?.[0];
-    const bbox = countryResponse ? getBbox(countryResponse.bbox) : undefined;
+    const bbox = useMemo(
+        () => (countryResponse ? getBbox(countryResponse.bbox) : undefined),
+        [countryResponse],
+    );
 
     return (
         <div className={styles.countryRiskWatch}>

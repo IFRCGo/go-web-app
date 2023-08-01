@@ -226,14 +226,14 @@ export type CustomLazyRequestOptions<
 type RequestReturn<RESPONSE> = ReturnType<typeof useRequest<
     RESPONSE,
     TransformedError,
-    unknown
+    AdditionalOptions
 >>;
 
 type LazyRequestReturn<RESPONSE, CONTEXT> = ReturnType<typeof useLazyRequest<
     RESPONSE,
     TransformedError,
-    CONTEXT,
-    unknown
+    AdditionalOptions,
+    CONTEXT
 >>;
 
 export type CustomRequestReturn<

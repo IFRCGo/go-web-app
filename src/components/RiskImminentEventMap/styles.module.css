@@ -29,8 +29,8 @@
     }
 
     @media screen and (max-width: 50rem) {
-        height: initial;
         flex-direction: column;
+        height: initial;
 
         .side-panel {
             flex-basis: unset;

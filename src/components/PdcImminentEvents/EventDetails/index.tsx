@@ -39,17 +39,19 @@ function EventDetails(props: Props) {
         value?: number | null;
     }
 
+    // NOTE: these are stored as json so we don't have typings for these
     const popExposure = exposureResponse?.population_exposure as {
         total?: Exposure | null;
         households?: Exposure | null;
         vulnerable?: Exposure | null;
-    };
+    } | null;
 
+    // NOTE: these are stored as json so we don't have typings for these
     const capitalExposure = exposureResponse?.capital_exposure as {
         total?: Exposure | null;
         school?: Exposure | null;
         hospital?: Exposure | null;
-    };
+    } | null;
 
     return (
         <Container

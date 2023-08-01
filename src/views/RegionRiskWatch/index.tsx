@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import getBbox from '@turf/bbox';
 
@@ -10,7 +11,10 @@ import styles from './styles.module.css';
 export function Component() {
     const { regionResponse } = useOutletContext<RegionOutletContext>();
 
-    const bbox = regionResponse ? getBbox(regionResponse.bbox) : undefined;
+    const bbox = useMemo(
+        () => (regionResponse ? getBbox(regionResponse.bbox) : undefined),
+        [regionResponse],
+    );
 
     return (
         <div className={styles.regionRiskWatch}>
