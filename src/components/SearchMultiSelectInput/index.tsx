@@ -47,7 +47,7 @@ export type SearchMultiSelectInputProps<
     & SelectInputContainerProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS,
         'name'
         | 'nonClearable'
-        | 'onClear'
+        | 'onClearButtonClick'
         | 'onOptionClick'
         | 'optionKeySelector'
         | 'optionRenderer'
@@ -283,7 +283,7 @@ function SearchMultiSelectInput<
             optionContainerClassName={styles.optionContainer}
             onOptionClick={handleOptionClick}
             valueDisplay={valueDisplay}
-            onClear={handleClear}
+            onClearButtonClick={handleClear}
             searchText={searchInputValue}
             onSearchTextChange={handleSearchValueChange}
             dropdownShown={showDropdown}

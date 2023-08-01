@@ -46,7 +46,7 @@ export type Props<
     & SelectInputContainerProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS,
         'name'
         | 'nonClearable'
-        | 'onClear'
+        | 'onClearButtonClick'
         | 'onOptionClick'
         | 'options'
         | 'optionKeySelector'
@@ -275,7 +275,7 @@ function SearchSelectInput<
             optionContainerClassName={styles.optionContainer}
             onOptionClick={handleOptionClick}
             valueDisplay={valueDisplay}
-            onClear={handleClear}
+            onClearButtonClick={handleClear}
             searchText={searchInputValue}
             onSearchTextChange={handleSearchValueChange}
             dropdownShown={showDropdown}

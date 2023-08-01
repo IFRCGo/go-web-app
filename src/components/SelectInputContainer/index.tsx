@@ -15,7 +15,6 @@ import GenericOption, {
     OptionKey,
     Props as GenericOptionProps,
 } from './GenericOption';
-import OptionGroup, { Props as OptionGroupProps } from './OptionGroup';
 import styles from './styles.module.css';
 
 export type SelectInputContainerProps<
@@ -54,19 +53,10 @@ export type SelectInputContainerProps<
         autoFocus?: boolean;
         hasValue: boolean;
         nonClearable?: boolean;
-        onClear: () => void;
+        onClearButtonClick: () => void;
         emptyMessage?: React.ReactNode;
     }, OMISSION>
     & Omit<InputContainerProps, 'input'>
-    & ({
-        grouped: true;
-        groupLabelSelector: (option: OPTION) => string;
-        groupKeySelector: (option: OPTION) => string | number;
-    } | {
-        grouped?: false;
-        groupLabelSelector?: undefined;
-        groupKeySelector?: undefined;
-    })
 );
 
 const emptyList: unknown[] = [];
@@ -109,7 +99,7 @@ function SelectInputContainer<
         placeholder,
         valueDisplay = '',
         nonClearable,
-        onClear,
+        onClearButtonClick: onClear,
         optionsPending = false,
         optionsFiltered = false,
         optionsErrored = false,
@@ -172,9 +162,7 @@ function SelectInputContainer<
         () => {
             onDropdownShownChange(false);
         },
-        [
-            onDropdownShownChange,
-        ],
+        [onDropdownShownChange],
     );
 
     const handleSearchInputClick = useCallback(
@@ -230,16 +218,6 @@ function SelectInputContainer<
         ],
     );
 
-    const groupRendererParams = useCallback(
-        (_: string | number, __: number, values: OPTION[]) => ({
-            // eslint-disable-next-line react/destructuring-assignment
-            title: props.grouped ? props.groupLabelSelector(values[0]) : '?',
-        }),
-        // FIXME: disabling because linter is not smart enough
-        // eslint-disable-next-line react-hooks/exhaustive-deps, react/destructuring-assignment
-        [props.grouped, props.groupLabelSelector],
-    );
-
     useBlurEffect(
         dropdownShown,
         handlePopupBlur,
@@ -267,50 +245,6 @@ function SelectInputContainer<
     const infoMessage = totalOptionsCount - optionsCount > 0
         ? `and ${totalOptionsCount - optionsCount} more`
         : undefined;
-
-    // eslint-disable-next-line react/destructuring-assignment
-    const popupContent = props.grouped ? (
-        <List<OPTION,
-            GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>,
-            OPTION_KEY,
-            OptionGroupProps,
-            string | number
-        >
-            className={styles.list}
-            data={options}
-            keySelector={optionKeySelector}
-            renderer={GenericOption}
-            rendererParams={optionListRendererParams}
-            grouped
-            groupRenderer={OptionGroup}
-            groupRendererParams={groupRendererParams}
-            // eslint-disable-next-line react/destructuring-assignment
-            groupKeySelector={props.groupKeySelector}
-            errored={optionsErrored}
-            filtered={optionsFiltered}
-            pending={optionsPending}
-            message={infoMessage}
-            emptyMessage={emptyMessage}
-            filteredMessage={emptyMessage}
-            compact
-        />
-    ) : (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        <List<OPTION, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>, OPTION_KEY, any, any>
-            className={styles.list}
-            data={options}
-            keySelector={optionKeySelector}
-            renderer={GenericOption}
-            rendererParams={optionListRendererParams}
-            errored={optionsErrored}
-            filtered={optionsFiltered}
-            pending={optionsPending}
-            message={infoMessage}
-            emptyMessage={emptyMessage}
-            filteredMessage={emptyMessage}
-            compact
-        />
-    );
 
     return (
         <>
@@ -382,7 +316,20 @@ function SelectInputContainer<
                     parentRef={inputSectionRef}
                     className={_cs(optionsPopupClassName, styles.popup)}
                 >
-                    {popupContent}
+                    <List<OPTION, OPTION_KEY, GenericOptionProps<RENDER_PROPS, OPTION_KEY, OPTION>>
+                        className={styles.list}
+                        data={options}
+                        keySelector={optionKeySelector}
+                        renderer={GenericOption}
+                        rendererParams={optionListRendererParams}
+                        errored={optionsErrored}
+                        filtered={optionsFiltered}
+                        pending={optionsPending}
+                        message={infoMessage}
+                        emptyMessage={emptyMessage}
+                        filteredMessage={emptyMessage}
+                        compact
+                    />
                 </Popup>
             )}
         </>

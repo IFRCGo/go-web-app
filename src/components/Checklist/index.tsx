@@ -5,13 +5,13 @@ import InputLabel from '#components/InputLabel';
 import InputError from '#components/InputError';
 import InputHint from '#components/InputHint';
 import List from '#components/List';
-import type { OptionKey } from '#components/List/common';
+import type { ListKey } from '#components/List';
 import Checkbox, { Props as CheckboxProps } from '#components/Checkbox';
 
 import styles from './styles.module.css';
 
 export interface Props<
-    KEY extends OptionKey,
+    KEY extends ListKey,
     NAME,
     OPTION extends object,
 > {
@@ -36,13 +36,12 @@ export interface Props<
 }
 
 function CheckList<
-    KEY extends OptionKey,
+    KEY extends ListKey,
     const NAME,
     OPTION extends object,
 >(props: Props<KEY, NAME, OPTION>) {
     const {
         className,
-        checkboxClassName,
         direction = 'horizontal',
         disabled,
         error,
@@ -54,6 +53,7 @@ function CheckList<
         labelContainerClassName,
         labelSelector,
         listContainerClassName,
+        checkboxClassName,
         name,
         onChange,
         options,
@@ -76,12 +76,14 @@ function CheckList<
         label: labelSelector(data),
         disabled,
         readOnly,
+        className: checkboxClassName,
     }), [
         value,
         handleCheck,
         labelSelector,
         disabled,
         readOnly,
+        checkboxClassName,
     ]);
 
     return (
@@ -99,14 +101,12 @@ function CheckList<
             >
                 {label}
             </InputLabel>
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            <List<OPTION, CheckboxProps<KEY>, KEY, any, any>
+            <List<OPTION, KEY, CheckboxProps<KEY>>
                 className={_cs(styles.checkListContainer, listContainerClassName)}
                 data={options}
                 keySelector={keySelector}
                 renderer={Checkbox}
                 rendererParams={optionListRendererParams}
-                rendererClassName={checkboxClassName}
                 pending={false}
                 errored={false}
                 filtered={false}
