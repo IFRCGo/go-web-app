@@ -37,7 +37,7 @@ import { isValidNationalSociety } from '#utils/common';
 import RouteContext from '#contexts/route';
 import ServerEnumsContext from '#contexts/server-enums';
 import type { paths } from '#generated/types';
-import { STEP_OVERVIEW, STEP_ASSESSMENT } from '#utils/per';
+import { PER_PHASE_OVERVIEW, PER_PHASE_ASSESSMENT } from '#utils/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
     numericIdSelector,
@@ -188,7 +188,7 @@ export function Component() {
                 refetchStatusResponse();
 
                 // Redirect from new form to edit route
-                if (isNotDefined(perId) && response.phase === STEP_OVERVIEW) {
+                if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
                     navigate(
                         generatePath(
                             perOverviewFormRoute.absolutePath,
@@ -198,7 +198,7 @@ export function Component() {
                 }
 
                 // Redirect to assessment form
-                if (response.phase === STEP_ASSESSMENT) {
+                if (response.phase === PER_PHASE_ASSESSMENT) {
                     navigate(
                         generatePath(
                             perAssessmentFormRoute.absolutePath,
@@ -247,7 +247,7 @@ export function Component() {
                 refetchStatusResponse();
 
                 // Redirect from new form to edit route
-                if (isNotDefined(perId) && response.phase === STEP_OVERVIEW) {
+                if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
                     navigate(
                         generatePath(
                             perOverviewFormRoute.absolutePath,
@@ -257,7 +257,7 @@ export function Component() {
                 }
 
                 // Redirect to assessment form
-                if (response.phase === STEP_ASSESSMENT) {
+                if (response.phase === PER_PHASE_ASSESSMENT) {
                     navigate(
                         generatePath(
                             perAssessmentFormRoute.absolutePath,
@@ -364,7 +364,7 @@ export function Component() {
                     confirmMessage={strings.submitConfirmMessage}
                     onConfirm={handleFormFinalSubmit}
                     disabled={(isDefined(statusResponse?.phase)
-                        && statusResponse?.phase !== STEP_OVERVIEW)
+                        && statusResponse?.phase !== PER_PHASE_OVERVIEW)
                         || savePerPending}
                 >
                     {strings.submitButtonLabel}

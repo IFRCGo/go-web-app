@@ -44,28 +44,28 @@
     --go-ui-width-screen-xl: 1280px;
     --go-ui-width-screen-2xl: 1536px;
 
-    --base-spacing: 0.75rem;
-    --go-ui-spacing-px: 1px;
+    --base-spacing: 0.8rem;
     --go-ui-spacing-3xs: calc(var(--base-spacing) * 0.125);
     --go-ui-spacing-2xs: calc(var(--base-spacing) * 0.25);
     --go-ui-spacing-xs: calc(var(--base-spacing) * 0.5);
     --go-ui-spacing-sm: calc(var(--base-spacing) * 0.75);
     --go-ui-spacing-md: calc(var(--base-spacing) * 1);
-    --go-ui-spacing-lg: calc(var(--base-spacing) * 1.25);
-    --go-ui-spacing-xl: calc(var(--base-spacing) * 1.5);
-    --go-ui-spacing-2xl: calc(var(--base-spacing) * 2);
-    --go-ui-spacing-3xl: calc(var(--base-spacing) * 3);
-    --go-ui-spacing-4xl: calc(var(--base-spacing) * 4);
-    --go-ui-spacing-5xl: calc(var(--base-spacing) * 5);
-    --go-ui-spacing-6xl: calc(var(--base-spacing) * 6);
-    --go-ui-spacing-7xl: calc(var(--base-spacing) * 7);
-    --go-ui-spacing-8xl: calc(var(--base-spacing) * 8);
-    --go-ui-spacing-9xl: calc(var(--base-spacing) * 9);
+    --go-ui-spacing-lg: calc(var(--base-spacing) * 1.5);
+    --go-ui-spacing-xl: calc(var(--base-spacing) * 2.1);
+    --go-ui-spacing-2xl: calc(var(--base-spacing) * 2.8);
+    --go-ui-spacing-3xl: calc(var(--base-spacing) * 3.6);
+    --go-ui-spacing-4xl: calc(var(--base-spacing) * 4.5);
+    --go-ui-spacing-5xl: calc(var(--base-spacing) * 5.5);
+    --go-ui-spacing-6xl: calc(var(--base-spacing) * 6.6);
+    --go-ui-spacing-7xl: calc(var(--base-spacing) * 7.8);
+    --go-ui-spacing-8xl: calc(var(--base-spacing) * 9.1);
+    --go-ui-spacing-9xl: calc(var(--base-spacing) * 10.5);
 
     --go-ui-width-separator-sm: 1pt;
     --go-ui-width-separator-md: 2pt;
     --go-ui-width-separator-lg: 4pt;
     --go-ui-width-separator-xl: 8pt;
+
     --go-ui-width-separator-thin: 1pt;
     --go-ui-width-separator-small: 2pt;
     --go-ui-width-separator-thick: 4pt;
@@ -166,6 +166,7 @@
     --go-ui-color-background: #f7f7f7;
     --go-ui-color-foreground: #ffffff;
     --go-ui-color-background-overlay: rgb(255 255 255 / .88);
+    --go-ui-color-background-hover: rgb(0 0 0 / .1);
 
     --go-ui-opacity-disabled-element: 0.5;
     --go-ui-opacity-chart-point: 0.8;

@@ -12,10 +12,10 @@ import { useRequest } from '#utils/restRequest';
 
 import {
     getCurrentPerProcessStep,
-    STEP_WORKPLAN,
-    STEP_PRIORITIZATION,
-    STEP_ASSESSMENT,
-    STEP_OVERVIEW,
+    PER_PHASE_WORKPLAN,
+    PER_PHASE_PRIORITIZATION,
+    PER_PHASE_ASSESSMENT,
+    PER_PHASE_OVERVIEW,
 } from '#utils/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 
@@ -48,7 +48,7 @@ export function Component() {
 
     const currentStep = statusResponse?.phase
         ?? getCurrentPerProcessStep(statusResponse)
-        ?? STEP_OVERVIEW;
+        ?? PER_PHASE_OVERVIEW;
 
     const actionDivRef = useRef<HTMLDivElement>(null);
     const outletContext: PerProcessOutletContext = useMemo(
@@ -84,7 +84,7 @@ export function Component() {
                     variant="step"
                 >
                     <NavigationTab
-                        stepCompleted={currentStep > STEP_OVERVIEW}
+                        stepCompleted={currentStep > PER_PHASE_OVERVIEW}
                         to={isDefined(perId)
                             ? generatePath(perOverviewFormRoute.absolutePath, { perId })
                             : newPerOverviewFormRoute.absolutePath}
@@ -92,24 +92,24 @@ export function Component() {
                         {strings.perFormTabOverviewLabel}
                     </NavigationTab>
                     <NavigationTab
-                        stepCompleted={currentStep > STEP_ASSESSMENT}
-                        to={isDefined(perId) && currentStep >= STEP_ASSESSMENT
+                        stepCompleted={currentStep > PER_PHASE_ASSESSMENT}
+                        to={isDefined(perId) && currentStep >= PER_PHASE_ASSESSMENT
                             ? generatePath(perAssessmentFormRoute.absolutePath, { perId })
                             : undefined}
                     >
                         {strings.perFormTabAssessmentLabel}
                     </NavigationTab>
                     <NavigationTab
-                        stepCompleted={currentStep > STEP_PRIORITIZATION}
-                        to={isDefined(perId) && currentStep >= STEP_PRIORITIZATION
+                        stepCompleted={currentStep > PER_PHASE_PRIORITIZATION}
+                        to={isDefined(perId) && currentStep >= PER_PHASE_PRIORITIZATION
                             ? generatePath(perPrioritizationFormRoute.absolutePath, { perId })
                             : undefined}
                     >
                         {strings.perFormTabPrioritizationLabel}
                     </NavigationTab>
                     <NavigationTab
-                        stepCompleted={currentStep > STEP_WORKPLAN}
-                        to={isDefined(perId) && currentStep >= STEP_WORKPLAN
+                        stepCompleted={currentStep > PER_PHASE_WORKPLAN}
+                        to={isDefined(perId) && currentStep >= PER_PHASE_WORKPLAN
                             ? generatePath(perWorkPlanFormRoute.absolutePath, { perId })
                             : undefined}
                     >

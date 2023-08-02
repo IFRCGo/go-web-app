@@ -44,7 +44,7 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { STEP_ASSESSMENT } from '#utils/per';
+import { PER_PHASE_ASSESSMENT } from '#utils/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 import type { paths } from '#generated/types';
 
@@ -280,7 +280,7 @@ export function Component() {
         || perOptionsPending
         || perAssesmentPending;
 
-    const readOnlyMode = currentPerStep !== STEP_ASSESSMENT;
+    const readOnlyMode = currentPerStep !== PER_PHASE_ASSESSMENT;
 
     return (
         <div
@@ -332,7 +332,7 @@ export function Component() {
                             disabled={isNotDefined(currentPerStep)
                                 || savePerPending
                                 || perAssesmentPending
-                                || currentPerStep !== STEP_ASSESSMENT}
+                                || currentPerStep !== PER_PHASE_ASSESSMENT}
                         >
                             {strings.submitAssessmentButtonLabel}
                         </ConfirmButton>

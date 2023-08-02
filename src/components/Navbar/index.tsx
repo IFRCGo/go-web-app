@@ -110,21 +110,29 @@ function Navbar(props: Props) {
                         label={strings.headerCreateAReportLabel}
                     >
                         <DropdownMenuItem
+                            type="link"
                             to="/"
-                            label={strings.headerDropdownNewFieldReport}
-                        />
+                        >
+                            {strings.headerDropdownNewFieldReport}
+                        </DropdownMenuItem>
                         <DropdownMenuItem
+                            type="link"
                             to="/"
-                            label={strings.headerDropdownNew3WActivity}
-                        />
+                        >
+                            {strings.headerDropdownNew3WActivity}
+                        </DropdownMenuItem>
                         <DropdownMenuItem
+                            type="link"
                             to={newDrefApplicationFormRoute.absolutePath}
-                            label={strings.headerDropdownNewDrefApplication}
-                        />
+                        >
+                            {strings.headerDropdownNewDrefApplication}
+                        </DropdownMenuItem>
                         <DropdownMenuItem
+                            type="link"
                             to="/"
-                            label={strings.headerDropdownNewFlashUpdate}
-                        />
+                        >
+                            {strings.headerDropdownNewFlashUpdate}
+                        </DropdownMenuItem>
                     </DropdownMenu>
                 </NavigationTabList>
             </PageContainer>

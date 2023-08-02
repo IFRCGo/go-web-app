@@ -7,13 +7,14 @@ import RawButton, { Props as RawButtonProps } from '#components/RawButton';
 import styles from './styles.module.css';
 
 // NOTE: Adding a 'tertiary-on-dark' to use 'tertiary' button on darker backgrounds
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'tertiary-on-dark';
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'tertiary-on-dark' | 'dropdown-item';
 
 const buttonVariantToClassNameMap: Record<ButtonVariant, string> = {
     primary: styles.primary,
     secondary: styles.secondary,
     tertiary: styles.tertiary,
     'tertiary-on-dark': styles.tertiaryOnDark,
+    'dropdown-item': styles.dropdownItem,
 };
 
 type SpacingType = NonNullable<LayoutProps['spacing']>;

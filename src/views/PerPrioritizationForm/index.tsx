@@ -37,7 +37,7 @@ import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { resolveToString } from '#utils/translation';
 import type { PerProcessOutletContext } from '#utils/outletContext';
-import { STEP_PRIORITIZATION } from '#utils/per';
+import { PER_PHASE_PRIORITIZATION } from '#utils/per';
 import {
     useLazyRequest,
     useRequest,
@@ -273,7 +273,7 @@ export function Component() {
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
 
-    const readOnlyMode = statusResponse?.phase !== STEP_PRIORITIZATION;
+    const readOnlyMode = statusResponse?.phase !== PER_PHASE_PRIORITIZATION;
 
     const sortedFormComponents = useMemo(
         () => (
@@ -351,11 +351,11 @@ export function Component() {
                         {sortOptions.map(
                             (sortOption) => (
                                 <DropdownMenuItem
+                                    type="button"
                                     key={sortOption.key}
                                     name={sortOption.key}
                                     onClick={setSortBy}
-                                    label={sortOption.label}
-                                    icon={(
+                                    icons={(
                                         <CheckLineIcon
                                             className={_cs(
                                                 styles.checkmark,
@@ -363,7 +363,9 @@ export function Component() {
                                             )}
                                         />
                                     )}
-                                />
+                                >
+                                    {sortOption.label}
+                                </DropdownMenuItem>
                             ),
                         )}
                     </DropdownMenu>
@@ -374,7 +376,7 @@ export function Component() {
                         variant="secondary"
                         onConfirm={handleFormFinalSubmit}
                         disabled={savePerPrioritizationPending
-                            || statusResponse?.phase !== STEP_PRIORITIZATION}
+                            || statusResponse?.phase !== PER_PHASE_PRIORITIZATION}
                         confirmHeading={strings.confirmHeading}
                         confirmMessage={strings.confirmMessage}
                     >

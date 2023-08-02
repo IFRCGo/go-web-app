@@ -19,7 +19,7 @@
             left: calc(var(--go-ui-spacing-md)*0.5);
             background-color: var(--go-ui-color-primary-red);
             width: calc(100% - var(--go-ui-spacing-md));
-            height: var(--go-ui-spacing-px);
+            height: var(--go-ui-width-separator-thin);
             animation: grow-h var(--go-ui-duration-animation-fast) ease-in;
         }
 
@@ -91,7 +91,7 @@
 
 .primary-tab-wrapper {
     display: flex;
-    border: var(--go-ui-spacing-px) solid transparent;
+    border: var(--go-ui-width-separator-thin) solid transparent;
     border-bottom-color: var(--go-ui-color-gray-30);
     padding: 0 var(--go-ui-spacing-xs);
 
@@ -117,10 +117,10 @@
 
     .step-circle {
         transition: var(--go-ui-duration-transition-slow) border-color ease-in-out;
-        border: calc(var(--go-ui-spacing-px)*2) solid transparent;
+        border: var(--go-ui-width-separator-md) solid transparent;
         border-radius: 50%;
         background-color: var(--go-ui-color-background);
-        padding: calc(var(--go-ui-spacing-px)* 4);
+        padding: var(--go-ui-spacing-xs);
 
         .inner-circle {
             display: flex;

@@ -29,7 +29,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 import type { PerProcessOutletContext } from '#utils/outletContext';
-import { STEP_WORKPLAN } from '#utils/per';
+import { PER_PHASE_WORKPLAN } from '#utils/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
@@ -304,7 +304,7 @@ export function Component() {
     const componentResponseError = getErrorObject(error?.component_responses);
     const customComponentError = getErrorObject(error?.custom_component_responses);
 
-    const readOnlyMode = statusResponse?.phase !== STEP_WORKPLAN;
+    const readOnlyMode = statusResponse?.phase !== PER_PHASE_WORKPLAN;
 
     return (
         <Container

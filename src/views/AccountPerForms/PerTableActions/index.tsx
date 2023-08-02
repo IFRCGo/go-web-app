@@ -1,31 +1,35 @@
 import {
     useContext,
     useCallback,
+    useMemo,
 } from 'react';
 import { generatePath } from 'react-router-dom';
 import { isDefined } from '@togglecorp/fujs';
 
+import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
 import TableActions from '#components/Table/TableActions';
 import {
-    STEP_OVERVIEW,
-    STEP_ASSESSMENT,
-    STEP_PRIORITIZATION,
-    STEP_WORKPLAN,
-    STEP_ACTION,
+    PER_PHASE_OVERVIEW,
+    PER_PHASE_ASSESSMENT,
+    PER_PHASE_PRIORITIZATION,
+    PER_PHASE_WORKPLAN,
+    PER_PHASE_ACTION,
 } from '#utils/per';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import RouteContext from '#contexts/route';
+import ServerEnumsContext from '#contexts/server-enums';
 import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
 
 type AggregatedPerProcessStatusResponse = paths['/api/v2/aggregated-per-process-status/']['get']['responses']['200']['content']['application/json'];
 type AggregatedPerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
+type PerPhase = AggregatedPerProcessStatusItem['phase'];
 
 export interface Props {
-    phase: AggregatedPerProcessStatusItem['phase'];
+    phase: PerPhase;
     phaseDisplay: string | undefined;
     perId: number;
 }
@@ -38,6 +42,7 @@ function PerTableActions(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
+    const { per_perphases } = useContext(ServerEnumsContext);
     const {
         perOverviewForm: perOverviewFormRoute,
         perAssessmentForm: perAssessmentFormRoute,
@@ -45,61 +50,73 @@ function PerTableActions(props: Props) {
         perWorkPlanForm: perWorkPlanFormRoute,
     } = useContext(RouteContext);
 
+    const perPhaseUrl = useMemo<Record<NonNullable<PerPhase>, string | undefined>>(
+        () => ({
+            [PER_PHASE_OVERVIEW]: generatePath(perOverviewFormRoute.absolutePath, { perId }),
+            [PER_PHASE_ASSESSMENT]: generatePath(perAssessmentFormRoute.absolutePath, { perId }),
+            [PER_PHASE_PRIORITIZATION]: generatePath(
+                perPrioritizationFormRoute.absolutePath,
+                { perId },
+            ),
+            [PER_PHASE_WORKPLAN]: generatePath(perWorkPlanFormRoute.absolutePath, { perId }),
+            [PER_PHASE_ACTION]: undefined,
+        }),
+        [
+            perId,
+            perAssessmentFormRoute,
+            perOverviewFormRoute,
+            perPrioritizationFormRoute,
+            perWorkPlanFormRoute,
+        ],
+    );
+
     const getRouteUrl = useCallback(
         (currentPhase: number) => {
-            if (currentPhase === STEP_OVERVIEW) {
-                return generatePath(
-                    perOverviewFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            if (currentPhase === STEP_ASSESSMENT) {
-                return generatePath(
-                    perAssessmentFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            if (currentPhase === STEP_PRIORITIZATION) {
-                return generatePath(
-                    perPrioritizationFormRoute.absolutePath,
-                    { perId },
-                );
-            }
-
-            if (currentPhase === STEP_WORKPLAN) {
-                return generatePath(
-                    perWorkPlanFormRoute.absolutePath,
-                    { perId },
-                );
+            if (currentPhase === PER_PHASE_OVERVIEW
+                || currentPhase === PER_PHASE_ASSESSMENT
+                || currentPhase === PER_PHASE_PRIORITIZATION
+                || currentPhase === PER_PHASE_WORKPLAN
+            ) {
+                return perPhaseUrl[currentPhase];
             }
 
             return undefined;
         },
-        [
-            perOverviewFormRoute,
-            perAssessmentFormRoute,
-            perPrioritizationFormRoute,
-            perWorkPlanFormRoute,
-            perId,
-        ],
+        [perPhaseUrl],
     );
 
     return (
-        <TableActions>
-            {isDefined(phase) && phase <= STEP_WORKPLAN && (
+        <TableActions
+            extraActions={per_perphases?.map(
+                (perPhase) => (
+                    <DropdownMenuItem
+                        type="link"
+                        to={getRouteUrl(perPhase.key)}
+                    >
+                        {phase === perPhase.key && phase !== PER_PHASE_ACTION
+                            ? resolveToString(
+                                strings.tableActionEditLabel,
+                                { phaseDisplay: perPhase.value },
+                            ) : resolveToString(
+                                strings.tableActionViewLabel,
+                                { phaseDisplay: perPhase.value },
+                            )}
+                    </DropdownMenuItem>
+                ),
+            )}
+        >
+            {isDefined(phase) && phase <= PER_PHASE_WORKPLAN && (
                 <Link
                     to={getRouteUrl(phase)}
                     withUnderline
                 >
                     {resolveToString(
-                        strings.tableEditLabel,
+                        strings.tableActionEditLabel,
                         { phaseDisplay },
                     )}
                 </Link>
             )}
-            {isDefined(phase) && phase === STEP_ACTION && (
+            {isDefined(phase) && phase === PER_PHASE_ACTION && (
                 <Link
                     variant="secondary"
                     to={generatePath(
@@ -107,7 +124,7 @@ function PerTableActions(props: Props) {
                         { perId },
                     )}
                 >
-                    {strings.tableViewWorkPlan}
+                    {strings.tableActionViewWorkPlan}
                 </Link>
             )}
         </TableActions>

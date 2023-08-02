@@ -28,17 +28,21 @@ function ThreeWTableActions(props: Props) {
                 extraActions={(
                     <>
                         <DropdownMenuItem
+                            type="link"
                             // TODO: use routes
                             to={`/emergency-three-w/${threeWId}/`}
-                            icon={<ShareBoxLineIcon />}
-                            label={strings.threeWViewDetails}
-                        />
+                            icons={<ShareBoxLineIcon />}
+                        >
+                            {strings.threeWViewDetails}
+                        </DropdownMenuItem>
                         <DropdownMenuItem
+                            type="link"
                             // TODO: use routes
                             to={`/emergency-three-w/${threeWId}/edit/`}
-                            icon={<PencilFillIcon />}
-                            label={strings.threeWEdit}
-                        />
+                            icons={<PencilFillIcon />}
+                        >
+                            {strings.threeWEdit}
+                        </DropdownMenuItem>
                     </>
                 )}
             />
@@ -50,24 +54,30 @@ function ThreeWTableActions(props: Props) {
             extraActions={(
                 <>
                     <DropdownMenuItem
+                        type="link"
                         // TODO; use routes
                         to={`/three-w/${threeWId}/`}
-                        label={strings.threeWViewDetails}
-                        icon={<ShareBoxLineIcon />}
-                    />
+                        icons={<ShareBoxLineIcon />}
+                    >
+                        {strings.threeWViewDetails}
+                    </DropdownMenuItem>
                     <DropdownMenuItem
+                        type="link"
                         // TODO; use routes
                         to={`/three-w/${threeWId}/edit/`}
-                        icon={<PencilFillIcon />}
-                        label={strings.threeWEdit}
-                    />
+                        icons={<PencilFillIcon />}
+                    >
+                        {strings.threeWEdit}
+                    </DropdownMenuItem>
                     <DropdownMenuItem
+                        type="link"
                         // TODO: implement duplication logic
                         // TODO: use routes
                         to="/three-w/new/"
-                        icon={<CopyLineIcon />}
-                        label={strings.threeWDuplicate}
-                    />
+                        icons={<CopyLineIcon />}
+                    >
+                        {strings.threeWDuplicate}
+                    </DropdownMenuItem>
                 </>
             )}
         />

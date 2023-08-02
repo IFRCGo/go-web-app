@@ -1,7 +1,8 @@
 {
     "namespace":"accountPerForms",
     "strings":{
-        "tableEditLabel": "Edit {phaseDisplay}",
-        "tableViewWorkPlan": "View Work Plan"
+        "tableActionEditLabel": "Edit {phaseDisplay}",
+        "tableActionViewLabel": "View {phaseDisplay}",
+        "tableActionViewWorkPlan": "View Work Plan"
     }
 }
