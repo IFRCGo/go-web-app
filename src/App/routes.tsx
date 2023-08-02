@@ -352,7 +352,7 @@ const countryThreeWDetails = customWrapRoute({
     parent: root,
     wrapperComponent: Auth,
     context: {
-        title: 'ThreeW Detail',
+        title: 'ThreeW Details',
         visibility: 'anything',
     },
 });

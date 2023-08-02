@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { generatePath, useParams } from 'react-router-dom';
 import { PencilFillIcon } from '@ifrc-go/icons';
-import { isNotDefined } from '@togglecorp/fujs';
+import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
@@ -33,9 +33,10 @@ export function Component() {
     });
 
     const {
+        countryThreeW: countryThreeWRoute,
         country: countryRoute,
         threeW: threeWRoute,
-        emergencies: emergenciesRoute,
+        emergency: emergencyRoute,
     } = useContext(RouteContext);
 
     return (
@@ -73,62 +74,59 @@ export function Component() {
                         value={(
                             <Link
                                 className={styles.countryLink}
-                                to={projectResponse?.reporting_ns_detail
+                                to={projectResponse?.reporting_ns_detail.id
                                     ? generatePath(
-                                        countryRoute.absolutePath,
+                                        countryThreeWRoute.absolutePath,
                                         {
-                                            countryId: projectResponse
-                                                ?.reporting_ns_detail?.id ?? 0,
+                                            countryId: projectResponse?.reporting_ns_detail.id,
                                         },
                                     ) : undefined}
                             >
-                                {projectResponse?.project_country_detail?.society_name}
+                                {projectResponse?.reporting_ns_detail?.society_name}
                             </Link>
                         )}
                     />
                     <TextOutput
                         label={strings.countryAndRegionTitle}
-                        value={
-                            (
-                                <>
-                                    <Link
-                                        className={styles.countryLink}
-                                        to={projectResponse?.project_country_detail
-                                            ? generatePath(
-                                                emergenciesRoute.absolutePath,
-                                                {
-                                                    countryId: projectResponse
-                                                        ?.project_country_detail?.id ?? 0,
-                                                },
-                                            ) : undefined}
-                                    >
-                                        {projectResponse?.project_country_detail?.name}
-                                    </Link>
-                                    {projectResponse?.project_districts_detail?.map((district) => district?.name).join(', ')}
-                                </>
-                            )
-                        }
-                    />
-                    {projectResponse?.reporting_ns_contact_name === null ? ''
-                        : (
+                        value={(
                             <>
-                                <TextOutput
-                                    label={strings.nSContactTitle}
-                                    value={
-                                        `${projectResponse?.reporting_ns_contact_name ?? ''}
-                                            ,
-                                             ${projectResponse?.reporting_ns_contact_role ?? ''}`
-                                    }
-                                />
-                                <TextOutput
-                                    label={strings.nsContactLabel}
-                                    value={projectResponse?.reporting_ns_contact_email}
-                                />
+                                <Link
+                                    className={styles.countryLink}
+                                    to={projectResponse?.project_country_detail.id
+                                        ? generatePath(
+                                            countryRoute.absolutePath,
+                                            {
+                                                countryId: projectResponse
+                                                    ?.project_country_detail.id,
+                                            },
+                                        ) : undefined}
+                                >
+                                    {projectResponse?.project_country_detail?.name}
+                                </Link>
+                                {projectResponse?.project_districts_detail
+                                    ? `, ${projectResponse?.project_districts_detail?.map((district) => district?.name).join(',')}`
+                                    : undefined}
                             </>
                         )}
+                    />
+                    {isDefined(projectResponse?.reporting_ns_contact_name) && (
+                        <>
+                            <TextOutput
+                                label={strings.nSContactTitle}
+                                value={[
+                                    projectResponse?.reporting_ns_contact_name,
+                                    projectResponse?.reporting_ns_contact_role,
+                                ].filter(Boolean).join(', ')}
+                            />
+                            <TextOutput
+                                label={strings.nsContactLabel}
+                                value={projectResponse?.reporting_ns_contact_email}
+                            />
+                        </>
+                    )}
                     <TextOutput
                         label={strings.projectTypeLabel}
-                        value={projectResponse?.operation_type_display ?? 0}
+                        value={projectResponse?.operation_type_display}
                     />
                     <TextOutput
                         label={strings.programmeTypeLabel}
@@ -136,16 +134,19 @@ export function Component() {
                     />
                     <TextOutput
                         label={strings.linkedOperationLabel}
-                        value={projectResponse?.event_detail
-                            ? (
-                                <Link
-                                    className={styles.countryLink}
-                                    to={emergenciesRoute.absolutePath
-                                        + (projectResponse?.event_detail?.id ?? 0)}
-                                >
-                                    {projectResponse?.event_detail?.name}
-                                </Link>
-                            ) : ''}
+                        value={(
+                            <Link
+                                className={styles.countryLink}
+                                to={projectResponse?.event_detail.id ? generatePath(
+                                    emergencyRoute.absolutePath,
+                                    {
+                                        emergencyId: projectResponse?.event_detail?.id,
+                                    },
+                                ) : undefined}
+                            >
+                                {projectResponse?.event_detail?.name}
+                            </Link>
+                        )}
                     />
                     <TextOutput
                         label={strings.disasterTypeLabel}
@@ -156,16 +157,14 @@ export function Component() {
                         value={projectResponse?.primary_sector_display}
                     />
                     <TextOutput
-                        label={
-                            (
-                                <>
-                                    {strings.tagsTitle}
-                                    <Tooltip>
-                                        {strings.threeWTagsTooltip}
-                                    </Tooltip>
-                                </>
-                            )
-                        }
+                        label={(
+                            <>
+                                {strings.tagsTitle}
+                                <Tooltip>
+                                    {strings.threeWTagsTooltip}
+                                </Tooltip>
+                            </>
+                        )}
                         value={projectResponse?.secondary_sectors_display}
                     />
                     <TextOutput
@@ -191,6 +190,7 @@ export function Component() {
                 <div className={styles.separator} />
                 {projectResponse?.annual_split_detail?.map((split) => (
                     <Container
+                        key={split.id}
                         childrenContainerClassName={styles.projectDetails}
                     >
                         <TextOutput
