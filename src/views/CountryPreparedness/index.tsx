@@ -1,6 +1,6 @@
 import { Fragment, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { CheckboxFillIcon } from '@ifrc-go/icons';
 import {
     compareNumber,
     isDefined,
@@ -10,12 +10,16 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
+import BlockLoading from '#components/BlockLoading';
+import Message from '#components/Message';
+import Link from '#components/Link';
+import BarChart from '#components/BarChart';
+import Heading from '#components/Heading';
 import { sumSafe } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
 import PieChart from '#views/GlobalThreeW/PieChart';
 import useTranslation from '#hooks/useTranslation';
 import KeyFigure from '#components/KeyFigure';
-
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import ProgressBar from '#components/ProgressBar';
@@ -84,7 +88,10 @@ export function Component() {
         },
     });
 
-    const { response: overviewResponse } = useRequest({
+    const {
+        response: overviewResponse,
+        pending: pendingOverviewResponse,
+    } = useRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-overview/{id}/',
         pathVariables: {
@@ -139,8 +146,12 @@ export function Component() {
 
             const topRatedComponents = [...componentList].sort(
                 (a, b) => (
-                    compareNumber(a.rating.value, b.rating.value, -1)
+                    compareNumber(a.rating?.value ?? 0, b.rating?.value ?? 0, -1)
                 ),
+            );
+
+            const topFiveRatedComponents = topRatedComponents.filter(
+                (component) => isDefined(component.rating),
             ).slice(0, 5);
 
             function getAverage(list: number[]) {
@@ -158,7 +169,7 @@ export function Component() {
 
             const ratingByArea = mapToList(
                 listToGroupList(
-                    componentList,
+                    componentList.filter((component) => isDefined(component.area)),
                     (component) => component.area.id,
                 ),
                 (groupedComponentList) => ({
@@ -166,25 +177,25 @@ export function Component() {
                     areaNum: groupedComponentList[0].area.area_num,
                     title: groupedComponentList[0].area.title,
                     value: getAverage(
-                        groupedComponentList.map((component) => component.rating.value),
+                        groupedComponentList.map((component) => component.rating?.value),
                     ),
                 }),
-            );
+            ).filter(isDefined);
 
             const averageRating = getAverage(
-                componentList.map((component) => component.rating.value),
+                componentList.map((component) => component.rating?.value),
             );
 
             const ratingCounts = mapToList(
                 listToGroupList(
-                    componentList,
+                    componentList.filter((component) => isDefined(component.rating)),
                     (component) => component.rating.value,
                 ),
                 (ratingList) => ({
-                    id: ratingList[0].rating.id,
-                    value: ratingList[0].rating.value,
+                    id: ratingList[0].rating?.id,
+                    value: ratingList[0].rating?.value,
                     count: ratingList.length,
-                    title: ratingList[0].rating.title,
+                    title: ratingList[0].rating?.title,
                 }),
             ).sort((a, b) => (
                 compareNumber(a.value, b.value, -1)
@@ -216,6 +227,7 @@ export function Component() {
                 answerCounts,
                 ratingByArea,
                 topRatedComponents,
+                topFiveRatedComponents,
                 componentList,
             };
         },
@@ -249,6 +261,9 @@ export function Component() {
         [prioritizationResponse, assessmentStats],
     );
 
+    const perTeamEmail = '';
+    const hasPer = !pendingOverviewResponse && overviewResponse;
+
     return (
         <Container
             className={styles.countryPreparedness}
@@ -256,139 +271,182 @@ export function Component() {
             heading={strings.nsPreparednessAndResponseCapacityHeading}
             headingLevel={2}
         >
-            <div className={styles.latestPerDetails}>
-                <TextOutput
-                    label={strings.startDateLabel}
-                    value={overviewResponse?.date_of_assessment}
-                    valueType="date"
+            {pendingOverviewResponse && (
+                <BlockLoading />
+            )}
+            {!hasPer && (
+                <Message
+                    compact
+                    message="PER not available for this Country!"
                 />
-                <TextOutput
-                    label={strings.perPhaseLabel}
-                    value={processStatusResponse?.phase_display}
-                />
-                <TextOutput
-                    label={strings.focalPointNameLabel}
-                    value={overviewResponse?.ns_focal_point_name}
-                />
-                <TextOutput
-                    label={strings.perCycleLabel}
-                    value={overviewResponse?.phase}
-                    valueType="number"
-                />
-                <TextOutput
-                    label={strings.typeOfAssessmentLabel}
-                    value={overviewResponse?.type_of_assessment_details?.name}
-                />
-                <TextOutput
-                    label={strings.focalPointEmailLitle}
-                    value={overviewResponse?.ns_focal_point_email}
-                />
-            </div>
-            <Container
-                heading={strings.perAssessmentHeading}
-                withHeaderBorder
-                childrenContainerClassName={styles.assessmentResultsContent}
-            >
-                <PieChart
-                    data={assessmentStats?.ratingCounts ?? []}
-                    valueSelector={numericCountSelector}
-                    labelSelector={stringTitleSelector}
-                    keySelector={numericIdSelector}
-                    colors={primaryRedColorShades}
-                />
-            </Container>
-            <Container
-                heading={strings.totalBenchmarkSummaryHeading}
-                childrenContainerClassName={styles.benchmarkSummaryContent}
-                withHeaderBorder
-            >
-                <StackedProgressBar
-                    data={assessmentStats?.answerCounts ?? []}
-                    valueSelector={(answerCount) => answerCount.count}
-                    labelSelector={(answerCount) => `${answerCount.count} ${answerCount.label}`}
-                    colorSelector={primaryRedColorShadeSelector}
-                />
-                <KeyFigure
-                    value={assessmentStats?.averageRating}
-                    description={strings.averageComponentRatingLabel}
-                />
-            </Container>
-            <Container
-                heading={strings.componentsByAreaHeading}
-                withHeaderBorder
-            >
-                <RatingByAreaChart
-                    ratingOptions={perOptionsResponse?.componentratings}
-                    formAreaOptions={perFormAreaResponse?.results}
-                    data={assessmentStats?.ratingByArea}
-                />
-            </Container>
-            <Container
-                heading={strings.previousPerAssessmentHeading}
-                withHeaderBorder
-            >
-                Chart not available
-            </Container>
-            <Container
-                heading={strings.highlightedTopRatedComponentHeading}
-                withHeaderBorder
-                childrenContainerClassName={styles.topRatedComponentContent}
-            >
-                {assessmentStats?.topRatedComponents.map(
-                    (component) => (
-                        <Container
-                            key={component.details.id}
-                            className={styles.topRatedComponent}
-                            heading={component.rating.title}
-                            headingLevel={5}
-                            withHeaderBorder
-                            withInternalPadding
+            )}
+            {hasPer && (
+                <div className={styles.latestPerDetails}>
+                    <TextOutput
+                        label={strings.startDateLabel}
+                        value={overviewResponse?.date_of_assessment}
+                        valueType="date"
+                        strongValue
+                    />
+                    <TextOutput
+                        label={strings.perPhaseLabel}
+                        value={processStatusResponse?.phase_display}
+                        strongValue
+                    />
+                    <TextOutput
+                        label={strings.focalPointNameLabel}
+                        value={overviewResponse?.ns_focal_point_name}
+                        strongValue
+                    />
+                    <TextOutput
+                        label={strings.perCycleLabel}
+                        value={overviewResponse?.phase}
+                        valueType="number"
+                        strongValue
+                    />
+                    <TextOutput
+                        label={strings.typeOfAssessmentLabel}
+                        value={overviewResponse?.type_of_assessment_details?.name}
+                        strongValue
+                    />
+                    <TextOutput
+                        label={strings.focalPointEmailLitle}
+                        value={overviewResponse?.ns_focal_point_email}
+                        strongValue
+                    />
+                    <div className={styles.contactContainer}>
+                        <Link
+                            to={perTeamEmail}
+                            variant="secondary"
                         >
-                            {component.details.title}
-                        </Container>
-                    ),
-                )}
-            </Container>
-            <Container
-                heading={strings.priorityComponentToBeStrengthenedHeading}
-                childrenContainerClassName={styles.priorityComponentsContent}
-                withHeaderBorder
-            >
-                {prioritizationStats?.componentsWithRating?.map(
-                    (component) => (
-                        <ProgressBar
-                            className={styles.priorityComponent}
-                            value={component.rating?.value ?? 0}
-                            totalValue={5}
-                            title={component.details.title}
-                        />
-                    ),
-                )}
-            </Container>
-            <Container
-                className={styles.ratingResults}
-                heading={strings.componentRatingResultsHeading}
-                withHeaderBorder
-                childrenContainerClassName={styles.ratingResultsContent}
-            >
-                {assessmentStats?.componentList.map(
-                    (component) => (
-                        <Fragment
-                            key={component.details.id}
-                        >
-                            <ProgressBar
-                                value={component.rating.value}
-                                totalValue={5}
-                                title={`${component.details.component_num}: ${component.details.title}`}
-                            />
-                            <div className={styles.rating}>
-                                {`${component.rating.value} - ${component.rating.title}`}
-                            </div>
-                            <div />
-                        </Fragment>
-                    ),
-                )}
-            </Container>
+                            Contact PER Team
+                        </Link>
+                    </div>
+                </div>
+            )}
+            {hasPer && assessmentStats && (
+                <Container
+                    heading={strings.perAssessmentHeading}
+                    withHeaderBorder
+                    childrenContainerClassName={styles.assessmentResultsContent}
+                >
+                    <PieChart
+                        data={assessmentStats.ratingCounts}
+                        valueSelector={numericCountSelector}
+                        labelSelector={stringTitleSelector}
+                        keySelector={numericIdSelector}
+                        colors={primaryRedColorShades}
+                    />
+                </Container>
+            )}
+            {hasPer && assessmentStats && (
+                <Container
+                    heading={strings.totalBenchmarkSummaryHeading}
+                    childrenContainerClassName={styles.benchmarkSummaryContent}
+                    withHeaderBorder
+                >
+                    <StackedProgressBar
+                        data={assessmentStats.answerCounts}
+                        // FIXME: no inline functions
+                        valueSelector={(answerCount) => answerCount.count}
+                        labelSelector={(answerCount) => `${answerCount.count} ${answerCount.label}`}
+                        colorSelector={primaryRedColorShadeSelector}
+                    />
+                    <KeyFigure
+                        value={assessmentStats?.averageRating}
+                        description={strings.averageComponentRatingLabel}
+                    />
+                </Container>
+            )}
+            {hasPer && perOptionsResponse && perFormAreaResponse && assessmentStats && (
+                <Container
+                    heading={strings.componentsByAreaHeading}
+                    withHeaderBorder
+                >
+                    <RatingByAreaChart
+                        ratingOptions={perOptionsResponse.componentratings}
+                        formAreaOptions={perFormAreaResponse.results}
+                        data={assessmentStats.ratingByArea}
+                    />
+                </Container>
+            )}
+            {hasPer && (
+                <Container
+                    heading={strings.previousPerAssessmentHeading}
+                    withHeaderBorder
+                >
+                    Chart not available
+                </Container>
+            )}
+            {hasPer && assessmentStats && (
+                <Container
+                    heading={strings.highlightedTopRatedComponentHeading}
+                    withHeaderBorder
+                    childrenContainerClassName={styles.topRatedComponentContent}
+                >
+                    {assessmentStats.topFiveRatedComponents.map(
+                        (component) => (
+                            <Container
+                                key={component.details.id}
+                                className={styles.topRatedComponent}
+                                heading={component.rating.title}
+                                headingLevel={5}
+                                withHeaderBorder
+                                withInternalPadding
+                                icons={<CheckboxFillIcon className={styles.icon} />}
+                            >
+                                {component.details.title}
+                            </Container>
+                        ),
+                    )}
+                </Container>
+            )}
+            {hasPer && prioritizationStats && (
+                <Container
+                    heading={strings.priorityComponentToBeStrengthenedHeading}
+                    childrenContainerClassName={styles.priorityComponentsContent}
+                    withHeaderBorder
+                >
+                    <BarChart
+                        data={prioritizationStats.componentsWithRating}
+                        keySelector={numericIdSelector}
+                        labelSelector={(component) => component.details.title}
+                        valueSelector={(component) => component.rating?.value ?? 0}
+                    />
+                </Container>
+            )}
+            {hasPer && assessmentStats && (
+                <Container
+                    className={styles.ratingResults}
+                    heading={strings.componentRatingResultsHeading}
+                    withHeaderBorder
+                    childrenContainerClassName={styles.ratingResultsContent}
+                >
+                    {assessmentStats.topRatedComponents.map(
+                        (component) => (
+                            <Fragment
+                                key={component.details.id}
+                            >
+                                <Heading level={5}>
+                                    {`${component.details.component_num}: ${component.details.title}`}
+                                </Heading>
+                                <ProgressBar
+                                    value={component.rating?.value}
+                                    totalValue={5}
+                                    title={isDefined(component.rating) ? (
+                                        `${component.rating?.value} - ${component.rating?.title}`
+                                    ) : '0 - Not Reviewed'}
+                                />
+                                <div>
+                                    {/* FIXME: this shoule be the notes by user */}
+                                    {component.details.description}
+                                </div>
+                                <div className={styles.separator} />
+                            </Fragment>
+                        ),
+                    )}
+                </Container>
+            )}
         </Container>
     );
 }

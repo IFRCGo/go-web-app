@@ -48,6 +48,9 @@ export const overviewSchema: OverviewFormSchema = {
             type_of_assessment: {},
             type_of_previous_assessment: { forceValue: undefinedValue },
 
+            workplan_development_date: {},
+            workplan_revision_date: {},
+
             facilitator_name: {},
             facilitator_email: { validations: [emailCondition] },
             facilitator_phone: {},

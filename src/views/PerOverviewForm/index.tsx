@@ -338,8 +338,14 @@ export function Component() {
         [perId, updatePerOverview, createPerOverview],
     );
 
-    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
-    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
+    const handleFormSubmit = useMemo(
+        () => createSubmitHandler(validate, setError, handleSubmit),
+        [validate, setError, handleSubmit],
+    );
+    const handleFormFinalSubmit = useMemo(
+        () => createSubmitHandler(validate, setError, handleFinalSubmit),
+        [validate, setError, handleFinalSubmit],
+    );
     const error = getErrorObject(formError);
 
     const readOnlyMode = value?.is_draft === false;
@@ -408,7 +414,6 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_orientation}
                         error={error?.date_of_orientation}
-                        readOnly={readOnlyMode}
                     />
                 </InputSection>
                 <InputSection
@@ -424,7 +429,6 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={getErrorString(error?.orientation_documents)}
-                        readOnly={readOnlyMode}
                     >
                         {strings.uploadButtonLabel}
                     </GoMultiFileInput>
@@ -765,9 +769,7 @@ export function Component() {
                         name={undefined}
                         variant="secondary"
                         onClick={handleFormSubmit}
-                        disabled={(isDefined(statusResponse?.phase)
-                            && statusResponse?.phase !== STEP_OVERVIEW)
-                                || savePerPending}
+                        disabled={savePerPending}
                     >
                         {strings.saveButtonLabel}
                     </Button>

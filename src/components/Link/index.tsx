@@ -4,6 +4,7 @@ import {
     isValidUrl,
     isNotDefined,
     isDefined,
+    isFalsyString,
 } from '@togglecorp/fujs';
 import {
     Link as InternalLink,
@@ -56,7 +57,7 @@ function Link(props: Props) {
     } = props;
 
     const children = useMemo(() => {
-        if (isNotDefined(to)) {
+        if (isFalsyString(to)) {
             return childrenFromProps;
         }
 
