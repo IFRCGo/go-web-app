@@ -3,16 +3,15 @@
     "strings": {
         "cumulativeCasesLabel": "Cumulative Cases",
         "suspectedCasesLabel": "Suspected Cases",
-        "assistedRcLabel": "Assisted (RC)",
-        "cumulativeDeadLabel": "Cumulative Dead",
+        "probableCasesLabel": "Probable Cases",
+        "confirmedCasesLabel": "Confirmed Cases",
+        "deadLabel": "Dead",
+        "assistedRCLabel": "Assisted (RC)",
         "assistedGovernmentLabel": "Assisted (Government)",
-        "numberOfCasesLabel": "Number of new cases since last Field Report",
         "assistedOtherLabel": "Assisted (Other)",
-        "numberOfNewDeathsLabel":"Number of new deaths since last Field Report",
-        "localStaff": "Local Staff",
-        "sourceLabel": "Source",
-        "notesLabel": "Notes",
-        "sourcesForDataMarkedLabel": "Sources for data marked as Other",
-        "dateOfData": "Date of Date"
+        "localStaffLabel": "Local Staff",
+        "volunteersLabel": "Volunteers",
+        "delegatesLabel": "Delegates",
+        "sourceLabel": "Source"
     }
 }

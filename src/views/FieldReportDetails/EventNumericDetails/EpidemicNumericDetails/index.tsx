@@ -26,48 +26,45 @@ function EpidemicNumericDetails(props: Props) {
                 value={value?.epi_suspected_cases}
             />
             <KeyFigure
-                description={strings.assistedRcLabel}
-                value={value?.num_assisted}
+                description={strings.probableCasesLabel}
+                value={value?.epi_probable_cases}
             />
             <KeyFigure
-                description={strings.cumulativeDeadLabel}
+                description={strings.confirmedCasesLabel}
+                value={value?.epi_confirmed_cases}
+            />
+            <KeyFigure
+                description={strings.deadLabel}
                 value={value?.epi_num_dead}
+            />
+            <KeyFigure
+                description={strings.assistedRCLabel}
+                value={value?.num_assisted}
             />
             <KeyFigure
                 description={strings.assistedGovernmentLabel}
                 value={value?.gov_num_assisted}
             />
             <KeyFigure
-                description={strings.numberOfCasesLabel}
-                value={value?.epi_cases_since_last_fr}
-            />
-            <KeyFigure
                 description={strings.assistedOtherLabel}
                 value={value?.other_num_assisted}
             />
             <KeyFigure
-                description={strings.numberOfNewDeathsLabel}
-                value={value?.epi_deaths_since_last_fr}
+                description={strings.volunteersLabel}
+                value={value?.num_localstaff}
             />
             <KeyFigure
-                description={strings.localStaff}
-                value={value?.num_localstaff}
+                description={strings.volunteersLabel}
+                value={value?.num_volunteers}
+            />
+            <KeyFigure
+                description={strings.delegatesLabel}
+                value={value?.num_expats_delegates}
             />
             <TextOutput
                 label={strings.sourceLabel}
-                value={value?.sources?.map((source) => source?.stype)}
-            />
-            <TextOutput
-                label={strings.notesLabel}
-                value={value?.epi_notes_since_last_fr}
-            />
-            <TextOutput
-                label={strings.sourcesForDataMarkedLabel}
                 value={value?.other_sources}
-            />
-            <TextOutput
-                label={strings.dateOfData}
-                value={value?.sit_fields_date}
+                strongLabel
             />
         </>
     );

@@ -4,7 +4,9 @@ import {
     isDefined,
     isNotDefined,
     isTruthyString,
+    listToGroupList,
     listToMap,
+    mapToList,
 } from '@togglecorp/fujs';
 import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 
@@ -228,24 +230,27 @@ export function Component() {
                         withHeaderBorder
                         className={styles.actionsTaken}
                     >
-                        {/* TODO: This section should be shown differently for COVID reports
-                            We should group by `action.category` first an then show the list
-                        */}
-                        <div className={styles.actionList}>
-                            {actionTaken.actions?.map(
-                                (action) => (
-                                    <div
-                                        key={action.id}
-                                        className={styles.actionCategory}
-                                    >
-                                        <CheckboxCircleLineIcon className={styles.icon} />
-                                        <div className={styles.label}>
-                                            {action.name}
-                                        </div>
+                        {
+                            mapToList(listToGroupList(actionTaken?.actions, (d) => d.category ?? ''))?.map((value) => {
+                                return (
+                                    <div className={styles.actionList}>
+                                        {value?.map(
+                                            (action) => (
+                                                <div
+                                                    key={action.id}
+                                                    className={styles.actionCategory}
+                                                >
+                                                    <CheckboxCircleLineIcon className={styles.icon} />
+                                                    <div className={styles.label}>
+                                                        {action.name}
+                                                    </div>
+                                                </div>
+                                            ),
+                                        )}
                                     </div>
-                                ),
-                            )}
-                        </div>
+                                )
+                            }),
+                        }5
                         {actionTaken.summary}
                     </Container>
                 ),
