@@ -198,7 +198,7 @@ export function Component() {
                 }
 
                 // Redirect to assessment form
-                if (response.phase === PER_PHASE_ASSESSMENT) {
+                if (response.phase === PER_PHASE_ASSESSMENT && value?.is_draft !== false) {
                     navigate(
                         generatePath(
                             perAssessmentFormRoute.absolutePath,
@@ -414,6 +414,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_orientation}
                         error={error?.date_of_orientation}
+                        readOnly={readOnlyMode}
                     />
                 </InputSection>
                 <InputSection

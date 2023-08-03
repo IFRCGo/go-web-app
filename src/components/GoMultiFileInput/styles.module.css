@@ -6,6 +6,11 @@
     .selected-files {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-3xs);
+        gap: var(--go-ui-spacing-xs);
+
+        .file {
+            display: flex;
+            gap: var(--go-ui-spacing-xs);
+        }
     }
 }
