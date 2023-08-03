@@ -20,13 +20,15 @@ import TextArea from '#components/TextArea';
 import RadioInput from '#components/RadioInput';
 import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import {
+    type OrganizationType,
+    type ReportType,
+    type CategoryType,
+} from '#utils/constants';
 
 import ActionInput, { type ActionValue } from '../EarlyActionsFields/ActionInput';
 import {
-    type OrganizationType,
     type PartialFormValue,
-    type ReportType,
-    type CategoryType,
 } from '../common';
 
 import styles from './styles.module.css';

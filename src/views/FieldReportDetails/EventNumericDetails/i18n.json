@@ -1,0 +1,27 @@
+{
+    "namespace": "fieldReportDetails",
+    "strings": {
+        "eventInjuredRCLabel": "Injured (RC)",
+        "eventInjuredGovernmentLabel": "Injured (Government)",
+        "eventInjuredOtherLabel": "Injured (Other)",
+        "eventMissingRCLabel": "Missing (RC)",
+        "eventMissingGovernmentLabel": "Missing (Government)",
+        "eventMissingOtherLabel": "Missing (Other)",
+        "eventDeadRCLabel": "Dead (RC)",
+        "eventDeadGovernmentLabel": "Dead (Government)",
+        "eventDeadOtherLabel": "Dead (Other)",
+        "eventDisplacedRCLabel": "Displaced (RC)",
+        "eventDisplacedGovernmentLabel": "Displaced (Government)",
+        "eventDisplacedOtherLabel": "Displaced (Other)",
+        "eventAffectedRCLabel": "Affected (RC)",
+        "eventAffectedGovernmentLabel": "Affected (Government)",
+        "eventAffectedOtherLabel": "Affected (Other)",
+        "eventAssistedRCLabel": "Assisted (RC)",
+        "eventAssistedGovernmentLabel": "Assisted (Government)",
+        "eventAssistedOtherLabel": "Assisted (Other)",
+        "eventLocalStaffLabel": "Local Staff",
+        "eventVolunteersLabel": "Volunteers",
+        "eventIfrcStaffLabel": "IFRC Staff",
+        "eventDelegatedLabel": "Delegates"
+    }
+}

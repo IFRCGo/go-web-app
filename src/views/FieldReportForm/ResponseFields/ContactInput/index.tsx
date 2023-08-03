@@ -8,11 +8,9 @@ import {
 
 import useTranslation from '#hooks/useTranslation';
 import TextInput from '#components/TextInput';
+import { type ContactType } from '#utils/constants';
 
-import {
-    type PartialFormValue,
-    type ContactType,
-} from '../../common';
+import { type PartialFormValue } from '../../common';
 
 import i18n from './i18n.json';
 

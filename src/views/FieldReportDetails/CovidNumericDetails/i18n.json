@@ -1,0 +1,18 @@
+{
+    "namespace": "fieldReportDetails",
+    "strings": {
+        "covidCumulativeCasesLabel": "Cumulative Cases",
+        "covidCumulativeDeadLabel": "Cumulative Dead",
+        "covidAssistedRcLabel": "Assisted (RC)",
+        "covidAssistedGovernmentLabel": "Assisted (Government)",
+        "covidNumberOfCasesLabel": "Number of new cases since last Field Report",
+        "covidAssistedOtherLabel": "Assisted (Other)",
+        "covidNumberOfNewDeathsLabel": "Number of new deaths since last Field Report",
+        "covidLocalStaff": "Local Staff",
+        "covidSourceLabel": "Source",
+        "covidNotesLabel": "Notes",
+        "covidVolunteersLabel": "volunteersLabel",
+        "covidFieldReportLabel": "COVID-19 Field Report",
+        "covidSummaryLabel": "Summary"
+    }
+}

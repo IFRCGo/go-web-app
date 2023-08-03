@@ -1799,7 +1799,7 @@ const fieldReportFormNew = customWrapRoute({
 });
 
 const fieldReportFormEdit = customWrapRoute({
-    path: 'field-report/:reportId/edit',
+    path: 'field-reports/:fieldReportId/edit',
     component: {
         render: () => import('#views/FieldReportForm'),
         props: {},
@@ -1807,8 +1807,22 @@ const fieldReportFormEdit = customWrapRoute({
     parent: root,
     wrapperComponent: Auth,
     context: {
-        title: 'Field Report Form',
+        title: 'Edit Field Report Form',
         visibility: 'is-authenticated',
+    },
+});
+
+const fieldReportDetails = customWrapRoute({
+    path: 'field-reports/:fieldReportId',
+    component: {
+        render: () => import('#views/FieldReportDetails'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Field Report Details',
+        visibility: 'anything',
     },
 });
 
@@ -1973,6 +1987,7 @@ const wrappedRoutes = {
     fieldReportFormNew,
     fieldReportFormEdit,
     flashUpdates,
+    fieldReportDetails,
     flashUpdateFormNew,
     flashUpdateFormDetails,
     flashUpdateFormEdit,

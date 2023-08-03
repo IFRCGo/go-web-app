@@ -15,11 +15,9 @@ import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { type ReportType } from '#utils/constants';
 
-import {
-    type PartialFormValue,
-    type ReportType,
-} from '../common';
+import { type PartialFormValue } from '../common';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 

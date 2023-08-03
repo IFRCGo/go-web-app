@@ -1,3 +1,4 @@
+import { Children, Fragment, createElement } from 'react';
 import {
     isDefined,
     listToMap,
@@ -472,4 +473,30 @@ export function hasSomeDefinedValue(item: unknown) {
     }
 
     return false;
+}
+
+// FIXME: how does this work?
+export function joinList(list: React.ReactNode[], separator: React.ReactNode) {
+    const joinedList = Children.toArray(list).reduce<React.ReactNode[]>(
+        (acc, child, index, children) => {
+            if (isNotDefined(child)) {
+                return acc;
+            }
+
+            acc.push(child);
+
+            if (index < (children.length - 1)) {
+                acc.push(separator);
+            }
+
+            return acc;
+        },
+        [],
+    );
+
+    return createElement(
+        Fragment,
+        {},
+        ...joinedList,
+    );
 }

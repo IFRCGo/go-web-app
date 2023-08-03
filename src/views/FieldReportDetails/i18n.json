@@ -1,0 +1,23 @@
+{
+    "namespace": "fieldReportDetails",
+    "strings": {
+        "fieldReportDetailsHeading": "IFRC GO - Field Report Details",
+        "editReportButtonLabel": "Edit Report",
+        "lastUpdatedByLabel": "Last updated by {user} on {date} ({region} - {district})",
+        "numericDetailsTitle": "Numeric Details (People)",
+        "descriptionTitle": "Description",
+        "visibilityLabel": "Visibility",
+        "startDateLabel": "Start Date",
+        "reportDateLabel": "Report Date",
+        "requestForAssistanceHeading": "Request For Assistance",
+        "governmentAssistanceLabel": "Government Requests International Assistance",
+        "nsAssistanceLabel": "NS Requests International Assistance",
+        "informationBulletinPublishedLabel": "Information Bulletin Published",
+        "actionsTakenHeading": "Actions taken by {organization}",
+        "externalPartnersSupportedActivitiesLabel": "External partners / Supported activities",
+        "contactTitle": "Contacts",
+        "sourcesForDataMarkedLabel": "Sources for data marked as Other",
+        "notesLabel": "Notes",
+        "dateOfData": "Date of Data"
+    }
+}

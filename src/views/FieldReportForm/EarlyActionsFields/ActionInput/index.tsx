@@ -11,13 +11,13 @@ import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
 import TextArea from '#components/TextArea';
 import Checklist from '#components/Checklist';
-
 import {
-    type PartialFormValue,
     type OrganizationType,
     type ReportType,
     type CategoryType,
-} from '../../common';
+} from '#utils/constants';
+
+import { type PartialFormValue } from '../../common';
 
 import styles from './styles.module.css';
 import i18n from './i18n.json';

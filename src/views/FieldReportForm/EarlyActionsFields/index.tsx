@@ -14,13 +14,13 @@ import TextArea from '#components/TextArea';
 import RadioInput from '#components/RadioInput';
 import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-
 import {
     type OrganizationType,
-    type PartialFormValue,
     type ReportType,
     type CategoryType,
-} from '../common';
+} from '#utils/constants';
+
+import { type PartialFormValue } from '../common';
 
 import ActionInput, { type ActionValue } from './ActionInput';
 import i18n from './i18n.json';

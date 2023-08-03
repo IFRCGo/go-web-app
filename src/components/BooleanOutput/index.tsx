@@ -7,7 +7,7 @@ import styles from './styles.module.css';
 export interface Props {
     className?: string;
     value?: boolean | null;
-    invalidText?: '-';
+    invalidText?: React.ReactNode;
 }
 
 function BooleanOutput(props: Props) {
@@ -19,8 +19,10 @@ function BooleanOutput(props: Props) {
 
     let content;
     if (value === true) {
+        // FIXME: use translation
         content = 'Yes';
     } else if (value === false) {
+        // FIXME: use translation
         content = 'No';
     } else {
         content = invalidText;

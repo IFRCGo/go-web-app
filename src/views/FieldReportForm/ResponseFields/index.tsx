@@ -14,9 +14,7 @@ import RadioInput from '#components/RadioInput';
 import useTranslation from '#hooks/useTranslation';
 import useUserMe from '#hooks/domain/useUserMe';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-
 import {
-    type PartialFormValue,
     type ReportType,
     type Visibility,
     type ContactType,
@@ -25,7 +23,9 @@ import {
     VISIBILITY_PUBLIC,
     VISIBILITY_RCRC_MOVEMENT,
     VISIBILITY_IFRC_NS,
-} from '../common';
+} from '#utils/constants';
+
+import { type PartialFormValue } from '../common';
 
 import ContactInput, { type ContactValue } from './ContactInput';
 import i18n from './i18n.json';
