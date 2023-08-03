@@ -3,16 +3,16 @@
     "strings": {
         "covidCumulativeCasesLabel": "Cumulative Cases",
         "covidCumulativeDeadLabel": "Cumulative Dead",
-        "assistedRcLabel": "Assisted (RC)",
-        "assistedGovernmentLabel": "Assisted (Government)",
-        "numberOfCasesLabel": "Number of new cases since last Field Report",
-        "assistedOtherLabel": "Assisted (Other)",
-        "numberOfNewDeathsLabel": "Number of new deaths since last Field Report",
-        "localStaff": "Local Staff",
-        "sourceLabel": "Source",
-        "notesLabel": "Notes",
-        "volunteersLabel": "volunteersLabel",
-        "sourcesForDataMarkedLabel": "Sources for data marked as Other",
-        "dateOfData": "Date of Date"
+        "covidAssistedRcLabel": "Assisted (RC)",
+        "covidAssistedGovernmentLabel": "Assisted (Government)",
+        "covidNumberOfCasesLabel": "Number of new cases since last Field Report",
+        "covidAssistedOtherLabel": "Assisted (Other)",
+        "covidNumberOfNewDeathsLabel": "Number of new deaths since last Field Report",
+        "covidLocalStaff": "Local Staff",
+        "covidSourceLabel": "Source",
+        "covidNotesLabel": "Notes",
+        "covidVolunteersLabel": "volunteersLabel",
+        "covidFieldReportLabel": "COVID-19 Field Report",
+        "covidSummaryLabel": "Summary"
     }
 }

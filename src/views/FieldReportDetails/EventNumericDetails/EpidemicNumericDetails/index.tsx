@@ -18,51 +18,51 @@ function EpidemicNumericDetails(props: Props) {
     return (
         <>
             <KeyFigure
-                description={strings.cumulativeCasesLabel}
+                description={strings.epidemicCumulativeCasesLabel}
                 value={value?.epi_cases}
             />
             <KeyFigure
-                description={strings.suspectedCasesLabel}
+                description={strings.epidemicSuspectedCasesLabel}
                 value={value?.epi_suspected_cases}
             />
             <KeyFigure
-                description={strings.probableCasesLabel}
+                description={strings.epidemicProbableCasesLabel}
                 value={value?.epi_probable_cases}
             />
             <KeyFigure
-                description={strings.confirmedCasesLabel}
+                description={strings.epidemicConfirmedCasesLabel}
                 value={value?.epi_confirmed_cases}
             />
             <KeyFigure
-                description={strings.deadLabel}
+                description={strings.epidemicDeadLabel}
                 value={value?.epi_num_dead}
             />
             <KeyFigure
-                description={strings.assistedRCLabel}
+                description={strings.epidemicAssistedRCLabel}
                 value={value?.num_assisted}
             />
             <KeyFigure
-                description={strings.assistedGovernmentLabel}
+                description={strings.epidemicAssistedGovernmentLabel}
                 value={value?.gov_num_assisted}
             />
             <KeyFigure
-                description={strings.assistedOtherLabel}
+                description={strings.epidemicAssistedOtherLabel}
                 value={value?.other_num_assisted}
             />
             <KeyFigure
-                description={strings.volunteersLabel}
+                description={strings.epidemicVolunteersLabel}
                 value={value?.num_localstaff}
             />
             <KeyFigure
-                description={strings.volunteersLabel}
+                description={strings.epidemicVolunteersLabel}
                 value={value?.num_volunteers}
             />
             <KeyFigure
-                description={strings.delegatesLabel}
+                description={strings.epidemicDelegatesLabel}
                 value={value?.num_expats_delegates}
             />
             <TextOutput
-                label={strings.sourceLabel}
+                label={strings.epidemicSourceLabel}
                 value={value?.other_sources}
                 strongLabel
             />

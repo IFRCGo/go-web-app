@@ -15,6 +15,9 @@
         "informationBulletinPublishedLabel": "Information Bulletin Published",
         "actionsTakenHeading": "Actions taken by {organization}",
         "externalPartnersSupportedActivitiesLabel": "External partners / Supported activities",
-        "contactTitle": "Contacts"
+        "contactTitle": "Contacts",
+        "sourcesForDataMarkedLabel": "Sources for data marked as Other",
+        "notesLabel": "Notes",
+        "dateOfData": "Date of Date"
     }
 }

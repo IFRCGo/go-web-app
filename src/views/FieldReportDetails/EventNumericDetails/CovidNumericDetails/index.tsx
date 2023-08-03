@@ -2,6 +2,8 @@ import type { paths } from '#generated/types';
 import KeyFigure from '#components/KeyFigure';
 import useTranslation from '#hooks/useTranslation';
 import TextOutput from '#components/TextOutput';
+import Container from '#components/Container';
+import HtmlOutput from '#components/HtmlOutput';
 
 import i18n from './i18n.json';
 
@@ -22,57 +24,56 @@ function CovidNumericDetails(props: Props) {
                 value={value?.epi_cases}
             />
             <KeyFigure
-                description={strings.assistedRcLabel}
-                value={value?.num_assisted}
-            />
-            <KeyFigure
                 description={strings.covidCumulativeDeadLabel}
                 value={value?.epi_num_dead}
             />
             <KeyFigure
-                description={strings.assistedGovernmentLabel}
-                value={value?.gov_num_assisted}
-            />
-            <KeyFigure
-                description={strings.numberOfCasesLabel}
+                description={strings.covidNumberOfCasesLabel}
                 value={value?.epi_cases_since_last_fr}
             />
             <KeyFigure
-                description={strings.assistedOtherLabel}
-                value={value?.other_num_assisted}
-            />
-            <KeyFigure
-                description={strings.numberOfNewDeathsLabel}
+                description={strings.covidNumberOfNewDeathsLabel}
                 value={value?.epi_deaths_since_last_fr}
             />
             <KeyFigure
-                description={strings.localStaff}
+                description={strings.covidAssistedRcLabel}
+                value={value?.num_assisted}
+            />
+            <KeyFigure
+                description={strings.covidAssistedGovernmentLabel}
+                value={value?.gov_num_assisted}
+            />
+            <KeyFigure
+                description={strings.covidAssistedOtherLabel}
+                value={value?.other_num_assisted}
+            />
+            <TextOutput
+                label={strings.covidSourceLabel}
+                value={value?.other_sources}
+                strongLabel
+            />
+            <KeyFigure
+                description={strings.covidLocalStaff}
                 value={value?.num_localstaff}
             />
             <KeyFigure
-                description={strings.volunteersLabel}
+                description={strings.covidVolunteersLabel}
                 value={value?.num_volunteers}
             />
             <TextOutput
-                label={strings.sourceLabel}
-                value={value?.other_sources}
-                strongLabel
+                label={strings.covidFieldReportLabel}
+                value={value?.is_covid_report}
+                valueType="boolean"
+                strongValue
             />
-            <TextOutput
-                label={strings.notesLabel}
-                value={value?.epi_notes_since_last_fr}
-                strongLabel
-            />
-            <TextOutput
-                label={strings.sourcesForDataMarkedLabel}
-                value={value?.other_sources}
-                strongLabel
-            />
-            <TextOutput
-                label={strings.dateOfData}
-                value={value?.sit_fields_date}
-                strongLabel
-            />
+            <Container
+                heading={strings.covidSummaryLabel}
+                withHeaderBorder
+            >
+                <HtmlOutput
+                    value={value?.actions_others}
+                />
+            </Container>
         </>
     );
 }

@@ -1,17 +1,17 @@
 {
     "namespace": "fieldReportDetails",
     "strings": {
-        "cumulativeCasesLabel": "Cumulative Cases",
-        "suspectedCasesLabel": "Suspected Cases",
-        "probableCasesLabel": "Probable Cases",
-        "confirmedCasesLabel": "Confirmed Cases",
-        "deadLabel": "Dead",
-        "assistedRCLabel": "Assisted (RC)",
-        "assistedGovernmentLabel": "Assisted (Government)",
-        "assistedOtherLabel": "Assisted (Other)",
-        "localStaffLabel": "Local Staff",
-        "volunteersLabel": "Volunteers",
-        "delegatesLabel": "Delegates",
-        "sourceLabel": "Source"
+        "epidemicCumulativeCasesLabel": "Cumulative Cases",
+        "epidemicSuspectedCasesLabel": "Suspected Cases",
+        "epidemicProbableCasesLabel": "Probable Cases",
+        "epidemicConfirmedCasesLabel": "Confirmed Cases",
+        "epidemicDeadLabel": "Dead",
+        "epidemicAssistedRCLabel": "Assisted (RC)",
+        "epidemicAssistedGovernmentLabel": "Assisted (Government)",
+        "epidemicAssistedOtherLabel": "Assisted (Other)",
+        "epidemicLocalStaffLabel": "Local Staff",
+        "epidemicVolunteersLabel": "Volunteers",
+        "epidemicDelegatesLabel": "Delegates",
+        "epidemicSourceLabel": "Source"
     }
 }

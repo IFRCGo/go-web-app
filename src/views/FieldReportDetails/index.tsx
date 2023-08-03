@@ -26,11 +26,11 @@ import {
     FIELD_REPORT_STATUS_EVENT,
 } from '#utils/constants';
 import { joinList } from '#utils/common';
-
+import EarlyWarningNumericDetails from './EarlyWarningNumericDetails';
 import EventNumericDetails from './EventNumericDetails';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import EarlyWarningNumericDetails from './EarlyWarningNumericDetails';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -184,10 +184,40 @@ export function Component() {
                     />
                 )}
             </Container>
+            {fieldReportResponse?.status === FIELD_REPORT_STATUS_EARLY_WARNING && (
+                <>
+                    <Container
+                        heading={strings.notesLabel}
+                        withHeaderBorder
+                        childrenContainerClassName={styles.requestForAssistanceContent}
+                    >
+                        <HtmlOutput
+                            value={fieldReportResponse?.epi_notes_since_last_fr}
+                        />
+                    </Container>
+                    <Container
+                        heading={strings.sourcesForDataMarkedLabel}
+                        withHeaderBorder
+                        childrenContainerClassName={styles.requestForAssistanceContent}
+                    >
+                        <HtmlOutput
+                            value={fieldReportResponse?.other_sources}
+                        />
+                    </Container>
+                    <Container
+                        heading={strings.dateOfData}
+                        withHeaderBorder
+                        childrenContainerClassName={styles.requestForAssistanceContent}
+                    >
+                        <DateOutput
+                            value={fieldReportResponse?.sit_fields_date}
+                        />
+                    </Container>
+                </>
+            )}
             <Container
                 childrenContainerClassName={styles.numericDetails}
-                heading={strings.descriptionTitle}
-                withHeaderBorder
+                heading
             >
                 <HtmlOutput
                     value={fieldReportResponse?.description}
@@ -230,27 +260,25 @@ export function Component() {
                         withHeaderBorder
                         className={styles.actionsTaken}
                     >
-                        {
-                            mapToList(listToGroupList(actionTaken?.actions, (d) => d.category ?? ''))?.map((value) => {
-                                return (
-                                    <div className={styles.actionList}>
-                                        {value?.map(
-                                            (action) => (
-                                                <div
-                                                    key={action.id}
-                                                    className={styles.actionCategory}
-                                                >
-                                                    <CheckboxCircleLineIcon className={styles.icon} />
-                                                    <div className={styles.label}>
-                                                        {action.name}
-                                                    </div>
+                        {mapToList(listToGroupList(actionTaken?.actions, (d) => d.category ?? ''))?.map(
+                            (value) => (
+                                <div className={styles.actionList}>
+                                    {value?.map(
+                                        (action) => (
+                                            <div
+                                                key={action.id}
+                                                className={styles.actionCategory}
+                                            >
+                                                <CheckboxCircleLineIcon className={styles.icon} />
+                                                <div className={styles.label}>
+                                                    {action.name}
                                                 </div>
-                                            ),
-                                        )}
-                                    </div>
-                                )
-                            }),
-                        }5
+                                            </div>
+                                        ),
+                                    )}
+                                </div>
+                            ),
+                        )}
                         {actionTaken.summary}
                     </Container>
                 ),

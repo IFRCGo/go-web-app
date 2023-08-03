@@ -1,5 +1,5 @@
-import KeyFigure from '#components/KeyFigure';
 import type { paths } from '#generated/types';
+import KeyFigure from '#components/KeyFigure';
 import useTranslation from '#hooks/useTranslation';
 import { DISASTER_TYPE_EPIDEMIC } from '#utils/constants';
 import CovidNumericDetails from './CovidNumericDetails';
@@ -36,99 +36,91 @@ function EventNumericDetails(props: Props) {
     return (
         <>
             <KeyFigure
-                description={strings.injuredRCLabel}
+                description={strings.eventInjuredRCLabel}
                 value={value?.num_injured}
             />
             <KeyFigure
-                description={strings.missingRCLabel}
-                value={value?.num_missing}
-            />
-            <KeyFigure
-                description={strings.deadRCLabel}
-                value={value?.num_dead}
-            />
-            <KeyFigure
-                description={strings.displacedRCLabel}
-                value={value?.num_displaced}
-            />
-            <KeyFigure
-                description={strings.affectedRCLabel}
-                value={value?.num_affected}
-            />
-            <KeyFigure
-                description={strings.assistedRCLabel}
-                value={value?.num_assisted}
-            />
-
-            <KeyFigure
-                description={strings.injuredGovernmentLabel}
+                description={strings.eventInjuredGovernmentLabel}
                 value={value?.gov_num_injured}
             />
             <KeyFigure
-                description={strings.missingGovernmentLabel}
+                description={strings.eventInjuredOtherLabel}
+                value={value?.other_num_injured}
+            />
+            <KeyFigure
+                description={strings.eventMissingRCLabel}
+                value={value?.num_missing}
+            />
+            <KeyFigure
+                description={strings.eventMissingGovernmentLabel}
                 value={value?.gov_num_missing}
             />
             <KeyFigure
-                description={strings.deadGovernmentLabel}
+                description={strings.eventMissingOtherLabel}
+                value={value?.other_num_missing}
+            />
+            <KeyFigure
+                description={strings.eventDeadRCLabel}
+                value={value?.num_dead}
+            />
+            <KeyFigure
+                description={strings.eventDeadGovernmentLabel}
                 value={value?.gov_num_dead}
             />
             <KeyFigure
-                description={strings.displacedGovernmentLabel}
+                description={strings.eventDeadOtherLabel}
+                value={value?.other_num_dead}
+            />
+            <KeyFigure
+                description={strings.eventDisplacedRCLabel}
+                value={value?.num_displaced}
+            />
+            <KeyFigure
+                description={strings.eventDisplacedGovernmentLabel}
                 value={value?.gov_num_displaced}
             />
             <KeyFigure
-                description={strings.affectedGovernmentLabel}
+                description={strings.eventDisplacedOtherLabel}
+                value={value?.other_num_displaced}
+            />
+            <KeyFigure
+                description={strings.eventAffectedRCLabel}
+                value={value?.num_affected}
+            />
+            <KeyFigure
+                description={strings.eventAffectedGovernmentLabel}
                 value={value?.gov_num_affected}
             />
             <KeyFigure
-                description={strings.assistedGovernmentLabel}
-                value={value?.gov_num_assisted}
-            />
-
-            <KeyFigure
-                description={strings.injuredOtherLabel}
-                value={value?.other_num_injured}
-            />
-
-            <KeyFigure
-                description={strings.missingOtherLabel}
-                value={value?.other_num_missing}
-            />
-
-            <KeyFigure
-                description={strings.deadOtherLabel}
-                value={value?.other_num_dead}
-            />
-
-            <KeyFigure
-                description={strings.displacedOtherLabel}
-                value={value?.other_num_displaced}
-            />
-
-            <KeyFigure
-                description={strings.affectedOtherLabel}
+                description={strings.eventAffectedOtherLabel}
                 value={value?.other_num_affected}
             />
-
             <KeyFigure
-                description={strings.assistedOtherLabel}
+                description={strings.eventAssistedRCLabel}
+                value={value?.num_assisted}
+            />
+            <KeyFigure
+                description={strings.eventAssistedGovernmentLabel}
+                value={value?.gov_num_assisted}
+            />
+            <KeyFigure
+                description={strings.eventAssistedOtherLabel}
                 value={value?.other_num_assisted}
             />
-
             <KeyFigure
-                description={strings.localStaffLabel}
+                description={strings.eventLocalStaffLabel}
                 value={value?.num_localstaff}
             />
             <KeyFigure
-                description={strings.volunteersLabel}
+                description={strings.eventVolunteersLabel}
                 value={value?.num_volunteers}
             />
             <KeyFigure
-                description={strings.ifrcStaffLabel}
+                description={strings.eventIfrcStaffLabel}
                 value={value?.ifrc_staff}
             />
             <KeyFigure
-                description={strings.delegatedLabel}
+                description={strings.eventDelegatedLabel}
                 value={value?.num_expats_delegates}
             />
         </>
