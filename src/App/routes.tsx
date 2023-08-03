@@ -1284,6 +1284,36 @@ const fieldReportFormNew = customWrapRoute({
     },
 });
 
+const fieldReportsFormDetails = customWrapRoute({
+    path: 'field-reports/:fieldReportId',
+    component: {
+        render: () => import('#views/FieldReportDetails'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All Field Reports',
+        visibility: 'anything',
+    },
+});
+
+//  FIX ME: Add field report form link
+
+const fieldReportsFormEdit = customWrapRoute({
+    path: 'field-reports/:fieldReportId/edit',
+    component: {
+        render: () => import('#views/DrefApplicationForm'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Dref Application Form',
+        visibility: 'is-authenticated',
+    },
+});
+
 const perProcessForm = customWrapRoute({
     path: 'per-process',
     component: {
@@ -1422,6 +1452,7 @@ const wrappedRoutes = {
     newDrefApplicationForm,
     drefApplicationForm,
     fieldReportFormNew,
+    fieldReportsFormDetails,
     flashUpdateFormNew,
     riskWatch,
     perProcessForm,
@@ -1465,6 +1496,7 @@ const wrappedRoutes = {
     healthBurials,
     healthCCMM,
     healthPSS,
+    fieldReportsFormEdit,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
