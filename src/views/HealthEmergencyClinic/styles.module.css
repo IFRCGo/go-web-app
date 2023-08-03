@@ -1,0 +1,27 @@
+.health-emergency-clinic {
+    padding-top: var(--go-ui-spacing-md);
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
+
+        .image-list {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-3xs);
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+
+            .image {
+                min-height: 10rem;
+            }
+        }
+        .emergency-description {
+            font-style: italic;
+        }
+        .inner-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+        }
+    }
+}
