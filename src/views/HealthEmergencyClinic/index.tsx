@@ -18,13 +18,13 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const {
-        healthEmergencyClinic: healthEmergencyClinicRoute,
+        catalogueHealth: catalogueHealth,
     } = useContext(RouteContext);
     const goBack = useGoBack();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(healthEmergencyClinicRoute.absolutePath));
-    }, [goBack, healthEmergencyClinicRoute.absolutePath]);
+        goBack(generatePath(catalogueHealth.absolutePath));
+    }, [goBack, catalogueHealth.absolutePath]);
 
     return (
         <Container
@@ -47,14 +47,14 @@ export function Component() {
         >
             <div className={styles.imageList}>
                 <Image
-                    src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-emt2_01.jpg"
+                    src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-mobile-clinic_01.jpg"
                     caption={strings.emergencyClinicMobileDistributing}
                     height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
-                    src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-emt2_01.jpg"
-                    caption={strings.emergencyClinicMobileDistributing}
+                    src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-mobile-clinic_02.jpg"
+                    caption={strings.emergencyClinicMobileClinic}
                     height="16rem"
                     imageClassName={styles.image}
                 />
