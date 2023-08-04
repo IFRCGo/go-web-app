@@ -146,7 +146,6 @@ export function Component() {
                         <TextOutput
                             value={strings.emergencyClinicModuleOneValue}
                             label={strings.emergencyClinicModuleOneLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -154,7 +153,6 @@ export function Component() {
                         <TextOutput
                             value={strings.emergencyClinicModuleTwoValue}
                             label={strings.emergencyClinicModuleTwoLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -162,7 +160,6 @@ export function Component() {
                         <TextOutput
                             value={strings.emergencyClinicModuleThreeValue}
                             label={strings.emergencyClinicModuleThreeLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -170,7 +167,6 @@ export function Component() {
                         <TextOutput
                             value={strings.emergencyClinicModuleFourValue}
                             label={strings.emergencyClinicModuleFourLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -178,7 +174,6 @@ export function Component() {
                         <TextOutput
                             value={strings.emergencyClinicModuleFiveValue}
                             label={strings.emergencyClinicModuleFiveLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
