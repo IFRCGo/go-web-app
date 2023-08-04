@@ -109,7 +109,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleOneValue}
                             label={strings.choleraStandardModuleOneLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -117,7 +116,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleTwoValue}
                             label={strings.choleraStandardModuleTwoLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -125,7 +123,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleThreeValue}
                             label={strings.choleraStandardModuleThreeLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -133,7 +130,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleFourValue}
                             label={strings.choleraStandardModuleFourLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -141,7 +137,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleFiveValue}
                             label={strings.choleraStandardModuleFiveLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -149,7 +144,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleSixValue}
                             label={strings.choleraStandardModuleSixLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -157,7 +151,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleSevenValue}
                             label={strings.choleraStandardModuleSevenLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -172,7 +165,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleNineValue}
                             label={strings.choleraStandardModuleNineLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -180,7 +172,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleTenValue}
                             label={strings.choleraStandardModuleTenLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -188,7 +179,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleElevenValue}
                             label={strings.choleraStandardModuleElevenLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
@@ -196,7 +186,6 @@ export function Component() {
                         <TextOutput
                             value={strings.choleraStandardModuleTwelveValue}
                             label={strings.choleraStandardModuleTwelveLabel}
-                            withoutLabelColon
                             strongLabel
                         />
                     </li>
