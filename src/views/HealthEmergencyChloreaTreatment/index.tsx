@@ -1,15 +1,13 @@
 import { useCallback, useContext } from 'react';
 import { generatePath } from 'react-router-dom';
-
-import RouteContext from '#contexts/route';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
-import Container from '#components/Container';
-import Link from '#components/Link';
-import IconButton from '#components/IconButton';
-import Image from '#components/Image';
-import TextOutput from '#components/TextOutput';
+
 import useTranslation from '#hooks/useTranslation';
 import useGoBack from '#hooks/useGoBack';
+import RouteContext from '#contexts/route';
+import Container from '#components/Container';
+import IconButton from '#components/IconButton';
+import TextOutput from '#components/TextOutput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
