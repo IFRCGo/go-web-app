@@ -1,0 +1,25 @@
+.previous-assessment-chart {
+    height: 20rem;
+
+    .svg {
+        width: 100%;
+        height: 100%;
+
+        .path {
+            stroke: var(--go-ui-color-primary-red);
+            fill: none;
+        }
+
+        .circle {
+            fill: var(--go-ui-color-primary-red);
+            r: 6;
+            stroke-width: 2;
+            stroke: transparent;
+            transition: var(--go-ui-duration-transition-medium) ease-in-out stroke;
+
+            &:hover {
+                stroke: var(--go-ui-color-primary-red);
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
 import { isNotDefined } from '@togglecorp/fujs';
-import { splitList } from '#utils/common';
+import { maxSafe, minSafe, splitList } from '#utils/common';
+import type { UnsafeNumberList } from '#utils/common';
 
 export interface Point {
     x: number;
@@ -68,7 +69,7 @@ export function getScaleFunction(
 }
 
 // TODO: Add test
-export function getBounds(numList: number[]) {
+export function getBounds(numList: UnsafeNumberList, zeroMin = false) {
     if (!numList || numList.length === 0) {
         return {
             min: 0,
@@ -77,8 +78,9 @@ export function getBounds(numList: number[]) {
     }
 
     return {
-        min: Math.min(...numList),
-        max: Math.max(...numList),
+        min: zeroMin ? 0 : minSafe(numList) ?? 0,
+        max: maxSafe(numList) ?? 0,
+
     };
 }
 

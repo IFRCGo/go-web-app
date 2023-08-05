@@ -5,9 +5,10 @@
     display: flex;
     align-items: flex-start;
     gap: var(--gap);
+    flex-wrap: wrap;
 
-    &.with-flex-wrap {
-        flex-wrap: wrap;
+    &.no-wrap {
+        flex-wrap: nowrap;
     }
 
     .icons-container {

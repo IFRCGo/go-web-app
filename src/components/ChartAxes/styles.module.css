@@ -30,3 +30,12 @@
         stroke-opacity: 1;
     }
 }
+
+.bound-rect {
+    fill: var(--go-ui-color-gray-60);
+    fill-opacity: 0;
+
+    &:hover {
+        fill-opacity: 0.2;
+    }
+}

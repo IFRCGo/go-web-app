@@ -2,4 +2,25 @@
     .icon {
         font-size: var(--go-ui-font-size-icon-multiplier);
     }
+
+    &:hover {
+        .icon {
+            animation: wiggle var(--go-ui-duration-transition-slow) ease-in-out;
+        }
+    }
+}
+
+@keyframes wiggle {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-0.1rem);
+    }
+    50% {
+        transform: translateX(0.1rem);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }

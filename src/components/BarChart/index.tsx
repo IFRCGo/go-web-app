@@ -11,6 +11,7 @@ interface Props<D> {
     keySelector: (datum: D) => number | string;
     valueSelector: (datum: D) => number | null | undefined;
     labelSelector: (datum: D) => React.ReactNode;
+    maxValue?: number;
 }
 
 function BarChart<D>(props: Props<D>) {
@@ -20,6 +21,7 @@ function BarChart<D>(props: Props<D>) {
         valueSelector,
         labelSelector,
         keySelector,
+        maxValue: maxValueFromProps,
     } = props;
 
     const renderData = useMemo(
@@ -43,7 +45,9 @@ function BarChart<D>(props: Props<D>) {
 
     // NOTE: we do not need to check if Math.max will be Infinity as the render
     // loop will not run
-    const maxValue = Math.max(...renderData.map((datum) => datum.value));
+    const maxValue = isDefined(maxValueFromProps)
+        ? maxValueFromProps
+        : Math.max(...renderData.map((datum) => datum.value));
     const maxValueSafe = maxValue === 0 ? 1 : maxValue;
 
     return (

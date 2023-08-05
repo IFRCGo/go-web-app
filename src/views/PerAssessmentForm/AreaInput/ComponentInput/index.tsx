@@ -3,7 +3,12 @@ import {
     useFormArray,
     useFormObject,
 } from '@togglecorp/toggle-form';
-import { listToMap, _cs, isNotDefined } from '@togglecorp/fujs';
+import {
+    listToMap,
+    _cs,
+    isNotDefined,
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import SelectInput from '#components/SelectInput';
@@ -91,7 +96,9 @@ function ComponentInput(props: Props) {
         <ExpandableContainer
             className={_cs(styles.componentInput, className)}
             key={component.id}
-            heading={`${component.component_num}. ${component.title}`}
+            heading={isTruthyString(component.component_letter)
+                ? `${component.component_num}(${component.component_letter}). ${component.title}`
+                : `${component.component_num}. ${component.title}`}
             childrenContainerClassName={styles.questionList}
             withHeaderBorder
             headerDescription={component.description}

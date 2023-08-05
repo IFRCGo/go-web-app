@@ -89,19 +89,23 @@ function PerTableActions(props: Props) {
         <TableActions
             extraActions={per_perphases?.map(
                 (perPhase) => (
-                    <DropdownMenuItem
-                        type="link"
-                        to={getRouteUrl(perPhase.key)}
-                    >
-                        {phase === perPhase.key && phase !== PER_PHASE_ACTION
-                            ? resolveToString(
-                                strings.tableActionEditLabel,
-                                { phaseDisplay: perPhase.value },
-                            ) : resolveToString(
-                                strings.tableActionViewLabel,
-                                { phaseDisplay: perPhase.value },
-                            )}
-                    </DropdownMenuItem>
+                    perPhase.key === PER_PHASE_ACTION ? null : (
+                        <DropdownMenuItem
+                            key={perPhase.key}
+                            type="link"
+                            to={getRouteUrl(perPhase.key)}
+                            disabled={perPhase.key > (phase ?? 1)}
+                        >
+                            {phase === perPhase.key
+                                ? resolveToString(
+                                    strings.tableActionEditLabel,
+                                    { phaseDisplay: perPhase.value },
+                                ) : resolveToString(
+                                    strings.tableActionViewLabel,
+                                    { phaseDisplay: perPhase.value },
+                                )}
+                        </DropdownMenuItem>
+                    )
                 ),
             )}
         >

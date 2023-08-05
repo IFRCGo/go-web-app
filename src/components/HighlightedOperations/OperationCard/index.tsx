@@ -108,6 +108,7 @@ function OperationCard(props: Props) {
             withInternalPadding
             withHeaderBorder
             spacing="relaxed"
+            withoutWrapInHeading
             icons={ifrc_severity_level ? (
                 <>
                     <Tooltip className={styles.tooltip}>

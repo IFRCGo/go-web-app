@@ -41,7 +41,7 @@ function useBasicLayout(props: Props) {
     const containerClassName = _cs(
         styles.basicLayout,
         spacingTypeToClassNameMap[spacing],
-        !noWrap && styles.withFlexWrap,
+        noWrap && styles.noWrap,
         className,
     );
 

@@ -1,18 +1,24 @@
 .severity-indicator {
-    display: inline-block;
-    border-radius: 0.5rem;
-    width: 0.75rem;
-    height: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    height: 1.5rem;
+    overflow: hidden;
 
-    &.yellow {
-        background-color: var(--go-ui-color-yellow);
-    }
+    .icon {
+        border-radius: 0.5rem;
+        width: 0.75rem;
+        height: 0.75rem;
 
-    &.red {
-        background-color: var(--go-ui-color-red);
-    }
+        &.yellow {
+            background-color: var(--go-ui-color-yellow);
+        }
 
-    &.orange {
-        background-color: var(--go-ui-color-orange);
+        &.red {
+            background-color: var(--go-ui-color-red);
+        }
+
+        &.orange {
+            background-color: var(--go-ui-color-orange);
+        }
     }
 }

@@ -27,12 +27,14 @@ import StackedProgressBar from '#components/StackedProgressBar';
 import {
     numericCountSelector,
     numericIdSelector,
+    stringLabelSelector,
     stringTitleSelector,
 } from '#utils/selectors';
 
+import PreviousAssessmentCharts from './PreviousAssessmentChart';
+import RatingByAreaChart from './RatingByAreaChart';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import RatingByAreaChart from './RatingByAreaChart';
 
 const primaryRedColorShades = [
     'var(--go-ui-color-red-90)',
@@ -77,6 +79,7 @@ export function Component() {
     });
 
     const perId = latestPerResponse?.results?.[0]?.id;
+    const prevAssessmentRatings = latestPerResponse?.results?.[0]?.assessment_ratings;
 
     const {
         response: processStatusResponse,
@@ -139,6 +142,7 @@ export function Component() {
                             area: areaResponse.area_details,
                             rating: componentResponse.rating_details,
                             details: componentResponse.component_details,
+                            notes: componentResponse.notes,
                         }),
                     )
                 ),
@@ -216,7 +220,7 @@ export function Component() {
                 ),
                 (answerList) => ({
                     id: answerList[0].answer,
-                    label: formAnswerMap[answerList[0].answer] ?? '-',
+                    label: `${formAnswerMap[answerList[0].answer]} ${answerList.length}`,
                     count: answerList.length,
                 }),
             );
@@ -252,7 +256,7 @@ export function Component() {
                     details: componentResponse.component_details,
                     rating: ratingByComponentId[componentResponse.component],
                 }),
-            );
+            ) ?? [];
 
             return {
                 componentsWithRating,
@@ -264,21 +268,40 @@ export function Component() {
     const perTeamEmail = '';
     const hasPer = !pendingOverviewResponse && overviewResponse;
 
+    const hasAssessmentStats = hasPer && assessmentStats;
+    const hasPrioritizationStats = hasPer && prioritizationStats;
+
+    const hasRatingCounts = hasAssessmentStats && assessmentStats.ratingCounts.length > 0;
+    const hasAnswerCounts = hasAssessmentStats && assessmentStats.answerCounts.length > 0;
+    const hasRatedComponents = hasAssessmentStats && assessmentStats.topRatedComponents.length > 0;
+    const hasRatingsByArea = hasAssessmentStats && assessmentStats.ratingByArea.length > 0;
+    const hasComponentsWithRating = hasPrioritizationStats
+        && prioritizationStats.componentsWithRating.length > 0;
+    const hasPrevAssessments = prevAssessmentRatings && prevAssessmentRatings.length > 1;
+
+    const noChartsAvailable = hasPer && !hasRatingCounts
+        && !hasRatingCounts
+        && !hasRatedComponents
+        && !hasRatingsByArea
+        && !hasComponentsWithRating
+        && !hasPrevAssessments;
+
     return (
         <Container
             className={styles.countryPreparedness}
             childrenContainerClassName={styles.preparednessContent}
             heading={strings.nsPreparednessAndResponseCapacityHeading}
             headingLevel={2}
+            headerDescription={!hasPer && (
+                <Message
+                    compact
+                    // FIXME: use translation
+                    message="PER not available for this Country!"
+                />
+            )}
         >
             {pendingOverviewResponse && (
                 <BlockLoading />
-            )}
-            {!hasPer && (
-                <Message
-                    compact
-                    message="PER not available for this Country!"
-                />
             )}
             {hasPer && (
                 <div className={styles.latestPerDetails}>
@@ -324,7 +347,21 @@ export function Component() {
                     </div>
                 </div>
             )}
-            {hasPer && assessmentStats && (
+            {noChartsAvailable && (
+                <Message
+                    compact
+                    // FIXME: use translation
+                    message="Not enough data to show the charts!"
+                />
+            )}
+            {hasPer && !hasAssessmentStats && (
+                <Message
+                    compact
+                    // FIXME: use translation
+                    message="Assessment has not been done yet!"
+                />
+            )}
+            {hasRatingCounts && (
                 <Container
                     heading={strings.perAssessmentHeading}
                     withHeaderBorder
@@ -339,7 +376,7 @@ export function Component() {
                     />
                 </Container>
             )}
-            {hasPer && assessmentStats && (
+            {hasAnswerCounts && (
                 <Container
                     heading={strings.totalBenchmarkSummaryHeading}
                     childrenContainerClassName={styles.benchmarkSummaryContent}
@@ -347,9 +384,8 @@ export function Component() {
                 >
                     <StackedProgressBar
                         data={assessmentStats.answerCounts}
-                        // FIXME: no inline functions
-                        valueSelector={(answerCount) => answerCount.count}
-                        labelSelector={(answerCount) => `${answerCount.count} ${answerCount.label}`}
+                        valueSelector={numericCountSelector}
+                        labelSelector={stringLabelSelector}
                         colorSelector={primaryRedColorShadeSelector}
                     />
                     <KeyFigure
@@ -358,7 +394,7 @@ export function Component() {
                     />
                 </Container>
             )}
-            {hasPer && perOptionsResponse && perFormAreaResponse && assessmentStats && (
+            {hasRatingsByArea && perOptionsResponse && perFormAreaResponse && (
                 <Container
                     heading={strings.componentsByAreaHeading}
                     withHeaderBorder
@@ -370,15 +406,17 @@ export function Component() {
                     />
                 </Container>
             )}
-            {hasPer && (
+            {hasPrevAssessments && (
                 <Container
                     heading={strings.previousPerAssessmentHeading}
                     withHeaderBorder
                 >
-                    Chart not available
+                    <PreviousAssessmentCharts
+                        data={prevAssessmentRatings}
+                    />
                 </Container>
             )}
-            {hasPer && assessmentStats && (
+            {hasRatedComponents && (
                 <Container
                     heading={strings.highlightedTopRatedComponentHeading}
                     withHeaderBorder
@@ -394,6 +432,7 @@ export function Component() {
                                 withHeaderBorder
                                 withInternalPadding
                                 icons={<CheckboxFillIcon className={styles.icon} />}
+                                withoutWrapInHeading
                             >
                                 {component.details.title}
                             </Container>
@@ -401,21 +440,23 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {hasPer && prioritizationStats && (
+            {hasComponentsWithRating && (
                 <Container
                     heading={strings.priorityComponentToBeStrengthenedHeading}
                     childrenContainerClassName={styles.priorityComponentsContent}
                     withHeaderBorder
                 >
                     <BarChart
+                        maxValue={5}
                         data={prioritizationStats.componentsWithRating}
                         keySelector={numericIdSelector}
+                        // FIXME: no inline selectors
                         labelSelector={(component) => component.details.title}
                         valueSelector={(component) => component.rating?.value ?? 0}
                     />
                 </Container>
             )}
-            {hasPer && assessmentStats && (
+            {hasRatedComponents && (
                 <Container
                     className={styles.ratingResults}
                     heading={strings.componentRatingResultsHeading}
@@ -438,8 +479,7 @@ export function Component() {
                                     ) : '0 - Not Reviewed'}
                                 />
                                 <div>
-                                    {/* FIXME: this shoule be the notes by user */}
-                                    {component.details.description}
+                                    {component.notes}
                                 </div>
                                 <div className={styles.separator} />
                             </Fragment>
