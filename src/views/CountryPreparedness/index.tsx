@@ -27,6 +27,7 @@ import StackedProgressBar from '#components/StackedProgressBar';
 import {
     numericCountSelector,
     numericIdSelector,
+    numericValueSelector,
     stringLabelSelector,
     stringTitleSelector,
 } from '#utils/selectors';
@@ -258,8 +259,17 @@ export function Component() {
                 }),
             ) ?? [];
 
+            const componentsToBeStrengthened = componentsWithRating.map(
+                (component) => ({
+                    id: component.id,
+                    value: component.rating.value,
+                    label: component.details.title,
+                }),
+            );
+
             return {
                 componentsWithRating,
+                componentsToBeStrengthened,
             };
         },
         [prioritizationResponse, assessmentStats],
@@ -448,11 +458,10 @@ export function Component() {
                 >
                     <BarChart
                         maxValue={5}
-                        data={prioritizationStats.componentsWithRating}
+                        data={prioritizationStats.componentsToBeStrengthened}
                         keySelector={numericIdSelector}
-                        // FIXME: no inline selectors
-                        labelSelector={(component) => component.details.title}
-                        valueSelector={(component) => component.rating?.value ?? 0}
+                        labelSelector={stringLabelSelector}
+                        valueSelector={numericValueSelector}
                     />
                 </Container>
             )}
