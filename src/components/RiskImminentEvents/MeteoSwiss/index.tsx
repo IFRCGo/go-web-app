@@ -6,17 +6,29 @@ import RiskImminentEventMap from '#components/RiskImminentEventMap';
 import type { EventPointFeature } from '#components/RiskImminentEventMap';
 import { useRiskLazyRequest, useRiskRequest } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
-import { isValidFeature, isValidPointFeature } from '#utils/risk';
+import { isValidFeatureCollection } from '#utils/risk';
 import type { paths } from '#generated/riskTypes';
 
 import EventListItem from './EventListItem';
 import EventDetails from './EventDetails';
 
-type GetImminentEvents = paths['/api/v1/imminent/']['get'];
+type GetImminentEvents = paths['/api/v1/meteoswiss/']['get'];
 type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
 type FootprintCallback = (footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry>) => void;
+
+function getLayerType(geometryType: GeoJSON.Geometry['type']) {
+    if (geometryType === 'Point' || geometryType === 'MultiPoint') {
+        return 'track-point';
+    }
+
+    if (geometryType === 'LineString' || geometryType === 'MultiLineString') {
+        return 'track';
+    }
+
+    return 'exposure';
+}
 
 type BaseProps = {
     title: React.ReactNode;
@@ -33,7 +45,7 @@ type Props = BaseProps & ({
     iso3: string;
 })
 
-function ImminentEvents(props: Props) {
+function MeteoSwiss(props: Props) {
     const {
         title,
         bbox,
@@ -49,7 +61,7 @@ function ImminentEvents(props: Props) {
         skip: (variant === 'region' && isNotDefined(props.regionId))
         // eslint-disable-next-line react/destructuring-assignment
             || (variant === 'country' && isNotDefined(props.iso3)),
-        url: '/api/v1/imminent/',
+        url: '/api/v1/meteoswiss/',
         query: {
             limit: 500,
             // eslint-disable-next-line react/destructuring-assignment
@@ -61,57 +73,40 @@ function ImminentEvents(props: Props) {
 
     const [activeEventId, setActiveEventId] = useState<number | string | undefined>(undefined);
 
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/imminent/{id}/exposure/', { successCallback: FootprintCallback }>({
+    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/meteoswiss/{id}/exposure/', { successCallback: FootprintCallback }>({
         apiType: 'risk',
-        url: '/api/v1/imminent/{id}/exposure/',
+        url: '/api/v1/meteoswiss/{id}/exposure/',
         pathVariables: isDefined(activeEventId) ? {
             id: Number(activeEventId),
         } : undefined,
         onSuccess: (response, { successCallback }) => {
+            // FIXME: typings should be fixed in the server
             const {
-                footprint_geojson,
-                storm_position_geojson,
-            } = response;
+                footprint_geojson: {
+                    footprint_geojson,
+                } = {},
+            } = response as unknown as { footprint_geojson?: {
+                    footprint_geojson: unknown
+                }
+            };
 
-            if (!footprint_geojson && !storm_position_geojson) {
+            if (!footprint_geojson) {
                 return;
             }
 
-            const footprint = isValidFeature(footprint_geojson) ? footprint_geojson : undefined;
             // FIXME: typings should be fixed in the server
-            const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
-                ?.filter(isValidPointFeature);
+            const footprint = isValidFeatureCollection(footprint_geojson)
+                ? footprint_geojson : undefined;
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
                 type: 'FeatureCollection' as const,
                 features: [
-                    footprint ? {
-                        ...footprint,
-                        properties: {
-                            ...footprint.properties,
-                            type: 'exposure',
-                        },
-                    } : undefined,
-                    stormPositions ? {
-                        type: 'Feature' as const,
-                        geometry: {
-                            type: 'LineString' as const,
-                            coordinates: stormPositions.map(
-                                (pointFeature) => (
-                                    pointFeature.geometry.coordinates
-                                ),
-                            ),
-                        },
-                        properties: {
-                            type: 'track',
-                        },
-                    } : undefined,
-                    ...stormPositions?.map(
-                        (pointFeature) => ({
-                            ...pointFeature,
+                    ...footprint?.features?.map(
+                        (feature) => ({
+                            ...feature,
                             properties: {
-                                ...pointFeature.properties,
-                                type: 'track-point',
+                                ...feature.properties,
+                                type: getLayerType(feature.geometry.type),
                             },
                         }),
                     ) ?? [],
@@ -177,4 +172,4 @@ function ImminentEvents(props: Props) {
     );
 }
 
-export default ImminentEvents;
+export default MeteoSwiss;

@@ -325,6 +325,31 @@ export function isValidFeature(
     return true;
 }
 
+export function isValidFeatureCollection(
+    maybeFeatureCollection: unknown,
+): maybeFeatureCollection is GeoJSON.FeatureCollection {
+    if (isNotDefined(maybeFeatureCollection)) {
+        return false;
+    }
+
+    if (typeof maybeFeatureCollection !== 'object') {
+        return false;
+    }
+
+    const safeObj = maybeFeatureCollection as GeoJSON.FeatureCollection;
+    if (safeObj.type !== 'FeatureCollection') {
+        return false;
+    }
+
+    if (!Array.isArray(safeObj.features)) {
+        return false;
+    }
+
+    // TODO: validate each feature?
+
+    return true;
+}
+
 // TODO: implement full validation
 export function isValidPointFeature(
     maybePointFeature: unknown,

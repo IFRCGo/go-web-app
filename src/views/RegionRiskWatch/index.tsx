@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import getBbox from '@turf/bbox';
 
-import PdcImminentEvents from '#components/PdcImminentEvents';
+import RiskImminentEvents from '#components/RiskImminentEvents';
 import { RegionOutletContext } from '#utils/outletContext';
 
 import styles from './styles.module.css';
@@ -19,7 +19,7 @@ export function Component() {
     return (
         <div className={styles.regionRiskWatch}>
             {regionResponse && (
-                <PdcImminentEvents
+                <RiskImminentEvents
                     variant="region"
                     regionId={regionResponse.id}
                     title={regionResponse.region_name}

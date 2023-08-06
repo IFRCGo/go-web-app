@@ -4,6 +4,7 @@ import {
     useCallback,
     useState,
 } from 'react';
+import type { LngLatBoundsLike } from 'mapbox-gl';
 import { generatePath } from 'react-router-dom';
 import {
     _cs,
@@ -16,6 +17,7 @@ import {
 import Map, {
     MapSource,
     MapLayer,
+    MapBounds,
 } from '@togglecorp/re-map';
 
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
@@ -83,6 +85,7 @@ interface ClickedPoint {
 
 type BaseProps = {
     className?: string;
+    bbox: LngLatBoundsLike | undefined;
 }
 
 type RegionProps = {
@@ -100,6 +103,7 @@ function ActiveOperationMap(props: Props) {
     const {
         className,
         variant,
+        bbox,
     } = props;
 
     // eslint-disable-next-line react/destructuring-assignment
@@ -380,6 +384,13 @@ function ActiveOperationMap(props: Props) {
                             </div>
                         )}
                     </MapPopup>
+                )}
+                {isDefined(bbox) && (
+                    <MapBounds
+                        duration={1000}
+                        bounds={bbox}
+                        padding={50}
+                    />
                 )}
             </Map>
             <div className={styles.footer}>

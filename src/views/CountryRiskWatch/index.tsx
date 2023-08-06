@@ -9,7 +9,7 @@ import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import type { CountryOutletContext } from '#utils/outletContext';
 import { useRiskRequest } from '#utils/restRequest';
-import PdcImminentEvents from '#components/PdcImminentEvents';
+import RiskImminentEvents from '#components/RiskImminentEvents';
 
 import MultiMonthSelectInput from './MultiMonthSelectInput';
 import RiskTable from './RiskTable';
@@ -53,7 +53,7 @@ export function Component() {
     return (
         <div className={styles.countryRiskWatch}>
             {countryResponse && isDefined(countryResponse.iso3) && (
-                <PdcImminentEvents
+                <RiskImminentEvents
                     variant="country"
                     iso3={countryResponse.iso3}
                     title={countryResponse.name}

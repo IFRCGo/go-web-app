@@ -1,0 +1,35 @@
+.risk-imminent-events {
+    .footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--go-ui-spacing-xl);
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-xl);
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-lg);
+
+            .legend-item {
+                display: flex;
+                align-items: center;
+                gap: var(--go-ui-spacing-xs);
+
+                .icon-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    width: var(--go-ui-font-size-2xl);
+                    height: var(--go-ui-font-size-2xl);
+
+                    .icon {
+                        color: var(--go-ui-color-white);
+                    }
+                }
+            }
+        }
+    }
+}
