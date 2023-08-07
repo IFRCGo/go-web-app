@@ -436,7 +436,7 @@ export function Component() {
     } = useContext(RouteContext);
 
     const handleClick: MouseEventHandler<SVGElement> = (event) => {
-        const clickedElement = event.target.closest('[id^="surge_table/element"]');
+        const clickedElement = (event.target as SVGElement).closest('[id^="surge_table/element"]');
         if (clickedElement) {
             const clickedContent = operationTimelineContent.find((value) => value.id === clickedElement.getAttribute('id'));
             if (clickedContent) {
@@ -446,7 +446,7 @@ export function Component() {
     };
 
     const handleHover: MouseEventHandler<SVGElement> = (event) => {
-        const clickedElement = event.target.closest('[id^="surge_table/element"]');
+        const clickedElement = (event.target as SVGElement).closest('[id^="surge_table/element"]');
         if (clickedElement) {
             clickedElement.querySelectorAll('rect')?.forEach((e) => {
                 e.style.fill = '#FEEFF0';
@@ -458,7 +458,7 @@ export function Component() {
     };
 
     const handleMouseOut: MouseEventHandler<SVGElement> = (event) => {
-        const clickedElement = event.target.closest('[id^="surge_table/element"]');
+        const clickedElement = (event.target as SVGElement).closest('[id^="surge_table/element"]');
         if (clickedElement) {
             clickedElement.querySelectorAll('rect')?.forEach((e) => {
                 e.style.fill = '';

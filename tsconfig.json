@@ -27,6 +27,7 @@
 
         /* Linting */
         "strict": true,
+        "types": ["vite-plugin-svgr/client"],
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true
