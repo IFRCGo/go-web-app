@@ -240,6 +240,49 @@ const countryThreeW = customWrapRoute({
     },
 });
 
+const countryThreeWProjects = customWrapRoute({
+    path: 'projects',
+    component: {
+        render: () => import('#views/ProjectsInCountry'),
+        props: {},
+    },
+    parent: countryThreeW,
+    context: {
+        title: 'Country 3W',
+        visibility: 'anything',
+    },
+});
+
+const countryThreeWNationalSocietyProjects = customWrapRoute({
+    path: 'ns-projects',
+    component: {
+        render: () => import('#views/NationalSocietyProjects'),
+        props: {},
+    },
+    parent: countryThreeW,
+    context: {
+        title: 'Country 3W',
+        visibility: 'anything',
+    },
+});
+
+const countryThreeWIndex = customWrapRoute({
+    parent: countryThreeW,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: countryThreeWProjects.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Country 3W index',
+        visibility: 'anything',
+    },
+});
+
 const countryRiskWatch = customWrapRoute({
     path: 'risk-watch',
     component: {
@@ -349,6 +392,7 @@ const emergencyIndex = customWrapRoute({
         visibility: 'anything',
     },
 });
+
 const emergencyReportsAndDocuments = customWrapRoute({
     path: 'reports',
     component: {
@@ -1483,6 +1527,9 @@ const wrappedRoutes = {
     countryIndex,
     countryOperations,
     countryThreeW,
+    countryThreeWProjects,
+    countryThreeWNationalSocietyProjects,
+    countryThreeWIndex,
     countryRiskWatch,
     countryPreparedness,
     countryPlan,

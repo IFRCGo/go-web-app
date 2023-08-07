@@ -143,6 +143,7 @@ export function Component() {
                         countryThreeWRoute.absolutePath,
                         { countryId },
                     )}
+                    parentRoute
                 >
                     {strings.country3WTab}
                 </NavigationTab>
