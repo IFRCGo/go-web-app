@@ -1,0 +1,12 @@
+{
+    "namespace": "countryThreeW",
+    "strings": {
+        "addThreeWProject": "Add 3W Project",
+        "countryThreeWProjectsTab": "Projects in {countryName}",
+        "countryThreeWNationalSocietyProjectsTab": "{countryName} Red Cross Projects",
+        "nationalSocietyPageOnFDRS": "National Society Page on FRDS",
+        "countryOnIFRC": "{countryName} on IFRC.org",
+        "countryOnReliefWeb": "{countryName} on reliefweb.int",
+        "countryRCHomepage": "{countryName} RC Homepage"
+    }
+}

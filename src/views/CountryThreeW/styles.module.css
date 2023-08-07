@@ -1,3 +1,9 @@
-.three-w {
-    color: inherit;
+.country-three-w {
+    padding: var(--go-ui-spacing-4xl) 0;
+
+    .footer {
+        display: flex;
+        justify-content: center;
+        gap: var(--go-ui-spacing-lg);
+    }
 }
