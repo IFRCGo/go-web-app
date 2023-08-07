@@ -1200,6 +1200,105 @@ const healthPSS = customWrapRoute({
     },
 });
 
+const catalogueInformationManagement = customWrapRoute({
+    path: 'information-management',
+    component: {
+        render: () => import('#views/CatalogueInformationManagement'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Management',
+        visibility: 'anything',
+    },
+
+});
+
+const catalogueInformationManagementIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueInformationManagementIndex'),
+        props: {},
+    },
+    parent: catalogueInformationManagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Management',
+        visibility: 'anything',
+    },
+});
+
+const informationManagementSatelliteImagery = customWrapRoute({
+    path: 'satellite-imagery',
+    component: {
+        render: () => import('#views/InformationManagementSatelliteImagery'),
+        props: {},
+    },
+    parent: catalogueInformationManagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Satellite Imagery',
+        visibility: 'anything',
+    },
+});
+
+const informationManagementRoles = customWrapRoute({
+    path: 'roles-responsibility',
+    component: {
+        render: () => import('#views/InformationManagementRoles'),
+        props: {},
+    },
+    parent: catalogueInformationManagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Roles and Responsibilities',
+        visibility: 'anything',
+    },
+});
+
+const informationManagementSupport = customWrapRoute({
+    path: 'support',
+    component: {
+        render: () => import('#views/InformationManagementSupport'),
+        props: {},
+    },
+    parent: catalogueInformationManagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Management Support',
+        visibility: 'anything',
+    },
+});
+
+const informationManagementOperationsSupport = customWrapRoute({
+    path: 'operation-support',
+    component: {
+        render: () => import('#views/InformationManagementOperationsSupport'),
+        props: {},
+    },
+    parent: catalogueInformationManagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Management Support for Operations',
+        visibility: 'anything',
+    },
+});
+
+const informationManagementComposition = customWrapRoute({
+    path: 'composition',
+    component: {
+        render: () => import('#views/InformationManagementComposition'),
+        props: {},
+    },
+    parent: catalogueInformationManagement,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Composition of IM Resources',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     path: 'personnel/all',
     component: {
@@ -1465,6 +1564,13 @@ const wrappedRoutes = {
     healthBurials,
     healthCCMM,
     healthPSS,
+    catalogueInformationManagement,
+    catalogueInformationManagementIndex,
+    informationManagementSatelliteImagery,
+    informationManagementRoles,
+    informationManagementSupport,
+    informationManagementOperationsSupport,
+    informationManagementComposition,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
