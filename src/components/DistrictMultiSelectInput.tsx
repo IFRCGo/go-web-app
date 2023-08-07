@@ -1,5 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
-import { unique } from '@togglecorp/fujs';
+import { useCallback, useState } from 'react';
 
 import { CheckDoubleFillIcon } from '@ifrc-go/icons';
 import SearchMultiSelectInput, {
@@ -29,10 +28,8 @@ type DistrictMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
     DistrictItem,
     Def,
     'onSearchValueChange' | 'searchOptions' | 'optionsPending'
-    | 'options' | 'onOptionsChange' | 'keySelector'
-    | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
+    | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
 > & {
-    initialOptions?: DistrictItem[];
     countryId?: number;
 };
 
@@ -41,16 +38,11 @@ function DistrictMultiSelectInput<const NAME>(
 ) {
     const {
         className,
-        initialOptions,
         countryId,
         onChange,
         name,
         ...otherProps
     } = props;
-
-    const [fetchedCountries, setFetchedCountries] = useState<
-        DistrictItem[] | undefined | null
-    >(initialOptions ?? []);
 
     const [opened, setOpened] = useState(false);
     const [searchText, setSearchText] = useState<string | undefined>('');
@@ -73,9 +65,9 @@ function DistrictMultiSelectInput<const NAME>(
 
     const {
         pending: pendingSelectAll,
-        response: allResponse,
         trigger,
     } = useLazyRequest({
+        method: 'GET',
         url: '/api/v2/district/',
         query: (ctx: GetDistrictParams) => ctx,
         onSuccess: (allDistricts) => {
@@ -87,21 +79,11 @@ function DistrictMultiSelectInput<const NAME>(
     });
 
     const handleSelectAllClick = useCallback(() => {
-        trigger({ country: countryId });
+        trigger({
+            country: countryId,
+            limit: 5000,
+        });
     }, [trigger, countryId]);
-
-    const combinedOptions = useMemo(() => (
-        unique(
-            [
-                ...(fetchedCountries ?? []),
-                ...(allResponse?.results ?? []),
-            ],
-            keySelector,
-        )
-    ), [
-        fetchedCountries,
-        allResponse,
-    ]);
 
     return (
         <SearchMultiSelectInput
@@ -117,8 +99,6 @@ function DistrictMultiSelectInput<const NAME>(
             optionsPending={pending || pendingSelectAll}
             totalOptionsCount={response?.count ?? 0}
             onShowDropdownChange={setOpened}
-            options={combinedOptions}
-            onOptionsChange={setFetchedCountries}
             actions={(
                 <Button
                     name={undefined}

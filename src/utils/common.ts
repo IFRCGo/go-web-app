@@ -344,6 +344,13 @@ export function getNumberOfDaysInMonth(year: number, month: number) {
     return dateWithLastDateOfPrevMonth.getDate();
 }
 
+export function injectClientId<V extends { id: number }>(obj: V): (V & { client_id: string }) {
+    return {
+        ...obj,
+        client_id: String(obj.id),
+    };
+}
+
 export function getMonthList() {
     const monthKeyList = Array.from(Array(11).keys());
     return monthKeyList.map(

@@ -8,6 +8,7 @@ import {
     requiredCondition,
     requiredStringCondition,
 } from '@togglecorp/toggle-form';
+import { isDefined } from '@togglecorp/fujs';
 import {
     positiveIntegerCondition,
     positiveNumberCondition,
@@ -32,43 +33,33 @@ type ProjectFormFields = Omit<ProjectResponseBody, 'annual_split_detail'> & {
     annual_split_detail: AnnualSplit[],
 };
 
-type BaseValue = PartialForm<ProjectFormFields>;
+type BaseValue = PartialForm<ProjectFormFields, 'client_id'>;
+
+export type PartialAnnualType = NonNullable<BaseValue['annual_split_detail']>[number];
 
 export interface FormType extends ProjectFormFields {
     is_project_completed: boolean;
     is_annual_report: boolean;
 }
 
-type FormSchema = ObjectSchema<PartialForm<FormType>>;
+type FormSchema = ObjectSchema<PartialForm<FormType, 'client_id'>>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
-type AnnualSplitSchema = ObjectSchema<PartialForm<AnnualSplit>, BaseValue>;
+type AnnualSplitSchema = ObjectSchema<PartialForm<AnnualSplit, 'client_id'>, BaseValue>;
 type AnnualSplitSchemaFields = ReturnType<AnnualSplitSchema['fields']>;
 
-type AnnualSplitsSchema = ArraySchema<PartialForm<AnnualSplit>, BaseValue>; // plural: Splits
+type AnnualSplitsSchema = ArraySchema<PartialForm<AnnualSplit, 'client_id'>, BaseValue>; // plural: Splits
 type AnnualSplitsSchemaMember = ReturnType<AnnualSplitsSchema['member']>; // plural: Splits
 
-const greaterThanStartDateCondition = (
-    value: number | string | null | undefined,
-    allValue: PartialForm<FormType>,
-) => {
-    const start = allValue?.start_date;
-    const end = value;
+export type Maybe<T> = T | undefined | null;
 
-    if (!start || !end) {
-        return undefined;
-    }
-
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-
-    if (startDate.getTime() >= endDate.getTime()) {
-        return 'End date must be greater than start date';
-    }
-
-    return undefined;
-};
-
+function dateGreaterThanOrEqualCondition(x: string) {
+    return (value: Maybe<string>) => (
+        isDefined(value) && (new Date(value).getTime()) < (new Date(x).getTime())
+            ? `Field must be greater than ${x}`
+            : undefined
+    );
+}
 const finalSchema: FormSchema = {
     fields: (value): FormSchemaFields => {
         let schema: FormSchemaFields = {
@@ -77,7 +68,6 @@ const finalSchema: FormSchema = {
                 validations: [positiveIntegerCondition],
             },
             dtype: { required: true },
-            end_date: { required: true, validations: [greaterThanStartDateCondition] },
             event: {},
             is_project_completed: {},
             name: { required: true, validations: [requiredStringCondition] },
@@ -109,8 +99,28 @@ const finalSchema: FormSchema = {
                 validations: [positiveIntegerCondition],
             },
             visibility: { required: true },
-            is_annual_report: { forceValue: nullValue },
+            is_annual_report: {},
         };
+
+        schema = addCondition(
+            schema,
+            value,
+            ['start_date', 'end_date'] as const,
+            ['end_date'] as const,
+            (props) => {
+                if (props?.start_date) {
+                    return {
+                        end_date: {
+                            required: true,
+                            validations: [dateGreaterThanOrEqualCondition(props.start_date)],
+                        },
+                    };
+                }
+                return {
+                    end_date: { required: true },
+                };
+            },
+        );
 
         schema = addCondition(
             schema,

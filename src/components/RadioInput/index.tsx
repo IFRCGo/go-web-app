@@ -10,7 +10,7 @@ import styles from './styles.module.css';
 
 export interface BaseProps<N, O, V, RRP extends RadioProps<V, N>> {
     className?: string;
-    options: O[];
+    options: O[] | undefined;
     name: N;
     value: V | undefined | null;
     keySelector: (option: O) => V;

@@ -1,6 +1,5 @@
-import React from 'react';
+import { useCallback } from 'react';
 import {
-    PartialForm,
     useFormObject,
     getErrorObject,
     SetValueArg,
@@ -8,8 +7,9 @@ import {
 } from '@togglecorp/toggle-form';
 import {
     _cs,
+    randomString,
     isDefined,
-    isFalsy,
+    isTruthy,
 } from '@togglecorp/fujs';
 
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
@@ -17,20 +17,16 @@ import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
 import Button from '#components/Button';
 
-import { AnnualSplit } from '../schema';
+import { PartialAnnualType } from '../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type Value = PartialForm<AnnualSplit>;
-
-const defaultValue: Value = {};
-
 interface Props {
     className?: string;
-    onChange: (value: SetValueArg<Value>, index: number) => void;
-    error: Error<AnnualSplit> | undefined;
+    onChange: (value: SetValueArg<PartialAnnualType>, index: number) => void;
+    error: Error<PartialAnnualType> | undefined;
     index: number;
-    value: Value;
+    value: PartialAnnualType;
     onRemove: (index: number) => void;
 }
 
@@ -46,58 +42,150 @@ function AnnualSplitInput(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const setFieldValue = useFormObject(index, onChange, defaultValue);
+    const setFieldValue = useFormObject(index, onChange, { client_id: randomString() });
     const error = getErrorObject(errorFromProps);
 
-    // Calculate and set target total
-    React.useEffect(() => {
-        if (
-            isFalsy(value.target_male)
-            && isFalsy(value.target_female)
-            && isFalsy(value.target_other)
-        ) {
-            return;
-        }
+    const handleTargetMaleChange = useCallback((newTarget: number | undefined) => {
+        onChange((oldValue) => {
+            let total = oldValue?.target_total;
+            if (
+                isTruthy(newTarget)
+                || isTruthy(oldValue?.target_female)
+                || isTruthy(oldValue?.target_other)
+            ) {
+                total = (newTarget ?? 0)
+                + (oldValue?.target_female ?? 0)
+                + (oldValue?.target_other ?? 0);
+            }
 
-        const total = (value.target_male ?? 0)
-            + (value.target_female ?? 0)
-            + (value.target_other ?? 0);
+            return ({
+                ...oldValue,
+                client_id: oldValue?.client_id ?? randomString(),
+                target_total: total,
+                target_male: newTarget,
+            });
+        }, index);
+    }, [onChange, index]);
 
-        if (!Number.isNaN(total)) {
-            setFieldValue(total, 'target_total');
-        }
-    }, [value?.target_male, value?.target_female, value?.target_other, setFieldValue]);
+    const handleTargetFemaleChange = useCallback((newTarget: number | undefined) => {
+        onChange((oldValue) => {
+            let total = oldValue?.target_total;
+            if (
+                isTruthy(oldValue?.target_male)
+                || isTruthy(newTarget)
+                || isTruthy(oldValue?.target_other)
+            ) {
+                total = (oldValue?.target_male ?? 0)
+                + (newTarget ?? 0)
+                + (oldValue?.target_other ?? 0);
+            }
 
-    // Calculate and set reached total
-    React.useEffect(() => {
-        if (
-            isFalsy(value.reached_male)
-        && isFalsy(value.reached_female)
-        && isFalsy(value.reached_other)
-        ) {
-            return;
-        }
+            return ({
+                ...oldValue,
+                client_id: oldValue?.client_id ?? randomString(),
+                target_total: total,
+                target_female: newTarget,
+            });
+        }, index);
+    }, [onChange, index]);
 
-        const total = (value?.reached_male ?? 0)
-            + (value?.reached_female ?? 0)
-            + (value?.reached_other ?? 0);
+    const handleTargetOtherChange = useCallback((newTarget: number | undefined) => {
+        onChange((oldValue) => {
+            let total = oldValue?.target_total;
+            if (
+                isTruthy(oldValue?.target_male)
+                || isTruthy(oldValue?.target_female)
+                || isTruthy(newTarget)
+            ) {
+                total = (oldValue?.target_male ?? 0)
+                + (oldValue?.target_female ?? 0)
+                + (newTarget ?? 0);
+            }
 
-        if (!Number.isNaN(total)) {
-            setFieldValue(total, 'reached_total');
-        }
-    }, [value?.reached_male, value?.reached_female, value?.reached_other, setFieldValue]);
+            return ({
+                ...oldValue,
+                client_id: oldValue?.client_id ?? randomString(),
+                target_total: total,
+                target_other: newTarget,
+            });
+        }, index);
+    }, [onChange, index]);
+
+    const handleReachedMaleChange = useCallback((newReached: number | undefined) => {
+        onChange((oldValue) => {
+            let total = oldValue?.reached_total;
+            if (
+                isTruthy(newReached)
+                || isTruthy(oldValue?.reached_female)
+                || isTruthy(oldValue?.reached_other)
+            ) {
+                total = (newReached ?? 0)
+                + (oldValue?.reached_female ?? 0)
+                + (oldValue?.reached_other ?? 0);
+            }
+            return ({
+                ...oldValue,
+                reached_total: total,
+                client_id: oldValue?.client_id ?? randomString(),
+                reached_male: newReached,
+            });
+        }, index);
+    }, [onChange, index]);
+
+    const handleReachedFemaleChange = useCallback((newReached: number | undefined) => {
+        onChange((oldValue) => {
+            let total = oldValue?.reached_total;
+            if (
+                isTruthy(oldValue?.reached_male)
+                || isTruthy(newReached)
+                || isTruthy(oldValue?.reached_other)
+            ) {
+                total = (oldValue?.reached_male ?? 0)
+                + (newReached ?? 0)
+                + (oldValue?.reached_other ?? 0);
+            }
+
+            return ({
+                ...oldValue,
+                client_id: oldValue?.client_id ?? randomString(),
+                reached_total: total,
+                reached_female: newReached,
+            });
+        }, index);
+    }, [onChange, index]);
+
+    const handleReachedOtherChange = useCallback((newReached: number | undefined) => {
+        onChange((oldValue) => {
+            let total = oldValue?.reached_total;
+            if (
+                isTruthy(oldValue?.reached_male)
+                || isTruthy(oldValue?.reached_female)
+                || isTruthy(newReached)
+            ) {
+                total = (oldValue?.reached_male ?? 0)
+                + (oldValue?.reached_female ?? 0)
+                + (newReached ?? 0);
+            }
+
+            return ({
+                ...oldValue,
+                client_id: oldValue?.client_id ?? randomString(),
+                reached_total: total,
+                reached_other: newReached,
+            });
+        }, index);
+    }, [onChange, index]);
 
     const shouldDisableReachedTotal = isDefined(value.reached_male)
-    || isDefined(value.reached_female)
-    || isDefined(value.reached_other);
+        || isDefined(value.reached_female)
+        || isDefined(value.reached_other);
 
     const shouldDisableTargetTotal = isDefined(value.target_male)
-    || isDefined(value.target_female)
-    || isDefined(value.target_other);
+        || isDefined(value.target_female)
+        || isDefined(value.target_other);
 
     return (
         <div className={_cs(styles.annualSplitInput, className)}>
-            <input type="hidden" name="id" value={value?.id} />
             <span className={styles.bold}>
                 <NumberInput
                     label={strings.threeWYear}
@@ -127,21 +215,21 @@ function AnnualSplitInput(props: Props) {
                 label={strings.threeWTargetMale}
                 name="target_male"
                 value={value?.target_male}
-                onChange={setFieldValue}
+                onChange={handleTargetMaleChange}
                 error={error?.target_male}
             />
             <NumberInput
                 label={strings.threeWTargetFemale}
                 name="target_female"
                 value={value?.target_female}
-                onChange={setFieldValue}
+                onChange={handleTargetFemaleChange}
                 error={error?.target_female}
             />
             <NumberInput
                 label={strings.threeWTargetOther}
                 name="target_other"
                 value={value?.target_other}
-                onChange={setFieldValue}
+                onChange={handleTargetOtherChange}
                 error={error?.target_other}
             />
             <span className={styles.bold}>
@@ -158,21 +246,21 @@ function AnnualSplitInput(props: Props) {
                 label={strings.threeWReachedMale}
                 name="reached_male"
                 value={value?.reached_male}
-                onChange={setFieldValue}
+                onChange={handleReachedMaleChange}
                 error={error?.reached_male}
             />
             <NumberInput
                 label={strings.threeWReachedFemale}
                 name="reached_female"
                 value={value?.reached_female}
-                onChange={setFieldValue}
+                onChange={handleReachedFemaleChange}
                 error={error?.reached_female}
             />
             <NumberInput
                 label={strings.threeWReachedOther}
                 name="reached_other"
                 value={value?.reached_other}
-                onChange={setFieldValue}
+                onChange={handleReachedOtherChange}
                 error={error?.reached_other}
             />
             <span className={styles.bold}>

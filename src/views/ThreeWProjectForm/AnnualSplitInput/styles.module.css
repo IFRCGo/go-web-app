@@ -6,7 +6,7 @@
     gap: var(--go-ui-spacing-xs);
 
     >* {
-        flex-basis: calc(100% / 4 - #{$spacing*0.5});
+        flex-basis: calc(100% / 4 - var(--go-ui-spacing-xs));
     }
 
     .remove-button {
