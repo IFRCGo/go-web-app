@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { generatePath } from 'react-router-dom';
 
-import pyramidLogo from '#assets/icons/content/pyramid.png';
+import pyramidLogo from '#assets/images/pyramid.png';
 import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
 import RouteContext from '#contexts/route';
 import Container from '#components/Container';
@@ -22,7 +22,7 @@ export function Component() {
         informationManagementComposition: informationManagementCompositionRoute,
     } = useContext(RouteContext);
 
-    const certOne: LinkData[] = [
+    const simsLink: LinkData[] = [
         {
             title: strings.catalogueIMServicesSimsLink,
             to: 'https://rcrcsims.org/',
@@ -30,7 +30,7 @@ export function Component() {
         },
     ];
 
-    const certTwo: LinkData[] = [
+    const userLibraryLink: LinkData[] = [
         {
             title: strings.catalogueIMUserLibraryLink,
             to: 'https://go-user-library.ifrc.org/',
@@ -38,17 +38,17 @@ export function Component() {
         },
     ];
 
-    const certThree: LinkData[] = [
+    const koboToolboxLink: LinkData[] = [
         {
-            title: strings.catalogueIMIfrcToolboxLink,
+            title: strings.catalogueIMIFRCToolboxLink,
             to: 'https://www.ifrc.org/ifrc-kobo',
             withExternalLinkIcon: true,
         },
     ];
 
-    const certFour: LinkData[] = [
+    const deepLink: LinkData[] = [
         {
-            title: strings.catalogueIMDeepLink,
+            title: strings.catalogueIMDEEPLink,
             to: 'https://deephelp.zendesk.com/auth/v2/login/signin?return_to=https%3A%2F%2Fdeephelp.zendesk.com%2Fhc%2Fen-us%2Farticles%2F360041904812-4-DEEP-Using-the-DEEP-Platform-&theme=hc&locale=en-us&brand_id=360000501911&auth_origin=360000501911%2Cfalse%2Ctrue/',
             withExternalLinkIcon: true,
         },
@@ -164,7 +164,7 @@ export function Component() {
             >
                 <CatalogueInfoCard
                     title={strings.catalogueIMServicesSims}
-                    data={certOne}
+                    data={simsLink}
                     description={strings.catalogueIMServicesDetails}
                 />
                 <CatalogueInfoCard
@@ -189,9 +189,9 @@ export function Component() {
                     description={strings.catalogueIMRegionalOfficeDescription}
                 />
                 <CatalogueInfoCard
-                    title={strings.catalogueIMIfrcGeneva}
+                    title={strings.catalogueIMIFRCGeneva}
                     data={ifrcGenevaData}
-                    description={strings.catalogueIMIfrcGenevaDescription}
+                    description={strings.catalogueIMIFRCGenevaDescription}
                 />
                 <CatalogueInfoCard
                     title={strings.catalogueIMComposition}
@@ -200,17 +200,17 @@ export function Component() {
                 />
                 <CatalogueInfoCard
                     title={strings.catalogueIMUserLibrary}
-                    data={certTwo}
+                    data={userLibraryLink}
                     description={strings.catalogueIMUserLibraryDescription}
                 />
                 <CatalogueInfoCard
-                    title={strings.catalogueIMIfrcToolbox}
-                    data={certThree}
-                    description={strings.catalogueIMIfrcToolboxDescription}
+                    title={strings.catalogueIMIFRCToolbox}
+                    data={koboToolboxLink}
+                    description={strings.catalogueIMIFRCToolboxDescription}
                 />
                 <CatalogueInfoCard
-                    title={strings.catalogueIMDeep}
-                    data={certFour}
+                    title={strings.catalogueIMDEEP}
+                    data={deepLink}
                     description={strings.catalogueIMDeepDescription}
                 />
             </Container>

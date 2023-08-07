@@ -7,7 +7,7 @@ import {
     HealthIcon,
     PartnershipIcon,
     PublicInformationIcon,
-    SearchLineIcon,
+    AnalysisIcon,
 } from '@ifrc-go/icons';
 
 import RouteContext from '#contexts/route';
@@ -99,7 +99,7 @@ export function Component() {
                         catalogueInformationManagementRoute.absolutePath,
                     )}
                 >
-                    <SearchLineIcon className={styles.icon} />
+                    <AnalysisIcon className={styles.icon} />
                     {strings.catalogueInformationManagement}
                 </NavigationTab>
             </NavigationTabList>
