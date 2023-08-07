@@ -1,31 +1,32 @@
-import { useMemo } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import getBbox from '@turf/bbox';
+import { useContext } from 'react';
+import { Outlet, useOutletContext } from 'react-router-dom';
 
-import RiskImminentEvents from '#components/RiskImminentEvents';
+import NavigationTabList from '#components/NavigationTabList';
+import NavigationTab from '#components/NavigationTab';
+import RouteContext from '#contexts/route';
 import { RegionOutletContext } from '#utils/outletContext';
 
 import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { regionResponse } = useOutletContext<RegionOutletContext>();
-
-    const bbox = useMemo(
-        () => (regionResponse ? getBbox(regionResponse.bbox) : undefined),
-        [regionResponse],
-    );
+    const regionOutletContext = useOutletContext<RegionOutletContext>();
+    const {
+        regionImminentRiskWatch,
+        regionSeasonalRiskWatch,
+    } = useContext(RouteContext);
 
     return (
         <div className={styles.regionRiskWatch}>
-            {regionResponse && (
-                <RiskImminentEvents
-                    variant="region"
-                    regionId={regionResponse.id}
-                    title={regionResponse.region_name}
-                    bbox={bbox}
-                />
-            )}
+            <NavigationTabList variant="secondary">
+                <NavigationTab to={regionImminentRiskWatch.path}>
+                    Imminent
+                </NavigationTab>
+                <NavigationTab to={regionSeasonalRiskWatch.path}>
+                    Seasonal
+                </NavigationTab>
+            </NavigationTabList>
+            <Outlet context={regionOutletContext} />
         </div>
     );
 }

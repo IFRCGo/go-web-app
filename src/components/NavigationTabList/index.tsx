@@ -43,7 +43,9 @@ export default function TabList(props: Props) {
                 role="tablist"
             >
                 <div className={styles.startDummyContent} />
-                {children}
+                <div className={styles.content}>
+                    {children}
+                </div>
                 <div className={styles.endDummyContent} />
             </div>
         </NavigationTabContext.Provider>

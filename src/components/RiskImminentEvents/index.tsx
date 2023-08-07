@@ -12,21 +12,18 @@ import RadioInput from '#components/RadioInput';
 import { stringLabelSelector } from '#utils/selectors';
 import { hazardTypeToColorMap } from '#utils/risk';
 import type { components } from '#generated/riskTypes';
+import Container from '#components/Container';
+import useTranslation from '#hooks/useTranslation';
 
 import Pdc from './Pdc';
 import WfpAdam from './WfpAdam';
 import Gdacs from './Gdacs';
 import MeteoSwiss from './MeteoSwiss';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type ActiveView = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
 type ViewOption = { key: ActiveView, label: string };
-const viewOptions: Array<ViewOption> = [
-    { key: 'pdc', label: 'PDC' },
-    { key: 'wfpAdam', label: 'WFP ADAM' },
-    { key: 'gdacs', label: 'GDACS' },
-    { key: 'meteoSwiss', label: 'MeteoSwiss' },
-];
 function viewKeySelector(option: ViewOption) {
     return option.key;
 }
@@ -84,6 +81,18 @@ function RiskImminentEvents(props: Props) {
     const [activeView, setActiveView] = useState<ActiveView>('pdc');
     const { className, ...otherProps } = props;
 
+    const strings = useTranslation(i18n);
+
+    const viewOptions = useMemo<Array<ViewOption>>(
+        () => [
+            { key: 'pdc', label: strings.imminentEventsSourcePdcLabel },
+            { key: 'wfpAdam', label: strings.imminentEventsSourceWfpAdamLabel },
+            { key: 'gdacs', label: strings.imminentEventsSourceGdacsLabel },
+            { key: 'meteoSwiss', label: strings.imminentEventsSourceMeteoSwissLabel },
+        ],
+        [strings],
+    );
+
     const CurrentView = useMemo(
         () => {
             if (activeView === 'pdc') {
@@ -108,14 +117,12 @@ function RiskImminentEvents(props: Props) {
     );
 
     return (
-        <div className={_cs(styles.riskImminentEvents, className)}>
-            {CurrentView && (
-                <CurrentView
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...otherProps}
-                />
-            )}
-            <div className={styles.footer}>
+        <Container
+            className={_cs(styles.riskImminentEvents, className)}
+            heading={strings.imminentEventsHeading}
+            headerDescription={strings.imminentEventsDescription}
+            withHeaderBorder
+            footerIcons={(
                 <div className={styles.legend}>
                     {riskHazards.map((hazard) => (
                         <div
@@ -136,6 +143,8 @@ function RiskImminentEvents(props: Props) {
                         </div>
                     ))}
                 </div>
+            )}
+            footerActions={(
                 <RadioInput
                     name={undefined}
                     value={activeView}
@@ -144,8 +153,15 @@ function RiskImminentEvents(props: Props) {
                     labelSelector={stringLabelSelector}
                     keySelector={viewKeySelector}
                 />
-            </div>
-        </div>
+            )}
+        >
+            {CurrentView && (
+                <CurrentView
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...otherProps}
+                />
+            )}
+        </Container>
     );
 }
 

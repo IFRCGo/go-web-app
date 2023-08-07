@@ -14,6 +14,8 @@ import { unique } from '@togglecorp/fujs';
 import UserContext, { UserAuth, UserContextProps } from '#contexts/user';
 import AlertContext, { AlertParams, AlertContextProps } from '#contexts/alert';
 import RouteContext from '#contexts/route';
+import CountryContext from '#contexts/country';
+import type { CountryContextProps } from '#contexts/country';
 import { RequestContext } from '#utils/restRequest';
 import { KEY_USER_STORAGE } from '#utils/constants';
 import {
@@ -57,6 +59,8 @@ function App() {
     }, [hydrateUserAuth]);
 
     const [alerts, setAlerts] = useState<AlertParams[]>([]);
+    const [countriesPending, setCountriesPending] = useState(false);
+    const [countries, setCountries] = useState<CountryContextProps['countries']>([]);
 
     const addAlert = useCallback((alert: AlertParams) => {
         setAlerts((prevAlerts) => unique(
@@ -118,31 +122,46 @@ function App() {
         );
     }, []);
 
-    const userContextValue: UserContextProps = useMemo(() => ({
-        userAuth,
-        hydrateUserAuth,
-        setUserAuth: setAndStoreUserAuth,
-        removeUserAuth,
-    }), [userAuth, hydrateUserAuth, setAndStoreUserAuth, removeUserAuth]);
+    const userContextValue = useMemo<UserContextProps>(
+        () => ({
+            userAuth,
+            hydrateUserAuth,
+            setUserAuth: setAndStoreUserAuth,
+            removeUserAuth,
+        }),
+        [userAuth, hydrateUserAuth, setAndStoreUserAuth, removeUserAuth],
+    );
+
+    const countryContextValue = useMemo<CountryContextProps>(
+        () => ({
+            pending: countriesPending,
+            setPending: setCountriesPending,
+            countries,
+            setCountries,
+        }),
+        [countriesPending, countries],
+    );
 
     return (
         <RouteContext.Provider value={wrappedRoutes}>
             <UserContext.Provider value={userContextValue}>
                 <AlertContext.Provider value={alertContextValue}>
                     <RequestContext.Provider value={requestContextValue}>
-                        <RouterProvider
-                            router={router}
-                            fallbackElement={(
-                                <div className={styles.fallbackElement}>
-                                    <img
-                                        className={styles.goLogo}
-                                        alt="IFRC GO"
-                                        src={goLogo}
-                                    />
-                                    {`${import.meta.env.APP_TITLE} loading...`}
-                                </div>
-                            )}
-                        />
+                        <CountryContext.Provider value={countryContextValue}>
+                            <RouterProvider
+                                router={router}
+                                fallbackElement={(
+                                    <div className={styles.fallbackElement}>
+                                        <img
+                                            className={styles.goLogo}
+                                            alt="IFRC GO"
+                                            src={goLogo}
+                                        />
+                                        {`${import.meta.env.APP_TITLE} loading...`}
+                                    </div>
+                                )}
+                            />
+                        </CountryContext.Provider>
                     </RequestContext.Provider>
                 </AlertContext.Provider>
             </UserContext.Provider>

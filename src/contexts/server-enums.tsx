@@ -1,3 +1,4 @@
+// FIXME: rename to globalEnum
 import { createContext } from 'react';
 import { paths } from '#generated/types';
 

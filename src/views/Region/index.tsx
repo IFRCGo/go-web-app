@@ -145,6 +145,7 @@ export function Component() {
                         regionRiskWatchRoute.absolutePath,
                         { regionId },
                     )}
+                    parentRoute
                 >
                     {strings.regionRiskTab}
                 </NavigationTab>

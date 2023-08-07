@@ -4,6 +4,11 @@
 
     &.primary {
         overflow-x: auto;
+
+        .content {
+            display: flex;
+        }
+
         .start-dummy-content,
         .end-dummy-content {
             align-self: flex-end;
@@ -13,19 +18,39 @@
     }
 
     &.secondary {
-        border-radius: calc(1em + var(--go-ui-spacing-md));
-        background-color: var(--go-ui-color-background);
-        width: fit-content;
+        display: flex;
         overflow-x: auto;
+
+        .content {
+            display: flex;
+            background-color: var(--go-ui-color-background);
+            border-radius: var(--go-ui-border-radius-full);
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            flex-grow: 1;
+        }
     }
 
     &.tertiary {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: var(--go-ui-spacing-md);
-        width: fit-content;
         overflow-x: auto;
+        width: fit-content;
+        justify-content: flex-start;
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: var(--go-ui-spacing-md);
+            width: fit-content;
+            overflow-x: auto;
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            display: none;
+        }
     }
 
     &.step {
@@ -38,6 +63,14 @@
     }
 
     &.vertical {
-        flex-direction: column;
+        .content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            display: none;
+        }
     }
 }

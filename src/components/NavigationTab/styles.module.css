@@ -164,10 +164,13 @@
     }
 
     &.secondary {
-        padding: 0 var(--go-ui-spacing-sm);
+        border-radius: var(--go-ui-border-radius-full);
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-md) var(--go-ui-spacing-3xl);
 
         &.active {
-            color: var(--go-ui-color-primary-red);
+            background-color: var(--go-ui-color-primary-red);
+            color: var(--go-ui-color-white);
         }
     }
 
