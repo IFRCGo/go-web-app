@@ -26,12 +26,6 @@ type ResolveResponseContent<RESPONSES, METHOD> = (
             : unknown
 );
 
-type ResolveRequestBody<REQUEST_BODY> = (
-    REQUEST_BODY extends { content: { 'application/json': infer RequestBody } }
-        ? RequestBody
-        : unknown
-);
-
 type ResolvePath<PARAMETERS> = (
     PARAMETERS extends { path: infer Path }
         ? Path
@@ -41,6 +35,12 @@ type ResolvePath<PARAMETERS> = (
 type ResolveQuery<PARAMETERS> = (
     PARAMETERS extends { query: infer Query }
         ? Query
+        : unknown
+);
+
+type ResolveRequestBody<REQUEST_BODY> = (
+    REQUEST_BODY extends { content: { 'application/json': infer RequestBody } }
+        ? RequestBody
         : unknown
 );
 

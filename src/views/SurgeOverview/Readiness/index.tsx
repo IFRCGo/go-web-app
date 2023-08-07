@@ -131,6 +131,7 @@ function Readiness() {
                 pending={eruOwnersPending}
                 errored={!!eruOwnersError}
                 filtered={false}
+                withMessageOverContent
                 keySelector={eruOwnerKeySelector}
                 renderer={EmergencyResponseUnitOwnerCard}
                 rendererParams={rendererParams}

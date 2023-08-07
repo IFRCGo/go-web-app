@@ -1584,6 +1584,20 @@ const fieldReportFormNew = customWrapRoute({
     },
 });
 
+const fieldReportFormEdit = customWrapRoute({
+    path: 'field-report/:reportId/edit',
+    component: {
+        render: () => import('#views/FieldReportForm'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Field Report Form',
+        visibility: 'is-authenticated',
+    },
+});
+
 const perProcessForm = customWrapRoute({
     path: 'per-process',
     component: {
@@ -1597,6 +1611,8 @@ const perProcessForm = customWrapRoute({
         visibility: 'is-authenticated',
     },
 });
+
+// NOTE: Add index to redirect to /new
 
 const newPerOverviewForm = customWrapRoute({
     path: 'new',
@@ -1733,6 +1749,7 @@ const wrappedRoutes = {
     newDrefApplicationForm,
     drefApplicationForm,
     fieldReportFormNew,
+    fieldReportFormEdit,
     flashUpdateFormNew,
     riskWatch,
     perProcessForm,

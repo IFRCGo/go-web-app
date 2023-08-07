@@ -1,6 +1,22 @@
 {
     "namespace": "fieldReportForm",
     "strings": {
-        "fieldReportTitle": "IFRC GO - Field Report"
+        "fieldReportCOVID19": "",
+        "fieldReportFormRedirectMessage": "",
+        "fieldReportFormErrorLabel": "",
+        "fieldReportTitle": "IFRC GO - Field Report",
+        "fieldReportBackButtonLabel": "Back",
+        "fieldReportContinue": "Continue",
+        "fieldReportCreate": "Create Field Report",
+        "fieldReportFormItemActionsLabel": "Actions",
+        "fieldReportFormItemContextLabel": "Context",
+        "fieldReportFormItemEarlyActionsLabel": "Early Actions",
+        "fieldReportFormItemResponseLabel": "Response",
+        "fieldReportFormItemRiskAnalysisLabel": "Risk Analysis",
+        "fieldReportFormItemSituationLabel": "Situation",
+        "fieldReportFormNonFieldError": "Please fill in required fields first!",
+        "fieldReportSubmit": "Submit",
+        "fieldReportUpdate": "Update Field Report"
     }
 }
+

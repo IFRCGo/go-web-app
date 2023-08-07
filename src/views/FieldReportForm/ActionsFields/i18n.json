@@ -1,0 +1,28 @@
+{
+    "namespace": "fieldReportForm",
+    "strings": {
+        "cmpActionDescriptionLabel": "",
+        "fieldReportFormActionTakenTitle": "",
+        "fieldReportFormInformationBulletinDescription": "",
+        "fieldReportFormInformationBulletinLabel": "",
+        "fieldReportFormOthersActionsPlaceholder": "",
+        "fieldsStep3ActionsOthersEVTEPIDescription": "",
+        "fieldsStep3ActionsOthersEVTEPILabel": "",
+        "fieldsStep3CheckboxSectionsFederationActionsEVTEPIDescription": "",
+        "fieldsStep3CheckboxSectionsFederationActionsEVTEPIEWPlaceholder": "",
+        "fieldsStep3CheckboxSectionsFederationActionsEVTEPILabel": "",
+        "fieldsStep3CheckboxSectionsNSActionsEVTEPIDescription": "",
+        "fieldsStep3CheckboxSectionsNSActionsEVTEPILabel": "",
+        "fieldsStep3CheckboxSectionsNSActionsEVTPlaceholder": "",
+        "fieldsStep3CheckboxSectionsPNSActionsEVTEPIDescription": "",
+        "fieldsStep3CheckboxSectionsPNSActionsEVTEPIEWPlaceholder": "",
+        "fieldsStep3CheckboxSectionsPNSActionsEVTLabel": "",
+        "fieldsStep3Section1FieldsAssistedGovEVTEPILabel": "",
+        "fieldsStep3Section1FieldsAssistedRCRCEVTEPILabel": "",
+        "fieldsStep3Section1FieldsExpatsEVTEPIDescription": "",
+        "fieldsStep3Section1FieldsExpatsEVTEPILabel": "",
+        "fieldsStep3Section1FieldsLocalStaffEVTEPILabel": "",
+        "fieldsStep3Section1FieldsVolunteersEVTEPILabel": ""
+    }
+}
+

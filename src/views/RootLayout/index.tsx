@@ -43,7 +43,7 @@ export function Component() {
     } = useRequest({
         skip: !fetch.country,
         url: '/api/v2/country/',
-        query: { limit: 500 },
+        query: { limit: 9999 },
     });
 
     const contextValue = useMemo(

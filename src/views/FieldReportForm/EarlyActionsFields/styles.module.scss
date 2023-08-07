@@ -1,0 +1,28 @@
+@import '~styles/settings/_variables.scss';
+
+.early-action-fields {
+  .numeric-section {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: $color-foreground;
+    box-shadow: $box-shadow-component;
+    margin: $spacing 0;
+
+    >* {
+      flex-basis: 50%;
+
+      >:first-child {
+        flex-basis: 50%;
+      }
+    }
+  }
+
+  .other-section {
+    :global {
+      .go-input-section {
+        margin: $spacing 0;
+        box-shadow: $box-shadow-component;
+      }
+    }
+  }
+}

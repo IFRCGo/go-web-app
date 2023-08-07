@@ -1,0 +1,31 @@
+@import '~styles/settings/_variables.scss';
+
+.situation-fields {
+  .source-radio-list-container {
+    flex-direction: column;
+  }
+
+  :global {
+    .go-input-section {
+      margin: $spacing 0;
+      box-shadow: $box-shadow-component;
+    }
+  }
+}
+
+.covid-situation-fields {
+  .input-section-group {
+    background-color: $color-foreground;
+    margin: $spacing 0;
+    box-shadow: $box-shadow-component;
+  }
+
+  .non-grouped-inputs-section {
+    :global {
+      .go-input-section {
+        margin: $spacing 0;
+        box-shadow: $box-shadow-component;
+      }
+    }
+  }
+}

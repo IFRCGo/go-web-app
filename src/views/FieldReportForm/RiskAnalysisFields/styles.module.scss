@@ -1,0 +1,14 @@
+@import '~styles/settings/_variables.scss';
+
+.risk-analysis-fields {
+  .source-radio-list-container {
+    flex-direction: column;
+  }
+
+  :global {
+    .go-input-section {
+      margin: $spacing 0;
+      box-shadow: $box-shadow-component;
+    }
+  }
+}

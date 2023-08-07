@@ -104,7 +104,7 @@ function SurgeMap(props: Props) {
         url: '/api/v2/eru/',
         query: {
             deployed_to__isnull: false,
-            limit: 1000, // FIXME: we should fix this unbounded request
+            limit: 9999, // FIXME: we should fix this unbounded request
         },
     });
 
@@ -114,7 +114,7 @@ function SurgeMap(props: Props) {
         url: '/api/v2/personnel/',
         query: {
             end_date__gt: today,
-            limit: 1000, // FIXME: we should fix this unbounded request
+            limit: 9999, // FIXME: we should fix this unbounded request
         },
     });
 

@@ -20,7 +20,7 @@ export interface Props<N> extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref'
  * we use raw button as a base component for other types of buttons or
  * clickable elements
  */
-function RawButton<N>(props: Props<N>) {
+function RawButton<const N>(props: Props<N>) {
     const {
         children,
         className,

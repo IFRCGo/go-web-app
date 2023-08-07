@@ -81,7 +81,7 @@ function DistrictSearchMultiSelectInput<const NAME>(
     const handleSelectAllClick = useCallback(() => {
         trigger({
             country: countryId,
-            limit: 5000,
+            limit: 9999,
         });
     }, [trigger, countryId]);
 
