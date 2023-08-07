@@ -7,6 +7,7 @@ import { compression } from 'vite-plugin-compression2';
 import checker from 'vite-plugin-checker';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { ValidateEnv as validateEnv } from '@julr/vite-plugin-validate-env';
+import svgr from "vite-plugin-svgr";
 
 import envConfig from './env';
 
@@ -31,6 +32,7 @@ export default defineConfig(({ mode }) => {
                 },
             }) : undefined,
             isProd ? visualizer() : undefined,
+            svgr(),
             reactSwc(),
             tsconfigPaths(),
             webfontDownload(),

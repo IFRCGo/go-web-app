@@ -1,0 +1,31 @@
+{
+    "namespace": "surgeOperationalToolbox",
+    "strings": {
+        "surgeOperationalToolboxHeading": "Operational Timeline Toolbox",
+        "surgeOperationalToolboxHeadingDescription": "For Orange and Red Emergencies",
+        "operationalToolboxOverviewHeading": "Overview of the Toolbox",
+        "overviewSectionHeader": "This operational toolbox is a central repository with key operational document helpful for your mission like templates, checklists, guidance and examples.",
+        "overviewNavigationHowTo": "How to Navigate",
+        "toolboxValue": "Click on each section in pre-disaster column to acces the folders with all the relevant tools.",
+        "toolboxLabel": "Toolbox",
+        "timelineValue": "Click on the icons below to get direct access to the specific tool. When a longer grey bar is represented on the timeline it means that the timeframe can span over a nember of days/weeks. Note that these are indicative context specific timeframes, and are meant to function as a guide only.",
+        "timelineLabel": "Timeline",
+        "overviewSectionFooter": "The timeline below outlines the expected actions throughout the first four months of the response cycle. This timeline functions as a guide for RCRC operations practitioners and represents key milestones, deliverables and documents linked to them.",
+        "weAreLookingFor": "We are looking forward to receiving your feedback and improvement suggestions, please share them with us {here}. For additional questions please email: {emailOne} and {emailTwo}.",
+        "here": "here",
+        "perSectionHeading": "The {per} Mechanism provides a structure against which operational leadership can better determine and identify:",
+        "per": "Preparedness for Effective Response (PER)",
+        "perSectionOne": "the existing response capacity* of the National Society (NS)",
+        "perSectionTwo": "how best to prioritise and allocate for short-and medium-term planning*",
+        "perSectionThree": "how best to address operational {bottlenecks}",
+        "perSectionFour": "how to frame actions to enable recovery*",
+        "perSectionFive": "critical evidence-based {learnings} against a {framework}",
+        "perSectionSix": "how best to contribute to NS capacity strengthening*",
+        "bottlenecks": "bottlenecks",
+        "framework": "standard framework",
+        "learnings": "learnings",
+        "perSectionFooter": "General information about the NS Preparedness for Effective Response approach can be found {here}. The PER country-level details* can provide {information} on the {capacity} of a NS to implement, and the absorption capacity of a NS. For access to details on the NS existing response capacity and guidance on implementation of response capacity strengthening interventions please contact {emailThree}",
+        "capacity": "capacity",
+        "information": "information"
+    }
+}
