@@ -28,7 +28,7 @@ export function Component() {
 
     return (
         <Container
-            className={styles.choleraTreatmentHealth}
+            className={styles.healthBurials}
             heading={strings.safeAndDignifiedBurialsTitle}
             childrenContainerClassName={styles.content}
             icons={(
