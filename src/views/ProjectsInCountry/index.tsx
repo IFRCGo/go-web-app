@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import {
     isNotDefined,
     listToGroupList,
@@ -9,7 +9,13 @@ import {
 import {
     useOutletContext,
 } from 'react-router-dom';
+import {
+    DownloadFillIcon,
+} from '@ifrc-go/icons';
 
+import Container from '#components/Container';
+import Link from '#components/Link';
+import Button from '#components/Button';
 import PieChart from '#components/PieChart';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
@@ -21,6 +27,8 @@ import {
     numericValueSelector,
     stringLabelSelector,
 } from '#utils/selectors';
+
+import Filter, { FilterValue } from './Filters';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -39,17 +47,9 @@ type ProjectsResponse = GetProjects['responses']['200']['content']['application/
 type Project = NonNullable<ProjectsResponse['results']>[number];
 type ProjectKey = keyof Project;
 
-interface FilterValue {
-    reporting_ns: number[];
-    project_districts: number[];
-    operation_type: number[];
-    programme_type: number[];
-    primary_sector: number[];
-    secondary_sectors: number[];
-}
-export const PROJECT_STATUS_COMPLETED = 2;
-export const PROJECT_STATUS_ONGOING = 1;
-export const PROJECT_STATUS_PLANNED = 0;
+const PROJECT_STATUS_COMPLETED = 2;
+const PROJECT_STATUS_ONGOING = 1;
+const PROJECT_STATUS_PLANNED = 0;
 
 const emptyDistrictList: District[] = [];
 const emptyProjectList: Project[] = [];
@@ -62,7 +62,7 @@ const primaryRedColorShades = [
     'var(--go-ui-color-red-10)',
 ];
 
-export function filterProjects(
+function filterProjects(
     projectList: Project[],
     filters: Partial<Record<ProjectKey, number[]>>,
 ) {
@@ -141,6 +141,10 @@ export function Component() {
             limit: 200,
         },
     });
+
+    const handleExportClick = useCallback(() => {
+        console.warn('handleExportClick called');
+    }, []);
 
     const districtList = districtListResponse?.results ?? emptyDistrictList;
     const projectList = projectListResponse?.results ?? emptyProjectList;
@@ -249,6 +253,37 @@ export function Component() {
                     </div>
                 )}
             </div>
+            <Container
+                heading={strings.threeWOngoingProjectsTitle}
+                withHeaderBorder
+                filters={(
+                    <Filter
+                        value={filters}
+                        onChange={setFilters}
+                        countryId={countryResponse?.id}
+                    />
+                )}
+                actions={(
+                    <>
+                        <Button
+                            variant="primary"
+                            name={undefined}
+                            onClick={handleExportClick}
+                            icons={(<DownloadFillIcon />)}
+                        >
+                            {strings.exportProjects}
+                        </Button>
+                        <Link
+                            to={`/three-w/all/?country=${countryResponse?.iso}`}
+                            withForwardIcon
+                        >
+                            {strings.viewAllProjects}
+                        </Link>
+                    </>
+                )}
+            >
+                This is ongoing projects
+            </Container>
         </div>
     );
 }

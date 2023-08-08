@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     padding: var(--go-ui-spacing-xl) 0;
+    gap: var(--go-ui-spacing-3xl);
 
     .key-figure-list {
         display: grid;
