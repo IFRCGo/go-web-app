@@ -1,0 +1,38 @@
+.projects-in-country {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-xl) 0;
+
+    .key-figure-list {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+
+        @media screen and (max-width: 30rem) {
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        }
+
+        .key-figures {
+            display: flex;
+            border-radius: var(--go-ui-border-radius-lg);
+            box-shadow: var(--go-ui-box-shadow-lg);
+            background-color: var(--go-ui-color-white);
+            padding: var(--go-ui-spacing-xl);
+            height: 100%;
+
+            .separator {
+                flex-shrink: 0;
+                background-color: var(--go-ui-color-separator);
+                width: var(--go-ui-width-separator-sm);
+            }
+
+            .pie-chart {
+                flex-wrap: wrap;
+            }
+
+            .total-budget {
+                flex-basis: 20%;
+            }
+        }
+    }
+}

@@ -5,5 +5,10 @@
         display: flex;
         justify-content: center;
         gap: var(--go-ui-spacing-lg);
+
+        @media screen and (max-width: 30rem) {
+            display: flex;
+            flex-direction: column;
+        }
     }
 }

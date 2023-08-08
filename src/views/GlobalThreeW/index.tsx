@@ -15,9 +15,10 @@ import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
+import PieChart from '#components/PieChart';
 
 import Filter, { type FilterValue } from './Filters';
-import PieChart from './PieChart';
+
 import {
     type GlobalProjectsOverview,
     countSelector,

@@ -1,0 +1,9 @@
+{
+    "namespace": "projectsInCountry",
+    "strings": {
+        "activeDeploymentsTitle": "Active National Societies",
+        "targetedPopulationTitle": "Targeted Population",
+        "totalProjectsTitle": "Total Projects",
+        "ongoingProjectBudgetTitle": "Total Budget (CHF) for Ongoing Projects"
+    }
+}

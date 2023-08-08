@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import {
     Outlet,
     generatePath,
@@ -23,6 +23,13 @@ import styles from './styles.module.css';
 export function Component() {
     const { countryId } = useParams<{ countryId: string }>();
     const { countryResponse } = useOutletContext<CountryOutletContext>();
+
+    const outletContext = useMemo<CountryOutletContext>(
+        () => ({
+            countryResponse,
+        }),
+        [countryResponse],
+    );
 
     const strings = useTranslation(i18n);
 
@@ -106,7 +113,7 @@ export function Component() {
                     )}
                 </NavigationTab>
             </NavigationTabList>
-            <Outlet />
+            <Outlet context={outletContext} />
         </Container>
     );
 }
