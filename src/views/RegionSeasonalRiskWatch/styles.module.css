@@ -1,5 +1,38 @@
-.region-risk-watch {
+.region-seasonal-risk-watch {
     display: flex;
     flex-direction: column;
     padding: var(--go-ui-spacing-4xl) 0;
+
+    .content {
+        display: flex;
+        gap: var(--go-ui-spacing-xl);
+
+        .map-container {
+            flex-grow: 1;
+            height: 40rem;
+        }
+
+        .country-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+            width: 30rem;
+
+            .country {
+                .name {
+                    font-size: var(--go-ui-font-size-xs);
+                }
+
+                .track {
+                    display: flex;
+                    background-color: var(--go-ui-color-background);
+                    height: 0.5rem;
+
+                    .bar {
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -34,6 +34,7 @@ const riskHazards: Array<{
     label: string,
     icon: React.ReactNode,
 }> = [
+    // FIXME: use translation
     {
         key: 'FL',
         label: 'Flood',

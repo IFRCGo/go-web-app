@@ -32,6 +32,8 @@ import type { GoApiUrlQuery } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
+    adminFillLayerOptions,
+    adminLabelLayerOptions,
 } from '#utils/map';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
@@ -49,9 +51,6 @@ import {
     outerCircleLayerOptionsForPeopleTargeted,
     basePointLayerOptions,
     APPEAL_TYPE_MULTIPLE,
-
-    adminFillLayerOptions,
-    adminLabelLayerOptions,
 } from './utils';
 import styles from './styles.module.css';
 
@@ -285,7 +284,6 @@ function ActiveOperationMap(props: Props) {
             )}
         >
             <Map
-                // FIXME: add bounds for region variant
                 mapStyle={defaultMapStyle}
                 mapOptions={defaultMapOptions}
                 navControlShown
@@ -387,6 +385,7 @@ function ActiveOperationMap(props: Props) {
                 )}
                 {isDefined(bbox) && (
                     <MapBounds
+                        // FIXME: use defined constants
                         duration={1000}
                         bounds={bbox}
                         padding={50}

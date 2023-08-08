@@ -3,7 +3,12 @@ import {
     isFalsyString,
     isNotDefined,
 } from '@togglecorp/fujs';
-import { useContext, useEffect, useMemo } from 'react';
+import {
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+} from 'react';
 
 import CountryContext from '#contexts/country';
 import { paths } from '#generated/types';
@@ -11,7 +16,7 @@ import { useRequest } from '#utils/restRequest';
 
 type CountriesResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
 type PartialCountry = NonNullable<CountriesResponse['results']>[number];
-type Country = Omit<PartialCountry, 'iso3' | 'name'> & {
+export type Country = Omit<PartialCountry, 'iso3' | 'name'> & {
     iso3: string;
     name: string;
 }
@@ -47,9 +52,12 @@ function useCountry(
         setCountries,
     } = useContext(CountryContext);
 
+    const pendingRef = useRef(pending);
+
     useRequest({
-        skip: countries.length > 0 || pending,
+        skip: countries.length > 0 || pendingRef.current,
         url: '/api/v2/country/',
+        query: { limit: 500 },
         onSuccess: (response) => {
             if (response && response.results) {
                 setCountries(response.results);
@@ -60,7 +68,7 @@ function useCountry(
     // TODO: implement this side-effect in useRequest
     useEffect(
         () => {
-            if (countries.length === 0 && !pending) {
+            if (countries.length === 0 && pendingRef.current) {
                 setPending(true);
 
                 return () => {
@@ -70,7 +78,7 @@ function useCountry(
 
             return undefined;
         },
-        [countries, pending, setPending],
+        [countries, setPending],
     );
 
     const countriesSafe = useMemo(
@@ -81,6 +89,7 @@ function useCountry(
                     || isNotDefined(country.iso3)
                     || isFalsyString(country.name)
                     || country.is_deprecated === true
+                    || !country.independent
                 ) {
                     return undefined;
                 }

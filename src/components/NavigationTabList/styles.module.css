@@ -23,8 +23,8 @@
 
         .content {
             display: flex;
-            background-color: var(--go-ui-color-background);
             border-radius: var(--go-ui-border-radius-full);
+            background-color: var(--go-ui-color-background);
         }
 
         .start-dummy-content,
@@ -34,17 +34,17 @@
     }
 
     &.tertiary {
-        overflow-x: auto;
-        width: fit-content;
         justify-content: flex-start;
+        width: fit-content;
+        overflow-x: auto;
 
         .content {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
-            gap: var(--go-ui-spacing-md);
             width: fit-content;
             overflow-x: auto;
+            gap: var(--go-ui-spacing-md);
         }
 
         .start-dummy-content,

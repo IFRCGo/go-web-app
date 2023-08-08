@@ -21,8 +21,17 @@ import {
     getWfRiskDataItem,
     hasSomeDefinedValue,
     hazardTypeToColorMap,
+    defaultApplicableHazards,
+    riskMetricKeySelector,
+    hazardTypeKeySelector,
+    hazardTypeLabelSelector,
 } from '#utils/risk';
-import type { paths, components } from '#generated/riskTypes';
+import type {
+    HazardType,
+    RiskMetric,
+    RiskMetricOption,
+} from '#utils/risk';
+import type { paths } from '#generated/riskTypes';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -33,42 +42,6 @@ import CombinedChart from './CombinedChart';
 type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
 type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
 type RiskData = CountryRiskResponse[number];
-type HazardType = components['schemas']['HazardTypeEnum'];
-interface HazardTypeOption {
-    hazard_type: HazardType;
-    hazard_type_display: string;
-}
-
-type RiskMetric = 'exposure' | 'displacement' | 'riskScore';
-type RiskMetricOption = {
-    key: RiskMetric,
-    label: string;
-    applicableHazards: Record<HazardType, boolean>;
-}
-
-function riskMetricKeySelector(option: RiskMetricOption) {
-    return option.key;
-}
-
-function hazardTypeKeySelector(option: HazardTypeOption) {
-    return option.hazard_type;
-}
-function hazardTypeLabelSelector(option: HazardTypeOption) {
-    return option.hazard_type_display;
-}
-
-const defaultApplicableHazards: Record<HazardType, boolean> = {
-    EQ: false,
-    FL: false,
-    TC: false,
-    EP: false,
-    FI: false,
-    SS: false,
-    DR: false,
-    TS: false,
-    CD: false,
-    WF: false,
-};
 
 interface Props {
     pending: boolean;
@@ -104,6 +77,7 @@ function RiskBarChart(props: Props) {
                 applicableHazards: {
                     ...defaultApplicableHazards,
                     TC: true,
+                    SS: true,
                     FL: true,
                     FI: true,
                 },
@@ -111,7 +85,12 @@ function RiskBarChart(props: Props) {
             {
                 key: 'displacement',
                 label: strings.riskBarChartDisplacementLabel,
-                applicableHazards: { ...defaultApplicableHazards, TC: true, FL: true },
+                applicableHazards: {
+                    ...defaultApplicableHazards,
+                    TC: true,
+                    SS: true,
+                    FL: true,
+                },
             },
             {
                 key: 'riskScore',
@@ -120,6 +99,7 @@ function RiskBarChart(props: Props) {
                     ...defaultApplicableHazards,
                     DR: true,
                     TC: true,
+                    SS: true,
                     FL: true,
                     WF: true,
                 },

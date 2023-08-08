@@ -12,6 +12,7 @@ import {
 import { components } from '#generated/types';
 
 export type UnsafeNumberList = (number | undefined | null)[] | null | undefined;
+export type NumberList = number[];
 
 function getNumberListSafe(list: UnsafeNumberList) {
     if (!list) {
@@ -27,27 +28,27 @@ function getNumberListSafe(list: UnsafeNumberList) {
     return safeList;
 }
 
-export function sumSafe(list: UnsafeNumberList) {
+export function sumSafe(list: UnsafeNumberList | NumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList || safeList.length === 0) {
+    if (!safeList) {
         return undefined;
     }
 
     return sum(safeList);
 }
 
-export function maxSafe(list: UnsafeNumberList) {
+export function maxSafe(list: NumberList | UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList || safeList.length === 0) {
+    if (!safeList) {
         return undefined;
     }
 
     return Math.max(...safeList);
 }
 
-export function minSafe(list: UnsafeNumberList) {
+export function minSafe(list: UnsafeNumberList | NumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList || safeList.length === 0) {
+    if (!safeList) {
         return undefined;
     }
 
@@ -56,7 +57,7 @@ export function minSafe(list: UnsafeNumberList) {
 
 export function avgSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList || safeList.length === 0) {
+    if (!safeList) {
         return undefined;
     }
 
@@ -287,8 +288,11 @@ export function formatNumber(
         return undefined;
     }
 
+    const formattingOptions: Intl.NumberFormatOptions = {};
+
     if (!options) {
-        return new Intl.NumberFormat(navigator.language).format(value);
+        formattingOptions.maximumFractionDigits = Math.abs(value) >= 1000 ? 0 : 2;
+        return new Intl.NumberFormat(navigator.language, formattingOptions).format(value);
     }
 
     const {
@@ -298,8 +302,6 @@ export function formatNumber(
         compact,
         separatorHidden,
     } = options;
-
-    const formattingOptions: Intl.NumberFormatOptions = {};
 
     if (isTruthyString(unit)) {
         formattingOptions.unit = unit;
@@ -359,4 +361,23 @@ export function splitList<X, Y>(
 export function getNumberOfDaysInMonth(year: number, month: number) {
     const dateWithLastDateOfPrevMonth = new Date(year, month + 1, 0);
     return dateWithLastDateOfPrevMonth.getDate();
+}
+
+export function getMonthList() {
+    const monthKeyList = Array.from(Array(11).keys());
+    return monthKeyList.map(
+        (monthKey) => {
+            const date = new Date();
+            date.setDate(1);
+            date.setMonth(monthKey);
+
+            return {
+                key: monthKey,
+                label: date.toLocaleString(
+                    navigator.language,
+                    { month: 'long' },
+                ),
+            };
+        },
+    );
 }
