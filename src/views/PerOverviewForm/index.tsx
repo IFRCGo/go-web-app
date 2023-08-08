@@ -37,7 +37,7 @@ import { isValidNationalSociety } from '#utils/common';
 import RouteContext from '#contexts/route';
 import ServerEnumsContext from '#contexts/server-enums';
 import type { paths } from '#generated/types';
-import { STEP_OVERVIEW, STEP_ASSESSMENT } from '#utils/per';
+import { PER_PHASE_OVERVIEW, PER_PHASE_ASSESSMENT } from '#utils/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
     numericIdSelector,
@@ -188,7 +188,7 @@ export function Component() {
                 refetchStatusResponse();
 
                 // Redirect from new form to edit route
-                if (isNotDefined(perId) && response.phase === STEP_OVERVIEW) {
+                if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
                     navigate(
                         generatePath(
                             perOverviewFormRoute.absolutePath,
@@ -198,7 +198,7 @@ export function Component() {
                 }
 
                 // Redirect to assessment form
-                if (response.phase === STEP_ASSESSMENT) {
+                if (response.phase === PER_PHASE_ASSESSMENT && value?.is_draft !== false) {
                     navigate(
                         generatePath(
                             perAssessmentFormRoute.absolutePath,
@@ -247,7 +247,7 @@ export function Component() {
                 refetchStatusResponse();
 
                 // Redirect from new form to edit route
-                if (isNotDefined(perId) && response.phase === STEP_OVERVIEW) {
+                if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
                     navigate(
                         generatePath(
                             perOverviewFormRoute.absolutePath,
@@ -257,7 +257,7 @@ export function Component() {
                 }
 
                 // Redirect to assessment form
-                if (response.phase === STEP_ASSESSMENT) {
+                if (response.phase === PER_PHASE_ASSESSMENT) {
                     navigate(
                         generatePath(
                             perAssessmentFormRoute.absolutePath,
@@ -338,8 +338,14 @@ export function Component() {
         [perId, updatePerOverview, createPerOverview],
     );
 
-    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
-    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
+    const handleFormSubmit = useMemo(
+        () => createSubmitHandler(validate, setError, handleSubmit),
+        [validate, setError, handleSubmit],
+    );
+    const handleFormFinalSubmit = useMemo(
+        () => createSubmitHandler(validate, setError, handleFinalSubmit),
+        [validate, setError, handleFinalSubmit],
+    );
     const error = getErrorObject(formError);
 
     const readOnlyMode = value?.is_draft === false;
@@ -358,7 +364,7 @@ export function Component() {
                     confirmMessage={strings.submitConfirmMessage}
                     onConfirm={handleFormFinalSubmit}
                     disabled={(isDefined(statusResponse?.phase)
-                        && statusResponse?.phase !== STEP_OVERVIEW)
+                        && statusResponse?.phase !== PER_PHASE_OVERVIEW)
                         || savePerPending}
                 >
                     {strings.submitButtonLabel}
@@ -424,7 +430,6 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={getErrorString(error?.orientation_documents)}
-                        readOnly={readOnlyMode}
                     >
                         {strings.uploadButtonLabel}
                     </GoMultiFileInput>
@@ -765,9 +770,7 @@ export function Component() {
                         name={undefined}
                         variant="secondary"
                         onClick={handleFormSubmit}
-                        disabled={(isDefined(statusResponse?.phase)
-                            && statusResponse?.phase !== STEP_OVERVIEW)
-                                || savePerPending}
+                        disabled={savePerPending}
                     >
                         {strings.saveButtonLabel}
                     </Button>

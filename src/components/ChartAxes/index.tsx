@@ -29,6 +29,7 @@ interface Props<X, Y> {
         width: number;
         height: number;
     };
+    boundRectsShown?: boolean,
 }
 
 function ChartAxes<X, Y>(props: Props<X, Y>) {
@@ -40,6 +41,7 @@ function ChartAxes<X, Y>(props: Props<X, Y>) {
         chartMargin,
         chartOffset,
         chartBounds,
+        boundRectsShown: showBoundRects,
     } = props;
 
     const xAxisTickWidth = Math.max(
@@ -55,8 +57,47 @@ function ChartAxes<X, Y>(props: Props<X, Y>) {
 
     return (
         <g>
-            {xAxisPoints.map((pointData) => {
+            {yAxisPoints.map((pointData) => {
+                const tick = yAxisTickSelector(pointData);
+
+                return (
+                    <Fragment key={tick.y}>
+                        <line
+                            className={styles.xAxisGridLine}
+                            x1={chartMargin.left}
+                            y1={tick.y}
+                            x2={chartBounds.width - chartMargin.right}
+                            y2={tick.y}
+                        />
+                        <foreignObject
+                            x={chartOffset}
+                            y={tick.y - yAxisTickHeight / 2}
+                            width={chartMargin.left - chartOffset}
+                            height={yAxisTickHeight}
+                        >
+                            <div
+                                className={styles.yAxisTickText}
+                                style={{
+                                    width: chartMargin.left - chartOffset,
+                                    height: yAxisTickHeight,
+                                }}
+                                title={isDefined(tick.label) ? String(tick.label) : undefined}
+                            >
+                                {tick.label}
+                            </div>
+                        </foreignObject>
+                    </Fragment>
+                );
+            })}
+            {xAxisPoints.map((pointData, i) => {
                 const tick = xAxisTickSelector(pointData);
+                const nextTickX = i === (xAxisPoints.length - 1)
+                    ? (chartBounds.width - chartMargin.right)
+                    : xAxisTickSelector(xAxisPoints[i + 1]).x;
+
+                const rectX1 = tick.x;
+                const rectX2 = nextTickX;
+
                 const y = chartBounds.height - chartMargin.bottom;
 
                 return (
@@ -88,38 +129,15 @@ function ChartAxes<X, Y>(props: Props<X, Y>) {
                                 {tick.label}
                             </div>
                         </foreignObject>
-                    </Fragment>
-                );
-            })}
-            {yAxisPoints.map((pointData) => {
-                const tick = yAxisTickSelector(pointData);
-
-                return (
-                    <Fragment key={tick.y}>
-                        <line
-                            className={styles.xAxisGridLine}
-                            x1={chartMargin.left}
-                            y1={tick.y}
-                            x2={chartBounds.width - chartMargin.right}
-                            y2={tick.y}
-                        />
-                        <foreignObject
-                            x={chartOffset}
-                            y={tick.y - yAxisTickHeight / 2}
-                            width={chartMargin.left - chartOffset}
-                            height={yAxisTickHeight}
-                        >
-                            <div
-                                className={styles.yAxisTickText}
-                                style={{
-                                    width: chartMargin.left - chartOffset,
-                                    height: yAxisTickHeight,
-                                }}
-                                title={isDefined(tick.label) ? String(tick.label) : undefined}
-                            >
-                                {tick.label}
-                            </div>
-                        </foreignObject>
+                        {showBoundRects && (
+                            <rect
+                                x={rectX1}
+                                width={rectX2 - rectX1}
+                                y={chartMargin.top}
+                                height={y - chartMargin.top}
+                                className={styles.boundRect}
+                            />
+                        )}
                     </Fragment>
                 );
             })}

@@ -94,21 +94,19 @@ function AreaInput(props: Props) {
             className={_cs(styles.areaInput, className)}
         >
             {componentGroupedQuestionList.map((componentResponse) => (
-                componentResponse.component ? (
-                    <ComponentInput
-                        key={componentResponse.component.id}
-                        component={componentResponse.component}
-                        questions={componentResponse.questions}
-                        index={componentResponseMapping[componentResponse.component.id]?.index}
-                        value={componentResponseMapping[componentResponse.component.id]?.value}
-                        onChange={setQuestionResponseValue}
-                        ratingOptions={ratingOptions}
-                        epi_considerations={epi_considerations}
-                        urban_considerations={urban_considerations}
-                        climate_environmental_considerations={climate_environmental_considerations}
-                        readOnly={readOnly}
-                    />
-                ) : null
+                <ComponentInput
+                    key={componentResponse.component.id}
+                    component={componentResponse.component}
+                    questions={componentResponse.questions}
+                    index={componentResponseMapping[componentResponse.component.id]?.index}
+                    value={componentResponseMapping[componentResponse.component.id]?.value}
+                    onChange={setQuestionResponseValue}
+                    ratingOptions={ratingOptions}
+                    epi_considerations={epi_considerations}
+                    urban_considerations={urban_considerations}
+                    climate_environmental_considerations={climate_environmental_considerations}
+                    readOnly={readOnly}
+                />
             ))}
         </div>
     );

@@ -10,7 +10,7 @@
         z-index: -1;
         background-color: var(--go-ui-color-gray-30);
         width: 100%;
-        height: calc(var(--go-ui-spacing-px)*2);
+        height: var(--go-ui-width-separator-md);
 
         .progress {
             transition: var(--go-ui-duration-transition-medium) width ease-in-out;
@@ -24,7 +24,7 @@
     .end-dummy-content {
         align-self: flex-end;
         flex-grow: 1;
-        border-bottom: var(--go-ui-spacing-px) solid var(--go-ui-color-gray-30);
+        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
     }
 
     &.disabled {

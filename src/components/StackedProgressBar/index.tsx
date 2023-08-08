@@ -68,7 +68,10 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
             </div>
             <div className={styles.labelList}>
                 {renderData.map((datum) => (
-                    <div className={styles.labelContainer}>
+                    <div
+                        className={styles.labelContainer}
+                        key={datum.color}
+                    >
                         <div
                             className={styles.colorDot}
                             style={{ backgroundColor: datum.color }}

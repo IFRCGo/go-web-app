@@ -36,13 +36,18 @@ function AuthenticatedUserDropdown(props: Props) {
             variant="tertiary"
         >
             <DropdownMenuItem
-                label={strings.userMenuAccount}
+                type="link"
                 to={accountRoute.absolutePath}
-            />
+            >
+                {strings.userMenuAccount}
+            </DropdownMenuItem>
             <DropdownMenuItem
-                label={strings.userMenuLogout}
+                name={undefined}
+                type="button"
                 onClick={handleLogoutClick}
-            />
+            >
+                {strings.userMenuLogout}
+            </DropdownMenuItem>
         </DropdownMenu>
     );
 }

@@ -4,6 +4,7 @@ import {
     isValidUrl,
     isNotDefined,
     isDefined,
+    isFalsyString,
 } from '@togglecorp/fujs';
 import {
     Link as InternalLink,
@@ -31,10 +32,10 @@ export interface Props extends Omit<RouterLinkProps, 'to'> {
     iconsContainerClassName?: string;
     linkElementClassName?: string;
     to?: RouterLinkProps['to'];
-    withUnderline?: boolean;
-    withForwardIcon?: boolean;
-    withExternalLinkIcon?: boolean;
     variant?: ButtonFeatureProps['variant'];
+    withExternalLinkIcon?: boolean;
+    withForwardIcon?: boolean;
+    withUnderline?: boolean;
 }
 
 function Link(props: Props) {
@@ -43,7 +44,7 @@ function Link(props: Props) {
         actionsContainerClassName,
         children: childrenFromProps,
         className,
-        disabled,
+        disabled: disabledFromProps,
         icons,
         iconsContainerClassName,
         linkElementClassName,
@@ -55,8 +56,10 @@ function Link(props: Props) {
         ...otherProps
     } = props;
 
+    const disabled = isFalsyString(to) || disabledFromProps;
+
     const children = useMemo(() => {
-        if (isNotDefined(to)) {
+        if (isFalsyString(to)) {
             return childrenFromProps;
         }
 

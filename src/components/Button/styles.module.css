@@ -1,6 +1,6 @@
 .button {
     --color-border: transparent;
-    --color-text: transparent;
+    --color-text: inherit;
     --color-background: transparent;
     --font-size: inherit;
     --border-radius: var(--go-ui-border-radius-full);
@@ -118,6 +118,17 @@
             &:hover {
                 opacity: 0.8;
             }
+        }
+    }
+
+    &.dropdown-item {
+        display: flex;
+        width: 100%;
+        --border-radius: unset;
+        --padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-lg);
+
+        &:hover {
+            background-color: var(--go-ui-color-background-hover);
         }
     }
 

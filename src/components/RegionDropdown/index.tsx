@@ -56,17 +56,19 @@ function RegionDropdown(props: Props) {
             {regionOptions?.map(
                 (region) => (
                     <DropdownMenuItem
+                        type="link"
                         key={region.key}
                         to={generatePath(
                             regionRoute.absolutePath,
                             { regionId: String(region.key) },
                         )}
-                        label={region.value}
                         className={_cs(
                             styles.menuItem,
                             match?.params?.regionId === String(region.key) && styles.active,
                         )}
-                    />
+                    >
+                        {region.value}
+                    </DropdownMenuItem>
                 ),
             )}
         </DropdownMenu>

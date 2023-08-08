@@ -11,7 +11,7 @@ import {
 
 import { components } from '#generated/types';
 
-type UnsafeNumberList = (number | undefined | null)[] | null | undefined;
+export type UnsafeNumberList = (number | undefined | null)[] | null | undefined;
 
 function getNumberListSafe(list: UnsafeNumberList) {
     if (!list) {

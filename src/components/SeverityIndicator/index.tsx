@@ -23,10 +23,12 @@ function SeverityIndicator(props: Props) {
     }
 
     return (
-        <span
+        <div
             title={title}
-            className={_cs(styles.severityIndicator, classNameMap[level])}
-        />
+            className={styles.severityIndicator}
+        >
+            <div className={_cs(styles.icon, classNameMap[level])} />
+        </div>
     );
 }
 

@@ -2,6 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import {
     _cs,
     isDefined,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import { nonFieldError } from '@togglecorp/toggle-form';
 
@@ -13,6 +14,9 @@ import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
 import { paths } from '#generated/types';
 import useAlert from '#hooks/useAlert';
+
+import { DeleteBinFillIcon } from '@ifrc-go/icons';
+import Button from '#components/Button';
 
 import styles from './styles.module.css';
 
@@ -139,8 +143,24 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
     const disabled = disabledFromProps || pending || readOnly;
     const actions = (clearable && value && !readOnly && !disabled ? actionsFromProps : null);
     const valueUrls = isDefined(value) ? (
-        value.map((fileId) => fileIdToUrlMap?.[fileId])
+        value.map((fileId) => ({ id: fileId, url: fileIdToUrlMap?.[fileId] }))
     ) : undefined;
+
+    const handleFileRemove = useCallback(
+        (id: number) => {
+            if (isNotDefined(value)) {
+                return;
+            }
+
+            const fileIndex = value.findIndex((fileId) => fileId === id);
+            if (fileIndex !== -1) {
+                const newValue = [...value];
+                newValue.splice(fileIndex, 1);
+                onChange(newValue, name);
+            }
+        },
+        [value, onChange, name],
+    );
 
     return (
         <div className={_cs(styles.goFileInput, className)}>
@@ -163,12 +183,22 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                 <div className={styles.selectedFiles}>
                     {valueUrls.map(
                         (valueUrl) => (
-                            <Link
-                                key={valueUrl}
-                                to={valueUrl}
+                            <div
+                                className={styles.file}
+                                key={valueUrl.id}
                             >
-                                {getFileNameFromUrl(valueUrl)}
-                            </Link>
+                                <Link to={valueUrl.url}>
+                                    {getFileNameFromUrl(valueUrl.url)}
+                                </Link>
+                                <Button
+                                    name={valueUrl.id}
+                                    variant="tertiary"
+                                    className={styles.deleteIcon}
+                                    onClick={handleFileRemove}
+                                >
+                                    <DeleteBinFillIcon />
+                                </Button>
+                            </div>
                         ),
                     )}
                 </div>

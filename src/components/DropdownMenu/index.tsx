@@ -14,6 +14,8 @@ import Popup from '#components/Popup';
 import Button, { Props as ButtonProps } from '#components/Button';
 import useBlurEffect from '#hooks/useBlurEffect';
 
+import styles from './styles.module.css';
+
 export interface Props {
     className?: string;
     dropdownContainerClassName?: string;
@@ -109,7 +111,7 @@ function DropdownMenu(props: Props) {
             {showDropdown && (
                 <Popup
                     elementRef={dropdownRef}
-                    className={dropdownContainerClassName}
+                    className={_cs(styles.dropdownContent, dropdownContainerClassName)}
                     parentRef={buttonRef}
                 >
                     {children}

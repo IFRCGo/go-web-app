@@ -2,7 +2,7 @@
     padding: var(--go-ui-spacing-md);
     width: 100%;
     min-height: 15rem;
-    color: var(--go-ui-color-gray-60);
+    color: var(--go-ui-color-text-light);
     font-weight: var(--go-ui-font-weight-medium);
 
     .block-loading {
