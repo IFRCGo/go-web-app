@@ -53,7 +53,10 @@ function PreviousAssessmentCharts(props: Props) {
                 />
                 {chartData.points && (
                     <path
-                        d={getDiscretePathDataList(chartData.points)?.[0]}
+                        // NOTE: only drawing first path
+                        // FIXME: we cannot guarantee that the array will have
+                        // at least one element
+                        d={getDiscretePathDataList(chartData.points)[0]}
                         fill="none"
                         className={styles.path}
                     />
@@ -67,6 +70,7 @@ function PreviousAssessmentCharts(props: Props) {
                             cy={point.y}
                         >
                             <title>
+                                {/* FIXME: use translation */}
                                 {`Assessment: ${point.xValue}, Rating: ${point.yValue ?? '-'}`}
                             </title>
                         </circle>

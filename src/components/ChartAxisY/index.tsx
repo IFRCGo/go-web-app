@@ -29,9 +29,10 @@ function ChartAxisY(props: Props) {
         chartInnerOffset,
     } = props;
 
+    // NOTE: we do not need to check if ticks.length is 0 as the
+    // loop will not run
     const yAxisTickHeight = Math.max(
-        (chartBounds.height - chartMargin.top - chartMargin.bottom)
-            / ticks.length,
+        (chartBounds.height - chartMargin.top - chartMargin.bottom) / ticks.length,
         0,
     );
 

@@ -3,7 +3,7 @@ import {
     useMemo,
     useRef,
 } from 'react';
-import { isDefined, listToMap } from '@togglecorp/fujs';
+import { isDefined, listToMap, compareNumber } from '@togglecorp/fujs';
 
 import { getBounds, getScaleFunction } from '#utils/chart';
 import { formatNumber } from '#utils/common';
@@ -78,13 +78,14 @@ function useChartData<T>(
                 keySelector,
             );
 
+            // NOTE: sorting the x axis value
             const dataPoints = data.map(
                 (datum, i) => ({
                     xValue: xValueSelector(datum, i),
                     yValue: yValueSelector(datum, i),
                     key: keySelector(datum, i),
                 }),
-            );
+            ).sort((foo, bar) => compareNumber(foo.xValue, bar.xValue));
 
             const xValues = dataPoints.map((datum) => datum.xValue);
             const yValues = dataPoints.map((datum) => datum.yValue);
@@ -97,7 +98,7 @@ function useChartData<T>(
 
             const yDataBounds = isDefined(maxYValue)
                 ? { min: 0, max: maxYValue }
-                : getBounds(yValues, true);
+                : getBounds(yValues, { min: 0, max: Infinity });
             const yScale = getScaleFunction(
                 yDataBounds,
                 { min: 0, max: chartBounds.height },

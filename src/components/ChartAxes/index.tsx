@@ -29,7 +29,7 @@ interface Props<X, Y> {
         width: number;
         height: number;
     };
-    showBoundRects?: boolean,
+    boundRectsShown?: boolean,
 }
 
 function ChartAxes<X, Y>(props: Props<X, Y>) {
@@ -41,7 +41,7 @@ function ChartAxes<X, Y>(props: Props<X, Y>) {
         chartMargin,
         chartOffset,
         chartBounds,
-        showBoundRects,
+        boundRectsShown: showBoundRects,
     } = props;
 
     const xAxisTickWidth = Math.max(

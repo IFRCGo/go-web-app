@@ -1,4 +1,4 @@
-import { isNotDefined } from '@togglecorp/fujs';
+import { isNotDefined, isDefined } from '@togglecorp/fujs';
 import { maxSafe, minSafe, splitList } from '#utils/common';
 import type { UnsafeNumberList } from '#utils/common';
 
@@ -69,17 +69,22 @@ export function getScaleFunction(
 }
 
 // TODO: Add test
-export function getBounds(numList: UnsafeNumberList, zeroMin = false) {
+export function getBounds(numList: UnsafeNumberList, bounds?: Bounds) {
     if (!numList || numList.length === 0) {
         return {
-            min: 0,
-            max: 0,
+            min: bounds?.min ?? 0,
+            max: bounds?.max ?? 0,
         };
     }
 
+    let newList = [...numList];
+    if (isDefined(bounds)) {
+        newList = [...numList, bounds.min, bounds.max];
+    }
+
     return {
-        min: zeroMin ? 0 : minSafe(numList) ?? 0,
-        max: maxSafe(numList) ?? 0,
+        min: minSafe(newList) ?? 0,
+        max: maxSafe(newList) ?? 0,
 
     };
 }
@@ -125,6 +130,8 @@ export function getDatesSeparatedByMonths(startDate: Date, endDate: Date) {
 }
 
 // TODO: Add test
+export function getPathData(pointList: undefined): undefined;
+export function getPathData(pointList: Point[]): string;
 export function getPathData(pointList: Point[] | undefined) {
     if (!pointList || pointList.length < 2) {
         return undefined;
@@ -149,6 +156,8 @@ function isUnsafePoint(point: Point | UnsafePoint): point is UnsafePoint {
 }
 
 // TODO: Add test
+export function getDiscretePathDataList(pointList: undefined): undefined
+export function getDiscretePathDataList(pointList: UnsafePoint[]): string[]
 export function getDiscretePathDataList(pointList: UnsafePoint[] | undefined) {
     if (isNotDefined(pointList)) {
         return undefined;

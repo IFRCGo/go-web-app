@@ -1,11 +1,13 @@
 import { isDefined } from '@togglecorp/fujs';
-import type { paths } from '#generated/types';
+import type { paths, components } from '#generated/types';
 
-export const PER_PHASE_OVERVIEW = 1;
-export const PER_PHASE_ASSESSMENT = 2;
-export const PER_PHASE_PRIORITIZATION = 3;
-export const PER_PHASE_WORKPLAN = 4;
-export const PER_PHASE_ACTION = 5;
+type PerPhase = components['schemas']['PhaseEnum'];
+
+export const PER_PHASE_OVERVIEW = 1 satisfies PerPhase;
+export const PER_PHASE_ASSESSMENT = 2 satisfies PerPhase;
+export const PER_PHASE_PRIORITIZATION = 3 satisfies PerPhase;
+export const PER_PHASE_WORKPLAN = 4 satisfies PerPhase;
+export const PER_PHASE_ACTION = 5 satisfies PerPhase;
 
 type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
 

@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react';
+import { useContext } from 'react';
 import {
     Outlet,
     generatePath,
@@ -31,10 +31,6 @@ export function Component() {
         countryThreeWNationalSocietyProjects: countryThreeWNationalSocietyProjectsRoute,
     } = useContext(RouteContext);
 
-    const handleAddThreeWProject = useCallback(() => {
-        console.warn('handleAddThreeWProject called');
-    }, []);
-
     return (
         <Container
             className={styles.countryThreeW}
@@ -42,7 +38,7 @@ export function Component() {
                 <Button
                     name={undefined}
                     variant="primary"
-                    onClick={handleAddThreeWProject}
+                    disabled
                 >
                     {strings.addThreeWProject}
                 </Button>

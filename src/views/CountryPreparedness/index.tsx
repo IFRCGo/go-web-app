@@ -79,6 +79,7 @@ export function Component() {
         query: { country_id: Number(countryId) } as never,
     });
 
+    // FIXME: we get a list form the server because we are using a filter on listing api
     const perId = latestPerResponse?.results?.[0]?.id;
     const prevAssessmentRatings = latestPerResponse?.results?.[0]?.assessment_ratings;
 
@@ -352,6 +353,7 @@ export function Component() {
                             to={perTeamEmail}
                             variant="secondary"
                         >
+                            {/* FIXME: use translation */}
                             Contact PER Team
                         </Link>
                     </div>
@@ -483,9 +485,12 @@ export function Component() {
                                 <ProgressBar
                                     value={component.rating?.value}
                                     totalValue={5}
-                                    title={isDefined(component.rating) ? (
-                                        `${component.rating?.value} - ${component.rating?.title}`
-                                    ) : '0 - Not Reviewed'}
+                                    title={(
+                                        isDefined(component.rating)
+                                            ? `${component.rating.value} - ${component.rating.title}`
+                                            // FIXME: use translation
+                                            : '0 - Not Reviewed'
+                                    )}
                                 />
                                 <div>
                                     {component.notes}
