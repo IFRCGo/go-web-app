@@ -10,6 +10,8 @@ import {
     populateFormat,
     breakFormat,
 } from '@togglecorp/fujs';
+import type { components } from '#generated/types';
+
 import { DEFAULT_DATE_FORMAT } from './constants';
 
 export type UnsafeNumberList = Maybe<Maybe<number>[]>;
@@ -385,4 +387,49 @@ export function getMonthList() {
             };
         },
     );
+}
+
+export function dateGreaterThanOrEqualCondition(x: string) {
+    return (value: Maybe<string>) => (
+        isDefined(value) && (new Date(value).getTime()) < (new Date(x).getTime())
+            ? `Field must be greater than ${x}`
+            : undefined
+    );
+}
+
+// FIXME: move these to different file
+type PartialCountry = components['schemas']['Country'];
+type DefinedCountry = Omit<PartialCountry, 'iso' | 'name'> & {
+    iso: string;
+    name: string;
+}
+export function isValidCountry(country: PartialCountry): country is DefinedCountry {
+    return isTruthyString(country.name)
+        && isTruthyString(country.iso)
+        && country.independent !== false
+        && !country.is_deprecated;
+}
+
+type CountryWithDefinedNS = Omit<PartialCountry, 'iso' | 'name'> & {
+    iso: string;
+    name: string;
+    society_name: string;
+}
+
+export function isValidNationalSociety(country: PartialCountry): country is CountryWithDefinedNS {
+    return isValidCountry(country) && isTruthyString(country.name);
+}
+
+export function denormalizeList<ListItem, SecondaryListItem, ReturnType>(
+    list: ListItem[],
+    secondaryListSelector: (li: ListItem) => SecondaryListItem[],
+    transformFn: (li: ListItem, sli: SecondaryListItem) => ReturnType,
+): ReturnType[] {
+    const newList = list.map((li) => {
+        const sl = secondaryListSelector(li);
+
+        return sl.map((sli) => transformFn(li, sli));
+    }).flat();
+
+    return newList;
 }

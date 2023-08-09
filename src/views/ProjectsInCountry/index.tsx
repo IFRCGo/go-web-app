@@ -28,6 +28,7 @@ import {
     stringLabelSelector,
 } from '#utils/selectors';
 
+import Map from './Map';
 import Filter, { FilterValue } from './Filters';
 
 import i18n from './i18n.json';
@@ -47,9 +48,9 @@ type ProjectsResponse = GetProjects['responses']['200']['content']['application/
 type Project = NonNullable<ProjectsResponse['results']>[number];
 type ProjectKey = keyof Project;
 
-const PROJECT_STATUS_COMPLETED = 2;
+// const PROJECT_STATUS_COMPLETED = 2;
 const PROJECT_STATUS_ONGOING = 1;
-const PROJECT_STATUS_PLANNED = 0;
+// const PROJECT_STATUS_PLANNED = 0;
 
 const emptyDistrictList: District[] = [];
 const emptyProjectList: Project[] = [];
@@ -102,7 +103,6 @@ function filterProjects(
         });
     }, projectList);
 }
->>>>>>> 98178946d (feat: add country 3w projects statistics)
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -151,16 +151,20 @@ export function Component() {
     const filteredProjectList = filterProjects(projectList, filters);
 
     const [
+        ongoingProjects,
         targetedPopulation,
         ongoingProjectBudget,
         programmeTypeStats,
         projectStatusTypeStats,
         activeNSCount,
     ] = useMemo(() => {
-        const ongoingProjects = filteredProjectList
+        const projectsOngoing = filteredProjectList
             .filter((p) => p.status === PROJECT_STATUS_ONGOING);
-        const ongoingBudget = sum(ongoingProjects?.map((d) => d.budget_amount ?? 0));
+
+        const ongoingBudget = sum(projectsOngoing?.map((d) => d.budget_amount ?? 0));
+
         const target = sum(filteredProjectList?.map((d) => d.target_total ?? 0));
+
         const programmeTypeGrouped = (
             listToGroupList(
                 filteredProjectList,
@@ -187,9 +191,10 @@ export function Component() {
             (d, k) => ({ label: String(k), value: d.length }),
         );
 
-        const activeNS = unique(ongoingProjects, (d) => d.reporting_ns)?.length ?? 0;
+        const activeNS = unique(projectsOngoing, (d) => d.reporting_ns)?.length ?? 0;
 
         return [
+            projectsOngoing,
             target,
             ongoingBudget,
             programmeTypes,
@@ -260,7 +265,7 @@ export function Component() {
                     <Filter
                         value={filters}
                         onChange={setFilters}
-                        countryId={countryResponse?.id}
+                        districtList={districtList}
                     />
                 )}
                 actions={(
@@ -282,7 +287,10 @@ export function Component() {
                     </>
                 )}
             >
-                This is ongoing projects
+                <Map
+                    projectList={ongoingProjects}
+                    districtList={districtList}
+                />
             </Container>
         </div>
     );

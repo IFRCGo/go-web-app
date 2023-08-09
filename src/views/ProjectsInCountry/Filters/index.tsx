@@ -1,5 +1,5 @@
 import { useMemo, useCallback, useContext } from 'react';
-import { _cs, isNotDefined } from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
@@ -19,6 +19,8 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type CountryListItem = NonNullable<GoApiResponse<'/api/v2/country/'>['results']>[number];
+type DistrictListItem = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
+
 export interface FilterValue {
     reporting_ns: number[];
     project_districts: number[];
@@ -37,7 +39,7 @@ interface Props {
     value: FilterValue;
     onChange: React.Dispatch<React.SetStateAction<FilterValue>>;
     disabled?: boolean;
-    countryId: number | undefined;
+    districtList: DistrictListItem[];
 }
 
 function Filters(props: Props) {
@@ -46,7 +48,7 @@ function Filters(props: Props) {
         value,
         onChange,
         disabled,
-        countryId,
+        districtList,
     } = props;
 
     const {
@@ -58,15 +60,6 @@ function Filters(props: Props) {
     const { response: countriesResponse } = useRequest({
         url: '/api/v2/country/',
         query: { limit: 500 },
-    });
-
-    const { response: districtsResponse } = useRequest({
-        url: '/api/v2/district/',
-        skip: isNotDefined(countryId),
-        query: {
-            country: countryId,
-            limit: 100,
-        },
     });
 
     const { response: primarySectorResponse } = useRequest({
@@ -110,7 +103,7 @@ function Filters(props: Props) {
             <MultiSelectInput
                 name="project_districts"
                 placeholder={strings.threeWFilterProvinces}
-                options={districtsResponse?.results}
+                options={districtList}
                 value={value.project_districts}
                 keySelector={numericIdSelector}
                 labelSelector={stringNameSelector}
