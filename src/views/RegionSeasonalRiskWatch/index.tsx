@@ -77,7 +77,9 @@ export function Component() {
         skip: isNotDefined(regionId),
         apiType: 'risk',
         url: '/api/v1/seasonal/',
-        query: { region: regionId },
+        query: {
+            region: isDefined(regionId) ? Number(regionId) : undefined,
+        },
     });
 
     const { response: riskScoreResponse } = useRiskRequest({
@@ -119,13 +121,29 @@ export function Component() {
                         };
                     },
                 ).filter(isDefined),
-                (item) => item.country_details.iso3 ?? '',
+                (item) => item.country_details.iso3,
                 (item) => item.lcc,
             );
 
             const population = listToMap(
-                riskScoreResponse.results,
-                (item) => item.country_details.iso3 ?? '',
+                riskScoreResponse.results.map(
+                    (item) => {
+                        if (!item.country_details
+                            || isFalsyString(item.country_details.iso3)
+                        ) {
+                            return undefined;
+                        }
+
+                        return {
+                            ...item,
+                            country_details: {
+                                ...item.country_details,
+                                iso3: item.country_details.iso3,
+                            },
+                        };
+                    },
+                ).filter(isDefined),
+                (item) => item.country_details.iso3,
                 (item) => (item.population_in_thousands ?? 0) * 1000,
             );
 
@@ -293,12 +311,10 @@ export function Component() {
             ).map((combinedData) => ({
                 hazard_type: combinedData.hazard_type,
                 hazard_type_display: combinedData.hazard_type_display,
-            })).filter(
-                ({ hazard_type: hazard }) => (
-                    selectedRiskMetricDetail?.applicableHazards[hazard]
-                        && !availableHazards[selectedRiskMetricDetail.key][hazard]
-                ),
-            );
+            })).filter(({ hazard_type: hazard }) => (
+                selectedRiskMetricDetail?.applicableHazards[hazard]
+                && availableHazards[selectedRiskMetricDetail.key][hazard]
+            ));
         },
         [data, selectedRiskMetricDetail],
     );
@@ -357,7 +373,7 @@ export function Component() {
                             };
                         },
                     ).filter(isDefined) ?? [],
-                    (item) => item.country_details.iso3 ?? '',
+                    (item) => item.country_details.iso3,
                 );
             }
 
@@ -404,8 +420,11 @@ export function Component() {
                         const maxValue = maxSafe(valueListByHazard.map(({ value }) => value));
                         const sum = sumSafe(valueListByHazard.map(({ value }) => value));
 
-                        if (isNotDefined(maxValue) || maxValue === 0
-                            || isNotDefined(sum) || sum === 0
+                        if (
+                            isNotDefined(maxValue)
+                            || maxValue === 0
+                            || isNotDefined(sum)
+                            || sum === 0
                         ) {
                             return undefined;
                         }
@@ -509,8 +528,9 @@ export function Component() {
         [data, filters, mappings],
     );
 
-    // NOTE: we cannot use mapstate since the tile id don't match that of country
-    // and we cannout use promote id for the
+    // NOTE: we need to generate the layerOptions because we cannot use MapState
+    // The id in the vector tile does not match the id in GO
+    // We also cannot use promoteId as it is a non-managed mapbox source
     const layerOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => {
             if (!filteredData || filteredData.length === 0) {
