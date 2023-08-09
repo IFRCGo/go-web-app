@@ -57,6 +57,8 @@ export type Props<
         | 'valueDisplay'
         | 'optionContainerClassName'
         | 'searchText'
+        | 'options'
+        | 'onOptionsChange'
         | 'onSearchTextChange'
         | 'dropdownShown'
         | 'onDropdownShownChange'
@@ -66,6 +68,7 @@ export type Props<
         | 'onFocusedKeyChange'
         | 'hasValue'
         | 'hideOptionFilter'
+        | OMISSION
     >
     & ({
         nonClearable: true,

@@ -1,0 +1,24 @@
+.annual-split-input {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    padding-bottom: var(--go-ui-spacing-md);
+    gap: var(--go-ui-spacing-xs);
+
+    >* {
+        flex-basis: calc(100% / 4 - var(--go-ui-spacing-xs));
+    }
+
+    .remove-button {
+        flex-basis: unset;
+        flex-grow: initial;
+        margin-bottom: var(--go-ui-spacing-xs);
+        margin-left: var(--go-ui-spacing-md);
+        border: none;
+        min-width: unset;
+    }
+
+    .bold {
+        font-weight: 500;
+    }
+}

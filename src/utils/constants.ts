@@ -1,7 +1,16 @@
+import {
+    components,
+} from '#generated/types';
+
+type OperationTypeEnum = components['schemas']['OperationTypeEnum'];
+type StatusTypeEnum = components['schemas']['Key1d2Enum'];
+type ProgrammeTypeEnum = components['schemas']['Key1d2Enum'];
+
 export const DURATION_DEFAULT_ALERT_DISMISS = 4500;
 export const WIDTH_DEFAULT_TABLE_COLUMN = 108;
-export const KEY_USER_STORAGE = 'user';
 
+// FIXME: add note where these are used
+export const KEY_USER_STORAGE = 'user';
 export const KEY_URL_SEARCH = 'keyword';
 
 export const COLOR_HAZARD_CYCLONE = '#a4bede';
@@ -28,12 +37,21 @@ export const COLOR_DARK_RED = '#730413';
 export const COLOR_PRIMARY_BLUE = '#011e41';
 export const COLOR_PRIMARY_RED = '#f5333f';
 
-export const OPERATION_TYPE_PROGRAMME = 0;
-export const OPERATION_TYPE_EMERGENCY = 1;
+export const OPERATION_TYPE_PROGRAMME = 0 satisfies OperationTypeEnum;
+export const OPERATION_TYPE_EMERGENCY = 1 satisfies OperationTypeEnum;
+// FIXME: Remove this multi thing
 export const OPERATION_TYPE_MULTI = -1;
 
+// FIXME: should these constants satisfy an existing enum?
 export const CATEGORY_RISK_VERY_LOW = 1;
 export const CATEGORY_RISK_LOW = 2;
 export const CATEGORY_RISK_MEDIUM = 3;
 export const CATEGORY_RISK_HIGH = 4;
 export const CATEGORY_RISK_VERY_HIGH = 5;
+
+export const PROGRAMME_TYPE_MULTILATERAL = 1 satisfies ProgrammeTypeEnum;
+export const PROGRAMME_TYPE_DOMESTIC = 2 satisfies ProgrammeTypeEnum;
+
+export const PROJECT_STATUS_COMPLETED = 2 satisfies StatusTypeEnum;
+export const PROJECT_STATUS_ONGOING = 1 satisfies StatusTypeEnum;
+export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;

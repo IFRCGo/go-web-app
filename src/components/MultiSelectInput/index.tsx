@@ -24,8 +24,6 @@ function MultiSelectInput<
     const {
         name,
         options,
-        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-        totalOptionsCount,
         ...otherProps
     } = props;
 

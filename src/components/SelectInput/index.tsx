@@ -36,8 +36,6 @@ function SelectInput<
         nonClearable,
         // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
         onChange,
-        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-        totalOptionsCount,
         ...otherProps
     } = props;
 

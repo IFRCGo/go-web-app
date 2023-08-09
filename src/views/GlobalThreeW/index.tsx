@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
     ShieldCrossLineIcon,
     RedCrossNationalSocietyIcon,
@@ -12,6 +12,7 @@ import KeyFigure from '#components/KeyFigure';
 import Container from '#components/Container';
 import BarChart from '#components/BarChart';
 import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
 
@@ -102,15 +103,18 @@ export function Component() {
         },
     );
 
+    const {
+        newThreeWProject: newThreeWProjectRoute,
+    } = useContext(RouteContext);
+
     return (
         <Page
             className={styles.globalThreeW}
             title={strings.globalThreeWPageTitle}
             heading={strings.globalThreeWPageHeading}
             actions={(
-                // FIXME: use route from context
                 <Link
-                    to="/three-w/new"
+                    to={newThreeWProjectRoute.absolutePath}
                     variant="secondary"
                 >
                     {strings.globalThreeWAddProjectButtonLabel}
