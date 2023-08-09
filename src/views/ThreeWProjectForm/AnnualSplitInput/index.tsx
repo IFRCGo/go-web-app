@@ -21,6 +21,39 @@ import { PartialAnnualType } from '../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+function updateTargetTotal(oldValue: PartialAnnualType): PartialAnnualType {
+    if (
+        isTruthy(oldValue?.target_male)
+        || isTruthy(oldValue?.target_female)
+        || isTruthy(oldValue?.target_other)
+    ) {
+        const total = (oldValue.target_male ?? 0)
+            + (oldValue.target_female ?? 0)
+            + (oldValue.target_other ?? 0);
+        return {
+            ...oldValue,
+            target_total: total,
+        };
+    }
+    return oldValue;
+}
+function updateReachedTotal(oldValue: PartialAnnualType): PartialAnnualType {
+    if (
+        isTruthy(oldValue?.reached_male)
+        || isTruthy(oldValue?.reached_female)
+        || isTruthy(oldValue?.reached_other)
+    ) {
+        const total = (oldValue.reached_male ?? 0)
+            + (oldValue.reached_female ?? 0)
+            + (oldValue.reached_other ?? 0);
+        return {
+            ...oldValue,
+            reached_total: total,
+        };
+    }
+    return oldValue;
+}
+
 interface Props {
     className?: string;
     onChange: (value: SetValueArg<PartialAnnualType>, index: number) => void;
@@ -46,134 +79,63 @@ function AnnualSplitInput(props: Props) {
     const error = getErrorObject(errorFromProps);
 
     const handleTargetMaleChange = useCallback((newTarget: number | undefined) => {
-        onChange((oldValue) => {
-            let total = oldValue?.target_total;
-            if (
-                isTruthy(newTarget)
-                || isTruthy(oldValue?.target_female)
-                || isTruthy(oldValue?.target_other)
-            ) {
-                total = (newTarget ?? 0)
-                + (oldValue?.target_female ?? 0)
-                + (oldValue?.target_other ?? 0);
-            }
-
-            return ({
+        onChange((oldValue) => (
+            updateTargetTotal({
                 ...oldValue,
                 client_id: oldValue?.client_id ?? randomString(),
-                target_total: total,
                 target_male: newTarget,
-            });
-        }, index);
+            })
+        ), index);
     }, [onChange, index]);
 
     const handleTargetFemaleChange = useCallback((newTarget: number | undefined) => {
-        onChange((oldValue) => {
-            let total = oldValue?.target_total;
-            if (
-                isTruthy(oldValue?.target_male)
-                || isTruthy(newTarget)
-                || isTruthy(oldValue?.target_other)
-            ) {
-                total = (oldValue?.target_male ?? 0)
-                + (newTarget ?? 0)
-                + (oldValue?.target_other ?? 0);
-            }
-
-            return ({
+        onChange((oldValue) => (
+            updateTargetTotal({
                 ...oldValue,
                 client_id: oldValue?.client_id ?? randomString(),
-                target_total: total,
                 target_female: newTarget,
-            });
-        }, index);
+            })
+        ), index);
     }, [onChange, index]);
 
     const handleTargetOtherChange = useCallback((newTarget: number | undefined) => {
-        onChange((oldValue) => {
-            let total = oldValue?.target_total;
-            if (
-                isTruthy(oldValue?.target_male)
-                || isTruthy(oldValue?.target_female)
-                || isTruthy(newTarget)
-            ) {
-                total = (oldValue?.target_male ?? 0)
-                + (oldValue?.target_female ?? 0)
-                + (newTarget ?? 0);
-            }
-
-            return ({
+        onChange((oldValue) => (
+            updateTargetTotal({
                 ...oldValue,
                 client_id: oldValue?.client_id ?? randomString(),
-                target_total: total,
                 target_other: newTarget,
-            });
-        }, index);
+            })
+        ), index);
     }, [onChange, index]);
 
     const handleReachedMaleChange = useCallback((newReached: number | undefined) => {
-        onChange((oldValue) => {
-            let total = oldValue?.reached_total;
-            if (
-                isTruthy(newReached)
-                || isTruthy(oldValue?.reached_female)
-                || isTruthy(oldValue?.reached_other)
-            ) {
-                total = (newReached ?? 0)
-                + (oldValue?.reached_female ?? 0)
-                + (oldValue?.reached_other ?? 0);
-            }
-            return ({
+        onChange((oldValue) => (
+            updateReachedTotal({
                 ...oldValue,
-                reached_total: total,
                 client_id: oldValue?.client_id ?? randomString(),
-                reached_male: newReached,
-            });
-        }, index);
+                target_male: newReached,
+            })
+        ), index);
     }, [onChange, index]);
 
     const handleReachedFemaleChange = useCallback((newReached: number | undefined) => {
-        onChange((oldValue) => {
-            let total = oldValue?.reached_total;
-            if (
-                isTruthy(oldValue?.reached_male)
-                || isTruthy(newReached)
-                || isTruthy(oldValue?.reached_other)
-            ) {
-                total = (oldValue?.reached_male ?? 0)
-                + (newReached ?? 0)
-                + (oldValue?.reached_other ?? 0);
-            }
-
-            return ({
+        onChange((oldValue) => (
+            updateReachedTotal({
                 ...oldValue,
                 client_id: oldValue?.client_id ?? randomString(),
-                reached_total: total,
-                reached_female: newReached,
-            });
-        }, index);
+                target_female: newReached,
+            })
+        ), index);
     }, [onChange, index]);
 
     const handleReachedOtherChange = useCallback((newReached: number | undefined) => {
-        onChange((oldValue) => {
-            let total = oldValue?.reached_total;
-            if (
-                isTruthy(oldValue?.reached_male)
-                || isTruthy(oldValue?.reached_female)
-                || isTruthy(newReached)
-            ) {
-                total = (oldValue?.reached_male ?? 0)
-                + (oldValue?.reached_female ?? 0)
-                + (newReached ?? 0);
-            }
-
-            return ({
+        onChange((oldValue) => (
+            updateReachedTotal({
                 ...oldValue,
                 client_id: oldValue?.client_id ?? randomString(),
-                reached_total: total,
-                reached_other: newReached,
-            });
-        }, index);
+                target_other: newReached,
+            })
+        ), index);
     }, [onChange, index]);
 
     const shouldDisableReachedTotal = isDefined(value.reached_male)
@@ -207,6 +169,8 @@ function AnnualSplitInput(props: Props) {
                 name={index}
                 onClick={onRemove}
                 variant="secondary"
+                // FIXME: use translations
+                title="Delete Annual Split"
             >
                 <DeleteBinLineIcon />
             </Button>

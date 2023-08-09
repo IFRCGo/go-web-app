@@ -8,8 +8,9 @@ type ProgrammeTypeEnum = components['schemas']['Key1d2Enum'];
 
 export const DURATION_DEFAULT_ALERT_DISMISS = 4500;
 export const WIDTH_DEFAULT_TABLE_COLUMN = 108;
-export const KEY_USER_STORAGE = 'user';
 
+// FIXME: add note where these are used
+export const KEY_USER_STORAGE = 'user';
 export const KEY_URL_SEARCH = 'keyword';
 
 export const COLOR_HAZARD_CYCLONE = '#a4bede';
@@ -41,6 +42,7 @@ export const OPERATION_TYPE_EMERGENCY = 1 satisfies OperationTypeEnum;
 // FIXME: Remove this multi thing
 export const OPERATION_TYPE_MULTI = -1;
 
+// FIXME: should these constants satisfy an existing enum?
 export const CATEGORY_RISK_VERY_LOW = 1;
 export const CATEGORY_RISK_LOW = 2;
 export const CATEGORY_RISK_MEDIUM = 3;

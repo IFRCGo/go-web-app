@@ -8,7 +8,6 @@ import {
     requiredCondition,
     requiredStringCondition,
 } from '@togglecorp/toggle-form';
-import { isDefined } from '@togglecorp/fujs';
 import {
     positiveIntegerCondition,
     positiveNumberCondition,
@@ -20,46 +19,35 @@ import {
     PROGRAMME_TYPE_DOMESTIC,
     PROJECT_STATUS_COMPLETED,
 } from '#utils/constants';
+import {
+    type DeepReplace,
+    dateGreaterThanOrEqualCondition,
+} from '#utils/common';
 
 import type { paths } from '#generated/types';
 
 export type ProjectResponseBody = paths['/api/v2/project/{id}/']['put']['requestBody']['content']['application/json'];
 
-export type AnnualSplit = NonNullable<ProjectResponseBody['annual_split_detail']>[number] & {
-    client_id: string;
-};
+type AnnualSplitRaw = ProjectResponseBody['annual_split_detail'][number];
+type AnnualSplit = AnnualSplitRaw & { client_id: string };
+type ProjectFormFields = DeepReplace<ProjectResponseBody, AnnualSplitRaw, AnnualSplit>;
 
-type ProjectFormFields = Omit<ProjectResponseBody, 'annual_split_detail'> & {
-    annual_split_detail: AnnualSplit[],
-};
-
-type BaseValue = PartialForm<ProjectFormFields, 'client_id'>;
-
-export type PartialAnnualType = NonNullable<BaseValue['annual_split_detail']>[number];
-
-export interface FormType extends ProjectFormFields {
+export type FormType = PartialForm<ProjectFormFields & {
     is_project_completed: boolean;
     is_annual_report: boolean;
-}
+}, 'client_id'>;
+
+export type PartialAnnualType = NonNullable<FormType['annual_split_detail']>[number];
 
 type FormSchema = ObjectSchema<PartialForm<FormType, 'client_id'>>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
-type AnnualSplitSchema = ObjectSchema<PartialForm<AnnualSplit, 'client_id'>, BaseValue>;
+type AnnualSplitSchema = ObjectSchema<PartialForm<AnnualSplit, 'client_id'>, FormType>;
 type AnnualSplitSchemaFields = ReturnType<AnnualSplitSchema['fields']>;
 
-type AnnualSplitsSchema = ArraySchema<PartialForm<AnnualSplit, 'client_id'>, BaseValue>; // plural: Splits
+type AnnualSplitsSchema = ArraySchema<PartialForm<AnnualSplit, 'client_id'>, FormType>; // plural: Splits
 type AnnualSplitsSchemaMember = ReturnType<AnnualSplitsSchema['member']>; // plural: Splits
 
-export type Maybe<T> = T | undefined | null;
-
-function dateGreaterThanOrEqualCondition(x: string) {
-    return (value: Maybe<string>) => (
-        isDefined(value) && (new Date(value).getTime()) < (new Date(x).getTime())
-            ? `Field must be greater than ${x}`
-            : undefined
-    );
-}
 const finalSchema: FormSchema = {
     fields: (value): FormSchemaFields => {
         let schema: FormSchemaFields = {

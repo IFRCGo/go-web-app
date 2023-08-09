@@ -9,6 +9,7 @@ export type WorkPlanBody = paths['/api/v2/per-work-plan/{id}/']['put']['requestB
 type ComponentResponse = NonNullable<WorkPlanBody['component_responses']>[number];
 type CustomComponentResponse = NonNullable<WorkPlanBody['custom_component_responses']>[number];
 
+// FIXME: add a NOTE why we are removing the id
 type WorkPlanFormFields = Omit<WorkPlanBody, 'id' | 'component_responses' | 'custom_component_responses'> & {
     component_responses: Omit<ComponentResponse, 'id'>[];
     custom_component_responses: (Omit<CustomComponentResponse, 'id'> & {

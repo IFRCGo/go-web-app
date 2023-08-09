@@ -11,10 +11,32 @@ import {
 
 import { components } from '#generated/types';
 
-type Maybe<T> = T | null | undefined;
+export type Maybe<T> = T | undefined | null;
 
 export type UnsafeNumberList = Maybe<Maybe<number>[]>;
 export type NumberList = number[];
+
+type DeepNonNullable<T> = T extends object ? (
+    T extends (infer K)[] ? (
+        DeepNonNullable<K>[]
+    ) : (
+        { [P in keyof T]-?: DeepNonNullable<T[P]> }
+    )
+) : T;
+
+export type DeepReplace<T, A, B> = (
+    DeepNonNullable<T> extends DeepNonNullable<A>
+        ? B
+        : (
+            T extends (infer Z)[]
+                ? DeepReplace<Z, A, B>[]
+                : (
+                    T extends object
+                        ? { [K in keyof T]: DeepReplace<T[K], A, B> }
+                        : T
+                )
+        )
+)
 
 function getNumberListSafe(list: UnsafeNumberList) {
     if (!list) {
@@ -367,6 +389,14 @@ export function getMonthList() {
                 ),
             };
         },
+    );
+}
+
+export function dateGreaterThanOrEqualCondition(x: string) {
+    return (value: Maybe<string>) => (
+        isDefined(value) && (new Date(value).getTime()) < (new Date(x).getTime())
+            ? `Field must be greater than ${x}`
+            : undefined
     );
 }
 

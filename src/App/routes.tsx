@@ -616,13 +616,13 @@ const threeWProjectEdit = customWrapRoute({
 const newThreeWActivity = customWrapRoute({
     path: 'activity/new',
     component: {
-        render: () => import('#views/GlobalThreeW'),
+        render: () => import('#views/ThreeWProjectForm'),
         props: {},
     },
     parent: threeW,
     wrapperComponent: Auth,
     context: {
-        title: 'New 3w activity',
+        title: 'New 3W activity',
         visibility: 'is-authenticated',
     },
 });
@@ -630,7 +630,7 @@ const newThreeWActivity = customWrapRoute({
 const threeWActivityEdit = customWrapRoute({
     path: 'activity/:activityId/edit',
     component: {
-        render: () => import('#views/GlobalThreeW'),
+        render: () => import('#views/ThreeWProjectForm'),
         props: {},
     },
     parent: threeW,

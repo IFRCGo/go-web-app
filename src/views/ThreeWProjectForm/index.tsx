@@ -7,7 +7,6 @@ import {
 import {
     useForm,
     getErrorObject,
-    PartialForm,
     getErrorString,
     useFormArray,
     createSubmitHandler,
@@ -70,7 +69,7 @@ import AnnualSplitInput from './AnnualSplitInput';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
-const defaultFormValues: PartialForm<FormType, 'client_id'> = {
+const defaultFormValues: FormType = {
     project_districts: [],
     secondary_sectors: [],
     visibility: 'public',
@@ -101,7 +100,7 @@ export function Component() {
         DistrictItem[] | undefined | null
     >([]);
 
-    const [eventOptions, setEvents] = useState<
+    const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
     >([]);
 
@@ -113,7 +112,7 @@ export function Component() {
         } : undefined,
         onSuccess: (response) => {
             setDistrictOptions(response.project_districts_detail);
-            setEvents([{
+            setEventOptions([{
                 ...response.event_detail,
                 // FIXME: event dtype id is a must inside event mini but
                 // its not defined under event_detail of this response
@@ -179,19 +178,22 @@ export function Component() {
     });
 
     const visibilityOptions = useMemo(() => {
-        if (!visibilityTypeOptions || !meResponse) {
-            return undefined;
-        }
-        let projectVisibilityOptions = [...visibilityTypeOptions];
-        if (meResponse?.profile?.org_type === 'OTHR') {
-            projectVisibilityOptions = projectVisibilityOptions.filter((x) => x.key === 'public' || x.key === 'logged_in_user');
-        } else if (meResponse?.profile?.org_type === 'NTLS') {
-            projectVisibilityOptions = projectVisibilityOptions.filter(
-                (x) => x.key === 'public' || x.key === 'logged_in_user' || x.key === 'ifrc_ns',
-            );
-        }
+        const orgType = meResponse?.profile?.org_type;
 
-        return projectVisibilityOptions;
+        if (orgType === 'OTHR') {
+            return visibilityTypeOptions?.filter((x) => (
+                x.key === 'public'
+                || x.key === 'logged_in_user'
+            ));
+        }
+        if (orgType === 'NTLS') {
+            return visibilityTypeOptions?.filter((x) => (
+                x.key === 'public'
+                || x.key === 'logged_in_user'
+                || x.key === 'ifrc_ns'
+            ));
+        }
+        return visibilityTypeOptions;
     }, [
         visibilityTypeOptions,
         meResponse,
@@ -517,7 +519,7 @@ export function Component() {
             );
         },
     });
-    const handleSubmit = useCallback((data: PartialForm<FormType>) => {
+    const handleSubmit = useCallback((data: FormType) => {
         if (!projectId) {
             submitRequest(data as ProjectResponseBody);
         } else {
@@ -536,6 +538,7 @@ export function Component() {
 
     return (
         <div className={styles.threeWProjectForm}>
+            {/* FIXME: Let's not block the UI during loading */}
             {pending ? <BlockLoading /> : (
                 <>
                     <InputSection
@@ -615,6 +618,7 @@ export function Component() {
                             onChange={setFieldValue}
                             options={operationTypeOptions}
                             value={value.operation_type}
+                            // FIXME: do not use inline functions
                             keySelector={(d) => d.key}
                             labelSelector={(d) => d.value}
                         />
@@ -625,6 +629,7 @@ export function Component() {
                             onChange={setFieldValue}
                             options={programmeTypeOptions}
                             value={value.programme_type}
+                            // FIXME: do not use inline functions
                             keySelector={(d) => d.key}
                             labelSelector={(d) => d.value}
                         />
@@ -638,7 +643,7 @@ export function Component() {
                                 value={value.event}
                                 onChange={handleEventChange}
                                 options={eventOptions}
-                                onOptionsChange={setEvents}
+                                onOptionsChange={setEventOptions}
                                 countryId={value?.project_country}
                             />
                         </InputSection>
@@ -652,7 +657,7 @@ export function Component() {
                                 error={error?.event}
                                 name="event"
                                 options={eventOptions}
-                                onOptionsChange={setEvents}
+                                onOptionsChange={setEventOptions}
                                 placeholder={strings.projectFormOperationDefaultPlaceholder}
                                 value={value.event}
                                 onChange={setFieldValue}
@@ -676,6 +681,7 @@ export function Component() {
                             placeholder={disasterTypePlaceholder}
                             value={value.dtype}
                             onChange={setFieldValue}
+                            // FIXME: do not use inline functions
                             keySelector={(d) => d.id}
                             labelSelector={(d) => d.name ?? '???'}
                         />
@@ -736,6 +742,7 @@ export function Component() {
                             onChange={setFieldValue}
                             options={primarySectorOptions}
                             value={value.primary_sector}
+                            // FIXME: do not use inline functions
                             keySelector={(d) => Number(d.key)}
                             labelSelector={(d) => d.label}
                             disabled={fetchingPrimarySectors}
@@ -747,6 +754,7 @@ export function Component() {
                             onChange={setFieldValue}
                             options={secondarySectorOptions}
                             value={value.secondary_sectors}
+                            // FIXME: do not use inline functions
                             keySelector={(d) => Number(d.key)}
                             labelSelector={(d) => d.label}
                             disabled={fetchingSecondarySectors}
@@ -837,7 +845,7 @@ export function Component() {
                             />
                         </div>
                     </InputSection>
-                    {value?.is_annual_report === true ? (
+                    {value?.is_annual_report ? (
                         <InputSection
                             description={strings.projectFormPeopleTargetedHelpText}
                             title={`${strings.projectFormPeopleTargeted} ${strings.projectFormAnnually}`}
@@ -968,6 +976,7 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.visibility}
                             options={visibilityOptions}
+                            // FIXME: do not use inline functions
                             keySelector={(d) => d.key}
                             labelSelector={(d) => d.value}
                             disabled={pendingMe}

@@ -3,7 +3,6 @@ import {
     LazyRequestOptions,
     useRequest,
     useLazyRequest,
-    UrlParams,
 } from '@togglecorp/toggle-request';
 
 import {
