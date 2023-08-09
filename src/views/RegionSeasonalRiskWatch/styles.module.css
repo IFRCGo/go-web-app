@@ -2,34 +2,40 @@
     display: flex;
     flex-direction: column;
     padding: var(--go-ui-spacing-4xl) 0;
+    overflow: auto;
 
     .content {
         display: flex;
+        height: 40rem;
         gap: var(--go-ui-spacing-xl);
 
         .map-container {
             flex-grow: 1;
-            height: 40rem;
         }
 
         .country-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-md);
-            width: 30rem;
+            flex-basis: calc(14vw + 16rem);
+            background-color: var(--go-ui-color-background);
 
-            .country {
-                .name {
-                    font-size: var(--go-ui-font-size-xs);
-                }
+            .content {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-md);
+                overflow: auto;
 
-                .track {
-                    display: flex;
-                    background-color: var(--go-ui-color-background);
-                    height: 0.5rem;
+                .country {
+                    .name {
+                        font-size: var(--go-ui-font-size-xs);
+                    }
 
-                    .bar {
-                        height: 100%;
+                    .track {
+                        display: flex;
+                        background-color: var(--go-ui-color-background);
+                        height: 0.5rem;
+
+                        .bar {
+                            height: 100%;
+                        }
                     }
                 }
             }

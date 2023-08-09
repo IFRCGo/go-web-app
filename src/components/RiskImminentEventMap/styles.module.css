@@ -5,7 +5,6 @@
     overflow: auto;
 
     .map-container {
-        position: relative;
         flex-grow: 1;
     }
 

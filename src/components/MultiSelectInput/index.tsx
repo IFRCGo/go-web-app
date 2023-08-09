@@ -1,5 +1,6 @@
 import SearchMultiSelectInput, { SearchMultiSelectInputProps } from '#components/SearchMultiSelectInput';
 import { rankedSearchOnList } from '#utils/common';
+import { useCallback } from 'react';
 
 type Def = { containerClassName?: string };
 type OptionKey = string | number;
@@ -10,7 +11,9 @@ export type MultiSelectInputProps<
     // eslint-disable-next-line @typescript-eslint/ban-types
     OPTION extends object,
     RENDER_PROPS extends Def,
-> = SearchMultiSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount'>;
+> = SearchMultiSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount'> & {
+    showSelectAllButton?: boolean;
+};
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function MultiSelectInput<
@@ -24,17 +27,35 @@ function MultiSelectInput<
     const {
         name,
         options,
+        keySelector,
+        onChange,
+        showSelectAllButton,
         ...otherProps
     } = props;
+
+    const handleSelectAll = useCallback(
+        () => {
+            if (!options) {
+                return;
+            }
+
+            const allValues = options?.map(keySelector);
+            onChange(allValues, name);
+        },
+        [options, name, onChange, keySelector],
+    );
 
     return (
         <SearchMultiSelectInput
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
             name={name}
+            onChange={onChange}
             options={options}
+            keySelector={keySelector}
             sortFunction={rankedSearchOnList}
             searchOptions={options}
+            onSelectAllButtonClick={showSelectAllButton ? handleSelectAll : undefined}
         />
     );
 }

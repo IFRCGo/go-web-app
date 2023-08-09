@@ -401,3 +401,25 @@ export const defaultApplicableHazards: Record<HazardType, boolean> = {
     CD: false,
     WF: false,
 };
+
+export const applicableHazardsByRiskMetric: Record<RiskMetric, Record<HazardType, boolean>> = {
+    exposure: {
+        ...defaultApplicableHazards,
+        TC: true,
+        FL: true,
+        FI: true,
+    },
+    displacement: {
+        ...defaultApplicableHazards,
+        TC: true,
+        FL: true,
+        SS: true,
+    },
+    riskScore: {
+        ...defaultApplicableHazards,
+        DR: true,
+        TC: true,
+        FL: true,
+        WF: true,
+    },
+};

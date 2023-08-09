@@ -17,24 +17,24 @@ import Map, {
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
+
 import {
     defaultMapStyle,
     defaultMapOptions,
     adminLabelLayerOptions,
 } from '#utils/map';
-
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
+import BlockLoading from '#components/BlockLoading';
 import {
     getDataWithTruthyHazardType,
     getFiRiskDataItem,
-    // getWfRiskDataItem,
     hasSomeDefinedValue,
-    defaultApplicableHazards,
     getValueForSelectedMonths,
     hazardTypeToColorMap,
     getWfRiskDataItem,
     riskScoreToCategory,
+    applicableHazardsByRiskMetric,
 } from '#utils/risk';
 import type {
     HazardType,
@@ -48,12 +48,21 @@ import {
     COLOR_LIGHT_BLUE,
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_RED,
+    CATEGORY_RISK_HIGH,
+    CATEGORY_RISK_LOW,
+    CATEGORY_RISK_MEDIUM,
+    CATEGORY_RISK_VERY_HIGH,
+    CATEGORY_RISK_VERY_LOW,
 } from '#utils/constants';
 import { type RegionOutletContext } from '#utils/outletContext';
 
 import Filters from './Filters';
 import type { FilterValue } from './Filters';
 import styles from './styles.module.css';
+
+// TODO:
+// - Find better risk category for exposure and displacement
+// - Show map using absolute risk categories (Currently it's being normalized)
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -73,7 +82,10 @@ export function Component() {
         includeCopingCapacity: false,
     });
 
-    const { response: seasonalResponse } = useRiskRequest({
+    const {
+        response: seasonalResponse,
+        pending: seasonalResponsePending,
+    } = useRiskRequest({
         skip: isNotDefined(regionId),
         apiType: 'risk',
         url: '/api/v1/seasonal/',
@@ -82,7 +94,10 @@ export function Component() {
         },
     });
 
-    const { response: riskScoreResponse } = useRiskRequest({
+    const {
+        response: riskScoreResponse,
+        pending: riskScoreResponsePending,
+    } = useRiskRequest({
         skip: isNotDefined(regionId),
         apiType: 'risk',
         url: '/api/v1/risk-score/',
@@ -91,6 +106,8 @@ export function Component() {
             limit: 500,
         },
     });
+
+    const dataPending = riskScoreResponsePending || seasonalResponsePending;
 
     // NOTE: We get single element as array in response
     const seasonalRiskData = seasonalResponse?.[0];
@@ -101,26 +118,28 @@ export function Component() {
                 return undefined;
             }
 
-            const lcc = listToMap(
-                riskScoreResponse.results.map(
-                    (item) => {
-                        if (!item.country_details
-                            || isFalsyString(item.country_details.iso3)
-                            || isNotDefined(item.lcc)
-                        ) {
-                            return undefined;
-                        }
+            const riskScoreList = riskScoreResponse.results.map(
+                (item) => {
+                    if (!item.country_details
+                        || isFalsyString(item.country_details.iso3)
+                        || isNotDefined(item.lcc)
+                    ) {
+                        return undefined;
+                    }
 
-                        return {
-                            ...item,
-                            lcc: item.lcc,
-                            country_details: {
-                                ...item.country_details,
-                                iso3: item.country_details.iso3,
-                            },
-                        };
-                    },
-                ).filter(isDefined),
+                    return {
+                        ...item,
+                        lcc: item.lcc,
+                        country_details: {
+                            ...item.country_details,
+                            iso3: item.country_details.iso3,
+                        },
+                    };
+                },
+            ).filter(isDefined);
+
+            const lcc = listToMap(
+                riskScoreList,
                 (item) => item.country_details.iso3,
                 (item) => item.lcc,
             );
@@ -160,36 +179,20 @@ export function Component() {
             {
                 key: 'exposure',
                 // FIXME: use translation
-                label: 'Exposure',
-                applicableHazards: {
-                    ...defaultApplicableHazards,
-                    TC: true,
-                    FL: true,
-                    FI: true,
-                },
+                label: 'People Exposed',
+                applicableHazards: applicableHazardsByRiskMetric.exposure,
             },
             {
                 key: 'displacement',
                 // FIXME: use translation
-                label: 'Displacement',
-                applicableHazards: {
-                    ...defaultApplicableHazards,
-                    TC: true,
-                    FL: true,
-                    SS: true,
-                },
+                label: 'People at Risk of Displacement',
+                applicableHazards: applicableHazardsByRiskMetric.displacement,
             },
             {
                 key: 'riskScore',
                 // FIXME: use translation
                 label: 'Risk Score',
-                applicableHazards: {
-                    ...defaultApplicableHazards,
-                    DR: true,
-                    TC: true,
-                    FL: true,
-                    WF: true,
-                },
+                applicableHazards: applicableHazardsByRiskMetric.riskScore,
             },
         ]),
         [],
@@ -570,6 +573,18 @@ export function Component() {
         [filteredData],
     );
 
+    // FIXME: use translation
+    const riskCategoryToLabelMap: Record<number, string> = useMemo(
+        () => ({
+            [CATEGORY_RISK_VERY_LOW]: 'Very Low',
+            [CATEGORY_RISK_LOW]: 'Low',
+            [CATEGORY_RISK_MEDIUM]: 'Medium',
+            [CATEGORY_RISK_HIGH]: 'High',
+            [CATEGORY_RISK_VERY_HIGH]: 'Very High',
+        }),
+        [],
+    );
+
     return (
         <Container
             className={styles.regionSeasonalRiskWatch}
@@ -584,6 +599,7 @@ export function Component() {
                 />
             )}
             childrenContainerClassName={styles.content}
+            withHeaderBorder
         >
             <Map
                 mapStyle={defaultMapStyle}
@@ -614,11 +630,23 @@ export function Component() {
                     />
                 </MapSource>
                 <MapBounds
+                    // FIXME: use defined constants
+                    duration={1000}
                     bounds={bbox}
+                    padding={50}
                 />
             </Map>
-            <div className={styles.countryList}>
-                {filteredData?.map(
+            <Container
+                className={styles.countryList}
+                childrenContainerClassName={styles.content}
+                withInternalPadding
+                heading="Countries"
+                headingLevel={5}
+                spacing="cozy"
+                withHeaderBorder
+            >
+                {dataPending && <BlockLoading />}
+                {!dataPending && filteredData?.map(
                     (dataItem) => (
                         <div
                             key={dataItem.iso3}
@@ -637,7 +665,7 @@ export function Component() {
                                     }) => (
                                         <div
                                             className={styles.bar}
-                                            title={`${hazard_type_display}: ${formatNumber(value)}`}
+                                            title={`${hazard_type_display}: ${filters.riskMetric === 'riskScore' ? riskCategoryToLabelMap[value] : formatNumber(value)}`}
                                             key={hazard_type}
                                             style={{
                                                 width: `${100 * normalizedValue * dataItem.normalizedValue}%`,
@@ -650,7 +678,7 @@ export function Component() {
                         </div>
                     ),
                 )}
-            </div>
+            </Container>
         </Container>
     );
 }

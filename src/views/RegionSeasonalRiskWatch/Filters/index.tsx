@@ -1,4 +1,5 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
+import { isDefined, mapToList } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';
 import { EntriesAsList } from '@togglecorp/toggle-form';
@@ -13,6 +14,7 @@ import {
     type HazardTypeOption,
     type RiskMetricOption,
     type RiskMetric,
+    applicableHazardsByRiskMetric,
 } from '#utils/risk';
 import Checkbox from '#components/Checkbox';
 import SelectInput from '#components/SelectInput';
@@ -54,13 +56,48 @@ function Filters(props: Props) {
 
     const countryList = useCountry({ region: regionId });
 
+    useEffect(
+        () => {
+            // TODO: figure out better way to set default value
+            // NOTE: setting default value
+            onChange((prevValue) => ({
+                ...prevValue,
+                countries: countryList.map((country) => country.iso3),
+                months: Array.from(Array(11).keys()),
+                hazardTypes: mapToList(
+                    applicableHazardsByRiskMetric[prevValue.riskMetric],
+                    (isApplicable, hazardType) => (isApplicable
+                        ? hazardType as HazardType : undefined),
+                ).filter(isDefined),
+            }));
+        },
+        [countryList, onChange],
+    );
+
     const handleChange = useCallback(
         (...args: EntriesAsList<FilterValue>) => {
             const [val, key] = args;
-            onChange((prevValue): FilterValue => ({
-                ...prevValue,
-                [key]: val,
-            }));
+            onChange((prevValue): FilterValue => {
+                if (key !== 'riskMetric') {
+                    return {
+                        ...prevValue,
+                        [key]: val,
+                    };
+                }
+
+                const applicableHazards = applicableHazardsByRiskMetric[val as RiskMetric];
+                const hazardTypes = mapToList(
+                    applicableHazards,
+                    (isApplicable, hazardType) => (isApplicable
+                        ? hazardType as HazardType : undefined),
+                ).filter(isDefined);
+
+                return {
+                    ...prevValue,
+                    riskMetric: val as RiskMetric,
+                    hazardTypes,
+                };
+            });
         },
         [onChange],
     );
@@ -76,11 +113,10 @@ function Filters(props: Props) {
                 labelSelector={stringNameSelector}
                 value={value.countries}
                 onChange={handleChange}
+                showSelectAllButton
             />
             <SelectInput
                 name="riskMetric"
-                // FIXME: use translation
-                label="Select risk metric"
                 options={riskMetricOptions}
                 keySelector={riskMetricKeySelector}
                 labelSelector={stringLabelSelector}
@@ -97,6 +133,7 @@ function Filters(props: Props) {
                 labelSelector={hazardTypeLabelSelector}
                 value={value.hazardTypes}
                 onChange={handleChange}
+                showSelectAllButton
             />
             <MultiSelectInput
                 name="months"
@@ -107,21 +144,26 @@ function Filters(props: Props) {
                 labelSelector={stringLabelSelector}
                 value={value.months}
                 onChange={handleChange}
+                showSelectAllButton
             />
-            <Checkbox
-                name="normalizeByPopulation"
-                // FIXME: use translation
-                label="Normalize by population"
-                value={value.normalizeByPopulation}
-                onChange={handleChange}
-            />
-            <Checkbox
-                name="includeCopingCapacity"
-                // FIXME: use translation
-                label="Include coping capacity"
-                value={value.includeCopingCapacity}
-                onChange={handleChange}
-            />
+            {value.riskMetric === 'riskScore' && (
+                <div className={styles.riskScoreAdditionalOptions}>
+                    <Checkbox
+                        name="normalizeByPopulation"
+                        // FIXME: use translation
+                        label="Normalize by population"
+                        value={value.normalizeByPopulation}
+                        onChange={handleChange}
+                    />
+                    <Checkbox
+                        name="includeCopingCapacity"
+                        // FIXME: use translation
+                        label="Include coping capacity"
+                        value={value.includeCopingCapacity}
+                        onChange={handleChange}
+                    />
+                </div>
+            )}
         </div>
     );
 }

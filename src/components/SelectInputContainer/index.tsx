@@ -1,6 +1,11 @@
 import React, { useCallback, useRef } from 'react';
 import { _cs, isTruthyString } from '@togglecorp/fujs';
-import { ArrowDownSmallFillIcon, ArrowUpSmallFillIcon, CloseLineIcon } from '@ifrc-go/icons';
+import {
+    ArrowDownSmallFillIcon,
+    ArrowUpSmallFillIcon,
+    CheckDoubleFillIcon,
+    CloseLineIcon,
+} from '@ifrc-go/icons';
 
 import Popup from '#components/Popup';
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
@@ -54,6 +59,7 @@ export type SelectInputContainerProps<
         hasValue: boolean;
         nonClearable?: boolean;
         onClearButtonClick: () => void;
+        onSelectAllButtonClick?: () => void;
         emptyMessage?: React.ReactNode;
     }, OMISSION>
     & Omit<InputContainerProps, 'input'>
@@ -99,7 +105,8 @@ function SelectInputContainer<
         placeholder,
         valueDisplay = '',
         nonClearable,
-        onClearButtonClick: onClear,
+        onClearButtonClick,
+        onSelectAllButtonClick,
         optionsPending = false,
         optionsFiltered = false,
         optionsErrored = false,
@@ -254,12 +261,25 @@ function SelectInputContainer<
                 actions={(
                     <>
                         {actions}
-                        {!readOnly && !nonClearable && hasValue && (
+                        {!readOnly && onSelectAllButtonClick && (
                             <Button
-                                onClick={onClear}
+                                onClick={onSelectAllButtonClick}
                                 disabled={disabled}
                                 variant="tertiary"
                                 name={undefined}
+                                // FIXME use translation
+                                title="Select all"
+                            >
+                                <CheckDoubleFillIcon className={styles.icon} />
+                            </Button>
+                        )}
+                        {!readOnly && !nonClearable && hasValue && (
+                            <Button
+                                onClick={onClearButtonClick}
+                                disabled={disabled}
+                                variant="tertiary"
+                                name={undefined}
+                                // FIXME use translation
                                 title="Clear"
                             >
                                 <CloseLineIcon className={styles.icon} />
@@ -270,6 +290,7 @@ function SelectInputContainer<
                                 onClick={handleToggleDropdown}
                                 variant="tertiary"
                                 name={undefined}
+                                // FIXME use translation
                                 title={dropdownShown ? 'Close' : 'Open'}
                             >
                                 {dropdownShown
