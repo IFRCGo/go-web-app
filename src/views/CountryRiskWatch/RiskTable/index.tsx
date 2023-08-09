@@ -17,7 +17,7 @@ import useTranslation from '#hooks/useTranslation';
 import { minSafe } from '#utils/common';
 import {
     getDataWithTruthyHazardType,
-    getDisplacementForSelectedMonths,
+    getValueForSelectedMonths,
     getFiRiskDataItem,
     getWfRiskDataItem,
     hasSomeDefinedValue,
@@ -163,7 +163,7 @@ function RiskTable(props: Props) {
                 'riskScore',
                 strings.riskTableInformTitle,
                 (option) => riskScoreToLabel(
-                    getDisplacementForSelectedMonths(
+                    getValueForSelectedMonths(
                         selectedMonths,
                         informSeasonalRiskData[option.hazard_type],
                         'max',
@@ -199,7 +199,7 @@ function RiskTable(props: Props) {
             createNumberColumn<HazardTypeOption, string>(
                 'exposure',
                 strings.riskTablePeopleExposedTitle,
-                (option) => getDisplacementForSelectedMonths(
+                (option) => getValueForSelectedMonths(
                     selectedMonths,
                     exposureRiskData[option.hazard_type],
                 ),
@@ -218,12 +218,12 @@ function RiskTable(props: Props) {
                     // displacement value to show the exposure in case displacement
                     // is greater than exposure
 
-                    const exposure = getDisplacementForSelectedMonths(
+                    const exposure = getValueForSelectedMonths(
                         selectedMonths,
                         exposureRiskData[option.hazard_type],
                     );
 
-                    const displacement = getDisplacementForSelectedMonths(
+                    const displacement = getValueForSelectedMonths(
                         selectedMonths,
                         displacementRiskData[option.hazard_type],
                     );

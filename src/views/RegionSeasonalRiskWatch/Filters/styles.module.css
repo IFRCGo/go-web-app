@@ -1,0 +1,5 @@
+.filters {
+    display: grid;
+    grid-gap: var(--go-ui-spacing-xl);
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}

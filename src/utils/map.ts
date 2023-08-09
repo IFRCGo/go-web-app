@@ -1,3 +1,8 @@
+import type {
+    FillLayer,
+    SymbolLayer,
+} from 'mapbox-gl';
+
 import {
     COLOR_BLUE,
     COLOR_RED,
@@ -5,6 +10,8 @@ import {
     OPERATION_TYPE_EMERGENCY,
     OPERATION_TYPE_MULTI,
     OPERATION_TYPE_PROGRAMME,
+    COLOR_LIGHT_GREY,
+    COLOR_DARK_GREY,
 } from '#utils/constants';
 
 export const defaultMapStyle = 'mapbox://styles/go-ifrc/ckrfe16ru4c8718phmckdfjh0';
@@ -112,20 +119,23 @@ export const defaultTooltipOptions: mapboxgl.PopupOptions = {
     offset: 10,
 };
 
-export type BBOXType = [number, number, number, number];
-export function fixBounds(bounds: number[]) {
-    const newBounds = [...bounds] as BBOXType;
-    /*
-  if (newBounds[0] < -90 || newBounds[2] < -90) {
-    if (newBounds[0] < 0) {
-      newBounds[0] = 360 + newBounds[0];
-    }
+export const adminLabelLayerOptions : Omit<SymbolLayer, 'id'> = {
+    type: 'symbol',
+    layout: {
+        'text-offset': [
+            0, 1,
+        ],
+    },
+};
 
-    if (newBounds[2] < 0) {
-      newBounds[2] = 360 + newBounds[2];
-    }
-  }
-  */
-
-    return newBounds as BBOXType;
-}
+export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
+    type: 'fill',
+    paint: {
+        'fill-color': [
+            'case',
+            ['boolean', ['feature-state', 'hovered'], false],
+            COLOR_DARK_GREY,
+            COLOR_LIGHT_GREY,
+        ],
+    },
+};

@@ -1,4 +1,5 @@
 import { useParams, useOutletContext } from 'react-router-dom';
+import getBbox from '@turf/bbox';
 
 import HighlightedOperations from '#components/HighlightedOperations';
 import ActiveOperationMap from '#components/ActiveOperationMap';
@@ -16,6 +17,8 @@ export function Component() {
     const { regionId } = useParams<{ regionId: string }>();
     const { regionResponse } = useOutletContext<RegionOutletContext>();
 
+    const bbox = regionResponse ? getBbox(regionResponse.bbox) : undefined;
+
     return (
         <div className={styles.regionOperations}>
             <HighlightedOperations
@@ -25,6 +28,7 @@ export function Component() {
             <ActiveOperationMap
                 variant="region"
                 regionId={Number(regionId)}
+                bbox={bbox}
             />
             <AppealsTable
                 variant="region"

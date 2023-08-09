@@ -4,6 +4,7 @@ import {
     useCallback,
     useState,
 } from 'react';
+import type { LngLatBoundsLike } from 'mapbox-gl';
 import { generatePath } from 'react-router-dom';
 import {
     _cs,
@@ -16,6 +17,7 @@ import {
 import Map, {
     MapSource,
     MapLayer,
+    MapBounds,
 } from '@togglecorp/re-map';
 
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
@@ -30,6 +32,8 @@ import type { GoApiUrlQuery } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
+    adminFillLayerOptions,
+    adminLabelLayerOptions,
 } from '#utils/map';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
@@ -47,9 +51,6 @@ import {
     outerCircleLayerOptionsForPeopleTargeted,
     basePointLayerOptions,
     APPEAL_TYPE_MULTIPLE,
-
-    adminFillLayerOptions,
-    adminLabelLayerOptions,
 } from './utils';
 import styles from './styles.module.css';
 
@@ -83,6 +84,7 @@ interface ClickedPoint {
 
 type BaseProps = {
     className?: string;
+    bbox: LngLatBoundsLike | undefined;
 }
 
 type RegionProps = {
@@ -100,6 +102,7 @@ function ActiveOperationMap(props: Props) {
     const {
         className,
         variant,
+        bbox,
     } = props;
 
     // eslint-disable-next-line react/destructuring-assignment
@@ -281,7 +284,6 @@ function ActiveOperationMap(props: Props) {
             )}
         >
             <Map
-                // FIXME: add bounds for region variant
                 mapStyle={defaultMapStyle}
                 mapOptions={defaultMapOptions}
                 navControlShown
@@ -380,6 +382,14 @@ function ActiveOperationMap(props: Props) {
                             </div>
                         )}
                     </MapPopup>
+                )}
+                {isDefined(bbox) && (
+                    <MapBounds
+                        // FIXME: use defined constants
+                        duration={1000}
+                        bounds={bbox}
+                        padding={50}
+                    />
                 )}
             </Map>
             <div className={styles.footer}>

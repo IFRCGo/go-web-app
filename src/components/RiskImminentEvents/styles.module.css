@@ -1,0 +1,26 @@
+.risk-imminent-events {
+    .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-lg);
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--go-ui-spacing-xs);
+
+            .icon-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                width: var(--go-ui-font-size-2xl);
+                height: var(--go-ui-font-size-2xl);
+
+                .icon {
+                    color: var(--go-ui-color-white);
+                }
+            }
+        }
+    }
+}

@@ -11,7 +11,10 @@ import {
 
 import { components } from '#generated/types';
 
-export type UnsafeNumberList = (number | undefined | null)[] | null | undefined;
+type Maybe<T> = T | null | undefined;
+
+export type UnsafeNumberList = Maybe<Maybe<number>[]>;
+export type NumberList = number[];
 
 function getNumberListSafe(list: UnsafeNumberList) {
     if (!list) {
@@ -29,7 +32,7 @@ function getNumberListSafe(list: UnsafeNumberList) {
 
 export function sumSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList || safeList.length === 0) {
+    if (!safeList) {
         return undefined;
     }
 
@@ -38,7 +41,7 @@ export function sumSafe(list: UnsafeNumberList) {
 
 export function maxSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList || safeList.length === 0) {
+    if (!safeList) {
         return undefined;
     }
 
@@ -47,7 +50,7 @@ export function maxSafe(list: UnsafeNumberList) {
 
 export function minSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList || safeList.length === 0) {
+    if (!safeList) {
         return undefined;
     }
 
@@ -56,7 +59,7 @@ export function minSafe(list: UnsafeNumberList) {
 
 export function avgSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList || safeList.length === 0) {
+    if (!safeList) {
         return undefined;
     }
 
@@ -130,27 +133,6 @@ export function reTab(str: string | undefined | null) {
 
     // Remove all \r characters
     return reTabbed.replaceAll('\r', '');
-}
-
-type PartialCountry = components['schemas']['Country'];
-type DefinedCountry = Omit<PartialCountry, 'iso' | 'name'> & {
-    iso: string;
-    name: string;
-}
-export function isValidCountry(country: PartialCountry): country is DefinedCountry {
-    return isTruthyString(country.name)
-        && isTruthyString(country.iso)
-        && country.independent !== false
-        && !country.is_deprecated;
-}
-
-type CountryWithDefinedNS = Omit<PartialCountry, 'iso' | 'name'> & {
-    iso: string;
-    name: string;
-    society_name: string;
-}
-export function isValidNationalSociety(country: PartialCountry): country is CountryWithDefinedNS {
-    return isValidCountry(country) && isTruthyString(country.name);
 }
 
 function suffix(num: number, suffixStr: string, skipZero: boolean) {
@@ -287,8 +269,11 @@ export function formatNumber(
         return undefined;
     }
 
+    const formattingOptions: Intl.NumberFormatOptions = {};
+
     if (!options) {
-        return new Intl.NumberFormat(navigator.language).format(value);
+        formattingOptions.maximumFractionDigits = Math.abs(value) >= 1000 ? 0 : 2;
+        return new Intl.NumberFormat(navigator.language, formattingOptions).format(value);
     }
 
     const {
@@ -298,8 +283,6 @@ export function formatNumber(
         compact,
         separatorHidden,
     } = options;
-
-    const formattingOptions: Intl.NumberFormatOptions = {};
 
     if (isTruthyString(unit)) {
         formattingOptions.unit = unit;
@@ -359,4 +342,46 @@ export function splitList<X, Y>(
 export function getNumberOfDaysInMonth(year: number, month: number) {
     const dateWithLastDateOfPrevMonth = new Date(year, month + 1, 0);
     return dateWithLastDateOfPrevMonth.getDate();
+}
+
+export function getMonthList() {
+    const monthKeyList = Array.from(Array(11).keys());
+    return monthKeyList.map(
+        (monthKey) => {
+            const date = new Date();
+            date.setDate(1);
+            date.setMonth(monthKey);
+
+            return {
+                key: monthKey,
+                label: date.toLocaleString(
+                    navigator.language,
+                    { month: 'long' },
+                ),
+            };
+        },
+    );
+}
+
+// FIXME: move these to different file
+
+type PartialCountry = components['schemas']['Country'];
+type DefinedCountry = Omit<PartialCountry, 'iso' | 'name'> & {
+    iso: string;
+    name: string;
+}
+export function isValidCountry(country: PartialCountry): country is DefinedCountry {
+    return isTruthyString(country.name)
+        && isTruthyString(country.iso)
+        && country.independent !== false
+        && !country.is_deprecated;
+}
+
+type CountryWithDefinedNS = Omit<PartialCountry, 'iso' | 'name'> & {
+    iso: string;
+    name: string;
+    society_name: string;
+}
+export function isValidNationalSociety(country: PartialCountry): country is CountryWithDefinedNS {
+    return isValidCountry(country) && isTruthyString(country.name);
 }

@@ -315,7 +315,7 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                 </MapSource>
                 {bounds && (
                     <MapBounds
-                        duration={1000}
+                        duration={3000}
                         bounds={bounds}
                         padding={50}
                     />

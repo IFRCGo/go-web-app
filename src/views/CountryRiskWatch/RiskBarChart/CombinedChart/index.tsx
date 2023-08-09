@@ -17,7 +17,7 @@ import useTranslation from '#hooks/useTranslation';
 import { getScaleFunction } from '#utils/chart';
 import {
     getDataWithTruthyHazardType,
-    getDisplacementForSelectedMonths,
+    getValueForSelectedMonths,
     monthNumberToNameMap,
     getFiRiskDataItem,
     getWfRiskDataItem,
@@ -207,7 +207,7 @@ function CombinedChart(props: Props) {
         () => {
             const maxValueList = Object.values(filteredRiskData ?? {}).map(
                 (riskDataItem) => (
-                    getDisplacementForSelectedMonths(
+                    getValueForSelectedMonths(
                         selectedMonths,
                         riskDataItem,
                         'max',

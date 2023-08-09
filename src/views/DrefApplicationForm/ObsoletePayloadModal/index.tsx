@@ -1,4 +1,4 @@
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
@@ -51,11 +51,11 @@ function ObsoletePayloadResolutionModal(props: Props) {
         pending: drefPending,
         response: drefResponse,
     } = useRequest({
-        skip: !drefId,
+        skip: isNotDefined(drefId),
         url: '/api/v2/dref/{id}/',
-        pathVariables: {
-            id: drefId,
-        },
+        pathVariables: isDefined(drefId) ? {
+            id: String(drefId),
+        } : undefined,
     });
 
     return (

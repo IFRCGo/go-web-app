@@ -4,29 +4,53 @@
 
     &.primary {
         overflow-x: auto;
+
+        .content {
+            display: flex;
+        }
+
         .start-dummy-content,
         .end-dummy-content {
             align-self: flex-end;
             flex-grow: 1;
-            background-color: var(--go-ui-color-separator);
-            height: var(--go-ui-width-separator-thin);
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
         }
     }
 
     &.secondary {
-        border-radius: calc(1em + var(--go-ui-spacing-md));
-        background-color: var(--go-ui-color-background);
-        width: fit-content;
+        display: flex;
         overflow-x: auto;
+
+        .content {
+            display: flex;
+            border-radius: var(--go-ui-border-radius-full);
+            background-color: var(--go-ui-color-background);
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            flex-grow: 1;
+        }
     }
 
     &.tertiary {
-        display: flex;
-        flex-wrap: wrap;
         justify-content: flex-start;
-        gap: var(--go-ui-spacing-md);
         width: fit-content;
         overflow-x: auto;
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            width: fit-content;
+            overflow-x: auto;
+            gap: var(--go-ui-spacing-md);
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            display: none;
+        }
     }
 
     &.step {
@@ -39,6 +63,14 @@
     }
 
     &.vertical {
-        flex-direction: column;
+        .content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            display: none;
+        }
     }
 }

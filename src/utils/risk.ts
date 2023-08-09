@@ -26,7 +26,7 @@ import {
     COLOR_LIGHT_GREY,
 } from './constants';
 
-type HazardType = components['schemas']['HazardTypeEnum'];
+export type HazardType = components['schemas']['HazardTypeEnum'];
 
 export const hazardTypeToColorMap: Record<HazardType, string> = {
     EQ: COLOR_HAZARD_EARTHQUAKE,
@@ -89,13 +89,13 @@ export const monthNumberToNameMap: Record<number, keyof RiskDataItem> = {
     12: 'annual_average',
 };
 
-export function getDisplacementForSelectedMonths(
+export function getValueForSelectedMonths(
     selectedMonths: Record<number, boolean> | undefined,
     riskDataItem: RiskDataItem | undefined,
     aggregationMode: 'sum' | 'max' = 'sum',
 ) {
     if (!selectedMonths) {
-        return riskDataItem?.annual_average;
+        return riskDataItem?.annual_average ?? undefined;
     }
 
     const monthKeys = Object.keys(
@@ -325,6 +325,31 @@ export function isValidFeature(
     return true;
 }
 
+export function isValidFeatureCollection(
+    maybeFeatureCollection: unknown,
+): maybeFeatureCollection is GeoJSON.FeatureCollection {
+    if (isNotDefined(maybeFeatureCollection)) {
+        return false;
+    }
+
+    if (typeof maybeFeatureCollection !== 'object') {
+        return false;
+    }
+
+    const safeObj = maybeFeatureCollection as GeoJSON.FeatureCollection;
+    if (safeObj.type !== 'FeatureCollection') {
+        return false;
+    }
+
+    if (!Array.isArray(safeObj.features)) {
+        return false;
+    }
+
+    // TODO: validate each feature?
+
+    return true;
+}
+
 // TODO: implement full validation
 export function isValidPointFeature(
     maybePointFeature: unknown,
@@ -340,3 +365,39 @@ export function isValidPointFeature(
 
     return true;
 }
+
+export interface HazardTypeOption {
+    hazard_type: HazardType;
+    hazard_type_display: string;
+}
+
+export type RiskMetric = 'exposure' | 'displacement' | 'riskScore';
+export type RiskMetricOption = {
+    key: RiskMetric,
+    label: string;
+    applicableHazards: Record<HazardType, boolean>;
+}
+
+export function riskMetricKeySelector(option: RiskMetricOption) {
+    return option.key;
+}
+
+export function hazardTypeKeySelector(option: HazardTypeOption) {
+    return option.hazard_type;
+}
+export function hazardTypeLabelSelector(option: HazardTypeOption) {
+    return option.hazard_type_display;
+}
+
+export const defaultApplicableHazards: Record<HazardType, boolean> = {
+    EQ: false,
+    FL: false,
+    TC: false,
+    EP: false,
+    FI: false,
+    SS: false,
+    DR: false,
+    TS: false,
+    CD: false,
+    WF: false,
+};

@@ -7,7 +7,7 @@ import type {
     Layout,
 } from 'mapbox-gl';
 import { hazardTypeToColorMap } from '#utils/risk';
-import { COLOR_BLACK } from '#utils/constants';
+import { COLOR_BLACK, COLOR_PRIMARY_BLUE } from '#utils/constants';
 import { isDefined, mapToList } from '@togglecorp/fujs';
 
 import earthquakeIcon from '#assets/icons/risk/earthquake.png';
@@ -58,7 +58,7 @@ export const hazardPointLayer: Omit<CircleLayer, 'id'> = {
     paint: {
         'circle-radius': 12,
         'circle-color': hazardTypeColorPaint,
-        'circle-opacity': 0.8,
+        'circle-opacity': 1,
     },
 };
 
@@ -81,8 +81,8 @@ export const exposureFillLayer: Omit<FillLayer, 'id'> = {
         'exposure',
     ],
     paint: {
-        'fill-color': COLOR_BLACK,
-        'fill-opacity': 0.2,
+        'fill-color': COLOR_PRIMARY_BLUE,
+        'fill-opacity': 0.3,
     },
 };
 
@@ -95,7 +95,7 @@ export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
     ],
     paint: {
         'line-color': COLOR_BLACK,
-        'line-opacity': 0.4,
+        'line-opacity': 0.5,
     },
 };
 

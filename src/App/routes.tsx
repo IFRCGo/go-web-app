@@ -157,6 +157,49 @@ const regionRiskWatch = customWrapRoute({
     },
 });
 
+const regionImminentRiskWatch = customWrapRoute({
+    path: 'imminent',
+    component: {
+        render: () => import('#views/RegionImminentRiskWatch'),
+        props: {},
+    },
+    parent: regionRiskWatch,
+    context: {
+        title: 'Region Risk Watch - Imminent',
+        visibility: 'anything',
+    },
+});
+
+const regionSeasonalRiskWatch = customWrapRoute({
+    path: 'seasonal',
+    component: {
+        render: () => import('#views/RegionSeasonalRiskWatch'),
+        props: {},
+    },
+    parent: regionRiskWatch,
+    context: {
+        title: 'Region Risk Watch - Seasonal',
+        visibility: 'anything',
+    },
+});
+
+const regionRiskIndex = customWrapRoute({
+    parent: regionRiskWatch,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: regionSeasonalRiskWatch.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Region Risk index',
+        visibility: 'anything',
+    },
+});
+
 const regionPreparedness = customWrapRoute({
     path: 'preparedness',
     component: {
@@ -1521,6 +1564,9 @@ const wrappedRoutes = {
     regionOperations,
     regionThreeW,
     regionRiskWatch,
+    regionRiskIndex,
+    regionImminentRiskWatch,
+    regionSeasonalRiskWatch,
     regionPreparedness,
     regionProfile,
     country,

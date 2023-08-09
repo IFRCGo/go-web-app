@@ -1,8 +1,6 @@
 import type {
     CirclePaint,
     CircleLayer,
-    FillLayer,
-    SymbolLayer,
 } from 'mapbox-gl';
 
 import {
@@ -11,8 +9,6 @@ import {
     COLOR_YELLOW,
     COLOR_ORANGE,
     COLOR_BLUE,
-    COLOR_LIGHT_GREY,
-    COLOR_DARK_GREY,
 } from '#utils/constants';
 
 import i18n from './i18n.json';
@@ -27,27 +23,6 @@ const APPEAL_TYPE_DREF = 0;
 const APPEAL_TYPE_EMERGENCY = 1;
 const APPEAL_TYPE_EAP = 2;
 export const APPEAL_TYPE_MULTIPLE = -1;
-
-export const adminLabelLayerOptions : Omit<SymbolLayer, 'id'> = {
-    type: 'symbol',
-    layout: {
-        'text-offset': [
-            0, 1,
-        ],
-    },
-};
-
-export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
-    type: 'fill',
-    paint: {
-        'fill-color': [
-            'case',
-            ['boolean', ['feature-state', 'hovered'], false],
-            COLOR_DARK_GREY,
-            COLOR_LIGHT_GREY,
-        ],
-    },
-};
 
 export function getLegendOptions(strings: typeof i18n.strings) {
     const legendOptions = [

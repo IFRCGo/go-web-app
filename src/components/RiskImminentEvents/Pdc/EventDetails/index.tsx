@@ -5,7 +5,7 @@ import { useRiskRequest } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 
-type GetImminentEvents = paths['/api/v1/imminent/']['get'];
+type GetImminentEvents = paths['/api/v1/pdc/']['get'];
 type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
@@ -31,7 +31,7 @@ function EventDetails(props: Props) {
 
     const { response: exposureResponse } = useRiskRequest({
         apiType: 'risk',
-        url: '/api/v1/imminent/{id}/exposure/',
+        url: '/api/v1/pdc/{id}/exposure/',
         pathVariables: { id },
     });
 

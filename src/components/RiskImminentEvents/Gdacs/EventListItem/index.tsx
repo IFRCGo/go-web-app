@@ -7,7 +7,7 @@ import type { paths } from '#generated/riskTypes';
 
 import styles from './styles.module.css';
 
-type GetImminentEvents = paths['/api/v1/imminent/']['get'];
+type GetImminentEvents = paths['/api/v1/gdacs/']['get'];
 type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 

@@ -84,7 +84,10 @@ export function Component() {
             )}
         >
             <HighlightedOperations variant="global" />
-            <ActiveOperationMap variant="global" />
+            <ActiveOperationMap
+                variant="global"
+                bbox={undefined}
+            />
             <AppealsTable variant="global" />
             <AppealsOverYearsChart />
         </Page>
