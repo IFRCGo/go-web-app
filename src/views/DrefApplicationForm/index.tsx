@@ -128,9 +128,9 @@ export function Component() {
     const { pending: fetchingDref } = useRequest({
         skip: isFalsyString(drefId),
         url: '/api/v2/dref/{id}/',
-        pathVariables: {
-            id: Number(drefId),
-        },
+        pathVariables: isDefined(drefId) ? {
+            id: drefId,
+        } : undefined,
         onSuccess: (response) => {
             handleDrefLoad(response);
             const {
@@ -177,7 +177,7 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/dref/{id}/',
         method: 'PUT',
-        pathVariables: isDefined(drefId) ? { id: Number(drefId) } : undefined,
+        pathVariables: isDefined(drefId) ? { id: drefId } : undefined,
         body: (formFields: DrefRequestBody) => formFields,
         onSuccess: (response) => {
             alert.show(

@@ -12,7 +12,7 @@ import type { paths } from '#generated/riskTypes';
 import EventListItem from './EventListItem';
 import EventDetails from './EventDetails';
 
-type GetImminentEvents = paths['/api/v1/imminent/']['get'];
+type GetImminentEvents = paths['/api/v1/pdc/']['get'];
 type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
@@ -49,7 +49,7 @@ function Pdc(props: Props) {
         skip: (variant === 'region' && isNotDefined(props.regionId))
         // eslint-disable-next-line react/destructuring-assignment
             || (variant === 'country' && isNotDefined(props.iso3)),
-        url: '/api/v1/imminent/',
+        url: '/api/v1/pdc/',
         query: {
             limit: 500,
             // eslint-disable-next-line react/destructuring-assignment
@@ -61,9 +61,9 @@ function Pdc(props: Props) {
 
     const [activeEventId, setActiveEventId] = useState<number | string | undefined>(undefined);
 
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/imminent/{id}/exposure/', { successCallback: FootprintCallback }>({
+    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/pdc/{id}/exposure/', { successCallback: FootprintCallback }>({
         apiType: 'risk',
-        url: '/api/v1/imminent/{id}/exposure/',
+        url: '/api/v1/pdc/{id}/exposure/',
         pathVariables: isDefined(activeEventId) ? {
             id: Number(activeEventId),
         } : undefined,
