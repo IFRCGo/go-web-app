@@ -1,5 +1,4 @@
 import {
-    useMemo,
     useCallback,
     useContext,
 } from 'react';
@@ -24,13 +23,12 @@ import UserContext from '#contexts/user';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import {
-    useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import { isValidNationalSociety } from '#utils/domain/country';
-import { stringLabelSelector, stringValueSelector } from '#utils/selectors';
+import { stringValueSelector } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -43,6 +41,10 @@ type UserMeResponse = GoApiResponse<'/api/v2/user/me/'>;
 type AccountRequestBody = GoApiResponse<'/api/v2/user/{id}/'>;
 type AccountProfile = NonNullable<AccountRequestBody['profile']>;
 
+const organizationTypeKeySelector = (item: OrganizationTypeOption) => item.key;
+
+const nsLabelSelector = (item: NationalSociety) => item.society_name;
+
 type FormFields = Pick<AccountRequestBody, 'first_name' | 'last_name'> & {
     profile?: Omit<AccountProfile, 'org_type' | 'country'> & {
         org_type: Exclude<AccountProfile['org_type'], ''>
@@ -50,8 +52,6 @@ type FormFields = Pick<AccountRequestBody, 'first_name' | 'last_name'> & {
 };
 
 type PartialFormFields = PartialForm<FormFields>;
-
-const organizationTypeKeySelector = (item: OrganizationTypeOption) => item.key;
 
 type FormSchema = ObjectSchema<PartialFormFields>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
@@ -164,22 +164,7 @@ function EditAccountInfo(props: Props) {
         },
     });
 
-    const { response: countriesResponse } = useRequest({
-        url: '/api/v2/country/',
-        query: { limit: 500 },
-    });
-
-    const nationalSocietyOptions = useMemo(
-        () => countriesResponse?.results
-            ?.filter(isValidNationalSociety).map(
-                (country) => (
-                    country.society_name
-                        ? { label: country.society_name }
-                        : undefined
-                ),
-            ).filter(isDefined),
-        [countriesResponse?.results],
-    );
+    const nationalSocietyOptions = useNationalSociety();
 
     const handleConfirmProfileEdit = useCallback((formValues: PartialFormFields) => {
         updateAccountInfo(formValues as AccountRequestBody);
@@ -265,8 +250,8 @@ function EditAccountInfo(props: Props) {
                     name="org"
                     value={formValue?.profile?.org}
                     onChange={setProfileFieldValue}
-                    keySelector={stringLabelSelector}
-                    labelSelector={stringLabelSelector}
+                    keySelector={nsLabelSelector}
+                    labelSelector={nsLabelSelector}
                     options={nationalSocietyOptions}
                     error={profileError?.org}
                 />

@@ -74,14 +74,6 @@ export function Component() {
     );
 
     const {
-        pending: countriesPending,
-        response: countriesResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-        query: { limit: 500 },
-    });
-
-    const {
         pending: prioritizationPending,
         response: prioritizationResponse,
     } = useRequest({
@@ -298,8 +290,7 @@ export function Component() {
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
     const pending = prioritizationPending
-        || workPlanPending
-        || countriesPending;
+        || workPlanPending;
 
     const componentResponseError = getErrorObject(error?.component_responses);
     const customComponentError = getErrorObject(error?.custom_component_responses);
@@ -358,7 +349,6 @@ export function Component() {
                                 value={componentResponseMapping[componentResponse.component]?.value}
                                 onChange={setComponentValue}
                                 component={componentResponse.component_details}
-                                countryResults={countriesResponse?.results}
                                 error={componentResponseError?.[componentResponse.component]}
                                 readOnly={readOnlyMode}
                             />
@@ -395,7 +385,6 @@ export function Component() {
                                 }
                                 onChange={setCustomComponentValue}
                                 onRemove={removeCustomComponentValue}
-                                countryResults={countriesResponse?.results}
                                 error={customComponentError?.[customComponent.client_id]}
                                 readOnly={readOnlyMode}
                             />

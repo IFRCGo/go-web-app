@@ -25,17 +25,19 @@ import SelectInput from '#components/SelectInput';
 import MultiSelectInput from '#components/MultiSelectInput';
 import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
-import UserMultiSelectInput from '#components/domain/UserMultiSelectInput';
+import UserSearchMultiSelectInput from '#components/domain/UserSearchMultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import { isValidCountry, isValidNationalSociety } from '#utils/domain/country';
 import {
     stringNameSelector,
     numericIdSelector,
     stringValueSelector,
 } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useCountry from '#hooks/domain/useCountry';
+import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
 
 import {
     DISASTER_FIRE,
@@ -83,13 +85,6 @@ interface Props {
 }
 
 function Overview(props: Props) {
-    const strings = useTranslation(i18n);
-    const {
-        dref_dref_dref_type: typeOfDrefOptions,
-        dref_dref_disaster_category: drefDisasterCategoryOptions,
-        dref_dref_onset_type: drefOnsetTypeOptions,
-    } = useGlobalEnums();
-
     const {
         value,
         setFieldValue,
@@ -98,15 +93,18 @@ function Overview(props: Props) {
         setFileIdToUrlMap,
     } = props;
 
+    const strings = useTranslation(i18n);
+    const {
+        dref_dref_dref_type: typeOfDrefOptions,
+        dref_dref_disaster_category: drefDisasterCategoryOptions,
+        dref_dref_onset_type: drefOnsetTypeOptions,
+    } = useGlobalEnums();
+
     const [fetchedUsers, setFetechedUsers] = useState<
         UserListItem[] | undefined | null
     >([]);
 
-    const {
-        response: countryResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-    });
+    const countryOptions = useCountry();
 
     const {
         pending: fetchingDisasterTypes,
@@ -134,7 +132,7 @@ function Overview(props: Props) {
 
     const handleGenerateTitleButtonClick = useCallback(
         () => {
-            const countryName = countryResponse?.results?.find(
+            const countryName = countryOptions?.find(
                 (country) => country.id === value?.country,
             )?.name;
             const disasterName = disasterTypesResponse?.results?.find(
@@ -145,7 +143,7 @@ function Overview(props: Props) {
             setFieldValue(title, 'title');
         },
         [
-            countryResponse,
+            countryOptions,
             disasterTypesResponse,
             value?.disaster_type,
             value?.country,
@@ -174,42 +172,11 @@ function Overview(props: Props) {
 
     const shouldDisableGenerateTitle = isNotDefined(value?.country)
         || isNotDefined(value?.disaster_type)
-        || isNotDefined(disasterTypesResponse)
-        || isNotDefined(countryResponse);
+        || isNotDefined(disasterTypesResponse);
 
     const showManMadeEventInput = value?.disaster_type === DISASTER_FIRE
         || value?.disaster_type === DISASTER_FLASH_FLOOD
         || value?.disaster_type === DISASTER_FLOOD;
-
-    const nationalSocietyOptions = useMemo(
-        () => (
-            countryResponse?.results?.map(
-                (country) => {
-                    if (isValidNationalSociety(country)) {
-                        return country;
-                    }
-
-                    return undefined;
-                },
-            ).filter(isDefined)
-        ),
-        [countryResponse],
-    );
-
-    const countryOptions = useMemo(
-        () => (
-            countryResponse?.results?.map(
-                (country) => {
-                    if (isValidCountry(country)) {
-                        return country;
-                    }
-
-                    return undefined;
-                },
-            ).filter(isDefined)
-        ),
-        [countryResponse],
-    );
 
     const error = getErrorObject(formError);
 
@@ -224,7 +191,7 @@ function Overview(props: Props) {
                 title={strings.drefFormSharingTitle}
                 description={strings.drefFormSharingDescription}
             >
-                <UserMultiSelectInput
+                <UserSearchMultiSelectInput
                     name="users"
                     value={value?.users}
                     onChange={setFieldValue}
@@ -238,13 +205,10 @@ function Overview(props: Props) {
                 title={strings.drefFormNationalSociety}
                 twoColumn
             >
-                <SelectInput
+                <NationalSocietySelectInput
                     error={error?.national_society}
                     name="national_society"
-                    keySelector={numericIdSelector}
-                    labelSelector={stringNameSelector}
                     onChange={handleNSChange}
-                    options={nationalSocietyOptions}
                     value={value?.national_society}
                 />
             </InputSection>
@@ -343,12 +307,9 @@ function Overview(props: Props) {
                 }
                 twoColumn
             >
-                <SelectInput
+                <CountrySelectInput
                     name="country"
                     label={strings.drefFormAddCountry}
-                    options={countryOptions}
-                    keySelector={numericIdSelector}
-                    labelSelector={stringNameSelector}
                     value={value?.country}
                     onChange={setFieldValue}
                     error={error?.country}

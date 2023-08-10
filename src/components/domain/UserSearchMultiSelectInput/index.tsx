@@ -29,7 +29,7 @@ type UserMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
 >;
 
 // FIXME: better state handling, better popup messages
-function UserMultiSelectInput<const NAME>(
+function UserSearchMultiSelectInput<const NAME>(
     props: UserMultiSelectInputProps<NAME>,
 ) {
     const {
@@ -70,4 +70,4 @@ function UserMultiSelectInput<const NAME>(
     );
 }
 
-export default UserMultiSelectInput;
+export default UserSearchMultiSelectInput;

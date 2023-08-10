@@ -32,7 +32,7 @@ type EventSelectInputProps<NAME> = SearchSelectInputProps<
     countryId?: number;
 };
 
-function EventSelectInput<const NAME>(
+function EventSearchSelectInput<const NAME>(
     props: EventSelectInputProps<NAME>,
 ) {
     const {
@@ -78,4 +78,4 @@ function EventSelectInput<const NAME>(
     );
 }
 
-export default EventSelectInput;
+export default EventSearchSelectInput;

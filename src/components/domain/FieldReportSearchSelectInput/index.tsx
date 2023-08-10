@@ -27,7 +27,7 @@ type FieldReportSelectInputProps<NAME> = Props<
     'onSearchValueChange' | 'searchOptions' | 'optionsPending' | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
 > & { nationalSociety?: number };
 
-function FieldReportSelectInput<NAME>(
+function FieldReportSearchSelectInput<NAME>(
     props: FieldReportSelectInputProps<NAME>,
 ) {
     const {
@@ -71,4 +71,4 @@ function FieldReportSelectInput<NAME>(
     );
 }
 
-export default FieldReportSelectInput;
+export default FieldReportSearchSelectInput;

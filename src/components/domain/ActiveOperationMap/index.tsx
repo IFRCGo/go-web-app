@@ -39,6 +39,7 @@ import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { sumSafe } from '#utils/common';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 
 import i18n from './i18n.json';
 import {
@@ -144,15 +145,7 @@ function ActiveOperationMap(props: Props) {
         query,
     });
 
-    const {
-        response: countryResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-        // FIXME: only pull countries in the region
-        query: {
-            limit: 500,
-        },
-    });
+    const countryResponse = useCountryRaw();
 
     const [
         scaleOptions,
@@ -205,10 +198,13 @@ function ActiveOperationMap(props: Props) {
 
             return {
                 type: 'FeatureCollection' as const,
-                features: countryResponse?.results
-                    ?.filter((country) => country.independent || country.record_type)
-                    .map((country) => {
-                        if (!country.centroid || !country.iso3) {
+                features: countryResponse
+                    ?.map((country) => {
+                        if (
+                            (!country.independent && !country.record_type)
+                            || !country.centroid
+                            || !country.iso3
+                        ) {
                             return undefined;
                         }
 

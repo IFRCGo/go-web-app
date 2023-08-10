@@ -24,8 +24,8 @@ import {
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import TableBodyContent from '#components/Table/TableBodyContent';
 import type { RowOptions } from '#components/Table/types';
-import CountrySearchSelectInput from '#components/domain/CountrySearchSelectInput';
-import RegionSelectInput from '#components/domain/RegionSelectInput';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
+import RegionSelectInput, { RegionOption } from '#components/domain/RegionSelectInput';
 import Link from '#components/Link';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
@@ -52,7 +52,7 @@ export function Component() {
     const { sorting } = sortState;
     const [expandedRow, setExpandedRow] = useState<PerProcessStatusItem | undefined>();
     const [filterCountry, setFilterCountry] = useInputState<number | undefined>(undefined);
-    const [filterRegion, setFilterRegion] = useInputState<number | undefined>(undefined);
+    const [filterRegion, setFilterRegion] = useInputState<RegionOption['key'] | undefined>(undefined);
 
     const {
         pending: aggregatedStatusPending,
@@ -215,7 +215,7 @@ export function Component() {
                         onChange={setFilterRegion}
                         disabled={isDefined(filterCountry)}
                     />
-                    <CountrySearchSelectInput
+                    <CountrySelectInput
                         // FIXME: use translations
                         placeholder="All Countries"
                         name={undefined}

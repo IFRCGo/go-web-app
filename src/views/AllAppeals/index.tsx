@@ -1,6 +1,6 @@
 import { useState, useMemo, useContext } from 'react';
 import { generatePath } from 'react-router-dom';
-import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import Table from '#components/Table';
@@ -23,13 +23,11 @@ import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { isValidCountry } from '#utils/domain/country';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
+import RegionSelectInput from '#components/domain/RegionSelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type CountryResponse = GoApiResponse<'/api/v2/country/'>;
-type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
 type RegionResponse = GoApiResponse<'/api/v2/region/'>;
 type RegionListItem = NonNullable<RegionResponse['results']>[number];
@@ -49,12 +47,6 @@ const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 const disasterTypeKeySelector = (option: DisasterListItem) => option.id;
 const disasterTypeLabelSelector = (option: DisasterListItem) => option.name ?? '';
-const countryKeySelector = (item: CountryListItem) => item.id;
-const countryLabelSelector = (item: CountryListItem) => item.name ?? '';
-const regionKeySelector = (
-    item: Omit<RegionListItem, 'name'> & { name: NonNullable<RegionListItem['name']> },
-) => item.name;
-const regionLabelSelector = (item: RegionListItem) => item.region_name ?? '';
 
 const PAGE_SIZE = 10;
 
@@ -74,6 +66,7 @@ export function Component() {
         'atype',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            // FIXME: use enums
             if (potentialValue === 0
                 || potentialValue === 1
                 || potentialValue === 2
@@ -98,6 +91,7 @@ export function Component() {
         'region',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            // FIXME: use enums
             if (potentialValue === 0
                 || potentialValue === 1
                 || potentialValue === 2
@@ -152,44 +146,6 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/disaster_type/',
     });
-
-    const {
-        pending: countryPending,
-        response: countryResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-        query: { limit: 500 },
-    });
-
-    const {
-        pending: regionPending,
-        response: regionResponse,
-    } = useRequest({
-        url: '/api/v2/region/',
-    });
-
-    const countryOptions = useMemo(
-        () => countryResponse?.results?.filter(isValidCountry),
-        [countryResponse],
-    );
-
-    const regionOptions = useMemo(
-        () => (
-            regionResponse?.results?.map(
-                (region) => {
-                    if (isNotDefined(region.name)) {
-                        return undefined;
-                    }
-
-                    return {
-                        ...region,
-                        name: region.name,
-                    };
-                },
-            ).filter(isDefined)
-        ),
-        [regionResponse],
-    );
 
     const columns = useMemo(
         () => ([
@@ -316,27 +272,19 @@ export function Component() {
                             options={disasterTypeResponse?.results}
                             disabled={disasterTypePending}
                         />
-                        <SelectInput
+                        <RegionSelectInput
                             placeholder={strings.allAppealsFilterRegionPlaceholder}
                             label={strings.allAppealsRegion}
                             name={undefined}
                             value={filterRegion}
                             onChange={setFilterRegion}
-                            keySelector={regionKeySelector}
-                            labelSelector={regionLabelSelector}
-                            options={regionOptions}
-                            disabled={regionPending}
                         />
-                        <SelectInput
+                        <CountrySelectInput
                             placeholder={strings.allAppealsFilterCountryPlaceholder}
                             label={strings.allAppealsCountry}
                             name={undefined}
                             value={filterCountry}
                             onChange={setFilterCountry}
-                            keySelector={countryKeySelector}
-                            labelSelector={countryLabelSelector}
-                            options={countryOptions}
-                            disabled={countryPending}
                         />
                     </>
                 )}

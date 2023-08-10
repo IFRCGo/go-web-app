@@ -1,25 +1,27 @@
 import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
-import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { components } from '#generated/types';
+import { numericIdSelector } from '#utils/selectors';
+import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
 
-export type RegionOption = components['schemas']['ApiRegionNameEnum'];
+function countrySocietyNameSelector(country: NationalSociety) {
+    return country.society_name;
+}
 
 type Props<NAME> = SelectInputProps<
-    RegionOption['key'],
+    number,
     NAME,
-    RegionOption,
+    NationalSociety,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     'value' | 'name' | 'options' | 'keySelector' | 'labelSelector'
 > & {
     className?: string;
     name: NAME;
-    onChange: (newValue: RegionOption['key'] | undefined, name: NAME) => void;
-    value: RegionOption['key'] | undefined | null;
+    onChange: (newValue: number | undefined, name: NAME) => void;
+    value: number | undefined | null;
 }
 
-function RegionSelectInput<const NAME>(props: Props<NAME>) {
+function NationalSocietySelectInput<const NAME>(props: Props<NAME>) {
     const {
         className,
         name,
@@ -28,7 +30,7 @@ function RegionSelectInput<const NAME>(props: Props<NAME>) {
         ...otherProps
     } = props;
 
-    const { api_region_name: regionOptions } = useGlobalEnums();
+    const nationalSocieties = useNationalSociety();
 
     return (
         <SelectInput
@@ -36,13 +38,13 @@ function RegionSelectInput<const NAME>(props: Props<NAME>) {
             {...otherProps}
             className={className}
             name={name}
-            options={regionOptions}
-            keySelector={(item) => item.key}
-            labelSelector={(item) => item.value}
+            options={nationalSocieties}
+            keySelector={numericIdSelector}
+            labelSelector={countrySocietyNameSelector}
             value={value}
             onChange={onChange}
         />
     );
 }
 
-export default RegionSelectInput;
+export default NationalSocietySelectInput;

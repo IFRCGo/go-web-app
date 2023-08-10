@@ -1,7 +1,4 @@
-import {
-    isDefined,
-    isTruthyString,
-} from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 import {
     useMemo,
     useContext,
@@ -12,28 +9,9 @@ import DomainContext, { type Countries } from '#contexts/domain';
 
 export type PartialCountry = NonNullable<Countries['results']>[number];
 
-export type Country = Omit<
-    NonNullable<Countries['results']>[number],
-    'id' | 'iso3' | 'iso3' | 'name' | 'is_deprecated' | 'independent'
-> & {
-    id: number;
-    iso: string;
-    iso3: string;
-    name: string;
-    is_deprecated: false | undefined;
-    independent: true;
-};
+type CountryFromResponse = NonNullable<Countries['results']>[number];
 
-export function isValidCountry(country: PartialCountry): country is Country {
-    return (
-        isDefined(country.id) // NOTE: This check is added
-        && isTruthyString(country.name)
-        && isTruthyString(country.iso)
-        && isTruthyString(country.iso3) // NOTE: This check is added
-        && !!country.independent
-        && !country.is_deprecated
-    );
-}
+export type Country = CountryFromResponse;
 
 type ListProps = {
     region?: number;
@@ -53,10 +31,10 @@ type PropsForIso3 = {
     region?: never;
 }
 
-function useCountry(props?: ListProps): Array<Country>
-function useCountry(props: PropsForId): Country | undefined
-function useCountry(props: PropsForIso3): Country | undefined
-function useCountry(
+function useCountryForMap(props?: ListProps): Array<Country>
+function useCountryForMap(props: PropsForId): Country | undefined
+function useCountryForMap(props: PropsForIso3): Country | undefined
+function useCountryForMap(
     props?: ListProps | PropsForId | PropsForIso3,
 ): (Country | undefined | Array<Country>) {
     const { countries: countriesUnsafe, register } = useContext(DomainContext);
@@ -68,12 +46,7 @@ function useCountry(
         [register],
     );
 
-    const countries = useMemo(
-        () => (
-            countriesUnsafe?.results?.filter(isValidCountry)
-        ),
-        [countriesUnsafe],
-    );
+    const countries = countriesUnsafe?.results;
 
     const returnValue = useMemo(
         () => {
@@ -100,4 +73,4 @@ function useCountry(
     return returnValue;
 }
 
-export default useCountry;
+export default useCountryForMap;

@@ -26,7 +26,7 @@ function SelectInput<
     OPTION extends object,
     RENDER_PROPS extends Def,
 >(
-    props: Props<OPTION_KEY, NAME, OPTION, RENDER_PROPS, ''>,
+    props: Props<OPTION_KEY, NAME, OPTION, RENDER_PROPS, never>,
 ) {
     const {
         name,

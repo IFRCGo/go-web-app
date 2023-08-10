@@ -1,25 +1,23 @@
 import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
-import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { components } from '#generated/types';
-
-export type RegionOption = components['schemas']['ApiRegionNameEnum'];
+import { numericIdSelector, stringNameSelector } from '#utils/selectors';
+import useCountry, { Country } from '#hooks/domain/useCountry';
 
 type Props<NAME> = SelectInputProps<
-    RegionOption['key'],
+    number,
     NAME,
-    RegionOption,
+    Country,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     'value' | 'name' | 'options' | 'keySelector' | 'labelSelector'
 > & {
     className?: string;
     name: NAME;
-    onChange: (newValue: RegionOption['key'] | undefined, name: NAME) => void;
-    value: RegionOption['key'] | undefined | null;
+    onChange: (newValue: number | undefined, name: NAME) => void;
+    value: number | undefined | null;
 }
 
-function RegionSelectInput<const NAME>(props: Props<NAME>) {
+function CountrySelectInput<const NAME>(props: Props<NAME>) {
     const {
         className,
         name,
@@ -28,7 +26,7 @@ function RegionSelectInput<const NAME>(props: Props<NAME>) {
         ...otherProps
     } = props;
 
-    const { api_region_name: regionOptions } = useGlobalEnums();
+    const countries = useCountry();
 
     return (
         <SelectInput
@@ -36,13 +34,13 @@ function RegionSelectInput<const NAME>(props: Props<NAME>) {
             {...otherProps}
             className={className}
             name={name}
-            options={regionOptions}
-            keySelector={(item) => item.key}
-            labelSelector={(item) => item.value}
+            options={countries}
+            keySelector={numericIdSelector}
+            labelSelector={stringNameSelector}
             value={value}
             onChange={onChange}
         />
     );
 }
 
-export default RegionSelectInput;
+export default CountrySelectInput;

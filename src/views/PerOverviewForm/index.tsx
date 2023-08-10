@@ -33,7 +33,6 @@ import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
-import { isValidNationalSociety } from '#utils/domain/country';
 import RouteContext from '#contexts/route';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import type { paths } from '#generated/types';
@@ -44,6 +43,7 @@ import {
     stringValueSelector,
     stringNameSelector,
 } from '#utils/selectors';
+import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 
 import {
     PerOverviewRequestBody,
@@ -59,13 +59,6 @@ type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
 type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
 type PerOverviewAssessmentMethods = NonNullable<GlobalEnumsResponse['per_overviewassessmentmethods']>[number];
 
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
-type CountryListItem = NonNullable<CountryResponse['results']>[number];
-
-function nsLabelSelector(option: CountryListItem) {
-    return option.society_name ?? '';
-}
 function perAssessmentMethodsKeySelector(option: PerOverviewAssessmentMethods) {
     return option.key;
 }
@@ -103,15 +96,6 @@ export function Component() {
         fileIdToUrlMap,
         setFileIdToUrlMap,
     ] = useState<Record<number, string>>(emptyFileIdToUrlMap);
-
-    const {
-        response: countryResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-        query: {
-            limit: 500,
-        },
-    });
 
     const {
         response: perOptionsResponse,
@@ -289,21 +273,6 @@ export function Component() {
 
     const savePerPending = createPerPending || updatePerPending;
 
-    const nationalSocietyOptions = useMemo(
-        () => (
-            countryResponse?.results?.map(
-                (country) => {
-                    if (isValidNationalSociety(country)) {
-                        return country;
-                    }
-
-                    return undefined;
-                },
-            ).filter(isDefined)
-        ),
-        [countryResponse],
-    );
-
     const handleSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
             if (isDefined(perId)) {
@@ -383,12 +352,9 @@ export function Component() {
                     withoutPadding
                     twoColumn
                 >
-                    <SelectInput
+                    <NationalSocietySelectInput
                         name="country"
                         onChange={setFieldValue}
-                        options={nationalSocietyOptions}
-                        keySelector={numericIdSelector}
-                        labelSelector={nsLabelSelector}
                         value={value?.country}
                         error={getErrorString(error?.country)}
                         readOnly={readOnlyMode}

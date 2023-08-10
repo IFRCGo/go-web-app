@@ -33,7 +33,7 @@ type DistrictMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
     countryId?: number;
 };
 
-function DistrictMultiSelectInput<const NAME>(
+function DistrictSearchMultiSelectInput<const NAME>(
     props: DistrictMultiSelectInputProps<NAME>,
 ) {
     const {
@@ -112,4 +112,4 @@ function DistrictMultiSelectInput<const NAME>(
     );
 }
 
-export default DistrictMultiSelectInput;
+export default DistrictSearchMultiSelectInput;
