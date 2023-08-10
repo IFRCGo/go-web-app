@@ -24,7 +24,7 @@ import { useSortState, SortContext, getOrdering } from '#components/Table/useSor
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -70,7 +70,7 @@ function AppealsTable(props: Props) {
     const sortState = useSortState();
     const { sorting } = sortState;
     const strings = useTranslation(i18n);
-    const { api_appeal_type: appealTypeOptions } = useContext(ServerEnumsContext);
+    const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
     const {
         country: countryRoute,
         emergency: emergencyRoute,

@@ -45,7 +45,7 @@ import TextOutput from '#components/TextOutput';
 import CountrySearchSelectInput from '#components/domain/CountrySearchSelectInput';
 import DistrictMultiSelectInput, { DistrictItem } from '#components/domain/DistrictMultiSelectInput';
 import EventSelectInput, { EventItem } from '#components/domain/EventSelectInput';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     PROJECT_STATUS_COMPLETED,
     PROJECT_STATUS_ONGOING,
@@ -135,7 +135,7 @@ export function Component() {
         deployments_project_operation_type: operationTypeOptions,
         deployments_project_programme_type: programmeTypeOptions,
         api_visibility_char_choices: visibilityTypeOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
 
     const projectStatusOptionsMap = listToMap(
         projectStatusOptions,

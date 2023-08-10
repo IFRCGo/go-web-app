@@ -1,9 +1,7 @@
-import { useContext } from 'react';
-
 import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
 import { numericKeySelector, stringValueSelector } from '#utils/selectors';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 interface RegionOption {
     key: number;
@@ -33,9 +31,7 @@ function RegionSelectInput<NAME>(props: Props<NAME>) {
         ...otherProps
     } = props;
 
-    const {
-        api_region_name: regionOptions,
-    } = useContext(ServerEnumsContext);
+    const { api_region_name: regionOptions } = useGlobalEnums();
 
     return (
         <SelectInput

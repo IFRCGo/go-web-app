@@ -38,7 +38,7 @@ import {
     OPERATION_TYPE_MULTI,
     OPERATION_TYPE_PROGRAMME,
 } from '#utils/constants';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import {
     countSelector,
@@ -145,7 +145,7 @@ function GlobalThreeWMap(props: Props) {
 
     const {
         deployments_project_operation_type: operationTypeOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
 
     // FIXME typings need to be fixed in server
     const projectList = projectListFromProps as unknown as NsProjectsResponse[] | undefined;

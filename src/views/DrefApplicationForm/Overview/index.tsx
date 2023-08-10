@@ -1,7 +1,6 @@
 import {
     useState,
     useCallback,
-    useContext,
     useMemo,
 } from 'react';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
@@ -36,7 +35,7 @@ import {
     numericIdSelector,
     stringValueSelector,
 } from '#utils/selectors';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import {
     DISASTER_FIRE,
@@ -89,7 +88,7 @@ function Overview(props: Props) {
         dref_dref_dref_type: typeOfDrefOptions,
         dref_dref_disaster_category: drefDisasterCategoryOptions,
         dref_dref_onset_type: drefOnsetTypeOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
 
     const {
         value,

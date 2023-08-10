@@ -1,4 +1,4 @@
-import { useMemo, useContext } from 'react'; import {
+import { useMemo } from 'react'; import {
     SetValueArg,
     useFormObject,
     Error,
@@ -13,7 +13,7 @@ import TextArea from '#components/TextArea';
 import type { paths } from '#generated/types';
 import { isValidNationalSociety } from '#utils/domain/country';
 import useTranslation from '#hooks/useTranslation';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     numericIdSelector,
     stringValueSelector,
@@ -64,7 +64,7 @@ function ComponentInput(props: Props) {
         readOnly,
     } = props;
 
-    const { per_workplanstatus } = useContext(ServerEnumsContext);
+    const { per_workplanstatus } = useGlobalEnums();
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
 

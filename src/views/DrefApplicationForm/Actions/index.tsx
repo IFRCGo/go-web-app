@@ -2,7 +2,6 @@ import {
     useMemo,
     useCallback,
     useState,
-    useContext,
 } from 'react';
 import {
     randomString,
@@ -28,7 +27,7 @@ import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import useTranslation from '#hooks/useTranslation';
 import { paths } from '#generated/types';
 import { stringValueSelector } from '#utils/selectors';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import {
     TYPE_IMMINENT,
@@ -71,7 +70,7 @@ function Actions(props: Props) {
     const {
         dref_national_society_action_title: nsActionOptions,
         dref_identified_need_title: needOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
 
     const {
         value,

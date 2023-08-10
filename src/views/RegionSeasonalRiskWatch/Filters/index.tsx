@@ -2,12 +2,12 @@ import { useCallback } from 'react';
 
 import MultiSelectInput from '#components/MultiSelectInput';
 import { EntriesAsList } from '@togglecorp/toggle-form';
-import useCountry from '#hooks/useCountry';
 import {
     numericKeySelector,
     stringLabelSelector,
     stringNameSelector,
 } from '#utils/selectors';
+import useCountry from '#hooks/domain/useCountry';
 import {
     hazardTypeKeySelector,
     hazardTypeLabelSelector,

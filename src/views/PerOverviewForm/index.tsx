@@ -35,7 +35,7 @@ import useAlertContext from '#hooks/useAlert';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
 import { isValidNationalSociety } from '#utils/domain/country';
 import RouteContext from '#contexts/route';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import type { paths } from '#generated/types';
 import { PER_PHASE_OVERVIEW, PER_PHASE_ASSESSMENT } from '#utils/domain/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
@@ -88,7 +88,7 @@ export function Component() {
         perOverviewForm: perOverviewFormRoute,
     } = useContext(RouteContext);
 
-    const { per_overviewassessmentmethods } = useContext(ServerEnumsContext);
+    const { per_overviewassessmentmethods } = useGlobalEnums();
 
     const {
         value,

@@ -30,7 +30,7 @@ import {
 import type { GoApiResponse } from '#utils/restRequest';
 import { isValidNationalSociety } from '#utils/domain/country';
 import { stringLabelSelector, stringValueSelector } from '#utils/selectors';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -108,7 +108,7 @@ function EditAccountInfo(props: Props) {
 
     const strings = useTranslation(i18n);
     const { userAuth } = useContext(UserContext);
-    const { api_profile_org_types: organizationTypeOptions } = useContext(ServerEnumsContext);
+    const { api_profile_org_types: organizationTypeOptions } = useGlobalEnums();
 
     const {
         value: formValue,

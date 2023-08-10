@@ -22,7 +22,7 @@ import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { isValidCountry } from '#utils/domain/country';
 
 import i18n from './i18n.json';
@@ -63,7 +63,7 @@ export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState();
     const { sorting } = sortState;
-    const { api_appeal_type: appealTypeOptions } = useContext(ServerEnumsContext);
+    const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
     const {
         country: countryRoute,
         emergency: emergencyRoute,

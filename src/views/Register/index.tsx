@@ -39,7 +39,7 @@ import {
     useLazyRequest,
 } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import type { paths } from '#generated/types';
 
 import i18n from './i18n.json';
@@ -149,7 +149,7 @@ const formSchema: FormSchema = {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { api_profile_org_types: organizationTypes } = useContext(ServerEnumsContext);
+    const { api_profile_org_types: organizationTypes } = useGlobalEnums();
     const { login: loginRoute } = useContext(RouteContext);
 
     const { response: whiteListDomainResponse } = useRequest({

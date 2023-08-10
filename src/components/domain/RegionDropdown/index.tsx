@@ -9,7 +9,8 @@ import { _cs, isDefined } from '@togglecorp/fujs';
 import DropdownMenu, { Props as DropdownMenuProps } from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route'; import ServerEnumsContext from '#contexts/server-enums';
+import RouteContext from '#contexts/route';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -30,7 +31,7 @@ function RegionDropdown(props: Props) {
     const { region: regionRoute } = useContext(RouteContext);
     const {
         api_region_name: regionOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
 
     const match = matchPath(
         {

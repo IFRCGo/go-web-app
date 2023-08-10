@@ -1,4 +1,4 @@
-import { useMemo, useContext } from 'react';
+import { useMemo } from 'react';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
     SetValueArg,
@@ -18,7 +18,7 @@ import type { paths } from '#generated/types';
 import { isValidNationalSociety } from '#utils/domain/country';
 import { numericIdSelector, stringValueSelector } from '#utils/selectors';
 import { resolveToString } from '#utils/translation';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import { PartialWorkPlan } from '../schema';
 
@@ -66,7 +66,7 @@ function CustomComponentInput(props: Props) {
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
-    const { per_workplanstatus } = useContext(ServerEnumsContext);
+    const { per_workplanstatus } = useGlobalEnums();
 
     const defaultValue = useMemo(
         () => ({
