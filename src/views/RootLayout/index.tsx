@@ -1,10 +1,5 @@
 import { useMemo, useCallback, useState } from 'react';
-import {
-    _cs,
-    isDefined,
-    isNotDefined,
-    isFalsyString,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 import { Outlet, useNavigation } from 'react-router-dom';
 
 import Navbar from '#components/Navbar';
@@ -43,40 +38,13 @@ export function Component() {
     });
 
     const {
-        response: countriesResponse,
+        response: countries,
         pending: countriesPending,
     } = useRequest({
         skip: !fetch.country,
         url: '/api/v2/country/',
         query: { limit: 500 },
     });
-
-    const countries = useMemo(
-        () => (
-            countriesResponse?.results?.map((country) => {
-                if (isNotDefined(country.id)
-                    || isNotDefined(country.iso)
-                    || isNotDefined(country.iso3)
-                    || isFalsyString(country.name)
-                    || !!country.is_deprecated
-                    || !country.independent
-                ) {
-                    return undefined;
-                }
-
-                return {
-                    ...country,
-                    id: country.id,
-                    iso: country.iso,
-                    iso3: country.iso3,
-                    name: country.name,
-                    is_deprecated: country.is_deprecated,
-                    independent: country.independent,
-                };
-            }).filter(isDefined)
-        ),
-        [countriesResponse],
-    );
 
     const contextValue = useMemo(
         (): Domain => ({

@@ -46,6 +46,37 @@ yarn start
 docker-compose up
 ```
 
+## Directory Structure
+
+```
+.
+├── patches/ (Directory to store patches to any of the external dependencies)
+├── public/ (Directory to store content that needs to be copied during build)
+├── scripts/ (Directory to store scripts used during builds)
+├── generated/ (Directory to store generated files: eg. Typescript Definitions)
+├── index.html (Base html file)
+└── src/
+    ├── App/
+    │   ├── Auth.tsx (Defines page redirections wrt user authentication)
+    │   ├── index.tsx (Defines providers: eg. Auth, Route, Request, Alert)
+    │   └── routes.tsx (Defines routes for the pages)
+    ├── assets/ (Directory to store images, icons)
+    ├── components/ (Directory to store components from GO UI)
+    │   ├── domain/ (Directory to store components that are specific to a domain)
+    │   └── parked/ (Directory to store components that are not used yet)
+    ├── config.ts (Defines configurations read from environment variables)
+    ├── contexts/ (Custom contexts)
+    ├── declarations/ (Directory to store type declarations for external libraries)
+    ├── hooks (Directory to store hooks)
+    │   └── domain/ (Diretory to store hooks that are specific to a domain)
+    ├── index.tsx (Initializes React)
+    ├── utils (Directory to store utility functions)
+    │   └── domain/ (Directory to store utility functions that are specific to a domain)
+    └── views/ (Pages that we can navigate on the platform)
+        └── RootLayout/
+            └── index.tsx (Defines root layout and requests fetched for DomainContext)
+```
+
 ## TODO
 - [ ] Roadmap
 - [ ] Contributing
