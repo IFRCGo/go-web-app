@@ -1,0 +1,9 @@
+{
+    "namespace": "surge",
+    "strings": {
+        "tagsTitle": "Tags",
+        "threeWTagsTooltip": "Projects are often multi-sector. The primary sector can be associated to sector ‘tags’.",
+        "threeWStartDate": "Start Date",
+        "threeWEndDate": "End Date"
+    }
+}

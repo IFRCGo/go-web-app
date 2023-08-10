@@ -343,6 +343,20 @@ const countryThreeWIndex = customWrapRoute({
     },
 });
 
+const countryThreeWDetails = customWrapRoute({
+    path: 'three-w/:threeWId',
+    component: {
+        render: () => import('#views/ThreeWDetails'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'ThreeW Detail',
+        visibility: 'anything',
+    },
+});
+
 const countryRiskWatch = customWrapRoute({
     path: 'risk-watch',
     component: {
@@ -1974,6 +1988,7 @@ const wrappedRoutes = {
     catalogueInformationTechnology,
     catalogueInformationTechnologyIndex,
     informationTechnologyServices,
+    countryThreeWDetails,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
