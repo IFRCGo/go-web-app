@@ -11,8 +11,18 @@ export type MultiSelectInputProps<
     // eslint-disable-next-line @typescript-eslint/ban-types
     OPTION extends object,
     RENDER_PROPS extends Def,
-> = SearchMultiSelectInputProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS, 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount'> & {
-    showSelectAllButton?: boolean;
+> = SearchMultiSelectInputProps<
+    OPTION_KEY,
+    NAME,
+    OPTION,
+    RENDER_PROPS,
+    'onSearchValueChange'
+    | 'searchOptions'
+    | 'onShowDropdownChange'
+    | 'totalOptionsCount'
+    | 'onSelectAllButtonClick'
+> & {
+    withSelectAll?: boolean;
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -29,7 +39,7 @@ function MultiSelectInput<
         options,
         keySelector,
         onChange,
-        showSelectAllButton,
+        withSelectAll,
         ...otherProps
     } = props;
 
@@ -55,7 +65,7 @@ function MultiSelectInput<
             keySelector={keySelector}
             sortFunction={rankedSearchOnList}
             searchOptions={options}
-            onSelectAllButtonClick={showSelectAllButton ? handleSelectAll : undefined}
+            onSelectAllButtonClick={withSelectAll ? handleSelectAll : undefined}
         />
     );
 }

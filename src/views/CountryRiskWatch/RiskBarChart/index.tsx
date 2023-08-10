@@ -4,9 +4,9 @@ import {
 } from 'react';
 import {
     isDefined,
+    isFalsyString,
     isNotDefined,
     listToMap,
-    unique,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
@@ -21,10 +21,10 @@ import {
     getWfRiskDataItem,
     hasSomeDefinedValue,
     hazardTypeToColorMap,
-    defaultApplicableHazards,
     riskMetricKeySelector,
     hazardTypeKeySelector,
     hazardTypeLabelSelector,
+    applicableHazardsByRiskMetric,
 } from '#utils/risk';
 import type {
     HazardType,
@@ -74,35 +74,17 @@ function RiskBarChart(props: Props) {
             {
                 key: 'exposure',
                 label: strings.riskBarChartExposureLabel,
-                applicableHazards: {
-                    ...defaultApplicableHazards,
-                    TC: true,
-                    SS: true,
-                    FL: true,
-                    FI: true,
-                },
+                applicableHazards: applicableHazardsByRiskMetric.exposure,
             },
             {
                 key: 'displacement',
                 label: strings.riskBarChartDisplacementLabel,
-                applicableHazards: {
-                    ...defaultApplicableHazards,
-                    TC: true,
-                    SS: true,
-                    FL: true,
-                },
+                applicableHazards: applicableHazardsByRiskMetric.displacement,
             },
             {
                 key: 'riskScore',
                 label: strings.riskBarChartRiskScoreLabel,
-                applicableHazards: {
-                    ...defaultApplicableHazards,
-                    DR: true,
-                    TC: true,
-                    SS: true,
-                    FL: true,
-                    WF: true,
-                },
+                applicableHazards: applicableHazardsByRiskMetric.riskScore,
             },
         ]),
         [strings],
@@ -157,6 +139,7 @@ function RiskBarChart(props: Props) {
                 ) ?? [],
                 fiRiskDataItem,
             ].filter(isDefined);
+
             const riskScoreData = [
                 ...inform_seasonal?.map(
                     (dataItem) => {
@@ -170,45 +153,37 @@ function RiskBarChart(props: Props) {
                 wfRiskDataItem,
             ].filter(isDefined);
 
-            const availableHazards: Record<RiskMetric, Record<HazardType, boolean>> = {
-                exposure: listToMap(
+            const availableHazards: { [key in HazardType]?: string } = {
+                ...listToMap(
                     exposureData,
-                    (data) => data.hazard_type,
-                    () => true,
+                    (item) => item.hazard_type,
+                    (item) => item.hazard_type_display,
                 ),
-                displacement: listToMap(
+                ...listToMap(
                     displacementData,
-                    (data) => data.hazard_type,
-                    () => true,
+                    (item) => item.hazard_type,
+                    (item) => item.hazard_type_display,
                 ),
-                riskScore: listToMap(
+                ...listToMap(
                     riskScoreData,
-                    (data) => data.hazard_type,
-                    () => true,
+                    (item) => item.hazard_type,
+                    (item) => item.hazard_type_display,
                 ),
             };
 
-            return unique(
-                [
-                    ...displacementData,
-                    ...exposureData,
-                    ...riskScoreData,
-                ].map(getDataWithTruthyHazardType).filter(isDefined),
-                (data) => data.hazard_type,
-            ).map((combinedData) => ({
-                hazard_type: combinedData.hazard_type,
-                hazard_type_display: combinedData.hazard_type_display,
-            })).filter(
-                ({ hazard_type: hazard }) => {
-                    if (!selectedRiskMetricDetail?.applicableHazards[hazard]
-                        || !availableHazards[selectedRiskMetricDetail.key][hazard]
-                    ) {
-                        return false;
+            return selectedRiskMetricDetail.applicableHazards.map(
+                (hazardType) => {
+                    const hazard_type_display = availableHazards[hazardType];
+                    if (isFalsyString(hazard_type_display)) {
+                        return undefined;
                     }
 
-                    return true;
+                    return {
+                        hazard_type: hazardType,
+                        hazard_type_display,
+                    };
                 },
-            );
+            ).filter(isDefined);
         },
         [seasonalRiskData, fiRiskDataItem, wfRiskDataItem, selectedRiskMetricDetail],
     );

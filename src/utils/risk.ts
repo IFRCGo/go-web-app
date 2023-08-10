@@ -375,7 +375,7 @@ export type RiskMetric = 'exposure' | 'displacement' | 'riskScore';
 export type RiskMetricOption = {
     key: RiskMetric,
     label: string;
-    applicableHazards: Record<HazardType, boolean>;
+    applicableHazards: HazardType[];
 }
 
 export function riskMetricKeySelector(option: RiskMetricOption) {
@@ -402,24 +402,8 @@ export const defaultApplicableHazards: Record<HazardType, boolean> = {
     WF: false,
 };
 
-export const applicableHazardsByRiskMetric: Record<RiskMetric, Record<HazardType, boolean>> = {
-    exposure: {
-        ...defaultApplicableHazards,
-        TC: true,
-        FL: true,
-        FI: true,
-    },
-    displacement: {
-        ...defaultApplicableHazards,
-        TC: true,
-        FL: true,
-        SS: true,
-    },
-    riskScore: {
-        ...defaultApplicableHazards,
-        DR: true,
-        TC: true,
-        FL: true,
-        WF: true,
-    },
+export const applicableHazardsByRiskMetric: Record<RiskMetric, HazardType[]> = {
+    exposure: ['TC', 'FL', 'FI'],
+    displacement: ['TC', 'FL', 'SS'],
+    riskScore: ['DR', 'TC', 'FL', 'WF'],
 };
