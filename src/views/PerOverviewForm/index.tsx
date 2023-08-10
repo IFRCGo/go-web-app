@@ -28,16 +28,16 @@ import TextInput from '#components/TextInput';
 import BooleanInput from '#components/BooleanInput';
 import ConfirmButton from '#components/ConfirmButton';
 import NumberInput from '#components/NumberInput';
-import GoMultiFileInput from '#components/GoMultiFileInput';
+import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
-import { isValidNationalSociety } from '#utils/common';
+import { isValidNationalSociety } from '#utils/domain/country';
 import RouteContext from '#contexts/route';
 import ServerEnumsContext from '#contexts/server-enums';
 import type { paths } from '#generated/types';
-import { PER_PHASE_OVERVIEW, PER_PHASE_ASSESSMENT } from '#utils/per';
+import { PER_PHASE_OVERVIEW, PER_PHASE_ASSESSMENT } from '#utils/domain/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
     numericIdSelector,

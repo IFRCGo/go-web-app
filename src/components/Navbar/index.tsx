@@ -10,7 +10,7 @@ import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
-import RegionDropdown from '#components/RegionDropdown';
+import RegionDropdown from '#components/domain/RegionDropdown';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import RouteContext from '#contexts/route';

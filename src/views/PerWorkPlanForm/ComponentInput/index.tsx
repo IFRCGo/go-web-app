@@ -11,7 +11,7 @@ import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
 import type { paths } from '#generated/types';
-import { isValidNationalSociety } from '#utils/common';
+import { isValidNationalSociety } from '#utils/domain/country';
 import useTranslation from '#hooks/useTranslation';
 import ServerEnumsContext from '#contexts/server-enums';
 import {

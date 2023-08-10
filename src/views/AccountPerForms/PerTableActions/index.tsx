@@ -15,7 +15,7 @@ import {
     PER_PHASE_PRIORITIZATION,
     PER_PHASE_WORKPLAN,
     PER_PHASE_ACTION,
-} from '#utils/per';
+} from '#utils/domain/per';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import RouteContext from '#contexts/route';

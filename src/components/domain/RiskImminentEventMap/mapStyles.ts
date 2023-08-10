@@ -6,7 +6,7 @@ import type {
     CircleLayer,
     Layout,
 } from 'mapbox-gl';
-import { hazardTypeToColorMap } from '#utils/risk';
+import { hazardTypeToColorMap } from '#utils/domain/risk';
 import { COLOR_BLACK, COLOR_PRIMARY_BLUE } from '#utils/constants';
 import { isDefined, mapToList } from '@togglecorp/fujs';
 

@@ -42,7 +42,7 @@ import {
     type HazardTypeOption,
     type RiskDataItem,
     type RiskMetricOption,
-} from '#utils/risk';
+} from '#utils/domain/risk';
 import { useRiskRequest } from '#utils/restRequest';
 import { formatNumber, maxSafe, sumSafe } from '#utils/common';
 import {

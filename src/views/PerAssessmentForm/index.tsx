@@ -35,7 +35,7 @@ import TabList from '#components/Tabs/TabList';
 import Tab from '#components/Tabs/Tab';
 import TabPanel from '#components/Tabs/TabPanel';
 import Button from '#components/Button';
-import PerAssessmentSummary from '#components/PerAssessmentSummary';
+import PerAssessmentSummary from '#components/domain/PerAssessmentSummary';
 import ConfirmButton from '#components/ConfirmButton';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
@@ -44,7 +44,7 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { PER_PHASE_ASSESSMENT } from '#utils/per';
+import { PER_PHASE_ASSESSMENT } from '#utils/domain/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 import type { paths } from '#generated/types';
 

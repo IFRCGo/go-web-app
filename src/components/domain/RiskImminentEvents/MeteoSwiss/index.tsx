@@ -2,11 +2,11 @@ import type { LngLatBoundsLike } from 'mapbox-gl';
 import { useCallback, useState } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
-import RiskImminentEventMap from '#components/RiskImminentEventMap';
-import type { EventPointFeature } from '#components/RiskImminentEventMap';
+import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
+import type { EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import { useRiskLazyRequest, useRiskRequest } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
-import { isValidFeatureCollection } from '#utils/risk';
+import { isValidFeatureCollection } from '#utils/domain/risk';
 import type { paths } from '#generated/riskTypes';
 
 import EventListItem from './EventListItem';

@@ -22,7 +22,7 @@ import {
     getWfRiskDataItem,
     hasSomeDefinedValue,
     riskScoreToCategory,
-} from '#utils/risk';
+} from '#utils/domain/risk';
 import {
     CATEGORY_RISK_HIGH,
     CATEGORY_RISK_LOW,

@@ -15,7 +15,7 @@ import SelectInput from '#components/SelectInput';
 import Button from '#components/Button';
 import TextArea from '#components/TextArea';
 import type { paths } from '#generated/types';
-import { isValidNationalSociety } from '#utils/common';
+import { isValidNationalSociety } from '#utils/domain/country';
 import { numericIdSelector, stringValueSelector } from '#utils/selectors';
 import { resolveToString } from '#utils/translation';
 import ServerEnumsContext from '#contexts/server-enums';

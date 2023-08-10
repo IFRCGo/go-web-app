@@ -11,7 +11,7 @@ import {
     createDateColumn,
     createDateRangeColumn,
 } from '#components/Table/ColumnShortcuts';
-import SeverityIndicator from '#components/SeverityIndicator';
+import SeverityIndicator from '#components/domain/SeverityIndicator';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import type { paths } from '#generated/types';

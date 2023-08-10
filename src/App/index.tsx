@@ -30,6 +30,7 @@ import {
     setToStorage,
 } from '#utils/localStorage';
 import goLogo from '#assets/icons/go-logo-2020.svg';
+import { mbtoken, appTitle } from '#config';
 
 import wrappedRoutes, { unwrappedRoutes } from './routes';
 import styles from './styles.module.css';
@@ -42,25 +43,12 @@ const requestContextValue = {
 };
 
 const router = createBrowserRouter(unwrappedRoutes);
-mapboxgl.accessToken = import.meta.env.APP_MAPBOX_ACCESS_TOKEN;
+mapboxgl.accessToken = mbtoken;
 
 function App() {
-    const [userAuth, setUserAuth] = useState<UserAuth>();
-
-    const hydrateUserAuth = useCallback(() => {
-        const userDetailsFromStorage = getFromStorage<UserAuth>(KEY_USER_STORAGE);
-        if (userDetailsFromStorage) {
-            setUserAuth(userDetailsFromStorage);
-        }
-    }, []);
-
-    useEffect(() => {
-        hydrateUserAuth();
-    }, [hydrateUserAuth]);
+    // ALERTS
 
     const [alerts, setAlerts] = useState<AlertParams[]>([]);
-    const [countriesPending, setCountriesPending] = useState(false);
-    const [countries, setCountries] = useState<CountryContextProps['countries']>([]);
 
     const addAlert = useCallback((alert: AlertParams) => {
         setAlerts((prevAlerts) => unique(
@@ -109,6 +97,21 @@ function App() {
         removeAlert,
     }), [alerts, addAlert, updateAlert, removeAlert]);
 
+    // AUTH
+
+    const [userAuth, setUserAuth] = useState<UserAuth>();
+
+    const hydrateUserAuth = useCallback(() => {
+        const userDetailsFromStorage = getFromStorage<UserAuth>(KEY_USER_STORAGE);
+        if (userDetailsFromStorage) {
+            setUserAuth(userDetailsFromStorage);
+        }
+    }, []);
+
+    useEffect(() => {
+        hydrateUserAuth();
+    }, [hydrateUserAuth]);
+
     const removeUserAuth = useCallback(() => {
         removeFromStorage(KEY_USER_STORAGE);
         setUserAuth(undefined);
@@ -131,6 +134,11 @@ function App() {
         }),
         [userAuth, hydrateUserAuth, setAndStoreUserAuth, removeUserAuth],
     );
+
+    // Global requests
+
+    const [countriesPending, setCountriesPending] = useState(false);
+    const [countries, setCountries] = useState<CountryContextProps['countries']>([]);
 
     const countryContextValue = useMemo<CountryContextProps>(
         () => ({
@@ -157,7 +165,7 @@ function App() {
                                             alt="IFRC GO"
                                             src={goLogo}
                                         />
-                                        {`${import.meta.env.APP_TITLE} loading...`}
+                                        {`${appTitle} loading...`}
                                     </div>
                                 )}
                             />

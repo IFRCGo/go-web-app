@@ -9,10 +9,10 @@ import {
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
-import HighlightedOperations from '#components/HighlightedOperations';
-import ActiveOperationMap from '#components/ActiveOperationMap';
-import AppealsTable from '#components/AppealsTable';
-import AppealsOverYearsChart from '#components/AppealsOverYearsChart';
+import HighlightedOperations from '#components/domain/HighlightedOperations';
+import ActiveOperationMap from '#components/domain/ActiveOperationMap';
+import AppealsTable from '#components/domain/AppealsTable';
+import AppealsOverYearsChart from '#components/domain/AppealsOverYearsChart';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 

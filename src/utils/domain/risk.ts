@@ -8,8 +8,9 @@ import {
     mapToMap,
     unique,
 } from '@togglecorp/fujs';
-import { sumSafe, maxSafe, avgSafe } from '#utils/common';
+
 import type { paths, components } from '#generated/riskTypes';
+import { sumSafe, maxSafe, avgSafe } from '#utils/common';
 import {
     CATEGORY_RISK_HIGH,
     CATEGORY_RISK_VERY_HIGH,
@@ -24,7 +25,7 @@ import {
     COLOR_HAZARD_STORM,
     COLOR_HAZARD_WILDFIRE,
     COLOR_LIGHT_GREY,
-} from './constants';
+} from '#utils/constants';
 
 export type HazardType = components['schemas']['HazardTypeEnum'];
 

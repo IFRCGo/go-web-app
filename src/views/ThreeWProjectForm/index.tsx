@@ -42,9 +42,9 @@ import RichTextArea from '#components/parked/RichTextArea';
 import RadioInput from '#components/RadioInput';
 import Checkbox from '#components/Checkbox';
 import TextOutput from '#components/TextOutput';
-import CountrySearchSelectInput from '#components/CountrySearchSelectInput';
-import DistrictMultiSelectInput, { DistrictItem } from '#components/DistrictMultiSelectInput';
-import EventSelectInput, { EventItem } from '#components/EventSelectInput';
+import CountrySearchSelectInput from '#components/domain/CountrySearchSelectInput';
+import DistrictMultiSelectInput, { DistrictItem } from '#components/domain/DistrictMultiSelectInput';
+import EventSelectInput, { EventItem } from '#components/domain/EventSelectInput';
 import ServerEnumsContext from '#contexts/server-enums';
 import {
     PROJECT_STATUS_COMPLETED,

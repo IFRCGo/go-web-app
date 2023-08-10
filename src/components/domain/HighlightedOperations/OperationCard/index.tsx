@@ -7,7 +7,7 @@ import NumberOutput from '#components/NumberOutput';
 import KeyFigure from '#components/KeyFigure';
 import Tooltip from '#components/Tooltip';
 import TextOutput from '#components/TextOutput';
-import SeverityIndicator from '#components/SeverityIndicator';
+import SeverityIndicator from '#components/domain/SeverityIndicator';
 import { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';

@@ -23,7 +23,7 @@ import SelectInput from '#components/SelectInput';
 import BooleanInput from '#components/BooleanInput';
 import TextArea from '#components/TextArea';
 import DateInput from '#components/DateInput';
-import GoSingleFileInput from '#components/GoSingleFileInput';
+import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 
 import useTranslation from '#hooks/useTranslation';
 import { paths } from '#generated/types';

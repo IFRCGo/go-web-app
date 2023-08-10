@@ -2,17 +2,17 @@ import type { LngLatBoundsLike } from 'mapbox-gl';
 import { useCallback, useState } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
-import RiskImminentEventMap from '#components/RiskImminentEventMap';
-import type { EventPointFeature } from '#components/RiskImminentEventMap';
+import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
+import type { EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import { useRiskLazyRequest, useRiskRequest } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
-import { isValidFeatureCollection } from '#utils/risk';
+import { isValidFeatureCollection } from '#utils/domain/risk';
 import type { paths } from '#generated/riskTypes';
 
 import EventListItem from './EventListItem';
 import EventDetails from './EventDetails';
 
-type GetImminentEvents = paths['/api/v1/gdacs/']['get'];
+type GetImminentEvents = paths['/api/v1/adam-exposure/']['get'];
 type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
@@ -45,7 +45,7 @@ type Props = BaseProps & ({
     iso3: string;
 })
 
-function Gdacs(props: Props) {
+function WfpAdam(props: Props) {
     const {
         title,
         bbox,
@@ -61,7 +61,7 @@ function Gdacs(props: Props) {
         skip: (variant === 'region' && isNotDefined(props.regionId))
         // eslint-disable-next-line react/destructuring-assignment
             || (variant === 'country' && isNotDefined(props.iso3)),
-        url: '/api/v1/gdacs/',
+        url: '/api/v1/adam-exposure/',
         query: {
             limit: 500,
             // eslint-disable-next-line react/destructuring-assignment
@@ -73,28 +73,29 @@ function Gdacs(props: Props) {
 
     const [activeEventId, setActiveEventId] = useState<number | string | undefined>(undefined);
 
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/gdacs/{id}/exposure/', { successCallback: FootprintCallback }>({
+    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/adam-exposure/{id}/', { successCallback: FootprintCallback }>({
         apiType: 'risk',
-        url: '/api/v1/gdacs/{id}/exposure/',
+        url: '/api/v1/adam-exposure/{id}/',
         pathVariables: isDefined(activeEventId) ? {
             id: Number(activeEventId),
         } : undefined,
         onSuccess: (response, { successCallback }) => {
-            // FIXME: typings should be fixed in the server
-            const { footprint_geojson } = response as unknown as { footprint_geojson: unknown };
+            const {
+                geojson,
+                storm_position_geojson,
+            } = response;
 
-            if (!footprint_geojson) {
+            if (!geojson && !storm_position_geojson) {
                 return;
             }
 
-            // FIXME: typings should be fixed in the server
-            const footprint = isValidFeatureCollection(footprint_geojson)
-                ? footprint_geojson : undefined;
+            const stormPositions = isValidFeatureCollection(storm_position_geojson)
+                ? storm_position_geojson : undefined;
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
                 type: 'FeatureCollection' as const,
                 features: [
-                    ...footprint?.features?.map(
+                    ...stormPositions?.features?.map(
                         (feature) => ({
                             ...feature,
                             properties: {
@@ -114,10 +115,12 @@ function Gdacs(props: Props) {
         (event: EventItem): EventPointFeature | undefined => {
             const {
                 id,
-                latitude,
-                longitude,
+                event_details,
                 hazard_type,
             } = event;
+
+            const latitude = event_details?.latitude as number | undefined;
+            const longitude = event_details?.longitude as number | undefined;
 
             if (isNotDefined(latitude)
                 || isNotDefined(longitude)
@@ -165,4 +168,4 @@ function Gdacs(props: Props) {
     );
 }
 
-export default Gdacs;
+export default WfpAdam;

@@ -1,12 +1,12 @@
 import { useParams, useOutletContext } from 'react-router-dom';
 import getBbox from '@turf/bbox';
 
-import HighlightedOperations from '#components/HighlightedOperations';
-import ActiveOperationMap from '#components/ActiveOperationMap';
+import HighlightedOperations from '#components/domain/HighlightedOperations';
+import ActiveOperationMap from '#components/domain/ActiveOperationMap';
 import Container from '#components/Container';
 import HtmlOutput from '#components/HtmlOutput';
-import AppealsTable from '#components/AppealsTable';
-import AppealsOverYearsChart from '#components/AppealsOverYearsChart';
+import AppealsTable from '#components/domain/AppealsTable';
+import AppealsOverYearsChart from '#components/domain/AppealsOverYearsChart';
 import type { RegionOutletContext } from '#utils/outletContext';
 
 import RecentEmergenciesTable from './RecentEmergenciesTable';

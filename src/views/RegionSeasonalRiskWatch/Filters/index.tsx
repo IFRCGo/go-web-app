@@ -16,7 +16,7 @@ import {
     type HazardTypeOption,
     type RiskMetricOption,
     type RiskMetric,
-} from '#utils/risk';
+} from '#utils/domain/risk';
 import Checkbox from '#components/Checkbox';
 import SelectInput from '#components/SelectInput';
 import { getMonthList } from '#utils/common';

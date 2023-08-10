@@ -12,7 +12,7 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
-import GoMultiFileInput from '#components/GoMultiFileInput';
+import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';

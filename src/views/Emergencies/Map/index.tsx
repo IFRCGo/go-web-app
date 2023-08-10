@@ -30,7 +30,7 @@ import {
 } from '#utils/map';
 import { sumSafe } from '#utils/common';
 import { resolveToComponent } from '#utils/translation';
-import { getNumAffected } from '#utils/emergency';
+import { getNumAffected } from '#utils/domain/emergency';
 import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';

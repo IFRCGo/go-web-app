@@ -26,11 +26,11 @@ import SelectInput from '#components/SelectInput';
 import MultiSelectInput from '#components/MultiSelectInput';
 import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
-import UserMultiSelectInput from '#components/UserMultiSelectInput';
+import UserMultiSelectInput from '#components/domain/UserMultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import { isValidCountry, isValidNationalSociety } from '#utils/common';
+import { isValidCountry, isValidNationalSociety } from '#utils/domain/country';
 import {
     stringNameSelector,
     numericIdSelector,

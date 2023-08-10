@@ -28,7 +28,7 @@ import {
     useLazyRequest,
 } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import { isValidNationalSociety } from '#utils/common';
+import { isValidNationalSociety } from '#utils/domain/country';
 import { stringLabelSelector, stringValueSelector } from '#utils/selectors';
 import ServerEnumsContext from '#contexts/server-enums';
 

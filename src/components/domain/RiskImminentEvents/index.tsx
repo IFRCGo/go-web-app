@@ -10,7 +10,7 @@ import {
 
 import RadioInput from '#components/RadioInput';
 import { stringLabelSelector } from '#utils/selectors';
-import { hazardTypeToColorMap } from '#utils/risk';
+import { hazardTypeToColorMap } from '#utils/domain/risk';
 import type { components } from '#generated/riskTypes';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';

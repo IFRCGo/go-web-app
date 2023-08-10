@@ -32,11 +32,8 @@ import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { resolveToComponent } from '#utils/translation';
 import { numericIdSelector, stringNameSelector } from '#utils/selectors';
-import {
-    isValidCountry,
-    isValidNationalSociety,
-    isWhitelistedEmail,
-} from '#utils/common';
+import { isWhitelistedEmail } from '#utils/common';
+import { isValidCountry, isValidNationalSociety } from '#utils/domain/country';
 import {
     useRequest,
     useLazyRequest,

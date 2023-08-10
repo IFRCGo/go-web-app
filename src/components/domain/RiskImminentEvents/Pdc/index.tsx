@@ -2,33 +2,21 @@ import type { LngLatBoundsLike } from 'mapbox-gl';
 import { useCallback, useState } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
-import RiskImminentEventMap from '#components/RiskImminentEventMap';
-import type { EventPointFeature } from '#components/RiskImminentEventMap';
+import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
+import type { EventPointFeature } from '#components/domain/RiskImminentEventMap';
 import { useRiskLazyRequest, useRiskRequest } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
-import { isValidFeatureCollection } from '#utils/risk';
+import { isValidFeature, isValidPointFeature } from '#utils/domain/risk';
 import type { paths } from '#generated/riskTypes';
 
 import EventListItem from './EventListItem';
 import EventDetails from './EventDetails';
 
-type GetImminentEvents = paths['/api/v1/adam-exposure/']['get'];
+type GetImminentEvents = paths['/api/v1/pdc/']['get'];
 type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
 type FootprintCallback = (footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry>) => void;
-
-function getLayerType(geometryType: GeoJSON.Geometry['type']) {
-    if (geometryType === 'Point' || geometryType === 'MultiPoint') {
-        return 'track-point';
-    }
-
-    if (geometryType === 'LineString' || geometryType === 'MultiLineString') {
-        return 'track';
-    }
-
-    return 'exposure';
-}
 
 type BaseProps = {
     title: React.ReactNode;
@@ -45,7 +33,7 @@ type Props = BaseProps & ({
     iso3: string;
 })
 
-function WfpAdam(props: Props) {
+function Pdc(props: Props) {
     const {
         title,
         bbox,
@@ -61,7 +49,7 @@ function WfpAdam(props: Props) {
         skip: (variant === 'region' && isNotDefined(props.regionId))
         // eslint-disable-next-line react/destructuring-assignment
             || (variant === 'country' && isNotDefined(props.iso3)),
-        url: '/api/v1/adam-exposure/',
+        url: '/api/v1/pdc/',
         query: {
             limit: 500,
             // eslint-disable-next-line react/destructuring-assignment
@@ -73,34 +61,57 @@ function WfpAdam(props: Props) {
 
     const [activeEventId, setActiveEventId] = useState<number | string | undefined>(undefined);
 
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/adam-exposure/{id}/', { successCallback: FootprintCallback }>({
+    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/pdc/{id}/exposure/', { successCallback: FootprintCallback }>({
         apiType: 'risk',
-        url: '/api/v1/adam-exposure/{id}/',
+        url: '/api/v1/pdc/{id}/exposure/',
         pathVariables: isDefined(activeEventId) ? {
             id: Number(activeEventId),
         } : undefined,
         onSuccess: (response, { successCallback }) => {
             const {
-                geojson,
+                footprint_geojson,
                 storm_position_geojson,
             } = response;
 
-            if (!geojson && !storm_position_geojson) {
+            if (!footprint_geojson && !storm_position_geojson) {
                 return;
             }
 
-            const stormPositions = isValidFeatureCollection(storm_position_geojson)
-                ? storm_position_geojson : undefined;
+            const footprint = isValidFeature(footprint_geojson) ? footprint_geojson : undefined;
+            // FIXME: typings should be fixed in the server
+            const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
+                ?.filter(isValidPointFeature);
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
                 type: 'FeatureCollection' as const,
                 features: [
-                    ...stormPositions?.features?.map(
-                        (feature) => ({
-                            ...feature,
+                    footprint ? {
+                        ...footprint,
+                        properties: {
+                            ...footprint.properties,
+                            type: 'exposure',
+                        },
+                    } : undefined,
+                    stormPositions ? {
+                        type: 'Feature' as const,
+                        geometry: {
+                            type: 'LineString' as const,
+                            coordinates: stormPositions.map(
+                                (pointFeature) => (
+                                    pointFeature.geometry.coordinates
+                                ),
+                            ),
+                        },
+                        properties: {
+                            type: 'track',
+                        },
+                    } : undefined,
+                    ...stormPositions?.map(
+                        (pointFeature) => ({
+                            ...pointFeature,
                             properties: {
-                                ...feature.properties,
-                                type: getLayerType(feature.geometry.type),
+                                ...pointFeature.properties,
+                                type: 'track-point',
                             },
                         }),
                     ) ?? [],
@@ -115,12 +126,10 @@ function WfpAdam(props: Props) {
         (event: EventItem): EventPointFeature | undefined => {
             const {
                 id,
-                event_details,
+                latitude,
+                longitude,
                 hazard_type,
             } = event;
-
-            const latitude = event_details?.latitude as number | undefined;
-            const longitude = event_details?.longitude as number | undefined;
 
             if (isNotDefined(latitude)
                 || isNotDefined(longitude)
@@ -168,4 +177,4 @@ function WfpAdam(props: Props) {
     );
 }
 
-export default WfpAdam;
+export default Pdc;

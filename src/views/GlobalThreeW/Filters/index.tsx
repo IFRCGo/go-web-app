@@ -5,7 +5,7 @@ import MultiSelectInput from '#components/MultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import { isValidNationalSociety } from '#utils/common';
+import { isValidNationalSociety } from '#utils/domain/country';
 import {
     numericIdSelector,
     numericKeySelector,

@@ -23,7 +23,7 @@ import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import ServerEnumsContext from '#contexts/server-enums';
-import { isValidCountry } from '#utils/common';
+import { isValidCountry } from '#utils/domain/country';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
