@@ -83,26 +83,29 @@ function useCountry(
         [countriesUnsafe],
     );
 
-    if (isNotDefined(props)) {
-        return countries;
-    }
+    const returnValue = useMemo(
+        () => {
+            const id = props?.id;
+            if (isDefined(id)) {
+                return countries?.find((country) => country.id === id);
+            }
 
-    if (isDefined(props.id)) {
-        // FIXME: Optimize
-        return countries?.find((country) => country.id === props.id);
-    }
+            const iso3 = props?.iso3;
+            if (isDefined(iso3)) {
+                return countries?.find((country) => country.iso3 === iso3);
+            }
 
-    if (isDefined(props.iso3)) {
-        // FIXME: Optimize
-        return countries?.find((country) => country.iso3 === props.iso3);
-    }
+            const region = props?.region;
+            if (isDefined(region)) {
+                return countries?.filter((country) => country.region === region);
+            }
 
-    if (isDefined(props.region)) {
-        // FIXME: Optimize
-        return countries?.filter((country) => country.region === props.region);
-    }
+            return countries;
+        },
+        [countries, props?.id, props?.iso3, props?.region],
+    );
 
-    return countries;
+    return returnValue;
 }
 
 export default useCountry;

@@ -28,7 +28,7 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import useInputState from '#hooks/useInputState';
-import useCountry from '#hooks/useCountry';
+import useCountry from '#hooks/domain/useCountry';
 import {
     getDataWithTruthyHazardType,
     getFiRiskDataItem,
@@ -97,7 +97,9 @@ export function Component() {
     });
 
     const countryList = useCountry({
-        region: isTruthyString(regionId) ? Number(regionId) : undefined,
+        region: isTruthyString(regionId)
+            ? Number(regionId)
+            : undefined,
     });
 
     const {
