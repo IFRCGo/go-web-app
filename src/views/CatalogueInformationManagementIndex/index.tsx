@@ -139,7 +139,7 @@ export function Component() {
             <img
                 className={styles.logo}
                 src={pyramidLogo}
-                alt="Visit Canadian Red Cross Page"
+                alt="Information Management"
                 width="120"
             />
             <Container

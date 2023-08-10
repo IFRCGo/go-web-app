@@ -1352,7 +1352,7 @@ const healthPSS = customWrapRoute({
     parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
-        title: 'Emergency Resposne Unit Psychosocial Support',
+        title: 'Emergency Response Unit Psychosocial Support',
         visibility: 'anything',
     },
 });
@@ -1452,6 +1452,48 @@ const informationManagementComposition = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Composition of IM Resources',
+        visibility: 'anything',
+    },
+});
+
+const catalogueInformationTechnology = customWrapRoute({
+    path: 'information-technology',
+    component: {
+        render: () => import('#views/CatalogueInformationTechnology'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Technology',
+        visibility: 'anything',
+    },
+});
+
+const catalogueInformationTechnologyIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueInformationTechnologyIndex'),
+        props: {},
+    },
+    parent: catalogueInformationTechnology,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Technology',
+        visibility: 'anything',
+    },
+});
+
+const informationTechnologyServices = customWrapRoute({
+    path: 'information-technology-services',
+    component: {
+        render: () => import('#views/InformationTechnologyServices'),
+        props: {},
+    },
+    parent: catalogueInformationTechnology,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Technology Service',
         visibility: 'anything',
     },
 });
@@ -1739,6 +1781,9 @@ const wrappedRoutes = {
     informationManagementSupport,
     informationManagementOperationsSupport,
     informationManagementComposition,
+    catalogueInformationTechnology,
+    catalogueInformationTechnologyIndex,
+    informationTechnologyServices,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

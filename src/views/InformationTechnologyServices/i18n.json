@@ -1,0 +1,33 @@
+{
+    "namespace": "informationTechnologyService",
+    "strings": {
+        "surgeITServiceTitle": "ERU IT/Telecom",
+        "surgeITServiceGoBack": "Go Back",
+        "surgeITCapacityTitle": "Capacity",
+        "surgeITCapacityDetail": "The level of support can be scaled to meet operation and context-specific needs. In general, IT&T teams/individuals have knowledge of radio systems (VHF), sat comms (phones, VSAT), power supply, computer desktop support skills and IT network management.",
+        "surgeITEmergencyServicesTitle": "Emergency Services",
+        "surgeITEmergencyServicesDetailTextOne": "The purpose of IT&T Emergency Response Units and delegates is to establish IT and telecommunications networks to help ensure the smooth flow of information within the operation and connect operational actors to external resources.",
+        "surgeITEmergencyServicesDetailTextTwo": "The details of the {link}",
+        "surgeITEmergencyServicesDetailTextTwoLink": "IT&T ERU Service Catalogue are here.",
+        "surgeITEmergencyDesignedForTitle": "Designed For",
+        "surgeITEmergencyDesignForDetail": "Rapid deployment to an affected area with destroyed, damaged, or insufficient communications infrastructure and/or capabilities.",
+        "surgeITPersonnelTitle": "Personnel",
+        "surgeITPersonnelTotalLabel": "Total",
+        "surgeITPersonnelTotalValue": "Generally 2-6 people.",
+        "surgeITPersonnelCompositionLabel": "Composition",
+        "surgeITPersonnelCompositionValue": "1 team leader and technicians with context-appropriate skill sets.",
+        "surgeITStandardComponents": "Standard Components",
+        "surgeITStandardComponentsListOne": "VHF Module",
+        "surgeITStandardComponentsListTwo": "Satcom Module",
+        "surgeITStandardComponentsListThree": "VSAT Module",
+        "surgeITStandardComponentsListFour": "Network Module",
+        "surgeITStandardComponentsListFive": "Tools Module",
+        "surgeITStandardComponentsListSix": "ERU Light Kit",
+        "surgeITStandardComponentsListSeven": "Power Module",
+        "surgeITSpecificationsTitle": "Specifications",
+        "surgeITSpecificationsCostLabel":  "Cost (indicative)",
+        "surgeITSpecificationsCostValue": "CHF 150,000 without VSATS (approximately CHF 35,000 additional per VSAT system)",
+        "surgeITSpecificationsNSLabel": "National societies providing this service",
+        "surgeITSpecificationsNSValue": "American Red Cross, Austrian Red Cross, Finish Red Cross, New Zealand Red Cross, Spanish Red Cross."
+    }
+}
