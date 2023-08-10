@@ -23,6 +23,7 @@ import {
     getWfRiskDataItem,
     hazardTypeToColorMap,
     riskScoreToCategory,
+    RiskMetricOption,
 } from '#utils/risk';
 import { formatNumber } from '#utils/common';
 import type { paths, components } from '#generated/riskTypes';
@@ -56,13 +57,6 @@ const selectedMonths = {
     10: true,
     11: true,
 };
-
-type RiskMetric = 'exposure' | 'displacement' | 'riskScore';
-type RiskMetricOption = {
-    key: RiskMetric,
-    label: string;
-    applicableHazards: Record<HazardType, boolean>;
-}
 
 const xAxisFormatter = (date: Date) => date.toLocaleString(
     navigator.language,

@@ -68,6 +68,7 @@ export type Props<
         | 'onFocusedKeyChange'
         | 'hasValue'
         | 'hideOptionFilter'
+        | 'onSelectAllButtonClick'
         | OMISSION
     >
     & ({

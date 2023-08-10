@@ -374,7 +374,7 @@ export function injectClientId<V extends { id: number }>(obj: V): (V & { client_
 }
 
 export function getMonthList() {
-    const monthKeyList = Array.from(Array(11).keys());
+    const monthKeyList = Array.from(Array(12).keys());
     return monthKeyList.map(
         (monthKey) => {
             const date = new Date();

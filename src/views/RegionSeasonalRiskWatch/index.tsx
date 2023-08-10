@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import type { FillLayer, LngLatBoundsLike } from 'mapbox-gl';
 import { useOutletContext, useParams } from 'react-router-dom';
 import getBbox from '@turf/bbox';
@@ -7,6 +7,7 @@ import {
     isDefined,
     isFalsyString,
     isNotDefined,
+    isTruthyString,
     listToGroupList,
     listToMap,
     mapToList,
@@ -17,30 +18,30 @@ import Map, {
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
+
 import {
     defaultMapStyle,
     defaultMapOptions,
     adminLabelLayerOptions,
 } from '#utils/map';
-
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
+import BlockLoading from '#components/BlockLoading';
+import useInputState from '#hooks/useInputState';
+import useCountry from '#hooks/useCountry';
 import {
     getDataWithTruthyHazardType,
     getFiRiskDataItem,
-    // getWfRiskDataItem,
     hasSomeDefinedValue,
-    defaultApplicableHazards,
     getValueForSelectedMonths,
     hazardTypeToColorMap,
     getWfRiskDataItem,
     riskScoreToCategory,
-} from '#utils/risk';
-import type {
-    HazardType,
-    RiskDataItem,
-    RiskMetric,
-    RiskMetricOption,
+    applicableHazardsByRiskMetric,
+    type HazardType,
+    type HazardTypeOption,
+    type RiskDataItem,
+    type RiskMetricOption,
 } from '#utils/risk';
 import { useRiskRequest } from '#utils/restRequest';
 import { formatNumber, maxSafe, sumSafe } from '#utils/common';
@@ -48,6 +49,11 @@ import {
     COLOR_LIGHT_BLUE,
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_RED,
+    CATEGORY_RISK_HIGH,
+    CATEGORY_RISK_LOW,
+    CATEGORY_RISK_MEDIUM,
+    CATEGORY_RISK_VERY_HIGH,
+    CATEGORY_RISK_VERY_LOW,
 } from '#utils/constants';
 import { type RegionOutletContext } from '#utils/outletContext';
 
@@ -55,25 +61,33 @@ import Filters from './Filters';
 import type { FilterValue } from './Filters';
 import styles from './styles.module.css';
 
+const defaultFilterValue: FilterValue = {
+    months: [],
+    countries: [],
+    riskMetric: 'exposure',
+    hazardTypes: [],
+    normalizeByPopulation: false,
+    includeCopingCapacity: false,
+};
+
+// TODO:
+// - Find better risk category for exposure and displacement
+// - Show map using absolute risk categories (Currently it's being normalized)
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    const { regionId } = useParams<{ regionId: string }>();
     const { regionResponse } = useOutletContext<RegionOutletContext>();
     const bbox = useMemo<LngLatBoundsLike | undefined>(
         () => (regionResponse ? getBbox(regionResponse.bbox) : undefined),
         [regionResponse],
     );
 
-    const { regionId } = useParams<{ regionId: string }>();
-    const [filters, setFilters] = useState<FilterValue>({
-        months: [],
-        countries: [],
-        riskMetric: 'exposure',
-        hazardTypes: [],
-        normalizeByPopulation: false,
-        includeCopingCapacity: false,
-    });
-
-    const { response: seasonalResponse } = useRiskRequest({
+    const [hazardTypeOptions, setHazardTypeOptions] = useInputState<HazardTypeOption[]>([]);
+    const {
+        response: seasonalResponse,
+        pending: seasonalResponsePending,
+    } = useRiskRequest({
         skip: isNotDefined(regionId),
         apiType: 'risk',
         url: '/api/v1/seasonal/',
@@ -82,7 +96,14 @@ export function Component() {
         },
     });
 
-    const { response: riskScoreResponse } = useRiskRequest({
+    const countryList = useCountry({
+        region: isTruthyString(regionId) ? Number(regionId) : undefined,
+    });
+
+    const {
+        response: riskScoreResponse,
+        pending: riskScoreResponsePending,
+    } = useRiskRequest({
         skip: isNotDefined(regionId),
         apiType: 'risk',
         url: '/api/v1/risk-score/',
@@ -94,113 +115,7 @@ export function Component() {
 
     // NOTE: We get single element as array in response
     const seasonalRiskData = seasonalResponse?.[0];
-
-    const mappings = useMemo(
-        () => {
-            if (!riskScoreResponse || !riskScoreResponse.results) {
-                return undefined;
-            }
-
-            const lcc = listToMap(
-                riskScoreResponse.results.map(
-                    (item) => {
-                        if (!item.country_details
-                            || isFalsyString(item.country_details.iso3)
-                            || isNotDefined(item.lcc)
-                        ) {
-                            return undefined;
-                        }
-
-                        return {
-                            ...item,
-                            lcc: item.lcc,
-                            country_details: {
-                                ...item.country_details,
-                                iso3: item.country_details.iso3,
-                            },
-                        };
-                    },
-                ).filter(isDefined),
-                (item) => item.country_details.iso3,
-                (item) => item.lcc,
-            );
-
-            const population = listToMap(
-                riskScoreResponse.results.map(
-                    (item) => {
-                        if (!item.country_details
-                            || isFalsyString(item.country_details.iso3)
-                        ) {
-                            return undefined;
-                        }
-
-                        return {
-                            ...item,
-                            country_details: {
-                                ...item.country_details,
-                                iso3: item.country_details.iso3,
-                            },
-                        };
-                    },
-                ).filter(isDefined),
-                (item) => item.country_details.iso3,
-                (item) => (item.population_in_thousands ?? 0) * 1000,
-            );
-
-            return {
-                lcc,
-                population,
-            };
-        },
-        [riskScoreResponse],
-    );
-
-    const riskMetricOptions: RiskMetricOption[] = useMemo(
-        () => ([
-            {
-                key: 'exposure',
-                // FIXME: use translation
-                label: 'Exposure',
-                applicableHazards: {
-                    ...defaultApplicableHazards,
-                    TC: true,
-                    FL: true,
-                    FI: true,
-                },
-            },
-            {
-                key: 'displacement',
-                // FIXME: use translation
-                label: 'Displacement',
-                applicableHazards: {
-                    ...defaultApplicableHazards,
-                    TC: true,
-                    FL: true,
-                    SS: true,
-                },
-            },
-            {
-                key: 'riskScore',
-                // FIXME: use translation
-                label: 'Risk Score',
-                applicableHazards: {
-                    ...defaultApplicableHazards,
-                    DR: true,
-                    TC: true,
-                    FL: true,
-                    WF: true,
-                },
-            },
-        ]),
-        [],
-    );
-
-    const selectedRiskMetricDetail = useMemo(
-        () => riskMetricOptions.find(
-            (option) => option.key === filters.riskMetric,
-        ) ?? riskMetricOptions[0],
-        [filters.riskMetric, riskMetricOptions],
-    );
+    const dataPending = riskScoreResponsePending || seasonalResponsePending;
 
     const data = useMemo(
         () => {
@@ -277,46 +192,202 @@ export function Component() {
         [seasonalRiskData, riskScoreResponse],
     );
 
-    const hazardTypeList = useMemo(
+    const riskMetricOptions: RiskMetricOption[] = useMemo(
+        () => ([
+            {
+                key: 'exposure',
+                // FIXME: use translation
+                label: 'People Exposed',
+                applicableHazards: applicableHazardsByRiskMetric.exposure,
+            },
+            {
+                key: 'displacement',
+                // FIXME: use translation
+                label: 'People at Risk of Displacement',
+                applicableHazards: applicableHazardsByRiskMetric.displacement,
+            },
+            {
+                key: 'riskScore',
+                // FIXME: use translation
+                label: 'Risk Score',
+                applicableHazards: applicableHazardsByRiskMetric.riskScore,
+            },
+        ]),
+        [],
+    );
+
+    const availableHazards: { [key in HazardType]?: string } | undefined = useMemo(
         () => {
             if (!data) {
-                return [];
+                return undefined;
             }
 
-            const availableHazards: Record<RiskMetric, Record<HazardType, boolean>> = {
-                exposure: listToMap(
+            return {
+                ...listToMap(
                     data.exposure,
                     (item) => item.hazard_type,
-                    () => true,
+                    (item) => item.hazard_type_display,
                 ),
-                displacement: listToMap(
+                ...listToMap(
                     data.displacement,
                     (item) => item.hazard_type,
-                    () => true,
+                    (item) => item.hazard_type_display,
                 ),
-                riskScore: listToMap(
+                ...listToMap(
                     data.riskScore,
                     (item) => item.hazard_type,
-                    () => true,
+                    (item) => item.hazard_type_display,
                 ),
             };
-
-            return unique(
-                [
-                    ...data.displacement,
-                    ...data.exposure,
-                    ...data.riskScore,
-                ].map(getDataWithTruthyHazardType).filter(isDefined),
-                (item) => item.hazard_type,
-            ).map((combinedData) => ({
-                hazard_type: combinedData.hazard_type,
-                hazard_type_display: combinedData.hazard_type_display,
-            })).filter(({ hazard_type: hazard }) => (
-                selectedRiskMetricDetail?.applicableHazards[hazard]
-                && availableHazards[selectedRiskMetricDetail.key][hazard]
-            ));
         },
-        [data, selectedRiskMetricDetail],
+        [data],
+    );
+
+    const [filters, setFilters] = useInputState<FilterValue>(
+        defaultFilterValue,
+        (newValue, oldValue) => {
+            // We only apply side effect when risk metric is changed
+            if (newValue.riskMetric === oldValue.riskMetric || !availableHazards) {
+                return newValue;
+            }
+
+            const selectedRiskMetricDetail = riskMetricOptions.find(
+                (option) => option.key === newValue.riskMetric,
+            );
+
+            if (!selectedRiskMetricDetail) {
+                return newValue;
+            }
+
+            const newHazardTypeOptions = selectedRiskMetricDetail.applicableHazards.map(
+                (hazardType) => {
+                    const hazard_type_display = availableHazards[hazardType];
+                    if (isFalsyString(hazard_type_display)) {
+                        return undefined;
+                    }
+
+                    return {
+                        hazard_type: hazardType,
+                        hazard_type_display,
+                    };
+                },
+            ).filter(isDefined);
+
+            setHazardTypeOptions(newHazardTypeOptions);
+
+            return {
+                ...newValue,
+                hazardTypes: newHazardTypeOptions.map(({ hazard_type }) => hazard_type),
+            };
+        },
+    );
+
+    // NOTE: setting default values
+    useEffect(
+        () => {
+            if (!availableHazards || !countryList) {
+                return;
+            }
+
+            const riskMetric = riskMetricOptions.find(
+                (option) => option.key === 'exposure',
+            );
+
+            if (!riskMetric) {
+                return;
+            }
+
+            const newHazardTypeOptions = riskMetric.applicableHazards.map(
+                (hazardType) => {
+                    const hazard_type_display = availableHazards[hazardType];
+                    if (isFalsyString(hazard_type_display)) {
+                        return undefined;
+                    }
+
+                    return {
+                        hazard_type: hazardType,
+                        hazard_type_display,
+                    };
+                },
+            ).filter(isDefined);
+
+            setHazardTypeOptions(newHazardTypeOptions);
+
+            setFilters({
+                countries: countryList.map((country) => country.iso3),
+                riskMetric: riskMetric.key,
+                hazardTypes: riskMetric.applicableHazards.filter(
+                    (hazardType) => !!availableHazards[hazardType],
+                ),
+                months: [new Date().getMonth()],
+                normalizeByPopulation: false,
+                includeCopingCapacity: false,
+            });
+        },
+        [countryList, riskMetricOptions, availableHazards, setFilters, setHazardTypeOptions],
+    );
+
+    const mappings = useMemo(
+        () => {
+            if (!riskScoreResponse || !riskScoreResponse.results) {
+                return undefined;
+            }
+
+            const riskScoreList = riskScoreResponse.results.map(
+                (item) => {
+                    if (!item.country_details
+                        || isFalsyString(item.country_details.iso3)
+                        || isNotDefined(item.lcc)
+                    ) {
+                        return undefined;
+                    }
+
+                    return {
+                        ...item,
+                        lcc: item.lcc,
+                        country_details: {
+                            ...item.country_details,
+                            iso3: item.country_details.iso3,
+                        },
+                    };
+                },
+            ).filter(isDefined);
+
+            const lcc = listToMap(
+                riskScoreList,
+                (item) => item.country_details.iso3,
+                (item) => item.lcc,
+            );
+
+            const population = listToMap(
+                riskScoreResponse.results.map(
+                    (item) => {
+                        // FIXME: reuse validation for country
+                        if (!item.country_details
+                            || isFalsyString(item.country_details.iso3)
+                        ) {
+                            return undefined;
+                        }
+
+                        return {
+                            ...item,
+                            country_details: {
+                                ...item.country_details,
+                                iso3: item.country_details.iso3,
+                            },
+                        };
+                    },
+                ).filter(isDefined),
+                (item) => item.country_details.iso3,
+                (item) => (item.population_in_thousands ?? 0) * 1000,
+            );
+
+            return {
+                lcc,
+                population,
+            };
+        },
+        [riskScoreResponse],
     );
 
     const filteredData = useMemo(
@@ -570,6 +641,18 @@ export function Component() {
         [filteredData],
     );
 
+    // FIXME: use translation
+    const riskCategoryToLabelMap: Record<number, string> = useMemo(
+        () => ({
+            [CATEGORY_RISK_VERY_LOW]: 'Very Low',
+            [CATEGORY_RISK_LOW]: 'Low',
+            [CATEGORY_RISK_MEDIUM]: 'Medium',
+            [CATEGORY_RISK_HIGH]: 'High',
+            [CATEGORY_RISK_VERY_HIGH]: 'Very High',
+        }),
+        [],
+    );
+
     return (
         <Container
             className={styles.regionSeasonalRiskWatch}
@@ -579,11 +662,12 @@ export function Component() {
                     regionId={Number(regionId)}
                     value={filters}
                     onChange={setFilters}
-                    hazardTypeOptions={hazardTypeList}
+                    hazardTypeOptions={hazardTypeOptions}
                     riskMetricOptions={riskMetricOptions}
                 />
             )}
             childrenContainerClassName={styles.content}
+            withHeaderBorder
         >
             <Map
                 mapStyle={defaultMapStyle}
@@ -614,11 +698,24 @@ export function Component() {
                     />
                 </MapSource>
                 <MapBounds
+                    // FIXME: use defined constants
+                    duration={1000}
                     bounds={bbox}
+                    padding={50}
                 />
             </Map>
-            <div className={styles.countryList}>
-                {filteredData?.map(
+            <Container
+                className={styles.countryList}
+                childrenContainerClassName={styles.content}
+                withInternalPadding
+                // FIXME use translation
+                heading="Countries"
+                headingLevel={5}
+                spacing="cozy"
+                withHeaderBorder
+            >
+                {dataPending && <BlockLoading />}
+                {!dataPending && filteredData?.map(
                     (dataItem) => (
                         <div
                             key={dataItem.iso3}
@@ -637,7 +734,7 @@ export function Component() {
                                     }) => (
                                         <div
                                             className={styles.bar}
-                                            title={`${hazard_type_display}: ${formatNumber(value)}`}
+                                            title={`${hazard_type_display}: ${filters.riskMetric === 'riskScore' ? riskCategoryToLabelMap[value] : formatNumber(value)}`}
                                             key={hazard_type}
                                             style={{
                                                 width: `${100 * normalizedValue * dataItem.normalizedValue}%`,
@@ -650,7 +747,7 @@ export function Component() {
                         </div>
                     ),
                 )}
-            </div>
+            </Container>
         </Container>
     );
 }

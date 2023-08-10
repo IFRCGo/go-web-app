@@ -2,9 +2,12 @@ import { useCallback } from 'react';
 
 import MultiSelectInput from '#components/MultiSelectInput';
 import { EntriesAsList } from '@togglecorp/toggle-form';
-// import type { Country } from '#hooks/useCountry';
 import useCountry from '#hooks/useCountry';
-import { numericKeySelector, stringLabelSelector, stringNameSelector } from '#utils/selectors';
+import {
+    numericKeySelector,
+    stringLabelSelector,
+    stringNameSelector,
+} from '#utils/selectors';
 import {
     hazardTypeKeySelector,
     hazardTypeLabelSelector,
@@ -76,11 +79,10 @@ function Filters(props: Props) {
                 labelSelector={stringNameSelector}
                 value={value.countries}
                 onChange={handleChange}
+                withSelectAll
             />
             <SelectInput
                 name="riskMetric"
-                // FIXME: use translation
-                label="Select risk metric"
                 options={riskMetricOptions}
                 keySelector={riskMetricKeySelector}
                 labelSelector={stringLabelSelector}
@@ -97,6 +99,7 @@ function Filters(props: Props) {
                 labelSelector={hazardTypeLabelSelector}
                 value={value.hazardTypes}
                 onChange={handleChange}
+                withSelectAll
             />
             <MultiSelectInput
                 name="months"
@@ -107,21 +110,26 @@ function Filters(props: Props) {
                 labelSelector={stringLabelSelector}
                 value={value.months}
                 onChange={handleChange}
+                withSelectAll
             />
-            <Checkbox
-                name="normalizeByPopulation"
-                // FIXME: use translation
-                label="Normalize by population"
-                value={value.normalizeByPopulation}
-                onChange={handleChange}
-            />
-            <Checkbox
-                name="includeCopingCapacity"
-                // FIXME: use translation
-                label="Include coping capacity"
-                value={value.includeCopingCapacity}
-                onChange={handleChange}
-            />
+            {value.riskMetric === 'riskScore' && (
+                <div className={styles.riskScoreAdditionalOptions}>
+                    <Checkbox
+                        name="normalizeByPopulation"
+                        // FIXME: use translation
+                        label="Normalize by population"
+                        value={value.normalizeByPopulation}
+                        onChange={handleChange}
+                    />
+                    <Checkbox
+                        name="includeCopingCapacity"
+                        // FIXME: use translation
+                        label="Include coping capacity"
+                        value={value.includeCopingCapacity}
+                        onChange={handleChange}
+                    />
+                </div>
+            )}
         </div>
     );
 }

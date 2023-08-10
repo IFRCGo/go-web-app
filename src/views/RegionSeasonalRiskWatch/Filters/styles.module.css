@@ -2,4 +2,11 @@
     display: grid;
     grid-gap: var(--go-ui-spacing-xl);
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+
+    .risk-score-additional-options {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-lg);
+    }
 }

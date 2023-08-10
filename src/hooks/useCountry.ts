@@ -8,6 +8,7 @@ import {
     useEffect,
     useMemo,
     useRef,
+    useState,
 } from 'react';
 
 import CountryContext from '#contexts/country';
@@ -45,6 +46,17 @@ function useCountry(props: PropsForIso3): Country | undefined
 function useCountry(
     props?: ListProps | PropsForId | PropsForIso3,
 ): (Country | undefined | Array<Country>) {
+    const [stateProps, setStateProps] = useState(props);
+
+    useEffect(
+        () => {
+            if (JSON.stringify(stateProps) !== JSON.stringify(props)) {
+                setStateProps(props);
+            }
+        },
+        [stateProps, props],
+    );
+
     const {
         pending,
         setPending,
@@ -106,25 +118,30 @@ function useCountry(
         [countries],
     );
 
-    if (isNotDefined(props)) {
-        return countriesSafe;
-    }
+    return useMemo(
+        () => {
+            if (isNotDefined(stateProps)) {
+                return countriesSafe;
+            }
 
-    if (isDefined(props.id)) {
-        // FIXME: Optimize
-        return countriesSafe.find((country) => country.id === props.id);
-    }
+            if (isDefined(stateProps.id)) {
+                // FIXME: Optimize
+                return countriesSafe.find((country) => country.id === stateProps.id);
+            }
 
-    if (isDefined(props.iso3)) {
-        // FIXME: Optimize
-        return countriesSafe.find((country) => country.iso3 === props.iso3);
-    }
+            if (isDefined(stateProps.iso3)) {
+                // FIXME: Optimize
+                return countriesSafe.find((country) => country.iso3 === stateProps.iso3);
+            }
 
-    if (isDefined(props.region)) {
-        return countriesSafe.filter((country) => country.region === props.region);
-    }
+            if (isDefined(stateProps.region)) {
+                return countriesSafe.filter((country) => country.region === stateProps.region);
+            }
 
-    return countriesSafe;
+            return countriesSafe;
+        },
+        [countriesSafe, stateProps],
+    );
 }
 
 export default useCountry;
