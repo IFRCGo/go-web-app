@@ -8,6 +8,7 @@ import {
     PartnershipIcon,
     PublicInformationIcon,
     AnalysisIcon,
+    EmergencyTelecommunicationsIcon,
 } from '@ifrc-go/icons';
 
 import RouteContext from '#contexts/route';
@@ -29,6 +30,7 @@ export function Component() {
         catalogueCommunication: catalogueCommunicationRoute,
         catalogueHealth: catalogueHealthRoute,
         catalogueInformationManagement: catalogueInformationManagementRoute,
+        catalogueInformationTechnology: catalogueInformationTechnologyRoute,
     } = useContext(RouteContext);
 
     const strings = useTranslation(i18n);
@@ -101,6 +103,14 @@ export function Component() {
                 >
                     <AnalysisIcon className={styles.icon} />
                     {strings.catalogueInformationManagement}
+                </NavigationTab>
+                <NavigationTab
+                    to={generatePath(
+                        catalogueInformationTechnologyRoute.absolutePath,
+                    )}
+                >
+                    <EmergencyTelecommunicationsIcon className={styles.icon} />
+                    {strings.catalogueInformationTechnologyTelecom}
                 </NavigationTab>
             </NavigationTabList>
             <div className={styles.content}>
