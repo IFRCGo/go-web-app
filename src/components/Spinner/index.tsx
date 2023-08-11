@@ -7,6 +7,7 @@ interface Props {
 }
 function Spinner(props: Props) {
     const { className } = props;
+
     return (
         <div className={_cs(styles.spinner, className)}>
             <div className={styles.spinnerBounce} />

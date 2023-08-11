@@ -170,6 +170,7 @@
 
     --go-ui-opacity-disabled-element: 0.5;
     --go-ui-opacity-chart-point: 0.8;
+    --go-ui-opacity-message: 0.8;
 
     --go-ui-width-min-modal: 18rem;
     --go-ui-height-min-modal: 11rem;

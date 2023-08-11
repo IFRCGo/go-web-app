@@ -1,21 +1,28 @@
 .message {
-    padding: var(--go-ui-spacing-md);
-    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    opacity: var(--go-ui-opacity-message);
     min-height: 15rem;
-    color: var(--go-ui-color-text-light);
-    font-weight: var(--go-ui-font-weight-medium);
+    text-align: center;
+    gap: var(--go-ui-spacing-md);
 
-    .block-loading {
-        padding: 0;
-        width: 100%;
-        height: 100%;
+    .icon {
+        font-size: var(--go-ui-font-size-6xl);
+
+        .spinner {
+            font-size: var(--go-ui-font-size-4xl);
+        }
+    }
+
+    .title {
+        font-size: var(--go-ui-font-size-2xl);
     }
 
     &.errored {
-        color: var(--go-ui-color-primary-red);
-    }
-
-    &.compact {
-        min-height: unset;
+        .title {
+            color: var(--go-ui-color-primary-red);
+        }
     }
 }

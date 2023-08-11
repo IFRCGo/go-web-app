@@ -1,3 +1,4 @@
+import Message from '#components/Message';
 import Page from '#components/Page';
 import useTranslation from '#hooks/useTranslation';
 
@@ -8,10 +9,12 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     return (
-        <Page
-            title={strings.preparednessTitle}
-        >
-            Preparedness Page
+        <Page title={strings.preparednessTitle}>
+            <Message
+                pending
+                title="Preparedness"
+                description="This page is currently under construction!"
+            />
         </Page>
     );
 }
