@@ -24,7 +24,7 @@
         .content {
             display: flex;
             border-radius: var(--go-ui-border-radius-full);
-            background-color: var(--go-ui-color-background);
+            background-color: var(--go-ui-color-element-background);
         }
 
         .start-dummy-content,

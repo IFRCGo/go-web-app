@@ -1,8 +1,12 @@
+import UnderConstructionMessage from '#components/UnderConstructionMessage';
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     return (
         <div>
-            This is regional preparedness
+            <UnderConstructionMessage
+                title="Region Preparedness"
+            />
         </div>
     );
 }

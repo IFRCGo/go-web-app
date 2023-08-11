@@ -75,7 +75,7 @@ export function Component() {
         >
             {!countryResponse?.has_country_plan && (
                 <Message
-                    message={strings.countryPlanNoCountryPlan}
+                    title={strings.countryPlanNoCountryPlan}
                 />
             )}
             {countryPlanPending && (

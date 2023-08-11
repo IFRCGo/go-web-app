@@ -1,14 +1,22 @@
 .list {
     position: relative;
+    min-height: var(--go-ui-content-min-height);
 
-    .message {
-        &.with-message-over-content {
+    &.pending {
+        .message {
             position: absolute;
             top: 0;
             left: 0;
-            background-color: var(--go-ui-color-background-overlay);
             width: 100%;
             height: 100%;
+        }
+    }
+
+    &.compact {
+        min-height: unset;
+
+        &.pending {
+            min-height: var(--go-ui-compact-content-min-height);
         }
     }
 }

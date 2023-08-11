@@ -14,6 +14,7 @@ export interface Props {
     title?: React.ReactNode;
     description?: React.ReactNode;
     actions?: React.ReactNode;
+    compact?: boolean;
 }
 
 function Message(props: Props) {
@@ -25,6 +26,7 @@ function Message(props: Props) {
         title,
         description,
         actions,
+        compact = false,
     } = props;
 
     return (
@@ -32,6 +34,7 @@ function Message(props: Props) {
             className={_cs(
                 styles.message,
                 variant === 'error' && styles.errored,
+                compact && styles.compact,
                 className,
             )}
         >

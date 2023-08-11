@@ -2,8 +2,8 @@
     display: inline-flex;
     border-radius: var(--go-ui-border-radius-full);
     background: var(--go-ui-color-gray-40);
-    line-height: 0;
     padding: 0.2em;
+    line-height: 0;
     gap: 0.2em;
 
     .spinner-bounce {

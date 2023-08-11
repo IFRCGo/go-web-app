@@ -1,6 +1,6 @@
-import Message from '#components/Message';
 import Page from '#components/Page';
 import useTranslation from '#hooks/useTranslation';
+import UnderConstructionMessage from '#components/UnderConstructionMessage';
 
 import i18n from './i18n.json';
 
@@ -10,10 +10,8 @@ export function Component() {
 
     return (
         <Page title={strings.preparednessTitle}>
-            <Message
-                pending
+            <UnderConstructionMessage
                 title="Preparedness"
-                description="This page is currently under construction!"
             />
         </Page>
     );

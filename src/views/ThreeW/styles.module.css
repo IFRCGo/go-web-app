@@ -1,3 +1,5 @@
-.pre-process-form {
-    display: flex;
+.per-process-form {
+    .tab-list {
+        width: 100%;
+    }
 }

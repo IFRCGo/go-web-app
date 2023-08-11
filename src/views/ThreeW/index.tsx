@@ -41,7 +41,7 @@ export function Component() {
             info={(
                 <NavigationTabList
                     className={styles.tabList}
-                    variant="tertiary"
+                    variant="secondary"
                 >
                     <NavigationTab
                         to={newThreeWProjectRoute.absolutePath}

@@ -1,8 +1,12 @@
+import UnderConstructionMessage from '#components/UnderConstructionMessage';
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     return (
         <div>
-            This is country Operations
+            <UnderConstructionMessage
+                title="Country Operations"
+            />
         </div>
     );
 }
