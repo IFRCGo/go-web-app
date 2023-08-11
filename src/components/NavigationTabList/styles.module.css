@@ -55,6 +55,11 @@
 
     &.step {
         overflow-x: auto;
+
+        .content {
+            display: flex;
+        }
+
         .start-dummy-content,
         .end-dummy-content {
             align-self: flex-end;
