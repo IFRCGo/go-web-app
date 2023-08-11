@@ -3,9 +3,10 @@
     "strings": {
         "threeWDetailsHeading": "3W Details",
         "editProject": "Edit Project",
-        "lastModifiedOnTitle": "Last Modified On {date}",
+        "lastModifiedOnTitle": "Last Modified On",
+        "lastModifiedDetail": "{date} by {user}",
         "tagsTitle": "Tags",
-        "threeWTagsTooltip": "Projects are often multi-sector. The primary sector can be associated to sector ‘tags’.",
+        "threeWTagsTooltip": "Projects are often multi-sector. The primary sector can be associated to sector ‘Tags’.",
         "threeWStartDate": "Start Date",
         "threeWEndDate": "End Date",
         "reportingNationalSocietyTitle": "Reporting National Society",
@@ -13,6 +14,8 @@
         "nSContactTitle": "NS contact name, role",
         "nsContactLabel": "NS contact email",
         "projectTypeLabel": "Project Type",
+        "projectTypeToolTipLabel": "Programme Type",
+        "projectTypeToolTipValue": "This can be domestic, bilateral, multilateral in case of domestic emergency operation an ongoing emergency should be linked also.",
         "programmeTypeLabel": "Programme Type",
         "linkedOperationLabel": "Linked Operation",
         "disasterTypeLabel": "Disaster Type",
@@ -31,6 +34,8 @@
         "threeWTargetOther": "Other targeted",
         "threeWTargetTotal": "Total targeted",
         "peopleTargeted": "People Targeted",
-        "peopleReached": "People Reached"
+        "peopleReached": "People Reached",
+        "peopleReachedToolTipLabel": "Services provided to people in need",
+        "peopleReachedToolTipValue": "The figure displayed here is a sum of all individual services or interventions delivered as part of this emergency operation to people in need. Some people may have received more than one service or intervention."
     }
 }

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { generatePath, useParams } from 'react-router-dom';
-import { PencilFillIcon } from '@ifrc-go/icons';
+import { InformationLineIcon, PencilFillIcon } from '@ifrc-go/icons';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import RouteContext from '#contexts/route';
@@ -56,14 +56,28 @@ export function Component() {
                     {strings.editProject}
                 </Link>
             )}
-            descriptionContainerClassName={styles.description}
-            description={resolveToComponent(strings.lastModifiedOnTitle, {
-                date: (
-                    <DateOutput
-                        value={projectResponse?.modified_at}
+            description={(
+                <div className={styles.description}>
+                    <TextOutput
+                        label={strings.lastModifiedOnTitle}
+                        value={
+                            resolveToComponent(strings.lastModifiedDetail, {
+                                date: (
+                                    <DateOutput
+                                        value={projectResponse?.modified_at}
+                                    />
+                                ),
+                                user: (
+                                    <span>
+                                        {projectResponse?.modified_by_detail?.username}
+                                    </span>
+                                ),
+                            })
+                        }
+                        strongLabel
                     />
-                ),
-            })}
+                </div>
+            )}
         >
             <div className={styles.projectList}>
                 <Container
@@ -74,6 +88,7 @@ export function Component() {
                         value={(
                             <Link
                                 className={styles.countryLink}
+                                withForwardIcon
                                 to={projectResponse?.reporting_ns_detail.id
                                     ? generatePath(
                                         countryThreeWRoute.absolutePath,
@@ -85,6 +100,7 @@ export function Component() {
                                 {projectResponse?.reporting_ns_detail?.society_name}
                             </Link>
                         )}
+                        withoutLabelColon
                     />
                     <TextOutput
                         label={strings.countryAndRegionTitle}
@@ -92,6 +108,7 @@ export function Component() {
                             <>
                                 <Link
                                     className={styles.countryLink}
+                                    withForwardIcon
                                     to={projectResponse?.project_country_detail.id
                                         ? generatePath(
                                             countryRoute.absolutePath,
@@ -104,8 +121,8 @@ export function Component() {
                                     {projectResponse?.project_country_detail?.name}
                                 </Link>
                                 {projectResponse?.project_districts_detail
-                                    ? `, ${projectResponse?.project_districts_detail?.map((district) => district?.name).join(',')}`
-                                    : undefined}
+                                    ? projectResponse?.project_districts_detail?.map((district) => district?.name).join(', ')
+                                    : null}
                             </>
                         )}
                     />
@@ -127,17 +144,34 @@ export function Component() {
                     <TextOutput
                         label={strings.projectTypeLabel}
                         value={projectResponse?.operation_type_display}
+                        strongValue
+                        withoutLabelColon
                     />
                     <TextOutput
                         label={strings.programmeTypeLabel}
+                        description={(
+                            <>
+                                <InformationLineIcon />
+                                <Tooltip className={styles.tooltip}>
+                                    <TextOutput
+                                        label={strings.projectTypeToolTipLabel}
+                                        value={strings.projectTypeToolTipValue}
+                                        withoutLabelColon
+                                        strongLabel
+                                    />
+                                </Tooltip>
+                            </>
+                        )}
                         value={projectResponse?.programme_type_display}
+                        strongValue
+                        withoutLabelColon
                     />
                     <TextOutput
                         label={strings.linkedOperationLabel}
                         value={(
                             <Link
                                 className={styles.countryLink}
-                                to={projectResponse?.event_detail.id ? generatePath(
+                                to={projectResponse?.event_detail?.id ? generatePath(
                                     emergencyRoute.absolutePath,
                                     {
                                         emergencyId: projectResponse?.event_detail?.id,
@@ -147,44 +181,66 @@ export function Component() {
                                 {projectResponse?.event_detail?.name}
                             </Link>
                         )}
+                        strongValue
+                        withoutLabelColon
                     />
                     <TextOutput
                         label={strings.disasterTypeLabel}
                         value={projectResponse?.dtype_detail?.name}
+                        strongValue
+                        withoutLabelColon
                     />
                     <TextOutput
                         label={strings.primarySectorLabel}
                         value={projectResponse?.primary_sector_display}
+                        strongValue
+                        withoutLabelColon
                     />
                     <TextOutput
-                        label={(
+                        label={strings.tagsTitle}
+                        description={(
                             <>
-                                {strings.tagsTitle}
-                                <Tooltip>
-                                    {strings.threeWTagsTooltip}
+                                <InformationLineIcon />
+                                <Tooltip className={styles.tooltip}>
+                                    <TextOutput
+                                        label={strings.peopleReachedToolTipLabel}
+                                        value={strings.peopleReachedToolTipValue}
+                                        withoutLabelColon
+                                        strongLabel
+                                    />
                                 </Tooltip>
                             </>
                         )}
                         value={projectResponse?.secondary_sectors_display}
+                        strongValue
+                        withoutLabelColon
                     />
                     <TextOutput
                         label={strings.threeWStartDate}
                         value={projectResponse?.start_date}
                         valueType="date"
+                        strongValue
+                        withoutLabelColon
                     />
                     <TextOutput
                         label={strings.threeWEndDate}
                         value={projectResponse?.end_date}
                         valueType="date"
+                        strongValue
+                        withoutLabelColon
                     />
                     <TextOutput
                         label={strings.statusLabel}
                         value={projectResponse?.status_display}
+                        strongValue
+                        withoutLabelColon
                     />
                     <TextOutput
-                        label={strings.primarySectorLabel}
+                        label={strings.budgetAmountLabel}
                         value={projectResponse?.budget_amount}
                         valueType="number"
+                        strongValue
+                        withoutLabelColon
                     />
                 </Container>
                 <div className={styles.separator} />
@@ -196,52 +252,72 @@ export function Component() {
                         <TextOutput
                             label={strings.threeWYear}
                             value={split.year}
+                            strongValue
+                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWBudgetAmount}
                             value={split.budget_amount}
                             valueType="number"
+                            strongValue
+                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWMale}
                             value={split.target_male}
                             valueType="number"
+                            strongValue
+                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWFemale}
                             value={split.target_female}
                             valueType="number"
+                            strongValue
+                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWOther}
                             value={split.target_other}
                             valueType="number"
+                            strongValue
+                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWTotal}
                             value={split.target_total}
                             valueType="number"
+                            strongValue
+                            withoutLabelColon
                         />
                         {strings.threeWPeopleReached1}
                         <TextOutput
                             label={strings.threeWMale}
                             value={split.reached_male}
                             valueType="number"
+                            strongValue
+                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWFemale}
                             value={split.reached_female}
                             valueType="number"
+                            strongValue
+                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWOther}
                             value={split.reached_other}
                             valueType="number"
+                            strongValue
+                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWTotal}
                             value={split.reached_total}
                             valueType="number"
+                            strongValue
+                            withoutLabelColon
                         />
                     </Container>
                 ))}
@@ -273,6 +349,15 @@ export function Component() {
                     />
                     <div>
                         {strings.peopleReached}
+                        <InformationLineIcon />
+                        <Tooltip className={styles.tooltip}>
+                            <TextOutput
+                                label={strings.tagsTitle}
+                                value={strings.threeWTagsTooltip}
+                                withoutLabelColon
+                                strongLabel
+                            />
+                        </Tooltip>
                     </div>
                     <TextOutput
                         label={strings.threeWMale}
