@@ -58,10 +58,10 @@ function updateReachedTotal(oldValue: PartialAnnualType): PartialAnnualType {
 interface Props {
     className?: string;
     onChange: (value: SetValueArg<PartialAnnualType>, index: number) => void;
+    onRemove: (index: number) => void;
     error: Error<PartialAnnualType> | undefined;
     index: number;
     value: PartialAnnualType;
-    onRemove: (index: number) => void;
     disabled?: boolean;
 }
 

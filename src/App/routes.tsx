@@ -694,7 +694,7 @@ const threeWProjectEdit = customWrapRoute({
 const newThreeWActivity = customWrapRoute({
     path: 'activity/new',
     component: {
-        render: () => import('#views/ThreeWProjectForm'),
+        render: () => import('#views/ThreeWActivityForm'),
         props: {},
     },
     parent: threeW,
@@ -708,7 +708,7 @@ const newThreeWActivity = customWrapRoute({
 const threeWActivityEdit = customWrapRoute({
     path: 'activity/:activityId/edit',
     component: {
-        render: () => import('#views/ThreeWProjectForm'),
+        render: () => import('#views/ThreeWActivityForm'),
         props: {},
     },
     parent: threeW,
