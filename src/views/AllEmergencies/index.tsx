@@ -4,7 +4,7 @@ import {
     useContext,
 } from 'react';
 import { generatePath } from 'react-router-dom';
-import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
@@ -26,15 +26,14 @@ import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
-import { isValidCountry, sumSafe } from '#utils/common';
+import { sumSafe } from '#utils/common';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
+import RegionSelectInput from '#components/domain/RegionSelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const PAGE_SIZE = 15;
-
-type CountryResponse = GoApiResponse<'/api/v2/country/'>;
-type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
 type RegionResponse = GoApiResponse<'/api/v2/region/'>;
 type RegionListItem = NonNullable<RegionResponse['results']>[number];
@@ -49,12 +48,6 @@ type EventListItem = NonNullable<EventResponse['results']>[number];
 const eventKeySelector = (item: EventListItem) => item.id;
 const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
 const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
-const countryKeySelector = (item: CountryListItem) => item.id;
-const countryLabelSelector = (item: CountryListItem) => item.name ?? '';
-const regionKeySelector = (
-    item: Omit<RegionListItem, 'name'> & { name: NonNullable<RegionListItem['name']> },
-) => item.name;
-const regionLabelSelector = (item: RegionListItem) => item.region_name ?? '';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -122,6 +115,7 @@ export function Component() {
         'region',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            // FIXME: use region enum
             if (potentialValue === 0
                 || potentialValue === 1
                 || potentialValue === 2
@@ -174,44 +168,6 @@ export function Component() {
         url: '/api/v2/disaster_type/',
     });
 
-    const {
-        pending: regionPending,
-        response: regionResponse,
-    } = useRequest({
-        url: '/api/v2/region/',
-    });
-
-    const {
-        pending: countryPending,
-        response: countryResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-        query: { limit: 500 },
-    });
-
-    const countryOptions = useMemo(
-        () => countryResponse?.results?.filter(isValidCountry),
-        [countryResponse],
-    );
-
-    const regionOptions = useMemo(
-        () => (
-            regionResponse?.results?.map(
-                (region) => {
-                    if (isNotDefined(region.name)) {
-                        return undefined;
-                    }
-
-                    return {
-                        ...region,
-                        name: region.name,
-                    };
-                },
-            ).filter(isDefined)
-        ),
-        [regionResponse],
-    );
-
     const heading = useMemo(
         () => resolveToComponent(
             strings.allEmergenciesHeading,
@@ -248,27 +204,19 @@ export function Component() {
                             options={disasterTypeResponse?.results}
                             disabled={disasterTypePending}
                         />
-                        <SelectInput
+                        <RegionSelectInput
                             placeholder={strings.allEmergenciesFilterRegionPlaceholder}
                             label={strings.allEmergenciesRegion}
                             name={undefined}
                             value={filterRegion}
                             onChange={setFilterRegion}
-                            keySelector={regionKeySelector}
-                            labelSelector={regionLabelSelector}
-                            options={regionOptions}
-                            disabled={regionPending}
                         />
-                        <SelectInput
+                        <CountrySelectInput
                             placeholder={strings.allEmergenciesFilterCountryPlaceholder}
                             label={strings.allEmergenciesCountry}
                             name={undefined}
                             value={filterCountry}
                             onChange={setFilterCountry}
-                            keySelector={countryKeySelector}
-                            labelSelector={countryLabelSelector}
-                            options={countryOptions}
-                            disabled={countryPending}
                         />
                         <div />
                     </>

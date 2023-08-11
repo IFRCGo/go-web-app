@@ -15,11 +15,11 @@ import {
     PER_PHASE_PRIORITIZATION,
     PER_PHASE_WORKPLAN,
     PER_PHASE_ACTION,
-} from '#utils/per';
+} from '#utils/domain/per';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import RouteContext from '#contexts/route';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { paths } from '#generated/types';
 
 import i18n from './i18n.json';
@@ -42,7 +42,7 @@ function PerTableActions(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const { per_perphases } = useContext(ServerEnumsContext);
+    const { per_perphases } = useGlobalEnums();
     const {
         perOverviewForm: perOverviewFormRoute,
         perAssessmentForm: perAssessmentFormRoute,

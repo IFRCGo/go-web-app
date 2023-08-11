@@ -1,6 +1,5 @@
 import {
     useMemo,
-    useContext,
     useCallback,
     useState,
 } from 'react';
@@ -26,11 +25,11 @@ import TextArea from '#components/TextArea';
 import InputLabel from '#components/InputLabel';
 import { sumSafe } from '#utils/common';
 import BooleanInput from '#components/BooleanInput';
-import GoSingleFileInput from '#components/GoSingleFileInput';
+import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import useTranslation from '#hooks/useTranslation';
 import { stringValueSelector } from '#utils/selectors';
 import { paths } from '#generated/types';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import InterventionInput from './InterventionInput';
 import RiskSecurityInput from './RiskSecurityInput';
@@ -69,7 +68,7 @@ function Operation(props: Props) {
     const strings = useTranslation(i18n);
     const {
         dref_planned_intervention_title: plannedInterventionOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
 
     const {
         value,

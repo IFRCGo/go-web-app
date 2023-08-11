@@ -21,3 +21,10 @@ export function positiveIntegerCondition(value: Maybe<number>) {
         ? 'The field must be a positive number without decimal'
         : undefined;
 }
+export function dateGreaterThanOrEqualCondition(x: string) {
+    return (value: Maybe<string>) => (
+        isDefined(value) && (new Date(value).getTime()) < (new Date(x).getTime())
+            ? `Field must be greater than ${x}`
+            : undefined
+    );
+}

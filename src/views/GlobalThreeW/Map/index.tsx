@@ -21,7 +21,6 @@ import TextOutput from '#components/TextOutput';
 import LegendItem from '#components/LegendItem';
 import RouteContext from '#contexts/route';
 import BarChart from '#components/BarChart';
-import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import {
     defaultMapStyle,
@@ -38,7 +37,8 @@ import {
     OPERATION_TYPE_MULTI,
     OPERATION_TYPE_PROGRAMME,
 } from '#utils/constants';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 
 import {
     countSelector,
@@ -109,7 +109,8 @@ function getGeoJson(
         type: 'FeatureCollection' as const,
         features: countries.map((country) => {
             const nsProject = nsProjectsMap[country.id];
-            if (!nsProject
+            if (
+                !nsProject
                 || nsProject.type.id !== operationType
                 || !country.centroid
             ) {
@@ -145,7 +146,7 @@ function GlobalThreeWMap(props: Props) {
 
     const {
         deployments_project_operation_type: operationTypeOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
 
     // FIXME typings need to be fixed in server
     const projectList = projectListFromProps as unknown as NsProjectsResponse[] | undefined;
@@ -159,14 +160,7 @@ function GlobalThreeWMap(props: Props) {
         setClickedPointProperties,
     ] = useState<ClickedPoint| undefined>();
 
-    const {
-        response: countriesResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-        query: { limit: 500 },
-    });
-
-    const countries = countriesResponse?.results;
+    const countries = useCountryRaw();
 
     const maxProjectCount = useMemo(() => (
         Math.max(

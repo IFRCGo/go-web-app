@@ -16,7 +16,7 @@ import {
     PER_PHASE_PRIORITIZATION,
     PER_PHASE_ASSESSMENT,
     PER_PHASE_OVERVIEW,
-} from '#utils/per';
+} from '#utils/domain/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';

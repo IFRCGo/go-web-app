@@ -5,6 +5,7 @@ import InfoPopup from '#components/InfoPopup';
 import useTranslation from '#hooks/useTranslation';
 import Link from '#components/Link';
 import { resolveToComponent } from '#utils/translation';
+import { mbtoken } from '#config';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -64,7 +65,7 @@ function MapContainerWithDisclaimer(props: Props) {
                             </Link>
                             <Link
                                 className="mapbox-improve-map"
-                                to={`https://apps.mapbox.com/feedback/?owner=go-ifrc&amp;id=ckrfe16ru4c8718phmckdfjh0&amp;access_token=${import.meta.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`}
+                                to={`https://apps.mapbox.com/feedback/?owner=go-ifrc&amp;id=ckrfe16ru4c8718phmckdfjh0&amp;access_token=${mbtoken}`}
                                 title="Map feedback"
                                 aria-label={strings.feedbackAriaLabel}
                                 role="listitem"

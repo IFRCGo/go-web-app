@@ -1,34 +1,25 @@
-import { useMemo, useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
-import { isValidNationalSociety } from '#utils/common';
 import {
-    numericIdSelector,
     numericKeySelector,
     stringLabelSelector,
     stringValueSelector,
 } from '#utils/selectors';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type CountryListItem = NonNullable<GoApiResponse<'/api/v2/country/'>['results']>[number];
-// type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 
 export interface FilterValue {
     reporting_ns: number[];
     programme_type: number[];
     primary_sector: number[];
     secondary_sectors: number[];
-}
-
-function countrySocietyNameSelector(country: CountryListItem) {
-    return country.society_name ?? '';
 }
 
 interface Props {
@@ -48,13 +39,8 @@ function Filters(props: Props) {
 
     const {
         deployments_project_programme_type: programmeTypeOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
     const strings = useTranslation(i18n);
-
-    const { response: countriesResponse } = useRequest({
-        url: '/api/v2/country/',
-        query: { limit: 500 },
-    });
 
     const { response: primarySectorResponse } = useRequest({
         url: '/api/v2/primarysector',
@@ -64,12 +50,7 @@ function Filters(props: Props) {
         url: '/api/v2/secondarysector',
     });
 
-    const nsList = useMemo(
-        () => countriesResponse?.results?.filter(isValidNationalSociety),
-        [countriesResponse],
-    );
-
-    const handleInputChange = useCallback((newValue: number[], name: string) => {
+    const handleInputChange = useCallback((newValue: number[] | undefined, name: string) => {
         if (onChange) {
             onChange((oldFilterValue) => {
                 const newFilterValue = {
@@ -84,13 +65,10 @@ function Filters(props: Props) {
 
     return (
         <div className={_cs(styles.filters, className)}>
-            <MultiSelectInput
+            <NationalSocietyMultiSelectInput
                 name="reporting_ns"
                 placeholder={strings.threeWFilterReportingNs}
-                options={nsList}
                 value={value.reporting_ns}
-                keySelector={numericIdSelector}
-                labelSelector={countrySocietyNameSelector}
                 onChange={handleInputChange}
                 disabled={disabled}
             />

@@ -1,6 +1,5 @@
 import {
     useCallback,
-    useMemo,
     useContext,
 } from 'react';
 import {
@@ -31,19 +30,16 @@ import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { resolveToComponent } from '#utils/translation';
-import { numericIdSelector, stringNameSelector } from '#utils/selectors';
-import {
-    isValidCountry,
-    isValidNationalSociety,
-    isWhitelistedEmail,
-} from '#utils/common';
+import { isWhitelistedEmail } from '#utils/common';
 import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import type { paths } from '#generated/types';
+import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -52,10 +48,9 @@ type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
 type PostRegister = paths['/register']['post'];
 type RegisterRequestBody = PostRegister['requestBody']['content']['application/json'];
-type CountryResponse = GoApiResponse<'/api/v2/country/'>;
 type WhiteListResponse = GoApiResponse<'/api/v2/domainwhitelist/'>;
 
-const nsLabelSelector = (item: NonNullable<CountryResponse['results']>[number]) => item.society_name ?? '';
+const nsLabelSelector = (item: NationalSociety) => item.society_name;
 
 type FormFields = PartialForm<RegisterRequestBody & { confirm_password: string }>;
 const defaultFormValue: FormFields = {};
@@ -152,7 +147,7 @@ const formSchema: FormSchema = {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { api_profile_org_types: organizationTypes } = useContext(ServerEnumsContext);
+    const { api_profile_org_types: organizationTypes } = useGlobalEnums();
     const { login: loginRoute } = useContext(RouteContext);
 
     const { response: whiteListDomainResponse } = useRequest({
@@ -212,28 +207,7 @@ export function Component() {
         },
     });
 
-    const { response: countriesResponse } = useRequest({
-        url: '/api/v2/country/',
-        query: { limit: 500 },
-    });
-
-    const countryList = useMemo(
-        () => countriesResponse?.results?.map(
-            (country) => {
-                if (!isValidCountry(country)) {
-                    return undefined;
-                }
-
-                return country;
-            },
-        ).filter(isDefined),
-        [countriesResponse],
-    );
-
-    const nationalSocietyOptions = useMemo(
-        () => countriesResponse?.results?.filter(isValidNationalSociety),
-        [countriesResponse?.results],
-    );
+    const nationalSocietyOptions = useNationalSociety();
 
     const isValidIfrcEmail = isDefined(formValue.email)
         && isValidEmail(formValue.email)
@@ -330,12 +304,9 @@ export function Component() {
                     withAsterisk
                 />
                 <div className={styles.formBorder} />
-                <SelectInput
+                <CountrySelectInput
                     label={strings.registerCountry}
                     name="country"
-                    options={countryList}
-                    keySelector={numericIdSelector}
-                    labelSelector={stringNameSelector}
                     value={formValue?.country}
                     onChange={setFieldValue}
                     error={fieldError?.country}

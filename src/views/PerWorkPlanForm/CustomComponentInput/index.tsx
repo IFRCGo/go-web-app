@@ -1,4 +1,4 @@
-import { useMemo, useContext } from 'react';
+import { useMemo } from 'react';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
     SetValueArg,
@@ -6,7 +6,7 @@ import {
     Error,
     getErrorObject,
 } from '@togglecorp/toggle-form';
-import { randomString, isDefined } from '@togglecorp/fujs';
+import { randomString } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
@@ -15,10 +15,10 @@ import SelectInput from '#components/SelectInput';
 import Button from '#components/Button';
 import TextArea from '#components/TextArea';
 import type { paths } from '#generated/types';
-import { isValidNationalSociety } from '#utils/common';
-import { numericIdSelector, stringValueSelector } from '#utils/selectors';
+import { stringValueSelector } from '#utils/selectors';
 import { resolveToString } from '#utils/translation';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 
 import { PartialWorkPlan } from '../schema';
 
@@ -26,8 +26,6 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Value = NonNullable<PartialWorkPlan['custom_component_responses']>[number];
-type CountryResponse = paths['/api/v2/country/']['get']['responses']['200']['content']['application/json'];
-type CountryItem = NonNullable<CountryResponse['results']>[number];
 
 type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
 type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
@@ -37,17 +35,12 @@ function statusKeySelector(option: PerWorkPlanStatusOption) {
     return option.key;
 }
 
-function nsLabelSelector(option: Omit<CountryItem, 'society_name'> & { 'society_name': string }) {
-    return option.society_name;
-}
-
 interface Props {
     value: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     error: Error<Value> | undefined;
     index: number;
     onRemove: (index: number) => void;
-    countryResults: CountryResponse['results'] | undefined;
     actionNumber: number;
     readOnly?: boolean;
 }
@@ -58,7 +51,6 @@ function CustomComponentInput(props: Props) {
         index,
         onRemove,
         value,
-        countryResults,
         error: formError,
         actionNumber,
         readOnly,
@@ -66,7 +58,7 @@ function CustomComponentInput(props: Props) {
 
     const strings = useTranslation(i18n);
     const error = getErrorObject(formError);
-    const { per_workplanstatus } = useContext(ServerEnumsContext);
+    const { per_workplanstatus } = useGlobalEnums();
 
     const defaultValue = useMemo(
         () => ({
@@ -79,21 +71,6 @@ function CustomComponentInput(props: Props) {
         index,
         onChange,
         defaultValue,
-    );
-
-    const nationalSocietyOptions = useMemo(
-        () => (
-            countryResults?.map(
-                (country) => {
-                    if (isValidNationalSociety(country)) {
-                        return country;
-                    }
-
-                    return undefined;
-                },
-            ).filter(isDefined)
-        ),
-        [countryResults],
     );
 
     return (
@@ -134,14 +111,11 @@ function CustomComponentInput(props: Props) {
                 error={error?.due_date}
                 readOnly={readOnly}
             />
-            <SelectInput
+            <NationalSocietySelectInput
                 name="supported_by"
                 label={strings.actionInputSupportedByLabel}
                 placeholder={strings.actionInputSupportedByPlaceholder}
-                options={nationalSocietyOptions}
                 onChange={onFieldChange}
-                keySelector={numericIdSelector}
-                labelSelector={nsLabelSelector}
                 value={value?.supported_by}
                 error={error?.supported_by}
                 readOnly={readOnly}

@@ -24,7 +24,7 @@ import {
     hazardTypeToColorMap,
     riskScoreToCategory,
     RiskMetricOption,
-} from '#utils/risk';
+} from '#utils/domain/risk';
 import { formatNumber } from '#utils/common';
 import type { paths, components } from '#generated/riskTypes';
 import {

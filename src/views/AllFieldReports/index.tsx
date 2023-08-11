@@ -21,13 +21,10 @@ import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
-import { isValidCountry } from '#utils/common';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-type CountryResponse = GoApiResponse<'/api/v2/country/'>;
-type CountryListItem = NonNullable<CountryResponse['results']>[number];
 
 type FieldReportResponse = GoApiResponse<'/api/v2/field_report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
@@ -36,10 +33,9 @@ type DisasterTypeResponse = GoApiResponse<'/api/v2/disaster_type/'>;
 type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
 
 const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
+
 const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
 const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
-const countryKeySelector = (item: CountryListItem) => item.id;
-const countryLabelSelector = (item: CountryListItem) => item.name ?? '';
 
 const PAGE_SIZE = 15;
 
@@ -146,19 +142,6 @@ export function Component() {
         url: '/api/v2/disaster_type/',
     });
 
-    const {
-        pending: countryPending,
-        response: countryResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-        query: { limit: 500 },
-    });
-
-    const countryOptions = useMemo(
-        () => countryResponse?.results?.filter(isValidCountry),
-        [countryResponse],
-    );
-
     const heading = useMemo(
         () => resolveToComponent(
             strings.allFieldReportsHeading,
@@ -195,16 +178,12 @@ export function Component() {
                             options={disasterTypeResponse?.results}
                             disabled={disasterTypePending}
                         />
-                        <SelectInput
+                        <CountrySelectInput
                             placeholder={strings.allFieldReportsFilterCountryPlaceholder}
                             label={strings.allFieldReportsCountry}
                             name={undefined}
                             value={filterCountry}
                             onChange={setFilterCountry}
-                            keySelector={countryKeySelector}
-                            labelSelector={countryLabelSelector}
-                            options={countryOptions}
-                            disabled={countryPending}
                         />
                         <div />
                     </>

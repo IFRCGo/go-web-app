@@ -42,10 +42,11 @@ import RichTextArea from '#components/parked/RichTextArea';
 import RadioInput from '#components/RadioInput';
 import Checkbox from '#components/Checkbox';
 import TextOutput from '#components/TextOutput';
-import CountrySearchSelectInput from '#components/CountrySearchSelectInput';
-import DistrictMultiSelectInput, { DistrictItem } from '#components/DistrictMultiSelectInput';
-import EventSelectInput, { EventItem } from '#components/EventSelectInput';
-import ServerEnumsContext from '#contexts/server-enums';
+import CountrySelectInput from '#components/domain/CountrySelectInput';
+import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import DistrictSearchMultiSelectInput, { DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import EventSearchSelectInput, { EventItem } from '#components/domain/EventSearchSelectInput';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     PROJECT_STATUS_COMPLETED,
     PROJECT_STATUS_ONGOING,
@@ -135,7 +136,7 @@ export function Component() {
         deployments_project_operation_type: operationTypeOptions,
         deployments_project_programme_type: programmeTypeOptions,
         api_visibility_char_choices: visibilityTypeOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
 
     const projectStatusOptionsMap = listToMap(
         projectStatusOptions,
@@ -546,12 +547,11 @@ export function Component() {
                         description={strings.projectFormReportingHelpText}
                         tooltip={strings.projectFormReportingTooltip}
                     >
-                        <CountrySearchSelectInput
+                        <NationalSocietySelectInput
                             error={error?.reporting_ns}
                             name="reporting_ns"
                             onChange={setFieldValue}
                             value={value.reporting_ns}
-                            selectionMode="nationalSociety"
                         />
                     </InputSection>
                     <InputSection
@@ -582,14 +582,14 @@ export function Component() {
                         description={strings.projectFormCountryHelpText}
                         tooltip={strings.projectFormCountryTooltip}
                     >
-                        <CountrySearchSelectInput
+                        <CountrySelectInput
                             error={error?.project_country}
                             label={strings.projectFormCountryLabel}
                             name="project_country"
                             onChange={handleProjectCountryChange}
                             value={value.project_country}
                         />
-                        <DistrictMultiSelectInput
+                        <DistrictSearchMultiSelectInput
                             error={getErrorString(error?.project_districts)}
                             label={strings.projectFormDistrictLabel}
                             name="project_districts"
@@ -636,7 +636,7 @@ export function Component() {
                     </InputSection>
                     {shouldShowCurrentOperation && (
                         <InputSection title={strings.projectFormCurrentOperation}>
-                            <EventSelectInput
+                            <EventSearchSelectInput
                                 error={error?.event}
                                 name="event"
                                 placeholder={strings.projectFormOperationDefaultPlaceholder}
@@ -653,7 +653,7 @@ export function Component() {
                             title={strings.projectFormCurrentEmergency}
                             description={strings.projectFormCurrentEmergencyHelpText}
                         >
-                            <EventSelectInput
+                            <EventSearchSelectInput
                                 error={error?.event}
                                 name="event"
                                 options={eventOptions}

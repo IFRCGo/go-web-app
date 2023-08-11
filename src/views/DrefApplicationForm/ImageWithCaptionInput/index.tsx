@@ -9,7 +9,7 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
-import GoSingleFileInput from '#components/GoSingleFileInput';
+import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';

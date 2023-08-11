@@ -12,8 +12,8 @@ import sanitizeHtml from 'sanitize-html';
 
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
-import FieldReportSelectInput from '#components/FieldReportSearchSelectInput';
-import type { FieldReportItem as FieldReportSearchItem } from '#components/FieldReportSearchSelectInput';
+import FieldReportSearchSelectInput from '#components/domain/FieldReportSearchSelectInput';
+import type { FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
 import useInputState from '#hooks/useInputState';
 import useAlert from '#hooks/useAlert';
 import {
@@ -230,7 +230,7 @@ function CopyFieldReportSection(props: Props) {
             title={strings.drefFormEventDetailsTitle}
             description={strings.drefFormEventDescription}
         >
-            <FieldReportSelectInput
+            <FieldReportSearchSelectInput
                 className={styles.region}
                 name={undefined}
                 value={fieldReport}

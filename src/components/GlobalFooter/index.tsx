@@ -14,7 +14,7 @@ import PageContainer from '#components/PageContainer';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
-import { adminUrl } from '#config';
+import { adminUrl, appVersion, appCommitHash } from '#config';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -38,8 +38,8 @@ function GlobalFooter(props: Props) {
         {
             year,
             appVersion: (
-                <span title={import.meta.env.APP_COMMIT_HASH}>
-                    {import.meta.env.APP_VERSION}
+                <span title={appCommitHash}>
+                    {appVersion}
                 </span>
             ),
         },

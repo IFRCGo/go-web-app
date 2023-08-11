@@ -11,6 +11,7 @@ import {
 import {
     positiveIntegerCondition,
     positiveNumberCondition,
+    dateGreaterThanOrEqualCondition,
 } from '#utils/form';
 import {
     OPERATION_TYPE_PROGRAMME,
@@ -19,10 +20,7 @@ import {
     PROGRAMME_TYPE_DOMESTIC,
     PROJECT_STATUS_COMPLETED,
 } from '#utils/constants';
-import {
-    type DeepReplace,
-    dateGreaterThanOrEqualCondition,
-} from '#utils/common';
+import { type DeepReplace } from '#utils/common';
 
 import type { paths } from '#generated/types';
 

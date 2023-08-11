@@ -32,6 +32,7 @@ import {
 } from '#utils/map';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 
 import {
     ScaleOption,
@@ -115,14 +116,7 @@ function SurgeMap(props: Props) {
         },
     });
 
-    const {
-        response: countryResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-        query: {
-            limit: 500,
-        },
-    });
+    const countryResponse = useCountryRaw();
 
     const [
         scaleOptions,
@@ -172,16 +166,18 @@ function SurgeMap(props: Props) {
     const countryCentroidGeoJson = useMemo(
         (): GeoJSON.FeatureCollection<GeoJSON.Geometry> => ({
             type: 'FeatureCollection' as const,
-            features: countryResponse?.results
-                ?.filter((country) => country.independent || country.record_type)
+            features: countryResponse
                 ?.map((country) => {
-                    if (!country.centroid || !country.iso3) {
+                    if (
+                        (!country.independent && !country.record_type)
+                        || !country.centroid
+                        || !country.iso3
+                    ) {
                         return undefined;
                     }
 
                     const eruList = countryGroupedErus[country.id];
                     const personnelList = countryGroupedPersonnel[country.id];
-
                     if (isNotDefined(eruList) && isNotDefined(personnelList)) {
                         return undefined;
                     }
@@ -191,8 +187,10 @@ function SurgeMap(props: Props) {
 
                     return {
                         type: 'Feature' as const,
-                        // FIXME: server to fix this type issue
-                        geometry: country.centroid as unknown as GeoJSON.Geometry,
+                        geometry: country.centroid as {
+                            type: 'Point',
+                            coordinates: [number, number],
+                        },
                         properties: {
                             id: country.id,
                             name: country.name,

@@ -8,6 +8,7 @@ import {
     listToGroupList,
     unique,
     listToMap,
+    isTruthyString,
 } from '@togglecorp/fujs';
 import Map, {
     MapSource,
@@ -22,7 +23,6 @@ import MapPopup from '#components/MapPopup';
 import TextOutput from '#components/TextOutput';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import {
     defaultMapStyle,
@@ -30,8 +30,9 @@ import {
 } from '#utils/map';
 import { sumSafe } from '#utils/common';
 import { resolveToComponent } from '#utils/translation';
-import { getNumAffected } from '#utils/emergency';
+import { getNumAffected } from '#utils/domain/emergency';
 import RouteContext from '#contexts/route';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 
 import i18n from './i18n.json';
 import {
@@ -106,14 +107,7 @@ function EmergenciesMap(props: Props) {
     const scaleOptions = useMemo(() => getScaleOptions(strings), [strings]);
     const legendOptions = useMemo(() => getLegendOptions(strings), [strings]);
 
-    const {
-        response: countryResponse,
-    } = useRequest({
-        url: '/api/v2/country/',
-        query: {
-            limit: 500,
-        },
-    });
+    const countryResponse = useCountryRaw();
 
     const countryGroupedEvents = useMemo(() => {
         if (!countryResponse || !eventList) {
@@ -121,8 +115,8 @@ function EmergenciesMap(props: Props) {
         }
 
         const countryCentroidMap = listToMap(
-            countryResponse.results?.filter(
-                (country) => !!country.iso3 && !!country.centroid,
+            countryResponse?.filter(
+                (country) => isTruthyString(country.iso3) && !!country.centroid,
             ),
             (country) => country.iso3 ?? 'unknown',
             (country) => country.centroid,

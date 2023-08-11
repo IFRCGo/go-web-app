@@ -30,14 +30,14 @@ import Portal from '#components/Portal';
 import Button from '#components/Button';
 import ConfirmButton from '#components/ConfirmButton';
 import BlockLoading from '#components/BlockLoading';
-import PerAssessmentSummary from '#components/PerAssessmentSummary';
+import PerAssessmentSummary from '#components/domain/PerAssessmentSummary';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { resolveToString } from '#utils/translation';
 import type { PerProcessOutletContext } from '#utils/outletContext';
-import { PER_PHASE_PRIORITIZATION } from '#utils/per';
+import { PER_PHASE_PRIORITIZATION } from '#utils/domain/per';
 import {
     useLazyRequest,
     useRequest,

@@ -19,7 +19,7 @@ import {
     getAverageIpcData,
     getPrioritizedIpcData,
     monthNumberToNameMap,
-} from '#utils/risk';
+} from '#utils/domain/risk';
 import { getDiscretePathDataList, getScaleFunction } from '#utils/chart';
 import {
     COLOR_HAZARD_FOOD_INSECURITY,

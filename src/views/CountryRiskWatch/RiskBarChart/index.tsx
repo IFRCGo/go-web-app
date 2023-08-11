@@ -25,12 +25,12 @@ import {
     hazardTypeKeySelector,
     hazardTypeLabelSelector,
     applicableHazardsByRiskMetric,
-} from '#utils/risk';
+} from '#utils/domain/risk';
 import type {
     HazardType,
     RiskMetric,
     RiskMetricOption,
-} from '#utils/risk';
+} from '#utils/domain/risk';
 import type { paths } from '#generated/riskTypes';
 
 import i18n from './i18n.json';

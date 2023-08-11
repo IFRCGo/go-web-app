@@ -28,7 +28,7 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import useInputState from '#hooks/useInputState';
-import useCountry from '#hooks/useCountry';
+import useCountry from '#hooks/domain/useCountry';
 import {
     getDataWithTruthyHazardType,
     getFiRiskDataItem,
@@ -42,7 +42,7 @@ import {
     type HazardTypeOption,
     type RiskDataItem,
     type RiskMetricOption,
-} from '#utils/risk';
+} from '#utils/domain/risk';
 import { useRiskRequest } from '#utils/restRequest';
 import { formatNumber, maxSafe, sumSafe } from '#utils/common';
 import {
@@ -97,7 +97,9 @@ export function Component() {
     });
 
     const countryList = useCountry({
-        region: isTruthyString(regionId) ? Number(regionId) : undefined,
+        region: isTruthyString(regionId)
+            ? Number(regionId)
+            : undefined,
     });
 
     const {

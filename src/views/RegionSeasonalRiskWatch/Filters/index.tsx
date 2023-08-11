@@ -2,12 +2,12 @@ import { useCallback } from 'react';
 
 import MultiSelectInput from '#components/MultiSelectInput';
 import { EntriesAsList } from '@togglecorp/toggle-form';
-import useCountry from '#hooks/useCountry';
 import {
     numericKeySelector,
     stringLabelSelector,
     stringNameSelector,
 } from '#utils/selectors';
+import useCountry from '#hooks/domain/useCountry';
 import {
     hazardTypeKeySelector,
     hazardTypeLabelSelector,
@@ -16,7 +16,7 @@ import {
     type HazardTypeOption,
     type RiskMetricOption,
     type RiskMetric,
-} from '#utils/risk';
+} from '#utils/domain/risk';
 import Checkbox from '#components/Checkbox';
 import SelectInput from '#components/SelectInput';
 import { getMonthList } from '#utils/common';

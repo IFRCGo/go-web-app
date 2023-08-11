@@ -9,7 +9,7 @@ import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import type { CountryOutletContext } from '#utils/outletContext';
 import { useRiskRequest } from '#utils/restRequest';
-import RiskImminentEvents from '#components/RiskImminentEvents';
+import RiskImminentEvents from '#components/domain/RiskImminentEvents';
 
 import MultiMonthSelectInput from './MultiMonthSelectInput';
 import RiskTable from './RiskTable';

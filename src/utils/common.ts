@@ -4,17 +4,12 @@ import {
     isFalsyString,
     caseInsensitiveSubmatch,
     compareStringSearch,
-    listToMap,
     sum,
     isTruthyString,
+    Maybe,
 } from '@togglecorp/fujs';
 
-import { components } from '#generated/types';
-
-export type Maybe<T> = T | undefined | null;
-
 export type UnsafeNumberList = Maybe<Maybe<number>[]>;
-export type NumberList = number[];
 
 type DeepNonNullable<T> = T extends object ? (
     T extends (infer K)[] ? (
@@ -89,21 +84,8 @@ export function avgSafe(list: UnsafeNumberList) {
     return listSum / safeList.length;
 }
 
-export function compareLabel<O extends { label: string }>(a: O, b: O) {
-    return a.label.localeCompare(b.label);
-}
-
 export function isObject(foo: unknown): foo is object {
     return typeof foo === 'object' && foo !== null && !Array.isArray(foo);
-}
-
-// FIXME: use encode date
-export function ymdToDateString(year: number, month: number, day: number) {
-    const ys = String(year).padStart(4, '0');
-    const ms = String(month + 1).padStart(2, '0');
-    const ds = String(day).padStart(2, '0');
-
-    return `${ys}-${ms}-${ds}`;
 }
 
 export function rankedSearchOnList<T>(
@@ -122,39 +104,6 @@ export function rankedSearchOnList<T>(
             labelSelector(b),
             searchString,
         ));
-}
-
-export function getSearchValue(key: string, url = window.location): string | undefined {
-    const { search } = url;
-
-    if (isNotDefined(search)) {
-        return undefined;
-    }
-
-    if (search === '') {
-        return undefined;
-    }
-
-    const searchElements = search.substring(1, search.length).split('&');
-    const searchElementMap = listToMap(
-        searchElements,
-        (e) => e.split('=')[0],
-        (e) => window.decodeURI(e.split('=')[1]),
-    );
-
-    return searchElementMap[key];
-}
-
-export function reTab(str: string | undefined | null) {
-    if (isNotDefined(str)) {
-        return str;
-    }
-
-    // Replace tab characters with 2 spaces
-    const reTabbed = str.replaceAll('\t', '  ');
-
-    // Remove all \r characters
-    return reTabbed.replaceAll('\r', '');
 }
 
 function suffix(num: number, suffixStr: string, skipZero: boolean) {
@@ -207,7 +156,7 @@ const mappings: {
     },
 };
 
-export function formatTimeDurationForSecs(
+function formatTimeDurationForSecs(
     seconds: number,
     separator = ' ',
     shorten = false,
@@ -390,35 +339,4 @@ export function getMonthList() {
             };
         },
     );
-}
-
-export function dateGreaterThanOrEqualCondition(x: string) {
-    return (value: Maybe<string>) => (
-        isDefined(value) && (new Date(value).getTime()) < (new Date(x).getTime())
-            ? `Field must be greater than ${x}`
-            : undefined
-    );
-}
-
-// FIXME: move these to different file
-
-type PartialCountry = components['schemas']['Country'];
-type DefinedCountry = Omit<PartialCountry, 'iso' | 'name'> & {
-    iso: string;
-    name: string;
-}
-export function isValidCountry(country: PartialCountry): country is DefinedCountry {
-    return isTruthyString(country.name)
-        && isTruthyString(country.iso)
-        && country.independent !== false
-        && !country.is_deprecated;
-}
-
-type CountryWithDefinedNS = Omit<PartialCountry, 'iso' | 'name'> & {
-    iso: string;
-    name: string;
-    society_name: string;
-}
-export function isValidNationalSociety(country: PartialCountry): country is CountryWithDefinedNS {
-    return isValidCountry(country) && isTruthyString(country.name);
 }
