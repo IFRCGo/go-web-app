@@ -1,0 +1,23 @@
+.category {
+}
+
+.action-taken {
+}
+
+.actions-fields {
+    .numeric-section {
+        display: flex;
+        flex-wrap: wrap;
+
+        >* {
+            flex-basis: 50%;
+
+            >:first-child {
+                flex-basis: 50%;
+            }
+        }
+    }
+
+    .other-section {
+    }
+}

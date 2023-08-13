@@ -21,12 +21,14 @@ import {
 
 // FIXME: This is not an enum in the server
 export type ContactType = 'Originator' | 'NationalSociety' | 'Federation' | 'Media';
-type OrganizationType = components['schemas']['Key1aeEnum'];
+export type OrganizationType = components['schemas']['Key1aeEnum'];
 
 export type Status = components['schemas']['StatusBb2Enum'];
 export type Bulletin = components['schemas']['BulletinEnum'];
 export type Visibility = components['schemas']['VisibilityD1bEnum'];
 export type ReportType = components['schemas']['FieldReportTypesEnum'];
+export type CategoryType = components['schemas']['KeyA87Enum'];
+type RequestChoices = components['schemas']['Key02bEnum'];
 
 // CONSTANTS
 
@@ -41,6 +43,8 @@ export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;
 export const VISIBILITY_IFRC_SECRETARIAT = 2 satisfies Visibility;
 export const VISIBILITY_PUBLIC = 3 satisfies Visibility;
 export const VISIBILITY_IFRC_NS = 4 satisfies Visibility;
+
+export const REQUEST_CHOICES_NO = 0 satisfies RequestChoices;
 
 // FIXME: we need to identify a typesafe way to get this value
 export const DISASTER_TYPE_EPIDEMIC = 1;
@@ -374,6 +378,63 @@ export const reportSchema: FormSchema = {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
 
                 const baseSchemaTwo: FormSchemaFields = {
+                    actions_others: {},
+                    gov_num_assisted: { validations: [positiveIntegerCondition] },
+                    num_assisted: { validations: [positiveIntegerCondition] },
+                };
+
+                // EARLY ACTIONS
+                if (reportType === 'EW') {
+                    return {
+                        ...baseSchemaTwo,
+                        actions_taken: {
+                            keySelector: (item) => item.organization,
+                            member: () => ({
+                                fields: () => ({
+                                    organization: { required: true },
+                                    actions: {},
+                                    id: {},
+                                    summary: {},
+                                }),
+                            }),
+                        },
+                        bulletin: {},
+                    };
+                }
+                // ACTIONS - COVID
+                if (reportType === 'COVID') {
+                    return {
+                        ...baseSchemaTwo,
+                        actions_taken: {
+                            keySelector: (item) => item.organization,
+                            member: () => ({
+                                fields: () => {
+                                    const baseThree = {
+                                        organization: { required: true },
+                                        actions: {},
+                                        id: {},
+                                        summary: {},
+                                    };
+                                    // TODO:
+                                    // Add condition on the actions.
+                                    // The actions should only be submittable
+                                    // when organization is NTLS
+                                    return baseThree;
+                                },
+                            }),
+                        },
+                        num_localstaff: { validations: [positiveIntegerCondition] },
+                        num_volunteers: { validations: [positiveIntegerCondition] },
+                        notes_health: {},
+                        notes_ns: {},
+                        notes_socioeco: {},
+                        external_partners: {},
+                        supported_activities: {},
+                    };
+                }
+                // ACTIONS - EPI / EVT
+                return {
+                    ...baseSchemaTwo,
                     actions_taken: {
                         keySelector: (item) => item.organization,
                         member: () => ({
@@ -385,33 +446,6 @@ export const reportSchema: FormSchema = {
                             }),
                         }),
                     },
-                    actions_others: {},
-                    gov_num_assisted: { validations: [positiveIntegerCondition] },
-                    num_assisted: { validations: [positiveIntegerCondition] },
-                };
-                // ACTIONS - COVID
-                if (reportType === 'COVID') {
-                    return {
-                        ...baseSchemaTwo,
-                        num_localstaff: { validations: [positiveIntegerCondition] },
-                        num_volunteers: { validations: [positiveIntegerCondition] },
-                        notes_health: {},
-                        notes_ns: {},
-                        notes_socioeco: {},
-                        external_partners: {},
-                        supported_activities: {},
-                    };
-                }
-                // EARLY ACTIONS
-                if (reportType === 'EW') {
-                    return {
-                        ...baseSchemaTwo,
-                        bulletin: {},
-                    };
-                }
-                // EARLY ACTION - EPI / EVT
-                return {
-                    ...baseSchemaTwo,
                     num_localstaff: { validations: [positiveIntegerCondition] },
                     num_volunteers: { validations: [positiveIntegerCondition] },
                     num_expats_delegates: { validations: [positiveIntegerCondition] },

@@ -14,12 +14,14 @@ import NumberInput from '#components/NumberInput';
 import RadioInput from '#components/RadioInput';
 import useTranslation from '#hooks/useTranslation';
 import useUserMe from '#hooks/domain/useUserMe';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import {
     type PartialFormValue,
     type ReportType,
     type Visibility,
     type ContactType,
+    REQUEST_CHOICES_NO,
     VISIBILITY_IFRC_SECRETARIAT,
     VISIBILITY_PUBLIC,
     VISIBILITY_RCRC_MOVEMENT,
@@ -52,6 +54,11 @@ function ResponseFields(props: Props) {
     const userMe = useUserMe();
     const userOrgType = userMe?.profile.org_type;
 
+    const {
+        api_request_choices,
+        api_visibility_choices,
+    } = useGlobalEnums();
+
     const strings = useTranslation(i18n);
 
     const error = React.useMemo(
@@ -66,108 +73,57 @@ function ResponseFields(props: Props) {
         onValueChange,
     );
 
-    // visibility: VisibilityD1bEnum
+    // FIXME: use memo
+    const requestOptions = api_request_choices?.filter((item) => (
+        item.key !== REQUEST_CHOICES_NO
+    ));
 
-    // dref: DrefEnum
-    // appeal: AppealEnum
-    // fact: FactEnum
-    // ifrc_staff: IfrcStaffEnum
-    // imminent_dref: ImminentDrefEnum
-    // forecast_based_action: ForecastBasedActionEnum
+    // FIXME: use memo
+    const visibilityDescriptioMapping: { [key in Visibility]: string } = {
+        [VISIBILITY_PUBLIC]: strings.fieldReportConstantVisibilityPublicTooltipTitle,
+        [VISIBILITY_RCRC_MOVEMENT]: strings.fieldReportConstantVisibilityRCRCMovementTooltipTitle,
+        // eslint-disable-next-line max-len
+        [VISIBILITY_IFRC_SECRETARIAT]: strings.fieldReportConstantVisibilityIFRCSecretariatTooltipTitle,
+        [VISIBILITY_IFRC_NS]: strings.fieldReportConstantVisibilityIFRCandNSTooltipTitle,
+    };
 
-    interface Option {
-        value: 0 | 1 | 2 | 3;
-        label: string;
-    }
-
-    // FIXME: get this from server and apply filter
-    const drefOptions: Option[] = [
-        { label: 'Planned', value: 2 },
-        { label: 'Requested', value: 1 },
-        { label: 'Allocated', value: 3 },
-    ];
-    // FIXME: get this from server and apply filter
-    const appealOptions: Option[] = [
-        { label: 'Planned', value: 2 },
-        { label: 'Requested', value: 1 },
-        { label: 'Launched', value: 3 },
-    ];
-    // FIXME: get this from server and apply filter
-    const responseOptions: Option[] = [
-        { label: 'Planned', value: 2 },
-        { label: 'Requested', value: 1 },
-        { label: 'Deployed', value: 3 },
-    ];
-
-    // FIXME: get this from server and apply filter
-    const visibilityOptions = useMemo<{ label: string, value: Visibility }[]>(
+    const visibilityOptions = useMemo(
         () => {
             if (isReviewCountry) {
-                return [
-                    {
-                        label: strings.fieldReportConstantVisibilityIFRCandNSLabel,
-                        value: VISIBILITY_IFRC_NS,
-                    },
-                ];
+                return api_visibility_choices?.filter(
+                    (item) => item.key === VISIBILITY_IFRC_NS,
+                );
             }
 
             if (userOrgType === 'OTHR') {
-                return [
-                    {
-                        label: strings.fieldReportConstantVisibilityPublicLabel,
-                        value: VISIBILITY_PUBLIC,
-                    },
-                    {
-                        label: strings.fieldReportConstantVisibilityRCRCMovementLabel,
-                        value: VISIBILITY_RCRC_MOVEMENT,
-                    },
-                ];
+                return api_visibility_choices?.filter(
+                    (item) => (
+                        item.key === VISIBILITY_PUBLIC
+                        || item.key === VISIBILITY_RCRC_MOVEMENT
+                    ),
+                );
             }
             if (userOrgType === 'NTLS') {
-                return [
-                    {
-                        label: strings.fieldReportConstantVisibilityPublicLabel,
-                        value: VISIBILITY_PUBLIC,
-                    },
-                    {
-                        label: strings.fieldReportConstantVisibilityRCRCMovementLabel,
-                        value: VISIBILITY_RCRC_MOVEMENT,
-                    },
-                    {
-                        label: strings.fieldReportConstantVisibilityIFRCandNSLabel,
-                        value: VISIBILITY_IFRC_NS,
-                    },
-                ];
+                return api_visibility_choices?.filter(
+                    (item) => (
+                        item.key === VISIBILITY_PUBLIC
+                        || item.key === VISIBILITY_RCRC_MOVEMENT
+                        || item.key === VISIBILITY_IFRC_NS
+                    ),
+                );
             }
-            return [
-                {
-                    label: strings.fieldReportConstantVisibilityPublicLabel,
-                    value: VISIBILITY_PUBLIC,
-                },
-                {
-                    label: strings.fieldReportConstantVisibilityRCRCMovementLabel,
-                    value: VISIBILITY_RCRC_MOVEMENT,
-                },
-                {
-                    label: strings.fieldReportConstantVisibilityIFRCSecretariatLabel,
-                    value: VISIBILITY_IFRC_SECRETARIAT,
-                },
-                {
-                    label: strings.fieldReportConstantVisibilityIFRCandNSLabel,
-                    value: VISIBILITY_IFRC_NS,
-                },
-            ];
+            return api_visibility_choices;
         },
-        [strings, userOrgType, isReviewCountry],
+        [api_visibility_choices, userOrgType, isReviewCountry],
     );
 
-    interface Contact {
+    interface ContactOption {
         key: ContactType;
         title: string;
         description: string;
     }
     // FIXME: use memo
-    const contacts: Contact[] = [
+    const contacts: ContactOption[] = [
         {
             key: 'Originator',
             title: strings.fieldsStep4ContactRowsOriginatorLabel,
@@ -220,10 +176,10 @@ function ResponseFields(props: Props) {
                                 error={error?.dref}
                                 name="dref"
                                 onChange={onValueChange}
-                                options={drefOptions}
+                                options={requestOptions}
                                 // FIXME: do not use inline functions
-                                keySelector={(item) => item.value}
-                                labelSelector={(item) => item.label}
+                                keySelector={(item) => item.key}
+                                labelSelector={(item) => item.value}
                                 value={value.dref}
                                 disabled={disabled}
                                 clearable
@@ -245,10 +201,10 @@ function ResponseFields(props: Props) {
                                 error={error?.appeal}
                                 name="appeal"
                                 onChange={onValueChange}
-                                options={appealOptions}
+                                options={requestOptions}
                                 // FIXME: do not use inline functions
-                                keySelector={(item) => item.value}
-                                labelSelector={(item) => item.label}
+                                keySelector={(item) => item.key}
+                                labelSelector={(item) => item.value}
                                 value={value.appeal}
                                 clearable
                                 disabled={disabled}
@@ -270,10 +226,10 @@ function ResponseFields(props: Props) {
                                 error={error?.fact}
                                 name="fact"
                                 onChange={onValueChange}
-                                options={responseOptions}
+                                options={requestOptions}
                                 // FIXME: do not use inline functions
-                                keySelector={(item) => item.value}
-                                labelSelector={(item) => item.label}
+                                keySelector={(item) => item.key}
+                                labelSelector={(item) => item.value}
                                 value={value.fact}
                                 clearable
                                 disabled={disabled}
@@ -294,10 +250,10 @@ function ResponseFields(props: Props) {
                                 error={error?.ifrc_staff}
                                 name="ifrc_staff"
                                 onChange={onValueChange}
-                                options={responseOptions}
+                                options={requestOptions}
                                 // FIXME: do not use inline functions
-                                keySelector={(item) => item.value}
-                                labelSelector={(item) => item.label}
+                                keySelector={(item) => item.key}
+                                labelSelector={(item) => item.value}
                                 value={value.ifrc_staff}
                                 clearable
                                 disabled={disabled}
@@ -322,10 +278,10 @@ function ResponseFields(props: Props) {
                             error={error?.forecast_based_action}
                             name="forecast_based_action"
                             onChange={onValueChange}
-                            options={responseOptions}
+                            options={requestOptions}
                             // FIXME: do not use inline functions
-                            keySelector={(item) => item.value}
-                            labelSelector={(item) => item.label}
+                            keySelector={(item) => item.key}
+                            labelSelector={(item) => item.value}
                             value={value.forecast_based_action}
                             clearable
                             disabled={disabled}
@@ -370,24 +326,14 @@ function ResponseFields(props: Props) {
                 <InputSection
                     title={strings.fieldReportFormVisibilityLabel}
                     description={(
-                        <>
-                            <p>
-                                {strings.fieldReportConstantVisibilityPublicLabel} - {strings.fieldReportConstantVisibilityPublicTooltipTitle}
+                        visibilityOptions?.map((option) => (
+                            <p
+                                key={option.key}
+                            >
+                                {/* FIXME: use translation */}
+                                {`${option.value} - ${visibilityDescriptioMapping[option.key]}`}
                             </p>
-                            <p>
-                                {strings.fieldReportConstantVisibilityRCRCMovementLabel} - {strings.fieldReportConstantVisibilityRCRCMovementTooltipTitle}
-                            </p>
-                            {userOrgType !== 'OTHR' && userOrgType !== 'NTLS' && (
-                                <p>
-                                    {strings.fieldReportConstantVisibilityIFRCSecretariatLabel} - {strings.fieldReportConstantVisibilityIFRCSecretariatTooltipTitle}
-                                </p>
-                            )}
-                            {userOrgType !== 'OTHR' && (
-                                <p>
-                                    {strings.fieldReportConstantVisibilityIFRCandNSLabel} - {strings.fieldReportConstantVisibilityIFRCandNSTooltipTitle}
-                                </p>
-                            )}
-                        </>
+                        ))
                     )}
                 >
                     <RadioInput
@@ -396,8 +342,8 @@ function ResponseFields(props: Props) {
                         onChange={onValueChange}
                         options={visibilityOptions}
                         // FIXME: do not use inline functions
-                        keySelector={(item) => item.value}
-                        labelSelector={(item) => item.label}
+                        keySelector={(item) => item.key}
+                        labelSelector={(item) => item.value}
                         value={value.visibility}
                         disabled={disabled}
                     />

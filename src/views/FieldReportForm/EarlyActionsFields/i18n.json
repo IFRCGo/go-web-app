@@ -1,0 +1,19 @@
+{
+    "namespace": "fieldReportForm",
+    "strings": {
+        "fieldReportFormActionTakenTitle": "Actions taken",
+        "fieldReportFormInformationBulletinDescription": "Indicate if an Information Bulletin was published, is planned or if no Information Bulletin will be issued for this operation/disaster/hazard.",
+        "fieldReportFormInformationBulletinLabel": "Information Bulletin",
+        "fieldReportFormOthersActionsPlaceholder": "Brief description of the action",
+        "fieldsStep3ActionsOthersEVTEPIDescription": "Who else was involved? UN agencies? NGOs? Government? Describe what other actors did. Also mention who the other actors are.",
+        "fieldsStep3ActionsOthersEVTEPILabel": "Actions Taken by Others (Governments, UN)",
+        "fieldsStep3CheckboxSectionsFederationActionsEWDescription": "Select the early action activities undertaken by the IFRC and give a brief description",
+        "fieldsStep3CheckboxSectionsFederationActionsEWLabel": "Early Actions Taken by IFRC",
+        "fieldsStep3CheckboxSectionsNSActionsEWDescription": "Select the early action activities undertaken by the National Society and give a brief description",
+        "fieldsStep3CheckboxSectionsNSActionsEWLabel": "Early Actions Taken by NS",
+        "fieldsStep3CheckboxSectionsPNSActionsEWDescription": "Select the early action activities undertaken by the RCRC Movement and give a brief description.",
+        "fieldsStep3CheckboxSectionsPNSActionsEWLabel": "Early Action Taken by other RCRC Movement",
+        "fieldsStep3Section1FieldsAssistedGovEWLabel": "Number of People Assisted by Government - Early Action",
+        "fieldsStep3Section1FieldsAssistedRCRCEWLabel": "Number of People Assisted by RCRC Movement - Early Action"
+    }
+}

@@ -15,6 +15,7 @@ import {
     isDefined,
     isNotDefined,
     isFalsyString,
+    listToGroupList,
 } from '@togglecorp/fujs';
 import {
     useForm,
@@ -35,7 +36,6 @@ import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useDisasterType from '#hooks/domain/useDisasterType';
-// import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
@@ -43,8 +43,8 @@ import { type EventItem } from '#components/domain/EventElasticSearchSelectInput
 import ContextFields from './ContextFields';
 import RiskAnalysisFields from './RiskAnalysisFields';
 import SituationFields from './SituationFields';
-// import EarlyActionsFields from './EarlyActionsFields';
-// import ActionsFields from './ActionsFields';
+import EarlyActionsFields from './EarlyActionsFields';
+import ActionsFields from './ActionsFields';
 import ResponseFields from './ResponseFields';
 
 import {
@@ -56,6 +56,7 @@ import {
     type FieldReportBody,
     type PartialFormValue,
     type FormValue,
+    type OrganizationType,
     STATUS_EARLY_WARNING,
     STATUS_EVENT,
     VISIBILITY_PUBLIC,
@@ -126,15 +127,6 @@ export function Component() {
 
     const countries = useCountryRaw();
 
-    /*
-    const {
-        // api_field_report_status,
-        // api_request_choices,
-        // api_episource_choices,
-        api_field_report_bulletin: bulletinOptions,
-    } = useGlobalEnums();
-    */
-
     const disasterTypeOptions = useDisasterType();
 
     const {
@@ -156,10 +148,7 @@ export function Component() {
         },
     );
 
-    /*
-    // FIXME: need to transform action
     const {
-        pending: actionsPending,
         response: actionsResponse,
     } = useRequest({
         url: '/api/v2/action/',
@@ -167,7 +156,6 @@ export function Component() {
     });
 
     const {
-        pending: externalPartnersPending,
         response: externalPartnersResponse,
     } = useRequest({
         url: '/api/v2/external_partner/',
@@ -175,13 +163,11 @@ export function Component() {
     });
 
     const {
-        pending: supportedActivitiesPending,
         response: supportedActivitiesResponse,
     } = useRequest({
         url: '/api/v2/supported_activity/',
         query: { limit: 9999 },
     });
-    */
 
     const {
         response: reviewCountryResponse,
@@ -446,6 +432,40 @@ export function Component() {
         return 'EVT';
     }, [value.status, value.dtype, value.is_covid_report]);
 
+    type ActionOption = NonNullable<NonNullable<typeof actionsResponse>['results']>[number];
+
+    const filterActions = useCallback(
+        (action: ActionOption) => {
+            const fieldReportTypes = action.field_report_types;
+            if (isNotDefined(fieldReportTypes) || fieldReportTypes.length <= 0) {
+                return false;
+            }
+            return fieldReportTypes.includes(reportType);
+        },
+        [reportType],
+    );
+
+    // FIXME: clear fields with actions when reportType is changed
+    const actionsByOrganizationType = useMemo(
+        () => {
+            const actionsByReportType = actionsResponse?.results?.filter(filterActions);
+
+            const flattenedActions = actionsByReportType?.flatMap(
+                ({ organizations, ...other }) => organizations?.map((org) => ({
+                    ...other,
+                    organization: org,
+                })),
+            )?.filter(isDefined);
+
+            return listToGroupList(
+                flattenedActions,
+                (item) => item.organization,
+                (item) => item,
+            ) as Record<OrganizationType, NonNullable<typeof flattenedActions>[number][]>;
+        },
+        [actionsResponse, filterActions],
+    );
+
     return (
         <Tabs
             value={activeTab}
@@ -558,16 +578,13 @@ export function Component() {
                         disabled={pending}
                     />
                 </TabPanel>
-                {/*
                 <TabPanel name="early-actions">
                     <EarlyActionsFields
+                        reportType={reportType}
                         error={error}
                         onValueChange={onValueChange}
                         value={value}
-                        // TODO: Get this enum in globalEnums
-                        bulletinOptions={bulletinOptions}
-                        // TODO: For action search select input /api/v2/action -> 80items
-                        actionOptions={orgGroupedActionForCurrentReport}
+                        actionOptions={actionsByOrganizationType}
                         disabled={pending}
                     />
                 </TabPanel>
@@ -577,18 +594,12 @@ export function Component() {
                         error={error}
                         onValueChange={onValueChange}
                         value={value}
-                        // TODO: Get this enum in globalEnums
-                        bulletinOptions={bulletinOptions}
-                        // TODO: Fetch from /api/v2/action
-                        actionOptions={orgGroupedActionForCurrentReport}
-                        fetchingExternalPartners={externalPartnersPending}
+                        actionOptions={actionsByOrganizationType}
                         externalPartnerOptions={externalPartnersResponse?.results}
-                        fetchingSupportedActivities={supportedActivitiesPending}
                         supportedActivityOptions={supportedActivitiesResponse?.results}
                         disabled={pending}
                     />
                 </TabPanel>
-                */}
                 <TabPanel name="response">
                     <ResponseFields
                         error={error}
