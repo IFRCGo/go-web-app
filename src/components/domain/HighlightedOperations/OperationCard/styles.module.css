@@ -2,6 +2,10 @@
     border-radius: var(--go-ui-border-radius-md);
     box-shadow: var(--go-ui-box-shadow-lg);
 
+    .severity-indicator {
+        font-size: var(--go-ui-font-size-xl);
+    }
+
     .last-updated {
         display: flex;
         color: var(--go-ui-color-text-light);

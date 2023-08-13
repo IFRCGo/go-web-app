@@ -30,6 +30,7 @@ export interface Props {
         setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
     elementRef?: React.RefObject<HTMLButtonElement>;
+    persistent?: boolean;
 }
 
 function DropdownMenu(props: Props) {
@@ -46,6 +47,7 @@ function DropdownMenu(props: Props) {
         hideDropdownIcon,
         componentRef,
         elementRef: buttonRef = newButtonRef,
+        persistent,
     } = props;
 
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -60,8 +62,8 @@ function DropdownMenu(props: Props) {
     }, [componentRef, setShowDropdown]);
 
     const handleMenuClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
-        (_, e) => {
-            e.stopPropagation();
+        () => {
+            // e.stopPropagation();
             setShowDropdown((prevValue) => !prevValue);
         },
         [setShowDropdown],
@@ -69,13 +71,18 @@ function DropdownMenu(props: Props) {
 
     const handleBlurCallback = useCallback(
         (clickedInside: boolean, clickedInParent: boolean) => {
-            const isClickedWithin = clickedInside || clickedInParent;
-            if (isClickedWithin) {
+            // const isClickedWithin = clickedInside || clickedInParent;
+            if (clickedInParent) {
                 return;
             }
+
+            if (clickedInside && persistent) {
+                return;
+            }
+
             setShowDropdown(false);
         },
-        [setShowDropdown],
+        [setShowDropdown, persistent],
     );
 
     useBlurEffect(
@@ -91,10 +98,17 @@ function DropdownMenu(props: Props) {
         <>
             <Button
                 name={undefined}
-                className={_cs(className, showDropdown && activeClassName)}
+                className={_cs(
+                    styles.dropdownMenu,
+                    showDropdown && activeClassName,
+                    className,
+                )}
                 elementRef={buttonRef}
                 onClick={handleMenuClick}
                 variant={variant}
+                actionsContainerClassName={styles.actions}
+                iconsContainerClassName={styles.icons}
+                childrenContainerClassName={styles.content}
                 actions={hasActions ? (
                     <>
                         {actions}

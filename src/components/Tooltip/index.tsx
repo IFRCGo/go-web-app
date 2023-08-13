@@ -70,7 +70,6 @@ function Tooltip(props: Props) {
                 <Popup
                     className={className}
                     parentRef={parentRef as React.RefObject<HTMLElement>}
-                    horizontallyCentered
                 >
                     {children}
                 </Popup>

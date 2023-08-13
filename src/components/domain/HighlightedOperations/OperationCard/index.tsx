@@ -107,7 +107,7 @@ function OperationCard(props: Props) {
             ellipsizeHeading
             withInternalPadding
             withHeaderBorder
-            spacing="relaxed"
+            spacing="comfortable"
             withoutWrapInHeading
             icons={ifrc_severity_level ? (
                 <>
@@ -128,6 +128,7 @@ function OperationCard(props: Props) {
                         />
                     </Tooltip>
                     <SeverityIndicator
+                        className={styles.severityIndicator}
                         level={ifrc_severity_level}
                     />
                 </>

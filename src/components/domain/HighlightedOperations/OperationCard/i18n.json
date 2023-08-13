@@ -1,7 +1,7 @@
 {
     "namespace": "common",
     "strings": {
-        "operationCardLastUpdated":"Last updated:",
+        "operationCardLastUpdated":"Last updated",
         "operationCardTargetedPopulation":"Targeted Population",
         "operationCardDepoloyedUnits":"Deployed Emergency Response Units",
         "operationCardFunding":"Funding Requirements",

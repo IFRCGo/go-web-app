@@ -1,13 +1,16 @@
 .severity-indicator {
     display: inline-flex;
     align-items: center;
-    height: 1.5rem;
+    justify-content: center;
+    width: 1em;
+    height: 1.25em;
     overflow: hidden;
+    line-height: 0;
 
     .icon {
-        border-radius: 0.5rem;
-        width: 0.75rem;
-        height: 0.75rem;
+        border-radius: 1em;
+        width: 0.75em;
+        height: 0.75em;
 
         &.yellow {
             background-color: var(--go-ui-color-yellow);
