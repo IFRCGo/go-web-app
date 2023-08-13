@@ -1,123 +1,213 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { listToMap, isDefined } from '@togglecorp/fujs';
 import {
-    PartialForm,
     Error,
     EntriesAsList,
     getErrorObject,
+    useFormArray,
 } from '@togglecorp/toggle-form';
 
 import Header from '#components/Header';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import NumberInput from '#components/NumberInput';
-import TextInput from '#components/TextInput';
 import RadioInput from '#components/RadioInput';
-import LanguageContext from '#root/languageContext';
-import useReduxState from '#hooks/useReduxState';
-import { useCallback } from 'react';
+import useTranslation from '#hooks/useTranslation';
+import useUserMe from '#hooks/domain/useUserMe';
 
 import {
-    FormType,
-    optionLabelSelector,
-    ReportType,
-    NumericValueOption,
-    numericOptionKeySelector,
+    type PartialFormValue,
+    type ReportType,
+    type Visibility,
+    type ContactType,
     VISIBILITY_IFRC_SECRETARIAT,
     VISIBILITY_PUBLIC,
     VISIBILITY_RCRC_MOVEMENT,
-    VISIBILITY_IFRC_NS
+    VISIBILITY_IFRC_NS,
 } from '../common';
 
-import styles from './styles.module.scss';
+import ContactInput, { type ContactValue } from './ContactInput';
+import i18n from './i18n.json';
+import styles from './styles.module.css';
 
-type Value = PartialForm<FormType>;
 interface Props {
-    error: Error<Value> | undefined;
-    onValueChange: (...entries: EntriesAsList<Value>) => void;
-    value: Value;
+    error: Error<PartialFormValue> | undefined;
+    onValueChange: (...entries: EntriesAsList<PartialFormValue>) => void;
+    value: PartialFormValue;
     reportType: ReportType;
+    disabled?: boolean;
     isReviewCountry?: boolean;
 }
 
 function ResponseFields(props: Props) {
-    const { strings } = React.useContext(LanguageContext);
     const {
         error: formError,
         onValueChange,
         value,
         reportType,
         isReviewCountry,
+        disabled,
     } = props;
+
+    const userMe = useUserMe();
+    const userOrgType = userMe?.profile.org_type;
+
+    const strings = useTranslation(i18n);
 
     const error = React.useMemo(
         () => getErrorObject(formError),
-        [formError]
+        [formError],
     );
 
-    const user = useReduxState('me');
+    const {
+        setValue: setContactValue,
+    } = useFormArray<'contacts', ContactValue>(
+        'contacts',
+        onValueChange,
+    );
 
-    const [
-        drefOptions,
-        appealOptions,
-        responseOptions,
-    ] = React.useMemo(() => [
-        // FIXME: use translations
-        [
-            { label: 'Planned', value: 2 },
-            { label: 'Requested', value: 1 },
-            { label: 'Allocated', value: 3 },
-        ] as NumericValueOption[],
-        [
-            { label: 'Planned', value: 2 },
-            { label: 'Requested', value: 1 },
-            { label: 'Launched', value: 3 },
-        ] as NumericValueOption[],
-        [
-            { label: 'Planned', value: 2 },
-            { label: 'Requested', value: 1 },
-            { label: 'Deployed', value: 3 },
-        ] as NumericValueOption[],
-    ], []);
+    // visibility: VisibilityD1bEnum
 
-    const visibilityOptions = useCallback(() => {
-        let r = [] as NumericValueOption[];
+    // dref: DrefEnum
+    // appeal: AppealEnum
+    // fact: FactEnum
+    // ifrc_staff: IfrcStaffEnum
+    // imminent_dref: ImminentDrefEnum
+    // forecast_based_action: ForecastBasedActionEnum
 
-        if(user?.data.profile.org_type==='OTHR') {
-            r = [
-                { label: strings.fieldReportConstantVisibilityPublicLabel, value: VISIBILITY_PUBLIC },
-                { label: strings.fieldReportConstantVisibilityRCRCMovementLabel, value: VISIBILITY_RCRC_MOVEMENT },
+    interface Option {
+        value: 0 | 1 | 2 | 3;
+        label: string;
+    }
+
+    // FIXME: get this from server and apply filter
+    const drefOptions: Option[] = [
+        { label: 'Planned', value: 2 },
+        { label: 'Requested', value: 1 },
+        { label: 'Allocated', value: 3 },
+    ];
+    // FIXME: get this from server and apply filter
+    const appealOptions: Option[] = [
+        { label: 'Planned', value: 2 },
+        { label: 'Requested', value: 1 },
+        { label: 'Launched', value: 3 },
+    ];
+    // FIXME: get this from server and apply filter
+    const responseOptions: Option[] = [
+        { label: 'Planned', value: 2 },
+        { label: 'Requested', value: 1 },
+        { label: 'Deployed', value: 3 },
+    ];
+
+    // FIXME: get this from server and apply filter
+    const visibilityOptions = useMemo<{ label: string, value: Visibility }[]>(
+        () => {
+            if (isReviewCountry) {
+                return [
+                    {
+                        label: strings.fieldReportConstantVisibilityIFRCandNSLabel,
+                        value: VISIBILITY_IFRC_NS,
+                    },
+                ];
+            }
+
+            if (userOrgType === 'OTHR') {
+                return [
+                    {
+                        label: strings.fieldReportConstantVisibilityPublicLabel,
+                        value: VISIBILITY_PUBLIC,
+                    },
+                    {
+                        label: strings.fieldReportConstantVisibilityRCRCMovementLabel,
+                        value: VISIBILITY_RCRC_MOVEMENT,
+                    },
+                ];
+            }
+            if (userOrgType === 'NTLS') {
+                return [
+                    {
+                        label: strings.fieldReportConstantVisibilityPublicLabel,
+                        value: VISIBILITY_PUBLIC,
+                    },
+                    {
+                        label: strings.fieldReportConstantVisibilityRCRCMovementLabel,
+                        value: VISIBILITY_RCRC_MOVEMENT,
+                    },
+                    {
+                        label: strings.fieldReportConstantVisibilityIFRCandNSLabel,
+                        value: VISIBILITY_IFRC_NS,
+                    },
+                ];
+            }
+            return [
+                {
+                    label: strings.fieldReportConstantVisibilityPublicLabel,
+                    value: VISIBILITY_PUBLIC,
+                },
+                {
+                    label: strings.fieldReportConstantVisibilityRCRCMovementLabel,
+                    value: VISIBILITY_RCRC_MOVEMENT,
+                },
+                {
+                    label: strings.fieldReportConstantVisibilityIFRCSecretariatLabel,
+                    value: VISIBILITY_IFRC_SECRETARIAT,
+                },
+                {
+                    label: strings.fieldReportConstantVisibilityIFRCandNSLabel,
+                    value: VISIBILITY_IFRC_NS,
+                },
             ];
-        } else if(user?.data.profile.org_type==='NTLS') {
-            r =  [
-                { label: strings.fieldReportConstantVisibilityPublicLabel, value: VISIBILITY_PUBLIC },
-                { label: strings.fieldReportConstantVisibilityRCRCMovementLabel, value: VISIBILITY_RCRC_MOVEMENT },
-                { label: strings.fieldReportConstantVisibilityIFRCandNSLabel, value: VISIBILITY_IFRC_NS },
-            ];
-        } else {
-            r =  [
-                { label: strings.fieldReportConstantVisibilityPublicLabel, value: VISIBILITY_PUBLIC },
-                { label: strings.fieldReportConstantVisibilityRCRCMovementLabel, value: VISIBILITY_RCRC_MOVEMENT },
-                { label: strings.fieldReportConstantVisibilityIFRCSecretariatLabel, value: VISIBILITY_IFRC_SECRETARIAT },
-                { label: strings.fieldReportConstantVisibilityIFRCandNSLabel, value: VISIBILITY_IFRC_NS },
-            ];
-        }
+        },
+        [strings, userOrgType, isReviewCountry],
+    );
 
-        if (isReviewCountry) {
-            r = [ { label: strings.fieldReportConstantVisibilityIFRCandNSLabel, value: VISIBILITY_IFRC_NS } ];
-        }
+    interface Contact {
+        key: ContactType;
+        title: string;
+        description: string;
+    }
+    // FIXME: use memo
+    const contacts: Contact[] = [
+        {
+            key: 'Originator',
+            title: strings.fieldsStep4ContactRowsOriginatorLabel,
+            description: strings.fieldsStep4ContactRowsOriginatorEVTEPIEWDesc,
+        },
+        {
+            key: 'NationalSociety',
+            title: strings.fieldsStep4ContactRowsNSContactLabel,
+            description: strings.fieldsStep4ContactRowsNSContactEVTEPIDesc,
+        },
+        {
+            key: 'Federation',
+            title: strings.fieldsStep4ContactRowsFederationContactLabel,
+            description: strings.fieldsStep4ContactRowsFederationContactEVTEPIDesc,
+        },
+        {
+            key: 'Media',
+            title: strings.fieldsStep4ContactRowsMediaContactLabel,
+            description: strings.fieldsStep4ContactRowsMediaContactEVTEPIEWDesc,
+        },
+    ];
 
-        return  r;
-    }, [strings, user.data.profile.org_type, isReviewCountry]);
+    // FIXME: use memo
+    const mapping = listToMap(
+        value.contacts,
+        (item) => item.ctype,
+        (_, __, index) => index,
+    );
+
+    const contactsError = getErrorObject(error?.contacts);
 
     return (
         <>
             <Container
                 heading={strings.fieldReportFormResponseTitle}
-                description={(
+                headingDescription={(
                     <Header
                         heading={strings.fieldReportFormResponseLabel}
-                        description={strings.fieldReportFormResponseDescription}
-                        headingSize="extraSmall"
+                        headingDescription={strings.fieldReportFormResponseDescription}
+                        headingLevel={6}
                     />
                 )}
             >
@@ -128,12 +218,14 @@ function ResponseFields(props: Props) {
                         >
                             <RadioInput
                                 error={error?.dref}
-                                name={"dref" as const}
+                                name="dref"
                                 onChange={onValueChange}
                                 options={drefOptions}
-                                keySelector={numericOptionKeySelector}
-                                labelSelector={optionLabelSelector}
+                                // FIXME: do not use inline functions
+                                keySelector={(item) => item.value}
+                                labelSelector={(item) => item.label}
                                 value={value.dref}
+                                disabled={disabled}
                                 clearable
                             />
                             <NumberInput
@@ -141,28 +233,34 @@ function ResponseFields(props: Props) {
                                 name="dref_amount"
                                 value={value.dref_amount}
                                 onChange={onValueChange}
+                                disabled={disabled}
                                 error={error?.dref_amount}
                             />
                         </InputSection>
                         <InputSection
+                            // eslint-disable-next-line max-len
                             title={strings.fieldsStep4PlannedResponseRowsEmergencyAppealEVTEPIEWLabel}
                         >
                             <RadioInput
                                 error={error?.appeal}
-                                name={"appeal" as const}
+                                name="appeal"
                                 onChange={onValueChange}
                                 options={appealOptions}
-                                keySelector={numericOptionKeySelector}
-                                labelSelector={optionLabelSelector}
+                                // FIXME: do not use inline functions
+                                keySelector={(item) => item.value}
+                                labelSelector={(item) => item.label}
                                 value={value.appeal}
                                 clearable
+                                disabled={disabled}
                             />
                             <NumberInput
+                                // eslint-disable-next-line max-len
                                 label={strings.fieldsStep4PlannedResponseRowsEmergencyAppealValueFieldLabel}
                                 name="appeal_amount"
                                 value={value.appeal_amount}
                                 onChange={onValueChange}
                                 error={error?.appeal_amount}
+                                disabled={disabled}
                             />
                         </InputSection>
                         <InputSection
@@ -170,13 +268,15 @@ function ResponseFields(props: Props) {
                         >
                             <RadioInput
                                 error={error?.fact}
-                                name={"fact" as const}
+                                name="fact"
                                 onChange={onValueChange}
                                 options={responseOptions}
-                                keySelector={numericOptionKeySelector}
-                                labelSelector={optionLabelSelector}
+                                // FIXME: do not use inline functions
+                                keySelector={(item) => item.value}
+                                labelSelector={(item) => item.label}
                                 value={value.fact}
                                 clearable
+                                disabled={disabled}
                             />
                             <NumberInput
                                 label={strings.fieldsStep4PlannedResponseRowsFactValueFieldLabel}
@@ -184,6 +284,7 @@ function ResponseFields(props: Props) {
                                 value={value.num_fact}
                                 onChange={onValueChange}
                                 error={error?.num_fact}
+                                disabled={disabled}
                             />
                         </InputSection>
                         <InputSection
@@ -191,20 +292,24 @@ function ResponseFields(props: Props) {
                         >
                             <RadioInput
                                 error={error?.ifrc_staff}
-                                name={"ifrc_staff" as const}
+                                name="ifrc_staff"
                                 onChange={onValueChange}
                                 options={responseOptions}
-                                keySelector={numericOptionKeySelector}
-                                labelSelector={optionLabelSelector}
+                                // FIXME: do not use inline functions
+                                keySelector={(item) => item.value}
+                                labelSelector={(item) => item.label}
                                 value={value.ifrc_staff}
                                 clearable
+                                disabled={disabled}
                             />
                             <NumberInput
+                                // eslint-disable-next-line max-len
                                 label={strings.fieldsStep4PlannedResponseRowsIFRCStaffValueFieldLabel}
                                 name="num_ifrc_staff"
                                 value={value.num_ifrc_staff}
                                 onChange={onValueChange}
                                 error={error?.num_ifrc_staff}
+                                disabled={disabled}
                             />
                         </InputSection>
                     </>
@@ -215,20 +320,24 @@ function ResponseFields(props: Props) {
                     >
                         <RadioInput
                             error={error?.forecast_based_action}
-                            name={"forecast_based_action" as const}
+                            name="forecast_based_action"
                             onChange={onValueChange}
                             options={responseOptions}
-                            keySelector={numericOptionKeySelector}
-                            labelSelector={optionLabelSelector}
+                            // FIXME: do not use inline functions
+                            keySelector={(item) => item.value}
+                            labelSelector={(item) => item.label}
                             value={value.forecast_based_action}
                             clearable
+                            disabled={disabled}
                         />
                         <NumberInput
+                            // eslint-disable-next-line max-len
                             label={strings.fieldsStep4PlannedResponseRowsForecastBasedActionValueFieldLabel}
                             name="forecast_based_action_amount"
                             value={value.forecast_based_action_amount}
                             onChange={onValueChange}
                             error={error?.forecast_based_action_amount}
+                            disabled={disabled}
                         />
                     </InputSection>
                 )}
@@ -237,181 +346,60 @@ function ResponseFields(props: Props) {
                 heading={strings.fieldReportFormContactsTitle}
                 className={styles.contactsSection}
             >
-                <InputSection
-                    title={strings.fieldsStep4ContactRowsOriginatorLabel}
-                    description={strings.fieldsStep4ContactRowsOriginatorEVTEPIEWDesc}
-                    multiRow
-                    twoColumn
-                >
-                    <TextInput
-                        name="contact_originator_name"
-                        value={value.contact_originator_name}
-                        onChange={onValueChange}
-                        error={error?.contact_originator_name}
-                        label={strings.cmpContactName}
-                    />
-                    <TextInput
-                        name="contact_originator_title"
-                        value={value.contact_originator_title}
-                        onChange={onValueChange}
-                        error={error?.contact_originator_title}
-                        label={strings.cmpContactTitle}
-                    />
-                    <TextInput
-                        name="contact_originator_email"
-                        value={value.contact_originator_email}
-                        onChange={onValueChange}
-                        error={error?.contact_originator_email}
-                        label={strings.cmpContactEmail}
-                    />
-                    <TextInput
-                        name="contact_originator_phone"
-                        value={value.contact_originator_phone}
-                        onChange={onValueChange}
-                        error={error?.contact_originator_phone}
-                        label={strings.cmpContactPhone}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.fieldsStep4ContactRowsNSContactLabel}
-                    description={strings.fieldsStep4ContactRowsNSContactEVTEPIDesc}
-                    multiRow
-                    twoColumn
-                >
-                    <TextInput
-                        name="contact_nat_soc_name"
-                        value={value.contact_nat_soc_name}
-                        onChange={onValueChange}
-                        error={error?.contact_nat_soc_name}
-                        label={strings.cmpContactName}
-                    />
-                    <TextInput
-                        name="contact_nat_soc_title"
-                        value={value.contact_nat_soc_title}
-                        onChange={onValueChange}
-                        error={error?.contact_nat_soc_title}
-                        label={strings.cmpContactTitle}
-                    />
-                    <TextInput
-                        name="contact_nat_soc_email"
-                        value={value.contact_nat_soc_email}
-                        onChange={onValueChange}
-                        error={error?.contact_nat_soc_email}
-                        label={strings.cmpContactEmail}
-                    />
-                    <TextInput
-                        name="contact_nat_soc_phone"
-                        value={value.contact_nat_soc_phone}
-                        onChange={onValueChange}
-                        error={error?.contact_nat_soc_phone}
-                        label={strings.cmpContactPhone}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.fieldsStep4ContactRowsFederationContactLabel}
-                    description={strings.fieldsStep4ContactRowsFederationContactEVTEPIDesc}
-                    multiRow
-                    twoColumn
-                >
-                    <TextInput
-                        name="contact_federation_name"
-                        value={value.contact_federation_name}
-                        onChange={onValueChange}
-                        error={error?.contact_federation_name}
-                        label={strings.cmpContactName}
-                    />
-                    <TextInput
-                        name="contact_federation_title"
-                        value={value.contact_federation_title}
-                        onChange={onValueChange}
-                        error={error?.contact_federation_title}
-                        label={strings.cmpContactTitle}
-                    />
-                    <TextInput
-                        name="contact_federation_email"
-                        value={value.contact_federation_email}
-                        onChange={onValueChange}
-                        error={error?.contact_federation_email}
-                        label={strings.cmpContactEmail}
-                    />
-                    <TextInput
-                        name="contact_federation_phone"
-                        value={value.contact_federation_phone}
-                        onChange={onValueChange}
-                        error={error?.contact_federation_phone}
-                        label={strings.cmpContactPhone}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.fieldsStep4ContactRowsMediaContactLabel}
-                    description={strings.fieldsStep4ContactRowsMediaContactEVTEPIEWDesc}
-                    multiRow
-                    twoColumn
-                >
-                    <TextInput
-                        name="contact_media_name"
-                        value={value.contact_media_name}
-                        onChange={onValueChange}
-                        error={error?.contact_media_name}
-                        label={strings.cmpContactName}
-                    />
-                    <TextInput
-                        name="contact_media_title"
-                        value={value.contact_media_title}
-                        onChange={onValueChange}
-                        error={error?.contact_media_title}
-                        label={strings.cmpContactTitle}
-                    />
-                    <TextInput
-                        name="contact_media_email"
-                        value={value.contact_media_email}
-                        onChange={onValueChange}
-                        error={error?.contact_media_email}
-                        label={strings.cmpContactEmail}
-                    />
-                    <TextInput
-                        name="contact_media_phone"
-                        value={value.contact_media_phone}
-                        onChange={onValueChange}
-                        error={error?.contact_media_phone}
-                        label={strings.cmpContactPhone}
-                    />
-                </InputSection>
-
-
+                {contacts.map((contact) => {
+                    const index = mapping?.[contact.key];
+                    return (
+                        <InputSection
+                            key={contact.key}
+                            title={contact.title}
+                            description={contact.description}
+                            multiRow
+                            twoColumn
+                        >
+                            <ContactInput
+                                name={index}
+                                contactType={contact.key}
+                                value={isDefined(index) ? value?.contacts?.[index] : undefined}
+                                error={isDefined(index) ? contactsError?.[contact.key] : undefined}
+                                onChange={setContactValue}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    );
+                })}
                 <InputSection
                     title={strings.fieldReportFormVisibilityLabel}
                     description={(
                         <>
                             <p>
-                                {strings.fieldReportConstantVisibilityPublicLabel} - {strings.fieldReportConstantVisibilityPublicTooltipTitle}<br/>
+                                {strings.fieldReportConstantVisibilityPublicLabel} - {strings.fieldReportConstantVisibilityPublicTooltipTitle}
                             </p>
                             <p>
-                                {strings.fieldReportConstantVisibilityRCRCMovementLabel} - {strings.fieldReportConstantVisibilityRCRCMovementTooltipTitle}<br/>
+                                {strings.fieldReportConstantVisibilityRCRCMovementLabel} - {strings.fieldReportConstantVisibilityRCRCMovementTooltipTitle}
                             </p>
-                            {
-                                user?.data.profile.org_type === 'OTHR' || user?.data.profile.org_type === 'NTLS' ? null :
-                                    <p>
-                                        {strings.fieldReportConstantVisibilityIFRCSecretariatLabel} - {strings.fieldReportConstantVisibilityIFRCSecretariatTooltipTitle}
-                                    </p>
-                            }
-                            {
-                                user?.data.profile.org_type === 'OTHR'  ? null :
-                                    <p>
-                                        {strings.fieldReportConstantVisibilityIFRCandNSLabel} - {strings.fieldReportConstantVisibilityIFRCandNSTooltipTitle}
-                                    </p>
-                            }
+                            {userOrgType !== 'OTHR' && userOrgType !== 'NTLS' && (
+                                <p>
+                                    {strings.fieldReportConstantVisibilityIFRCSecretariatLabel} - {strings.fieldReportConstantVisibilityIFRCSecretariatTooltipTitle}
+                                </p>
+                            )}
+                            {userOrgType !== 'OTHR' && (
+                                <p>
+                                    {strings.fieldReportConstantVisibilityIFRCandNSLabel} - {strings.fieldReportConstantVisibilityIFRCandNSTooltipTitle}
+                                </p>
+                            )}
                         </>
                     )}
                 >
                     <RadioInput
                         error={error?.visibility}
-                        name={"visibility" as const}
+                        name="visibility"
                         onChange={onValueChange}
-                        options={visibilityOptions()}
-                        keySelector={numericOptionKeySelector}
-                        labelSelector={optionLabelSelector}
+                        options={visibilityOptions}
+                        // FIXME: do not use inline functions
+                        keySelector={(item) => item.value}
+                        labelSelector={(item) => item.label}
                         value={value.visibility}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>

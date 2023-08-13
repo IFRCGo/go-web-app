@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    PartialForm,
     Error,
     EntriesAsList,
     getErrorObject,
@@ -11,24 +10,19 @@ import InputSection from '#components/InputSection';
 import TextInput from '#components/TextInput';
 import NumberInput from '#components/NumberInput';
 import TextArea from '#components/TextArea';
-import RadioInput from '#components/RadioInput';
-import LanguageContext from '#root/languageContext';
+import useTranslation from '#hooks/useTranslation';
 
 import {
-    FormType,
-    StringValueOption,
-    stringOptionKeySelector,
-    optionLabelSelector,
+    type PartialFormValue,
 } from '../common';
+import i18n from './i18n.json';
+import styles from './styles.module.css';
 
-import styles from './styles.module.scss';
-
-type Value = PartialForm<FormType>;
 interface Props {
-    error: Error<Value> | undefined;
-    onValueChange: (...entries: EntriesAsList<Value>) => void;
-    value: Value;
-    sourceOptions: StringValueOption[]
+    error: Error<PartialFormValue> | undefined;
+    onValueChange: (...entries: EntriesAsList<PartialFormValue>) => void;
+    value: PartialFormValue;
+    disabled?: boolean;
 }
 
 function RiskAnalysisFields(props: Props) {
@@ -36,18 +30,19 @@ function RiskAnalysisFields(props: Props) {
         error: formError,
         onValueChange,
         value,
-        sourceOptions,
+        disabled,
     } = props;
 
-    const { strings } = React.useContext(LanguageContext);
+    const strings = useTranslation(i18n);
+
     const error = React.useMemo(
         () => getErrorObject(formError),
-        [formError]
+        [formError],
     );
 
     return (
-        // FIXME: use translations
         <Container
+            // FIXME: use translations
             heading="Numeric Details (People)"
             className={styles.riskAnalysisFields}
         >
@@ -56,23 +51,28 @@ function RiskAnalysisFields(props: Props) {
                 description={strings.fieldsStep2SituationFieldsEWPotentiallyAffectedDescription}
             >
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsEstimation}
+                    label={strings.fieldsStep2SituationFieldsRCRCEstimation}
                     name="num_potentially_affected"
                     value={value.num_potentially_affected}
                     onChange={onValueChange}
                     error={error?.num_potentially_affected}
+                    disabled={disabled}
                 />
-                <RadioInput
-                    label={strings.cmpSourceLabel}
-                    listContainerClassName={styles.sourceRadioListContainer}
-                    error={error?.num_potentially_affected_source}
-                    name={"num_potentially_affected_source" as const}
+                <NumberInput
+                    label={strings.fieldsStep2SituationFieldsGovEstimation}
+                    name="gov_num_potentially_affected"
+                    value={value.gov_num_potentially_affected}
                     onChange={onValueChange}
-                    options={sourceOptions}
-                    keySelector={stringOptionKeySelector}
-                    labelSelector={optionLabelSelector}
-                    value={value.num_potentially_affected_source}
-                    clearable
+                    error={error?.gov_num_potentially_affected}
+                    disabled={disabled}
+                />
+                <NumberInput
+                    label={strings.fieldsStep2SituationFieldsOtherEstimation}
+                    name="other_num_potentially_affected"
+                    value={value.other_num_potentially_affected}
+                    onChange={onValueChange}
+                    error={error?.other_num_potentially_affected}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -80,23 +80,28 @@ function RiskAnalysisFields(props: Props) {
                 description={strings.fieldsStep2SituationFieldsEWHighestRiskDescription}
             >
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsEstimation}
+                    label={strings.fieldsStep2SituationFieldsRCRCEstimation}
                     name="num_highest_risk"
                     value={value.num_highest_risk}
                     onChange={onValueChange}
                     error={error?.num_highest_risk}
+                    disabled={disabled}
                 />
-                <RadioInput
-                    label={strings.cmpSourceLabel}
-                    listContainerClassName={styles.sourceRadioListContainer}
-                    error={error?.num_highest_risk_source}
-                    name={"num_highest_risk_source" as const}
+                <NumberInput
+                    label={strings.fieldsStep2SituationFieldsGovEstimation}
+                    name="gov_num_highest_risk"
+                    value={value.gov_num_highest_risk}
                     onChange={onValueChange}
-                    options={sourceOptions}
-                    keySelector={stringOptionKeySelector}
-                    labelSelector={optionLabelSelector}
-                    value={value.num_highest_risk_source}
-                    clearable
+                    error={error?.gov_num_highest_risk}
+                    disabled={disabled}
+                />
+                <NumberInput
+                    label={strings.fieldsStep2SituationFieldsOtherEstimation}
+                    name="other_num_highest_risk"
+                    value={value.other_num_highest_risk}
+                    onChange={onValueChange}
+                    error={error?.other_num_highest_risk}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -104,23 +109,28 @@ function RiskAnalysisFields(props: Props) {
                 description={strings.fieldsStep2SituationFieldsEWAffectedPopCenteresDescription}
             >
                 <TextInput
-                    label={strings.fieldsStep2SituationFieldsEstimation}
+                    label={strings.fieldsStep2SituationFieldsRCRCEstimation}
                     name="affected_pop_centres"
                     value={value.affected_pop_centres}
                     onChange={onValueChange}
                     error={error?.affected_pop_centres}
+                    disabled={disabled}
                 />
-                <RadioInput
-                    label={strings.cmpSourceLabel}
-                    listContainerClassName={styles.sourceRadioListContainer}
-                    error={error?.affected_pop_centres_source}
-                    name={"affected_pop_centres_source" as const}
+                <TextInput
+                    label={strings.fieldsStep2SituationFieldsGovEstimation}
+                    name="gov_affected_pop_centres"
+                    value={value.gov_affected_pop_centres}
                     onChange={onValueChange}
-                    options={sourceOptions}
-                    keySelector={stringOptionKeySelector}
-                    labelSelector={optionLabelSelector}
-                    value={value.affected_pop_centres_source}
-                    clearable
+                    error={error?.gov_affected_pop_centres}
+                    disabled={disabled}
+                />
+                <TextInput
+                    label={strings.fieldsStep2SituationFieldsOtherEstimation}
+                    name="other_affected_pop_centres"
+                    value={value.other_affected_pop_centres}
+                    onChange={onValueChange}
+                    error={error?.other_affected_pop_centres}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -132,6 +142,7 @@ function RiskAnalysisFields(props: Props) {
                     value={value.other_sources}
                     onChange={onValueChange}
                     error={error?.other_sources}
+                    disabled={disabled}
                     placeholder={strings.fieldReportFormSourceDetailsPlaceholder}
                 />
             </InputSection>
@@ -144,6 +155,7 @@ function RiskAnalysisFields(props: Props) {
                     value={value.description}
                     onChange={onValueChange}
                     error={error?.description}
+                    disabled={disabled}
                     placeholder={strings.fieldsStep2DescriptionEWPlaceholder}
                 />
             </InputSection>

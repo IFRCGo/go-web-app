@@ -15,7 +15,7 @@
         flex-direction: column;
 
         .description {
-            color: var(--go-ui-color-white);
+            color: var(--go-ui-color-gray-70);
             font-size: var(--go-ui-font-size-xs);
         }
     }

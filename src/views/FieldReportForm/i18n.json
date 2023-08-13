@@ -1,9 +1,9 @@
 {
     "namespace": "fieldReportForm",
     "strings": {
-        "fieldReportCOVID19": "",
-        "fieldReportFormRedirectMessage": "",
-        "fieldReportFormErrorLabel": "",
+        "fieldReportCOVID19": "COVID-19",
+        "fieldReportFormRedirectMessage": "Field report updated, redirecting...",
+        "fieldReportFormErrorLabel": "Error:",
         "fieldReportTitle": "IFRC GO - Field Report",
         "fieldReportBackButtonLabel": "Back",
         "fieldReportContinue": "Continue",

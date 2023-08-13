@@ -18,7 +18,6 @@ import {
     createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
 import NumberOutput from '#components/NumberOutput';
-import SelectInput from '#components/SelectInput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
@@ -29,6 +28,7 @@ import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import RegionSelectInput from '#components/domain/RegionSelectInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -38,16 +38,11 @@ const PAGE_SIZE = 15;
 type RegionResponse = GoApiResponse<'/api/v2/region/'>;
 type RegionListItem = NonNullable<RegionResponse['results']>[number];
 
-type DisasterTypeResponse = GoApiResponse<'/api/v2/disaster_type/'>;
-type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
-
 type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventQueryParams = GoApiUrlQuery<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
 const eventKeySelector = (item: EventListItem) => item.id;
-const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
-const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -103,7 +98,7 @@ export function Component() {
         [strings, emergencyRoute],
     );
 
-    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
         'dtype',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
@@ -129,7 +124,7 @@ export function Component() {
         },
         (regionId) => regionId,
     );
-    const [filterCountry, setFilterCountry] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+    const [filterCountry, setFilterCountry] = useUrlSearchState<number | undefined>(
         'country',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
@@ -161,13 +156,6 @@ export function Component() {
         query,
     });
 
-    const {
-        pending: disasterTypePending,
-        response: disasterTypeResponse,
-    } = useRequest({
-        url: '/api/v2/disaster_type/',
-    });
-
     const heading = useMemo(
         () => resolveToComponent(
             strings.allEmergenciesHeading,
@@ -197,16 +185,12 @@ export function Component() {
                 headerDescriptionContainerClassName={styles.filters}
                 headerDescription={(
                     <>
-                        <SelectInput
+                        <DisasterTypeSelectInput
                             placeholder={strings.allEmergenciesFilterDisastersPlaceholder}
                             label={strings.allEmergenciesDisasterType}
                             name={undefined}
                             value={filterDisasterType}
                             onChange={setFilterDisasterType}
-                            keySelector={disasterTypeKeySelector}
-                            labelSelector={disasterTypeLabelSelector}
-                            options={disasterTypeResponse?.results}
-                            disabled={disasterTypePending}
                         />
                         <RegionSelectInput
                             placeholder={strings.allEmergenciesFilterRegionPlaceholder}

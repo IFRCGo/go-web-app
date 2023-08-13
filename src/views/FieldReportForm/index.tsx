@@ -11,23 +11,17 @@ import {
     useNavigate,
     generatePath,
 } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+    isFalsyString,
+} from '@togglecorp/fujs';
 import {
     useForm,
     createSubmitHandler,
-    ObjectSchema,
-    PartialForm,
-    PurgeNull,
-    requiredStringCondition,
-    addCondition,
     removeNull,
 } from '@togglecorp/toggle-form';
 
-import ServerEnumsContext from '#contexts/server-enums';
-import {
-    positiveIntegerCondition,
-    nonZeroCondition,
-} from '#utils/form';
 import { useRequest, useLazyRequest } from '#utils/restRequest';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
@@ -39,344 +33,42 @@ import Page from '#components/Page';
 import RouteContext from '#contexts/route';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
-import { paths, components } from '#generated/types';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
+import useDisasterType from '#hooks/domain/useDisasterType';
+// import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
-// import ContextFields from './ContextFields';
-// import RiskAnalysisFields from './RiskAnalysisFields';
-// import SituationFields from './SituationFields';
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
+
+import ContextFields from './ContextFields';
+import RiskAnalysisFields from './RiskAnalysisFields';
+import SituationFields from './SituationFields';
 // import EarlyActionsFields from './EarlyActionsFields';
 // import ActionsFields from './ActionsFields';
-// import ResponseFields from './ResponseFields';
+import ResponseFields from './ResponseFields';
 
+import {
+    reportSchema,
+    transformAPIFieldsToFormFields,
+    transformFormFieldsToAPIFields,
+    type Status,
+    type ReportType,
+    type FieldReportBody,
+    type PartialFormValue,
+    type FormValue,
+    STATUS_EARLY_WARNING,
+    STATUS_EVENT,
+    VISIBILITY_PUBLIC,
+    BULLETIN_PUBLISHED_NO,
+    DISASTER_TYPE_EPIDEMIC,
+} from './common';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
-function ContextFields() {
-    return null;
-}
-function RiskAnalysisFields() {
-    return null;
-}
-function SituationFields() {
-    return null;
-}
-function EarlyActionsFields() {
-    return null;
-}
-function ActionsFields() {
-    return null;
-}
-function ResponseFields() {
-    return null;
-}
-
 type TabKeys = 'context' | 'situation' | 'risk-analysis' | 'actions' | 'early-actions' | 'response';
 
-type FieldReportResponse = paths['/api/v2/field_report/{id}/']['get']['responses']['200']['content']['application/json'];
-type FieldReportBody = paths['/api/v2/update_field_report/{id}/']['put']['requestBody']['content']['application/json'];
-
-type Status = components['schemas']['StatusBb2Enum'];
-export type ReportType = components['schemas']['FieldReportTypesEnum'];
-// type Bulletin = components['schemas']['BulletinEnum'];
-// type Visibility = components['schemas']['VisibilityD1bEnum'];
-// FIXME: Not sure as the labels don't match
-// type EpiSource = components['schemas']['Key1d2Enum'];
-// type OrganizationType = components['schemas']['Key1aeEnum'];
-
-const STATUS_EARLY_WARNING = 8 satisfies Status;
-const STATUS_EVENT = 10 satisfies Status;
-
-// FIXME: we need to identify a typesafe way to get this value
-const DISASTER_TYPE_EPIDEMIC = 1;
-
-// FIXME:
-// const SOURCE_RC = 'red-cross';
-// const SOURCE_GOV = 'government';
-// const SOURCE_OTHER = 'other';
-
-// FIXME:
-// type ContactType = 'Originator' | 'NationalSociety' | 'Federation' | 'Media';
-
-type FormValue = Omit<FieldReportBody, 'countries'> & {
-    country: number,
-};
-export type PartialFormValue = PurgeNull<PartialForm<FormValue, 'uuid' | 'ctype' | 'organization'>>;
-type FormSchema = ObjectSchema<PartialFormValue>;
-type FormSchemaFields = ReturnType<FormSchema['fields']>;
-
-function validStatusCondition(value: number | string | null | undefined) {
-    if (value === STATUS_EARLY_WARNING || value === STATUS_EVENT) {
-        return undefined;
-    }
-    return 'Status should either be an Event or an Early Warning / Early Action';
-}
-
-function transformFormFieldsToAPIFields(
-    formValues: FormValue,
-): FieldReportBody {
-    const {
-        country,
-        start_date,
-        sit_fields_date,
-        ...otherProps
-    } = formValues;
-    return {
-        ...otherProps,
-        countries: isDefined(country) ? [country] : [],
-        start_date: isDefined(start_date)
-            ? (new Date(start_date)).toISOString()
-            : start_date,
-        sit_fields_date: isDefined(sit_fields_date)
-            ? (new Date(sit_fields_date)).toISOString()
-            : sit_fields_date,
-    };
-}
-
-function transformAPIFieldsToFormFields(
-    response: PurgeNull<FieldReportResponse>,
-): PartialFormValue {
-    const {
-        countries,
-        start_date,
-        sit_fields_date,
-        districts,
-        user,
-        dtype,
-        event,
-        regions,
-        external_partners,
-        supported_activities,
-        ...otherProps
-    } = response;
-
-    return {
-        ...otherProps,
-        user: user?.id,
-        dtype: dtype?.id,
-        event: event?.id,
-        country: isDefined(countries) && countries.length > 0 ? countries[0]?.id : undefined,
-        districts: districts?.map((d) => d.id) ?? [],
-        regions: regions?.map((r) => r.id) ?? [],
-        external_partners: external_partners?.map((e) => e.id) ?? [],
-        supported_activities: supported_activities?.map((a) => a.id) ?? [],
-        start_date: isDefined(start_date)
-            ? start_date.split('T')[0]
-            : start_date,
-        sit_fields_date: isDefined(sit_fields_date)
-            ? sit_fields_date.split('T')[0]
-            : sit_fields_date,
-    };
-}
-
-const reportSchema: FormSchema = {
-    validation: (value) => {
-        if (
-            value?.status === STATUS_EARLY_WARNING
-            && value?.dtype === DISASTER_TYPE_EPIDEMIC
-        ) {
-            return 'Early Warning / Early action cannot be selected when disaster type is Epidemic or vice-versa';
-        }
-        return undefined;
-    },
-    fields: (value): FormSchemaFields => {
-        let baseSchema: FormSchemaFields = ({
-            status: { required: true, validations: [validStatusCondition] },
-            is_covid_report: { required: true },
-            dtype: { required: true },
-            event: {},
-            summary: { required: true, requiredValidation: requiredStringCondition },
-            country: { required: true },
-            districts: {},
-            start_date: { required: true },
-            request_assistance: {},
-            ns_request_assistance: {},
-
-            epi_cases: { validations: [positiveIntegerCondition] },
-            epi_suspected_cases: { validations: [positiveIntegerCondition] },
-            epi_probable_cases: { validations: [positiveIntegerCondition] },
-            epi_confirmed_cases: { validations: [positiveIntegerCondition] },
-            epi_num_dead: { validations: [positiveIntegerCondition] },
-
-            epi_cases_since_last_fr: { validations: [positiveIntegerCondition] },
-            epi_deaths_since_last_fr: { validations: [positiveIntegerCondition] },
-
-            epi_figures_source: {},
-            epi_notes_since_last_fr: {},
-            sit_fields_date: {},
-            other_sources: {},
-            description: {},
-
-            gov_num_assisted: { validations: [positiveIntegerCondition] },
-            num_assisted: { validations: [positiveIntegerCondition] },
-            num_localstaff: { validations: [positiveIntegerCondition] },
-            num_volunteers: { validations: [positiveIntegerCondition] },
-            num_expats_delegates: { validations: [positiveIntegerCondition] },
-
-            // NOTE: array of 3 items
-            // actions_ntls: {},
-            // actions_ntls_desc: {},
-            // actions_fdrn: {},
-            // actions_fdrn_desc: {},
-            // actions_pns: {},
-            // actions_pns_desc: {},
-
-            // actions_taken: {},
-
-            bulletin: {},
-            actions_others: {},
-
-            notes_health: {},
-            notes_ns: {},
-            notes_socioeco: {},
-            external_partners: {},
-            supported_activities: {},
-
-            // NOTE: array of 4 items
-            // contact_originator_name: {},
-            // contact_originator_title: {},
-            // contact_originator_email: {},
-            // contact_originator_phone: {},
-            //
-            // contact_nat_soc_name: {},
-            // contact_nat_soc_title: {},
-            // contact_nat_soc_email: {},
-            // contact_nat_soc_phone: {},
-            //
-            // contact_federation_name: {},
-            // contact_federation_title: {},
-            // contact_federation_email: {},
-            // contact_federation_phone: {},
-            //
-            // contact_media_name: {},
-            // contact_media_title: {},
-            // contact_media_email: {},
-            // contact_media_phone: {},
-
-            // contacts: {},
-
-            visibility: { required: true },
-        });
-
-        baseSchema = addCondition(
-            baseSchema,
-            value,
-            ['dref', 'dref_amount'],
-            ['dref', 'dref_amount'],
-            (val) => {
-                if (isDefined(val?.dref) || isDefined(val?.dref_amount)) {
-                    return {
-                        dref: { required: true },
-                        dref_amount: {
-                            required: true,
-                            validations: [positiveIntegerCondition, nonZeroCondition],
-                        },
-                    };
-                }
-                return {
-                    dref: {},
-                    dref_amount: {
-                        validations: [positiveIntegerCondition, nonZeroCondition],
-                    },
-                };
-            },
-        );
-        baseSchema = addCondition(
-            baseSchema,
-            value,
-            ['appeal', 'appeal_amount'],
-            ['appeal', 'appeal_amount'],
-            (val) => {
-                if (isDefined(val?.appeal) || isDefined(val?.appeal_amount)) {
-                    return {
-                        appeal: { required: true },
-                        appeal_amount: {
-                            required: true,
-                            validations: [positiveIntegerCondition, nonZeroCondition],
-                        },
-                    };
-                }
-                return {
-                    appeal: {},
-                    appeal_amount: {
-                        validations: [positiveIntegerCondition, nonZeroCondition],
-                    },
-                };
-            },
-        );
-        baseSchema = addCondition(
-            baseSchema,
-            value,
-            ['fact', 'num_fact'],
-            ['fact', 'num_fact'],
-            (val) => {
-                if (isDefined(val?.fact) || isDefined(val?.num_fact)) {
-                    return {
-                        fact: { required: true },
-                        num_fact: {
-                            required: true,
-                            validations: [positiveIntegerCondition, nonZeroCondition],
-                        },
-                    };
-                }
-                return {
-                    fact: {},
-                    num_fact: {
-                        validations: [positiveIntegerCondition, nonZeroCondition],
-                    },
-                };
-            },
-        );
-        baseSchema = addCondition(
-            baseSchema,
-            value,
-            ['ifrc_staff', 'num_ifrc_staff'],
-            ['ifrc_staff', 'num_ifrc_staff'],
-            (val) => {
-                if (isDefined(val?.ifrc_staff) || isDefined(val?.num_ifrc_staff)) {
-                    return {
-                        ifrc_staff: { required: true },
-                        num_ifrc_staff: { required: true },
-                    };
-                }
-                return {
-                    ifrc_staff: {},
-                    num_ifrc_staff: {},
-                };
-            },
-        );
-        baseSchema = addCondition(
-            baseSchema,
-            value,
-            ['forecast_based_action', 'forecast_based_action_amount'],
-            ['forecast_based_action', 'forecast_based_action_amount'],
-            (val) => {
-                if (
-                    isDefined(val?.forecast_based_action)
-                    || isDefined(val?.forecast_based_action_amount)
-                ) {
-                    return {
-                        forecast_based_action: { required: true },
-                        forecast_based_action_amount: {
-                            required: true,
-                            validations: [positiveIntegerCondition, nonZeroCondition],
-                        },
-                    };
-                }
-                return {
-                    forecast_based_action: {},
-                    forecast_based_action_amount: {
-                        validations: [positiveIntegerCondition, nonZeroCondition],
-                    },
-                };
-            },
-        );
-
-        return baseSchema;
-    },
-};
-
 function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undefined) {
-    if (status === STATUS_EARLY_WARNING && direction === 1) {
+    if (status === STATUS_EVENT && direction === 1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             context: 'situation',
             situation: 'actions',
@@ -384,7 +76,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undef
         };
         return mapping[current];
     }
-    if (status === STATUS_EARLY_WARNING && direction === -1) {
+    if (status === STATUS_EVENT && direction === -1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             response: 'actions',
             actions: 'situation',
@@ -392,7 +84,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undef
         };
         return mapping[current];
     }
-    if (status === STATUS_EVENT && direction === 1) {
+    if (status === STATUS_EARLY_WARNING && direction === 1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             context: 'risk-analysis',
             'risk-analysis': 'early-actions',
@@ -400,7 +92,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undef
         };
         return mapping[current];
     }
-    if (status === STATUS_EVENT && direction === -1) {
+    if (status === STATUS_EARLY_WARNING && direction === -1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             response: 'early-actions',
             'early-actions': 'risk-analysis',
@@ -414,27 +106,36 @@ function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undef
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { reportId } = useParams<{ reportId: string }>();
+
     const alert = useAlert();
+
     const navigate = useNavigate();
+
     const {
-        // FIXME: use view page route here
-        fieldReportFormEdit: fieldReportFormEditRoute,
+        // FIXME: navigate to field detail page
+        allFieldReports: fieldReportFormEditRoute,
     } = useContext(RouteContext);
+
     const strings = useTranslation(i18n);
-    const [activeTab, setActiveTab] = useState<TabKeys>('context');
 
     const formContentRef = useRef<ElementRef<'div'>>(null);
 
-    const {
-        api_field_report_status,
-        api_request_choices, // FIXME: need to filter this
-        api_episource_choices, // FIXME: the labels do not match
-    } = useContext(ServerEnumsContext);
+    const [activeTab, setActiveTab] = useState<TabKeys>('context');
+    const [eventOptions, setEventOptions] = useState<EventItem[] | null | undefined>([]);
+    const [districtOptions, setDistrictOptions] = useState<DistrictItem[] | null | undefined>([]);
 
-    const handleTabChange = useCallback((newTab: TabKeys) => {
-        formContentRef.current?.scrollIntoView();
-        setActiveTab(newTab);
-    }, []);
+    const countries = useCountryRaw();
+
+    /*
+    const {
+        // api_field_report_status,
+        // api_request_choices,
+        // api_episource_choices,
+        api_field_report_bulletin: bulletinOptions,
+    } = useGlobalEnums();
+    */
+
+    const disasterTypeOptions = useDisasterType();
 
     const {
         value,
@@ -447,15 +148,74 @@ export function Component() {
         reportSchema,
         {
             value: {
-                /*
-                // FIXME:
                 status: STATUS_EVENT,
                 is_covid_report: false,
                 visibility: VISIBILITY_PUBLIC,
                 bulletin: BULLETIN_PUBLISHED_NO,
-                */
             },
         },
+    );
+
+    /*
+    // FIXME: need to transform action
+    const {
+        pending: actionsPending,
+        response: actionsResponse,
+    } = useRequest({
+        url: '/api/v2/action/',
+        query: { limit: 9999 },
+    });
+
+    const {
+        pending: externalPartnersPending,
+        response: externalPartnersResponse,
+    } = useRequest({
+        url: '/api/v2/external_partner/',
+        query: { limit: 9999 },
+    });
+
+    const {
+        pending: supportedActivitiesPending,
+        response: supportedActivitiesResponse,
+    } = useRequest({
+        url: '/api/v2/supported_activity/',
+        query: { limit: 9999 },
+    });
+    */
+
+    const {
+        response: reviewCountryResponse,
+    } = useRequest({
+        // skip: !value.country,
+        url: '/api/v2/review-country/',
+    });
+
+    const {
+        response: eventResponse,
+    } = useRequest({
+        url: '/api/v2/event/{id}/',
+        skip: isNotDefined(value.event),
+        pathVariables: isDefined(value.event) ? {
+            id: value.event,
+        } : undefined,
+    });
+
+    const fieldReportNumber = useMemo(
+        () => {
+            if (isNotDefined(value.country)) {
+                return 1;
+            }
+            const reports = eventResponse?.field_reports?.filter(
+                (fieldReport) => (
+                    !!fieldReport.countries.find((country) => country.id === value.country)
+                ),
+            );
+            if (isNotDefined(reports)) {
+                return 1;
+            }
+            return reports.length + 1;
+        },
+        [eventResponse, value.country],
     );
 
     const {
@@ -562,6 +322,33 @@ export function Component() {
         },
     });
 
+    const countryIsoOptions = useMemo(
+        () => (
+            countries?.map((country) => {
+                // FIXME: why are we using this filter for independent and record_type
+                if (
+                    !country.independent
+                    || country.record_type !== 1
+                    || isFalsyString(country.iso3)
+                ) {
+                    return undefined;
+                }
+                return {
+                    ...country,
+                    iso3: country.iso3,
+                    independent: country.independent,
+                    recort_type: country.record_type,
+                };
+            }).filter(isDefined)
+        ),
+        [countries],
+    );
+
+    const handleTabChange = useCallback((newTab: TabKeys) => {
+        formContentRef.current?.scrollIntoView();
+        setActiveTab(newTab);
+    }, []);
+
     const handleSubmit = useCallback(
         (formValues: PartialFormValue) => {
             formContentRef.current?.scrollIntoView();
@@ -579,8 +366,9 @@ export function Component() {
                 summary: string | null | undefined,
             ) {
                 const dateLabel = new Date().toISOString().slice(0, 10);
-                const iso3Label = countryIsoOptions.find((x) => x.value === country)?.label;
-                const eventLabel = eventOptions.find((x) => x.value === event)?.label;
+                const iso3Label = countryIsoOptions.find((x) => x.id === country)?.iso3;
+                const eventLabel = eventOptions?.find((x) => x.id === event)?.name;
+
                 // COVID-19
                 if (is_covid_report) {
                     return eventLabel === undefined
@@ -588,14 +376,12 @@ export function Component() {
                         : `${iso3Label}: ${strings.fieldReportCOVID19} #${eventLabel} (${dateLabel})`;
                 }
 
-                const disasterLabel = disasterTypeOptions.find((x) => x.value === dtype)?.label;
                 // NON-COVID-19
+                const disasterLabel = disasterTypeOptions?.find((x) => x.id === dtype)?.name;
                 return eventLabel === undefined
                     ? `${iso3Label}: ${disasterLabel} - ${start_date?.substring(0, 7)} - ${summary}`
                     : `${iso3Label}: ${disasterLabel} - ${start_date?.substring(0, 7)} - ${summary} #${eventLabel} (${dateLabel})`;
             }
-
-            // FIXME: populate summary fields
 
             if (reportId) {
                 editSubmitRequest(sanitizedValues as FieldReportBody);
@@ -616,6 +402,10 @@ export function Component() {
             reportId,
             editSubmitRequest,
             createSubmitRequest,
+            countryIsoOptions,
+            eventOptions,
+            disasterTypeOptions,
+            strings.fieldReportCOVID19,
         ],
     );
 
@@ -627,6 +417,18 @@ export function Component() {
 
     const nextStep = getNextStep(activeTab, 1, value.status);
     const prevStep = getNextStep(activeTab, -1, value.status);
+
+    const isReviewCountry = useMemo(() => {
+        if (isNotDefined(value.country)) {
+            return false;
+        }
+
+        const reviewCountryIndex = reviewCountryResponse
+            ?.results
+            ?.findIndex((review) => review.country === value.country);
+
+        return reviewCountryIndex !== -1;
+    }, [reviewCountryResponse, value.country]);
 
     const reportType: ReportType = useMemo(() => {
         if (value.status === STATUS_EARLY_WARNING) {
@@ -643,8 +445,6 @@ export function Component() {
 
         return 'EVT';
     }, [value.status, value.dtype, value.is_covid_report]);
-
-    // statusOptions: api_field_report_status
 
     return (
         <Tabs
@@ -731,25 +531,14 @@ export function Component() {
                         value={value}
                         reportType={reportType}
                         reportId={reportId}
-                        fetchingCountries={fetchingCountries}
-                        fetchingDistricts={fetchingDistricts}
-                        fetchingDisasterTypes={fetchingDisasterTypes}
-                        // get this from server
-                        statusOptions={statusOptions}
-                        // FIXME: remove this
-                        yesNoOptions={yesNoOptions}
-                        // FIXME: use country select input
-                        countryOptions={countryOptions}
-                        // FIXME: use district select input / dependent on country
-                        districtOptions={districtOptions}
-                        // FIXME: use event select input. we can just use event options list
-                        initialEventOptions={initialEventOptions}
-                        // Needed for prefix api/v2/disaster_type/
-                        disasterTypeOptions={disasterTypeOptions}
-                        // FIXME: we can just use country options list
                         countryIsoOptions={countryIsoOptions}
-                        // FIXME: we can just use event options list
+                        disasterTypeOptions={disasterTypeOptions}
+                        setDistrictOptions={setDistrictOptions}
+                        districtOptions={districtOptions}
+                        setEventOptions={setEventOptions}
                         eventOptions={eventOptions}
+                        fieldReportNumber={fieldReportNumber}
+                        disabled={pending}
                     />
                 </TabPanel>
                 <TabPanel name="risk-analysis">
@@ -757,8 +546,6 @@ export function Component() {
                         error={error}
                         onValueChange={onValueChange}
                         value={value}
-                        // TODO: Hard coded
-                        sourceOptions={sourceOptions}
                         disabled={pending}
                     />
                 </TabPanel>
@@ -768,19 +555,18 @@ export function Component() {
                         onValueChange={onValueChange}
                         value={value}
                         reportType={reportType}
-                        // TODO: Hard coded
-                        sourceOptions={sourceOptions}
                         disabled={pending}
                     />
                 </TabPanel>
+                {/*
                 <TabPanel name="early-actions">
                     <EarlyActionsFields
                         error={error}
                         onValueChange={onValueChange}
                         value={value}
-                        // we have a common enum
+                        // TODO: Get this enum in globalEnums
                         bulletinOptions={bulletinOptions}
-                        // For action search select input /api/v2/action -> 80items
+                        // TODO: For action search select input /api/v2/action -> 80items
                         actionOptions={orgGroupedActionForCurrentReport}
                         disabled={pending}
                     />
@@ -791,27 +577,24 @@ export function Component() {
                         error={error}
                         onValueChange={onValueChange}
                         value={value}
-                        fetchingExternalPartners={fetchingExternalPartners}
-                        fetchingSupportedActivities={fetchingSupportedActivities}
-                        // we have a common enum
+                        // TODO: Get this enum in globalEnums
                         bulletinOptions={bulletinOptions}
-                        // For action search select input /api/v2/action
+                        // TODO: Fetch from /api/v2/action
                         actionOptions={orgGroupedActionForCurrentReport}
-
-                        // For external partner search select input api/v2/external_partner/
-                        externalPartnerOptions={externalPartnerOptions}
-                        // For supported activity select input api/v2/supported_activity/
-                        supportedActivityOptions={supportedActivityOptions}
+                        fetchingExternalPartners={externalPartnersPending}
+                        externalPartnerOptions={externalPartnersResponse?.results}
+                        fetchingSupportedActivities={supportedActivitiesPending}
+                        supportedActivityOptions={supportedActivitiesResponse?.results}
                         disabled={pending}
                     />
                 </TabPanel>
+                */}
                 <TabPanel name="response">
                     <ResponseFields
                         error={error}
                         onValueChange={onValueChange}
                         value={value}
                         reportType={reportType}
-                        // Need to get list from server or maybe use a filter
                         isReviewCountry={isReviewCountry}
                         disabled={pending}
                     />

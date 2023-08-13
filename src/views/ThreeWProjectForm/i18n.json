@@ -75,7 +75,6 @@
         "projectFormDisasterType":"Disaster Type",
         "projectFormDisasterTypeMandatory":"Disaster Type*",
         "projectFormDisasterTypeDefaultPlaceholder":"Select a Disaster type",
-        "projectFormFetchingDisasterTypePlaceholder":"Fetching Disaster Types...",
         "projectFormDisasterTypePlaceholder":"Select an operation to view it\\'s disaster type",
         "projectFormTypeOfOperationTooltip":"The operation type can be either an Emergency Operation or a Programme. Emergency Operations are new efforts linked to a specific emergency. Programs are ongoing work linked to a disaster. \n\nIf you choose Domestic, Bilateral, or Multilateral Programme, select Disaster Type that best fits the situation. Disasters are often multifactorial. Please choose the type that makes the most sense, recognizing that disasters are often the result of many complex factors. \nIf you choose Bilateral Emergency Operation, then no additional info is required. \nIf you choose Multilateral Emergency Operation, then please identify linked IFRC Emergency Operation.",
         "projectFormUpdateRequestFailure":"Failed to update project.",

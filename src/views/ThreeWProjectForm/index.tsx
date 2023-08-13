@@ -60,6 +60,7 @@ import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 
 import useTranslation from '#hooks/useTranslation';
 import { injectClientId } from '#utils/common';
@@ -207,13 +208,6 @@ export function Component() {
         url: '/api/v2/secondarysector',
     });
 
-    const {
-        pending: fetchingDisasterTypes,
-        response: disasterTypesResponse,
-    } = useRequest({
-        url: '/api/v2/disaster_type/',
-    });
-
     const operationToDisasterMap = useMemo(() => (
         listToMap(eventOptions, (d) => d.id, (d) => d.dtype?.id)
     ), [eventOptions]);
@@ -237,9 +231,7 @@ export function Component() {
         || shouldShowCurrentOperation;
 
     let disasterTypePlaceholder = strings.projectFormDisasterTypeDefaultPlaceholder;
-    if (fetchingDisasterTypes) {
-        disasterTypePlaceholder = strings.projectFormFetchingDisasterTypePlaceholder;
-    } else if (shouldDisableDisasterType) {
+    if (shouldDisableDisasterType) {
         disasterTypePlaceholder = strings.projectFormDisasterTypePlaceholder;
     }
 
@@ -673,17 +665,13 @@ export function Component() {
                                 : strings.projectFormDisasterTypeMandatory
                         }
                     >
-                        <SelectInput
+                        <DisasterTypeSelectInput
                             error={error?.dtype}
                             name="dtype"
-                            options={disasterTypesResponse?.results}
                             disabled={shouldDisableDisasterType}
                             placeholder={disasterTypePlaceholder}
                             value={value.dtype}
                             onChange={setFieldValue}
-                            // FIXME: do not use inline functions
-                            keySelector={(d) => d.id}
-                            labelSelector={(d) => d.name ?? '???'}
                         />
                     </InputSection>
                     <InputSection

@@ -93,7 +93,7 @@ function HighlightedOperations(props: Props) {
     );
 
     const rendererParams = useCallback(
-        (_: EventListItem['id'], emergency: EventListItem) => ({
+        (_: number, emergency: EventListItem) => ({
             data: emergency,
             className: styles.operation,
             subscriptionMap,

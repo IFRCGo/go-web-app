@@ -1,33 +1,20 @@
 import { useMemo } from 'react';
-import RadioInput from '#components/RadioInput';
+import RadioInput, { Props as RadioInputProps } from '#components/RadioInput';
+import { Props as RadioProps } from '#components/RadioInput/Radio';
 import useTranslation from '#hooks/useTranslation';
 import { booleanValueSelector, stringLabelSelector } from '#utils/selectors';
 
 import i18n from './i18n.json';
 
-interface Props<NAME> {
-    name: NAME;
-    onChange: (value: boolean, name: NAME) => void;
-    label?: React.ReactNode;
-    hint?: React.ReactNode;
-    error?: React.ReactNode;
-    value: boolean | undefined | null;
-    disabled?: boolean;
-    readOnly?: boolean;
-}
+type Prop<NAME> = RadioInputProps<
+    NAME,
+    { value: boolean, label: string},
+    boolean,
+    RadioProps<boolean, NAME>,
+    'options' | 'keySelector' | 'labelSelector'
+>;
 
-function BooleanInput<const NAME>(props: Props<NAME>) {
-    const {
-        name,
-        label,
-        hint,
-        error,
-        onChange,
-        value,
-        disabled,
-        readOnly,
-    } = props;
-
+function BooleanInput<const NAME>(props: Prop<NAME>) {
     const strings = useTranslation(i18n);
 
     const yesNoOptions = useMemo(
@@ -40,17 +27,11 @@ function BooleanInput<const NAME>(props: Props<NAME>) {
 
     return (
         <RadioInput
-            name={name}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...props}
             options={yesNoOptions}
-            value={value}
-            label={label}
-            hint={hint}
             keySelector={booleanValueSelector}
             labelSelector={stringLabelSelector}
-            onChange={onChange}
-            error={error}
-            disabled={disabled}
-            readOnly={readOnly}
         />
     );
 }

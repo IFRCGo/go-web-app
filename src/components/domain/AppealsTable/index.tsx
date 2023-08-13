@@ -25,6 +25,7 @@ import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -33,17 +34,12 @@ type AppealQueryParams = GoApiUrlQuery<'/api/v2/appeal/'>;
 type AppealResponse = GoApiResponse<'/api/v2/appeal/'>;
 type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
-type DisasterTypeResponse = GoApiResponse<'/api/v2/disaster_type/'>;
-type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
-
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[number];
 
 const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
-const disasterTypeKeySelector = (option: DisasterListItem) => option.id;
-const disasterTypeLabelSelector = (option: DisasterListItem) => option.name ?? '';
 
 const endDate = (new Date()).toISOString();
 type BaseProps = {
@@ -202,13 +198,6 @@ function AppealsTable(props: Props) {
         setPage(1);
     }, [setFilterDisplacement]);
 
-    const {
-        pending: disasterTypePending,
-        response: disasterTypeResponse,
-    } = useRequest({
-        url: '/api/v2/disaster_type/',
-    });
-
     return (
         <Container
             className={_cs(styles.appealsTable, className)}
@@ -225,16 +214,12 @@ function AppealsTable(props: Props) {
                         labelSelector={appealTypeLabelSelector}
                         options={appealTypeOptions}
                     />
-                    <SelectInput
+                    <DisasterTypeSelectInput
                         placeholder={strings.appealsTableFilterDisastersPlaceholder}
                         label={strings.appealsTableDisastertype}
                         name={undefined}
                         value={filterDisplacement}
                         onChange={handleDisplacementTypeChange}
-                        keySelector={disasterTypeKeySelector}
-                        labelSelector={disasterTypeLabelSelector}
-                        options={disasterTypeResponse?.results}
-                        disabled={disasterTypePending}
                     />
                     <div />
                 </>

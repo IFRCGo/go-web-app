@@ -1,4 +1,9 @@
-import { useMemo, useCallback, useState } from 'react';
+import {
+    useMemo,
+    useCallback,
+    useState,
+    useContext,
+} from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { Outlet, useNavigation } from 'react-router-dom';
 
@@ -8,6 +13,7 @@ import AlertContainer from '#components/AlertContainer';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import { useRequest } from '#utils/restRequest';
 import DomainContext, { type CacheKey, type Domain } from '#contexts/domain';
+import UserContext from '#contexts/user';
 
 import styles from './styles.module.css';
 
@@ -18,6 +24,8 @@ export function Component() {
     const isLoadingDebounced = useDebouncedValue(isLoading);
 
     const [fetch, setFetch] = useState<{ [key in CacheKey]?: boolean }>({});
+
+    const { userAuth: userDetails } = useContext(UserContext);
 
     const register = useCallback(
         (name: CacheKey) => {
@@ -46,6 +54,24 @@ export function Component() {
         query: { limit: 9999 },
     });
 
+    const {
+        response: disasterTypes,
+        pending: disasterTypesPending,
+    } = useRequest({
+        skip: !fetch['disaster-type'],
+        url: '/api/v2/disaster_type/',
+        query: { limit: 9999 },
+    });
+
+    const {
+        response: userMe,
+        pending: userMePending,
+    } = useRequest({
+        // FIXME: check if the value is cleared when userDetails is cleared
+        skip: !fetch['user-me'] || !userDetails,
+        url: '/api/v2/user/me/',
+    });
+
     const contextValue = useMemo(
         (): Domain => ({
             register,
@@ -53,12 +79,22 @@ export function Component() {
             countriesPending,
             countries,
 
+            userMe,
+            userMePending,
+
+            disasterTypes,
+            disasterTypesPending,
+
             globalEnums,
             globalEnumsPending,
         }),
         [
+            userMe,
+            userMePending,
             countriesPending,
             countries,
+            disasterTypes,
+            disasterTypesPending,
             globalEnums,
             globalEnumsPending,
             register,

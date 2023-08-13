@@ -13,13 +13,16 @@ import Button from '#components/Button';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import { paths } from '#generated/types';
 
+import styles from './styles.module.css';
+
 type GetDistrict = paths['/api/v2/district/']['get'];
 type GetDistrictParams = GetDistrict['parameters']['query'];
 type GetDistrictResponse = GetDistrict['responses']['200']['content']['application/json'];
+
 export type DistrictItem = Pick<NonNullable<GetDistrictResponse['results']>[number], 'id' | 'name'>;
 
 const keySelector = (d: DistrictItem) => d.id;
-const labelSelector = (d: DistrictItem) => d.name ?? '???';
+const labelSelector = (d: DistrictItem) => d.name;
 
 type Def = { containerClassName?: string;}
 type DistrictMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
@@ -40,7 +43,10 @@ function DistrictSearchMultiSelectInput<const NAME>(
         className,
         countryId,
         onChange,
+        onOptionsChange,
         name,
+        disabled,
+        readOnly,
         ...otherProps
     } = props;
 
@@ -74,6 +80,10 @@ function DistrictSearchMultiSelectInput<const NAME>(
             const allDistrictsKeys = allDistricts.results?.map((d) => d.id);
             if (allDistrictsKeys && allDistrictsKeys.length > 0) {
                 onChange(allDistrictsKeys, name);
+                if (onOptionsChange) {
+                    // FIXME: we should append instead of replacing options
+                    onOptionsChange(allDistricts.results);
+                }
             }
         },
     });
@@ -89,6 +99,9 @@ function DistrictSearchMultiSelectInput<const NAME>(
         <SearchMultiSelectInput
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
+            disabled={disabled}
+            readOnly={readOnly}
+            onOptionsChange={onOptionsChange}
             className={className}
             name={name}
             onChange={onChange}
@@ -99,13 +112,14 @@ function DistrictSearchMultiSelectInput<const NAME>(
             optionsPending={pending || pendingSelectAll}
             totalOptionsCount={response?.count ?? 0}
             onShowDropdownChange={setOpened}
-            actions={(
+            actions={!disabled && !readOnly && (
                 <Button
                     name={undefined}
                     onClick={handleSelectAllClick}
                     disabled={!countryId || pendingSelectAll}
+                    variant="tertiary"
                 >
-                    <CheckDoubleFillIcon />
+                    <CheckDoubleFillIcon className={styles.icon} />
                 </Button>
             )}
         />

@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 
+// FIXME: need information related to profile
 export interface UserAuth {
     id: number;
     displayName: string;

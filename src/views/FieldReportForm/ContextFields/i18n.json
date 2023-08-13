@@ -1,0 +1,37 @@
+{
+    "namespace": "fieldReportForm",
+    "strings": {
+        "fieldReportCOVID19": "COVID-19",
+        "fieldReportFormCountryLabel": "Country",
+        "fieldReportFormCovidLabel": "COVID-19 Related Event *",
+        "fieldReportFormStatusLabel": "Status *",
+        "fieldReportFormTitleInputPlaceholder": "Example: Cyclone Cody",
+        "fieldReportFormTitleSecondaryLabel": "Add Title",
+        "fieldReportFormTitleSelectLabel": "Please check for, and link to an existing emergency if available",
+        "fieldReportFormTitleSelectPlaceholder": "Click here to link to an existing hazard alert (if one exists)",
+        "fieldReportFormPrefixLabel": "Prefix",
+        "fieldReportUpdateNo": "Update #",
+        "fieldsStep1AssistanceDescription": "Indicate if the government requested international assistance.",
+        "fieldsStep1AssistanceLabel": "Government requests international assistance?",
+        "fieldsStep1CountryDescriptionEW": "Anticipated Affected Country and Province / Region",
+        "fieldsStep1CountryLabelAffected": "Affected Country and Province / Region *",
+        "fieldsStep1CountryLabelEW": "Potentially Affected Country and Province / Region *",
+        "fieldsStep1DisasterTypeDescription": "If Covid-19 select “Epidemic” as the disaster type",
+        "fieldReportConstantStatusEarlyWarningDescription": "First report for this hazard.",
+        "fieldReportConstantStatusEventDescription": "First report for this disaster.",
+        "fieldsStep1DisasterTypeLabel": "Disaster Type *",
+        "fieldsStep1NSAssistanceDescription": "Indicate if the National Society requested international assistance.",
+        "fieldsStep1NSAssistanceLabel": "National Society requests international assistance?",
+        "fieldsStep1StartDateDescriptionEPI": "The date when the first case is confirmed.",
+        "fieldsStep1StartDateDescriptionEVT": "Start date is when some significant effects are felt or when the first significant impact is felt.",
+        "fieldsStep1StartDateDescriptionEW": "Date at which significant impacts are forecasted to occur.",
+        "fieldsStep1StartDateLabelEPI": "Start Date of emergency/outbreak *",
+        "fieldsStep1StartDateLabelEW": "Forecasted Date of Impact *",
+        "fieldsStep1StartDateLabelStartDate": "Start Date *",
+        "fieldsStep1SummaryDescription": "The title is automatically populated based on your selection above with the date of this report. You may edit it with any required details. The report number will be automatically generated and added to the end of the title.",
+        "fieldsStep1SummaryLabel": "Title *",
+        "projectFormCountryLabel": "Country",
+        "projectFormDistrictLabel": "Region / Province"
+    }
+}
+

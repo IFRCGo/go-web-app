@@ -1,12 +1,21 @@
 import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
-import { numericIdSelector, stringNameSelector } from '#utils/selectors';
-import useCountry, { Country } from '#hooks/domain/useCountry';
+import useDisasterType from '#hooks/domain/useDisasterType';
+import { DisasterTypes } from '#contexts/domain';
+
+export type DisasterTypeItem = NonNullable<DisasterTypes['results']>[number];
+
+function keySelector(type: DisasterTypeItem) {
+    return type.id;
+}
+function labelSelector(type: DisasterTypeItem) {
+    return type.name ?? '?';
+}
 
 type Props<NAME> = SelectInputProps<
     number,
     NAME,
-    Country,
+    DisasterTypeItem,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     'value' | 'name' | 'options' | 'keySelector' | 'labelSelector'
@@ -15,18 +24,25 @@ type Props<NAME> = SelectInputProps<
     name: NAME;
     onChange: (newValue: number | undefined, name: NAME) => void;
     value: number | undefined | null;
+    optionsFilter?: (item: DisasterTypeItem) => boolean;
 }
 
-function CountrySelectInput<const NAME>(props: Props<NAME>) {
+// FIXME: filer out name with undefined name
+function DisasterTypeSelectInput<const NAME>(props: Props<NAME>) {
     const {
         className,
         name,
         onChange,
         value,
+        optionsFilter,
         ...otherProps
     } = props;
 
-    const countries = useCountry();
+    const disasterTypes = useDisasterType();
+
+    const options = optionsFilter
+        ? disasterTypes?.filter(optionsFilter)
+        : disasterTypes;
 
     return (
         <SelectInput
@@ -34,13 +50,13 @@ function CountrySelectInput<const NAME>(props: Props<NAME>) {
             {...otherProps}
             className={className}
             name={name}
-            options={countries}
-            keySelector={numericIdSelector}
-            labelSelector={stringNameSelector}
+            options={options}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
             value={value}
             onChange={onChange}
         />
     );
 }
 
-export default CountrySelectInput;
+export default DisasterTypeSelectInput;

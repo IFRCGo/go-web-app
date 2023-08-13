@@ -25,6 +25,7 @@ import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import RegionSelectInput from '#components/domain/RegionSelectInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -36,17 +37,12 @@ type AppealResponse = GoApiResponse<'/api/v2/appeal/'>;
 type AppealQueryParams = GoApiUrlQuery<'/api/v2/appeal/'>;
 type AppealListItem = NonNullable<AppealResponse['results']>[number];
 
-type DisasterTypeResponse = GoApiResponse<'/api/v2/disaster_type/'>;
-type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
-
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type AppealTypeOption = NonNullable<GlobalEnumsResponse['api_appeal_type']>[number];
 
 const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
-const disasterTypeKeySelector = (option: DisasterListItem) => option.id;
-const disasterTypeLabelSelector = (option: DisasterListItem) => option.name ?? '';
 
 const PAGE_SIZE = 10;
 
@@ -79,7 +75,7 @@ export function Component() {
         },
         (atype) => atype,
     );
-    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
         'dtype',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
@@ -105,7 +101,7 @@ export function Component() {
         },
         (regionId) => regionId,
     );
-    const [filterCountry, setFilterCountry] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+    const [filterCountry, setFilterCountry] = useUrlSearchState<number | undefined>(
         'country',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
@@ -138,13 +134,6 @@ export function Component() {
         url: '/api/v2/appeal/',
         preserveResponse: true,
         query,
-    });
-
-    const {
-        pending: disasterTypePending,
-        response: disasterTypeResponse,
-    } = useRequest({
-        url: '/api/v2/disaster_type/',
     });
 
     const columns = useMemo(
@@ -261,16 +250,12 @@ export function Component() {
                             labelSelector={appealTypeLabelSelector}
                             options={appealTypeOptions}
                         />
-                        <SelectInput
+                        <DisasterTypeSelectInput
                             placeholder={strings.allAppealsFilterDisastersPlaceholder}
                             label={strings.allAppealsDisasterType}
                             name={undefined}
                             value={filterDisasterType}
                             onChange={setFilterDisasterType}
-                            keySelector={disasterTypeKeySelector}
-                            labelSelector={disasterTypeLabelSelector}
-                            options={disasterTypeResponse?.results}
-                            disabled={disasterTypePending}
                         />
                         <RegionSelectInput
                             placeholder={strings.allAppealsFilterRegionPlaceholder}
