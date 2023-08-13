@@ -27,6 +27,8 @@ import type { GoApiResponse } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
+    defaultNavControlPosition,
+    defaultNavControlOptions,
 } from '#utils/map';
 import { sumSafe } from '#utils/common';
 import { resolveToComponent } from '#utils/translation';
@@ -247,7 +249,9 @@ function EmergenciesMap(props: Props) {
                 mapStyle={defaultMapStyle}
                 mapOptions={defaultMapOptions}
                 navControlShown
-                navControlPosition="top-right"
+                navControlPosition={defaultNavControlPosition}
+                navControlOptions={defaultNavControlOptions}
+                scaleControlShown={false}
             >
                 <MapContainerWithDisclaimer className={styles.mapContainer} />
                 <MapSource

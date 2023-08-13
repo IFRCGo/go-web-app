@@ -69,7 +69,8 @@ type PatchResponse<SCHEMA, PATH extends keyof SCHEMA> = (
 
 // FIXME: is this common between lazy and non-lazy?
 type CommonOptions<METHOD, PARAMETERS, RESPONSES, CONTEXT> = {
-    pathVariables?: ResolvePath<PARAMETERS>,
+    pathVariables?: ResolvePath<PARAMETERS>
+        | ((context: CONTEXT) => ResolvePath<PARAMETERS> | undefined),
 
     // query?: ResolveQuery<PARAMETERS>,
     mockResponse?: ResolveResponseContent<RESPONSES, METHOD>,
@@ -189,13 +190,14 @@ type OptionOmissions = (
     /* xxx options */
     | 'body'
     | 'other'
+    | 'pathVariables'
 );
 
 type RequestOptionsBase<PATH, METHOD> = {
     url: PATH,
     method?: METHOD,
 } & Omit<
-    RequestOptions<unknown, TransformedError, Omit<AdditionalOptions, 'pathVariables'>>,
+    RequestOptions<unknown, TransformedError, AdditionalOptions>,
     OptionOmissions
 >;
 
@@ -203,7 +205,7 @@ type LazyRequestOptionsBase<PATH, METHOD, CONTEXT> = {
     url: PATH,
     method?: METHOD,
 } & Omit<
-    LazyRequestOptions<unknown, TransformedError, CONTEXT, Omit<AdditionalOptions, 'pathVariables'>>,
+    LazyRequestOptions<unknown, TransformedError, CONTEXT, AdditionalOptions>,
     OptionOmissions
 >;
 

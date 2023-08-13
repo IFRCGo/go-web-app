@@ -41,7 +41,7 @@ const mapIcons = mapToList(
 const iconImage: SymbolLayout['icon-image'] = [
     'match',
     ['get', 'hazard_type'],
-    ...(mapIcons).flatMap(({ key }) => [key, `${key}-ICON`]),
+    ...(mapIcons).flatMap(({ key }) => [key, key]),
     '',
 ];
 

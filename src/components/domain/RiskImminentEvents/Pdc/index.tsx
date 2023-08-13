@@ -1,5 +1,5 @@
 import type { LngLatBoundsLike } from 'mapbox-gl';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
@@ -59,14 +59,13 @@ function Pdc(props: Props) {
         },
     });
 
-    const [activeEventId, setActiveEventId] = useState<number | string | undefined>(undefined);
-
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/pdc/{id}/exposure/', { successCallback: FootprintCallback }>({
+    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/pdc/{id}/exposure/', {
+        successCallback: FootprintCallback,
+        eventId: number | string,
+    }>({
         apiType: 'risk',
         url: '/api/v1/pdc/{id}/exposure/',
-        pathVariables: isDefined(activeEventId) ? {
-            id: Number(activeEventId),
-        } : undefined,
+        pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
         onSuccess: (response, { successCallback }) => {
             const {
                 footprint_geojson,
@@ -156,8 +155,14 @@ function Pdc(props: Props) {
 
     const footprintSelector = useCallback(
         (eventId: number | string | undefined, callback: FootprintCallback) => {
-            setActiveEventId(eventId);
-            getFootprint({ successCallback: callback });
+            if (isDefined(eventId)) {
+                getFootprint({
+                    eventId,
+                    successCallback: callback,
+                });
+            } else {
+                getFootprint(undefined);
+            }
         },
         [getFootprint],
     );

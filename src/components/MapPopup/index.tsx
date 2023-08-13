@@ -36,6 +36,7 @@ function MapPopup(props: Props) {
             coordinates={coordinates}
             popupOptions={popupOptions}
             hidden={false}
+            trackPointer={false}
         >
             <Container
                 // eslint-disable-next-line react/jsx-props-no-spreading

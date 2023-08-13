@@ -42,42 +42,10 @@ import styles from './styles.module.css';
 const mapImageOption = {
     sdf: true,
 };
+
 type HazardType = components['schemas']['HazardTypeEnum'];
 
 const hazardKeys = Object.keys(hazardKeyToIconmap) as HazardType[];
-
-interface HazardMapImageProps {
-    hazardKey: HazardType;
-    onLoad: (key: HazardType, loaded: boolean) => void;
-}
-
-function HazardMapImage(props: HazardMapImageProps) {
-    const {
-        hazardKey,
-        onLoad,
-    } = props;
-
-    const handleLoad = useCallback(
-        (loaded: boolean) => {
-            onLoad(hazardKey, loaded);
-        },
-        [hazardKey, onLoad],
-    );
-
-    const url = hazardKeyToIconmap[hazardKey];
-    if (isNotDefined(url)) {
-        return null;
-    }
-
-    return (
-        <MapImage
-            name={`${hazardKey}-ICON`}
-            url={url}
-            onLoad={handleLoad}
-            imageOptions={mapImageOption}
-        />
-    );
-}
 
 const mapIcons = mapToList(
     hazardKeyToIconmap,
@@ -234,7 +202,7 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
     const [loadedIcons, setLoadedIcons] = useState<Record<string, boolean>>({});
 
     const handleIconLoad = useCallback(
-        (key: HazardType, loaded: boolean) => {
+        (loaded: boolean, key: HazardType) => {
             setLoadedIcons((prevValue) => ({
                 ...prevValue,
                 [key]: loaded,
@@ -267,15 +235,26 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                 mapOptions={defaultMapOptions}
                 navControlShown
                 navControlPosition="top-right"
+                scaleControlShown={false}
             >
                 {/* FIXME: MapImage is not working in strict mode */}
-                {hazardKeys.map((key) => (
-                    <HazardMapImage
-                        key={key}
-                        hazardKey={key}
-                        onLoad={handleIconLoad}
-                    />
-                ))}
+                {hazardKeys.map((key) => {
+                    const url = hazardKeyToIconmap[key];
+
+                    if (!url) {
+                        return null;
+                    }
+
+                    return (
+                        <MapImage
+                            key={key}
+                            name={key}
+                            url={url}
+                            onLoad={handleIconLoad}
+                            imageOptions={mapImageOption}
+                        />
+                    );
+                })}
                 <MapContainer className={styles.mapContainer} />
                 <MapSource
                     sourceKey="event-points"
