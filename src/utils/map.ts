@@ -1,6 +1,8 @@
 import type {
     FillLayer,
     SymbolLayer,
+    NavigationControl,
+    Map,
 } from 'mapbox-gl';
 
 import {
@@ -15,6 +17,13 @@ import {
 } from '#utils/constants';
 
 export const defaultMapStyle = 'mapbox://styles/go-ifrc/ckrfe16ru4c8718phmckdfjh0';
+type NavControlOptions = NonNullable<ConstructorParameters<typeof NavigationControl>[0]>;
+export const defaultNavControlOptions: NavControlOptions = {
+    showCompass: false,
+};
+
+type ControlPosition = NonNullable<Parameters<Map['addControl']>[1]>;
+export const defaultNavControlPosition: ControlPosition = 'top-right';
 
 export const defaultMapOptions: Omit<mapboxgl.MapboxOptions, 'style' | 'container'> = {
     logoPosition: 'bottom-left' as const,

@@ -28,6 +28,8 @@ import {
     getPointCirclePaint,
     getPointCircleHaloPaint,
     pointColorMap,
+    defaultNavControlPosition,
+    defaultNavControlOptions,
 } from '#utils/map';
 import {
     COLOR_RED,
@@ -261,8 +263,9 @@ function GlobalThreeWMap(props: Props) {
             mapStyle={defaultMapStyle}
             mapOptions={defaultMapOptions}
             navControlShown
-            navControlPosition="top-right"
-            debug={false}
+            navControlPosition={defaultNavControlPosition}
+            navControlOptions={defaultNavControlOptions}
+            scaleControlShown={false}
         >
             <MapContainerWithDisclaimer
                 className={_cs(styles.mapContainer, className)}

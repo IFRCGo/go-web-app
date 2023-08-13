@@ -36,7 +36,6 @@ export interface TransformedError {
 
 export interface AdditionalOptions {
     apiType?: 'go' | 'risk';
-    pathVariables?: Record<string, number | string | undefined>;
     formData?: boolean;
     isCsvRequest?: boolean;
     enforceEnglish?: boolean;
@@ -138,16 +137,11 @@ export const processGoUrls: GoContextInterface['transformUrl'] = (url, _, additi
         return url;
     }
 
-    const {
-        apiType,
-        pathVariables,
-    } = additionalOptions;
-
-    const resolvedPath = resolvePath(url, pathVariables);
+    const { apiType } = additionalOptions;
 
     return resolveUrl(
         apiType === 'risk' ? riskApi : api,
-        resolvedPath,
+        url,
     );
 };
 

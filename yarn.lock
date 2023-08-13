@@ -174,13 +174,13 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.22.7.tgz#df8cf085ce92ddbdbf668a7f186ce848c9036cae"
   integrity sha512-7NF8pOkHP5o2vpmGgNGcfAeCvOYhGLyA3Z4eBQkT1RJlWu47n63bCs93QfJ2hIAFCil7L5P2IWhs1oToVgrL0Q==
 
-"@babel/runtime-corejs3@^7.11.2":
-  version "7.22.6"
-  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.22.6.tgz#e8e625eb3db29491e0326b3aeb9929c43b270ae4"
-  integrity sha512-M+37LLIRBTEVjktoJjbw4KVhupF0U/3PYUCbBwgAd9k17hoKhRu1n935QiG7Tuxv0LJOMrb2vuKEeYUlv0iyiw==
+"@babel/runtime-corejs3@^7.22.3", "@babel/runtime-corejs3@^7.22.6":
+  version "7.22.10"
+  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.22.10.tgz#5ecc3d32faa70009f084cc2e087d79e5f5cdcca9"
+  integrity sha512-IcixfV2Jl3UrqZX4c81+7lVg5++2ufYJyAFW3Aux/ZTvY6LVYYhJ9rMgnbX0zGVq6eqfVpnoatTjZdVki/GmWA==
   dependencies:
     core-js-pure "^3.30.2"
-    regenerator-runtime "^0.13.11"
+    regenerator-runtime "^0.14.0"
 
 "@babel/runtime@^7.0.0", "@babel/runtime@^7.12.13", "@babel/runtime@^7.19.0", "@babel/runtime@^7.20.7":
   version "7.22.6"
@@ -1008,11 +1008,6 @@
     prop-types "^15.6.2"
     tinymce "^6.3.1"
 
-"@togglecorp/fujs@^1.8.0", "@togglecorp/fujs@^1.9.2-beta.0":
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/@togglecorp/fujs/-/fujs-1.9.3.tgz#d795d7dedc1ae7ee81437cdec78e272f6b871c2f"
-  integrity sha512-gPoQwZ5+CbDxXrLyHhGIAHq2HNba1ifZQizpspyWO8cOuhYyCihOAlBS3fH+WewlCvPiQiOD/FkxCnNQAG3lOg==
-
 "@togglecorp/fujs@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@togglecorp/fujs/-/fujs-2.0.0.tgz#b1834326a173e568a226d956271b1b532b5f1f30"
@@ -1020,14 +1015,20 @@
   dependencies:
     "@babel/runtime" "^7.19.0"
 
-"@togglecorp/re-map@^0.2.0-beta-4":
-  version "0.2.0-beta-4"
-  resolved "https://registry.yarnpkg.com/@togglecorp/re-map/-/re-map-0.2.0-beta-4.tgz#faefe16458c301dede3a14664ff606267647fd1b"
-  integrity sha512-UBxln9quM1DtGowq3Uj9gjTuB8QiC2uR3R+N3YxOc7eWqkVhjldKNZajMgtjxSpF7kUB+ehNY45gv9DIJGn6Jg==
+"@togglecorp/fujs@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@togglecorp/fujs/-/fujs-2.1.0.tgz#6ada85f6b9fa85109913e0f5529ff7ff1fc2a5db"
+  integrity sha512-CdIBUqtfE5wj9Z/C5avKDQZQYPwAtDbmqhbFLils77D7rAfp4fGRLOH3IL90KmJ2sj8KSHyk8dXWq7p+5LPk+g==
   dependencies:
-    "@togglecorp/fujs" "^1.8.0"
-    immer "^7.0.5"
-    resize-observer-polyfill "^1.5.1"
+    "@babel/runtime-corejs3" "^7.22.6"
+
+"@togglecorp/re-map@^0.2.0-beta-6":
+  version "0.2.0-beta-6"
+  resolved "https://registry.yarnpkg.com/@togglecorp/re-map/-/re-map-0.2.0-beta-6.tgz#10d33fc75842b09e2cce4004d267d8d5f7675273"
+  integrity sha512-BjFK4/u+a388HdCwtq6FEtl/j8Bz0/dVK1YhM2owFFNt17kU7xZBpLkH1tfXjBPHROqo+6HM9P9GRk4+pNMkbA==
+  dependencies:
+    "@babel/runtime-corejs3" "^7.22.3"
+    "@togglecorp/fujs" "^2.1.0"
 
 "@togglecorp/toggle-form@2.0.3":
   version "2.0.3"
@@ -1037,14 +1038,13 @@
     "@babel/runtime" "^7.19.0"
     "@togglecorp/fujs" "^2.0.0"
 
-"@togglecorp/toggle-request@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@togglecorp/toggle-request/-/toggle-request-0.0.2.tgz#8155573541bbe4985bb8576aeed94d1dba06e019"
-  integrity sha512-1SAMp3qpj7RQXLRNtfGn6+vyUCNgOkE9MICNS65KigrC9pBMon8qIjP8eUTu555YXZAtTv9eV7KhVai1gTNoxA==
+"@togglecorp/toggle-request@^1.0.0-beta.2":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@togglecorp/toggle-request/-/toggle-request-1.0.0-beta.2.tgz#7e0131df172a337c870e431386a9cc358395ad22"
+  integrity sha512-WmPMIk+BxXW4vAB6NdVOSTqlgBVSoCgS6WohOPr1vgmVVKB0Y5KexoFzyUsX4+jYzhrxhs5F0Ecq8TBkRiaP1Q==
   dependencies:
-    "@babel/runtime-corejs3" "^7.11.2"
-    "@togglecorp/fujs" "^1.9.2-beta.0"
-    abort-controller "^3.0.0"
+    "@babel/runtime-corejs3" "^7.22.6"
+    "@togglecorp/fujs" "^2.1.0"
 
 "@turf/bbox@^6.5.0":
   version "6.5.0"
@@ -1339,13 +1339,6 @@ abab@^2.0.0:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.6.tgz#41b80f2c871d19686216b82309231cfd3cb3d291"
   integrity sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==
-
-abort-controller@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
-  integrity sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==
-  dependencies:
-    event-target-shim "^5.0.0"
 
 acorn-globals@^4.3.2:
   version "4.3.4"
@@ -3602,11 +3595,6 @@ esutils@^2.0.2, esutils@^2.0.3:
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
-event-target-shim@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/event-target-shim/-/event-target-shim-5.0.1.tgz#5d4d3ebdf9583d63a5333ce2deb7480ab2b05789"
-  integrity sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
-
 execa@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/execa/-/execa-5.1.1.tgz#f80ad9cbf4298f7bd1d4c9555c21e93741c411dd"
@@ -4268,11 +4256,6 @@ ignore@^5.2.0, ignore@^5.2.4:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
-
-immer@^7.0.5:
-  version "7.0.15"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.15.tgz#dc3bc6db87401659d2e737c67a21b227c484a4ad"
-  integrity sha512-yM7jo9+hvYgvdCQdqvhCNRRio0SCXc8xDPzA25SvKWa7b1WVPjLwQs1VYU5JPXjcJPTqAa5NP5dqpORGYBQ2AA==
 
 import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.3.0"
@@ -6241,6 +6224,11 @@ regenerator-runtime@^0.13.11:
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz#f6dca3e7ceec20590d07ada785636a90cdca17f9"
   integrity sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
 
+regenerator-runtime@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.14.0.tgz#5e19d68eb12d486f797e15a3c6a918f7cec5eb45"
+  integrity sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==
+
 regenerator-transform@^0.10.0:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.10.1.tgz#1e4996837231da8b7f3cf4114d71b5691a0680dd"
@@ -6338,11 +6326,6 @@ require-from-string@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/require-from-string/-/require-from-string-2.0.2.tgz#89a7fdd938261267318eafe14f9c32e598c36909"
   integrity sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==
-
-resize-observer-polyfill@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
-  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-from@^4.0.0:
   version "4.0.0"

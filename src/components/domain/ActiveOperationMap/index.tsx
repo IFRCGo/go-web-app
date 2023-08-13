@@ -34,6 +34,8 @@ import {
     defaultMapOptions,
     adminFillLayerOptions,
     adminLabelLayerOptions,
+    defaultNavControlPosition,
+    defaultNavControlOptions,
 } from '#utils/map';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
@@ -283,7 +285,9 @@ function ActiveOperationMap(props: Props) {
                 mapStyle={defaultMapStyle}
                 mapOptions={defaultMapOptions}
                 navControlShown
-                navControlPosition="top-right"
+                navControlPosition={defaultNavControlPosition}
+                navControlOptions={defaultNavControlOptions}
+                scaleControlShown={false}
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}

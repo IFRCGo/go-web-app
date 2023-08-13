@@ -29,6 +29,8 @@ import useTranslation from '#hooks/useTranslation';
 import {
     defaultMapStyle,
     defaultMapOptions,
+    defaultNavControlPosition,
+    defaultNavControlOptions,
 } from '#utils/map';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
@@ -255,7 +257,9 @@ function SurgeMap(props: Props) {
                 mapStyle={defaultMapStyle}
                 mapOptions={defaultMapOptions}
                 navControlShown
-                navControlPosition="top-right"
+                navControlPosition={defaultNavControlPosition}
+                navControlOptions={defaultNavControlOptions}
+                scaleControlShown={false}
             >
                 <MapContainerWithDisclaimer className={styles.mapContainer} />
                 <MapSource

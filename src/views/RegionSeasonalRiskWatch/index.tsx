@@ -23,6 +23,8 @@ import {
     defaultMapStyle,
     defaultMapOptions,
     adminLabelLayerOptions,
+    defaultNavControlPosition,
+    defaultNavControlOptions,
 } from '#utils/map';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
@@ -675,7 +677,9 @@ export function Component() {
                 mapStyle={defaultMapStyle}
                 mapOptions={defaultMapOptions}
                 navControlShown
-                navControlPosition="top-right"
+                navControlPosition={defaultNavControlPosition}
+                navControlOptions={defaultNavControlOptions}
+                scaleControlShown={false}
             >
                 <MapContainerWithDisclaimer
                     className={styles.mapContainer}
