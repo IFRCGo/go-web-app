@@ -1,71 +1,124 @@
+import { bound } from '@togglecorp/fujs';
 import { useState, useCallback, useEffect } from 'react';
+
+const ONE_REM = parseFloat(getComputedStyle(document.documentElement).fontSize);
+// px
+const MIN_WIDTH = 15 * ONE_REM;
+const VERTICAL_OFFSET = 0.5 * ONE_REM;
+
+type Orientation = {
+    vertical: 'top' | 'bottom';
+    horizontal: 'left' | 'right';
+};
+
+const defaultOrientation: Orientation = {
+    vertical: 'bottom',
+    horizontal: 'right',
+};
+
+function getPreferredOrientation(position: DOMRect): Orientation {
+    const windowCenterX = window.innerWidth / 2;
+    const windowCenterY = window.innerHeight / 2;
+
+    const centerX = position.x + position.width / 2;
+    const centerY = position.y + position.height / 2;
+
+    return {
+        horizontal: centerX < windowCenterX ? 'left' : 'right',
+        vertical: centerY < windowCenterY ? 'top' : 'bottom',
+    };
+}
 
 interface Placement {
     top: string;
+    left: string;
     right: string;
     bottom: string;
-    left: string;
-    transform?: string;
 }
 
 const defaultPlacement: Placement = {
     top: 'unset',
+    left: 'unset',
     right: 'unset',
     bottom: 'unset',
-    left: 'unset',
 };
 
-function useFloatPlacement(parentRef: React.RefObject<HTMLElement>, horizontallyCentered = false) {
-    const [placement, setPlacement] = useState<Placement>(defaultPlacement);
+function useFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
+    const [placements, setPlacements] = useState<{
+        content: Placement,
+        pointer: Placement,
+        width: string,
+        orientation: Orientation,
+    }>({
+        content: defaultPlacement,
+        pointer: defaultPlacement,
+        width: 'auto',
+        orientation: defaultOrientation,
+    });
 
     const calculatePlacement = useCallback(() => {
-        const newPlacement = { ...defaultPlacement };
-
-        if (parentRef.current) {
-            const parentBCR = parentRef.current.getBoundingClientRect();
-            const {
-                x, y, width, height,
-            } = parentBCR;
-
-            const cX = window.innerWidth / 2;
-            const cY = window.innerHeight / 2;
-
-            const secondQuarterStartX = cX - window.innerWidth / 4;
-            const fourthQuarterStartX = cX - window.innerWidth / 4;
-
-            const parentCenterX = parentBCR.x + parentBCR.width / 2;
-            const parentCenterY = parentBCR.y + parentBCR.height / 2;
-
-            const horizontalPlacement = (cX - parentCenterX) > 0 ? 'right' : 'left';
-            const verticalPlacement = (cY - parentCenterY) > 0 ? 'bottom' : 'top';
-
-            if (horizontalPlacement === 'left') {
-                newPlacement.right = `${document.body.clientWidth - x - width}px`;
-            } else if (horizontalPlacement === 'right') {
-                newPlacement.left = `${x}px`;
-            }
-
-            if (verticalPlacement === 'top') {
-                newPlacement.bottom = `${window.innerHeight - y}px`;
-            } else if (verticalPlacement === 'bottom') {
-                newPlacement.top = `${y + height}px`;
-            }
-
-            if (horizontallyCentered) {
-                const startPlacement = x;
-                const endPlacement = document.body.clientWidth - x - width;
-                if (horizontalPlacement === 'right' && startPlacement > secondQuarterStartX) {
-                    newPlacement.transform = 'translateX(-50%)';
-                }
-
-                if (horizontalPlacement === 'left' && endPlacement < fourthQuarterStartX) {
-                    newPlacement.transform = 'translateX(50%)';
-                }
-            }
+        if (!parentRef.current) {
+            return;
         }
 
-        setPlacement(newPlacement);
-    }, [setPlacement, parentRef, horizontallyCentered]);
+        const parentBCR = parentRef.current.getBoundingClientRect();
+        const {
+            x: parentX,
+            y: parentY,
+            width: parentWidth,
+            height: parentHeight,
+        } = parentBCR;
+
+        const horizontalPadding = ONE_REM;
+        const minX = horizontalPadding;
+        const maxX = window.innerWidth - horizontalPadding;
+        const maxWidth = window.innerWidth - 2 * horizontalPadding;
+
+        const orientation = getPreferredOrientation(parentBCR);
+        const parentCenterX = parentX + parentWidth / 2;
+
+        const width = bound(
+            parentWidth,
+            MIN_WIDTH,
+            maxWidth,
+        );
+
+        let x1 = parentCenterX - width / 2;
+        let x2 = parentCenterX + width / 2;
+
+        if (x1 < minX) {
+            const diff = minX - x1;
+            x1 = minX;
+            x2 += diff;
+        }
+
+        if (x2 > maxX) {
+            const diff = x2 - maxX;
+            x2 = maxX;
+            x1 -= diff;
+        }
+
+        setPlacements({
+            content: {
+                bottom: orientation.vertical === 'bottom'
+                    ? `${window.innerHeight - parentY + VERTICAL_OFFSET}px`
+                    : 'unset',
+                top: orientation.vertical === 'top'
+                    ? `${parentY + parentHeight + VERTICAL_OFFSET}px`
+                    : 'unset',
+                left: orientation.horizontal === 'left' ? `${x1}px` : 'unset',
+                right: orientation.horizontal === 'right' ? `${window.innerWidth - x2}px` : 'unset',
+            },
+            pointer: {
+                left: `${parentCenterX}px`,
+                top: orientation.vertical === 'top' ? `${parentY + parentHeight}px` : `${parentY - VERTICAL_OFFSET}px`,
+                right: 'unset',
+                bottom: 'unset',
+            },
+            width: `${x2 - x1}px`,
+            orientation,
+        });
+    }, [parentRef]);
 
     useEffect(() => {
         calculatePlacement();
@@ -82,7 +135,7 @@ function useFloatPlacement(parentRef: React.RefObject<HTMLElement>, horizontally
         };
     }, [calculatePlacement]);
 
-    return placement;
+    return placements;
 }
 
 export default useFloatPlacement;

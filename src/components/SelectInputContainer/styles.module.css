@@ -2,8 +2,6 @@
     .list {
         display: flex;
         flex-direction: column;
-        max-width: min(90vw, 20rem);
-        max-height: min(50vh, 40rem);
         overflow: auto;
 
         .list-item {

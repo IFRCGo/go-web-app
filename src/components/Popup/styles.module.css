@@ -1,11 +1,34 @@
 .popup {
     position: fixed;
-    top: 50%;
-    left: 50%;
     border-radius: var(--go-ui-spacing-xs);
     box-shadow: var(--go-ui-box-shadow-2xl);
-    background: var(--go-ui-color-white);
+    background-color: var(--go-ui-color-white);
     padding: var(--go-ui-spacing-sm) 0;
-    min-width: 15rem;
+    max-height: 50vh;
     overflow: auto;
+
+    &.top-orientation {
+        /* FIXME: add variable */
+        box-shadow: 0 -8pt 20pt -5pt rgb(0 0 0 / 0.5);
+    }
+}
+
+.pointer {
+    position: fixed;
+    transform: translateX(-50%);
+    background-color: transparent;
+    line-height: 0;
+    font-size: 0.5rem;
+    pointer-events: none;
+    filter: drop-shadow(0 -1pt 1pt rgb(0 0 0 / .1));
+
+    .icon {
+        width: 2em;
+        height: 1em;
+        fill: white;
+    }
+
+    &.top-orientation {
+        transform: translateX(-50%) rotate(180deg);
+    }
 }

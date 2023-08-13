@@ -10,7 +10,6 @@ interface Props {
     elementRef?: React.RefObject<HTMLDivElement>;
     parentRef: React.RefObject<HTMLElement>;
     children?: React.ReactNode;
-    horizontallyCentered?: boolean;
 }
 
 function Popup(props: Props) {
@@ -19,19 +18,48 @@ function Popup(props: Props) {
         elementRef,
         children,
         className,
-        horizontallyCentered,
     } = props;
 
-    const placement = useFloatPlacement(parentRef, horizontallyCentered);
+    const {
+        content,
+        pointer,
+        width,
+        orientation,
+    } = useFloatPlacement(parentRef);
 
     return (
         <Portal>
             <div
                 ref={elementRef}
-                style={placement}
-                className={_cs(styles.popup, className)}
+                style={{
+                    ...content,
+                    width,
+                }}
+                className={_cs(
+                    styles.popup,
+                    orientation.vertical === 'bottom' && styles.topOrientation,
+                    className,
+                )}
             >
                 {children}
+            </div>
+            <div
+                className={_cs(
+                    styles.pointer,
+                    orientation.vertical === 'bottom' && styles.topOrientation,
+                )}
+                style={{
+                    ...pointer,
+                }}
+            >
+                <svg
+                    className={styles.icon}
+                    viewBox="0 0 200 100"
+                >
+                    <path
+                        d="M0 100 L100 0 L200 100Z"
+                    />
+                </svg>
             </div>
         </Portal>
     );

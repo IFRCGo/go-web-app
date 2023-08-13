@@ -58,52 +58,13 @@ function Link(props: Props) {
 
     const disabled = isFalsyString(to) || disabledFromProps;
 
-    const children = useMemo(() => {
-        if (isFalsyString(to)) {
-            return childrenFromProps;
-        }
-
-        const external = isExternalLink(to);
-        if (external) {
-            return (
-                <a
-                    className={_cs(
-                        linkElementClassName,
-                        styles.linkElement,
-                    )}
-                    href={to}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...otherProps}
-                >
-                    {childrenFromProps}
-                </a>
-            );
-        }
-
-        return (
-            <InternalLink
-                className={_cs(
-                    linkElementClassName,
-                    styles.linkElement,
-                )}
-                to={to}
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...otherProps}
-            >
-                {childrenFromProps}
-            </InternalLink>
-        );
-    }, [to, linkElementClassName, childrenFromProps, otherProps]);
-
     const {
         children: content,
         className: containerClassName,
     } = useButtonFeatures({
-        className,
+        className: styles.content,
         icons,
-        children,
+        children: childrenFromProps,
         variant,
         disabled,
         actions: (isDefined(actions) || withForwardIcon || withExternalLinkIcon) ? (
@@ -119,17 +80,59 @@ function Link(props: Props) {
         actionsContainerClassName,
     });
 
+    const children = useMemo(() => {
+        if (isFalsyString(to)) {
+            return content;
+        }
+
+        const external = isExternalLink(to);
+        if (external) {
+            return (
+                <a
+                    className={_cs(
+                        linkElementClassName,
+                        styles.linkElement,
+                        containerClassName,
+                    )}
+                    href={to}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...otherProps}
+                >
+                    {content}
+                </a>
+            );
+        }
+
+        return (
+            <InternalLink
+                className={_cs(
+                    linkElementClassName,
+                    styles.linkElement,
+                    containerClassName,
+                )}
+                to={to}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...otherProps}
+            >
+                {content}
+            </InternalLink>
+        );
+    }, [to, linkElementClassName, containerClassName, content, otherProps]);
+
     return (
         <div
             className={_cs(
+                className,
                 styles.link,
                 isNotDefined(to) && styles.nonLink,
                 withUnderline && styles.underline,
                 disabled && styles.disabled,
-                containerClassName,
+                variant === 'dropdown-item' && styles.dropdownItem,
             )}
         >
-            {content}
+            {children}
         </div>
     );
 }

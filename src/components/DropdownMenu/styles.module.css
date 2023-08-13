@@ -1,3 +1,11 @@
+.dropdown-menu {
+    .icons,
+    .content,
+    .actions {
+        pointer-events: none;
+    }
+}
+
 .dropdown-content {
     display: flex;
     flex-direction: column;
