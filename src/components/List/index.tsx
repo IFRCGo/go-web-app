@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 import Message from '#components/Message';
 
@@ -40,12 +40,12 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         errored,
         filtered,
 
-        message: messageFromProps,
-        withMessageOverContent,
-        errorMessage,
-        emptyMessage,
-        pendingMessage,
-        filteredMessage,
+        // FIXME: use translations
+        errorMessage = 'Failed to show the data!',
+        emptyMessage = 'Data is not available!',
+        pendingMessage = 'Fetching data...',
+        filteredMessage = 'Data is not available for the selected filter!',
+
         compact,
     } = props;
 
@@ -66,28 +66,46 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         );
     }, [keySelector, Renderer, rendererParams, data]);
 
+    const isEmpty = isNotDefined(data) || data.length === 0;
+
+    const messageTitle = useMemo(
+        () => {
+            // FIXME: use translation
+            if (pending) {
+                return pendingMessage;
+            }
+
+            if (errored) {
+                return errorMessage;
+            }
+
+            if (filtered) {
+                return filteredMessage;
+            }
+
+            return emptyMessage;
+        },
+        [pending, filtered, errored, errorMessage, pendingMessage, filteredMessage, emptyMessage],
+    );
+
     return (
-        <div className={_cs(styles.list, className)}>
-            {(withMessageOverContent || !pending) && (
-                data?.map(renderListItem)
+        <div
+            className={_cs(
+                styles.list,
+                compact && styles.compact,
+                pending && styles.pending,
+                className,
             )}
-            <Message
-                className={_cs(
-                    styles.message,
-                    withMessageOverContent && styles.withMessageOverContent,
-                )}
-                compact={compact}
-                empty={isNotDefined(data) || data.length === 0}
-                emptyMessage={emptyMessage}
-                errorMessage={errorMessage}
-                errored={errored}
-                filtered={filtered}
-                filteredMessage={filteredMessage}
-                message={messageFromProps}
-                pending={pending}
-                pendingMessage={pendingMessage}
-                withoutBorder={withMessageOverContent}
-            />
+        >
+            {data?.map(renderListItem)}
+            {(pending || isEmpty) && (
+                <Message
+                    className={styles.message}
+                    pending={pending}
+                    title={messageTitle}
+                    compact={compact}
+                />
+            )}
         </div>
     );
 }

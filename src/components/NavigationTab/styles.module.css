@@ -165,7 +165,6 @@
 
     &.secondary {
         border-radius: var(--go-ui-border-radius-full);
-        background-color: var(--go-ui-color-background);
         padding: var(--go-ui-spacing-md) var(--go-ui-spacing-3xl);
 
         &.active {

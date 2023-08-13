@@ -1,12 +1,12 @@
 .filters {
     display: grid;
-    grid-gap: var(--go-ui-spacing-xl);
+    grid-gap: var(--go-ui-spacing-md);
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 
     .risk-score-additional-options {
         grid-column: 1 / -1;
         display: flex;
         flex-wrap: wrap;
-        gap: var(--go-ui-spacing-lg);
+        gap: var(--go-ui-spacing-md);
     }
 }

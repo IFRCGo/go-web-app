@@ -1,6 +1,6 @@
 import { Fragment, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { CheckboxFillIcon } from '@ifrc-go/icons';
+import { AnalysisIcon, AnalyzingIcon, CheckboxFillIcon } from '@ifrc-go/icons';
 import {
     compareNumber,
     isDefined,
@@ -10,7 +10,6 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
-import BlockLoading from '#components/BlockLoading';
 import Message from '#components/Message';
 import Link from '#components/Link';
 import BarChart from '#components/BarChart';
@@ -277,7 +276,7 @@ export function Component() {
     );
 
     const perTeamEmail = '';
-    const hasPer = !pendingOverviewResponse && overviewResponse;
+    const hasPer = !!overviewResponse;
 
     const hasAssessmentStats = hasPer && assessmentStats;
     const hasPrioritizationStats = hasPer && prioritizationStats;
@@ -290,29 +289,22 @@ export function Component() {
         && prioritizationStats.componentsWithRating.length > 0;
     const hasPrevAssessments = prevAssessmentRatings && prevAssessmentRatings.length > 1;
 
-    const noChartsAvailable = hasPer && !hasRatingCounts
-        && !hasRatingCounts
-        && !hasRatedComponents
-        && !hasRatingsByArea
-        && !hasComponentsWithRating
-        && !hasPrevAssessments;
-
     return (
         <Container
             className={styles.countryPreparedness}
             childrenContainerClassName={styles.preparednessContent}
             heading={strings.nsPreparednessAndResponseCapacityHeading}
             headingLevel={2}
-            headerDescription={!hasPer && (
-                <Message
-                    compact
-                    // FIXME: use translation
-                    message="PER not available for this Country!"
-                />
-            )}
+            withHeaderBorder
         >
-            {pendingOverviewResponse && (
-                <BlockLoading />
+            {!hasPer && (
+                <Message
+                    className={styles.emptyMessage}
+                    pending={pendingOverviewResponse}
+                    icon={<AnalysisIcon />}
+                    // FIXME: use translation
+                    title={pendingOverviewResponse ? 'Fetching data...' : 'PER not available yet for this Country!'}
+                />
             )}
             {hasPer && (
                 <div className={styles.latestPerDetails}>
@@ -359,18 +351,12 @@ export function Component() {
                     </div>
                 </div>
             )}
-            {noChartsAvailable && (
-                <Message
-                    compact
-                    // FIXME: use translation
-                    message="Not enough data to show the charts!"
-                />
-            )}
             {hasPer && !hasAssessmentStats && (
                 <Message
-                    compact
+                    className={styles.emptyMessage}
+                    icon={<AnalyzingIcon />}
                     // FIXME: use translation
-                    message="Assessment has not been done yet!"
+                    title="Assessment has not been done yet!"
                 />
             )}
             {hasRatingCounts && (

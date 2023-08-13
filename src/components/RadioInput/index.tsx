@@ -161,6 +161,7 @@ function RadioInput<
                 errored={false}
                 pending={false}
                 filtered={false}
+                compact
             />
             {hint && (
                 <div className={_cs(styles.inputHint, hintContainerClassName)}>

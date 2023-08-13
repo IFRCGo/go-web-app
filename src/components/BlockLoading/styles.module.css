@@ -4,6 +4,10 @@
     width: 100%;
     min-height: 13rem;
 
+    .spinner {
+        font-size: var(--go-ui-font-size-2xl);
+    }
+
     .inner {
         display: flex;
         align-items: center;
@@ -25,7 +29,7 @@
         min-height: 8rem;
 
         .spinner {
-            font-size: 0.5rem;
+            font-size: var(--go-ui-font-size-lg);
         }
     }
 }

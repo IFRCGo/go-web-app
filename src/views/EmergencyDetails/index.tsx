@@ -1,6 +1,7 @@
 import { useOutletContext } from 'react-router-dom';
 import useTranslation from '#hooks/useTranslation';
 
+import UnderConstructionMessage from '#components/UnderConstructionMessage';
 import KeyFigure from '#components/KeyFigure';
 import TextOutput from '#components/TextOutput';
 import Container from '#components/Container';
@@ -14,9 +15,11 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
 
+    const hasKeyFigures = emergencyResponse && emergencyResponse.key_figures.length !== 0;
+
     return (
         <div className={styles.emergencyDetails}>
-            {emergencyResponse?.key_figures && emergencyResponse?.key_figures.length > 0 && (
+            {hasKeyFigures && (
                 <Container
                     heading={strings.emergencyKeyFiguresTitle}
                     childrenContainerClassName={styles.keyFigureList}
@@ -39,6 +42,11 @@ export function Component() {
                         ),
                     )}
                 </Container>
+            )}
+            {!hasKeyFigures && (
+                <UnderConstructionMessage
+                    title="Emergency Details"
+                />
             )}
         </div>
     );

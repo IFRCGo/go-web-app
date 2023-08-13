@@ -1,6 +1,7 @@
 import React, {
     useRef,
     useEffect,
+    useMemo,
 } from 'react';
 import {
     _cs,
@@ -9,6 +10,7 @@ import {
     listToMap,
     randomString,
 } from '@togglecorp/fujs';
+import { AnalysisIcon } from '@ifrc-go/icons';
 
 import Message from '#components/Message';
 import { WIDTH_DEFAULT_TABLE_COLUMN } from '#utils/constants';
@@ -166,6 +168,24 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         sum(columns.map((c) => columnWidths[c.id]))
     ), [columnWidths, columns]);
 
+    const isEmpty = !data || data.length === 0;
+
+    const messageTitle = useMemo(
+        () => {
+            // FIXME: use translation
+            if (pending) {
+                return 'Fetching data...';
+            }
+
+            if (filtered) {
+                return 'Data is not available for selected filter!';
+            }
+
+            return 'Data is not available!';
+        },
+        [pending, filtered],
+    );
+
     return (
         <div
             ref={containerRef}
@@ -268,16 +288,19 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                     </tbody>
                 </table>
             )}
-            <Message
-                className={_cs(
-                    styles.message,
-                    pending && styles.pending,
-                )}
-                pending={pending}
-                empty={!data?.length}
-                filtered={filtered}
-                withoutBorder
-            />
+            {(isEmpty || pending) && (
+                <Message
+                    className={_cs(
+                        styles.message,
+                        pending && styles.pending,
+                    )}
+                    pending={pending}
+                    icon={<AnalysisIcon />}
+                    title={messageTitle}
+                    // filtered={filtered}
+                    // withoutBorder
+                />
+            )}
         </div>
     );
 }

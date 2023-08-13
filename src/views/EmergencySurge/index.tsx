@@ -1,3 +1,4 @@
+import UnderConstructionMessage from '#components/UnderConstructionMessage';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
@@ -8,7 +9,9 @@ export function Component() {
 
     return (
         <div>
-            {strings.emergencySurgeTempContent}
+            <UnderConstructionMessage
+                title={strings.emergencySurgeTempContent}
+            />
         </div>
     );
 }

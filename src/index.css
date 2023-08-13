@@ -164,12 +164,17 @@
     --go-ui-color-separator: rgb(0 0 0 / 0.1);
     --go-ui-color-separator-light: rgb(0 0 0 / 0.05);
     --go-ui-color-background: #f7f7f7;
+    --go-ui-color-element-background: rgb(0 0 0 / .06);
     --go-ui-color-foreground: #ffffff;
     --go-ui-color-background-overlay: rgb(255 255 255 / .88);
     --go-ui-color-background-hover: rgb(0 0 0 / .1);
 
     --go-ui-opacity-disabled-element: 0.5;
     --go-ui-opacity-chart-point: 0.8;
+    --go-ui-opacity-message: 0.8;
+
+    --go-ui-content-min-height: 15rem;
+    --go-ui-compact-content-min-height: 8rem;
 
     --go-ui-width-min-modal: 18rem;
     --go-ui-height-min-modal: 11rem;

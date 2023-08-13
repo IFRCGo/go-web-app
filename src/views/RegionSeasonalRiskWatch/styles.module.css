@@ -40,5 +40,18 @@
                 }
             }
         }
+
+        @media screen and (max-width: 50rem) {
+            flex-direction: column;
+            height: initial;
+
+            .map-container {
+                height: min(40rem, 70vh);
+            }
+
+            .country-list {
+                flex-basis: unset;
+            }
+        }
     }
 }

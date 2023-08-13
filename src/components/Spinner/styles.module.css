@@ -1,30 +1,28 @@
 .spinner {
+    display: inline-flex;
     border-radius: var(--go-ui-border-radius-full);
     background: var(--go-ui-color-gray-40);
-    padding: var(--go-ui-spacing-sm);
-    line-height: 1;
-    font-size: 1rem;
+    padding: 0.2em;
+    line-height: 0;
+    gap: 0.2em;
 
     .spinner-bounce {
-        display: inline-block;
-        margin: 0 var(--go-ui-spacing-xs);
-        border-radius: var(--go-ui-border-radius-full);
+        border-radius: 50%;
         background: var(--go-ui-color-white);
-        width: 1em;
-        height: 1em;
+        width: 0.6em;
+        height: 0.6em;
         animation: spinner-bounce-delay var(--go-ui-duration-animation-slow) infinite ease-in-out both;
 
-        &:last-child {
-            animation-delay: var(--go-ui-duration-animation-medium);
-            margin-inline-end: 0;
+        &:nth-child(1) {
+            animation-delay: calc(var(--go-ui-duration-animation-fast));
         }
 
-        &:first-child {
-            margin-inline-start: 0;
+        &:nth-child(2) {
+            animation-delay: calc(var(--go-ui-duration-animation-fast) * 2);
         }
 
-        &:not(:first-child):not(:last-child) {
-            animation-delay: var(--go-ui-duration-animation-fast);
+        &:nth-child(3) {
+            animation-delay: calc(var(--go-ui-duration-animation-fast) * 3);
         }
     }
 
@@ -38,6 +36,6 @@
     }
 
     40% {
-        transform: scale(1.0);
+        transform: scale(1);
     }
 }

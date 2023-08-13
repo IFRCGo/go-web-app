@@ -182,6 +182,10 @@ export function Component() {
         [eventResponse, strings],
     );
 
+    const isFiltered = isDefined(filterDisasterType)
+        || isDefined(filterRegion)
+        || isDefined(filterCountry);
+
     return (
         <Page
             className={styles.allEmergencies}
@@ -237,7 +241,7 @@ export function Component() {
                         columns={columns}
                         keySelector={eventKeySelector}
                         data={eventResponse?.results}
-                        filtered={false}
+                        filtered={isFiltered}
                     />
                 </SortContext.Provider>
             </Container>

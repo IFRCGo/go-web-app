@@ -36,7 +36,7 @@
         }
 
         .map-container {
-            height: min(40rem, 80vh);
+            height: min(40rem, 70vh);
         }
     }
 }
