@@ -1,0 +1,32 @@
+.preparedness-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-xl);
+
+    .approach-content {
+        display: flex;
+        gap: var(--go-ui-spacing-5xl);
+        align-items: center;
+
+        .approach-description {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-lg);
+            flex-grow: 1;
+
+            .approach-text {
+                font-size: var(--go-ui-font-size-xl);
+            }
+
+            .contact-per-team {
+                color: var(--go-ui-color-white);
+            }
+
+        }
+
+        .approach-image {
+            width: 20rem;
+            flex-shrink: 0;
+        }
+    }
+}

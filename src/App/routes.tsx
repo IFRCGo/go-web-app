@@ -559,6 +559,62 @@ const preparedness = customWrapRoute({
     },
 });
 
+const preparednessGlobalSummary = customWrapRoute({
+    path: 'global-summary',
+    component: {
+        render: () => import('#views/PreparednessGlobalSummary'),
+        props: {},
+    },
+    parent: preparedness,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Preparedness - Global Summary',
+        visibility: 'anything',
+    },
+});
+
+const preparednessGlobalPerformance = customWrapRoute({
+    path: 'global-performance',
+    component: {
+        render: () => import('#views/PreparednessGlobalPerformance'),
+        props: {},
+    },
+    parent: preparedness,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Preparedness - Global Performace',
+        visibility: 'anything',
+    },
+});
+
+const preparednessGlobalCatalogue = customWrapRoute({
+    path: 'catalogue-learning',
+    component: {
+        render: () => import('#views/PreparednessCatalogueResources'),
+        props: {},
+    },
+    parent: preparedness,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Preparedness - Catalogue of learning',
+        visibility: 'anything',
+    },
+});
+
+const preparednessGlobalOperational = customWrapRoute({
+    path: 'operational-learning',
+    component: {
+        render: () => import('#views/PreparednessOperationalLearning'),
+        props: {},
+    },
+    parent: preparedness,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Preparedness - Operational learning',
+        visibility: 'anything',
+    },
+});
+
 const globalThreeW = customWrapRoute({
     path: 'global-three-w',
     component: {
@@ -1723,6 +1779,10 @@ const wrappedRoutes = {
     surgeCatalogue,
     surgeIndex,
     preparedness,
+    preparednessGlobalSummary,
+    preparednessGlobalPerformance,
+    preparednessGlobalCatalogue,
+    preparednessGlobalOperational,
     threeW,
     globalThreeW,
     newThreeWProject,

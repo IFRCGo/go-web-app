@@ -1,6 +1,16 @@
 {
     "namespace": "preparedness",
     "strings": {
-        "preparednessTitle": "IFRC GO - Global Preparedness"
+        "preparednessTitle": "IFRC GO - Global Preparedness",
+        "preparednessHeading": "Preparedness for Effective Response (PER)",
+        "preparednessDescription": "To enable National Societies to fulfil their auxiliary role, in line with the Red Cross and Red Crescent Fundamental Principles, by strengthening local preparedness capacities to ensure timely and effective humanitarian assistance to prevent and alleviate human suffering.",
+        "preparednessApproachSection": "THE PER APPROACH",
+        "approachContent": "The PER Approach is a continuous and flexible process that enables National Societies to assess, measure and analyse the strengths and gaps of its preparedness and response mechanism, and ultimately take necessary action to improve it. For more information on the PER Approach select {link}",
+        "approachContentLink": "here",
+        "globalSummary": "GLOBAL SUMMARY",
+        "globalPerformance": "GLOBAL PERFORMANCE",
+        "catalogueOfResources": "CATALOGUE OF RESOURCES",
+        "operationalLearning": "OPERATIONAL LEARNING",
+        "contactPerTeam": "Contact PER team"
     }
 }
