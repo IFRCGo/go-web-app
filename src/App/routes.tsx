@@ -1702,6 +1702,20 @@ const flashUpdateFormNew = customWrapRoute({
     },
 });
 
+const flashUpdateFormDetails = customWrapRoute({
+    path: 'flash-update/:flashUpdateId',
+    component: {
+        render: () => import('#views/FlashUpdateDetails'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Flash Update Details',
+        visibility: 'anything',
+    },
+});
+
 const fieldReportFormNew = customWrapRoute({
     path: 'field-report/new',
     component: {
@@ -1889,6 +1903,7 @@ const wrappedRoutes = {
     fieldReportFormNew,
     fieldReportFormEdit,
     flashUpdateFormNew,
+    flashUpdateFormDetails,
     riskWatch,
     riskWatchIndex,
     riskWatchImminent,
