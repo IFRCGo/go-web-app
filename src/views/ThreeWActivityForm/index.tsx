@@ -8,7 +8,6 @@ import {
     useForm,
     getErrorObject,
     getErrorString,
-    useFormArray,
     // createSubmitHandler,
 } from '@togglecorp/toggle-form';
 
@@ -34,7 +33,6 @@ import ActivityEventSearchSelectInput, {
 
 import schema, {
     FormType,
-    PartialActivityItem,
 } from './schema';
 import ActivitiesBySectorInput from './ActivitiesBySectorInput';
 
@@ -49,6 +47,7 @@ export function Component() {
     const {
         value,
         setFieldValue,
+        setValue,
         error: formError,
         setError: onErrorSet,
         validate,
@@ -104,7 +103,10 @@ export function Component() {
         listToGroupList(
             (value?.activities ?? []).filter((activity) => isDefined(activity.sector)),
             (activity) => activity.sector ?? 0,
-            (activity) => activity,
+            (activity, _, index) => ({
+                ...activity,
+                mainIndex: index,
+            }),
         )
     ), [value?.activities]);
 
@@ -123,14 +125,6 @@ export function Component() {
             (sector) => sector,
         )
     ), [optionsResponse?.sectors]);
-
-    const {
-        setValue: setActivity,
-        removeValue: removeActivity,
-    } = useFormArray<'activities', PartialActivityItem>(
-        'activities',
-        setFieldValue,
-    );
 
     return (
         <div className={styles.threeWActivityForm}>
@@ -243,7 +237,6 @@ export function Component() {
                             error={error?.reporting_ns}
                         />
                     </InputSection>
-                    {/*
                     <InputSection
                         title="Contact Information"
                         description="Who should be contacted for
@@ -271,7 +264,6 @@ export function Component() {
                             error={error?.reporting_ns_contact_email}
                         />
                     </InputSection>
-                    */}
                 </>
             )}
             {value?.activity_lead === 'deployed_eru' && (
@@ -281,8 +273,7 @@ export function Component() {
                 >
                     <RadioInput
                         name="deployed_eru"
-                        // value={value?.deployed_eru}
-                        value={0 as number}
+                        value={value?.deployed_eru}
                         onChange={setFieldValue}
                         options={erusResponse?.results}
                         listContainerClassName={styles.radio}
@@ -291,12 +282,13 @@ export function Component() {
                             `${d.eru_owner?.national_society_country?.society_name}
                             (${d.type_display})`
                         )}
-                        // error={error?.deployed_eru}
+                        error={error?.deployed_eru}
                     />
                 </InputSection>
             )}
             <Container
                 heading="Activity Reporting"
+                childrenContainerClassName={styles.sectorsContainer}
             >
                 <InputSection
                     title="Types of Actions Taken"
@@ -324,8 +316,8 @@ export function Component() {
                             sectorKey={sector}
                             sectorDetails={sectorsMap?.[sector]}
                             activities={activitiesBySector?.[sector]}
-                            setActivity={setActivity}
-                            removeActivity={removeActivity}
+                            setValue={setValue}
+                            setFieldValue={setFieldValue}
                             actions={actionItemsBySector?.[sector]}
                         />
                     ))}

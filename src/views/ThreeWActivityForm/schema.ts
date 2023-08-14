@@ -26,6 +26,7 @@ type ActivityFormFields = DeepReplace<
 >;
 
 export type PartialActivityItem = PartialForm<ActivityItem, 'client_id'>;
+type A = PartialActivityItem['custom_action'];
 
 type FormFields = ActivityFormFields & {
     sectors: number[];
@@ -133,6 +134,8 @@ const finalSchema: FormSchema = {
                                 },
                                 sector: { required: true },
                                 action: {},
+
+                                // TODO: Add conditional validation for following fields
                                 custom_action: {},
                             }),
                         }),
