@@ -36,7 +36,6 @@ import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useDisasterType from '#hooks/domain/useDisasterType';
-import UserContext from '#contexts/user';
 
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
@@ -120,8 +119,6 @@ export function Component() {
 
     const strings = useTranslation(i18n);
 
-    const { userAuth: userDetails } = useContext(UserContext);
-
     const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('context');
@@ -150,8 +147,6 @@ export function Component() {
             },
         },
     );
-
-    console.log(value);
 
     const {
         response: actionsResponse,
@@ -212,7 +207,7 @@ export function Component() {
     const {
         pending: fieldReportPending,
     } = useRequest({
-        url: '/api/v2/field_report/{id}/',
+        url: '/api/v2/field-report/{id}/',
         skip: !reportId,
         pathVariables: reportId
             ? { id: Number(reportId) }
@@ -221,6 +216,16 @@ export function Component() {
             const formValue = transformAPIFieldsToFormFields(
                 removeNull(response),
             );
+            const eventOption = response?.event_details;
+            setEventOptions(
+                eventOption
+                    ? [{
+                        ...eventOption,
+                        name: eventOption.name ?? '?',
+                    }]
+                    : [],
+            );
+            setDistrictOptions(response?.districts_details);
             onValueSet(formValue);
         },
     });
@@ -229,8 +234,8 @@ export function Component() {
         pending: fieldReportEditSubmitPending,
         trigger: editSubmitRequest,
     } = useLazyRequest({
-        url: '/api/v2/update_field_report/{id}/',
-        pathVariables: isDefined(reportId) ? { id: reportId } : undefined,
+        url: '/api/v2/field-report/{id}/',
+        pathVariables: isDefined(reportId) ? { id: Number(reportId) } : undefined,
         method: 'PUT',
         body: (ctx: FieldReportBody) => ctx,
         onSuccess: (response) => {
@@ -271,7 +276,7 @@ export function Component() {
         pending: fieldReportCreateSubmitPending,
         trigger: createSubmitRequest,
     } = useLazyRequest({
-        url: '/api/v2/create_field_report/',
+        url: '/api/v2/field-report/',
         method: 'POST',
         body: (ctx: FieldReportBody) => ctx,
         onSuccess: (response) => {
@@ -345,7 +350,7 @@ export function Component() {
             formContentRef.current?.scrollIntoView();
 
             const sanitizedValues = transformFormFieldsToAPIFields(
-                removeNull(formValues) as FormValue,
+                formValues as FormValue,
             );
 
             function getSummary(
@@ -358,6 +363,8 @@ export function Component() {
             ) {
                 const dateLabel = new Date().toISOString().slice(0, 10);
                 const iso3Label = countryIsoOptions.find((x) => x.id === country)?.iso3;
+                // FIXME: this should be fieldReportNumber? Confirm this before?
+                // Why not just show this on the server?
                 const eventLabel = eventOptions?.find((x) => x.id === event)?.name;
 
                 // COVID-19
@@ -377,7 +384,6 @@ export function Component() {
             if (reportId) {
                 editSubmitRequest({
                     ...sanitizedValues,
-                    user: userDetails?.id,
                 } as FieldReportBody);
             } else {
                 const summary = getSummary(
@@ -392,13 +398,11 @@ export function Component() {
                 createSubmitRequest({
                     ...sanitizedValues,
                     summary,
-                    user: userDetails?.id,
                 } as FieldReportBody);
             }
         },
         [
             reportId,
-            userDetails,
             editSubmitRequest,
             createSubmitRequest,
             countryIsoOptions,

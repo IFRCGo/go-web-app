@@ -52,10 +52,12 @@ export const DISASTER_TYPE_EPIDEMIC = 1;
 
 // FORM
 
-type FieldReportResponse = paths['/api/v2/field_report/{id}/']['get']['responses']['200']['content']['application/json'];
-export type FieldReportBody = paths['/api/v2/update_field_report/{id}/']['put']['requestBody']['content']['application/json'];
+type FieldReportResponse = paths['/api/v2/field-report/{id}/']['get']['responses']['200']['content']['application/json'];
+export type FieldReportBody = paths['/api/v2/field-report/{id}/']['put']['requestBody']['content']['application/json'];
 
 export type FormValue = Omit<FieldReportBody, 'countries'> & {
+    // FIXME: why do we need to change countries to country
+    // fix this in the server later
     country: number,
 
     actions_taken: {
@@ -143,14 +145,14 @@ export function transformAPIFieldsToFormFields(
         countries,
         start_date,
         sit_fields_date,
-        districts,
-        user,
-        dtype,
-        event,
-        regions,
-        external_partners,
-        supported_activities,
-        actions_taken,
+        // districts,
+        // user,
+        // dtype,
+        // event,
+        // regions,
+        // external_partners,
+        // supported_activities,
+        // actions_taken,
         contacts,
         ...otherProps
     } = response;
@@ -159,24 +161,25 @@ export function transformAPIFieldsToFormFields(
 
     return {
         ...otherProps,
-        user: user?.id,
-        dtype: dtype?.id,
-        event: event?.id,
-        country: isDefined(countries) && countries.length > 0 ? countries[0]?.id : undefined,
-        districts: districts?.map((d) => d.id) ?? [],
-        regions: regions?.map((r) => r.id) ?? [],
-        external_partners: external_partners?.map((e) => e.id) ?? [],
-        supported_activities: supported_activities?.map((a) => a.id) ?? [],
+        // user: user?.id,
+        // dtype: dtype?.id,
+        // event: event?.id,
+        country: isDefined(countries) && countries.length > 0 ? countries[0] : undefined,
+        // districts: districts?.map((d) => d.id) ?? [],
+        // regions: regions?.map((r) => r.id) ?? [],
+        // external_partners: external_partners?.map((e) => e.id) ?? [],
+        // supported_activities: supported_activities?.map((a) => a.id) ?? [],
         start_date: isDefined(start_date)
             ? start_date.split('T')[0]
             : start_date,
         sit_fields_date: isDefined(sit_fields_date)
             ? sit_fields_date.split('T')[0]
             : sit_fields_date,
-        actions_taken: actions_taken?.map((a) => ({
-            ...a,
-            actions: a.actions.map((item) => item.id),
-        })),
+        // actions_taken: actions_taken?.map((a) => ({
+        //     ...a,
+        //     // FIXME: the server should directly return the id
+        //     actions: a.actions.map((item) => item.id),
+        // })),
         contacts: contacts?.map((c) => ({
             ...c,
             // FIXME: this is not an enum in the server
@@ -413,14 +416,14 @@ export const reportSchema: FormSchema = {
 
                     actions_taken: { forceValue: nullValue },
                     bulletin: { forceValue: nullValue },
-                    external_partners: { forceValue: nullValue },
+                    external_partners: { forceValue: [] },
                     notes_health: { forceValue: nullValue },
                     notes_ns: { forceValue: nullValue },
                     notes_socioeco: { forceValue: nullValue },
                     num_expats_delegates: { forceValue: nullValue },
                     num_localstaff: { forceValue: nullValue },
                     num_volunteers: { forceValue: nullValue },
-                    supported_activities: { forceValue: nullValue },
+                    supported_activities: { forceValue: [] },
                 };
 
                 // EARLY ACTIONS
@@ -468,8 +471,8 @@ export const reportSchema: FormSchema = {
                         notes_health: {},
                         notes_ns: {},
                         notes_socioeco: {},
-                        external_partners: {},
-                        supported_activities: {},
+                        external_partners: { defaultValue: [] },
+                        supported_activities: { defaultValue: [] },
                     };
                 }
                 // ACTIONS - EPI / EVT

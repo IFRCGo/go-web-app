@@ -51,7 +51,7 @@ function CopyFieldReportSection(props: Props) {
 
     useRequest({
         skip: isNotDefined(value?.field_report),
-        url: '/api/v2/field_report/{id}/',
+        url: '/api/v2/field-report/{id}/',
         pathVariables: {
             id: Number(value?.field_report),
         },
@@ -69,8 +69,8 @@ function CopyFieldReportSection(props: Props) {
     const {
         pending: frDetailPending,
         trigger: triggerDetailRequest,
-    } = useLazyRequest<'/api/v2/field_report/{id}/', null, 'GET'>({
-        url: '/api/v2/field_report/{id}/',
+    } = useLazyRequest<'/api/v2/field-report/{id}/', null, 'GET'>({
+        url: '/api/v2/field-report/{id}/',
         pathVariables: isDefined(fieldReport)
             ? { id: fieldReport }
             : undefined,
@@ -85,7 +85,7 @@ function CopyFieldReportSection(props: Props) {
 
             // const frDate = fieldReportResponse.created_at?.split('T')[0];
             // const go_field_report_date = value.go_field_report_date ?? frDate;
-            const disaster_type = value.disaster_type ?? fieldReportResponse.dtype?.id;
+            const disaster_type = value.disaster_type ?? fieldReportResponse.dtype;
             const event_description = fieldReportResponse.description
                 ? sanitizeHtml(
                     fieldReportResponse.description,
@@ -93,11 +93,11 @@ function CopyFieldReportSection(props: Props) {
                 )
                 : undefined;
             const un_or_other_actor = value.un_or_other_actor ?? fieldReportResponse.actions_others;
-            const country = value.country ?? fieldReportResponse.countries[0]?.id;
+            const country = value.country ?? fieldReportResponse.countries[0];
 
             // TODO verify the following
             const district = (value.district && value.district.length > 0)
-                ? value.district : fieldReportResponse.districts?.map((d) => d.id);
+                ? value.district : fieldReportResponse.districts;
             const num_affected = value?.num_affected
                 ?? fieldReportResponse.num_affected
                 ?? fieldReportResponse.gov_num_affected
@@ -124,10 +124,11 @@ function CopyFieldReportSection(props: Props) {
                 media_contact_phone_number,
             } = value;
 
-            if (!national_society_contact_name
-                        && !national_society_contact_email
-                    && !national_society_contact_title
-                    && !national_society_contact_phone_number
+            if (
+                !national_society_contact_name
+                && !national_society_contact_email
+                && !national_society_contact_title
+                && !national_society_contact_phone_number
             ) {
                 const nsContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'NationalSociety',
@@ -140,10 +141,11 @@ function CopyFieldReportSection(props: Props) {
                 }
             }
 
-            if (!ifrc_emergency_name
-                           && !ifrc_emergency_email
-                       && !ifrc_emergency_title
-                       && !ifrc_emergency_phone_number
+            if (
+                !ifrc_emergency_name
+                && !ifrc_emergency_email
+                && !ifrc_emergency_title
+                && !ifrc_emergency_phone_number
             ) {
                 const federationContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'Federation',
@@ -156,7 +158,8 @@ function CopyFieldReportSection(props: Props) {
                 }
             }
 
-            if (!media_contact_name
+            if (
+                !media_contact_name
                 && !media_contact_email
                 && !media_contact_title
                 && !media_contact_phone_number

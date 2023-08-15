@@ -26,7 +26,7 @@ import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput'
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type FieldReportResponse = GoApiResponse<'/api/v2/field_report/'>;
+type FieldReportResponse = GoApiResponse<'/api/v2/field-report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 
 const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
@@ -55,7 +55,10 @@ export function Component() {
         (country) => country,
     );
 
-    const { emergency: emergencyRoute } = useContext(RouteContext);
+    const {
+        emergency: emergencyRoute,
+        fieldReportFormEdit: fieldReportFormEditRoute,
+    } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -68,14 +71,18 @@ export function Component() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FieldReportListItem, number>(
+            createLinkColumn<FieldReportListItem, number>(
                 'summary',
                 strings.allFieldReportsName,
                 (item) => item.summary,
-                {
+                (item) => ({
                     sortable: true,
                     columnClassName: styles.summary,
-                },
+                    // FIXME: need to direct to details page instead
+                    to: isDefined(item.id)
+                        ? generatePath(fieldReportFormEditRoute.absolutePath, { reportId: item.id })
+                        : undefined,
+                }),
             ),
             createLinkColumn<FieldReportListItem, number>(
                 'event_name',
@@ -114,7 +121,7 @@ export function Component() {
         pending: fieldReportPending,
         response: fieldReportResponse,
     } = useRequest({
-        url: '/api/v2/field_report/',
+        url: '/api/v2/field-report/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
