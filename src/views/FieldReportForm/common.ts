@@ -1,5 +1,6 @@
 import { isDefined } from '@togglecorp/fujs';
 import {
+    ArraySchema,
     ObjectSchema,
     PartialForm,
     PurgeNull,
@@ -76,6 +77,16 @@ export type FormValue = Omit<FieldReportBody, 'countries'> & {
 export type PartialFormValue = PurgeNull<PartialForm<FormValue, 'uuid' | 'ctype' | 'organization'>>;
 type FormSchema = ObjectSchema<PartialFormValue>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
+
+type ContactListSchema = ArraySchema<NonNullable<PartialFormValue['contacts']>[number], PartialFormValue>;
+type ContactListMember = ReturnType<ContactListSchema['member']>;
+type ContactSchema = ObjectSchema<NonNullable<PartialFormValue['contacts']>[number], PartialFormValue>;
+type ContactField = ReturnType<ContactSchema['fields']>;
+
+type ActionTakenListSchema = ArraySchema<NonNullable<PartialFormValue['actions_taken']>[number], PartialFormValue>;
+type ActionTakenListMember = ReturnType<ActionTakenListSchema['member']>;
+type ActionTakenSchema = ObjectSchema<NonNullable<PartialFormValue['actions_taken']>[number], PartialFormValue>;
+type ActionTakenField = ReturnType<ActionTakenSchema['fields']>;
 
 export function getReportType(
     status: Status | undefined,
@@ -202,8 +213,8 @@ export const reportSchema: FormSchema = {
 
             contacts: {
                 keySelector: (item) => item.ctype,
-                member: () => ({
-                    fields: () => ({
+                member: (): ContactListMember => ({
+                    fields: (): ContactField => ({
                         ctype: { required: true },
                         name: {},
                         title: {},
@@ -212,58 +223,60 @@ export const reportSchema: FormSchema = {
                     }),
                 }),
             },
-
             visibility: { required: true },
         });
 
         // SITUATION / RISK ANALYSIS
 
+        const situationFields = [
+            'affected_pop_centres',
+            'description',
+            'epi_cases',
+            'epi_cases_since_last_fr',
+            'epi_confirmed_cases',
+            'epi_deaths_since_last_fr',
+            'epi_figures_source',
+            'epi_notes_since_last_fr',
+            'epi_num_dead',
+            'epi_probable_cases',
+            'epi_suspected_cases',
+            'gov_affected_pop_centres',
+            'gov_num_affected',
+            'gov_num_dead',
+            'gov_num_displaced',
+            'gov_num_highest_risk',
+            'gov_num_injured',
+            'gov_num_missing',
+            'gov_num_potentially_affected',
+            'num_affected',
+            'num_dead',
+            'num_displaced',
+            'num_highest_risk',
+            'num_injured',
+            'num_missing',
+            'num_potentially_affected',
+            'other_affected_pop_centres',
+            'other_num_affected',
+            'other_num_dead',
+            'other_num_displaced',
+            'other_num_highest_risk',
+            'other_num_injured',
+            'other_num_missing',
+            'other_num_potentially_affected',
+            'other_sources',
+            'sit_fields_date',
+        ] as const;
+        type SituationSchema = Pick<FormSchemaFields, (typeof situationFields)[number]>;
+
         baseSchema = addCondition(
             baseSchema,
             value,
             ['status', 'is_covid_report', 'dtype'],
-            [
-                'affected_pop_centres',
-                'description',
-                'epi_cases',
-                'epi_cases_since_last_fr',
-                'epi_confirmed_cases',
-                'epi_deaths_since_last_fr',
-                'epi_figures_source',
-                'epi_notes_since_last_fr',
-                'epi_num_dead',
-                'epi_probable_cases',
-                'epi_suspected_cases',
-                'gov_affected_pop_centres',
-                'gov_num_affected',
-                'gov_num_dead',
-                'gov_num_displaced',
-                'gov_num_highest_risk',
-                'gov_num_injured',
-                'gov_num_missing',
-                'gov_num_potentially_affected',
-                'num_affected',
-                'num_dead',
-                'num_displaced',
-                'num_highest_risk',
-                'num_injured',
-                'num_missing',
-                'num_potentially_affected',
-                'other_affected_pop_centres',
-                'other_num_affected',
-                'other_num_dead',
-                'other_num_displaced',
-                'other_num_highest_risk',
-                'other_num_injured',
-                'other_num_missing',
-                'other_num_potentially_affected',
-                'other_sources',
-                'sit_fields_date',
-            ],
-            (val) => {
+            situationFields,
+            (val): SituationSchema => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
 
-                const baseSchemaTwo: FormSchemaFields = {
+                const baseSchemaTwo: SituationSchema = {
                     description: {},
                     other_sources: {},
 
@@ -368,19 +381,46 @@ export const reportSchema: FormSchema = {
 
         // ACTIONS / EARLY ACTIONS
 
+        const actionFields = [
+            'actions_others',
+            'actions_taken',
+            'bulletin',
+            'external_partners',
+            'gov_num_assisted',
+            'notes_health',
+            'notes_ns',
+            'notes_socioeco',
+            'num_assisted',
+            'num_expats_delegates',
+            'num_localstaff',
+            'num_volunteers',
+            'supported_activities',
+        ] as const;
+        type ActionSchema = Pick<FormSchemaFields, (typeof actionFields)[number]>;
+
         baseSchema = addCondition(
             baseSchema,
             value,
             ['status', 'is_covid_report', 'dtype'],
-            [
-            ],
-            (val) => {
+            actionFields,
+            (val): ActionSchema => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
 
-                const baseSchemaTwo: FormSchemaFields = {
+                const baseSchemaTwo: ActionSchema = {
                     actions_others: {},
                     gov_num_assisted: { validations: [positiveIntegerCondition] },
                     num_assisted: { validations: [positiveIntegerCondition] },
+
+                    actions_taken: { forceValue: nullValue },
+                    bulletin: { forceValue: nullValue },
+                    external_partners: { forceValue: nullValue },
+                    notes_health: { forceValue: nullValue },
+                    notes_ns: { forceValue: nullValue },
+                    notes_socioeco: { forceValue: nullValue },
+                    num_expats_delegates: { forceValue: nullValue },
+                    num_localstaff: { forceValue: nullValue },
+                    num_volunteers: { forceValue: nullValue },
+                    supported_activities: { forceValue: nullValue },
                 };
 
                 // EARLY ACTIONS
@@ -389,8 +429,8 @@ export const reportSchema: FormSchema = {
                         ...baseSchemaTwo,
                         actions_taken: {
                             keySelector: (item) => item.organization,
-                            member: () => ({
-                                fields: () => ({
+                            member: (): ActionTakenListMember => ({
+                                fields: (): ActionTakenField => ({
                                     organization: { required: true },
                                     actions: {},
                                     id: {},
@@ -407,8 +447,8 @@ export const reportSchema: FormSchema = {
                         ...baseSchemaTwo,
                         actions_taken: {
                             keySelector: (item) => item.organization,
-                            member: () => ({
-                                fields: () => {
+                            member: (): ActionTakenListMember => ({
+                                fields: (): ActionTakenField => {
                                     const baseThree = {
                                         organization: { required: true },
                                         actions: {},
@@ -437,8 +477,8 @@ export const reportSchema: FormSchema = {
                     ...baseSchemaTwo,
                     actions_taken: {
                         keySelector: (item) => item.organization,
-                        member: () => ({
-                            fields: () => ({
+                        member: (): ActionTakenListMember => ({
+                            fields: (): ActionTakenField => ({
                                 organization: { required: true },
                                 actions: {},
                                 id: {},
@@ -463,7 +503,7 @@ export const reportSchema: FormSchema = {
             ['dref', 'dref_amount'],
             (val) => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
-                if (reportType !== 'COVID') {
+                if (reportType === 'COVID') {
                     return {
                         dref: { forceValue: nullValue },
                         dref_amount: { forceValue: nullValue },
@@ -493,7 +533,7 @@ export const reportSchema: FormSchema = {
             ['appeal', 'appeal_amount'],
             (val) => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
-                if (reportType !== 'COVID') {
+                if (reportType === 'COVID') {
                     return {
                         appeal: { forceValue: nullValue },
                         appeal_amount: { forceValue: nullValue },
@@ -523,7 +563,7 @@ export const reportSchema: FormSchema = {
             ['fact', 'num_fact'],
             (val) => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
-                if (reportType !== 'COVID') {
+                if (reportType === 'COVID') {
                     return {
                         fact: { forceValue: nullValue },
                         num_fact: { forceValue: nullValue },
@@ -553,7 +593,7 @@ export const reportSchema: FormSchema = {
             ['ifrc_staff', 'num_ifrc_staff'],
             (val) => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
-                if (reportType !== 'COVID') {
+                if (reportType === 'COVID') {
                     return {
                         ifrc_staff: { forceValue: nullValue },
                         num_ifrc_staff: { forceValue: nullValue },

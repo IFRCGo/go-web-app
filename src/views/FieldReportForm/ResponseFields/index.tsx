@@ -167,7 +167,7 @@ function ResponseFields(props: Props) {
                     />
                 )}
             >
-                { reportType !== 'COVID' && (
+                {reportType !== 'COVID' && (
                     <>
                         <InputSection
                             title={strings.fieldsStep4PlannedResponseRowsDREFEVTEPILabel}

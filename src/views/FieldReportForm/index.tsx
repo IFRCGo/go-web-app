@@ -36,6 +36,7 @@ import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useDisasterType from '#hooks/domain/useDisasterType';
+import UserContext from '#contexts/user';
 
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
@@ -119,6 +120,8 @@ export function Component() {
 
     const strings = useTranslation(i18n);
 
+    const { userAuth: userDetails } = useContext(UserContext);
+
     const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('context');
@@ -147,6 +150,8 @@ export function Component() {
             },
         },
     );
+
+    console.log(value);
 
     const {
         response: actionsResponse,
@@ -370,7 +375,10 @@ export function Component() {
             }
 
             if (reportId) {
-                editSubmitRequest(sanitizedValues as FieldReportBody);
+                editSubmitRequest({
+                    ...sanitizedValues,
+                    user: userDetails?.id,
+                } as FieldReportBody);
             } else {
                 const summary = getSummary(
                     formValues.country,
@@ -381,11 +389,16 @@ export function Component() {
                     sanitizedValues.summary,
                 );
 
-                createSubmitRequest({ ...sanitizedValues, summary } as FieldReportBody);
+                createSubmitRequest({
+                    ...sanitizedValues,
+                    summary,
+                    user: userDetails?.id,
+                } as FieldReportBody);
             }
         },
         [
             reportId,
+            userDetails,
             editSubmitRequest,
             createSubmitRequest,
             countryIsoOptions,
@@ -636,7 +649,7 @@ export function Component() {
                     <Button
                         name={undefined}
                         onClick={handleFormSubmit}
-                        disabled={activeTab === 'response'}
+                        disabled={activeTab !== 'response'}
                     >
                         {strings.fieldReportSubmit}
                     </Button>
