@@ -1,0 +1,38 @@
+.detailed-reporting {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-xl);
+
+    .table-container {
+        display: table;
+        border-collapse: collapse;
+
+        .row {
+            display: table-row;
+
+            .header {
+                display: table-cell;
+                border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+                background-color: var(--go-ui-color-background);
+                padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+                width: 8rem;
+            }
+
+            .cell {
+                display: table-cell;
+                border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
+                width: 8rem;
+
+                .input-section {
+                    border: none;
+                    background-color: transparent;
+                }
+
+                &.output {
+                    background-color: var(--go-ui-color-background);
+                    padding: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+                }
+            }
+        }
+    }
+}

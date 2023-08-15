@@ -317,6 +317,7 @@ export function Component() {
                             sectorDetails={sectorsMap?.[sector]}
                             activities={activitiesBySector?.[sector]}
                             setValue={setValue}
+                            error={formError}
                             setFieldValue={setFieldValue}
                             actions={actionItemsBySector?.[sector]}
                         />

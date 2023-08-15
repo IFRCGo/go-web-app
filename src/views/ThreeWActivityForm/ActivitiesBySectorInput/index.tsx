@@ -1,7 +1,9 @@
 import { useCallback, useMemo } from 'react';
 import {
     SetValueArg,
+    Error,
     useFormArray,
+    getErrorObject,
     EntriesAsList,
 } from '@togglecorp/toggle-form';
 import {
@@ -33,11 +35,13 @@ interface Props {
     actions: Options['actions'] | undefined;
     sectorDetails: Options['sectors'][number] | undefined;
     setValue: (value: SetValueArg<FormType>) => void;
+    error?: Error<FormType>;
     setFieldValue: (...entries: EntriesAsList<FormType>) => void;
 }
 
 function ActivitiesBySectorInput(props: Props) {
     const {
+        error,
         sectorKey,
         sectorDetails,
         activities,
@@ -65,6 +69,7 @@ function ActivitiesBySectorInput(props: Props) {
                     ...newActivities,
                     {
                         client_id: randomString(),
+                        is_simplified_report: true,
                         sector: sectorKey,
                         action: actionId,
                     },
@@ -88,6 +93,7 @@ function ActivitiesBySectorInput(props: Props) {
                 ...(oldValues?.activities ?? []),
                 {
                     client_id: randomString(),
+                    is_simplified_report: true,
                     sector: sectorKey,
                 },
             ];
@@ -141,6 +147,11 @@ function ActivitiesBySectorInput(props: Props) {
         setFieldValue,
     );
 
+    const activitiesError = useMemo(
+        () => getErrorObject(getErrorObject(error)?.activities),
+        [error],
+    );
+
     return (
         <Container
             className={styles.attributesBySectorInput}
@@ -182,6 +193,7 @@ function ActivitiesBySectorInput(props: Props) {
                     sectorKey={sectorKey}
                     handleRemoveClick={undefined}
                     actionDetails={activity.action ? actionsMap?.[activity.action] : undefined}
+                    error={activitiesError?.[activity.client_id]}
                     type="action"
                 />
             ))}
@@ -195,6 +207,7 @@ function ActivitiesBySectorInput(props: Props) {
                     onChange={setActivity}
                     itemNumber={index + 1}
                     handleRemoveClick={handleItemRemove}
+                    error={activitiesError?.[activity.client_id]}
                     type="custom"
                 />
             ))}

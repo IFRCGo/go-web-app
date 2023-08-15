@@ -1,3 +1,15 @@
 .activity-input {
-    display: block;
+    display: flex;
+
+    .input-section-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-xl);
+    }
+
+    .row {
+        display: flex;
+        align-items: flex-end;
+        gap: var(--go-ui-spacing-md);
+    }
 }
