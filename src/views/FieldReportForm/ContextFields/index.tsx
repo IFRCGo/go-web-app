@@ -162,6 +162,7 @@ function ContextFields(props: Props) {
             // FIXME: use translation
             heading="Context"
             className={styles.contextFields}
+            childrenContainerClassName={styles.content}
         >
             <InputSection
                 title={strings.fieldReportFormStatusLabel}
@@ -235,6 +236,7 @@ function ContextFields(props: Props) {
             <InputSection
                 title={strings.fieldsStep1DisasterTypeLabel}
                 description={strings.fieldsStep1DisasterTypeDescription}
+                twoColumn
             >
                 <DisasterTypeSelectInput
                     name="dtype"
@@ -252,6 +254,7 @@ function ContextFields(props: Props) {
             <InputSection
                 title={startDateSectionTitle}
                 description={startDateSectionDescription}
+                twoColumn
             >
                 <DateInput
                     name="start_date"

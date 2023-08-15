@@ -156,16 +156,11 @@ function ResponseFields(props: Props) {
     const contactsError = getErrorObject(error?.contacts);
 
     return (
-        <>
+        <div className={styles.responseFields}>
             <Container
                 heading={strings.fieldReportFormResponseTitle}
-                headingDescription={(
-                    <Header
-                        heading={strings.fieldReportFormResponseLabel}
-                        headingDescription={strings.fieldReportFormResponseDescription}
-                        headingLevel={6}
-                    />
-                )}
+                headerDescription={strings.fieldReportFormResponseLabel}
+                childrenContainerClassName={styles.content}
             >
                 {reportType !== 'COVID' && (
                     <>
@@ -301,6 +296,7 @@ function ResponseFields(props: Props) {
             <Container
                 heading={strings.fieldReportFormContactsTitle}
                 className={styles.contactsSection}
+                childrenContainerClassName={styles.content}
             >
                 {contacts.map((contact) => {
                     const index = mapping?.[contact.key];
@@ -349,7 +345,7 @@ function ResponseFields(props: Props) {
                     />
                 </InputSection>
             </Container>
-        </>
+        </div>
     );
 }
 

@@ -103,30 +103,25 @@ function EarlyActionFields(props: Props) {
         <Container
             heading={strings.fieldReportFormActionTakenTitle}
             className={styles.earlyActionFields}
+            childrenContainerClassName={styles.content}
         >
             <div className={styles.numericSection}>
-                <InputSection
-                    title={strings.fieldsStep3Section1FieldsAssistedGovEWLabel}
-                >
-                    <NumberInput
-                        name="gov_num_assisted"
-                        value={value.gov_num_assisted}
-                        onChange={onValueChange}
-                        error={error?.gov_num_assisted}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.fieldsStep3Section1FieldsAssistedRCRCEWLabel}
-                >
-                    <NumberInput
-                        name="num_assisted"
-                        value={value.num_assisted}
-                        onChange={onValueChange}
-                        error={error?.num_assisted}
-                        disabled={disabled}
-                    />
-                </InputSection>
+                <NumberInput
+                    label={strings.fieldsStep3Section1FieldsAssistedGovEWLabel}
+                    name="gov_num_assisted"
+                    value={value.gov_num_assisted}
+                    onChange={onValueChange}
+                    error={error?.gov_num_assisted}
+                    disabled={disabled}
+                />
+                <NumberInput
+                    label={strings.fieldsStep3Section1FieldsAssistedRCRCEWLabel}
+                    name="num_assisted"
+                    value={value.num_assisted}
+                    onChange={onValueChange}
+                    error={error?.num_assisted}
+                    disabled={disabled}
+                />
             </div>
             <div className={styles.otherSection}>
                 {organizations.map((organization) => {

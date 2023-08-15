@@ -1,23 +1,25 @@
-.category {
-}
-
-.action-taken {
-}
-
 .actions-fields {
-    .numeric-section {
+    .content {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
 
-        >* {
-            flex-basis: 50%;
+        .numeric-section {
+            display: grid;
+            background-color: var(--go-ui-color-white);
+            padding: var(--go-ui-spacing-2xl);
+            grid-gap: var(--go-ui-spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
 
-            >:first-child {
-                flex-basis: 50%;
+            @media screen and (max-width: 30rem) {
+                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
             }
         }
-    }
 
-    .other-section {
+        .other-section {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-lg);
+        }
     }
 }

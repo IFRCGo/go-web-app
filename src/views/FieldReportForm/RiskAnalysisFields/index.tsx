@@ -45,13 +45,16 @@ function RiskAnalysisFields(props: Props) {
             // FIXME: use translations
             heading="Numeric Details (People)"
             className={styles.riskAnalysisFields}
+            childrenContainerClassName={styles.content}
         >
             <InputSection
                 title={strings.fieldsStep2SituationFieldsEWPotentiallyAffectedLabel}
                 description={strings.fieldsStep2SituationFieldsEWPotentiallyAffectedDescription}
+                threeColumn
             >
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsRCRCEstimation}
+                    label={strings.fieldsStep2SituationFieldsRCRC}
+                    placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="num_potentially_affected"
                     value={value.num_potentially_affected}
                     onChange={onValueChange}
@@ -59,7 +62,8 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsGovEstimation}
+                    label={strings.fieldsStep2SituationFieldsGov}
+                    placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="gov_num_potentially_affected"
                     value={value.gov_num_potentially_affected}
                     onChange={onValueChange}
@@ -67,7 +71,8 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsOtherEstimation}
+                    label={strings.fieldsStep2SituationFieldsOther}
+                    placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="other_num_potentially_affected"
                     value={value.other_num_potentially_affected}
                     onChange={onValueChange}
@@ -78,9 +83,11 @@ function RiskAnalysisFields(props: Props) {
             <InputSection
                 title={strings.fieldsStep2SituationFieldsEWHighestRiskLabel}
                 description={strings.fieldsStep2SituationFieldsEWHighestRiskDescription}
+                threeColumn
             >
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsRCRCEstimation}
+                    label={strings.fieldsStep2SituationFieldsRCRC}
+                    placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="num_highest_risk"
                     value={value.num_highest_risk}
                     onChange={onValueChange}
@@ -88,7 +95,8 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsGovEstimation}
+                    label={strings.fieldsStep2SituationFieldsGov}
+                    placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="gov_num_highest_risk"
                     value={value.gov_num_highest_risk}
                     onChange={onValueChange}
@@ -96,7 +104,8 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsOtherEstimation}
+                    label={strings.fieldsStep2SituationFieldsOther}
+                    placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="other_num_highest_risk"
                     value={value.other_num_highest_risk}
                     onChange={onValueChange}
@@ -107,9 +116,11 @@ function RiskAnalysisFields(props: Props) {
             <InputSection
                 title={strings.fieldsStep2SituationFieldsEWAffectedPopCenteresLabel}
                 description={strings.fieldsStep2SituationFieldsEWAffectedPopCenteresDescription}
+                threeColumn
             >
                 <TextInput
-                    label={strings.fieldsStep2SituationFieldsRCRCEstimation}
+                    label={strings.fieldsStep2SituationFieldsRCRC}
+                    placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="affected_pop_centres"
                     value={value.affected_pop_centres}
                     onChange={onValueChange}
@@ -117,7 +128,8 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <TextInput
-                    label={strings.fieldsStep2SituationFieldsGovEstimation}
+                    label={strings.fieldsStep2SituationFieldsGov}
+                    placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="gov_affected_pop_centres"
                     value={value.gov_affected_pop_centres}
                     onChange={onValueChange}
@@ -125,7 +137,8 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <TextInput
-                    label={strings.fieldsStep2SituationFieldsOtherEstimation}
+                    label={strings.fieldsStep2SituationFieldsOther}
+                    placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="other_affected_pop_centres"
                     value={value.other_affected_pop_centres}
                     onChange={onValueChange}

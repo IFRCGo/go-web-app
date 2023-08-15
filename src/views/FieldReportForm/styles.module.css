@@ -1,3 +1,23 @@
-.register {
-    color: inherit;
+.field-report-form {
+    .tab-list {
+        width: 100%;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-4xl);
+
+        .actions {
+            display: flex;
+            gap: var(--go-ui-spacing-xl);
+
+            .page-actions {
+                display: flex;
+                gap: var(--go-ui-spacing-md);
+                flex-grow: 1;
+                justify-content: center;
+            }
+        }
+    }
 }

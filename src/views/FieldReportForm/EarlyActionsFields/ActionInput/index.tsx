@@ -8,6 +8,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import useTranslation from '#hooks/useTranslation';
+import Container from '#components/Container';
 import TextArea from '#components/TextArea';
 import Checklist from '#components/Checklist';
 
@@ -18,7 +19,7 @@ import {
     type CategoryType,
 } from '../../common';
 
-// import styles from './styles.css';
+import styles from './styles.module.css';
 import i18n from './i18n.json';
 
 export type ActionValue = NonNullable<PartialFormValue['actions_taken']>[number];
@@ -76,7 +77,71 @@ function ActionInput(props: ActionInputProps) {
 
     // FIXME: add non-field errors
     return (
-        <>
+        <div className={styles.actionInput}>
+            {reportType === 'COVID' && organizationType === 'NTLS' && (
+                <>
+                    <Container
+                        // FIXME: Use label from ENUM
+                        heading="Health"
+                        headingLevel={4}
+                        childrenContainerClassName={styles.actionContent}
+                        spacing="compact"
+                    >
+                        <Checklist
+                            name="actions"
+                            onChange={setFieldValue}
+                            options={actionOptionsForHealth}
+                            // FIXME: do not use inline functions
+                            labelSelector={(item) => item.name ?? '?'}
+                            keySelector={(item) => item.id}
+                            value={value?.actions}
+                            error={listErrorToString(error?.actions)}
+                            disabled={disabled}
+                        />
+                        {healthNotes}
+                    </Container>
+                    <Container
+                        // FIXME: Use label from ENUM
+                        heading="NS Institutional Strengthening"
+                        headingLevel={4}
+                        childrenContainerClassName={styles.actionContent}
+                        spacing="compact"
+                    >
+                        <Checklist
+                            name="actions"
+                            onChange={setFieldValue}
+                            options={actionOptionsForNs}
+                            // FIXME: do not use inline functions
+                            labelSelector={(item) => item.name ?? '?'}
+                            keySelector={(item) => item.id}
+                            value={value?.actions}
+                            error={listErrorToString(error?.actions)}
+                            disabled={disabled}
+                        />
+                        {nsNotes}
+                    </Container>
+                    <Container
+                        // FIXME: Use label from ENUM
+                        heading="Socioeconomic Interventions"
+                        headingLevel={4}
+                        childrenContainerClassName={styles.actionContent}
+                        spacing="compact"
+                    >
+                        <Checklist
+                            name="actions"
+                            onChange={setFieldValue}
+                            options={actionOptionsForSocioeco}
+                            // FIXME: do not use inline functions
+                            labelSelector={(item) => item.name ?? '?'}
+                            keySelector={(item) => item.id}
+                            value={value?.actions}
+                            error={listErrorToString(error?.actions)}
+                            disabled={disabled}
+                        />
+                        {socioecoNotes}
+                    </Container>
+                </>
+            )}
             {reportType !== 'COVID' && (
                 <Checklist
                     name="actions"
@@ -90,64 +155,6 @@ function ActionInput(props: ActionInputProps) {
                     disabled={disabled}
                 />
             )}
-            {reportType === 'COVID' && organizationType === 'NTLS' && (
-                <>
-                    <div>
-                        <div>
-                            {/* FIXME: use translations */}
-                            Health
-                        </div>
-                        <Checklist
-                            name="actions"
-                            onChange={setFieldValue}
-                            options={actionOptionsForHealth}
-                            // FIXME: do not use inline functions
-                            labelSelector={(item) => item.name ?? '?'}
-                            keySelector={(item) => item.id}
-                            value={value?.actions}
-                            error={listErrorToString(error?.actions)}
-                            disabled={disabled}
-                        />
-                        {healthNotes}
-                    </div>
-                    <div>
-                        <div>
-                            {/* FIXME: use translations */}
-                            NS Institutional Strengthening
-                        </div>
-                        <Checklist
-                            name="actions"
-                            onChange={setFieldValue}
-                            options={actionOptionsForNs}
-                            // FIXME: do not use inline functions
-                            labelSelector={(item) => item.name ?? '?'}
-                            keySelector={(item) => item.id}
-                            value={value?.actions}
-                            error={listErrorToString(error?.actions)}
-                            disabled={disabled}
-                        />
-                        {nsNotes}
-                    </div>
-                    <div>
-                        <div>
-                            {/* FIXME: use translations */}
-                            Socioeconomic Interventions
-                        </div>
-                        <Checklist
-                            name="actions"
-                            onChange={setFieldValue}
-                            options={actionOptionsForSocioeco}
-                            // FIXME: do not use inline functions
-                            labelSelector={(item) => item.name ?? '?'}
-                            keySelector={(item) => item.id}
-                            value={value?.actions}
-                            error={listErrorToString(error?.actions)}
-                            disabled={disabled}
-                        />
-                        {socioecoNotes}
-                    </div>
-                </>
-            )}
             <TextArea
                 label={strings.cmpActionDescriptionLabel}
                 name="summary"
@@ -158,7 +165,7 @@ function ActionInput(props: ActionInputProps) {
                 placeholder={strings.fieldsStep3CheckboxSectionsFederationActionsEVTEPIEWPlaceholder}
                 disabled={disabled}
             />
-        </>
+        </div>
     );
 }
 

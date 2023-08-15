@@ -591,6 +591,8 @@ export function Component() {
                         </Tab>
                     </TabList>
                 )}
+                withBackgroundColorInMainSection
+                mainSectionClassName={styles.content}
             >
                 <TabPanel name="context">
                     <ContextFields
