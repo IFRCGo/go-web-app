@@ -1,11 +1,11 @@
-import { useMemo, useCallback } from 'react';
+import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import { isValidNationalSociety } from '#utils/common';
+import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
 import {
     numericIdSelector,
     numericKeySelector,
@@ -18,7 +18,6 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type CountryListItem = NonNullable<GoApiResponse<'/api/v2/country/'>['results']>[number];
 type DistrictListItem = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
 
 export interface FilterValue {
@@ -30,8 +29,8 @@ export interface FilterValue {
     secondary_sectors: number[];
 }
 
-function countrySocietyNameSelector(country: CountryListItem) {
-    return country.society_name ?? '';
+function countrySocietyNameSelector(country: NationalSociety) {
+    return country.society_name;
 }
 
 interface Props {
@@ -58,11 +57,6 @@ function Filters(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const { response: countriesResponse } = useRequest({
-        url: '/api/v2/country/',
-        query: { limit: 500 },
-    });
-
     const { response: primarySectorResponse } = useRequest({
         url: '/api/v2/primarysector',
     });
@@ -71,10 +65,7 @@ function Filters(props: Props) {
         url: '/api/v2/secondarysector',
     });
 
-    const nsList = useMemo(
-        () => countriesResponse?.results?.filter(isValidNationalSociety),
-        [countriesResponse],
-    );
+    const nsList = useNationalSociety();
 
     const handleInputChange = useCallback((newValue: number[], name: string) => {
         if (onChange) {

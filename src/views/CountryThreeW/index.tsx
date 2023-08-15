@@ -22,14 +22,9 @@ import styles from './styles.module.css';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryId } = useParams<{ countryId: string }>();
-    const { countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const outletContext = useMemo<CountryOutletContext>(
-        () => ({
-            countryResponse,
-        }),
-        [countryResponse],
-    );
+    const outletContext = useOutletContext<CountryOutletContext>();
+    const { countryResponse } = outletContext;
 
     const strings = useTranslation(i18n);
 
