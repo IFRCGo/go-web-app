@@ -12,6 +12,8 @@
         "flashUpdateActionDescription": "Description",
         "flashUpdateActions": "Actions",
         "flashUpdateResourcesHeading": "Resources",
-        "flashUpdateDownloadDocument": "Download Document"
+        "flashUpdateDownloadDocument": "Download Document",
+        "flashUpdateMapImage": "Map",
+        "flashUpdateFile": "File"
     }
 }

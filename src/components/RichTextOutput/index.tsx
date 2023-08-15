@@ -68,6 +68,7 @@ function RichTextOutput(props: Props) {
 
     return (
         <div
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
             className={_cs(styles.richTextOutput, className)}
             dangerouslySetInnerHTML={{

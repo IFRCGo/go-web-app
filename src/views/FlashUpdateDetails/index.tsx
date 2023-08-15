@@ -31,7 +31,7 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(flashUpdateId),
         url: '/api/v2/flash-update/{id}/',
-        pathVariables: {
+        pathVariables: isNotDefined(flashUpdateId) ? undefined : {
             id: Number(flashUpdateId),
         },
     });
@@ -45,6 +45,10 @@ export function Component() {
         (at) => (at?.actions?.length !== 0 || at.summary),
     );
 
+    const districtName = flashUpdateResponse?.country_district?.map(
+        (district) => district.country_details?.name,
+    );
+
     return (
         <Page
             title={strings.flashUpdateDetailsHeading}
@@ -53,12 +57,12 @@ export function Component() {
             actions={flashUpdateResponse && (
                 <>
                     <Button
-                        name="Export"
+                        name="export"
                     >
                         {strings.flashUpdateExport}
                     </Button>
                     <Button
-                        name="Share"
+                        name="share"
                     >
                         {strings.flashUpdateShare}
                     </Button>
@@ -79,6 +83,7 @@ export function Component() {
             description={
                 (flashUpdateResponse?.country_district?.map((country) => (
                     <Link
+                        key={country.country_details.id}
                         to={country?.country_details
                             ? generatePath(
                                 countryRoute.absolutePath,
@@ -88,9 +93,7 @@ export function Component() {
                                 },
                             ) : undefined}
                     >
-                        {flashUpdateResponse?.country_district?.map(
-                            (district) => district.country_details?.name,
-                        )}
+                        {districtName?.join(', ')}
                     </Link>
                 )))
             }
@@ -128,7 +131,7 @@ export function Component() {
                                     <img
                                         className={styles.image}
                                         src={item.file}
-                                        alt=""
+                                        alt={strings.flashUpdateMapImage}
                                     />
                                     <div className={styles.caption}>
                                         {item.caption}
@@ -153,7 +156,7 @@ export function Component() {
                                     <img
                                         className={styles.image}
                                         src={item.file}
-                                        alt=""
+                                        alt={strings.flashUpdateFile}
                                     />
                                     <div className={styles.caption}>
                                         {item.caption}
