@@ -29,6 +29,7 @@ function RawButton<const N>(props: Props<N>) {
         name,
         onClick,
         focused,
+        type = 'button',
         ...otherProps
     } = props;
 
@@ -45,7 +46,8 @@ function RawButton<const N>(props: Props<N>) {
         <button
             ref={elementRef}
             name={typeof name === 'string' ? name : undefined}
-            type="button"
+            // eslint-disable-next-line react/button-has-type
+            type={type}
             className={_cs(
                 styles.rawButton,
                 focused && styles.focused,

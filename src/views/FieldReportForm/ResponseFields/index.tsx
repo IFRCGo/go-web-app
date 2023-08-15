@@ -157,142 +157,139 @@ function ResponseFields(props: Props) {
 
     return (
         <div className={styles.responseFields}>
-            <Container
-                heading={strings.fieldReportFormResponseTitle}
-                headerDescription={strings.fieldReportFormResponseLabel}
-                childrenContainerClassName={styles.content}
-            >
-                {reportType !== 'COVID' && (
-                    <>
-                        <InputSection
-                            title={strings.fieldsStep4PlannedResponseRowsDREFEVTEPILabel}
-                        >
-                            <RadioInput
-                                error={error?.dref}
-                                name="dref"
-                                onChange={onValueChange}
-                                options={requestOptions}
-                                // FIXME: do not use inline functions
-                                keySelector={(item) => item.key}
-                                labelSelector={(item) => item.value}
-                                value={value.dref}
-                                disabled={disabled}
-                                clearable
-                            />
-                            <NumberInput
-                                label={strings.fieldsStep4PlannedResponseRowsDREFValueFieldLabel}
-                                name="dref_amount"
-                                value={value.dref_amount}
-                                onChange={onValueChange}
-                                disabled={disabled}
-                                error={error?.dref_amount}
-                            />
-                        </InputSection>
-                        <InputSection
-                            // eslint-disable-next-line max-len
-                            title={strings.fieldsStep4PlannedResponseRowsEmergencyAppealEVTEPIEWLabel}
-                        >
-                            <RadioInput
-                                error={error?.appeal}
-                                name="appeal"
-                                onChange={onValueChange}
-                                options={requestOptions}
-                                // FIXME: do not use inline functions
-                                keySelector={(item) => item.key}
-                                labelSelector={(item) => item.value}
-                                value={value.appeal}
-                                clearable
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                // eslint-disable-next-line max-len
-                                label={strings.fieldsStep4PlannedResponseRowsEmergencyAppealValueFieldLabel}
-                                name="appeal_amount"
-                                value={value.appeal_amount}
-                                onChange={onValueChange}
-                                error={error?.appeal_amount}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
-                            title={strings.fieldsStep4PlannedResponseRowsFactEVTEPIEWLabel}
-                        >
-                            <RadioInput
-                                error={error?.fact}
-                                name="fact"
-                                onChange={onValueChange}
-                                options={requestOptions}
-                                // FIXME: do not use inline functions
-                                keySelector={(item) => item.key}
-                                labelSelector={(item) => item.value}
-                                value={value.fact}
-                                clearable
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                label={strings.fieldsStep4PlannedResponseRowsFactValueFieldLabel}
-                                name="num_fact"
-                                value={value.num_fact}
-                                onChange={onValueChange}
-                                error={error?.num_fact}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
-                            title={strings.fieldsStep4PlannedResponseRowsIFRCStaffEVTEPIEWLabel}
-                        >
-                            <RadioInput
-                                error={error?.ifrc_staff}
-                                name="ifrc_staff"
-                                onChange={onValueChange}
-                                options={requestOptions}
-                                // FIXME: do not use inline functions
-                                keySelector={(item) => item.key}
-                                labelSelector={(item) => item.value}
-                                value={value.ifrc_staff}
-                                clearable
-                                disabled={disabled}
-                            />
-                            <NumberInput
-                                // eslint-disable-next-line max-len
-                                label={strings.fieldsStep4PlannedResponseRowsIFRCStaffValueFieldLabel}
-                                name="num_ifrc_staff"
-                                value={value.num_ifrc_staff}
-                                onChange={onValueChange}
-                                error={error?.num_ifrc_staff}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                    </>
-                )}
-                {reportType === 'EW' && (
+            {reportType !== 'COVID' && (
+                <Container
+                    heading={strings.fieldReportFormResponseTitle}
+                    headerDescription={strings.fieldReportFormResponseLabel}
+                    childrenContainerClassName={styles.content}
+                >
                     <InputSection
-                        title={strings.fieldsStep4PlannedResponseRowsForecastBasedActionEWLabel}
+                        title={strings.fieldsStep4PlannedResponseRowsDREFEVTEPILabel}
                     >
                         <RadioInput
-                            error={error?.forecast_based_action}
-                            name="forecast_based_action"
+                            error={error?.dref}
+                            name="dref"
                             onChange={onValueChange}
                             options={requestOptions}
                             // FIXME: do not use inline functions
                             keySelector={(item) => item.key}
                             labelSelector={(item) => item.value}
-                            value={value.forecast_based_action}
+                            value={value.dref}
+                            disabled={disabled}
+                            clearable
+                        />
+                        <NumberInput
+                            label={strings.fieldsStep4PlannedResponseRowsDREFValueFieldLabel}
+                            name="dref_amount"
+                            value={value.dref_amount}
+                            onChange={onValueChange}
+                            disabled={disabled}
+                            error={error?.dref_amount}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.fieldsStep4PlannedResponseRowsEmergencyAppealEVTEPIEWLabel}
+                    >
+                        <RadioInput
+                            error={error?.appeal}
+                            name="appeal"
+                            onChange={onValueChange}
+                            options={requestOptions}
+                            // FIXME: do not use inline functions
+                            keySelector={(item) => item.key}
+                            labelSelector={(item) => item.value}
+                            value={value.appeal}
                             clearable
                             disabled={disabled}
                         />
                         <NumberInput
                             // eslint-disable-next-line max-len
-                            label={strings.fieldsStep4PlannedResponseRowsForecastBasedActionValueFieldLabel}
-                            name="forecast_based_action_amount"
-                            value={value.forecast_based_action_amount}
+                            label={strings.fieldsStep4PlannedResponseRowsEmergencyAppealValueFieldLabel}
+                            name="appeal_amount"
+                            value={value.appeal_amount}
                             onChange={onValueChange}
-                            error={error?.forecast_based_action_amount}
+                            error={error?.appeal_amount}
                             disabled={disabled}
                         />
                     </InputSection>
-                )}
-            </Container>
+                    <InputSection
+                        title={strings.fieldsStep4PlannedResponseRowsFactEVTEPIEWLabel}
+                    >
+                        <RadioInput
+                            error={error?.fact}
+                            name="fact"
+                            onChange={onValueChange}
+                            options={requestOptions}
+                            // FIXME: do not use inline functions
+                            keySelector={(item) => item.key}
+                            labelSelector={(item) => item.value}
+                            value={value.fact}
+                            clearable
+                            disabled={disabled}
+                        />
+                        <NumberInput
+                            label={strings.fieldsStep4PlannedResponseRowsFactValueFieldLabel}
+                            name="num_fact"
+                            value={value.num_fact}
+                            onChange={onValueChange}
+                            error={error?.num_fact}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.fieldsStep4PlannedResponseRowsIFRCStaffEVTEPIEWLabel}
+                    >
+                        <RadioInput
+                            error={error?.ifrc_staff}
+                            name="ifrc_staff"
+                            onChange={onValueChange}
+                            options={requestOptions}
+                            // FIXME: do not use inline functions
+                            keySelector={(item) => item.key}
+                            labelSelector={(item) => item.value}
+                            value={value.ifrc_staff}
+                            clearable
+                            disabled={disabled}
+                        />
+                        <NumberInput
+                            // eslint-disable-next-line max-len
+                            label={strings.fieldsStep4PlannedResponseRowsIFRCStaffValueFieldLabel}
+                            name="num_ifrc_staff"
+                            value={value.num_ifrc_staff}
+                            onChange={onValueChange}
+                            error={error?.num_ifrc_staff}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    {reportType === 'EW' && (
+                        <InputSection
+                            title={strings.fieldsStep4PlannedResponseRowsForecastBasedActionEWLabel}
+                        >
+                            <RadioInput
+                                error={error?.forecast_based_action}
+                                name="forecast_based_action"
+                                onChange={onValueChange}
+                                options={requestOptions}
+                                // FIXME: do not use inline functions
+                                keySelector={(item) => item.key}
+                                labelSelector={(item) => item.value}
+                                value={value.forecast_based_action}
+                                clearable
+                                disabled={disabled}
+                            />
+                            <NumberInput
+                                // eslint-disable-next-line max-len
+                                label={strings.fieldsStep4PlannedResponseRowsForecastBasedActionValueFieldLabel}
+                                name="forecast_based_action_amount"
+                                value={value.forecast_based_action_amount}
+                                onChange={onValueChange}
+                                error={error?.forecast_based_action_amount}
+                                disabled={disabled}
+                            />
+                        </InputSection>
+                    )}
+                </Container>
+            )}
             <Container
                 heading={strings.fieldReportFormContactsTitle}
                 className={styles.contactsSection}
