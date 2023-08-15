@@ -9,7 +9,7 @@ import { PencilFillIcon } from '@ifrc-go/icons';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import Button from '#components/Button';
-import TextOutput from '#components/TextOutput';
+import RichTextOutput from '#components/RichTextOutput';
 import RouteContext from '#contexts/route';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
@@ -30,7 +30,7 @@ export function Component() {
         pending: flashUpdatePending,
     } = useRequest({
         skip: isNotDefined(flashUpdateId),
-        url: `/api/v2/flash-update/{id}/`,
+        url: '/api/v2/flash-update/{id}/',
         pathVariables: {
             id: Number(flashUpdateId),
         },
@@ -38,10 +38,11 @@ export function Component() {
 
     const {
         country: countryRoute,
+        flashUpdateFormEdit: flashUpdateFormEditRoute,
     } = useContext(RouteContext);
 
     const hasActions = flashUpdateResponse?.actions_taken?.some(
-        (at) => (at?.actions?.length !== 0 || at.summary)
+        (at) => (at?.actions?.length !== 0 || at.summary),
     );
 
     return (
@@ -54,24 +55,24 @@ export function Component() {
                     <Button
                         name="Export"
                     >
-                        Export
+                        {strings.flashUpdateExport}
                     </Button>
                     <Button
                         name="Share"
                     >
-                        Share
+                        {strings.flashUpdateShare}
                     </Button>
-                    <Button
-                        name="Edit"
+                    <Link
+                        className={styles.editLink}
+                        to={generatePath(
+                            flashUpdateFormEditRoute.absolutePath,
+                            { flashUpdateId },
+                        )}
+                        icons={<PencilFillIcon />}
+                        variant="secondary"
                     >
-                        <Link
-                            variant="secondary"
-                            icons={<PencilFillIcon />
-                            }
-                        >
-                            Edit
-                        </Link>
-                    </Button>
+                        {strings.flashUpdateEdit}
+                    </Link>
                 </>
             )}
             descriptionContainerClassName={styles.description}
@@ -88,7 +89,7 @@ export function Component() {
                             ) : undefined}
                     >
                         {flashUpdateResponse?.country_district?.map(
-                            (country) => country.country_details?.name
+                            (district) => district.country_details?.name,
                         )}
                     </Link>
                 )))
@@ -102,19 +103,22 @@ export function Component() {
                 >
                     {flashUpdateResponse.situational_overview && (
                         <Container
-                            heading="Situational Overview"
-                            className={styles.overviewContent}
+                            heading={strings.flashUpdateSituationalOverviewHeading}
+                            className={styles.contentHeader}
                             withHeaderBorder
                         >
-                            <TextOutput
+                            <RichTextOutput
+                                className={styles.contentHeader}
                                 value={flashUpdateResponse.situational_overview}
                             />
                         </Container>
                     )}
                     {flashUpdateResponse.map_files && flashUpdateResponse.map_files.length > 0 && (
                         <Container
-                            heading="Map"
+                            heading={strings.flashUpdateMapHeading}
+                            className={styles.contentHeader}
                             childrenContainerClassName={styles.maps}
+                            withHeaderBorder
                         >
                             {flashUpdateResponse.map_files.map((item) => (
                                 <div
@@ -133,10 +137,13 @@ export function Component() {
                             ))}
                         </Container>
                     )}
-                    {flashUpdateResponse.graphics_files && flashUpdateResponse.graphics_files.length > 0 && (
+                    {flashUpdateResponse.graphics_files
+                        && flashUpdateResponse.graphics_files.length > 0 && (
                         <Container
-                            heading="Image"
+                            heading={strings.flashUpdateImagesHeading}
+                            className={styles.contentHeader}
                             childrenContainerClassName={styles.graphics}
+                            withHeaderBorder
                         >
                             {flashUpdateResponse?.graphics_files?.map((item) => (
                                 <div
@@ -157,40 +164,44 @@ export function Component() {
                     )}
                     {hasActions && (
                         <Container
-                            heading="Action Taken"
+                            heading={strings.flashUpdateActionTakenHeading}
+                            className={styles.contentHeader}
                             childrenContainerClassName={styles.actionsTaken}
+                            withHeaderBorder
                         >
-                            {flashUpdateResponse?.actions_taken?.map((at) => (
-                                (at?.actions?.length !== 0 || isDefined(at?.summary)) && (
+                            {flashUpdateResponse?.actions_taken?.map((actionTaken) => (
+                                (actionTaken?.actions?.length !== 0
+                                    || isDefined(actionTaken?.summary)) && (
                                     <Container
                                         className={styles.containerWithShadow}
-                                        heading={at.organization_display}
-                                        headingLevel={4}
                                         childrenContainerClassName={styles.actionTakenContent}
-                                        key={at.id}
+                                        heading={actionTaken.organization_display}
+                                        headingLevel={4}
                                         headerClassName={styles.headerWithBackground}
+                                        key={actionTaken.id}
+                                        withHeaderBorder
                                     >
-                                        {at.summary && (
+                                        {actionTaken.summary && (
                                             <div className={styles.summary}>
                                                 <div className={styles.title}>
-                                                    Description
+                                                    {strings.flashUpdateActionDescription}
                                                 </div>
                                                 <div className={styles.text}>
-                                                    {at.summary}
+                                                    {actionTaken.summary}
                                                 </div>
                                             </div>
                                         )}
                                         <div className={styles.actions}>
                                             <div className={styles.title}>
-                                                Actions
+                                                {strings.flashUpdateActions}
                                             </div>
                                             <div className={styles.list}>
-                                                {at.action_details.map((ad) => (
+                                                {actionTaken.action_details.map((actionDetail) => (
                                                     <div
-                                                        key={ad.id}
+                                                        key={actionDetail.id}
                                                         className={styles.action}
                                                     >
-                                                        {ad.name}
+                                                        {actionDetail.name}
                                                     </div>
                                                 ))}
                                             </div>
@@ -200,34 +211,34 @@ export function Component() {
                             ))}
                         </Container>
                     )}
-                    {flashUpdateResponse?.references && flashUpdateResponse.references.length > 0 && (
+                    {flashUpdateResponse?.references
+                        && flashUpdateResponse.references.length > 0 && (
                         <Container
-                            heading="Resource Title"
+                            className={styles.contentHeader}
+                            heading={strings.flashUpdateResourcesHeading}
+                            withHeaderBorder
                         >
-                            {flashUpdateResponse.references.map((r) => (
+                            {flashUpdateResponse.references.map((reference) => (
                                 <div
                                     className={styles.reference}
-                                    key={r.id}
+                                    key={reference.id}
                                 >
                                     <div className={styles.date}>
-                                        <DateOutput value={r.date} />
+                                        <DateOutput value={reference.date} />
                                     </div>
                                     <div className={styles.description}>
-                                        {r.source_description}
+                                        {reference.source_description}
                                     </div>
-                                    <a
-                                        target="_blank"
-                                        href={r.url}
-                                        className={styles.url}
-                                    >
-                                        {r.url}
-                                    </a>
-                                    {r.document_details?.file ? (
+                                    <Link to={reference.url}>
+                                        {reference.url}
+                                    </Link>
+                                    {reference.document_details?.file ? (
                                         <Button
                                             variant="secondary"
                                             className={styles.downloadLink}
-                                            name={undefined}                                        >
-                                            Download document
+                                            name={undefined}
+                                        >
+                                            {strings.flashUpdateDownloadDocument}
                                         </Button>
                                     ) : (
                                         <div className={styles.notDownloadLink} />
@@ -238,16 +249,6 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {/* {flashUpdateResponse?.situational_overview && (
-                <Container
-                    heading="Situational Overview"
-                >
-                    <TextOutput
-                        className={styles.overviewContent}
-                        value={flashUpdateResponse?.situational_overview}
-                    />
-                </Container>
-            )} */}
         </Page>
     );
 }

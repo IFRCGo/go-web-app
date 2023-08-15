@@ -1,0 +1,5 @@
+.rich-text-output {
+  p {
+    margin: var(--go-ui-spacing-lg) 0;
+  }
+}

@@ -1,6 +1,17 @@
 {
-    "namespace": "flahUpdateDetails",
+    "namespace": "flashUpdateDetails",
     "strings": {
-        "flashUpdateDetailsHeading": "flash update"
+        "flashUpdateDetailsHeading": "IFRC GO - Flash Update Details",
+        "flashUpdateExport": "Export",
+        "flashUpdateShare": "Share",
+        "flashUpdateEdit": "Edit",
+        "flashUpdateSituationalOverviewHeading": "Situational Overview",
+        "flashUpdateMapHeading": "Maps",
+        "flashUpdateImagesHeading": "Images",
+        "flashUpdateActionTakenHeading": "Actions Taken",
+        "flashUpdateActionDescription": "Description",
+        "flashUpdateActions": "Actions",
+        "flashUpdateResourcesHeading": "Resources",
+        "flashUpdateDownloadDocument": "Download Document"
     }
 }
