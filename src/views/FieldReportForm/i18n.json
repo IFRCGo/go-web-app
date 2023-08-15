@@ -1,22 +1,25 @@
 {
     "namespace": "fieldReportForm",
     "strings": {
-        "fieldReportCOVID19": "COVID-19",
-        "fieldReportFormRedirectMessage": "Field report updated, redirecting...",
-        "fieldReportFormErrorLabel": "Error:",
-        "fieldReportTitle": "IFRC GO - Field Report",
-        "fieldReportBackButtonLabel": "Back",
-        "fieldReportContinue": "Continue",
-        "fieldReportCreate": "Create Field Report",
-        "fieldReportFormItemActionsLabel": "Actions",
-        "fieldReportFormItemContextLabel": "Context",
-        "fieldReportFormItemEarlyActionsLabel": "Early Actions",
-        "fieldReportFormItemResponseLabel": "Response",
-        "fieldReportFormItemRiskAnalysisLabel": "Risk Analysis",
-        "fieldReportFormItemSituationLabel": "Situation",
-        "fieldReportFormNonFieldError": "Please fill in required fields first!",
-        "fieldReportSubmit": "Submit",
-        "fieldReportUpdate": "Update Field Report"
+        "generatedTitleFormat": "{iso3}: {disaster} - {shortDate} - {summary} #{fieldReportNumber} ({fullDate})",
+        "generatedTitleFormatOld": "{iso3}: {disaster} - {shortDate} - {summary}",
+        "generatedTitleFormatForCovid": "{iso3}: COVID-19 #{fieldReportNumber} ({fullDate})",
+        "generatedTitleFormatForCovidOld": "{iso3}: COVID-19",
+        "formRedirectMessage": "Field report updated, redirecting...",
+        "formErrorLabel": "Error:",
+        "title": "IFRC GO - Field Report",
+        "updateHeading": "Update Field Report",
+        "createHeading": "Create Field Report",
+        "formItemActionsLabel": "Actions",
+        "formItemContextLabel": "Context",
+        "formItemEarlyActionsLabel": "Early Actions",
+        "formItemResponseLabel": "Response",
+        "formItemRiskAnalysisLabel": "Risk Analysis",
+        "formItemSituationLabel": "Situation",
+        "formNonFieldError": "Please fill in required fields first!",
+        "submitButtonLabel": "Submit",
+        "backButtonLabel": "Back",
+        "continueButtonLabel": "Continue"
     }
 }
 

@@ -81,18 +81,18 @@ function ActionsFields(props: Props) {
     const organizations: OrganizationOption[] = [
         {
             key: 'NTLS',
-            title: strings.fieldsStep3CheckboxSectionsNSActionsEVTEPILabel,
-            description: strings.fieldsStep3CheckboxSectionsNSActionsEVTEPIDescription,
+            title: strings.checkboxSectionsNSActionsEVTEPILabel,
+            description: strings.checkboxSectionsNSActionsEVTEPIDescription,
         },
         {
             key: 'FDRN',
-            title: strings.fieldsStep3CheckboxSectionsFederationActionsEVTEPILabel,
-            description: strings.fieldsStep3CheckboxSectionsFederationActionsEVTEPIDescription,
+            title: strings.checkboxSectionsFederationActionsEVTEPILabel,
+            description: strings.checkboxSectionsFederationActionsEVTEPIDescription,
         },
         {
             key: 'PNS',
-            title: strings.fieldsStep3CheckboxSectionsPNSActionsEVTLabel,
-            description: strings.fieldsStep3CheckboxSectionsPNSActionsEVTEPIDescription,
+            title: strings.checkboxSectionsPNSActionsEVTLabel,
+            description: strings.checkboxSectionsPNSActionsEVTEPIDescription,
         },
     ];
 
@@ -116,12 +116,12 @@ function ActionsFields(props: Props) {
         return (
             <Container
                 className={styles.actionsFields}
-                heading={strings.fieldReportFormActionTakenTitle}
+                heading={strings.actionTakenTitle}
                 childrenContainerClassName={styles.content}
             >
                 <div className={styles.numericSection}>
                     <NumberInput
-                        label={strings.fieldsStep3Section1FieldsAssistedGovEVTEPILabel}
+                        label={strings.section1FieldsAssistedGovEVTEPILabel}
                         name="gov_num_assisted"
                         value={value.gov_num_assisted}
                         onChange={onValueChange}
@@ -129,8 +129,8 @@ function ActionsFields(props: Props) {
                         disabled={disabled}
                     />
                     <NumberInput
-                        label={strings.fieldsStep3Section1FieldsAssistedRCRCEVTEPILabel}
-                        hint={strings.fieldsStep3TooltipDescriptionRCRC}
+                        label={strings.section1FieldsAssistedRCRCEVTEPILabel}
+                        hint={strings.tooltipDescriptionRCRC}
                         name="num_assisted"
                         value={value.num_assisted}
                         onChange={onValueChange}
@@ -138,8 +138,8 @@ function ActionsFields(props: Props) {
                         disabled={disabled}
                     />
                     <NumberInput
-                        label={strings.fieldsStep3Section1FieldsLocalStaffEVTEPILabel}
-                        hint={strings.fieldsStep3TooltipDescriptionNS}
+                        label={strings.section1FieldsLocalStaffEVTEPILabel}
+                        hint={strings.tooltipDescriptionNS}
                         name="num_localstaff"
                         value={value.num_localstaff}
                         onChange={onValueChange}
@@ -147,8 +147,8 @@ function ActionsFields(props: Props) {
                         disabled={disabled}
                     />
                     <NumberInput
-                        label={strings.fieldsStep3Section1FieldsVolunteersEVTEPILabel}
-                        hint={strings.fieldsStep3TooltipDescriptionVolunteers}
+                        label={strings.section1FieldsVolunteersEVTEPILabel}
+                        hint={strings.tooltipDescriptionVolunteers}
                         name="num_volunteers"
                         value={value.num_volunteers}
                         onChange={onValueChange}
@@ -180,34 +180,34 @@ function ActionsFields(props: Props) {
                                     reportType={reportType}
                                     healthNotes={(
                                         <TextArea
-                                            label={strings.fieldsStep2NotesLabel}
+                                            label={strings.actionFieldsNotesLabel}
                                             name="notes_health"
                                             onChange={onValueChange}
                                             value={value?.notes_health}
                                             error={error?.notes_health}
-                                            placeholder={strings.fieldsStep3ActionsNotesPlaceholder}
+                                            placeholder={strings.actionsNotesPlaceholder}
                                             disabled={disabled}
                                         />
                                     )}
                                     nsNotes={(
                                         <TextArea
-                                            label={strings.fieldsStep2NotesLabel}
+                                            label={strings.actionFieldsNotesLabel}
                                             name="notes_ns"
                                             onChange={onValueChange}
                                             value={value?.notes_ns}
                                             error={error?.notes_ns}
-                                            placeholder={strings.fieldsStep3ActionsNotesPlaceholder}
+                                            placeholder={strings.actionsNotesPlaceholder}
                                             disabled={disabled}
                                         />
                                     )}
                                     socioecoNotes={(
                                         <TextArea
-                                            label={strings.fieldsStep2NotesLabel}
+                                            label={strings.actionFieldsNotesLabel}
                                             name="notes_socioeco"
                                             onChange={onValueChange}
                                             value={value?.notes_socioeco}
                                             error={error?.notes_socioeco}
-                                            placeholder={strings.fieldsStep3ActionsNotesPlaceholder}
+                                            placeholder={strings.actionsNotesPlaceholder}
                                             disabled={disabled}
                                         />
                                     )}
@@ -216,19 +216,19 @@ function ActionsFields(props: Props) {
                         );
                     })}
                     <InputSection
-                        title={strings.fieldsStep3ActionsOthersEVTEPILabel}
-                        description={strings.fieldsStep3ActionsOthersEPICOVDescription}
+                        title={strings.actionsOthersEVTEPILabel}
+                        description={strings.actionsOthersEPICOVDescription}
                     >
                         <TextArea
                             name="actions_others"
                             value={value.actions_others}
                             onChange={onValueChange}
                             error={error?.actions_others}
-                            placeholder={strings.fieldReportFormOthersActionsPlaceholder}
+                            placeholder={strings.othersActionsPlaceholder}
                         />
                     </InputSection>
                     <InputSection
-                        title={strings.fieldsStep3CombinedLabelExternalSupported}
+                        title={strings.combinedLabelExternalSupported}
                     >
                         <MultiSelectInput
                             name="external_partners"
@@ -261,12 +261,12 @@ function ActionsFields(props: Props) {
     return (
         <Container
             className={styles.actionsFields}
-            heading={strings.fieldReportFormActionTakenTitle}
+            heading={strings.actionTakenTitle}
             childrenContainerClassName={styles.content}
         >
             <div className={styles.numericSection}>
                 <NumberInput
-                    label={strings.fieldsStep3Section1FieldsAssistedGovEVTEPILabel}
+                    label={strings.section1FieldsAssistedGovEVTEPILabel}
                     name="gov_num_assisted"
                     value={value.gov_num_assisted}
                     onChange={onValueChange}
@@ -274,7 +274,7 @@ function ActionsFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep3Section1FieldsAssistedRCRCEVTEPILabel}
+                    label={strings.section1FieldsAssistedRCRCEVTEPILabel}
                     name="num_assisted"
                     value={value.num_assisted}
                     onChange={onValueChange}
@@ -282,7 +282,7 @@ function ActionsFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep3Section1FieldsLocalStaffEVTEPILabel}
+                    label={strings.section1FieldsLocalStaffEVTEPILabel}
                     name="num_localstaff"
                     value={value.num_localstaff}
                     onChange={onValueChange}
@@ -290,7 +290,7 @@ function ActionsFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep3Section1FieldsVolunteersEVTEPILabel}
+                    label={strings.section1FieldsVolunteersEVTEPILabel}
                     name="num_volunteers"
                     value={value.num_volunteers}
                     onChange={onValueChange}
@@ -298,8 +298,8 @@ function ActionsFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep3Section1FieldsExpatsEVTEPILabel}
-                    hint={strings.fieldsStep3Section1FieldsExpatsEVTEPIDescription}
+                    label={strings.section1FieldsExpatsEVTEPILabel}
+                    hint={strings.section1FieldsExpatsEVTEPIDescription}
                     name="num_expats_delegates"
                     value={value.num_expats_delegates}
                     onChange={onValueChange}
@@ -333,8 +333,8 @@ function ActionsFields(props: Props) {
                     );
                 })}
                 <InputSection
-                    title={strings.fieldReportFormInformationBulletinLabel}
-                    description={strings.fieldReportFormInformationBulletinDescription}
+                    title={strings.informationBulletinLabel}
+                    description={strings.informationBulletinDescription}
                 >
                     <RadioInput
                         name="bulletin"
@@ -349,15 +349,15 @@ function ActionsFields(props: Props) {
                     />
                 </InputSection>
                 <InputSection
-                    title={strings.fieldsStep3ActionsOthersEVTEPILabel}
-                    description={strings.fieldsStep3ActionsOthersEVTEPIDescription}
+                    title={strings.actionsOthersEVTEPILabel}
+                    description={strings.actionsOthersEVTEPIDescription}
                 >
                     <TextArea
                         name="actions_others"
                         value={value.actions_others}
                         onChange={onValueChange}
                         error={error?.actions_others}
-                        placeholder={strings.fieldReportFormOthersActionsPlaceholder}
+                        placeholder={strings.othersActionsPlaceholder}
                         disabled={disabled}
                     />
                 </InputSection>

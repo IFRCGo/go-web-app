@@ -106,7 +106,7 @@ export function Component() {
                 (item) => item.countries,
             ),
         ]),
-        [strings, emergencyRoute],
+        [strings, emergencyRoute, fieldReportFormEditRoute],
     );
 
     let ordering;

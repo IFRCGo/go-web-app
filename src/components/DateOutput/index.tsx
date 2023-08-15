@@ -1,9 +1,6 @@
 import { useMemo } from 'react';
-import {
-    populateFormat,
-    breakFormat,
-    _cs,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
+import { formatDate } from '#utils/common';
 
 import styles from './styles.module.css';
 
@@ -22,19 +19,17 @@ function DateOutput(props: Props) {
         invalidText,
     } = props;
 
-    const formattedValueList = useMemo(() => {
-        if (!value) {
-            return [];
-        }
-        const date = new Date(value);
-        return populateFormat(breakFormat(format), date);
-    }, [format, value]);
-
-    const formattedDate = formattedValueList.find((d) => d.type === 'date');
+    const formattedDate = useMemo(
+        () => formatDate(
+            value,
+            format,
+        ),
+        [value, format],
+    );
 
     return (
         <div className={_cs(styles.dateOutput, className)}>
-            {formattedDate?.value || invalidText}
+            {formattedDate ?? invalidText}
         </div>
     );
 }

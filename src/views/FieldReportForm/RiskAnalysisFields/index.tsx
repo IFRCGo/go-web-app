@@ -48,12 +48,12 @@ function RiskAnalysisFields(props: Props) {
             childrenContainerClassName={styles.content}
         >
             <InputSection
-                title={strings.fieldsStep2SituationFieldsEWPotentiallyAffectedLabel}
-                description={strings.fieldsStep2SituationFieldsEWPotentiallyAffectedDescription}
+                title={strings.situationFieldsEWPotentiallyAffectedLabel}
+                description={strings.situationFieldsEWPotentiallyAffectedDescription}
                 threeColumn
             >
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsRCRC}
+                    label={strings.situationFieldsRCRC}
                     placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="num_potentially_affected"
                     value={value.num_potentially_affected}
@@ -62,7 +62,7 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsGov}
+                    label={strings.situationFieldsGov}
                     placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="gov_num_potentially_affected"
                     value={value.gov_num_potentially_affected}
@@ -71,7 +71,7 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsOther}
+                    label={strings.situationFieldsOther}
                     placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="other_num_potentially_affected"
                     value={value.other_num_potentially_affected}
@@ -81,12 +81,12 @@ function RiskAnalysisFields(props: Props) {
                 />
             </InputSection>
             <InputSection
-                title={strings.fieldsStep2SituationFieldsEWHighestRiskLabel}
-                description={strings.fieldsStep2SituationFieldsEWHighestRiskDescription}
+                title={strings.situationFieldsEWHighestRiskLabel}
+                description={strings.situationFieldsEWHighestRiskDescription}
                 threeColumn
             >
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsRCRC}
+                    label={strings.situationFieldsRCRC}
                     placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="num_highest_risk"
                     value={value.num_highest_risk}
@@ -95,7 +95,7 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsGov}
+                    label={strings.situationFieldsGov}
                     placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="gov_num_highest_risk"
                     value={value.gov_num_highest_risk}
@@ -104,7 +104,7 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <NumberInput
-                    label={strings.fieldsStep2SituationFieldsOther}
+                    label={strings.situationFieldsOther}
                     placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="other_num_highest_risk"
                     value={value.other_num_highest_risk}
@@ -114,12 +114,12 @@ function RiskAnalysisFields(props: Props) {
                 />
             </InputSection>
             <InputSection
-                title={strings.fieldsStep2SituationFieldsEWAffectedPopCenteresLabel}
-                description={strings.fieldsStep2SituationFieldsEWAffectedPopCenteresDescription}
+                title={strings.situationFieldsEWAffectedPopCenteresLabel}
+                description={strings.situationFieldsEWAffectedPopCenteresDescription}
                 threeColumn
             >
                 <TextInput
-                    label={strings.fieldsStep2SituationFieldsRCRC}
+                    label={strings.situationFieldsRCRC}
                     placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="affected_pop_centres"
                     value={value.affected_pop_centres}
@@ -128,7 +128,7 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <TextInput
-                    label={strings.fieldsStep2SituationFieldsGov}
+                    label={strings.situationFieldsGov}
                     placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="gov_affected_pop_centres"
                     value={value.gov_affected_pop_centres}
@@ -137,7 +137,7 @@ function RiskAnalysisFields(props: Props) {
                     disabled={disabled}
                 />
                 <TextInput
-                    label={strings.fieldsStep2SituationFieldsOther}
+                    label={strings.situationFieldsOther}
                     placeholder={strings.riskAnalysisEstimationPlaceholder}
                     name="other_affected_pop_centres"
                     value={value.other_affected_pop_centres}
@@ -147,8 +147,8 @@ function RiskAnalysisFields(props: Props) {
                 />
             </InputSection>
             <InputSection
-                title={strings.fieldReportFormSourceDetailsLabel}
-                description={strings.fieldReportFormSourceDetailsDescription}
+                title={strings.sourceDetailsLabel}
+                description={strings.sourceDetailsDescription}
             >
                 <TextArea
                     name="other_sources"
@@ -156,12 +156,12 @@ function RiskAnalysisFields(props: Props) {
                     onChange={onValueChange}
                     error={error?.other_sources}
                     disabled={disabled}
-                    placeholder={strings.fieldReportFormSourceDetailsPlaceholder}
+                    placeholder={strings.sourceDetailsPlaceholder}
                 />
             </InputSection>
             <InputSection
-                title={strings.fieldsStep2DescriptionEWLabel}
-                description={strings.fieldsStep2DescriptionEWDescription}
+                title={strings.descriptionEWLabel}
+                description={strings.descriptionEWDescription}
             >
                 <TextArea
                     name="description"
@@ -169,7 +169,7 @@ function RiskAnalysisFields(props: Props) {
                     onChange={onValueChange}
                     error={error?.description}
                     disabled={disabled}
-                    placeholder={strings.fieldsStep2DescriptionEWPlaceholder}
+                    placeholder={strings.descriptionEWPlaceholder}
                 />
             </InputSection>
         </Container>

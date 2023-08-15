@@ -16,7 +16,6 @@ import {
     isNotDefined,
     isFalsyString,
     listToGroupList,
-    isTruthyString,
 } from '@togglecorp/fujs';
 import {
     useForm,
@@ -24,7 +23,6 @@ import {
     removeNull,
 } from '@togglecorp/toggle-form';
 
-import { useRequest, useLazyRequest } from '#utils/restRequest';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import Tab from '#components/Tabs/Tab';
@@ -32,14 +30,16 @@ import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
 import Page from '#components/Page';
-import RouteContext from '#contexts/route';
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useDisasterType from '#hooks/domain/useDisasterType';
-
-import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
-import { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
+import { resolveToString } from '#utils/translation';
+import { formatDate } from '#utils/common';
+import { useRequest, useLazyRequest } from '#utils/restRequest';
+import RouteContext from '#contexts/route';
 
 import ContextFields from './ContextFields';
 import RiskAnalysisFields from './RiskAnalysisFields';
@@ -68,7 +68,6 @@ import styles from './styles.module.css';
 import i18n from './i18n.json';
 
 type TabKeys = 'context' | 'situation' | 'risk-analysis' | 'actions' | 'early-actions' | 'response';
-
 
 function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undefined) {
     if (status === STATUS_EVENT && direction === 1) {
@@ -242,7 +241,7 @@ export function Component() {
         body: (ctx: FieldReportBody) => ctx,
         onSuccess: (response) => {
             alert.show(
-                strings.fieldReportFormRedirectMessage,
+                strings.formRedirectMessage,
                 { variant: 'success' },
             );
             navigate(generatePath(
@@ -260,7 +259,7 @@ export function Component() {
             onErrorSet(formErrors);
             alert.show(
                 <p>
-                    {strings.fieldReportFormErrorLabel}
+                    {strings.formErrorLabel}
                     &nbsp;
                     <strong>
                         {messageForNotification}
@@ -283,7 +282,7 @@ export function Component() {
         body: (ctx: FieldReportBody) => ctx,
         onSuccess: (response) => {
             alert.show(
-                strings.fieldReportFormRedirectMessage,
+                strings.formRedirectMessage,
                 { variant: 'success' },
             );
             window.setTimeout(
@@ -306,7 +305,7 @@ export function Component() {
             onErrorSet(formErrors);
             alert.show(
                 <p>
-                    {strings.fieldReportFormErrorLabel}
+                    {strings.formErrorLabel}
                     &nbsp;
                     <strong>
                         {messageForNotification}
@@ -342,7 +341,7 @@ export function Component() {
         [countries],
     );
 
-    const getSummary = useCallback(
+    const getTitle = useCallback(
         (
             country: number | null | undefined,
             is_covid_report: boolean | undefined,
@@ -350,25 +349,54 @@ export function Component() {
             dtype: number | null | undefined,
             summary: string | null | undefined,
         ) => {
-            const dateLabel = new Date().toISOString().slice(0, 10);
+            const dateLabel = formatDate(new Date());
             const iso3Label = isDefined(country)
-                ? countryIsoOptions.find((x) => x.id === country)?.iso3
+                ? countryIsoOptions.find(({ id }) => id === country)?.iso3
                 : undefined;
 
             // COVID-19
             if (is_covid_report) {
-                return fieldReportNumber === undefined
-                    ? `${iso3Label}: ${strings.fieldReportCOVID19}`
-                    : `${iso3Label}: ${strings.fieldReportCOVID19} #${fieldReportNumber} (${dateLabel})`;
+                return isDefined(fieldReportNumber)
+                    ? resolveToString(
+                        strings.generatedTitleFormatForCovid,
+                        {
+                            iso3: iso3Label,
+                            fieldReportNumber,
+                            fullDate: dateLabel,
+                        },
+                    ) : resolveToString(
+                        strings.generatedTitleFormatForCovidOld,
+                        { iso3: iso3Label },
+                    );
             }
 
             // NON-COVID-19
             const disasterLabel = isDefined(dtype)
-                ? disasterTypeOptions?.find((x) => x.id === dtype)?.name
+                ? disasterTypeOptions?.find(({ id }) => id === dtype)?.name
                 : undefined;
-            return fieldReportNumber === undefined
-                ? `${iso3Label}: ${disasterLabel} - ${start_date?.substring(0, 7)} - ${summary}`
-                : `${iso3Label}: ${disasterLabel} - ${start_date?.substring(0, 7)} - ${summary} #${fieldReportNumber} (${dateLabel})`;
+
+            const shortDate = formatDate(start_date, 'MM-yyyy');
+
+            return isDefined(fieldReportNumber)
+                ? resolveToString(
+                    strings.generatedTitleFormat,
+                    {
+                        iso3: iso3Label,
+                        disaster: disasterLabel,
+                        shortDate,
+                        summary,
+                        fieldReportNumber,
+                        fullDate: dateLabel,
+                    },
+                ) : resolveToString(
+                    strings.generatedTitleFormatOld,
+                    {
+                        iso3: iso3Label,
+                        disaster: disasterLabel,
+                        shortDate,
+                        summary,
+                    },
+                );
         },
         [countryIsoOptions, disasterTypeOptions, fieldReportNumber, strings],
     );
@@ -379,21 +407,20 @@ export function Component() {
                 isDefined(value.country)
                 && isDefined(value.start_date)
                 && isDefined(value.dtype)
-                && isTruthyString(value.summary)
                 && isNotDefined(reportId)
             ) {
-                return getSummary(
+                return getTitle(
                     value.country,
                     value.is_covid_report,
                     value.start_date,
                     value.dtype,
-                    value.summary,
+                    value.summary ?? '',
                 );
             }
             return undefined;
         },
         [
-            getSummary,
+            getTitle,
             reportId,
             value.country,
             value.is_covid_report,
@@ -421,7 +448,7 @@ export function Component() {
                     ...sanitizedValues,
                 } as FieldReportBody);
             } else {
-                const summary = getSummary(
+                const summary = getTitle(
                     formValues.country,
                     sanitizedValues.is_covid_report,
                     sanitizedValues.start_date,
@@ -436,7 +463,7 @@ export function Component() {
             }
         },
         [
-            getSummary,
+            getTitle,
             reportId,
             editSubmitRequest,
             createSubmitRequest,
@@ -524,11 +551,11 @@ export function Component() {
             <Page
                 elementRef={formContentRef}
                 className={styles.fieldReportForm}
-                title={strings.fieldReportTitle}
+                title={strings.title}
                 heading={(
                     isDefined(reportId)
-                        ? strings.fieldReportUpdate
-                        : strings.fieldReportCreate
+                        ? strings.updateHeading
+                        : strings.createHeading
                 )}
                 // FIXME: Add link to wiki
                 info={(
@@ -539,7 +566,7 @@ export function Component() {
                             disabled={pending}
                             // errored
                         >
-                            {strings.fieldReportFormItemContextLabel}
+                            {strings.formItemContextLabel}
                         </Tab>
                         {value.status === STATUS_EARLY_WARNING && (
                             <Tab
@@ -548,7 +575,7 @@ export function Component() {
                                 disabled={pending}
                                 // errored
                             >
-                                {strings.fieldReportFormItemRiskAnalysisLabel}
+                                {strings.formItemRiskAnalysisLabel}
                             </Tab>
                         )}
                         {value.status === STATUS_EVENT && (
@@ -558,7 +585,7 @@ export function Component() {
                                 disabled={pending}
                                 // errored
                             >
-                                {strings.fieldReportFormItemSituationLabel}
+                                {strings.formItemSituationLabel}
                             </Tab>
                         )}
                         {value.status === STATUS_EARLY_WARNING && (
@@ -568,7 +595,7 @@ export function Component() {
                                 disabled={pending}
                                 // errored
                             >
-                                {strings.fieldReportFormItemEarlyActionsLabel}
+                                {strings.formItemEarlyActionsLabel}
                             </Tab>
                         )}
                         {value.status === STATUS_EVENT && (
@@ -578,7 +605,7 @@ export function Component() {
                                 disabled={pending}
                                 // errored
                             >
-                                {strings.fieldReportFormItemActionsLabel}
+                                {strings.formItemActionsLabel}
                             </Tab>
                         )}
                         <Tab
@@ -587,7 +614,7 @@ export function Component() {
                             disabled={pending}
                             // errored
                         >
-                            {strings.fieldReportFormItemResponseLabel}
+                            {strings.formItemResponseLabel}
                         </Tab>
                     </TabList>
                 )}
@@ -659,7 +686,7 @@ export function Component() {
                 </TabPanel>
                 <NonFieldError
                     error={error}
-                    message={strings.fieldReportFormNonFieldError}
+                    message={strings.formNonFieldError}
                 />
                 <div className={styles.actions}>
                     <div className={styles.pageActions}>
@@ -669,7 +696,7 @@ export function Component() {
                             disabled={!prevStep}
                             variant="secondary"
                         >
-                            {strings.fieldReportBackButtonLabel}
+                            {strings.backButtonLabel}
                         </Button>
                         <Button
                             name={nextStep ?? activeTab}
@@ -677,7 +704,7 @@ export function Component() {
                             disabled={!nextStep}
                             variant="secondary"
                         >
-                            {strings.fieldReportContinue}
+                            {strings.continueButtonLabel}
                         </Button>
                     </div>
                     <Button
@@ -685,7 +712,7 @@ export function Component() {
                         onClick={handleFormSubmit}
                         disabled={activeTab !== 'response'}
                     >
-                        {strings.fieldReportSubmit}
+                        {strings.submitButtonLabel}
                     </Button>
                 </div>
             </Page>

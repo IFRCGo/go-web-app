@@ -77,10 +77,10 @@ function ContextFields(props: Props) {
     // FIXME: memoize this
     const statusDescriptionSelector = ({ key }: { key: Status }) => {
         if (key === STATUS_EARLY_WARNING) {
-            return strings.fieldReportConstantStatusEarlyWarningDescription;
+            return strings.statusEarlyWarningDescription;
         }
         if (key === STATUS_EVENT) {
-            return strings.fieldReportConstantStatusEventDescription;
+            return strings.statusEventDescription;
         }
         return '';
     };
@@ -91,28 +91,28 @@ function ContextFields(props: Props) {
     }
 
     const startDateDescriptionMap: MapByReportType = {
-        EW: strings.fieldsStep1StartDateDescriptionEW,
-        COVID: strings.fieldsStep1StartDateDescriptionEPI,
-        EPI: strings.fieldsStep1StartDateDescriptionEPI,
-        EVT: strings.fieldsStep1StartDateDescriptionEVT,
+        EW: strings.startDateDescriptionEW,
+        COVID: strings.startDateDescriptionEPI,
+        EPI: strings.startDateDescriptionEPI,
+        EVT: strings.startDateDescriptionEVT,
     };
 
     const startDateTitleMap: MapByReportType = {
-        EW: strings.fieldsStep1StartDateLabelEW,
-        COVID: strings.fieldsStep1StartDateLabelEPI,
-        EPI: strings.fieldsStep1StartDateLabelEPI,
-        EVT: strings.fieldsStep1StartDateLabelStartDate,
+        EW: strings.startDateLabelEW,
+        COVID: strings.startDateLabelEPI,
+        EPI: strings.startDateLabelEPI,
+        EVT: strings.startDateLabelStartDate,
     };
 
     const countryTitleMap: MapByReportType = {
-        EW: strings.fieldsStep1CountryLabelEW,
-        COVID: strings.fieldsStep1CountryLabelAffected,
-        EPI: strings.fieldsStep1CountryLabelAffected,
-        EVT: strings.fieldsStep1CountryLabelAffected,
+        EW: strings.countryLabelEW,
+        COVID: strings.countryLabelAffected,
+        EPI: strings.countryLabelAffected,
+        EVT: strings.countryLabelAffected,
     };
 
     const countryDescriptionMap: MapByReportType = {
-        EW: strings.fieldsStep1CountryDescriptionEW,
+        EW: strings.countryDescriptionEW,
         COVID: undefined,
         EPI: undefined,
         EVT: undefined,
@@ -165,7 +165,7 @@ function ContextFields(props: Props) {
             childrenContainerClassName={styles.content}
         >
             <InputSection
-                title={strings.fieldReportFormStatusLabel}
+                title={strings.statusSectionTitle}
             >
                 <RadioInput
                     name="status"
@@ -181,7 +181,7 @@ function ContextFields(props: Props) {
                 />
             </InputSection>
             <InputSection
-                title={strings.fieldReportFormCovidLabel}
+                title={strings.covidSectionTitle}
             >
                 <BooleanInput
                     name="is_covid_report"
@@ -198,8 +198,8 @@ function ContextFields(props: Props) {
                 description="Type the name of the country you want to report on in the box above to begin the search."
             >
                 <EventElasticSearchSelectInput
-                    label={strings.fieldReportFormTitleSelectLabel}
-                    placeholder={strings.fieldReportFormTitleSelectPlaceholder}
+                    label={strings.emergencySelectLabel}
+                    placeholder={strings.emergencySelectPlaceholder}
                     name="event"
                     value={value.event}
                     onChange={onValueChange}
@@ -215,7 +215,7 @@ function ContextFields(props: Props) {
             >
                 <CountrySelectInput
                     error={error?.country}
-                    label={strings.projectFormCountryLabel}
+                    label={strings.countryInputLabel}
                     name="country"
                     onChange={handleCountryChange}
                     value={value.country}
@@ -223,7 +223,7 @@ function ContextFields(props: Props) {
                 />
                 <DistrictSearchMultiSelectInput
                     error={getErrorString(error?.districts)}
-                    label={strings.projectFormDistrictLabel}
+                    label={strings.districtInputLabel}
                     name="districts"
                     disabled={isNotDefined(value.country) || disabled}
                     countryId={value?.country}
@@ -234,8 +234,8 @@ function ContextFields(props: Props) {
                 />
             </InputSection>
             <InputSection
-                title={strings.fieldsStep1DisasterTypeLabel}
-                description={strings.fieldsStep1DisasterTypeDescription}
+                title={strings.disasterTypeLabel}
+                description={strings.disasterTypeDescription}
                 twoColumn
             >
                 <DisasterTypeSelectInput
@@ -263,14 +263,13 @@ function ContextFields(props: Props) {
                     error={error?.start_date || disabled}
                 />
             </InputSection>
-
             <InputSection
-                title={strings.fieldsStep1SummaryLabel}
-                description={strings.fieldsStep1SummaryDescription}
+                title={strings.summaryLabel}
+                description={strings.summaryDescription}
             >
                 <TextInput
-                    label={strings.fieldReportFormTitleSecondaryLabel}
-                    placeholder={strings.fieldReportFormTitleInputPlaceholder}
+                    label={strings.titleSecondaryLabel}
+                    placeholder={strings.titleInputPlaceholder}
                     name="summary"
                     value={value.summary}
                     maxLength={256}
@@ -281,8 +280,8 @@ function ContextFields(props: Props) {
                 />
             </InputSection>
             <InputSection
-                title={strings.fieldsStep1AssistanceLabel}
-                description={strings.fieldsStep1AssistanceDescription}
+                title={strings.assistanceLabel}
+                description={strings.assistanceDescription}
             >
                 <BooleanInput
                     name="request_assistance"
@@ -294,8 +293,8 @@ function ContextFields(props: Props) {
                 />
             </InputSection>
             <InputSection
-                title={strings.fieldsStep1NSAssistanceLabel}
-                description={strings.fieldsStep1NSAssistanceDescription}
+                title={strings.nsAssistanceLabel}
+                description={strings.nsAssistanceDescription}
             >
                 <BooleanInput
                     name="ns_request_assistance"
