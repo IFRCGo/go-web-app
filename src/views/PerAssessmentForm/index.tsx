@@ -124,7 +124,7 @@ export function Component() {
             );
 
             setAreas(sortedUniqueAreas);
-            setCurrentArea(sortedUniqueAreas[0]?.id);
+            setCurrentArea(sortedUniqueAreas[0]?.area_num);
         },
     });
 
@@ -270,8 +270,9 @@ export function Component() {
         (question) => question.component.area.title,
     );
 
-    const minArea = 1;
-    const maxArea = areas.length;
+    const minArea = areas[0]?.area_num ?? 1;
+    const maxArea = areas[areas.length - 1]?.area_num ?? areas.length;
+
     const currentPerStep = statusResponse?.phase;
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);

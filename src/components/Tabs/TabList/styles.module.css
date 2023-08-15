@@ -1,45 +1,81 @@
 .tab-list {
     display: flex;
     position: relative;
-    z-index: 0;
-    overflow-x: auto;
-
-    .step-border {
-        position: absolute;
-        top: calc((var(--go-ui-spacing-md) + 1rem) / 2);
-        z-index: -1;
-        background-color: var(--go-ui-color-gray-30);
-        width: 100%;
-        height: var(--go-ui-width-separator-md);
-
-        .progress {
-            transition: var(--go-ui-duration-transition-medium) width ease-in-out;
-            background-color: var(--go-ui-color-primary-red);
-            width: 0%;
-            height: 100%;
-        }
-    }
-
-    .start-dummy-content,
-    .end-dummy-content {
-        align-self: flex-end;
-        flex-grow: 1;
-        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-30);
-    }
-
-    &.disabled {
-        .step-border {
-            opacity: var(--go-ui-opacity-disabled-element);
-        }
-    }
 
     &.primary {
-        align-items: stretch;
+        overflow-x: auto;
+
+        .content {
+            display: flex;
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            align-self: flex-end;
+            flex-grow: 1;
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        }
     }
 
     &.secondary {
-        border-radius: calc(1em + var(--go-ui-spacing-md));
-        background-color: var(--go-ui-color-background);
+        display: flex;
+        overflow-x: auto;
+
+        .content {
+            display: flex;
+            border-radius: var(--go-ui-border-radius-full);
+            background-color: var(--go-ui-color-element-background);
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            flex-grow: 1;
+        }
+    }
+
+    &.tertiary {
+        justify-content: flex-start;
         width: fit-content;
+        overflow-x: auto;
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            width: fit-content;
+            overflow-x: auto;
+            gap: var(--go-ui-spacing-md);
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            display: none;
+        }
+    }
+
+    &.step {
+        overflow-x: auto;
+
+        .content {
+            display: flex;
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            align-self: flex-end;
+            flex-grow: 1;
+        }
+    }
+
+    &.vertical {
+        .content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .start-dummy-content,
+        .end-dummy-content {
+            display: none;
+        }
     }
 }

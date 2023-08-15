@@ -1,0 +1,10 @@
+{
+    "namespace": "fieldReportForm",
+    "strings": {
+        "cmpContactEmail": "Email",
+        "cmpContactName": "Name",
+        "cmpContactPhone": "Phone",
+        "cmpContactTitle": "Title"
+    }
+}
+

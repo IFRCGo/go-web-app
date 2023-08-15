@@ -10,7 +10,7 @@ import {
 import useDebouncedValue from '#hooks/useDebouncedValue';
 import { paths } from '#generated/types';
 
-type GetFieldReport = paths['/api/v2/field_report/']['get'];
+type GetFieldReport = paths['/api/v2/field-report/']['get'];
 type GetFieldReportParams = GetFieldReport['parameters']['query'];
 type GetFieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
 export type FieldReportItem = Pick<NonNullable<GetFieldReportResponse['results']>[number], 'id' | 'summary'>;
@@ -51,7 +51,7 @@ function FieldReportSearchSelectInput<NAME>(
         response,
     } = useRequest({
         skip: (searchText?.length ?? 0) === 0 || !opened,
-        url: '/api/v2/field_report/',
+        url: '/api/v2/field-report/',
         query,
     });
 

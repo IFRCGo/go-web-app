@@ -71,7 +71,7 @@ function Readiness() {
         setPage(1);
     }, [setSelectedERUTypes]);
 
-    const rendererParams = useCallback((_: ERUOwnerListItem['id'], eruOwner: ERUOwnerListItem) => ({
+    const rendererParams = useCallback((_: number, eruOwner: ERUOwnerListItem) => ({
         data: eruOwner,
     }), []);
 
@@ -131,6 +131,7 @@ function Readiness() {
                 pending={eruOwnersPending}
                 errored={!!eruOwnersError}
                 filtered={false}
+                withMessageOverContent
                 keySelector={eruOwnerKeySelector}
                 renderer={EmergencyResponseUnitOwnerCard}
                 rendererParams={rendererParams}

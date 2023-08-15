@@ -58,6 +58,8 @@
 
     &.one-column {
         .section-content {
+            flex-wrap: wrap;
+
             >* {
                 flex-basis: calc(100% - var(--go-ui-spacing-md));
                 flex-grow: unset;
@@ -67,6 +69,8 @@
 
     &.two-column {
         .section-content {
+            flex-wrap: wrap;
+
             >* {
                 flex-basis: calc(50% - var(--go-ui-spacing-md));
                 flex-grow: unset;
@@ -76,6 +80,8 @@
 
     &.three-column {
         .section-content {
+            flex-wrap: wrap;
+
             >* {
                 flex-basis: calc(100% / 3 - var(--go-ui-spacing-md));
                 flex-grow: unset;

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, ElementRef, RefObject } from 'react';
 import {
     _cs,
     isDefined,
@@ -22,6 +22,7 @@ interface Props {
     infoContainerClassName?: string;
     wikiLink?: React.ReactNode;
     withBackgroundColorInMainSection?: boolean;
+    elementRef?: RefObject<ElementRef<'div'>>;
 }
 
 function Page(props: Props) {
@@ -39,6 +40,7 @@ function Page(props: Props) {
         infoContainerClassName,
         wikiLink,
         withBackgroundColorInMainSection,
+        elementRef,
     } = props;
 
     useEffect(() => {
@@ -60,6 +62,7 @@ function Page(props: Props) {
                 styles.page,
                 className,
             )}
+            ref={elementRef}
         >
             {showPageContainer && (
                 <PageHeader

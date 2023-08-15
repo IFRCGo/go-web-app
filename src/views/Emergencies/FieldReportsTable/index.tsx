@@ -23,7 +23,7 @@ import RouteContext from '#contexts/route';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type FieldReportResponse = GoApiResponse<'/api/v2/field_report/'>;
+type FieldReportResponse = GoApiResponse<'/api/v2/field-report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 
 const thirtyDaysAgo = new Date();
@@ -101,7 +101,7 @@ function FieldReportsTable() {
         pending: fieldReportPending,
         response: fieldReportResponse,
     } = useRequest({
-        url: '/api/v2/field_report/',
+        url: '/api/v2/field-report/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,

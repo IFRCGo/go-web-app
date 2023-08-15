@@ -6,6 +6,8 @@ type OperationTypeEnum = components['schemas']['OperationTypeEnum'];
 type StatusTypeEnum = components['schemas']['Key1d2Enum'];
 type ProgrammeTypeEnum = components['schemas']['Key1d2Enum'];
 
+export const DEFAULT_DATE_FORMAT = 'dd-MM-yyyy';
+
 // Alert
 
 export const DURATION_DEFAULT_ALERT_DISMISS = 4500;

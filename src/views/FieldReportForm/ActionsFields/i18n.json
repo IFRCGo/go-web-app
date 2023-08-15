@@ -1,0 +1,30 @@
+{
+    "namespace": "fieldReportForm",
+    "strings": {
+        "actionTakenTitle": "Actions taken",
+        "informationBulletinDescription": "Indicate if an Information Bulletin was published, is planned or if no Information Bulletin will be issued for this operation/disaster/hazard.",
+        "informationBulletinLabel": "Information Bulletin",
+        "othersActionsPlaceholder": "Brief description of the action",
+        "actionFieldsNotesLabel": "Notes",
+        "actionsNotesPlaceholder": "If selected any of the activities above, please provide brief details as to how individuals were reached by the activities listed above. We encourage you to consult the previous field report and to note any changes in actions (have new activities started or concluded?). Please highlight any key successes or challenges or unique learnings.",
+        "actionsOthersEPICOVDescription": "Who else is your National Society working with? UN agencies? NGOs? Government? Since the last field report, outline the main actors your NS has been engaged with. We understand there may be many partners so please just highlight the main ones since the last field report.",
+        "actionsOthersEVTEPIDescription": "Who else was involved? UN agencies? NGOs? Government? Describe what other actors did. Also mention who the other actors are.",
+        "actionsOthersEVTEPILabel": "Actions Taken by Others (Governments, UN)",
+        "checkboxSectionsFederationActionsEVTEPIDescription": "Select the activities taken by the IFRC (could be the Regional office, cluster office or country office) and briefly describe.",
+        "checkboxSectionsFederationActionsEVTEPILabel": "Actions taken by the IFRC",
+        "checkboxSectionsNSActionsEVTEPIDescription": "Since the beginning of the response, what activities has your NS undertaken? A short description is available for each activity and if your NS has been active in this area during this response, please select it by checking the box. There is a section to provide a description of the activities supported, in this section please focus on what is new since the last field report.",
+        "checkboxSectionsNSActionsEVTEPILabel": "Actions Taken by National Society Red Cross (if any)",
+        "checkboxSectionsPNSActionsEVTEPIDescription": "Select the activities undertaken by any other RCRC Movement actor(s) and briefly describe.",
+        "checkboxSectionsPNSActionsEVTLabel": "Actions taken by any other RCRC Movement actors",
+        "combinedLabelExternalSupported": "External partners / Supported activities",
+        "section1FieldsAssistedGovEVTEPILabel": "Assisted by Government",
+        "section1FieldsAssistedRCRCEVTEPILabel": "Assisted by RCRC Movement",
+        "section1FieldsExpatsEVTEPIDescription": "Personnel from IFRC, ICRC & PNS",
+        "section1FieldsExpatsEVTEPILabel": "Number of RCRC Partner Personnel Involved",
+        "section1FieldsLocalStaffEVTEPILabel": "Number of NS Staff Involved",
+        "section1FieldsVolunteersEVTEPILabel": "Number of NS Volunteers Involved",
+        "tooltipDescriptionNS": "Number of people currently involved in the response (mobilized for this specific response).",
+        "tooltipDescriptionRCRC": "Number of people who have received RCRC services to prevent COVID-19 transmission or provide healthcare, social, or economic services to reduce the impact of COVID-19. Note one person may receive multiple services.",
+        "tooltipDescriptionVolunteers": "Number of people currently involved in the response (mobilized for this specific response)."
+    }
+}

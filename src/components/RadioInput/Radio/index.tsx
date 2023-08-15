@@ -60,9 +60,12 @@ function Radio<N, IN>(props: Props<N, IN>) {
                 childrenContainerClassName={styles.children}
             >
                 {label}
-                <div className={styles.description}>
-                    {description}
-                </div>
+
+                {description && (
+                    <div className={styles.description}>
+                        {description}
+                    </div>
+                )}
             </ElementFragments>
             <input
                 className={styles.input}

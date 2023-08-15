@@ -7,7 +7,10 @@ import {
     sum,
     isTruthyString,
     Maybe,
+    populateFormat,
+    breakFormat,
 } from '@togglecorp/fujs';
+import { DEFAULT_DATE_FORMAT } from './constants';
 
 export type UnsafeNumberList = Maybe<Maybe<number>[]>;
 
@@ -280,6 +283,27 @@ export function formatNumber(
         .format(value);
 
     return newValue;
+}
+
+export function formatDate(
+    value: Date | string | number | null | undefined,
+    format = DEFAULT_DATE_FORMAT,
+) {
+    if (isNotDefined(value)) {
+        return undefined;
+    }
+
+    const date = new Date(value);
+
+    // Check if valid date
+    if (Number.isNaN(date.getTime())) {
+        return undefined;
+    }
+
+    const formattedValueList = populateFormat(breakFormat(format), date);
+    const formattedDate = formattedValueList.find((d) => d.type === 'date');
+
+    return formattedDate?.value;
 }
 
 export function splitList<X, Y>(

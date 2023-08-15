@@ -11,7 +11,7 @@ export interface Props extends React.HTMLProps<HTMLDivElement> {
     variant?: NavigationTabVariant;
 }
 
-export default function TabList(props: Props) {
+export default function NavigationTabList(props: Props) {
     const {
         children,
         variant = 'primary',

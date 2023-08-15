@@ -1,7 +1,6 @@
 import {
     useState,
     useCallback,
-    useMemo,
 } from 'react';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
@@ -12,8 +11,6 @@ import {
 } from '@togglecorp/toggle-form';
 import {
     isNotDefined,
-    isDefined,
-    isFalsyString,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
@@ -38,6 +35,8 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useCountry from '#hooks/domain/useCountry';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import useDisasterType from '#hooks/domain/useDisasterType';
 
 import {
     DISASTER_FIRE,
@@ -106,12 +105,7 @@ function Overview(props: Props) {
 
     const countryOptions = useCountry();
 
-    const {
-        pending: fetchingDisasterTypes,
-        response: disasterTypesResponse,
-    } = useRequest({
-        url: '/api/v2/disaster_type/',
-    });
+    const disasterTypes = useDisasterType();
 
     const {
         pending: districtsResponsePending,
@@ -135,7 +129,7 @@ function Overview(props: Props) {
             const countryName = countryOptions?.find(
                 (country) => country.id === value?.country,
             )?.name;
-            const disasterName = disasterTypesResponse?.results?.find(
+            const disasterName = disasterTypes?.find(
                 (disasterType) => disasterType.id === value?.disaster_type,
             )?.name;
             const currentYear = new Date().getFullYear();
@@ -144,35 +138,16 @@ function Overview(props: Props) {
         },
         [
             countryOptions,
-            disasterTypesResponse,
+            disasterTypes,
             value?.disaster_type,
             value?.country,
             setFieldValue,
         ],
     );
 
-    const disasterTypeOptions = useMemo(
-        () => (
-            disasterTypesResponse?.results?.map(
-                (disasterTypeOption) => {
-                    if (isFalsyString(disasterTypeOption.name)) {
-                        return undefined;
-                    }
-
-                    // NOTE: fixing type
-                    return {
-                        ...disasterTypeOption,
-                        name: disasterTypeOption.name,
-                    };
-                },
-            ).filter(isDefined)
-        ),
-        [disasterTypesResponse],
-    );
-
     const shouldDisableGenerateTitle = isNotDefined(value?.country)
         || isNotDefined(value?.disaster_type)
-        || isNotDefined(disasterTypesResponse);
+        || isNotDefined(disasterTypes);
 
     const showManMadeEventInput = value?.disaster_type === DISASTER_FIRE
         || value?.disaster_type === DISASTER_FLASH_FLOOD
@@ -239,17 +214,13 @@ function Overview(props: Props) {
                 multiRow
                 twoColumn
             >
-                <SelectInput
+                <DisasterTypeSelectInput
                     label={
                         value?.type_of_dref === TYPE_IMMINENT
                             ? strings.drefFormImminentDisasterTypeLabel
                             : strings.drefFormDisasterTypeLabel
                     }
                     name="disaster_type"
-                    options={disasterTypeOptions}
-                    optionsPending={fetchingDisasterTypes}
-                    keySelector={numericIdSelector}
-                    labelSelector={stringNameSelector}
                     value={value?.disaster_type}
                     onChange={setFieldValue}
                     error={error?.disaster_type}

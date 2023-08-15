@@ -8,7 +8,6 @@ import type { GoApiResponse } from '#utils/restRequest';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
-import SelectInput from '#components/SelectInput';
 import {
     createStringColumn,
     createDateColumn,
@@ -22,20 +21,15 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type FieldReportResponse = GoApiResponse<'/api/v2/field_report/'>;
+type FieldReportResponse = GoApiResponse<'/api/v2/field-report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
 
-type DisasterTypeResponse = GoApiResponse<'/api/v2/disaster_type/'>;
-type DisasterListItem = NonNullable<DisasterTypeResponse['results']>[number];
-
 const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
-
-const disasterTypeKeySelector = (item: DisasterListItem) => item.id;
-const disasterTypeLabelSelector = (item: DisasterListItem) => item.name ?? '';
 
 const PAGE_SIZE = 15;
 
@@ -44,7 +38,7 @@ export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
-    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+    const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
         'dtype',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
@@ -52,7 +46,7 @@ export function Component() {
         },
         (dtype) => dtype,
     );
-    const [filterCountry, setFilterCountry] = useUrlSearchState<DisasterListItem['id'] | undefined>(
+    const [filterCountry, setFilterCountry] = useUrlSearchState<number | undefined>(
         'country',
         (searchValue) => {
             const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
@@ -61,7 +55,10 @@ export function Component() {
         (country) => country,
     );
 
-    const { emergency: emergencyRoute } = useContext(RouteContext);
+    const {
+        emergency: emergencyRoute,
+        fieldReportFormEdit: fieldReportFormEditRoute,
+    } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -74,14 +71,18 @@ export function Component() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FieldReportListItem, number>(
+            createLinkColumn<FieldReportListItem, number>(
                 'summary',
                 strings.allFieldReportsName,
                 (item) => item.summary,
-                {
+                (item) => ({
                     sortable: true,
                     columnClassName: styles.summary,
-                },
+                    // FIXME: need to direct to details page instead
+                    to: isDefined(item.id)
+                        ? generatePath(fieldReportFormEditRoute.absolutePath, { reportId: item.id })
+                        : undefined,
+                }),
             ),
             createLinkColumn<FieldReportListItem, number>(
                 'event_name',
@@ -105,7 +106,7 @@ export function Component() {
                 (item) => item.countries,
             ),
         ]),
-        [strings, emergencyRoute],
+        [strings, emergencyRoute, fieldReportFormEditRoute],
     );
 
     let ordering;
@@ -120,7 +121,7 @@ export function Component() {
         pending: fieldReportPending,
         response: fieldReportResponse,
     } = useRequest({
-        url: '/api/v2/field_report/',
+        url: '/api/v2/field-report/',
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
@@ -134,13 +135,6 @@ export function Component() {
     const fieldReportFiltered = (
         isDefined(filterDisasterType) || isDefined(filterCountry)
     );
-
-    const {
-        pending: disasterTypePending,
-        response: disasterTypeResponse,
-    } = useRequest({
-        url: '/api/v2/disaster_type/',
-    });
 
     const heading = useMemo(
         () => resolveToComponent(
@@ -167,16 +161,12 @@ export function Component() {
                 headerDescriptionContainerClassName={styles.filters}
                 headerDescription={(
                     <>
-                        <SelectInput
+                        <DisasterTypeSelectInput
                             placeholder={strings.allFieldReportsFilterDisastersPlaceholder}
                             label={strings.allFieldReportsDisasterType}
                             name={undefined}
                             value={filterDisasterType}
                             onChange={setFilterDisasterType}
-                            keySelector={disasterTypeKeySelector}
-                            labelSelector={disasterTypeLabelSelector}
-                            options={disasterTypeResponse?.results}
-                            disabled={disasterTypePending}
                         />
                         <CountrySelectInput
                             placeholder={strings.allFieldReportsFilterCountryPlaceholder}

@@ -110,6 +110,7 @@ function CheckList<
                 pending={false}
                 errored={false}
                 filtered={false}
+                compact
             />
             <InputError className={errorContainerClassName}>
                 {error}

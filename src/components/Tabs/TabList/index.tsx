@@ -13,8 +13,6 @@ export default function TabList(props: Props) {
     const context = React.useContext(TabContext);
     const {
         variant,
-        tabs,
-        step: progress,
         disabled,
     } = context;
 
@@ -23,30 +21,6 @@ export default function TabList(props: Props) {
         className,
         ...otherProps
     } = props;
-
-    const steps = tabs.length;
-
-    const progressWidth = React.useMemo(() => {
-        if (!steps || !progress) {
-            return '0';
-        }
-
-        // FIXME: use bounds and percent helpers
-        const progressPercentage = Math.max(
-            0,
-            Math.min(100, 100 * ((progress - 1) / (steps - 1))),
-        );
-
-        return `${progressPercentage}%`;
-    }, [steps, progress]);
-
-    const stepBorderWidth = React.useMemo(() => {
-        if (!steps) {
-            return '0';
-        }
-
-        return `${100 - 100 / steps}%`;
-    }, [steps]);
 
     return (
         <div
@@ -58,27 +32,17 @@ export default function TabList(props: Props) {
                 disabled && styles.disabled,
                 variant === 'primary' && styles.primary,
                 variant === 'secondary' && styles.secondary,
+                variant === 'tertiary' && styles.tertiary,
+                variant === 'step' && styles.step,
+                variant === 'vertical' && styles.vertical,
             )}
             role="tablist"
         >
-            {variant === 'step' && (
-                <div
-                    style={{ width: stepBorderWidth }}
-                    className={styles.stepBorder}
-                >
-                    <div
-                        style={{ width: progressWidth }}
-                        className={styles.progress}
-                    />
-                </div>
-            )}
-            {variant === 'primary' && (
-                <div className={styles.startDummyContent} />
-            )}
-            {children}
-            {variant === 'primary' && (
-                <div className={styles.endDummyContent} />
-            )}
+            <div className={styles.startDummyContent} />
+            <div className={styles.content}>
+                {children}
+            </div>
+            <div className={styles.endDummyContent} />
         </div>
     );
 }

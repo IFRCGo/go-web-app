@@ -42,6 +42,7 @@ function Navbar(props: Props) {
         search: searchRoute,
         newThreeWActivity: newThreeWActivityFromRoute,
         newDrefApplicationForm: newDrefApplicationFormRoute,
+        fieldReportFormNew: fieldReportFormNewRoute,
     } = useContext(RouteContext);
 
     const { userAuth: userDetails } = useContext(UserContext);
@@ -112,7 +113,7 @@ function Navbar(props: Props) {
                     >
                         <DropdownMenuItem
                             type="link"
-                            to="/"
+                            to={fieldReportFormNewRoute.absolutePath}
                         >
                             {strings.headerDropdownNewFieldReport}
                         </DropdownMenuItem>

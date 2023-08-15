@@ -90,7 +90,7 @@ export interface Props<N> extends ButtonFeatureProps, RawButtonProps<N> {
     onClick?: (name: N, e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-function Button<N>(props: Props<N>) {
+function Button<const N>(props: Props<N>) {
     const {
         actions,
         actionsContainerClassName: actionsClassName,

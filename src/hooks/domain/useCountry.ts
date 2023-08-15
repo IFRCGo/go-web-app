@@ -13,7 +13,7 @@ import DomainContext, { type Countries } from '#contexts/domain';
 export type PartialCountry = NonNullable<Countries['results']>[number];
 
 export type Country = Omit<
-    NonNullable<Countries['results']>[number],
+    PartialCountry,
     'id' | 'iso3' | 'iso3' | 'name' | 'is_deprecated' | 'independent'
 > & {
     id: number;

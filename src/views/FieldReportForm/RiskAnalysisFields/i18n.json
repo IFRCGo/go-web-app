@@ -1,0 +1,22 @@
+{
+    "namespace": "fieldReportForm",
+    "strings": {
+        "sourceDetailsDescription": "Add details for sources above (if applicable)",
+        "sourceDetailsLabel": "Source Details",
+        "sourceDetailsPlaceholder": "Add details for data with sources marked as Other above.",
+        "descriptionEWDescription": "Brief overview of the potential disaster and projected impacts",
+        "descriptionEWLabel": "Risk Analysis",
+        "descriptionEWPlaceholder": "Hurricane Sirius is expected to hit the Whinging region early Tuesday morning. The system currently has sustained core wind speeds of 140km/h and gusts up to 170 km/h. The local government has started evacuating thousands of people. The Red Cross branch in Whinging has deployed staff and volunteers to communities at risk to support evacuation and to assist the population in protecting themselves and their livelihoods from the impacts of Sirius.",
+        "situationFieldsRCRC": "Red Cross / Red Crescent",
+        "situationFieldsGov": "Government",
+        "situationFieldsOther": "Other",
+        "situationFieldsEWAffectedPopCenteresDescription": "Names of large cities or towns which are most at risk",
+        "situationFieldsEWAffectedPopCenteresLabel": "Largest Population Centres Likely to be Affected",
+        "situationFieldsEWHighestRiskDescription": "Number of people that are located in the geographic area where the hazard's impact is likely to be the highest",
+        "situationFieldsEWHighestRiskLabel": "People at Highest Risk",
+        "situationFieldsEWPotentiallyAffectedDescription": "Number of people that are located in the geographic area where the hazard is likely to impact",
+        "situationFieldsEWPotentiallyAffectedLabel": "Potentially Affected",
+        "riskAnalysisEstimationPlaceholder": "Estimation"
+    }
+}
+

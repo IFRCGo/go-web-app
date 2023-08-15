@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 export type TabKey = string | number;
-export type TabVariant = 'primary' | 'secondary' | 'step';
+export type TabVariant = 'primary' | 'secondary' | 'tertiary' | 'step' | 'vertical';
 
 interface TabContextProps {
     variant?: TabVariant;
