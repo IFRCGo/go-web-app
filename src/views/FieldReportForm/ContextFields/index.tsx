@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import { isNotDefined } from '@togglecorp/fujs';
 import {
     Error,
     EntriesAsList,
@@ -13,14 +13,12 @@ import RadioInput from '#components/RadioInput';
 import BooleanInput from '#components/BooleanInput';
 import DateInput from '#components/DateInput';
 import TextInput from '#components/TextInput';
-import NumberInput from '#components/NumberInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput, { DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
 import DistrictSearchMultiSelectInput, { DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import EventElasticSearchSelectInput, { EventItem } from '#components/domain/EventElasticSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
-import { type DisasterType } from '#hooks/domain/useDisasterType';
 
 import {
     DISASTER_TYPE_EPIDEMIC,
@@ -34,9 +32,6 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-function noOp() {}
-
 function isNotEpidemic(o: DisasterTypeItem) {
     return o.id !== DISASTER_TYPE_EPIDEMIC;
 }
@@ -46,18 +41,12 @@ interface Props {
     onValueChange: (...entries: EntriesAsList<PartialFormValue>) => void;
     value: PartialFormValue;
     reportType: ReportType;
-    reportId: string | undefined;
-    disasterTypeOptions: DisasterType[] | undefined;
-    countryIsoOptions: {
-        id: number;
-        iso3: string;
-    }[] | undefined;
     districtOptions: DistrictItem[] | null | undefined;
     eventOptions: EventItem[] | null | undefined;
     setDistrictOptions: React.Dispatch<React.SetStateAction<DistrictItem[] | null | undefined>>;
     setEventOptions: React.Dispatch<React.SetStateAction<EventItem[] | null | undefined>>;
-    fieldReportNumber: number;
     disabled?: boolean;
+    titlePreview: string | undefined;
 }
 
 function ContextFields(props: Props) {
@@ -68,13 +57,10 @@ function ContextFields(props: Props) {
         value,
         reportType,
         eventOptions,
-        reportId,
-        countryIsoOptions,
-        disasterTypeOptions,
         setDistrictOptions,
         setEventOptions,
-        fieldReportNumber,
         disabled,
+        titlePreview,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -140,24 +126,6 @@ function ContextFields(props: Props) {
     const error = useMemo(
         () => getErrorObject(formError),
         [formError],
-    );
-
-    const getPrefix = useCallback(
-        (
-            country: number | undefined,
-            dtype: number | undefined,
-            start_date: string | undefined,
-            is_covid_report: boolean | undefined,
-        ) => {
-            if (isDefined(country) && isDefined(dtype) && isDefined(start_date)) {
-                const countryIso = countryIsoOptions?.find((x) => x.id === country)?.iso3;
-                const disasterType = disasterTypeOptions?.find((x) => x.id === dtype)?.name;
-                const date = start_date.substring(0, 7);
-                return `${countryIso}: ${is_covid_report ? strings.fieldReportCOVID19 : disasterType} - ${date}`;
-            }
-            return ' ';
-        },
-        [countryIsoOptions, disasterTypeOptions, strings.fieldReportCOVID19],
     );
 
     const handleCountryChange = useCallback(
@@ -297,61 +265,17 @@ function ContextFields(props: Props) {
                 title={strings.fieldsStep1SummaryLabel}
                 description={strings.fieldsStep1SummaryDescription}
             >
-                <table
-                    cellSpacing={0}
-                    cellPadding={0}
-                >
-                    <tbody>
-                        <tr>
-                            {isNotDefined(reportId) && (
-                                <td>
-                                    <TextInput
-                                        label={strings.fieldReportFormPrefixLabel}
-                                        placeholder=""
-                                        name="pref2"
-                                        readOnly
-                                        onChange={noOp}
-                                        value={getPrefix(
-                                            value.country,
-                                            value.dtype,
-                                            value.start_date,
-                                            value.is_covid_report,
-                                        )}
-                                        error={error?.event}
-                                        disabled={disabled}
-                                    />
-                                </td>
-                            )}
-                            <td>
-                                <TextInput
-                                    label={strings.fieldReportFormTitleSecondaryLabel}
-                                    placeholder={strings.fieldReportFormTitleInputPlaceholder}
-                                    name="summary"
-                                    value={value.summary}
-                                    maxLength={256}
-                                    onChange={onValueChange}
-                                    error={error?.summary}
-                                    disabled={disabled}
-                                />
-                            </td>
-                            {isNotDefined(reportId) && isDefined(value.event) && (
-                                <td>
-                                    <NumberInput
-                                        label={strings.fieldReportUpdateNo}
-                                        // FIXME: use translations
-                                        placeholder="1"
-                                        name="event"
-                                        value={fieldReportNumber}
-                                        error={error?.event}
-                                        readOnly
-                                        onChange={noOp}
-                                        disabled={disabled}
-                                    />
-                                </td>
-                            )}
-                        </tr>
-                    </tbody>
-                </table>
+                <TextInput
+                    label={strings.fieldReportFormTitleSecondaryLabel}
+                    placeholder={strings.fieldReportFormTitleInputPlaceholder}
+                    name="summary"
+                    value={value.summary}
+                    maxLength={256}
+                    onChange={onValueChange}
+                    error={error?.summary}
+                    disabled={disabled}
+                    hint={titlePreview}
+                />
             </InputSection>
             <InputSection
                 title={strings.fieldsStep1AssistanceLabel}

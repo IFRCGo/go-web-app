@@ -16,6 +16,7 @@ import {
     isNotDefined,
     isFalsyString,
     listToGroupList,
+    isTruthyString,
 } from '@togglecorp/fujs';
 import {
     useForm,
@@ -67,6 +68,7 @@ import styles from './styles.module.css';
 import i18n from './i18n.json';
 
 type TabKeys = 'context' | 'situation' | 'risk-analysis' | 'actions' | 'early-actions' | 'response';
+
 
 function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undefined) {
     if (status === STATUS_EVENT && direction === 1) {
@@ -340,6 +342,67 @@ export function Component() {
         [countries],
     );
 
+    const getSummary = useCallback(
+        (
+            country: number | null | undefined,
+            is_covid_report: boolean | undefined,
+            start_date: string | null | undefined,
+            dtype: number | null | undefined,
+            summary: string | null | undefined,
+        ) => {
+            const dateLabel = new Date().toISOString().slice(0, 10);
+            const iso3Label = isDefined(country)
+                ? countryIsoOptions.find((x) => x.id === country)?.iso3
+                : undefined;
+
+            // COVID-19
+            if (is_covid_report) {
+                return fieldReportNumber === undefined
+                    ? `${iso3Label}: ${strings.fieldReportCOVID19}`
+                    : `${iso3Label}: ${strings.fieldReportCOVID19} #${fieldReportNumber} (${dateLabel})`;
+            }
+
+            // NON-COVID-19
+            const disasterLabel = isDefined(dtype)
+                ? disasterTypeOptions?.find((x) => x.id === dtype)?.name
+                : undefined;
+            return fieldReportNumber === undefined
+                ? `${iso3Label}: ${disasterLabel} - ${start_date?.substring(0, 7)} - ${summary}`
+                : `${iso3Label}: ${disasterLabel} - ${start_date?.substring(0, 7)} - ${summary} #${fieldReportNumber} (${dateLabel})`;
+        },
+        [countryIsoOptions, disasterTypeOptions, fieldReportNumber, strings],
+    );
+
+    const titlePreview = useMemo(
+        () => {
+            if (
+                isDefined(value.country)
+                && isDefined(value.start_date)
+                && isDefined(value.dtype)
+                && isTruthyString(value.summary)
+                && isNotDefined(reportId)
+            ) {
+                return getSummary(
+                    value.country,
+                    value.is_covid_report,
+                    value.start_date,
+                    value.dtype,
+                    value.summary,
+                );
+            }
+            return undefined;
+        },
+        [
+            getSummary,
+            reportId,
+            value.country,
+            value.is_covid_report,
+            value.start_date,
+            value.dtype,
+            value.summary,
+        ],
+    );
+
     const handleTabChange = useCallback((newTab: TabKeys) => {
         formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
@@ -353,34 +416,6 @@ export function Component() {
                 formValues as FormValue,
             );
 
-            function getSummary(
-                country: number | null | undefined,
-                event: number | null | undefined,
-                is_covid_report: boolean | undefined,
-                start_date: string | null | undefined,
-                dtype: number,
-                summary: string | null | undefined,
-            ) {
-                const dateLabel = new Date().toISOString().slice(0, 10);
-                const iso3Label = countryIsoOptions.find((x) => x.id === country)?.iso3;
-                // FIXME: this should be fieldReportNumber? Confirm this before?
-                // Why not just show this on the server?
-                const eventLabel = eventOptions?.find((x) => x.id === event)?.name;
-
-                // COVID-19
-                if (is_covid_report) {
-                    return eventLabel === undefined
-                        ? `${iso3Label}: ${strings.fieldReportCOVID19}`
-                        : `${iso3Label}: ${strings.fieldReportCOVID19} #${eventLabel} (${dateLabel})`;
-                }
-
-                // NON-COVID-19
-                const disasterLabel = disasterTypeOptions?.find((x) => x.id === dtype)?.name;
-                return eventLabel === undefined
-                    ? `${iso3Label}: ${disasterLabel} - ${start_date?.substring(0, 7)} - ${summary}`
-                    : `${iso3Label}: ${disasterLabel} - ${start_date?.substring(0, 7)} - ${summary} #${eventLabel} (${dateLabel})`;
-            }
-
             if (reportId) {
                 editSubmitRequest({
                     ...sanitizedValues,
@@ -388,7 +423,6 @@ export function Component() {
             } else {
                 const summary = getSummary(
                     formValues.country,
-                    sanitizedValues.event,
                     sanitizedValues.is_covid_report,
                     sanitizedValues.start_date,
                     sanitizedValues.dtype,
@@ -402,13 +436,10 @@ export function Component() {
             }
         },
         [
+            getSummary,
             reportId,
             editSubmitRequest,
             createSubmitRequest,
-            countryIsoOptions,
-            eventOptions,
-            disasterTypeOptions,
-            strings.fieldReportCOVID19,
         ],
     );
 
@@ -567,15 +598,12 @@ export function Component() {
                         onValueChange={onValueChange}
                         value={value}
                         reportType={reportType}
-                        reportId={reportId}
-                        countryIsoOptions={countryIsoOptions}
-                        disasterTypeOptions={disasterTypeOptions}
                         setDistrictOptions={setDistrictOptions}
                         districtOptions={districtOptions}
                         setEventOptions={setEventOptions}
                         eventOptions={eventOptions}
-                        fieldReportNumber={fieldReportNumber}
                         disabled={pending}
+                        titlePreview={titlePreview}
                     />
                 </TabPanel>
                 <TabPanel name="risk-analysis">

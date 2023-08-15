@@ -290,6 +290,10 @@ const schema: DrefFormSchema = {
             'communication',
             'needs_identified',
         ] as const;
+        type ConditionalReturnType = Pick<
+            DrefFormSchemaFields,
+            (typeof assessmentAffectedFields)[number]
+        >;
 
         // TODO: verify schema, add condition for loan type
         const schemaWithAssessmentCondition: DrefFormSchemaFields = addCondition(
@@ -297,12 +301,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['type_of_dref'],
             assessmentAffectedFields,
-            () => {
-                type ConditionalReturnType = Pick<
-                    DrefFormSchemaFields,
-                    (typeof assessmentAffectedFields)[number]
-                >;
-
+            (): ConditionalReturnType => {
                 if (formValue?.type_of_dref !== TYPE_ASSESSMENT) {
                     const schemaForNonAssessment: ConditionalReturnType = {
                         did_it_affect_same_area: {},
