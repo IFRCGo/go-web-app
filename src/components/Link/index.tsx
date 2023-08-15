@@ -130,6 +130,7 @@ function Link(props: Props) {
                 withUnderline && styles.underline,
                 disabled && styles.disabled,
                 variant === 'dropdown-item' && styles.dropdownItem,
+                variant === 'tertiary' && styles.tertiary,
             )}
         >
             {children}
