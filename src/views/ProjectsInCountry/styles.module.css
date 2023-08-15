@@ -7,7 +7,7 @@
     .key-figure-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 
         @media screen and (max-width: 30rem) {
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -18,7 +18,7 @@
             border-radius: var(--go-ui-border-radius-lg);
             box-shadow: var(--go-ui-box-shadow-lg);
             background-color: var(--go-ui-color-white);
-            padding: var(--go-ui-spacing-xl);
+            padding: var(--go-ui-spacing-md);
             height: 100%;
 
             .separator {
@@ -31,8 +31,36 @@
                 flex-wrap: wrap;
             }
 
-            .total-budget {
+            .key-figure {
                 flex-basis: 20%;
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        gap: var(--go-ui-spacing-md);
+
+        .map-container {
+            width: 100%;
+        }
+
+        .sidebar {
+            flex-basis: 40%;
+
+            .project-detail-item {
+                display: flex;
+                gap: var(--go-ui-spacing-md);
+                padding: var(--go-ui-spacing-xs);
+
+                .name {
+                    flex-grow: 1;
+                }
+
+                .actions {
+                    font-size: var(--go-ui-font-size-2xl);
+                    font-weight: var(--go-ui-font-weight-bold);
+                }
             }
         }
     }

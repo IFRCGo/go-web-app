@@ -1,5 +1,4 @@
 import {
-    useContext,
     useState,
     useMemo,
     useCallback,
@@ -27,7 +26,7 @@ import LegendItem from '#components/LegendItem';
 import { denormalizeList } from '#utils/common';
 import type { GoApiResponse } from '#utils/restRequest';
 import type { CountryOutletContext } from '#utils/outletContext';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useTranslation from '#hooks/useTranslation';
 
 import {
@@ -159,7 +158,7 @@ function CountryThreeWMap(props: Props) {
     const { countryResponse } = useOutletContext<CountryOutletContext>();
     const {
         deployments_project_operation_type: operationTypeOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
 
     const countryBounds = useMemo(() => (
         countryResponse ? getBbox(countryResponse.bbox) : undefined

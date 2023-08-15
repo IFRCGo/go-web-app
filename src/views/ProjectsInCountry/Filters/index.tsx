@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useContext } from 'react';
+import { useMemo, useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';
@@ -13,7 +13,7 @@ import {
     stringValueSelector,
     stringNameSelector,
 } from '#utils/selectors';
-import ServerEnumsContext from '#contexts/server-enums';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -54,7 +54,8 @@ function Filters(props: Props) {
     const {
         deployments_project_operation_type: projectOperationTypeOptions,
         deployments_project_programme_type: programmeTypeOptions,
-    } = useContext(ServerEnumsContext);
+    } = useGlobalEnums();
+
     const strings = useTranslation(i18n);
 
     const { response: countriesResponse } = useRequest({

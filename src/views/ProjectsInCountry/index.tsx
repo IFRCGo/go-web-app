@@ -10,6 +10,7 @@ import {
     useOutletContext,
 } from 'react-router-dom';
 import {
+    MoreFillIcon,
     DownloadFillIcon,
 } from '@ifrc-go/icons';
 
@@ -19,15 +20,19 @@ import Button from '#components/Button';
 import PieChart from '#components/PieChart';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
-import type { paths } from '#generated/types';
 import { useRequest } from '#utils/restRequest';
 import type { CountryOutletContext } from '#utils/outletContext';
+import { denormalizeList } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
+import ExpandableContainer from '#components/ExpandableContainer';
+import { resolveToString } from '#utils/translation';
 import {
     numericValueSelector,
     stringLabelSelector,
 } from '#utils/selectors';
+import type { GoApiResponse } from '#utils/restRequest';
 
+import ProjectActions from './ProjectActions';
 import Map from './Map';
 import Filter, { FilterValue } from './Filters';
 
@@ -39,13 +44,9 @@ interface LabelValue {
     value: number;
 }
 
-type GetDistricts = paths['/api/v2/district/']['get'];
-type DistrictsResponse = GetDistricts['responses']['200']['content']['application/json'];
-type District = NonNullable<DistrictsResponse['results']>[number];
+type District = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
+type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
 
-type GetProjects = paths['/api/v2/project/']['get'];
-type ProjectsResponse = GetProjects['responses']['200']['content']['application/json'];
-type Project = NonNullable<ProjectsResponse['results']>[number];
 type ProjectKey = keyof Project;
 
 // const PROJECT_STATUS_COMPLETED = 2;
@@ -109,6 +110,7 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
+    const [projectIdToEdit, setProjectIdToEdit] = useState<number | undefined>();
     const [filters, setFilters] = useState<FilterValue>({
         reporting_ns: [],
         project_districts: [],
@@ -203,64 +205,75 @@ export function Component() {
         ];
     }, [filteredProjectList]);
 
+    const districtGroupedProject = useMemo(() => {
+        const districtDenormalizedProjectList = denormalizeList(
+            ongoingProjects ?? [],
+            (project) => project.project_districts_detail,
+            (project, district) => ({
+                ...project,
+                project_district: district,
+            }),
+        );
+
+        return listToGroupList(
+            districtDenormalizedProjectList,
+            (d) => d.project_district.id,
+        );
+    }, [ongoingProjects]);
+
     return (
         <div className={styles.projectsInCountry}>
-            <div>
-                {projectListPending ? (
-                    <BlockLoading />
-                ) : (
-                    <div className={styles.keyFigureList}>
-                        <div className={styles.keyFigures}>
-                            <KeyFigure
-                                className={styles.keyFigure}
-                                value={activeNSCount}
-                                description={strings.activeDeploymentsTitle}
-                            />
-                            <div className={styles.separator} />
-                            <KeyFigure
-                                className={styles.keyFigure}
-                                value={targetedPopulation}
-                                description={strings.targetedPopulationTitle}
-                            />
-                        </div>
-                        <div className={styles.keyFigures}>
-                            <KeyFigure
-                                className={styles.keyFigure}
-                                value={projectList.length}
-                                description={strings.totalProjectsTitle}
-                            />
-                            <div className={styles.separator} />
-                            <PieChart
-                                className={styles.pieChart}
-                                data={programmeTypeStats}
-                                valueSelector={numericValueSelector}
-                                labelSelector={stringLabelSelector}
-                                keySelector={stringLabelSelector}
-                                colors={primaryRedColorShades}
-                            />
-                        </div>
-                        <div className={styles.keyFigures}>
-                            <KeyFigure
-                                className={styles.totalBudget}
-                                value={ongoingProjectBudget}
-                                description={strings.ongoingProjectBudgetTitle}
-                            />
-                            <div className={styles.separator} />
-                            <PieChart
-                                className={styles.pieChart}
-                                data={projectStatusTypeStats}
-                                valueSelector={numericValueSelector}
-                                labelSelector={stringLabelSelector}
-                                keySelector={stringLabelSelector}
-                                colors={primaryRedColorShades}
-                            />
-                        </div>
+            {projectListPending ? (
+                <BlockLoading />
+            ) : (
+                <div className={styles.keyFigureList}>
+                    <div className={styles.keyFigures}>
+                        <KeyFigure
+                            value={activeNSCount}
+                            description={strings.activeDeploymentsTitle}
+                        />
+                        <div className={styles.separator} />
+                        <KeyFigure
+                            value={targetedPopulation}
+                            description={strings.targetedPopulationTitle}
+                        />
                     </div>
-                )}
-            </div>
+                    <div className={styles.keyFigures}>
+                        <KeyFigure
+                            className={styles.keyFigure}
+                            value={projectList.length}
+                            description={strings.totalProjectsTitle}
+                        />
+                        <div className={styles.separator} />
+                        <PieChart
+                            data={programmeTypeStats}
+                            valueSelector={numericValueSelector}
+                            labelSelector={stringLabelSelector}
+                            keySelector={stringLabelSelector}
+                            colors={primaryRedColorShades}
+                        />
+                    </div>
+                    <div className={styles.keyFigures}>
+                        <KeyFigure
+                            className={styles.keyFigure}
+                            value={ongoingProjectBudget}
+                            description={strings.ongoingProjectBudgetTitle}
+                        />
+                        <div className={styles.separator} />
+                        <PieChart
+                            data={projectStatusTypeStats}
+                            valueSelector={numericValueSelector}
+                            labelSelector={stringLabelSelector}
+                            keySelector={stringLabelSelector}
+                            colors={primaryRedColorShades}
+                        />
+                    </div>
+                </div>
+            )}
             <Container
                 heading={strings.threeWOngoingProjectsTitle}
                 withHeaderBorder
+                childrenContainerClassName={styles.content}
                 filters={(
                     <Filter
                         value={filters}
@@ -287,10 +300,90 @@ export function Component() {
                     </>
                 )}
             >
-                <Map
-                    projectList={ongoingProjects}
-                    districtList={districtList}
-                />
+                <div className={styles.mapContainer}>
+                    <Map
+                        className={styles.mapContainer}
+                        projectList={ongoingProjects}
+                        districtList={districtList}
+                    />
+                </div>
+                <Container
+                    className={styles.sidebar}
+                    heading={strings.threeWInCountryMapSidebarTitle}
+                >
+                    {Object.entries(districtGroupedProject).map(([districtId, projects]) => {
+                        if (isNotDefined(projects) || projects.length === 0) {
+                            return null;
+                        }
+
+                        const district = districtList.find((d) => d.id === Number(districtId));
+
+                        if (isNotDefined(district?.id)) {
+                            return (
+                                <ExpandableContainer
+                                    key="others"
+                                    heading={resolveToString(
+                                        strings.otherProjects,
+                                        {
+                                            numProjects: projects.length,
+                                        },
+                                    )}
+                                    headingLevel={4}
+                                    initiallyExpanded
+                                >
+                                    {projects.map((project) => (
+                                        <div
+                                            key={project.id}
+                                            className={styles.projectDetailItem}
+                                        >
+                                            <div className={styles.name}>
+                                                {project.name}
+                                            </div>
+                                            <Button
+                                                name={project.id}
+                                                variant="tertiary"
+                                                className={styles.actions}
+                                                onClick={setProjectIdToEdit}
+                                            >
+                                                <MoreFillIcon />
+                                            </Button>
+                                        </div>
+                                    ))}
+                                </ExpandableContainer>
+                            );
+                        }
+
+                        return (
+                            <ExpandableContainer
+                                key={district?.id}
+                                heading={resolveToString(
+                                    strings.provinceProjects,
+                                    {
+                                        provinceName: district?.name,
+                                        numProjects: projects.length,
+                                    },
+                                )}
+                                headingLevel={4}
+                            >
+                                {projects.map((project) => (
+                                    <div
+                                        key={project.id}
+                                        className={styles.projectDetailItem}
+                                    >
+                                        <div className={styles.name}>
+                                            {project.name}
+                                        </div>
+                                        <ProjectActions
+                                            project={project}
+                                            className={styles.actions}
+                                            onProjectDeletionSuccess={reTriggerProjectListRequest}
+                                        />
+                                    </div>
+                                ))}
+                            </ExpandableContainer>
+                        );
+                    })}
+                </Container>
             </Container>
         </div>
     );

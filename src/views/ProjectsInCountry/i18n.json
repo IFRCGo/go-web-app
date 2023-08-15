@@ -7,6 +7,9 @@
         "ongoingProjectBudgetTitle": "Total Budget (CHF) for Ongoing Projects",
         "threeWOngoingProjectsTitle": "Ongoing Projects",
         "exportProjects": "Export",
-        "viewAllProjects": "View All Projects"
+        "viewAllProjects": "View All Projects",
+        "threeWInCountryMapSidebarTitle": "Projects by Province",
+        "provinceProjects": "{provinceName} ({numProjects} Projects)",
+        "otherProjects": "Others ({numProjects} Projects)"
     }
 }
