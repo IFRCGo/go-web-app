@@ -30,6 +30,7 @@ import TextInput from '#components/TextInput';
 import NonFieldError from '#components/NonFieldError';
 import TextArea from '#components/TextArea';
 import type { GoApiResponse } from '#utils/restRequest';
+import type { GlobalEnums } from '#contexts/domain';
 
 import {
     PartialActivityItem,
@@ -44,6 +45,12 @@ import ActionSupplyInput from './ActionSupplyInput';
 import styles from './styles.module.css';
 
 type Options = GoApiResponse<'/api/v2/emergency-project/options/'>;
+const peopleHouseholdsKeySelector = (
+    item: NonNullable<GlobalEnums['deployments_emergency_project_activity_people_households']>[number],
+) => item.key;
+const peopleHouseholdsLabelSelector = (
+    item: NonNullable<GlobalEnums['deployments_emergency_project_activity_people_households']>[number],
+) => item.value;
 
 function updateTotalCountChange(oldValue: PartialActivityItem): PartialActivityItem {
     if (
@@ -94,11 +101,11 @@ function ActivityInput(props: Props) {
         type,
     } = props;
 
-    const setFieldValue = useFormObject(mainIndex, onChange, {
+    const setFieldValue = useFormObject(mainIndex, onChange, () => ({
         client_id: randomString(),
         action: actionDetails?.id,
         sector: sectorKey,
-    });
+    }));
 
     const {
         deployments_emergency_project_activity_people_households: peopleHouseholdOptions,
@@ -135,8 +142,10 @@ function ActivityInput(props: Props) {
     }, [onChange, mainIndex]);
 
     const pointCountInputShown = (
-        (value?.is_simplified_report && type === 'custom')
-        || (
+        (
+            value?.is_simplified_report
+            && type === 'custom'
+        ) || (
             value?.is_simplified_report
             && type === 'action'
             && !actionDetails?.is_cash_type
@@ -145,8 +154,10 @@ function ActivityInput(props: Props) {
     );
 
     const locationsInputShown = (
-        (!value?.is_simplified_report && type === 'custom')
-        || (
+        (
+            !value?.is_simplified_report
+            && type === 'custom'
+        ) || (
             !value?.is_simplified_report
             && type === 'action'
             && !actionDetails?.is_cash_type
@@ -251,10 +262,13 @@ function ActivityInput(props: Props) {
                     name={clientId}
                     onClick={handleRemoveClick}
                     variant="secondary"
+                    // FIXME: Add translations
+                    title="Delete activity"
                     icons={(
                         <DeleteBinLineIcon />
                     )}
                 >
+                    {/* FIXME: Add translations */}
                     Delete
                 </Button>
             )}
@@ -270,12 +284,14 @@ function ActivityInput(props: Props) {
                         value={value?.custom_action}
                         name="custom_action"
                         onChange={setFieldValue}
+                        // FIXME: Add translations
                         label="Activity Title"
                         error={error?.custom_action}
                     />
                 )}
                 {showNoDataAvailable && (
                     <Switch
+                        // FIXME: Add translations
                         label="No data on people reached"
                         name="has_no_data_on_people_reached"
                         value={!!value?.has_no_data_on_people_reached}
@@ -284,6 +300,7 @@ function ActivityInput(props: Props) {
                     />
                 )}
                 <Switch
+                    // FIXME: Add translations
                     label="Detailed Reporting"
                     name="is_simplified_report"
                     value={!!value?.is_simplified_report}
@@ -298,15 +315,15 @@ function ActivityInput(props: Props) {
                         onChange={setFieldValue}
                         options={peopleHouseholdOptions}
                         listContainerClassName={styles.radio}
-                        // FIXME: do not use inline functions
-                        keySelector={(d) => d.key}
-                        labelSelector={(d) => d.value}
+                        keySelector={peopleHouseholdsKeySelector}
+                        labelSelector={peopleHouseholdsLabelSelector}
                         error={error?.people_households}
                     />
                 )}
                 {value?.is_simplified_report && value?.people_households === 'households' && (
                     <NumberInput
                         name="household_count"
+                        // FIXME: Add translations
                         label="Households"
                         value={value?.household_count}
                         onChange={setFieldValue}
@@ -317,6 +334,7 @@ function ActivityInput(props: Props) {
                     <div className={styles.row}>
                         <NumberInput
                             name="people_count"
+                            // FIXME: Add translations
                             label="People"
                             value={value?.people_count}
                             onChange={setFieldValue}
@@ -326,6 +344,7 @@ function ActivityInput(props: Props) {
                         OR
                         <NumberInput
                             name="male_count"
+                            // FIXME: Add translations
                             label="Male"
                             value={value?.male_count}
                             onChange={handleMaleCountChange}
@@ -334,6 +353,7 @@ function ActivityInput(props: Props) {
                         />
                         <NumberInput
                             name="female_count"
+                            // FIXME: Add translations
                             label="Female"
                             value={value?.female_count}
                             onChange={handleFemaleCountChange}
@@ -352,6 +372,7 @@ function ActivityInput(props: Props) {
                 {budgetInputsShown && (
                     <div className={styles.cashInput}>
                         <NumberInput
+                            // FIXME: Add translations
                             label="Number of Beneficiaries"
                             name="beneficiaries_count"
                             value={value?.beneficiaries_count}
@@ -359,6 +380,7 @@ function ActivityInput(props: Props) {
                             error={error?.beneficiaries_count}
                         />
                         <NumberInput
+                            // FIXME: Add translations
                             label="Amount in CHF"
                             name="amount"
                             value={value?.amount}
@@ -371,6 +393,7 @@ function ActivityInput(props: Props) {
                 {pointCountInputShown && (
                     <NumberInput
                         name="point_count"
+                        // FIXME: Add translations
                         label="No of Locations"
                         onChange={setFieldValue}
                         value={value?.point_count}
@@ -380,6 +403,7 @@ function ActivityInput(props: Props) {
                 {locationsInputShown && (
                     <Container
                         className={styles.customLocations}
+                        // FIXME: Add translations
                         heading="Locations"
                         actions={(
                             <Button
@@ -388,8 +412,11 @@ function ActivityInput(props: Props) {
                                 icons={(
                                     <AddLineIcon />
                                 )}
+                                // FIXME: Add translations
+                                title="Add locations"
                                 onClick={handleAddPointButtonClick}
                             >
+                                {/* FIXME: Add translations */}
                                 Add Location
                             </Button>
 
@@ -411,6 +438,7 @@ function ActivityInput(props: Props) {
                 {actionSupplyInputShown && (
                     <Container
                         className={styles.actionSupplies}
+                        // FIXME: Add translations
                         heading="Supplies"
                         actions={(
                             <Button
@@ -421,6 +449,7 @@ function ActivityInput(props: Props) {
                                 )}
                                 onClick={handleAddActionSupplyClick}
                             >
+                                {/* FIXME: Add translations */}
                                 Add Action Supply
                             </Button>
 
@@ -443,6 +472,7 @@ function ActivityInput(props: Props) {
                 {customSupplyInputShown && (
                     <Container
                         className={styles.customSupplies}
+                        // FIXME: Add translations
                         heading="Custom Supplies"
                         actions={(
                             <Button
@@ -451,8 +481,11 @@ function ActivityInput(props: Props) {
                                 icons={(
                                     <AddLineIcon />
                                 )}
+                                // FIXME: Add translations
+                                title="Add custom supply"
                                 onClick={handleAddCustomSupplyClick}
                             >
+                                {/* FIXME: Add translations */}
                                 Add Custom Supply
                             </Button>
 
@@ -476,6 +509,7 @@ function ActivityInput(props: Props) {
                     value={value?.details}
                     name="details"
                     onChange={setFieldValue}
+                    // FIXME: Add translations
                     label="Activity Details"
                     error={error?.details}
                 />

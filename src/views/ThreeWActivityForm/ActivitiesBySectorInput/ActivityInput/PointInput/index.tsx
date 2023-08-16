@@ -31,9 +31,9 @@ function PointInput(props: Props) {
         onRemove,
     } = props;
 
-    const setFieldValue = useFormObject(index, onChange, {
+    const setFieldValue = useFormObject(index, onChange, () => ({
         client_id: randomString(),
-    });
+    }));
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps[value.client_id])
         : undefined;
@@ -42,6 +42,7 @@ function PointInput(props: Props) {
         <div className={styles.pointInput}>
             <TextInput
                 className={styles.descriptionInput}
+                // FIXME: Add translations
                 label="Description"
                 name="description"
                 value={value?.description}
@@ -50,6 +51,7 @@ function PointInput(props: Props) {
             />
             <NumberInput
                 className={styles.locationInput}
+                // FIXME: Add translations
                 label="Latitude"
                 name="latitude"
                 value={value?.latitude}
@@ -58,6 +60,7 @@ function PointInput(props: Props) {
             />
             <NumberInput
                 className={styles.locationInput}
+                // FIXME: Add translations
                 label="Longitude"
                 name="longitude"
                 value={value?.longitude}
@@ -68,6 +71,8 @@ function PointInput(props: Props) {
                 className={styles.removeButton}
                 name={index}
                 variant="tertiary"
+                // FIXME: Add translations
+                title="Remove delete"
                 onClick={onRemove}
             >
                 <DeleteBinLineIcon />

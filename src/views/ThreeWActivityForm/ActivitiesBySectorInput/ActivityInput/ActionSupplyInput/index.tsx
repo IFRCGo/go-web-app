@@ -39,9 +39,10 @@ function ActionSupplyInput(props: Props) {
         onRemove,
     } = props;
 
-    const setFieldValue = useFormObject(index, onChange, {
+    const setFieldValue = useFormObject(index, onChange, () => ({
         client_id: randomString(),
-    });
+    }));
+
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps[value.client_id])
         : undefined;
@@ -49,6 +50,7 @@ function ActionSupplyInput(props: Props) {
     return (
         <div className={styles.actionSupplyInput}>
             <SelectInput
+                // FIXME: Add translation
                 label="Supply"
                 name="supply_action"
                 value={value?.supply_action ? String(value?.supply_action) : undefined}
@@ -59,6 +61,7 @@ function ActionSupplyInput(props: Props) {
                 onChange={setFieldValue}
             />
             <NumberInput
+                // FIXME: Add translation
                 label="Count"
                 name="supply_value"
                 value={value?.supply_value}

@@ -1045,3 +1045,5 @@ export function Component() {
         </div>
     );
 }
+
+Component.displayName = 'ThreeWProjectForm';

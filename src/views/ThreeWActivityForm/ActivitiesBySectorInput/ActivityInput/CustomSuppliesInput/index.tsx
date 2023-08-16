@@ -31,9 +31,9 @@ function CustomSupplyInput(props: Props) {
         onRemove,
     } = props;
 
-    const setFieldValue = useFormObject(index, onChange, {
+    const setFieldValue = useFormObject(index, onChange, () => ({
         client_id: randomString(),
-    });
+    }));
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps[value.client_id])
         : undefined;
@@ -41,6 +41,7 @@ function CustomSupplyInput(props: Props) {
     return (
         <div className={styles.customSupplyInput}>
             <TextInput
+                // FIXME: Add translation
                 label="Supply"
                 name="supply_label"
                 value={value?.supply_label}
@@ -48,6 +49,7 @@ function CustomSupplyInput(props: Props) {
                 onChange={setFieldValue}
             />
             <NumberInput
+                // FIXME: Add translation
                 label="Count"
                 name="supply_value"
                 value={value?.supply_value}
@@ -57,6 +59,8 @@ function CustomSupplyInput(props: Props) {
             <Button
                 name={index}
                 variant="tertiary"
+                // FIXME: Add translation
+                title="Remove custom supply"
                 onClick={onRemove}
             >
                 <DeleteBinLineIcon />

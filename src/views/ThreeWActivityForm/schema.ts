@@ -4,7 +4,11 @@ import {
     undefinedValue,
     ArraySchema,
     addCondition,
+    nullValue,
 } from '@togglecorp/toggle-form';
+import {
+    isDefined,
+} from '@togglecorp/fujs';
 
 import {
     positiveIntegerCondition,
@@ -78,6 +82,7 @@ type ActionSupplyItemSchemaFields = ReturnType<ActionSupplyItemSchema['fields']>
 type ActionSupplyItemsSchema = ArraySchema<PartialActionSupplyItem, FormType>;
 type ActionSupplyItemsSchemaMember = ReturnType<ActionSupplyItemsSchema['member']>;
 
+// TODO: Conditional schema dependent on data other than data within the form is not added
 const finalSchema: FormSchema = {
     fields: (value): FormSchemaFields => {
         let schema: FormSchemaFields = {
@@ -95,7 +100,7 @@ const finalSchema: FormSchema = {
             value,
             ['start_date', 'end_date'] as const,
             ['end_date'] as const,
-            (props) => {
+            (props): Pick<FormSchemaFields, 'end_date'> => {
                 if (props?.start_date) {
                     return {
                         end_date: {
@@ -110,17 +115,22 @@ const finalSchema: FormSchema = {
             },
         );
 
+        const reportingNsFields = [
+            'reporting_ns',
+            'reporting_ns_contact_name',
+            'reporting_ns_contact_email',
+            'reporting_ns_contact_role',
+            'deployed_eru',
+        ] as const;
+
+        type ReportingNsSchema = Pick<FormSchemaFields, (typeof reportingNsFields)[number]>;
+
         schema = addCondition(
             schema,
             value,
             ['activity_lead'] as const,
-            [
-                'reporting_ns',
-                'reporting_ns_contact_name',
-                'reporting_ns_contact_email',
-                'reporting_ns_contact_role',
-            ] as const,
-            (props) => {
+            reportingNsFields,
+            (props): ReportingNsSchema => {
                 if (props?.activity_lead === 'national_society') {
                     return {
                         reporting_ns: { required: true },
@@ -154,7 +164,7 @@ const finalSchema: FormSchema = {
             value,
             ['sectors'] as const,
             ['activities'] as const,
-            (props) => {
+            (props): Pick<FormSchemaFields, 'activities'> => {
                 if ((props?.sectors?.length ?? 0) <= 0) {
                     return {
                         activities: { forceValue: undefinedValue },
@@ -164,104 +174,321 @@ const finalSchema: FormSchema = {
                     activities: {
                         keySelector: (activity) => activity.client_id as string,
                         member: (): ActivityItemsSchemaMember => ({
-                            fields: (): ActivityItemSchemaFields => ({
-                                // If you force it as undefined type
-                                // it will not be sent to the server
-                                client_id: { forceValue: undefinedValue },
-                                id: {},
-                                details: {},
-                                is_simplified_report: { defaultValue: true },
-                                has_no_data_on_people_reached: { defaultValue: undefinedValue },
-                                sector: { required: true },
-                                action: {},
+                            fields: (activityValue): ActivityItemSchemaFields => {
+                                let activitySchema: ActivityItemSchemaFields = {
+                                    // If you force it as undefined type
+                                    // it will not be sent to the server
+                                    client_id: { forceValue: undefinedValue },
+                                    id: {},
+                                    details: {},
+                                    is_simplified_report: { defaultValue: true },
+                                    has_no_data_on_people_reached: { defaultValue: undefinedValue },
+                                    sector: { required: true },
+                                    action: {},
 
-                                // TODO: Add conditional validation for following fields
-                                custom_action: {},
-                                point_count: {},
-                                is_disaggregated_for_disabled: { defaultValue: undefinedValue },
-
-                                male_0_1_count: {},
-                                male_2_5_count: {},
-                                male_6_12_count: {},
-                                male_13_17_count: {},
-                                male_18_59_count: {},
-                                male_60_plus_count: {},
-                                male_unknown_age_count: {},
-                                female_0_1_count: {},
-                                female_2_5_count: {},
-                                female_6_12_count: {},
-                                female_13_17_count: {},
-                                female_18_59_count: {},
-                                female_60_plus_count: {},
-                                female_unknown_age_count: {},
-                                other_0_1_count: {},
-                                other_2_5_count: {},
-                                other_6_12_count: {},
-                                other_13_17_count: {},
-                                other_18_59_count: {},
-                                other_60_plus_count: {},
-                                other_unknown_age_count: {},
-
-                                disabled_male_0_1_count: {},
-                                disabled_male_2_5_count: {},
-                                disabled_male_6_12_count: {},
-                                disabled_male_13_17_count: {},
-                                disabled_male_18_59_count: {},
-                                disabled_male_60_plus_count: {},
-                                disabled_male_unknown_age_count: {},
-                                disabled_female_0_1_count: {},
-                                disabled_female_2_5_count: {},
-                                disabled_female_6_12_count: {},
-                                disabled_female_13_17_count: {},
-                                disabled_female_18_59_count: {},
-                                disabled_female_60_plus_count: {},
-                                disabled_female_unknown_age_count: {},
-                                disabled_other_0_1_count: {},
-                                disabled_other_2_5_count: {},
-                                disabled_other_6_12_count: {},
-                                disabled_other_13_17_count: {},
-                                disabled_other_18_59_count: {},
-                                disabled_other_60_plus_count: {},
-                                disabled_other_unknown_age_count: {},
-
-                                beneficiaries_count: {},
-                                amount: {
-                                    validations: [positiveIntegerCondition],
-                                },
-
-                                points: {
-                                    keySelector: (point) => point.client_id as string,
-                                    member: (): PointItemsSchemaMember => ({
-                                        fields: (): PointItemSchemaFields => ({
-                                            client_id: { forceValue: undefinedValue },
-                                            id: {},
-                                            longitude: { required: true },
-                                            latitude: { required: true },
-                                            description: { required: true },
+                                    custom_supplies: {
+                                        keySelector: (supply) => supply.client_id as string,
+                                        member: (): CustomSupplyItemsSchemaMember => ({
+                                            fields: (): CustomSupplyItemSchemaFields => ({
+                                                client_id: { forceValue: undefinedValue },
+                                                supply_label: { required: true },
+                                                supply_value: { required: true },
+                                            }),
                                         }),
-                                    }),
-                                },
-                                custom_supplies: {
-                                    keySelector: (supply) => supply.client_id as string,
-                                    member: (): CustomSupplyItemsSchemaMember => ({
-                                        fields: (): CustomSupplyItemSchemaFields => ({
-                                            client_id: { forceValue: undefinedValue },
-                                            supply_label: { required: true },
-                                            supply_value: { required: true },
-                                        }),
-                                    }),
-                                },
-                                supplies: {
-                                    keySelector: (supply) => supply.client_id as string,
-                                    member: (): ActionSupplyItemsSchemaMember => ({
-                                        fields: (): ActionSupplyItemSchemaFields => ({
-                                            client_id: { forceValue: undefinedValue },
-                                            supply_action: { required: true },
-                                            supply_value: { required: true },
-                                        }),
-                                    }),
-                                },
-                            }),
+                                    },
+                                };
+
+                                const actionSpecificFields = [
+                                    'custom_action',
+                                    'beneficiaries_count',
+                                    'amount',
+                                    'supplies',
+                                ] as const;
+
+                                type ActionSpecificFields = Pick<
+                                    ActivityItemSchemaFields, (typeof actionSpecificFields)[number]
+                                >;
+
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    ['action'] as const,
+                                    actionSpecificFields,
+                                    (val): ActionSpecificFields => {
+                                        if (isDefined(val?.action)) {
+                                            return {
+                                                custom_action: {},
+                                                beneficiaries_count: {},
+                                                amount: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                supplies: {
+                                                    keySelector: (supply) => (
+                                                        supply.client_id as string
+                                                    ),
+                                                    member: (): ActionSupplyItemsSchemaMember => ({
+                                                        fields: ():
+                                                            ActionSupplyItemSchemaFields => ({
+                                                            client_id: {
+                                                                forceValue: undefinedValue,
+                                                            },
+                                                            supply_action: { required: true },
+                                                            supply_value: { required: true },
+                                                        }),
+                                                    }),
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            custom_action: { forceValue: nullValue },
+                                            beneficiaries_count: { forceValue: nullValue },
+                                            amount: { forceValue: nullValue },
+                                            supplies: { forceValue: nullValue },
+                                        };
+                                    },
+                                );
+
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    ['action', 'is_simplified_report'] as const,
+                                    ['point_count'] as const,
+                                    (val): Pick<ActivityItemSchemaFields, 'point_count'> => {
+                                        if (isDefined(val?.action) && val?.is_simplified_report) {
+                                            return {
+                                                point_count: {},
+                                            };
+                                        }
+                                        return {
+                                            point_count: { forceValue: nullValue },
+                                        };
+                                    },
+                                );
+
+                                const disaggregationFields = [
+                                    'male_0_1_count',
+                                    'male_2_5_count',
+                                    'male_6_12_count',
+                                    'male_13_17_count',
+                                    'male_18_59_count',
+                                    'male_60_plus_count',
+                                    'male_unknown_age_count',
+                                    'female_0_1_count',
+                                    'female_2_5_count',
+                                    'female_6_12_count',
+                                    'female_13_17_count',
+                                    'female_18_59_count',
+                                    'female_60_plus_count',
+                                    'female_unknown_age_count',
+                                    'other_0_1_count',
+                                    'other_2_5_count',
+                                    'other_6_12_count',
+                                    'other_13_17_count',
+                                    'other_18_59_count',
+                                    'other_60_plus_count',
+                                    'other_unknown_age_count',
+                                    'is_disaggregated_for_disabled',
+                                ] as const;
+
+                                type DisaggregationSchema = Pick<
+                                    ActivityItemSchemaFields, (typeof disaggregationFields)[number]
+                                >;
+
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    ['is_simplified_report'] as const,
+                                    disaggregationFields,
+                                    (val): DisaggregationSchema => {
+                                        if (!val?.is_simplified_report) {
+                                            return {
+                                                male_0_1_count: {},
+                                                male_2_5_count: {},
+                                                male_6_12_count: {},
+                                                male_13_17_count: {},
+                                                male_18_59_count: {},
+                                                male_60_plus_count: {},
+                                                male_unknown_age_count: {},
+                                                female_0_1_count: {},
+                                                female_2_5_count: {},
+                                                female_6_12_count: {},
+                                                female_13_17_count: {},
+                                                female_18_59_count: {},
+                                                female_60_plus_count: {},
+                                                female_unknown_age_count: {},
+                                                other_0_1_count: {},
+                                                other_2_5_count: {},
+                                                other_6_12_count: {},
+                                                other_13_17_count: {},
+                                                other_18_59_count: {},
+                                                other_60_plus_count: {},
+                                                other_unknown_age_count: {},
+
+                                                is_disaggregated_for_disabled: {
+                                                    defaultValue: undefinedValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            male_0_1_count: { forceValue: nullValue },
+                                            male_2_5_count: { forceValue: nullValue },
+                                            male_6_12_count: { forceValue: nullValue },
+                                            male_13_17_count: { forceValue: nullValue },
+                                            male_18_59_count: { forceValue: nullValue },
+                                            male_60_plus_count: { forceValue: nullValue },
+                                            male_unknown_age_count: { forceValue: nullValue },
+                                            female_0_1_count: { forceValue: nullValue },
+                                            female_2_5_count: { forceValue: nullValue },
+                                            female_6_12_count: { forceValue: nullValue },
+                                            female_13_17_count: { forceValue: nullValue },
+                                            female_18_59_count: { forceValue: nullValue },
+                                            female_60_plus_count: { forceValue: nullValue },
+                                            female_unknown_age_count: { forceValue: nullValue },
+                                            other_0_1_count: { forceValue: nullValue },
+                                            other_2_5_count: { forceValue: nullValue },
+                                            other_6_12_count: { forceValue: nullValue },
+                                            other_13_17_count: { forceValue: nullValue },
+                                            other_18_59_count: { forceValue: nullValue },
+                                            other_60_plus_count: { forceValue: nullValue },
+                                            other_unknown_age_count: { forceValue: nullValue },
+
+                                            is_disaggregated_for_disabled: {
+                                                forceValue: nullValue,
+                                            },
+                                        };
+                                    },
+                                );
+
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    ['is_simplified_report'] as const,
+                                    ['points'] as const,
+                                    (val): Pick<ActivityItemSchemaFields, 'points'> => {
+                                        if (!val?.is_simplified_report) {
+                                            return {
+                                                points: {
+                                                    keySelector: (point) => (
+                                                        point.client_id as string
+                                                    ),
+                                                    member: (): PointItemsSchemaMember => ({
+                                                        fields: (): PointItemSchemaFields => ({
+                                                            client_id: {
+                                                                forceValue: undefinedValue,
+                                                            },
+                                                            id: {},
+                                                            longitude: { required: true },
+                                                            latitude: { required: true },
+                                                            description: { required: true },
+                                                        }),
+                                                    }),
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            points: { forceValue: nullValue },
+                                        };
+                                    },
+                                );
+
+                                const disabledDisaggregationFields = [
+                                    'disabled_male_0_1_count',
+                                    'disabled_male_2_5_count',
+                                    'disabled_male_6_12_count',
+                                    'disabled_male_13_17_count',
+                                    'disabled_male_18_59_count',
+                                    'disabled_male_60_plus_count',
+                                    'disabled_male_unknown_age_count',
+                                    'disabled_female_0_1_count',
+                                    'disabled_female_2_5_count',
+                                    'disabled_female_6_12_count',
+                                    'disabled_female_13_17_count',
+                                    'disabled_female_18_59_count',
+                                    'disabled_female_60_plus_count',
+                                    'disabled_female_unknown_age_count',
+                                    'disabled_other_0_1_count',
+                                    'disabled_other_2_5_count',
+                                    'disabled_other_6_12_count',
+                                    'disabled_other_13_17_count',
+                                    'disabled_other_18_59_count',
+                                    'disabled_other_60_plus_count',
+                                    'disabled_other_unknown_age_count',
+                                ] as const;
+
+                                type DisabledDisaggregationSchema = Pick<
+                                    ActivityItemSchemaFields, (
+                                        typeof disabledDisaggregationFields
+                                    )[number]
+                                >;
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    ['is_simplified_report', 'is_disaggregated_for_disabled'] as const,
+                                    disabledDisaggregationFields,
+                                    (val): DisabledDisaggregationSchema => {
+                                        if (
+                                            !val?.is_simplified_report
+                                            && val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_male_0_1_count: {},
+                                                disabled_male_2_5_count: {},
+                                                disabled_male_6_12_count: {},
+                                                disabled_male_13_17_count: {},
+                                                disabled_male_18_59_count: {},
+                                                disabled_male_60_plus_count: {},
+                                                disabled_male_unknown_age_count: {},
+                                                disabled_female_0_1_count: {},
+                                                disabled_female_2_5_count: {},
+                                                disabled_female_6_12_count: {},
+                                                disabled_female_13_17_count: {},
+                                                disabled_female_18_59_count: {},
+                                                disabled_female_60_plus_count: {},
+                                                disabled_female_unknown_age_count: {},
+                                                disabled_other_0_1_count: {},
+                                                disabled_other_2_5_count: {},
+                                                disabled_other_6_12_count: {},
+                                                disabled_other_13_17_count: {},
+                                                disabled_other_18_59_count: {},
+                                                disabled_other_60_plus_count: {},
+                                                disabled_other_unknown_age_count: {},
+                                            };
+                                        }
+                                        return {
+                                            disabled_male_0_1_count: { forceValue: nullValue },
+                                            disabled_male_2_5_count: { forceValue: nullValue },
+                                            disabled_male_6_12_count: { forceValue: nullValue },
+                                            disabled_male_13_17_count: { forceValue: nullValue },
+                                            disabled_male_18_59_count: { forceValue: nullValue },
+                                            disabled_male_60_plus_count: { forceValue: nullValue },
+                                            disabled_male_unknown_age_count: {
+                                                forceValue: nullValue,
+                                            },
+                                            disabled_female_0_1_count: { forceValue: nullValue },
+                                            disabled_female_2_5_count: { forceValue: nullValue },
+                                            disabled_female_6_12_count: { forceValue: nullValue },
+                                            disabled_female_13_17_count: { forceValue: nullValue },
+                                            disabled_female_18_59_count: { forceValue: nullValue },
+                                            disabled_female_60_plus_count: {
+                                                forceValue: nullValue,
+                                            },
+                                            disabled_female_unknown_age_count: {
+                                                forceValue: nullValue,
+                                            },
+                                            disabled_other_0_1_count: { forceValue: nullValue },
+                                            disabled_other_2_5_count: { forceValue: nullValue },
+                                            disabled_other_6_12_count: { forceValue: nullValue },
+                                            disabled_other_13_17_count: { forceValue: nullValue },
+                                            disabled_other_18_59_count: { forceValue: nullValue },
+                                            disabled_other_60_plus_count: { forceValue: nullValue },
+                                            disabled_other_unknown_age_count: {
+                                                forceValue: nullValue,
+                                            },
+                                        };
+                                    },
+                                );
+                                return activitySchema;
+                            },
                         }),
                     },
                 };

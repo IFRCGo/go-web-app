@@ -1,8 +1,4 @@
-import {
-    sum,
-    _cs,
-    isDefined,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 import {
     ObjectError,
     EntriesAsList,
@@ -11,6 +7,7 @@ import {
 import NumberOutput from '#components/NumberOutput';
 import NumberInput from '#components/NumberInput';
 import Switch from '#components/parked/Switch';
+import { sumSafe } from '#utils/common';
 
 import {
     PartialActivityItem,
@@ -31,239 +28,206 @@ function DisaggregationInput(props: Props) {
         error,
     } = props;
 
-    const total_0_1_count = sum(
-        [
-            value?.male_0_1_count,
-            value?.female_0_1_count,
-            value?.other_0_1_count,
-        ].filter(isDefined),
-    );
+    const total_0_1_count = sumSafe([
+        value?.male_0_1_count,
+        value?.female_0_1_count,
+        value?.other_0_1_count,
+    ]);
 
-    const total_2_5_count = sum(
-        [
-            value?.male_2_5_count,
-            value?.female_2_5_count,
-            value?.other_2_5_count,
-        ].filter(isDefined),
-    );
+    const total_2_5_count = sumSafe([
+        value?.male_2_5_count,
+        value?.female_2_5_count,
+        value?.other_2_5_count,
+    ]);
 
-    const total_6_12_count = sum(
-        [
-            value?.male_6_12_count,
-            value?.female_6_12_count,
-            value?.other_6_12_count,
-        ].filter(isDefined),
-    );
+    const total_6_12_count = sumSafe([
+        value?.male_6_12_count,
+        value?.female_6_12_count,
+        value?.other_6_12_count,
+    ]);
 
-    const total_13_17_count = sum(
-        [
-            value?.male_13_17_count,
-            value?.female_13_17_count,
-            value?.other_13_17_count,
-        ].filter(isDefined),
-    );
+    const total_13_17_count = sumSafe([
+        value?.male_13_17_count,
+        value?.female_13_17_count,
+        value?.other_13_17_count,
+    ]);
 
-    const total_18_59_count = sum(
-        [
-            value?.male_18_59_count,
-            value?.female_18_59_count,
-            value?.other_18_59_count,
-        ].filter(isDefined),
-    );
+    const total_18_59_count = sumSafe([
+        value?.male_18_59_count,
+        value?.female_18_59_count,
+        value?.other_18_59_count,
+    ]);
 
-    const total_60_plus_count = sum(
-        [
-            value?.male_60_plus_count,
-            value?.female_60_plus_count,
-            value?.other_60_plus_count,
-        ].filter(isDefined),
-    );
+    const total_60_plus_count = sumSafe([
+        value?.male_60_plus_count,
+        value?.female_60_plus_count,
+        value?.other_60_plus_count,
+    ]);
 
-    const total_unknown = sum(
-        [
-            value?.male_unknown_age_count,
-            value?.female_unknown_age_count,
-            value?.other_unknown_age_count,
-        ].filter(isDefined),
-    );
+    const total_unknown = sumSafe([
+        value?.male_unknown_age_count,
+        value?.female_unknown_age_count,
+        value?.other_unknown_age_count,
+    ]);
 
-    const total_male = sum(
-        [
-            value?.male_0_1_count,
-            value?.male_2_5_count,
-            value?.male_6_12_count,
-            value?.male_13_17_count,
-            value?.male_18_59_count,
-            value?.male_60_plus_count,
-            value?.male_unknown_age_count,
-        ].filter(isDefined),
-    );
+    const total_male = sumSafe([
+        value?.male_0_1_count,
+        value?.male_2_5_count,
+        value?.male_6_12_count,
+        value?.male_13_17_count,
+        value?.male_18_59_count,
+        value?.male_60_plus_count,
+        value?.male_unknown_age_count,
+    ]);
 
-    const total_female = sum(
-        [
-            value?.female_0_1_count,
-            value?.female_2_5_count,
-            value?.female_6_12_count,
-            value?.female_13_17_count,
-            value?.female_18_59_count,
-            value?.female_60_plus_count,
-            value?.female_unknown_age_count,
-        ].filter(isDefined),
-    );
+    const total_female = sumSafe([
+        value?.female_0_1_count,
+        value?.female_2_5_count,
+        value?.female_6_12_count,
+        value?.female_13_17_count,
+        value?.female_18_59_count,
+        value?.female_60_plus_count,
+        value?.female_unknown_age_count,
+    ]);
 
-    const total_other = sum(
-        [
-            value?.other_0_1_count,
-            value?.other_2_5_count,
-            value?.other_6_12_count,
-            value?.other_13_17_count,
-            value?.other_18_59_count,
-            value?.other_60_plus_count,
-            value?.other_unknown_age_count,
-        ].filter(isDefined),
-    );
+    const total_other = sumSafe([
+        value?.other_0_1_count,
+        value?.other_2_5_count,
+        value?.other_6_12_count,
+        value?.other_13_17_count,
+        value?.other_18_59_count,
+        value?.other_60_plus_count,
+        value?.other_unknown_age_count,
+    ]);
 
-    const total = sum(
-        [
-            total_male,
-            total_female,
-            total_other,
-        ].filter(isDefined),
-    );
+    const total = sumSafe([
+        total_male,
+        total_female,
+        total_other,
+    ]);
 
-    const disabled_total_0_1_count = sum(
-        [
-            value?.disabled_male_0_1_count,
-            value?.disabled_female_0_1_count,
-            value?.disabled_other_0_1_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_0_1_count = sumSafe([
+        value?.disabled_male_0_1_count,
+        value?.disabled_female_0_1_count,
+        value?.disabled_other_0_1_count,
+    ]);
 
-    const disabled_total_2_5_count = sum(
-        [
-            value?.disabled_male_2_5_count,
-            value?.disabled_female_2_5_count,
-            value?.disabled_other_2_5_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_2_5_count = sumSafe([
+        value?.disabled_male_2_5_count,
+        value?.disabled_female_2_5_count,
+        value?.disabled_other_2_5_count,
+    ]);
 
-    const disabled_total_6_12_count = sum(
-        [
-            value?.disabled_male_6_12_count,
-            value?.disabled_female_6_12_count,
-            value?.disabled_other_6_12_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_6_12_count = sumSafe([
+        value?.disabled_male_6_12_count,
+        value?.disabled_female_6_12_count,
+        value?.disabled_other_6_12_count,
+    ]);
 
-    const disabled_total_13_17_count = sum(
-        [
-            value?.disabled_male_13_17_count,
-            value?.disabled_female_13_17_count,
-            value?.disabled_other_13_17_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_13_17_count = sumSafe([
+        value?.disabled_male_13_17_count,
+        value?.disabled_female_13_17_count,
+        value?.disabled_other_13_17_count,
+    ]);
 
-    const disabled_total_18_59_count = sum(
-        [
-            value?.disabled_male_18_59_count,
-            value?.disabled_female_18_59_count,
-            value?.disabled_other_18_59_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_18_59_count = sumSafe([
+        value?.disabled_male_18_59_count,
+        value?.disabled_female_18_59_count,
+        value?.disabled_other_18_59_count,
+    ]);
 
-    const disabled_total_60_plus_count = sum(
-        [
-            value?.disabled_male_60_plus_count,
-            value?.disabled_female_60_plus_count,
-            value?.disabled_other_60_plus_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_60_plus_count = sumSafe([
+        value?.disabled_male_60_plus_count,
+        value?.disabled_female_60_plus_count,
+        value?.disabled_other_60_plus_count,
+    ]);
 
-    const disabled_total_unknown = sum(
-        [
-            value?.disabled_male_unknown_age_count,
-            value?.disabled_female_unknown_age_count,
-            value?.disabled_other_unknown_age_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_unknown = sumSafe([
+        value?.disabled_male_unknown_age_count,
+        value?.disabled_female_unknown_age_count,
+        value?.disabled_other_unknown_age_count,
+    ]);
 
-    const disabled_total_male = sum(
-        [
-            value?.disabled_male_0_1_count,
-            value?.disabled_male_2_5_count,
-            value?.disabled_male_6_12_count,
-            value?.disabled_male_13_17_count,
-            value?.disabled_male_18_59_count,
-            value?.disabled_male_60_plus_count,
-            value?.disabled_male_unknown_age_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_male = sumSafe([
+        value?.disabled_male_0_1_count,
+        value?.disabled_male_2_5_count,
+        value?.disabled_male_6_12_count,
+        value?.disabled_male_13_17_count,
+        value?.disabled_male_18_59_count,
+        value?.disabled_male_60_plus_count,
+        value?.disabled_male_unknown_age_count,
+    ]);
 
-    const disabled_total_female = sum(
-        [
-            value?.disabled_female_0_1_count,
-            value?.disabled_female_2_5_count,
-            value?.disabled_female_6_12_count,
-            value?.disabled_female_13_17_count,
-            value?.disabled_female_18_59_count,
-            value?.disabled_female_60_plus_count,
-            value?.disabled_female_unknown_age_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_female = sumSafe([
+        value?.disabled_female_0_1_count,
+        value?.disabled_female_2_5_count,
+        value?.disabled_female_6_12_count,
+        value?.disabled_female_13_17_count,
+        value?.disabled_female_18_59_count,
+        value?.disabled_female_60_plus_count,
+        value?.disabled_female_unknown_age_count,
+    ]);
 
-    const disabled_total_other = sum(
-        [
-            value?.disabled_other_0_1_count,
-            value?.disabled_other_2_5_count,
-            value?.disabled_other_6_12_count,
-            value?.disabled_other_13_17_count,
-            value?.disabled_other_18_59_count,
-            value?.disabled_other_60_plus_count,
-            value?.disabled_other_unknown_age_count,
-        ].filter(isDefined),
-    );
+    const disabled_total_other = sumSafe([
+        value?.disabled_other_0_1_count,
+        value?.disabled_other_2_5_count,
+        value?.disabled_other_6_12_count,
+        value?.disabled_other_13_17_count,
+        value?.disabled_other_18_59_count,
+        value?.disabled_other_60_plus_count,
+        value?.disabled_other_unknown_age_count,
+    ]);
 
-    const disabled_total = sum(
-        [
-            disabled_total_male,
-            disabled_total_female,
-            disabled_total_other,
-        ].filter(isDefined),
-    );
+    const disabled_total = sumSafe([
+        disabled_total_male,
+        disabled_total_female,
+        disabled_total_other,
+    ]);
+
     return (
         <div className={styles.detailedReporting}>
             <div className={styles.tableContainer}>
                 <div className={styles.row}>
                     <div className={styles.header}>
+                        {/* FIXME: Add translations */}
                         Gender/Age
                     </div>
                     <div className={styles.header}>
+                        {/* FIXME: Add translations */}
                         0-1
                     </div>
                     <div className={styles.header}>
+                        {/* FIXME: Add translations */}
                         2-5
                     </div>
                     <div className={styles.header}>
+                        {/* FIXME: Add translations */}
                         6-12
                     </div>
                     <div className={styles.header}>
+                        {/* FIXME: Add translations */}
                         13-17
                     </div>
                     <div className={styles.header}>
+                        {/* FIXME: Add translations */}
                         18-59
                     </div>
                     <div className={styles.header}>
+                        {/* FIXME: Add translations */}
                         60+
                     </div>
                     <div className={styles.header}>
+                        {/* FIXME: Add translations */}
                         Unknown
                     </div>
                     <div className={styles.header}>
+                        {/* FIXME: Add translations */}
                         Total
                     </div>
                 </div>
                 <div className={styles.row}>
                     <div className={_cs(styles.cell, styles.header)}>
+                        {/* FIXME: Add translations */}
                         Male
                     </div>
                     <NumberInput
@@ -329,6 +293,7 @@ function DisaggregationInput(props: Props) {
                 </div>
                 <div className={styles.row}>
                     <div className={_cs(styles.cell, styles.header)}>
+                        {/* FIXME: Add translations */}
                         Female
                     </div>
                     <NumberInput
@@ -394,6 +359,7 @@ function DisaggregationInput(props: Props) {
                 </div>
                 <div className={styles.row}>
                     <div className={_cs(styles.cell, styles.header)}>
+                        {/* FIXME: Add translations */}
                         Other
                     </div>
                     <NumberInput
@@ -459,6 +425,7 @@ function DisaggregationInput(props: Props) {
                 </div>
                 <div className={styles.row}>
                     <div className={_cs(styles.cell, styles.header)}>
+                        {/* FIXME: Add translations */}
                         Total
                     </div>
                     <NumberOutput
@@ -496,6 +463,7 @@ function DisaggregationInput(props: Props) {
                 </div>
             </div>
             <Switch
+                // FIXME: Add translations
                 label="Disaggregation for disabled available"
                 name="is_disaggregated_for_disabled"
                 value={!!value?.is_disaggregated_for_disabled}
@@ -506,35 +474,45 @@ function DisaggregationInput(props: Props) {
                 <div className={styles.tableContainer}>
                     <div className={styles.row}>
                         <div className={styles.header}>
+                            {/* FIXME: Add translations */}
                             Gender/Age
                         </div>
                         <div className={styles.header}>
+                            {/* FIXME: Add translations */}
                             0-1
                         </div>
                         <div className={styles.header}>
+                            {/* FIXME: Add translations */}
                             2-5
                         </div>
                         <div className={styles.header}>
+                            {/* FIXME: Add translations */}
                             6-12
                         </div>
                         <div className={styles.header}>
+                            {/* FIXME: Add translations */}
                             13-17
                         </div>
                         <div className={styles.header}>
+                            {/* FIXME: Add translations */}
                             18-59
                         </div>
                         <div className={styles.header}>
+                            {/* FIXME: Add translations */}
                             60+
                         </div>
                         <div className={styles.header}>
+                            {/* FIXME: Add translations */}
                             Unknown
                         </div>
                         <div className={styles.header}>
+                            {/* FIXME: Add translations */}
                             Total
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={_cs(styles.cell, styles.header)}>
+                            {/* FIXME: Add translations */}
                             Male
                         </div>
                         <NumberInput
@@ -600,6 +578,7 @@ function DisaggregationInput(props: Props) {
                     </div>
                     <div className={styles.row}>
                         <div className={_cs(styles.cell, styles.header)}>
+                            {/* FIXME: Add translations */}
                             Female
                         </div>
                         <NumberInput
@@ -665,6 +644,7 @@ function DisaggregationInput(props: Props) {
                     </div>
                     <div className={styles.row}>
                         <div className={_cs(styles.cell, styles.header)}>
+                            {/* FIXME: Add translations */}
                             Other
                         </div>
                         <NumberInput
@@ -730,6 +710,7 @@ function DisaggregationInput(props: Props) {
                     </div>
                     <div className={styles.row}>
                         <div className={_cs(styles.cell, styles.header)}>
+                            {/* FIXME: Add translations */}
                             Total
                         </div>
                         <NumberOutput
