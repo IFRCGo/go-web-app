@@ -1,8 +1,8 @@
 import { useCallback, useContext } from 'react';
 import { generatePath } from 'react-router-dom';
+import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import RouteContext from '#contexts/route';
-import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
 import Image from '#components/Image';

@@ -20,8 +20,11 @@ import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
+import {
+    useRequest,
+    type GoApiResponse,
+    type GoApiUrlQuery,
+} from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import RegionSelectInput from '#components/domain/RegionSelectInput';

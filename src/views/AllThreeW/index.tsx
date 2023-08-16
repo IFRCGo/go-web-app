@@ -20,6 +20,7 @@ type ProjectsResponse = GoApiResponse<'/api/v2/project/'>;
 type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
 
 const ITEM_PER_PAGE = 15;
+
 function projectKeySelector(project: ProjectListItem) {
     return project.id;
 }

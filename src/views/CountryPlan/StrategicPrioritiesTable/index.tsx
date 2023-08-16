@@ -4,13 +4,12 @@ import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 import Table from '#components/Table';
 import { createNumberColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
-import { paths } from '#generated/types';
 import { numericIdSelector } from '#utils/selectors';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from '../i18n.json';
 
-type GetCountryPlan = paths['/api/v2/country-plan/{country}/']['get'];
-type GetCountryPlanResponse = GetCountryPlan['responses']['200']['content']['application/json'];
+type GetCountryPlanResponse = GoApiResponse<'/api/v2/country-plan/{country}/'>;
 
 interface Props {
     className?: string,

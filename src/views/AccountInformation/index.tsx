@@ -1,5 +1,4 @@
 import { useState, useCallback, useContext } from 'react';
-import Container from '#components/Container';
 import {
     listToMap,
     isDefined,
@@ -9,18 +8,17 @@ import {
     PencilFillIcon,
 } from '@ifrc-go/icons';
 
+import Container from '#components/Container';
 import List from '#components/List';
 import Button from '#components/Button';
 import Pager from '#components/Pager';
 import TextOutput from '#components/TextOutput';
 import BlockLoading from '#components/BlockLoading';
-
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import UserContext from '#contexts/user';
 
-import OperationInfoCard, { Props as OperationInfoCardProps } from './OperationInfoCard';
+import OperationInfoCard, { type Props as OperationInfoCardProps } from './OperationInfoCard';
 import ChangePasswordModal from './ChangePassword';
 import EditAccountInfo from './EditAccountInfo';
 import i18n from './i18n.json';

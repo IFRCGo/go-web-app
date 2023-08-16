@@ -12,12 +12,12 @@ import {
     createListDisplayColumn,
     createElementColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 
-import ThreeWTableActions from './ThreeWTableActions';
-import type { Props as ThreeWTableActionsProps } from './ThreeWTableActions';
+import ThreeWTableActions, {
+    type Props as ThreeWTableActionsProps,
+} from './ThreeWTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -29,6 +29,7 @@ type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
 
 type DistrictDetails = ActivityListItem['districts_details'][number];
 
+// FIXME: use common utils
 function idSelector(p: { id: number }) {
     return p.id;
 }
@@ -104,11 +105,11 @@ function getPeopleReached(activity: ActivityListItem) {
     return peopleReached;
 }
 
-const ITEM_PER_PAGE = 5;
-
 function DistrictNameOutput({ districtName }: { districtName: string }) {
     return districtName;
 }
+
+const ITEM_PER_PAGE = 5;
 
 interface Props {
     className?: string;

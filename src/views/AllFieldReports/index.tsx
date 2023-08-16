@@ -3,8 +3,7 @@ import { isDefined } from '@togglecorp/fujs';
 import { generatePath } from 'react-router-dom';
 
 import Page from '#components/Page';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';

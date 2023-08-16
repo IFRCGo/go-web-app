@@ -20,13 +20,12 @@ import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import RouteContext from '#contexts/route';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-type AggregatedPerProcessStatusResponse = paths['/api/v2/aggregated-per-process-status/']['get']['responses']['200']['content']['application/json'];
-type AggregatedPerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
-type PerPhase = AggregatedPerProcessStatusItem['phase'];
+type AggregatedPerProcessStatusResponse = GoApiResponse<'/api/v2/aggregated-per-process-status/'>;
+type PerPhase = NonNullable<AggregatedPerProcessStatusResponse['results']>[number]['phase'];
 
 export interface Props {
     phase: PerPhase;
@@ -72,7 +71,8 @@ function PerTableActions(props: Props) {
 
     const getRouteUrl = useCallback(
         (currentPhase: number) => {
-            if (currentPhase === PER_PHASE_OVERVIEW
+            if (
+                currentPhase === PER_PHASE_OVERVIEW
                 || currentPhase === PER_PHASE_ASSESSMENT
                 || currentPhase === PER_PHASE_PRIORITIZATION
                 || currentPhase === PER_PHASE_WORKPLAN

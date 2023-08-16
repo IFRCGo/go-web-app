@@ -24,10 +24,11 @@ import styles from './styles.module.css';
 
 type FlashUpdateResponse = GoApiResponse<'/api/v2/flash-update/'>;
 type FlashUpdateListItem = NonNullable<FlashUpdateResponse['results']>[number];
+type TableKey = number;
 
 const keySelector = (item: FlashUpdateListItem) => item.id;
 
-type TableKey = number;
+const PAGE_SIZE = 15;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -65,7 +66,7 @@ export function Component() {
                 strings.allFlashUpdatesCountry,
                 (item) => item.country_district?.map(
                     (country_district) => country_district.country_details,
-                ) ?? [],
+                ),
             ),
         ]),
         [strings],
@@ -73,7 +74,6 @@ export function Component() {
 
     const [page, setPage] = useState(1);
 
-    const PAGE_SIZE = 15;
     const {
         pending: flashUpdatePending,
         response: flashUpdateResponse,

@@ -3,16 +3,14 @@ import { _cs } from '@togglecorp/fujs';
 import Header from '#components/Header';
 import Button from '#components/Button';
 import TextOutput from '#components/TextOutput';
-
 import useTranslation from '#hooks/useTranslation';
-import { useLazyRequest } from '#utils/restRequest';
-import type { paths } from '#generated/types';
+import { type GoApiResponse, useLazyRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetOperations = paths['/api/v2/event/']['get'];
-type OperationsResponse = NonNullable<GetOperations['responses']['200']['content']['application/json']['results']>[number];
+type OperationsGet = GoApiResponse<'/api/v2/event/'>;
+type OperationsResponse = NonNullable<OperationsGet['results']>[number];
 
 export interface Props {
     className?: string;
