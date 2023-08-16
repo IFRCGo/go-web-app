@@ -303,6 +303,7 @@ export function Component() {
                         name="sectors"
                         options={optionsResponse?.sectors}
                         onChange={setFieldValue}
+                        listContainerClassName={styles.sectorCheckboxes}
                         value={value?.sectors}
                         // FIXME: Use selectors
                         keySelector={(item) => item.id}

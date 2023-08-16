@@ -1,0 +1,5 @@
+.custom-supply-input {
+    display: flex;
+    align-items: center;
+    gap: var(--go-ui-spacing-md);
+}

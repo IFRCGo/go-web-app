@@ -1,5 +1,8 @@
 import { useCallback } from 'react';
-import { DeleteBinLineIcon } from '@ifrc-go/icons';
+import {
+    DeleteBinLineIcon,
+    AddLineIcon,
+} from '@ifrc-go/icons';
 import {
     randomString,
     isTruthy,
@@ -8,12 +11,15 @@ import {
 } from '@togglecorp/fujs';
 import {
     Error,
+    useFormArray,
     getErrorObject,
+    getErrorString,
     SetValueArg,
     useFormObject,
 } from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
+import Container from '#components/Container';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import Switch from '#components/parked/Switch';
 import InputSection from '#components/InputSection';
@@ -21,11 +27,20 @@ import RadioInput from '#components/RadioInput';
 import NumberInput from '#components/NumberInput';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
+import NonFieldError from '#components/NonFieldError';
 import TextArea from '#components/TextArea';
 import type { GoApiResponse } from '#utils/restRequest';
 
-import { PartialActivityItem } from '../../schema';
+import {
+    PartialActivityItem,
+    PartialCustomSupplyItem,
+    PartialActionSupplyItem,
+    PartialPointItem,
+} from '../../schema';
 import DisaggregationInput from './DisaggregationInput';
+import PointInput from './PointInput';
+import CustomSupplyInput from './CustomSuppliesInput';
+import ActionSupplyInput from './ActionSupplyInput';
 import styles from './styles.module.css';
 
 type Options = GoApiResponse<'/api/v2/emergency-project/options/'>;
@@ -123,11 +138,109 @@ function ActivityInput(props: Props) {
         (value?.is_simplified_report && type === 'custom')
         || (
             value?.is_simplified_report
+            && type === 'action'
             && !actionDetails?.is_cash_type
             && actionDetails?.has_location
         )
     );
 
+    const locationsInputShown = (
+        (!value?.is_simplified_report && type === 'custom')
+        || (
+            !value?.is_simplified_report
+            && type === 'action'
+            && !actionDetails?.is_cash_type
+            && actionDetails?.has_location
+        )
+    );
+
+    const customSupplyInputShown = (
+        type === 'custom'
+        || (type === 'action' && !actionDetails?.is_cash_type)
+    );
+
+    const actionSupplyInputShown = (
+        type === 'action'
+        && !actionDetails?.is_cash_type
+        && (actionDetails?.supplies_details?.length ?? 0) > 0
+    );
+
+    const budgetInputsShown = (
+        type === 'action'
+        && actionDetails?.is_cash_type
+    );
+
+    const {
+        setValue: setPoint,
+        removeValue: removePoint,
+    } = useFormArray<'points', PartialPointItem>(
+        'points',
+        setFieldValue,
+    );
+
+    const handleAddPointButtonClick = useCallback(() => {
+        onChange((oldValues) => {
+            const points = [
+                ...(oldValues?.points ?? []),
+                {
+                    client_id: randomString(),
+                },
+            ];
+            return ({
+                ...oldValues,
+                client_id: oldValues?.client_id ?? randomString(),
+                points,
+            });
+        }, mainIndex);
+    }, [onChange, mainIndex]);
+
+    const {
+        setValue: setCustomSupply,
+        removeValue: removeCustomSupply,
+    } = useFormArray<'custom_supplies', PartialCustomSupplyItem>(
+        'custom_supplies',
+        setFieldValue,
+    );
+
+    const handleAddCustomSupplyClick = useCallback(() => {
+        onChange((oldValues) => {
+            const newSupplies = [
+                ...(oldValues?.custom_supplies ?? []),
+                {
+                    client_id: randomString(),
+                },
+            ];
+            return ({
+                ...oldValues,
+                client_id: oldValues?.client_id ?? randomString(),
+                custom_supplies: newSupplies,
+            });
+        }, mainIndex);
+    }, [onChange, mainIndex]);
+
+    const {
+        setValue: setActionSupply,
+        removeValue: removeActionSupply,
+    } = useFormArray<'supplies', PartialActionSupplyItem>(
+        'supplies',
+        setFieldValue,
+    );
+
+    const handleAddActionSupplyClick = useCallback(() => {
+        onChange((oldValues) => {
+            const newSupplies = [
+                ...(oldValues?.supplies ?? []),
+                {
+                    client_id: randomString(),
+                },
+            ];
+            return ({
+                ...oldValues,
+                client_id: oldValues?.client_id ?? randomString(),
+                supplies: newSupplies,
+            });
+        }, mainIndex);
+    }, [onChange, mainIndex]);
     return (
         <ExpandableContainer
             className={styles.activityInput}
@@ -236,6 +349,25 @@ function ActivityInput(props: Props) {
                         setFieldValue={setFieldValue}
                     />
                 )}
+                {budgetInputsShown && (
+                    <div className={styles.cashInput}>
+                        <NumberInput
+                            label="Number of Beneficiaries"
+                            name="beneficiaries_count"
+                            value={value?.beneficiaries_count}
+                            onChange={setFieldValue}
+                            error={error?.beneficiaries_count}
+                        />
+                        <NumberInput
+                            label="Amount in CHF"
+                            name="amount"
+                            value={value?.amount}
+                            onChange={setFieldValue}
+                            error={error?.amount}
+                        />
+                    </div>
+                )}
+
                 {pointCountInputShown && (
                     <NumberInput
                         name="point_count"
@@ -244,6 +376,101 @@ function ActivityInput(props: Props) {
                         value={value?.point_count}
                         error={value?.point_count}
                     />
+                )}
+                {locationsInputShown && (
+                    <Container
+                        className={styles.customLocations}
+                        heading="Locations"
+                        actions={(
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                icons={(
+                                    <AddLineIcon />
+                                )}
+                                onClick={handleAddPointButtonClick}
+                            >
+                                Add Location
+                            </Button>
+
+                        )}
+                    >
+                        {value?.points?.map((p, i) => (
+                            <PointInput
+                                index={i}
+                                key={p.client_id}
+                                value={p}
+                                onChange={setPoint}
+                                error={getErrorObject(error?.points)}
+                                onRemove={removePoint}
+                            />
+                        ))}
+
+                    </Container>
+                )}
+                {actionSupplyInputShown && (
+                    <Container
+                        className={styles.actionSupplies}
+                        heading="Supplies"
+                        actions={(
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                icons={(
+                                    <AddLineIcon />
+                                )}
+                                onClick={handleAddActionSupplyClick}
+                            >
+                                Add Action Supply
+                            </Button>
+
+                        )}
+                    >
+                        <NonFieldError error={getErrorString(error?.supplies)} />
+                        {value?.supplies?.map((p, i) => (
+                            <ActionSupplyInput
+                                index={i}
+                                key={p.client_id}
+                                value={p}
+                                options={actionDetails?.supplies_details}
+                                error={getErrorObject(error?.supplies)}
+                                onChange={setActionSupply}
+                                onRemove={removeActionSupply}
+                            />
+                        ))}
+                    </Container>
+                )}
+                {customSupplyInputShown && (
+                    <Container
+                        className={styles.customSupplies}
+                        heading="Custom Supplies"
+                        actions={(
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                icons={(
+                                    <AddLineIcon />
+                                )}
+                                onClick={handleAddCustomSupplyClick}
+                            >
+                                Add Custom Supply
+                            </Button>
+
+                        )}
+                    >
+                        <NonFieldError error={getErrorString(error?.custom_supplies)} />
+                        {value?.custom_supplies?.map((p, i) => (
+                            <CustomSupplyInput
+                                index={i}
+                                key={p.client_id}
+                                value={p}
+                                error={getErrorObject(error?.custom_supplies)}
+                                onChange={setCustomSupply}
+                                onRemove={removeCustomSupply}
+                            />
+                        ))}
+
+                    </Container>
                 )}
                 <TextArea
                     value={value?.details}

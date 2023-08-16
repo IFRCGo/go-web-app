@@ -14,10 +14,25 @@ import { type DeepReplace } from '#utils/common';
 
 import type { paths } from '#generated/types';
 
+type CustomSupplyItem = {
+    client_id: string;
+    supply_label: string;
+    supply_value: number;
+}
+
+type ActionSupplyItem = {
+    client_id: string;
+    supply_action: string;
+    supply_value: number;
+}
+
 type ActivityResponseBody = paths['/api/v2/emergency-project/{id}/']['put']['requestBody']['content']['application/json'];
 type RawActivityItem = NonNullable<ActivityResponseBody['activities']>[number];
 type ActivityItem = NonNullable<ActivityResponseBody['activities']>[number] & {
     client_id: string;
+    points?: (NonNullable<RawActivityItem['points']>[number] & { client_id: string })[]
+    custom_supplies: CustomSupplyItem[];
+    supplies: ActionSupplyItem[];
 };
 type ActivityFormFields = DeepReplace<
     ActivityResponseBody,
@@ -26,7 +41,9 @@ type ActivityFormFields = DeepReplace<
 >;
 
 export type PartialActivityItem = PartialForm<ActivityItem, 'client_id'>;
-type A = PartialActivityItem['custom_action'];
+export type PartialPointItem = PartialForm<NonNullable<ActivityItem['points']>[number], 'client_id'>;
+export type PartialCustomSupplyItem = PartialForm<CustomSupplyItem, 'client_id'>;
+export type PartialActionSupplyItem = PartialForm<ActionSupplyItem, 'client_id'>;
 
 type FormFields = ActivityFormFields & {
     sectors: number[];
@@ -40,8 +57,26 @@ type FormSchemaFields = ReturnType<FormSchema['fields']>;
 type ActivityItemSchema = ObjectSchema<PartialActivityItem, FormType>;
 type ActivityItemSchemaFields = ReturnType<ActivityItemSchema['fields']>;
 
-type ActivityItemsSchema = ArraySchema<PartialActivityItem, FormType>; // plural: Splits
-type ActivityItemsSchemaMember = ReturnType<ActivityItemsSchema['member']>; // plural: Splits
+type ActivityItemsSchema = ArraySchema<PartialActivityItem, FormType>;
+type ActivityItemsSchemaMember = ReturnType<ActivityItemsSchema['member']>;
+
+type PointItemSchema = ObjectSchema<PartialPointItem, FormType>;
+type PointItemSchemaFields = ReturnType<PointItemSchema['fields']>;
+
+type PointItemsSchema = ArraySchema<PartialPointItem, FormType>;
+type PointItemsSchemaMember = ReturnType<PointItemsSchema['member']>;
+
+type CustomSupplyItemSchema = ObjectSchema<PartialCustomSupplyItem, FormType>;
+type CustomSupplyItemSchemaFields = ReturnType<CustomSupplyItemSchema['fields']>;
+
+type CustomSupplyItemsSchema = ArraySchema<PartialCustomSupplyItem, FormType>;
+type CustomSupplyItemsSchemaMember = ReturnType<CustomSupplyItemsSchema['member']>;
+
+type ActionSupplyItemSchema = ObjectSchema<PartialActionSupplyItem, FormType>;
+type ActionSupplyItemSchemaFields = ReturnType<ActionSupplyItemSchema['fields']>;
+
+type ActionSupplyItemsSchema = ArraySchema<PartialActionSupplyItem, FormType>;
+type ActionSupplyItemsSchemaMember = ReturnType<ActionSupplyItemsSchema['member']>;
 
 const finalSchema: FormSchema = {
     fields: (value): FormSchemaFields => {
@@ -137,9 +172,6 @@ const finalSchema: FormSchema = {
                                 details: {},
                                 is_simplified_report: { defaultValue: true },
                                 has_no_data_on_people_reached: { defaultValue: undefinedValue },
-                                amount: {
-                                    validations: [positiveIntegerCondition],
-                                },
                                 sector: { required: true },
                                 action: {},
 
@@ -191,6 +223,44 @@ const finalSchema: FormSchema = {
                                 disabled_other_18_59_count: {},
                                 disabled_other_60_plus_count: {},
                                 disabled_other_unknown_age_count: {},
+
+                                beneficiaries_count: {},
+                                amount: {
+                                    validations: [positiveIntegerCondition],
+                                },
+
+                                points: {
+                                    keySelector: (point) => point.client_id as string,
+                                    member: (): PointItemsSchemaMember => ({
+                                        fields: (): PointItemSchemaFields => ({
+                                            client_id: { forceValue: undefinedValue },
+                                            id: {},
+                                            longitude: { required: true },
+                                            latitude: { required: true },
+                                            description: { required: true },
+                                        }),
+                                    }),
+                                },
+                                custom_supplies: {
+                                    keySelector: (supply) => supply.client_id as string,
+                                    member: (): CustomSupplyItemsSchemaMember => ({
+                                        fields: (): CustomSupplyItemSchemaFields => ({
+                                            client_id: { forceValue: undefinedValue },
+                                            supply_label: { required: true },
+                                            supply_value: { required: true },
+                                        }),
+                                    }),
+                                },
+                                supplies: {
+                                    keySelector: (supply) => supply.client_id as string,
+                                    member: (): ActionSupplyItemsSchemaMember => ({
+                                        fields: (): ActionSupplyItemSchemaFields => ({
+                                            client_id: { forceValue: undefinedValue },
+                                            supply_action: { required: true },
+                                            supply_value: { required: true },
+                                        }),
+                                    }),
+                                },
                             }),
                         }),
                     },
