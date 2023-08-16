@@ -3,20 +3,37 @@ import {
     ObjectSchema,
     undefinedValue,
     ArraySchema,
+    lessThanOrEqualToCondition,
     addCondition,
     nullValue,
 } from '@togglecorp/toggle-form';
 import {
     isDefined,
+    Maybe,
 } from '@togglecorp/fujs';
 
 import {
     positiveIntegerCondition,
     dateGreaterThanOrEqualCondition,
 } from '#utils/form';
-import { type DeepReplace } from '#utils/common';
+import {
+    type DeepReplace,
+    sumSafe,
+} from '#utils/common';
 
 import type { paths } from '#generated/types';
+
+function hasValue(x: number) {
+    return (value: Maybe<boolean>) => {
+        if (!value && x === 0) {
+            return 'If data is not available for people, please check "No data on people reached"';
+        }
+        if (value && x > 0) {
+            return 'If data is available for people, please uncheck "No data on people reached"';
+        }
+        return undefined;
+    };
+}
 
 type CustomSupplyItem = {
     client_id: string;
@@ -197,6 +214,96 @@ const finalSchema: FormSchema = {
                                         }),
                                     },
                                 };
+
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'people_count',
+                                        'household_count',
+                                        'male_0_1_count',
+                                        'male_2_5_count',
+                                        'male_6_12_count',
+                                        'male_13_17_count',
+                                        'male_18_59_count',
+                                        'male_60_plus_count',
+                                        'male_unknown_age_count',
+                                        'female_0_1_count',
+                                        'female_2_5_count',
+                                        'female_6_12_count',
+                                        'female_13_17_count',
+                                        'female_18_59_count',
+                                        'female_60_plus_count',
+                                        'female_unknown_age_count',
+                                        'other_0_1_count',
+                                        'other_2_5_count',
+                                        'other_6_12_count',
+                                        'other_13_17_count',
+                                        'other_18_59_count',
+                                        'other_60_plus_count',
+                                        'other_unknown_age_count',
+                                    ] as const,
+                                    ['has_no_data_on_people_reached'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'has_no_data_on_people_reached'
+                                    > => {
+                                        if (val?.is_simplified_report) {
+                                            const totalPeople = sumSafe([
+                                                val?.people_count,
+                                                val?.household_count,
+                                            ]) ?? 0;
+                                            return {
+                                                has_no_data_on_people_reached: {
+                                                    defaultValue: undefinedValue,
+                                                    validations: [
+                                                        hasValue(totalPeople),
+                                                    ],
+                                                },
+                                            };
+                                        }
+                                        if (!val?.is_simplified_report) {
+                                            const totalPeople = sumSafe([
+                                                val?.male_0_1_count,
+                                                val?.female_0_1_count,
+                                                val?.other_0_1_count,
+                                                val?.male_2_5_count,
+                                                val?.female_2_5_count,
+                                                val?.other_2_5_count,
+                                                val?.male_6_12_count,
+                                                val?.female_6_12_count,
+                                                val?.other_6_12_count,
+                                                val?.male_13_17_count,
+                                                val?.female_13_17_count,
+                                                val?.other_13_17_count,
+                                                val?.male_18_59_count,
+                                                val?.female_18_59_count,
+                                                val?.other_18_59_count,
+                                                val?.male_60_plus_count,
+                                                val?.female_60_plus_count,
+                                                val?.other_60_plus_count,
+                                                val?.male_unknown_age_count,
+                                                val?.female_unknown_age_count,
+                                                val?.other_unknown_age_count,
+                                            ]) ?? 0;
+                                            return {
+                                                has_no_data_on_people_reached: {
+                                                    defaultValue: undefinedValue,
+                                                    validations: [
+                                                        hasValue(totalPeople),
+                                                    ],
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            has_no_data_on_people_reached: {
+                                                defaultValue: undefinedValue,
+                                            },
+                                        };
+                                    },
+                                );
 
                                 const actionSpecificFields = [
                                     'custom_action',
@@ -391,102 +498,747 @@ const finalSchema: FormSchema = {
                                     },
                                 );
 
-                                const disabledDisaggregationFields = [
-                                    'disabled_male_0_1_count',
-                                    'disabled_male_2_5_count',
-                                    'disabled_male_6_12_count',
-                                    'disabled_male_13_17_count',
-                                    'disabled_male_18_59_count',
-                                    'disabled_male_60_plus_count',
-                                    'disabled_male_unknown_age_count',
-                                    'disabled_female_0_1_count',
-                                    'disabled_female_2_5_count',
-                                    'disabled_female_6_12_count',
-                                    'disabled_female_13_17_count',
-                                    'disabled_female_18_59_count',
-                                    'disabled_female_60_plus_count',
-                                    'disabled_female_unknown_age_count',
-                                    'disabled_other_0_1_count',
-                                    'disabled_other_2_5_count',
-                                    'disabled_other_6_12_count',
-                                    'disabled_other_13_17_count',
-                                    'disabled_other_18_59_count',
-                                    'disabled_other_60_plus_count',
-                                    'disabled_other_unknown_age_count',
-                                ] as const;
-
-                                type DisabledDisaggregationSchema = Pick<
-                                    ActivityItemSchemaFields, (
-                                        typeof disabledDisaggregationFields
-                                    )[number]
-                                >;
+                                // Disabled male
                                 activitySchema = addCondition(
                                     activitySchema,
                                     activityValue,
-                                    ['is_simplified_report', 'is_disaggregated_for_disabled'] as const,
-                                    disabledDisaggregationFields,
-                                    (val): DisabledDisaggregationSchema => {
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'male_0_1_count',
+                                    ] as const,
+                                    ['disabled_male_0_1_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_male_0_1_count'
+                                    > => {
                                         if (
-                                            !val?.is_simplified_report
-                                            && val?.is_disaggregated_for_disabled
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
                                         ) {
                                             return {
-                                                disabled_male_0_1_count: {},
-                                                disabled_male_2_5_count: {},
-                                                disabled_male_6_12_count: {},
-                                                disabled_male_13_17_count: {},
-                                                disabled_male_18_59_count: {},
-                                                disabled_male_60_plus_count: {},
-                                                disabled_male_unknown_age_count: {},
-                                                disabled_female_0_1_count: {},
-                                                disabled_female_2_5_count: {},
-                                                disabled_female_6_12_count: {},
-                                                disabled_female_13_17_count: {},
-                                                disabled_female_18_59_count: {},
-                                                disabled_female_60_plus_count: {},
-                                                disabled_female_unknown_age_count: {},
-                                                disabled_other_0_1_count: {},
-                                                disabled_other_2_5_count: {},
-                                                disabled_other_6_12_count: {},
-                                                disabled_other_13_17_count: {},
-                                                disabled_other_18_59_count: {},
-                                                disabled_other_60_plus_count: {},
-                                                disabled_other_unknown_age_count: {},
+                                                disabled_male_0_1_count: {
+                                                    forceValue: nullValue,
+                                                },
                                             };
                                         }
                                         return {
-                                            disabled_male_0_1_count: { forceValue: nullValue },
-                                            disabled_male_2_5_count: { forceValue: nullValue },
-                                            disabled_male_6_12_count: { forceValue: nullValue },
-                                            disabled_male_13_17_count: { forceValue: nullValue },
-                                            disabled_male_18_59_count: { forceValue: nullValue },
-                                            disabled_male_60_plus_count: { forceValue: nullValue },
-                                            disabled_male_unknown_age_count: {
-                                                forceValue: nullValue,
-                                            },
-                                            disabled_female_0_1_count: { forceValue: nullValue },
-                                            disabled_female_2_5_count: { forceValue: nullValue },
-                                            disabled_female_6_12_count: { forceValue: nullValue },
-                                            disabled_female_13_17_count: { forceValue: nullValue },
-                                            disabled_female_18_59_count: { forceValue: nullValue },
-                                            disabled_female_60_plus_count: {
-                                                forceValue: nullValue,
-                                            },
-                                            disabled_female_unknown_age_count: {
-                                                forceValue: nullValue,
-                                            },
-                                            disabled_other_0_1_count: { forceValue: nullValue },
-                                            disabled_other_2_5_count: { forceValue: nullValue },
-                                            disabled_other_6_12_count: { forceValue: nullValue },
-                                            disabled_other_13_17_count: { forceValue: nullValue },
-                                            disabled_other_18_59_count: { forceValue: nullValue },
-                                            disabled_other_60_plus_count: { forceValue: nullValue },
-                                            disabled_other_unknown_age_count: {
-                                                forceValue: nullValue,
+                                            disabled_male_0_1_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.male_0_1_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
                                             },
                                         };
                                     },
                                 );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'male_2_5_count',
+                                    ] as const,
+                                    ['disabled_male_2_5_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_male_2_5_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_male_2_5_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_male_2_5_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.male_2_5_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'male_6_12_count',
+                                    ] as const,
+                                    ['disabled_male_6_12_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_male_6_12_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_male_6_12_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_male_6_12_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.male_6_12_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'male_13_17_count',
+                                    ] as const,
+                                    ['disabled_male_13_17_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_male_13_17_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_male_13_17_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_male_13_17_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.male_13_17_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'male_18_59_count',
+                                    ] as const,
+                                    ['disabled_male_18_59_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_male_18_59_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_male_18_59_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_male_18_59_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.male_18_59_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'male_60_plus_count',
+                                    ] as const,
+                                    ['disabled_male_60_plus_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_male_60_plus_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_male_60_plus_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_male_60_plus_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.male_60_plus_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'male_unknown_age_count',
+                                    ] as const,
+                                    ['disabled_male_unknown_age_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_male_unknown_age_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_male_unknown_age_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_male_unknown_age_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.male_unknown_age_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+
+                                // Disabled female
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'female_0_1_count',
+                                    ] as const,
+                                    ['disabled_female_0_1_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_female_0_1_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_female_0_1_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_female_0_1_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.female_0_1_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'female_2_5_count',
+                                    ] as const,
+                                    ['disabled_female_2_5_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_female_2_5_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_female_2_5_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_female_2_5_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.female_2_5_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'female_6_12_count',
+                                    ] as const,
+                                    ['disabled_female_6_12_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_female_6_12_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_female_6_12_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_female_6_12_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.female_6_12_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'female_13_17_count',
+                                    ] as const,
+                                    ['disabled_female_13_17_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_female_13_17_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_female_13_17_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_female_13_17_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.female_13_17_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'female_18_59_count',
+                                    ] as const,
+                                    ['disabled_female_18_59_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_female_18_59_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_female_18_59_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_female_18_59_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.female_18_59_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'female_60_plus_count',
+                                    ] as const,
+                                    ['disabled_female_60_plus_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_female_60_plus_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_female_60_plus_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_female_60_plus_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.female_60_plus_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'female_unknown_age_count',
+                                    ] as const,
+                                    ['disabled_female_unknown_age_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_female_unknown_age_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_female_unknown_age_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_female_unknown_age_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.female_unknown_age_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+
+                                // Disabled other
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'other_0_1_count',
+                                    ] as const,
+                                    ['disabled_other_0_1_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_other_0_1_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_other_0_1_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_other_0_1_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.other_0_1_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'other_2_5_count',
+                                    ] as const,
+                                    ['disabled_other_2_5_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_other_2_5_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_other_2_5_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_other_2_5_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.other_2_5_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'other_6_12_count',
+                                    ] as const,
+                                    ['disabled_other_6_12_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_other_6_12_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_other_6_12_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_other_6_12_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.other_6_12_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'other_13_17_count',
+                                    ] as const,
+                                    ['disabled_other_13_17_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_other_13_17_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_other_13_17_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_other_13_17_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.other_13_17_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'other_18_59_count',
+                                    ] as const,
+                                    ['disabled_other_18_59_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_other_18_59_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_other_18_59_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_other_18_59_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.other_18_59_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'other_60_plus_count',
+                                    ] as const,
+                                    ['disabled_other_60_plus_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_other_60_plus_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_other_60_plus_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_other_60_plus_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.other_60_plus_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'is_disaggregated_for_disabled',
+                                        'other_unknown_age_count',
+                                    ] as const,
+                                    ['disabled_other_unknown_age_count'] as const,
+                                    (val): Pick<
+                                        ActivityItemSchemaFields,
+                                        'disabled_other_unknown_age_count'
+                                    > => {
+                                        if (
+                                            val?.is_simplified_report
+                                            || !val?.is_disaggregated_for_disabled
+                                        ) {
+                                            return {
+                                                disabled_other_unknown_age_count: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        return {
+                                            disabled_other_unknown_age_count: {
+                                                validations: [
+                                                    lessThanOrEqualToCondition(
+                                                        val?.other_unknown_age_count ?? 0,
+                                                    ),
+                                                    positiveIntegerCondition,
+                                                ],
+                                            },
+                                        };
+                                    },
+                                );
+
                                 return activitySchema;
                             },
                         }),

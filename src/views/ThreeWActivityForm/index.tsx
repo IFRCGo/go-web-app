@@ -50,7 +50,7 @@ const activityLeadKeySelector = (item: NonNullable<GlobalEnums['deployments_emer
 const valueSelector = (item: { value: string }) => item.value;
 const idSelector = (item: { id: number }) => item.id;
 const deployedEruLabelSelector = (item: NonNullable<EruResponse['results']>[number]) => (
-    `${item.eru_owner.national_society_country.society_name}
+    `${item.eru_owner?.national_society_country?.society_name}
     (${item.type_display})`
 );
 const titleSelector = (item: { title: string }) => item.title;
@@ -66,6 +66,7 @@ export function Component() {
         validate,
     } = useForm(schema, { value: defaultFormValues });
 
+    console.warn('aditya', formError);
     const error = getErrorObject(formError);
 
     const {
@@ -102,7 +103,6 @@ export function Component() {
         },
         [setFieldValue],
     );
-
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
     >([]);
