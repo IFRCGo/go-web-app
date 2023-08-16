@@ -50,17 +50,16 @@ function Navbar(props: Props) {
     const [searchText, setSearchText] = useInputState<string | undefined>(undefined);
 
     const navigate = useNavigate();
+
     const handleSearchInputEnter = useCallback(() => {
         if ((searchText?.trim()?.length ?? 0) > 2) {
-            navigate(
-                generatePath(
-                    searchRoute.absolutePath,
-                    { searchText },
-                ),
-            );
+            const searchPage = searchRoute.absolutePath;
+            setSearchText(undefined);
+            navigate(`${searchPage}?keyword=${searchText}`);
         }
     }, [
         searchText,
+        setSearchText,
         navigate,
         searchRoute.absolutePath,
     ]);

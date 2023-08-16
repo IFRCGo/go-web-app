@@ -2,6 +2,7 @@ import {
     useCallback,
     useMemo,
     useState,
+    useEffect,
 } from 'react';
 import {
     isDefined,
@@ -72,6 +73,13 @@ export function Component() {
 
     const [activeView, setActiveView] = useState<SearchResponseKeys | undefined>();
     const [searchStringTemp, setSearchStringTemp] = useInputState(urlSearchValue);
+
+    useEffect(
+        () => {
+            setSearchStringTemp(urlSearchValue);
+        },
+        [urlSearchValue, setSearchStringTemp],
+    );
 
     const strings = useTranslation(i18n);
     const {
@@ -225,6 +233,7 @@ export function Component() {
                             onChange={setSearchStringTemp}
                             placeholder={strings.searchEnterAtLeastThreeCharacters}
                             onKeyDown={handleSearchInputKeyDown}
+                            autoFocus
                         />
                         <Button
                             name={trimmedSearchString}
