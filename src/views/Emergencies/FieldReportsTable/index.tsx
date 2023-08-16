@@ -36,7 +36,6 @@ function FieldReportsTable() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
-
     const {
         emergency: emergencyRoute,
         allFieldReports: allFieldReportsRoute,
@@ -65,23 +64,23 @@ function FieldReportsTable() {
             createLinkColumn<FieldReportListItem, number>(
                 'event_name',
                 strings.fieldReportsTableEmergency,
-                (item) => item.event?.name,
+                (item) => item.event_details?.name,
                 (item) => ({
                     to: isDefined(item.event)
-                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event.id })
+                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event })
                         : undefined,
                 }),
             ),
             createStringColumn<FieldReportListItem, number>(
                 'dtype',
                 strings.fieldReportsTableDisasterType,
-                (item) => item.dtype?.name,
+                (item) => item.dtype_details?.name,
                 { sortable: true },
             ),
             createCountryListColumn<FieldReportListItem, number>(
                 'countries',
                 strings.fieldReportsTableCountry,
-                (item) => item.countries,
+                (item) => item.countries_details,
             ),
         ]),
         [strings, emergencyRoute],

@@ -87,23 +87,23 @@ export function Component() {
             createLinkColumn<FieldReportListItem, number>(
                 'event_name',
                 strings.allFieldReportsEmergency,
-                (item) => item.event?.name,
+                (item) => item.event_details?.name,
                 (item) => ({
                     to: isDefined(item.event)
-                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event.id })
+                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event })
                         : undefined,
                 }),
             ),
             createStringColumn<FieldReportListItem, number>(
                 'dtype',
                 strings.allFieldReportsDisasterType,
-                (item) => item.dtype?.name,
+                (item) => item.dtype_details?.name,
                 { sortable: true },
             ),
             createCountryListColumn<FieldReportListItem, number>(
                 'countries',
                 strings.allFieldReportsCountries,
-                (item) => item.countries,
+                (item) => item.countries_details,
             ),
         ]),
         [strings, emergencyRoute, fieldReportFormEditRoute],
