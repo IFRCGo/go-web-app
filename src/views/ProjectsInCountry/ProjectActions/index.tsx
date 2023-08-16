@@ -41,10 +41,10 @@ function ProjectActions(props: Props) {
         trigger: requestProjectDeletion,
     } = useLazyRequest({
         url: '/api/v2/project/{id}/',
+        method: 'DELETE',
         pathVariables: {
             id: project.id,
         },
-        method: 'DELETE',
         onSuccess: onProjectDeletionSuccess,
         onFailure: ({ value }) => {
             alert.show(
@@ -62,6 +62,7 @@ function ProjectActions(props: Props) {
                 variant="tertiary"
                 hideDropdownIcon
                 label={<MoreFillIcon />}
+                persistent
             >
                 <DropdownMenuItem
                     name={undefined}
@@ -92,7 +93,7 @@ function ProjectActions(props: Props) {
                     {strings.projectListTableHistory}
                 </DropdownMenuItem>
                 <ConfirmButton
-                    name={undefined}
+                    name={null}
                     className={styles.deleteButton}
                     confirmHeading={strings.threeWDeleteProject}
                     confirmMessage={strings.threeWDeleteProjectMessage}
