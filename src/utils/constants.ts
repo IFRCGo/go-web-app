@@ -23,6 +23,7 @@ export const KEY_USER_STORAGE = 'user';
 // Search page
 
 export const KEY_URL_SEARCH = 'keyword';
+export const SEARCH_TEXT_LENGTH_MIN = 3;
 
 // Risk
 
