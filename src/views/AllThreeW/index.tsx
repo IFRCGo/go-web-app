@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 
 import Page from '#components/Page';
-import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import Table from '#components/Table';
@@ -9,9 +8,11 @@ import {
     createStringColumn,
     createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
+import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
+import { numericIdSelector } from '#utils/selectors';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -20,10 +21,6 @@ type ProjectsResponse = GoApiResponse<'/api/v2/project/'>;
 type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
 
 const ITEM_PER_PAGE = 15;
-
-function projectKeySelector(project: ProjectListItem) {
-    return project.id;
-}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -122,7 +119,7 @@ export function Component() {
                     className={styles.projectTable}
                     data={projectResponse?.results}
                     columns={projectColumns}
-                    keySelector={projectKeySelector}
+                    keySelector={numericIdSelector}
                 />
             </Container>
         </Page>

@@ -14,6 +14,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
+import { numericIdSelector } from '#utils/selectors';
 
 import ThreeWTableActions, {
     type Props as ThreeWTableActionsProps,
@@ -28,11 +29,6 @@ type ProjectsResponse = GoApiResponse<'/api/v2/project/'>;
 type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
 
 type DistrictDetails = ActivityListItem['districts_details'][number];
-
-// FIXME: use common utils
-function idSelector(p: { id: number }) {
-    return p.id;
-}
 
 function getPeopleReachedInActivity(activity: NonNullable<ActivityListItem['activities']>[number]) {
     const {
@@ -303,7 +299,7 @@ export function Component(props: Props) {
                     className={styles.projectTable}
                     data={projectResponse?.results}
                     columns={projectColumns}
-                    keySelector={idSelector}
+                    keySelector={numericIdSelector}
                     filtered={false}
                 />
             </Container>
@@ -324,7 +320,7 @@ export function Component(props: Props) {
                     className={styles.activityTable}
                     data={activityResponse?.results}
                     columns={activityColumns}
-                    keySelector={idSelector}
+                    keySelector={numericIdSelector}
                     filtered={false}
                 />
             </Container>
