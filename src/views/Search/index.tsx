@@ -2,6 +2,7 @@ import {
     useCallback,
     useMemo,
     useState,
+    useEffect,
 } from 'react';
 import {
     isDefined,
@@ -25,7 +26,7 @@ import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import { resolveToString } from '#utils/translation';
-import { KEY_URL_SEARCH } from '#utils/constants';
+import { KEY_URL_SEARCH, SEARCH_TEXT_LENGTH_MIN } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -73,6 +74,13 @@ export function Component() {
     const [activeView, setActiveView] = useState<SearchResponseKeys | undefined>();
     const [searchStringTemp, setSearchStringTemp] = useInputState(urlSearchValue);
 
+    useEffect(
+        () => {
+            setSearchStringTemp(urlSearchValue);
+        },
+        [urlSearchValue, setSearchStringTemp],
+    );
+
     const strings = useTranslation(i18n);
     const {
         pending: searchPending,
@@ -81,7 +89,7 @@ export function Component() {
         skip: isNotDefined(urlSearchValue),
         url: '/api/v1/search/',
         // FIXME: typings should be fixed in the server
-        query: { keyword: urlSearchValue } as never,
+        query: { [KEY_URL_SEARCH]: urlSearchValue } as never,
     });
 
     const headingStringMap = useMemo<Record<SearchResponseKeys, string>>(
@@ -113,7 +121,7 @@ export function Component() {
 
             e.preventDefault();
             const searchStringSafe = searchStringTemp?.trim() ?? '';
-            if (searchStringSafe.length > 2) {
+            if (searchStringSafe.length >= SEARCH_TEXT_LENGTH_MIN) {
                 setUrlSearchValue(searchStringSafe);
             }
         },
@@ -225,6 +233,7 @@ export function Component() {
                             onChange={setSearchStringTemp}
                             placeholder={strings.searchEnterAtLeastThreeCharacters}
                             onKeyDown={handleSearchInputKeyDown}
+                            autoFocus
                         />
                         <Button
                             name={trimmedSearchString}

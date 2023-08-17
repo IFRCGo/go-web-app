@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react';
-import { useNavigate, generatePath } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { _cs } from '@togglecorp/fujs';
 import { SearchLineIcon } from '@ifrc-go/icons';
 
@@ -13,6 +13,7 @@ import NavigationTab from '#components/NavigationTab';
 import RegionDropdown from '#components/domain/RegionDropdown';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
+import { KEY_URL_SEARCH, SEARCH_TEXT_LENGTH_MIN } from '#utils/constants';
 import RouteContext from '#contexts/route';
 import UserContext from '#contexts/user';
 import goLogo from '#assets/icons/go-logo-2020.svg';
@@ -50,17 +51,20 @@ function Navbar(props: Props) {
     const [searchText, setSearchText] = useInputState<string | undefined>(undefined);
 
     const navigate = useNavigate();
+
     const handleSearchInputEnter = useCallback(() => {
-        if ((searchText?.trim()?.length ?? 0) > 2) {
-            navigate(
-                generatePath(
-                    searchRoute.absolutePath,
-                    { searchText },
-                ),
-            );
+        const searchStringSafe = searchText?.trim() ?? '';
+        if (searchStringSafe.length >= SEARCH_TEXT_LENGTH_MIN) {
+            const searchPage = searchRoute.absolutePath;
+            setSearchText(undefined);
+            navigate({
+                pathname: searchPage,
+                search: `${KEY_URL_SEARCH}=${searchText}`,
+            });
         }
     }, [
         searchText,
+        setSearchText,
         navigate,
         searchRoute.absolutePath,
     ]);
