@@ -1,0 +1,9 @@
+.catalogue-container {
+    aspect-ratio: 3 / 4;
+
+    .catalogue-iframe {
+        border: unset;
+        width: 100%;
+        height: 100%;
+    }
+}
