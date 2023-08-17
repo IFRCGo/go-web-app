@@ -397,7 +397,7 @@ function ActivityInput(props: Props) {
                         label="No of Locations"
                         onChange={setFieldValue}
                         value={value?.point_count}
-                        error={value?.point_count}
+                        error={error?.point_count}
                     />
                 )}
                 {locationsInputShown && (

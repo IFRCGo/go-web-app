@@ -3,6 +3,7 @@ import {
     ObjectSchema,
     undefinedValue,
     ArraySchema,
+    emailCondition,
     lessThanOrEqualToCondition,
     addCondition,
     nullValue,
@@ -47,7 +48,7 @@ type ActionSupplyItem = {
     supply_value: number;
 }
 
-type ActivityResponseBody = paths['/api/v2/emergency-project/{id}/']['put']['requestBody']['content']['application/json'];
+export type ActivityResponseBody = paths['/api/v2/emergency-project/{id}/']['put']['requestBody']['content']['application/json'];
 type RawActivityItem = NonNullable<ActivityResponseBody['activities']>[number];
 type ActivityItem = NonNullable<ActivityResponseBody['activities']>[number] & {
     client_id: string;
@@ -66,7 +67,7 @@ export type PartialPointItem = PartialForm<NonNullable<ActivityItem['points']>[n
 export type PartialCustomSupplyItem = PartialForm<CustomSupplyItem, 'client_id'>;
 export type PartialActionSupplyItem = PartialForm<ActionSupplyItem, 'client_id'>;
 
-type FormFields = ActivityFormFields & {
+export type FormFields = ActivityFormFields & {
     sectors: number[];
 };
 
@@ -109,6 +110,7 @@ const finalSchema: FormSchema = {
             country: { required: true },
             districts: { defaultValue: [] },
             start_date: { required: true },
+            sectors: { forceValue: undefinedValue },
             status: {},
         };
 
@@ -152,7 +154,10 @@ const finalSchema: FormSchema = {
                     return {
                         reporting_ns: { required: true },
                         reporting_ns_contact_name: { required: true },
-                        reporting_ns_contact_email: { required: true },
+                        reporting_ns_contact_email: {
+                            required: true,
+                            validations: [emailCondition],
+                        },
                         reporting_ns_contact_role: { required: true },
                         deployed_eru: { forceValue: undefinedValue },
                     };
@@ -203,6 +208,7 @@ const finalSchema: FormSchema = {
                                     sector: { required: true },
                                     action: {},
 
+                                    // TODO: write validation for duplicate labels
                                     custom_supplies: {
                                         keySelector: (supply) => supply.client_id as string,
                                         member: (): CustomSupplyItemsSchemaMember => ({
@@ -324,11 +330,12 @@ const finalSchema: FormSchema = {
                                     (val): ActionSpecificFields => {
                                         if (isDefined(val?.action)) {
                                             return {
-                                                custom_action: {},
+                                                custom_action: { forceValue: nullValue },
                                                 beneficiaries_count: {},
                                                 amount: {
                                                     validations: [positiveIntegerCondition],
                                                 },
+                                                // TODO: write validation for duplicate labels
                                                 supplies: {
                                                     keySelector: (supply) => (
                                                         supply.client_id as string
@@ -347,7 +354,7 @@ const finalSchema: FormSchema = {
                                             };
                                         }
                                         return {
-                                            custom_action: { forceValue: nullValue },
+                                            custom_action: {},
                                             beneficiaries_count: { forceValue: nullValue },
                                             amount: { forceValue: nullValue },
                                             supplies: { forceValue: nullValue },
@@ -475,6 +482,7 @@ const finalSchema: FormSchema = {
                                         if (!val?.is_simplified_report) {
                                             return {
                                                 points: {
+                                                    // FIXME: Have at least one point
                                                     keySelector: (point) => (
                                                         point.client_id as string
                                                     ),
@@ -493,7 +501,7 @@ const finalSchema: FormSchema = {
                                             };
                                         }
                                         return {
-                                            points: { forceValue: nullValue },
+                                            points: { forceValue: [] },
                                         };
                                     },
                                 );

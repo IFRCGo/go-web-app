@@ -1,32 +1,53 @@
-import { useMemo, useState, useCallback } from 'react';
 import {
-    isDefined,
+    useContext,
+    useMemo,
+    useState,
+    useCallback,
+} from 'react';
+import {
+    randomString,
+    unique,
     listToGroupList,
+    isNotDefined,
+    isFalsyString,
+    isTruthyString,
+    isDefined,
     listToMap,
+    mapToList,
 } from '@togglecorp/fujs';
 import {
     useForm,
     getErrorObject,
     getErrorString,
-    // createSubmitHandler,
+    createSubmitHandler,
 } from '@togglecorp/toggle-form';
+import {
+    generatePath,
+    useParams,
+    useNavigate,
+} from 'react-router-dom';
 
 import InputSection from '#components/InputSection';
 import Container from '#components/Container';
 import {
     useRequest,
+    useLazyRequest,
 } from '#utils/restRequest';
 import DateInput from '#components/DateInput';
+import RouteContext from '#contexts/route';
 import RadioInput from '#components/RadioInput';
 import NonFieldError from '#components/NonFieldError';
 import Checklist from '#components/Checklist';
+import Button from '#components/Button';
 import SegmentInput from '#components/parked/SegmentInput';
 import TextInput from '#components/TextInput';
+import useAlert from '#hooks/useAlert';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import TextOutput from '#components/TextOutput';
 import DistrictSearchMultiSelectInput, { DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { injectClientId } from '#utils/common';
 import type { GlobalEnums } from '#contexts/domain';
 import ActivityEventSearchSelectInput, {
     EventItem,
@@ -35,6 +56,8 @@ import type { GoApiResponse } from '#utils/restRequest';
 
 import schema, {
     FormType,
+    ActivityResponseBody,
+    FormFields,
 } from './schema';
 import ActivitiesBySectorInput from './ActivitiesBySectorInput';
 
@@ -46,6 +69,32 @@ const defaultFormValues: FormType = {
     activity_lead: 'national_society',
 };
 
+type ProjectStatus = NonNullable<GlobalEnums['deployments_emergency_project_status']>[number];
+
+function calculateStatus(
+    startDate: string | undefined | null,
+    endDate: string | undefined | null,
+): ProjectStatus['key'] | undefined {
+    if (isNotDefined(startDate)) {
+        return undefined;
+    }
+
+    const start = new Date(startDate);
+    const now = new Date();
+
+    if (start.getTime() > now.getTime()) {
+        return 'planned';
+    }
+
+    if (isDefined(endDate)) {
+        const end = new Date(endDate);
+        if (end.getTime() < now.getTime()) {
+            return 'complete';
+        }
+    }
+
+    return 'on_going';
+}
 const activityLeadKeySelector = (item: NonNullable<GlobalEnums['deployments_emergency_project_activity_lead']>[number]) => item.key;
 const valueSelector = (item: { value: string }) => item.value;
 const idSelector = (item: { id: number }) => item.id;
@@ -66,8 +115,67 @@ export function Component() {
         validate,
     } = useForm(schema, { value: defaultFormValues });
 
-    console.warn('aditya', formError);
+    const { activityId } = useParams<{ activityId: string }>();
+
     const error = getErrorObject(formError);
+    const [finalValues, setFinalValues] = useState<FormType | undefined>();
+    const [firstSubmitted, setFirstSubmitted] = useState(false);
+
+    const [eventOptions, setEventOptions] = useState<
+        EventItem[] | undefined | null
+    >([]);
+
+    const [districtOptions, setDistrictOptions] = useState<
+        DistrictItem[] | undefined | null
+    >([]);
+
+    useRequest({
+        skip: isFalsyString(activityId),
+        url: '/api/v2/emergency-project/{id}/',
+        pathVariables: isTruthyString(activityId) ? {
+            id: Number(activityId),
+        } : undefined,
+        onSuccess: (response) => {
+            setDistrictOptions(response.districts_details);
+            setEventOptions([{
+                ...response.event_details,
+                // FIXME: event dtype id is a must inside event mini but
+                // its not defined under event_detail of this response
+                dtype: { id: response.event_details?.dtype } as EventItem['dtype'],
+            }]);
+            setValue({
+                ...response,
+                sectors: unique(
+                    response.activities?.map((activity) => activity.sector) ?? [],
+                    (item) => item,
+                ),
+                activities: response.activities?.map((activity) => ({
+                    ...injectClientId({
+                        ...activity,
+                        custom_supplies: mapToList(
+                            activity.custom_supplies,
+                            (item, key) => ({
+                                client_id: randomString(),
+                                supply_label: key,
+                                supply_value: item,
+                            }),
+                        ),
+                        supplies: mapToList(
+                            activity.supplies,
+                            (item, key) => ({
+                                client_id: randomString(),
+                                supply_action: key,
+                                supply_value: item,
+                            }),
+                        ),
+                        points: activity.points?.map((point) => ({
+                            ...injectClientId(point),
+                        })),
+                    }),
+                })),
+            });
+        },
+    });
 
     const {
         deployments_emergency_project_status: projectStatusOptions,
@@ -89,11 +197,84 @@ export function Component() {
             deployed_to__isnull: false,
         },
     });
+    const {
+        threeWActivityEdit: threeWActivityEditRoute,
+    } = useContext(RouteContext);
 
     const {
         response: optionsResponse,
     } = useRequest({
         url: '/api/v2/emergency-project/options/',
+    });
+    const alert = useAlert();
+    const navigate = useNavigate();
+
+    const {
+        pending: createProjectPending,
+        trigger: createProject,
+    } = useLazyRequest({
+        url: '/api/v2/emergency-project/',
+        method: 'POST',
+        body: (ctx: ActivityResponseBody) => ctx,
+        onSuccess: (response) => {
+            alert.show(
+                // FIXME: Add translations
+                'Successfully created a response activity.',
+                { variant: 'success' },
+            );
+            navigate(
+                generatePath(
+                    threeWActivityEditRoute.absolutePath,
+                    { projectId: response.id },
+                ),
+            );
+        },
+        onFailure: ({
+            value: { messageForNotification },
+            debugMessage,
+        }) => {
+            alert.show(
+                // FIXME: Add translations
+                'Failed to create a response activity.',
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                    debugMessage,
+                },
+            );
+        },
+    });
+
+    const {
+        pending: updateProjectPending,
+        trigger: updateProject,
+    } = useLazyRequest({
+        url: '/api/v2/emergency-project/{id}/',
+        method: 'PUT',
+        body: (ctx: ActivityResponseBody) => ctx,
+        pathVariables: {
+            id: Number(activityId),
+        },
+        onSuccess: () => {
+            alert.show(
+                // FIXME: Add translations
+                'Successfully updated activities',
+                { variant: 'success' },
+            );
+        },
+        onFailure: ({
+            value: { messageForNotification },
+            debugMessage,
+        }) => {
+            alert.show(
+                'Failed to update project activities',
+                {
+                    variant: 'danger',
+                    description: messageForNotification,
+                    debugMessage,
+                },
+            );
+        },
     });
 
     const handleProjectCountryChange = useCallback(
@@ -103,13 +284,6 @@ export function Component() {
         },
         [setFieldValue],
     );
-    const [eventOptions, setEventOptions] = useState<
-        EventItem[] | undefined | null
-    >([]);
-
-    const [districtOptions, setDistrictOptions] = useState<
-        DistrictItem[] | undefined | null
-    >([]);
 
     const activitiesBySector = useMemo(() => (
         listToGroupList(
@@ -137,6 +311,71 @@ export function Component() {
             (sector) => sector,
         )
     ), [optionsResponse?.sectors]);
+
+    const handleStartDateChange = useCallback((newDate: string | undefined) => {
+        setValue((oldVal) => {
+            const status = calculateStatus(newDate, oldVal?.end_date);
+
+            return {
+                ...oldVal,
+                start_date: newDate,
+                status,
+            };
+        });
+    }, [setValue]);
+
+    const handleEndDateChange = useCallback((newDate: string | undefined) => {
+        setValue((oldVal) => {
+            const status = calculateStatus(oldVal?.start_date, newDate);
+
+            return {
+                ...oldVal,
+                end_date: newDate,
+                status,
+            };
+        });
+    }, [setValue]);
+
+    const handleSubmitClick = useCallback(() => {
+        setFirstSubmitted(true);
+        const submit = createSubmitHandler(
+            validate,
+            onErrorSet,
+            (valFromArgs) => {
+                setFinalValues(valFromArgs);
+                const val = valFromArgs as FormFields;
+                setFinalValues(val);
+                const finalValue = {
+                    ...val,
+                    activities: val?.activities?.map((activity) => ({
+                        ...activity,
+                        custom_supplies: listToMap(
+                            activity?.custom_supplies,
+                            (item) => item.supply_label,
+                            (item) => item.supply_value,
+                        ),
+                        supplies: listToMap(
+                            activity?.supplies,
+                            (item) => item.supply_action,
+                            (item) => item.supply_value,
+                        ),
+                    })),
+                };
+                if (!activityId) {
+                    createProject(finalValue);
+                } else {
+                    updateProject(finalValue);
+                }
+            },
+        );
+        submit();
+    }, [
+        activityId,
+        updateProject,
+        createProject,
+        validate,
+        onErrorSet,
+    ]);
 
     return (
         <div className={styles.threeWActivityForm}>
@@ -207,7 +446,7 @@ export function Component() {
                     label="Start date"
                     value={value?.start_date}
                     error={error?.start_date}
-                    onChange={setFieldValue}
+                    onChange={handleStartDateChange}
                 />
                 <DateInput
                     name="end_date"
@@ -215,7 +454,7 @@ export function Component() {
                     label="End date"
                     value={value?.end_date}
                     error={error?.end_date}
-                    onChange={setFieldValue}
+                    onChange={handleEndDateChange}
                 />
                 <TextOutput
                     className={styles.statusDisplay}
@@ -361,6 +600,23 @@ export function Component() {
                     ))}
                 </div>
             </Container>
+            <div className={styles.footer}>
+                <NonFieldError
+                    className={styles.nonFieldError}
+                    error={error}
+                    // FIXME: Add translation
+                    message="Please correct all the errors above before submission."
+                />
+                <Button
+                    name={undefined}
+                    onClick={handleSubmitClick}
+                    type="submit"
+                    variant="secondary"
+                    disabled={createProjectPending || updateProjectPending}
+                >
+                    Submit
+                </Button>
+            </div>
         </div>
     );
 }
