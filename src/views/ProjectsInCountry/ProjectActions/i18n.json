@@ -1,13 +1,12 @@
 {
     "namespace": "projectsInCountry",
     "strings": {
-        "projectListTableViewDetails": "View Details",
-        "projectListTableEdit": "Edit",
-        "projectListTableDuplicate": "Duplicate",
-        "projectListTableHistory": "History",
-        "threeWDeleteProject": "Delete project",
-        "threeWDeleteProjectMessage": "Are you sure you want to delete the project?",
+        "projectViewDetails": "View Project Details",
+        "projectEdit": "Edit Project",
+        "projectDuplicate": "Duplicate Project",
+        "projectHistory": "Project History",
         "deleteProject": "Delete Project",
+        "deleteProjectMessage": "Are you sure you want to delete the project?",
         "projectDeleteFailureMessage": "Failed to delete the project. {message}"
     }
 }

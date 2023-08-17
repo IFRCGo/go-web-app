@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { generatePath } from 'react-router-dom';
 import {
     MoreFillIcon,
     SearchLineIcon,
@@ -17,6 +19,7 @@ import useAlert from '#hooks/useAlert';
 import { adminUrl } from '#config';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -32,6 +35,11 @@ interface Props {
 function ProjectActions(props: Props) {
     const strings = useTranslation(i18n);
     const alert = useAlert();
+    const {
+        newThreeWProject: newThreeWProjectRoute,
+        threeWProjectEdit: threeWProjectEditRoute,
+    } = useContext(RouteContext);
+
     const {
         className,
         project,
@@ -69,38 +77,48 @@ function ProjectActions(props: Props) {
                 persistent
             >
                 <DropdownMenuItem
-                    name={undefined}
-                    type="button"
+                    type="link"
+                    to={generatePath(
+                        threeWProjectEditRoute.absolutePath,
+                        { projectId: project.id },
+                    )} // FIXME: replace with route when threeW Details route is developed
+                    disabled
                     icons={<SearchLineIcon />}
                 >
-                    {strings.projectListTableViewDetails}
+                    {strings.projectViewDetails}
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                    name={undefined}
-                    type="button"
+                    type="link"
+                    to={generatePath(
+                        threeWProjectEditRoute.absolutePath,
+                        { projectId: project.id },
+                    )}
                     icons={<PencilFillIcon />}
                 >
-                    {strings.projectListTableEdit}
+                    {strings.projectEdit}
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                    name={undefined}
-                    type="button"
+                    type="link"
+                    to={generatePath(
+                        newThreeWProjectRoute.absolutePath,
+                    )}
+                    state={project}
                     icons={<CopyLineIcon />}
                 >
-                    {strings.projectListTableDuplicate}
+                    {strings.projectDuplicate}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     type="link"
                     icons={<HistoryLineIcon />}
                     to={resolve(adminUrl, `deployments/project/${project.id}/history/`)}
                 >
-                    {strings.projectListTableHistory}
+                    {strings.projectHistory}
                 </DropdownMenuItem>
                 <ConfirmButton
                     name={null}
                     className={styles.deleteButton}
-                    confirmHeading={strings.threeWDeleteProject}
-                    confirmMessage={strings.threeWDeleteProjectMessage}
+                    confirmHeading={strings.deleteProject}
+                    confirmMessage={strings.deleteProjectMessage}
                     onConfirm={requestProjectDeletion}
                     disabled={projectDeletionPending}
                 >

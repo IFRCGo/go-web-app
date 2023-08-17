@@ -1,4 +1,9 @@
-import { useMemo, useState, useCallback } from 'react';
+import {
+    useMemo,
+    useState,
+    useCallback,
+    useContext,
+} from 'react';
 import {
     isNotDefined,
     listToGroupList,
@@ -6,10 +11,11 @@ import {
     unique,
 } from '@togglecorp/fujs';
 import {
+    generatePath,
     useOutletContext,
 } from 'react-router-dom';
 import {
-    MoreFillIcon,
+    PencilFillIcon,
     DownloadFillIcon,
 } from '@ifrc-go/icons';
 
@@ -31,6 +37,7 @@ import {
 } from '#utils/selectors';
 import type { GoApiResponse } from '#utils/restRequest';
 import { type components } from '#generated/types';
+import RouteContext from '#contexts/route';
 
 import ProjectActions from './ProjectActions';
 import Map from './Map';
@@ -110,7 +117,10 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
-    const [projectIdToEdit, setProjectIdToEdit] = useState<number | undefined>();
+    const {
+        threeWProjectEdit: threeWProjectEditRoute,
+    } = useContext(RouteContext);
+
     const [filters, setFilters] = useState<FilterValue>({
         reporting_ns: [],
         project_districts: [],
@@ -339,14 +349,16 @@ export function Component() {
                                             <div className={styles.name}>
                                                 {project.name}
                                             </div>
-                                            <Button
-                                                name={project.id}
+                                            <Link
+                                                to={generatePath(
+                                                    threeWProjectEditRoute.absolutePath,
+                                                    { projectId: project.id },
+                                                )}
                                                 variant="tertiary"
-                                                className={styles.actions}
-                                                onClick={setProjectIdToEdit}
+                                                icons={<PencilFillIcon />}
                                             >
-                                                <MoreFillIcon />
-                                            </Button>
+                                                {strings.projectEdit}
+                                            </Link>
                                         </div>
                                     ))}
                                 </ExpandableContainer>

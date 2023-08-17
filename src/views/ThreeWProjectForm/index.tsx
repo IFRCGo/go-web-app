@@ -1,4 +1,5 @@
 import {
+    useEffect,
     useMemo,
     useState,
     useContext,
@@ -15,12 +16,12 @@ import {
     useParams,
     generatePath,
     useNavigate,
+    useLocation,
 } from 'react-router-dom';
 import {
     randomString,
     isFalsyString,
     isTruthy,
-    isTruthyString,
     isDefined,
     isFalsy,
     isNotDefined,
@@ -61,11 +62,11 @@ import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import type { GlobalEnums } from '#contexts/domain';
 import { injectClientId } from '#utils/common';
-import type { GoApiResponse } from '#utils/restRequest';
 
 import schema, {
     type ProjectResponseBody,
@@ -78,6 +79,7 @@ import styles from './styles.module.css';
 import i18n from './i18n.json';
 
 type ProjectStatus = NonNullable<GlobalEnums['deployments_project_status']>[number];
+type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
 
 function calculateStatus(
     isProjectCompleted: boolean | undefined | null,
@@ -194,6 +196,7 @@ const secondarySectorLabelSelector = (
 export function Component() {
     const strings = useTranslation(i18n);
     const alert = useAlert();
+    const location = useLocation();
 
     const { projectId } = useParams<{ projectId: string }>();
     const {
@@ -218,6 +221,28 @@ export function Component() {
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
     >([]);
+
+    const state = location.state as Project | undefined;
+    useEffect(() => {
+        if (isDefined(state)) {
+            setDistrictOptions(state.project_districts_detail);
+            setEventOptions([{
+                ...state.event_detail,
+                // FIXME: event dtype id is a must inside event mini but
+                // its not defined under event_detail of this state
+                dtype: { id: state.event_detail?.dtype } as EventItem['dtype'],
+            }]);
+            setValue({
+                ...state,
+                // Set beginning is_annual_report switch according to
+                // the filled-in annual split details
+                is_annual_report: state.annual_split_detail?.length >= 1,
+                annual_split_detail: state.annual_split_detail.map((split) => ({
+                    ...injectClientId(split),
+                })),
+            });
+        }
+    }, [state, setValue]);
 
     const { pending: pendingProjectDetails } = useRequest({
         skip: isFalsyString(projectId),

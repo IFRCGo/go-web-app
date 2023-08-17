@@ -10,6 +10,7 @@
         "viewAllProjects": "View All Projects",
         "threeWInCountryMapSidebarTitle": "Projects by Province",
         "provinceProjects": "{provinceName} ({numProjects} Projects)",
-        "otherProjects": "Others ({numProjects} Projects)"
+        "otherProjects": "Others ({numProjects} Projects)",
+        "projectEdit": "Edit Project"
     }
 }
