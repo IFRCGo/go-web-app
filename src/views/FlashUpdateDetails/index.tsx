@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { useParams, generatePath } from 'react-router-dom';
 import {
     isDefined,
@@ -9,11 +9,11 @@ import { PencilFillIcon } from '@ifrc-go/icons';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import Button from '#components/Button';
-import RichTextOutput from '#components/RichTextOutput';
 import RouteContext from '#contexts/route';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import DateOutput from '#components/DateOutput';
+import HtmlOutput from '#components/HtmlOutput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 
@@ -41,12 +41,18 @@ export function Component() {
         flashUpdateFormEdit: flashUpdateFormEditRoute,
     } = useContext(RouteContext);
 
-    const hasActions = flashUpdateResponse?.actions_taken?.some(
-        (at) => (at?.actions?.length !== 0 || at.summary),
+    const hasActions = useMemo(
+        () => flashUpdateResponse?.actions_taken?.map(
+            (at) => at?.actions?.length !== 0 || at.summary,
+        ),
+        [flashUpdateResponse],
     );
 
-    const districtName = flashUpdateResponse?.country_district?.map(
-        (district) => district.country_details?.name,
+    const districtName = useMemo(
+        () => flashUpdateResponse?.country_district?.map(
+            (district) => district.country_details?.name,
+        ),
+        [flashUpdateResponse],
     );
 
     return (
@@ -110,7 +116,7 @@ export function Component() {
                             className={styles.contentHeader}
                             withHeaderBorder
                         >
-                            <RichTextOutput
+                            <HtmlOutput
                                 className={styles.contentHeader}
                                 value={flashUpdateResponse.situational_overview}
                             />
