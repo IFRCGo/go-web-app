@@ -7,13 +7,13 @@ import Page from '#components/Page';
 import Link from '#components/Link';
 import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
+import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
-import { resolveToComponent } from '#utils/translation';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -23,7 +23,7 @@ export function Component() {
         preparednessGlobalSummary: globalSummaryRoute,
         preparednessGlobalPerformance: globalPerformanceRoute,
         preparednessGlobalCatalogue: globalCatalogueRoute,
-        PreparednessGlobalOperational: globalOperationalRoute,
+        preparednessGlobalOperational: globalOperationalRoute,
     } = useContext(RouteContext);
 
     return (
@@ -51,10 +51,10 @@ export function Component() {
                                     >
                                         {strings.approachContentLink}
                                     </Link>
-                                )
-                            }
+                                ),
+                            },
                         )}
-                    </div>``
+                    </div>
                     <Link
                         className={styles.contactPerTeam}
                         to="mailto:PER.Team@ifrc.org"
@@ -66,6 +66,7 @@ export function Component() {
                 <img
                     className={styles.approachImage}
                     src={perApproach}
+                    // FIXME: use translations
                     alt="Per approach no text"
                 />
             </Container>

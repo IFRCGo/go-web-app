@@ -615,6 +615,23 @@ const preparednessGlobalOperational = customWrapRoute({
     },
 });
 
+const preparednessIndex = customWrapRoute({
+    parent: preparedness,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: preparednessGlobalSummary.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Preparedness index',
+        visibility: 'anything',
+    },
+});
+
 const globalThreeW = customWrapRoute({
     path: 'global-three-w',
     component: {
@@ -1783,6 +1800,7 @@ const wrappedRoutes = {
     preparednessGlobalPerformance,
     preparednessGlobalCatalogue,
     preparednessGlobalOperational,
+    preparednessIndex,
     threeW,
     globalThreeW,
     newThreeWProject,
