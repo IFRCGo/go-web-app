@@ -1,5 +1,6 @@
 .performance-container {
-    height: 110rem;
+    width: 100%;
+    aspect-ratio: 3 / 4;
 
     .performance-iframe {
         border: unset;

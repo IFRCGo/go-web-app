@@ -1,5 +1,5 @@
 .catalogue-container {
-    height: 110rem;
+    aspect-ratio: 3 / 4;
 
     .catalogue-iframe {
         border: unset;

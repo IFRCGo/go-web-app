@@ -1,32 +1,21 @@
 .preparedness-content {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-xl);
+    gap: var(--go-ui-spacing-4xl);
 
     .approach-content {
-        display: flex;
-        gap: var(--go-ui-spacing-5xl);
-        align-items: center;
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 
         .approach-description {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-lg);
-            flex-grow: 1;
-
-            .approach-text {
-                font-size: var(--go-ui-font-size-xl);
-            }
-
-            .contact-per-team {
-                color: var(--go-ui-color-white);
-            }
-
+            font-size: var(--go-ui-font-size-xl);
         }
 
         .approach-image {
-            flex-shrink: 0;
-            width: 20rem;
+            margin: 0 auto;
+            height: 20rem;
+            aspect-ratio: 1 / 1;
         }
     }
 }

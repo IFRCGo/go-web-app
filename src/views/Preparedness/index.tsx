@@ -37,37 +37,35 @@ export function Component() {
                 heading={strings.preparednessApproachSection}
                 withHeaderBorder
                 childrenContainerClassName={styles.approachContent}
-            >
-                <div className={styles.approachDescription}>
-                    <div className={styles.approachText}>
-                        {resolveToComponent(
-                            strings.approachContent,
-                            {
-                                link: (
-
-                                    <Link
-                                        to="https://www.ifrc.org/our-work/disasters-climate-and-crises/disaster-preparedness"
-                                        className={styles.approachLink}
-                                    >
-                                        {strings.approachContentLink}
-                                    </Link>
-                                ),
-                            },
-                        )}
-                    </div>
+                actions={(
                     <Link
-                        className={styles.contactPerTeam}
                         to="mailto:PER.Team@ifrc.org"
                         variant="primary"
                     >
                         {strings.contactPerTeam}
                     </Link>
+                )}
+            >
+                <div className={styles.approachDescription}>
+                    {resolveToComponent(
+                        strings.approachDescription,
+                        {
+                            link: (
+                                <Link
+                                    to="https://www.ifrc.org/our-work/disasters-climate-and-crises/disaster-preparedness"
+                                    className={styles.approachLink}
+                                >
+                                    {strings.approachDescriptionLinkLabel}
+                                </Link>
+                            ),
+                        },
+                    )}
                 </div>
                 <img
                     className={styles.approachImage}
                     src={perApproach}
                     // FIXME: use translations
-                    alt="Per approach no text"
+                    alt="Per approach diagram"
                 />
             </Container>
             <NavigationTabList>

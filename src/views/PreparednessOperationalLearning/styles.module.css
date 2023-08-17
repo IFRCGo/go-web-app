@@ -1,5 +1,5 @@
 .operational-container {
-    height: 110rem;
+    aspect-ratio: 3 / 7;
 
     .operational-iframe {
         border: unset;

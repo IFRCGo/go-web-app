@@ -1,5 +1,6 @@
 .summary-container {
-    height: 135rem;
+    width: 100%;
+    aspect-ratio: 2 / 3;
 
     .summary-iframe {
         border: unset;
