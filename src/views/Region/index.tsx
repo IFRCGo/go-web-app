@@ -149,14 +149,16 @@ export function Component() {
                 >
                     {strings.regionRiskTab}
                 </NavigationTab>
-                <NavigationTab
-                    to={generatePath(
-                        regionPreparednessRoute.absolutePath,
-                        { regionId },
-                    )}
-                >
-                    {strings.regionPreparednessTab}
-                </NavigationTab>
+                {(regionResponse && regionResponse?.preparedness_snippets.length > 0) ? (
+                    <NavigationTab
+                        to={generatePath(
+                            regionPreparednessRoute.absolutePath,
+                            { regionId },
+                        )}
+                    >
+                        {strings.regionPreparednessTab}
+                    </NavigationTab>
+                ) : null}
                 <NavigationTab
                     to={generatePath(
                         regionProfileRoute.absolutePath,
