@@ -1,0 +1,20 @@
+.activity-list {
+    .activity-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
+    }
+
+    .supply-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-xs);
+        width: 100%;
+    }
+
+    .supply-header {
+        padding: var(--go-ui-spacing-xs) 0 var(--go-ui-spacing-xs) 0;
+        color: var(--go-ui-color-primary-red);
+        font-size: var(--go-ui-font-size-xl);
+    }
+}

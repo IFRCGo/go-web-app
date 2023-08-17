@@ -1,0 +1,12 @@
+{
+    "namespace": "simplifiedReport",
+    "strings": {
+        "emergencyMale": "Male",
+        "emergencyFemale": "Female",
+        "emergencyTotalPeople": "Total People",
+        "emergencyTotalHouseholds": "Total Households",
+        "emergencySector": "Sector",
+        "emergencySupplies": "Supplies",
+        "emergencyCustomSupplies": "Custom Supplies"
+    }
+}

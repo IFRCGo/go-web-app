@@ -13,11 +13,11 @@ import i18n from './i18n.json';
 export type Props = ({
     type: 'project';
     projectId: number;
-    activityId?: undefined;
+    activityId?: never;
 } | {
     type: 'activity';
-    projectId?: undefined;
     activityId: number;
+    projectId?: never;
 })
 
 function ThreeWTableActions(props: Props) {
@@ -26,6 +26,7 @@ function ThreeWTableActions(props: Props) {
         projectId,
         activityId,
     } = props;
+
     const strings = useTranslation(i18n);
 
     if (type === 'activity') {
@@ -35,9 +36,7 @@ function ThreeWTableActions(props: Props) {
                     <>
                         <DropdownMenuItem
                             type="link"
-                            // FIXME: add link
-                            to={null}
-                            // to="threeWActivityDetails"
+                            to="threeWActivityDetail"
                             urlParams={{ activityId }}
                             icons={<ShareBoxLineIcon />}
                         >

@@ -1,0 +1,20 @@
+.emergency-details {
+    padding-top: var(--go-ui-spacing-md);
+
+    .modified-on-value {
+        display: flex;
+        gap: var(--go-ui-spacing-xs);
+    }
+
+    .emergency-three-w-details {
+        background-color: var(--go-ui-color-white);
+        padding: var(--go-ui-spacing-md);
+
+        .operation-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-lg);
+            padding: var(--go-ui-spacing-lg);
+        }
+    }
+}
