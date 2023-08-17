@@ -10,7 +10,7 @@ import { paths } from '#generated/types';
 type GetEvent = paths['/api/v2/event/response-activity/']['get'];
 type GetEventParams = GetEvent['parameters']['query'];
 type GetEventResponse = GetEvent['responses']['200']['content']['application/json'];
-export type EventItem = Pick<NonNullable<GetEventResponse['results']>[number], 'id' | 'name' | 'dtype'>;
+export type EventItem = Pick<NonNullable<GetEventResponse['results']>[number], 'id' | 'name' | 'dtype' | 'emergency_response_contact_email'>;
 
 const keySelector = (d: EventItem) => d.id;
 const labelSelector = (d: EventItem) => d.name ?? '???';

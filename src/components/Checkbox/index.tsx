@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import DefaultCheckmark, { CheckmarkProps } from './Checkmark';
+import InputError from '../InputError';
 
 import styles from './styles.module.css';
 
@@ -10,6 +11,7 @@ export interface Props<NAME> {
     checkmark?: (p: CheckmarkProps) => React.ReactElement;
     checkmarkClassName?: string;
     checkmarkContainerClassName?: string;
+    errorContainerClassName?: string;
     disabled?: boolean;
     error?: React.ReactNode;
     indeterminate?: boolean;
@@ -31,6 +33,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         checkmarkClassName,
         checkmarkContainerClassName,
         disabled,
+        errorContainerClassName,
         error,
         indeterminate,
         inputClassName,
@@ -88,14 +91,15 @@ function Checkbox<const NAME>(props: Props<NAME>) {
                     {...otherProps} // eslint-disable-line react/jsx-props-no-spreading
                 />
             </div>
-            {label && (
+            {(label || error) && (
                 <div className={labelContainerClassName}>
                     {label}
-                </div>
-            )}
-            {error && (
-                <div className={labelContainerClassName}>
-                    {error}
+                    {/* FIXME: Add better structure for error @frozenhelium */}
+                    {error && (
+                        <InputError className={_cs(styles.inputError, errorContainerClassName)}>
+                            {error}
+                        </InputError>
+                    )}
                 </div>
             )}
         </label>

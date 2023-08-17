@@ -18,6 +18,11 @@
         }
     }
 
+    .input-error {
+        position: absolute;
+        min-width: 10rem;
+    }
+
     &.checked {
         .checkmark {
             color: var(--go-ui-color-primary-red);

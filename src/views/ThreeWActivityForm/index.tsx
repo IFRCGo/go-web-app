@@ -4,6 +4,7 @@ import {
     useState,
     useCallback,
 } from 'react';
+import { LegendIcon } from '@ifrc-go/icons';
 import {
     randomString,
     unique,
@@ -34,6 +35,9 @@ import {
     useLazyRequest,
 } from '#utils/restRequest';
 import DateInput from '#components/DateInput';
+import useCountry from '#hooks/domain/useCountry';
+import useNationalSociety from '#hooks/domain/useNationalSociety';
+import useBoolean from '#hooks/useBoolean';
 import RouteContext from '#contexts/route';
 import RadioInput from '#components/RadioInput';
 import NonFieldError from '#components/NonFieldError';
@@ -45,6 +49,7 @@ import useAlert from '#hooks/useAlert';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import TextOutput from '#components/TextOutput';
+import Modal from '#components/Modal';
 import DistrictSearchMultiSelectInput, { DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { injectClientId } from '#utils/common';
@@ -116,10 +121,16 @@ export function Component() {
     } = useForm(schema, { value: defaultFormValues });
 
     const { activityId } = useParams<{ activityId: string }>();
+    const [
+        submitConfirmationShown,
+        {
+            setTrue: showSubmitConfirmation,
+            setFalse: hideSubmitConfirmation,
+        },
+    ] = useBoolean(false);
 
     const error = getErrorObject(formError);
-    const [finalValues, setFinalValues] = useState<FormType | undefined>();
-    const [firstSubmitted, setFirstSubmitted] = useState(false);
+    const [finalValues, setFinalValues] = useState<ActivityResponseBody | undefined>();
 
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
@@ -222,6 +233,8 @@ export function Component() {
                 'Successfully created a response activity.',
                 { variant: 'success' },
             );
+            hideSubmitConfirmation();
+            setFinalValues(undefined);
             navigate(
                 generatePath(
                     threeWActivityEditRoute.absolutePath,
@@ -261,6 +274,8 @@ export function Component() {
                 'Successfully updated activities',
                 { variant: 'success' },
             );
+            hideSubmitConfirmation();
+            setFinalValues(undefined);
         },
         onFailure: ({
             value: { messageForNotification },
@@ -304,13 +319,21 @@ export function Component() {
         )
     ), [optionsResponse?.actions]);
 
-    const sectorsMap = useMemo(() => (
+    const sectorOptionsMap = useMemo(() => (
         listToMap(
             optionsResponse?.sectors,
             (sector) => sector.id,
             (sector) => sector,
         )
     ), [optionsResponse?.sectors]);
+
+    const actionOptionsMap = useMemo(() => (
+        listToMap(
+            optionsResponse?.actions,
+            (action) => action.id,
+            (action) => action,
+        )
+    ), [optionsResponse?.actions]);
 
     const handleStartDateChange = useCallback((newDate: string | undefined) => {
         setValue((oldVal) => {
@@ -337,14 +360,12 @@ export function Component() {
     }, [setValue]);
 
     const handleSubmitClick = useCallback(() => {
-        setFirstSubmitted(true);
         const submit = createSubmitHandler(
             validate,
             onErrorSet,
             (valFromArgs) => {
-                setFinalValues(valFromArgs);
                 const val = valFromArgs as FormFields;
-                setFinalValues(val);
+                const sectorValuesMap = listToMap(val?.sectors, (item) => item, () => true);
                 const finalValue = {
                     ...val,
                     activities: val?.activities?.map((activity) => ({
@@ -359,22 +380,68 @@ export function Component() {
                             (item) => item.supply_action,
                             (item) => item.supply_value,
                         ),
-                    })),
+                    })).filter((activity) => sectorValuesMap?.[activity.sector]),
                 };
-                if (!activityId) {
-                    createProject(finalValue);
-                } else {
-                    updateProject(finalValue);
-                }
+                setFinalValues(finalValue);
+                showSubmitConfirmation();
             },
         );
         submit();
     }, [
+        showSubmitConfirmation,
+        validate,
+        onErrorSet,
+    ]);
+
+    const handleFinalSubmitClick = useCallback(() => {
+        if (!finalValues) {
+            return;
+        }
+        if (!activityId) {
+            createProject(finalValues);
+        } else {
+            updateProject(finalValues);
+        }
+    }, [
+        finalValues,
         activityId,
         updateProject,
         createProject,
-        validate,
-        onErrorSet,
+    ]);
+
+    const selectedEventDetail = useMemo(() => (
+        eventOptions?.find((event) => event.id === value?.event)
+    ), [
+        eventOptions,
+        value?.event,
+    ]);
+
+    const countries = useCountry();
+    const nationalSocieties = useNationalSociety();
+
+    const selectedCountryDetail = useMemo(() => (
+        countries?.find((country) => country.id === value?.country)
+    ), [
+        countries,
+        value?.country,
+    ]);
+
+    const selectedNationalSocietyDetail = useMemo(() => (
+        nationalSocieties?.find((country) => country.id === value?.reporting_ns)
+    ), [
+        nationalSocieties,
+        value?.reporting_ns,
+    ]);
+
+    const selectedDeployedEruLabel = useMemo(() => {
+        const selectedEru = erusResponse?.results?.find((eru) => eru.id === value?.deployed_eru);
+        if (!selectedEru) {
+            return undefined;
+        }
+        return deployedEruLabelSelector(selectedEru);
+    }, [
+        erusResponse,
+        value?.deployed_eru,
     ]);
 
     return (
@@ -575,6 +642,9 @@ export function Component() {
                     <NonFieldError
                         error={getErrorObject(error?.activities)}
                     />
+                    <NonFieldError
+                        error={getErrorString(error?.sectors)}
+                    />
                     <Checklist
                         name="sectors"
                         options={optionsResponse?.sectors}
@@ -590,7 +660,7 @@ export function Component() {
                         <ActivitiesBySectorInput
                             key={sector}
                             sectorKey={sector}
-                            sectorDetails={sectorsMap?.[sector]}
+                            sectorDetails={sectorOptionsMap?.[sector]}
                             activities={activitiesBySector?.[sector]}
                             setValue={setValue}
                             error={formError}
@@ -617,6 +687,111 @@ export function Component() {
                     Submit
                 </Button>
             </div>
+            {submitConfirmationShown && (
+                <Modal
+                    // FIXME: Use translations
+                    heading="3W Monitoring Form"
+                    className={styles.confirmModal}
+                    onClose={hideSubmitConfirmation}
+                    footerClassName={styles.footer}
+                    footerContentClassName={styles.footerContent}
+                    bodyClassName={styles.modalBody}
+                    footerContent={(
+                        <>
+                            <Button
+                                name={undefined}
+                                onClick={handleFinalSubmitClick}
+                                disabled={createProjectPending || updateProjectPending}
+                            >
+                                {/* FIXME: Use translations */}
+                                Submit
+                            </Button>
+                            <div className={styles.note}>
+                                If you have any questions, contact the IM team &nbsp;
+                                <a
+                                    href={`mailto:${selectedEventDetail?.emergency_response_contact_email ?? 'im@ifrc.org'}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className={styles.link}
+                                >
+                                    {selectedEventDetail?.emergency_response_contact_email ?? 'im@ifrc.org'}
+                                </a>
+                            </div>
+                        </>
+                    )}
+                >
+                    <div className={styles.message}>
+                        {/* FIXME: Use translations */}
+                        You are about to submit your entry for 3W for &nbsp;
+                        <span className={styles.eventName}>
+                            {selectedEventDetail?.name}
+                        </span>
+                        {/* FIXME: Use translations */}
+                        &nbsp;emergency. Please review your selections below before submission.
+                    </div>
+                    <div className={styles.meta}>
+                        <TextOutput
+                            className={styles.metaItem}
+                            labelClassName={styles.metaLabel}
+                            valueClassName={styles.metaValue}
+                            label="Country"
+                            value={selectedCountryDetail?.name}
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            labelClassName={styles.metaLabel}
+                            valueClassName={styles.metaValue}
+                            label="Start date"
+                            value={value?.start_date}
+                            valueType="date"
+                            strongValue
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            labelClassName={styles.metaLabel}
+                            valueClassName={styles.metaValue}
+                            label="Who is leading the Activity?"
+                            strongValue
+                            value={(value?.activity_lead === 'deployed_eru') ? (
+                                selectedDeployedEruLabel
+                            ) : (
+                                selectedNationalSocietyDetail?.society_name
+                            )}
+                        />
+                        <TextOutput
+                            className={styles.metaItem}
+                            labelClassName={styles.metaLabel}
+                            valueClassName={styles.sectorsList}
+                            label="Actions Taken"
+                            value={value?.sectors?.map((sectorId) => (
+                                <div className={styles.sector}>
+                                    {sectorOptionsMap?.[sectorId].title}
+                                    {(
+                                        value?.activities
+                                            ?.filter((activity) => (
+                                                activity.sector === sectorId
+                                                && isDefined(activity.action)
+                                            ))
+                                            .map((activity) => (
+                                                <TextOutput
+                                                    icon={(<LegendIcon />)}
+                                                    value={(
+                                                        activity.action
+                                                            ? actionOptionsMap?.[
+                                                                activity.action
+                                                            ].title
+                                                            : undefined
+                                                    )}
+                                                />
+                                            ))
+                                    )}
+                                </div>
+                            ))}
+                        />
+                    </div>
+                </Modal>
+            )}
         </div>
     );
 }

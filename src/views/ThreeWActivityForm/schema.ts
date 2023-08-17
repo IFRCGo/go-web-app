@@ -10,6 +10,7 @@ import {
 } from '@togglecorp/toggle-form';
 import {
     isDefined,
+    unique,
     Maybe,
 } from '@togglecorp/fujs';
 
@@ -23,6 +24,15 @@ import {
 } from '#utils/common';
 
 import type { paths } from '#generated/types';
+
+function countGreaterThanLength(count: number) {
+    return (value: Maybe<number[]>) => {
+        if (count < (value?.length ?? 0)) {
+            return 'There should be atleast one activity in selected sectors.';
+        }
+        return undefined;
+    };
+}
 
 function hasValue(x: number) {
     return (value: Maybe<boolean>) => {
@@ -103,6 +113,11 @@ type ActionSupplyItemsSchemaMember = ReturnType<ActionSupplyItemsSchema['member'
 // TODO: Conditional schema dependent on data other than data within the form is not added
 const finalSchema: FormSchema = {
     fields: (value): FormSchemaFields => {
+        const sectorsInActivities = unique(
+            value?.activities?.map((activity) => activity.sector).filter(isDefined) ?? [],
+            (item) => item,
+        );
+
         let schema: FormSchemaFields = {
             title: { required: true },
             event: { required: true },
@@ -110,8 +125,11 @@ const finalSchema: FormSchema = {
             country: { required: true },
             districts: { defaultValue: [] },
             start_date: { required: true },
-            sectors: { forceValue: undefinedValue },
             status: {},
+            sectors: {
+                forceValue: undefinedValue,
+                validations: [countGreaterThanLength(sectorsInActivities?.length ?? 0)],
+            },
         };
 
         schema = addCondition(
@@ -204,7 +222,6 @@ const finalSchema: FormSchema = {
                                     id: {},
                                     details: {},
                                     is_simplified_report: { defaultValue: true },
-                                    has_no_data_on_people_reached: { defaultValue: undefinedValue },
                                     sector: { required: true },
                                     action: {},
 

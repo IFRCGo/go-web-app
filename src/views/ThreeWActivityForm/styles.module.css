@@ -32,3 +32,59 @@
         }
     }
 }
+
+.confirm-modal {
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .message {
+            background-color: var(--go-ui-color-background);
+            padding: var(--go-ui-spacing-md);
+
+            .event-name {
+                color: var(--go-ui-color-primary-red);
+                font-weight: var(--go-ui-font-weight-bold);
+            }
+        }
+
+        .meta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .meta-item {
+                .meta-label {
+                    width: 16rem;
+                }
+            }
+
+            .sectors-list {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-sm);
+
+                .sector {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--go-ui-spacing-xs);
+                }
+            }
+        }
+    }
+
+    .footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            gap: var(--go-ui-spacing-xs);
+        }
+    }
+}

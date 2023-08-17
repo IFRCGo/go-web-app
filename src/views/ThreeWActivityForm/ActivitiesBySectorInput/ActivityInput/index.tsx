@@ -111,10 +111,6 @@ function ActivityInput(props: Props) {
         deployments_emergency_project_activity_people_households: peopleHouseholdOptions,
     } = useGlobalEnums();
 
-    // FIXME: Write this condition appropriately
-    // This should be shown only if data is not filled
-    // by the user
-    const showNoDataAvailable = true;
     const error = getErrorObject(errorFromProps);
     const peopleCountDisabled = isDefined(value?.male_count) || isDefined(value?.female_count);
     const genderDisaggregationDisabled = isDefined(value?.people_count)
@@ -180,6 +176,12 @@ function ActivityInput(props: Props) {
         type === 'action'
         && actionDetails?.is_cash_type
     );
+
+    // FIXME: Write this condition appropriately
+    // This should be shown only if data is not filled
+    // by the user
+    const showNoDataAvailable = error?.has_no_data_on_people_reached
+    || value?.has_no_data_on_people_reached;
 
     const {
         setValue: setPoint,
@@ -252,10 +254,12 @@ function ActivityInput(props: Props) {
             });
         }, mainIndex);
     }, [onChange, mainIndex]);
+
     return (
         <ExpandableContainer
             className={styles.activityInput}
             headingLevel={4}
+            headingClassName={errorFromProps && styles.error}
             spacing="compact"
             actions={type === 'custom' && (
                 <Button

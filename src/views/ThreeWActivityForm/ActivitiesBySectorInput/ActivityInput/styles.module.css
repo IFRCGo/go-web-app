@@ -1,6 +1,10 @@
 .activity-input {
     display: flex;
 
+    .error {
+        color: var(--go-ui-color-primary-red);
+    }
+
     .input-section-content {
         display: flex;
         flex-direction: column;
