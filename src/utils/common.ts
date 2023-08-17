@@ -389,14 +389,6 @@ export function getMonthList() {
     );
 }
 
-export function dateGreaterThanOrEqualCondition(x: string) {
-    return (value: Maybe<string>) => (
-        isDefined(value) && (new Date(value).getTime()) < (new Date(x).getTime())
-            ? `Field must be greater than ${x}` // FIXME: use translations
-            : undefined
-    );
-}
-
 export function denormalizeList<ListItem, SecondaryListItem, ReturnType>(
     list: ListItem[],
     secondaryListSelector: (li: ListItem) => SecondaryListItem[],
