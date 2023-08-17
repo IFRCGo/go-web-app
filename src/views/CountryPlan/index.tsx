@@ -2,7 +2,7 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import { DownloadLineIcon } from '@ifrc-go/icons';
 import { isNotDefined } from '@togglecorp/fujs';
 
-import type { CountryOutletContext } from '#utils/outletContext';
+import { type CountryOutletContext } from '#utils/outletContext';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import BlockLoading from '#components/BlockLoading';

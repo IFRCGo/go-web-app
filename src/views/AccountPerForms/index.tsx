@@ -23,26 +23,22 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import TableBodyContent from '#components/Table/TableBodyContent';
-import type { RowOptions } from '#components/Table/types';
+import { type RowOptions } from '#components/Table/types';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
-import RegionSelectInput, { RegionOption } from '#components/domain/RegionSelectInput';
+import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
 import Link from '#components/Link';
 import Container from '#components/Container';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
 import useInputState from '#hooks/useInputState';
 
-import PerTableActions from './PerTableActions';
-import type { Props as PerTableActionsProps } from './PerTableActions';
+import PerTableActions, { type Props as PerTableActionsProps } from './PerTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type AggregatedPerProcessStatusResponse = GoApiResponse<'/api/v2/aggregated-per-process-status/'>;
-type AggregatedPerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
-
 type PerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['results']>[number];
 
 // eslint-disable-next-line import/prefer-default-export
@@ -94,7 +90,7 @@ export function Component() {
 
     const baseColumn = useMemo(
         () => ([
-            createLinkColumn<AggregatedPerProcessStatusItem, number>(
+            createLinkColumn<PerProcessStatusItem, number>(
                 'country',
                 strings.tableCountryTitle,
                 (item) => item.country_details?.name,
@@ -105,24 +101,24 @@ export function Component() {
                     ),
                 }),
             ),
-            createDateColumn<AggregatedPerProcessStatusItem, number>(
+            createDateColumn<PerProcessStatusItem, number>(
                 'date_of_assessment',
                 strings.tableStartDateTitle,
                 (item) => item.date_of_assessment,
                 { sortable: true },
             ),
-            createNumberColumn<AggregatedPerProcessStatusItem, number>(
+            createNumberColumn<PerProcessStatusItem, number>(
                 'assessment_number',
                 strings.tablePerCycleTitle,
                 (item) => item.assessment_number,
             ),
-            createStringColumn<AggregatedPerProcessStatusItem, number>(
+            createStringColumn<PerProcessStatusItem, number>(
                 'phase',
                 strings.tablePerPhaseTitle,
                 (item) => (isDefined(item.phase) ? `${item.phase} - ${item.phase_display}` : '-'),
                 { sortable: true },
             ),
-            createElementColumn<AggregatedPerProcessStatusItem, number, PerTableActionsProps>(
+            createElementColumn<PerProcessStatusItem, number, PerTableActionsProps>(
                 'actions',
                 '',
                 PerTableActions,
@@ -209,6 +205,7 @@ export function Component() {
             filters={(
                 <>
                     <RegionSelectInput
+                        // FIXME: use translations
                         placeholder="All Regions"
                         name={undefined}
                         value={filterRegion}

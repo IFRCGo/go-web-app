@@ -4,12 +4,12 @@ import {
 } from 'react';
 import {
     useForm,
-    ObjectSchema,
     requiredStringCondition,
     getErrorObject,
-    PartialForm,
     createSubmitHandler,
     useFormObject,
+    type ObjectSchema,
+    type PartialForm,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
 
@@ -19,13 +19,13 @@ import TextInput from '#components/TextInput';
 import NonFieldError from '#components/NonFieldError';
 import SelectInput from '#components/SelectInput';
 import UserContext from '#contexts/user';
-
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import {
+    type GoApiBody,
+    type GoApiResponse,
     useLazyRequest,
 } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
 import { stringValueSelector } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
@@ -34,30 +34,25 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
-type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
+type OrganizationTypeOption = {
+    key: NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number]['key'] | '';
+    value: string;
+}
 
 type UserMeResponse = GoApiResponse<'/api/v2/user/me/'>;
 
-type AccountRequestBody = GoApiResponse<'/api/v2/user/{id}/'>;
-type AccountProfile = NonNullable<AccountRequestBody['profile']>;
+type AccountRequestBody = GoApiBody<'/api/v2/user/{id}/', 'PUT'>;
 
-const organizationTypeKeySelector = (item: OrganizationTypeOption) => item.key;
-
-const nsLabelSelector = (item: NationalSociety) => item.society_name;
-
-type FormFields = Pick<AccountRequestBody, 'first_name' | 'last_name'> & {
-    profile?: Omit<AccountProfile, 'org_type' | 'country'> & {
-        org_type: Exclude<AccountProfile['org_type'], ''>
-    };
-};
-
-type PartialFormFields = PartialForm<FormFields>;
+type PartialFormFields = PartialForm<AccountRequestBody>;
 
 type FormSchema = ObjectSchema<PartialFormFields>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
 
 type ProfileSchema = ObjectSchema<PartialFormFields['profile']>;
 type ProfileSchemaFields = ReturnType<ProfileSchema['fields']>
+
+const organizationTypeKeySelector = (item: OrganizationTypeOption) => item.key;
+const nsLabelSelector = (item: NationalSociety) => item.society_name;
 
 const formSchema: FormSchema = {
     fields: (): FormSchemaFields => ({

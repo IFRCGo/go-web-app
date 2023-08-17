@@ -12,12 +12,13 @@ import {
     createListDisplayColumn,
     createElementColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
+import { numericIdSelector } from '#utils/selectors';
 
-import ThreeWTableActions from './ThreeWTableActions';
-import type { Props as ThreeWTableActionsProps } from './ThreeWTableActions';
+import ThreeWTableActions, {
+    type Props as ThreeWTableActionsProps,
+} from './ThreeWTableActions';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -28,10 +29,6 @@ type ProjectsResponse = GoApiResponse<'/api/v2/project/'>;
 type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
 
 type DistrictDetails = ActivityListItem['districts_details'][number];
-
-function idSelector(p: { id: number }) {
-    return p.id;
-}
 
 function getPeopleReachedInActivity(activity: NonNullable<ActivityListItem['activities']>[number]) {
     const {
@@ -104,11 +101,11 @@ function getPeopleReached(activity: ActivityListItem) {
     return peopleReached;
 }
 
-const ITEM_PER_PAGE = 5;
-
 function DistrictNameOutput({ districtName }: { districtName: string }) {
     return districtName;
 }
+
+const ITEM_PER_PAGE = 5;
 
 interface Props {
     className?: string;
@@ -302,7 +299,7 @@ export function Component(props: Props) {
                     className={styles.projectTable}
                     data={projectResponse?.results}
                     columns={projectColumns}
-                    keySelector={idSelector}
+                    keySelector={numericIdSelector}
                     filtered={false}
                 />
             </Container>
@@ -323,7 +320,7 @@ export function Component(props: Props) {
                     className={styles.activityTable}
                     data={activityResponse?.results}
                     columns={activityColumns}
-                    keySelector={idSelector}
+                    keySelector={numericIdSelector}
                     filtered={false}
                 />
             </Container>

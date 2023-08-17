@@ -16,28 +16,25 @@ import NonFieldError from '#components/NonFieldError';
 
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
-import { useLazyRequest } from '#utils/restRequest';
-import type { paths } from '#generated/types';
+import { GoApiBody, useLazyRequest } from '#utils/restRequest';
 import UserContext from '#contexts/user';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type PostChangePassword = paths['/change_password']['post'];
-type PasswordChangeRequestBody = PostChangePassword['requestBody']['content']['application/json'];
+type PasswordChangeRequestBody = GoApiBody<'/change_password', 'POST'>;
 
-type FormFields = PartialForm<PasswordChangeRequestBody & { confirmNewPassword: string }>;
+type PartialFormValue = PartialForm<PasswordChangeRequestBody & { confirmNewPassword: string }>;
 
-const defaultFormValue: FormFields = {};
+const defaultFormValue: PartialFormValue = {};
 
-const formSchema: ObjectSchema<FormFields> = {
+const formSchema: ObjectSchema<PartialFormValue> = {
     validation: (value) => {
         if (
             value?.new_password
             && value?.confirmNewPassword
             && value.new_password !== value.confirmNewPassword
         ) {
-            // FIXME: use translation
             return 'Passwords do not match!';
         }
         return undefined;
@@ -56,6 +53,8 @@ const formSchema: ObjectSchema<FormFields> = {
         confirmNewPassword: {
             required: true,
             requiredValidation: requiredStringCondition,
+            // NOTE: forcing undefined value will not send this value to the
+            // server
             forceValue: undefinedValue,
         },
     }),
@@ -65,7 +64,7 @@ interface Props {
     handleModalCloseButton: () => void;
 }
 
-function ChangePasswordsModal(props: Props) {
+function ChangePasswordModal(props: Props) {
     const { handleModalCloseButton } = props;
 
     const strings = useTranslation(i18n);
@@ -113,7 +112,7 @@ function ChangePasswordsModal(props: Props) {
         },
     });
 
-    const handleConfirmPasswordChange = useCallback((formValues: FormFields) => {
+    const handleConfirmPasswordChange = useCallback((formValues: PartialFormValue) => {
         const passwordFormValues = {
             ...formValues,
             username: userAuth?.username,
@@ -187,4 +186,4 @@ function ChangePasswordsModal(props: Props) {
     );
 }
 
-export default ChangePasswordsModal;
+export default ChangePasswordModal;

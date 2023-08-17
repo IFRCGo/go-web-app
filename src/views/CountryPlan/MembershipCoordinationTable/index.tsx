@@ -13,14 +13,13 @@ import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
 import Table from '#components/Table';
 import { createElementColumn, createStringColumn } from '#components/Table/ColumnShortcuts';
-import { paths } from '#generated/types';
 import { numericKeySelector } from '#utils/selectors';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from '../i18n.json';
 import styles from './styles.module.css';
 
-type GetCountryPlan = paths['/api/v2/country-plan/{country}/']['get'];
-type GetCountryPlanResponse = GetCountryPlan['responses']['200']['content']['application/json'];
+type GetCountryPlanResponse = GoApiResponse<'/api/v2/country-plan/{country}/'>;
 
 interface IconProps {
     shouldShow: boolean;

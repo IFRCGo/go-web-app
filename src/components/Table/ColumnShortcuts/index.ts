@@ -511,7 +511,7 @@ const countryLinkRendererParams = (country: PartialCountry) => ({
 export function createCountryListColumn<DATUM, KEY>(
     id: string,
     title: string,
-    countryListSelector: (datum: DATUM) => PartialCountry[],
+    countryListSelector: (datum: DATUM) => PartialCountry[] | undefined,
     options?: Options<DATUM, KEY, TableActionsProps, HeaderCellProps>,
 ) {
     const item: Column<
