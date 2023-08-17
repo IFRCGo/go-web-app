@@ -10,7 +10,6 @@ import {
     populateFormat,
     breakFormat,
 } from '@togglecorp/fujs';
-import type { components } from '#generated/types';
 
 import { DEFAULT_DATE_FORMAT } from './constants';
 

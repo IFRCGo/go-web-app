@@ -108,7 +108,11 @@ test('Denormalize List', () => {
             district: 5,
         },
     ];
-    const result = denormalizeList(list, (li) => li.districts, (li, sli) => ({ id: li.id, country: li.country, district: sli }))
+    const result = denormalizeList(
+        list,
+        (li) => li.districts,
+        (li, sli) => ({ id: li.id, country: li.country, district: sli }),
+    );
     expect(result).toEqual(expected);
 
     interface User {
@@ -133,29 +137,45 @@ test('Denormalize List', () => {
         { id: 3, userId: 2, title: 'Post by Bob 1' },
     ];
 
-    const userToPostsSelector = (user: User) => posts.filter(post => post.userId === user.id);
-    const combineUserAndPost = (user: User, post: Post) => ({ userId: user.id, userName: user.name, postId: post.id, postTitle: post.title });
+    const userToPostsSelector = (user: User) => posts.filter((post) => post.userId === user.id);
+    const combineUserAndPost = (user: User, post: Post) => ({
+        userId: user.id, userName: user.name, postId: post.id, postTitle: post.title,
+    });
 
     const denormalizedData = denormalizeList(users, userToPostsSelector, combineUserAndPost);
 
     expect(denormalizedData).toEqual([
-        { userId: 1, userName: 'Alice', postId: 1, postTitle: 'Post by Alice 1' },
-        { userId: 1, userName: 'Alice', postId: 2, postTitle: 'Post by Alice 2' },
-        { userId: 2, userName: 'Bob', postId: 3, postTitle: 'Post by Bob 1' },
+        {
+            userId: 1, userName: 'Alice', postId: 1, postTitle: 'Post by Alice 1',
+        },
+        {
+            userId: 1, userName: 'Alice', postId: 2, postTitle: 'Post by Alice 2',
+        },
+        {
+            userId: 2, userName: 'Bob', postId: 3, postTitle: 'Post by Bob 1',
+        },
     ]);
 
-    const userToPostsSelectorTwo = (_: User) => [];
-    const combineUserAndPostTwo = (_: User, __: Post) => ({});
+    const userToPostsSelectorTwo = () => [];
+    const combineUserAndPostTwo = () => ({});
 
     const denormalizedData2 = denormalizeList(users, userToPostsSelectorTwo, combineUserAndPostTwo);
     expect(denormalizedData2).toEqual([]);
 
-    const capitalizePostTitle = (user: User, post: Post) => ({ userId: user.id, userName: user.name, postId: post.id, postTitle: post.title.toUpperCase() });
+    const capitalizePostTitle = (user: User, post: Post) => ({
+        userId: user.id, userName: user.name, postId: post.id, postTitle: post.title.toUpperCase(),
+    });
 
     const denormalizedData3 = denormalizeList(users, userToPostsSelector, capitalizePostTitle);
     expect(denormalizedData3).toEqual([
-        { userId: 1, userName: 'Alice', postId: 1, postTitle: 'POST BY ALICE 1' },
-        { userId: 1, userName: 'Alice', postId: 2, postTitle: 'POST BY ALICE 2' },
-        { userId: 2, userName: 'Bob', postId: 3, postTitle: 'POST BY BOB 1' },
+        {
+            userId: 1, userName: 'Alice', postId: 1, postTitle: 'POST BY ALICE 1',
+        },
+        {
+            userId: 1, userName: 'Alice', postId: 2, postTitle: 'POST BY ALICE 2',
+        },
+        {
+            userId: 2, userName: 'Bob', postId: 3, postTitle: 'POST BY BOB 1',
+        },
     ]);
-})
+});

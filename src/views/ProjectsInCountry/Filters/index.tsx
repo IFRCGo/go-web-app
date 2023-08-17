@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
+import { EntriesAsList } from '@togglecorp/toggle-form';
 
 import MultiSelectInput from '#components/MultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
@@ -67,12 +68,13 @@ function Filters(props: Props) {
 
     const nsList = useNationalSociety();
 
-    const handleInputChange = useCallback((newValue: number[], name: string) => {
+    const handleInputChange = useCallback((...args: EntriesAsList<FilterValue>) => {
+        const [val, key] = args;
         if (onChange) {
             onChange((oldFilterValue) => {
                 const newFilterValue = {
                     ...oldFilterValue,
-                    [name]: newValue,
+                    [key]: val,
                 };
 
                 return newFilterValue;

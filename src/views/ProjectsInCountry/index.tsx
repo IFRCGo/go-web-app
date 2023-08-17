@@ -3,7 +3,6 @@ import {
     isNotDefined,
     listToGroupList,
     mapToList,
-    sum,
     unique,
 } from '@togglecorp/fujs';
 import {
@@ -21,8 +20,8 @@ import PieChart from '#components/PieChart';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
 import { useRequest } from '#utils/restRequest';
+import { sumSafe, denormalizeList } from '#utils/common';
 import type { CountryOutletContext } from '#utils/outletContext';
-import { denormalizeList } from '#utils/common';
 import useTranslation from '#hooks/useTranslation';
 import ExpandableContainer from '#components/ExpandableContainer';
 import { resolveToString } from '#utils/translation';
@@ -31,6 +30,7 @@ import {
     stringLabelSelector,
 } from '#utils/selectors';
 import type { GoApiResponse } from '#utils/restRequest';
+import { type components } from '#generated/types';
 
 import ProjectActions from './ProjectActions';
 import Map from './Map';
@@ -50,7 +50,7 @@ type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number]
 type ProjectKey = keyof Project;
 
 // const PROJECT_STATUS_COMPLETED = 2;
-const PROJECT_STATUS_ONGOING = 1;
+const PROJECT_STATUS_ONGOING = 1 satisfies components['schemas']['Status1d2Enum'];
 // const PROJECT_STATUS_PLANNED = 0;
 
 const emptyDistrictList: District[] = [];
@@ -89,7 +89,7 @@ function filterProjects(
             }
 
             if (Array.isArray(value)) {
-                return (value as number[]).some(
+                return value.some(
                     (v) => (
                         filterValue?.findIndex(
                             (fv) => String(fv) === String(v),
@@ -163,9 +163,9 @@ export function Component() {
         const projectsOngoing = filteredProjectList
             .filter((p) => p.status === PROJECT_STATUS_ONGOING);
 
-        const ongoingBudget = sum(projectsOngoing?.map((d) => d.budget_amount ?? 0));
+        const ongoingBudget = sumSafe(projectsOngoing?.map((d) => d.budget_amount ?? 0));
 
-        const target = sum(filteredProjectList?.map((d) => d.target_total ?? 0));
+        const target = sumSafe(filteredProjectList?.map((d) => d.target_total ?? 0));
 
         const programmeTypeGrouped = (
             listToGroupList(

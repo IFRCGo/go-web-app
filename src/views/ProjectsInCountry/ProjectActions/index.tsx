@@ -5,6 +5,7 @@ import {
     CopyLineIcon,
     HistoryLineIcon,
 } from '@ifrc-go/icons';
+import { resolve } from 'url';
 
 import { useLazyRequest } from '#utils/restRequest';
 import BlockLoading from '#components/BlockLoading';
@@ -15,6 +16,7 @@ import ConfirmButton from '#components/ConfirmButton';
 import useAlert from '#hooks/useAlert';
 import { adminUrl } from '#config';
 import type { GoApiResponse } from '#utils/restRequest';
+import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -48,7 +50,9 @@ function ProjectActions(props: Props) {
         onSuccess: onProjectDeletionSuccess,
         onFailure: ({ value }) => {
             alert.show(
-                `Failed to delete the project. ${value.messageForNotification}`,
+                resolveToString(strings.projectDeleteFailureMessage, {
+                    message: value.messageForNotification,
+                }),
                 { variant: 'danger' },
             );
         },
@@ -88,7 +92,7 @@ function ProjectActions(props: Props) {
                 <DropdownMenuItem
                     type="link"
                     icons={<HistoryLineIcon />}
-                    to={adminUrl.concat(`deployments/project/${project.id}/history/`)}
+                    to={resolve(adminUrl, `deployments/project/${project.id}/history/`)}
                 >
                     {strings.projectListTableHistory}
                 </DropdownMenuItem>

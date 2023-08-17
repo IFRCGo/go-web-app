@@ -7,6 +7,7 @@
         "projectListTableHistory": "History",
         "threeWDeleteProject": "Delete project",
         "threeWDeleteProjectMessage": "Are you sure you want to delete the project?",
-        "deleteProject": "Delete Project"
+        "deleteProject": "Delete Project",
+        "projectDeleteFailureMessage": "Failed to delete the project. {message}"
     }
 }

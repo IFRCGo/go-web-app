@@ -82,6 +82,10 @@ function getOperationType(projectList: Project[]) {
         (d) => d.id,
     ) ?? [];
 
+    if (operationTypeList.length === 0) {
+        return undefined;
+    }
+
     if (operationTypeList.length === 1) {
         return operationTypeList[0];
     }
@@ -118,7 +122,7 @@ function getGeoJson(
 
             const operationType = getOperationType(projects);
 
-            if (operationType.id !== requiredOperationTypeId) {
+            if (operationType?.id !== requiredOperationTypeId) {
                 return undefined;
             }
 
@@ -131,10 +135,7 @@ function getGeoJson(
                 },
                 geometry: {
                     type: 'Point' as const,
-                    coordinates: district.centroid?.coordinates ?? [0, 0],
-                } as {
-                    type: 'Point',
-                    coordinates: [number, number],
+                    coordinates: district.centroid?.coordinates as [number, number] ?? [0, 0],
                 },
             };
         }).filter(isDefined),
@@ -253,6 +254,7 @@ function CountryThreeWMap(props: Props) {
 
     return (
         <Map
+            scaleControlShown
             mapStyle={defaultMapStyle}
             mapOptions={defaultMapOptions}
             navControlShown
@@ -320,6 +322,8 @@ function CountryThreeWMap(props: Props) {
                 </MapSource>
             )}
             <MapBounds
+                // FIXME: use defined constants
+                duration={1000}
                 padding={10}
                 bounds={countryBounds}
             />
