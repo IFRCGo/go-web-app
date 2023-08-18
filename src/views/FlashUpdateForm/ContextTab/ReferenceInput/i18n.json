@@ -1,0 +1,10 @@
+{
+    "namespace": "flashUpdateForm",
+    "strings": {
+        "flashUpdateFormContextReferenceNameLabel":"Name or Source Description",
+        "flashUpdateFormContextReferenceUrlLabel":"Add URL",
+        "uploadDocumentButtonTitle":"Upload a document",
+        "deleteButtonTitle":"Remove",
+        "flashUpdateFormContextReferenceDateLabel":"Date"
+    }
+}

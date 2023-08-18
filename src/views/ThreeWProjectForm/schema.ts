@@ -35,7 +35,7 @@ export type FormType = PartialForm<ProjectFormFields & {
 
 export type PartialAnnualType = NonNullable<FormType['annual_split_detail']>[number];
 
-type FormSchema = ObjectSchema<PartialForm<FormType, 'client_id'>>;
+type FormSchema = ObjectSchema<FormType>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
 type AnnualSplitSchema = ObjectSchema<PartialForm<AnnualSplit, 'client_id'>, FormType>;

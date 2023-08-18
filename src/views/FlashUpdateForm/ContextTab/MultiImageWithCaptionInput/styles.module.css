@@ -1,0 +1,40 @@
+.multi-image-with-caption-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--go-ui-spacing-md);
+
+    .file-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-lg);
+
+        .preview-and-caption {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xs);
+
+            .remove-button {
+                position: absolute;
+                right: 0;
+                transform: translateX(50%) translateY(-50%);
+                z-index: 111;
+                font-size: var(--go-ui-font-size-md);
+            }
+
+            .preview {
+                background-color: var(--go-ui-color-background);
+                width: 10rem;
+                height: 10rem;
+                object-fit: contain;
+                object-position: center center;
+            }
+
+            .caption-input {
+                align-self: stretch;
+                width: 10rem;
+            }
+        }
+    }
+}

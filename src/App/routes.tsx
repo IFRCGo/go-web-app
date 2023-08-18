@@ -995,16 +995,72 @@ const allFieldReports = customWrapRoute({
     },
 });
 
-const allFlashUpdates = customWrapRoute({
-    path: 'flash-update/all',
+const flashUpdates = customWrapRoute({
+    path: 'flash-update',
     component: {
-        render: () => import('#views/AllFlashUpdates'),
+        render: () => import('#views/FlashUpdates'),
         props: {},
     },
     parent: root,
     wrapperComponent: Auth,
     context: {
+        title: 'Flash Updates',
+        visibility: 'anything',
+    },
+});
+
+const allFlashUpdates = customWrapRoute({
+    path: 'all',
+    component: {
+        render: () => import('#views/AllFlashUpdates'),
+        props: {},
+    },
+    parent: flashUpdates,
+    wrapperComponent: Auth,
+    context: {
         title: 'All Flash Updates',
+        visibility: 'anything',
+    },
+});
+
+const flashUpdateFormNew = customWrapRoute({
+    path: 'new',
+    component: {
+        render: () => import('#views/FlashUpdateForm'),
+        props: {},
+    },
+    parent: flashUpdates,
+    wrapperComponent: Auth,
+    context: {
+        title: 'New Flash Update',
+        visibility: 'is-authenticated',
+    },
+});
+
+const flashUpdateFormEdit = customWrapRoute({
+    path: ':flashUpdateId/edit',
+    component: {
+        render: () => import('#views/FlashUpdateForm'),
+        props: {},
+    },
+    parent: flashUpdates,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Flash Update Edit',
+        visibility: 'is-authenticated',
+    },
+});
+
+const flashUpdateFormDetails = customWrapRoute({
+    path: ':flashUpdateId',
+    component: {
+        render: () => import('#views/FlashUpdateDetails'),
+        props: {},
+    },
+    parent: flashUpdates,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Flash Update Details',
         visibility: 'anything',
     },
 });
@@ -1714,48 +1770,6 @@ const drefApplicationForm = customWrapRoute({
     },
 });
 
-const flashUpdateFormNew = customWrapRoute({
-    path: 'flash-update/new',
-    component: {
-        render: () => import('#views/FlashUpdateForm'),
-        props: {},
-    },
-    parent: root,
-    wrapperComponent: Auth,
-    context: {
-        title: 'New Flash Update',
-        visibility: 'is-authenticated',
-    },
-});
-
-const flashUpdateFormDetails = customWrapRoute({
-    path: 'flash-update/:flashUpdateId',
-    component: {
-        render: () => import('#views/FlashUpdateDetails'),
-        props: {},
-    },
-    parent: root,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Flash Update Details',
-        visibility: 'anything',
-    },
-});
-
-const flashUpdateFormEdit = customWrapRoute({
-    path: 'flash-update/:flashUpdateId/edit',
-    component: {
-        render: () => import('#views/FlashUpdateForm'),
-        props: {},
-    },
-    parent: root,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Flash Update Edit Form',
-        visibility: 'is-authenticated',
-    },
-});
-
 const fieldReportFormNew = customWrapRoute({
     path: 'field-report/new',
     component: {
@@ -1943,6 +1957,7 @@ const wrappedRoutes = {
     drefApplicationForm,
     fieldReportFormNew,
     fieldReportFormEdit,
+    flashUpdates,
     flashUpdateFormNew,
     flashUpdateFormDetails,
     flashUpdateFormEdit,

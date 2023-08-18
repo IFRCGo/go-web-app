@@ -1,0 +1,22 @@
+{
+    "namespace": "flashUpdateForm",
+    "strings": {
+        "flashUpdateFormContextHeading":"Context",
+        "flashUpdateFormContextHazardTypeTitle":"Hazard Type *",
+        "flashUpdateFormContextTitle":"Title *",
+        "flashUpdateFormContextTitleDescription":"The title is automatically populated based on your selection above with the date of this report. You may edit it with any required details.",
+        "flashUpdateFormContextTitlePlaceholder":"e.g. Malawi - Central Region: Floods Flash Update 03/2019 ",
+        "flashUpdateFormContextSituationalTitle":"Situational Overview *",
+        "flashUpdateFormContextReferenceTitle":"References",
+        "flashUpdateFormContextGraphicTitle":"Graphic",
+        "flashUpdateFormContextMapTitle":"Map",
+        "flashUpdateFormContextMapDescription":"Upload any supportive maps",
+        "flashUpdateFormContextCountryTitle":"Country and Province/Region *",
+        "flashUpdateFormContextCountryButton":"Add Country",
+        "flashUpdateFormContextCountryDescription":"Anticipated country or several countries (max 10).",
+        "flashUpdateFormContextGraphicDescription":"Upload any supportive graphics",
+        "flashUpdateFormContextReferenceDescription":"Upload any supportive links or documents",
+        "flashUpdateFormContextReferenceAddButtonLabel":"Add Reference",
+        "flashUpdateFormContextSituationalDescription":"Brief overview of the current situation and the anticipated disaster."
+    }
+}

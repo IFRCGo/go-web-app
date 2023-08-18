@@ -1,0 +1,22 @@
+.reference {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+    flex-wrap: wrap;
+
+    .first-column {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+        flex-grow: 1;
+    }
+
+    .second-column {
+        flex-basis: 16rem;
+        flex-shrink: 0;
+    }
+
+    .actions {
+        flex-shrink: 0;
+        padding: var(--go-ui-spacing-md);
+    }
+}
