@@ -18,7 +18,6 @@ import {
     OPERATION_TYPE_EMERGENCY,
     PROGRAMME_TYPE_MULTILATERAL,
     PROGRAMME_TYPE_DOMESTIC,
-    PROJECT_STATUS_COMPLETED,
 } from '#utils/constants';
 import { type DeepReplace } from '#utils/common';
 
@@ -49,12 +48,7 @@ type AnnualSplitsSchemaMember = ReturnType<AnnualSplitsSchema['member']>; // plu
 const finalSchema: FormSchema = {
     fields: (value): FormSchemaFields => {
         let schema: FormSchemaFields = {
-            actual_expenditure: {
-                required: true,
-                validations: [positiveIntegerCondition],
-            },
             dtype: { required: true },
-            event: {},
             is_project_completed: {},
             name: { required: true, validations: [requiredStringCondition] },
             description: {},
@@ -63,9 +57,6 @@ const finalSchema: FormSchema = {
             programme_type: { required: true },
             project_country: { required: true },
             project_districts: { defaultValue: [] },
-            reached_female: { validations: [positiveIntegerCondition] },
-            reached_male: { validations: [positiveIntegerCondition] },
-            reached_other: { validations: [positiveIntegerCondition] },
             reporting_ns: { required: true },
             reporting_ns_contact_name: {},
             reporting_ns_contact_role: {},
@@ -77,13 +68,6 @@ const finalSchema: FormSchema = {
             // because it is calculated automatically
             // using value of other required fields
             status: {},
-            target_female: { validations: [positiveIntegerCondition] },
-            target_male: { validations: [positiveIntegerCondition] },
-            target_other: { validations: [positiveIntegerCondition] },
-            target_total: {
-                required: value?.is_project_completed && !value?.is_annual_report,
-                validations: [positiveIntegerCondition],
-            },
             visibility: { required: true },
             is_annual_report: {},
         };
@@ -137,7 +121,7 @@ const finalSchema: FormSchema = {
                 ) ? {
                         event: { required: true },
                     } : {
-                        event: {},
+                        event: { forceValue: nullValue },
                     }
             ),
         );
@@ -182,42 +166,111 @@ const finalSchema: FormSchema = {
             }),
         );
 
+        const peopleCountFields = [
+            'target_male',
+            'target_female',
+            'target_other',
+            'reached_male',
+            'reached_female',
+            'reached_other',
+        ] as const;
+
+        type PeopleCountSchema = Pick<FormSchemaFields, (typeof peopleCountFields)[number]>;
+
         schema = addCondition(
             schema,
             value,
-            ['is_annual_report', 'status'] as const,
-            ['reached_total', 'budget_amount'] as const,
-            (props) => {
-                if (props?.is_annual_report) {
-                    return ({
-                        budget_amount: {
-                            forceValue: nullValue,
-                            validations: [positiveIntegerCondition],
-                        },
-                        reached_total: {
-                            forceValue: nullValue,
-                            validations: [positiveIntegerCondition],
-                        },
-                    });
+            ['is_annual_report'] as const,
+            peopleCountFields,
+            (val): PeopleCountSchema => {
+                if (val?.is_annual_report) {
+                    return {
+                        reached_female: { forceValue: nullValue },
+                        reached_male: { forceValue: nullValue },
+                        reached_other: { forceValue: nullValue },
+                        target_female: { forceValue: nullValue },
+                        target_male: { forceValue: nullValue },
+                        target_other: { forceValue: nullValue },
+                    };
                 }
-                if (!props?.is_annual_report && props?.status === PROJECT_STATUS_COMPLETED) {
+                return {
+                    reached_female: { validations: [positiveIntegerCondition] },
+                    reached_male: { validations: [positiveIntegerCondition] },
+                    reached_other: { validations: [positiveIntegerCondition] },
+                    target_female: { validations: [positiveIntegerCondition] },
+                    target_male: { validations: [positiveIntegerCondition] },
+                    target_other: { validations: [positiveIntegerCondition] },
+                };
+            },
+        );
+
+        const totalCountFields = [
+            'target_total',
+            'reached_total',
+        ] as const;
+
+        type TotalCountSchema = Pick<FormSchemaFields, (typeof totalCountFields)[number]>;
+
+        schema = addCondition(
+            schema,
+            value,
+            ['is_project_completed'] as const,
+            ['actual_expenditure', 'budget_amount'] as const,
+            (props) => {
+                if (props?.is_project_completed) {
                     return ({
-                        budget_amount: {
-                            validations: [positiveIntegerCondition],
-                        },
-                        reached_total: {
+                        actual_expenditure: {
                             required: true,
                             validations: [positiveIntegerCondition],
+                        },
+                        budget_amount: {
+                            forceValue: nullValue,
                         },
                     });
                 }
                 return ({
                     budget_amount: {
+                        validations: [positiveIntegerCondition],
+                    },
+                    actual_expenditure: {
+                        forceValue: nullValue,
+                    },
+                });
+            },
+        );
+
+        schema = addCondition(
+            schema,
+            value,
+            ['is_annual_report', 'is_project_completed'] as const,
+            totalCountFields,
+            (val): TotalCountSchema => {
+                if (val?.is_annual_report) {
+                    return {
+                        reached_total: { forceValue: nullValue },
+                        target_total: { forceValue: nullValue },
+                    };
+                }
+                if (val?.is_project_completed) {
+                    return {
+                        reached_total: {
+                            validations: [positiveIntegerCondition],
+                        },
+                        target_total: {
+                            validations: [positiveIntegerCondition],
+                        },
+                    };
+                }
+                return {
+                    target_total: {
                         required: true,
                         validations: [positiveIntegerCondition],
                     },
-                    reached_total: { validations: [positiveIntegerCondition] },
-                });
+                    reached_total: {
+                        required: true,
+                        validations: [positiveIntegerCondition],
+                    },
+                };
             },
         );
 

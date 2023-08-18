@@ -68,6 +68,7 @@ export const OPERATION_TYPE_MULTI = -1;
 
 export const PROGRAMME_TYPE_MULTILATERAL = 1 satisfies ProgrammeTypeEnum;
 export const PROGRAMME_TYPE_DOMESTIC = 2 satisfies ProgrammeTypeEnum;
+export const PROGRAMME_TYPE_BILATERAL = 0 satisfies ProgrammeTypeEnum;
 
 export const PROJECT_STATUS_COMPLETED = 2 satisfies StatusTypeEnum;
 export const PROJECT_STATUS_ONGOING = 1 satisfies StatusTypeEnum;
