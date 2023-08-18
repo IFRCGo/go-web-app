@@ -65,7 +65,7 @@ const riskHazards: Array<{
 type BaseProps = {
     className?: string;
     title: React.ReactNode;
-    bbox: LngLatBoundsLike;
+    bbox: LngLatBoundsLike | undefined;
 }
 
 type Props = BaseProps & ({

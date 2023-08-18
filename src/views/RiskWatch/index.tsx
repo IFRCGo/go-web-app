@@ -1,36 +1,37 @@
 import { useContext } from 'react';
-import { Outlet, useOutletContext } from 'react-router-dom';
-
+import { Outlet } from 'react-router-dom';
+import Page from '#components/Page';
+import useTranslation from '#hooks/useTranslation';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import RouteContext from '#contexts/route';
-import { RegionOutletContext } from '#utils/outletContext';
 
-import styles from './styles.module.css';
+import i18n from './i18n.json';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const regionOutletContext = useOutletContext<RegionOutletContext>();
+    const strings = useTranslation(i18n);
+
     const {
         regionImminentRiskWatch,
         regionSeasonalRiskWatch,
     } = useContext(RouteContext);
 
     return (
-        <div className={styles.regionRiskWatch}>
+        <Page
+            title={strings.riskPageTitle}
+        >
             <NavigationTabList variant="secondary">
                 <NavigationTab to={regionImminentRiskWatch.path}>
-                    {/* FIXME: use translation */}
-                    Imminent
+                    {strings.imminentTabLabel}
                 </NavigationTab>
                 <NavigationTab to={regionSeasonalRiskWatch.path}>
-                    {/* FIXME: use translation */}
-                    Seasonal
+                    {strings.seasonalTabLabel}
                 </NavigationTab>
             </NavigationTabList>
-            <Outlet context={regionOutletContext} />
-        </div>
+            <Outlet />
+        </Page>
     );
 }
 
-Component.displayName = 'RegionRiskWatch';
+Component.displayName = 'RiskWatch';

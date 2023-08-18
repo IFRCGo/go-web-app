@@ -29,6 +29,7 @@ import {
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
+import HistoricalDataChart from '#components/domain/HistoricalDataChart';
 import useInputState from '#hooks/useInputState';
 import useCountry from '#hooks/domain/useCountry';
 import {
@@ -62,7 +63,6 @@ import { type RegionOutletContext } from '#utils/outletContext';
 import Filters from './Filters';
 import type { FilterValue } from './Filters';
 import styles from './styles.module.css';
-import HistoricalDataChart from '#components/domain/HistoricalDataChart';
 
 const defaultFilterValue: FilterValue = {
     months: [],
@@ -746,7 +746,9 @@ export function Component() {
                                                 key={hazard_type}
                                                 style={{
                                                     width: `${100 * normalizedValue * dataItem.normalizedValue}%`,
-                                                    backgroundColor: hazardTypeToColorMap[hazard_type],
+                                                    backgroundColor: hazardTypeToColorMap[
+                                                        hazard_type
+                                                    ],
                                                 }}
                                             />
                                         ),

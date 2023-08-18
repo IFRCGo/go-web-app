@@ -20,7 +20,7 @@ type FootprintCallback = (footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry>
 
 type BaseProps = {
     title: React.ReactNode;
-    bbox: LngLatBoundsLike;
+    bbox: LngLatBoundsLike | undefined;
 }
 
 type Props = BaseProps & ({

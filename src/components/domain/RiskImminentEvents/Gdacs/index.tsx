@@ -1,5 +1,5 @@
 import type { LngLatBoundsLike } from 'mapbox-gl';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
@@ -32,7 +32,7 @@ function getLayerType(geometryType: GeoJSON.Geometry['type']) {
 
 type BaseProps = {
     title: React.ReactNode;
-    bbox: LngLatBoundsLike;
+    bbox: LngLatBoundsLike | undefined;
 }
 
 type Props = BaseProps & ({
@@ -71,14 +71,13 @@ function Gdacs(props: Props) {
         },
     });
 
-    const [activeEventId, setActiveEventId] = useState<number | string | undefined>(undefined);
-
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/gdacs/{id}/exposure/', { successCallback: FootprintCallback }>({
+    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/gdacs/{id}/exposure/', {
+        successCallback: FootprintCallback
+        eventId: number | string,
+    }>({
         apiType: 'risk',
         url: '/api/v1/gdacs/{id}/exposure/',
-        pathVariables: isDefined(activeEventId) ? {
-            id: Number(activeEventId),
-        } : undefined,
+        pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
         onSuccess: (response, { successCallback }) => {
             // FIXME: typings should be fixed in the server
             const { footprint_geojson } = response as unknown as { footprint_geojson: unknown };
@@ -144,8 +143,14 @@ function Gdacs(props: Props) {
 
     const footprintSelector = useCallback(
         (eventId: number | string | undefined, callback: FootprintCallback) => {
-            setActiveEventId(eventId);
-            getFootprint({ successCallback: callback });
+            if (isDefined(eventId)) {
+                getFootprint({
+                    eventId,
+                    successCallback: callback,
+                });
+            } else {
+                getFootprint(undefined);
+            }
         },
         [getFootprint],
     );

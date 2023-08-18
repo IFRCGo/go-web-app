@@ -40,6 +40,7 @@ function Navbar(props: Props) {
         surge: surgeRoute,
         preparedness: preparednessRoute,
         globalThreeW: globalThreeWRoute,
+        riskWatch: riskWatchRoute,
         search: searchRoute,
         newThreeWActivity: newThreeWActivityFromRoute,
         newDrefApplicationForm: newDrefApplicationFormRoute,
@@ -188,6 +189,14 @@ function Navbar(props: Props) {
                             parentRoute
                         >
                             {strings.headerMenuThreeW}
+                        </NavigationTab>
+                        <NavigationTab
+                            to={riskWatchRoute.absolutePath}
+                            className={styles.menuItem}
+                            title={strings.headerMenuThreeWTooltip}
+                            parentRoute
+                        >
+                            {strings.headerMenuRiskWatch}
                         </NavigationTab>
                     </NavigationTabList>
                     <div className={styles.searchContainer}>

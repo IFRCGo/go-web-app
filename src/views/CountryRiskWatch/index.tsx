@@ -5,11 +5,12 @@ import getBbox from '@turf/bbox';
 
 import Container from '#components/Container';
 import Link from '#components/Link';
+import RiskImminentEvents from '#components/domain/RiskImminentEvents';
+import HistoricalDataChart from '#components/domain/HistoricalDataChart';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import type { CountryOutletContext } from '#utils/outletContext';
 import { useRiskRequest } from '#utils/restRequest';
-import RiskImminentEvents from '#components/domain/RiskImminentEvents';
 
 import MultiMonthSelectInput from './MultiMonthSelectInput';
 import RiskTable from './RiskTable';
@@ -19,7 +20,6 @@ import ReturnPeriodTable from './ReturnPeriodTable';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import HistoricalDataChart from '#components/domain/HistoricalDataChart';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {

@@ -160,7 +160,7 @@ const regionRiskWatch = customWrapRoute({
 const regionImminentRiskWatch = customWrapRoute({
     path: 'imminent',
     component: {
-        render: () => import('#views/RegionImminentRiskWatch'),
+        render: () => import('#views/RegionRiskWatchImminent'),
         props: {},
     },
     parent: regionRiskWatch,
@@ -173,7 +173,7 @@ const regionImminentRiskWatch = customWrapRoute({
 const regionSeasonalRiskWatch = customWrapRoute({
     path: 'seasonal',
     component: {
-        render: () => import('#views/RegionSeasonalRiskWatch'),
+        render: () => import('#views/RegionRiskWatchSeasonal'),
         props: {},
     },
     parent: regionRiskWatch,
@@ -633,6 +633,7 @@ const preparednessIndex = customWrapRoute({
 });
 
 const globalThreeW = customWrapRoute({
+    // TODO: rename to `three-w` and manage conflicting routes
     path: 'global-three-w',
     component: {
         render: () => import('#views/GlobalThreeW'),
@@ -719,13 +720,56 @@ const threeWActivityEdit = customWrapRoute({
 const riskWatch = customWrapRoute({
     path: 'risk-watch',
     component: {
-        render: () => import('#views/GlobalRiskWatch'),
+        render: () => import('#views/RiskWatch'),
         props: {},
     },
     parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Risk',
+        visibility: 'anything',
+    },
+});
+
+const riskWatchSeasonal = customWrapRoute({
+    path: 'seasonal',
+    parent: riskWatch,
+    component: {
+        render: () => import('#views/RiskWatchSeasonal'),
+        props: {},
+    },
+    context: {
+        title: 'Risk Watch - Seasonal',
+        visibility: 'anything',
+    },
+});
+
+const riskWatchIndex = customWrapRoute({
+    parent: riskWatch,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: riskWatchSeasonal.path as string,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Risk watch index',
+        visibility: 'anything',
+    },
+});
+
+const riskWatchImminent = customWrapRoute({
+    path: 'imminent',
+    parent: riskWatch,
+    component: {
+        render: () => import('#views/RiskWatchImminent'),
+        props: {},
+    },
+    context: {
+        title: 'Risk Watch - Seasonal',
         visibility: 'anything',
     },
 });
@@ -1830,6 +1874,9 @@ const wrappedRoutes = {
     fieldReportFormEdit,
     flashUpdateFormNew,
     riskWatch,
+    riskWatchIndex,
+    riskWatchImminent,
+    riskWatchSeasonal,
     perProcessForm,
     perOverviewForm,
     newPerOverviewForm,
