@@ -22,6 +22,7 @@ import VideoList from './VideoList';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+// FIXME: region names can be used from the enum context
 const contacts = [
     {
         email: 'Elly.MULAHA@ifrc.org',
