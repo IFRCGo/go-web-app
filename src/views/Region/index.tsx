@@ -34,6 +34,7 @@ export function Component() {
         regionRiskWatch: regionRiskWatchRoute,
         regionPreparedness: regionPreparednessRoute,
         regionProfile: regionProfileRoute,
+        regionAdditionalInfo: regionAdditionalInfoRoute,
     } = useContext(RouteContext);
 
     const {
@@ -49,6 +50,16 @@ export function Component() {
     });
 
     const {
+        pending: regionKeyFigurePending,
+        response: regionKeyFigureResponse,
+    } = useRequest({
+        skip: !regionId,
+        url: '/api/v2/region_key_figure/',
+        // FIXME: the request is not triggered when pathVariables change
+        query: { region: Number(regionId) } as never,
+    });
+
+    const {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
     } = useRequest({
@@ -61,11 +72,24 @@ export function Component() {
     const outletContext: RegionOutletContext = useMemo(
         () => ({
             regionResponse,
+            regionKeyFigureResponse,
         }),
-        [regionResponse],
+        [regionResponse, regionKeyFigureResponse],
     );
 
-    const pending = regionPending || aggregatedAppealPending;
+    const pending = regionPending || aggregatedAppealPending || regionKeyFigurePending;
+    const additionalInfoTabName = regionResponse?.additional_tab_name
+        ? regionResponse.additional_tab_name
+        : strings.regionAdditionalInfoTab;
+    const hasPreparednessSnippet = (
+        regionResponse
+        && regionResponse.preparedness_snippets.length > 0
+    );
+    const hasAdditionalInfoSnippet = (
+        regionResponse?.additional_tab_name
+        || (regionKeyFigureResponse?.results
+            && regionKeyFigureResponse.results.length > 0)
+    );
 
     return (
         <Page
@@ -149,7 +173,7 @@ export function Component() {
                 >
                     {strings.regionRiskTab}
                 </NavigationTab>
-                {(regionResponse && regionResponse?.preparedness_snippets.length > 0) ? (
+                {hasPreparednessSnippet && (
                     <NavigationTab
                         to={generatePath(
                             regionPreparednessRoute.absolutePath,
@@ -158,7 +182,7 @@ export function Component() {
                     >
                         {strings.regionPreparednessTab}
                     </NavigationTab>
-                ) : null}
+                )}
                 <NavigationTab
                     to={generatePath(
                         regionProfileRoute.absolutePath,
@@ -167,6 +191,16 @@ export function Component() {
                 >
                     {strings.regionProfileTab}
                 </NavigationTab>
+                {hasAdditionalInfoSnippet && (
+                    <NavigationTab
+                        to={generatePath(
+                            regionAdditionalInfoRoute.absolutePath,
+                            { regionId },
+                        )}
+                    >
+                        {additionalInfoTabName}
+                    </NavigationTab>
+                )}
             </NavigationTabList>
             <Outlet
                 context={outletContext}

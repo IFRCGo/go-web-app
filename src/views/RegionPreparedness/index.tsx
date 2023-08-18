@@ -22,7 +22,7 @@ export function Component() {
                             value={snippet.snippet}
                         />
                     </Container>
-                )
+                ),
             )}
         </div>
     );

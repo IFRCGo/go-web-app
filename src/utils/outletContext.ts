@@ -11,8 +11,10 @@ export interface CountryOutletContext {
 }
 
 type RegionResponse = paths['/api/v2/region/{id}/']['get']['responses']['200']['content']['application/json'];
+type RegionKeyFigureResponse = paths['/api/v2/region_key_figure/']['get']['responses']['200']['content']['application/json'];
 export interface RegionOutletContext {
     regionResponse: RegionResponse | undefined;
+    regionKeyFigureResponse: RegionKeyFigureResponse | undefined;
 }
 
 type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
