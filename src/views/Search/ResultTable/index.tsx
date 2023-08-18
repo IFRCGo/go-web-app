@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
-import type { Column } from '#components/Table/types';
+import { type GoApiResponse } from '#utils/restRequest';
+import { type Column } from '#components/Table/types';
 import Table from '#components/Table';
 import Container from '#components/Container';
-import { paths } from '#generated/types';
 
 import useColumns from '../useColumns';
 
-type GetSearch = paths['/api/v1/search/']['get'];
-type SearchResponse = GetSearch['responses']['200']['content']['application/json'];
+type SearchResponse = GoApiResponse<'/api/v1/search/'>;
 
 type SearchResponseKey = keyof SearchResponse;
+// FIXME: add a note why we are using extract here
 type ResultKey = Exclude<SearchResponseKey, 'regions' | 'countries' | 'district_province_response'>;
 
 interface Props {
@@ -37,6 +37,7 @@ function ResultTable(props: Props) {
 
     const columnMap = useColumns(searchResponse);
 
+    // FIXME: this is not typesafe
     function isValidMapping<RESULT>(map: {
         columns: unknown,
         data: unknown,

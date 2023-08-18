@@ -19,8 +19,7 @@ import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import NumberOutput from '#components/NumberOutput';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 import { resolveToComponent } from '#utils/translation';
 

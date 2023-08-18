@@ -22,8 +22,7 @@ import {
     createStringColumn,
 } from '#components/Table/ColumnShortcuts';
 import { resolveToString } from '#utils/translation';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

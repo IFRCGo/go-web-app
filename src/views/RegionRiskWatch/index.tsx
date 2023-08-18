@@ -20,9 +20,11 @@ export function Component() {
         <div className={styles.regionRiskWatch}>
             <NavigationTabList variant="secondary">
                 <NavigationTab to={regionImminentRiskWatch.path}>
+                    {/* FIXME: use translations */}
                     Imminent
                 </NavigationTab>
                 <NavigationTab to={regionSeasonalRiskWatch.path}>
+                    {/* FIXME: use translations */}
                     Seasonal
                 </NavigationTab>
             </NavigationTabList>

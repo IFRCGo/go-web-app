@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { listToMap, isDefined } from '@togglecorp/fujs';
 import {
-    Error,
-    EntriesAsList,
+    type Error,
+    type EntriesAsList,
     getErrorObject,
     useFormArray,
 } from '@togglecorp/toggle-form';

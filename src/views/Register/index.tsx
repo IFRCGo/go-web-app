@@ -8,11 +8,11 @@ import {
 } from 'react-router-dom';
 import {
     useForm,
-    ObjectSchema,
+    type ObjectSchema,
     requiredStringCondition,
     emailCondition,
     getErrorObject,
-    PartialForm,
+    type PartialForm,
     createSubmitHandler,
     undefinedValue,
     addCondition,
@@ -34,10 +34,10 @@ import { isWhitelistedEmail } from '#utils/common';
 import {
     useRequest,
     useLazyRequest,
+    type GoApiResponse,
+    type GoApiBody,
 } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import type { paths } from '#generated/types';
 import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 
@@ -46,19 +46,19 @@ import styles from './styles.module.css';
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
-type PostRegister = paths['/register']['post'];
-type RegisterRequestBody = PostRegister['requestBody']['content']['application/json'];
+
+type RegisterRequestBody = GoApiBody<'/register', 'POST'>;
 type WhiteListResponse = GoApiResponse<'/api/v2/domainwhitelist/'>;
 
-const nsLabelSelector = (item: NationalSociety) => item.society_name;
-
 type FormFields = PartialForm<RegisterRequestBody & { confirm_password: string }>;
-const defaultFormValue: FormFields = {};
-const keySelector = (item: OrganizationTypeOption) => item.key;
-const labelSelector = (item: OrganizationTypeOption) => item.value;
 
 type FormSchema = ObjectSchema<FormFields, FormFields, { whitelistedDomains: WhiteListResponse['results'] }>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
+
+const nsLabelSelector = (item: NationalSociety) => item.society_name;
+const defaultFormValue: FormFields = {};
+const keySelector = (item: OrganizationTypeOption) => item.key;
+const labelSelector = (item: OrganizationTypeOption) => item.value;
 
 const formSchema: FormSchema = {
     validation: (value) => {

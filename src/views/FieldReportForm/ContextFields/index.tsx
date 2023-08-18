@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 import {
-    Error,
-    EntriesAsList,
+    type Error,
+    type EntriesAsList,
     getErrorObject,
     getErrorString,
 } from '@togglecorp/toggle-form';
@@ -15,9 +15,9 @@ import DateInput from '#components/DateInput';
 import TextInput from '#components/TextInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
-import DisasterTypeSelectInput, { DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
-import DistrictSearchMultiSelectInput, { DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
-import EventElasticSearchSelectInput, { EventItem } from '#components/domain/EventElasticSearchSelectInput';
+import DisasterTypeSelectInput, { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
+import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import EventElasticSearchSelectInput, { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
 
 import {

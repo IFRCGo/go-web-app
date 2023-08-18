@@ -153,8 +153,8 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
                 onClick={handleClick}
                 className={_cs(styles.month, value?.[12] && styles.active)}
             >
-                {/* FIXME: use translation */}
                 <span className={styles.name}>
+                    {/* FIXME: use translation */}
                     Yearly Average
                 </span>
             </RawButton>

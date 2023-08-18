@@ -80,6 +80,7 @@ function getPointType(projectStat: NsProjectsResponse) {
         operation_types_display,
     } = projectStat;
 
+    // FIXME: what if operation_types length has zero length
     if (operation_types?.length === 1) {
         return {
             // FIXME: typings should be fixed in the server
@@ -376,14 +377,17 @@ function GlobalThreeWMap(props: Props) {
                     <div className={styles.meta}>
                         <TextOutput
                             value={selectedNsProjectStats.ongoing_projects}
+                            // FIXME: use translations
                             description="Ongoing Projects"
                         />
                         <TextOutput
                             value={selectedNsProjectStats.target_total}
+                            // FIXME: use translations
                             description="Targeted Population"
                         />
                     </div>
                     <Container
+                        // FIXME: use translations
                         heading="Top Project Sectors"
                         headingLevel={4}
                     >

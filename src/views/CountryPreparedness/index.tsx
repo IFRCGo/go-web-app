@@ -65,7 +65,7 @@ export function Component() {
     });
 
     const {
-        // pending: perOptionsPending,
+        // pending: perFormAreaPending,
         response: perFormAreaResponse,
     } = useRequest({
         url: '/api/v2/per-formarea/',
@@ -159,6 +159,7 @@ export function Component() {
                 (component) => isDefined(component.rating),
             ).slice(0, 5);
 
+            // FIXME: let's use avgSafe
             function getAverage(list: number[]) {
                 if (list.length === 0) {
                     return 0;

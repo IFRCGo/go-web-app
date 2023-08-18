@@ -9,10 +9,12 @@ import styles from './styles.module.css';
 const PIE_RADIUS = 70;
 const CHART_PADDING = 40;
 
+// FIXME: Let's move this to utils
 function round(n: number) {
     return Math.round(n * 10) / 10;
 }
 
+// FIXME: Let's move this to utils
 function polarToCartesian(radius: number, angleInDegrees: number) {
     const radians = ((angleInDegrees - 90) * Math.PI) / 180;
 

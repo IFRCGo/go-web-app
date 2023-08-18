@@ -57,6 +57,7 @@ export function Component() {
             <img
                 className={styles.image}
                 src={surge}
+                // FIXME: use translation
                 alt="Composition of IM Resources"
                 width="120"
             />

@@ -16,10 +16,10 @@ import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
 
-import Filter, { FilterValue } from './Filters';
+import Filter, { type FilterValue } from './Filters';
 import PieChart from './PieChart';
 import {
-    GlobalProjectsOverview,
+    type GlobalProjectsOverview,
     countSelector,
     projectPerSectorLabelSelector,
     projectPerSectorKeySelector,

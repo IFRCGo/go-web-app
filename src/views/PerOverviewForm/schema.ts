@@ -6,11 +6,11 @@ import {
     emailCondition,
 } from '@togglecorp/toggle-form';
 
-import type { paths } from '#generated/types';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import { type GoApiResponse, type GoApiBody } from '#utils/restRequest';
 
-export type PerOverviewResponse = paths['/api/v2/per-overview/{id}/']['put']['responses']['200']['content']['application/json'];
-export type PerOverviewRequestBody = paths['/api/v2/per-overview/{id}/']['put']['requestBody']['content']['application/json'];
+export type PerOverviewResponse = GoApiResponse<'/api/v2/per-overview/{id}/'>;
+export type PerOverviewRequestBody = GoApiBody<'/api/v2/per-overview/{id}/', 'PUT'>;
 export type PerOverviewFormFields = Omit<
     PerOverviewRequestBody,
     'id'

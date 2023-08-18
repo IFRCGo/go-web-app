@@ -2,22 +2,22 @@ import { useContext, useMemo, useCallback } from 'react';
 import { generatePath } from 'react-router-dom';
 import { isNotDefined } from '@togglecorp/fujs';
 
-import type { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 import RouteContext from '#contexts/route';
 import Link from '#components/Link';
 import Container from '#components/Container';
 
 import styles from './styles.module.css';
 
-type GetSearch = paths['/api/v1/search/']['get'];
-type SearchResponse = GetSearch['responses']['200']['content']['application/json'];
+type SearchResponse = GoApiResponse<'/api/v1/search/'>;
 type DistrictProvinceResult = NonNullable<SearchResponse['district_province_response']>[number];
 
 type SearchResponseKey = keyof SearchResponse;
+// FIXME: add a note why we are using extract here
 type ResultKey = Extract<SearchResponseKey, 'regions' | 'countries' | 'district_province_response'>;
 
 function isDistrictProvinceResult(
-    result: unknown,
+    result: NonNullable<SearchResponse[ResultKey]>[number],
     resultKey: ResultKey,
 ): result is DistrictProvinceResult {
     return !!result && resultKey === 'district_province_response';
@@ -44,7 +44,9 @@ function ResultList(props: Props) {
         region: regionRoute,
         country: countryRoute,
     } = useContext(RouteContext);
-    const data = searchResponse[resultKey];
+
+    const data: SearchResponse[ResultKey] = searchResponse[resultKey];
+
     const limitedData = useMemo(
         () => {
             if (isNotDefined(data)) {

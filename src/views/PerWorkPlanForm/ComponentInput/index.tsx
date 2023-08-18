@@ -1,7 +1,7 @@
 import {
-    SetValueArg,
+    type SetValueArg,
     useFormObject,
-    Error,
+    type Error,
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
@@ -9,24 +9,23 @@ import Container from '#components/Container';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
-import type { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { stringValueSelector } from '#utils/selectors';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import { type GoApiResponse } from '#utils/restRequest';
 
-import { PartialWorkPlan } from '../schema';
+import { type PartialWorkPlan } from '../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type PrioritizationResponse = paths['/api/v2/per-prioritization/{id}/']['put']['responses']['200']['content']['application/json'];
+type PrioritizationResponse = GoApiResponse<'/api/v2/per-prioritization/{id}/', 'PUT'>;
 
 type Value = NonNullable<PartialWorkPlan['component_responses']>[number];
 type ComponentResponse = NonNullable<PrioritizationResponse['component_responses']>[number];
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];
 
 function statusKeySelector(option: PerWorkPlanStatusOption) {

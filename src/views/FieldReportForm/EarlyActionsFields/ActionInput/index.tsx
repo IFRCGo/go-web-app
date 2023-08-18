@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-    Error,
+    type Error,
     getErrorObject,
-    SetValueArg,
+    type SetValueArg,
     useFormObject,
     getErrorString as listErrorToString,
 } from '@togglecorp/toggle-form';

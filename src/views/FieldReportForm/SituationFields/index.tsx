@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
-    Error,
-    EntriesAsList,
+    type Error,
+    type EntriesAsList,
     getErrorObject,
 } from '@togglecorp/toggle-form';
 

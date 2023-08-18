@@ -61,6 +61,7 @@ const sourceOptions: mapboxgl.GeoJSONSourceRaw = {
 type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
+// NOTE: we can get this information from mapbox studio
 interface CountryProperties {
     country_id: number;
     disputed: boolean;
@@ -321,6 +322,7 @@ function EmergenciesMap(props: Props) {
                                     headingLevel={5}
                                 >
                                     <TextOutput
+                                        // FIXME: use translations
                                         label="People Affected"
                                         value={getNumAffected(event.details)}
                                         valueType="number"
