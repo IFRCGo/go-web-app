@@ -39,27 +39,34 @@
 
     .content {
         display: flex;
+        flex-direction: column;
         gap: var(--go-ui-spacing-md);
 
-        .map-container {
-            width: 100%;
+        .actions {
+            font-size: var(--go-ui-font-size-2xl);
+            font-weight: var(--go-ui-font-weight-bold);
         }
 
-        .sidebar {
-            flex-basis: 40%;
+        .top-section {
+            display: flex;
+            flex-grow: 1;
+            gap: var(--go-ui-spacing-md);
 
-            .project-detail-item {
-                display: flex;
-                gap: var(--go-ui-spacing-md);
-                padding: var(--go-ui-spacing-xs);
+            .map-container {
+                width: 100%;
+            }
 
-                .name {
-                    flex-grow: 1;
-                }
+            .sidebar {
+                flex-basis: 40%;
 
-                .actions {
-                    font-size: var(--go-ui-font-size-2xl);
-                    font-weight: var(--go-ui-font-weight-bold);
+                .project-detail-item {
+                    display: flex;
+                    gap: var(--go-ui-spacing-md);
+                    padding: var(--go-ui-spacing-xs);
+
+                    .name {
+                        flex-grow: 1;
+                    }
                 }
             }
         }

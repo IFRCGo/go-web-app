@@ -19,6 +19,12 @@ import {
     DownloadFillIcon,
 } from '@ifrc-go/icons';
 
+import Table from '#components/Table';
+import {
+    createStringColumn,
+    createNumberColumn,
+    createActionColumn,
+} from '#components/Table/ColumnShortcuts';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import Button from '#components/Button';
@@ -34,6 +40,7 @@ import { resolveToString } from '#utils/translation';
 import {
     numericValueSelector,
     stringLabelSelector,
+    numericIdSelector,
 } from '#utils/selectors';
 import type { GoApiResponse } from '#utils/restRequest';
 import { type components } from '#generated/types';
@@ -231,6 +238,72 @@ export function Component() {
         );
     }, [ongoingProjects]);
 
+    const [
+        localNSProjects,
+        otherNSProjects,
+    ] = useMemo(() => ([
+        ongoingProjects.filter((project) => project.reporting_ns === project.project_country),
+        ongoingProjects.filter((project) => project.reporting_ns !== project.project_country),
+    ]), [ongoingProjects]);
+
+    const tableColumns = useMemo(() => ([
+        createStringColumn<Project, number>(
+            'ns',
+            strings.threeWTableNS,
+            (item) => item.reporting_ns_detail?.society_name,
+        ),
+        createStringColumn<Project, number>(
+            'name',
+            strings.threeWTableProjectName,
+            (item) => item.name,
+        ),
+        createStringColumn<Project, number>(
+            'sector',
+            strings.threeWTableSector,
+            (item) => item.primary_sector_display,
+        ),
+        createNumberColumn<Project, number>(
+            'budget',
+            strings.threeWTableTotalBudget,
+            (item) => item.budget_amount,
+            undefined,
+        ),
+        createStringColumn<Project, number>(
+            'programmeType',
+            strings.threeWTableProgrammeType,
+            (item) => item.programme_type_display,
+        ),
+        createStringColumn<Project, number>(
+            'disasterType',
+            strings.threeWTableDisasterType,
+            (item) => item.dtype_detail?.name,
+        ),
+        createNumberColumn<Project, number>(
+            'peopleTargeted',
+            strings.threeWTablePeopleTargeted,
+            (item) => item.target_total,
+            undefined,
+        ),
+        createNumberColumn<Project, number>(
+            'peopleReached',
+            strings.threeWTablePeopleReached,
+            (item) => item.reached_total,
+            undefined,
+        ),
+        createActionColumn(
+            'actions',
+            (project: Project) => ({
+                children: (
+                    <ProjectActions
+                        onProjectDeletionSuccess={reTriggerProjectListRequest}
+                        className={styles.actions}
+                        project={project}
+                    />
+                ),
+            }),
+        ),
+    ]), [reTriggerProjectListRequest, strings]);
+
     return (
         <div className={styles.countryThreeWProjects}>
             {projectListPending ? (
@@ -310,36 +383,73 @@ export function Component() {
                     </>
                 )}
             >
-                <div className={styles.mapContainer}>
-                    <Map
-                        className={styles.mapContainer}
-                        projectList={ongoingProjects}
-                        districtList={districtList}
-                    />
-                </div>
-                <Container
-                    className={styles.sidebar}
-                    heading={strings.threeWInCountryMapSidebarTitle}
-                >
-                    {Object.entries(districtGroupedProject).map(([districtId, projects]) => {
-                        if (isNotDefined(projects) || projects.length === 0) {
-                            return null;
-                        }
+                <div className={styles.topSection}>
+                    <div className={styles.mapContainer}>
+                        <Map
+                            className={styles.mapContainer}
+                            projectList={ongoingProjects}
+                            districtList={districtList}
+                        />
+                    </div>
+                    <Container
+                        className={styles.sidebar}
+                        heading={strings.threeWInCountryMapSidebarTitle}
+                    >
+                        {Object.entries(districtGroupedProject).map(([districtId, projects]) => {
+                            if (isNotDefined(projects) || projects.length === 0) {
+                                return null;
+                            }
 
-                        const district = districtList.find((d) => d.id === Number(districtId));
+                            const district = districtList.find((d) => d.id === Number(districtId));
 
-                        if (isNotDefined(district?.id)) {
+                            if (isNotDefined(district?.id)) {
+                                return (
+                                    <ExpandableContainer
+                                        key="others"
+                                        heading={resolveToString(
+                                            strings.otherProjects,
+                                            {
+                                                numProjects: projects.length,
+                                            },
+                                        )}
+                                        headingLevel={4}
+                                        initiallyExpanded
+                                    >
+                                        {projects.map((project) => (
+                                            <div
+                                                key={project.id}
+                                                className={styles.projectDetailItem}
+                                            >
+                                                <div className={styles.name}>
+                                                    {project.name}
+                                                </div>
+                                                <Link
+                                                    to={generatePath(
+                                                        threeWProjectEditRoute.absolutePath,
+                                                        { projectId: project.id },
+                                                    )}
+                                                    variant="tertiary"
+                                                    icons={<PencilFillIcon />}
+                                                >
+                                                    {strings.projectEdit}
+                                                </Link>
+                                            </div>
+                                        ))}
+                                    </ExpandableContainer>
+                                );
+                            }
+
                             return (
                                 <ExpandableContainer
-                                    key="others"
+                                    key={district?.id}
                                     heading={resolveToString(
-                                        strings.otherProjects,
+                                        strings.provinceProjects,
                                         {
+                                            provinceName: district?.name,
                                             numProjects: projects.length,
                                         },
                                     )}
                                     headingLevel={4}
-                                    initiallyExpanded
                                 >
                                     {projects.map((project) => (
                                         <div
@@ -349,53 +459,54 @@ export function Component() {
                                             <div className={styles.name}>
                                                 {project.name}
                                             </div>
-                                            <Link
-                                                to={generatePath(
-                                                    threeWProjectEditRoute.absolutePath,
-                                                    { projectId: project.id },
-                                                )}
-                                                variant="tertiary"
-                                                icons={<PencilFillIcon />}
-                                            >
-                                                {strings.projectEdit}
-                                            </Link>
+                                            <ProjectActions
+                                                project={project}
+                                                className={styles.actions}
+                                                onProjectDeletionSuccess={
+                                                    reTriggerProjectListRequest
+                                                }
+                                            />
                                         </div>
                                     ))}
                                 </ExpandableContainer>
                             );
-                        }
-
-                        return (
-                            <ExpandableContainer
-                                key={district?.id}
-                                heading={resolveToString(
-                                    strings.provinceProjects,
-                                    {
-                                        provinceName: district?.name,
-                                        numProjects: projects.length,
-                                    },
-                                )}
-                                headingLevel={4}
-                            >
-                                {projects.map((project) => (
-                                    <div
-                                        key={project.id}
-                                        className={styles.projectDetailItem}
-                                    >
-                                        <div className={styles.name}>
-                                            {project.name}
-                                        </div>
-                                        <ProjectActions
-                                            project={project}
-                                            className={styles.actions}
-                                            onProjectDeletionSuccess={reTriggerProjectListRequest}
-                                        />
-                                    </div>
-                                ))}
-                            </ExpandableContainer>
-                        );
-                    })}
-                </Container>
+                        })}
+                    </Container>
+                </div>
+                <ExpandableContainer
+                    heading={resolveToString(
+                        strings.localNSProjects,
+                        {
+                            count: localNSProjects.length,
+                        },
+                    )}
+                    headingLevel={4}
+                >
+                    <Table
+                        filtered={false}
+                        pending={false}
+                        data={localNSProjects}
+                        columns={tableColumns}
+                        keySelector={numericIdSelector}
+                    />
+                </ExpandableContainer>
+                <ExpandableContainer
+                    heading={resolveToString(
+                        strings.otherNSProjects,
+                        {
+                            count: otherNSProjects.length,
+                        },
+                    )}
+                    headingLevel={4}
+                >
+                    <Table
+                        filtered={false}
+                        pending={false}
+                        data={otherNSProjects}
+                        columns={tableColumns}
+                        keySelector={numericIdSelector}
+                    />
+                </ExpandableContainer>
             </Container>
         </div>
     );
