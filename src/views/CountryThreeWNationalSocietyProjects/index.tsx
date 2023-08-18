@@ -11,4 +11,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'NationalSocietyProjects';
+Component.displayName = 'CountryThreeWNationalSocietyProjects';

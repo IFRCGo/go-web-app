@@ -232,7 +232,7 @@ export function Component() {
     }, [ongoingProjects]);
 
     return (
-        <div className={styles.projectsInCountry}>
+        <div className={styles.countryThreeWProjects}>
             {projectListPending ? (
                 <BlockLoading />
             ) : (
@@ -401,4 +401,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'ProjectsInCountry';
+Component.displayName = 'CountryThreeWProjects';

@@ -301,8 +301,7 @@ const countryThreeW = customWrapRoute({
 const countryThreeWProjects = customWrapRoute({
     path: 'projects',
     component: {
-        // FIXME we should rename this to CountryThreeWProjects
-        render: () => import('#views/ProjectsInCountry'),
+        render: () => import('#views/CountryThreeWProjects'),
         props: {},
     },
     parent: countryThreeW,
@@ -315,8 +314,7 @@ const countryThreeWProjects = customWrapRoute({
 const countryThreeWNationalSocietyProjects = customWrapRoute({
     path: 'ns-projects',
     component: {
-        // FIXME we should rename this to CountryThreeWNationalSocietyProjects
-        render: () => import('#views/NationalSocietyProjects'),
+        render: () => import('#views/CountryThreeWNationalSocietyProjects'),
         props: {},
     },
     parent: countryThreeW,
