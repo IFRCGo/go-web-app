@@ -20,7 +20,7 @@ type FootprintCallback = (footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry>
 
 type BaseProps = {
     title: React.ReactNode;
-    bbox: LngLatBoundsLike;
+    bbox: LngLatBoundsLike | undefined;
 }
 
 type Props = BaseProps & ({
@@ -161,6 +161,7 @@ function Pdc(props: Props) {
                     successCallback: callback,
                 });
             } else {
+                // NOTE: using undefined in context clears out the response
                 getFootprint(undefined);
             }
         },

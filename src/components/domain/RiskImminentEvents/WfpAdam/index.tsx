@@ -1,5 +1,5 @@
 import type { LngLatBoundsLike } from 'mapbox-gl';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
@@ -32,7 +32,7 @@ function getLayerType(geometryType: GeoJSON.Geometry['type']) {
 
 type BaseProps = {
     title: React.ReactNode;
-    bbox: LngLatBoundsLike;
+    bbox: LngLatBoundsLike | undefined;
 }
 
 type Props = BaseProps & ({
@@ -71,14 +71,13 @@ function WfpAdam(props: Props) {
         },
     });
 
-    const [activeEventId, setActiveEventId] = useState<number | string | undefined>(undefined);
-
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/adam-exposure/{id}/', { successCallback: FootprintCallback }>({
+    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/adam-exposure/{id}/', {
+        successCallback: FootprintCallback,
+        eventId: number | string,
+    }>({
         apiType: 'risk',
         url: '/api/v1/adam-exposure/{id}/',
-        pathVariables: isDefined(activeEventId) ? {
-            id: Number(activeEventId),
-        } : undefined,
+        pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
         onSuccess: (response, { successCallback }) => {
             const {
                 geojson,
@@ -147,8 +146,15 @@ function WfpAdam(props: Props) {
 
     const footprintSelector = useCallback(
         (eventId: number | string | undefined, callback: FootprintCallback) => {
-            setActiveEventId(eventId);
-            getFootprint({ successCallback: callback });
+            if (isDefined(eventId)) {
+                getFootprint({
+                    eventId,
+                    successCallback: callback,
+                });
+            } else {
+                // NOTE: using undefined in context clears out the response
+                getFootprint(undefined);
+            }
         },
         [getFootprint],
     );

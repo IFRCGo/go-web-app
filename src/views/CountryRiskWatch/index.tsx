@@ -5,18 +5,18 @@ import getBbox from '@turf/bbox';
 
 import Container from '#components/Container';
 import Link from '#components/Link';
+import RiskImminentEvents from '#components/domain/RiskImminentEvents';
+import HistoricalDataChart from '#components/domain/HistoricalDataChart';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import type { CountryOutletContext } from '#utils/outletContext';
 import { useRiskRequest } from '#utils/restRequest';
-import RiskImminentEvents from '#components/domain/RiskImminentEvents';
 
 import MultiMonthSelectInput from './MultiMonthSelectInput';
 import RiskTable from './RiskTable';
 import RiskBarChart from './RiskBarChart';
 import PossibleEarlyActionTable from './PossibleEarlyActionTable';
 import ReturnPeriodTable from './ReturnPeriodTable';
-import HistoricalDataChart from './HistoricalDataChart';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -107,7 +107,10 @@ export function Component() {
             <ReturnPeriodTable
                 data={riskResponse?.return_period_data}
             />
-            <HistoricalDataChart countryId={Number(countryId)} />
+            <HistoricalDataChart
+                variant="country"
+                countryId={Number(countryId)}
+            />
         </div>
     );
 }

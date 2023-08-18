@@ -1,0 +1,8 @@
+{
+    "namespace": "riskWatch",
+    "strings": {
+        "riskPageTitle": "IFRC GO - Risk Watch",
+        "imminentTabLabel": "Imminent",
+        "seasonalTabLabel": "Seasonal"
+    }
+}

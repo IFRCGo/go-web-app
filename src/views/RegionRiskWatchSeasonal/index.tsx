@@ -29,6 +29,7 @@ import {
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
+import HistoricalDataChart from '#components/domain/HistoricalDataChart';
 import useInputState from '#hooks/useInputState';
 import useCountry from '#hooks/domain/useCountry';
 import {
@@ -658,103 +659,111 @@ export function Component() {
     );
 
     return (
-        <Container
-            className={styles.regionSeasonalRiskWatch}
-            heading="Risk Map"
-            filters={(
-                <Filters
-                    regionId={Number(regionId)}
-                    value={filters}
-                    onChange={setFilters}
-                    hazardTypeOptions={hazardTypeOptions}
-                    riskMetricOptions={riskMetricOptions}
-                />
-            )}
-            childrenContainerClassName={styles.content}
-            withHeaderBorder
-        >
-            <Map
-                mapStyle={defaultMapStyle}
-                mapOptions={defaultMapOptions}
-                navControlShown
-                navControlPosition={defaultNavControlPosition}
-                navControlOptions={defaultNavControlOptions}
-                scaleControlShown={false}
-            >
-                <MapContainerWithDisclaimer
-                    className={styles.mapContainer}
-                />
-                <MapSource
-                    sourceKey="composite"
-                    managed={false}
-                >
-                    <MapLayer
-                        layerKey="admin-0"
-                        hoverable
-                        layerOptions={layerOptions}
-                        // onClick={handleCountryClick}
-                    />
-                    <MapLayer
-                        layerKey="admin-0-label"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                    <MapLayer
-                        layerKey="admin-0-label-priority"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                </MapSource>
-                <MapBounds
-                    // FIXME: use defined constants
-                    duration={1000}
-                    bounds={bbox}
-                    padding={50}
-                />
-            </Map>
+        <div className={styles.regionSeasonalRiskWatch}>
             <Container
-                className={styles.countryList}
+                className={styles.riskMapContainer}
+                heading="Risk Map"
+                filters={(
+                    <Filters
+                        regionId={Number(regionId)}
+                        value={filters}
+                        onChange={setFilters}
+                        hazardTypeOptions={hazardTypeOptions}
+                        riskMetricOptions={riskMetricOptions}
+                    />
+                )}
                 childrenContainerClassName={styles.content}
-                withInternalPadding
-                // FIXME use translation
-                heading="Countries"
-                headingLevel={5}
-                spacing="cozy"
                 withHeaderBorder
             >
-                {dataPending && <BlockLoading />}
-                {!dataPending && filteredData?.map(
-                    (dataItem) => (
-                        <div
-                            key={dataItem.iso3}
-                            className={styles.country}
-                        >
-                            <div className={styles.name}>
-                                {dataItem.country_details.name}
+                <Map
+                    mapStyle={defaultMapStyle}
+                    mapOptions={defaultMapOptions}
+                    navControlShown
+                    navControlPosition={defaultNavControlPosition}
+                    navControlOptions={defaultNavControlOptions}
+                    scaleControlShown={false}
+                >
+                    <MapContainerWithDisclaimer
+                        className={styles.mapContainer}
+                    />
+                    <MapSource
+                        sourceKey="composite"
+                        managed={false}
+                    >
+                        <MapLayer
+                            layerKey="admin-0"
+                            hoverable
+                            layerOptions={layerOptions}
+                            // onClick={handleCountryClick}
+                        />
+                        <MapLayer
+                            layerKey="admin-0-label"
+                            layerOptions={adminLabelLayerOptions}
+                        />
+                        <MapLayer
+                            layerKey="admin-0-label-priority"
+                            layerOptions={adminLabelLayerOptions}
+                        />
+                    </MapSource>
+                    <MapBounds
+                        // FIXME: use defined constants
+                        duration={1000}
+                        bounds={bbox}
+                        padding={50}
+                    />
+                </Map>
+                <Container
+                    className={styles.countryList}
+                    childrenContainerClassName={styles.content}
+                    withInternalPadding
+                    // FIXME use translation
+                    heading="Countries"
+                    headingLevel={5}
+                    spacing="cozy"
+                    withHeaderBorder
+                >
+                    {dataPending && <BlockLoading />}
+                    {!dataPending && filteredData?.map(
+                        (dataItem) => (
+                            <div
+                                key={dataItem.iso3}
+                                className={styles.country}
+                            >
+                                <div className={styles.name}>
+                                    {dataItem.country_details.name}
+                                </div>
+                                <div className={styles.track}>
+                                    {dataItem.valueListByHazard.map(
+                                        ({
+                                            normalizedValue,
+                                            value,
+                                            hazard_type,
+                                            hazard_type_display,
+                                        }) => (
+                                            <div
+                                                className={styles.bar}
+                                                title={`${hazard_type_display}: ${filters.riskMetric === 'riskScore' ? riskCategoryToLabelMap[value] : formatNumber(value)}`}
+                                                key={hazard_type}
+                                                style={{
+                                                    width: `${100 * normalizedValue * dataItem.normalizedValue}%`,
+                                                    backgroundColor: hazardTypeToColorMap[
+                                                        hazard_type
+                                                    ],
+                                                }}
+                                            />
+                                        ),
+                                    )}
+                                </div>
                             </div>
-                            <div className={styles.track}>
-                                {dataItem.valueListByHazard.map(
-                                    ({
-                                        normalizedValue,
-                                        value,
-                                        hazard_type,
-                                        hazard_type_display,
-                                    }) => (
-                                        <div
-                                            className={styles.bar}
-                                            title={`${hazard_type_display}: ${filters.riskMetric === 'riskScore' ? riskCategoryToLabelMap[value] : formatNumber(value)}`}
-                                            key={hazard_type}
-                                            style={{
-                                                width: `${100 * normalizedValue * dataItem.normalizedValue}%`,
-                                                backgroundColor: hazardTypeToColorMap[hazard_type],
-                                            }}
-                                        />
-                                    ),
-                                )}
-                            </div>
-                        </div>
-                    ),
-                )}
+                        ),
+                    )}
+                </Container>
             </Container>
-        </Container>
+            <HistoricalDataChart
+                variant="region"
+                regionId={Number(regionId)}
+            />
+        </div>
     );
 }
 

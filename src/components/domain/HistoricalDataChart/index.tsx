@@ -137,21 +137,37 @@ function formatDate(date: Date) {
     );
 }
 
-interface Props {
-    countryId: number;
+type RegionProps = {
+    variant: 'region';
+    regionId: number;
+    countryId?: never;
 }
 
+type CountryProps = {
+    variant: 'country';
+    countryId: number;
+    regionId?: never;
+}
+
+type Props = RegionProps | CountryProps;
+
 function HistoricalDataChart(props: Props) {
-    const { countryId } = props;
+    const {
+        countryId,
+        regionId,
+        variant,
+    } = props;
     const strings = useTranslation(i18n);
     const [disasterFilter, setDisasterFilter] = useInputState<number | undefined>(undefined);
     const chartContainerRef = useRef<HTMLDivElement>(null);
     const chartBounds = useSizeTracking(chartContainerRef);
 
     const { response: historicalDataResponse } = useRequest({
-        skip: isNotDefined(countryId),
+        skip: variant === 'country' ? isNotDefined(countryId) : isNotDefined(regionId),
         url: '/api/v2/go-historical/',
-        query: { countries: [countryId] },
+        query: variant === 'country' ? {
+            countries: [countryId],
+        } : { region: regionId },
     });
 
     const disasterOptions = unique(
@@ -377,9 +393,7 @@ function HistoricalDataChart(props: Props) {
                                     hideDropdownIcon
                                 >
                                     <Container
-                                        className={styles.pointDetails}
                                         heading={point.event.dtype.name}
-                                        withHeaderBorder
                                         headerDescription={(
                                             <TextOutput
                                                 value={point.event.disaster_start_date}
@@ -387,6 +401,8 @@ function HistoricalDataChart(props: Props) {
                                                 format="MMM yyyy"
                                             />
                                         )}
+                                        withHeaderBorder
+                                        withInternalPadding
                                     >
                                         <TextOutput
                                             value={point.numAffected}
