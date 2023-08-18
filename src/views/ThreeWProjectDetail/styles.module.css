@@ -1,6 +1,6 @@
 .project-three-w {
-    .description {
-        /* display: flex; */
+    .modified-on-value {
+        display: flex;
         gap: var(--go-ui-spacing-xs);
     }
 

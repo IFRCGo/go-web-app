@@ -20,22 +20,22 @@ import styles from './styles.module.css';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { threeWId } = useParams<{ threeWId: string }>();
+    const { projectId } = useParams<{ projectId: string }>();
 
     const {
         response: projectResponse,
     } = useRequest({
-        skip: isNotDefined(threeWId),
+        skip: isNotDefined(projectId),
         url: '/api/v2/project/{id}/',
-        pathVariables: {
-            id: Number(threeWId),
-        },
+        pathVariables: isDefined(projectId) ? {
+            id: Number(projectId),
+        } : undefined,
     });
 
     const {
         countryThreeW: countryThreeWRoute,
         country: countryRoute,
-        threeW: threeWRoute,
+        threeWProjectDetail: threeWProjectDetailRoute,
         emergency: emergencyRoute,
     } = useContext(RouteContext);
 
@@ -48,8 +48,8 @@ export function Component() {
                 <Link
                     variant="secondary"
                     to={generatePath(
-                        threeWRoute.absolutePath,
-                        { threeWId },
+                        threeWProjectDetailRoute.absolutePath,
+                        { projectId },
                     )}
                     icons={<PencilFillIcon />}
                 >
@@ -57,26 +57,21 @@ export function Component() {
                 </Link>
             )}
             description={(
-                <div className={styles.description}>
-                    <TextOutput
-                        label={strings.lastModifiedOnTitle}
-                        value={
-                            resolveToComponent(strings.lastModifiedDetail, {
-                                date: (
-                                    <DateOutput
-                                        value={projectResponse?.modified_at}
-                                    />
-                                ),
-                                user: (
-                                    <span>
-                                        {projectResponse?.modified_by_detail?.username}
-                                    </span>
-                                ),
-                            })
-                        }
-                        strongLabel
-                    />
-                </div>
+                <TextOutput
+                    valueClassName={styles.modifiedOnValue}
+                    label={strings.lastModifiedOnTitle}
+                    value={
+                        resolveToComponent(strings.lastModifiedDetail, {
+                            date: (
+                                <DateOutput
+                                    value={projectResponse?.modified_at}
+                                />
+                            ),
+                            user: projectResponse?.modified_by_detail?.username,
+                        })
+                    }
+                    strongLabel
+                />
             )}
         >
             <div className={styles.projectList}>
@@ -133,11 +128,17 @@ export function Component() {
                                 value={[
                                     projectResponse?.reporting_ns_contact_name,
                                     projectResponse?.reporting_ns_contact_role,
-                                ].filter(Boolean).join(', ')}
+                                ].filter(isDefined).join(', ')}
                             />
                             <TextOutput
                                 label={strings.nsContactLabel}
-                                value={projectResponse?.reporting_ns_contact_email}
+                                value={(
+                                    <Link
+                                        to={`mailto:${projectResponse?.reporting_ns_contact_email}`}
+                                    >
+                                        {projectResponse?.reporting_ns_contact_email}
+                                    </Link>
+                                )}
                             />
                         </>
                     )}
@@ -148,18 +149,20 @@ export function Component() {
                         withoutLabelColon
                     />
                     <TextOutput
-                        label={strings.programmeTypeLabel}
-                        description={(
+                        label={(
                             <>
-                                <InformationLineIcon />
-                                <Tooltip className={styles.tooltip}>
-                                    <TextOutput
-                                        label={strings.projectTypeToolTipLabel}
-                                        value={strings.projectTypeToolTipValue}
-                                        withoutLabelColon
-                                        strongLabel
-                                    />
-                                </Tooltip>
+                                {strings.programmeTypeLabel}
+                                <span>
+                                    <InformationLineIcon />
+                                    <Tooltip className={styles.tooltip}>
+                                        <TextOutput
+                                            label={strings.projectTypeToolTipLabel}
+                                            value={strings.projectTypeToolTipValue}
+                                            withoutLabelColon
+                                            strongLabel
+                                        />
+                                    </Tooltip>
+                                </span>
                             </>
                         )}
                         value={projectResponse?.programme_type_display}
@@ -321,68 +324,9 @@ export function Component() {
                         />
                     </Container>
                 ))}
-                <Container
-                    childrenContainerClassName={styles.peopleDetail}
-                >
-                    <div>
-                        {strings.peopleTargeted}
-                    </div>
-                    <TextOutput
-                        label={strings.threeWMale}
-                        value={projectResponse?.target_male}
-                        valueType="number"
-                    />
-                    <TextOutput
-                        label={strings.threeWFemale}
-                        value={projectResponse?.target_female}
-                        valueType="number"
-                    />
-                    <TextOutput
-                        label={strings.threeWOther}
-                        value={projectResponse?.target_other}
-                        valueType="number"
-                    />
-                    <TextOutput
-                        label={strings.threeWTotal}
-                        value={projectResponse?.target_other}
-                        valueType="number"
-                    />
-                    <div>
-                        {strings.peopleReached}
-                        <InformationLineIcon />
-                        <Tooltip className={styles.tooltip}>
-                            <TextOutput
-                                label={strings.tagsTitle}
-                                value={strings.threeWTagsTooltip}
-                                withoutLabelColon
-                                strongLabel
-                            />
-                        </Tooltip>
-                    </div>
-                    <TextOutput
-                        label={strings.threeWMale}
-                        value={projectResponse?.reached_male}
-                        valueType="number"
-                    />
-                    <TextOutput
-                        label={strings.threeWFemale}
-                        value={projectResponse?.reached_female}
-                        valueType="number"
-                    />
-                    <TextOutput
-                        label={strings.threeWOther}
-                        value={projectResponse?.reached_other}
-                        valueType="number"
-                    />
-                    <TextOutput
-                        label={strings.threeWTotal}
-                        value={projectResponse?.reached_total}
-                        valueType="number"
-                    />
-                </Container>
             </div>
         </Page>
     );
 }
 
-Component.displayName = 'ThreeWDetails';
+Component.displayName = 'ThreeWProjectDetail';
