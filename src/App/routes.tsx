@@ -157,6 +157,7 @@ const regionRiskWatch = customWrapRoute({
     },
 });
 
+// FIXME rename and make consistent with view name
 const regionImminentRiskWatch = customWrapRoute({
     path: 'imminent',
     component: {
@@ -170,6 +171,7 @@ const regionImminentRiskWatch = customWrapRoute({
     },
 });
 
+// FIXME rename and make consistent with view name
 const regionSeasonalRiskWatch = customWrapRoute({
     path: 'seasonal',
     component: {

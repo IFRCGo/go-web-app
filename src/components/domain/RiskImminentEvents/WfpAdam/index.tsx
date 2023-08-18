@@ -152,6 +152,7 @@ function WfpAdam(props: Props) {
                     successCallback: callback,
                 });
             } else {
+                // NOTE: using undefined in context clears out the response
                 getFootprint(undefined);
             }
         },
