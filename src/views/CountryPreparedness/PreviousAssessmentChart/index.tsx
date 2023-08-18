@@ -1,6 +1,6 @@
 import { ElementRef, useRef } from 'react';
 
-import { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 import { getDiscretePathDataList } from '#utils/chart';
 import useChartData from '#hooks/useChartData';
 import ChartAxisX from '#components/ChartAxisX';
@@ -8,7 +8,7 @@ import ChartAxisY from '#components/ChartAxisY';
 
 import styles from './styles.module.css';
 
-type LatestPerResponse = paths['/api/v2/latest-per-overview/']['get']['responses']['200']['content']['application/json'];
+type LatestPerResponse = GoApiResponse<'/api/v2/latest-per-overview/'>;
 type PreviousRatings = NonNullable<LatestPerResponse['results']>[number]['assessment_ratings'];
 
 interface Props {

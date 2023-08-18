@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
     useForm,
-    ObjectSchema,
+    type ObjectSchema,
     requiredStringCondition,
     getErrorObject,
 } from '@togglecorp/toggle-form';

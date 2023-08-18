@@ -19,6 +19,7 @@ interface OperationTimelineContent {
     url :string;
     name: string;
 }
+// FIXME: we do not have translations for this yet
 const operationTimelineContent: OperationTimelineContent[] = [
     {
         id: 'surge_table/element1_31',

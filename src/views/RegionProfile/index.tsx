@@ -8,7 +8,7 @@ import Link from '#components/Link';
 import HtmlOutput from '#components/HtmlOutput';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
-import type { RegionOutletContext } from '#utils/outletContext';
+import { type RegionOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -55,11 +55,11 @@ export function Component() {
                     {regionResponse?.links.map((link) => (
                         <Link
                             key={link.id}
-                            to={`${link?.url}`}
+                            to={link.url}
                             withUnderline
                             withExternalLinkIcon
                         >
-                            {link?.title}
+                            {link.title}
                         </Link>
                     ))}
                 </Container>
@@ -70,12 +70,12 @@ export function Component() {
                     withHeaderBorder
                     childrenContainerClassName={styles.contactList}
                 >
-                    {regionResponse?.contacts.map((contact) => (
+                    {regionResponse.contacts.map((contact) => (
                         <Fragment key={contact.id}>
-                            <div>{contact?.name}</div>
-                            <div>{contact?.title}</div>
-                            <div>{contact?.ctype}</div>
-                            <div>{contact?.email}</div>
+                            <div>{contact.name}</div>
+                            <div>{contact.title}</div>
+                            <div>{contact.ctype}</div>
+                            <div>{contact.email}</div>
                             <div className={styles.spacer} />
                         </Fragment>
                     ))}

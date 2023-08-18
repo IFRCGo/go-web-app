@@ -12,15 +12,13 @@ import Container from '#components/Container';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
-import { useRequest } from '#utils/restRequest';
-import { paths } from '#generated/types';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 
 import EmergencyResponseUnitOwnerCard from './EmergencyResponseUnitOwnerCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetERUOwners = paths['/api/v2/eru_owner/']['get'];
-type GetERUOwnersResponse = GetERUOwners['responses']['200']['content']['application/json'];
+type GetERUOwnersResponse = GoApiResponse<'/api/v2/eru_owner/'>;
 type ERUOwnerListItem = NonNullable<GetERUOwnersResponse['results']>[number];
 
 interface EmergencyResponseUnitType {

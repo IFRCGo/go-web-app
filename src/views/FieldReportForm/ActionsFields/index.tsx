@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-    Error,
-    EntriesAsList,
+    type Error,
+    type EntriesAsList,
     getErrorObject,
     getErrorString as listErrorToString,
     useFormArray,
@@ -11,7 +11,7 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
-import { type paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 import Container from '#components/Container';
 import MultiSelectInput from '#components/MultiSelectInput';
 import InputSection from '#components/InputSection';
@@ -32,8 +32,8 @@ import {
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
-type ExternalPartnerOptions = paths['/api/v2/external_partner/']['get']['responses']['200']['content']['application/json']['results'];
-type SupportedActivityOptions = paths['/api/v2/supported_activity/']['get']['responses']['200']['content']['application/json']['results'];
+type ExternalPartnerOptions = GoApiResponse<'/api/v2/external_partner/'>['results'];
+type SupportedActivityOptions = GoApiResponse<'/api/v2/supported_activity/'>['results'];
 
 interface Props {
     reportType: ReportType;
@@ -78,6 +78,7 @@ function ActionsFields(props: Props) {
         description: string;
     }
 
+    // FIXME: use memo
     const organizations: OrganizationOption[] = [
         {
             key: 'NTLS',

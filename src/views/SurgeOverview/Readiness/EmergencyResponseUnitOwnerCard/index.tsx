@@ -7,16 +7,15 @@ import List from '#components/List';
 import Link from '#components/Link';
 import TextOutput from '#components/TextOutput';
 import Heading from '#components/Heading';
-import { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
+import { type GoApiResponse } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetERUOwners = paths['/api/v2/eru_owner/']['get'];
-type GetERUOwnersResponse = GetERUOwners['responses']['200']['content']['application/json'];
+type GetERUOwnersResponse = GoApiResponse<'/api/v2/eru_owner/'>;
 type ERUOwnerListItem = NonNullable<GetERUOwnersResponse['results']>[number];
 
 const emergencyResponseUnitKeySelector = (item: ERUOwnerListItem['eru_set'][number]) => item.id;

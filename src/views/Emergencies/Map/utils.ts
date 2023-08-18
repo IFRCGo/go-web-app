@@ -14,7 +14,7 @@ import {
     COLOR_DARK_GREY,
 } from '#utils/constants';
 
-import i18n from './i18n.json';
+type i18nType = typeof import('./i18n.json');
 
 const COLOR_WITHOUT_IFRC_RESPONSE = COLOR_RED;
 const COLOR_WITH_IFRC_RESPONSE = COLOR_YELLOW;
@@ -45,7 +45,7 @@ export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
     },
 };
 
-export function getLegendOptions(strings: typeof i18n.strings) {
+export function getLegendOptions(strings: i18nType['strings']) {
     const legendOptions = [
         {
             value: RESPONSE_LEVEL_WITHOUT_IFRC_RESPONSE,
@@ -144,7 +144,7 @@ export interface ScaleOption {
     value: 'numAffected' | 'numEvents';
 }
 
-export function getScaleOptions(strings: typeof i18n.strings) {
+export function getScaleOptions(strings: i18nType['strings']) {
     const scaleOptions: ScaleOption[] = [
         { value: 'numAffected', label: strings.emergenciesScaleByNumPeopleAffected },
         { value: 'numEvents', label: strings.emergenciesScaleByNumEmergencies },

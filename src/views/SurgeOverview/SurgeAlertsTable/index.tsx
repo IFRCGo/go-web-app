@@ -1,6 +1,7 @@
 import { useState, useMemo, useContext } from 'react';
 import { generatePath } from 'react-router-dom';
 import { isNotDefined } from '@togglecorp/fujs';
+
 import Table from '#components/Table';
 import Link from '#components/Link';
 import Container from '#components/Container';
@@ -13,8 +14,7 @@ import {
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';

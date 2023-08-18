@@ -14,11 +14,11 @@ import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import Button from '#components/Button';
 import TextArea from '#components/TextArea';
-import type { paths } from '#generated/types';
 import { stringValueSelector } from '#utils/selectors';
 import { resolveToString } from '#utils/translation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import { PartialWorkPlan } from '../schema';
 
@@ -27,8 +27,7 @@ import styles from './styles.module.css';
 
 type Value = NonNullable<PartialWorkPlan['custom_component_responses']>[number];
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];
 
 function statusKeySelector(option: PerWorkPlanStatusOption) {

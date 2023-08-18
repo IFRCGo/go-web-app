@@ -12,6 +12,67 @@ import {
 
 export type VALID_METHOD = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
+// Helper Type Resolvers
+
+export type ApiResponse<SCHEME, URL extends keyof SCHEME, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' = 'GET'> = (
+    METHOD extends 'GET'
+    ? SCHEME[URL] extends { get: { responses: { 200: { content: { 'application/json': infer Res } } } } }
+        ? Res
+        : never
+    : METHOD extends 'POST'
+        ? SCHEME[URL] extends { post: { responses: { 201: { content: { 'application/json': infer Res } } } } }
+            ? Res
+            : never
+        : METHOD extends 'PATCH'
+            ? SCHEME[URL] extends { patch: { responses: { 200: { content: { 'application/json': infer Res } } } } }
+                ? Res
+                : never
+            : METHOD extends 'PUT'
+                ? SCHEME[URL] extends { put: { responses: { 200: { content: { 'application/json': infer Res } } } } }
+                    ? Res
+                    : never
+                : never
+)
+
+export type ApiUrlQuery<SCHEME, URL extends keyof SCHEME, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET'> = (
+    METHOD extends 'GET'
+    ? SCHEME[URL] extends { get: { parameters: { query: infer Query } } }
+        ? Query
+        : never
+    : METHOD extends 'POST'
+        ? SCHEME[URL] extends { post: { parameters: { query: infer Query } } }
+            ? Query
+            : never
+        : METHOD extends 'PATCH'
+            ? SCHEME[URL] extends { patch: { parameters: { query: infer Query } } }
+                ? Query
+                : never
+            : METHOD extends 'PUT'
+                ? SCHEME[URL] extends { put: { parameters: { query: infer Query } } }
+                    ? Query
+                    : never
+                : METHOD extends 'DELETE'
+                    ? SCHEME[URL] extends { delete: { parameters: { query: infer Query } } }
+                        ? Query
+                        : never
+                    : never
+);
+
+export type ApiBody<SCHEME, URL extends keyof SCHEME, METHOD extends 'POST' | 'PUT' | 'PATCH'> = (
+    METHOD extends 'POST'
+        ? SCHEME[URL] extends { post: { requestBody: { content: { 'application/json': infer Res } } } }
+            ? Res
+            : never
+        : METHOD extends 'PATCH'
+            ? SCHEME[URL] extends { patch: { requestBody: { content: { 'application/json': infer Res } } } }
+                ? Res
+                : never
+            : METHOD extends 'PUT'
+                ? SCHEME[URL] extends { put: { requestBody: { content: { 'application/json': infer Res } } } }
+                    ? Res
+                    : never
+                : never
+)
 // Type Resolvers
 
 // NOTE: If the method is POST, the server generates typings for 201

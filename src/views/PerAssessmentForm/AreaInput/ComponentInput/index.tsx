@@ -13,20 +13,20 @@ import {
 import ExpandableContainer from '#components/ExpandableContainer';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
-import type { paths } from '#generated/types';
 import { numericIdSelector } from '#utils/selectors';
+import { type GoApiResponse } from '#utils/restRequest';
 
-import type { PartialAssessment } from '../../schema';
+import { type PartialAssessment } from '../../schema';
 import QuestionInput from './QuestionInput';
 import styles from './styles.module.css';
 
-type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
 type RatingOption = NonNullable<PerOptionsResponse['componentratings']>[number];
 
 type AreaResponse = NonNullable<PartialAssessment['area_responses']>[number]
 type Value = NonNullable<AreaResponse['component_responses']>[number];
 
-type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;
 type PerFormQuestion = NonNullable<PerFormQuestionResponse['results']>[number];
 
 function ratingLabelSelector(option: RatingOption) {

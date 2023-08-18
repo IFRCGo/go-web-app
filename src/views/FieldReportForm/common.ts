@@ -1,9 +1,9 @@
 import { isDefined } from '@togglecorp/fujs';
 import {
-    ArraySchema,
-    ObjectSchema,
-    PartialForm,
-    PurgeNull,
+    type ArraySchema,
+    type ObjectSchema,
+    type PartialForm,
+    type PurgeNull,
     requiredStringCondition,
     addCondition,
     nullValue,
@@ -13,10 +13,8 @@ import {
     positiveIntegerCondition,
     nonZeroCondition,
 } from '#utils/form';
-import {
-    type paths,
-    type components,
-} from '#generated/types';
+import { type components } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 
 // TYPES
 
@@ -52,8 +50,8 @@ export const DISASTER_TYPE_EPIDEMIC = 1;
 
 // FORM
 
-type FieldReportResponse = paths['/api/v2/field-report/{id}/']['get']['responses']['200']['content']['application/json'];
-export type FieldReportBody = paths['/api/v2/field-report/{id}/']['put']['requestBody']['content']['application/json'];
+type FieldReportResponse = GoApiResponse<'/api/v2/field-report/{id}/'>;
+export type FieldReportBody = GoApiResponse<'/api/v2/field-report/{id}/', 'PUT'>;
 
 export type FormValue = Omit<FieldReportBody, 'countries'> & {
     // FIXME: why do we need to change countries to country

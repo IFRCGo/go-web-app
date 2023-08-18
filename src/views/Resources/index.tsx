@@ -22,37 +22,38 @@ import VideoList from './VideoList';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+// FIXME: region names can be used from the enum context
+const contacts = [
+    {
+        email: 'Elly.MULAHA@ifrc.org',
+        name: 'Elly NANDASABA MULAHA',
+        extent: 'Africa Region',
+    },
+    {
+        email: 'luis.fanovich@ifrc.org',
+        name: 'Luis FANOVICH',
+        extent: 'America Region',
+    },
+    {
+        email: 'dedi.jundai@ifrc.org',
+        name: 'Dedi JUNADI',
+        extent: 'Asia Pacific Region',
+    },
+    {
+        email: 'anssi.anonen@ifrc.org',
+        name: 'Anssi ANONEN',
+        extent: 'Europe Region',
+    },
+    {
+        email: 'ahmad.aljamal@ifrc.org',
+        name: 'Ahmad AL JAMAL',
+        extent: 'MENA Region',
+    },
+];
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-
-    const contacts = [
-        {
-            email: 'Elly.MULAHA@ifrc.org',
-            name: 'Elly NANDASABA MULAHA',
-            extent: 'Africa Region',
-        },
-        {
-            email: 'luis.fanovich@ifrc.org',
-            name: 'Luis FANOVICH',
-            extent: 'America Region',
-        },
-        {
-            email: 'dedi.jundai@ifrc.org',
-            name: 'Dedi JUNADI',
-            extent: 'Asia Pacific Region',
-        },
-        {
-            email: 'anssi.anonen@ifrc.org',
-            name: 'Anssi ANONEN',
-            extent: 'Europe Region',
-        },
-        {
-            email: 'ahmad.aljamal@ifrc.org',
-            name: 'Ahmad AL JAMAL',
-            extent: 'MENA Region',
-        },
-    ];
 
     const contactDescription = resolveToComponent(
         strings.aboutFurtherInfo,
@@ -95,6 +96,7 @@ export function Component() {
                     withHeaderBorder
                     childrenContainerClassName={styles.guideList}
                 >
+                    {/* NOTE: We do not need to translate these links */}
                     <Link
                         to="https://github.com/IFRCGo/go-frontend/files/4415370/GoUserGuide_MediumRes.pdf"
                         icons={(
@@ -384,6 +386,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={arcLogo}
+                        // FIXME: use translations
                         alt="Visit American Red Cross Page"
                     />
                 </Link>
@@ -394,6 +397,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={aurcLogo}
+                        // FIXME: use translations
                         alt="Visit Australian Red Cross Page"
                     />
                 </Link>
@@ -404,6 +408,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={brcLogo}
+                        // FIXME: use translations
                         alt="Visit British Red Cross Page"
                     />
                 </Link>
@@ -414,6 +419,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={crcLogo}
+                        // FIXME: use translations
                         alt="Visit Canadian Red Cross Page"
                         width="120"
                     />
@@ -425,6 +431,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={dnkLogo}
+                        // FIXME: use translations
                         alt="Visit Danish Red Cross Page"
                     />
                 </Link>
@@ -435,6 +442,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={frcLogo}
+                        // FIXME: use translations
                         alt="Visit Finnish Red Cross Page"
                     />
                 </Link>
@@ -445,6 +453,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={jrcLogo}
+                        // FIXME: use translations
                         alt="Visit Japanese Red Cross Page"
                     />
                 </Link>
@@ -455,6 +464,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={nlrcLogo}
+                        // FIXME: use translations
                         alt="Visit Netherlands Red Cross Page"
                     />
                 </Link>
@@ -465,6 +475,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={esprcLogo}
+                        // FIXME: use translations
                         alt="Visit Spanish Red Cross Page"
                     />
                 </Link>
@@ -475,6 +486,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={ericLogo}
+                        // FIXME: use translations
                         alt="Visit Ericsson Page"
                     />
                 </Link>
@@ -485,6 +497,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={swissLogo}
+                        // FIXME: use translations
                         alt="Visit Swiss Confederation"
                     />
                 </Link>
@@ -495,6 +508,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={usAidLogo}
+                        // FIXME: use translations
                         alt="Visit US Aid"
                     />
                 </Link>
@@ -505,6 +519,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={pdcLogo}
+                        // FIXME: use translations
                         alt="Visit PDC"
                     />
                 </Link>

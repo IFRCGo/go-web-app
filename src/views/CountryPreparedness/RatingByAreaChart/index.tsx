@@ -1,15 +1,15 @@
 import { useMemo, useRef } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
+import { type GoApiResponse } from '#utils/restRequest';
 import ChartAxes from '#components/ChartAxes';
 import useSizeTracking from '#hooks/useSizeTracking';
 import { getScaleFunction } from '#utils/chart';
-import { paths } from '#generated/types';
 
 import styles from './styles.module.css';
 
-type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
-type PerFormAreaResponse = paths['/api/v2/per-formarea/']['get']['responses']['200']['content']['application/json'];
+type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
+type PerFormAreaResponse = GoApiResponse<'/api/v2/per-formarea/'>;
 
 interface ChartPoint {
     x: number;
@@ -41,7 +41,6 @@ interface Props {
     }[] | undefined;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
     formAreaOptions: PerFormAreaResponse['results'] | undefined;
-    // areaOptions: PerOptionsResponse[''];
 }
 
 function RatingByAreaChart(props: Props) {
@@ -119,6 +118,8 @@ function RatingByAreaChart(props: Props) {
         >
             <svg className={styles.svg}>
                 {points && (
+                    // FIXME: we should also check that points has at least one
+                    // element
                     <ChartAxes
                         xAxisPoints={points.xAxis}
                         yAxisPoints={points.yAxis}

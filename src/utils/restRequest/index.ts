@@ -12,97 +12,19 @@ import type {
     CustomLazyRequestOptions,
     CustomLazyRequestReturn,
     VALID_METHOD,
+    ApiResponse,
+    ApiUrlQuery,
+    ApiBody,
 } from './overrideTypes';
 
 // FIXME: add more types
 
-export type GoApiResponse<URL extends keyof goApiPaths, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' = 'GET'> = (
-    METHOD extends 'GET'
-    ? goApiPaths[URL] extends { get: { responses: { 200: { content: { 'application/json': infer Res } } } } }
-        ? Res
-        : never
-    : METHOD extends 'POST'
-        ? goApiPaths[URL] extends { post: { responses: { 201: { content: { 'application/json': infer Res } } } } }
-            ? Res
-            : never
-        : METHOD extends 'PATCH'
-            ? goApiPaths[URL] extends { patch: { responses: { 200: { content: { 'application/json': infer Res } } } } }
-                ? Res
-                : never
-            : METHOD extends 'PUT'
-                ? goApiPaths[URL] extends { put: { responses: { 200: { content: { 'application/json': infer Res } } } } }
-                    ? Res
-                    : never
-                : never
-)
-
-export type GoApiUrlQuery<URL extends keyof goApiPaths, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET'> = (
-    METHOD extends 'GET'
-    ? goApiPaths[URL] extends { get: { parameters: { query: infer Query } } }
-        ? Query
-        : never
-    : METHOD extends 'POST'
-        ? goApiPaths[URL] extends { post: { parameters: { query: infer Query } } }
-            ? Query
-            : never
-        : METHOD extends 'PATCH'
-            ? goApiPaths[URL] extends { patch: { parameters: { query: infer Query } } }
-                ? Query
-                : never
-            : METHOD extends 'PUT'
-                ? goApiPaths[URL] extends { put: { parameters: { query: infer Query } } }
-                    ? Query
-                    : never
-                : METHOD extends 'DELETE'
-                    ? goApiPaths[URL] extends { delete: { parameters: { query: infer Query } } }
-                        ? Query
-                        : never
-                    : never
-);
-
-export type GoApiBody<URL extends keyof goApiPaths, METHOD extends 'POST' | 'PUT' | 'PATCH'> = (
-    METHOD extends 'POST'
-        ? goApiPaths[URL] extends { post: { requestBody: { content: { 'application/json': infer Res } } } }
-            ? Res
-            : never
-        : METHOD extends 'PATCH'
-            ? goApiPaths[URL] extends { patch: { requestBody: { content: { 'application/json': infer Res } } } }
-                ? Res
-                : never
-            : METHOD extends 'PUT'
-                ? goApiPaths[URL] extends { put: { requestBody: { content: { 'application/json': infer Res } } } }
-                    ? Res
-                    : never
-                : never
-)
-
-export type RiskApiResponse<T extends keyof riskApiPaths> = (
-    riskApiPaths[T] extends {
-        get: {
-            responses: {
-                200: {
-                    content: {
-                        'application/json': infer Res,
-                    },
-                },
-            },
-        },
-    }
-        ? Res
-        : never
-)
-
-export type RiskApiUrlQuery<T extends keyof riskApiPaths> = (
-    riskApiPaths[T] extends {
-        get: {
-            parameters: {
-                query: infer Que,
-            },
-        },
-    }
-        ? Que
-        : never
-);
+export type GoApiResponse<URL extends keyof goApiPaths, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' = 'GET'> = ApiResponse<goApiPaths, URL, METHOD>;
+export type GoApiUrlQuery<URL extends keyof goApiPaths, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET'> = ApiUrlQuery<goApiPaths, URL, METHOD>
+export type GoApiBody<URL extends keyof goApiPaths, METHOD extends 'POST' | 'PUT' | 'PATCH'> = ApiBody<goApiPaths, URL, METHOD>
+export type RiskApiResponse<URL extends keyof riskApiPaths, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' = 'GET'> = ApiResponse<riskApiPaths, URL, METHOD>;
+export type RiskApiUrlQuery<URL extends keyof riskApiPaths, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET'> = ApiUrlQuery<riskApiPaths, URL, METHOD>
+export type RiskApiBody<URL extends keyof riskApiPaths, METHOD extends 'POST' | 'PUT' | 'PATCH'> = ApiBody<riskApiPaths, URL, METHOD>
 
 // FIXME: identify a way to do this without a cast
 const useGoRequest = useRequest as <

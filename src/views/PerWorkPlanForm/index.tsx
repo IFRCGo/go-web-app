@@ -28,7 +28,7 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import type { PerProcessOutletContext } from '#utils/outletContext';
+import { type PerProcessOutletContext } from '#utils/outletContext';
 import { PER_PHASE_WORKPLAN } from '#utils/domain/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';

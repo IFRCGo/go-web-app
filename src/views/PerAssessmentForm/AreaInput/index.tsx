@@ -1,5 +1,5 @@
 import {
-    SetValueArg,
+    type SetValueArg,
     useFormObject,
     useFormArray,
 } from '@togglecorp/toggle-form';
@@ -10,16 +10,16 @@ import {
     _cs,
 } from '@togglecorp/fujs';
 
-import type { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 
-import type { PartialAssessment } from '../schema';
+import { type PartialAssessment } from '../schema';
 import ComponentInput from './ComponentInput';
 import styles from './styles.module.css';
 
-type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
+type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;
 
 type Value = NonNullable<PartialAssessment['area_responses']>[number];
-type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
 type PerFormQuestion = NonNullable<PerFormQuestionResponse['results']>[number];
 
 type PerFormArea = PerFormQuestion['component']['area'];
@@ -67,6 +67,7 @@ function AreaInput(props: Props) {
         setValue: setQuestionResponseValue,
     } = useFormArray('component_responses', setFieldValue);
 
+    // FIXME: useMemo
     const componentResponseMapping = listToMap(
         value?.component_responses ?? [],
         (componentResponse) => componentResponse.component,
@@ -76,11 +77,13 @@ function AreaInput(props: Props) {
         }),
     );
 
+    // FIXME: useMemo
     const componentGroupedQuestions = listToGroupList(
         questions ?? [],
         (question) => question.component.id,
     );
 
+    // FIXME: useMemo
     const componentGroupedQuestionList = mapToList(
         componentGroupedQuestions,
         (list) => ({

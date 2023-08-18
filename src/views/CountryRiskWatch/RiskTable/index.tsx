@@ -31,15 +31,12 @@ import {
     CATEGORY_RISK_VERY_LOW,
 } from '#utils/constants';
 import { resolveToComponent } from '#utils/translation';
-import type { paths } from '#generated/riskTypes';
+import { type RiskApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
-// FIXME: query type not available
-// type CountryRiskQuery = GetCountryRisk['parameters']['query'];
-type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
+type CountryRiskResponse = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type RiskData = CountryRiskResponse[number];
 
 interface Props {

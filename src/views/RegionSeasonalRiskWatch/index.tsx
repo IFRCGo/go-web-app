@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import type { FillLayer, LngLatBoundsLike } from 'mapbox-gl';
+import { type FillLayer, type LngLatBoundsLike } from 'mapbox-gl';
 import { useOutletContext, useParams } from 'react-router-dom';
 import getBbox from '@turf/bbox';
 import {

@@ -18,7 +18,7 @@ import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
-import type { RegionOutletContext } from '#utils/outletContext';
+import { type RegionOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

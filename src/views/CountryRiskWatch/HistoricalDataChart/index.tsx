@@ -41,10 +41,12 @@ import styles from './styles.module.css';
 type GoHistoricalResponse = GoApiResponse<'/api/v2/go-historical/'>;
 type EventItem = NonNullable<GoHistoricalResponse['results']>[number];
 type PartialDisasterType = EventItem['dtype'];
+
 type DisasterType = Omit<PartialDisasterType, 'name'> & {
     name: string;
 }
 
+// FIXME: how can we guarantee that these disaster type ids do not change
 // TODO: Add a flag in database to mark these
 // disaster as risk hazards
 const DISASTER_FLOOD = 12;
@@ -355,7 +357,9 @@ function HistoricalDataChart(props: Props) {
                             ),
                         ) ?? 0;
 
-                        const coverage = requested === 0 ? undefined : 100 * (funded / requested);
+                        const coverage = requested === 0
+                            ? undefined
+                            : 100 * (funded / requested);
 
                         return (
                             <div

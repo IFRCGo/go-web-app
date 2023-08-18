@@ -3,7 +3,7 @@ import {
     useCallback,
     useContext,
     useRef,
-    ElementRef,
+    type ElementRef,
 } from 'react';
 import {
     generatePath,
@@ -20,7 +20,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 import {
-    PartialForm,
+    type PartialForm,
     createSubmitHandler,
     useForm,
     useFormArray,
@@ -43,10 +43,10 @@ import RouteContext from '#contexts/route';
 import {
     useLazyRequest,
     useRequest,
+    type GoApiResponse,
 } from '#utils/restRequest';
 import { PER_PHASE_ASSESSMENT } from '#utils/domain/per';
-import type { PerProcessOutletContext } from '#utils/outletContext';
-import type { paths } from '#generated/types';
+import { type PerProcessOutletContext } from '#utils/outletContext';
 
 import {
     assessmentSchema,
@@ -62,8 +62,8 @@ const defaultFormValue: PartialAssessment = {
     area_responses: [],
 };
 
-type AssessmentResponse = paths['/api/v2/per-assessment/{id}/']['put']['responses']['200']['content']['application/json'];
-type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+type AssessmentResponse = GoApiResponse<'/api/v2/per-assessment/{id}/'>;
+type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;
 type PerFormArea = NonNullable<PerFormQuestionResponse['results']>[number]['component']['area']
 
 const defaultFormAreas: PerFormArea[] = [];

@@ -4,7 +4,7 @@ import {
     useCallback,
     useMemo,
     useRef,
-    ElementRef,
+    type ElementRef,
 } from 'react';
 import {
     useParams,
@@ -173,7 +173,6 @@ export function Component() {
     const {
         response: reviewCountryResponse,
     } = useRequest({
-        // skip: !value.country,
         url: '/api/v2/review-country/',
     });
 

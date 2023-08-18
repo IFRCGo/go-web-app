@@ -11,7 +11,7 @@ import {
     COLOR_BLUE,
 } from '#utils/constants';
 
-import i18n from './i18n.json';
+type i18nType = typeof import('./i18n.json');
 
 const COLOR_EMERGENCY_APPEAL = COLOR_RED;
 const COLOR_DREF = COLOR_YELLOW;
@@ -24,7 +24,7 @@ const APPEAL_TYPE_EMERGENCY = 1;
 const APPEAL_TYPE_EAP = 2;
 export const APPEAL_TYPE_MULTIPLE = -1;
 
-export function getLegendOptions(strings: typeof i18n.strings) {
+export function getLegendOptions(strings: i18nType['strings']) {
     const legendOptions = [
         {
             value: APPEAL_TYPE_EMERGENCY,
@@ -130,7 +130,7 @@ export interface ScaleOption {
     value: 'financialRequirements' | 'peopleTargeted';
 }
 
-export function getScaleOptions(strings: typeof i18n.strings) {
+export function getScaleOptions(strings: i18nType['strings']) {
     const scaleOptions: ScaleOption[] = [
         { value: 'peopleTargeted', label: strings.explanationBubblePopulationLabel },
         { value: 'financialRequirements', label: strings.explanationBubbleAmountLabel },

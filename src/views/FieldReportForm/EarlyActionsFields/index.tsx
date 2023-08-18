@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-    Error,
-    EntriesAsList,
+    type Error,
+    type EntriesAsList,
     getErrorObject,
     useFormArray,
 } from '@togglecorp/toggle-form';
@@ -65,6 +65,7 @@ function EarlyActionFields(props: Props) {
         description: string;
     }
 
+    // FIXME: use memo
     const organizations: OrganizationOption[] = [
         {
             key: 'NTLS',

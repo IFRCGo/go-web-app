@@ -17,7 +17,7 @@ import {
     PER_PHASE_ASSESSMENT,
     PER_PHASE_OVERVIEW,
 } from '#utils/domain/per';
-import type { PerProcessOutletContext } from '#utils/outletContext';
+import { type PerProcessOutletContext } from '#utils/outletContext';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';

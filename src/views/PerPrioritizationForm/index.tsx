@@ -44,8 +44,11 @@ import {
 } from '#utils/restRequest';
 import RouteContext from '#contexts/route';
 
-import { prioritizationSchema, PrioritizationRequestBody } from './schema';
-import type { PartialPrioritization } from './schema';
+import {
+    prioritizationSchema,
+    type PrioritizationRequestBody,
+    type PartialPrioritization,
+} from './schema';
 import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
@@ -315,6 +318,7 @@ export function Component() {
         [strings],
     );
 
+    // FIXME: use memo
     const sortKeyToLabel = listToMap(
         sortOptions,
         (sortOption) => sortOption.key,

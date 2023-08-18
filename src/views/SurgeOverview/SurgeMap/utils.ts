@@ -13,7 +13,7 @@ import {
     COLOR_DARK_GREY,
 } from '#utils/constants';
 
-import i18n from './i18n.json';
+type i18nType = typeof import('./i18n.json');
 
 const COLOR_ERU_AND_PERSONNEL = COLOR_BLUE;
 const COLOR_ERU_ONLY = COLOR_RED;
@@ -45,7 +45,7 @@ export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
     },
 };
 
-export function getLegendOptions(strings: typeof i18n.strings) {
+export function getLegendOptions(strings: i18nType['strings']) {
     const legendOptions = [
         {
             value: SURGE_TYPE_ERU_AND_PERSONNEL,
@@ -152,7 +152,7 @@ export interface ScaleOption {
     value: 'eru' | 'personnel';
 }
 
-export function getScaleOptions(strings: typeof i18n.strings) {
+export function getScaleOptions(strings: i18nType['strings']) {
     const scaleOptions: ScaleOption[] = [
         { value: 'eru', label: strings.eruLabel },
         { value: 'personnel', label: strings.personnelLabel },
