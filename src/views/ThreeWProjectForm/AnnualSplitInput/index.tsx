@@ -2,8 +2,8 @@ import { useCallback } from 'react';
 import {
     useFormObject,
     getErrorObject,
-    SetValueArg,
-    Error,
+    type SetValueArg,
+    type Error,
 } from '@togglecorp/toggle-form';
 import {
     _cs,
@@ -15,9 +15,10 @@ import {
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
+import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
 
-import { PartialAnnualType } from '../schema';
+import { type PartialAnnualType } from '../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -61,6 +62,7 @@ interface Props {
     index: number;
     value: PartialAnnualType;
     onRemove: (index: number) => void;
+    disabled?: boolean;
 }
 
 function AnnualSplitInput(props: Props) {
@@ -71,11 +73,17 @@ function AnnualSplitInput(props: Props) {
         index,
         value,
         onRemove,
+        disabled,
     } = props;
 
     const strings = useTranslation(i18n);
 
-    const setFieldValue = useFormObject(index, onChange, { client_id: randomString() });
+    const setFieldValue = useFormObject(
+        index,
+        onChange,
+        () => ({ client_id: randomString() }),
+    );
+
     const error = getErrorObject(errorFromProps);
 
     const handleTargetMaleChange = useCallback((newTarget: number | undefined) => {
@@ -155,6 +163,7 @@ function AnnualSplitInput(props: Props) {
                     value={value?.year}
                     onChange={setFieldValue}
                     error={error?.year}
+                    disabled={disabled}
                 />
             </span>
             <NumberInput
@@ -163,6 +172,7 @@ function AnnualSplitInput(props: Props) {
                 value={value?.budget_amount}
                 onChange={setFieldValue}
                 error={error?.budget_amount}
+                disabled={disabled}
             />
             <Button
                 className={styles.removeButton}
@@ -171,6 +181,7 @@ function AnnualSplitInput(props: Props) {
                 variant="secondary"
                 // FIXME: use translations
                 title="Delete Annual Split"
+                disabled={disabled}
             >
                 <DeleteBinLineIcon />
             </Button>
@@ -181,6 +192,7 @@ function AnnualSplitInput(props: Props) {
                 value={value?.target_male}
                 onChange={handleTargetMaleChange}
                 error={error?.target_male}
+                disabled={disabled}
             />
             <NumberInput
                 label={strings.threeWTargetFemale}
@@ -188,6 +200,7 @@ function AnnualSplitInput(props: Props) {
                 value={value?.target_female}
                 onChange={handleTargetFemaleChange}
                 error={error?.target_female}
+                disabled={disabled}
             />
             <NumberInput
                 label={strings.threeWTargetOther}
@@ -195,6 +208,7 @@ function AnnualSplitInput(props: Props) {
                 value={value?.target_other}
                 onChange={handleTargetOtherChange}
                 error={error?.target_other}
+                disabled={disabled}
             />
             <span className={styles.bold}>
                 <NumberInput
@@ -202,7 +216,7 @@ function AnnualSplitInput(props: Props) {
                     name="target_total"
                     value={value?.target_total}
                     onChange={setFieldValue}
-                    disabled={shouldDisableTargetTotal}
+                    disabled={shouldDisableTargetTotal || disabled}
                     error={error?.target_total}
                 />
             </span>
@@ -212,6 +226,7 @@ function AnnualSplitInput(props: Props) {
                 value={value?.reached_male}
                 onChange={handleReachedMaleChange}
                 error={error?.reached_male}
+                disabled={disabled}
             />
             <NumberInput
                 label={strings.threeWReachedFemale}
@@ -219,6 +234,7 @@ function AnnualSplitInput(props: Props) {
                 value={value?.reached_female}
                 onChange={handleReachedFemaleChange}
                 error={error?.reached_female}
+                disabled={disabled}
             />
             <NumberInput
                 label={strings.threeWReachedOther}
@@ -226,6 +242,7 @@ function AnnualSplitInput(props: Props) {
                 value={value?.reached_other}
                 onChange={handleReachedOtherChange}
                 error={error?.reached_other}
+                disabled={disabled}
             />
             <span className={styles.bold}>
                 <NumberInput
@@ -233,10 +250,16 @@ function AnnualSplitInput(props: Props) {
                     name="reached_total"
                     value={value?.reached_total}
                     onChange={setFieldValue}
-                    disabled={shouldDisableReachedTotal}
+                    disabled={shouldDisableReachedTotal || disabled}
                     error={error?.reached_total}
                 />
             </span>
+            <div className="break" />
+            <NonFieldError
+                error={error}
+                // FIMXE: use translations
+                message="Please correct all the errors above before submission"
+            />
         </div>
     );
 }

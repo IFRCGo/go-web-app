@@ -44,8 +44,8 @@ import Checkbox from '#components/Checkbox';
 import TextOutput from '#components/TextOutput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
-import DistrictSearchMultiSelectInput, { DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
-import EventSearchSelectInput, { EventItem } from '#components/domain/EventSearchSelectInput';
+import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import EventSearchSelectInput, { type EventItem } from '#components/domain/EventSearchSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     PROJECT_STATUS_COMPLETED,
@@ -61,19 +61,20 @@ import {
     useLazyRequest,
 } from '#utils/restRequest';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
-
 import useTranslation from '#hooks/useTranslation';
 import { injectClientId } from '#utils/common';
 
-import schema, { ProjectResponseBody, FormType, PartialAnnualType } from './schema';
+import schema, {
+    type ProjectResponseBody,
+    type FormType,
+    type PartialAnnualType,
+} from './schema';
 import AnnualSplitInput from './AnnualSplitInput';
 
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
 const defaultFormValues: FormType = {
-    project_districts: [],
-    secondary_sectors: [],
     visibility: 'public',
 };
 
@@ -139,6 +140,7 @@ export function Component() {
         api_visibility_char_choices: visibilityTypeOptions,
     } = useGlobalEnums();
 
+    // FIXME: use memo
     const projectStatusOptionsMap = listToMap(
         projectStatusOptions,
         (d) => d.key,
@@ -146,6 +148,7 @@ export function Component() {
     );
 
     const error = getErrorObject(formError);
+
     const handleProjectCountryChange = useCallback(
         (val: number | undefined, name: 'project_country') => {
             setFieldValue(val, name);
@@ -209,6 +212,7 @@ export function Component() {
     });
 
     const isEmergencyOperation = value.operation_type === OPERATION_TYPE_EMERGENCY;
+
     const shouldShowCurrentEmergencyOperation = isEmergencyOperation
         && value.programme_type === PROGRAMME_TYPE_DOMESTIC;
     const shouldShowCurrentOperation = isEmergencyOperation
@@ -231,9 +235,8 @@ export function Component() {
     );
 
     const handleAddAnnualSplitButtonClick = useCallback(() => {
-        const client_id = randomString();
         const newAnnualSplit: PartialAnnualType = {
-            client_id,
+            client_id: randomString(),
         };
 
         setFieldValue(
@@ -279,6 +282,7 @@ export function Component() {
     const handleTargetMaleChange = useCallback((newTarget: number | undefined) => {
         setValue((oldValue) => {
             let total = oldValue?.target_total;
+            // FIXME: let's re-use this logic
             if (
                 isDefined(newTarget)
                 || isDefined(oldValue.target_female)
@@ -300,6 +304,7 @@ export function Component() {
     const handleTargetFemaleChange = useCallback((newTarget: number | undefined) => {
         setValue((oldValue) => {
             let total = oldValue?.target_total;
+            // FIXME: let's re-use this logic
             if (
                 isDefined(oldValue.target_male)
                 || isDefined(newTarget)
@@ -320,6 +325,7 @@ export function Component() {
 
     const handleTargetOtherChange = useCallback((newTarget: number | undefined) => {
         setValue((oldValue) => {
+            // FIXME: let's re-use this logic
             let total = oldValue?.target_total;
             if (
                 isDefined(oldValue.target_male)
@@ -340,6 +346,7 @@ export function Component() {
 
     const handleReachedMaleChange = useCallback((newReached: number | undefined) => {
         setValue((oldValue) => {
+            // FIXME: let's re-use this logic
             let total = oldValue?.reached_total;
             if (
                 isDefined(newReached)
@@ -360,6 +367,7 @@ export function Component() {
 
     const handleReachedFemaleChange = useCallback((newReached: number | undefined) => {
         setValue((oldValue) => {
+            // FIXME: let's re-use this logic
             let total = oldValue?.reached_total;
             if (
                 isDefined(oldValue.reached_male)
@@ -381,6 +389,7 @@ export function Component() {
 
     const handleReachedOtherChange = useCallback((newReached: number | undefined) => {
         setValue((oldValue) => {
+            // FIXME: let's re-use this logic
             let total = oldValue?.reached_total;
             if (
                 isDefined(oldValue.reached_male)
@@ -518,8 +527,9 @@ export function Component() {
 
     const submitPending = updateSubmitPending || createSubmitPending;
 
-    const pending = submitPending
-        || pendingProjectDetails;
+    const pending = submitPending || pendingProjectDetails;
+
+    const disabled = pending;
 
     return (
         <div className={styles.threeWProjectForm}>
@@ -536,6 +546,7 @@ export function Component() {
                             name="reporting_ns"
                             onChange={setFieldValue}
                             value={value.reporting_ns}
+                            disabled={disabled}
                         />
                     </InputSection>
                     <InputSection
@@ -544,21 +555,30 @@ export function Component() {
                     >
                         <TextInput
                             name="reporting_ns_contact_name"
+                            // FIXME: use translations
                             label="Name"
                             onChange={setFieldValue}
                             value={value.reporting_ns_contact_name}
+                            error={error?.reporting_ns_contact_name}
+                            disabled={disabled}
                         />
                         <TextInput
                             name="reporting_ns_contact_role"
+                            // FIXME: use translations
                             label="Role"
                             onChange={setFieldValue}
                             value={value.reporting_ns_contact_role}
+                            error={error?.reporting_ns_contact_role}
+                            disabled={disabled}
                         />
                         <TextInput
                             name="reporting_ns_contact_email"
+                            // FIXME: use translations
                             label="Email"
                             onChange={setFieldValue}
                             value={value.reporting_ns_contact_email}
+                            error={error?.reporting_ns_contact_email}
+                            disabled={disabled}
                         />
                     </InputSection>
                     <InputSection
@@ -572,6 +592,7 @@ export function Component() {
                             name="project_country"
                             onChange={handleProjectCountryChange}
                             value={value.project_country}
+                            disabled={disabled}
                         />
                         <DistrictSearchMultiSelectInput
                             error={getErrorString(error?.project_districts)}
@@ -582,6 +603,7 @@ export function Component() {
                             options={districtOptions}
                             onOptionsChange={setDistrictOptions}
                             value={value.project_districts}
+                            disabled={disabled}
                         />
                     </InputSection>
                     <InputSection
@@ -605,6 +627,7 @@ export function Component() {
                             // FIXME: do not use inline functions
                             keySelector={(d) => d.key}
                             labelSelector={(d) => d.value}
+                            disabled={disabled}
                         />
                         <SelectInput
                             error={error?.programme_type}
@@ -616,6 +639,7 @@ export function Component() {
                             // FIXME: do not use inline functions
                             keySelector={(d) => d.key}
                             labelSelector={(d) => d.value}
+                            disabled={disabled}
                         />
                     </InputSection>
                     {shouldShowCurrentOperation && (
@@ -629,6 +653,7 @@ export function Component() {
                                 options={eventOptions}
                                 onOptionsChange={setEventOptions}
                                 countryId={value?.project_country}
+                                disabled={disabled}
                             />
                         </InputSection>
                     )}
@@ -647,6 +672,7 @@ export function Component() {
                                 onChange={handleEventChange}
                                 countryId={value?.project_country}
                                 autoGeneratedSource="New field report"
+                                disabled={disabled}
                             />
                         </InputSection>
                     )}
@@ -660,7 +686,7 @@ export function Component() {
                         <DisasterTypeSelectInput
                             error={error?.dtype}
                             name="dtype"
-                            disabled={shouldDisableDisasterType}
+                            disabled={shouldDisableDisasterType || disabled}
                             placeholder={disasterTypePlaceholder}
                             value={value.dtype}
                             onChange={setFieldValue}
@@ -676,6 +702,7 @@ export function Component() {
                             value={value.name}
                             onChange={setFieldValue}
                             error={error?.name}
+                            disabled={disabled}
                         />
                     </InputSection>
                     <InputSection
@@ -686,10 +713,12 @@ export function Component() {
                     >
                         <RichTextArea
                             name="description"
+                            // FIXME: what if value.description is undefined?
                             value={value.description === null ? '' : value.description}
                             onChange={setFieldValue}
                             error={error?.description}
                             placeholder={`${strings.projectFormDescriptionHelpText} ${strings.projectFormDescriptionTooltip}`}
+                            disabled={disabled}
                         />
                     </InputSection>
                     <InputSection
@@ -725,7 +754,7 @@ export function Component() {
                             // FIXME: do not use inline functions
                             keySelector={(d) => Number(d.key)}
                             labelSelector={(d) => d.label}
-                            disabled={fetchingPrimarySectors}
+                            disabled={fetchingPrimarySectors || disabled}
                         />
                         <MultiSelectInput
                             error={getErrorString(error?.secondary_sectors)}
@@ -737,7 +766,7 @@ export function Component() {
                             // FIXME: do not use inline functions
                             keySelector={(d) => Number(d.key)}
                             labelSelector={(d) => d.label}
-                            disabled={fetchingSecondarySectors}
+                            disabled={fetchingSecondarySectors || disabled}
                         />
                     </InputSection>
                     <InputSection
@@ -751,6 +780,7 @@ export function Component() {
                             name="start_date"
                             onChange={handleStartDateChange}
                             value={value.start_date}
+                            disabled={disabled}
                         />
                         <DateInput
                             error={error?.end_date}
@@ -758,6 +788,7 @@ export function Component() {
                             name="end_date"
                             onChange={setFieldValue}
                             value={value.end_date}
+                            disabled={disabled}
                         />
                     </InputSection>
                     <InputSection
@@ -784,12 +815,14 @@ export function Component() {
                         tooltip={strings.projectFormProjectTooltip}
                     >
                         { value.is_project_completed ? (
+                            // FIXME: Wouldn't it be better if we showed budget_amount here?
                             <NumberInput
                                 error={error?.actual_expenditure}
                                 label={strings.projectFormActualExpenditure}
                                 name="actual_expenditure"
                                 value={value.actual_expenditure}
                                 onChange={handleActualExpenditureChange}
+                                disabled={disabled}
                             />
                         ) : (
                             <NumberInput
@@ -798,14 +831,18 @@ export function Component() {
                                 name="budget_amount"
                                 value={value.budget_amount}
                                 onChange={handleBudgetAmountChange}
+                                disabled={disabled}
                             />
                         )}
                         <div>
                             <Checkbox
+                                // FIXME: Also set status when this changes
                                 label={strings.projectFormProjectCompleted}
                                 name="is_project_completed"
                                 value={value?.is_project_completed}
                                 onChange={setFieldValue}
+                                error={error?.is_project_completed}
+                                disabled={disabled}
                             />
                             <TextOutput
                                 label={strings.projectFormProjectStatusTitle}
@@ -818,10 +855,13 @@ export function Component() {
                         </div>
                         <div>
                             <Switch
+                                // FIXME: use translations
                                 label="Annual Reporting"
                                 name="is_annual_report"
                                 value={value?.is_annual_report}
                                 onChange={setFieldValue}
+                                disabled={disabled}
+                                error={error?.is_annual_report}
                             />
                         </div>
                     </InputSection>
@@ -844,6 +884,7 @@ export function Component() {
                                     onChange={setAnnualSplit}
                                     error={annualSplitErrors?.[annual_split.client_id]}
                                     onRemove={removeAnnualSplit}
+                                    disabled={disabled}
                                 />
                             ))}
                             <div>
@@ -851,6 +892,7 @@ export function Component() {
                                     onClick={handleAddAnnualSplitButtonClick}
                                     name={undefined}
                                     variant="secondary"
+                                    disabled={disabled}
                                 >
                                     {strings.addNewSplit}
                                 </Button>
@@ -869,6 +911,7 @@ export function Component() {
                                     value={value.target_male}
                                     error={error?.target_male}
                                     onChange={handleTargetMaleChange}
+                                    disabled={disabled}
                                 />
                                 <NumberInput
                                     name="target_female"
@@ -876,6 +919,7 @@ export function Component() {
                                     value={value.target_female}
                                     error={error?.target_female}
                                     onChange={handleTargetFemaleChange}
+                                    disabled={disabled}
                                 />
                                 <NumberInput
                                     name="target_other"
@@ -883,9 +927,14 @@ export function Component() {
                                     value={value.target_other}
                                     error={error?.target_other}
                                     onChange={handleTargetOtherChange}
+                                    disabled={disabled}
                                 />
                                 <NumberInput
-                                    disabled={shouldDisableTotalTarget || value?.is_annual_report}
+                                    disabled={
+                                        shouldDisableTotalTarget
+                                        || value?.is_annual_report
+                                        || disabled
+                                    }
                                     name="target_total"
                                     label={
                                         (isTotalRequired && !shouldDisableTotalTarget)
@@ -912,6 +961,7 @@ export function Component() {
                                     value={value.reached_male}
                                     error={error?.reached_male}
                                     onChange={handleReachedMaleChange}
+                                    disabled={disabled}
                                 />
                                 <NumberInput
                                     name="reached_female"
@@ -919,6 +969,7 @@ export function Component() {
                                     value={value.reached_female}
                                     error={error?.reached_female}
                                     onChange={handleReachedFemaleChange}
+                                    disabled={disabled}
                                 />
                                 <NumberInput
                                     name="reached_other"
@@ -926,9 +977,14 @@ export function Component() {
                                     value={value.reached_other}
                                     error={error?.reached_other}
                                     onChange={handleReachedOtherChange}
+                                    disabled={disabled}
                                 />
                                 <NumberInput
-                                    disabled={shouldDisableTotalReached || value?.is_annual_report}
+                                    disabled={
+                                        shouldDisableTotalReached
+                                        || value?.is_annual_report
+                                        || disabled
+                                    }
                                     name="reached_total"
                                     label={
                                         (isTotalRequired && !shouldDisableTotalReached)
@@ -959,7 +1015,7 @@ export function Component() {
                             // FIXME: do not use inline functions
                             keySelector={(d) => d.key}
                             labelSelector={(d) => d.value}
-                            disabled={pendingMe}
+                            disabled={pendingMe || disabled}
                         />
                     </InputSection>
                     <div className={styles.formActions}>
@@ -982,7 +1038,7 @@ export function Component() {
                             name={undefined}
                             onClick={createSubmitHandler(validate, onErrorSet, handleSubmit)}
                             type="submit"
-                            disabled={pending}
+                            disabled={disabled}
                             variant="secondary"
                         >
                             {submitPending
