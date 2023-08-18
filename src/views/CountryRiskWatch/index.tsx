@@ -16,10 +16,10 @@ import RiskTable from './RiskTable';
 import RiskBarChart from './RiskBarChart';
 import PossibleEarlyActionTable from './PossibleEarlyActionTable';
 import ReturnPeriodTable from './ReturnPeriodTable';
-import HistoricalDataChart from './HistoricalDataChart';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import HistoricalDataChart from '#components/domain/HistoricalDataChart';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -107,7 +107,10 @@ export function Component() {
             <ReturnPeriodTable
                 data={riskResponse?.return_period_data}
             />
-            <HistoricalDataChart countryId={Number(countryId)} />
+            <HistoricalDataChart
+                variant="country"
+                countryId={Number(countryId)}
+            />
         </div>
     );
 }

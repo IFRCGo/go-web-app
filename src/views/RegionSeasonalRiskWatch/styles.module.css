@@ -2,55 +2,61 @@
     display: flex;
     flex-direction: column;
     padding: var(--go-ui-spacing-4xl) 0;
+    gap: var(--go-ui-spacing-4xl);
     overflow: auto;
 
-    .content {
+    .risk-map-container {
         display: flex;
-        height: 40rem;
-        gap: var(--go-ui-spacing-xl);
+        flex-direction: column;
 
-        .map-container {
-            flex-grow: 1;
-        }
+        .content {
+            display: flex;
+            height: 40rem;
+            gap: var(--go-ui-spacing-xl);
 
-        .country-list {
-            flex-basis: calc(14vw + 16rem);
-            background-color: var(--go-ui-color-background);
+            .map-container {
+                flex-grow: 1;
+            }
 
-            .content {
-                display: flex;
-                flex-direction: column;
-                gap: var(--go-ui-spacing-md);
-                overflow: auto;
+            .country-list {
+                flex-basis: calc(14vw + 16rem);
+                background-color: var(--go-ui-color-background);
 
-                .country {
-                    .name {
-                        font-size: var(--go-ui-font-size-xs);
-                    }
+                .content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--go-ui-spacing-md);
+                    overflow: auto;
 
-                    .track {
-                        display: flex;
-                        background-color: var(--go-ui-color-background);
-                        height: 0.5rem;
+                    .country {
+                        .name {
+                            font-size: var(--go-ui-font-size-xs);
+                        }
 
-                        .bar {
-                            height: 100%;
+                        .track {
+                            display: flex;
+                            background-color: var(--go-ui-color-background);
+                            height: 0.5rem;
+
+                            .bar {
+                                height: 100%;
+                            }
                         }
                     }
                 }
             }
-        }
 
-        @media screen and (max-width: 50rem) {
-            flex-direction: column;
-            height: initial;
+            @media screen and (max-width: 50rem) {
+                flex-direction: column;
+                height: initial;
 
-            .map-container {
-                height: min(40rem, 70vh);
-            }
+                .map-container {
+                    height: min(40rem, 70vh);
+                }
 
-            .country-list {
-                flex-basis: unset;
+                .country-list {
+                    flex-basis: unset;
+                }
             }
         }
     }
