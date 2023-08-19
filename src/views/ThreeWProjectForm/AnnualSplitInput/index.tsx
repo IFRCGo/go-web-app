@@ -121,7 +121,7 @@ function AnnualSplitInput(props: Props) {
             updateReachedTotal({
                 ...oldValue,
                 client_id: oldValue?.client_id ?? randomString(),
-                target_male: newReached,
+                reached_male: newReached,
             })
         ), index);
     }, [onChange, index]);
@@ -131,7 +131,7 @@ function AnnualSplitInput(props: Props) {
             updateReachedTotal({
                 ...oldValue,
                 client_id: oldValue?.client_id ?? randomString(),
-                target_female: newReached,
+                reached_female: newReached,
             })
         ), index);
     }, [onChange, index]);
@@ -141,7 +141,7 @@ function AnnualSplitInput(props: Props) {
             updateReachedTotal({
                 ...oldValue,
                 client_id: oldValue?.client_id ?? randomString(),
-                target_other: newReached,
+                reached_other: newReached,
             })
         ), index);
     }, [onChange, index]);

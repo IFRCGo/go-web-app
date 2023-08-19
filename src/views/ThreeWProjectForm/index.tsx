@@ -19,6 +19,7 @@ import {
 import {
     randomString,
     isFalsyString,
+    isTruthy,
     isTruthyString,
     isDefined,
     isFalsy,
@@ -62,7 +63,9 @@ import {
 } from '#utils/restRequest';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useTranslation from '#hooks/useTranslation';
+import type { GlobalEnums } from '#contexts/domain';
 import { injectClientId } from '#utils/common';
+import type { GoApiResponse } from '#utils/restRequest';
 
 import schema, {
     type ProjectResponseBody,
@@ -74,9 +77,86 @@ import AnnualSplitInput from './AnnualSplitInput';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
+function updateTargetTotal(oldValue: FormType): FormType {
+    if (
+        isTruthy(oldValue?.target_male)
+        || isTruthy(oldValue?.target_female)
+        || isTruthy(oldValue?.target_other)
+    ) {
+        const total = (oldValue.target_male ?? 0)
+            + (oldValue.target_female ?? 0)
+            + (oldValue.target_other ?? 0);
+        return {
+            ...oldValue,
+            target_total: total,
+        };
+    }
+    return oldValue;
+}
+function updateReachedTotal(oldValue: FormType): FormType {
+    if (
+        isTruthy(oldValue?.reached_male)
+        || isTruthy(oldValue?.reached_female)
+        || isTruthy(oldValue?.reached_other)
+    ) {
+        const total = (oldValue.reached_male ?? 0)
+            + (oldValue.reached_female ?? 0)
+            + (oldValue.reached_other ?? 0);
+        return {
+            ...oldValue,
+            reached_total: total,
+        };
+    }
+    return oldValue;
+}
+
 const defaultFormValues: FormType = {
     visibility: 'public',
 };
+
+const operationTypeKeySelector = (
+    item: NonNullable<GlobalEnums['deployments_project_operation_type']>[number],
+) => item.key;
+
+const operationTypeLabelSelector = (
+    item: NonNullable<GlobalEnums['deployments_project_operation_type']>[number],
+) => item.value;
+
+const programmeTypeKeySelector = (
+    item: NonNullable<GlobalEnums['deployments_project_programme_type']>[number],
+) => item.key;
+
+const programmeTypeLabelSelector = (
+    item: NonNullable<GlobalEnums['deployments_project_programme_type']>[number],
+) => item.value;
+
+const visibilityKeySelector = (
+    item: NonNullable<GlobalEnums['api_visibility_char_choices']>[number],
+) => item.key;
+
+const visibilityLabelSelector = (
+    item: NonNullable<GlobalEnums['api_visibility_char_choices']>[number],
+) => item.value;
+
+type PrimarySectorResponse = GoApiResponse<'/api/v2/primarysector'>;
+
+const primarySectorKeySelector = (
+    item: PrimarySectorResponse[number],
+) => item.key;
+
+const primarySectorLabelSelector = (
+    item: PrimarySectorResponse[number],
+) => item.label;
+
+type SecondarySectorResponse = GoApiResponse<'/api/v2/secondarysector'>;
+
+const secondarySectorKeySelector = (
+    item: SecondarySectorResponse[number],
+) => item.key;
+
+const secondarySectorLabelSelector = (
+    item: SecondarySectorResponse[number],
+) => item.label;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -140,12 +220,11 @@ export function Component() {
         api_visibility_char_choices: visibilityTypeOptions,
     } = useGlobalEnums();
 
-    // FIXME: use memo
-    const projectStatusOptionsMap = listToMap(
+    const projectStatusOptionsMap = useMemo(() => (listToMap(
         projectStatusOptions,
         (d) => d.key,
         (d) => d.value,
-    );
+    )), [projectStatusOptions]);
 
     const error = getErrorObject(formError);
 
@@ -280,132 +359,57 @@ export function Component() {
     ]);
 
     const handleTargetMaleChange = useCallback((newTarget: number | undefined) => {
-        setValue((oldValue) => {
-            let total = oldValue?.target_total;
-            // FIXME: let's re-use this logic
-            if (
-                isDefined(newTarget)
-                || isDefined(oldValue.target_female)
-                || isDefined(oldValue.target_other)
-            ) {
-                total = (newTarget ?? 0)
-                + (oldValue.target_female ?? 0)
-                + (oldValue.target_other ?? 0);
-            }
-
-            return ({
+        setValue((oldValue) => (
+            updateTargetTotal({
                 ...oldValue,
-                target_total: total,
                 target_male: newTarget,
-            });
-        });
+            })
+        ));
     }, [setValue]);
 
     const handleTargetFemaleChange = useCallback((newTarget: number | undefined) => {
-        setValue((oldValue) => {
-            let total = oldValue?.target_total;
-            // FIXME: let's re-use this logic
-            if (
-                isDefined(oldValue.target_male)
-                || isDefined(newTarget)
-                || isDefined(oldValue.target_other)
-            ) {
-                total = (oldValue.target_male ?? 0)
-                + (newTarget ?? 0)
-                + (oldValue.target_other ?? 0);
-            }
-
-            return ({
+        setValue((oldValue) => (
+            updateTargetTotal({
                 ...oldValue,
-                target_total: total,
                 target_female: newTarget,
-            });
-        });
+            })
+        ));
     }, [setValue]);
 
     const handleTargetOtherChange = useCallback((newTarget: number | undefined) => {
-        setValue((oldValue) => {
-            // FIXME: let's re-use this logic
-            let total = oldValue?.target_total;
-            if (
-                isDefined(oldValue.target_male)
-                || isDefined(oldValue.target_female)
-                || isDefined(newTarget)
-            ) {
-                total = (oldValue.target_male ?? 0)
-                + (oldValue.target_female ?? 0)
-                + (newTarget ?? 0);
-            }
-            return ({
+        setValue((oldValue) => (
+            updateTargetTotal({
                 ...oldValue,
-                target_total: total,
                 target_other: newTarget,
-            });
-        });
+            })
+        ));
     }, [setValue]);
 
     const handleReachedMaleChange = useCallback((newReached: number | undefined) => {
-        setValue((oldValue) => {
-            // FIXME: let's re-use this logic
-            let total = oldValue?.reached_total;
-            if (
-                isDefined(newReached)
-                || isDefined(oldValue.reached_female)
-                || isDefined(oldValue.reached_other)
-            ) {
-                total = (newReached ?? 0)
-                + (oldValue.reached_female ?? 0)
-                + (oldValue.reached_other ?? 0);
-            }
-            return ({
+        setValue((oldValue) => (
+            updateReachedTotal({
                 ...oldValue,
-                reached_total: total,
                 reached_male: newReached,
-            });
-        });
+            })
+        ));
     }, [setValue]);
 
     const handleReachedFemaleChange = useCallback((newReached: number | undefined) => {
-        setValue((oldValue) => {
-            // FIXME: let's re-use this logic
-            let total = oldValue?.reached_total;
-            if (
-                isDefined(oldValue.reached_male)
-                || isDefined(newReached)
-                || isDefined(oldValue.reached_other)
-            ) {
-                total = (oldValue.reached_male ?? 0)
-                + (newReached ?? 0)
-                + (oldValue.reached_other ?? 0);
-            }
-
-            return ({
+        setValue((oldValue) => (
+            updateReachedTotal({
                 ...oldValue,
-                reached_total: total,
                 reached_female: newReached,
-            });
-        });
+            })
+        ));
     }, [setValue]);
 
     const handleReachedOtherChange = useCallback((newReached: number | undefined) => {
-        setValue((oldValue) => {
-            // FIXME: let's re-use this logic
-            let total = oldValue?.reached_total;
-            if (
-                isDefined(oldValue.reached_male)
-                || isDefined(oldValue.reached_female)
-                || isDefined(newReached)
-            ) {
-                total = (oldValue.reached_male ?? 0)
-                + (oldValue.reached_female ?? 0)
-                + (newReached ?? 0);
-            }
-            return ({
+        setValue((oldValue) => (
+            updateReachedTotal({
                 ...oldValue,
-                reached_total: total,
                 reached_other: newReached,
-            });
-        });
+            })
+        ));
     }, [setValue]);
 
     const handleEventChange = useCallback((
@@ -555,8 +559,7 @@ export function Component() {
                     >
                         <TextInput
                             name="reporting_ns_contact_name"
-                            // FIXME: use translations
-                            label="Name"
+                            label={strings.projectFormReportingNsName}
                             onChange={setFieldValue}
                             value={value.reporting_ns_contact_name}
                             error={error?.reporting_ns_contact_name}
@@ -564,8 +567,7 @@ export function Component() {
                         />
                         <TextInput
                             name="reporting_ns_contact_role"
-                            // FIXME: use translations
-                            label="Role"
+                            label={strings.projectFormReportingNsRole}
                             onChange={setFieldValue}
                             value={value.reporting_ns_contact_role}
                             error={error?.reporting_ns_contact_role}
@@ -573,8 +575,7 @@ export function Component() {
                         />
                         <TextInput
                             name="reporting_ns_contact_email"
-                            // FIXME: use translations
-                            label="Email"
+                            label={strings.projectFormReportingNsEmail}
                             onChange={setFieldValue}
                             value={value.reporting_ns_contact_email}
                             error={error?.reporting_ns_contact_email}
@@ -624,9 +625,8 @@ export function Component() {
                             onChange={setFieldValue}
                             options={operationTypeOptions}
                             value={value.operation_type}
-                            // FIXME: do not use inline functions
-                            keySelector={(d) => d.key}
-                            labelSelector={(d) => d.value}
+                            keySelector={operationTypeKeySelector}
+                            labelSelector={operationTypeLabelSelector}
                             disabled={disabled}
                         />
                         <SelectInput
@@ -636,9 +636,8 @@ export function Component() {
                             onChange={setFieldValue}
                             options={programmeTypeOptions}
                             value={value.programme_type}
-                            // FIXME: do not use inline functions
-                            keySelector={(d) => d.key}
-                            labelSelector={(d) => d.value}
+                            keySelector={programmeTypeKeySelector}
+                            labelSelector={programmeTypeLabelSelector}
                             disabled={disabled}
                         />
                     </InputSection>
@@ -713,8 +712,7 @@ export function Component() {
                     >
                         <RichTextArea
                             name="description"
-                            // FIXME: what if value.description is undefined?
-                            value={value.description === null ? '' : value.description}
+                            value={isNotDefined(value.description) ? '' : value.description}
                             onChange={setFieldValue}
                             error={error?.description}
                             placeholder={`${strings.projectFormDescriptionHelpText} ${strings.projectFormDescriptionTooltip}`}
@@ -751,9 +749,8 @@ export function Component() {
                             onChange={setFieldValue}
                             options={primarySectorOptions}
                             value={value.primary_sector}
-                            // FIXME: do not use inline functions
-                            keySelector={(d) => Number(d.key)}
-                            labelSelector={(d) => d.label}
+                            keySelector={primarySectorKeySelector}
+                            labelSelector={primarySectorLabelSelector}
                             disabled={fetchingPrimarySectors || disabled}
                         />
                         <MultiSelectInput
@@ -763,9 +760,8 @@ export function Component() {
                             onChange={setFieldValue}
                             options={secondarySectorOptions}
                             value={value.secondary_sectors}
-                            // FIXME: do not use inline functions
-                            keySelector={(d) => Number(d.key)}
-                            labelSelector={(d) => d.label}
+                            keySelector={secondarySectorKeySelector}
+                            labelSelector={secondarySectorLabelSelector}
                             disabled={fetchingSecondarySectors || disabled}
                         />
                     </InputSection>
@@ -855,8 +851,7 @@ export function Component() {
                         </div>
                         <div>
                             <Switch
-                                // FIXME: use translations
-                                label="Annual Reporting"
+                                label={strings.projectFormAnnualReportingLabel}
                                 name="is_annual_report"
                                 value={value?.is_annual_report}
                                 onChange={setFieldValue}
@@ -1012,9 +1007,8 @@ export function Component() {
                             onChange={setFieldValue}
                             error={error?.visibility}
                             options={visibilityOptions}
-                            // FIXME: do not use inline functions
-                            keySelector={(d) => d.key}
-                            labelSelector={(d) => d.value}
+                            keySelector={visibilityKeySelector}
+                            labelSelector={visibilityLabelSelector}
                             disabled={pendingMe || disabled}
                         />
                     </InputSection>
