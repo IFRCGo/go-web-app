@@ -3,7 +3,7 @@ import {
     useFormArray,
     getErrorObject,
     type EntriesAsList,
-    type SetValueArg,
+    type SetBaseValueArg,
     type Error,
 } from '@togglecorp/toggle-form';
 import {
@@ -34,7 +34,7 @@ interface Props {
     activities: (PartialActivityItem & { mainIndex: number })[] | undefined;
     actions: Options['actions'] | undefined;
     sectorDetails: Options['sectors'][number] | undefined;
-    setValue: (value: SetValueArg<FormType>) => void;
+    setValue: (value: SetBaseValueArg<FormType>, partialUpdate?: boolean) => void;
     error?: Error<FormType>;
     setFieldValue: (...entries: EntriesAsList<FormType>) => void;
     disabled?: boolean;
@@ -83,7 +83,7 @@ function ActivitiesBySectorInput(props: Props) {
                 ...oldValues,
                 activities: newActivities,
             });
-        });
+        }, true);
     }, [
         setValue,
         sectorKey,
@@ -103,7 +103,7 @@ function ActivitiesBySectorInput(props: Props) {
                 ...oldValues,
                 activities: newActivities,
             });
-        });
+        }, true);
     }, [
         sectorKey,
         setValue,
@@ -123,7 +123,7 @@ function ActivitiesBySectorInput(props: Props) {
                 ...oldValues,
                 activities: newActivities,
             });
-        });
+        }, true);
     }, [setValue]);
 
     const actionsMap = useMemo(() => (

@@ -361,7 +361,7 @@ export function Component() {
                 start_date: newVal,
                 status,
             };
-        });
+        }, true);
     }, [
         setValue,
     ]);
@@ -372,7 +372,7 @@ export function Component() {
                 ...oldValue,
                 target_male: newTarget,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleTargetFemaleChange = useCallback((newTarget: number | undefined) => {
@@ -381,7 +381,7 @@ export function Component() {
                 ...oldValue,
                 target_female: newTarget,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleTargetOtherChange = useCallback((newTarget: number | undefined) => {
@@ -390,7 +390,7 @@ export function Component() {
                 ...oldValue,
                 target_other: newTarget,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleReachedMaleChange = useCallback((newReached: number | undefined) => {
@@ -399,7 +399,7 @@ export function Component() {
                 ...oldValue,
                 reached_male: newReached,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleReachedFemaleChange = useCallback((newReached: number | undefined) => {
@@ -408,7 +408,7 @@ export function Component() {
                 ...oldValue,
                 reached_female: newReached,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleReachedOtherChange = useCallback((newReached: number | undefined) => {
@@ -417,7 +417,7 @@ export function Component() {
                 ...oldValue,
                 reached_other: newReached,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleEventChange = useCallback((
@@ -435,7 +435,7 @@ export function Component() {
                 event: newEvent,
                 dtype,
             });
-        });
+        }, true);
     }, [
         setValue,
         shouldDisableDisasterType,
@@ -448,7 +448,7 @@ export function Component() {
             actual_expenditure: isNotDefined(oldValue.actual_expenditure)
                 ? newBudget
                 : oldValue.actual_expenditure,
-        }));
+        }), true);
     }, [setValue]);
 
     const handleActualExpenditureChange = useCallback((newExpenditure: number | undefined) => {
@@ -458,7 +458,7 @@ export function Component() {
             budget_amount: isNotDefined(oldValue.budget_amount)
                 ? newExpenditure
                 : oldValue.budget_amount,
-        }));
+        }), true);
     }, [setValue]);
 
     const {

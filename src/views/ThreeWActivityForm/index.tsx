@@ -359,7 +359,7 @@ export function Component() {
                 start_date: newDate,
                 status,
             };
-        });
+        }, true);
     }, [setValue]);
 
     const handleEndDateChange = useCallback((newDate: string | undefined) => {
@@ -371,7 +371,7 @@ export function Component() {
                 end_date: newDate,
                 status,
             };
-        });
+        }, true);
     }, [setValue]);
 
     const handleSubmitClick = useCallback(() => {
