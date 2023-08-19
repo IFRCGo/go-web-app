@@ -1,16 +1,17 @@
 import {
-    ArrayError,
     useFormObject,
-    SetValueArg,
     getErrorObject,
+    type SetValueArg,
+    type ArrayError,
 } from '@togglecorp/toggle-form';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import { randomString } from '@togglecorp/fujs';
 
-import Button from '#components/Button';
+import IconButton from '#components/IconButton';
+import NonFieldError from '#components/NonFieldError';
 import NumberInput from '#components/NumberInput';
 import TextInput from '#components/TextInput';
-import { PartialCustomSupplyItem } from '../../../schema';
+import { type PartialCustomSupplyItem } from '../../../schema';
 
 import styles from './styles.module.css';
 
@@ -20,6 +21,7 @@ interface Props {
     value: PartialCustomSupplyItem;
     error: ArrayError<PartialCustomSupplyItem> | undefined;
     onRemove: (index: number) => void;
+    disabled?: boolean;
 }
 
 function CustomSupplyInput(props: Props) {
@@ -29,6 +31,7 @@ function CustomSupplyInput(props: Props) {
         onChange,
         error: errorFromProps,
         onRemove,
+        disabled,
     } = props;
 
     const setFieldValue = useFormObject(index, onChange, () => ({
@@ -40,6 +43,7 @@ function CustomSupplyInput(props: Props) {
 
     return (
         <div className={styles.customSupplyInput}>
+            <NonFieldError error={error} />
             <TextInput
                 // FIXME: Add translation
                 label="Supply"
@@ -47,6 +51,7 @@ function CustomSupplyInput(props: Props) {
                 value={value?.supply_label}
                 error={error?.supply_label}
                 onChange={setFieldValue}
+                disabled={disabled}
             />
             <NumberInput
                 // FIXME: Add translation
@@ -55,16 +60,20 @@ function CustomSupplyInput(props: Props) {
                 value={value?.supply_value}
                 error={error?.supply_value}
                 onChange={setFieldValue}
+                disabled={disabled}
             />
-            <Button
+            <IconButton
                 name={index}
                 variant="tertiary"
                 // FIXME: Add translation
                 title="Remove custom supply"
+                // FIXME: Add translation
+                ariaLabel="Remove custom supply"
                 onClick={onRemove}
+                disabled={disabled}
             >
                 <DeleteBinLineIcon />
-            </Button>
+            </IconButton>
         </div>
     );
 }

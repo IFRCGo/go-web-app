@@ -1,5 +1,6 @@
 import {
     useContext,
+    useRef,
     useMemo,
     useState,
     useCallback,
@@ -50,19 +51,21 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import TextOutput from '#components/TextOutput';
 import Modal from '#components/Modal';
-import DistrictSearchMultiSelectInput, { DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import DistrictSearchMultiSelectInput, {
+    type DistrictItem,
+} from '#components/domain/DistrictSearchMultiSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { injectClientId } from '#utils/common';
-import type { GlobalEnums } from '#contexts/domain';
+import { type GlobalEnums } from '#contexts/domain';
 import ActivityEventSearchSelectInput, {
-    EventItem,
+    type EventItem,
 } from '#components/domain/ActivityEventSearchSelectInput';
-import type { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import schema, {
-    FormType,
-    ActivityResponseBody,
-    FormFields,
+    type FormType,
+    type ActivityResponseBody,
+    type FormFields,
 } from './schema';
 import ActivitiesBySectorInput from './ActivitiesBySectorInput';
 
@@ -104,13 +107,17 @@ const activityLeadKeySelector = (item: NonNullable<GlobalEnums['deployments_emer
 const valueSelector = (item: { value: string }) => item.value;
 const idSelector = (item: { id: number }) => item.id;
 const deployedEruLabelSelector = (item: NonNullable<EruResponse['results']>[number]) => (
-    `${item.eru_owner?.national_society_country?.society_name}
+    `${item.eru_owner.national_society_country.society_name}
     (${item.type_display})`
 );
 const titleSelector = (item: { title: string }) => item.title;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    // NOTE: We are only showing has_no_data_on_people_reached after the user
+    // submits for the first time. This is to force/enable user to add data
+    const beforeSubmitRef = useRef(true);
+
     const {
         value,
         setFieldValue,
@@ -118,8 +125,11 @@ export function Component() {
         error: formError,
         setError: onErrorSet,
         validate,
-    } = useForm(schema, { value: defaultFormValues });
-
+    } = useForm(
+        schema,
+        { value: defaultFormValues },
+        beforeSubmitRef,
+    );
     const { activityId } = useParams<{ activityId: string }>();
     const [
         submitConfirmationShown,
@@ -140,7 +150,9 @@ export function Component() {
         DistrictItem[] | undefined | null
     >([]);
 
-    useRequest({
+    const {
+        pending,
+    } = useRequest({
         skip: isFalsyString(activityId),
         url: '/api/v2/emergency-project/{id}/',
         pathVariables: isTruthyString(activityId) ? {
@@ -150,8 +162,9 @@ export function Component() {
             setDistrictOptions(response.districts_details);
             setEventOptions([{
                 ...response.event_details,
-                // FIXME: event dtype id is a must inside event mini but
+                // FIXME: event dtype id is required inside event mini but
                 // its not defined under event_detail of this response
+                // This should be fixed in server
                 dtype: { id: response.event_details?.dtype } as EventItem['dtype'],
             }]);
             setValue({
@@ -246,6 +259,7 @@ export function Component() {
             value: { messageForNotification },
             debugMessage,
         }) => {
+            // FIXME: Add appropriate error handling
             alert.show(
                 // FIXME: Add translations
                 'Failed to create a response activity.',
@@ -281,6 +295,7 @@ export function Component() {
             value: { messageForNotification },
             debugMessage,
         }) => {
+            // FIXME: Add appropriate error handling
             alert.show(
                 'Failed to update project activities',
                 {
@@ -360,6 +375,8 @@ export function Component() {
     }, [setValue]);
 
     const handleSubmitClick = useCallback(() => {
+        beforeSubmitRef.current = false;
+
         const submit = createSubmitHandler(
             validate,
             onErrorSet,
@@ -444,6 +461,8 @@ export function Component() {
         value?.deployed_eru,
     ]);
 
+    const disabled = pending || createProjectPending || updateProjectPending;
+
     return (
         <div className={styles.threeWActivityForm}>
             <InputSection
@@ -459,6 +478,7 @@ export function Component() {
                     error={error?.event}
                     options={eventOptions}
                     onOptionsChange={setEventOptions}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -474,6 +494,7 @@ export function Component() {
                     name="country"
                     onChange={handleProjectCountryChange}
                     value={value.country}
+                    disabled={disabled}
                 />
                 <DistrictSearchMultiSelectInput
                     error={getErrorString(error?.districts)}
@@ -485,6 +506,7 @@ export function Component() {
                     options={districtOptions}
                     onOptionsChange={setDistrictOptions}
                     value={value.districts}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -512,6 +534,7 @@ export function Component() {
                     // FIXME: Add translation
                     label="Start date"
                     value={value?.start_date}
+                    disabled={disabled}
                     error={error?.start_date}
                     onChange={handleStartDateChange}
                 />
@@ -520,6 +543,7 @@ export function Component() {
                     // FIXME: Add translation
                     label="End date"
                     value={value?.end_date}
+                    disabled={disabled}
                     error={error?.end_date}
                     onChange={handleEndDateChange}
                 />
@@ -538,6 +562,7 @@ export function Component() {
                 <TextInput
                     name="title"
                     value={value?.title}
+                    disabled={disabled}
                     error={error?.title}
                     onChange={setFieldValue}
                     // FIXME: Add translation
@@ -555,6 +580,7 @@ export function Component() {
                     keySelector={activityLeadKeySelector}
                     labelSelector={valueSelector}
                     value={value?.activity_lead}
+                    disabled={disabled}
                     error={error?.activity_lead}
                 />
             </InputSection>
@@ -570,6 +596,7 @@ export function Component() {
                             name="reporting_ns"
                             onChange={setFieldValue}
                             value={value?.reporting_ns}
+                            disabled={disabled}
                             error={error?.reporting_ns}
                         />
                     </InputSection>
@@ -577,14 +604,14 @@ export function Component() {
                         // FIXME: Add translation
                         title="Contact Information"
                         // FIXME: Add translation
-                        description="Who should be contacted for
-                        any coordination matters related to this response activity?"
+                        description="Who should be contacted for any coordination matters related to this response activity?"
                     >
                         <TextInput
                             name="reporting_ns_contact_name"
                             // FIXME: Add translation
                             label="Name"
                             value={value?.reporting_ns_contact_name}
+                            disabled={disabled}
                             onChange={setFieldValue}
                             error={error?.reporting_ns_contact_name}
                         />
@@ -593,6 +620,7 @@ export function Component() {
                             // FIXME: Add translation
                             label="Role"
                             value={value?.reporting_ns_contact_role}
+                            disabled={disabled}
                             onChange={setFieldValue}
                             error={error?.reporting_ns_contact_role}
                         />
@@ -601,6 +629,7 @@ export function Component() {
                             // FIXME: Add translation
                             label="Email"
                             value={value?.reporting_ns_contact_email}
+                            disabled={disabled}
                             onChange={setFieldValue}
                             error={error?.reporting_ns_contact_email}
                         />
@@ -617,6 +646,7 @@ export function Component() {
                     <RadioInput
                         name="deployed_eru"
                         value={value?.deployed_eru}
+                        disabled={disabled}
                         onChange={setFieldValue}
                         options={erusResponse?.results}
                         listContainerClassName={styles.radio}
@@ -651,6 +681,7 @@ export function Component() {
                         onChange={setFieldValue}
                         listContainerClassName={styles.sectorCheckboxes}
                         value={value?.sectors}
+                        disabled={disabled}
                         keySelector={idSelector}
                         labelSelector={titleSelector}
                     />
@@ -663,6 +694,7 @@ export function Component() {
                             sectorDetails={sectorOptionsMap?.[sector]}
                             activities={activitiesBySector?.[sector]}
                             setValue={setValue}
+                            disabled={disabled}
                             error={formError}
                             setFieldValue={setFieldValue}
                             actions={actionItemsBySector?.[sector]}
@@ -707,6 +739,7 @@ export function Component() {
                                 Submit
                             </Button>
                             <div className={styles.note}>
+                                {/* FIXME: Use translations */}
                                 If you have any questions, contact the IM team &nbsp;
                                 <a
                                     href={`mailto:${selectedEventDetail?.emergency_response_contact_email ?? 'im@ifrc.org'}`}
@@ -742,6 +775,7 @@ export function Component() {
                             className={styles.metaItem}
                             labelClassName={styles.metaLabel}
                             valueClassName={styles.metaValue}
+                            // FIXME: Use translations
                             label="Start date"
                             value={value?.start_date}
                             valueType="date"
@@ -751,6 +785,7 @@ export function Component() {
                             className={styles.metaItem}
                             labelClassName={styles.metaLabel}
                             valueClassName={styles.metaValue}
+                            // FIXME: Use translations
                             label="Who is leading the Activity?"
                             strongValue
                             value={(value?.activity_lead === 'deployed_eru') ? (
@@ -763,9 +798,13 @@ export function Component() {
                             className={styles.metaItem}
                             labelClassName={styles.metaLabel}
                             valueClassName={styles.sectorsList}
+                            // FIXME: Use translations
                             label="Actions Taken"
                             value={value?.sectors?.map((sectorId) => (
-                                <div className={styles.sector}>
+                                <div
+                                    className={styles.sector}
+                                    key={sectorId}
+                                >
                                     {sectorOptionsMap?.[sectorId].title}
                                     {(
                                         value?.activities
@@ -776,6 +815,7 @@ export function Component() {
                                             .map((activity) => (
                                                 <TextOutput
                                                     icon={(<LegendIcon />)}
+                                                    key={activity.id}
                                                     value={(
                                                         activity.action
                                                             ? actionOptionsMap?.[

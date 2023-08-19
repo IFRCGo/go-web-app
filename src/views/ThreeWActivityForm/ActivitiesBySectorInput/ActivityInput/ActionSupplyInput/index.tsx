@@ -1,16 +1,17 @@
 import {
-    ArrayError,
     useFormObject,
-    SetValueArg,
     getErrorObject,
+    type SetValueArg,
+    type ArrayError,
 } from '@togglecorp/toggle-form';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import { randomString } from '@togglecorp/fujs';
 
-import Button from '#components/Button';
+import IconButton from '#components/IconButton';
 import NumberInput from '#components/NumberInput';
+import NonFieldError from '#components/NonFieldError';
 import SelectInput from '#components/SelectInput';
-import { PartialActionSupplyItem } from '../../../schema';
+import { type PartialActionSupplyItem } from '../../../schema';
 
 import styles from './styles.module.css';
 
@@ -27,6 +28,7 @@ interface Props {
     }[] | undefined;
     error: ArrayError<PartialActionSupplyItem> | undefined;
     onRemove: (index: number) => void;
+    disabled?: boolean;
 }
 
 function ActionSupplyInput(props: Props) {
@@ -37,6 +39,7 @@ function ActionSupplyInput(props: Props) {
         error: errorFromProps,
         options,
         onRemove,
+        disabled,
     } = props;
 
     const setFieldValue = useFormObject(index, onChange, () => ({
@@ -49,16 +52,18 @@ function ActionSupplyInput(props: Props) {
 
     return (
         <div className={styles.actionSupplyInput}>
+            <NonFieldError error={error} />
             <SelectInput
                 // FIXME: Add translation
                 label="Supply"
                 name="supply_action"
-                value={value?.supply_action ? String(value?.supply_action) : undefined}
+                value={value?.supply_action}
                 error={error?.supply_action}
                 options={options}
                 keySelector={keySelector}
                 labelSelector={labelSelector}
                 onChange={setFieldValue}
+                disabled={disabled}
             />
             <NumberInput
                 // FIXME: Add translation
@@ -67,14 +72,20 @@ function ActionSupplyInput(props: Props) {
                 value={value?.supply_value}
                 error={error?.supply_value}
                 onChange={setFieldValue}
+                disabled={disabled}
             />
-            <Button
+            <IconButton
                 name={index}
                 variant="tertiary"
+                // FIXME: Add translation
+                ariaLabel="Remove"
+                // FIXME: Add translation
+                title="Remove"
                 onClick={onRemove}
+                disabled={disabled}
             >
                 <DeleteBinLineIcon />
-            </Button>
+            </IconButton>
         </div>
     );
 }

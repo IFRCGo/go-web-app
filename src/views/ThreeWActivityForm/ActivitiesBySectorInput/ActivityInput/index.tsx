@@ -10,12 +10,12 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 import {
-    Error,
     useFormArray,
     getErrorObject,
     getErrorString,
-    SetValueArg,
     useFormObject,
+    type SetValueArg,
+    type Error,
 } from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
@@ -29,14 +29,14 @@ import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 import NonFieldError from '#components/NonFieldError';
 import TextArea from '#components/TextArea';
-import type { GoApiResponse } from '#utils/restRequest';
-import type { GlobalEnums } from '#contexts/domain';
+import { type GoApiResponse } from '#utils/restRequest';
+import { type GlobalEnums } from '#contexts/domain';
 
 import {
-    PartialActivityItem,
-    PartialCustomSupplyItem,
-    PartialActionSupplyItem,
-    PartialPointItem,
+    type PartialActivityItem,
+    type PartialCustomSupplyItem,
+    type PartialActionSupplyItem,
+    type PartialPointItem,
 } from '../../schema';
 import DisaggregationInput from './DisaggregationInput';
 import PointInput from './PointInput';
@@ -55,10 +55,10 @@ const peopleHouseholdsLabelSelector = (
 function updateTotalCountChange(oldValue: PartialActivityItem): PartialActivityItem {
     if (
         isTruthy(oldValue?.male_count)
-        || isTruthy(oldValue?.female_count)
+    || isTruthy(oldValue?.female_count)
     ) {
         const total = (oldValue.male_count ?? 0)
-            + (oldValue.female_count ?? 0);
+        + (oldValue.female_count ?? 0);
 
         return {
             ...oldValue,
@@ -74,6 +74,7 @@ type Props = {
     onChange: (value: SetValueArg<PartialActivityItem>, index: number) => void;
     error: Error<PartialActivityItem> | undefined;
     sectorKey: number;
+    disabled?: boolean;
     value: PartialActivityItem;
 } & ({
     type: 'custom';
@@ -99,6 +100,7 @@ function ActivityInput(props: Props) {
         error: errorFromProps,
         value,
         type,
+        disabled,
     } = props;
 
     const setFieldValue = useFormObject(mainIndex, onChange, () => ({
@@ -114,8 +116,8 @@ function ActivityInput(props: Props) {
     const error = getErrorObject(errorFromProps);
     const peopleCountDisabled = isDefined(value?.male_count) || isDefined(value?.female_count);
     const genderDisaggregationDisabled = isDefined(value?.people_count)
-        && isNotDefined(value?.male_count)
-        && isNotDefined(value?.female_count);
+    && isNotDefined(value?.male_count)
+    && isNotDefined(value?.female_count);
 
     const handleMaleCountChange = useCallback((newCount: number | undefined) => {
         onChange((oldValue) => (
@@ -137,25 +139,21 @@ function ActivityInput(props: Props) {
         ), mainIndex);
     }, [onChange, mainIndex]);
 
-    const pointCountInputShown = (
+    const pointCountInputShown = value?.is_simplified_report && (
         (
-            value?.is_simplified_report
-            && type === 'custom'
+            type === 'custom'
         ) || (
-            value?.is_simplified_report
-            && type === 'action'
+            type === 'action'
             && !actionDetails?.is_cash_type
             && actionDetails?.has_location
         )
     );
 
-    const locationsInputShown = (
+    const locationsInputShown = !value?.is_simplified_report && (
         (
-            !value?.is_simplified_report
-            && type === 'custom'
+            type === 'custom'
         ) || (
-            !value?.is_simplified_report
-            && type === 'action'
+            type === 'action'
             && !actionDetails?.is_cash_type
             && actionDetails?.has_location
         )
@@ -177,9 +175,7 @@ function ActivityInput(props: Props) {
         && actionDetails?.is_cash_type
     );
 
-    // FIXME: Write this condition appropriately
-    // This should be shown only if data is not filled
-    // by the user
+    // NOTE: This should be shown only if data is not filled by the user
     const showNoDataAvailable = error?.has_no_data_on_people_reached
     || value?.has_no_data_on_people_reached;
 
@@ -268,6 +264,7 @@ function ActivityInput(props: Props) {
                     variant="secondary"
                     // FIXME: Add translations
                     title="Delete activity"
+                    disabled={disabled}
                     icons={(
                         <DeleteBinLineIcon />
                     )}
@@ -276,6 +273,7 @@ function ActivityInput(props: Props) {
                     Delete
                 </Button>
             )}
+            // FIXME: Add translations
             heading={type === 'custom' ? `Custom Activity #${itemNumber}` : actionDetails?.title}
             withHeaderBorder
         >
@@ -290,17 +288,8 @@ function ActivityInput(props: Props) {
                         onChange={setFieldValue}
                         // FIXME: Add translations
                         label="Activity Title"
+                        disabled={disabled}
                         error={error?.custom_action}
-                    />
-                )}
-                {showNoDataAvailable && (
-                    <Switch
-                        // FIXME: Add translations
-                        label="No data on people reached"
-                        name="has_no_data_on_people_reached"
-                        value={!!value?.has_no_data_on_people_reached}
-                        onChange={setFieldValue}
-                        error={error?.has_no_data_on_people_reached}
                     />
                 )}
                 <Switch
@@ -308,6 +297,7 @@ function ActivityInput(props: Props) {
                     label="Detailed Reporting"
                     name="is_simplified_report"
                     value={!!value?.is_simplified_report}
+                    disabled={disabled}
                     onChange={setFieldValue}
                     error={error?.is_simplified_report}
                     invertedLogic
@@ -316,6 +306,7 @@ function ActivityInput(props: Props) {
                     <RadioInput
                         name="people_households"
                         value={value?.people_households}
+                        disabled={disabled}
                         onChange={setFieldValue}
                         options={peopleHouseholdOptions}
                         listContainerClassName={styles.radio}
@@ -330,6 +321,7 @@ function ActivityInput(props: Props) {
                         // FIXME: Add translations
                         label="Households"
                         value={value?.household_count}
+                        disabled={disabled}
                         onChange={setFieldValue}
                         error={error?.household_count}
                     />
@@ -343,8 +335,9 @@ function ActivityInput(props: Props) {
                             value={value?.people_count}
                             onChange={setFieldValue}
                             error={error?.people_count}
-                            disabled={peopleCountDisabled}
+                            disabled={peopleCountDisabled || disabled}
                         />
+                        {/* FIXME: Add translations */}
                         OR
                         <NumberInput
                             name="male_count"
@@ -353,7 +346,7 @@ function ActivityInput(props: Props) {
                             value={value?.male_count}
                             onChange={handleMaleCountChange}
                             error={error?.male_count}
-                            disabled={genderDisaggregationDisabled}
+                            disabled={genderDisaggregationDisabled || disabled}
                         />
                         <NumberInput
                             name="female_count"
@@ -362,15 +355,27 @@ function ActivityInput(props: Props) {
                             value={value?.female_count}
                             onChange={handleFemaleCountChange}
                             error={error?.female_count}
-                            disabled={genderDisaggregationDisabled}
+                            disabled={genderDisaggregationDisabled || disabled}
                         />
                     </div>
                 )}
                 {!value?.is_simplified_report && (
                     <DisaggregationInput
                         value={value}
+                        disabled={disabled}
                         error={error}
                         setFieldValue={setFieldValue}
+                    />
+                )}
+                {showNoDataAvailable && (
+                    <Switch
+                        // FIXME: Add translations
+                        label="No data on people reached"
+                        name="has_no_data_on_people_reached"
+                        value={!!value?.has_no_data_on_people_reached}
+                        disabled={disabled}
+                        onChange={setFieldValue}
+                        error={error?.has_no_data_on_people_reached}
                     />
                 )}
                 {budgetInputsShown && (
@@ -381,6 +386,7 @@ function ActivityInput(props: Props) {
                             name="beneficiaries_count"
                             value={value?.beneficiaries_count}
                             onChange={setFieldValue}
+                            disabled={disabled}
                             error={error?.beneficiaries_count}
                         />
                         <NumberInput
@@ -388,6 +394,7 @@ function ActivityInput(props: Props) {
                             label="Amount in CHF"
                             name="amount"
                             value={value?.amount}
+                            disabled={disabled}
                             onChange={setFieldValue}
                             error={error?.amount}
                         />
@@ -401,6 +408,7 @@ function ActivityInput(props: Props) {
                         label="No of Locations"
                         onChange={setFieldValue}
                         value={value?.point_count}
+                        disabled={disabled}
                         error={error?.point_count}
                     />
                 )}
@@ -412,6 +420,7 @@ function ActivityInput(props: Props) {
                         actions={(
                             <Button
                                 name={undefined}
+                                disabled={disabled}
                                 variant="secondary"
                                 icons={(
                                     <AddLineIcon />
@@ -431,6 +440,7 @@ function ActivityInput(props: Props) {
                                 index={i}
                                 key={p.client_id}
                                 value={p}
+                                disabled={disabled}
                                 onChange={setPoint}
                                 error={getErrorObject(error?.points)}
                                 onRemove={removePoint}
@@ -448,6 +458,7 @@ function ActivityInput(props: Props) {
                             <Button
                                 name={undefined}
                                 variant="secondary"
+                                disabled={disabled}
                                 icons={(
                                     <AddLineIcon />
                                 )}
@@ -465,6 +476,7 @@ function ActivityInput(props: Props) {
                                 index={i}
                                 key={p.client_id}
                                 value={p}
+                                disabled={disabled}
                                 options={actionDetails?.supplies_details}
                                 error={getErrorObject(error?.supplies)}
                                 onChange={setActionSupply}
@@ -482,6 +494,7 @@ function ActivityInput(props: Props) {
                             <Button
                                 name={undefined}
                                 variant="secondary"
+                                disabled={disabled}
                                 icons={(
                                     <AddLineIcon />
                                 )}
@@ -501,6 +514,7 @@ function ActivityInput(props: Props) {
                                 index={i}
                                 key={p.client_id}
                                 value={p}
+                                disabled={disabled}
                                 error={getErrorObject(error?.custom_supplies)}
                                 onChange={setCustomSupply}
                                 onRemove={removeCustomSupply}
@@ -511,6 +525,7 @@ function ActivityInput(props: Props) {
                 )}
                 <TextArea
                     value={value?.details}
+                    disabled={disabled}
                     name="details"
                     onChange={setFieldValue}
                     // FIXME: Add translations

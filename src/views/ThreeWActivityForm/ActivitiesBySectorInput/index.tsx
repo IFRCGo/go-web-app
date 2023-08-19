@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from 'react';
 import {
-    SetValueArg,
-    Error,
     useFormArray,
     getErrorObject,
-    EntriesAsList,
+    type EntriesAsList,
+    type SetValueArg,
+    type Error,
 } from '@togglecorp/toggle-form';
 import {
     isNotDefined,
@@ -17,12 +17,12 @@ import { AddLineIcon } from '@ifrc-go/icons';
 import Container from '#components/Container';
 import Button from '#components/Button';
 import Checkbox from '#components/Checkbox';
-import type { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import ActivityInput from './ActivityInput';
 import {
-    PartialActivityItem,
-    FormType,
+    type PartialActivityItem,
+    type FormType,
 } from '../schema';
 
 import styles from './styles.module.css';
@@ -37,6 +37,7 @@ interface Props {
     setValue: (value: SetValueArg<FormType>) => void;
     error?: Error<FormType>;
     setFieldValue: (...entries: EntriesAsList<FormType>) => void;
+    disabled?: boolean;
 }
 
 function ActivitiesBySectorInput(props: Props) {
@@ -48,6 +49,7 @@ function ActivitiesBySectorInput(props: Props) {
         actions,
         setValue,
         setFieldValue,
+        disabled,
     } = props;
 
     const selectedActions = useMemo(() => (
@@ -168,6 +170,7 @@ function ActivitiesBySectorInput(props: Props) {
                         value={selectedActions?.[action.id]}
                         onChange={handleActionCheckboxChange}
                         label={action.title}
+                        disabled={disabled}
                     />
                 ))}
             </div>
@@ -176,6 +179,7 @@ function ActivitiesBySectorInput(props: Props) {
                     name={undefined}
                     onClick={handleCustomActivityAdd}
                     variant="secondary"
+                    disabled={disabled}
                     icons={(
                         <AddLineIcon />
                     )}
@@ -188,6 +192,7 @@ function ActivitiesBySectorInput(props: Props) {
                     clientId={activity.client_id}
                     key={activity.client_id}
                     value={activity}
+                    disabled={disabled}
                     onChange={setActivity}
                     mainIndex={activity.mainIndex}
                     sectorKey={sectorKey}
@@ -204,6 +209,7 @@ function ActivitiesBySectorInput(props: Props) {
                     mainIndex={activity.mainIndex}
                     sectorKey={sectorKey}
                     value={activity}
+                    disabled={disabled}
                     onChange={setActivity}
                     itemNumber={index + 1}
                     handleRemoveClick={handleItemRemove}

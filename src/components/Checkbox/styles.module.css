@@ -20,6 +20,8 @@
 
     .input-error {
         position: absolute;
+        /* FIXME: @frozenhelium to update input error */
+        transform: translateY(50%);
         min-width: 10rem;
     }
 

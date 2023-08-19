@@ -327,6 +327,14 @@ export function Component() {
         setFieldValue(true, 'is_annual_report');
     }, [setFieldValue]);
 
+    const handleProjectStatusChange = useCallback((newVal: boolean) => {
+        setValue((oldVal) => ({
+            ...oldVal,
+            status: newVal ? PROJECT_STATUS_COMPLETED : oldVal.status,
+            is_project_completed: newVal,
+        }));
+    }, [setValue]);
+
     const annualSplitErrors = useMemo(
         () => getErrorObject(error?.annual_split_detail),
         [error],
@@ -832,11 +840,10 @@ export function Component() {
                         )}
                         <div>
                             <Checkbox
-                                // FIXME: Also set status when this changes
                                 label={strings.projectFormProjectCompleted}
                                 name="is_project_completed"
                                 value={value?.is_project_completed}
-                                onChange={setFieldValue}
+                                onChange={handleProjectStatusChange}
                                 error={error?.is_project_completed}
                                 disabled={disabled}
                             />

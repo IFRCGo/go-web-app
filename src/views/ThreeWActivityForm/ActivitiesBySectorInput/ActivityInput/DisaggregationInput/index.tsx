@@ -1,7 +1,7 @@
 import { _cs } from '@togglecorp/fujs';
 import {
-    ObjectError,
-    EntriesAsList,
+    type ObjectError,
+    type EntriesAsList,
 } from '@togglecorp/toggle-form';
 
 import NumberOutput from '#components/NumberOutput';
@@ -10,7 +10,7 @@ import Switch from '#components/parked/Switch';
 import { sumSafe } from '#utils/common';
 
 import {
-    PartialActivityItem,
+    type PartialActivityItem,
 } from '../../../schema';
 
 import styles from './styles.module.css';
@@ -19,12 +19,14 @@ interface Props {
     value: PartialActivityItem;
     setFieldValue: (...entries: EntriesAsList<PartialActivityItem>) => void;
     error?: ObjectError<PartialActivityItem>;
+    disabled?: boolean;
 }
 
 function DisaggregationInput(props: Props) {
     const {
         value,
         setFieldValue,
+        disabled,
         error,
     } = props;
 
@@ -236,6 +238,7 @@ function DisaggregationInput(props: Props) {
                         name="male_0_1_count"
                         onChange={setFieldValue}
                         value={value?.male_0_1_count}
+                        disabled={disabled}
                         error={error?.male_0_1_count}
                     />
                     <NumberInput
@@ -244,6 +247,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="male_2_5_count"
                         value={value?.male_2_5_count}
+                        disabled={disabled}
                         error={error?.male_2_5_count}
                     />
                     <NumberInput
@@ -252,6 +256,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="male_6_12_count"
                         value={value?.male_6_12_count}
+                        disabled={disabled}
                         error={error?.male_6_12_count}
                     />
                     <NumberInput
@@ -260,6 +265,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="male_13_17_count"
                         value={value?.male_13_17_count}
+                        disabled={disabled}
                         error={error?.male_13_17_count}
                     />
                     <NumberInput
@@ -268,6 +274,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="male_18_59_count"
                         value={value?.male_18_59_count}
+                        disabled={disabled}
                         error={error?.male_18_59_count}
                     />
                     <NumberInput
@@ -276,6 +283,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="male_60_plus_count"
                         value={value?.male_60_plus_count}
+                        disabled={disabled}
                         error={error?.male_60_plus_count}
                     />
                     <NumberInput
@@ -284,6 +292,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="male_unknown_age_count"
                         value={value?.male_unknown_age_count}
+                        disabled={disabled}
                         error={error?.male_unknown_age_count}
                     />
                     <NumberOutput
@@ -302,6 +311,7 @@ function DisaggregationInput(props: Props) {
                         onChange={setFieldValue}
                         inputSectionClassName={styles.inputSection}
                         value={value?.female_0_1_count}
+                        disabled={disabled}
                         error={error?.female_0_1_count}
                     />
                     <NumberInput
@@ -310,6 +320,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="female_2_5_count"
                         value={value?.female_2_5_count}
+                        disabled={disabled}
                         error={error?.female_2_5_count}
                     />
                     <NumberInput
@@ -318,6 +329,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="female_6_12_count"
                         value={value?.female_6_12_count}
+                        disabled={disabled}
                         error={error?.female_6_12_count}
                     />
                     <NumberInput
@@ -326,6 +338,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="female_13_17_count"
                         value={value?.female_13_17_count}
+                        disabled={disabled}
                         error={error?.female_13_17_count}
                     />
                     <NumberInput
@@ -334,6 +347,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="female_18_59_count"
                         value={value?.female_18_59_count}
+                        disabled={disabled}
                         error={error?.female_18_59_count}
                     />
                     <NumberInput
@@ -342,6 +356,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="female_60_plus_count"
                         value={value?.female_60_plus_count}
+                        disabled={disabled}
                         error={error?.female_60_plus_count}
                     />
                     <NumberInput
@@ -350,6 +365,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="female_unknown_age_count"
                         value={value?.female_unknown_age_count}
+                        disabled={disabled}
                         error={error?.female_unknown_age_count}
                     />
                     <NumberOutput
@@ -368,6 +384,7 @@ function DisaggregationInput(props: Props) {
                         onChange={setFieldValue}
                         inputSectionClassName={styles.inputSection}
                         value={value?.other_0_1_count}
+                        disabled={disabled}
                         error={error?.other_0_1_count}
                     />
                     <NumberInput
@@ -376,6 +393,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="other_2_5_count"
                         value={value?.other_2_5_count}
+                        disabled={disabled}
                         error={error?.other_2_5_count}
                     />
                     <NumberInput
@@ -384,6 +402,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="other_6_12_count"
                         value={value?.other_6_12_count}
+                        disabled={disabled}
                         error={error?.other_6_12_count}
                     />
                     <NumberInput
@@ -392,6 +411,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="other_13_17_count"
                         value={value?.other_13_17_count}
+                        disabled={disabled}
                         error={error?.other_13_17_count}
                     />
                     <NumberInput
@@ -400,6 +420,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="other_18_59_count"
                         value={value?.other_18_59_count}
+                        disabled={disabled}
                         error={error?.other_18_59_count}
                     />
                     <NumberInput
@@ -408,6 +429,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="other_60_plus_count"
                         value={value?.other_60_plus_count}
+                        disabled={disabled}
                         error={error?.other_60_plus_count}
                     />
                     <NumberInput
@@ -416,6 +438,7 @@ function DisaggregationInput(props: Props) {
                         inputSectionClassName={styles.inputSection}
                         name="other_unknown_age_count"
                         value={value?.other_unknown_age_count}
+                        disabled={disabled}
                         error={error?.other_unknown_age_count}
                     />
                     <NumberOutput
@@ -467,6 +490,7 @@ function DisaggregationInput(props: Props) {
                 label="Disaggregation for disabled available"
                 name="is_disaggregated_for_disabled"
                 value={!!value?.is_disaggregated_for_disabled}
+                disabled={disabled}
                 onChange={setFieldValue}
                 error={error?.is_disaggregated_for_disabled}
             />
@@ -521,6 +545,7 @@ function DisaggregationInput(props: Props) {
                             onChange={setFieldValue}
                             inputSectionClassName={styles.inputSection}
                             value={value?.disabled_male_0_1_count}
+                            disabled={disabled}
                             error={error?.disabled_male_0_1_count}
                         />
                         <NumberInput
@@ -529,6 +554,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_male_2_5_count"
                             value={value?.disabled_male_2_5_count}
+                            disabled={disabled}
                             error={error?.disabled_male_2_5_count}
                         />
                         <NumberInput
@@ -537,6 +563,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_male_6_12_count"
                             value={value?.disabled_male_6_12_count}
+                            disabled={disabled}
                             error={error?.disabled_male_6_12_count}
                         />
                         <NumberInput
@@ -545,6 +572,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_male_13_17_count"
                             value={value?.disabled_male_13_17_count}
+                            disabled={disabled}
                             error={error?.disabled_male_13_17_count}
                         />
                         <NumberInput
@@ -553,6 +581,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_male_18_59_count"
                             value={value?.disabled_male_18_59_count}
+                            disabled={disabled}
                             error={error?.disabled_male_18_59_count}
                         />
                         <NumberInput
@@ -561,6 +590,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_male_60_plus_count"
                             value={value?.disabled_male_60_plus_count}
+                            disabled={disabled}
                             error={error?.disabled_male_60_plus_count}
                         />
                         <NumberInput
@@ -569,6 +599,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_male_unknown_age_count"
                             value={value?.disabled_male_unknown_age_count}
+                            disabled={disabled}
                             error={error?.disabled_male_unknown_age_count}
                         />
                         <NumberOutput
@@ -587,6 +618,7 @@ function DisaggregationInput(props: Props) {
                             onChange={setFieldValue}
                             inputSectionClassName={styles.inputSection}
                             value={value?.disabled_female_0_1_count}
+                            disabled={disabled}
                             error={error?.disabled_female_0_1_count}
                         />
                         <NumberInput
@@ -595,6 +627,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_female_2_5_count"
                             value={value?.disabled_female_2_5_count}
+                            disabled={disabled}
                             error={error?.disabled_female_2_5_count}
                         />
                         <NumberInput
@@ -603,6 +636,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_female_6_12_count"
                             value={value?.disabled_female_6_12_count}
+                            disabled={disabled}
                             error={error?.disabled_female_6_12_count}
                         />
                         <NumberInput
@@ -611,6 +645,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_female_13_17_count"
                             value={value?.disabled_female_13_17_count}
+                            disabled={disabled}
                             error={error?.disabled_female_13_17_count}
                         />
                         <NumberInput
@@ -619,6 +654,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_female_18_59_count"
                             value={value?.disabled_female_18_59_count}
+                            disabled={disabled}
                             error={error?.disabled_female_18_59_count}
                         />
                         <NumberInput
@@ -627,6 +663,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_female_60_plus_count"
                             value={value?.disabled_female_60_plus_count}
+                            disabled={disabled}
                             error={error?.disabled_female_60_plus_count}
                         />
                         <NumberInput
@@ -635,6 +672,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_female_unknown_age_count"
                             value={value?.disabled_female_unknown_age_count}
+                            disabled={disabled}
                             error={error?.disabled_female_unknown_age_count}
                         />
                         <NumberOutput
@@ -653,6 +691,7 @@ function DisaggregationInput(props: Props) {
                             onChange={setFieldValue}
                             inputSectionClassName={styles.inputSection}
                             value={value?.disabled_other_0_1_count}
+                            disabled={disabled}
                             error={error?.disabled_other_0_1_count}
                         />
                         <NumberInput
@@ -661,6 +700,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_other_2_5_count"
                             value={value?.disabled_other_2_5_count}
+                            disabled={disabled}
                             error={error?.disabled_other_2_5_count}
                         />
                         <NumberInput
@@ -669,6 +709,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_other_6_12_count"
                             value={value?.disabled_other_6_12_count}
+                            disabled={disabled}
                             error={error?.disabled_other_6_12_count}
                         />
                         <NumberInput
@@ -677,6 +718,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_other_13_17_count"
                             value={value?.disabled_other_13_17_count}
+                            disabled={disabled}
                             error={error?.disabled_other_13_17_count}
                         />
                         <NumberInput
@@ -685,6 +727,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_other_18_59_count"
                             value={value?.disabled_other_18_59_count}
+                            disabled={disabled}
                             error={error?.disabled_other_18_59_count}
                         />
                         <NumberInput
@@ -693,6 +736,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_other_60_plus_count"
                             value={value?.disabled_other_60_plus_count}
+                            disabled={disabled}
                             error={error?.disabled_other_60_plus_count}
                         />
                         <NumberInput
@@ -701,6 +745,7 @@ function DisaggregationInput(props: Props) {
                             inputSectionClassName={styles.inputSection}
                             name="disabled_other_unknown_age_count"
                             value={value?.disabled_other_unknown_age_count}
+                            disabled={disabled}
                             error={error?.disabled_other_unknown_age_count}
                         />
                         <NumberOutput

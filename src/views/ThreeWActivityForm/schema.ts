@@ -1,8 +1,9 @@
+import { type RefObject } from 'react';
 import {
-    PartialForm,
-    ObjectSchema,
+    type ArraySchema,
+    type PartialForm,
+    type ObjectSchema,
     undefinedValue,
-    ArraySchema,
     emailCondition,
     lessThanOrEqualToCondition,
     addCondition,
@@ -11,7 +12,7 @@ import {
 import {
     isDefined,
     unique,
-    Maybe,
+    type Maybe,
 } from '@togglecorp/fujs';
 
 import {
@@ -22,13 +23,13 @@ import {
     type DeepReplace,
     sumSafe,
 } from '#utils/common';
+import { type GoApiBody } from '#utils/restRequest';
 
-import type { paths } from '#generated/types';
-
-function countGreaterThanLength(count: number) {
+function lengthEqualToCondition(count: number) {
     return (value: Maybe<number[]>) => {
-        if (count < (value?.length ?? 0)) {
-            return 'There should be atleast one activity in selected sectors.';
+        if (count !== (value?.length ?? 0)) {
+            // FIXME: Add translations
+            return 'There should be at least one activity in selected sectors.';
         }
         return undefined;
     };
@@ -37,9 +38,11 @@ function countGreaterThanLength(count: number) {
 function hasValue(x: number) {
     return (value: Maybe<boolean>) => {
         if (!value && x === 0) {
+            // FIXME: Add translations
             return 'If data is not available for people, please check "No data on people reached"';
         }
         if (value && x > 0) {
+            // FIXME: Add translations
             return 'If data is available for people, please uncheck "No data on people reached"';
         }
         return undefined;
@@ -58,7 +61,7 @@ type ActionSupplyItem = {
     supply_value: number;
 }
 
-export type ActivityResponseBody = paths['/api/v2/emergency-project/{id}/']['put']['requestBody']['content']['application/json'];
+export type ActivityResponseBody = GoApiBody<'/api/v2/emergency-project/{id}/', 'PUT'>;
 type RawActivityItem = NonNullable<ActivityResponseBody['activities']>[number];
 type ActivityItem = NonNullable<ActivityResponseBody['activities']>[number] & {
     client_id: string;
@@ -83,41 +86,38 @@ export type FormFields = ActivityFormFields & {
 
 export type FormType = PartialForm<FormFields, 'client_id'>;
 
-type FormSchema = ObjectSchema<FormType>;
+type FormContext = RefObject<boolean>;
+
+type FormSchema = ObjectSchema<FormType, FormType, FormContext>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
-type ActivityItemSchema = ObjectSchema<PartialActivityItem, FormType>;
+type ActivityItemSchema = ObjectSchema<PartialActivityItem, FormType, FormContext>;
 type ActivityItemSchemaFields = ReturnType<ActivityItemSchema['fields']>;
 
-type ActivityItemsSchema = ArraySchema<PartialActivityItem, FormType>;
+type ActivityItemsSchema = ArraySchema<PartialActivityItem, FormType, FormContext>;
 type ActivityItemsSchemaMember = ReturnType<ActivityItemsSchema['member']>;
 
-type PointItemSchema = ObjectSchema<PartialPointItem, FormType>;
+type PointItemSchema = ObjectSchema<PartialPointItem, FormType, FormContext>;
 type PointItemSchemaFields = ReturnType<PointItemSchema['fields']>;
 
-type PointItemsSchema = ArraySchema<PartialPointItem, FormType>;
+type PointItemsSchema = ArraySchema<PartialPointItem, FormType, FormContext>;
 type PointItemsSchemaMember = ReturnType<PointItemsSchema['member']>;
 
-type CustomSupplyItemSchema = ObjectSchema<PartialCustomSupplyItem, FormType>;
+type CustomSupplyItemSchema = ObjectSchema<PartialCustomSupplyItem, FormType, FormContext>;
 type CustomSupplyItemSchemaFields = ReturnType<CustomSupplyItemSchema['fields']>;
 
-type CustomSupplyItemsSchema = ArraySchema<PartialCustomSupplyItem, FormType>;
+type CustomSupplyItemsSchema = ArraySchema<PartialCustomSupplyItem, FormType, FormContext>;
 type CustomSupplyItemsSchemaMember = ReturnType<CustomSupplyItemsSchema['member']>;
 
-type ActionSupplyItemSchema = ObjectSchema<PartialActionSupplyItem, FormType>;
+type ActionSupplyItemSchema = ObjectSchema<PartialActionSupplyItem, FormType, FormContext>;
 type ActionSupplyItemSchemaFields = ReturnType<ActionSupplyItemSchema['fields']>;
 
-type ActionSupplyItemsSchema = ArraySchema<PartialActionSupplyItem, FormType>;
+type ActionSupplyItemsSchema = ArraySchema<PartialActionSupplyItem, FormType, FormContext>;
 type ActionSupplyItemsSchemaMember = ReturnType<ActionSupplyItemsSchema['member']>;
 
 // TODO: Conditional schema dependent on data other than data within the form is not added
 const finalSchema: FormSchema = {
     fields: (value): FormSchemaFields => {
-        const sectorsInActivities = unique(
-            value?.activities?.map((activity) => activity.sector).filter(isDefined) ?? [],
-            (item) => item,
-        );
-
         let schema: FormSchemaFields = {
             title: { required: true },
             event: { required: true },
@@ -126,11 +126,29 @@ const finalSchema: FormSchema = {
             districts: { defaultValue: [] },
             start_date: { required: true },
             status: {},
-            sectors: {
-                forceValue: undefinedValue,
-                validations: [countGreaterThanLength(sectorsInActivities?.length ?? 0)],
-            },
         };
+
+        schema = addCondition(
+            schema,
+            value,
+            ['activities', 'sectors'] as const,
+            ['sectors'] as const,
+            (val): Pick<FormSchemaFields, 'sectors'> => {
+                const sectorsInActivities = unique(
+                    val?.activities?.map((activity) => activity.sector).filter(isDefined) ?? [],
+                    (item) => item,
+                );
+
+                return {
+                    sectors: {
+                        forceValue: undefinedValue,
+                        validations: [
+                            lengthEqualToCondition(sectorsInActivities?.length ?? 0),
+                        ],
+                    },
+                };
+            },
+        );
 
         schema = addCondition(
             schema,
@@ -214,7 +232,11 @@ const finalSchema: FormSchema = {
                     activities: {
                         keySelector: (activity) => activity.client_id as string,
                         member: (): ActivityItemsSchemaMember => ({
-                            fields: (activityValue): ActivityItemSchemaFields => {
+                            fields: (
+                                activityValue,
+                                _,
+                                beforeSubmitRef,
+                            ): ActivityItemSchemaFields => {
                                 let activitySchema: ActivityItemSchemaFields = {
                                     // If you force it as undefined type
                                     // it will not be sent to the server
@@ -273,6 +295,11 @@ const finalSchema: FormSchema = {
                                         ActivityItemSchemaFields,
                                         'has_no_data_on_people_reached'
                                     > => {
+                                        if (beforeSubmitRef.current) {
+                                            return {
+                                                has_no_data_on_people_reached: {},
+                                            };
+                                        }
                                         if (val?.is_simplified_report) {
                                             const totalPeople = sumSafe([
                                                 val?.people_count,
@@ -287,42 +314,35 @@ const finalSchema: FormSchema = {
                                                 },
                                             };
                                         }
-                                        if (!val?.is_simplified_report) {
-                                            const totalPeople = sumSafe([
-                                                val?.male_0_1_count,
-                                                val?.female_0_1_count,
-                                                val?.other_0_1_count,
-                                                val?.male_2_5_count,
-                                                val?.female_2_5_count,
-                                                val?.other_2_5_count,
-                                                val?.male_6_12_count,
-                                                val?.female_6_12_count,
-                                                val?.other_6_12_count,
-                                                val?.male_13_17_count,
-                                                val?.female_13_17_count,
-                                                val?.other_13_17_count,
-                                                val?.male_18_59_count,
-                                                val?.female_18_59_count,
-                                                val?.other_18_59_count,
-                                                val?.male_60_plus_count,
-                                                val?.female_60_plus_count,
-                                                val?.other_60_plus_count,
-                                                val?.male_unknown_age_count,
-                                                val?.female_unknown_age_count,
-                                                val?.other_unknown_age_count,
-                                            ]) ?? 0;
-                                            return {
-                                                has_no_data_on_people_reached: {
-                                                    defaultValue: undefinedValue,
-                                                    validations: [
-                                                        hasValue(totalPeople),
-                                                    ],
-                                                },
-                                            };
-                                        }
+                                        const totalPeople = sumSafe([
+                                            val?.male_0_1_count,
+                                            val?.female_0_1_count,
+                                            val?.other_0_1_count,
+                                            val?.male_2_5_count,
+                                            val?.female_2_5_count,
+                                            val?.other_2_5_count,
+                                            val?.male_6_12_count,
+                                            val?.female_6_12_count,
+                                            val?.other_6_12_count,
+                                            val?.male_13_17_count,
+                                            val?.female_13_17_count,
+                                            val?.other_13_17_count,
+                                            val?.male_18_59_count,
+                                            val?.female_18_59_count,
+                                            val?.other_18_59_count,
+                                            val?.male_60_plus_count,
+                                            val?.female_60_plus_count,
+                                            val?.other_60_plus_count,
+                                            val?.male_unknown_age_count,
+                                            val?.female_unknown_age_count,
+                                            val?.other_unknown_age_count,
+                                        ]) ?? 0;
                                         return {
                                             has_no_data_on_people_reached: {
                                                 defaultValue: undefinedValue,
+                                                validations: [
+                                                    hasValue(totalPeople),
+                                                ],
                                             },
                                         };
                                     },
