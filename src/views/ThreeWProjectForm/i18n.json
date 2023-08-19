@@ -1,5 +1,5 @@
 {
-    "namespace": "three-w-project-form",
+    "namespace": "threeWProjectForm",
     "strings": {
         "addNewSplit": "Add New Split",
         "projectFormActualExpenditure": "Actual Expenditure (CHF)",
@@ -65,6 +65,10 @@
         "projectFormTaggingTooltip":"CEA - Community engagement and accountability is a set of communication and participation activities that help put communities at the centre of the response. \n \nDRR - Disaster risk reduction is the concept and practice of reducing disaster risks through systemic efforts. It encompasses a broad range of activities – from ensuring that legislative and policy approaches reflect known hazards, to community-based initiatives and technical solutions such as early warning systems. \n \nEducation - Educational programming for people affected by disasters. \n \nHealth - Immediate assistance for disaster-affected people and longer-term activities that save lives and improve health outcomes. Separated into clinical and public health. \n \nLivelihood and basic needs - Livelihoods are the capabilities, assets and activities required for generating income and securing a basic means of living. \n \nMigration - Aid and protection for migrants and displaced people, in countries of origin, transit and destination, whatever their legal status. \n\nNS Strengthening - Support to the auxiliary role, strategy, governance and accountability; strengthening areas such as financial management, communications, fundraising; increase volunteer engagement; improve external relations; or ramp up their preparedness for responding to emergencies or improve the planning and execution of programmes and services they provide. \n \nPGI - Protection, gender and inclusion (PGI) in emergencies including sexual and gender-based violence and disability inclusion. \n \nShelter - Immediate and long term shelter assistance.  \n\nWASH - Water, sanitation and hygiene support. \n \n \nIt is possible to add none, one or many tags using the definitions listed above. For COVID-19 related projects please add the COVID-19 tag",
         "projectFormTooltip":"The 3w system does allow for duplicate activities projects with the same name, but please choose a descriptive and original title.",
         "projectFormTotal":"Total",
+        "projectFormReportingNsName":"Name",
+        "projectFormReportingNsRole":"Role",
+        "projectFormReportingNsEmail":"Email",
+        "projectFormAnnualReportingLabel":"Annual Reporting",
         "projectFormTotalRequired":"Total*",
         "projectFormTypeOfOperation":"Type of Operation / Programme*",
         "projectFormPeopleTargeted":"People Targeted",

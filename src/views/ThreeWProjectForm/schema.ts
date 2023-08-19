@@ -20,10 +20,9 @@ import {
     PROGRAMME_TYPE_DOMESTIC,
 } from '#utils/constants';
 import { type DeepReplace } from '#utils/common';
+import { type GoApiBody } from '#utils/restRequest';
 
-import type { paths } from '#generated/types';
-
-export type ProjectResponseBody = paths['/api/v2/project/{id}/']['put']['requestBody']['content']['application/json'];
+export type ProjectResponseBody = GoApiBody<'/api/v2/project/{id}/', 'PUT'>;
 
 type AnnualSplitRaw = ProjectResponseBody['annual_split_detail'][number];
 type AnnualSplit = AnnualSplitRaw & { client_id: string };
@@ -133,22 +132,21 @@ const finalSchema: FormSchema = {
             ['annual_split_detail'] as const,
             (props) => (props?.is_annual_report ? {
                 annual_split_detail: {
-                    keySelector: (split) => split.client_id as string,
+                    keySelector: (split) => split.client_id,
                     member: (): AnnualSplitsSchemaMember => ({
                         fields: (): AnnualSplitSchemaFields => ({
                             // If you force it as undefined type it will not be sent to the server
                             client_id: { forceValue: undefinedValue },
-                            year: { validations: [requiredCondition, positiveIntegerCondition] },
+                            year: {
+                                validations: [requiredCondition, positiveIntegerCondition],
+                            },
                             id: {}, // can arrive from db, useful for update
                             budget_amount: { validations: [positiveNumberCondition] },
                             target_male: { validations: [positiveIntegerCondition] },
                             target_female: { validations: [positiveIntegerCondition] },
                             target_other: { validations: [positiveIntegerCondition] },
                             target_total: {
-                                validations: [
-                                    positiveIntegerCondition,
-                                    requiredCondition,
-                                ],
+                                validations: [positiveIntegerCondition, requiredCondition],
                             },
                             reached_male: { validations: [positiveIntegerCondition] },
                             reached_female: { validations: [positiveIntegerCondition] },
@@ -214,34 +212,6 @@ const finalSchema: FormSchema = {
         schema = addCondition(
             schema,
             value,
-            ['is_project_completed'] as const,
-            ['actual_expenditure', 'budget_amount'] as const,
-            (props) => {
-                if (props?.is_project_completed) {
-                    return ({
-                        actual_expenditure: {
-                            required: true,
-                            validations: [positiveIntegerCondition],
-                        },
-                        budget_amount: {
-                            forceValue: nullValue,
-                        },
-                    });
-                }
-                return ({
-                    budget_amount: {
-                        validations: [positiveIntegerCondition],
-                    },
-                    actual_expenditure: {
-                        forceValue: nullValue,
-                    },
-                });
-            },
-        );
-
-        schema = addCondition(
-            schema,
-            value,
             ['is_annual_report', 'is_project_completed'] as const,
             totalCountFields,
             (val): TotalCountSchema => {
@@ -271,6 +241,35 @@ const finalSchema: FormSchema = {
                         validations: [positiveIntegerCondition],
                     },
                 };
+            },
+        );
+
+        schema = addCondition(
+            schema,
+            value,
+            ['is_project_completed'] as const,
+            ['actual_expenditure', 'budget_amount'] as const,
+            (props) => {
+                if (props?.is_project_completed) {
+                    return ({
+                        actual_expenditure: {
+                            required: true,
+                            validations: [positiveIntegerCondition],
+                        },
+                        budget_amount: {
+                            forceValue: nullValue,
+                        },
+                    });
+                }
+                return ({
+                    budget_amount: {
+                        validations: [positiveIntegerCondition],
+                    },
+                    // FIXME: need to make sure if we want to clear this value
+                    actual_expenditure: {
+                        forceValue: nullValue,
+                    },
+                });
             },
         );
 
