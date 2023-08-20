@@ -74,6 +74,7 @@ import schema, {
     type PartialAnnualType,
 } from './schema';
 import AnnualSplitInput from './AnnualSplitInput';
+import DistrictMap from './DistrictMap';
 
 import styles from './styles.module.css';
 import i18n from './i18n.json';

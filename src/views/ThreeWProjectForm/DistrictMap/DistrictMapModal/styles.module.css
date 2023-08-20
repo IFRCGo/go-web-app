@@ -1,0 +1,11 @@
+.district-map-modal {
+    .body {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+
+        .map-container {
+            width: 50rem;
+            height: 60vh;
+        }
+    }
+}
