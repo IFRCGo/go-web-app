@@ -184,6 +184,7 @@ function ActivitiesBySectorInput(props: Props) {
                         <AddLineIcon />
                     )}
                 >
+                    {/* FIXME: Add translations */}
                     Add custom activity
                 </Button>
             </div>

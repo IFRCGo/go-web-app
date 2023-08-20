@@ -246,12 +246,11 @@ export function Component() {
                 'Successfully created a response activity.',
                 { variant: 'success' },
             );
-            hideSubmitConfirmation();
-            setFinalValues(undefined);
+            // FIXME: Redirect to view page after its completed
             navigate(
                 generatePath(
                     threeWActivityEditRoute.absolutePath,
-                    { projectId: response.id },
+                    { activityId: response.id },
                 ),
             );
         },
@@ -288,8 +287,13 @@ export function Component() {
                 'Successfully updated activities',
                 { variant: 'success' },
             );
-            hideSubmitConfirmation();
-            setFinalValues(undefined);
+            // FIXME: Redirect to view page after its completed
+            navigate(
+                generatePath(
+                    threeWActivityEditRoute.absolutePath,
+                    { activityId },
+                ),
+            );
         },
         onFailure: ({
             value: { messageForNotification },
@@ -297,6 +301,7 @@ export function Component() {
         }) => {
             // FIXME: Add appropriate error handling
             alert.show(
+                // FIXME: Add translations
                 'Failed to update project activities',
                 {
                     variant: 'danger',
@@ -374,7 +379,29 @@ export function Component() {
         }, true);
     }, [setValue]);
 
+    const handleSectorsChange = useCallback((newSectors: number[] | undefined) => {
+        setValue((oldVal) => {
+            const sectorValuesMap = listToMap(
+                oldVal?.sectors,
+                (item) => item,
+                () => true,
+            );
+
+            return {
+                ...oldVal,
+                sectors: newSectors,
+                activities: oldVal
+                    ?.activities
+                    ?.filter((activity) => activity.sector && sectorValuesMap?.[activity.sector]),
+            };
+        });
+    }, [setValue]);
+
     const handleSubmitClick = useCallback(() => {
+        // NOTE: Before submit is used to show/hide has_no_data_on_people_reached
+        // conditionally depending on whether or not user has input data on people
+        // at the first submission. We are doing this to enable user to not set this
+        // boolean
         beforeSubmitRef.current = false;
 
         const submit = createSubmitHandler(
@@ -382,7 +409,6 @@ export function Component() {
             onErrorSet,
             (valFromArgs) => {
                 const val = valFromArgs as FormFields;
-                const sectorValuesMap = listToMap(val?.sectors, (item) => item, () => true);
                 const finalValue = {
                     ...val,
                     activities: val?.activities?.map((activity) => ({
@@ -397,7 +423,7 @@ export function Component() {
                             (item) => item.supply_action,
                             (item) => item.supply_value,
                         ),
-                    })).filter((activity) => sectorValuesMap?.[activity.sector]),
+                    })),
                 };
                 setFinalValues(finalValue);
                 showSubmitConfirmation();
@@ -678,7 +704,7 @@ export function Component() {
                     <Checklist
                         name="sectors"
                         options={optionsResponse?.sectors}
-                        onChange={setFieldValue}
+                        onChange={handleSectorsChange}
                         listContainerClassName={styles.sectorCheckboxes}
                         value={value?.sectors}
                         disabled={disabled}
@@ -767,6 +793,7 @@ export function Component() {
                             className={styles.metaItem}
                             labelClassName={styles.metaLabel}
                             valueClassName={styles.metaValue}
+                            // FIXME: Use translations
                             label="Country"
                             value={selectedCountryDetail?.name}
                             strongValue
@@ -805,27 +832,25 @@ export function Component() {
                                     className={styles.sector}
                                     key={sectorId}
                                 >
-                                    {sectorOptionsMap?.[sectorId].title}
-                                    {(
-                                        value?.activities
-                                            ?.filter((activity) => (
-                                                activity.sector === sectorId
-                                                && isDefined(activity.action)
-                                            ))
-                                            .map((activity) => (
-                                                <TextOutput
-                                                    icon={(<LegendIcon />)}
-                                                    key={activity.id}
-                                                    value={(
+                                    {sectorOptionsMap?.[sectorId].title ?? '---'}
+                                    {(value?.activities?.filter(
+                                        (activity) => (
+                                            activity.sector === sectorId
+                                            && isDefined(activity.action)
+                                        ),
+                                    ).map((activity) => (
+                                        <TextOutput
+                                            icon={(<LegendIcon />)}
+                                            key={activity.id}
+                                            value={(
+                                                activity.action
+                                                    ? (actionOptionsMap?.[
                                                         activity.action
-                                                            ? actionOptionsMap?.[
-                                                                activity.action
-                                                            ].title
-                                                            : undefined
-                                                    )}
-                                                />
-                                            ))
-                                    )}
+                                                    ].title ?? '---')
+                                                    : undefined
+                                            )}
+                                        />
+                                    )))}
                                 </div>
                             ))}
                         />

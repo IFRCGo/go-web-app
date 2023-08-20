@@ -35,7 +35,7 @@ function lengthEqualToCondition(count: number) {
     };
 }
 
-function hasValue(x: number) {
+function hasValueCondition(x: number) {
     return (value: Maybe<boolean>) => {
         if (!value && x === 0) {
             // FIXME: Add translations
@@ -134,6 +134,7 @@ const finalSchema: FormSchema = {
             ['activities', 'sectors'] as const,
             ['sectors'] as const,
             (val): Pick<FormSchemaFields, 'sectors'> => {
+                // FIXME: This condition is not triggered after value change
                 const sectorsInActivities = unique(
                     val?.activities?.map((activity) => activity.sector).filter(isDefined) ?? [],
                     (item) => item,
@@ -195,24 +196,24 @@ const finalSchema: FormSchema = {
                             validations: [emailCondition],
                         },
                         reporting_ns_contact_role: { required: true },
-                        deployed_eru: { forceValue: undefinedValue },
+                        deployed_eru: { forceValue: nullValue },
                     };
                 }
                 if (props?.activity_lead === 'deployed_eru') {
                     return {
-                        reporting_ns: { forceValue: undefinedValue },
-                        reporting_ns_contact_name: { forceValue: undefinedValue },
-                        reporting_ns_contact_role: { forceValue: undefinedValue },
-                        reporting_ns_contact_email: { forceValue: undefinedValue },
+                        reporting_ns: { forceValue: nullValue },
+                        reporting_ns_contact_name: { forceValue: nullValue },
+                        reporting_ns_contact_role: { forceValue: nullValue },
+                        reporting_ns_contact_email: { forceValue: nullValue },
                         deployed_eru: { required: true },
                     };
                 }
                 return {
-                    reporting_ns: { forceValue: undefinedValue },
-                    deployed_eru: { forceValue: undefinedValue },
-                    reporting_ns_contact_name: { forceValue: undefinedValue },
-                    reporting_ns_contact_role: { forceValue: undefinedValue },
-                    reporting_ns_contact_email: { forceValue: undefinedValue },
+                    reporting_ns: { forceValue: nullValue },
+                    deployed_eru: { forceValue: nullValue },
+                    reporting_ns_contact_name: { forceValue: nullValue },
+                    reporting_ns_contact_role: { forceValue: nullValue },
+                    reporting_ns_contact_email: { forceValue: nullValue },
                 };
             },
         );
@@ -230,7 +231,7 @@ const finalSchema: FormSchema = {
                 }
                 return {
                     activities: {
-                        keySelector: (activity) => activity.client_id as string,
+                        keySelector: (activity) => activity.client_id,
                         member: (): ActivityItemsSchemaMember => ({
                             fields: (
                                 activityValue,
@@ -249,7 +250,7 @@ const finalSchema: FormSchema = {
 
                                     // TODO: write validation for duplicate labels
                                     custom_supplies: {
-                                        keySelector: (supply) => supply.client_id as string,
+                                        keySelector: (supply) => supply.client_id,
                                         member: (): CustomSupplyItemsSchemaMember => ({
                                             fields: (): CustomSupplyItemSchemaFields => ({
                                                 client_id: { forceValue: undefinedValue },
@@ -309,7 +310,7 @@ const finalSchema: FormSchema = {
                                                 has_no_data_on_people_reached: {
                                                     defaultValue: undefinedValue,
                                                     validations: [
-                                                        hasValue(totalPeople),
+                                                        hasValueCondition(totalPeople),
                                                     ],
                                                 },
                                             };
@@ -341,7 +342,7 @@ const finalSchema: FormSchema = {
                                             has_no_data_on_people_reached: {
                                                 defaultValue: undefinedValue,
                                                 validations: [
-                                                    hasValue(totalPeople),
+                                                    hasValueCondition(totalPeople),
                                                 ],
                                             },
                                         };
@@ -374,9 +375,7 @@ const finalSchema: FormSchema = {
                                                 },
                                                 // TODO: write validation for duplicate labels
                                                 supplies: {
-                                                    keySelector: (supply) => (
-                                                        supply.client_id as string
-                                                    ),
+                                                    keySelector: (supply) => supply.client_id,
                                                     member: (): ActionSupplyItemsSchemaMember => ({
                                                         fields: ():
                                                             ActionSupplyItemSchemaFields => ({
@@ -453,27 +452,69 @@ const finalSchema: FormSchema = {
                                     (val): DisaggregationSchema => {
                                         if (!val?.is_simplified_report) {
                                             return {
-                                                male_0_1_count: {},
-                                                male_2_5_count: {},
-                                                male_6_12_count: {},
-                                                male_13_17_count: {},
-                                                male_18_59_count: {},
-                                                male_60_plus_count: {},
-                                                male_unknown_age_count: {},
-                                                female_0_1_count: {},
-                                                female_2_5_count: {},
-                                                female_6_12_count: {},
-                                                female_13_17_count: {},
-                                                female_18_59_count: {},
-                                                female_60_plus_count: {},
-                                                female_unknown_age_count: {},
-                                                other_0_1_count: {},
-                                                other_2_5_count: {},
-                                                other_6_12_count: {},
-                                                other_13_17_count: {},
-                                                other_18_59_count: {},
-                                                other_60_plus_count: {},
-                                                other_unknown_age_count: {},
+                                                male_0_1_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                male_2_5_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                male_6_12_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                male_13_17_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                male_18_59_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                male_60_plus_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                male_unknown_age_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                female_0_1_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                female_2_5_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                female_6_12_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                female_13_17_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                female_18_59_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                female_60_plus_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                female_unknown_age_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                other_0_1_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                other_2_5_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                other_6_12_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                other_13_17_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                other_18_59_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                other_60_plus_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                other_unknown_age_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
 
                                                 is_disaggregated_for_disabled: {
                                                     defaultValue: undefinedValue,
@@ -520,9 +561,7 @@ const finalSchema: FormSchema = {
                                             return {
                                                 points: {
                                                     // FIXME: Have at least one point
-                                                    keySelector: (point) => (
-                                                        point.client_id as string
-                                                    ),
+                                                    keySelector: (point) => point.client_id,
                                                     member: (): PointItemsSchemaMember => ({
                                                         fields: (): PointItemSchemaFields => ({
                                                             client_id: {

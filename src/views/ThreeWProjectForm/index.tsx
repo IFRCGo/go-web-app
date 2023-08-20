@@ -77,6 +77,33 @@ import AnnualSplitInput from './AnnualSplitInput';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
+type ProjectStatus = NonNullable<GlobalEnums['deployments_project_status']>[number];
+
+function calculateStatus(
+    startDate: string | undefined | null,
+    endDate: string | undefined | null,
+): ProjectStatus['key'] | undefined {
+    if (isNotDefined(startDate)) {
+        return undefined;
+    }
+
+    const start = new Date(startDate);
+    const now = new Date();
+
+    if (start.getTime() > now.getTime()) {
+        return PROJECT_STATUS_PLANNED;
+    }
+
+    if (isDefined(endDate)) {
+        const end = new Date(endDate);
+        if (end.getTime() < now.getTime()) {
+            return undefined;
+        }
+    }
+
+    return PROJECT_STATUS_ONGOING;
+}
+
 function updateTargetTotal(oldValue: FormType): FormType {
     if (
         isTruthy(oldValue?.target_male)
@@ -330,7 +357,9 @@ export function Component() {
     const handleProjectStatusChange = useCallback((newVal: boolean) => {
         setValue((oldVal) => ({
             ...oldVal,
-            status: newVal ? PROJECT_STATUS_COMPLETED : oldVal.status,
+            status: newVal
+                ? PROJECT_STATUS_COMPLETED
+                : calculateStatus(oldVal?.start_date, oldVal?.end_date),
             is_project_completed: newVal,
         }));
     }, [setValue]);

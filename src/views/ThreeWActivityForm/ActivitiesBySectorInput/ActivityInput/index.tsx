@@ -116,8 +116,8 @@ function ActivityInput(props: Props) {
     const error = getErrorObject(errorFromProps);
     const peopleCountDisabled = isDefined(value?.male_count) || isDefined(value?.female_count);
     const genderDisaggregationDisabled = isDefined(value?.people_count)
-    && isNotDefined(value?.male_count)
-    && isNotDefined(value?.female_count);
+        && isNotDefined(value?.male_count)
+        && isNotDefined(value?.female_count);
 
     const handleMaleCountChange = useCallback((newCount: number | undefined) => {
         onChange((oldValue) => (
@@ -177,7 +177,7 @@ function ActivityInput(props: Props) {
 
     // NOTE: This should be shown only if data is not filled by the user
     const showNoDataAvailable = error?.has_no_data_on_people_reached
-    || value?.has_no_data_on_people_reached;
+        || value?.has_no_data_on_people_reached;
 
     const {
         setValue: setPoint,
@@ -435,11 +435,11 @@ function ActivityInput(props: Props) {
 
                         )}
                     >
-                        {value?.points?.map((p, i) => (
+                        {value?.points?.map((point, index) => (
                             <PointInput
-                                index={i}
-                                key={p.client_id}
-                                value={p}
+                                index={index}
+                                key={point.client_id}
+                                value={point}
                                 disabled={disabled}
                                 onChange={setPoint}
                                 error={getErrorObject(error?.points)}
@@ -467,7 +467,6 @@ function ActivityInput(props: Props) {
                                 {/* FIXME: Add translations */}
                                 Add Action Supply
                             </Button>
-
                         )}
                     >
                         <NonFieldError error={getErrorString(error?.supplies)} />
