@@ -627,7 +627,7 @@ export const reportSchema: FormSchema = {
                 }
                 if (
                     isDefined(val?.forecast_based_action)
-                || isDefined(val?.forecast_based_action_amount)
+                    || isDefined(val?.forecast_based_action_amount)
                 ) {
                     return {
                         forecast_based_action: { required: true },

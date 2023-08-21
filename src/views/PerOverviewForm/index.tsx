@@ -126,9 +126,7 @@ export function Component() {
                 }),
             );
 
-            setValue({
-                ...formValues,
-            });
+            setValue(formValues);
         },
     });
 

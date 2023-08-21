@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import DefaultCheckmark, { CheckmarkProps } from './Checkmark';
+import InputError from '../InputError';
 
 import styles from './styles.module.css';
 
@@ -10,6 +11,7 @@ export interface Props<NAME> {
     checkmark?: (p: CheckmarkProps) => React.ReactElement;
     checkmarkClassName?: string;
     checkmarkContainerClassName?: string;
+    errorContainerClassName?: string;
     disabled?: boolean;
     error?: React.ReactNode;
     indeterminate?: boolean;
@@ -31,6 +33,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         checkmarkClassName,
         checkmarkContainerClassName,
         disabled,
+        errorContainerClassName,
         error,
         indeterminate,
         inputClassName,
@@ -94,9 +97,9 @@ function Checkbox<const NAME>(props: Props<NAME>) {
                 </div>
             )}
             {error && (
-                <div className={labelContainerClassName}>
+                <InputError className={_cs(styles.inputError, errorContainerClassName)}>
                     {error}
-                </div>
+                </InputError>
             )}
         </label>
     );

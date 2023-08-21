@@ -29,6 +29,7 @@ export interface Props {
     footerClassName?: string;
     footerIcons?: React.ReactNode;
     footerContent?: React.ReactNode;
+    footerContentClassName?: string;
     footerActions?: React.ReactNode;
     headerClassName?: string;
     onClose?: () => void;
@@ -48,6 +49,7 @@ function Modal(props: Props) {
         closeOnClickOutside = false,
         closeOnEscape = false,
         footerClassName: footerClassNameFromProps,
+        footerContentClassName,
         footerIcons,
         footerActions,
         footerContent,
@@ -81,6 +83,7 @@ function Modal(props: Props) {
     } = useBasicLayout({
         icons: footerIcons,
         children: footerContent,
+        childrenContainerClassName: footerContentClassName,
         actions: footerActions,
     });
 
@@ -99,7 +102,8 @@ function Modal(props: Props) {
                 >
                     {hasHeader && (
                         <Header
-                            className={_cs(headerClassName, styles.modalHeader)}
+                            className={_cs(headerClassName)}
+                            headingSectionClassName={styles.modalHeaderSection}
                             heading={heading}
                             headingLevel={headingLevel}
                             actions={!hideCloseButton && (

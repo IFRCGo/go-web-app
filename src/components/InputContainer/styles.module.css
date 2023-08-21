@@ -48,6 +48,7 @@
         color: var(--go-ui-color-gray-70);
         font-size: var(--go-ui-font-size-sm);
     }
+
     .input-error {
         position: absolute;
         min-width: 10rem;

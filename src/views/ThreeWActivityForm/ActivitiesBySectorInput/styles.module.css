@@ -1,0 +1,20 @@
+.attributes-by-sector-input {
+    background-color: var(--go-ui-color-foreground);
+
+    .buttons-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .actions-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-md);
+        }
+    }
+}

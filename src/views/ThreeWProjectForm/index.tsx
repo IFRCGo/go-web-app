@@ -77,6 +77,38 @@ import AnnualSplitInput from './AnnualSplitInput';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
+type ProjectStatus = NonNullable<GlobalEnums['deployments_project_status']>[number];
+
+function calculateStatus(
+    isProjectCompleted: boolean | undefined | null,
+    startDate: string | undefined | null,
+    endDate: string | undefined | null,
+): ProjectStatus['key'] | undefined {
+    if (isProjectCompleted) {
+        return PROJECT_STATUS_COMPLETED;
+    }
+
+    if (isNotDefined(startDate)) {
+        return undefined;
+    }
+
+    const start = new Date(startDate);
+    const now = new Date();
+
+    if (start.getTime() > now.getTime()) {
+        return PROJECT_STATUS_PLANNED;
+    }
+
+    if (isDefined(endDate)) {
+        const end = new Date(endDate);
+        if (end.getTime() < now.getTime()) {
+            return undefined;
+        }
+    }
+
+    return PROJECT_STATUS_ONGOING;
+}
+
 function updateTargetTotal(oldValue: FormType): FormType {
     if (
         isTruthy(oldValue?.target_male)
@@ -327,33 +359,47 @@ export function Component() {
         setFieldValue(true, 'is_annual_report');
     }, [setFieldValue]);
 
+    const handleProjectStatusChange = useCallback((newVal: boolean) => {
+        setValue((oldVal) => ({
+            ...oldVal,
+            is_project_completed: newVal,
+            status: calculateStatus(
+                newVal,
+                oldVal?.start_date,
+                oldVal?.end_date,
+            ),
+        }));
+    }, [setValue]);
+
     const annualSplitErrors = useMemo(
         () => getErrorObject(error?.annual_split_detail),
         [error],
     );
 
     const handleStartDateChange = useCallback((newVal: string | undefined) => {
-        setValue((oldVal) => {
-            let { status } = oldVal;
-            if (oldVal.is_project_completed) {
-                status = PROJECT_STATUS_COMPLETED;
-            } else if (isDefined(newVal)) {
-                const startDate = new Date(newVal);
-                const now = new Date();
+        setValue((oldVal) => ({
+            ...oldVal,
+            start_date: newVal,
+            status: calculateStatus(
+                oldVal?.is_project_completed,
+                newVal,
+                oldVal?.end_date,
+            ),
+        }), true);
+    }, [
+        setValue,
+    ]);
 
-                if (startDate <= now) {
-                    status = PROJECT_STATUS_ONGOING;
-                } else {
-                    status = PROJECT_STATUS_PLANNED;
-                }
-            }
-
-            return {
-                ...oldVal,
-                start_date: newVal,
-                status,
-            };
-        });
+    const handleEndDateChange = useCallback((newVal: string | undefined) => {
+        setValue((oldVal) => ({
+            ...oldVal,
+            end_date: newVal,
+            status: calculateStatus(
+                oldVal?.is_project_completed,
+                oldVal?.start_date,
+                newVal,
+            ),
+        }), true);
     }, [
         setValue,
     ]);
@@ -364,7 +410,7 @@ export function Component() {
                 ...oldValue,
                 target_male: newTarget,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleTargetFemaleChange = useCallback((newTarget: number | undefined) => {
@@ -373,7 +419,7 @@ export function Component() {
                 ...oldValue,
                 target_female: newTarget,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleTargetOtherChange = useCallback((newTarget: number | undefined) => {
@@ -382,7 +428,7 @@ export function Component() {
                 ...oldValue,
                 target_other: newTarget,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleReachedMaleChange = useCallback((newReached: number | undefined) => {
@@ -391,7 +437,7 @@ export function Component() {
                 ...oldValue,
                 reached_male: newReached,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleReachedFemaleChange = useCallback((newReached: number | undefined) => {
@@ -400,7 +446,7 @@ export function Component() {
                 ...oldValue,
                 reached_female: newReached,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleReachedOtherChange = useCallback((newReached: number | undefined) => {
@@ -409,7 +455,7 @@ export function Component() {
                 ...oldValue,
                 reached_other: newReached,
             })
-        ));
+        ), true);
     }, [setValue]);
 
     const handleEventChange = useCallback((
@@ -427,7 +473,7 @@ export function Component() {
                 event: newEvent,
                 dtype,
             });
-        });
+        }, true);
     }, [
         setValue,
         shouldDisableDisasterType,
@@ -440,7 +486,7 @@ export function Component() {
             actual_expenditure: isNotDefined(oldValue.actual_expenditure)
                 ? newBudget
                 : oldValue.actual_expenditure,
-        }));
+        }), true);
     }, [setValue]);
 
     const handleActualExpenditureChange = useCallback((newExpenditure: number | undefined) => {
@@ -450,7 +496,7 @@ export function Component() {
             budget_amount: isNotDefined(oldValue.budget_amount)
                 ? newExpenditure
                 : oldValue.budget_amount,
-        }));
+        }), true);
     }, [setValue]);
 
     const {
@@ -782,7 +828,7 @@ export function Component() {
                             error={error?.end_date}
                             label={strings.projectFormEndDate}
                             name="end_date"
-                            onChange={setFieldValue}
+                            onChange={handleEndDateChange}
                             value={value.end_date}
                             disabled={disabled}
                         />
@@ -832,11 +878,10 @@ export function Component() {
                         )}
                         <div>
                             <Checkbox
-                                // FIXME: Also set status when this changes
                                 label={strings.projectFormProjectCompleted}
                                 name="is_project_completed"
                                 value={value?.is_project_completed}
-                                onChange={setFieldValue}
+                                onChange={handleProjectStatusChange}
                                 error={error?.is_project_completed}
                                 disabled={disabled}
                             />
@@ -1045,3 +1090,5 @@ export function Component() {
         </div>
     );
 }
+
+Component.displayName = 'ThreeWProjectForm';

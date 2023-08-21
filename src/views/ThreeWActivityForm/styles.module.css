@@ -1,0 +1,90 @@
+.three-w-activity-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+
+    .radio {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-xl);
+    }
+
+    .sectors-container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .sector-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-sm);
+            min-height: unset;
+
+            >* {
+                flex-basis: calc(100% / 3 - 2 * var(--go-ui-spacing-sm) / 3);
+            }
+        }
+
+        .sectors {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+        }
+    }
+}
+
+.confirm-modal {
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .message {
+            background-color: var(--go-ui-color-background);
+            padding: var(--go-ui-spacing-md);
+
+            .event-name {
+                color: var(--go-ui-color-primary-red);
+                font-weight: var(--go-ui-font-weight-bold);
+            }
+        }
+
+        .meta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .meta-item {
+                .meta-label {
+                    width: 16rem;
+                }
+            }
+
+            .sectors-list {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-sm);
+
+                .sector {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--go-ui-spacing-xs);
+                }
+            }
+        }
+    }
+
+    .footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            gap: var(--go-ui-spacing-xs);
+        }
+    }
+}
