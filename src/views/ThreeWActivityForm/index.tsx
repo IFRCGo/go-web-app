@@ -390,6 +390,7 @@ export function Component() {
             return {
                 ...oldVal,
                 sectors: newSectors,
+                // NOTE: removing all the activities of a sector when sector is removed
                 activities: oldVal
                     ?.activities
                     ?.filter((activity) => activity.sector && sectorValuesMap?.[activity.sector]),

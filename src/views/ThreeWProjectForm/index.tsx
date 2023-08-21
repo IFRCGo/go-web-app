@@ -80,9 +80,14 @@ import i18n from './i18n.json';
 type ProjectStatus = NonNullable<GlobalEnums['deployments_project_status']>[number];
 
 function calculateStatus(
+    isProjectCompleted: boolean | undefined | null,
     startDate: string | undefined | null,
     endDate: string | undefined | null,
 ): ProjectStatus['key'] | undefined {
+    if (isProjectCompleted) {
+        return PROJECT_STATUS_COMPLETED;
+    }
+
     if (isNotDefined(startDate)) {
         return undefined;
     }
@@ -357,10 +362,12 @@ export function Component() {
     const handleProjectStatusChange = useCallback((newVal: boolean) => {
         setValue((oldVal) => ({
             ...oldVal,
-            status: newVal
-                ? PROJECT_STATUS_COMPLETED
-                : calculateStatus(oldVal?.start_date, oldVal?.end_date),
             is_project_completed: newVal,
+            status: calculateStatus(
+                newVal,
+                oldVal?.start_date,
+                oldVal?.end_date,
+            ),
         }));
     }, [setValue]);
 
@@ -370,27 +377,29 @@ export function Component() {
     );
 
     const handleStartDateChange = useCallback((newVal: string | undefined) => {
-        setValue((oldVal) => {
-            let { status } = oldVal;
-            if (oldVal.is_project_completed) {
-                status = PROJECT_STATUS_COMPLETED;
-            } else if (isDefined(newVal)) {
-                const startDate = new Date(newVal);
-                const now = new Date();
+        setValue((oldVal) => ({
+            ...oldVal,
+            start_date: newVal,
+            status: calculateStatus(
+                oldVal?.is_project_completed,
+                newVal,
+                oldVal?.end_date,
+            ),
+        }), true);
+    }, [
+        setValue,
+    ]);
 
-                if (startDate <= now) {
-                    status = PROJECT_STATUS_ONGOING;
-                } else {
-                    status = PROJECT_STATUS_PLANNED;
-                }
-            }
-
-            return {
-                ...oldVal,
-                start_date: newVal,
-                status,
-            };
-        }, true);
+    const handleEndDateChange = useCallback((newVal: string | undefined) => {
+        setValue((oldVal) => ({
+            ...oldVal,
+            end_date: newVal,
+            status: calculateStatus(
+                oldVal?.is_project_completed,
+                oldVal?.start_date,
+                newVal,
+            ),
+        }), true);
     }, [
         setValue,
     ]);
@@ -819,7 +828,7 @@ export function Component() {
                             error={error?.end_date}
                             label={strings.projectFormEndDate}
                             name="end_date"
-                            onChange={setFieldValue}
+                            onChange={handleEndDateChange}
                             value={value.end_date}
                             disabled={disabled}
                         />

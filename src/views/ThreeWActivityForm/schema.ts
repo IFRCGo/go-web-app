@@ -134,7 +134,6 @@ const finalSchema: FormSchema = {
             ['activities', 'sectors'] as const,
             ['sectors'] as const,
             (val): Pick<FormSchemaFields, 'sectors'> => {
-                // FIXME: This condition is not triggered after value change
                 const sectorsInActivities = unique(
                     val?.activities?.map((activity) => activity.sector).filter(isDefined) ?? [],
                     (item) => item,
@@ -187,8 +186,16 @@ const finalSchema: FormSchema = {
             ['activity_lead'] as const,
             reportingNsFields,
             (props): ReportingNsSchema => {
+                const baseReportingNsSchema: ReportingNsSchema = {
+                    reporting_ns: { forceValue: nullValue },
+                    reporting_ns_contact_name: { forceValue: nullValue },
+                    reporting_ns_contact_role: { forceValue: nullValue },
+                    reporting_ns_contact_email: { forceValue: nullValue },
+                    deployed_eru: { forceValue: nullValue },
+                };
                 if (props?.activity_lead === 'national_society') {
                     return {
+                        ...baseReportingNsSchema,
                         reporting_ns: { required: true },
                         reporting_ns_contact_name: { required: true },
                         reporting_ns_contact_email: {
@@ -196,25 +203,15 @@ const finalSchema: FormSchema = {
                             validations: [emailCondition],
                         },
                         reporting_ns_contact_role: { required: true },
-                        deployed_eru: { forceValue: nullValue },
                     };
                 }
                 if (props?.activity_lead === 'deployed_eru') {
                     return {
-                        reporting_ns: { forceValue: nullValue },
-                        reporting_ns_contact_name: { forceValue: nullValue },
-                        reporting_ns_contact_role: { forceValue: nullValue },
-                        reporting_ns_contact_email: { forceValue: nullValue },
+                        ...baseReportingNsSchema,
                         deployed_eru: { required: true },
                     };
                 }
-                return {
-                    reporting_ns: { forceValue: nullValue },
-                    deployed_eru: { forceValue: nullValue },
-                    reporting_ns_contact_name: { forceValue: nullValue },
-                    reporting_ns_contact_role: { forceValue: nullValue },
-                    reporting_ns_contact_email: { forceValue: nullValue },
-                };
+                return baseReportingNsSchema;
             },
         );
 
