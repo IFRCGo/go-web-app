@@ -1,30 +1,63 @@
+import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import type { RegionOutletContext } from '#utils/outletContext';
+import type { RegionOutletContext, RegionResponse } from '#utils/outletContext';
 import HtmlOutput from '#components/HtmlOutput';
 import Container from '#components/Container';
+import List from '#components/List';
 
 import styles from './styles.module.css';
 
+type RegionSnippet = NonNullable<RegionResponse['preparedness_snippets']>[number];
+
+const keySelector = (d: RegionSnippet) => d.id;
+
+interface SnippetProps {
+    id: number;
+    title: string | null | undefined;
+    snippet: string | null | undefined;
+}
+
+function Snippet(props: SnippetProps) {
+    const {
+        id,
+        title,
+        snippet,
+    } = props;
+
+    return (
+        <Container
+            key={id}
+            heading={title}
+            withHeaderBorder
+        >
+            <HtmlOutput
+                value={snippet}
+            />
+        </Container>
+    );
+}
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { regionResponse } = useOutletContext<RegionOutletContext>();
 
+    const snippetListRendererParams = useCallback((_: number, data: RegionSnippet) => ({
+        id: data.id,
+        title: data.title,
+        snippet: data.snippet,
+    }), []);
+
     return (
-        <div className={styles.regionPreparedness}>
-            {regionResponse?.preparedness_snippets.map(
-                (snippet) => (
-                    <Container
-                        key={snippet.id}
-                        heading={snippet.title}
-                        withHeaderBorder
-                    >
-                        <HtmlOutput
-                            value={snippet.snippet}
-                        />
-                    </Container>
-                ),
-            )}
-        </div>
+        <List
+            className={styles.regionPreparedness}
+            data={regionResponse?.preparedness_snippets}
+            keySelector={keySelector}
+            rendererParams={snippetListRendererParams}
+            renderer={Snippet}
+            pending={false}
+            emptyMessage
+            errored={false}
+            filtered={false}
+        />
     );
 }
 

@@ -6,21 +6,27 @@
 
     .regional-content {
         display: flex;
-        aspect-ratio: 1 / 1;
+        min-height: var(--go-ui-spacing-xs);
     }
 
-    .key-figure-list {
+    .key-figure-content {
         display: flex;
+        flex-direction: column;
         gap: var(--go-ui-spacing-2xl);
-        justify-content: center;
-        padding: var(--go-ui-spacing-xl);
 
-        .region-key-figure {
-            align-items: center;
-            flex-basis: 26rem;
-            border-radius: var(--go-ui-border-radius-md);
-            box-shadow: var(--go-ui-box-shadow-lg);
-            height: 100%;
+        .key-figure-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--go-ui-spacing-2xl);
+
+            .region-key-figure {
+                align-items: center;
+                flex-basis: 20rem;
+                border-radius: var(--go-ui-border-radius-md);
+                box-shadow: var(--go-ui-box-shadow-lg);
+                height: 100%;
+            }
         }
     }
 }

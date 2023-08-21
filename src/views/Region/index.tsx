@@ -79,8 +79,7 @@ export function Component() {
 
     const pending = regionPending || aggregatedAppealPending || regionKeyFigurePending;
     const additionalInfoTabName = regionResponse?.additional_tab_name
-        ? regionResponse.additional_tab_name
-        : strings.regionAdditionalInfoTab;
+        || strings.regionAdditionalInfoTab;
     const hasPreparednessSnippet = (
         regionResponse
         && regionResponse.preparedness_snippets.length > 0
