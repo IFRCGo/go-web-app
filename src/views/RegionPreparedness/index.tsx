@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import type { RegionOutletContext, RegionResponse } from '#utils/outletContext';
+import { type RegionOutletContext, type RegionResponse } from '#utils/outletContext';
 import HtmlOutput from '#components/HtmlOutput';
 import Container from '#components/Container';
 import List from '#components/List';
@@ -54,7 +54,6 @@ export function Component() {
             rendererParams={snippetListRendererParams}
             renderer={Snippet}
             pending={false}
-            emptyMessage
             errored={false}
             filtered={false}
         />

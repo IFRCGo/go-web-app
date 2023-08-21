@@ -23,7 +23,9 @@ export type Props<DATUM, KEY extends ListKey, RENDERER_PROPS> = {
     pendingMessage?: React.ReactNode;
     errorMessage?: React.ReactNode;
     filteredMessage?: React.ReactNode;
+    // FIXME: Is this used?
     withMessageOverContent?: boolean;
+    withMessage?: boolean;
 };
 
 function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
@@ -47,6 +49,8 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         filteredMessage = 'Data is not available for the selected filter!',
 
         compact,
+
+        withMessage = true,
     } = props;
 
     const renderListItem = useCallback((datum: DATUM, i: number) => {
@@ -98,7 +102,7 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
             )}
         >
             {data?.map(renderListItem)}
-            {(pending || isEmpty) && (
+            {(pending || isEmpty) && withMessage && (
                 <Message
                     className={styles.message}
                     pending={pending}

@@ -41,7 +41,7 @@ export function Component() {
         pending: regionPending,
         response: regionResponse,
     } = useRequest({
-        skip: !regionId,
+        skip: isNotDefined(regionId),
         url: '/api/v2/region/{id}/',
         // FIXME: the request is not triggered when pathVariables change
         pathVariables: {
@@ -53,7 +53,7 @@ export function Component() {
         pending: regionKeyFigurePending,
         response: regionKeyFigureResponse,
     } = useRequest({
-        skip: !regionId,
+        skip: isNotDefined(regionId),
         url: '/api/v2/region_key_figure/',
         // FIXME: the request is not triggered when pathVariables change
         query: { region: Number(regionId) } as never,
@@ -85,7 +85,7 @@ export function Component() {
         && regionResponse.preparedness_snippets.length > 0
     );
     const hasAdditionalInfoSnippet = (
-        regionResponse?.additional_tab_name
+        !!regionResponse?.additional_tab_name
         || (regionKeyFigureResponse?.results
             && regionKeyFigureResponse.results.length > 0)
     );
