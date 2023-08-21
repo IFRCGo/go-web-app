@@ -1,14 +1,14 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import {
     randomString,
     isDefined,
 } from '@togglecorp/fujs';
 import {
-    ArrayError,
+    type ArrayError,
     useFormObject,
     getErrorObject,
     useFormArray,
-    SetValueArg,
+    type SetValueArg,
 } from '@togglecorp/toggle-form';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 
@@ -19,7 +19,7 @@ import InputSection from '#components/InputSection';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 
-import { PartialDref } from '../../schema';
+import { type PartialDref } from '../../schema';
 import IndicatorInput from './IndicatorInput';
 
 import i18n from './i18n.json';
@@ -42,11 +42,10 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     titleMap: Record<string, string> | undefined;
+    disabled?: boolean;
 }
 
 function InterventionInput(props: Props) {
-    const strings = useTranslation(i18n);
-
     const {
         error: errorFromProps,
         onChange,
@@ -54,13 +53,17 @@ function InterventionInput(props: Props) {
         index,
         onRemove,
         titleMap,
+        disabled,
     } = props;
 
-    const interventionLabel = useMemo(() => (
-        isDefined(value.title) ? titleMap?.[value.title] : undefined
-    ), [titleMap, value]);
+    const strings = useTranslation(i18n);
 
     const onFieldChange = useFormObject(index, onChange, defaultInterventionValue);
+
+    const interventionLabel = isDefined(value.title)
+        ? titleMap?.[value.title]
+        : undefined;
+
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
@@ -89,7 +92,6 @@ function InterventionInput(props: Props) {
         [onFieldChange],
     );
 
-    // FIXME: work on styling
     return (
         <InputSection
             className={styles.interventionInput}
@@ -104,6 +106,7 @@ function InterventionInput(props: Props) {
                         onClick={onRemove}
                         variant="tertiary"
                         title={strings.drefFormRemoveIntervention}
+                        disabled={disabled}
                     >
                         <DeleteBinTwoLineIcon />
                     </Button>
@@ -121,6 +124,7 @@ function InterventionInput(props: Props) {
                         value={value.budget}
                         onChange={onFieldChange}
                         error={error?.budget}
+                        disabled={disabled}
                     />
                     <NumberInput
                         label={strings.drefFormInterventionPersonTargetedLabel}
@@ -128,6 +132,7 @@ function InterventionInput(props: Props) {
                         value={value.person_targeted}
                         onChange={onFieldChange}
                         error={error?.person_targeted}
+                        disabled={disabled}
                     />
                 </>
             )}
@@ -138,6 +143,7 @@ function InterventionInput(props: Props) {
                 value={value.description}
                 onChange={onFieldChange}
                 error={error?.description}
+                disabled={disabled}
                 autoBullets
             />
             <Container
@@ -148,24 +154,24 @@ function InterventionInput(props: Props) {
                         variant="secondary"
                         name={undefined}
                         onClick={handleIndicatorAddButtonClick}
+                        disabled={disabled}
                     >
                         {strings.drefAddIndicatorButtonLabel}
                     </Button>
                 )}
             >
-                {value?.indicators?.map(
-                    (indicator, i) => (
-                        <IndicatorInput
-                            key={indicator.client_id}
-                            index={i}
-                            value={indicator}
-                            onChange={onIndicatorChange}
-                            onRemove={onIndicatorRemove}
-                            error={getErrorObject(error?.indicators)}
-                        />
-                    ),
-                )}
-                {(!value || !value.indicators || value.indicators.length === 0) && (
+                {value?.indicators?.map((indicator, i) => (
+                    <IndicatorInput
+                        key={indicator.client_id}
+                        index={i}
+                        value={indicator}
+                        onChange={onIndicatorChange}
+                        onRemove={onIndicatorRemove}
+                        error={getErrorObject(error?.indicators)}
+                        disabled={disabled}
+                    />
+                ))}
+                {(!value.indicators || value.indicators.length === 0) && (
                     <div className={styles.emptyMessage}>
                         {strings.drefFormNoIndicatorMessage}
                     </div>

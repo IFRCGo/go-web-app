@@ -1,6 +1,6 @@
 import {
-    Error,
-    EntriesAsList,
+    type Error,
+    type EntriesAsList,
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
@@ -23,7 +23,7 @@ import {
     ONSET_SUDDEN,
 } from '../common';
 
-import type { PartialDref } from '../schema';
+import { type PartialDref } from '../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -34,6 +34,7 @@ interface Props {
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    disabled?: boolean;
 }
 
 function EventDetail(props: Props) {
@@ -45,16 +46,17 @@ function EventDetail(props: Props) {
         value,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        disabled,
     } = props;
 
     const error = getErrorObject(formError);
 
     const operationalLearningPlatformUrl = resolveUrl(window.location.origin, 'preparedness#operational-learning');
-    const isLoanDrefType = value?.type_of_dref === TYPE_LOAN;
-    const isImminentDrefType = value?.type_of_dref === TYPE_IMMINENT;
-    const isAssessmentDrefType = value?.type_of_dref === TYPE_ASSESSMENT;
+    const isLoanDrefType = value.type_of_dref === TYPE_LOAN;
+    const isImminentDrefType = value.type_of_dref === TYPE_IMMINENT;
+    const isAssessmentDrefType = value.type_of_dref === TYPE_ASSESSMENT;
 
-    const eventDateByOnsetType = value?.type_of_onset === ONSET_SUDDEN
+    const eventDateByOnsetType = value.type_of_onset === ONSET_SUDDEN
         ? strings.drefFormEventDate : strings.drefFormSlowEventDate;
 
     return (
@@ -78,6 +80,7 @@ function EventDetail(props: Props) {
                                 value={value.did_it_affect_same_area}
                                 onChange={setFieldValue}
                                 error={error?.did_it_affect_same_area}
+                                disabled={disabled}
                             />
                         </InputSection>
                         <InputSection
@@ -88,6 +91,7 @@ function EventDetail(props: Props) {
                                 value={value.did_it_affect_same_population}
                                 onChange={setFieldValue}
                                 error={error?.did_it_affect_same_population}
+                                disabled={disabled}
                             />
                         </InputSection>
                         <InputSection
@@ -98,6 +102,7 @@ function EventDetail(props: Props) {
                                 value={value.did_ns_respond}
                                 onChange={setFieldValue}
                                 error={error?.did_ns_respond}
+                                disabled={disabled}
                             />
                         </InputSection>
                         <InputSection
@@ -108,6 +113,7 @@ function EventDetail(props: Props) {
                                 value={value.did_ns_request_fund}
                                 onChange={setFieldValue}
                                 error={error?.did_ns_request_fund}
+                                disabled={disabled}
                             />
                         </InputSection>
                         {value.did_ns_request_fund && (
@@ -120,6 +126,7 @@ function EventDetail(props: Props) {
                                     value={value.ns_request_text}
                                     onChange={setFieldValue}
                                     error={error?.ns_request_text}
+                                    disabled={disabled}
                                 />
                             </InputSection>
                         )}
@@ -136,6 +143,7 @@ function EventDetail(props: Props) {
                                         value={value.dref_recurrent_text}
                                         onChange={setFieldValue}
                                         error={error?.dref_recurrent_text}
+                                        disabled={disabled}
                                     />
                                 </InputSection>
                             )
@@ -151,6 +159,7 @@ function EventDetail(props: Props) {
                                 onChange={setFieldValue}
                                 value={value.lessons_learned}
                                 error={error?.lessons_learned}
+                                disabled={disabled}
                             />
                         </InputSection>
                     </Container>
@@ -160,17 +169,18 @@ function EventDetail(props: Props) {
             >
                 <InputSection
                     title={(
-                        value?.type_of_dref === TYPE_IMMINENT
+                        value.type_of_dref === TYPE_IMMINENT
                             ? strings.drefFormApproximateDateOfImpact
                             : eventDateByOnsetType
                     )}
                 >
-                    {value?.type_of_dref === TYPE_IMMINENT ? (
+                    {value.type_of_dref === TYPE_IMMINENT ? (
                         <TextArea
                             name="event_text"
                             value={value.event_text}
                             onChange={setFieldValue}
                             error={error?.event_text}
+                            disabled={disabled}
                         />
                     ) : (
                         <DateInput
@@ -178,14 +188,15 @@ function EventDetail(props: Props) {
                             value={value.event_date}
                             onChange={setFieldValue}
                             error={error?.event_date}
+                            disabled={disabled}
                         />
                     )}
                 </InputSection>
-                {value?.type_of_dref !== TYPE_LOAN
+                {value.type_of_dref !== TYPE_LOAN
                     && (
                         <InputSection
                             title={
-                                value?.type_of_dref !== TYPE_IMMINENT
+                                value.type_of_dref !== TYPE_IMMINENT
                                     ? strings.drefFormWhatWhereWhen
                                     : strings.drefFormImminentDisaster
                             }
@@ -197,10 +208,11 @@ function EventDetail(props: Props) {
                                 onChange={setFieldValue}
                                 value={value.event_description}
                                 error={error?.event_description}
+                                disabled={disabled}
                             />
                         </InputSection>
                     )}
-                {value?.type_of_dref === TYPE_IMMINENT
+                {value.type_of_dref === TYPE_IMMINENT
                     && (
                         <InputSection
                             title={strings.drefFormTargetCommunities}
@@ -213,6 +225,7 @@ function EventDetail(props: Props) {
                                 onChange={setFieldValue}
                                 value={value.anticipatory_actions}
                                 error={error?.anticipatory_actions}
+                                disabled={disabled}
                             />
                         </InputSection>
                     )}
@@ -229,12 +242,13 @@ function EventDetail(props: Props) {
                             url="/api/v2/dref-files/"
                             value={value.supporting_document}
                             setFileIdToUrlMap={setFileIdToUrlMap}
+                            disabled={disabled}
                         >
                             {strings.drefFormUploadSupportingDocumentButtonLabel}
                         </GoSingleFileInput>
                     </InputSection>
                 )}
-                {value?.type_of_dref !== TYPE_LOAN
+                {value.type_of_dref !== TYPE_LOAN
                     && (
                         <InputSection
                             title={strings.drefFormUploadPhotos}
@@ -245,11 +259,12 @@ function EventDetail(props: Props) {
                                 // FIXME: use translation
                                 label="Select images"
                                 name="images_file"
-                                value={value?.images_file}
+                                value={value.images_file}
                                 onChange={setFieldValue}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={getErrorObject(error?.images_file)}
+                                disabled={disabled}
                             />
                         </InputSection>
                     )}
@@ -266,6 +281,7 @@ function EventDetail(props: Props) {
                                 onChange={setFieldValue}
                                 value={value.event_scope}
                                 error={error?.event_scope}
+                                disabled={disabled}
                             />
                         </InputSection>
                     )}

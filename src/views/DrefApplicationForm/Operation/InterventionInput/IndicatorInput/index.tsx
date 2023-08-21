@@ -23,11 +23,12 @@ const defaultIndicatorValue: IndicatorFormFields = {
 };
 
 interface Props {
-  value: IndicatorFormFields;
-  error: ArrayError<IndicatorFormFields> | undefined;
-  onChange: (value: SetValueArg<IndicatorFormFields>, index: number) => void;
-  onRemove: (index: number) => void;
-  index: number;
+    value: IndicatorFormFields;
+    error: ArrayError<IndicatorFormFields> | undefined;
+    onChange: (value: SetValueArg<IndicatorFormFields>, index: number) => void;
+    onRemove: (index: number) => void;
+    index: number;
+    disabled?: boolean;
 }
 
 function IndicatorInput(props: Props) {
@@ -39,9 +40,11 @@ function IndicatorInput(props: Props) {
         value,
         index,
         onRemove,
+        disabled,
     } = props;
 
     const onFieldChange = useFormObject(index, onChange, defaultIndicatorValue);
+
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
@@ -55,6 +58,7 @@ function IndicatorInput(props: Props) {
                     value={value.title}
                     onChange={onFieldChange}
                     error={error?.title}
+                    disabled={disabled}
                 />
                 <NumberInput
                     label={strings.drefFormIndicatorTargetLabel}
@@ -62,6 +66,7 @@ function IndicatorInput(props: Props) {
                     value={value.target}
                     onChange={onFieldChange}
                     error={error?.target}
+                    disabled={disabled}
                 />
             </div>
             <div>
@@ -70,6 +75,7 @@ function IndicatorInput(props: Props) {
                     onClick={onRemove}
                     variant="tertiary"
                     title={strings.drefIndicatorRemoveButtonLabel}
+                    disabled={disabled}
                 >
                     <DeleteBinTwoLineIcon />
                 </Button>

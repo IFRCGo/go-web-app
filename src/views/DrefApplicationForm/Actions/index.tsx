@@ -9,8 +9,8 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 import {
-    Error,
-    EntriesAsList,
+    type Error,
+    type EntriesAsList,
     useFormArray,
     getErrorObject,
 } from '@togglecorp/toggle-form';
@@ -23,17 +23,16 @@ import BooleanInput from '#components/BooleanInput';
 import TextArea from '#components/TextArea';
 import DateInput from '#components/DateInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
-
 import useTranslation from '#hooks/useTranslation';
-import { paths } from '#generated/types';
 import { stringValueSelector } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import {
     TYPE_IMMINENT,
     TYPE_ASSESSMENT,
 } from '../common';
-import { PartialDref } from '../schema';
+import { type PartialDref } from '../schema';
 
 import NeedInput from './NeedInput';
 import NsActionInput from './NSActionInput';
@@ -41,8 +40,7 @@ import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type NsActionOption = NonNullable<GlobalEnumsResponse['dref_national_society_action_title']>[number];
 type NeedOption = NonNullable<GlobalEnumsResponse['dref_identified_need_title']>[number];
 
@@ -63,27 +61,31 @@ interface Props {
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    disabled?: boolean;
 }
 
 function Actions(props: Props) {
-    const strings = useTranslation(i18n);
-    const {
-        dref_national_society_action_title: nsActionOptions,
-        dref_identified_need_title: needOptions,
-    } = useGlobalEnums();
-
     const {
         value,
         setFieldValue,
         error: formError,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        disabled,
     } = props;
 
-    const error = getErrorObject(formError);
+    const strings = useTranslation(i18n);
+
+    const {
+        dref_national_society_action_title: nsActionOptions,
+        dref_identified_need_title: needOptions,
+    } = useGlobalEnums();
 
     const [selectedNeed, setSelectedNeed] = useState<NeedOption['key'] | undefined>();
     const [selectedNsAction, setSelectedNsAction] = useState<NsActionOption['key'] | undefined>();
+
+    const error = getErrorObject(formError);
+
     const {
         setValue: onNeedChange,
         removeValue: onNeedRemove,
@@ -166,6 +168,7 @@ function Actions(props: Props) {
     );
 
     const hasMajorCoordinationMechanism = value.is_there_major_coordination_mechanism;
+
     const didNsStartedAnyActions = value.did_national_society;
 
     const needsIdenfiedTitleDisplayMap = useMemo(
@@ -208,6 +211,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value?.did_national_society}
                         error={error?.did_national_society}
+                        disabled={disabled}
                     />
                 </InputSection>
                 {didNsStartedAnyActions && (
@@ -223,6 +227,7 @@ function Actions(props: Props) {
                             value={value.ns_respond_date}
                             onChange={setFieldValue}
                             error={error?.ns_respond_date}
+                            disabled={disabled}
                         />
                     </InputSection>
                 )}
@@ -235,13 +240,14 @@ function Actions(props: Props) {
                         keySelector={nsActionKeySelector}
                         labelSelector={stringValueSelector}
                         onChange={setSelectedNsAction}
+                        disabled={disabled}
                     />
                     <div className={styles.addNsActionButtonContainer}>
                         <Button
                             variant="secondary"
                             name={selectedNsAction}
                             onClick={handleNsActionAddButtonClick}
-                            disabled={isNotDefined(selectedNsAction)}
+                            disabled={isNotDefined(selectedNsAction) || disabled}
                         >
                             {strings.drefFormAddButton}
                         </Button>
@@ -256,6 +262,7 @@ function Actions(props: Props) {
                         onRemove={onNsActionRemove}
                         error={getErrorObject(error?.national_society_actions)}
                         titleDisplayMap={nsActionTitleDisplayMap}
+                        disabled={disabled}
                     />
                 ))}
             </Container>
@@ -272,6 +279,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.ifrc}
                         error={error?.ifrc}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -284,6 +292,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.icrc}
                         error={error?.icrc}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -295,6 +304,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.partner_national_society}
                         error={error?.partner_national_society}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>
@@ -310,6 +320,7 @@ function Actions(props: Props) {
                         value={value.government_requested_assistance}
                         onChange={setFieldValue}
                         error={error?.government_requested_assistance}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -321,6 +332,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.national_authorities}
                         error={error?.national_authorities}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -334,6 +346,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.un_or_other_actor}
                         error={error?.un_or_other_actor}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -346,99 +359,101 @@ function Actions(props: Props) {
                         value={value.is_there_major_coordination_mechanism}
                         onChange={setFieldValue}
                         error={error?.is_there_major_coordination_mechanism}
+                        disabled={disabled}
                     />
                 </InputSection>
-                {
-                    hasMajorCoordinationMechanism
-                    && (
+                {hasMajorCoordinationMechanism && (
+                    <InputSection
+                        description={strings.drefFormCoordinationMechanismDescription}
+                    >
+                        <TextArea
+                            label={strings.drefFormActionDescription}
+                            name="major_coordination_mechanism"
+                            onChange={setFieldValue}
+                            value={value.major_coordination_mechanism}
+                            error={error?.major_coordination_mechanism}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                )}
+            </Container>
+            {value?.type_of_dref !== TYPE_ASSESSMENT && (
+                <Container
+                    className={styles.needsIdentified}
+                    heading={
+                        value?.type_of_dref === TYPE_IMMINENT
+                            ? strings.drefFormImminentNeedsIdentified
+                            : strings.drefFormNeedsIdentified
+                    }
+                >
+                    {value?.type_of_dref !== TYPE_IMMINENT && (
+                        <InputSection>
+                            <GoSingleFileInput
+                                name="assessment_report"
+                                accept=".pdf, .docx, .pptx"
+                                onChange={setFieldValue}
+                                url="/api/v2/dref-files/"
+                                value={value?.assessment_report}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                disabled={disabled}
+                            >
+                                {strings.drefFormAssessmentReportUploadButtonLabel}
+                            </GoSingleFileInput>
+                        </InputSection>
+                    )}
+                    <InputSection>
+                        <SelectInput
+                            label={strings.drefFormActionFieldsLabel}
+                            name={undefined}
+                            onChange={setSelectedNeed}
+                            keySelector={needOptionKeySelector}
+                            labelSelector={stringValueSelector}
+                            options={filteredNeedOptions}
+                            value={selectedNeed}
+                            disabled={disabled}
+                        />
+                        <div className={styles.addNeedButtonContainer}>
+                            <Button
+                                variant="secondary"
+                                name={selectedNeed}
+                                onClick={handleNeedAddButtonClick}
+                                disabled={isNotDefined(selectedNeed) || disabled}
+                            >
+                                {strings.drefFormAddButton}
+                            </Button>
+                        </div>
+                    </InputSection>
+                    {value?.needs_identified?.map((need, i) => (
+                        <NeedInput
+                            key={need.client_id}
+                            index={i}
+                            value={need}
+                            onChange={onNeedChange}
+                            onRemove={onNeedRemove}
+                            error={getErrorObject(error?.needs_identified)}
+                            titleDisplayMap={needsIdenfiedTitleDisplayMap}
+                            disabled={disabled}
+                        />
+                    ))}
+                    {value?.type_of_dref !== TYPE_IMMINENT && (
                         <InputSection
-                            description={strings.drefFormCoordinationMechanismDescription}
+                            title={strings.drefFormGapsInAssessment}
+                            oneColumn
+                            multiRow
                         >
                             <TextArea
                                 label={strings.drefFormActionDescription}
-                                name="major_coordination_mechanism"
+                                name="identified_gaps"
                                 onChange={setFieldValue}
-                                value={value.major_coordination_mechanism}
-                                error={error?.major_coordination_mechanism}
+                                value={value.identified_gaps}
+                                error={error?.identified_gaps}
+                                disabled={disabled}
                             />
                         </InputSection>
-                    )
-                }
-            </Container>
-            {value?.type_of_dref !== TYPE_ASSESSMENT
-                && (
-                    <Container
-                        className={styles.needsIdentified}
-                        heading={
-                            value?.type_of_dref === TYPE_IMMINENT
-                                ? strings.drefFormImminentNeedsIdentified
-                                : strings.drefFormNeedsIdentified
-                        }
-                    >
-                        {value?.type_of_dref !== TYPE_IMMINENT && (
-                            <InputSection>
-                                <GoSingleFileInput
-                                    name="assessment_report"
-                                    accept=".pdf, .docx, .pptx"
-                                    onChange={setFieldValue}
-                                    url="/api/v2/dref-files/"
-                                    value={value?.assessment_report}
-                                    fileIdToUrlMap={fileIdToUrlMap}
-                                    setFileIdToUrlMap={setFileIdToUrlMap}
-                                >
-                                    {strings.drefFormAssessmentReportUploadButtonLabel}
-                                </GoSingleFileInput>
-                            </InputSection>
-                        )}
-                        <InputSection>
-                            <SelectInput
-                                label={strings.drefFormActionFieldsLabel}
-                                name={undefined}
-                                onChange={setSelectedNeed}
-                                keySelector={needOptionKeySelector}
-                                labelSelector={stringValueSelector}
-                                options={filteredNeedOptions}
-                                value={selectedNeed}
-                            />
-                            <div className={styles.addNeedButtonContainer}>
-                                <Button
-                                    variant="secondary"
-                                    name={selectedNeed}
-                                    onClick={handleNeedAddButtonClick}
-                                    disabled={isNotDefined(selectedNeed)}
-                                >
-                                    {strings.drefFormAddButton}
-                                </Button>
-                            </div>
-                        </InputSection>
-                        {value?.needs_identified?.map((need, i) => (
-                            <NeedInput
-                                key={need.client_id}
-                                index={i}
-                                value={need}
-                                onChange={onNeedChange}
-                                onRemove={onNeedRemove}
-                                error={getErrorObject(error?.needs_identified)}
-                                titleDisplayMap={needsIdenfiedTitleDisplayMap}
-                            />
-                        ))}
-                        {value?.type_of_dref !== TYPE_IMMINENT && (
-                            <InputSection
-                                title={strings.drefFormGapsInAssessment}
-                                oneColumn
-                                multiRow
-                            >
-                                <TextArea
-                                    label={strings.drefFormActionDescription}
-                                    name="identified_gaps"
-                                    onChange={setFieldValue}
-                                    value={value.identified_gaps}
-                                    error={error?.identified_gaps}
-                                />
-                            </InputSection>
-                        )}
-                    </Container>
-                )}
+                    )}
+                </Container>
+            )}
         </div>
     );
 }

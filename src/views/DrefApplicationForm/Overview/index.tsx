@@ -4,10 +4,10 @@ import {
 } from 'react';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
-    Error,
+    type Error,
     getErrorObject,
     getErrorString,
-    EntriesAsList,
+    type EntriesAsList,
 } from '@togglecorp/toggle-form';
 import {
     isNotDefined,
@@ -24,8 +24,7 @@ import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
 import UserSearchMultiSelectInput from '#components/domain/UserSearchMultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import {
     stringNameSelector,
     numericIdSelector,
@@ -45,7 +44,7 @@ import {
     TYPE_IMMINENT,
     TYPE_LOAN,
 } from '../common';
-import type { PartialDref } from '../schema';
+import { type PartialDref } from '../schema';
 import ImageWithCaptionInput from '../ImageWithCaptionInput';
 import CopyFieldReportSection from './CopyFieldReportSection';
 import styles from './styles.module.css';
@@ -78,6 +77,7 @@ interface Props {
     value: PartialDref;
     setFieldValue: (...entries: EntriesAsList<PartialDref>) => void;
     error: Error<PartialDref> | undefined;
+    disabled?: boolean;
 
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
@@ -90,6 +90,7 @@ function Overview(props: Props) {
         error: formError,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        disabled,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -99,7 +100,7 @@ function Overview(props: Props) {
         dref_dref_onset_type: drefOnsetTypeOptions,
     } = useGlobalEnums();
 
-    const [fetchedUsers, setFetechedUsers] = useState<
+    const [userOptions, setUserOptions] = useState<
         UserListItem[] | undefined | null
     >([]);
 
@@ -107,6 +108,7 @@ function Overview(props: Props) {
 
     const disasterTypes = useDisasterType();
 
+    // FIXME: Use DistrictMultiSearchSelectInput
     const {
         pending: districtsResponsePending,
         response: districtsResponse,
@@ -120,6 +122,7 @@ function Overview(props: Props) {
     });
 
     const handleNSChange = useCallback((nationalSociety: number | undefined) => {
+        // FIXME: should we also change national_society when country is changed?
         setFieldValue(nationalSociety, 'national_society');
         setFieldValue(nationalSociety, 'country');
     }, [setFieldValue]);
@@ -133,6 +136,7 @@ function Overview(props: Props) {
                 (disasterType) => disasterType.id === value?.disaster_type,
             )?.name;
             const currentYear = new Date().getFullYear();
+            // FIXME: we should only set title when all of these variables are defined
             const title = `${countryName} ${disasterName} ${currentYear}`;
             setFieldValue(title, 'title');
         },
@@ -155,7 +159,6 @@ function Overview(props: Props) {
 
     const error = getErrorObject(formError);
 
-    // TODO: check styling
     return (
         <Container
             heading={strings.drefFormEssentialInformation}
@@ -171,9 +174,10 @@ function Overview(props: Props) {
                     value={value?.users}
                     onChange={setFieldValue}
                     className={styles.region}
-                    options={fetchedUsers}
-                    onOptionsChange={setFetechedUsers}
+                    options={userOptions}
+                    onOptionsChange={setUserOptions}
                     placeholder={strings.drefFormSelectUsersLabel}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -185,12 +189,14 @@ function Overview(props: Props) {
                     name="national_society"
                     onChange={handleNSChange}
                     value={value?.national_society}
+                    disabled={disabled}
                 />
             </InputSection>
             { value?.type_of_dref !== TYPE_LOAN && (
                 <CopyFieldReportSection
                     value={value}
                     setFieldValue={setFieldValue}
+                    disabled={disabled}
                 />
             )}
             <InputSection title={strings.drefFormDrefTypeTitle}>
@@ -203,6 +209,7 @@ function Overview(props: Props) {
                     onChange={setFieldValue}
                     value={value?.type_of_dref}
                     error={error?.type_of_dref}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -224,6 +231,7 @@ function Overview(props: Props) {
                     value={value?.disaster_type}
                     onChange={setFieldValue}
                     error={error?.disaster_type}
+                    disabled={disabled}
                 />
                 <SelectInput
                     name="type_of_onset"
@@ -234,17 +242,20 @@ function Overview(props: Props) {
                     value={value?.type_of_onset}
                     onChange={setFieldValue}
                     error={error?.type_of_onset}
+                    disabled={disabled}
                 />
-                {showManMadeEventInput && (
+                {showManMadeEventInput ? (
                     <BooleanInput
                         name="is_man_made_event"
                         label={strings.drefFormManMadeEvent}
                         value={value?.is_man_made_event}
                         onChange={setFieldValue}
                         error={error?.is_man_made_event}
+                        disabled={disabled}
                     />
+                ) : (
+                    <div />
                 )}
-                {!showManMadeEventInput && <div />}
                 <SelectInput
                     name="disaster_category"
                     label={(
@@ -268,6 +279,7 @@ function Overview(props: Props) {
                     value={value?.disaster_category}
                     onChange={setFieldValue}
                     error={error?.disaster_category}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -284,7 +296,7 @@ function Overview(props: Props) {
                     value={value?.country}
                     onChange={setFieldValue}
                     error={error?.country}
-
+                    disabled={disabled}
                 />
                 <MultiSelectInput
                     name="district"
@@ -296,6 +308,7 @@ function Overview(props: Props) {
                     value={value?.district}
                     onChange={setFieldValue}
                     error={getErrorString(error?.district)}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection title={strings.drefFormTitle}>
@@ -304,13 +317,14 @@ function Overview(props: Props) {
                     value={value?.title}
                     onChange={setFieldValue}
                     error={error?.title}
+                    disabled={disabled}
                 />
                 <Button
                     className={styles.generateTitleButton}
                     name={undefined}
                     variant="secondary"
                     onClick={handleGenerateTitleButtonClick}
-                    disabled={shouldDisableGenerateTitle}
+                    disabled={shouldDisableGenerateTitle || disabled}
                 >
                     {strings.drefFormGenerateTitle}
                 </Button>
@@ -350,6 +364,7 @@ function Overview(props: Props) {
                             ? strings.drefFormPeopleAffectedDescriptionImminent
                             : strings.drefFormPeopleAffectedDescriptionSlowSudden
                     )}
+                    disabled={disabled}
                 />
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <NumberInput
@@ -377,6 +392,7 @@ function Overview(props: Props) {
                                 ? strings.drefFormPeopleInNeedDescriptionImminent
                                 : strings.drefFormPeopleInNeedDescriptionSlowSudden
                         )}
+                        disabled={disabled}
                     />
                 )}
                 <NumberInput
@@ -396,6 +412,7 @@ function Overview(props: Props) {
                     onChange={setFieldValue}
                     error={error?.num_assisted}
                     hint={strings.drefFormPeopleTargetedDescription}
+                    disabled={disabled}
                 />
                 {/* NOTE: Empty div to preserve the layout */}
                 <div />
@@ -410,6 +427,7 @@ function Overview(props: Props) {
                         value={value?.amount_requested}
                         onChange={setFieldValue}
                         error={error?.amount_requested}
+                        disabled={disabled}
                     />
                 </InputSection>
             )}
@@ -422,6 +440,7 @@ function Overview(props: Props) {
                         value={value?.emergency_appeal_planned}
                         onChange={setFieldValue}
                         error={error?.emergency_appeal_planned}
+                        disabled={disabled}
                     />
                 </InputSection>
             )}
@@ -440,6 +459,7 @@ function Overview(props: Props) {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.drefFormUploadAnImageLabel}
+                        disabled={disabled}
                     />
                 </InputSection>
             )}
@@ -458,6 +478,7 @@ function Overview(props: Props) {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.drefFormUploadAnImageLabel}
+                        disabled={disabled}
                     />
                 </InputSection>
             )}

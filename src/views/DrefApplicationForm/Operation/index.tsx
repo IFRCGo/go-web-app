@@ -9,8 +9,8 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 import {
-    Error,
-    EntriesAsList,
+    type Error,
+    type EntriesAsList,
     useFormArray,
     getErrorObject,
 } from '@togglecorp/toggle-form';
@@ -28,8 +28,8 @@ import BooleanInput from '#components/BooleanInput';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import useTranslation from '#hooks/useTranslation';
 import { stringValueSelector } from '#utils/selectors';
-import { paths } from '#generated/types';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import InterventionInput from './InterventionInput';
 import RiskSecurityInput from './RiskSecurityInput';
@@ -37,13 +37,12 @@ import {
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
 } from '../common';
-import { PartialDref } from '../schema';
+import { type PartialDref } from '../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PlannedInterventionOption = NonNullable<GlobalEnumsResponse['dref_planned_intervention_title']>[number];
 
 type Value = PartialDref;
@@ -54,14 +53,13 @@ function plannedInterventionKeySelector(option: PlannedInterventionOption) {
     return option.key;
 }
 
-const emptyList: string[] = [];
-
 interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    disabled?: boolean;
 }
 
 function Operation(props: Props) {
@@ -76,16 +74,29 @@ function Operation(props: Props) {
         error: formError,
         fileIdToUrlMap,
         setFileIdToUrlMap,
+        disabled,
     } = props;
 
     const error = getErrorObject(formError);
 
-    const [selectedIntervention, setSelectedIntervention] = useState<PlannedInterventionOption['key'] | undefined>();
+    const [
+        selectedIntervention,
+        setSelectedIntervention,
+    ] = useState<PlannedInterventionOption['key'] | undefined>();
+
     const {
         setValue: onInterventionChange,
         removeValue: onInterventionRemove,
     } = useFormArray<'planned_interventions', PlannedInterventionFormFields>(
         'planned_interventions',
+        setFieldValue,
+    );
+
+    const {
+        setValue: onRiskSecurityChange,
+        removeValue: onRiskSecurityRemove,
+    } = useFormArray<'risk_security', RiskSecurityFormFields>(
+        'risk_security',
         setFieldValue,
     );
 
@@ -106,7 +117,7 @@ function Operation(props: Props) {
 
     const warnings = useMemo(() => {
         if (isNotDefined(value?.total_targeted_population)) {
-            return emptyList;
+            return [];
         }
 
         const w = [];
@@ -156,14 +167,6 @@ function Operation(props: Props) {
 
     const isSurgePersonnelDeployed = value?.is_surge_personnel_deployed;
 
-    const {
-        setValue: onRiskSecurityChange,
-        removeValue: onRiskSecurityRemove,
-    } = useFormArray<'risk_security', RiskSecurityFormFields>(
-        'risk_security',
-        setFieldValue,
-    );
-
     const handleRiskSecurityAdd = useCallback(() => {
         const newRiskSecurityItem: RiskSecurityFormFields = {
             client_id: randomString(),
@@ -178,14 +181,15 @@ function Operation(props: Props) {
     }, [setFieldValue]);
 
     const totalBudgetFromInterventions = useMemo(
-        () => sumSafe(value?.planned_interventions?.map((pi) => pi.budget) ?? []),
+        () => sumSafe(value?.planned_interventions?.map((pi) => pi.budget)),
         [value?.planned_interventions],
     );
 
     // NOTE: || used intentionally instead of ??
+    // But why?
     const plannedBudgetMatchRequestedAmount = (
-        value?.amount_requested || 0
-    ) === totalBudgetFromInterventions;
+        (value?.amount_requested || 0) === totalBudgetFromInterventions
+    );
 
     const interventionTitleMap = useMemo(
         () => (
@@ -198,7 +202,6 @@ function Operation(props: Props) {
         [plannedInterventionOptions],
     );
 
-    // TODO: remove unused styling
     return (
         <div className={styles.operation}>
             <Container
@@ -214,6 +217,7 @@ function Operation(props: Props) {
                         value={value.operation_objective}
                         error={error?.operation_objective}
                         placeholder={strings.drefFormObjectiveOperationPlaceholder}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -227,6 +231,7 @@ function Operation(props: Props) {
                         value={value.response_strategy}
                         error={error?.response_strategy}
                         placeholder={strings.drefFormResponseRationalePlaceholder}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>
@@ -244,6 +249,7 @@ function Operation(props: Props) {
                         onChange={setFieldValue}
                         value={value.people_assisted}
                         error={error?.people_assisted}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -256,6 +262,7 @@ function Operation(props: Props) {
                         onChange={setFieldValue}
                         value={value.selection_criteria}
                         error={error?.selection_criteria}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>
@@ -287,6 +294,7 @@ function Operation(props: Props) {
                                 value={value.women}
                                 onChange={setFieldValue}
                                 error={error?.women}
+                                disabled={disabled}
                             />
                             <NumberInput
                                 label={strings.drefFormMen}
@@ -294,6 +302,7 @@ function Operation(props: Props) {
                                 value={value.men}
                                 onChange={setFieldValue}
                                 error={error?.men}
+                                disabled={disabled}
                             />
                             <NumberInput
                                 label={strings.drefFormGirls}
@@ -301,6 +310,7 @@ function Operation(props: Props) {
                                 value={value.girls}
                                 onChange={setFieldValue}
                                 error={error?.girls}
+                                disabled={disabled}
                             />
                             <NumberInput
                                 label={strings.drefFormBoys}
@@ -308,6 +318,7 @@ function Operation(props: Props) {
                                 value={value.boys}
                                 onChange={setFieldValue}
                                 error={error?.boys}
+                                disabled={disabled}
                             />
                         </>
                     )}
@@ -317,6 +328,7 @@ function Operation(props: Props) {
                         value={value.total_targeted_population}
                         onChange={setFieldValue}
                         error={error?.total_targeted_population}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -330,6 +342,7 @@ function Operation(props: Props) {
                         value={value.disability_people_per}
                         onChange={setFieldValue}
                         error={error?.disability_people_per}
+                        disabled={disabled}
                     />
                     <div className={styles.urbanToRural}>
                         <InputLabel>
@@ -342,6 +355,7 @@ function Operation(props: Props) {
                                 value={value.people_per_urban}
                                 onChange={setFieldValue}
                                 error={error?.people_per_urban}
+                                disabled={disabled}
                             />
                             <NumberInput
                                 placeholder={strings.drefFormEstimatedLocal}
@@ -349,6 +363,7 @@ function Operation(props: Props) {
                                 value={value.people_per_local}
                                 onChange={setFieldValue}
                                 error={error?.people_per_local}
+                                disabled={disabled}
                             />
                         </div>
                     </div>
@@ -358,17 +373,18 @@ function Operation(props: Props) {
                         value={value.displaced_people}
                         onChange={setFieldValue}
                         error={error?.displaced_people}
+                        disabled={disabled}
                     />
-                    {value?.type_of_dref === TYPE_IMMINENT
-                        && (
-                            <NumberInput
-                                label={strings.drefFormPeopleTargetedWithEarlyActions}
-                                name="people_targeted_with_early_actions"
-                                value={value.people_targeted_with_early_actions}
-                                onChange={setFieldValue}
-                                error={error?.people_targeted_with_early_actions}
-                            />
-                        )}
+                    {value?.type_of_dref === TYPE_IMMINENT && (
+                        <NumberInput
+                            label={strings.drefFormPeopleTargetedWithEarlyActions}
+                            name="people_targeted_with_early_actions"
+                            value={value.people_targeted_with_early_actions}
+                            onChange={setFieldValue}
+                            error={error?.people_targeted_with_early_actions}
+                            disabled={disabled}
+                        />
+                    )}
                 </InputSection>
             </Container>
             <Container
@@ -389,6 +405,7 @@ function Operation(props: Props) {
                             onChange={onRiskSecurityChange}
                             onRemove={onRiskSecurityRemove}
                             error={getErrorObject(error?.risk_security)}
+                            disabled={disabled}
                         />
                     ))}
                     <div className={styles.actions}>
@@ -396,6 +413,7 @@ function Operation(props: Props) {
                             name={undefined}
                             onClick={handleRiskSecurityAdd}
                             variant="secondary"
+                            disabled={disabled}
                         >
                             {strings.drefFormRiskSecurityAddButton}
                         </Button>
@@ -409,6 +427,7 @@ function Operation(props: Props) {
                         value={value.risk_security_concern}
                         error={error?.risk_security_concern}
                         onChange={setFieldValue}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>
@@ -425,6 +444,7 @@ function Operation(props: Props) {
                         value={value?.budget_file}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        disabled={disabled}
                     >
                         {strings.drefFormBudgetTemplateUploadButtonLabel}
                     </GoSingleFileInput>
@@ -445,13 +465,14 @@ function Operation(props: Props) {
                         labelSelector={stringValueSelector}
                         onChange={setSelectedIntervention}
                         value={selectedIntervention}
+                        disabled={disabled}
                     />
                     <div className={styles.actions}>
                         <Button
                             variant="secondary"
                             name={selectedIntervention}
                             onClick={handleInterventionAddButtonClick}
-                            disabled={isNotDefined(selectedIntervention)}
+                            disabled={isNotDefined(selectedIntervention) || disabled}
                         >
                             {strings.drefFormResponseAddButton}
                         </Button>
@@ -466,6 +487,7 @@ function Operation(props: Props) {
                         onRemove={onInterventionRemove}
                         error={getErrorObject(error?.planned_interventions)}
                         titleMap={interventionTitleMap}
+                        disabled={disabled}
                     />
                 ))}
             </Container>
@@ -481,6 +503,7 @@ function Operation(props: Props) {
                         onChange={setFieldValue}
                         value={value.human_resource}
                         error={error?.human_resource}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -495,18 +518,19 @@ function Operation(props: Props) {
                         value={value.is_surge_personnel_deployed}
                         onChange={setFieldValue}
                         error={error?.is_surge_personnel_deployed}
+                        disabled={disabled}
                     />
-                    {isSurgePersonnelDeployed
-                        && (
-                            <TextArea
-                                label={strings.drefFormOperationDescription}
-                                name="surge_personnel_deployed"
-                                onChange={setFieldValue}
-                                value={value.surge_personnel_deployed}
-                                error={error?.surge_personnel_deployed}
-                                placeholder={strings.drefFormSurgePersonnelDeployedDescription}
-                            />
-                        )}
+                    {isSurgePersonnelDeployed && (
+                        <TextArea
+                            label={strings.drefFormOperationDescription}
+                            name="surge_personnel_deployed"
+                            onChange={setFieldValue}
+                            value={value.surge_personnel_deployed}
+                            error={error?.surge_personnel_deployed}
+                            placeholder={strings.drefFormSurgePersonnelDeployedDescription}
+                            disabled={disabled}
+                        />
+                    )}
                 </InputSection>
                 {value?.type_of_dref !== TYPE_ASSESSMENT && (
                     <>
@@ -520,6 +544,7 @@ function Operation(props: Props) {
                                 onChange={setFieldValue}
                                 value={value.logistic_capacity_of_ns}
                                 error={error?.logistic_capacity_of_ns}
+                                disabled={disabled}
                             />
                         </InputSection>
                         <InputSection
@@ -532,6 +557,7 @@ function Operation(props: Props) {
                                 onChange={setFieldValue}
                                 value={value.pmer}
                                 error={error?.pmer}
+                                disabled={disabled}
                             />
                         </InputSection>
                         <InputSection
@@ -544,6 +570,7 @@ function Operation(props: Props) {
                                 onChange={setFieldValue}
                                 value={value.communication}
                                 error={error?.communication}
+                                disabled={disabled}
                             />
                         </InputSection>
                     </>

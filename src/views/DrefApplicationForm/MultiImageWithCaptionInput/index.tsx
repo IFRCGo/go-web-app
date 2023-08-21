@@ -17,6 +17,7 @@ import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';
 
+// FIXME: is this type correct?
 type Value = {
     client_id: string;
     id?: number;
@@ -34,8 +35,10 @@ interface Props<N> {
     label: React.ReactNode;
     icons?: React.ReactNode;
     actions?: React.ReactNode;
+    disabled?: boolean;
 }
 
+// FIXME: Move this to components
 function MultiImageWithCaptionInput<const N extends string | number>(props: Props<N>) {
     const {
         className,
@@ -48,6 +51,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
         label,
         icons,
         actions,
+        disabled,
     } = props;
 
     const error = getErrorObject(formError);
@@ -116,6 +120,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                 icons={icons}
                 actions={actions}
                 hidePreview
+                disabled={disabled}
             >
                 {label}
             </GoMultiFileInput>
@@ -146,6 +151,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     error={getErrorObject(error?.[fileValue.client_id])?.caption}
                                     // FIXME: use translation
                                     placeholder="Enter Caption"
+                                    disabled={disabled}
                                 />
                             </div>
                         );

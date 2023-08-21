@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 import {
     ArrayError,
@@ -17,6 +16,7 @@ import { PartialDref } from '../../schema';
 import styles from './styles.module.css';
 
 type NsActionFormFields = NonNullable<PartialDref['national_society_actions']>[number];
+
 const defaultNsActionValue: NsActionFormFields = {
     client_id: '-1',
 };
@@ -28,6 +28,7 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     titleDisplayMap: Record<string, string> | undefined;
+    disabled?: boolean;
 }
 
 function NsActionInput(props: Props) {
@@ -38,13 +39,15 @@ function NsActionInput(props: Props) {
         index,
         titleDisplayMap,
         onRemove,
+        disabled,
     } = props;
 
-    const nsActionLabel = useMemo(() => (
-        isDefined(value.title) ? titleDisplayMap?.[value.title] : '--'
-    ), [titleDisplayMap, value]);
-
     const onFieldChange = useFormObject(index, onChange, defaultNsActionValue);
+
+    const nsActionLabel = isDefined(value.title)
+        ? titleDisplayMap?.[value.title]
+        : '--';
+
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
@@ -59,6 +62,7 @@ function NsActionInput(props: Props) {
                 value={value.description}
                 onChange={onFieldChange}
                 error={error?.description}
+                disabled={disabled}
             />
             <Button
                 className={styles.removeButton}
@@ -67,6 +71,7 @@ function NsActionInput(props: Props) {
                 variant="tertiary"
                 // TODO: use translations
                 title="Remove Action"
+                disabled={disabled}
             >
                 <DeleteBinTwoLineIcon />
             </Button>

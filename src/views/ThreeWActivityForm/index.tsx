@@ -395,7 +395,7 @@ export function Component() {
                     ?.activities
                     ?.filter((activity) => activity.sector && sectorValuesMap?.[activity.sector]),
             };
-        });
+        }, true);
     }, [setValue]);
 
     const handleSubmitClick = useCallback(() => {

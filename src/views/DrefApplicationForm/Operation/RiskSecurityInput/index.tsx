@@ -1,8 +1,8 @@
 import {
-    ArrayError,
+    type ArrayError,
     useFormObject,
     getErrorObject,
-    SetValueArg,
+    type SetValueArg,
 } from '@togglecorp/toggle-form';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 
@@ -12,36 +12,41 @@ import Button from '#components/Button';
 import TextArea from '#components/TextArea';
 import useTranslation from '#hooks/useTranslation';
 
-import { PartialDref } from '../../schema';
+import { type PartialDref } from '../../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type RiskSecurityFormFields = NonNullable<PartialDref['risk_security']>[number];
 
-const defaultCountryDistrictValue: RiskSecurityFormFields = {
-    client_id: randomString(),
-};
-
 interface Props {
-  value: RiskSecurityFormFields;
-  error: ArrayError<RiskSecurityFormFields> | undefined;
-  onChange: (value: SetValueArg<RiskSecurityFormFields>, index: number) => void;
-  onRemove: (index: number) => void;
-  index: number;
+    value: RiskSecurityFormFields;
+    error: ArrayError<RiskSecurityFormFields> | undefined;
+    onChange: (value: SetValueArg<RiskSecurityFormFields>, index: number) => void;
+    onRemove: (index: number) => void;
+    index: number;
+    disabled?: boolean;
 }
 
 function RiskSecurityInput(props: Props) {
-    const strings = useTranslation(i18n);
-
     const {
         error: errorFromProps,
         onChange,
         value,
         index,
         onRemove,
+        disabled,
     } = props;
 
-    const onFieldChange = useFormObject(index, onChange, defaultCountryDistrictValue);
+    const strings = useTranslation(i18n);
+
+    const onFieldChange = useFormObject(
+        index,
+        onChange,
+        () => ({
+            client_id: randomString(),
+        }),
+    );
+
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
@@ -54,6 +59,7 @@ function RiskSecurityInput(props: Props) {
                 value={value.risk}
                 error={error?.risk}
                 onChange={onFieldChange}
+                disabled={disabled}
             />
             <TextArea
                 label={strings.drefFormRiskSecurityMitigationLabel}
@@ -61,12 +67,16 @@ function RiskSecurityInput(props: Props) {
                 value={value.mitigation}
                 error={error?.mitigation}
                 onChange={onFieldChange}
+                disabled={disabled}
             />
             <Button
                 className={styles.removeButton}
                 name={index}
                 onClick={onRemove}
                 variant="tertiary"
+                disabled={disabled}
+                // FIXME: use translations
+                title="Delete Risk"
             >
                 <DeleteBinTwoLineIcon />
             </Button>

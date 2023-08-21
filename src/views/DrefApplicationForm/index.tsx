@@ -28,42 +28,87 @@ import TabPanel from '#components/Tabs/TabPanel';
 import Button from '#components/Button';
 import RawFileInput from '#components/RawFileInput';
 import NonFieldError from '#components/NonFieldError';
-import { useRequest, useLazyRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import {
+    useRequest,
+    useLazyRequest,
+    type GoApiResponse,
+} from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
-import drefSchema, { DrefRequestBody, DrefResponse } from './schema';
+import { injectClientId } from '#utils/common';
+
+import drefSchema, {
+    type DrefRequestBody,
+    type DrefResponse,
+} from './schema';
+import {
+    checkTabErrors,
+    TYPE_LOAN,
+    type TypeOfDrefEnum,
+} from './common';
+import { getImportData } from './import';
 import Overview from './Overview';
 import EventDetail from './EventDetail';
 import Actions from './Actions';
 import Operation from './Operation';
 import Submission from './Submission';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
-
-import type { TabKeys } from './common';
-import {
-    getNextStep,
-    getPreviousStep,
-    tabStepMap,
-    checkTabErrors,
-    TYPE_LOAN,
-} from './common';
-import { getImportData } from './import';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 
+export type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
+
+function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | undefined) {
+    if (typeOfDref === TYPE_LOAN && direction === 1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            overview: 'eventDetail',
+            eventDetail: 'submission',
+        };
+        return mapping[current];
+    }
+    if (typeOfDref === TYPE_LOAN && direction === -1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            submission: 'eventDetail',
+            eventDetail: 'overview',
+        };
+        return mapping[current];
+    }
+    if (direction === 1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            overview: 'eventDetail',
+            eventDetail: 'actions',
+            actions: 'operation',
+            operation: 'submission',
+        };
+        return mapping[current];
+    }
+    if (direction === -1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            submission: 'operation',
+            operation: 'actions',
+            actions: 'eventDetail',
+            eventDetail: 'overview',
+        };
+        return mapping[current];
+    }
+    return undefined;
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
-    const alert = useAlert();
-    const navigate = useNavigate();
+
     const {
         drefApplicationForm: drefApplicationFormRoute,
     } = useContext(RouteContext);
+
+    const alert = useAlert();
+    const navigate = useNavigate();
     const strings = useTranslation(i18n);
+
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const [
@@ -82,7 +127,7 @@ export function Component() {
     } = useForm(
         drefSchema,
         {
-            value: { },
+            value: {},
         },
     );
 
@@ -95,21 +140,32 @@ export function Component() {
                     ...prevMap,
                 };
 
-                if (response.supporting_document_details
-                    && response.supporting_document_details.file) {
+                if (
+                    response.supporting_document_details
+                    && response.supporting_document_details.file
+                ) {
                     newMap[
                         response.supporting_document_details.id
                     ] = response.supporting_document_details.file;
                 }
-                if (response.assessment_report_details && response.assessment_report_details.file) {
+                if (
+                    response.assessment_report_details
+                    && response.assessment_report_details.file
+                ) {
                     newMap[
                         response.assessment_report_details.id
                     ] = response.assessment_report_details.file;
                 }
-                if (response.event_map_file && response.event_map_file.file) {
+                if (
+                    response.event_map_file
+                    && response.event_map_file.file
+                ) {
                     newMap[response.event_map_file.id] = response.event_map_file.file;
                 }
-                if (response.cover_image_file && response.cover_image_file.file) {
+                if (
+                    response.cover_image_file
+                    && response.cover_image_file.file
+                ) {
                     newMap[response.cover_image_file.id] = response.cover_image_file.file;
                 }
                 if ((response.images_file?.length ?? 0) > 0) {
@@ -133,6 +189,7 @@ export function Component() {
         } : undefined,
         onSuccess: (response) => {
             handleDrefLoad(response);
+
             const {
                 planned_interventions,
                 needs_identified,
@@ -143,13 +200,6 @@ export function Component() {
                 images_file,
                 ...otherValues
             } = removeNull(response);
-
-            function injectClientId<V extends { id: number }>(obj: V): (V & { client_id: string }) {
-                return {
-                    ...obj,
-                    client_id: String(obj.id),
-                };
-            }
 
             setValue({
                 ...otherValues,
@@ -263,8 +313,6 @@ export function Component() {
         },
     });
 
-    const saveDrefPending = createDrefPending || updateDrefPending;
-
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
             const result = validate();
@@ -290,6 +338,7 @@ export function Component() {
     const handleObsoletePayloadOverwiteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
             setShowObsoletePayloadModal(false);
+            // FIXME: Why not just set lastModifiedAtRef.current,
             handleFormSubmit(newModifiedAt);
         },
         [handleFormSubmit],
@@ -306,16 +355,16 @@ export function Component() {
             // eslint-disable-next-line no-console
             console.info(formValues);
 
-            // TODO: set form values
+            // TODO: set form values from import
         },
         [],
     );
 
-    const pending = fetchingDref || saveDrefPending;
-    const minStep = 1;
-    const maxStep = value?.type_of_dref === TYPE_LOAN ? 3 : 5;
+    const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
+    const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
+    const saveDrefPending = createDrefPending || updateDrefPending;
+    const disabled = fetchingDref || saveDrefPending;
 
-    // TODO: responsive styling
     return (
         <Tabs
             value={activeTab}
@@ -330,6 +379,7 @@ export function Component() {
                     <RawFileInput
                         name={undefined}
                         onChange={handleImport}
+                        disabled={disabled}
                     >
                         {strings.drefFormImportFromDocument}
                     </RawFileInput>
@@ -339,7 +389,6 @@ export function Component() {
                         <Tab
                             name="overview"
                             step={1}
-                            disabled={pending}
                             errored={checkTabErrors(formError, 'overview')}
                         >
                             {strings.drefFormTabOverviewLabel}
@@ -347,26 +396,23 @@ export function Component() {
                         <Tab
                             name="eventDetail"
                             step={2}
-                            disabled={pending}
                             errored={checkTabErrors(formError, 'eventDetail')}
                         >
                             {strings.drefFormTabEventDetailLabel}
                         </Tab>
-                        {value?.type_of_dref !== TYPE_LOAN && (
+                        {value.type_of_dref !== TYPE_LOAN && (
                             <Tab
                                 name="actions"
                                 step={3}
-                                disabled={pending}
                                 errored={checkTabErrors(formError, 'actions')}
                             >
                                 {strings.drefFormTabActionsLabel}
                             </Tab>
                         )}
-                        {value?.type_of_dref !== TYPE_LOAN && (
+                        {value.type_of_dref !== TYPE_LOAN && (
                             <Tab
                                 name="operation"
                                 step={4}
-                                disabled={pending}
                                 errored={checkTabErrors(formError, 'operation')}
                             >
                                 {strings.drefFormTabOperationLabel}
@@ -374,8 +420,7 @@ export function Component() {
                         )}
                         <Tab
                             name="submission"
-                            step={value?.type_of_dref === TYPE_LOAN ? 3 : 5}
-                            disabled={pending}
+                            step={value.type_of_dref === TYPE_LOAN ? 3 : 5}
                             errored={checkTabErrors(formError, 'submission')}
                         >
                             {strings.drefFormTabSubmissionLabel}
@@ -392,6 +437,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={formError}
+                        disabled={disabled}
                     />
                 </TabPanel>
                 <TabPanel name="eventDetail">
@@ -401,6 +447,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={formError}
+                        disabled={disabled}
                     />
                 </TabPanel>
                 <TabPanel name="actions">
@@ -410,6 +457,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={formError}
+                        disabled={disabled}
                     />
                 </TabPanel>
                 <TabPanel name="operation">
@@ -419,6 +467,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={formError}
+                        disabled={disabled}
                     />
                 </TabPanel>
                 <TabPanel name="submission">
@@ -426,6 +475,7 @@ export function Component() {
                         value={value}
                         setFieldValue={setFieldValue}
                         error={formError}
+                        disabled={disabled}
                     />
                 </TabPanel>
                 <NonFieldError
@@ -435,17 +485,17 @@ export function Component() {
                 <div className={styles.actions}>
                     <div className={styles.pageActions}>
                         <Button
-                            name={getPreviousStep(activeTab, minStep, maxStep)}
+                            name={prevStep ?? activeTab}
                             onClick={setActiveTab}
-                            disabled={tabStepMap[activeTab] <= minStep}
+                            disabled={!prevStep}
                             variant="secondary"
                         >
                             {strings.drefFormBackButtonLabel}
                         </Button>
                         <Button
-                            name={getNextStep(activeTab, minStep, maxStep)}
+                            name={nextStep ?? activeTab}
                             onClick={setActiveTab}
-                            disabled={tabStepMap[activeTab] >= maxStep}
+                            disabled={!nextStep}
                             variant="secondary"
                         >
                             {strings.drefFormContinueButtonLabel}
@@ -454,7 +504,7 @@ export function Component() {
                     <Button
                         name={undefined}
                         onClick={handleFormSubmit}
-                        disabled={activeTab !== 'submission'}
+                        disabled={activeTab !== 'submission' || disabled}
                     >
                         {strings.drefFormSubmitButtonLabel}
                     </Button>

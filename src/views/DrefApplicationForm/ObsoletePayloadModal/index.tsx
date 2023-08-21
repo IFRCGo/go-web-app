@@ -1,4 +1,4 @@
-import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import { isTruthyString, isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
@@ -14,22 +14,9 @@ type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 
 // FIXME: use common function
 function getUserName(user: GetDrefResponse['modified_by_details'] | undefined) {
-    if (!user) {
-        return 'Unknown User';
-    }
-
-    if (user.first_name) {
-        return [
-            user.first_name,
-            user.last_name,
-        ].filter(isDefined).join(' ');
-    }
-
-    if (!user.username) {
-        return 'Unknown User';
-    }
-
-    return user.username;
+    return [user?.first_name, user?.last_name].filter(isTruthyString).join(' ')
+        || user?.username
+        || 'Unknown User';
 }
 
 interface Props {

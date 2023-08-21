@@ -1,24 +1,32 @@
 import { bound } from '@togglecorp/fujs';
 import {
-    Error,
+    type Error,
     analyzeErrors,
     getErrorObject,
 } from '@togglecorp/toggle-form';
-import { paths } from '#generated/types';
+import { type components } from '#generated/types';
+import { GoApiResponse } from '#utils/restRequest';
 
-import type { PartialDref } from './schema';
+import { type PartialDref } from './schema';
 
-export const ONSET_SLOW = 1;
-export const ONSET_SUDDEN = 2;
+export type TypeOfDrefEnum = components['schemas']['TypeOfDrefEnum'];
+type TypeOfOnsetEnum = components['schemas']['TypeOfOnsetEnum'];
 
-export const TYPE_IMMINENT = 0;
-export const TYPE_ASSESSMENT = 1;
-export const TYPE_RESPONSE = 2;
-export const TYPE_LOAN = 3;
+// export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
+export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;
 
+export const TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
+export const TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
+// export const TYPE_RESPONSE = 2 satisfies TypeOfDrefEnum;
+export const TYPE_LOAN = 3 satisfies TypeOfDrefEnum;
+
+// FIXME: identify a way to store disaster
 export const DISASTER_FIRE = 15;
 export const DISASTER_FLASH_FLOOD = 27;
 export const DISASTER_FLOOD = 12;
+
+// TAB NAVIGATION
+// FIXME: update how we handle tab navigations
 
 export type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 type TabNumbers = 1 | 2 | 3 | 4 | 5;
@@ -49,8 +57,9 @@ export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps
     return tabByStepMap[prev];
 }
 
-type GetDref = paths['/api/v2/dref/{id}/']['get'];
-type DrefFields = GetDref['responses']['200']['content']['application/json'];
+// FORM ERROR
+
+type DrefFields = GoApiResponse<'/api/v2/dref/{id}/'>;
 
 const overviewFields: (keyof DrefFields)[] = [
     'users',

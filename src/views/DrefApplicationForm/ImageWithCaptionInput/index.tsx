@@ -1,8 +1,8 @@
 import {
     useFormObject,
-    ObjectError,
+    type ObjectError,
     getErrorObject,
-    SetValueArg,
+    type SetValueArg,
 } from '@togglecorp/toggle-form';
 import {
     _cs,
@@ -14,6 +14,7 @@ import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';
 
+// FIXME: is this type correct?
 type Value = {
     id?: number | undefined;
     caption?: string | undefined;
@@ -30,8 +31,10 @@ interface Props<N> {
     label: React.ReactNode;
     icons?: React.ReactNode;
     actions?: React.ReactNode;
+    disabled?: boolean;
 }
 
+// FIXME: Move this to components
 function ImageWithCaptionInput<const N extends string | number>(props: Props<N>) {
     const {
         className,
@@ -44,11 +47,16 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
         label,
         icons,
         actions,
+        disabled,
     } = props;
 
     const setFieldValue = useFormObject(name, onChange, {});
+
     const error = getErrorObject(formError);
-    const fileUrl = isDefined(value) && isDefined(value.id) ? fileIdToUrlMap[value.id] : undefined;
+
+    const fileUrl = isDefined(value) && isDefined(value.id)
+        ? fileIdToUrlMap[value.id]
+        : undefined;
 
     return (
         <div className={_cs(styles.imageWithCaptionInput, className)}>
@@ -63,6 +71,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                 error={error?.id}
                 icons={icons}
                 actions={actions}
+                disabled={disabled}
                 // FIXME: create a component for preview, implement remove
                 description={isDefined(fileUrl) ? (
                     <img
@@ -83,6 +92,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                     error={error?.caption}
                     // FIXME: use translation
                     placeholder="Enter Caption"
+                    disabled={disabled}
                 />
             )}
         </div>

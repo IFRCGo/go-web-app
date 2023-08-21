@@ -1,6 +1,6 @@
 import {
-    Error,
-    EntriesAsList,
+    type Error,
+    type EntriesAsList,
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
@@ -12,26 +12,29 @@ import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
 
 import { TYPE_LOAN } from '../common';
-import { PartialDref } from '../schema';
+import { type PartialDref } from '../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Value = PartialDref;
+
 interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
+    disabled?: boolean;
 }
 
 function Submission(props: Props) {
-    const strings = useTranslation(i18n);
-
     const {
         error: formError,
         setFieldValue,
         value,
+        disabled,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const error = getErrorObject(formError);
 
@@ -48,6 +51,7 @@ function Submission(props: Props) {
                         value={value.ns_request_date}
                         onChange={setFieldValue}
                         error={error?.ns_request_date}
+                        disabled={disabled}
                     />
                     <DateInput
                         label={strings.drefFormDateSubmissionToGeneva}
@@ -56,6 +60,7 @@ function Submission(props: Props) {
                         onChange={setFieldValue}
                         error={error?.submission_to_geneva}
                         hint={strings.drefFormAddedByGeneva}
+                        disabled={disabled}
                     />
                     <DateInput
                         label={strings.drefFormDateOfApproval}
@@ -64,6 +69,7 @@ function Submission(props: Props) {
                         onChange={setFieldValue}
                         error={error?.date_of_approval}
                         hint={strings.drefFormAddedByGeneva}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection fullWidthColumn>
@@ -74,6 +80,7 @@ function Submission(props: Props) {
                         value={value.operation_timeframe}
                         onChange={setFieldValue}
                         error={error?.operation_timeframe}
+                        disabled={disabled}
                     />
                     {value?.type_of_dref !== TYPE_LOAN && (
                         <DateInput
@@ -83,6 +90,7 @@ function Submission(props: Props) {
                             value={value.end_date}
                             onChange={setFieldValue}
                             error={error?.end_date}
+                            disabled={disabled}
                             readOnly
                         />
                     )}
@@ -94,6 +102,7 @@ function Submission(props: Props) {
                             onChange={setFieldValue}
                             error={error?.publishing_date}
                             hint={strings.drefFormAddedByGeneva}
+                            disabled={disabled}
                         />
                     )}
                 </InputSection>
@@ -112,6 +121,7 @@ function Submission(props: Props) {
                         value={value.appeal_code}
                         onChange={setFieldValue}
                         error={error?.appeal_code}
+                        disabled={disabled}
                     />
                 </InputSection>
                 {value?.type_of_dref !== TYPE_LOAN && (
@@ -124,6 +134,7 @@ function Submission(props: Props) {
                             value={value.glide_code}
                             onChange={setFieldValue}
                             error={error?.glide_code}
+                            disabled={disabled}
                         />
                     </InputSection>
                 )}
@@ -139,6 +150,7 @@ function Submission(props: Props) {
                         value={value.ifrc_appeal_manager_name}
                         onChange={setFieldValue}
                         error={error?.ifrc_appeal_manager_name}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.drefFormSubmissionTitleLabel}
@@ -146,6 +158,7 @@ function Submission(props: Props) {
                         value={value.ifrc_appeal_manager_title}
                         onChange={setFieldValue}
                         error={error?.ifrc_appeal_manager_title}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.drefFromSubmissionEmailLabel}
@@ -153,6 +166,7 @@ function Submission(props: Props) {
                         value={value.ifrc_appeal_manager_email}
                         onChange={setFieldValue}
                         error={error?.ifrc_appeal_manager_email}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.drefFromSubmissionPhoneNumberLabel}
@@ -160,6 +174,7 @@ function Submission(props: Props) {
                         value={value.ifrc_appeal_manager_phone_number}
                         onChange={setFieldValue}
                         error={error?.ifrc_appeal_manager_phone_number}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -174,6 +189,7 @@ function Submission(props: Props) {
                         value={value.ifrc_project_manager_name}
                         onChange={setFieldValue}
                         error={error?.ifrc_project_manager_name}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.drefFormSubmissionTitleLabel}
@@ -181,6 +197,7 @@ function Submission(props: Props) {
                         value={value.ifrc_project_manager_title}
                         onChange={setFieldValue}
                         error={error?.ifrc_project_manager_title}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.drefFromSubmissionEmailLabel}
@@ -188,6 +205,7 @@ function Submission(props: Props) {
                         value={value.ifrc_project_manager_email}
                         onChange={setFieldValue}
                         error={error?.ifrc_project_manager_email}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.drefFromSubmissionPhoneNumberLabel}
@@ -195,6 +213,7 @@ function Submission(props: Props) {
                         value={value.ifrc_project_manager_phone_number}
                         onChange={setFieldValue}
                         error={error?.ifrc_project_manager_phone_number}
+                        disabled={disabled}
                     />
                 </InputSection>
                 {value?.type_of_dref !== TYPE_LOAN && (
@@ -209,6 +228,7 @@ function Submission(props: Props) {
                             value={value.national_society_contact_name}
                             onChange={setFieldValue}
                             error={error?.national_society_contact_name}
+                            disabled={disabled}
                         />
                         <TextInput
                             label={strings.drefFormSubmissionTitleLabel}
@@ -216,6 +236,7 @@ function Submission(props: Props) {
                             value={value.national_society_contact_title}
                             onChange={setFieldValue}
                             error={error?.national_society_contact_title}
+                            disabled={disabled}
                         />
                         <TextInput
                             label={strings.drefFromSubmissionEmailLabel}
@@ -223,6 +244,7 @@ function Submission(props: Props) {
                             value={value.national_society_contact_email}
                             onChange={setFieldValue}
                             error={error?.national_society_contact_email}
+                            disabled={disabled}
                         />
                         <TextInput
                             label={strings.drefFromSubmissionPhoneNumberLabel}
@@ -230,6 +252,7 @@ function Submission(props: Props) {
                             value={value.national_society_contact_phone_number}
                             onChange={setFieldValue}
                             error={error?.national_society_contact_phone_number}
+                            disabled={disabled}
                         />
                     </InputSection>
                 )}
@@ -245,6 +268,7 @@ function Submission(props: Props) {
                             value={value.ifrc_emergency_name}
                             onChange={setFieldValue}
                             error={error?.ifrc_emergency_name}
+                            disabled={disabled}
                         />
                         <TextInput
                             label={strings.drefFormSubmissionTitleLabel}
@@ -252,6 +276,7 @@ function Submission(props: Props) {
                             value={value.ifrc_emergency_title}
                             onChange={setFieldValue}
                             error={error?.ifrc_emergency_title}
+                            disabled={disabled}
                         />
                         <TextInput
                             label={strings.drefFromSubmissionEmailLabel}
@@ -259,6 +284,7 @@ function Submission(props: Props) {
                             value={value.ifrc_emergency_email}
                             onChange={setFieldValue}
                             error={error?.ifrc_emergency_email}
+                            disabled={disabled}
                         />
                         <TextInput
                             label={strings.drefFromSubmissionPhoneNumberLabel}
@@ -266,6 +292,7 @@ function Submission(props: Props) {
                             value={value.ifrc_emergency_phone_number}
                             onChange={setFieldValue}
                             error={error?.ifrc_emergency_phone_number}
+                            disabled={disabled}
                         />
                     </InputSection>
                 )}
@@ -281,6 +308,7 @@ function Submission(props: Props) {
                             value={value.media_contact_name}
                             onChange={setFieldValue}
                             error={error?.media_contact_name}
+                            disabled={disabled}
                         />
                         <TextInput
                             label={strings.drefFormSubmissionTitleLabel}
@@ -288,6 +316,7 @@ function Submission(props: Props) {
                             value={value.media_contact_title}
                             onChange={setFieldValue}
                             error={error?.media_contact_title}
+                            disabled={disabled}
                         />
                         <TextInput
                             label={strings.drefFromSubmissionEmailLabel}
@@ -295,6 +324,7 @@ function Submission(props: Props) {
                             value={value.media_contact_email}
                             onChange={setFieldValue}
                             error={error?.media_contact_email}
+                            disabled={disabled}
                         />
                         <TextInput
                             label={strings.drefFromSubmissionPhoneNumberLabel}
@@ -302,6 +332,7 @@ function Submission(props: Props) {
                             value={value.media_contact_phone_number}
                             onChange={setFieldValue}
                             error={error?.media_contact_phone_number}
+                            disabled={disabled}
                         />
                     </InputSection>
                 )}

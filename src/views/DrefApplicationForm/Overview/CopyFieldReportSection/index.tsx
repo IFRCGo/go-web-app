@@ -7,13 +7,14 @@ import {
     isNotDefined,
     isDefined,
 } from '@togglecorp/fujs';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList, removeNull } from '@togglecorp/toggle-form';
 import sanitizeHtml from 'sanitize-html';
 
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
-import FieldReportSearchSelectInput from '#components/domain/FieldReportSearchSelectInput';
-import type { FieldReportItem as FieldReportSearchItem } from '#components/domain/FieldReportSearchSelectInput';
+import FieldReportSearchSelectInput, {
+    type FieldReportItem as FieldReportSearchItem,
+} from '#components/domain/FieldReportSearchSelectInput';
 import useInputState from '#hooks/useInputState';
 import useAlert from '#hooks/useAlert';
 import {
@@ -22,7 +23,7 @@ import {
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 
-import type { PartialDref } from '../../schema';
+import { type PartialDref } from '../../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -31,12 +32,14 @@ type Value = PartialDref;
 interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<PartialDref>) => void;
+    disabled?: boolean;
 }
 
 function CopyFieldReportSection(props: Props) {
     const {
         value,
         setFieldValue,
+        disabled,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -45,22 +48,23 @@ function CopyFieldReportSection(props: Props) {
     const [fieldReport, setFieldReport] = useInputState<number | undefined | null>(
         value?.field_report,
     );
-    const [fetchedFieldReports, setFetchedFieldReports] = useState<
+    const [fieldReportOptions, setFieldReportOptions] = useState<
         FieldReportSearchItem[] | undefined | null
     >([]);
 
     useRequest({
-        skip: isNotDefined(value?.field_report),
+        skip: isNotDefined(value.field_report),
         url: '/api/v2/field-report/{id}/',
         pathVariables: {
-            id: Number(value?.field_report),
+            id: Number(value.field_report),
         },
         onSuccess: (fr) => {
+            // FIXME: Do we need to check this?
             if (!fr) {
                 return;
             }
 
-            setFetchedFieldReports(
+            setFieldReportOptions(
                 (oldOptions) => unique([...(oldOptions ?? []), fr], (option) => option.id),
             );
         },
@@ -69,19 +73,22 @@ function CopyFieldReportSection(props: Props) {
     const {
         pending: frDetailPending,
         trigger: triggerDetailRequest,
-    } = useLazyRequest<'/api/v2/field-report/{id}/', null, 'GET'>({
+    } = useLazyRequest({
         url: '/api/v2/field-report/{id}/',
         pathVariables: isDefined(fieldReport)
             ? { id: fieldReport }
             : undefined,
-        onSuccess: (fieldReportResponse) => {
-            if (!fieldReportResponse) {
+        onSuccess: (rawFieldReportResponse) => {
+            // FIXME: do we need to check if the response is not defined?
+            if (!rawFieldReportResponse) {
                 alert.show(
                     strings.drefFormCopyFRFailureMessage,
                     { variant: 'danger' },
                 );
                 return;
             }
+
+            const fieldReportResponse = removeNull(rawFieldReportResponse);
 
             // const frDate = fieldReportResponse.created_at?.split('T')[0];
             // const go_field_report_date = value.go_field_report_date ?? frDate;
@@ -92,12 +99,15 @@ function CopyFieldReportSection(props: Props) {
                     { allowedTags: [] },
                 )
                 : undefined;
+
             const un_or_other_actor = value.un_or_other_actor ?? fieldReportResponse.actions_others;
             const country = value.country ?? fieldReportResponse.countries[0];
 
             // TODO verify the following
             const district = (value.district && value.district.length > 0)
-                ? value.district : fieldReportResponse.districts;
+                ? value.district
+                : fieldReportResponse.districts;
+
             const num_affected = value?.num_affected
                 ?? fieldReportResponse.num_affected
                 ?? fieldReportResponse.gov_num_affected
@@ -106,8 +116,10 @@ function CopyFieldReportSection(props: Props) {
             // FIXME: use constants
             const partner_national_society = value?.partner_national_society
                 ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'PNS')?.summary;
-            const ifrc = value?.ifrc ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'FDRN')?.summary;
-            const icrc = value?.icrc ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'NTLS')?.summary;
+            const ifrc = value?.ifrc
+                ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'FDRN')?.summary;
+            const icrc = value?.icrc
+                ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'NTLS')?.summary;
 
             let {
                 national_society_contact_name,
@@ -124,6 +136,7 @@ function CopyFieldReportSection(props: Props) {
                 media_contact_phone_number,
             } = value;
 
+            // FIXME: Should this be `and` or `or` logic
             if (
                 !national_society_contact_name
                 && !national_society_contact_email
@@ -141,6 +154,7 @@ function CopyFieldReportSection(props: Props) {
                 }
             }
 
+            // FIXME: Should this be `and` or `or` logic
             if (
                 !ifrc_emergency_name
                 && !ifrc_emergency_email
@@ -158,6 +172,7 @@ function CopyFieldReportSection(props: Props) {
                 }
             }
 
+            // FIXME: Should this be `and` or `or` logic
             if (
                 !media_contact_name
                 && !media_contact_email
@@ -178,9 +193,7 @@ function CopyFieldReportSection(props: Props) {
             // setFieldValue(go_field_report_date, 'go_field_report_date');
             setFieldValue(disaster_type, 'disaster_type');
             setFieldValue(event_description, 'event_description');
-            if (isDefined(un_or_other_actor)) {
-                setFieldValue(un_or_other_actor, 'un_or_other_actor');
-            }
+            setFieldValue(un_or_other_actor, 'un_or_other_actor');
             setFieldValue(national_society_contact_name, 'national_society_contact_name');
             setFieldValue(national_society_contact_email, 'national_society_contact_email');
             setFieldValue(national_society_contact_phone_number, 'national_society_contact_phone_number');
@@ -224,7 +237,6 @@ function CopyFieldReportSection(props: Props) {
         if (isNotDefined(fieldReportId)) {
             return;
         }
-
         triggerDetailRequest(null);
     }, [triggerDetailRequest]);
 
@@ -239,15 +251,16 @@ function CopyFieldReportSection(props: Props) {
                 value={fieldReport}
                 onChange={setFieldReport}
                 nationalSociety={value?.national_society}
-                options={fetchedFieldReports}
-                onOptionsChange={setFetchedFieldReports}
+                options={fieldReportOptions}
+                onOptionsChange={setFieldReportOptions}
                 placeholder={strings.drefFormSelectFieldReportPlaceholder}
                 nonClearable
+                disabled={disabled}
             />
             <div className={styles.actions}>
                 <Button
                     variant="secondary"
-                    disabled={isNotDefined(fieldReport) || frDetailPending}
+                    disabled={isNotDefined(fieldReport) || frDetailPending || disabled}
                     onClick={handleCopyButtonClick}
                     name={fieldReport}
                 >
