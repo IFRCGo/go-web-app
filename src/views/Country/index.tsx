@@ -8,7 +8,7 @@ import {
     TargetedPopulationIcon,
     AppealsTwoIcon,
 } from '@ifrc-go/icons';
-
+import { isNotDefined } from '@togglecorp/fujs';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
@@ -42,7 +42,7 @@ export function Component() {
         pending: countryResponsePending,
         response: countryResponse,
     } = useRequest({
-        skip: !countryId,
+        skip: isNotDefined(countryId),
         url: '/api/v2/country/{id}/',
         pathVariables: {
             id: Number(countryId),
@@ -50,10 +50,21 @@ export function Component() {
     });
 
     const {
+        pending: countrySnippetPending,
+        response: countrySnippetResponse,
+    } = useRequest({
+        skip: isNotDefined(countryId),
+        url: '/api/v2/country_snippet/',
+        // FIXME: the request is not triggered when pathVariables change
+        query: { country: Number(countryId) } as never,
+    });
+    console.log('country', countryResponse, 'snippet', countrySnippetResponse);
+
+    const {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
     } = useRequest({
-        skip: !countryId,
+        skip: isNotDefined(countryId),
         url: '/api/v2/appeal/aggregated',
         // FIXME: typings should be fixed in the server
         query: { country: Number(countryId) } as never,
@@ -62,11 +73,19 @@ export function Component() {
     const outletContext = useMemo<CountryOutletContext>(
         () => ({
             countryResponse,
+            countrySnippetResponse,
         }),
-        [countryResponse],
+        [countryResponse, countrySnippetResponse],
     );
 
-    const pending = countryResponsePending || aggregatedAppealPending;
+    const pending = countryResponsePending || aggregatedAppealPending || countrySnippetPending;
+    const additionalInfoTabName = countryResponse?.additional_tab_name
+        || strings.countryAdditionalInfoTab;
+
+    const hasAdditionalInfoData = (
+        !!countryResponse?.additional_tab_name
+        || (countryResponse?.links && countryResponse?.links.length > 0)
+        || (countryResponse?.contacts && countryResponse.contacts.length > 0));
 
     return (
         <Page
@@ -171,14 +190,16 @@ export function Component() {
                 >
                     {strings.countryCountryPlanTab}
                 </NavigationTab>
-                <NavigationTab
-                    to={generatePath(
-                        countryAdditionalDataRoute.absolutePath,
-                        { countryId },
-                    )}
-                >
-                    {strings.countryAdditionalInfoTab}
-                </NavigationTab>
+                {hasAdditionalInfoData && (
+                    <NavigationTab
+                        to={generatePath(
+                            countryAdditionalDataRoute.absolutePath,
+                            { countryId },
+                        )}
+                    >
+                        {additionalInfoTabName}
+                    </NavigationTab>
+                )}
             </NavigationTabList>
             <Outlet
                 context={outletContext}
