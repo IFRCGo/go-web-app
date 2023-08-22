@@ -368,7 +368,7 @@ export function Component() {
                 oldVal?.start_date,
                 oldVal?.end_date,
             ),
-        }));
+        }), true);
     }, [setValue]);
 
     const annualSplitErrors = useMemo(

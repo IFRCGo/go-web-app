@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 import {
     PartialForm,
@@ -29,6 +28,7 @@ interface Props {
     onRemove: (index: number) => void;
     index: number;
     titleDisplayMap: Record<string, string> | undefined;
+    disabled?: boolean;
 }
 
 function NeedInput(props: Props) {
@@ -39,13 +39,15 @@ function NeedInput(props: Props) {
         index,
         titleDisplayMap,
         onRemove,
+        disabled,
     } = props;
 
-    const needLabel = useMemo(() => (
-        isDefined(value.title) ? titleDisplayMap?.[value.title] : '--'
-    ), [titleDisplayMap, value]);
-
     const onFieldChange = useFormObject(index, onChange, defaultNeedValue);
+
+    const needLabel = isDefined(value.title)
+        ? titleDisplayMap?.[value.title]
+        : '--';
+
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
@@ -60,13 +62,16 @@ function NeedInput(props: Props) {
                 value={value.description}
                 onChange={onFieldChange}
                 error={error?.description}
+                disabled={disabled}
             />
             <Button
                 className={styles.removeButton}
                 name={index}
                 onClick={onRemove}
                 variant="tertiary"
+                // FIXME: use translations
                 title="Remove Need"
+                disabled={disabled}
             >
                 <DeleteBinTwoLineIcon />
             </Button>

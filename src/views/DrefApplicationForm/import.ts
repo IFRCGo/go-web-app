@@ -38,6 +38,11 @@ function getChildren(node: Node | undefined, name: string) {
     return nodeList;
 }
 
+interface KeyValue {
+    key: string,
+    value: string | undefined,
+}
+
 export async function getImportData(file: File) {
     const docx = docxReader.load(file);
 
@@ -51,7 +56,7 @@ export async function getImportData(file: File) {
         return potentialNodeList ?? [];
     }).flat();
 
-    const importData = sdtList?.map((sdt) => {
+    const importData = sdtList?.map((sdt): KeyValue | undefined => {
         const alias = getChildren(sdt, 'w:alias');
         const textNode = getChildren(sdt, 'w:t');
         const dateNode = getChildren(sdt, 'w:date');
@@ -80,11 +85,6 @@ export async function getImportData(file: File) {
     return importData?.filter(isDefined);
 }
 
-interface KeyValue {
-    key: string,
-    value: string | undefined,
-}
-
 function getItemsWithMatchingKeys(items: KeyValue[], key: string, exceptions?: string[]) {
     const filteredItems = items.filter((item) => item.key.startsWith(key));
 
@@ -92,7 +92,11 @@ function getItemsWithMatchingKeys(items: KeyValue[], key: string, exceptions?: s
         return filteredItems;
     }
 
-    const exceptionMap = listToMap(exceptions, (d) => d, () => true);
+    const exceptionMap = listToMap(
+        exceptions,
+        (d) => d,
+        () => true,
+    );
     return filteredItems.filter((item) => !exceptionMap[item.key]);
 }
 
@@ -180,6 +184,12 @@ function getStringSafe(str: string | undefined) {
     return trimmedStr;
 }
 
+function getFromOptions(options: NumericValueOption[], label: string | undefined) {
+    return options.find(
+        (c) => c.label.toLocaleLowerCase() === label?.toLocaleLowerCase(),
+    )?.value;
+}
+
 interface NumericValueOption {
   value: number;
   label: string;
@@ -208,6 +218,7 @@ export function transformImport(
 
     const importType = numFieldsToType[importData.length];
 
+    // NOTE: the fields are not exactly same as dref form fields
     const {
         affect_same_area,
         affect_same_population,
@@ -283,21 +294,14 @@ export function transformImport(
     } = importDataMap;
 
     const countryLabel = getStringSafe(importDataMap.country);
-    const country = countryOptions.find(
-        (c) => c.label.toLocaleLowerCase() === countryLabel?.toLocaleLowerCase(),
-    )?.value;
     const disasterCategoryLabel = getStringSafe(importDataMap.disaster_category);
-    const disaster_category = disasterCategoryOptions.find(
-        (d) => d.label.toLocaleLowerCase() === disasterCategoryLabel?.toLocaleLowerCase(),
-    )?.value;
     const disasterTypeLabel = getStringSafe(importDataMap.disaster_type);
-    const disaster_type = disasterTypeOptions.find(
-        (d) => d.label.toLocaleLowerCase() === disasterTypeLabel?.toLocaleLowerCase(),
-    )?.value;
     const onsetLabel = getStringSafe(importDataMap.type_of_onset_display);
-    const type_of_onset = onsetTypeOptions.find(
-        (o) => o.label.toLocaleLowerCase() === onsetLabel?.toLocaleLowerCase(),
-    )?.value;
+
+    const country = getFromOptions(countryOptions, countryLabel);
+    const disaster_category = getFromOptions(disasterCategoryOptions, disasterCategoryLabel);
+    const disaster_type = getFromOptions(disasterTypeOptions, disasterTypeLabel);
+    const type_of_onset = getFromOptions(onsetTypeOptions, onsetLabel);
 
     const INTERVENTION_KEY = 'intervention.';
     const interventionItems = getItemsWithMatchingKeys(importData, INTERVENTION_KEY);

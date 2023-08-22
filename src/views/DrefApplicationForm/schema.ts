@@ -16,11 +16,16 @@ import {
     positiveNumberCondition,
     positiveIntegerCondition,
 } from '#utils/form';
-import { paths } from '#generated/types';
+import { type GoApiResponse, type GoApiBody } from '#utils/restRequest';
+
 import { TYPE_ASSESSMENT } from './common';
 
+// FIXME: Do we need this limit?
+// Is this a server side limit or client side limit?
+// Shouldn't this be set for all integer types?
 const MAX_INT_LIMIT = 2147483647;
 
+// Why not use lengthLessThanCondition?
 function max500CharCondition(value: string | undefined) {
     // FIXME: use translation
     return isDefined(value) && value.length > 500
@@ -35,9 +40,8 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
         : undefined;
 }
 
-type PutDref = paths['/api/v2/dref/{id}/']['put'];
-export type DrefResponse = PutDref['responses']['200']['content']['application/json'];
-export type DrefRequestBody = PutDref['requestBody']['content']['application/json'];
+export type DrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
+export type DrefRequestBody = GoApiBody<'/api/v2/dref/{id}/', 'PUT'>;
 
 type NeedIdentifiedResponse = NonNullable<DrefRequestBody['needs_identified']>[number];
 type NsActionResponse = NonNullable<DrefRequestBody['national_society_actions']>[number];
@@ -49,12 +53,15 @@ type ImagesFileResponse = NonNullable<DrefRequestBody['images_file']>[number];
 type EventMapFileResponse = NonNullable<DrefRequestBody['event_map_file']>;
 type CoverImageFileResponse = NonNullable<DrefRequestBody['cover_image_file']>;
 
+// FIXME: Why omit id?
 type NeedIdentifiedFormFields = Omit<NeedIdentifiedResponse, 'id' | 'image_url' | 'title_display'> & {
     client_id: string;
 }
+// FIXME: Why omit id?
 type NsActionFormFields = Omit<NsActionResponse, 'id' | 'image_url' | 'title_display'> & {
     client_id: string;
 }
+// FIXME: Why not omit instead of pick?
 type InterventionFormFields = Pick<
     InterventionResponse,
     'title'
@@ -67,11 +74,13 @@ type InterventionFormFields = Pick<
         client_id: string;
     })[];
 }
+// FIXME: Why omit id?
 type RiskSecurityFormFields = Omit<RiskSecurityResponse, 'id'> & {
     client_id: string;
 }
 
-type DrefFormFields = Omit<
+// FIXME: Let's use DeepReplace
+export type DrefFormFields = Omit<
     DrefRequestBody,
     'needs_identified'
     | 'national_society_actions'
@@ -98,7 +107,7 @@ type DrefFormSchemaFields = ReturnType<DrefFormSchema['fields']>;
 
 const schema: DrefFormSchema = {
     fields: (formValue): DrefFormSchemaFields => {
-        const baseSchema: DrefFormSchemaFields = {
+        let formFields: DrefFormSchemaFields = {
             field_report: {},
             title: { required: true },
             national_society: { required: true },
@@ -141,6 +150,7 @@ const schema: DrefFormSchema = {
                         },
                     }),
                 }),
+                // FIXME: this is not defined on array type
                 defaultValue: [],
                 validations: [lessThanEqualToTwoImagesCondition],
             },
@@ -156,12 +166,15 @@ const schema: DrefFormSchema = {
             selection_criteria: {},
             community_involved: {},
             disability_people_per: {
+                // FIXME: shouldn't these be integer?
                 validations: [greaterThanOrEqualToCondition(0), lessThanOrEqualToCondition(100)],
             },
             people_per_urban: {
+                // FIXME: shouldn't these be integer?
                 validations: [greaterThanOrEqualToCondition(0), lessThanOrEqualToCondition(100)],
             },
             people_per_local: {
+                // FIXME: shouldn't these be integer?
                 validations: [greaterThanOrEqualToCondition(0), lessThanOrEqualToCondition(100)],
             },
             displaced_people: { validations: [positiveIntegerCondition] },
@@ -221,8 +234,14 @@ const schema: DrefFormSchema = {
                 member: () => ({
                     fields: () => ({
                         client_id: {},
-                        title: { required: true },
-                        description: { required: true },
+                        title: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        description: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                     }),
                 }),
             },
@@ -290,20 +309,43 @@ const schema: DrefFormSchema = {
             'communication',
             'needs_identified',
         ] as const;
+
         type ConditionalReturnType = Pick<
             DrefFormSchemaFields,
             (typeof assessmentAffectedFields)[number]
         >;
 
         // TODO: verify schema, add condition for loan type
-        const schemaWithAssessmentCondition: DrefFormSchemaFields = addCondition(
-            baseSchema,
+        formFields = addCondition(
+            formFields,
             formValue,
             ['type_of_dref'],
             assessmentAffectedFields,
             (): ConditionalReturnType => {
-                if (formValue?.type_of_dref !== TYPE_ASSESSMENT) {
-                    const schemaForNonAssessment: ConditionalReturnType = {
+                const schemaForAssessment: ConditionalReturnType = {
+                    did_it_affect_same_area: { forceValue: nullValue },
+                    did_it_affect_same_population: { forceValue: nullValue },
+                    did_ns_respond: { forceValue: nullValue },
+                    did_ns_request_fund: { forceValue: nullValue },
+                    ns_request_text: { forceValue: nullValue },
+                    lessons_learned: { forceValue: nullValue },
+                    dref_recurrent_text: { forceValue: nullValue },
+                    identified_gaps: { forceValue: nullValue },
+                    women: { forceValue: nullValue },
+                    men: { forceValue: nullValue },
+                    girls: { forceValue: nullValue },
+                    boys: { forceValue: nullValue },
+                    event_scope: { forceValue: nullValue },
+                    assessment_report: { forceValue: nullValue },
+                    logistic_capacity_of_ns: { forceValue: nullValue },
+                    pmer: { forceValue: nullValue },
+                    communication: { forceValue: nullValue },
+                    needs_identified: { forceValue: nullValue },
+                };
+
+                if (formValue?.type_of_dref === TYPE_ASSESSMENT) {
+                    return {
+                        ...schemaForAssessment,
                         did_it_affect_same_area: {},
                         did_it_affect_same_population: {},
                         did_ns_respond: {},
@@ -332,36 +374,12 @@ const schema: DrefFormSchema = {
                             }),
                         },
                     };
-
-                    return schemaForNonAssessment;
                 }
-
-                const schemaForAssessment: ConditionalReturnType = {
-                    did_it_affect_same_area: { forceValue: nullValue },
-                    did_it_affect_same_population: { forceValue: nullValue },
-                    did_ns_respond: { forceValue: nullValue },
-                    did_ns_request_fund: { forceValue: nullValue },
-                    ns_request_text: { forceValue: nullValue },
-                    lessons_learned: { forceValue: nullValue },
-                    dref_recurrent_text: { forceValue: nullValue },
-                    identified_gaps: { forceValue: nullValue },
-                    women: { forceValue: nullValue },
-                    men: { forceValue: nullValue },
-                    girls: { forceValue: nullValue },
-                    boys: { forceValue: nullValue },
-                    event_scope: { forceValue: nullValue },
-                    assessment_report: { forceValue: nullValue },
-                    logistic_capacity_of_ns: { forceValue: nullValue },
-                    pmer: { forceValue: nullValue },
-                    communication: { forceValue: nullValue },
-                    needs_identified: { forceValue: nullValue },
-                };
-
                 return schemaForAssessment;
             },
         );
 
-        return schemaWithAssessmentCondition;
+        return formFields;
     },
 };
 
