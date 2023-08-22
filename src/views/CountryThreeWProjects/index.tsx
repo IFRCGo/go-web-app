@@ -1,10 +1,10 @@
 import {
+    useContext,
     useMemo,
     useState,
-    useCallback,
-    useContext,
 } from 'react';
 import {
+    isDefined,
     isNotDefined,
     listToGroupList,
     mapToList,
@@ -19,32 +19,32 @@ import {
     DownloadFillIcon,
 } from '@ifrc-go/icons';
 
-import Table from '#components/Table';
-import {
-    createStringColumn,
-    createNumberColumn,
-    createActionColumn,
-} from '#components/Table/ColumnShortcuts';
-import Container from '#components/Container';
-import Link from '#components/Link';
-import Button from '#components/Button';
-import PieChart from '#components/PieChart';
 import BlockLoading from '#components/BlockLoading';
-import KeyFigure from '#components/KeyFigure';
-import { useRequest } from '#utils/restRequest';
-import { sumSafe, denormalizeList } from '#utils/common';
-import type { CountryOutletContext } from '#utils/outletContext';
-import useTranslation from '#hooks/useTranslation';
+import Button from '#components/Button';
+import Container from '#components/Container';
 import ExpandableContainer from '#components/ExpandableContainer';
+import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
+import PieChart from '#components/PieChart';
+import RouteContext from '#contexts/route';
+import Table from '#components/Table';
+import type { CountryOutletContext } from '#utils/outletContext';
+import type { GoApiResponse } from '#utils/restRequest';
+import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
+import { sumSafe, denormalizeList } from '#utils/common';
+import { type components } from '#generated/types';
+import { useRequest } from '#utils/restRequest';
 import {
+    createActionColumn,
+    createNumberColumn,
+    createStringColumn,
+} from '#components/Table/ColumnShortcuts';
+import {
+    numericIdSelector,
     numericValueSelector,
     stringLabelSelector,
-    numericIdSelector,
 } from '#utils/selectors';
-import type { GoApiResponse } from '#utils/restRequest';
-import { type components } from '#generated/types';
-import RouteContext from '#contexts/route';
 
 import ProjectActions from './ProjectActions';
 import Map from './Map';
@@ -61,7 +61,7 @@ interface LabelValue {
 type District = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[number];
 type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
 
-type ProjectKey = keyof Project;
+type ProjectKey = 'reporting_ns' | 'project_districts' | 'programme_type' | 'operation_type' | 'programme_type' | 'primary_sector' | 'secondary_sectors';
 
 // const PROJECT_STATUS_COMPLETED = 2;
 const PROJECT_STATUS_ONGOING = 1 satisfies components['schemas']['Status1d2Enum'];
@@ -78,45 +78,26 @@ const primaryRedColorShades = [
     'var(--go-ui-color-red-10)',
 ];
 
-function filterProjects(
-    projectList: Project[],
-    filters: Partial<Record<ProjectKey, number[]>>,
-) {
-    const filterKeys = Object.keys(filters) as ProjectKey[];
+function filterProjects(projectList: Project[], filters: Partial<Record<ProjectKey, number[]>>) {
+    return projectList.filter((project) => (
+        Object.entries(filters).every(([filterKey, filterValue]) => {
+            const projectValue = project[filterKey as ProjectKey];
 
-    return filterKeys.reduce((filteredProjectList, filterKey) => {
-        const filterValue = filters[filterKey];
-
-        if (filterValue?.length === 0) {
-            return filteredProjectList;
-        }
-
-        return filteredProjectList.filter((project) => {
-            const value = project[filterKey];
-
-            if (isNotDefined(value)) {
+            if (isNotDefined(projectValue)) {
                 return true;
             }
 
-            if (isNotDefined(filterValue)) {
+            if (isNotDefined(filterValue) || filterValue.length === 0) {
                 return true;
             }
 
-            if (Array.isArray(value)) {
-                return value.some(
-                    (v) => (
-                        filterValue?.findIndex(
-                            (fv) => String(fv) === String(v),
-                        ) !== -1
-                    ),
-                );
+            if (Array.isArray(projectValue)) {
+                return projectValue.some((v) => filterValue.includes(v));
             }
 
-            return filterValue?.findIndex(
-                (fv) => String(fv) === String(value),
-            ) !== -1;
-        });
-    }, projectList);
+            return filterValue.includes(projectValue);
+        })
+    ));
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -125,6 +106,7 @@ export function Component() {
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
     const {
+        countryAllThreeW: countryAllThreeWRoute,
         threeWProjectEdit: threeWProjectEditRoute,
     } = useContext(RouteContext);
 
@@ -160,10 +142,6 @@ export function Component() {
             limit: 200,
         },
     });
-
-    const handleExportClick = useCallback(() => {
-        console.warn('handleExportClick called');
-    }, []);
 
     const districtList = districtListResponse?.results ?? emptyDistrictList;
     const projectList = projectListResponse?.results ?? emptyProjectList;
@@ -369,13 +347,15 @@ export function Component() {
                         <Button
                             variant="primary"
                             name={undefined}
-                            onClick={handleExportClick}
                             icons={(<DownloadFillIcon />)}
                         >
                             {strings.exportProjects}
                         </Button>
                         <Link
-                            to={`/three-w/all/?country=${countryResponse?.iso}`}
+                            to={isDefined(countryResponse)
+                                ? generatePath(countryAllThreeWRoute.absolutePath, {
+                                    countryId: countryResponse.id,
+                                }) : undefined}
                             withForwardIcon
                         >
                             {strings.viewAllProjects}
@@ -402,7 +382,7 @@ export function Component() {
 
                             const district = districtList.find((d) => d.id === Number(districtId));
 
-                            if (isNotDefined(district?.id)) {
+                            if (isNotDefined(district)) {
                                 return (
                                     <ExpandableContainer
                                         key="others"
@@ -441,7 +421,7 @@ export function Component() {
 
                             return (
                                 <ExpandableContainer
-                                    key={district?.id}
+                                    key={district.id}
                                     heading={resolveToString(
                                         strings.provinceProjects,
                                         {

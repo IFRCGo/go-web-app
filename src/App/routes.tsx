@@ -939,6 +939,20 @@ const allThreeW = customWrapRoute({
     },
 });
 
+const countryAllThreeW = customWrapRoute({
+    path: 'three-w/all/:countryId',
+    component: {
+        render: () => import('#views/CountryAllThreeW'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Country All 3W',
+        visibility: 'anything',
+    },
+});
+
 const allAppeals = customWrapRoute({
     path: 'appeals/all',
     component: {
@@ -1917,6 +1931,7 @@ const wrappedRoutes = {
     resources,
     search,
     allThreeW,
+    countryAllThreeW,
     allAppeals,
     allEmergencies,
     allFieldReports,

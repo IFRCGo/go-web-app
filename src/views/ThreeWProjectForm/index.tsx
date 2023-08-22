@@ -1,5 +1,4 @@
 import {
-    useEffect,
     useMemo,
     useState,
     useContext,
@@ -21,6 +20,7 @@ import {
 import {
     randomString,
     isFalsyString,
+    isTruthyString,
     isTruthy,
     isDefined,
     isFalsy,
@@ -77,9 +77,6 @@ import AnnualSplitInput from './AnnualSplitInput';
 
 import styles from './styles.module.css';
 import i18n from './i18n.json';
-
-type ProjectStatus = NonNullable<GlobalEnums['deployments_project_status']>[number];
-type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
 
 function calculateStatus(
     isProjectCompleted: boolean | undefined | null,
@@ -196,9 +193,9 @@ const secondarySectorLabelSelector = (
 export function Component() {
     const strings = useTranslation(i18n);
     const alert = useAlert();
-    const location = useLocation();
+    const { state } = useLocation();
+    const { projectId: projectIdFromParams } = useParams<{ projectId: string }>();
 
-    const { projectId } = useParams<{ projectId: string }>();
     const {
         threeWProjectEdit: threeWProjectEditRoute,
     } = useContext(RouteContext);
@@ -222,28 +219,7 @@ export function Component() {
         EventItem[] | undefined | null
     >([]);
 
-    const state = location.state as Project | undefined;
-    useEffect(() => {
-        if (isDefined(state)) {
-            setDistrictOptions(state.project_districts_detail);
-            setEventOptions([{
-                ...state.event_detail,
-                // FIXME: event dtype id is a must inside event mini but
-                // its not defined under event_detail of this state
-                dtype: { id: state.event_detail?.dtype } as EventItem['dtype'],
-            }]);
-            setValue({
-                ...state,
-                // Set beginning is_annual_report switch according to
-                // the filled-in annual split details
-                is_annual_report: state.annual_split_detail?.length >= 1,
-                annual_split_detail: state.annual_split_detail.map((split) => ({
-                    ...injectClientId(split),
-                })),
-            });
-        }
-    }, [state, setValue]);
-
+    const projectId = projectIdFromParams ?? state?.projectId as string | undefined;
     const { pending: pendingProjectDetails } = useRequest({
         skip: isFalsyString(projectId),
         url: '/api/v2/project/{id}/',

@@ -17,7 +17,7 @@ import useTranslation from '#hooks/useTranslation';
 import ConfirmButton from '#components/ConfirmButton';
 import useAlert from '#hooks/useAlert';
 import { adminUrl } from '#config';
-import type { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
 import RouteContext from '#contexts/route';
 
@@ -102,7 +102,7 @@ function ProjectActions(props: Props) {
                     to={generatePath(
                         newThreeWProjectRoute.absolutePath,
                     )}
-                    state={project}
+                    state={{ projectId: project.id }}
                     icons={<CopyLineIcon />}
                 >
                     {strings.projectDuplicate}

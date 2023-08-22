@@ -24,8 +24,8 @@ import TextOutput from '#components/TextOutput';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import LegendItem from '#components/LegendItem';
 import { denormalizeList } from '#utils/common';
-import type { GoApiResponse } from '#utils/restRequest';
-import type { CountryOutletContext } from '#utils/outletContext';
+import { type GoApiResponse } from '#utils/restRequest';
+import { type CountryOutletContext } from '#utils/outletContext';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useTranslation from '#hooks/useTranslation';
 
@@ -77,7 +77,6 @@ function getOperationType(projectList: Project[]) {
             .map((d) => ({
                 // FIXME: typings should be fixed in the server
                 id: d.operation_type as number,
-                title: d.operation_type_display,
             })),
         (d) => d.id,
     ) ?? [];
@@ -92,7 +91,6 @@ function getOperationType(projectList: Project[]) {
 
     return {
         id: OPERATION_TYPE_MULTI,
-        title: 'Multiple types',
     };
 }
 
