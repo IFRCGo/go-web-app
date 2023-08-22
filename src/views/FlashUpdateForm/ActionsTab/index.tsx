@@ -27,6 +27,7 @@ interface Props {
     error: Error<FormType> | undefined;
     onValueChange: (...entries: EntriesAsList<FormType>) => void;
     value: FormType;
+    disabled?: boolean;
 }
 
 function ActionsInput(props: Props) {
@@ -35,6 +36,7 @@ function ActionsInput(props: Props) {
         error: formError,
         onValueChange,
         value,
+        disabled,
     } = props;
 
     const {
@@ -128,6 +130,7 @@ function ActionsInput(props: Props) {
                             value={actionTaken}
                             onChange={setValue}
                             actionOptions={actionOptionsMap[actionTaken.organization]}
+                            disabled={disabled}
                         />
                     </InputSection>
                 ) : null

@@ -31,6 +31,7 @@ interface Props {
     index: number;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    disabled?: boolean;
 }
 
 function ReferenceInput(props: Props) {
@@ -40,6 +41,7 @@ function ReferenceInput(props: Props) {
         value,
         index,
         onRemove,
+        disabled,
         fileIdToUrlMap,
         setFileIdToUrlMap,
     } = props;
@@ -60,6 +62,7 @@ function ReferenceInput(props: Props) {
                     onChange={onValueChange}
                     error={error?.date}
                     label={strings.flashUpdateFormContextReferenceDateLabel}
+                    disabled={disabled}
                 />
                 <TextInput
                     className={styles.inputName}
@@ -68,6 +71,7 @@ function ReferenceInput(props: Props) {
                     onChange={onValueChange}
                     error={error?.source_description}
                     label={strings.flashUpdateFormContextReferenceNameLabel}
+                    disabled={disabled}
                 />
                 <TextInput
                     className={styles.inputUrl}
@@ -76,6 +80,7 @@ function ReferenceInput(props: Props) {
                     value={value?.url}
                     onChange={onValueChange}
                     error={error?.url}
+                    disabled={disabled}
                 />
             </div>
             <div className={styles.secondColumn}>
@@ -86,6 +91,7 @@ function ReferenceInput(props: Props) {
                     onChange={onValueChange}
                     fileIdToUrlMap={fileIdToUrlMap}
                     setFileIdToUrlMap={setFileIdToUrlMap}
+                    disabled={disabled}
                 >
                     {strings.uploadDocumentButtonTitle}
                 </GoSingleFileInput>
@@ -98,6 +104,7 @@ function ReferenceInput(props: Props) {
                     title={strings.deleteButtonTitle}
                     onClick={onRemove}
                     variant="tertiary"
+                    disabled={disabled}
                 >
                     <DeleteBinLineIcon />
                 </IconButton>

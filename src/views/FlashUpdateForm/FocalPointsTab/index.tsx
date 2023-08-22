@@ -18,6 +18,7 @@ interface Props {
     error: Error<FormType> | undefined;
     onValueChange: (...entries: EntriesAsList<FormType>) => void;
     value: FormType;
+    disabled?: boolean;
 }
 
 function FocalPoints(props: Props) {
@@ -26,6 +27,7 @@ function FocalPoints(props: Props) {
         error: formError,
         onValueChange,
         value,
+        disabled,
     } = props;
 
     const error = getErrorObject(formError);
@@ -43,6 +45,7 @@ function FocalPoints(props: Props) {
                         onChange={onValueChange}
                         error={error?.originator_name}
                         label={strings.flashUpdateFormFocalOriginatorNameLabel}
+                        disabled={disabled}
                     />
                     <TextInput
                         name="originator_title"
@@ -50,6 +53,7 @@ function FocalPoints(props: Props) {
                         onChange={onValueChange}
                         error={error?.originator_title}
                         label={strings.flashUpdateFormFocalOriginatorTitleLabel}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection>
@@ -59,6 +63,7 @@ function FocalPoints(props: Props) {
                         onChange={onValueChange}
                         error={error?.originator_email}
                         label={strings.flashUpdateFormFocalOriginatorEmailLabel}
+                        disabled={disabled}
                     />
                     <TextInput
                         name="originator_phone"
@@ -66,6 +71,7 @@ function FocalPoints(props: Props) {
                         onChange={onValueChange}
                         error={error?.originator_phone}
                         label={strings.flashUpdateFormFocalOriginatorPhoneLabel}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -78,6 +84,7 @@ function FocalPoints(props: Props) {
                         onChange={onValueChange}
                         error={error?.ifrc_name}
                         label={strings.flashUpdateFormFocalIfrcNameLabel}
+                        disabled={disabled}
                     />
                     <TextInput
                         name="ifrc_title"
@@ -85,6 +92,7 @@ function FocalPoints(props: Props) {
                         onChange={onValueChange}
                         error={error?.ifrc_title}
                         label={strings.flashUpdateFormFocalIfrcTitleLabel}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection>
@@ -94,6 +102,7 @@ function FocalPoints(props: Props) {
                         onChange={onValueChange}
                         error={error?.ifrc_email}
                         label={strings.flashUpdateFormFocalIfrcEmailLabel}
+                        disabled={disabled}
                     />
                     <TextInput
                         name="ifrc_phone"
@@ -101,6 +110,7 @@ function FocalPoints(props: Props) {
                         onChange={onValueChange}
                         error={error?.ifrc_phone}
                         label={strings.flashUpdateFormFocalIfrcPhoneLabel}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>

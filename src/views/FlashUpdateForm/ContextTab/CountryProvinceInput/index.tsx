@@ -1,9 +1,11 @@
-import { useCallback, useState } from 'react';
+import {
+    useCallback,
+    type SetStateAction,
+    type Dispatch,
+} from 'react';
 import { randomString } from '@togglecorp/fujs';
 import {
     type ArrayError,
-    type SetValueArg,
-    useFormObject,
     getErrorObject,
     getErrorString,
 } from '@togglecorp/toggle-form';
@@ -24,9 +26,12 @@ import styles from './styles.module.css';
 interface Props {
     value: PartialCountryDistrict;
     error: ArrayError<PartialCountryDistrict> | undefined;
-    onChange: (value: SetValueArg<PartialCountryDistrict>, index: number) => void;
+    onChange: (value: PartialCountryDistrict, index: number) => void;
     onRemove: (index: number) => void;
     index: number;
+    disabled?: boolean;
+    districtOptions: DistrictItem[] | null | undefined;
+    setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
 }
 
 function CountryProvinceInput(props: Props) {
@@ -36,28 +41,41 @@ function CountryProvinceInput(props: Props) {
         value,
         index,
         onRemove,
+        disabled,
+        districtOptions,
+        setDistrictOptions,
     } = props;
+
     const strings = useTranslation(i18n);
 
-    const [districtOptions, setDistrictOptions] = useState<
-        DistrictItem[] | undefined | null
-    >([]);
-
-    const setFieldValue = useFormObject(index, onChange, () => ({
-        client_id: randomString(),
-    }));
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps?.[value.client_id])
         : undefined;
 
     const handleCountryChange = useCallback((newValue: number | undefined) => {
-        onChange((oldVal) => ({
-            ...oldVal,
-            client_id: oldVal?.client_id ?? randomString(),
+        onChange({
+            ...value,
+            client_id: value?.client_id ?? randomString(),
             country: newValue,
             district: [],
-        }), index);
-    }, [onChange, index]);
+        }, index);
+    }, [
+        value,
+        onChange,
+        index,
+    ]);
+
+    const handleDistrictChange = useCallback((newValue: number[] | undefined) => {
+        onChange({
+            ...value,
+            client_id: value?.client_id ?? randomString(),
+            district: newValue,
+        }, index);
+    }, [
+        value,
+        onChange,
+        index,
+    ]);
 
     return (
         <div className={styles.countryDistrictInput}>
@@ -67,16 +85,18 @@ function CountryProvinceInput(props: Props) {
                 name="country"
                 onChange={handleCountryChange}
                 value={value.country}
+                disabled={disabled}
             />
             <DistrictSearchMultiSelectInput
                 error={getErrorString(error?.district)}
                 label={strings.flashUpdateFormContextProvinceLabel}
                 name="district"
                 countryId={value?.country}
-                onChange={setFieldValue}
+                onChange={handleDistrictChange}
                 options={districtOptions}
                 onOptionsChange={setDistrictOptions}
                 value={value.district}
+                disabled={disabled}
             />
             <IconButton
                 className={styles.removeButton}
@@ -87,7 +107,7 @@ function CountryProvinceInput(props: Props) {
                 // FIXME: Use translations
                 ariaLabel="Remove"
                 variant="tertiary"
-                disabled={index === 0}
+                disabled={index === 0 || disabled}
             >
                 <DeleteBinLineIcon />
             </IconButton>

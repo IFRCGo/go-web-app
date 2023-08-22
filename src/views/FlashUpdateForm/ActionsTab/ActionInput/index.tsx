@@ -27,6 +27,7 @@ interface Props {
     onChange: (value: SetValueArg<PartialActionTaken>, index: number) => void;
     index: number;
     actionOptions: Action[];
+    disabled?: boolean;
     placeholder?: string;
 }
 
@@ -36,6 +37,7 @@ function ActionInput(props: Props) {
         error: errorFromProps,
         onChange,
         index,
+        disabled,
         actionOptions,
         placeholder,
     } = props;
@@ -53,6 +55,7 @@ function ActionInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.summary}
                 placeholder={placeholder}
+                disabled={disabled}
             />
             <Checklist
                 name="actions"
@@ -63,6 +66,7 @@ function ActionInput(props: Props) {
                 // tooltipSelector={(d) => d.tooltip_text}
                 value={value.actions}
                 error={getErrorString(error?.actions)}
+                disabled={disabled}
             />
         </div>
     );

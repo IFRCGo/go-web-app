@@ -38,6 +38,7 @@ interface Props<N> {
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     label: React.ReactNode;
     icons?: React.ReactNode;
+    disabled?: boolean;
     actions?: React.ReactNode;
 }
 
@@ -53,6 +54,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
         error: formError,
         label,
         icons,
+        disabled,
         actions,
     } = props;
 
@@ -127,6 +129,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                 icons={icons}
                 actions={actions}
                 hidePreview
+                disabled={disabled}
             >
                 {label}
             </GoMultiFileInput>
@@ -154,6 +157,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     ariaLabel="Remove"
                                     variant="secondary"
                                     spacing="none"
+                                    disabled={disabled}
                                 >
                                     <DeleteBinLineIcon />
                                 </IconButton>
@@ -167,6 +171,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     name={index}
                                     value={fileValue?.caption}
                                     onChange={handleCaptionChange}
+                                    disabled={disabled}
                                     error={getErrorObject(error?.[fileValue.client_id])?.caption}
                                     // FIXME: use translation
                                     placeholder="Enter Caption"

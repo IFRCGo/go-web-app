@@ -2,9 +2,9 @@ import {
     PartialForm,
     ArraySchema,
     ObjectSchema,
+    undefinedValue,
     emailCondition,
     addCondition,
-    blacklistCondition,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
 
@@ -87,7 +87,7 @@ const finalSchema: FormSchema = {
                 keySelector: (graphic) => graphic.client_id,
                 member: (): GraphicsSchemaMember => ({
                     fields: (): GraphicSchemaFields => ({
-                        id: {},
+                        id: { defaultValue: undefinedValue },
                         client_id: {},
                         caption: {},
                     }),
@@ -97,7 +97,7 @@ const finalSchema: FormSchema = {
                 keySelector: (mapFile) => mapFile.client_id,
                 member: (): MapsSchemaMember => ({
                     fields: (): MapSchemaFields => ({
-                        id: {},
+                        id: { defaultValue: undefinedValue },
                         client_id: {},
                         caption: {},
                     }),
@@ -107,6 +107,7 @@ const finalSchema: FormSchema = {
                 keySelector: (reference) => reference.client_id,
                 member: (): ReferencesSchemaMember => ({
                     fields: (): ReferenceSchemaFields => ({
+                        id: { defaultValue: undefinedValue },
                         client_id: {},
                         date: { required: true },
                         source_description: { required: true },
@@ -119,6 +120,7 @@ const finalSchema: FormSchema = {
                 keySelector: (actionTaken) => actionTaken.client_id,
                 member: (): ActionsSchemaMember => ({
                     fields: (): ActionSchemaFields => ({
+                        id: { defaultValue: undefinedValue },
                         client_id: {},
                         organization: {},
                         actions: {},
@@ -133,29 +135,28 @@ const finalSchema: FormSchema = {
             value,
             ['country_district'] as const,
             ['country_district'] as const,
-            (val): Pick<FormSchemaFields, 'country_district'> => {
+            (): Pick<FormSchemaFields, 'country_district'> => ({
+                /*
+                TODO: Add unique condition for country list
                 const countryIds = val?.country_district
                     ?.map((country) => country.country).filter(isDefined);
-
-                console.warn('here', countryIds);
-                return {
-                    country_district: {
-                        keySelector: (country) => country.client_id,
-                        member: (): CountryDistrictsSchemaMember => ({
-                            fields: (): CountryDistrictSchemaFields => ({
-                                client_id: {},
-                                country: {
-                                    required: true,
-                                    // NOTE: Validation yet to be written
-                                    // validations: [blacklistCondition(countryIds ?? [])],
-                                },
-                                district: { defaultValue: [] },
-                            }),
+                */
+                country_district: {
+                    keySelector: (country) => country.client_id,
+                    member: (): CountryDistrictsSchemaMember => ({
+                        fields: (): CountryDistrictSchemaFields => ({
+                            client_id: {},
+                            country: {
+                                required: true,
+                                // NOTE: Validation yet to be written
+                                // validations: [blacklistCondition(countryIds ?? [])],
+                            },
+                            district: { defaultValue: [] },
                         }),
-                        // validation: [lengthSmallerThanCondition(11)],
-                    },
-                };
-            },
+                    }),
+                    // validation: [lengthSmallerThanCondition(11)],
+                },
+            }),
         );
 
         return schema;

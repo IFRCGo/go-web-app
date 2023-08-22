@@ -1,5 +1,11 @@
-import { useCallback } from 'react';
-import { randomString } from '@togglecorp/fujs';
+import {
+    useCallback,
+    type SetStateAction,
+    type Dispatch,
+} from 'react';
+import {
+    randomString,
+} from '@togglecorp/fujs';
 import {
     useFormArray,
     getErrorObject,
@@ -14,6 +20,7 @@ import RichTextArea from '#components/parked/RichTextArea';
 import useTranslation from '#hooks/useTranslation';
 import TextInput from '#components/TextInput';
 import Button from '#components/Button';
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 
 import i18n from './i18n.json';
 import ReferenceInput from './ReferenceInput';
@@ -31,6 +38,9 @@ interface Props {
     value: FormType;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    disabled?: boolean;
+    districtOptions: DistrictItem[] | null | undefined;
+    setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
 }
 
 function ContextTab(props: Props) {
@@ -40,7 +50,10 @@ function ContextTab(props: Props) {
         onValueChange,
         value,
         fileIdToUrlMap,
+        disabled,
         setFileIdToUrlMap,
+        districtOptions,
+        setDistrictOptions,
     } = props;
 
     const error = getErrorObject(formError);
@@ -52,7 +65,6 @@ function ContextTab(props: Props) {
         'country_district',
         onValueChange,
     );
-
     const {
         setValue: onReferenceChange,
         removeValue: onReferenceRemove,
@@ -92,6 +104,35 @@ function ContextTab(props: Props) {
         );
     }, [onValueChange]);
 
+    /*
+    const countryOptions = useCountry();
+    const countryTitleMapById = useMemo(() => (
+        listToMap(
+            countryOptions,
+            (country) => country.id,
+            (country) => country.name,
+        )
+    ), [countryOptions]);
+    const disasterOptions = useDisasterType();
+    const generateTitle = useCallback((countries: number[], disaster: number) => {
+        const countriesTitles = countries
+            .map((country) => countryTitleMapById[country])
+            .join(' - ');
+
+        const now = new Date();
+        const mm = (now.getMonth() + 1).toString().padStart(2, '0');
+        const yyyy = now.getFullYear().toString();
+
+        const date = `${mm}/${yyyy}`;
+        const selectedHazard = disasterOptions?.find((item) => item.id === disaster);
+
+        return (`${countriesTitles} - ${selectedHazard?.name}  ${date}`);
+    }, [
+        countryTitleMapById,
+        disasterOptions,
+    ]);
+    */
+
     return (
         <Container
             heading={strings.flashUpdateFormContextHeading}
@@ -110,6 +151,9 @@ function ContextTab(props: Props) {
                         error={getErrorObject(error?.country_district)}
                         onChange={onCountryDistrictChange}
                         onRemove={onCountryDistrictRemove}
+                        disabled={disabled}
+                        districtOptions={districtOptions}
+                        setDistrictOptions={setDistrictOptions}
                     />
                 ))}
                 {(value?.country_district?.length ?? 0) < 10 && (
@@ -118,6 +162,7 @@ function ContextTab(props: Props) {
                             name={undefined}
                             variant="secondary"
                             onClick={handleAddCountryDistrict}
+                            disabled={disabled}
                         >
                             {strings.flashUpdateFormContextCountryButton}
                         </Button>
@@ -132,6 +177,7 @@ function ContextTab(props: Props) {
                     name="hazard_type"
                     value={value.hazard_type}
                     onChange={onValueChange}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -145,6 +191,7 @@ function ContextTab(props: Props) {
                     onChange={onValueChange}
                     error={error?.title}
                     placeholder={strings.flashUpdateFormContextTitlePlaceholder}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -157,6 +204,7 @@ function ContextTab(props: Props) {
                     onChange={onValueChange}
                     error={error?.situational_overview}
                     placeholder={strings.flashUpdateFormContextSituationalDescription}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -173,6 +221,7 @@ function ContextTab(props: Props) {
                     fileIdToUrlMap={fileIdToUrlMap}
                     setFileIdToUrlMap={setFileIdToUrlMap}
                     error={getErrorObject(error?.graphics_files)}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -189,6 +238,7 @@ function ContextTab(props: Props) {
                     fileIdToUrlMap={fileIdToUrlMap}
                     setFileIdToUrlMap={setFileIdToUrlMap}
                     error={getErrorObject(error?.map_files)}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
@@ -207,6 +257,7 @@ function ContextTab(props: Props) {
                         onRemove={onReferenceRemove}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
+                        disabled={disabled}
                     />
                 ))}
                 <div>
@@ -214,6 +265,7 @@ function ContextTab(props: Props) {
                         name={undefined}
                         variant="secondary"
                         onClick={handleAddReference}
+                        disabled={disabled}
                     >
                         {strings.flashUpdateFormContextReferenceAddButtonLabel}
                     </Button>

@@ -3,6 +3,8 @@
     "strings": {
         "flashUpdateFormPageTitle": "IFRC GO - Flash Update Request",
         "flashUpdateContinueButtonLabel": "Continue",
+        "flashUpdateFormRedirectMessage":"Flash report updated, redirecting...",
+        "flashUpdateFormSaveRequestFailureMessage":"Failed to create/update Flash Update Application",
         "flashUpdateTabContextLabel":"Context",
         "flashUpdateTabActionLabel":"Actions",
         "flashUpdateFormPageHeading":"Flash Update",
