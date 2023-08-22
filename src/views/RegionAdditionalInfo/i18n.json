@@ -1,0 +1,9 @@
+{
+    "namespace": "regionAdditionalInfo",
+    "strings": {
+        "containerTitle": "Regional Content",
+        "keyFigureHeading": "Key Figure",
+        "keyFigureLabel": "Source",
+        "NoDataMessage": "No data to display"
+    }
+}

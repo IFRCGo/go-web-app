@@ -228,6 +228,19 @@ const regionProfile = customWrapRoute({
     },
 });
 
+const regionAdditionalInfo = customWrapRoute({
+    path: 'additional-info',
+    component: {
+        render: () => import('#views/RegionAdditionalInfo'),
+        props: {},
+    },
+    parent: region,
+    context: {
+        title: 'Region Additional Info',
+        visibility: 'anything',
+    },
+});
+
 const country = customWrapRoute({
     path: 'countries/:countryId',
     component: {
@@ -1818,6 +1831,7 @@ const wrappedRoutes = {
     regionSeasonalRiskWatch,
     regionPreparedness,
     regionProfile,
+    regionAdditionalInfo,
     country,
     countryIndex,
     countryOperations,

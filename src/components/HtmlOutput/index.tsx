@@ -60,7 +60,7 @@ function useSanitizedHtml(rawHtml: string | null | undefined) {
     return sanitizedHtml;
 }
 
-interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'dangerouslySetInnerHTML' | 'value' | 'children'> {
+export interface Props extends Omit<React.HTMLProps<HTMLDivElement>, 'dangerouslySetInnerHTML' | 'value' | 'children'> {
     value: string | null | undefined;
 }
 

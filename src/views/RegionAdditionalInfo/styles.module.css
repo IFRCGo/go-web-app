@@ -1,0 +1,32 @@
+.region-additional-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-4xl);
+    padding: var(--go-ui-spacing-4xl) 0;
+
+    .regional-content {
+        display: flex;
+        min-height: var(--go-ui-spacing-xs);
+    }
+
+    .key-figure-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-2xl);
+
+        .key-figure-list {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+
+            @media screen and (max-width: 30rem) {
+                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+            }
+
+            .region-key-figure {
+                border-radius: var(--go-ui-border-radius-md);
+                box-shadow: var(--go-ui-box-shadow-lg);
+            }
+        }
+    }
+}
