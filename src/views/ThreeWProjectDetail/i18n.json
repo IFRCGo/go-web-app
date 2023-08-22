@@ -4,7 +4,8 @@
         "threeWDetailsHeading": "3W Details",
         "editProject": "Edit Project",
         "lastModifiedOnTitle": "Last Modified On",
-        "lastModifiedDetail": "{date} by {user}",
+        "lastModifiedDetail": "{date}",
+        "lastModifiedDetailByUser": "by {user}",
         "tagsTitle": "Tags",
         "threeWTagsTooltip": "Projects are often multi-sector. The primary sector can be associated to sector ‘Tags’.",
         "threeWStartDate": "Start Date",
@@ -24,6 +25,7 @@
         "statusLabel": "Status",
         "threeWYear": "Year",
         "threeWBudgetAmount": "Budget Amount (CHF)",
+        "threeWPeopleTargeted": "People Targeted",
         "threeWMale": "Male",
         "threeWFemale": "Female",
         "threeWOther": "Other",
@@ -36,6 +38,8 @@
         "peopleTargeted": "People Targeted",
         "peopleReached": "People Reached",
         "peopleReachedToolTipLabel": "Services provided to people in need",
-        "peopleReachedToolTipValue": "The figure displayed here is a sum of all individual services or interventions delivered as part of this emergency operation to people in need. Some people may have received more than one service or intervention."
+        "peopleReachedToolTipValue": "The figure displayed here is a sum of all individual services or interventions delivered as part of this emergency operation to people in need. Some people may have received more than one service or intervention.",
+        "threeWPeopleReached": "Services provided to people in need",
+        "threeWPeopleReachedHelpText": "The figure displayed here is a sum of all individual services or interventions delivered as part of this emergency operation to people in need. Some people may have received more than one service or intervention."
     }
 }
