@@ -25,7 +25,7 @@ export type Props<DATUM, KEY extends ListKey, RENDERER_PROPS> = {
     filteredMessage?: React.ReactNode;
     // FIXME: Is this used?
     withMessageOverContent?: boolean;
-    withMessage?: boolean;
+    withoutMessage?: boolean;
 };
 
 function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
@@ -50,7 +50,7 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
 
         compact,
 
-        withMessage = true,
+        withoutMessage = false,
     } = props;
 
     const renderListItem = useCallback((datum: DATUM, i: number) => {
@@ -102,7 +102,7 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
             )}
         >
             {data?.map(renderListItem)}
-            {(pending || isEmpty) && withMessage && (
+            {(pending || isEmpty) && !withoutMessage && (
                 <Message
                     className={styles.message}
                     pending={pending}

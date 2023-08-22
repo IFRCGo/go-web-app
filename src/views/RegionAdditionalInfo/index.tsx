@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useOutletContext } from 'react-router-dom';
+
 import {
     type RegionOutletContext,
     type RegionKeyFigureResponse,
@@ -12,8 +13,8 @@ import TextOutput from '#components/TextOutput';
 import Message from '#components/Message';
 import List from '#components/List';
 import useTranslation from '#hooks/useTranslation';
-import i18n from './i18n.json';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type RegionKeyFigureType = NonNullable<RegionKeyFigureResponse['results']>[number];
@@ -80,7 +81,7 @@ export function Component() {
     );
 
     return (
-        <div className={styles.regionPreparedness}>
+        <div className={styles.regionAdditionalInfo}>
             {hasKeyFigure && (
                 <Container
                     heading={strings.keyFigureHeading}
@@ -93,7 +94,8 @@ export function Component() {
                         rendererParams={regionKeyFigureParams}
                         renderer={RegionKeyFigure}
                         keySelector={keyFigureKeySelector}
-                        withMessage={false}
+                        withoutMessage
+                        compact
                         pending={false}
                         errored={false}
                         filtered={false}
@@ -110,7 +112,8 @@ export function Component() {
                         keySelector={snippetKeySelector}
                         renderer={HtmlOutput}
                         rendererParams={regionSnippetParams}
-                        withMessage={false}
+                        withoutMessage
+                        compact
                         pending={false}
                         errored={false}
                         filtered={false}

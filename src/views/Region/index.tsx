@@ -43,7 +43,6 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(regionId),
         url: '/api/v2/region/{id}/',
-        // FIXME: the request is not triggered when pathVariables change
         pathVariables: {
             id: Number(regionId),
         },
