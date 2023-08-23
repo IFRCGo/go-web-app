@@ -970,7 +970,7 @@ const allFieldReports = customWrapRoute({
 });
 
 const allFlashUpdates = customWrapRoute({
-    path: 'flash-updates/all',
+    path: 'flash-update/all',
     component: {
         render: () => import('#views/AllFlashUpdates'),
         props: {},

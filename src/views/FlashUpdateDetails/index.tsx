@@ -43,7 +43,7 @@ export function Component() {
 
     const hasActions = useMemo(
         () => flashUpdateResponse?.actions_taken?.map(
-            (at) => at?.actions?.length !== 0 || at.summary,
+            (action) => action?.actions?.length !== 0 || action.summary,
         ),
         [flashUpdateResponse],
     );

@@ -76,7 +76,7 @@
             display: flex;
             flex-direction: column;
             gap: var(--go-ui-spacing-md);
-            padding: var(--go-ui-spacing-lg) var(--go-ui-spacing-md);
+            padding: var(--go-ui-spacing-lg);
 
             .actions {
                 display: flex;
@@ -127,7 +127,7 @@
 
     .header-with-background {
         background-color: var(--go-ui-color-gray-10);
-        padding: var(--go-ui-spacing-xs);
+        padding: var(--go-ui-spacing-lg);
     }
 }
 
