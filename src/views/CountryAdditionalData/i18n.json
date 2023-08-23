@@ -1,6 +1,11 @@
 {
     "namespace": "countryAdditionalData",
     "strings": {
-        "contactTitle": "Contacts"
+        "contactTitle": "Contacts",
+        "columnName": "Name",
+        "columnTitle": "Title",
+        "columnType": "Type",
+        "columnEmail": "Email",
+        "linkTitle": "Additional link"
     }
 }

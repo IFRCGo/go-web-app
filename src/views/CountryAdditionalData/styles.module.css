@@ -1,5 +1,12 @@
-.country-snippet-content {
+.additional-content {
     display: flex;
     flex-direction: column;
-    min-height: var(--go-ui-spacing-xs);
+    gap: var(--go-ui-spacing-2xl);
+    padding: var(--go-ui-spacing-2xl) 0;
+
+    .country-snippet-content {
+        display: flex;
+        flex-direction: column;
+        min-height: var(--go-ui-spacing-xs);
+    }
 }
