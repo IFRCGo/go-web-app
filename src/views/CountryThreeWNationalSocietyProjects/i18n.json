@@ -1,0 +1,12 @@
+{
+    "namespace": "CountryThreeWNationalSocietyProjects",
+    "strings": {
+        "activeDeploymentsTitle": "Countries where NS has Reported Projects",
+        "targetedPopulationTitle": "Targeted Population",
+        "totalProjectsTitle": "Total Projects",
+        "ongoingProjectBudgetTitle": "Total Budget (CHF) for Ongoing Projects",
+        "threeWOngoingProjectsTitle": "Ongoing Projects",
+        "exportProjects": "Export",
+        "viewAllProjects": "View All Projects"
+    }
+}
