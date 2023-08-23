@@ -48,17 +48,10 @@ export function Component() {
         [flashUpdateResponse],
     );
 
-    const districtName = useMemo(
-        () => flashUpdateResponse?.country_district?.map(
-            (district) => district.country_details?.name,
-        ),
-        [flashUpdateResponse],
-    );
-
     return (
         <Page
             title={strings.flashUpdateDetailsHeading}
-            className={styles.fieldReportDetails}
+            className={styles.flashUpdateDetails}
             heading={flashUpdateResponse?.title}
             actions={flashUpdateResponse && (
                 <>
@@ -85,7 +78,7 @@ export function Component() {
                     </Link>
                 </>
             )}
-            descriptionContainerClassName={styles.description}
+            descriptionContainerClassName={styles.pageDescription}
             description={
                 (flashUpdateResponse?.country_district?.map((country) => (
                     <Link
@@ -99,17 +92,15 @@ export function Component() {
                                 },
                             ) : undefined}
                     >
-                        {districtName?.join(', ')}
+                        {country.country_details.name}
                     </Link>
                 )))
             }
-            mainSectionClassName={styles.content}
+            withBackgroundColorInMainSection
         >
             {flashUpdatePending && <BlockLoading />}
             {!flashUpdatePending && flashUpdateResponse && (
-                <Container
-                    childrenContainerClassName={styles.reportDetails}
-                >
+                <Container childrenContainerClassName={styles.reportDetails}>
                     {flashUpdateResponse.situational_overview && (
                         <Container
                             heading={strings.flashUpdateSituationalOverviewHeading}
