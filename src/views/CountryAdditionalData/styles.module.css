@@ -1,3 +1,5 @@
-.additional-data {
-    color: inherit;
+.country-snippet-content {
+    display: flex;
+    flex-direction: column;
+    min-height: var(--go-ui-spacing-xs);
 }

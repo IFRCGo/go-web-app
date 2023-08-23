@@ -14,7 +14,7 @@ function useSanitizedHtml(rawHtml: string | null | undefined) {
             return undefined;
         }
 
-        return sanitizeHtml(
+        const value = sanitizeHtml(
             rawHtml,
             {
                 allowedTags: [
@@ -29,7 +29,8 @@ function useSanitizedHtml(rawHtml: string | null | undefined) {
                     'sub', 'sup',
                     'img', 'svg',
                     'pre', 'cite', 'code', 'q',
-                    'iframe', // some emergencies, like 3972, needed iframe reference to a dashboard
+                    'iframe',
+                    // some emergencies, like 3972, needed iframe reference to a dashboard
                     // 'base', 'canvas', 'video', // can be switched on when need occurs
                     // 'area', 'map', 'label', 'meter', // can be switched on when need occurs
                     // forbid: 'input', 'textarea', 'button',
@@ -40,21 +41,29 @@ function useSanitizedHtml(rawHtml: string | null | undefined) {
                     p: ['style'],
                     span: ['style'],
                     div: ['style'],
-                    img: ['src', 'width', 'height', 'style', 'alt'],
-                    iframe: ['src', 'width', 'height', 'frameborder', 'style'],
-                    a: ['href'],
+                    img: ['style', 'src', 'width', 'height', 'alt'],
+                    iframe: ['style', 'src', 'width', 'height', 'frameborder'],
+                    a: ['style', 'href'],
                 },
                 allowedSchemes: ['http', 'https', 'data'],
+                /*
                 allowedStyles: {
                     '*': {
-                        // Allow indentation
-                        'padding-left': [/^\d+(?:px)$/],
-                        'font-size': [/^\d+(?:px)$/],
+                        'padding-left': [/^\d+px$/],
+                        'font-size': [/^\d+px$/],
                         'text-align': [/.+/],
                     },
+                    iframe: {
+                        width: [/^\d+px$/],
+                        height: [/^\d+:px$/],
+                        border: [/.+/],
+                    },
                 },
+                */
             },
         );
+
+        return value;
     }, [rawHtml]);
 
     return sanitizedHtml;
