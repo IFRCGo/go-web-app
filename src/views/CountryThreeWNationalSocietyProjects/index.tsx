@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useContext } from 'react';
 import {
     isDefined,
     isNotDefined,
@@ -7,12 +7,20 @@ import {
     unique,
 } from '@togglecorp/fujs';
 import {
+    generatePath,
     useOutletContext,
 } from 'react-router-dom';
+import {
+    DownloadFillIcon,
+} from '@ifrc-go/icons';
 
 import BlockLoading from '#components/BlockLoading';
+import Button from '#components/Button';
+import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
 import PieChart from '#components/PieChart';
+import RouteContext from '#contexts/route';
 import type { CountryOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
@@ -24,20 +32,14 @@ import {
     stringLabelSelector,
 } from '#utils/selectors';
 
+import Filter, { FilterValue } from './Filters';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface LabelValue {
     label: string;
     value: number;
-}
-
-interface FilterValue {
-    project_country: number[];
-    operation_type: number[];
-    programme_type: number[];
-    primary_sector: number[];
-    secondary_sectors: number[];
 }
 
 type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
@@ -78,6 +80,10 @@ function filterProjects(projectList: Project[], filters: Partial<Record<ProjectK
 export function Component() {
     const strings = useTranslation(i18n);
     const { countryResponse } = useOutletContext<CountryOutletContext>();
+
+    const {
+        countryAllThreeWNationalSocietyProjects: countryAllThreeWNationalSocietyProjectsRoute,
+    } = useContext(RouteContext);
 
     const [filters, setFilters] = useState<FilterValue>({
         project_country: [],
@@ -204,6 +210,39 @@ export function Component() {
                     </div>
                 </div>
             )}
+            <Container
+                heading={strings.threeWOngoingProjectsTitle}
+                withHeaderBorder
+                childrenContainerClassName={styles.content}
+                filters={(
+                    <Filter
+                        value={filters}
+                        onChange={setFilters}
+                    />
+                )}
+                actions={(
+                    <>
+                        <Button
+                            variant="primary"
+                            name={undefined}
+                            icons={(<DownloadFillIcon />)}
+                        >
+                            {strings.exportProjects}
+                        </Button>
+                        <Link
+                            to={isDefined(countryResponse)
+                                ? generatePath(countryAllThreeWNationalSocietyProjectsRoute.absolutePath, { // eslint-disable-line max-len
+                                    countryId: countryResponse.id,
+                                }) : undefined}
+                            withForwardIcon
+                        >
+                            {strings.viewAllProjects}
+                        </Link>
+                    </>
+                )}
+            >
+                Filters
+            </Container>
         </div>
     );
 }
