@@ -33,10 +33,10 @@ import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import { sumSafe, denormalizeList } from '#utils/common';
-import { type components } from '#generated/types';
 import { useRequest } from '#utils/restRequest';
+import { PROJECT_STATUS_ONGOING } from '#utils/constants';
 import {
-    createActionColumn,
+    createElementColumn,
     createNumberColumn,
     createStringColumn,
 } from '#components/Table/ColumnShortcuts';
@@ -46,7 +46,7 @@ import {
     stringLabelSelector,
 } from '#utils/selectors';
 
-import ProjectActions from './ProjectActions';
+import ProjectActions, { Props as ProjectActionsProps } from './ProjectActions';
 import Map from './Map';
 import Filter, { FilterValue } from './Filters';
 
@@ -62,10 +62,6 @@ type District = NonNullable<GoApiResponse<'/api/v2/district/'>['results']>[numbe
 type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
 
 type ProjectKey = 'reporting_ns' | 'project_districts' | 'programme_type' | 'operation_type' | 'programme_type' | 'primary_sector' | 'secondary_sectors';
-
-// const PROJECT_STATUS_COMPLETED = 2;
-const PROJECT_STATUS_ONGOING = 1 satisfies components['schemas']['Status1d2Enum'];
-// const PROJECT_STATUS_PLANNED = 0;
 
 const emptyDistrictList: District[] = [];
 const emptyProjectList: Project[] = [];
@@ -83,12 +79,12 @@ function filterProjects(projectList: Project[], filters: Partial<Record<ProjectK
         Object.entries(filters).every(([filterKey, filterValue]) => {
             const projectValue = project[filterKey as ProjectKey];
 
-            if (isNotDefined(projectValue)) {
+            if (isNotDefined(filterValue) || filterValue.length === 0) {
                 return true;
             }
 
-            if (isNotDefined(filterValue) || filterValue.length === 0) {
-                return true;
+            if (isNotDefined(projectValue)) {
+                return false;
             }
 
             if (Array.isArray(projectValue)) {
@@ -147,20 +143,20 @@ export function Component() {
     const projectList = projectListResponse?.results ?? emptyProjectList;
     const filteredProjectList = filterProjects(projectList, filters);
 
-    const [
+    const {
         ongoingProjects,
         targetedPopulation,
         ongoingProjectBudget,
         programmeTypeStats,
         projectStatusTypeStats,
         activeNSCount,
-    ] = useMemo(() => {
+    } = useMemo(() => {
         const projectsOngoing = filteredProjectList
             .filter((p) => p.status === PROJECT_STATUS_ONGOING);
 
         const ongoingBudget = sumSafe(projectsOngoing?.map((d) => d.budget_amount ?? 0));
 
-        const target = sumSafe(filteredProjectList?.map((d) => d.target_total ?? 0));
+        const peopleTargeted = sumSafe(filteredProjectList?.map((d) => d.target_total ?? 0));
 
         const programmeTypeGrouped = (
             listToGroupList(
@@ -188,16 +184,16 @@ export function Component() {
             (d, k) => ({ label: String(k), value: d.length }),
         );
 
-        const activeNS = unique(projectsOngoing, (d) => d.reporting_ns)?.length ?? 0;
+        const numberOfActiveNS = unique(projectsOngoing, (d) => d.reporting_ns)?.length ?? 0;
 
-        return [
-            projectsOngoing,
-            target,
-            ongoingBudget,
-            programmeTypes,
-            projectStatusTypes,
-            activeNS,
-        ];
+        return {
+            ongoingProjects: projectsOngoing,
+            targetedPopulation: peopleTargeted,
+            ongoingProjectBudget: ongoingBudget,
+            programmeTypeStats: programmeTypes,
+            projectStatusTypeStats: projectStatusTypes,
+            activeNSCount: numberOfActiveNS,
+        };
     }, [filteredProjectList]);
 
     const districtGroupedProject = useMemo(() => {
@@ -216,13 +212,17 @@ export function Component() {
         );
     }, [ongoingProjects]);
 
-    const [
+    const {
         localNSProjects,
         otherNSProjects,
-    ] = useMemo(() => ([
-        ongoingProjects.filter((project) => project.reporting_ns === project.project_country),
-        ongoingProjects.filter((project) => project.reporting_ns !== project.project_country),
-    ]), [ongoingProjects]);
+    } = useMemo(() => ({
+        localNSProjects: ongoingProjects.filter(
+            (project) => project.reporting_ns === project.project_country,
+        ),
+        otherNSProjects: ongoingProjects.filter(
+            (project) => project.reporting_ns !== project.project_country,
+        ),
+    }), [ongoingProjects]);
 
     const tableColumns = useMemo(() => ([
         createStringColumn<Project, number>(
@@ -268,16 +268,14 @@ export function Component() {
             (item) => item.reached_total,
             undefined,
         ),
-        createActionColumn(
+        createElementColumn<Project, number, ProjectActionsProps>(
             'actions',
-            (project: Project) => ({
-                children: (
-                    <ProjectActions
-                        onProjectDeletionSuccess={reTriggerProjectListRequest}
-                        className={styles.actions}
-                        project={project}
-                    />
-                ),
+            '',
+            ProjectActions,
+            (_, project) => ({
+                onProjectDeletionSuccess: reTriggerProjectListRequest,
+                className: styles.actions,
+                project,
             }),
         ),
     ]), [reTriggerProjectListRequest, strings]);
@@ -395,6 +393,9 @@ export function Component() {
                                         headingLevel={4}
                                         initiallyExpanded
                                     >
+                                        {/* NOTE: projects array will always have an element
+                                          * as we are using listToGroupList to get it.
+                                          */}
                                         {projects.map((project) => (
                                             <div
                                                 key={project.id}
@@ -431,6 +432,9 @@ export function Component() {
                                     )}
                                     headingLevel={4}
                                 >
+                                    {/* NOTE: projects array will always have an element
+                                      * as we are using listToGroupList to get it.
+                                      */}
                                     {projects.map((project) => (
                                         <div
                                             key={project.id}

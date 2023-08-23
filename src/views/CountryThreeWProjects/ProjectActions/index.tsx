@@ -7,8 +7,8 @@ import {
     CopyLineIcon,
     HistoryLineIcon,
 } from '@ifrc-go/icons';
-import { resolve } from 'url';
 
+import { joinUrlPart } from '#utils/routes';
 import { useLazyRequest } from '#utils/restRequest';
 import BlockLoading from '#components/BlockLoading';
 import DropdownMenu from '#components/DropdownMenu';
@@ -26,7 +26,7 @@ import styles from './styles.module.css';
 
 type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
 
-interface Props {
+export interface Props {
     className?: string;
     onProjectDeletionSuccess: () => void;
     project: Project;
@@ -110,7 +110,7 @@ function ProjectActions(props: Props) {
                 <DropdownMenuItem
                     type="link"
                     icons={<HistoryLineIcon />}
-                    to={resolve(adminUrl, `deployments/project/${project.id}/history/`)}
+                    to={joinUrlPart([adminUrl, `deployments/project/${project.id}/history/`])}
                 >
                     {strings.projectHistory}
                 </DropdownMenuItem>

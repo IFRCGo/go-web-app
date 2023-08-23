@@ -133,7 +133,7 @@ function getGeoJson(
                 },
                 geometry: {
                     type: 'Point' as const,
-                    coordinates: district.centroid?.coordinates as [number, number] ?? [0, 0],
+                    coordinates: district.centroid?.coordinates as [number, number] ?? [],
                 },
             };
         }).filter(isDefined),
@@ -168,10 +168,10 @@ function CountryThreeWMap(props: Props) {
         setClickedPointProperties,
     ] = useState<ClickedPoint | undefined>();
 
-    const [
+    const {
         districtDenormalizedProjectList,
-    ] = useMemo(() => ([
-        denormalizeList(
+    } = useMemo(() => ({
+        districtDenormalizedProjectList: denormalizeList(
             projectList ?? [],
             (project) => project.project_districts_detail,
             (project, district) => ({
@@ -179,7 +179,7 @@ function CountryThreeWMap(props: Props) {
                 project_district_detail: district,
             }),
         ),
-    ]), [projectList]);
+    }), [projectList]);
 
     const districtGroupedProjects = listToGroupList(
         districtDenormalizedProjectList,
@@ -204,31 +204,43 @@ function CountryThreeWMap(props: Props) {
         [clickedPointProperties, districtGroupedProjects],
     );
 
-    const [
+    const {
         programmesGeo,
         emergencyGeo,
         multiTypeGeo,
-    ] = useMemo(
-        () => (districtList ? [
-            getGeoJson(districtList, districtDenormalizedProjectList, OPERATION_TYPE_PROGRAMME),
-            getGeoJson(districtList, districtDenormalizedProjectList, OPERATION_TYPE_EMERGENCY),
-            getGeoJson(districtList, districtDenormalizedProjectList, OPERATION_TYPE_MULTI),
-        ] : []),
+    } = useMemo(
+        () => (districtList ? {
+            programmesGeo: getGeoJson(
+                districtList,
+                districtDenormalizedProjectList,
+                OPERATION_TYPE_PROGRAMME,
+            ),
+            emergencyGeo: getGeoJson(
+                districtList,
+                districtDenormalizedProjectList,
+                OPERATION_TYPE_EMERGENCY,
+            ),
+            multiTypeGeo: getGeoJson(
+                districtList,
+                districtDenormalizedProjectList,
+                OPERATION_TYPE_MULTI,
+            ),
+        } : {}),
         [districtList, districtDenormalizedProjectList],
     );
 
     const maxScaleValue = projectList?.length ?? 0;
 
-    const [
+    const {
         redPointHaloCirclePaint,
         bluePointHaloCirclePaint,
         orangePointHaloCirclePaint,
-    ] = useMemo(
-        () => ([
-            getPointCircleHaloPaint(COLOR_RED, 'numProjects', maxScaleValue),
-            getPointCircleHaloPaint(COLOR_BLUE, 'numProjects', maxScaleValue),
-            getPointCircleHaloPaint(COLOR_ORANGE, 'numProjects', maxScaleValue),
-        ]),
+    } = useMemo(
+        () => ({
+            redPointHaloCirclePaint: getPointCircleHaloPaint(COLOR_RED, 'numProjects', maxScaleValue),
+            bluePointHaloCirclePaint: getPointCircleHaloPaint(COLOR_BLUE, 'numProjects', maxScaleValue),
+            orangePointHaloCirclePaint: getPointCircleHaloPaint(COLOR_ORANGE, 'numProjects', maxScaleValue),
+        }),
         [maxScaleValue],
     );
 
@@ -262,7 +274,7 @@ function CountryThreeWMap(props: Props) {
             <MapContainerWithDisclaimer
                 className={_cs(styles.mapContainer, className)}
             />
-            {operationTypeOptions && (
+            {operationTypeOptions && operationTypeOptions.length > 0 && (
                 <div className={styles.legend}>
                     {operationTypeOptions.map((d) => (
                         <LegendItem
@@ -352,7 +364,7 @@ function CountryThreeWMap(props: Props) {
                 <MapPopup
                     coordinates={clickedPointProperties.lngLat}
                     onCloseButtonClick={handlePointClose}
-                    heading={(
+                    heading={( // NOTE: selectedDistrictProjectDetail will always have an element
                         selectedDistrictProjectDetail[0].project_district_detail.name
                     )}
                 >
