@@ -9,6 +9,7 @@ import List from '#components/List';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 import Table from '#components/Table';
+import Message from '#components/Message';
 import Link,
 {
     type Props as LinkProps,
@@ -30,11 +31,12 @@ type CountryLinksType = NonNullable<CountryResponse['links']>[number];
 
 const contactKeySelector = (contact: CountryContactsType) => String(contact.id);
 const snippetKeySelector = (snippet: CountrySnippetType) => snippet.id;
-const linkKeySelector = (snippet: CountryLinksType) => snippet.id;
+const linkKeySelector = (link: CountryLinksType) => link.id;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { countryResponse, countrySnippetResponse } = useOutletContext<CountryOutletContext>();
+
     const hasCountrySnippet = (countrySnippetResponse?.results
         && (countrySnippetResponse.results.length > 0));
 
@@ -45,6 +47,7 @@ export function Component() {
         && (countryResponse.links.length > 0));
 
     const strings = useTranslation(i18n);
+
     const countrySnippetRendererParams = useCallback(
         (_: number, data: CountrySnippetType): HtmlOutputProps => ({
             className: styles.countrySnippetContent,
@@ -135,6 +138,12 @@ export function Component() {
                     />
                 </Container>
             )}
+            {(!hasCountryLinks && !hasCountryContacts && !hasCountrySnippet)
+                && (
+                    <Message
+                        description={strings.noDataMessage}
+                    />
+                )}
         </div>
     );
 }

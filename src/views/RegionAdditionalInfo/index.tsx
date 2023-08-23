@@ -123,7 +123,7 @@ export function Component() {
             {(!hasKeyFigure && !hasRegionResponse)
                 && (
                     <Message
-                        description={strings.NoDataMessage}
+                        description={strings.noDataMessage}
                     />
                 )}
         </div>

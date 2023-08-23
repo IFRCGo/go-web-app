@@ -4,6 +4,6 @@
         "containerTitle": "Regional Content",
         "keyFigureHeading": "Key Figure",
         "keyFigureLabel": "Source",
-        "NoDataMessage": "No data to display"
+        "noDataMessage": "No data to display"
     }
 }

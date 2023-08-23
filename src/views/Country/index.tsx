@@ -58,7 +58,6 @@ export function Component() {
         // FIXME: the request is not triggered when pathVariables change
         query: { country: Number(countryId) } as never,
     });
-    console.log('country', countryResponse, 'snippet', countrySnippetResponse);
 
     const {
         pending: aggregatedAppealPending,
