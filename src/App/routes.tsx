@@ -970,7 +970,7 @@ const allFieldReports = customWrapRoute({
 });
 
 const allFlashUpdates = customWrapRoute({
-    path: 'flash-updates/all',
+    path: 'flash-update/all',
     component: {
         render: () => import('#views/AllFlashUpdates'),
         props: {},
@@ -1702,6 +1702,34 @@ const flashUpdateFormNew = customWrapRoute({
     },
 });
 
+const flashUpdateFormDetails = customWrapRoute({
+    path: 'flash-update/:flashUpdateId',
+    component: {
+        render: () => import('#views/FlashUpdateDetails'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Flash Update Details',
+        visibility: 'anything',
+    },
+});
+
+const flashUpdateFormEdit = customWrapRoute({
+    path: 'flash-update/:flashUpdateId/edit',
+    component: {
+        render: () => import('#views/FlashUpdateForm'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Flash Update Edit Form',
+        visibility: 'is-authenticated',
+    },
+});
+
 const fieldReportFormNew = customWrapRoute({
     path: 'field-report/new',
     component: {
@@ -1889,6 +1917,8 @@ const wrappedRoutes = {
     fieldReportFormNew,
     fieldReportFormEdit,
     flashUpdateFormNew,
+    flashUpdateFormDetails,
+    flashUpdateFormEdit,
     riskWatch,
     riskWatchIndex,
     riskWatchImminent,
