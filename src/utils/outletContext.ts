@@ -6,7 +6,7 @@ export interface EmergencyOutletContext {
     emergencyResponse: EmergencyResponse | undefined;
 }
 
-export type CountryResponse = paths['/api/v2/country/{id}/']['get']['responses']['200']['content']['application/json'];
+export type CountryResponse = GoApiResponse<'/api/v2/country/{id}/'>
 export type CountrySnippetResponse = GoApiResponse<'/api/v2/country_snippet/'>
 export interface CountryOutletContext {
     countryResponse: CountryResponse | undefined;

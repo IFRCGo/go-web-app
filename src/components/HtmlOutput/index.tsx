@@ -46,7 +46,6 @@ function useSanitizedHtml(rawHtml: string | null | undefined) {
                     a: ['style', 'href'],
                 },
                 allowedSchemes: ['http', 'https', 'data'],
-                /*
                 allowedStyles: {
                     '*': {
                         'padding-left': [/^\d+px$/],
@@ -55,11 +54,10 @@ function useSanitizedHtml(rawHtml: string | null | undefined) {
                     },
                     iframe: {
                         width: [/^\d+px$/],
-                        height: [/^\d+:px$/],
+                        height: [/^\d+px$/],
                         border: [/.+/],
                     },
                 },
-                */
             },
         );
 
