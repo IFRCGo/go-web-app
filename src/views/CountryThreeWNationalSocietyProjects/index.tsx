@@ -33,6 +33,7 @@ import {
 } from '#utils/selectors';
 
 import Filter, { FilterValue } from './Filters';
+import Map from './Map';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -241,7 +242,14 @@ export function Component() {
                     </>
                 )}
             >
-                Filters
+                <div className={styles.topSection}>
+                    <div className={styles.mapContainer}>
+                        <Map
+                            className={styles.mapContainer}
+                            projectList={ongoingProjects}
+                        />
+                    </div>
+                </div>
             </Container>
         </div>
     );
