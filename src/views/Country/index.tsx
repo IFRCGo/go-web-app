@@ -8,7 +8,7 @@ import {
     TargetedPopulationIcon,
     AppealsTwoIcon,
 } from '@ifrc-go/icons';
-import { isNotDefined } from '@togglecorp/fujs';
+import { isNotDefined, isTruthyString } from '@togglecorp/fujs';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
@@ -67,13 +67,16 @@ export function Component() {
     );
 
     const pending = countryResponsePending || aggregatedAppealPending;
-    const additionalInfoTabName = countryResponse?.additional_tab_name
-        || strings.countryAdditionalInfoTab;
 
-    const hasAdditionalInfoData = (
-        !!countryResponse?.additional_tab_name
-        || (countryResponse?.links && countryResponse?.links.length > 0)
-        || (countryResponse?.contacts && countryResponse.contacts.length > 0));
+    const additionalInfoTabName = isTruthyString(countryResponse?.additional_tab_name)
+        ? countryResponse?.additional_tab_name
+        : strings.countryAdditionalInfoTab;
+
+    const hasAdditionalInfoData = !!countryResponse && (
+        isTruthyString(countryResponse.additional_tab_name)
+        || (countryResponse.links && countryResponse.links.length > 0)
+        || (countryResponse.contacts && countryResponse.contacts.length > 0)
+    );
 
     return (
         <Page

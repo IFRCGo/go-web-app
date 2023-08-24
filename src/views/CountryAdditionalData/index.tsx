@@ -1,28 +1,21 @@
 import { useCallback, useMemo } from 'react';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { isNotDefined } from '@togglecorp/fujs';
+
 import {
     type CountryResponse,
     type CountryOutletContext,
 } from '#utils/outletContext';
-import { GoApiResponse, useRequest } from '#utils/restRequest';
+import { type GoApiResponse, useRequest } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
 import List from '#components/List';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 import Table from '#components/Table';
 import Message from '#components/Message';
-import Link,
-{
-    type Props as LinkProps,
-} from '#components/Link';
-import {
-    createStringColumn,
-} from '#components/Table/ColumnShortcuts';
-import HtmlOutput,
-{
-    type Props as HtmlOutputProps,
-} from '#components/HtmlOutput';
+import Link, { type Props as LinkProps } from '#components/Link';
+import { createStringColumn } from '#components/Table/ColumnShortcuts';
+import HtmlOutput, { type Props as HtmlOutputProps } from '#components/HtmlOutput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -45,20 +38,19 @@ export function Component() {
         query: { country: Number(countryId) } as never,
     });
 
-    const hasCountrySnippet = (countrySnippetResponse?.results
-        && (countrySnippetResponse.results.length > 0) && !countrySnippetPending);
+    const hasCountrySnippet = countrySnippetResponse?.results
+        && countrySnippetResponse.results.length > 0;
 
-    const hasCountryContacts = (countryResponse?.contacts
-        && (countryResponse.contacts.length > 0));
+    const hasCountryContacts = countryResponse?.contacts
+        && countryResponse.contacts.length > 0;
 
-    const hasCountryLinks = (countryResponse?.links
-        && (countryResponse.links.length > 0));
+    const hasCountryLinks = countryResponse?.links
+        && countryResponse.links.length > 0;
 
     const strings = useTranslation(i18n);
 
     const countrySnippetRendererParams = useCallback(
         (_: number, data: CountrySnippetType): HtmlOutputProps => ({
-            className: styles.countrySnippetContent,
             value: data.snippet,
         }),
         [],
@@ -99,8 +91,10 @@ export function Component() {
         [strings],
     );
 
+    const isDataAvailable = hasCountryLinks || hasCountryContacts || hasCountrySnippet;
+
     return (
-        <div className={styles.additionalContent}>
+        <div className={styles.countryAdditionalData}>
             {hasCountrySnippet && (
                 <List
                     data={countrySnippetResponse.results}
@@ -146,12 +140,12 @@ export function Component() {
                     />
                 </Container>
             )}
-            {(!hasCountryLinks && !hasCountryContacts && !hasCountrySnippet)
-                && (
-                    <Message
-                        description={strings.noDataMessage}
-                    />
-                )}
+            {!isDataAvailable && (
+                <Message
+                    pending={countrySnippetPending}
+                    description={!countrySnippetPending && strings.noDataMessage}
+                />
+            )}
         </div>
     );
 }
