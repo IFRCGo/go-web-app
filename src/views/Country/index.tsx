@@ -50,16 +50,6 @@ export function Component() {
     });
 
     const {
-        pending: countrySnippetPending,
-        response: countrySnippetResponse,
-    } = useRequest({
-        skip: isNotDefined(countryId),
-        url: '/api/v2/country_snippet/',
-        // FIXME: the request is not triggered when pathVariables change
-        query: { country: Number(countryId) } as never,
-    });
-
-    const {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
     } = useRequest({
@@ -72,12 +62,11 @@ export function Component() {
     const outletContext = useMemo<CountryOutletContext>(
         () => ({
             countryResponse,
-            countrySnippetResponse,
         }),
-        [countryResponse, countrySnippetResponse],
+        [countryResponse],
     );
 
-    const pending = countryResponsePending || aggregatedAppealPending || countrySnippetPending;
+    const pending = countryResponsePending || aggregatedAppealPending;
     const additionalInfoTabName = countryResponse?.additional_tab_name
         || strings.countryAdditionalInfoTab;
 

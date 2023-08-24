@@ -7,10 +7,8 @@ export interface EmergencyOutletContext {
 }
 
 export type CountryResponse = GoApiResponse<'/api/v2/country/{id}/'>
-export type CountrySnippetResponse = GoApiResponse<'/api/v2/country_snippet/'>
 export interface CountryOutletContext {
     countryResponse: CountryResponse | undefined;
-    countrySnippetResponse: CountrySnippetResponse | undefined;
 }
 
 export type RegionResponse = GoApiResponse<'/api/v2/region/{id}/'>

@@ -1,10 +1,12 @@
 import { useCallback, useMemo } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
+import { isNotDefined } from '@togglecorp/fujs';
 import {
     type CountryResponse,
-    type CountrySnippetResponse,
     type CountryOutletContext,
 } from '#utils/outletContext';
+import { GoApiResponse, useRequest } from '#utils/restRequest';
+import { numericIdSelector } from '#utils/selectors';
 import List from '#components/List';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
@@ -25,20 +27,26 @@ import HtmlOutput,
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type CountrySnippetType = NonNullable<CountrySnippetResponse['results']>[number];
+type CountrySnippetType = NonNullable<GoApiResponse<'/api/v2/country_snippet/'>['results']>[number];
 type CountryContactsType = NonNullable<CountryResponse['contacts']>[number];
 type CountryLinksType = NonNullable<CountryResponse['links']>[number];
 
-const contactKeySelector = (contact: CountryContactsType) => String(contact.id);
-const snippetKeySelector = (snippet: CountrySnippetType) => snippet.id;
-const linkKeySelector = (link: CountryLinksType) => link.id;
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { countryResponse, countrySnippetResponse } = useOutletContext<CountryOutletContext>();
+    const { countryId } = useParams<{ countryId: string }>();
+    const { countryResponse } = useOutletContext<CountryOutletContext>();
+
+    const {
+        pending: countrySnippetPending,
+        response: countrySnippetResponse,
+    } = useRequest({
+        skip: isNotDefined(countryId),
+        url: '/api/v2/country_snippet/',
+        query: { country: Number(countryId) } as never,
+    });
 
     const hasCountrySnippet = (countrySnippetResponse?.results
-        && (countrySnippetResponse.results.length > 0));
+        && (countrySnippetResponse.results.length > 0) && !countrySnippetPending);
 
     const hasCountryContacts = (countryResponse?.contacts
         && (countryResponse.contacts.length > 0));
@@ -67,22 +75,22 @@ export function Component() {
 
     const contactTableColumns = useMemo(
         () => ([
-            createStringColumn<CountryContactsType, string>(
+            createStringColumn<CountryContactsType, number>(
                 'name',
                 strings.columnName,
                 (item) => item.name,
             ),
-            createStringColumn<CountryContactsType, string>(
+            createStringColumn<CountryContactsType, number>(
                 'title',
                 strings.columnTitle,
                 (item) => item.title,
             ),
-            createStringColumn<CountryContactsType, string>(
+            createStringColumn<CountryContactsType, number>(
                 'ctype',
                 strings.columnType,
                 (item) => item.ctype,
             ),
-            createStringColumn<CountryContactsType, string>(
+            createStringColumn<CountryContactsType, number>(
                 'email',
                 strings.columnEmail,
                 (item) => item.email,
@@ -98,7 +106,7 @@ export function Component() {
                     data={countrySnippetResponse.results}
                     renderer={HtmlOutput}
                     rendererParams={countrySnippetRendererParams}
-                    keySelector={snippetKeySelector}
+                    keySelector={numericIdSelector}
                     withoutMessage
                     compact
                     pending={false}
@@ -115,7 +123,7 @@ export function Component() {
                         columns={contactTableColumns}
                         filtered={false}
                         pending={false}
-                        keySelector={contactKeySelector}
+                        keySelector={numericIdSelector}
                         data={countryResponse.contacts}
                     />
                 </Container>
@@ -129,7 +137,7 @@ export function Component() {
                         data={countryResponse.links}
                         renderer={Link}
                         rendererParams={countryLinkRendererParams}
-                        keySelector={linkKeySelector}
+                        keySelector={numericIdSelector}
                         withoutMessage
                         compact
                         pending={false}
