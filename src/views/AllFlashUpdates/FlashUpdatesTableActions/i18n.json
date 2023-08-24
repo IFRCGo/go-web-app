@@ -1,0 +1,8 @@
+{
+    "namespace": "flashUpdatesForms",
+    "strings": {
+        "flashUpdateViewDetails": "View Details",
+        "flashUpdateEdit": "Edit",
+        "flashUpdateDuplicate": "Duplicate"
+    }
+}

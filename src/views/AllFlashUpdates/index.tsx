@@ -13,11 +13,15 @@ import {
     createStringColumn,
     createDateColumn,
     createCountryListColumn,
+    createElementColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import NumberOutput from '#components/NumberOutput';
 import { resolveToComponent } from '#utils/translation';
+import FlashUpdatesTableAction, {
+    Props as FlashUpdatesTableActions,
+} from './FlashUpdatesTableActions';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -67,6 +71,19 @@ export function Component() {
                 (item) => item.country_district?.map(
                     (country_district) => country_district.country_details,
                 ),
+            ),
+            createElementColumn<
+                FlashUpdateListItem,
+                number,
+                FlashUpdatesTableActions
+            >(
+                'actions',
+                '',
+                FlashUpdatesTableAction,
+                (flashUpdateId) => ({
+                    type: 'activity',
+                    flashUpdateId,
+                }),
             ),
         ]),
         [strings],
