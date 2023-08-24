@@ -57,10 +57,10 @@ function RegionKeyFigure(props: RegionKeyFigureProps) {
 export function Component() {
     const strings = useTranslation(i18n);
     const { regionResponse, regionKeyFigureResponse } = useOutletContext<RegionOutletContext>();
-    const hasKeyFigure = (regionKeyFigureResponse?.results
-        && (regionKeyFigureResponse.results.length > 0));
-    const hasRegionResponse = (regionResponse
-        && (regionResponse?.snippets.length > 0));
+    const hasKeyFigure = regionKeyFigureResponse?.results
+        && regionKeyFigureResponse.results.length > 0;
+    const hasRegionResponse = regionResponse
+        && regionResponse?.snippets.length > 0;
 
     const regionKeyFigureParams = useCallback(
         (_: number, data: RegionKeyFigureType): RegionKeyFigureProps => ({
@@ -120,12 +120,11 @@ export function Component() {
                     />
                 </Container>
             )}
-            {(!hasKeyFigure && !hasRegionResponse)
-                && (
-                    <Message
-                        description={strings.NoDataMessage}
-                    />
-                )}
+            {!hasKeyFigure && !hasRegionResponse && (
+                <Message
+                    description={strings.noDataMessage}
+                />
+            )}
         </div>
     );
 }

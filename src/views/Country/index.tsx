@@ -8,7 +8,7 @@ import {
     TargetedPopulationIcon,
     AppealsTwoIcon,
 } from '@ifrc-go/icons';
-
+import { isNotDefined, isTruthyString } from '@togglecorp/fujs';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
@@ -42,7 +42,7 @@ export function Component() {
         pending: countryResponsePending,
         response: countryResponse,
     } = useRequest({
-        skip: !countryId,
+        skip: isNotDefined(countryId),
         url: '/api/v2/country/{id}/',
         pathVariables: {
             id: Number(countryId),
@@ -53,7 +53,7 @@ export function Component() {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
     } = useRequest({
-        skip: !countryId,
+        skip: isNotDefined(countryId),
         url: '/api/v2/appeal/aggregated',
         // FIXME: typings should be fixed in the server
         query: { country: Number(countryId) } as never,
@@ -67,6 +67,16 @@ export function Component() {
     );
 
     const pending = countryResponsePending || aggregatedAppealPending;
+
+    const additionalInfoTabName = isTruthyString(countryResponse?.additional_tab_name)
+        ? countryResponse?.additional_tab_name
+        : strings.countryAdditionalInfoTab;
+
+    const hasAdditionalInfoData = !!countryResponse && (
+        isTruthyString(countryResponse.additional_tab_name)
+        || (countryResponse.links && countryResponse.links.length > 0)
+        || (countryResponse.contacts && countryResponse.contacts.length > 0)
+    );
 
     return (
         <Page
@@ -171,14 +181,16 @@ export function Component() {
                 >
                     {strings.countryCountryPlanTab}
                 </NavigationTab>
-                <NavigationTab
-                    to={generatePath(
-                        countryAdditionalDataRoute.absolutePath,
-                        { countryId },
-                    )}
-                >
-                    {strings.countryAdditionalInfoTab}
-                </NavigationTab>
+                {hasAdditionalInfoData && (
+                    <NavigationTab
+                        to={generatePath(
+                            countryAdditionalDataRoute.absolutePath,
+                            { countryId },
+                        )}
+                    >
+                        {additionalInfoTabName}
+                    </NavigationTab>
+                )}
             </NavigationTabList>
             <Outlet
                 context={outletContext}
