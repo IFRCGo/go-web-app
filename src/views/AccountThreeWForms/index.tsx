@@ -199,7 +199,7 @@ export function Component(props: Props) {
                 ThreeWTableActions,
                 (projectId) => ({
                     type: 'project',
-                    threeWId: projectId,
+                    projectId,
                 }),
             ),
         ]),
@@ -270,7 +270,7 @@ export function Component(props: Props) {
                 ThreeWTableActions,
                 (activityId) => ({
                     type: 'activity',
-                    threeWId: activityId,
+                    activityId,
                 }),
             ),
         ]),

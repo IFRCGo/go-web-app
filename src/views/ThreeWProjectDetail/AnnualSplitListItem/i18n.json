@@ -1,0 +1,19 @@
+{
+    "namespace": "annualSplit",
+    "strings": {
+        "threeWYear": "Year",
+        "threeWBudgetAmount": "Budget Amount (CHF)",
+        "threeWPeopleTargeted": "People Targeted",
+        "threeWMale": "Male",
+        "threeWFemale": "Female",
+        "threeWOther": "Other",
+        "threeWTotal": "Total",
+        "threeWPeopleReached1": "People Reached",
+        "threeWTargetMale": "Male targeted",
+        "threeWTargetFemale": "Female targeted",
+        "threeWTargetOther": "Other targeted",
+        "threeWTargetTotal": "Total targeted",
+        "peopleTargeted": "People Targeted",
+        "peopleReached": "People Reached"
+}
+}

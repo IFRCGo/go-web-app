@@ -1,0 +1,36 @@
+.project-three-w {
+    .modified-on-value {
+        display: flex;
+        gap: var(--go-ui-spacing-xs);
+    }
+
+    .project-list {
+        display: flex;
+        flex-direction: column;
+        /* gap: var(--go-ui-spacing-2xl); */
+
+        .project-details {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-gap: var(--go-ui-spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+            padding: 0 0 var(--go-ui-spacing-xl) var(--go-ui-spacing-xl);
+
+            @media screen and (max-width: 30rem) {
+                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+            }
+
+            .country-link {
+                color: var(--go-ui-color-red);
+            }
+        }
+    }
+}
+
+.tooltip {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-lg);
+    gap: var(--go-ui-spacing-xs);
+}

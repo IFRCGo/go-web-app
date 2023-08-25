@@ -690,6 +690,20 @@ const newThreeWProject = customWrapRoute({
     },
 });
 
+const threeWProjectDetail = customWrapRoute({
+    path: 'project/:projectId/',
+    component: {
+        render: () => import('#views/ThreeWProjectDetail'),
+        props: {},
+    },
+    parent: threeW,
+    wrapperComponent: Auth,
+    context: {
+        title: 'ThreeW Project Detail',
+        visibility: 'anything',
+    },
+});
+
 const threeWProjectEdit = customWrapRoute({
     path: 'project/:projectId/edit',
     component: {
@@ -1974,6 +1988,7 @@ const wrappedRoutes = {
     catalogueInformationTechnology,
     catalogueInformationTechnologyIndex,
     informationTechnologyServices,
+    threeWProjectDetail,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

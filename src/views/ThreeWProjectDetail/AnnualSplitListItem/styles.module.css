@@ -1,0 +1,28 @@
+.year {
+    margin-top: var(--go-ui-spacing-md);
+    background-color: var(--go-ui-color-gray-10);
+    padding: var(--go-ui-spacing-xl);
+}
+
+.year-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: var(--go-ui-spacing-sm);
+
+    @media screen and (max-width: 30rem) {
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    }
+
+    .budget {
+        padding: var(--go-ui-spacing-lg);
+        height: 4rem;
+    }
+
+    .gender {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        background-color: var(--go-ui-color-gray-10);
+    }
+}
