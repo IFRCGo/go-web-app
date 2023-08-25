@@ -1,6 +1,10 @@
 .field-report-form {
-    .tab-list {
-        width: 100%;
+    .tab-list-container {
+        overflow: auto;
+
+        .tab-list {
+            width: 100%;
+        }
     }
 
     .content {

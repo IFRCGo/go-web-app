@@ -553,8 +553,7 @@ export function Component() {
                         </p>
                     </>
                 )}
-                twoColumn
-                multiRow
+                numPreferredColumns={2}
             >
                 <DateInput
                     name="start_date"
@@ -693,8 +692,6 @@ export function Component() {
                     title="Types of Actions Taken"
                     // FIXME: Add translation
                     description="Select the actions that are being across all of the locations tagged above"
-                    multiRow
-                    oneColumn
                 >
                     <NonFieldError
                         error={getErrorObject(error?.activities)}

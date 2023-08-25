@@ -84,22 +84,6 @@ function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         [pending, filtered, errored, errorMessage, pendingMessage, filteredMessage, emptyMessage],
     );
 
-    const fillerElements = useMemo(
-        () => {
-            if (!data || isEmpty || data.length >= numPreferredColumns) {
-                return null;
-            }
-
-            const numFillterElements = numPreferredColumns - data.length;
-            return Array.from(Array(numFillterElements).keys()).map(
-                (key) => (
-                    <div key={key} className={styles.fillerElement} />
-                ),
-            );
-        },
-        [data, isEmpty, numPreferredColumns],
-    );
-
     return (
         <div
             className={_cs(
@@ -120,7 +104,6 @@ function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
                 renderer={renderer}
                 rendererParams={rendererParams}
             />
-            {fillerElements}
             {(pending || isEmpty) && (
                 <Message
                     className={styles.message}

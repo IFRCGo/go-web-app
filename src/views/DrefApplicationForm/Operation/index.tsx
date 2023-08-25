@@ -281,8 +281,7 @@ function Operation(props: Props) {
             >
                 <InputSection
                     title={strings.drefFormTargetedPopulation}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                 >
                     {value?.type_of_dref !== TYPE_ASSESSMENT && (
                         <>
@@ -331,8 +330,7 @@ function Operation(props: Props) {
                 </InputSection>
                 <InputSection
                     title={strings.drefFormEstimateResponse}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                 >
                     <NumberInput
                         label={strings.drefFormEstimatePeopleDisability}
@@ -392,8 +390,6 @@ function Operation(props: Props) {
                     title={strings.drefFormRiskSecurityPotentialRisk}
                     description={value?.type_of_dref === TYPE_ASSESSMENT
                         && strings.drefFormRiskSecurityPotentialRiskDescription}
-                    multiRow
-                    oneColumn
                 >
                     {value.risk_security?.map((rs, i) => (
                         <RiskSecurityInput
@@ -509,8 +505,6 @@ function Operation(props: Props) {
                     description={value?.is_surge_personnel_deployed
                         ? strings.drefFormSurgePersonnelDeployedDescription
                         : undefined}
-                    oneColumn
-                    multiRow
                 >
                     <BooleanInput
                         name="is_surge_personnel_deployed"

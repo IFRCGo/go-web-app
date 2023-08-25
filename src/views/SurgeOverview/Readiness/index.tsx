@@ -6,7 +6,7 @@ import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import CheckList from '#components/Checklist';
-import List from '#components/List';
+import Grid from '#components/Grid';
 import Pager from '#components/Pager';
 import Container from '#components/Container';
 import useInputState from '#hooks/useInputState';
@@ -17,7 +17,6 @@ import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import EmergencyResponseUnitOwnerCard from './EmergencyResponseUnitOwnerCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import Grid from '#components/Grid';
 
 type GetERUOwnersResponse = GoApiResponse<'/api/v2/eru_owner/'>;
 type ERUOwnerListItem = NonNullable<GetERUOwnersResponse['results']>[number];

@@ -20,11 +20,11 @@
     max-width: 100%;
     overflow: hidden;
     text-transform: var(--text-transform);
+    line-height: var(--go-ui-line-height-tight);
     color: var(--color-text);
     font-family: inherit;
     font-size: var(--font-size);
     font-weight: var(--go-ui-font-weight-medium);
-    line-height: var(--go-ui-line-height-tight);
 
     .children {
         display: flex;

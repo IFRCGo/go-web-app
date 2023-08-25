@@ -252,6 +252,8 @@ function SelectInputContainer<
     const infoMessage = totalOptionsCount - optionsCount > 0
         ? `and ${totalOptionsCount - optionsCount} more`
         : undefined;
+    // eslint-disable-next-line no-console
+    console.info('FIXME: implement infoMessage', infoMessage);
 
     return (
         <>
@@ -346,7 +348,7 @@ function SelectInputContainer<
                         errored={optionsErrored}
                         filtered={optionsFiltered}
                         pending={optionsPending}
-                        message={infoMessage}
+                        // message={infoMessage}
                         emptyMessage={emptyMessage}
                         filteredMessage={emptyMessage}
                         compact

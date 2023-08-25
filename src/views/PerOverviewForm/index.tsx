@@ -348,7 +348,7 @@ export function Component() {
                 <InputSection
                     title={strings.nationalSocietyInputLabel}
                     withoutPadding
-                    twoColumn
+                    numPreferredColumns={2}
                     withAsteriskOnTitle
                 >
                     <NationalSocietySelectInput
@@ -371,7 +371,7 @@ export function Component() {
                 <InputSection
                     title={strings.dateOfOrientationInputLabel}
                     description={strings.dateOfOrientationInputDescription}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                     withAsteriskOnTitle
                 >
@@ -410,7 +410,7 @@ export function Component() {
                 spacing="comfortable"
             >
                 <InputSection
-                    twoColumn
+                    numPreferredColumns={2}
                     title={strings.dateOfAssessmentInputLabel}
                     description={strings.dateOfAssessmentInputDescription}
                     withoutPadding
@@ -425,7 +425,7 @@ export function Component() {
                     />
                 </InputSection>
                 <InputSection
-                    twoColumn
+                    numPreferredColumns={2}
                     title={strings.typeOfAssessmentInputLabel}
                     withoutPadding
                     withAsteriskOnTitle={isDefined(value.date_of_assessment)}
@@ -443,7 +443,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.dateOfPreviousPerAssessmentInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <DateInput
@@ -455,7 +455,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.typeOfPreviousPerAssessmentInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <SelectInput
@@ -483,7 +483,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.whatMethodHasThisAssessmentUsedInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <SelectInput
@@ -548,7 +548,7 @@ export function Component() {
                 <InputSection
                     title={strings.perProcessCycleNumberInputLabel}
                     description={strings.assessmentNumberInputDescription}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <NumberInput
@@ -570,7 +570,7 @@ export function Component() {
             >
                 <InputSection
                     title={strings.workPlanDevelopmentDateInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <DateInput
@@ -582,7 +582,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.workPlanRevisionDateInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <DateInput
@@ -604,8 +604,7 @@ export function Component() {
                 <InputSection
                     title={strings.nsFocalPointInputLabel}
                     description={strings.nsFocalPointInputDescription}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <TextInput
@@ -633,8 +632,7 @@ export function Component() {
                 <InputSection
                     title={strings.nsSecondFocalPointInputLabel}
                     description={strings.nsSecondFocalPointInputDescription}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <TextInput
@@ -661,8 +659,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.partnerFocalPointInputLabel}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <TextInput
@@ -696,8 +693,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.perFacilitatorInputLabel}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <TextInput

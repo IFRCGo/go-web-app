@@ -333,8 +333,6 @@ function Actions(props: Props) {
                 </InputSection>
                 <InputSection
                     title={strings.drefFormUNorOtherActors}
-                    oneColumn
-                    multiRow
                 >
                     <TextArea
                         label={strings.drefFormActionDescription}
@@ -347,8 +345,6 @@ function Actions(props: Props) {
                 </InputSection>
                 <InputSection
                     title={strings.drefFormCoordinationMechanism}
-                    oneColumn
-                    multiRow
                 >
                     <BooleanInput
                         name="is_there_major_coordination_mechanism"
@@ -435,8 +431,6 @@ function Actions(props: Props) {
                     {value?.type_of_dref !== TYPE_IMMINENT && (
                         <InputSection
                             title={strings.drefFormGapsInAssessment}
-                            oneColumn
-                            multiRow
                         >
                             <TextArea
                                 label={strings.drefFormActionDescription}

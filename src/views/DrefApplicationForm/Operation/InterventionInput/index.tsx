@@ -113,8 +113,7 @@ function InterventionInput(props: Props) {
                     </Button>
                 </>
             )}
-            multiRow={false}
-            twoColumn
+            numPreferredColumns={2}
             normalDescription
             descriptionContainerClassName={styles.descriptionContainer}
             description={(

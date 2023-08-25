@@ -915,8 +915,6 @@ export function Component() {
                                 strings.projectFormPeopleTargetedTooltip
                                 + strings.projectFormAnnually
                             }
-                            oneColumn
-                            multiRow
                         >
                             {value?.annual_split_detail?.map((annual_split, i) => (
                                 <AnnualSplitInput

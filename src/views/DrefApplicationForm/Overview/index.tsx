@@ -174,7 +174,7 @@ function Overview(props: Props) {
             </InputSection>
             <InputSection
                 title={strings.drefFormNationalSociety}
-                twoColumn
+                numPreferredColumns={2}
             >
                 <NationalSocietySelectInput
                     error={error?.national_society}
@@ -210,8 +210,7 @@ function Overview(props: Props) {
                         ? strings.drefFormImminentDisasterDetails
                         : strings.drefFormDisasterDetails
                 }
-                multiRow
-                twoColumn
+                numPreferredColumns={2}
             >
                 <DisasterTypeSelectInput
                     label={
@@ -283,7 +282,7 @@ function Overview(props: Props) {
                         ? strings.drefFormAffectedCountryAndProvinceImminent
                         : strings.drefFormRiskCountryLabel
                 }
-                twoColumn
+                numPreferredColumns={2}
             >
                 <CountrySelectInput
                     name="country"
@@ -330,8 +329,7 @@ function Overview(props: Props) {
                 </Button>
             </InputSection>
             <InputSection
-                multiRow
-                twoColumn
+                numPreferredColumns={2}
             >
                 <NumberInput
                     name="num_affected"
@@ -420,7 +418,7 @@ function Overview(props: Props) {
             {value?.type_of_dref !== TYPE_LOAN && (
                 <InputSection
                     title={strings.drefFormRequestAmount}
-                    twoColumn
+                    numPreferredColumns={2}
                 >
                     <NumberInput
                         name="amount_requested"
@@ -449,7 +447,7 @@ function Overview(props: Props) {
                     title={strings.drefFormUploadMap}
                     description={strings.drefFormUploadMapDescription}
                     contentSectionClassName={styles.imageInputContent}
-                    twoColumn
+                    numPreferredColumns={2}
                 >
                     <ImageWithCaptionInput
                         name="event_map_file"
@@ -468,7 +466,7 @@ function Overview(props: Props) {
                     title={strings.drefFormUploadCoverImage}
                     description={strings.drefFormUploadCoverImageDescription}
                     contentSectionClassName={styles.imageInputContent}
-                    twoColumn
+                    numPreferredColumns={2}
                 >
                     <ImageWithCaptionInput
                         name="cover_image_file"
