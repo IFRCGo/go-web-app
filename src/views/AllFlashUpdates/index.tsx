@@ -39,6 +39,7 @@ export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
+    const [page, setPage] = useState(1);
 
     const columns = useMemo(
         () => ([
@@ -88,8 +89,6 @@ export function Component() {
         ]),
         [strings],
     );
-
-    const [page, setPage] = useState(1);
 
     const {
         pending: flashUpdatePending,
