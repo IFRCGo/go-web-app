@@ -14,6 +14,7 @@ import Container from '#components/Container';
 import Tooltip from '#components/Tooltip';
 import DateOutput from '#components/DateOutput';
 import BlockLoading from '#components/BlockLoading';
+import AnnualSplitListItem from './AnnualSplitList';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -276,100 +277,10 @@ export function Component() {
                         ? (
                             <div className={styles.yearDetail}>
                                 {projectResponse?.annual_split_detail?.map((split) => (
-                                    <>
-                                        <TextOutput
-                                            className={styles.year}
-                                            label={strings.threeWYear}
-                                            value={split.year}
-                                            strongValue
-                                            withoutLabelColon
-                                        />
-                                        <div className={styles.yearList}>
-                                            <TextOutput
-                                                className={styles.budget}
-                                                label={strings.threeWBudgetAmount}
-                                                value={split.budget_amount}
-                                                valueType="number"
-                                                strongValue
-                                                withoutLabelColon
-                                            />
-                                            <div className={styles.budget}>
-                                                {strings.threeWPeopleTargeted}
-                                            </div>
-                                            <TextOutput
-                                                className={styles.gender}
-                                                label={strings.threeWMale}
-                                                value={split.target_male}
-                                                valueType="number"
-                                                strongValue
-                                                withoutLabelColon
-                                            />
-                                            <TextOutput
-                                                className={styles.gender}
-                                                label={strings.threeWFemale}
-                                                value={split.target_female}
-                                                valueType="number"
-                                                strongValue
-                                                withoutLabelColon
-                                            />
-                                            <TextOutput
-                                                className={styles.gender}
-                                                label={strings.threeWOther}
-                                                value={split.target_other}
-                                                valueType="number"
-                                                strongValue
-                                                withoutLabelColon
-                                            />
-                                            <TextOutput
-                                                className={styles.gender}
-                                                label={strings.threeWTotal}
-                                                value={split.target_total}
-                                                valueType="number"
-                                                strongValue
-                                                withoutLabelColon
-                                            />
-                                            <div>
-                                                &nbsp;
-                                            </div>
-                                            <div>
-                                                <div className={styles.budget}>
-                                                    {strings.threeWPeopleReached1}
-                                                </div>
-                                            </div>
-                                            <TextOutput
-                                                className={styles.gender}
-                                                label={strings.threeWMale}
-                                                value={split.reached_male}
-                                                valueType="number"
-                                                strongValue
-                                                withoutLabelColon
-                                            />
-                                            <TextOutput
-                                                className={styles.gender}
-                                                label={strings.threeWFemale}
-                                                value={split.reached_female}
-                                                valueType="number"
-                                                strongValue
-                                                withoutLabelColon
-                                            />
-                                            <TextOutput
-                                                className={styles.gender}
-                                                label={strings.threeWOther}
-                                                value={split.reached_other}
-                                                valueType="number"
-                                                strongValue
-                                                withoutLabelColon
-                                            />
-                                            <TextOutput
-                                                className={styles.gender}
-                                                label={strings.threeWTotal}
-                                                value={split.reached_total}
-                                                valueType="number"
-                                                strongValue
-                                                withoutLabelColon
-                                            />
-                                        </div>
-                                    </>
+                                    <AnnualSplitListItem
+                                        key={split.id}
+                                        data={split}
+                                    />
                                 ))}
                             </div>
                         )
