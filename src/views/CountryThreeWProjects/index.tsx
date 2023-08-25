@@ -494,6 +494,8 @@ export function Component() {
                         { count: localNSProjects.length },
                     )}
                     withHeaderBorder
+                    initiallyExpanded
+                    headingLevel={4}
                 >
                     <Table
                         filtered={false}

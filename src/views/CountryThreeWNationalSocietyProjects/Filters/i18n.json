@@ -1,7 +1,7 @@
 {
     "namespace": "CountryThreeWNationalSocietyProjects",
     "strings": {
-        "threeWFilterReportingNs": "National Societies",
+        "threeWFilterReportingNs": "Receiving Countries",
         "threeWFilterProgrammeTypes": "Programme Types",
         "threeWFilterSectors": "Sectors",
         "threeWFilterTags": "Tags",

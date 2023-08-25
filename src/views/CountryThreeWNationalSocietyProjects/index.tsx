@@ -22,14 +22,21 @@ import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import PieChart from '#components/PieChart';
 import RouteContext from '#contexts/route';
+import Table from '#components/Table';
 import type { CountryOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
-import { resolveToString } from '#utils/translation';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
+import { resolveToString } from '#utils/translation';
 import { sumSafe } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 import {
+    createElementColumn,
+    createNumberColumn,
+    createStringColumn,
+} from '#components/Table/ColumnShortcuts';
+import {
+    numericIdSelector,
     numericValueSelector,
     stringLabelSelector,
 } from '#utils/selectors';
@@ -170,6 +177,62 @@ export function Component() {
         listToGroupList(ongoingProjects, (project) => project.project_country)
     ), [ongoingProjects]);
 
+    const tableColumns = useMemo(() => ([
+        createStringColumn<Project, number>(
+            'ns',
+            strings.threeWTableReceivingCountry,
+            (item) => item.project_country_detail.name,
+        ),
+        createStringColumn<Project, number>(
+            'name',
+            strings.threeWTableProjectName,
+            (item) => item.name,
+        ),
+        createStringColumn<Project, number>(
+            'sector',
+            strings.threeWTableSector,
+            (item) => item.primary_sector_display,
+        ),
+        createNumberColumn<Project, number>(
+            'budget',
+            strings.threeWTableTotalBudget,
+            (item) => item.budget_amount,
+            undefined,
+        ),
+        createStringColumn<Project, number>(
+            'programmeType',
+            strings.threeWTableProgrammeType,
+            (item) => item.programme_type_display,
+        ),
+        createStringColumn<Project, number>(
+            'disasterType',
+            strings.threeWTableDisasterType,
+            (item) => item.dtype_detail?.name,
+        ),
+        createNumberColumn<Project, number>(
+            'peopleTargeted',
+            strings.threeWTablePeopleTargeted,
+            (item) => item.target_total,
+            undefined,
+        ),
+        createNumberColumn<Project, number>(
+            'peopleReached',
+            strings.threeWTablePeopleReached,
+            (item) => item.reached_total,
+            undefined,
+        ),
+        createElementColumn<Project, number, ProjectActionsProps>(
+            'actions',
+            '',
+            ProjectActions,
+            (_, project) => ({
+                onProjectDeletionSuccess: reTriggerProjectListRequest,
+                className: styles.actions,
+                project,
+            }),
+        ),
+    ]), [reTriggerProjectListRequest, strings]);
+
     return (
         <div className={styles.countryThreeWNationalSocietyProjects}>
             {projectListPending ? (
@@ -307,6 +370,23 @@ export function Component() {
                         })}
                     </Container>
                 </div>
+                <ExpandableContainer
+                    initiallyExpanded
+                    heading={resolveToString(
+                        strings.projects,
+                        {
+                            count: ongoingProjects.length,
+                        },
+                    )}
+                >
+                    <Table
+                        filtered={false}
+                        pending={false}
+                        data={ongoingProjects}
+                        columns={tableColumns}
+                        keySelector={numericIdSelector}
+                    />
+                </ExpandableContainer>
             </Container>
         </div>
     );
