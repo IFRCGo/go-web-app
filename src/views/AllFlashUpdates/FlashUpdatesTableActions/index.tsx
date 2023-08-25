@@ -1,7 +1,6 @@
 import { generatePath } from 'react-router-dom';
 import { useContext } from 'react';
 import {
-    CopyLineIcon,
     PencilFillIcon,
     ShareBoxLineIcon,
 } from '@ifrc-go/icons';
@@ -26,7 +25,6 @@ function FlashUpdatesTableActions(props: Props) {
     const {
         flashUpdateFormEdit: flashUpdateFormEditRoute,
         flashUpdateFormDetails: flashUpdateFormDetailsRoute,
-        flashUpdateFormNew: flashUpdateFormNewRoute,
     } = useContext(RouteContext);
 
     return (
@@ -56,19 +54,6 @@ function FlashUpdatesTableActions(props: Props) {
                         icons={<PencilFillIcon />}
                     >
                         {strings.flashUpdateEdit}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        type="link"
-                        // TODO: implement duplication logic
-                        to={(
-                            generatePath(
-                                flashUpdateFormNewRoute.absolutePath,
-                                { flashUpdateId },
-                            )
-                        )}
-                        icons={<CopyLineIcon />}
-                    >
-                        {strings.flashUpdateDuplicate}
                     </DropdownMenuItem>
                 </>
             )}
