@@ -948,11 +948,25 @@ const search = customWrapRoute({
     },
 });
 
-const allThreeW = customWrapRoute({
+const allThreeWProject = customWrapRoute({
     parent: rootLayout,
-    path: 'three-w/all',
+    path: 'three-w/project/all',
     component: {
-        render: () => import('#views/AllThreeW'),
+        render: () => import('#views/AllThreeWProject'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'All 3W',
+        visibility: 'anything',
+    },
+});
+
+const allThreeWActivity = customWrapRoute({
+    parent: rootLayout,
+    path: 'three-w/activity/all',
+    component: {
+        render: () => import('#views/AllThreeWActivity'),
         props: {},
     },
     wrapperComponent: Auth,
@@ -1913,9 +1927,10 @@ const wrappedRoutes = {
     accountThreeWForms,
     resources,
     search,
-    allThreeW,
     countryAllThreeW,
     countryAllThreeWNationalSocietyProjects,
+    allThreeWProject,
+    allThreeWActivity,
     allAppeals,
     allEmergencies,
     allFieldReports,

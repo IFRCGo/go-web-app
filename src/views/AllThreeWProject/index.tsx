@@ -126,4 +126,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'AllThreeW';
+Component.displayName = 'AllThreeWProject';

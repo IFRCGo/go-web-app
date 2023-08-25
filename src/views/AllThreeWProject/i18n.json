@@ -1,8 +1,8 @@
 {
-    "namespace": "allThreeW",
+    "namespace": "allThreeWProject",
     "strings": {
         "allThreeWTitle": "All 3W",
-        "allThreeWHeading": "All 3W ({numThreeWs})",
+        "allThreeWHeading": "All 3W Project ({numThreeWs})",
         "allThreeWCountry": "Receiving Country",
         "allThreeWNS": "National Society",
         "allThreeWProjectName": "Project Name",
