@@ -25,59 +25,8 @@
             }
         }
     }
-
-    .separator {
-        background-color: var(--go-ui-color-separator);
-        height: var(--go-ui-width-separator-thin);
-    }
-
-    .year-detail {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-sm);
-
-        .people-targeted {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-            grid-gap: var(--go-ui-spacing-sm);
-            margin-top: var(--go-ui-spacing-md);
-
-            @media screen and (max-width: 30rem) {
-                grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-            }
-
-            .year {
-                background-color: var(--go-ui-color-gray-10);
-                padding: var(--go-ui-spacing-xl);
-            }
-
-            .budget {
-                padding: var(--go-ui-spacing-lg);
-                height: 4rem;
-            }
-
-            .gender {
-                display: flex;
-                align-items: center;
-                flex-direction: column;
-                justify-content: center;
-                background-color: var(--go-ui-color-gray-10);
-            }
-        }
-    }
-
-    .people-detail {
-        grid-column: 1 / -1;
-        display: grid;
-        grid-gap: var(--go-ui-spacing-3xl);
-        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-        background-color: var(--go-ui-color-gray-10);
-
-        @media screen and (max-width: 30rem) {
-            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-        }
-    }
 }
+
 .tooltip {
     display: flex;
     align-items: center;

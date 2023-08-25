@@ -1,48 +1,74 @@
 import TextOutput from '#components/TextOutput';
-import { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type Projects = paths['/api/v2/project/']['get'];
-type ProjectItem = NonNullable<NonNullable<Projects['responses']['200']['content']['application/json']>['results']>[number];
-type AnnualSplitItem = NonNullable<ProjectItem['annual_split_detail']>[number];
+export type Props = {
+    targetMale?: number | null | undefined;
+    targetFemale?: number | null | undefined;
+    targetOther?: number | null | undefined;
+    targetTotal?: number | null | undefined;
+    reachedMale?: number | null | undefined;
+    reachedFemale?: number | null | undefined;
+    reachedOther?: number | null | undefined;
+    reachedTotal?: number | null | undefined;
+} & ({
+    isAnnualSplit: true;
+    year: number | null | undefined;
+    budgetAmount: number | null | undefined;
+} | {
+    isAnnualSplit?: false;
+    year?: number | null | undefined;
+    budgetAmount?: number | null | undefined;
+});
 
-interface Props {
-    data: AnnualSplitItem;
-}
-function AnnualSplitList(props: Props) {
+function AnnualSplitListItem(props: Props) {
     const {
-        data,
+        year,
+        budgetAmount,
+        targetMale,
+        targetFemale,
+        targetOther,
+        targetTotal,
+        reachedMale,
+        reachedFemale,
+        reachedOther,
+        reachedTotal,
+        isAnnualSplit = false,
     } = props;
+
     const strings = useTranslation(i18n);
 
     return (
         <>
-            <TextOutput
-                className={styles.year}
-                label={strings.threeWYear}
-                value={data?.year}
-                strongValue
-                withoutLabelColon
-            />
-            <div className={styles.yearList}>
+            {isAnnualSplit && (
                 <TextOutput
-                    className={styles.budget}
-                    label={strings.threeWBudgetAmount}
-                    value={data.budget_amount}
-                    valueType="number"
+                    className={styles.year}
+                    label={strings.threeWYear}
+                    value={year}
                     strongValue
                     withoutLabelColon
                 />
+            )}
+            <div className={styles.yearList}>
+                {isAnnualSplit && (
+                    <TextOutput
+                        className={styles.budget}
+                        label={strings.threeWBudgetAmount}
+                        value={budgetAmount}
+                        valueType="number"
+                        strongValue
+                        withoutLabelColon
+                    />
+                )}
                 <div className={styles.budget}>
                     {strings.threeWPeopleTargeted}
                 </div>
                 <TextOutput
                     className={styles.gender}
                     label={strings.threeWMale}
-                    value={data.target_male}
+                    value={targetMale}
                     valueType="number"
                     strongValue
                     withoutLabelColon
@@ -50,7 +76,7 @@ function AnnualSplitList(props: Props) {
                 <TextOutput
                     className={styles.gender}
                     label={strings.threeWFemale}
-                    value={data.target_female}
+                    value={targetFemale}
                     valueType="number"
                     strongValue
                     withoutLabelColon
@@ -58,7 +84,7 @@ function AnnualSplitList(props: Props) {
                 <TextOutput
                     className={styles.gender}
                     label={strings.threeWOther}
-                    value={data.target_other}
+                    value={targetOther}
                     valueType="number"
                     strongValue
                     withoutLabelColon
@@ -66,7 +92,7 @@ function AnnualSplitList(props: Props) {
                 <TextOutput
                     className={styles.gender}
                     label={strings.threeWTotal}
-                    value={data.target_total}
+                    value={targetTotal}
                     valueType="number"
                     strongValue
                     withoutLabelColon
@@ -82,7 +108,7 @@ function AnnualSplitList(props: Props) {
                 <TextOutput
                     className={styles.gender}
                     label={strings.threeWMale}
-                    value={data.reached_male}
+                    value={reachedMale}
                     valueType="number"
                     strongValue
                     withoutLabelColon
@@ -90,7 +116,7 @@ function AnnualSplitList(props: Props) {
                 <TextOutput
                     className={styles.gender}
                     label={strings.threeWFemale}
-                    value={data.reached_female}
+                    value={reachedFemale}
                     valueType="number"
                     strongValue
                     withoutLabelColon
@@ -98,7 +124,7 @@ function AnnualSplitList(props: Props) {
                 <TextOutput
                     className={styles.gender}
                     label={strings.threeWOther}
-                    value={data.reached_other}
+                    value={reachedOther}
                     valueType="number"
                     strongValue
                     withoutLabelColon
@@ -106,7 +132,7 @@ function AnnualSplitList(props: Props) {
                 <TextOutput
                     className={styles.gender}
                     label={strings.threeWTotal}
-                    value={data.reached_total}
+                    value={reachedTotal}
                     valueType="number"
                     strongValue
                     withoutLabelColon
@@ -116,4 +142,4 @@ function AnnualSplitList(props: Props) {
     );
 }
 
-export default AnnualSplitList;
+export default AnnualSplitListItem;

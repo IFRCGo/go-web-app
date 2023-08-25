@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useMemo, useCallback, useContext } from 'react';
 import { generatePath, useParams } from 'react-router-dom';
 import { InformationLineIcon, PencilFillIcon } from '@ifrc-go/icons';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
@@ -14,16 +14,25 @@ import Container from '#components/Container';
 import Tooltip from '#components/Tooltip';
 import DateOutput from '#components/DateOutput';
 import BlockLoading from '#components/BlockLoading';
-import AnnualSplitListItem from './AnnualSplitList';
+import List from '#components/List';
+import type { GoApiResponse } from '#utils/restRequest';
+
+import AnnualSplitListItem, { type Props as AnnualSplitProps } from './AnnualSplitListItem';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type ProjectItem = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
+type AnnualSplitItem = NonNullable<ProjectItem['annual_split_detail']>[number];
+
+const annualSplitKeySelector = (item: AnnualSplitItem) => item.id;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const { projectId } = useParams<{ projectId: string }>();
 
+    // TODO: Show appropriate message if item is not present in server
     const {
         response: projectResponse,
         pending: projectPending,
@@ -51,8 +60,28 @@ export function Component() {
             },
         ) : undefined;
 
-    const districtList = projectResponse?.project_districts_detail
-        ? projectResponse?.project_districts_detail?.map((district) => district?.name).join(', ') : null;
+    const districtList = useMemo(() => (
+        projectResponse
+            ?.project_districts_detail
+            ?.map((district) => district?.name).join(', ')
+    ), [projectResponse]);
+
+    const annualSplitListRendererParams = useCallback((
+        _: number,
+        data: AnnualSplitItem,
+    ): AnnualSplitProps => ({
+        year: data.year,
+        budgetAmount: data.budget_amount,
+        targetMale: data.target_male,
+        targetFemale: data.target_female,
+        targetOther: data.target_other,
+        targetTotal: data.target_total,
+        reachedMale: data.reached_male,
+        reachedFemale: data.reached_female,
+        reachedOther: data.reached_other,
+        reachedTotal: data.reached_total,
+        isAnnualSplit: true,
+    }), []);
 
     return (
         <Page
@@ -271,101 +300,29 @@ export function Component() {
                             withoutLabelColon
                         />
                     </Container>
-                    <div className={styles.separator} />
-                    {projectResponse !== undefined
-                        && projectResponse?.annual_split_detail?.length > 0
-                        ? (
-                            <div className={styles.yearDetail}>
-                                {projectResponse?.annual_split_detail?.map((split) => (
-                                    <AnnualSplitListItem
-                                        key={split.id}
-                                        data={split}
-                                    />
-                                ))}
-                            </div>
-                        )
-                        : (
-                            <>
-                                <div className={styles.yearDetail}>
-                                    <div className={styles.peopleTargeted}>
-                                        <div className={styles.budget}>
-                                            {strings.threeWPeopleTargeted}
-                                        </div>
-                                        <TextOutput
-                                            className={styles.gender}
-                                            label={strings.threeWMale}
-                                            value={projectResponse?.target_male}
-                                            valueType="number"
-                                            strongValue
-                                            withoutLabelColon
-                                        />
-                                        <TextOutput
-                                            className={styles.gender}
-                                            label={strings.threeWFemale}
-                                            value={projectResponse?.target_female}
-                                            valueType="number"
-                                            strongValue
-                                            withoutLabelColon
-                                        />
-                                        <TextOutput
-                                            className={styles.gender}
-                                            label={strings.threeWOther}
-                                            value={projectResponse?.target_other}
-                                            valueType="number"
-                                            strongValue
-                                            withoutLabelColon
-                                        />
-                                        <TextOutput
-                                            className={styles.gender}
-                                            label={strings.threeWTotal}
-                                            value={projectResponse?.target_total}
-                                            valueType="number"
-                                            strongValue
-                                            withoutLabelColon
-                                        />
-                                    </div>
-                                </div>
-                                <div className={styles.yearDetail}>
-                                    <div className={styles.peopleTargeted}>
-                                        <div className={styles.budget}>
-                                            {strings.threeWPeopleReached1}
-                                        </div>
-                                        <TextOutput
-                                            className={styles.gender}
-                                            label={strings.threeWMale}
-                                            value={projectResponse?.reached_male}
-                                            valueType="number"
-                                            strongValue
-                                            withoutLabelColon
-                                        />
-                                        <TextOutput
-                                            className={styles.gender}
-                                            label={strings.threeWFemale}
-                                            value={projectResponse?.reached_female}
-                                            valueType="number"
-                                            strongValue
-                                            withoutLabelColon
-                                        />
-                                        <TextOutput
-                                            className={styles.gender}
-                                            label={strings.threeWOther}
-                                            value={projectResponse?.reached_other}
-                                            valueType="number"
-                                            strongValue
-                                            withoutLabelColon
-                                        />
-                                        <TextOutput
-                                            className={styles.gender}
-                                            label={strings.threeWTotal}
-                                            value={projectResponse?.reached_total}
-                                            valueType="number"
-                                            strongValue
-                                            withoutLabelColon
-                                        />
-                                    </div>
-                                </div>
-                            </>
-                        )}
+                    {(projectResponse?.annual_split_detail?.length ?? 0) > 0 ? (
+                        <List
+                            data={projectResponse?.annual_split_detail}
+                            className={styles.yearDetail}
+                            renderer={AnnualSplitListItem}
+                            rendererParams={annualSplitListRendererParams}
+                            keySelector={annualSplitKeySelector}
+                            pending={projectPending}
+                            errored={false}
+                            filtered={false}
+                        />
+                    ) : (
+                        <AnnualSplitListItem
+                            targetMale={projectResponse?.target_male}
+                            targetFemale={projectResponse?.target_female}
+                            targetOther={projectResponse?.target_other}
+                            targetTotal={projectResponse?.target_total}
+                            reachedMale={projectResponse?.reached_male}
+                            reachedFemale={projectResponse?.reached_female}
+                            reachedOther={projectResponse?.reached_other}
+                            reachedTotal={projectResponse?.reached_total}
+                        />
+                    )}
                 </div>
             )}
         </Page>
