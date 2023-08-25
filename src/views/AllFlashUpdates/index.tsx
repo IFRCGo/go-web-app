@@ -1,7 +1,10 @@
 import {
     useState,
     useMemo,
+    useContext,
 } from 'react';
+import { generatePath } from 'react-router-dom';
+import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import { useRequest } from '#utils/restRequest';
@@ -14,11 +17,14 @@ import {
     createDateColumn,
     createCountryListColumn,
     createElementColumn,
+    createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
+import RouteContext from '#contexts/route';
 import Pager from '#components/Pager';
-import useTranslation from '#hooks/useTranslation';
 import NumberOutput from '#components/NumberOutput';
+import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
+
 import FlashUpdatesTableAction, {
     Props as FlashUpdatesTableActions,
 } from './FlashUpdatesTableActions';
@@ -41,6 +47,10 @@ export function Component() {
     const { sorting } = sortState;
     const [page, setPage] = useState(1);
 
+    const {
+        flashUpdateFormDetails: flashUpdateFormDetailsRoute,
+    } = useContext(RouteContext);
+
     const columns = useMemo(
         () => ([
             createDateColumn<FlashUpdateListItem, TableKey>(
@@ -52,10 +62,17 @@ export function Component() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FlashUpdateListItem, TableKey>(
+            createLinkColumn<FlashUpdateListItem, TableKey>(
                 'title',
                 strings.allFlashUpdatesReport,
                 (item) => item.title,
+                (item) => ({
+                    to: isDefined(item.id)
+                        ? generatePath(
+                            flashUpdateFormDetailsRoute.absolutePath,
+                            { flashUpdateId: item.id },
+                        ) : undefined,
+                }),
                 {
                     sortable: true,
                     columnClassName: styles.title,
@@ -87,7 +104,7 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings],
+        [strings, flashUpdateFormDetailsRoute],
     );
 
     const {
