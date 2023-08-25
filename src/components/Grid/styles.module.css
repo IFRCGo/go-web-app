@@ -1,0 +1,66 @@
+.grid {
+    --spacing: var(--go-ui-spacing-lg);
+    --num-columns: 2;
+    display: grid;
+    grid-gap: var(--go-ui-spacing-xl);
+    grid-template-columns: repeat(auto-fit, minmax(calc(0.65 * var(--go-ui-page-width-max) / var(--num-columns)), 1fr));
+    min-height: var(--go-ui-content-min-height);
+
+    &.compact {
+        min-height: unset;
+
+        &.pending {
+            min-height: var(--go-ui-compact-content-min-height);
+        }
+    }
+
+    &.pending {
+        .message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &.two-columns {
+        --num-columns: 2;
+    }
+
+    &.three-columns {
+        --num-columns: 3;
+    }
+
+    &.four-columns {
+        --num-columns: 4;
+    }
+
+    &.five-columns {
+        --num-columns: 5;
+    }
+
+    &.no-spacing {
+        --spacing: 0;
+    }
+
+    &.compact-spacing {
+        --spacing: var(--go-ui-spacing-sm);
+    }
+
+    &.cozy-spacing {
+        --spacing: var(--go-ui-spacing-md);
+    }
+
+    &.comfortable-spacing {
+        --spacing: var(--go-ui-spacing-lg);
+    }
+
+    &.relaxed-spacing {
+        --spacing: var(--go-ui-spacing-xl);
+    }
+
+    &.loose-spacing {
+        --spacing: var(--go-ui-spacing-2xl);
+    }
+}

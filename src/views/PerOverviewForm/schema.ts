@@ -32,21 +32,24 @@ export const overviewSchema: OverviewFormSchema = {
         let schema: OverviewFormSchemaFields = {
             is_draft: {},
             country: { required: true },
+
             date_of_orientation: {},
             orientation_documents: {
                 defaultValue: [],
             },
+
+            date_of_assessment: {},
+            type_of_assessment: {},
+            date_of_previous_assessment: { forceValue: undefinedValue },
+            type_of_previous_assessment: { forceValue: undefinedValue },
+
+            branches_involved: {},
+            assessment_method: {},
             assess_preparedness_of_country: {},
             assess_urban_aspect_of_country: {},
             assess_climate_environment_of_country: {},
-            assessment_number: { forceValue: undefinedValue },
-            branches_involved: {},
-            date_of_assessment: {},
-            assessment_method: {},
-            date_of_previous_assessment: { forceValue: undefinedValue },
 
-            type_of_assessment: {},
-            type_of_previous_assessment: { forceValue: undefinedValue },
+            assessment_number: { forceValue: undefinedValue },
 
             workplan_development_date: {},
             workplan_revision_date: {},

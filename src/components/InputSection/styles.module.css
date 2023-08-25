@@ -16,7 +16,13 @@
         gap: var(--go-ui-spacing-md);
 
         .title {
+            display: inline;
+            gap: var(--go-ui-spacing-xs);
             font-weight: var(--go-ui-font-weight-semibold);
+
+            .asterisk {
+                color: var(--go-ui-color-primary-red);
+            }
         }
     }
 

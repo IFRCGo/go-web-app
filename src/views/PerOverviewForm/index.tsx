@@ -343,12 +343,13 @@ export function Component() {
                 className={styles.container}
                 childrenContainerClassName={styles.sectionContent}
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.nationalSocietyInputLabel}
                     withoutPadding
                     twoColumn
+                    withAsteriskOnTitle
                 >
                     <NationalSocietySelectInput
                         name="country"
@@ -365,13 +366,14 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withInternalPadding
                 withHeaderBorder
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.dateOfOrientationInputLabel}
                     description={strings.dateOfOrientationInputDescription}
                     twoColumn
                     withoutPadding
+                    withAsteriskOnTitle
                 >
                     <DateInput
                         name="date_of_orientation"
@@ -405,13 +407,14 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     twoColumn
                     title={strings.dateOfAssessmentInputLabel}
                     description={strings.dateOfAssessmentInputDescription}
                     withoutPadding
+                    withAsteriskOnTitle
                 >
                     <DateInput
                         name="date_of_assessment"
@@ -425,6 +428,7 @@ export function Component() {
                     twoColumn
                     title={strings.typeOfAssessmentInputLabel}
                     withoutPadding
+                    withAsteriskOnTitle={isDefined(value.date_of_assessment)}
                 >
                     <SelectInput
                         name="type_of_assessment"
@@ -539,7 +543,7 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.perProcessCycleNumberInputLabel}
@@ -562,7 +566,7 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.workPlanDevelopmentDateInputLabel}
@@ -595,7 +599,7 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.nsFocalPointInputLabel}

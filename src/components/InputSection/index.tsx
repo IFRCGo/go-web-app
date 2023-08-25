@@ -15,6 +15,7 @@ export interface InputBaseProps {
     fullWidthColumn?: boolean;
     titleClassName?: string;
     withoutPadding?: boolean;
+    withAsteriskOnTitle?: boolean;
 }
 
 type Props = InputBaseProps & ({
@@ -50,6 +51,7 @@ function InputSection(props: Props) {
         fullWidthColumn,
         titleClassName,
         withoutPadding = false,
+        withAsteriskOnTitle,
     } = props;
 
     return (
@@ -76,6 +78,11 @@ function InputSection(props: Props) {
                 {title && (
                     <div className={_cs(styles.title, titleClassName)}>
                         {title}
+                        {withAsteriskOnTitle && (
+                            <span aria-hidden className={styles.asterisk}>
+                                *
+                            </span>
+                        )}
                     </div>
                 )}
                 <div className={_cs(styles.description, descriptionContainerClassName)}>

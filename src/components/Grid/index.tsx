@@ -1,9 +1,21 @@
 import { useMemo } from 'react';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
+
 import Message from '#components/Message';
 import RawList, { type Props as RawListProps, type ListKey } from '#components/RawList';
+import type { SpacingType } from '#components/types';
 
 import styles from './styles.module.css';
+
+type NumColumn = 2 | 3 | 4 | 5;
+const spacingTypeToClassNameMap: Record<SpacingType, string> = {
+    none: styles.noSpacing,
+    compact: styles.compactSpacing,
+    cozy: styles.cozySpacing,
+    comfortable: styles.comfortableSpacing,
+    relaxed: styles.relaxedSpacing,
+    loose: styles.looseSpacing,
+};
 
 export interface Props<
     DATUM,
@@ -11,6 +23,8 @@ export interface Props<
     RENDERER_PROPS
 > extends RawListProps<DATUM, KEY, RENDERER_PROPS> {
     className?: string;
+    numPreferredColumns: NumColumn;
+    spacing?: SpacingType;
 
     pending: boolean;
     errored: boolean;
@@ -22,10 +36,9 @@ export interface Props<
     filteredMessage?: React.ReactNode;
 
     compact?: boolean;
-    withoutMessage?: boolean;
 }
 
-function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
+function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
     props: Props<DATUM, KEY, RENDERER_PROPS>,
 ) {
     const {
@@ -34,6 +47,8 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         keySelector,
         renderer,
         rendererParams,
+        numPreferredColumns,
+        spacing = 'comfortable',
 
         pending,
         errored,
@@ -46,7 +61,6 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         filteredMessage = 'Data is not available for the selected filter!',
 
         compact,
-        withoutMessage = false,
     } = props;
 
     const isEmpty = isNotDefined(data) || data.length === 0;
@@ -70,12 +84,33 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         [pending, filtered, errored, errorMessage, pendingMessage, filteredMessage, emptyMessage],
     );
 
+    const fillerElements = useMemo(
+        () => {
+            if (!data || isEmpty || data.length >= numPreferredColumns) {
+                return null;
+            }
+
+            const numFillterElements = numPreferredColumns - data.length;
+            return Array.from(Array(numFillterElements).keys()).map(
+                (key) => (
+                    <div key={key} className={styles.fillerElement} />
+                ),
+            );
+        },
+        [data, isEmpty, numPreferredColumns],
+    );
+
     return (
         <div
             className={_cs(
-                styles.list,
-                compact && styles.compact,
+                styles.grid,
+                numPreferredColumns === 2 && styles.twoColumns,
+                numPreferredColumns === 3 && styles.threeColumns,
+                numPreferredColumns === 4 && styles.fourColumns,
+                numPreferredColumns === 5 && styles.fiveColumns,
+                spacingTypeToClassNameMap[spacing],
                 pending && styles.pending,
+                compact && styles.compact,
                 className,
             )}
         >
@@ -85,7 +120,8 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
                 renderer={renderer}
                 rendererParams={rendererParams}
             />
-            {(pending || isEmpty) && !withoutMessage && (
+            {fillerElements}
+            {(pending || isEmpty) && (
                 <Message
                     className={styles.message}
                     pending={pending}
@@ -97,4 +133,4 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
     );
 }
 
-export default List;
+export default Grid;
