@@ -3,8 +3,9 @@
     --num-columns: 2;
     display: grid;
     grid-gap: var(--go-ui-spacing-xl);
-    grid-template-columns: repeat(auto-fit, minmax(calc(0.65 * var(--go-ui-page-width-max) / var(--num-columns)), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(calc(0.7 * var(--go-ui-page-width-max) / var(--num-columns)), 1fr));
     min-height: var(--go-ui-content-min-height);
+    position: relative;
 
     &.compact {
         min-height: unset;

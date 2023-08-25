@@ -4,8 +4,7 @@ import { _cs, isFalsyString } from '@togglecorp/fujs';
 import InputLabel from '#components/InputLabel';
 import InputError from '#components/InputError';
 import InputHint from '#components/InputHint';
-import List from '#components/List';
-import type { ListKey } from '#components/List';
+import RawList, { type ListKey } from '#components/RawList';
 import Checkbox, { Props as CheckboxProps } from '#components/Checkbox';
 
 import styles from './styles.module.css';
@@ -101,17 +100,14 @@ function CheckList<
             >
                 {label}
             </InputLabel>
-            <List<OPTION, KEY, CheckboxProps<KEY>>
-                className={_cs(styles.checkListContainer, listContainerClassName)}
-                data={options}
-                keySelector={keySelector}
-                renderer={Checkbox}
-                rendererParams={optionListRendererParams}
-                pending={false}
-                errored={false}
-                filtered={false}
-                compact
-            />
+            <div className={_cs(styles.checklistContainer, listContainerClassName)}>
+                <RawList<OPTION, KEY, CheckboxProps<KEY>>
+                    data={options}
+                    keySelector={keySelector}
+                    renderer={Checkbox}
+                    rendererParams={optionListRendererParams}
+                />
+            </div>
             <InputError className={errorContainerClassName}>
                 {error}
             </InputError>

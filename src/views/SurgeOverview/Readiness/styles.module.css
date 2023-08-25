@@ -1,29 +1,19 @@
 .eru-owners-table {
     .content {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-2xl);
-        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-        padding: var(--go-ui-spacing-4xl) 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-2xl);
+    }
 
-        @media screen and (max-width: 30rem) {
-            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-        }
+    .filters {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
 
-        .filter-container {
-            grid-column: span 1;
-            align-self: start;
-        }
-
-        .eru-owners-list {
-            grid-column: span 2;
+        .checklist-container {
             display: grid;
-            align-self: start;
-            grid-gap: var(--go-ui-spacing-2xl);
-            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-
-            @media screen and (max-width: 30rem) {
-                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-            }
+            grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-2xl);
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
         }
     }
 }

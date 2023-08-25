@@ -52,6 +52,7 @@ export function Component() {
                     to={generatePath(
                         catalogueEmergencyRoute.absolutePath,
                     )}
+                    parentRoute
                 >
                     <CoordinatedAssessementIcon className={styles.icon} />
                     {strings.catalogueEmergency}
@@ -60,6 +61,7 @@ export function Component() {
                     to={generatePath(
                         catalogueBasecampRoute.absolutePath,
                     )}
+                    parentRoute
                 >
                     <BasecampIcon className={styles.icon} />
                     {strings.catalogueBasecamp}
@@ -68,6 +70,7 @@ export function Component() {
                     to={generatePath(
                         catalogueCashRoute.absolutePath,
                     )}
+                    parentRoute
                 >
                     <CashTransferIcon className={styles.icon} />
                     {strings.catalogueCash}
@@ -76,6 +79,7 @@ export function Component() {
                     to={generatePath(
                         catalogueCommunityEngagementRoute.absolutePath,
                     )}
+                    parentRoute
                 >
                     <PartnershipIcon className={styles.icon} />
                     {strings.catalogueCommunityEngagement}
@@ -84,6 +88,7 @@ export function Component() {
                     to={generatePath(
                         catalogueCommunicationRoute.absolutePath,
                     )}
+                    parentRoute
                 >
                     <PublicInformationIcon className={styles.icon} />
                     {strings.catalogueCommunication}
@@ -92,6 +97,7 @@ export function Component() {
                     to={generatePath(
                         catalogueHealthRoute.absolutePath,
                     )}
+                    parentRoute
                 >
                     <HealthIcon className={styles.icon} />
                     {strings.catalogueHealth}
@@ -100,6 +106,7 @@ export function Component() {
                     to={generatePath(
                         catalogueInformationManagementRoute.absolutePath,
                     )}
+                    parentRoute
                 >
                     <AnalysisIcon className={styles.icon} />
                     {strings.catalogueInformationManagement}
@@ -108,6 +115,7 @@ export function Component() {
                     to={generatePath(
                         catalogueInformationTechnologyRoute.absolutePath,
                     )}
+                    parentRoute
                 >
                     <EmergencyTelecommunicationsIcon className={styles.icon} />
                     {strings.catalogueInformationTechnologyTelecom}

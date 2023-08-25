@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { _cs, isDefined } from '@togglecorp/fujs';
-import List from '#components/List';
+import RawList from '#components/RawList';
 import InputLabel from '#components/InputLabel';
 import InputError from '#components/InputError';
 import Radio, { Props as RadioProps } from './Radio';
@@ -152,17 +152,14 @@ function RadioInput<
             >
                 {label}
             </InputLabel>
-            <List
-                className={_cs(styles.radioListContainer, listContainerClassName)}
-                data={options}
-                rendererParams={rendererParams}
-                renderer={renderer}
-                keySelector={keySelector}
-                errored={false}
-                pending={false}
-                filtered={false}
-                compact
-            />
+            <div className={_cs(styles.radioListContainer, listContainerClassName)}>
+                <RawList
+                    data={options}
+                    rendererParams={rendererParams}
+                    renderer={renderer}
+                    keySelector={keySelector}
+                />
+            </div>
             {hint && (
                 <div className={_cs(styles.inputHint, hintContainerClassName)}>
                     {hint}
