@@ -1,7 +1,10 @@
 import {
     useState,
     useMemo,
+    useContext,
 } from 'react';
+import { generatePath } from 'react-router-dom';
+import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import { useRequest } from '#utils/restRequest';
@@ -13,11 +16,18 @@ import {
     createStringColumn,
     createDateColumn,
     createCountryListColumn,
+    createElementColumn,
+    createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
+import RouteContext from '#contexts/route';
 import Pager from '#components/Pager';
-import useTranslation from '#hooks/useTranslation';
 import NumberOutput from '#components/NumberOutput';
+import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
+
+import FlashUpdatesTableAction, {
+    Props as FlashUpdatesTableActions,
+} from './FlashUpdatesTableActions';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -35,6 +45,11 @@ export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
+    const [page, setPage] = useState(1);
+
+    const {
+        flashUpdateFormDetails: flashUpdateFormDetailsRoute,
+    } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -47,10 +62,17 @@ export function Component() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FlashUpdateListItem, TableKey>(
+            createLinkColumn<FlashUpdateListItem, TableKey>(
                 'title',
                 strings.allFlashUpdatesReport,
                 (item) => item.title,
+                (item) => ({
+                    to: isDefined(item.id)
+                        ? generatePath(
+                            flashUpdateFormDetailsRoute.absolutePath,
+                            { flashUpdateId: item.id },
+                        ) : undefined,
+                }),
                 {
                     sortable: true,
                     columnClassName: styles.title,
@@ -68,11 +90,22 @@ export function Component() {
                     (country_district) => country_district.country_details,
                 ),
             ),
+            createElementColumn<
+                FlashUpdateListItem,
+                number,
+                FlashUpdatesTableActions
+            >(
+                'actions',
+                '',
+                FlashUpdatesTableAction,
+                (flashUpdateId) => ({
+                    type: 'activity',
+                    flashUpdateId,
+                }),
+            ),
         ]),
-        [strings],
+        [strings, flashUpdateFormDetailsRoute],
     );
-
-    const [page, setPage] = useState(1);
 
     const {
         pending: flashUpdatePending,
