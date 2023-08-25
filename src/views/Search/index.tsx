@@ -65,14 +65,28 @@ const feedbackLink = 'https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    const [activeView, setActiveView] = useState<SearchResponseKeys | undefined>();
     const [urlSearchValue, setUrlSearchValue] = useUrlSearchState<string | undefined>(
         KEY_URL_SEARCH,
         (searchString) => searchString ?? undefined,
         (searchString) => searchString,
     );
 
-    const [activeView, setActiveView] = useState<SearchResponseKeys | undefined>();
-    const [searchStringTemp, setSearchStringTemp] = useInputState(urlSearchValue);
+    const [searchStringTemp, setSearchStringTemp] = useInputState(
+        urlSearchValue,
+        (newValue) => {
+            setActiveView(undefined);
+            return newValue;
+        },
+    );
+
+    const setUrlSearchValueWithSideEffect = useCallback(
+        (newSearchValue: string | undefined) => {
+            setUrlSearchValue(newSearchValue);
+            setActiveView(undefined);
+        },
+        [setUrlSearchValue],
+    );
 
     useEffect(
         () => {
@@ -110,8 +124,8 @@ export function Component() {
 
     const handleClearSearchInput = useCallback(() => {
         setSearchStringTemp(undefined);
-        setUrlSearchValue(undefined);
-    }, [setUrlSearchValue, setSearchStringTemp]);
+        setUrlSearchValueWithSideEffect(undefined);
+    }, [setUrlSearchValueWithSideEffect, setSearchStringTemp]);
 
     const handleSearchInputKeyDown = useCallback(
         (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -122,12 +136,12 @@ export function Component() {
             e.preventDefault();
             const searchStringSafe = searchStringTemp?.trim() ?? '';
             if (searchStringSafe.length >= SEARCH_TEXT_LENGTH_MIN) {
-                setUrlSearchValue(searchStringSafe);
+                setUrlSearchValueWithSideEffect(searchStringSafe);
             }
         },
         [
             searchStringTemp,
-            setUrlSearchValue,
+            setUrlSearchValueWithSideEffect,
         ],
     );
 
@@ -147,6 +161,20 @@ export function Component() {
                 return totalScore / scoreList.length;
             }
 
+            function compareStaticKey(a: string, b: string, direction?: number) {
+                const staticKeyRanking: Record<string, number> = {
+                    regions: 1,
+                    countries: 2,
+                    district_province_response: 3,
+                };
+
+                return compareNumber(
+                    staticKeyRanking[a] ?? 4,
+                    staticKeyRanking[b] ?? 4,
+                    direction,
+                );
+            }
+
             searchResponseKeys.sort(
                 (a, b) => {
                     const aScore = getAverageScore(searchResponse?.[a]) ?? 0;
@@ -155,7 +183,8 @@ export function Component() {
                     const aDefaultRank = defaultRanking[a];
                     const bDefaultRank = defaultRanking[b];
 
-                    return compareNumber(aScore, bScore, -1)
+                    return compareStaticKey(a, b)
+                        || compareNumber(aScore, bScore, -1)
                         || compareNumber(aDefaultRank, bDefaultRank, -1);
                 },
             );
@@ -188,11 +217,10 @@ export function Component() {
         [activeView, strings],
     );
 
-    const MIN_SEARCH_TEXT_LENGTH = 3;
     const trimmedSearchString = isDefined(searchStringTemp) ? searchStringTemp.trim() : '';
     const emptyText = useMemo(
         () => {
-            if (trimmedSearchString.length < MIN_SEARCH_TEXT_LENGTH) {
+            if (trimmedSearchString.length < SEARCH_TEXT_LENGTH_MIN) {
                 return strings.searchThreeCharactersRequired;
             }
 
@@ -237,8 +265,8 @@ export function Component() {
                         />
                         <Button
                             name={trimmedSearchString}
-                            onClick={setUrlSearchValue}
-                            disabled={trimmedSearchString.length < MIN_SEARCH_TEXT_LENGTH}
+                            onClick={setUrlSearchValueWithSideEffect}
+                            disabled={trimmedSearchString.length < SEARCH_TEXT_LENGTH_MIN}
                             spacing="comfortable"
                         >
                             {strings.searchGoButtonLabel}
@@ -296,7 +324,7 @@ export function Component() {
                         }
 
                         const heading = headingStringMap[searchResponseKey];
-                        const action = (
+                        const action = data.length > MAX_VIEW_PER_SECTION ? (
                             <Button
                                 name={searchResponseKey}
                                 variant="tertiary"
@@ -309,10 +337,13 @@ export function Component() {
                             >
                                 {resolveToString(
                                     strings.searchViewAll,
-                                    { searchTitle: heading },
+                                    {
+                                        searchCategory: heading,
+                                        numResults: data.length,
+                                    },
                                 )}
                             </Button>
-                        );
+                        ) : undefined;
 
                         if (isListTypeResult(searchResponseKey)) {
                             return (

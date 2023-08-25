@@ -1,6 +1,7 @@
 .header-cell {
     display: flex;
     align-items: center;
+    color: var(--go-ui-color-text-black);
     font-weight: var(--go-ui-font-weight-medium);
     gap: var(--go-ui-spacing-sm);
 

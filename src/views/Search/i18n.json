@@ -20,7 +20,7 @@
         "searchProvincesTitle": "Provinces",
 
         "searchGoBack": "Go Back",
-        "searchViewAll": "View all {searchTitle}",
+        "searchViewAll": "View all results for {searchCategory} ({numResults})",
 
         "searchResultforQuery": "No matches for your keyword search",
         "searchThreeCharactersRequired": "Please enter at least 3 characters to get started with search!",
