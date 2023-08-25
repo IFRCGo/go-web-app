@@ -89,7 +89,7 @@ const sourceOption: mapboxgl.GeoJSONSourceRaw = {
 interface GeoJsonProps {
     countryName: string | null | undefined;
     countryId: number;
-    projectsCount: number;
+    numProjects: number;
 }
 
 interface ClickedPoint {

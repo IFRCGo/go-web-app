@@ -17,12 +17,14 @@ import {
 import BlockLoading from '#components/BlockLoading';
 import Button from '#components/Button';
 import Container from '#components/Container';
+import ExpandableContainer from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import PieChart from '#components/PieChart';
 import RouteContext from '#contexts/route';
 import type { CountryOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
 import { sumSafe } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -31,6 +33,7 @@ import {
     numericValueSelector,
     stringLabelSelector,
 } from '#utils/selectors';
+import ProjectActions, { Props as ProjectActionsProps } from '#views/CountryThreeW/ProjectActions';
 
 import Filter, { FilterValue } from './Filters';
 import Map from './Map';
@@ -97,6 +100,7 @@ export function Component() {
     const {
         pending: projectListPending,
         response: projectListResponse,
+        retrigger: reTriggerProjectListRequest,
     } = useRequest({
         skip: isNotDefined(countryResponse?.id),
         url: '/api/v2/project/',
@@ -161,6 +165,10 @@ export function Component() {
             activeNSCount: numberOfActiveNS,
         };
     }, [filteredProjectList]);
+
+    const countryGroupedProjects = useMemo(() => (
+        listToGroupList(ongoingProjects, (project) => project.project_country)
+    ), [ongoingProjects]);
 
     return (
         <div className={styles.countryThreeWNationalSocietyProjects}>
@@ -249,6 +257,55 @@ export function Component() {
                             projectList={ongoingProjects}
                         />
                     </div>
+                    <Container
+                        className={styles.sidebar}
+                        heading={strings.threeWNSCountryMapSidebarTitle}
+                    >
+                        {Object.entries(countryGroupedProjects).map(([countryId, projects]) => {
+                            if (isNotDefined(projects) || projects.length === 0) {
+                                return null;
+                            }
+
+                            // NOTE: we will always have at least one project as it is
+                            // project list is aggregated using listToGroupList
+                            const countryName = projects[0].project_country_detail.name;
+
+                            return (
+                                <ExpandableContainer
+                                    key={countryId}
+                                    heading={resolveToString(
+                                        strings.countryProjects,
+                                        {
+                                            countryName,
+                                            numProjects: projects.length,
+                                        },
+                                    )}
+                                    headingLevel={4}
+                                >
+                                    {/* NOTE: projects array will always have an element
+                                      * as we are using listToGroupList to get it.
+                                      */}
+                                    {projects.map((project) => (
+                                        <div
+                                            key={project.id}
+                                            className={styles.projectDetailItem}
+                                        >
+                                            <div className={styles.name}>
+                                                {project.name}
+                                            </div>
+                                            <ProjectActions
+                                                project={project}
+                                                className={styles.actions}
+                                                onProjectDeletionSuccess={
+                                                    reTriggerProjectListRequest
+                                                }
+                                            />
+                                        </div>
+                                    ))}
+                                </ExpandableContainer>
+                            );
+                        })}
+                    </Container>
                 </div>
             </Container>
         </div>

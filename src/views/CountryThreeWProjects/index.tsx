@@ -47,8 +47,8 @@ import {
     numericValueSelector,
     stringLabelSelector,
 } from '#utils/selectors';
+import ProjectActions, { Props as ProjectActionsProps } from '#views/CountryThreeW/ProjectActions';
 
-import ProjectActions, { Props as ProjectActionsProps } from './ProjectActions';
 import Map from './Map';
 import Filter, { FilterValue } from './Filters';
 
