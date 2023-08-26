@@ -6,6 +6,7 @@ import {
 } from '@togglecorp/fujs';
 import { nonFieldError } from '@togglecorp/toggle-form';
 
+import { transformObjectError } from '#utils/restRequest/error';
 import InputError from '#components/InputError';
 import Link from '#components/Link';
 import { NameType } from '#components/types';
@@ -118,9 +119,18 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
             }
             onChange([...(value ?? []), ...ids], name);
         },
-        onFailure: (e) => {
-            const serverError = e?.value?.formErrors;
-            const serverErrorMessage = String(serverError?.file ?? serverError?.[nonFieldError]);
+        onFailure: ({
+            value: {
+                formErrors,
+            },
+        }) => {
+            const err = transformObjectError(formErrors, () => undefined);
+            // NOTE: could not use getErrorObject
+            const serverErrorMessage = err?.[nonFieldError] || (
+                typeof err?.file === 'object'
+                    ? err[nonFieldError]
+                    : err?.file
+            );
             alert.show(
                 // FIXME use translation
                 'Failed to upload the file!',
