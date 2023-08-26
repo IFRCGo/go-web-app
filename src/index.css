@@ -154,8 +154,9 @@
     --go-ui-color-blue-80: #344B67;
     --go-ui-color-blue-90: #011E41;
 
-    --go-ui-color-text: var(--go-ui-color-primary-gray);
-    --go-ui-color-text-light: rgba(0, 0, 0, 0.5);
+    --go-ui-color-text-black: rgb(0 0 0 / 1);
+    --go-ui-color-text: rgb(0 0 0 / 0.8);
+    --go-ui-color-text-light: rgb(0 0 0 / 0.5);
 
     --go-ui-color-positive: var(--go-ui-color-green);
     --go-ui-color-information: var(--go-ui-color-blue);

@@ -61,7 +61,7 @@ function NumberOutput(props: Props) {
                 return invalidText;
             }
 
-            return formatNumber(
+            const formattedValue = formatNumber(
                 value,
                 {
                     currency,
@@ -70,6 +70,13 @@ function NumberOutput(props: Props) {
                     maximumFractionDigits,
                     unit,
                 },
+            );
+
+            return (
+                <>
+                    {formattedValue}
+                    {suffix}
+                </>
             );
         },
         [
@@ -80,6 +87,7 @@ function NumberOutput(props: Props) {
             currency,
             unit,
             maximumFractionDigits,
+            suffix,
         ],
     );
 
@@ -89,7 +97,6 @@ function NumberOutput(props: Props) {
             title={isDefined(tooltip) ? String(tooltip) : undefined}
         >
             {val}
-            {suffix}
         </div>
     );
 }

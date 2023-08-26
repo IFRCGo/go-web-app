@@ -1,4 +1,9 @@
-import { useCallback } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+} from 'react';
 import { encodeDate, isNotDefined } from '@togglecorp/fujs';
 import { isCallable } from '@togglecorp/toggle-form';
 import { useSearchParams, NavigateOptions } from 'react-router-dom';
@@ -15,19 +20,38 @@ function useUrlSearchState<VALUE>(
     navigateOptions: NavigateOptions = { replace: true },
 ) {
     const [searchParams, setSearchParams] = useSearchParams();
+    const serializerRef = useRef(serialize);
+    const deserializerRef = useRef(deserialize);
+
+    useEffect(
+        () => {
+            serializerRef.current = serialize;
+        },
+        [serialize],
+    );
+
+    useEffect(
+        () => {
+            deserializerRef.current = deserialize;
+        },
+        [deserialize],
+    );
 
     const potentialValue = searchParams.get(key);
-    const value = deserialize(potentialValue);
+    const value = useMemo(
+        () => deserializerRef.current(potentialValue),
+        [potentialValue],
+    );
 
     const setValue = useCallback(
         (newValueOrGetNewValue: ValueOrSetter<VALUE>) => {
             setSearchParams(
                 (prevParams) => {
                     const encodedValue = isCallable(newValueOrGetNewValue)
-                        ? newValueOrGetNewValue(deserialize(prevParams.get(key)))
+                        ? newValueOrGetNewValue(deserializerRef.current(prevParams.get(key)))
                         : newValueOrGetNewValue;
 
-                    const newValue = serialize(encodedValue);
+                    const newValue = serializerRef.current(encodedValue);
                     if (isNotDefined(newValue)) {
                         prevParams.delete(key);
                     } else {
@@ -52,7 +76,7 @@ function useUrlSearchState<VALUE>(
                 navigateOptions,
             );
         },
-        [setSearchParams, key, serialize, deserialize, navigateOptions],
+        [setSearchParams, key, navigateOptions],
     );
 
     return [value, setValue] as const;
