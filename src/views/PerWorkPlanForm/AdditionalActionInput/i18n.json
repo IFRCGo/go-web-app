@@ -1,7 +1,7 @@
 {
     "namespace": "perWorkPlanFormForm",
     "strings": {
-        "actionInputHeading": "Action #{actionNumber}",
+        "actionInputHeading": "Additional action #{actionNumber}",
         "actionInputRemoveButtonLabel": "Remove",
         "actionInputActionsPlaceholder": "Enter actions",
         "actionInputSupportedByLabel": "Supported by",

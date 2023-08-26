@@ -20,6 +20,10 @@
         .title {
             font-weight: var(--go-ui-font-weight-semibold);
         }
+
+        .asterisk {
+            color: var(--go-ui-color-primary-red);
+        }
     }
 
     .content-section {

@@ -114,7 +114,7 @@ function ComponentInput(props: Props) {
                     value={value?.rating}
                     onChange={setFieldValue}
                     // FIXME: use translation
-                    placeholder={readOnly ? 'Rating: 0 - Not implemented' : 'Select rating'}
+                    placeholder={readOnly ? 'Rating: 0 - Not reviewed' : 'Select rating'}
                     options={ratingOptions}
                     keySelector={numericIdSelector}
                     labelSelector={ratingLabelSelector}

@@ -187,6 +187,9 @@ export function Component() {
                             { perId: String(response.id) },
                         ),
                     );
+
+                    // Move the page position to top when moving on to next step
+                    window.scrollTo(0, 0);
                 }
             }
             // TODO: log error?

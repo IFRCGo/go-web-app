@@ -1,7 +1,0 @@
-.component-input {
-    .content {
-        display: grid;
-        grid-gap: var(--go-ui-spacing-lg);
-        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    }
-}

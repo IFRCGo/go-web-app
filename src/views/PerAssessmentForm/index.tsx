@@ -183,6 +183,9 @@ export function Component() {
                         { perId: String(perId) },
                     ),
                 );
+
+                // Move the page position to top when moving on to next step
+                window.scrollTo(0, 0);
             }
         },
         onFailure: ({

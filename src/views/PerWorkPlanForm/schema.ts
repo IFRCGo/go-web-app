@@ -25,6 +25,7 @@ export const workplanSchema: WorkPlanFormScheme = {
     fields: (): WorkPlanFormSchemeFields => ({
         is_draft: {},
         overview: {},
+        // FIXME: rename to prioritized_action_responses in server
         component_responses: {
             keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
@@ -39,6 +40,7 @@ export const workplanSchema: WorkPlanFormScheme = {
                 }),
             }),
         },
+        // FIXME: rename to additional_action_responses in server
         custom_component_responses: {
             keySelector: (customComponentResponse) => customComponentResponse.client_id,
             member: () => ({

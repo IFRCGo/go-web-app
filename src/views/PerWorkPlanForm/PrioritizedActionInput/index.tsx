@@ -41,7 +41,7 @@ interface Props {
     readOnly?: boolean;
 }
 
-function ComponentInput(props: Props) {
+function PrioritizedActionInput(props: Props) {
     const {
         onChange,
         index,
@@ -65,7 +65,8 @@ function ComponentInput(props: Props) {
 
     return (
         <Container
-            className={styles.componentInput}
+            className={styles.prioritizedActionInput}
+            // FIXME: use translations
             heading={`${component?.component_num}. ${component?.title}`}
             headingLevel={4}
             spacing="compact"
@@ -113,4 +114,4 @@ function ComponentInput(props: Props) {
     );
 }
 
-export default ComponentInput;
+export default PrioritizedActionInput;
