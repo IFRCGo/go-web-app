@@ -5,7 +5,7 @@ import BodyOverlay from '#components/BodyOverlay';
 import Header from '#components/Header';
 import { Props as HeadingProps } from '#components/Heading';
 import useBasicLayout from '#hooks/useBasicLayout';
-import IconButton from '#components/IconButton';
+import Button from '#components/Button';
 import { CloseFillIcon } from '@ifrc-go/icons';
 import { FocusOn } from 'react-focus-on';
 import styles from './styles.module.css';
@@ -107,16 +107,15 @@ function Modal(props: Props) {
                             heading={heading}
                             headingLevel={headingLevel}
                             actions={!withoutCloseButton && (
-                                <IconButton
+                                <Button
                                     name={undefined}
                                     onClick={onClose}
-                                    ariaLabel="Close"
                                     variant="tertiary"
                                     // FIXME: use translation
                                     title="Close"
                                 >
-                                    <CloseFillIcon />
-                                </IconButton>
+                                    <CloseFillIcon className={styles.closeIcon} />
+                                </Button>
                             )}
                         />
                     )}

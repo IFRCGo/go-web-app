@@ -50,9 +50,9 @@ function TableBodyContent<
                     const otherProps = cellRendererParams(key, datum, index, data);
                     const children = (
                         <Renderer
+                            className={cellRendererClassName}
                             // eslint-disable-next-line react/jsx-props-no-spreading
                             {...otherProps}
-                            className={cellRendererClassName}
                             name={id}
                         />
                     );

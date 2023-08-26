@@ -1,25 +1,25 @@
-.country-threeW-projects {
+.country-three-w-projects {
     display: flex;
     flex-direction: column;
-    padding: var(--go-ui-spacing-xl) 0;
-    gap: var(--go-ui-spacing-3xl);
+    padding: var(--go-ui-spacing-4xl) 0;
+    gap: var(--go-ui-spacing-4xl);
 
-    .key-figure-list {
+    .key-figure-card-list {
         display: grid;
-        grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        grid-gap: var(--go-ui-spacing-xl);
+        grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
 
         @media screen and (max-width: 30rem) {
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
         }
 
-        .key-figures {
+        .key-figure-card {
             display: flex;
+            gap: var(--go-ui-spacing-lg);
             border-radius: var(--go-ui-border-radius-lg);
             box-shadow: var(--go-ui-box-shadow-lg);
             background-color: var(--go-ui-color-white);
-            padding: var(--go-ui-spacing-md);
-            height: 100%;
+            padding: var(--go-ui-spacing-xl);
 
             .separator {
                 flex-shrink: 0;
@@ -28,47 +28,60 @@
             }
 
             .pie-chart {
+                flex-basis: 0;
+                flex-grow: 1;
                 flex-wrap: wrap;
+                justify-content: center;
             }
 
             .key-figure {
-                flex-basis: 20%;
+                flex-basis: 0;
+                flex-grow: 1;
+                padding: 0;
             }
         }
     }
 
-    .content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-md);
+    .ongoing-projects {
+        overflow: auto;
 
-        .actions {
-            font-size: var(--go-ui-font-size-2xl);
-            font-weight: var(--go-ui-font-weight-bold);
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
         }
 
-        .top-section {
-            display: flex;
-            flex-grow: 1;
-            gap: var(--go-ui-spacing-md);
+        .sidebar {
+            height: 100%;
+            overflow: auto;
 
-            .map-container {
-                width: 100%;
-            }
+            .sidebar-content {
+                overflow: auto;
 
-            .sidebar {
-                flex-basis: 40%;
-
-                .project-detail-item {
+                .projects-in-district {
                     display: flex;
-                    gap: var(--go-ui-spacing-md);
-                    padding: var(--go-ui-spacing-xs);
+                    flex-direction: column;
+                    gap: var(--go-ui-spacing-sm);
 
-                    .name {
-                        flex-grow: 1;
+                    .project-in-district-item {
+                        display: flex;
+
+                        .name {
+                            flex-grow: 1;
+                        }
+
+                        .action {
+                            flex-shrink: 0;
+                            font-size: var(--go-ui-font-size-icon-multiplier);
+                        }
                     }
                 }
             }
         }
     }
+
+}
+
+.project-actions {
+    font-size: var(--go-ui-font-size-icon-multiplier);
 }

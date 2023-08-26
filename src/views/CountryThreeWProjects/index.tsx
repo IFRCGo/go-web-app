@@ -7,6 +7,7 @@ import {
     isDefined,
     isNotDefined,
     listToGroupList,
+    listToMap,
     mapToList,
     unique,
 } from '@togglecorp/fujs';
@@ -28,6 +29,7 @@ import Link from '#components/Link';
 import PieChart from '#components/PieChart';
 import RouteContext from '#contexts/route';
 import Table from '#components/Table';
+import Message from '#components/Message';
 import type { CountryOutletContext } from '#utils/outletContext';
 import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
@@ -142,6 +144,14 @@ export function Component() {
     const districtList = districtListResponse?.results ?? emptyDistrictList;
     const projectList = projectListResponse?.results ?? emptyProjectList;
     const filteredProjectList = filterProjects(projectList, filters);
+
+    const districtIdToDetailMap = useMemo(
+        () => listToMap(
+            districtList,
+            (district) => district.id,
+        ),
+        [districtList],
+    );
 
     const {
         ongoingProjects,
@@ -274,30 +284,33 @@ export function Component() {
             ProjectActions,
             (_, project) => ({
                 onProjectDeletionSuccess: reTriggerProjectListRequest,
-                className: styles.actions,
                 project,
+                className: styles.projectActions,
             }),
         ),
     ]), [reTriggerProjectListRequest, strings]);
 
+    const districtIdList = Object.keys(districtGroupedProject);
+
     return (
         <div className={styles.countryThreeWProjects}>
-            {projectListPending ? (
-                <BlockLoading />
-            ) : (
-                <div className={styles.keyFigureList}>
-                    <div className={styles.keyFigures}>
+            {projectListPending && <BlockLoading />}
+            {!projectListPending && (
+                <div className={styles.keyFigureCardList}>
+                    <div className={styles.keyFigureCard}>
                         <KeyFigure
+                            className={styles.keyFigure}
                             value={activeNSCount}
                             description={strings.activeDeploymentsTitle}
                         />
                         <div className={styles.separator} />
                         <KeyFigure
+                            className={styles.keyFigure}
                             value={targetedPopulation}
                             description={strings.targetedPopulationTitle}
                         />
                     </div>
-                    <div className={styles.keyFigures}>
+                    <div className={styles.keyFigureCard}>
                         <KeyFigure
                             className={styles.keyFigure}
                             value={projectList.length}
@@ -305,14 +318,17 @@ export function Component() {
                         />
                         <div className={styles.separator} />
                         <PieChart
+                            className={styles.pieChart}
                             data={programmeTypeStats}
                             valueSelector={numericValueSelector}
                             labelSelector={stringLabelSelector}
                             keySelector={stringLabelSelector}
                             colors={primaryRedColorShades}
+                            pieRadius={40}
+                            chartPadding={10}
                         />
                     </div>
-                    <div className={styles.keyFigures}>
+                    <div className={styles.keyFigureCard}>
                         <KeyFigure
                             className={styles.keyFigure}
                             value={ongoingProjectBudget}
@@ -320,16 +336,20 @@ export function Component() {
                         />
                         <div className={styles.separator} />
                         <PieChart
+                            className={styles.pieChart}
                             data={projectStatusTypeStats}
                             valueSelector={numericValueSelector}
                             labelSelector={stringLabelSelector}
                             keySelector={stringLabelSelector}
                             colors={primaryRedColorShades}
+                            pieRadius={40}
+                            chartPadding={10}
                         />
                     </div>
                 </div>
             )}
             <Container
+                className={styles.ongoingProjects}
                 heading={strings.threeWOngoingProjectsTitle}
                 withHeaderBorder
                 childrenContainerClassName={styles.content}
@@ -361,110 +381,119 @@ export function Component() {
                     </>
                 )}
             >
-                <div className={styles.topSection}>
-                    <div className={styles.mapContainer}>
-                        <Map
-                            className={styles.mapContainer}
-                            projectList={ongoingProjects}
-                            districtList={districtList}
-                        />
-                    </div>
-                    <Container
-                        className={styles.sidebar}
-                        heading={strings.threeWInCountryMapSidebarTitle}
-                    >
-                        {Object.entries(districtGroupedProject).map(([districtId, projects]) => {
-                            if (isNotDefined(projects) || projects.length === 0) {
-                                return null;
-                            }
+                <Map
+                    projectList={ongoingProjects}
+                    districtList={districtList}
+                    sidebarContent={(
+                        <Container
+                            className={styles.sidebar}
+                            heading={strings.threeWInCountryMapSidebarTitle}
+                            withInternalPadding
+                            childrenContainerClassName={styles.sidebarContent}
+                        >
+                            {districtIdList.map((districtId) => {
+                                const projectsInDistrict = districtGroupedProject[districtId];
 
-                            const district = districtList.find((d) => d.id === Number(districtId));
+                                if (isNotDefined(projectsInDistrict)
+                                    || projectsInDistrict.length === 0
+                                ) {
+                                    return null;
+                                }
 
-                            if (isNotDefined(district)) {
+                                const district = districtIdToDetailMap[+districtId];
+
+                                if (isNotDefined(district)) {
+                                    return (
+                                        <ExpandableContainer
+                                            key="others"
+                                            heading={resolveToString(
+                                                strings.otherProjects,
+                                                { numProjects: projectsInDistrict.length },
+                                            )}
+                                            headingLevel={4}
+                                            initiallyExpanded
+                                            childrenContainerClassName={styles.projectsInDistrict}
+                                            withoutWrapInHeading
+                                        >
+                                            {/* NOTE: projects array will always have an element
+                                              * as we are using listToGroupList to get it.
+                                              */}
+                                            {projectsInDistrict.map((project) => (
+                                                <div
+                                                    key={project.id}
+                                                    className={styles.projectInDistrictItem}
+                                                >
+                                                    <div className={styles.name}>
+                                                        {project.name}
+                                                    </div>
+                                                    <Link
+                                                        to={generatePath(
+                                                            threeWProjectEditRoute.absolutePath,
+                                                            { projectId: project.id },
+                                                        )}
+                                                        variant="tertiary"
+                                                        icons={<PencilFillIcon />}
+                                                        className={styles.action}
+                                                    >
+                                                        {strings.projectEdit}
+                                                    </Link>
+                                                </div>
+                                            ))}
+                                        </ExpandableContainer>
+                                    );
+                                }
+
                                 return (
                                     <ExpandableContainer
-                                        key="others"
+                                        key={district.id}
                                         heading={resolveToString(
-                                            strings.otherProjects,
+                                            strings.provinceProjects,
                                             {
-                                                numProjects: projects.length,
+                                                provinceName: district?.name,
+                                                numProjects: projectsInDistrict.length,
                                             },
                                         )}
                                         headingLevel={4}
-                                        initiallyExpanded
+                                        childrenContainerClassName={styles.projectsInDistrict}
+                                        withoutWrapInHeading
                                     >
                                         {/* NOTE: projects array will always have an element
                                           * as we are using listToGroupList to get it.
                                           */}
-                                        {projects.map((project) => (
+                                        {projectsInDistrict.map((project) => (
                                             <div
                                                 key={project.id}
-                                                className={styles.projectDetailItem}
+                                                className={styles.projectInDistrictItem}
                                             >
                                                 <div className={styles.name}>
                                                     {project.name}
                                                 </div>
-                                                <Link
-                                                    to={generatePath(
-                                                        threeWProjectEditRoute.absolutePath,
-                                                        { projectId: project.id },
-                                                    )}
-                                                    variant="tertiary"
-                                                    icons={<PencilFillIcon />}
-                                                >
-                                                    {strings.projectEdit}
-                                                </Link>
+                                                <ProjectActions
+                                                    project={project}
+                                                    className={styles.action}
+                                                    onProjectDeletionSuccess={
+                                                        reTriggerProjectListRequest
+                                                    }
+                                                />
                                             </div>
                                         ))}
                                     </ExpandableContainer>
                                 );
-                            }
-
-                            return (
-                                <ExpandableContainer
-                                    key={district.id}
-                                    heading={resolveToString(
-                                        strings.provinceProjects,
-                                        {
-                                            provinceName: district?.name,
-                                            numProjects: projects.length,
-                                        },
-                                    )}
-                                    headingLevel={4}
-                                >
-                                    {/* NOTE: projects array will always have an element
-                                      * as we are using listToGroupList to get it.
-                                      */}
-                                    {projects.map((project) => (
-                                        <div
-                                            key={project.id}
-                                            className={styles.projectDetailItem}
-                                        >
-                                            <div className={styles.name}>
-                                                {project.name}
-                                            </div>
-                                            <ProjectActions
-                                                project={project}
-                                                className={styles.actions}
-                                                onProjectDeletionSuccess={
-                                                    reTriggerProjectListRequest
-                                                }
-                                            />
-                                        </div>
-                                    ))}
-                                </ExpandableContainer>
-                            );
-                        })}
-                    </Container>
-                </div>
+                            })}
+                            {districtIdList.length === 0 && (
+                                <Message
+                                    description="Data not available!"
+                                />
+                            )}
+                        </Container>
+                    )}
+                />
                 <ExpandableContainer
                     heading={resolveToString(
                         strings.localNSProjects,
-                        {
-                            count: localNSProjects.length,
-                        },
+                        { count: localNSProjects.length },
                     )}
-                    headingLevel={4}
+                    withHeaderBorder
                 >
                     <Table
                         filtered={false}
@@ -477,11 +506,9 @@ export function Component() {
                 <ExpandableContainer
                     heading={resolveToString(
                         strings.otherNSProjects,
-                        {
-                            count: otherNSProjects.length,
-                        },
+                        { count: otherNSProjects.length },
                     )}
-                    headingLevel={4}
+                    withHeaderBorder
                 >
                     <Table
                         filtered={false}

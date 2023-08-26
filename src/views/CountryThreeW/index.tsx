@@ -14,7 +14,6 @@ import NavigationTab from '#components/NavigationTab';
 import Container from '#components/Container';
 import Button from '#components/Button';
 import RouteContext from '#contexts/route';
-import Link from '#components/Link';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -45,46 +44,8 @@ export function Component() {
                     {strings.addThreeWProject}
                 </Button>
             )}
-            footerContentClassName={styles.footer}
-            footerContent={(
-                <>
-                    <Link
-                        to={countryResponse?.fdrs ? `https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}` : undefined}
-                        withExternalLinkIcon
-                    >
-                        {strings.nationalSocietyPageOnFDRS}
-                    </Link>
-                    <Link
-                        to={countryResponse?.url_ifrc}
-                        withExternalLinkIcon
-                    >
-                        {resolveToString(
-                            strings.countryOnIFRC,
-                            { countryName: countryResponse?.name ?? '-' },
-                        )}
-                    </Link>
-                    <Link
-                        to={countryResponse?.iso3 ? `https://reliefweb.int/country/${countryResponse.iso3}` : undefined}
-                        withExternalLinkIcon
-                    >
-                        {resolveToString(
-                            strings.countryOnReliefWeb,
-                            { countryName: countryResponse?.name ?? '-' },
-                        )}
-                    </Link>
-                    <Link
-                        to={countryResponse?.society_url ? countryResponse?.society_url : undefined}
-                        withExternalLinkIcon
-                    >
-                        {resolveToString(
-                            strings.countryRCHomepage,
-                            { countryName: countryResponse?.name ?? '-' },
-                        )}
-                    </Link>
-                </>
-            )}
         >
-            <NavigationTabList>
+            <NavigationTabList variant="secondary">
                 <NavigationTab
                     to={generatePath(
                         countryThreeWProjectsRoute.absolutePath,

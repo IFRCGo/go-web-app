@@ -1,14 +1,6 @@
 .country-three-w {
+    display: flex;
+    flex-direction: column;
     padding: var(--go-ui-spacing-4xl) 0;
-
-    .footer {
-        display: flex;
-        justify-content: center;
-        gap: var(--go-ui-spacing-lg);
-
-        @media screen and (max-width: 30rem) {
-            display: flex;
-            flex-direction: column;
-        }
-    }
+    gap: var(--go-ui-spacing-4xl);
 }

@@ -145,6 +145,7 @@ interface Props {
     className?: string;
     projectList: Project[];
     districtList: District[];
+    sidebarContent?: React.ReactNode;
 }
 
 function CountryThreeWMap(props: Props) {
@@ -152,6 +153,7 @@ function CountryThreeWMap(props: Props) {
         className,
         projectList,
         districtList,
+        sidebarContent,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -265,146 +267,153 @@ function CountryThreeWMap(props: Props) {
     );
 
     return (
-        <Map
-            scaleControlShown
-            mapStyle={defaultMapStyle}
-            mapOptions={defaultMapOptions}
-            navControlShown
-            navControlPosition="top-right"
-            debug={false}
-        >
-            <MapContainerWithDisclaimer
-                className={_cs(styles.mapContainer, className)}
-            />
-            {operationTypeOptions && operationTypeOptions.length > 0 && (
-                <div className={styles.legend}>
-                    {operationTypeOptions.map((d) => (
-                        <LegendItem
-                            key={d.key}
-                            label={d.value}
-                            color={pointColorMap[d.key]}
-                        />
-                    ))}
-                </div>
-            )}
-            {programmesGeo && (
-                <MapSource
-                    sourceKey="programme-points"
-                    sourceOptions={sourceOption}
-                    geoJson={programmesGeo}
+        <div className={_cs(styles.map, className)}>
+            <div className={styles.mapWithLegend}>
+                <Map
+                    scaleControlShown
+                    mapStyle={defaultMapStyle}
+                    mapOptions={defaultMapOptions}
+                    navControlShown
+                    navControlPosition="top-right"
+                    debug={false}
                 >
-                    <MapLayer
-                        layerKey="points-halo-circle"
-                        onClick={handlePointClick}
-                        layerOptions={{
-                            type: 'circle',
-                            paint: redPointHaloCirclePaint,
-                        }}
-                    />
-                    <MapLayer
-                        layerKey="points-circle"
-                        layerOptions={{
-                            type: 'circle',
-                            paint: redPointCirclePaint,
-                        }}
-                    />
-                </MapSource>
-            )}
-            {emergencyGeo && (
-                <MapSource
-                    sourceKey="emergency-points"
-                    sourceOptions={sourceOption}
-                    geoJson={emergencyGeo}
-                >
-                    <MapLayer
-                        layerKey="points-halo-circle"
-                        onClick={handlePointClick}
-                        layerOptions={{
-                            type: 'circle',
-                            paint: bluePointHaloCirclePaint,
-                        }}
-                    />
-                    <MapLayer
-                        layerKey="points-circle"
-                        layerOptions={{
-                            type: 'circle',
-                            paint: bluePointCirclePaint,
-                        }}
-                    />
-                </MapSource>
-            )}
-            <MapBounds
-                // FIXME: use defined constants
-                duration={1000}
-                padding={10}
-                bounds={countryBounds}
-            />
-            {multiTypeGeo && (
-                <MapSource
-                    sourceKey="multi-points"
-                    sourceOptions={sourceOption}
-                    geoJson={multiTypeGeo}
-                >
-                    <MapLayer
-                        layerKey="points-halo-circle"
-                        onClick={handlePointClick}
-                        layerOptions={{
-                            type: 'circle',
-                            paint: orangePointHaloCirclePaint,
-                        }}
-                    />
-                    <MapLayer
-                        layerKey="points-circle"
-                        layerOptions={{
-                            type: 'circle',
-                            paint: orangePointCirclePaint,
-                        }}
-                    />
-                </MapSource>
-            )}
-            {clickedPointProperties?.lngLat && selectedDistrictProjectDetail && (
-                <MapPopup
-                    coordinates={clickedPointProperties.lngLat}
-                    onCloseButtonClick={handlePointClose}
-                    heading={( // NOTE: selectedDistrictProjectDetail will always have an element
-                        selectedDistrictProjectDetail[0].project_district_detail.name
+                    <MapContainerWithDisclaimer className={styles.mapContainer} />
+                    {programmesGeo && (
+                        <MapSource
+                            sourceKey="programme-points"
+                            sourceOptions={sourceOption}
+                            geoJson={programmesGeo}
+                        >
+                            <MapLayer
+                                layerKey="points-halo-circle"
+                                onClick={handlePointClick}
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: redPointHaloCirclePaint,
+                                }}
+                            />
+                            <MapLayer
+                                layerKey="points-circle"
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: redPointCirclePaint,
+                                }}
+                            />
+                        </MapSource>
                     )}
-                >
-                    <div>
-                        {selectedDistrictProjectDetail.map((project) => (
-                            <div
-                                className={styles.projectDetailItem}
-                                key={project.id}
-                            >
-                                <TextOutput
-                                    label={project.reporting_ns_detail.name}
-                                    value={project.name}
-                                    strongValue
-                                />
-                                <TextOutput
-                                    label={strings.threeWMapLastUpdate}
-                                    value={project.modified_at}
-                                    valueType="date"
-                                />
-                                <TextOutput
-                                    label={strings.threeWMapStatus}
-                                    value={project.status_display}
-                                />
-                                <TextOutput
-                                    label={strings.threeWMapProgrammeType}
-                                    value={project.programme_type_display}
-                                />
-                                <TextOutput
-                                    label={strings.threeWMapBudget}
-                                    value={project.budget_amount}
-                                    valueType="number"
-                                />
-                            </div>
+                    {emergencyGeo && (
+                        <MapSource
+                            sourceKey="emergency-points"
+                            sourceOptions={sourceOption}
+                            geoJson={emergencyGeo}
+                        >
+                            <MapLayer
+                                layerKey="points-halo-circle"
+                                onClick={handlePointClick}
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: bluePointHaloCirclePaint,
+                                }}
+                            />
+                            <MapLayer
+                                layerKey="points-circle"
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: bluePointCirclePaint,
+                                }}
+                            />
+                        </MapSource>
+                    )}
+                    <MapBounds
+                        // FIXME: use defined constants
+                        duration={1000}
+                        padding={10}
+                        bounds={countryBounds}
+                    />
+                    {multiTypeGeo && (
+                        <MapSource
+                            sourceKey="multi-points"
+                            sourceOptions={sourceOption}
+                            geoJson={multiTypeGeo}
+                        >
+                            <MapLayer
+                                layerKey="points-halo-circle"
+                                onClick={handlePointClick}
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: orangePointHaloCirclePaint,
+                                }}
+                            />
+                            <MapLayer
+                                layerKey="points-circle"
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: orangePointCirclePaint,
+                                }}
+                            />
+                        </MapSource>
+                    )}
+                    {clickedPointProperties?.lngLat && selectedDistrictProjectDetail && (
+                        <MapPopup
+                            coordinates={clickedPointProperties.lngLat}
+                            onCloseButtonClick={handlePointClose}
+                            // NOTE: selectedDistrictProjectDetail will always have an element
+                            heading={(
+                                selectedDistrictProjectDetail[0].project_district_detail.name
+                            )}
+                        >
+                            {/* FIXME: use List */}
+                            {selectedDistrictProjectDetail.map((project) => (
+                                <div
+                                    className={styles.projectDetailItem}
+                                    key={project.id}
+                                >
+                                    <TextOutput
+                                        label={project.reporting_ns_detail.name}
+                                        value={project.name}
+                                        strongValue
+                                    />
+                                    <TextOutput
+                                        label={strings.threeWMapLastUpdate}
+                                        value={project.modified_at}
+                                        valueType="date"
+                                    />
+                                    <TextOutput
+                                        label={strings.threeWMapStatus}
+                                        value={project.status_display}
+                                    />
+                                    <TextOutput
+                                        label={strings.threeWMapProgrammeType}
+                                        value={project.programme_type_display}
+                                    />
+                                    <TextOutput
+                                        label={strings.threeWMapBudget}
+                                        value={project.budget_amount}
+                                        valueType="number"
+                                    />
+                                </div>
+                            ))}
+                        </MapPopup>
+                    )}
+                </Map>
+                {operationTypeOptions && operationTypeOptions.length > 0 && (
+                    <div className={styles.legend}>
+                        {operationTypeOptions.map((d) => (
+                            <LegendItem
+                                key={d.key}
+                                label={d.value}
+                                color={pointColorMap[d.key]}
+                            />
                         ))}
                     </div>
-                </MapPopup>
+                )}
+            </div>
+            {sidebarContent && (
+                <div className={styles.sidebar}>
+                    {sidebarContent}
+                </div>
             )}
-        </Map>
+        </div>
     );
 }
 

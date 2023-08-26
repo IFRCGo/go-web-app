@@ -6,32 +6,32 @@
     font-size: var(--font-size);
     font-weight: var(--go-ui-font-weight-semibold);
 
-    &.level1 {
+    &.level-one {
         --font-size: var(--go-ui-font-size-4xl);
         --line-height: var(--go-ui-line-height-none);
     }
 
-    &.level2 {
+    &.level-two {
         --font-size: var(--go-ui-font-size-2xl);
         --line-height: var(--go-ui-line-height-tight);
     }
 
-    &.level3 {
+    &.level-three {
         --font-size: var(--go-ui-font-size-xl);
         --line-height: var(--go-ui-line-height-snug);
     }
 
-    &.level4 {
+    &.level-four {
         --font-size: var(--go-ui-font-size-lg);
         --line-height: var(--go-ui-line-height-medium);
     }
 
-    &.level5 {
+    &.level-five {
         --font-size: var(--go-ui-font-size-md);
         --line-height: var(--go-ui-line-height-medium);
     }
 
-    &.level6 {
+    &.level-six {
         --font-size: var(--go-ui-font-size-sm);
         --line-height: var(--go-ui-line-height-medium);
     }

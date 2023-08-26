@@ -2,7 +2,7 @@
     "namespace": "countryThreeWProjects",
     "strings": {
         "projectViewDetails": "View Project Details",
-        "projectEdit": "Edit Project",
+        "actionDropdownEditLabel": "Edit Project",
         "projectDuplicate": "Duplicate Project",
         "projectHistory": "Project History",
         "deleteProject": "Delete Project",

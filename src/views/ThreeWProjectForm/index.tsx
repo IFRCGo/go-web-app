@@ -77,6 +77,8 @@ import AnnualSplitInput from './AnnualSplitInput';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
+type ProjectStatus = NonNullable<GlobalEnums['deployments_project_status']>[number];
+
 function calculateStatus(
     isProjectCompleted: boolean | undefined | null,
     startDate: string | undefined | null,

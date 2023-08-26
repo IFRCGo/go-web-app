@@ -6,9 +6,10 @@ import {
     PencilFillIcon,
     CopyLineIcon,
     HistoryLineIcon,
+    DeleteBinLineIcon,
 } from '@ifrc-go/icons';
 
-import { joinUrlPart } from '#utils/routes';
+import { resolveUrl } from '#utils/resolveUrl';
 import { useLazyRequest } from '#utils/restRequest';
 import BlockLoading from '#components/BlockLoading';
 import DropdownMenu from '#components/DropdownMenu';
@@ -22,7 +23,6 @@ import { resolveToString } from '#utils/translation';
 import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
 
@@ -52,9 +52,7 @@ function ProjectActions(props: Props) {
     } = useLazyRequest({
         url: '/api/v2/project/{id}/',
         method: 'DELETE',
-        pathVariables: {
-            id: project.id,
-        },
+        pathVariables: { id: project.id },
         onSuccess: onProjectDeletionSuccess,
         onFailure: ({ value }) => {
             alert.show(
@@ -68,7 +66,9 @@ function ProjectActions(props: Props) {
 
     return (
         <>
+            {/* FIXME: this BlockLoading doesn't look good */}
             {projectDeletionPending && <BlockLoading />}
+
             <DropdownMenu
                 className={className}
                 variant="tertiary"
@@ -78,10 +78,11 @@ function ProjectActions(props: Props) {
             >
                 <DropdownMenuItem
                     type="link"
+                    // FIXME: replace with route when threeW Details route is developed
                     to={generatePath(
                         threeWProjectEditRoute.absolutePath,
                         { projectId: project.id },
-                    )} // FIXME: replace with route when threeW Details route is developed
+                    )}
                     disabled
                     icons={<SearchLineIcon />}
                 >
@@ -95,7 +96,7 @@ function ProjectActions(props: Props) {
                     )}
                     icons={<PencilFillIcon />}
                 >
-                    {strings.projectEdit}
+                    {strings.actionDropdownEditLabel}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     type="link"
@@ -110,17 +111,18 @@ function ProjectActions(props: Props) {
                 <DropdownMenuItem
                     type="link"
                     icons={<HistoryLineIcon />}
-                    to={joinUrlPart([adminUrl, `deployments/project/${project.id}/history/`])}
+                    to={resolveUrl(adminUrl, `deployments/project/${project.id}/history/`)}
                 >
                     {strings.projectHistory}
                 </DropdownMenuItem>
                 <ConfirmButton
                     name={null}
-                    className={styles.deleteButton}
                     confirmHeading={strings.deleteProject}
                     confirmMessage={strings.deleteProjectMessage}
                     onConfirm={requestProjectDeletion}
                     disabled={projectDeletionPending}
+                    variant="dropdown-item"
+                    icons={<DeleteBinLineIcon />}
                 >
                     {strings.deleteProject}
                 </ConfirmButton>

@@ -3,9 +3,20 @@ import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
+type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
+const levelToClassName: Record<HeadingLevel, string> = {
+    1: styles.levelOne,
+    2: styles.levelTwo,
+    3: styles.levelThree,
+    4: styles.levelFour,
+    5: styles.levelFive,
+    6: styles.levelSix,
+};
+
 export interface Props {
     className?: string;
-    level?: 1 | 2 | 3 | 4 | 5 | 6;
+    level?: HeadingLevel;
     children: ReactNode;
 }
 
@@ -16,7 +27,6 @@ function Heading(props: Props) {
         children,
     } = props;
 
-    const levelStyle = styles[`level${level}`];
     const HeadingTag = `h${level}` as ElementType;
 
     if (!children) {
@@ -27,7 +37,7 @@ function Heading(props: Props) {
         <HeadingTag
             className={_cs(
                 styles.heading,
-                levelStyle,
+                levelToClassName[level],
                 className,
             )}
         >

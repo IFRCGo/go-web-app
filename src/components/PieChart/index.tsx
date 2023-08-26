@@ -6,8 +6,8 @@ import { sumSafe } from '#utils/common';
 
 import styles from './styles.module.css';
 
-const PIE_RADIUS = 70;
-const CHART_PADDING = 40;
+const DEFAULT_PIE_RADIUS = 70;
+const DEFAULT_CHART_PADDING = 40;
 
 // FIXME: Let's move this to utils
 function round(n: number) {
@@ -66,6 +66,8 @@ interface Props<D> {
     labelSelector: (datum: D) => React.ReactNode;
     keySelector: (datum: D) => number | string;
     colors: string[];
+    pieRadius?: number;
+    chartPadding?: number;
 }
 
 function PieChart<D>(props: Props<D>) {
@@ -76,6 +78,8 @@ function PieChart<D>(props: Props<D>) {
         labelSelector,
         keySelector,
         colors,
+        pieRadius = DEFAULT_PIE_RADIUS,
+        chartPadding = DEFAULT_CHART_PADDING,
     } = props;
 
     const totalValue = sumSafe(data?.map((datum) => valueSelector(datum)) ?? []);
@@ -110,16 +114,16 @@ function PieChart<D>(props: Props<D>) {
             <svg
                 className={styles.svg}
                 style={{
-                    width: `${CHART_PADDING + PIE_RADIUS * 2}px`,
-                    height: `${CHART_PADDING + PIE_RADIUS * 2}px`,
+                    width: `${chartPadding + pieRadius * 2}px`,
+                    height: `${chartPadding + pieRadius * 2}px`,
                 }}
             >
-                <g style={{ transform: `translate(${CHART_PADDING / 2}px, ${CHART_PADDING / 2}px)` }}>
+                <g style={{ transform: `translate(${chartPadding / 2}px, ${chartPadding / 2}px)` }}>
                     {renderData.map((datum, i) => (
                         <path
                             key={datum.key}
                             className={styles.path}
-                            d={getPathData(PIE_RADIUS, datum.startAngle, datum.endAngle)}
+                            d={getPathData(pieRadius, datum.startAngle, datum.endAngle)}
                             fill={colors[i]}
                         >
                             <title>
