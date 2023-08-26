@@ -3,6 +3,7 @@ import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 import {
     _cs,
     isDefined,
+    isNotDefined,
     listToGroupList,
     listToMap,
     mapToList,
@@ -50,7 +51,7 @@ function MembershipCoordinationTable(props: Props) {
 
     const tableData = useMemo(
         () => {
-            if (!membershipData) {
+            if (isNotDefined(membershipData)) {
                 return undefined;
             }
 
@@ -112,7 +113,7 @@ function MembershipCoordinationTable(props: Props) {
         [strings, membershipData],
     );
 
-    if (!tableData) {
+    if (isNotDefined(tableData)) {
         return null;
     }
 

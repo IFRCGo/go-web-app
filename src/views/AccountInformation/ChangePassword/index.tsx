@@ -132,7 +132,7 @@ function ChangePasswordModal(props: Props) {
             heading={strings.changePasswordModalHeading}
             headingLevel={3}
             onClose={handleModalCloseButton}
-            hideCloseButton
+            withoutCloseButton
             className={styles.changePassword}
             footerActions={(
                 <>

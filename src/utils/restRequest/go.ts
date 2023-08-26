@@ -51,7 +51,7 @@ function transformError(response: ResponseError, fallbackMessage: string): Trans
         return { [nonFieldError]: 'Internal server error!' };
     }
 
-    if (!responseText) {
+    if (isFalsyString(responseText)) {
         return { [nonFieldError]: 'Empty error response from server!' };
     }
 

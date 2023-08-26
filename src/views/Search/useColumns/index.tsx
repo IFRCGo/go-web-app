@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react';
 import { generatePath } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
+import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import {
     createNumberColumn,
@@ -238,7 +238,7 @@ function getSurgeAlertColumns(strings: Strings) {
             'duration',
             strings.searchSurgeAlertTableDuration,
             (surgeAlert) => {
-                if (!surgeAlert.alert_date) {
+                if (isNotDefined(surgeAlert.alert_date)) {
                     return '-';
                 }
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { _cs, listToMap } from '@togglecorp/fujs';
+import { _cs, listToMap, isNotDefined } from '@togglecorp/fujs';
 import type { SetValueArg } from '@togglecorp/toggle-form';
 
 import RawButton from '#components/RawButton';
@@ -58,7 +58,7 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
 
     const handleClick = useCallback(
         (month: number) => {
-            if (!onChange) {
+            if (isNotDefined(onChange)) {
                 return;
             }
 

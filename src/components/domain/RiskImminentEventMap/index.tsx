@@ -123,7 +123,7 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
             }
 
             const activePoint = pointFeatureSelector(activeEvent);
-            if (!activePoint) {
+            if (isNotDefined(activePoint)) {
                 return bbox;
             }
             const bufferedPoint = getBuffer(activePoint, 10);
@@ -157,7 +157,7 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
 
     const promptForFootprint = useCallback(
         (eventId: string | number | undefined) => {
-            if (!footprintSelector) {
+            if (isNotDefined(footprintSelector)) {
                 return;
             }
 
@@ -241,7 +241,7 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                 {hazardKeys.map((key) => {
                     const url = hazardKeyToIconmap[key];
 
-                    if (!url) {
+                    if (isNotDefined(url)) {
                         return null;
                     }
 

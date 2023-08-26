@@ -37,7 +37,7 @@ export interface Props {
     size?: SizeType;
     heading?: React.ReactNode;
     headingLevel?: HeadingProps['level'];
-    hideCloseButton?: boolean;
+    withoutCloseButton?: boolean;
     bodyClassName?: string;
 }
 
@@ -59,10 +59,10 @@ function Modal(props: Props) {
         size = 'md',
         heading,
         headingLevel,
-        hideCloseButton = false,
+        withoutCloseButton = false,
     } = props;
 
-    const hasHeader = !!heading || hideCloseButton;
+    const hasHeader = !!heading || withoutCloseButton;
     const sizeStyle = sizeToStyleMap[size];
 
     const handleClickOutside = useCallback(() => {
@@ -106,7 +106,7 @@ function Modal(props: Props) {
                             headingSectionClassName={styles.modalHeaderSection}
                             heading={heading}
                             headingLevel={headingLevel}
-                            actions={!hideCloseButton && (
+                            actions={!withoutCloseButton && (
                                 <IconButton
                                     name={undefined}
                                     onClick={onClose}

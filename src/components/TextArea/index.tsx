@@ -1,4 +1,6 @@
 import React from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
+
 import InputContainer, { Props as InputContainerProps } from '../InputContainer';
 import RawTextArea, { Props as RawTextAreaProps } from '../RawTextArea';
 
@@ -36,7 +38,7 @@ function TextArea<const N>(props: Props<N>) {
     } = props;
 
     const handleInputFocus = React.useCallback((e: React.FocusEvent<HTMLTextAreaElement>) => {
-        if (!onChange) {
+        if (isNotDefined(onChange)) {
             return;
         }
 
@@ -46,7 +48,7 @@ function TextArea<const N>(props: Props<N>) {
     }, [onChange, name]);
 
     const handleKeyUp = React.useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (!onChange) {
+        if (isNotDefined(onChange)) {
             return;
         }
 

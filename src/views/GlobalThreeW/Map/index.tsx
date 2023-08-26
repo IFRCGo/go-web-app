@@ -1,12 +1,16 @@
 import { generatePath } from 'react-router-dom';
 import {
-    useContext, useState, useMemo, useCallback,
+    useContext,
+    useState,
+    useMemo,
+    useCallback,
 } from 'react';
 import {
     _cs,
     listToMap,
     isDefined,
     max,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import Map, {
     MapSource,
@@ -113,9 +117,9 @@ function getGeoJson(
         features: countries.map((country) => {
             const nsProject = nsProjectsMap[country.id];
             if (
-                !nsProject
+                isNotDefined(nsProject)
                 || nsProject.type.id !== operationType
-                || !country.centroid
+                || isNotDefined(country.centroid)
             ) {
                 return undefined;
             }
@@ -217,7 +221,7 @@ function GlobalThreeWMap(props: Props) {
 
     const selectedNsProjectStats = useMemo(
         () => {
-            if (!clickedPointProperties) {
+            if (isNotDefined(clickedPointProperties)) {
                 return undefined;
             }
 
@@ -225,7 +229,7 @@ function GlobalThreeWMap(props: Props) {
                 (projectItem) => projectItem.id === clickedPointProperties.feature.id,
             );
 
-            if (!clickedProjectItem) {
+            if (isNotDefined(clickedProjectItem)) {
                 return undefined;
             }
             // FIXME: we may not need maxScaleValue

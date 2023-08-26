@@ -2,6 +2,7 @@ import { useState, useCallback, useContext } from 'react';
 import {
     listToMap,
     isDefined,
+    isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
 import {
@@ -59,7 +60,7 @@ export function Component() {
         response: meResponse,
         retrigger: retriggerUserDetails,
     } = useRequest({
-        skip: !userAuth,
+        skip: isNotDefined(userAuth),
         url: '/api/v2/user/me/',
     });
 
@@ -115,7 +116,7 @@ export function Component() {
                     className={styles.operationsList}
                     data={eventList}
                     pending={operationsPending}
-                    errored={!!operationResponseError}
+                    errored={isDefined(operationResponseError)}
                     filtered={false}
                     keySelector={keySelector}
                     renderer={OperationInfoCard}
@@ -144,7 +145,7 @@ export function Component() {
                         icons={(<PencilFillIcon />)}
                         onClick={setShowEditProfileModal}
                         variant="secondary"
-                        disabled={!meResponse}
+                        disabled={isNotDefined(meResponse)}
                     >
                         {strings.editProfileButtonLabel}
                     </Button>

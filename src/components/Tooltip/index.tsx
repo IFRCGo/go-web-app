@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import Popup from '#components/Popup';
 
@@ -31,7 +32,7 @@ function Tooltip(props: Props) {
                 setShowPopup(false);
             };
 
-            if (!dummyRef.current) {
+            if (isNotDefined(dummyRef.current)) {
                 return undefined;
             }
 
@@ -41,7 +42,7 @@ function Tooltip(props: Props) {
                 },
             } = dummyRef;
 
-            if (!parentNode) {
+            if (isNotDefined(parentNode)) {
                 return undefined;
             }
 

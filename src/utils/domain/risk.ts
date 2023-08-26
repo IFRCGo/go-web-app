@@ -95,7 +95,7 @@ export function getValueForSelectedMonths(
     riskDataItem: RiskDataItem | undefined,
     aggregationMode: 'sum' | 'max' = 'sum',
 ) {
-    if (!selectedMonths) {
+    if (isNotDefined(selectedMonths)) {
         return riskDataItem?.annual_average ?? undefined;
     }
 

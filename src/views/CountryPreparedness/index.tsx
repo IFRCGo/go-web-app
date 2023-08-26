@@ -132,7 +132,7 @@ export function Component() {
 
     const assessmentStats = useMemo(
         () => {
-            if (!assessmentResponse) {
+            if (isNotDefined(assessmentResponse)) {
                 return undefined;
             }
 
@@ -242,7 +242,7 @@ export function Component() {
 
     const prioritizationStats = useMemo(
         () => {
-            if (!prioritizationResponse || !assessmentStats) {
+            if (isNotDefined(prioritizationResponse) || isNotDefined(assessmentStats)) {
                 return undefined;
             }
 
@@ -276,11 +276,12 @@ export function Component() {
         [prioritizationResponse, assessmentStats],
     );
 
+    // FIXME: fill this value
     const perTeamEmail = '';
-    const hasPer = !!overviewResponse;
+    const hasPer = isDefined(overviewResponse);
 
-    const hasAssessmentStats = hasPer && assessmentStats;
-    const hasPrioritizationStats = hasPer && prioritizationStats;
+    const hasAssessmentStats = hasPer && isDefined(assessmentStats);
+    const hasPrioritizationStats = hasPer && isDefined(prioritizationStats);
 
     const hasRatingCounts = hasAssessmentStats && assessmentStats.ratingCounts.length > 0;
     const hasAnswerCounts = hasAssessmentStats && assessmentStats.answerCounts.length > 0;

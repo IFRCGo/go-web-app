@@ -296,7 +296,7 @@ function ActivityInput(props: Props) {
                     // FIXME: Add translations
                     label="Detailed Reporting"
                     name="is_simplified_report"
-                    value={!!value?.is_simplified_report}
+                    value={value?.is_simplified_report}
                     disabled={disabled}
                     onChange={setFieldValue}
                     error={error?.is_simplified_report}
@@ -372,7 +372,7 @@ function ActivityInput(props: Props) {
                         // FIXME: Add translations
                         label="No data on people reached"
                         name="has_no_data_on_people_reached"
-                        value={!!value?.has_no_data_on_people_reached}
+                        value={value?.has_no_data_on_people_reached}
                         disabled={disabled}
                         onChange={setFieldValue}
                         error={error?.has_no_data_on_people_reached}

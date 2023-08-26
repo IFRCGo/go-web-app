@@ -8,6 +8,7 @@ import {
     isDefined,
     unique,
     listToGroupList,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import {
     useOutletContext,
@@ -111,16 +112,16 @@ function getGeoJson(
     return {
         type: 'FeatureCollection' as const,
         features: districtList.map((district) => {
+            if (isNotDefined(district.centroid)) {
+                return undefined;
+            }
             const projects = districtDenormalizedProjectList
                 .filter((project) => project.project_district_detail.id === district.id);
-
             if (projects.length === 0) {
                 return undefined;
             }
-
             const operationType = getOperationType(projects);
-
-            if (operationType?.id !== requiredOperationTypeId) {
+            if (isNotDefined(operationType) || operationType.id !== requiredOperationTypeId) {
                 return undefined;
             }
 
@@ -133,7 +134,7 @@ function getGeoJson(
                 },
                 geometry: {
                     type: 'Point' as const,
-                    coordinates: district.centroid?.coordinates as [number, number] ?? [],
+                    coordinates: district.centroid.coordinates as [number, number],
                 },
             };
         }).filter(isDefined),
@@ -188,14 +189,15 @@ function CountryThreeWMap(props: Props) {
 
     const selectedDistrictProjectDetail = useMemo(
         () => {
-            if (!clickedPointProperties?.feature?.id) {
+            const id = clickedPointProperties?.feature?.id;
+            if (isNotDefined(id)) {
                 return undefined;
             }
 
             // eslint-disable-next-line max-len
-            const selectedDistrictProjectList = districtGroupedProjects[clickedPointProperties.feature.id];
+            const selectedDistrictProjectList = districtGroupedProjects[id];
 
-            if (!selectedDistrictProjectList) {
+            if (isNotDefined(selectedDistrictProjectList)) {
                 return undefined;
             }
 

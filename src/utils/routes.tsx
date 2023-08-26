@@ -2,6 +2,7 @@ import {
     listToMap,
     mapToList,
     randomString,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import {
     IndexRouteObject,
@@ -237,7 +238,7 @@ export function unwrapRoute<K extends object>(
     const results = mapToList(
         mapping,
         (item) => item,
-    ).filter((item) => !item.parent);
+    ).filter((item) => isNotDefined(item.parent));
 
     return results;
 }

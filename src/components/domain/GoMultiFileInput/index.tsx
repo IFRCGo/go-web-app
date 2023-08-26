@@ -50,7 +50,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     url: supportedPaths;
     value: number[] | undefined | null;
     variant?: ButtonVariant;
-    hidePreview?: boolean;
+    withoutPreview?: boolean;
     error?: React.ReactNode;
     description?: React.ReactNode;
 }
@@ -73,7 +73,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
         url,
         value,
         variant = 'secondary',
-        hidePreview,
+        withoutPreview,
         error,
         description,
     } = props;
@@ -179,7 +179,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
             >
                 {children}
             </RawFileInput>
-            {!hidePreview && valueUrls && (
+            {!withoutPreview && isDefined(valueUrls) && valueUrls.length > 0 && (
                 <div className={styles.selectedFiles}>
                     {valueUrls.map(
                         (valueUrl) => (

@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import {
     randomString,
     isDefined,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import {
     type ArrayError,
@@ -171,7 +172,7 @@ function InterventionInput(props: Props) {
                         disabled={disabled}
                     />
                 ))}
-                {(!value.indicators || value.indicators.length === 0) && (
+                {(isNotDefined(value.indicators) || value.indicators.length === 0) && (
                     <div className={styles.emptyMessage}>
                         {strings.drefFormNoIndicatorMessage}
                     </div>

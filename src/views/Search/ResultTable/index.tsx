@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import { type GoApiResponse } from '#utils/restRequest';
 import { type Column } from '#components/Table/types';
@@ -48,7 +48,7 @@ function ResultTable(props: Props) {
         data: RESULT[],
         keySelector: (datum: RESULT) => number,
     } {
-        return !!map;
+        return isDefined(map);
     }
 
     const mappings = columnMap[resultKey];

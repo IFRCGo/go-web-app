@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import type { Props as LayoutProps } from '#hooks/useBasicLayout';
 import useBasicLayout from '#hooks/useBasicLayout';
@@ -125,7 +125,7 @@ function Button<const N>(props: Props<N>) {
         actions,
         spacing,
         // NOTE: disabling a button if there is on onClick handler
-        disabled: disabled || (type !== 'submit' && !onClick),
+        disabled: disabled || (type !== 'submit' && isNotDefined(onClick)),
     });
 
     return (

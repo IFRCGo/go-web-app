@@ -4,6 +4,7 @@ import {
     listToGroupList,
     mapToList,
     isNotDefined,
+    isDefined,
 } from '@togglecorp/fujs';
 import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
 
@@ -110,7 +111,7 @@ function ComponentInput(props: Props) {
     }, [component.id, onSelectionChange]);
 
     const componentNum = component.component_num;
-    if (!componentNum) {
+    if (isNotDefined(componentNum)) {
         return null;
     }
 
@@ -124,7 +125,7 @@ function ComponentInput(props: Props) {
             icons={(
                 <Checkbox
                     name={index}
-                    value={!!value}
+                    value={isDefined(value)}
                     onChange={handleCheck}
                     readOnly={readOnly}
                 />
@@ -161,7 +162,7 @@ function ComponentInput(props: Props) {
                         onChange={setFieldValue}
                         // FIXME: use translation
                         placeholder="Enter Justification"
-                        disabled={!value}
+                        disabled={isNotDefined(value)}
                         rows={2}
                         readOnly={readOnly}
                     />

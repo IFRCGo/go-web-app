@@ -108,7 +108,7 @@ function RiskBarChart(props: Props) {
 
     const hazardTypeList = useMemo(
         () => {
-            if (!seasonalRiskData) {
+            if (isNotDefined(seasonalRiskData)) {
                 return [];
             }
 

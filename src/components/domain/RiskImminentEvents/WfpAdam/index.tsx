@@ -84,7 +84,7 @@ function WfpAdam(props: Props) {
                 storm_position_geojson,
             } = response;
 
-            if (!geojson && !storm_position_geojson) {
+            if (isNotDefined(geojson) && isNotDefined(storm_position_geojson)) {
                 return;
             }
 

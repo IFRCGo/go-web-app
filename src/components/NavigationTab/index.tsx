@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
 import {
     NavLink,
     NavLinkProps,
@@ -101,7 +101,7 @@ function NavigationTab(props: Props) {
         }
     }, [disabled]);
 
-    if (!to) {
+    if (isNotDefined(to)) {
         return (
             <div className={_cs(defaultClassName, styles.disabled)}>
                 {navChild}

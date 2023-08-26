@@ -42,6 +42,7 @@ export function Component() {
         pending: countryResponsePending,
         response: countryResponse,
     } = useRequest({
+        // FIXME: need to check if countryId can be ''
         skip: isNotDefined(countryId),
         url: '/api/v2/country/{id}/',
         pathVariables: {
@@ -53,6 +54,7 @@ export function Component() {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
     } = useRequest({
+        // FIXME: need to check if countryId can be ''
         skip: isNotDefined(countryId),
         url: '/api/v2/appeal/aggregated',
         // FIXME: typings should be fixed in the server

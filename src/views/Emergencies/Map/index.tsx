@@ -9,6 +9,7 @@ import {
     unique,
     listToMap,
     isTruthyString,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import Map, {
     MapSource,
@@ -113,13 +114,13 @@ function EmergenciesMap(props: Props) {
     const countryResponse = useCountryRaw();
 
     const countryGroupedEvents = useMemo(() => {
-        if (!countryResponse || !eventList) {
+        if (isNotDefined(countryResponse) || isNotDefined(eventList)) {
             return {};
         }
 
         const countryCentroidMap = listToMap(
             countryResponse?.filter(
-                (country) => isTruthyString(country.iso3) && !!country.centroid,
+                (country) => isTruthyString(country.iso3) && isDefined(country.centroid),
             ),
             (country) => country.iso3 ?? 'unknown',
             (country) => country.centroid,
@@ -159,7 +160,10 @@ function EmergenciesMap(props: Props) {
                         const currentEvent = groupedEvents[0];
                         const currentCountry = currentEvent.country;
 
-                        if (!currentCountry.centroid || !currentCountry.iso3) {
+                        if (
+                            isNotDefined(currentCountry.centroid)
+                            || isNotDefined(currentCountry.iso3)
+                        ) {
                             return undefined;
                         }
 
@@ -330,7 +334,7 @@ function EmergenciesMap(props: Props) {
                                 </Container>
                             ),
                         )}
-                        {(!popupDetails || popupDetails.length === 0) && (
+                        {(isNotDefined(popupDetails) || popupDetails.length === 0) && (
                             <div className={styles.empty}>
                                 {strings.emergenciesMapPopoverEmpty}
                             </div>

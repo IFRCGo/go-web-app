@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isFalsyString, isNotDefined } from '@togglecorp/fujs';
 import {
     getErrorObject,
     analyzeErrors,
@@ -10,9 +10,9 @@ import {
 import styles from './styles.module.css';
 
 export interface Props<T> {
-  className?: string;
-  error?: Error<T>;
-  message?: React.ReactNode;
+    className?: string;
+    error?: Error<T>;
+    message?: React.ReactNode;
 }
 
 function NonFieldError<T>(props: Props<T>) {
@@ -24,7 +24,7 @@ function NonFieldError<T>(props: Props<T>) {
 
     const errorObject = useMemo(() => getErrorObject(error), [error]);
 
-    if (!errorObject) {
+    if (isNotDefined(errorObject)) {
         return null;
     }
 
@@ -34,7 +34,7 @@ function NonFieldError<T>(props: Props<T>) {
     }
 
     const stringError = errorObject?.[nonFieldError] ?? message;
-    if (!stringError) {
+    if (isFalsyString(stringError)) {
         return null;
     }
 

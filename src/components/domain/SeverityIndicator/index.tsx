@@ -1,4 +1,4 @@
-import { _cs } from '@togglecorp/fujs';
+import { isNotDefined, _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
@@ -20,7 +20,7 @@ function SeverityIndicator(props: Props) {
         3: styles.orange,
     };
 
-    if (!level) {
+    if (isNotDefined(level)) {
         return null;
     }
 

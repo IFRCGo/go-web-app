@@ -489,7 +489,7 @@ function DisaggregationInput(props: Props) {
                 // FIXME: Add translations
                 label="Disaggregation for disabled available"
                 name="is_disaggregated_for_disabled"
-                value={!!value?.is_disaggregated_for_disabled}
+                value={value?.is_disaggregated_for_disabled}
                 disabled={disabled}
                 onChange={setFieldValue}
                 error={error?.is_disaggregated_for_disabled}

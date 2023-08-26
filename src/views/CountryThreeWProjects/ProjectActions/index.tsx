@@ -72,7 +72,7 @@ function ProjectActions(props: Props) {
             <DropdownMenu
                 className={className}
                 variant="tertiary"
-                hideDropdownIcon
+                withoutDropdownIcon
                 label={<MoreFillIcon />}
                 persistent
             >

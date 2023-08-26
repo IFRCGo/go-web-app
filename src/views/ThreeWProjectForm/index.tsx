@@ -23,7 +23,6 @@ import {
     isTruthyString,
     isTruthy,
     isDefined,
-    isFalsy,
     isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
@@ -272,13 +271,13 @@ export function Component() {
 
     const isTotalRequired = value.status === PROJECT_STATUS_COMPLETED;
 
-    const shouldDisableTotalTarget = !isFalsy(value.target_male)
-        || !isFalsy(value.target_female)
-        || !isFalsy(value.target_other);
+    const shouldDisableTotalTarget = isDefined(value.target_male)
+        || isDefined(value.target_female)
+        || isDefined(value.target_other);
 
-    const shouldDisableTotalReached = !isFalsy(value.reached_male)
-        || !isFalsy(value.reached_female)
-        || !isFalsy(value.reached_other);
+    const shouldDisableTotalReached = isDefined(value.reached_male)
+        || isDefined(value.reached_female)
+        || isDefined(value.reached_other);
 
     const {
         pending: fetchingPrimarySectors,
@@ -565,7 +564,7 @@ export function Component() {
         },
     });
     const handleSubmit = useCallback((data: FormType) => {
-        if (!projectId) {
+        if (isNotDefined(projectId)) {
             submitRequest(data as ProjectResponseBody);
         } else {
             submitUpdateRequest(data as ProjectResponseBody);

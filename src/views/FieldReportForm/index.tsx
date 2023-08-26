@@ -193,7 +193,7 @@ export function Component() {
             }
             const reports = eventResponse?.field_reports?.filter(
                 (fieldReport) => (
-                    !!fieldReport.countries.find((country) => country.id === value.country)
+                    isDefined(fieldReport.countries.find((country) => country.id === value.country))
                 ),
             );
             if (isNotDefined(reports)) {
@@ -207,8 +207,9 @@ export function Component() {
     const {
         pending: fieldReportPending,
     } = useRequest({
+        // FIXME: need to check if reportId can be ''
         url: '/api/v2/field-report/{id}/',
-        skip: !reportId,
+        skip: isNotDefined(reportId),
         pathVariables: reportId
             ? { id: Number(reportId) }
             : undefined,
@@ -324,6 +325,7 @@ export function Component() {
                 // FIXME: why are we using this filter for independent and record_type
                 if (
                     !country.independent
+                    // FIXME: Use named constant
                     || country.record_type !== 1
                     || isFalsyString(country.iso3)
                 ) {
@@ -692,7 +694,7 @@ export function Component() {
                         <Button
                             name={prevStep ?? activeTab}
                             onClick={handleTabChange}
-                            disabled={!prevStep}
+                            disabled={isNotDefined(prevStep)}
                             variant="secondary"
                         >
                             {strings.backButtonLabel}
@@ -700,7 +702,7 @@ export function Component() {
                         <Button
                             name={nextStep ?? activeTab}
                             onClick={handleTabChange}
-                            disabled={!nextStep}
+                            disabled={isNotDefined(nextStep)}
                             variant="secondary"
                         >
                             {strings.continueButtonLabel}

@@ -9,6 +9,7 @@ import {
     sum,
     listToMap,
     randomString,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import { AnalysisIcon } from '@ifrc-go/icons';
 
@@ -80,7 +81,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
 
     useEffect(() => {
         setColumnWidths((cols) => {
-            if (!containerRef.current) {
+            if (isNotDefined(containerRef.current)) {
                 return cols;
             }
 
@@ -130,7 +131,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
             const column = document.getElementById(`${tableName}-${name}`);
             // NOTE: setting a minimum size for column
             const width = Math.max(widthFromArgs, 80);
-            if (!column) {
+            if (isNotDefined(column)) {
                 return;
             }
 
@@ -140,7 +141,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
                 return;
             }
             const table = document.getElementById(tableName);
-            if (!table) {
+            if (isNotDefined(table)) {
                 return;
             }
 
@@ -168,7 +169,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         sum(columns.map((c) => columnWidths[c.id]))
     ), [columnWidths, columns]);
 
-    const isEmpty = !data || data.length === 0;
+    const isEmpty = isNotDefined(data) || data.length === 0;
 
     const messageTitle = useMemo(
         () => {

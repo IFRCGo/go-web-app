@@ -105,7 +105,7 @@ function SurgeAlertsTable() {
             'duration',
             strings.surgeAlertsTableDuration,
             (surgeAlert) => {
-                if (!surgeAlert.created_at || !surgeAlert.end) {
+                if (isNotDefined(surgeAlert.created_at) || isNotDefined(surgeAlert.end)) {
                     return '-';
                 }
 

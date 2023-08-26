@@ -5,6 +5,8 @@ import {
     listToMap,
     isDefined,
     unique,
+    isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 
 import SelectInputContainer, { SelectInputContainerProps } from '#components/SelectInputContainer';
@@ -153,7 +155,7 @@ function SearchMultiSelectInput<
             const initiallyNotSelected = allOptions
                 .filter((item) => (
                     !selectedKeys[keySelector(item)]
-                    && (!hideOptionFilter || hideOptionFilter(item))
+                    && (isNotDefined(hideOptionFilter) || hideOptionFilter(item))
                 ));
 
             if (sortFunction) {
@@ -276,7 +278,7 @@ function SearchMultiSelectInput<
             name={name}
             options={realOptions}
             optionsPending={optionsPending}
-            optionsFiltered={!!searchInputValue && searchInputValue?.length > 0}
+            optionsFiltered={isTruthyString(searchInputValue) && searchInputValue.length > 0}
             optionsErrored={optionsErrored}
             optionKeySelector={keySelector}
             optionRenderer={Option}

@@ -1,4 +1,5 @@
 import { useContext, useCallback } from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
@@ -25,7 +26,7 @@ function AuthenticatedUserDropdown(props: Props) {
         removeUser();
     }, [removeUser]);
 
-    if (!userDetails) {
+    if (isNotDefined(userDetails)) {
         return null;
     }
 

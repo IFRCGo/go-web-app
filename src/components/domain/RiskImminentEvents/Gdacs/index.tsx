@@ -82,7 +82,7 @@ function Gdacs(props: Props) {
             // FIXME: typings should be fixed in the server
             const { footprint_geojson } = response as unknown as { footprint_geojson: unknown };
 
-            if (!footprint_geojson) {
+            if (isNotDefined(footprint_geojson)) {
                 return;
             }
 

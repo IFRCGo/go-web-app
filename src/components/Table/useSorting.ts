@@ -59,7 +59,7 @@ export function useSorting<T>(
 
     const sortedData = useMemo(
         () => {
-            if (!data || !selectedSorter) {
+            if (isNotDefined(data) || !selectedSorter) {
                 return data;
             }
             if (sortParameter?.direction === 'dsc') {

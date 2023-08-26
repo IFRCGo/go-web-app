@@ -8,7 +8,7 @@ import styles from './styles.module.css';
 
 interface Props {
     icon?: React.ReactNode;
-    hideIcon?: boolean;
+    withoutIcon?: boolean;
     infoLabel?: React.ReactNode;
     title?: React.ReactNode;
     description?: React.ReactNode;
@@ -22,7 +22,7 @@ function InfoPopup(props: Props) {
         infoLabel,
         title,
         description,
-        hideIcon,
+        withoutIcon,
     } = props;
 
     return (
@@ -30,7 +30,7 @@ function InfoPopup(props: Props) {
             label={(
                 <div className={styles.label}>
                     {infoLabel}
-                    {!hideIcon && icon && (
+                    {!withoutIcon && icon && (
                         <div className={styles.icon}>
                             {icon}
                         </div>
@@ -40,7 +40,7 @@ function InfoPopup(props: Props) {
             dropdownContainerClassName={styles.dropdownContainer}
             className={_cs(styles.infoPopup, className)}
             variant="tertiary"
-            hideDropdownIcon
+            withoutDropdownIcon
         >
             <Container
                 heading={title}

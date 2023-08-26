@@ -52,7 +52,7 @@ export type DeepReplace<T, A, B> = (
 )
 
 function getNumberListSafe(list: UnsafeNumberList) {
-    if (!list) {
+    if (isNotDefined(list)) {
         return undefined;
     }
 
@@ -67,7 +67,7 @@ function getNumberListSafe(list: UnsafeNumberList) {
 
 export function sumSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList) {
+    if (isNotDefined(safeList)) {
         return undefined;
     }
 
@@ -76,7 +76,7 @@ export function sumSafe(list: UnsafeNumberList) {
 
 export function maxSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList) {
+    if (isNotDefined(safeList)) {
         return undefined;
     }
 
@@ -85,7 +85,7 @@ export function maxSafe(list: UnsafeNumberList) {
 
 export function minSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList) {
+    if (isNotDefined(safeList)) {
         return undefined;
     }
 
@@ -94,7 +94,7 @@ export function minSafe(list: UnsafeNumberList) {
 
 export function avgSafe(list: UnsafeNumberList) {
     const safeList = getNumberListSafe(list);
-    if (!safeList) {
+    if (isNotDefined(safeList)) {
         return undefined;
     }
 
@@ -268,7 +268,7 @@ export function formatNumber(
 
     const formattingOptions: Intl.NumberFormatOptions = {};
 
-    if (!options) {
+    if (isNotDefined(options)) {
         formattingOptions.maximumFractionDigits = Math.abs(value) >= 1000 ? 0 : 2;
         return new Intl.NumberFormat(navigator.language, formattingOptions).format(value);
     }

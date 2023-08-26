@@ -171,9 +171,9 @@ function SurgeMap(props: Props) {
             features: countryResponse
                 ?.map((country) => {
                     if (
-                        (!country.independent && !country.record_type)
-                        || !country.centroid
-                        || !country.iso3
+                        (!country.independent && isNotDefined(country.record_type))
+                        || isNotDefined(country.centroid)
+                        || isNotDefined(country.iso3)
                     ) {
                         return undefined;
                     }
@@ -353,7 +353,7 @@ function SurgeMap(props: Props) {
                                 </Container>
                             ),
                         )}
-                        {(!popupDetails || (
+                        {(isNotDefined(popupDetails) || (
                             popupDetails.eruDeployedEvents.length === 0
                             && popupDetails.personnelDeployedEvents.length === 0
                         )) && (

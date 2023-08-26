@@ -24,7 +24,7 @@ function TableActions(props: Props) {
             {children}
             {extraActions && (
                 <DropdownMenu
-                    hideDropdownIcon
+                    withoutDropdownIcon
                     variant="tertiary"
                     label={<MoreFillIcon className={styles.moreIcon} />}
                 >
