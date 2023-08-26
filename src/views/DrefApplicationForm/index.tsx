@@ -3,6 +3,7 @@ import {
     useCallback,
     useContext,
     useRef,
+    type ElementRef,
 } from 'react';
 import {
     generatePath,
@@ -37,6 +38,7 @@ import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
 import { injectClientId } from '#utils/common';
+import { transformObjectError } from '#utils/restRequest/error';
 
 import drefSchema, {
     type DrefRequestBody,
@@ -108,6 +110,8 @@ export function Component() {
     const alert = useAlert();
     const navigate = useNavigate();
     const strings = useTranslation(i18n);
+
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
@@ -254,12 +258,22 @@ export function Component() {
             value: { formErrors, messageForNotification },
             debugMessage,
         }) => {
-            // TODO: verify formErrors
-            // setError(formErrors);
+            // FIXME:
+            // getKey for
+            // 1. national_society_actions
+            // 2. risk_security
+            // 3. planned_interventions
+            // 4. indicators
+            // 5. images_file
+            // 6. needs_identified
+            setError(transformObjectError(formErrors, () => undefined));
 
+            /*
+            FIXME: this should be an array
             if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
                 setShowObsoletePayloadModal(true);
             }
+            */
 
             alert.show(
                 strings.drefFormSaveRequestFailureMessage,
@@ -300,12 +314,14 @@ export function Component() {
             value: { formErrors, messageForNotification },
             debugMessage,
         }) => {
-            // TODO: verify formErrors
-            // setError(formErrors);
+            setError(transformObjectError(formErrors, () => undefined));
 
+            /*
+            FIXME: this should be an array
             if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
                 setShowObsoletePayloadModal(true);
             }
+            */
 
             alert.show(
                 strings.drefFormSaveRequestFailureMessage,
@@ -320,6 +336,8 @@ export function Component() {
 
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
+            formContentRef.current?.scrollIntoView();
+
             // FIXME: use createSubmitHandler
             const result = validate();
             if (result.errored) {
@@ -367,6 +385,11 @@ export function Component() {
         [],
     );
 
+    const handleTabChange = useCallback((newTab: TabKeys) => {
+        formContentRef.current?.scrollIntoView();
+        setActiveTab(newTab);
+    }, []);
+
     const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
     const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
     const saveDrefPending = createDrefPending || updateDrefPending;
@@ -375,10 +398,12 @@ export function Component() {
     return (
         <Tabs
             value={activeTab}
+            // NOTE: not using handleTabChange here
             onChange={setActiveTab}
             variant="step"
         >
             <Page
+                elementRef={formContentRef}
                 className={styles.drefApplicationForm}
                 title={strings.drefFormPageTitle}
                 heading={strings.drefFormPageHeading}
@@ -493,7 +518,7 @@ export function Component() {
                     <div className={styles.pageActions}>
                         <Button
                             name={prevStep ?? activeTab}
-                            onClick={setActiveTab}
+                            onClick={handleTabChange}
                             disabled={isNotDefined(prevStep)}
                             variant="secondary"
                         >
@@ -501,7 +526,7 @@ export function Component() {
                         </Button>
                         <Button
                             name={nextStep ?? activeTab}
-                            onClick={setActiveTab}
+                            onClick={handleTabChange}
                             disabled={isNotDefined(nextStep)}
                             variant="secondary"
                         >

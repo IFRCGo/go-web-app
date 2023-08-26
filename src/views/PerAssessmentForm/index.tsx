@@ -27,6 +27,7 @@ import {
     removeNull,
 } from '@togglecorp/toggle-form';
 
+import { transformObjectError } from '#utils/restRequest/error';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import Portal from '#components/Portal';
@@ -191,10 +192,16 @@ export function Component() {
         onFailure: ({
             value: {
                 messageForNotification,
-                // TOOD: formErrors,
+                formErrors,
             },
             debugMessage,
         }) => {
+            // FIXME:
+            // getKey for
+            // 1. area_responses
+            // 2. component_responses
+            // 3. question_responses
+            setError(transformObjectError(formErrors, () => undefined));
             alert.show(
                 strings.saveRequestFailureMessage,
                 {

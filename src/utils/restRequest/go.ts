@@ -4,7 +4,6 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 import { ContextInterface } from '@togglecorp/toggle-request';
-import { nonFieldError } from '@togglecorp/toggle-form';
 import { UserAuth } from '#contexts/user';
 import { KEY_USER_STORAGE } from '#utils/constants';
 import { resolveUrl } from '#utils/resolveUrl';
@@ -13,8 +12,8 @@ import {
     riskApi,
     api,
 } from '#config';
-import { isObject } from '#utils/common';
 import { getFromStorage } from '#utils/localStorage';
+import { type ResponseObjectError } from './error';
 
 const CONTENT_TYPE_JSON = 'application/json';
 const CONTENT_TYPE_CSV = 'text/csv';
@@ -27,7 +26,7 @@ export type ResponseError = {
 
 export interface TransformedError {
     value: {
-        formErrors: Record<string, unknown> & { [nonFieldError]: string },
+        formErrors: ResponseObjectError,
         messageForNotification: string,
     };
     status: number | undefined;
@@ -41,58 +40,58 @@ export interface AdditionalOptions {
     enforceEnglish?: boolean;
 }
 
-function transformError(response: ResponseError, fallbackMessage: string): TransformedError['value']['formErrors'] {
+function transformError(
+    response: ResponseError,
+    fallbackMessage: string,
+): ResponseObjectError | string {
     const {
         originalResponse,
         responseText,
     } = response;
 
     if (originalResponse.status.toLocaleString()[0] === '5') {
-        return { [nonFieldError]: 'Internal server error!' };
+        return 'Internal server error!';
     }
 
     if (isFalsyString(responseText)) {
-        return { [nonFieldError]: 'Empty error response from server!' };
+        return 'Empty error response from server!';
     }
 
     if (originalResponse.headers.get('content-type') === CONTENT_TYPE_JSON) {
         try {
             const json = JSON.parse(responseText);
-            if (isObject(json)) {
-                const {
-                    error_message,
-                    non_field_errors,
-                    ...otherError
-                } = json as Record<string, string[]>;
-
-                const formError = {
-                    [nonFieldError]: [
-                        error_message,
-                        non_field_errors,
-                    ].filter(Boolean).join(', ') ?? fallbackMessage,
-                    ...otherError,
-                };
-
-                return formError;
+            // Non Standard Error
+            if (typeof json !== 'object' || Array.isArray(json) || isNotDefined(json)) {
+                return fallbackMessage;
             }
-
-            if (Array.isArray(json)) {
-                return { [nonFieldError]: json.join(', ') };
+            // Old Standard Error
+            if (
+                typeof json.statusCode === 'number'
+                && typeof json.error_message === 'string'
+            ) {
+                return json.error_message;
             }
-
-            // FIXME: rename error message
-            return { [nonFieldError]: 'Response content type mismatch' };
+            // New Standard Error
+            if (
+                typeof json.errors === 'object'
+                && !Array.isArray(json.errors)
+            ) {
+                return json.errors;
+            }
+            // Non Standard Error
+            return fallbackMessage;
         } catch (e) {
             // eslint-disable-next-line no-console
             console.error(e);
+            return fallbackMessage;
         }
     }
 
     if (typeof responseText === 'string') {
-        return { [nonFieldError]: responseText };
+        return responseText;
     }
 
-    return { [nonFieldError]: fallbackMessage };
+    return fallbackMessage;
 }
 
 // FIXME: Add test
@@ -259,13 +258,14 @@ export const processGoError: GoContextInterface['transformError'] = (
     requestOptions,
 ) => {
     if (responseError === 'network') {
+        const err = {
+            non_field_errors: ['Network error'],
+        };
         return {
             reason: 'network',
             value: {
-                messageForNotification: 'Cannot communicate with the server! Please, make sure you have an active internet connection and try again!',
-                formErrors: {
-                    [nonFieldError]: 'Network error',
-                },
+                messageForNotification: 'Cannot connect with the server! Please, make sure you have an active internet connection and try again!',
+                formErrors: err,
             },
             status: undefined,
             debugMessage: JSON.stringify({
@@ -278,13 +278,14 @@ export const processGoError: GoContextInterface['transformError'] = (
     }
 
     if (responseError === 'parse') {
+        const err = {
+            non_field_errors: ['Response parse error'],
+        };
         return {
             reason: 'parse',
             value: {
                 messageForNotification: 'There was a problem parsing the response from server',
-                formErrors: {
-                    [nonFieldError]: 'Response parse error',
-                },
+                formErrors: err,
             },
             status: undefined,
             debugMessage: JSON.stringify({
@@ -320,11 +321,17 @@ export const processGoError: GoContextInterface['transformError'] = (
     return {
         reason: 'server',
         value: {
-            formErrors,
-            messageForNotification: formErrors[nonFieldError],
-            errorText: responseError.responseText,
+            formErrors: typeof formErrors === 'string'
+                ? { non_field_errors: [formErrors] }
+                : formErrors,
+            messageForNotification: typeof formErrors === 'string'
+                ? formErrors
+                : formErrors.non_field_errors?.join(' ') || fallbackMessage,
+            // errorText: responseError.responseText,
         },
         status: responseError?.status,
+
+        // FIXME: We should not stringify the whole response eagerly
         debugMessage: JSON.stringify({
             url,
             status: responseError?.status,

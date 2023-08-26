@@ -18,6 +18,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { isNotDefined, isDefined, listToMap } from '@togglecorp/fujs';
 
+import { transformObjectError } from '#utils/restRequest/error';
 import Portal from '#components/Portal';
 import Button from '#components/Button';
 import Container from '#components/Container';
@@ -161,6 +162,7 @@ export function Component() {
         } : undefined,
         body: (ctx: PerOverviewRequestBody) => ctx,
         onSuccess: (response) => {
+            // FIXME: do we need to check this
             if (response && isDefined(response.id)) {
                 alert.show(
                     strings.saveRequestSuccessMessage,
@@ -197,11 +199,11 @@ export function Component() {
         onFailure: ({
             value: {
                 messageForNotification,
-                // TODO:
-                // formErrors,
+                formErrors,
             },
             debugMessage,
         }) => {
+            setError(transformObjectError(formErrors, () => undefined));
             alert.show(
                 strings.saveRequestFailureMessage,
                 {
@@ -256,11 +258,11 @@ export function Component() {
         onFailure: ({
             value: {
                 messageForNotification,
-                // TODO:
-                // formErrors,
+                formErrors,
             },
             debugMessage,
         }) => {
+            setError(transformObjectError(formErrors, () => undefined));
             alert.show(
                 strings.saveRequestFailureMessage,
                 {

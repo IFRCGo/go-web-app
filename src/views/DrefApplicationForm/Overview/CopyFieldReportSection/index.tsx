@@ -107,7 +107,6 @@ function CopyFieldReportSection(props: Props) {
             const un_or_other_actor = value.un_or_other_actor ?? fieldReportResponse.actions_others;
             const country = value.country ?? fieldReportResponse.countries[0];
 
-            // TODO verify the following
             const district = (value.district && value.district.length > 0)
                 ? value.district
                 : fieldReportResponse.districts;
@@ -117,7 +116,6 @@ function CopyFieldReportSection(props: Props) {
                 ?? fieldReportResponse.gov_num_affected
                 ?? fieldReportResponse.other_num_affected;
 
-            // FIXME: use constants
             const partner_national_society = value?.partner_national_society
                 ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'PNS')?.summary;
             const ifrc = value?.ifrc
@@ -127,25 +125,24 @@ function CopyFieldReportSection(props: Props) {
 
             let {
                 national_society_contact_name,
-                national_society_contact_title,
                 national_society_contact_email,
                 national_society_contact_phone_number,
+                national_society_contact_title,
                 ifrc_emergency_name,
-                ifrc_emergency_title,
                 ifrc_emergency_email,
+                ifrc_emergency_title,
                 ifrc_emergency_phone_number,
                 media_contact_name,
-                media_contact_title,
                 media_contact_email,
+                media_contact_title,
                 media_contact_phone_number,
             } = value;
 
-            // FIXME: Should this be `and` or `or` logic
             if (
-                isFalsyString(national_society_contact_name)
-                && isFalsyString(national_society_contact_email)
-                && isFalsyString(national_society_contact_title)
-                && isFalsyString(national_society_contact_phone_number)
+                isFalsyString(value.national_society_contact_name)
+                && isFalsyString(value.national_society_contact_email)
+                && isFalsyString(value.national_society_contact_title)
+                && isFalsyString(value.national_society_contact_phone_number)
             ) {
                 const nsContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'NationalSociety',
@@ -158,12 +155,11 @@ function CopyFieldReportSection(props: Props) {
                 }
             }
 
-            // FIXME: Should this be `and` or `or` logic
             if (
-                isFalsyString(ifrc_emergency_name)
-                && isFalsyString(ifrc_emergency_email)
-                && isFalsyString(ifrc_emergency_title)
-                && isFalsyString(ifrc_emergency_phone_number)
+                isFalsyString(value.ifrc_emergency_name)
+                && isFalsyString(value.ifrc_emergency_email)
+                && isFalsyString(value.ifrc_emergency_title)
+                && isFalsyString(value.ifrc_emergency_phone_number)
             ) {
                 const federationContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'Federation',
@@ -176,12 +172,11 @@ function CopyFieldReportSection(props: Props) {
                 }
             }
 
-            // FIXME: Should this be `and` or `or` logic
             if (
-                isFalsyString(media_contact_name)
-                && isFalsyString(media_contact_email)
-                && isFalsyString(media_contact_title)
-                && isFalsyString(media_contact_phone_number)
+                isFalsyString(value.media_contact_name)
+                && isFalsyString(value.media_contact_email)
+                && isFalsyString(value.media_contact_title)
+                && isFalsyString(value.media_contact_phone_number)
             ) {
                 const mediaContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'Media',
@@ -213,22 +208,10 @@ function CopyFieldReportSection(props: Props) {
             setFieldValue(fieldReportResponse.id, 'field_report');
             setFieldValue(country, 'country');
             setFieldValue(district, 'district');
-
-            if (isDefined(num_affected)) {
-                setFieldValue(num_affected, 'num_affected');
-            }
-
-            if (isDefined(partner_national_society)) {
-                setFieldValue(partner_national_society, 'partner_national_society');
-            }
-
-            if (isDefined(ifrc)) {
-                setFieldValue(ifrc, 'ifrc');
-            }
-
-            if (isDefined(icrc)) {
-                setFieldValue(icrc, 'icrc');
-            }
+            setFieldValue(num_affected, 'num_affected');
+            setFieldValue(partner_national_society, 'partner_national_society');
+            setFieldValue(ifrc, 'ifrc');
+            setFieldValue(icrc, 'icrc');
 
             alert.show(
                 strings.drefFormCopyFRSuccessMessage,
