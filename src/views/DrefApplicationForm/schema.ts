@@ -135,6 +135,8 @@ const schema: DrefFormSchema = {
 
             // EVENT DETAILS
 
+            // none
+
             // ACTIONS
 
             did_national_society: {},
@@ -276,7 +278,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['disaster_type'],
             ['is_man_made_event'],
-            (val) => {
+            (val): Pick<DrefFormSchemaFields, 'is_man_made_event'> => {
                 if (
                     val?.disaster_type === DISASTER_FIRE
                     || val?.disaster_type === DISASTER_FLOOD
@@ -292,19 +294,24 @@ const schema: DrefFormSchema = {
             },
         );
 
+        const overviewDrefTypeRelatedFields = [
+            'people_in_need',
+            'amount_requested',
+            'emergency_appeal_planned',
+            'event_map_file',
+            'cover_image_file',
+        ] as const;
+        type OverviewDrefTypeRelatedFields = Pick<
+            DrefFormSchemaFields,
+            typeof overviewDrefTypeRelatedFields[number]
+        >;
         formFields = addCondition(
             formFields,
             formValue,
             ['type_of_dref'],
-            [
-                'people_in_need',
-                'amount_requested',
-                'emergency_appeal_planned',
-                'event_map_file',
-                'cover_image_file',
-            ],
-            (val) => {
-                const conditionalFields: DrefFormSchemaFields = {
+            overviewDrefTypeRelatedFields,
+            (val): OverviewDrefTypeRelatedFields => {
+                const conditionalFields: OverviewDrefTypeRelatedFields = {
                     people_in_need: { forceValue: nullValue },
                     amount_requested: { forceValue: nullValue },
                     emergency_appeal_planned: { forceValue: nullValue },
@@ -316,7 +323,6 @@ const schema: DrefFormSchema = {
                 }
                 return {
                     ...conditionalFields,
-                    // OVERVIEW
                     people_in_need: {},
                     amount_requested: { validations: [positiveNumberCondition] },
                     emergency_appeal_planned: {},
@@ -340,29 +346,31 @@ const schema: DrefFormSchema = {
 
         // EVENT DETAILS
 
+        const eventDetailDrefTypeRelatedFields = [
+            'did_it_affect_same_area',
+            'did_it_affect_same_population',
+            'did_ns_respond',
+            'did_ns_request_fund',
+            'lessons_learned',
+            'event_scope',
+            'event_text',
+            'anticipatory_actions',
+            'supporting_document',
+            'event_date',
+            'event_description',
+            'images_file',
+        ] as const;
+        type EventDetailDrefTypeRelatedFields = Pick<
+            DrefFormSchemaFields,
+            typeof eventDetailDrefTypeRelatedFields[number]
+        >;
         formFields = addCondition(
             formFields,
             formValue,
             ['type_of_dref'],
-            [
-                'did_it_affect_same_area',
-                'did_it_affect_same_population',
-                'did_ns_respond',
-                'did_ns_request_fund',
-                'lessons_learned',
-                'event_scope',
-
-                'event_text',
-                'anticipatory_actions',
-                'supporting_document',
-
-                'event_date',
-
-                'event_description',
-                'images_file',
-            ],
-            (val) => {
-                let conditionalFields: DrefFormSchemaFields = {
+            eventDetailDrefTypeRelatedFields,
+            (val): EventDetailDrefTypeRelatedFields => {
+                let conditionalFields: EventDetailDrefTypeRelatedFields = {
                     did_it_affect_same_area: { forceValue: nullValue },
                     did_it_affect_same_population: { forceValue: nullValue },
                     did_ns_respond: { forceValue: nullValue },
@@ -379,7 +387,7 @@ const schema: DrefFormSchema = {
 
                 if (
                     val?.type_of_dref !== TYPE_ASSESSMENT
-                    && val?.type_of_dref !== TYPE_LOAN
+                && val?.type_of_dref !== TYPE_LOAN
                 ) {
                     conditionalFields = {
                         ...conditionalFields,
@@ -422,7 +430,7 @@ const schema: DrefFormSchema = {
                                     },
                                 }),
                             }),
-                            // FIXME: this is not defined on array type
+                            // FIXME: this is not defined on array schema type
                             defaultValue: [],
                             validations: [lessThanEqualToTwoImagesCondition],
                         },
@@ -438,11 +446,11 @@ const schema: DrefFormSchema = {
             formValue,
             ['type_of_dref', 'did_ns_request_fund'],
             ['ns_request_text'],
-            (val) => {
+            (val): Pick<DrefFormSchemaFields, 'ns_request_text'> => {
                 if (
                     val?.type_of_dref !== TYPE_ASSESSMENT
-                    && val?.type_of_dref !== TYPE_LOAN
-                    && val?.did_ns_request_fund
+                && val?.type_of_dref !== TYPE_LOAN
+                && val?.did_ns_request_fund
                 ) {
                     return {
                         ns_request_text: {},
@@ -465,14 +473,14 @@ const schema: DrefFormSchema = {
                 'did_it_affect_same_area',
             ],
             ['dref_recurrent_text'],
-            (val) => {
+            (val): Pick<DrefFormSchemaFields, 'dref_recurrent_text'> => {
                 if (
                     val?.type_of_dref !== TYPE_ASSESSMENT
-                    && val?.type_of_dref !== TYPE_LOAN
-                    && val?.did_ns_request_fund
-                    && val?.did_ns_respond
-                    && val?.did_it_affect_same_population
-                    && val?.did_it_affect_same_area
+                && val?.type_of_dref !== TYPE_LOAN
+                && val?.did_ns_request_fund
+                && val?.did_ns_respond
+                && val?.did_it_affect_same_population
+                && val?.did_it_affect_same_area
                 ) {
                     return {
                         dref_recurrent_text: {},
@@ -491,7 +499,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['did_national_society'],
             ['ns_respond_date'],
-            (val) => {
+            (val): Pick<DrefFormSchemaFields, 'ns_respond_date'> => {
                 if (val?.did_national_society) {
                     return {
                         ns_respond_date: {},
@@ -508,7 +516,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['is_there_major_coordination_mechanism'],
             ['major_coordination_mechanism'],
-            (val) => {
+            (val): Pick<DrefFormSchemaFields, 'major_coordination_mechanism'> => {
                 if (val?.is_there_major_coordination_mechanism) {
                     return {
                         major_coordination_mechanism: {},
@@ -520,17 +528,22 @@ const schema: DrefFormSchema = {
             },
         );
 
+        const actionsDrefTypeRelatedFields = [
+            'assessment_report',
+            'needs_identified',
+            'identified_gaps',
+        ] as const;
+        type ActionsDrefTypeRelatedFields = Pick<
+            DrefFormSchemaFields,
+            typeof actionsDrefTypeRelatedFields[number]
+        >;
         formFields = addCondition(
             formFields,
             formValue,
             ['type_of_dref'],
-            [
-                'assessment_report',
-                'needs_identified',
-                'identified_gaps',
-            ],
-            (val) => {
-                let conditionalFields: DrefFormSchemaFields = {
+            actionsDrefTypeRelatedFields,
+            (val): ActionsDrefTypeRelatedFields => {
+                let conditionalFields: ActionsDrefTypeRelatedFields = {
                     assessment_report: { forceValue: nullValue },
                     needs_identified: { forceValue: nullValue },
                     identified_gaps: { forceValue: nullValue },
@@ -552,7 +565,7 @@ const schema: DrefFormSchema = {
                 }
                 if (
                     val?.type_of_dref !== TYPE_ASSESSMENT
-                    && val?.type_of_dref !== TYPE_IMMINENT
+                && val?.type_of_dref !== TYPE_IMMINENT
                 ) {
                     conditionalFields = {
                         ...conditionalFields,
@@ -566,22 +579,27 @@ const schema: DrefFormSchema = {
 
         // OPERATION
 
+        const operationDrefTypeRelatedFields = [
+            'women',
+            'men',
+            'girls',
+            'boys',
+            'people_targeted_with_early_actions',
+            'logistic_capacity_of_ns',
+            'pmer',
+            'communication',
+        ] as const;
+        type OperationDrefTypeRelatedFields = Pick<
+            DrefFormSchemaFields,
+            typeof operationDrefTypeRelatedFields[number]
+        >;
         formFields = addCondition(
             formFields,
             formValue,
             ['type_of_dref'],
-            [
-                'women',
-                'men',
-                'girls',
-                'boys',
-                'people_targeted_with_early_actions',
-                'logistic_capacity_of_ns',
-                'pmer',
-                'communication',
-            ],
-            (val) => {
-                let conditionalFields: DrefFormSchemaFields = {
+            operationDrefTypeRelatedFields,
+            (val): OperationDrefTypeRelatedFields => {
+                let conditionalFields: OperationDrefTypeRelatedFields = {
                     women: { forceValue: nullValue },
                     men: { forceValue: nullValue },
                     girls: { forceValue: nullValue },
@@ -624,7 +642,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['is_surge_personnel_deployed'],
             ['surge_personnel_deployed'],
-            (val) => {
+            (val): Pick<DrefFormSchemaFields, 'surge_personnel_deployed'> => {
                 if (val?.is_surge_personnel_deployed) {
                     return {
                         surge_personnel_deployed: {},
