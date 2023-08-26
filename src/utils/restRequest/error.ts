@@ -10,7 +10,7 @@ type ResponseLeafError = string[];
 export type ResponseObjectError = {
     [key: string]: ResponseObjectError | ResponseArrayError | ResponseLeafError | undefined;
 } & {
-    non_field_errors?: string | undefined;
+    non_field_errors?: string[] | undefined;
 };
 
 type ResponseArrayError = (ResponseObjectError | ResponseArrayError | ResponseLeafError)[];
@@ -145,7 +145,7 @@ export function transformObjectError(
     } = error;
 
     return {
-        [nonFieldError]: non_field_errors,
+        [nonFieldError]: non_field_errors?.join(' '),
         ...mapToMap(
             fieldErrors,
             (key) => key,

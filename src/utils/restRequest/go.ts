@@ -76,7 +76,7 @@ function transformError(
                 typeof json.errors === 'object'
                 && !Array.isArray(json.errors)
             ) {
-                return json.errors as ResponseObjectError;
+                return json.errors;
             }
             // Non Standard Error
             return fallbackMessage;
@@ -259,8 +259,8 @@ export const processGoError: GoContextInterface['transformError'] = (
 ) => {
     if (responseError === 'network') {
         const err = {
-            non_field_errors: 'Network error',
-        } as ResponseObjectError;
+            non_field_errors: ['Network error'],
+        };
         return {
             reason: 'network',
             value: {
@@ -279,8 +279,8 @@ export const processGoError: GoContextInterface['transformError'] = (
 
     if (responseError === 'parse') {
         const err = {
-            non_field_errors: 'Response parse error',
-        } as ResponseObjectError;
+            non_field_errors: ['Response parse error'],
+        };
         return {
             reason: 'parse',
             value: {
@@ -322,11 +322,11 @@ export const processGoError: GoContextInterface['transformError'] = (
         reason: 'server',
         value: {
             formErrors: typeof formErrors === 'string'
-                ? { non_field_errors: formErrors } as ResponseObjectError
+                ? { non_field_errors: [formErrors] }
                 : formErrors,
             messageForNotification: typeof formErrors === 'string'
                 ? formErrors
-                : formErrors.non_field_errors || fallbackMessage,
+                : formErrors.non_field_errors?.join(' ') || fallbackMessage,
             // errorText: responseError.responseText,
         },
         status: responseError?.status,
