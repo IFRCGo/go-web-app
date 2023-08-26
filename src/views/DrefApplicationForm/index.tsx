@@ -3,6 +3,7 @@ import {
     useCallback,
     useContext,
     useRef,
+    type ElementRef,
 } from 'react';
 import {
     generatePath,
@@ -108,6 +109,8 @@ export function Component() {
     const alert = useAlert();
     const navigate = useNavigate();
     const strings = useTranslation(i18n);
+
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
@@ -320,6 +323,8 @@ export function Component() {
 
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
+            formContentRef.current?.scrollIntoView();
+
             // FIXME: use createSubmitHandler
             const result = validate();
             if (result.errored) {
@@ -367,6 +372,11 @@ export function Component() {
         [],
     );
 
+    const handleTabChange = useCallback((newTab: TabKeys) => {
+        formContentRef.current?.scrollIntoView();
+        setActiveTab(newTab);
+    }, []);
+
     const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
     const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
     const saveDrefPending = createDrefPending || updateDrefPending;
@@ -375,10 +385,12 @@ export function Component() {
     return (
         <Tabs
             value={activeTab}
+            // NOTE: not using handleTabChange here
             onChange={setActiveTab}
             variant="step"
         >
             <Page
+                elementRef={formContentRef}
                 className={styles.drefApplicationForm}
                 title={strings.drefFormPageTitle}
                 heading={strings.drefFormPageHeading}
@@ -493,7 +505,7 @@ export function Component() {
                     <div className={styles.pageActions}>
                         <Button
                             name={prevStep ?? activeTab}
-                            onClick={setActiveTab}
+                            onClick={handleTabChange}
                             disabled={isNotDefined(prevStep)}
                             variant="secondary"
                         >
@@ -501,7 +513,7 @@ export function Component() {
                         </Button>
                         <Button
                             name={nextStep ?? activeTab}
-                            onClick={setActiveTab}
+                            onClick={handleTabChange}
                             disabled={isNotDefined(nextStep)}
                             variant="secondary"
                         >
