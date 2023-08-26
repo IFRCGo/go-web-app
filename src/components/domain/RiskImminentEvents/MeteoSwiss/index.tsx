@@ -89,7 +89,7 @@ function MeteoSwiss(props: Props) {
                 }
             };
 
-            if (!footprint_geojson) {
+            if (isNotDefined(footprint_geojson)) {
                 return;
             }
 

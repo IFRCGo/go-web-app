@@ -5,7 +5,7 @@ import BodyOverlay from '#components/BodyOverlay';
 import Header from '#components/Header';
 import { Props as HeadingProps } from '#components/Heading';
 import useBasicLayout from '#hooks/useBasicLayout';
-import IconButton from '#components/IconButton';
+import Button from '#components/Button';
 import { CloseFillIcon } from '@ifrc-go/icons';
 import { FocusOn } from 'react-focus-on';
 import styles from './styles.module.css';
@@ -37,7 +37,7 @@ export interface Props {
     size?: SizeType;
     heading?: React.ReactNode;
     headingLevel?: HeadingProps['level'];
-    hideCloseButton?: boolean;
+    withoutCloseButton?: boolean;
     bodyClassName?: string;
 }
 
@@ -59,10 +59,10 @@ function Modal(props: Props) {
         size = 'md',
         heading,
         headingLevel,
-        hideCloseButton = false,
+        withoutCloseButton = false,
     } = props;
 
-    const hasHeader = !!heading || hideCloseButton;
+    const hasHeader = !!heading || withoutCloseButton;
     const sizeStyle = sizeToStyleMap[size];
 
     const handleClickOutside = useCallback(() => {
@@ -106,17 +106,16 @@ function Modal(props: Props) {
                             headingSectionClassName={styles.modalHeaderSection}
                             heading={heading}
                             headingLevel={headingLevel}
-                            actions={!hideCloseButton && (
-                                <IconButton
+                            actions={!withoutCloseButton && (
+                                <Button
                                     name={undefined}
                                     onClick={onClose}
-                                    ariaLabel="Close"
                                     variant="tertiary"
                                     // FIXME: use translation
                                     title="Close"
                                 >
-                                    <CloseFillIcon />
-                                </IconButton>
+                                    <CloseFillIcon className={styles.closeIcon} />
+                                </Button>
                             )}
                         />
                     )}

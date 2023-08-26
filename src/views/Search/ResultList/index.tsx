@@ -1,6 +1,6 @@
 import { useContext, useMemo, useCallback } from 'react';
 import { generatePath } from 'react-router-dom';
-import { isNotDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import { type GoApiResponse } from '#utils/restRequest';
 import RouteContext from '#contexts/route';
@@ -20,7 +20,7 @@ function isDistrictProvinceResult(
     result: NonNullable<SearchResponse[ResultKey]>[number],
     resultKey: ResultKey,
 ): result is DistrictProvinceResult {
-    return !!result && resultKey === 'district_province_response';
+    return isDefined(result) && resultKey === 'district_province_response';
 }
 
 interface Props {
@@ -77,7 +77,7 @@ function ResultList(props: Props) {
         [resultKey, countryRoute, regionRoute],
     );
 
-    if (!data || data.length === 0) {
+    if (isNotDefined(data) || data.length === 0) {
         return null;
     }
 

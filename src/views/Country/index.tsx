@@ -14,6 +14,7 @@ import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
@@ -42,6 +43,7 @@ export function Component() {
         pending: countryResponsePending,
         response: countryResponse,
     } = useRequest({
+        // FIXME: need to check if countryId can be ''
         skip: isNotDefined(countryId),
         url: '/api/v2/country/{id}/',
         pathVariables: {
@@ -53,6 +55,7 @@ export function Component() {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
     } = useRequest({
+        // FIXME: need to check if countryId can be ''
         skip: isNotDefined(countryId),
         url: '/api/v2/appeal/aggregated',
         // FIXME: typings should be fixed in the server
@@ -195,6 +198,41 @@ export function Component() {
             <Outlet
                 context={outletContext}
             />
+            <div className={styles.links}>
+                <Link
+                    to={countryResponse?.fdrs ? `https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}` : undefined}
+                    withExternalLinkIcon
+                >
+                    {strings.nationalSocietyPageOnFDRS}
+                </Link>
+                <Link
+                    to={countryResponse?.url_ifrc}
+                    withExternalLinkIcon
+                >
+                    {resolveToString(
+                        strings.countryOnIFRC,
+                        { countryName: countryResponse?.name ?? '-' },
+                    )}
+                </Link>
+                <Link
+                    to={countryResponse?.iso3 ? `https://reliefweb.int/country/${countryResponse.iso3}` : undefined}
+                    withExternalLinkIcon
+                >
+                    {resolveToString(
+                        strings.countryOnReliefWeb,
+                        { countryName: countryResponse?.name ?? '-' },
+                    )}
+                </Link>
+                <Link
+                    to={countryResponse?.society_url ? countryResponse?.society_url : undefined}
+                    withExternalLinkIcon
+                >
+                    {resolveToString(
+                        strings.countryRCHomepage,
+                        { countryName: countryResponse?.name ?? '-' },
+                    )}
+                </Link>
+            </div>
         </Page>
     );
 }

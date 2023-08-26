@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import { CheckDoubleFillIcon } from '@ifrc-go/icons';
 import SearchMultiSelectInput, {
@@ -64,7 +65,7 @@ function DistrictSearchMultiSelectInput<const NAME>(
         pending,
         response,
     } = useRequest({
-        skip: !countryId || !opened,
+        skip: isNotDefined(countryId) || !opened,
         url: '/api/v2/district/',
         query,
     });
@@ -116,7 +117,7 @@ function DistrictSearchMultiSelectInput<const NAME>(
                 <Button
                     name={undefined}
                     onClick={handleSelectAllClick}
-                    disabled={!countryId || pendingSelectAll}
+                    disabled={isNotDefined(countryId) || pendingSelectAll}
                     variant="tertiary"
                 >
                     <CheckDoubleFillIcon className={styles.icon} />

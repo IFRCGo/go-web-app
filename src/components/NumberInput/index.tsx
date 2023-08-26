@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
@@ -45,7 +44,7 @@ function NumberInput<const T>(props: Props<T>) {
     const handleChange: RawInputProps<T>['onChange'] = useCallback((v, n, e) => {
         setTempValue(v);
 
-        if (!onChange) {
+        if (isNotDefined(onChange)) {
             return;
         }
 

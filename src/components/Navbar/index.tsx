@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { _cs } from '@togglecorp/fujs';
+import { isNotDefined, _cs } from '@togglecorp/fujs';
 import { SearchLineIcon } from '@ifrc-go/icons';
 
 import PageContainer from '#components/PageContainer';
@@ -96,7 +96,7 @@ function Navbar(props: Props) {
                     >
                         {strings.headerMenuResources}
                     </NavigationTab>
-                    {!userDetails && (
+                    {isNotDefined(userDetails) && (
                         <>
                             <NavigationTab
                                 to={loginRoute.absolutePath}

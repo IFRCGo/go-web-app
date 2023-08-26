@@ -1,4 +1,4 @@
-import { bound } from '@togglecorp/fujs';
+import { bound, isNotDefined } from '@togglecorp/fujs';
 import { useState, useCallback, useEffect } from 'react';
 
 const ONE_REM = parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -57,7 +57,7 @@ function useFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
     });
 
     const calculatePlacement = useCallback(() => {
-        if (!parentRef.current) {
+        if (isNotDefined(parentRef.current)) {
             return;
         }
 

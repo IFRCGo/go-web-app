@@ -1,6 +1,8 @@
+import { useCallback } from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
+
 import SearchMultiSelectInput, { SearchMultiSelectInputProps } from '#components/SearchMultiSelectInput';
 import { rankedSearchOnList } from '#utils/common';
-import { useCallback } from 'react';
 
 type Def = { containerClassName?: string };
 type OptionKey = string | number;
@@ -42,11 +44,11 @@ function MultiSelectInput<
 
     const handleSelectAll = useCallback(
         () => {
-            if (!options) {
+            if (isNotDefined(options)) {
                 return;
             }
 
-            const allValues = options?.map(keySelector);
+            const allValues = options.map(keySelector);
             onChange(allValues, name);
         },
         [options, name, onChange, keySelector],

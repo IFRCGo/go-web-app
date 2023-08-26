@@ -16,9 +16,9 @@ import BarChart from '#components/BarChart';
 import Heading from '#components/Heading';
 import { sumSafe } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
-import PieChart from '#views/GlobalThreeW/PieChart';
 import useTranslation from '#hooks/useTranslation';
 import KeyFigure from '#components/KeyFigure';
+import PieChart from '#components/PieChart';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import ProgressBar from '#components/ProgressBar';
@@ -132,7 +132,7 @@ export function Component() {
 
     const assessmentStats = useMemo(
         () => {
-            if (!assessmentResponse) {
+            if (isNotDefined(assessmentResponse)) {
                 return undefined;
             }
 
@@ -242,7 +242,7 @@ export function Component() {
 
     const prioritizationStats = useMemo(
         () => {
-            if (!prioritizationResponse || !assessmentStats) {
+            if (isNotDefined(prioritizationResponse) || isNotDefined(assessmentStats)) {
                 return undefined;
             }
 
@@ -276,11 +276,12 @@ export function Component() {
         [prioritizationResponse, assessmentStats],
     );
 
+    // FIXME: fill this value
     const perTeamEmail = '';
-    const hasPer = !!overviewResponse;
+    const hasPer = isDefined(overviewResponse);
 
-    const hasAssessmentStats = hasPer && assessmentStats;
-    const hasPrioritizationStats = hasPer && prioritizationStats;
+    const hasAssessmentStats = hasPer && isDefined(assessmentStats);
+    const hasPrioritizationStats = hasPer && isDefined(prioritizationStats);
 
     const hasRatingCounts = hasAssessmentStats && assessmentStats.ratingCounts.length > 0;
     const hasAnswerCounts = hasAssessmentStats && assessmentStats.answerCounts.length > 0;

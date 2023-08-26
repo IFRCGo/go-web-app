@@ -150,7 +150,7 @@ export function Component() {
         method: 'PUT',
         body: (ctx: WorkPlanBody) => ctx,
         onSuccess: (response) => {
-            if (!response) {
+            if (isNotDefined(response)) {
                 // TODO: show proper error message
                 return;
             }

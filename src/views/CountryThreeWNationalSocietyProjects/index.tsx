@@ -5,10 +5,10 @@ export function Component() {
     return (
         <div>
             <UnderConstructionMessage
-                title="3W - Country Projects"
+                title="3W - NS Projects"
             />
         </div>
     );
 }
 
-Component.displayName = 'ProjectsInCountry';
+Component.displayName = 'CountryThreeWNationalSocietyProjects';

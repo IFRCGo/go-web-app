@@ -25,7 +25,7 @@ export interface Props {
     icons?: React.ReactNode;
     variant?: ButtonProps<undefined>['variant'];
     actions?: React.ReactNode;
-    hideDropdownIcon?: boolean;
+    withoutDropdownIcon?: boolean;
     componentRef?: React.MutableRefObject<{
         setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
     } | null>;
@@ -44,7 +44,7 @@ function DropdownMenu(props: Props) {
         icons,
         variant = 'secondary',
         actions,
-        hideDropdownIcon,
+        withoutDropdownIcon,
         componentRef,
         elementRef: buttonRef = newButtonRef,
         persistent,
@@ -92,7 +92,7 @@ function DropdownMenu(props: Props) {
         buttonRef,
     );
 
-    const hasActions = !!actions || !hideDropdownIcon;
+    const hasActions = !!actions || !withoutDropdownIcon;
 
     return (
         <>
@@ -112,7 +112,7 @@ function DropdownMenu(props: Props) {
                 actions={hasActions ? (
                     <>
                         {actions}
-                        {!hideDropdownIcon && (showDropdown
+                        {!withoutDropdownIcon && (showDropdown
                             ? <ArrowUpSmallFillIcon />
                             : <ArrowDownSmallFillIcon />
                         )}

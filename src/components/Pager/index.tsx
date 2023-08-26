@@ -1,5 +1,5 @@
-import { _cs } from '@togglecorp/fujs';
 import { ChevronRightLineIcon, ChevronLeftLineIcon } from '@ifrc-go/icons';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import RawButton from '#components/RawButton';
 
@@ -168,7 +168,7 @@ function Pager(props: Props) {
 
     const pages = applyPagination(totalCapacity, activePage, numPages, showAllPages);
 
-    const pageList = pages.length > 1 && (
+    const pageList = pages.length > 1 ? (
         <div className={styles.pageList}>
             <RawButton
                 name={activePage - 1}
@@ -225,9 +225,9 @@ function Pager(props: Props) {
                 <ChevronRightLineIcon className={styles.icon} />
             </RawButton>
         </div>
-    );
+    ) : undefined;
 
-    if (!pageList) {
+    if (isNotDefined(pageList)) {
         return null;
     }
 

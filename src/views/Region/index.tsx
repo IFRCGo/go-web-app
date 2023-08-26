@@ -8,7 +8,7 @@ import {
     TargetedPopulationIcon,
     AppealsTwoIcon,
 } from '@ifrc-go/icons';
-import { isNotDefined } from '@togglecorp/fujs';
+import { isNotDefined, isTruthyString } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
@@ -84,7 +84,7 @@ export function Component() {
         && regionResponse.preparedness_snippets.length > 0
     );
     const hasAdditionalInfoSnippet = (
-        !!regionResponse?.additional_tab_name
+        isTruthyString(regionResponse?.additional_tab_name)
         || (regionKeyFigureResponse?.results
             && regionKeyFigureResponse.results.length > 0)
     );

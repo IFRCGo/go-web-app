@@ -85,10 +85,10 @@ function isValidDisaster(
         return false;
     }
 
+    // FIXME: this looks like an anti-pattern
     if (!validDisastersForChart[disaster.id]) {
         return false;
     }
-
     return true;
 }
 
@@ -202,7 +202,7 @@ function HistoricalDataChart(props: Props) {
 
     const maxValue = useMemo(
         () => {
-            if (!filteredEvents) {
+            if (isNotDefined(filteredEvents)) {
                 return 0;
             }
 
@@ -390,7 +390,7 @@ function HistoricalDataChart(props: Props) {
                                 <DropdownMenu
                                     label={hazardIdToIconMap[point.disasterType]}
                                     variant="tertiary"
-                                    hideDropdownIcon
+                                    withoutDropdownIcon
                                 >
                                     <Container
                                         heading={point.event.dtype.name}

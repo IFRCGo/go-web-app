@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback } from 'react';
-import { encodeDate, listToMap } from '@togglecorp/fujs';
+import { encodeDate, listToMap, isNotDefined } from '@togglecorp/fujs';
 import { useRequest } from '#utils/restRequest';
 
 import BlockLoading from '#components/BlockLoading';
@@ -109,7 +109,7 @@ function MonthlyChart(props: Props) {
 
     const combinedData = useMemo(
         () => {
-            if (!monthlyDrefResponse || !monthlyEmergencyAppealResponse) {
+            if (isNotDefined(monthlyDrefResponse) || isNotDefined(monthlyEmergencyAppealResponse)) {
                 return undefined;
             }
 

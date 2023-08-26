@@ -3,7 +3,7 @@ import {
     useRef,
     useContext,
 } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { isNotDefined, _cs } from '@togglecorp/fujs';
 import {
     ArrowDropDownLineIcon,
     ArrowDropUpLineIcon,
@@ -51,11 +51,11 @@ function HeaderCell(props: HeaderCellProps) {
 
     const handleSortClick = useCallback(
         () => {
-            if (!onSortChange) {
+            if (isNotDefined(onSortChange)) {
                 return;
             }
             let newSortDirection: SortDirection | undefined;
-            if (!sortDirection) {
+            if (isNotDefined(sortDirection)) {
                 newSortDirection = defaultSortDirection;
             } else if (sortDirection === 'asc') {
                 newSortDirection = 'dsc';
@@ -88,7 +88,8 @@ function HeaderCell(props: HeaderCellProps) {
                     title="Sort column"
                     className={styles.sortButton}
                 >
-                    {!sortDirection && <TableSortingLineIcon className={styles.icon} />}
+                    {isNotDefined(sortDirection)
+                        && <TableSortingLineIcon className={styles.icon} />}
                     {sortDirection === 'asc' && <ArrowDropUpLineIcon className={styles.icon} />}
                     {sortDirection === 'dsc' && <ArrowDropDownLineIcon className={styles.icon} />}
                 </Button>

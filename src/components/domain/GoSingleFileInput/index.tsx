@@ -37,7 +37,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     url: supportedPaths;
     value: number | undefined | null;
     variant?: ButtonVariant;
-    hidePreview?: boolean;
+    withoutPreview?: boolean;
     error?: React.ReactNode;
     description?: React.ReactNode;
 }
@@ -60,7 +60,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         url,
         value,
         variant = 'secondary',
-        hidePreview,
+        withoutPreview,
         error,
         description,
     } = props;
@@ -130,7 +130,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                 {children}
             </RawFileInput>
             {/* FIXME: use translation, implement remove */}
-            {!hidePreview && selectedFileUrl ? (
+            {!withoutPreview && isDefined(selectedFileUrl) ? (
                 <Link
                     to={selectedFileUrl}
                 >

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { isDefined } from '@togglecorp/fujs';
+import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import SearchSelectInput, {
     Props as SearchSelectInputProps,
@@ -57,7 +57,7 @@ function EventSearchSelectInput<const NAME>(
         pending,
         response,
     } = useRequest({
-        skip: !countryId || !opened,
+        skip: isNotDefined(countryId) || !opened,
         url: '/api/v2/event/mini/',
         query,
     });

@@ -105,7 +105,7 @@ function PerAssessmentSummary(props: Props) {
 
     const allAnsweredComponents = areaResponses?.map(
         (areaResponse) => areaResponse?.component_responses,
-    ).flat().filter((component) => !!component?.rating);
+    ).flat().filter((component) => isDefined(component?.rating));
 
     const ratingGroupedComponents = listToGroupList(
         allAnsweredComponents,
@@ -127,7 +127,7 @@ function PerAssessmentSummary(props: Props) {
         (areaResponse) => areaResponse?.area ?? -1,
         (areaResponse) => {
             const filteredComponents = areaResponse?.component_responses?.filter(
-                (component) => !!component?.rating,
+                (component) => isDefined(component?.rating),
             ) ?? [];
 
             if (filteredComponents.length === 0) {

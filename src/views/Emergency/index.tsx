@@ -5,6 +5,7 @@ import {
     FundingCoverageIcon,
     TargetedPopulationIcon,
 } from '@ifrc-go/icons';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import NavigationTabList from '#components/NavigationTabList';
@@ -35,7 +36,8 @@ export function Component() {
         // pending: emergencyPending,
         response: emergencyResponse,
     } = useRequest({
-        skip: !emergencyId,
+        // FIXME: need to check if emergencyId can be ''
+        skip: isNotDefined(emergencyId),
         url: '/api/v2/event/{id}/',
         pathVariables: {
             id: Number(emergencyId),

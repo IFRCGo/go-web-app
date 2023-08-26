@@ -31,13 +31,13 @@ export default defineConfig(({ mode }) => {
                     lintCommand: 'stylelint "./src/**/*.css"',
                 },
             }) : undefined,
-            isProd ? visualizer() : undefined,
             svgr(),
             reactSwc(),
             tsconfigPaths(),
             webfontDownload(),
             validateEnv(envConfig),
             isProd ? compression() : undefined,
+            isProd ? visualizer({ sourcemap: true }) : undefined,
         ],
         css: {
             devSourcemap: isProd,
@@ -60,6 +60,7 @@ export default defineConfig(({ mode }) => {
                     entryFileNames: 'entry-[name].[hash].js',
                     manualChunks: {
                         'mapbox-gl': ['mapbox-gl'],
+                        'docx4js': ['docx4js'],
                     }
                     // experimentalMinChunkSize: 500_000,
                 },

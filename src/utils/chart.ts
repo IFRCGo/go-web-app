@@ -70,7 +70,7 @@ export function getScaleFunction(
 
 // TODO: Add test
 export function getBounds(numList: UnsafeNumberList, bounds?: Bounds) {
-    if (!numList || numList.length === 0) {
+    if (isNotDefined(numList) || numList.length === 0) {
         return {
             min: bounds?.min ?? 0,
             max: bounds?.max ?? 0,
@@ -133,7 +133,7 @@ export function getDatesSeparatedByMonths(startDate: Date, endDate: Date) {
 export function getPathData(pointList: undefined): undefined;
 export function getPathData(pointList: Point[]): string;
 export function getPathData(pointList: Point[] | undefined) {
-    if (!pointList || pointList.length < 2) {
+    if (isNotDefined(pointList) || pointList.length < 2) {
         return undefined;
     }
 

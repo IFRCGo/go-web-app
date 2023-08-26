@@ -5,6 +5,8 @@ import {
     listToMap,
     unique,
     isDefined,
+    isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 
 import { rankedSearchOnList } from '#utils/common';
@@ -137,7 +139,7 @@ function SearchSelectInput<
     const selectedOptions = useMemo(
         () => {
             const selectedValue = options?.find((item) => keySelector(item) === value);
-            return !selectedValue ? [] : [selectedValue];
+            return isNotDefined(selectedValue) ? [] : [selectedValue];
         },
         [value, options, keySelector],
     );
@@ -154,7 +156,7 @@ function SearchSelectInput<
             const initiallyNotSelected = allOptions
                 .filter((item) => (
                     !selectedKeys[keySelector(item)]
-                    && (!hideOptionFilter || hideOptionFilter(item))
+                    && (isNotDefined(hideOptionFilter) || hideOptionFilter(item))
                 ));
 
             if (sortFunction) {
@@ -272,7 +274,7 @@ function SearchSelectInput<
             options={realOptions}
             optionsPending={optionsPending}
             optionsErrored={optionsErrored}
-            optionsFiltered={!!searchInputValue && searchInputValue?.length > 0}
+            optionsFiltered={isTruthyString(searchInputValue) && searchInputValue.length > 0}
             optionKeySelector={keySelector}
             optionRenderer={Option}
             optionRendererParams={optionRendererParams}

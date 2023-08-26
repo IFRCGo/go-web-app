@@ -1,4 +1,4 @@
-import { bound } from '@togglecorp/fujs';
+import { isNotDefined, bound } from '@togglecorp/fujs';
 import {
     type Error,
     analyzeErrors,
@@ -176,7 +176,7 @@ const tabToFieldsMap: Record<TabKeys, (keyof PartialDref)[]> = {
 };
 
 export function checkTabErrors(error: Error<PartialDref> | undefined, tabKey: TabKeys) {
-    if (!analyzeErrors(error)) {
+    if (isNotDefined(analyzeErrors(error))) {
         return false;
     }
 

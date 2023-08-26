@@ -15,14 +15,14 @@ import {
     useParams,
     generatePath,
     useNavigate,
+    useLocation,
 } from 'react-router-dom';
 import {
     randomString,
     isFalsyString,
-    isTruthy,
     isTruthyString,
+    isTruthy,
     isDefined,
-    isFalsy,
     isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
@@ -61,11 +61,11 @@ import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import type { GlobalEnums } from '#contexts/domain';
 import { injectClientId } from '#utils/common';
-import type { GoApiResponse } from '#utils/restRequest';
 
 import schema, {
     type ProjectResponseBody,
@@ -194,8 +194,9 @@ const secondarySectorLabelSelector = (
 export function Component() {
     const strings = useTranslation(i18n);
     const alert = useAlert();
+    const { state } = useLocation();
+    const { projectId: projectIdFromParams } = useParams<{ projectId: string }>();
 
-    const { projectId } = useParams<{ projectId: string }>();
     const {
         threeWProjectEdit: threeWProjectEditRoute,
     } = useContext(RouteContext);
@@ -219,6 +220,7 @@ export function Component() {
         EventItem[] | undefined | null
     >([]);
 
+    const projectId = projectIdFromParams ?? state?.projectId as string | undefined;
     const { pending: pendingProjectDetails } = useRequest({
         skip: isFalsyString(projectId),
         url: '/api/v2/project/{id}/',
@@ -271,13 +273,13 @@ export function Component() {
 
     const isTotalRequired = value.status === PROJECT_STATUS_COMPLETED;
 
-    const shouldDisableTotalTarget = !isFalsy(value.target_male)
-        || !isFalsy(value.target_female)
-        || !isFalsy(value.target_other);
+    const shouldDisableTotalTarget = isDefined(value.target_male)
+        || isDefined(value.target_female)
+        || isDefined(value.target_other);
 
-    const shouldDisableTotalReached = !isFalsy(value.reached_male)
-        || !isFalsy(value.reached_female)
-        || !isFalsy(value.reached_other);
+    const shouldDisableTotalReached = isDefined(value.reached_male)
+        || isDefined(value.reached_female)
+        || isDefined(value.reached_other);
 
     const {
         pending: fetchingPrimarySectors,
@@ -564,7 +566,7 @@ export function Component() {
         },
     });
     const handleSubmit = useCallback((data: FormType) => {
-        if (!projectId) {
+        if (isNotDefined(projectId)) {
             submitRequest(data as ProjectResponseBody);
         } else {
             submitUpdateRequest(data as ProjectResponseBody);

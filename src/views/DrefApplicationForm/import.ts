@@ -9,12 +9,13 @@ import {
     listToGroupList,
     listToMap,
     randomString,
+    isFalsyString,
 } from '@togglecorp/fujs';
 
 // import { dateToDateString } from '#utils';
 
 function getChildren(node: Node | undefined, name: string) {
-    if (!node || !node.children) {
+    if (isNotDefined(node) || isNotDefined(node.children)) {
         return undefined;
     }
 
@@ -88,7 +89,7 @@ export async function getImportData(file: File) {
 function getItemsWithMatchingKeys(items: KeyValue[], key: string, exceptions?: string[]) {
     const filteredItems = items.filter((item) => item.key.startsWith(key));
 
-    if (!exceptions || exceptions.length <= 0) {
+    if (isNotDefined(exceptions) || exceptions.length <= 0) {
         return filteredItems;
     }
 
@@ -127,7 +128,7 @@ function getNumberSafe(str: string | undefined) {
 }
 
 function getBooleanSafe(str: string | undefined) {
-    if (!str) {
+    if (isNotDefined(str)) {
         return undefined;
     }
 
@@ -366,7 +367,7 @@ export function transformImport(
             );
 
             const interventionTitle = interventionKeys[index];
-            if (!interventionTitle) {
+            if (isFalsyString(interventionTitle)) {
                 return undefined;
             }
 
@@ -381,7 +382,7 @@ export function transformImport(
                     const indicatorTitle = getStringSafe(indicatorMapping.title);
                     const target = getNumberSafe(indicatorMapping.target);
 
-                    if (!indicatorTitle && isNotDefined(target)) {
+                    if (isFalsyString(indicatorTitle) && isNotDefined(target)) {
                         return undefined;
                     }
 
@@ -440,7 +441,7 @@ export function transformImport(
         'other',
     ];
     const national_society_actions = nsActionItems.map((nsActionItem) => {
-        if (!nsActionItem.value) {
+        if (isFalsyString(nsActionItem.value)) {
             return undefined;
         }
 
@@ -456,13 +457,13 @@ export function transformImport(
         }
 
         const nsActionTitle = nsActionKeys[order];
-        if (!nsActionTitle) {
+        if (isFalsyString(nsActionTitle)) {
             return undefined;
         }
 
         const description = getStringSafe(nsActionItem.value);
 
-        if (!description) {
+        if (isFalsyString(description)) {
             return undefined;
         }
 
@@ -495,18 +496,18 @@ export function transformImport(
             needItem.key.length,
         ));
 
-        if (Number.isNaN(order) || isNotDefined(order) || !needItem.value) {
+        if (Number.isNaN(order) || isNotDefined(order) || isFalsyString(needItem.value)) {
             return undefined;
         }
 
         const needTitle = needKeys[order];
 
-        if (!needTitle) {
+        if (isFalsyString(needTitle)) {
             return undefined;
         }
 
         const description = getStringSafe(needItem.value);
-        if (!description) {
+        if (isFalsyString(description)) {
             return undefined;
         }
 
@@ -548,7 +549,7 @@ export function transformImport(
             const risk = getStringSafe(mapping.security);
             const mitigation = getStringSafe(mapping.mitigation);
 
-            if (!risk && !mitigation) {
+            if (isFalsyString(risk) && isFalsyString(mitigation)) {
                 return undefined;
             }
 

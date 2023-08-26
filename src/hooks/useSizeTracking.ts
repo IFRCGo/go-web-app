@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { isDefined } from '@togglecorp/fujs';
 
 function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, disabled = false) {
     const [size, setSize] = useState(() => {
@@ -24,9 +25,10 @@ function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, disa
             }
         });
 
+        // FIXME: need to only unobserve when we observe
         const el = ref.current;
-        if (!disabled && el) {
-            resizeObserver.observe(ref.current);
+        if (!disabled && isDefined(el)) {
+            resizeObserver.observe(el);
         }
 
         return () => {

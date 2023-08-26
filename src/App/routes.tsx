@@ -301,8 +301,7 @@ const countryThreeW = customWrapRoute({
 const countryThreeWProjects = customWrapRoute({
     path: 'projects',
     component: {
-        // FIXME we should rename this to CountryThreeWProjects
-        render: () => import('#views/ProjectsInCountry'),
+        render: () => import('#views/CountryThreeWProjects'),
         props: {},
     },
     parent: countryThreeW,
@@ -315,8 +314,7 @@ const countryThreeWProjects = customWrapRoute({
 const countryThreeWNationalSocietyProjects = customWrapRoute({
     path: 'ns-projects',
     component: {
-        // FIXME we should rename this to CountryThreeWNationalSocietyProjects
-        render: () => import('#views/NationalSocietyProjects'),
+        render: () => import('#views/CountryThreeWNationalSocietyProjects'),
         props: {},
     },
     parent: countryThreeW,
@@ -937,6 +935,20 @@ const allThreeW = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'All 3W',
+        visibility: 'anything',
+    },
+});
+
+const countryAllThreeW = customWrapRoute({
+    path: 'three-w/all/:countryId',
+    component: {
+        render: () => import('#views/CountryAllThreeW'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Country All 3W',
         visibility: 'anything',
     },
 });
@@ -1919,6 +1931,7 @@ const wrappedRoutes = {
     resources,
     search,
     allThreeW,
+    countryAllThreeW,
     allAppeals,
     allEmergencies,
     allFieldReports,

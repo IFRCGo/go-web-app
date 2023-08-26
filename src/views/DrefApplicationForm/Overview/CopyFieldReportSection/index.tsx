@@ -6,6 +6,7 @@ import {
     unique,
     isNotDefined,
     isDefined,
+    isFalsyString,
 } from '@togglecorp/fujs';
 import { type EntriesAsList, removeNull } from '@togglecorp/toggle-form';
 import sanitizeHtml from 'sanitize-html';
@@ -60,7 +61,7 @@ function CopyFieldReportSection(props: Props) {
         },
         onSuccess: (fr) => {
             // FIXME: Do we need to check this?
-            if (!fr) {
+            if (isNotDefined(fr)) {
                 return;
             }
 
@@ -83,7 +84,7 @@ function CopyFieldReportSection(props: Props) {
             : undefined,
         onSuccess: (rawFieldReportResponse) => {
             // FIXME: do we need to check if the response is not defined?
-            if (!rawFieldReportResponse) {
+            if (isNotDefined(rawFieldReportResponse)) {
                 alert.show(
                     strings.drefFormCopyFRFailureMessage,
                     { variant: 'danger' },
@@ -141,10 +142,10 @@ function CopyFieldReportSection(props: Props) {
 
             // FIXME: Should this be `and` or `or` logic
             if (
-                !national_society_contact_name
-                && !national_society_contact_email
-                && !national_society_contact_title
-                && !national_society_contact_phone_number
+                isFalsyString(national_society_contact_name)
+                && isFalsyString(national_society_contact_email)
+                && isFalsyString(national_society_contact_title)
+                && isFalsyString(national_society_contact_phone_number)
             ) {
                 const nsContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'NationalSociety',
@@ -159,10 +160,10 @@ function CopyFieldReportSection(props: Props) {
 
             // FIXME: Should this be `and` or `or` logic
             if (
-                !ifrc_emergency_name
-                && !ifrc_emergency_email
-                && !ifrc_emergency_title
-                && !ifrc_emergency_phone_number
+                isFalsyString(ifrc_emergency_name)
+                && isFalsyString(ifrc_emergency_email)
+                && isFalsyString(ifrc_emergency_title)
+                && isFalsyString(ifrc_emergency_phone_number)
             ) {
                 const federationContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'Federation',
@@ -177,10 +178,10 @@ function CopyFieldReportSection(props: Props) {
 
             // FIXME: Should this be `and` or `or` logic
             if (
-                !media_contact_name
-                && !media_contact_email
-                && !media_contact_title
-                && !media_contact_phone_number
+                isFalsyString(media_contact_name)
+                && isFalsyString(media_contact_email)
+                && isFalsyString(media_contact_title)
+                && isFalsyString(media_contact_phone_number)
             ) {
                 const mediaContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'Media',

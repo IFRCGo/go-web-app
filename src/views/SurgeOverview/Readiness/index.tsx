@@ -127,7 +127,7 @@ function Readiness() {
                 className={styles.eruOwnersList}
                 data={eruOwnersResponse?.results}
                 pending={eruOwnersPending}
-                errored={!!eruOwnersError}
+                errored={isDefined(eruOwnersError)}
                 filtered={false}
                 withMessageOverContent
                 keySelector={eruOwnerKeySelector}

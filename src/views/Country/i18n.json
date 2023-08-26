@@ -14,6 +14,10 @@
         "countryPreparednessTab":"Preparedness",
         "countryAdditionalInfoTab":"Additional Data",
         "countryCountryPlanTab":"Country Plan",
-        "countryRiskTab": "Risk Watch"
+        "countryRiskTab": "Risk Watch",
+        "nationalSocietyPageOnFDRS": "National Society Page on FRDS",
+        "countryOnIFRC": "{countryName} on IFRC.org",
+        "countryOnReliefWeb": "{countryName} on reliefweb.int",
+        "countryRCHomepage": "{countryName} RC Homepage"
     }
 }

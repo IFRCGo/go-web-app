@@ -494,7 +494,7 @@ export function Component() {
                         <Button
                             name={prevStep ?? activeTab}
                             onClick={setActiveTab}
-                            disabled={!prevStep}
+                            disabled={isNotDefined(prevStep)}
                             variant="secondary"
                         >
                             {strings.drefFormBackButtonLabel}
@@ -502,7 +502,7 @@ export function Component() {
                         <Button
                             name={nextStep ?? activeTab}
                             onClick={setActiveTab}
-                            disabled={!nextStep}
+                            disabled={isNotDefined(nextStep)}
                             variant="secondary"
                         >
                             {strings.drefFormContinueButtonLabel}

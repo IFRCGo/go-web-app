@@ -438,10 +438,10 @@ export function Component() {
     ]);
 
     const handleFinalSubmitClick = useCallback(() => {
-        if (!finalValues) {
+        if (isNotDefined(finalValues)) {
             return;
         }
-        if (!activityId) {
+        if (isNotDefined(activityId)) {
             createProject(finalValues);
         } else {
             updateProject(finalValues);
@@ -479,7 +479,7 @@ export function Component() {
 
     const selectedDeployedEruLabel = useMemo(() => {
         const selectedEru = erusResponse?.results?.find((eru) => eru.id === value?.deployed_eru);
-        if (!selectedEru) {
+        if (isNotDefined(selectedEru)) {
             return undefined;
         }
         return deployedEruLabelSelector(selectedEru);

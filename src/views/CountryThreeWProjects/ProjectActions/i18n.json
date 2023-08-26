@@ -1,0 +1,12 @@
+{
+    "namespace": "countryThreeWProjects",
+    "strings": {
+        "projectViewDetails": "View Project Details",
+        "actionDropdownEditLabel": "Edit Project",
+        "projectDuplicate": "Duplicate Project",
+        "projectHistory": "Project History",
+        "deleteProject": "Delete Project",
+        "deleteProjectMessage": "Are you sure you want to delete the project?",
+        "projectDeleteFailureMessage": "Failed to delete the project. {message}"
+    }
+}

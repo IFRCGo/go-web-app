@@ -183,7 +183,7 @@ function EditAccountInfo(props: Props) {
             heading={strings.editUserProfileHeading}
             headingLevel={3}
             onClose={handleModalCloseButton}
-            hideCloseButton
+            withoutCloseButton
             footerActions={(
                 <>
                     <Button

@@ -1,0 +1,11 @@
+{
+    "namespace": "countryThreeWProjects",
+    "strings": {
+        "threeWFilterReportingNs": "National Societies",
+        "threeWFilterProgrammeTypes": "Programme Types",
+        "threeWFilterSectors": "Sectors",
+        "threeWFilterTags": "Tags",
+        "threeWFilterProvinces": "Provinces",
+        "threeWFilterOperationTypes": "Project Types"
+    }
+}

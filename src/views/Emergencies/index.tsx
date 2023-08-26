@@ -6,6 +6,7 @@ import {
     encodeDate,
     isFalsyString,
     isDefined,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import {
     EmergenciesIcon,
@@ -113,7 +114,7 @@ export function Component() {
         funding,
     ] = useMemo(
         () => {
-            if (!eventsResponse) {
+            if (isNotDefined(eventsResponse)) {
                 return [];
             }
 

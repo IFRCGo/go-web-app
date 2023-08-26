@@ -71,7 +71,7 @@ function TimeSeriesChart<const K extends string>(props: Props<K>) {
         yAxisPoints,
     ] = useMemo(
         () => {
-            if (!chartBounds) {
+            if (isNotDefined(chartBounds)) {
                 return [
                     [],
                     [],

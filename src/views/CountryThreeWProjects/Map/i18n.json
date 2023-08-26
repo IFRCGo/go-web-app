@@ -1,0 +1,9 @@
+{
+    "namespace": "countryThreeWProjects",
+    "strings": {
+        "threeWMapLastUpdate": "Last Update",
+        "threeWMapStatus": "Status",
+        "threeWMapProgrammeType": "Programme Type",
+        "threeWMapBudget": "Budget"
+    }
+}

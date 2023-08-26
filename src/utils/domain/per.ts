@@ -1,4 +1,4 @@
-import { isDefined } from '@togglecorp/fujs';
+import { isNotDefined, isDefined } from '@togglecorp/fujs';
 import type { paths, components } from '#generated/types';
 
 type PerPhase = components['schemas']['PhaseEnum'];
@@ -12,7 +12,7 @@ export const PER_PHASE_ACTION = 5 satisfies PerPhase;
 type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
 
 export function getCurrentPerProcessStep(status: PerProcessStatusResponse | undefined) {
-    if (!status) {
+    if (isNotDefined(status)) {
         return undefined;
     }
 

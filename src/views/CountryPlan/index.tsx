@@ -28,6 +28,7 @@ export function Component() {
         pending: countryPlanPending,
         response: countryPlanResponse,
     } = useRequest({
+        // FIXME: need to check if countryId can be ''
         skip: isNotDefined(countryId) || !countryResponse?.has_country_plan,
         url: '/api/v2/country-plan/{country}/',
         pathVariables: {

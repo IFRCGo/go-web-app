@@ -224,10 +224,8 @@ type PostOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT = never> = (
 type DeleteOptions<SCHEMA, PATH extends keyof SCHEMA, CONTEXT = never> = (
     SCHEMA[PATH] extends {
         delete: {
-            get: {
-                parameters: infer Parameters,
-                responses: infer Responses,
-            },
+            parameters: infer Parameters,
+            responses: infer Responses,
         }
     } ? ({
         url: PATH,

@@ -124,7 +124,7 @@ export function Component() {
 
     const data = useMemo(
         () => {
-            if (!seasonalRiskData) {
+            if (isNotDefined(seasonalRiskData)) {
                 return undefined;
             }
 
@@ -223,7 +223,7 @@ export function Component() {
 
     const availableHazards: { [key in HazardType]?: string } | undefined = useMemo(
         () => {
-            if (!data) {
+            if (isNotDefined(data)) {
                 return undefined;
             }
 
@@ -252,7 +252,7 @@ export function Component() {
         defaultFilterValue,
         (newValue, oldValue) => {
             // We only apply side effect when risk metric is changed
-            if (newValue.riskMetric === oldValue.riskMetric || !availableHazards) {
+            if (newValue.riskMetric === oldValue.riskMetric || isNotDefined(availableHazards)) {
                 return newValue;
             }
 
@@ -260,7 +260,7 @@ export function Component() {
                 (option) => option.key === newValue.riskMetric,
             );
 
-            if (!selectedRiskMetricDetail) {
+            if (isNotDefined(selectedRiskMetricDetail)) {
                 return newValue;
             }
 
@@ -290,7 +290,7 @@ export function Component() {
     // NOTE: setting default values
     useEffect(
         () => {
-            if (!availableHazards || !countryList) {
+            if (isNotDefined(availableHazards) || isNotDefined(countryList)) {
                 return;
             }
 
@@ -298,7 +298,7 @@ export function Component() {
                 (option) => option.key === 'exposure',
             );
 
-            if (!riskMetric) {
+            if (isNotDefined(riskMetric)) {
                 return;
             }
 
@@ -322,7 +322,7 @@ export function Component() {
                 countries: countryList.map((country) => country.iso3),
                 riskMetric: riskMetric.key,
                 hazardTypes: riskMetric.applicableHazards.filter(
-                    (hazardType) => !!availableHazards[hazardType],
+                    (hazardType) => isDefined(availableHazards[hazardType]),
                 ),
                 months: [new Date().getMonth()],
                 normalizeByPopulation: false,
@@ -334,13 +334,14 @@ export function Component() {
 
     const mappings = useMemo(
         () => {
-            if (!riskScoreResponse || !riskScoreResponse.results) {
+            if (isNotDefined(riskScoreResponse) || isNotDefined(riskScoreResponse.results)) {
                 return undefined;
             }
 
             const riskScoreList = riskScoreResponse.results.map(
                 (item) => {
-                    if (!item.country_details
+                    if (
+                        isNotDefined(item.country_details)
                         || isFalsyString(item.country_details.iso3)
                         || isNotDefined(item.lcc)
                     ) {
@@ -368,7 +369,8 @@ export function Component() {
                 riskScoreResponse.results.map(
                     (item) => {
                         // FIXME: reuse validation for country
-                        if (!item.country_details
+                        if (
+                            isNotDefined(item.country_details)
                             || isFalsyString(item.country_details.iso3)
                         ) {
                             return undefined;
@@ -430,8 +432,9 @@ export function Component() {
                     riskDataList?.map(
                         (item) => {
                             const { country_details } = item;
-                            if (!selectedHazards[item.hazard_type]
-                                || !country_details
+                            if (
+                                !selectedHazards[item.hazard_type]
+                                || isNotDefined(country_details)
                                 || isFalsyString(country_details.iso3)
                                 || !selectedCountries[country_details.iso3]
                                 || isFalsyString(country_details.name)
@@ -609,7 +612,7 @@ export function Component() {
     // We also cannot use promoteId as it is a non-managed mapbox source
     const layerOptions = useMemo<Omit<FillLayer, 'id'>>(
         () => {
-            if (!filteredData || filteredData.length === 0) {
+            if (isNotDefined(filteredData) || filteredData.length === 0) {
                 return {
                     type: 'fill',
                     paint: {

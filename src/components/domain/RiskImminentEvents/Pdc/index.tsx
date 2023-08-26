@@ -72,7 +72,7 @@ function Pdc(props: Props) {
                 storm_position_geojson,
             } = response;
 
-            if (!footprint_geojson && !storm_position_geojson) {
+            if (isNotDefined(footprint_geojson) && isNotDefined(storm_position_geojson)) {
                 return;
             }
 

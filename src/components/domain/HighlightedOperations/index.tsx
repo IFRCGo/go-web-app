@@ -3,6 +3,7 @@ import {
     _cs,
     listToMap,
     isDefined,
+    isNotDefined,
 } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import Link from '#components/Link';
@@ -80,7 +81,7 @@ function HighlightedOperations(props: Props) {
         response: meResponse,
         retrigger: retriggerUserDetails,
     } = useRequest({
-        skip: !userDetails,
+        skip: isNotDefined(userDetails),
         url: '/api/v2/user/me/',
     });
 
@@ -129,7 +130,7 @@ function HighlightedOperations(props: Props) {
                 className={styles.emergencyList}
                 data={featuredEmergencies}
                 pending={featuredEmergencyPending}
-                errored={!!featuredEmergencyResponseError}
+                errored={isDefined(featuredEmergencyResponseError)}
                 filtered={false}
                 keySelector={keySelector}
                 renderer={OperationCard}

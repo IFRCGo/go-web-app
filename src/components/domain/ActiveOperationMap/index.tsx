@@ -203,9 +203,9 @@ function ActiveOperationMap(props: Props) {
                 features: countryResponse
                     ?.map((country) => {
                         if (
-                            (!country.independent && !country.record_type)
-                            || !country.centroid
-                            || !country.iso3
+                            (!country.independent && isNotDefined(country.record_type))
+                            || isNotDefined(country.centroid)
+                            || isNotDefined(country.iso3)
                         ) {
                             return undefined;
                         }
@@ -376,7 +376,7 @@ function ActiveOperationMap(props: Props) {
                                 </Container>
                             ),
                         )}
-                        {(!popupDetails || popupDetails.length === 0) && (
+                        {(isNotDefined(popupDetails) || popupDetails.length === 0) && (
                             <div className={styles.empty}>
                                 {strings.operationPopoverEmpty}
                             </div>

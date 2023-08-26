@@ -1,4 +1,6 @@
 import { Fragment } from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
+
 import useTranslation from '#hooks/useTranslation';
 import InfoPopup from '#components/InfoPopup';
 import { resolveToString } from '#utils/translation';
@@ -69,7 +71,7 @@ function ReducedListDisplay<LIST_ITEM, RENDERER_PROPS>(props: Props<LIST_ITEM, R
     } = props;
 
     const strings = useTranslation(i18n);
-    if (!list || list.length === 0) {
+    if (isNotDefined(list) || list.length === 0) {
         return null;
     }
 
@@ -97,7 +99,7 @@ function ReducedListDisplay<LIST_ITEM, RENDERER_PROPS>(props: Props<LIST_ITEM, R
             <InfoPopup
                 className={styles.reducedListLabel}
                 infoLabel={infoLabel}
-                hideIcon
+                withoutIcon
                 title={title}
                 description={allItemList}
             />
