@@ -165,8 +165,6 @@ function Operation(props: Props) {
         [interventionMap, plannedInterventionOptions],
     );
 
-    const isSurgePersonnelDeployed = value?.is_surge_personnel_deployed;
-
     const handleRiskSecurityAdd = useCallback(() => {
         const newRiskSecurityItem: RiskSecurityFormFields = {
             client_id: randomString(),
@@ -508,8 +506,9 @@ function Operation(props: Props) {
                 </InputSection>
                 <InputSection
                     title={strings.drefFormSurgePersonnelDeployed}
-                    description={isSurgePersonnelDeployed
-                        ? strings.drefFormSurgePersonnelDeployedDescription : undefined}
+                    description={value?.is_surge_personnel_deployed
+                        ? strings.drefFormSurgePersonnelDeployedDescription
+                        : undefined}
                     oneColumn
                     multiRow
                 >
@@ -520,7 +519,7 @@ function Operation(props: Props) {
                         error={error?.is_surge_personnel_deployed}
                         disabled={disabled}
                     />
-                    {isSurgePersonnelDeployed && (
+                    {value?.is_surge_personnel_deployed && (
                         <TextArea
                             label={strings.drefFormOperationDescription}
                             name="surge_personnel_deployed"

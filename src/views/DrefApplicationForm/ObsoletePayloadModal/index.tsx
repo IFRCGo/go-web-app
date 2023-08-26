@@ -1,7 +1,13 @@
-import { isTruthyString, isDefined, isNotDefined } from '@togglecorp/fujs';
+import {
+    isTruthyString,
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
-import { useRequest } from '#utils/restRequest';
-import type { GoApiResponse } from '#utils/restRequest';
+import {
+    useRequest,
+    type GoApiResponse,
+} from '#utils/restRequest';
 import Button from '#components/Button';
 import Modal from '#components/Modal';
 import BlockLoading from '#components/BlockLoading';

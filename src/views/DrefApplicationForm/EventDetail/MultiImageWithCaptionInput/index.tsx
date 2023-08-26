@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import {
-    ArrayError,
+    type ArrayError,
     getErrorObject,
     useFormArray,
-    SetValueArg,
+    type SetValueArg,
 } from '@togglecorp/toggle-form';
 import {
     _cs,

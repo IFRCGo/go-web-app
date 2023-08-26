@@ -99,7 +99,7 @@ function InterventionInput(props: Props) {
             title={(
                 <>
                     <div className={styles.label}>
-                        {interventionLabel}
+                        {interventionLabel ?? '--'}
                     </div>
                     <Button
                         name={index}

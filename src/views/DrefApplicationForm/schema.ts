@@ -11,6 +11,7 @@ import {
     emailCondition,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
+import { type DeepReplace, type DeepRemoveKeyPattern } from '#utils/common';
 
 import {
     positiveNumberCondition,
@@ -27,14 +28,12 @@ const MAX_INT_LIMIT = 2147483647;
 
 // Why not use lengthLessThanCondition?
 function max500CharCondition(value: string | undefined) {
-    // FIXME: use translation
     return isDefined(value) && value.length > 500
         ? 'Maximum 500 characters are allowed'
         : undefined;
 }
 
 function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
-    // FIXME: use translation
     return isDefined(value) && Array.isArray(value) && value.length > 2
         ? 'Only two images are allowed'
         : undefined;
@@ -50,58 +49,60 @@ type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number]
 type RiskSecurityResponse = NonNullable<DrefRequestBody['risk_security']>[number];
 type ImagesFileResponse = NonNullable<DrefRequestBody['images_file']>[number];
 
+type NeedIdentifiedFormFields = NeedIdentifiedResponse & { client_id: string };
+type NsActionFormFields = NsActionResponse & { client_id: string; }
+type InterventionFormFields = InterventionResponse & { client_id: string };
+type IndicatorFormFields = IndicatorResponse & { client_id: string };
+
+type RiskSecurityFormFields = RiskSecurityResponse & { client_id: string; };
+type ImagesFileFormFields = ImagesFileResponse & { client_id: string };
+
 type EventMapFileResponse = NonNullable<DrefRequestBody['event_map_file']>;
-type CoverImageFileResponse = NonNullable<DrefRequestBody['cover_image_file']>;
-
-// FIXME: Why omit id?
-type NeedIdentifiedFormFields = Omit<NeedIdentifiedResponse, 'id' | 'image_url' | 'title_display'> & {
+type EventMapFileFormField = Omit<EventMapFileResponse, 'client_id'> & {
     client_id: string;
-}
-// FIXME: Why omit id?
-type NsActionFormFields = Omit<NsActionResponse, 'id' | 'image_url' | 'title_display'> & {
-    client_id: string;
-}
-// FIXME: Why not omit instead of pick?
-type InterventionFormFields = Pick<
-    InterventionResponse,
-    'title'
-    | 'budget'
-    | 'person_targeted'
-    | 'description'
-> & {
-    client_id: string;
-    indicators: (Pick<IndicatorResponse, 'title' | 'target'> & {
-        client_id: string;
-    })[];
-}
-// FIXME: Why omit id?
-type RiskSecurityFormFields = Omit<RiskSecurityResponse, 'id'> & {
-    client_id: string;
-}
-
-// FIXME: Let's use DeepReplace
-export type DrefFormFields = Omit<
-    DrefRequestBody,
-    'needs_identified'
-    | 'national_society_actions'
-    | 'planned_interventions'
-    | 'risk_security'
-    | 'event_map_file'
-    | 'cover_image_file'
-    | 'images_file'
-> & {
-    needs_identified: NeedIdentifiedFormFields[];
-    national_society_actions: NsActionFormFields[];
-    planned_interventions: InterventionFormFields[];
-    risk_security:RiskSecurityFormFields[];
-    event_map_file: Pick<EventMapFileResponse, 'id' | 'caption'>;
-    cover_image_file: Pick<CoverImageFileResponse, 'id' | 'caption'>;
-    images_file: (Pick<ImagesFileResponse, 'id' | 'caption'> & {
-        client_id: string;
-    })[];
 };
 
-export type PartialDref = PartialForm<PurgeNull<DrefFormFields>, 'client_id'>;
+type DrefFormFields = (
+    DeepReplace<
+        DeepReplace<
+            DeepReplace<
+                DeepReplace<
+                    DeepReplace<
+                        DeepReplace<
+                            DeepReplace<
+                                DeepReplace<
+                                    DrefRequestBody,
+                                    NeedIdentifiedResponse,
+                                    NeedIdentifiedFormFields
+                                >,
+                                NsActionResponse,
+                                NsActionFormFields
+                            >,
+                            InterventionResponse,
+                            InterventionFormFields
+                        >,
+                        IndicatorResponse,
+                        IndicatorFormFields
+                    >,
+                    IndicatorResponse,
+                    IndicatorFormFields
+                >,
+                RiskSecurityResponse,
+                RiskSecurityFormFields
+            >,
+            ImagesFileResponse,
+            ImagesFileFormFields
+        >,
+        EventMapFileResponse,
+        EventMapFileFormField
+    >
+);
+
+export type PartialDref = PartialForm<
+    PurgeNull<DeepRemoveKeyPattern<DrefFormFields, '_details' | '_display'>>,
+    'client_id'
+>;
+
 type DrefFormSchema = ObjectSchema<PartialDref>;
 type DrefFormSchemaFields = ReturnType<DrefFormSchema['fields']>;
 
@@ -122,12 +123,14 @@ const schema: DrefFormSchema = {
             emergency_appeal_planned: {},
             cover_image_file: {
                 fields: () => ({
+                    client_id: {},
                     id: { defaultValue: undefinedValue },
                     caption: { defaultValue: undefinedValue },
                 }),
             },
             event_map_file: {
                 fields: () => ({
+                    client_id: {},
                     id: { defaultValue: undefinedValue },
                     caption: { defaultValue: undefinedValue },
                 }),

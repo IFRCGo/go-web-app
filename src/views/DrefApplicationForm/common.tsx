@@ -5,7 +5,6 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 import { type components } from '#generated/types';
-import { GoApiResponse } from '#utils/restRequest';
 
 import { type PartialDref } from './schema';
 
@@ -59,9 +58,7 @@ export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps
 
 // FORM ERROR
 
-type DrefFields = GoApiResponse<'/api/v2/dref/{id}/'>;
-
-const overviewFields: (keyof DrefFields)[] = [
+const overviewFields: (keyof PartialDref)[] = [
     'users',
     'field_report',
     'title_prefix',
@@ -83,7 +80,7 @@ const overviewFields: (keyof DrefFields)[] = [
     'type_of_dref',
 ];
 
-const eventDetailFields: (keyof DrefFields)[] = [
+const eventDetailFields: (keyof PartialDref)[] = [
     'did_it_affect_same_population',
     'did_it_affect_same_area',
     'did_ns_respond',
@@ -97,7 +94,7 @@ const eventDetailFields: (keyof DrefFields)[] = [
     'event_text',
 ];
 
-const actionsFields: (keyof DrefFields)[] = [
+const actionsFields: (keyof PartialDref)[] = [
     'national_society_actions',
     'ifrc',
     'icrc',
@@ -113,7 +110,7 @@ const actionsFields: (keyof DrefFields)[] = [
     'assessment_report',
 ];
 
-const operationFields: (keyof DrefFields)[] = [
+const operationFields: (keyof PartialDref)[] = [
     'people_assisted',
     'women',
     'men',
@@ -138,7 +135,7 @@ const operationFields: (keyof DrefFields)[] = [
     'risk_security_concern',
 ];
 
-const submissionFields: (keyof DrefFields)[] = [
+const submissionFields: (keyof PartialDref)[] = [
     'ns_request_date',
     // 'start_date',
     'end_date',
@@ -170,7 +167,7 @@ const submissionFields: (keyof DrefFields)[] = [
     'media_contact_title',
 ];
 
-const tabToFieldsMap: Record<TabKeys, (keyof DrefFields)[]> = {
+const tabToFieldsMap: Record<TabKeys, (keyof PartialDref)[]> = {
     overview: overviewFields,
     eventDetail: eventDetailFields,
     actions: actionsFields,
