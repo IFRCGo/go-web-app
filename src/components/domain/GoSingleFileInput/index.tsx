@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
 
+import { transformObjectError } from '#utils/restRequest/error';
 import InputError from '#components/InputError';
 import { NameType } from '#components/types';
 import Link from '#components/Link';
@@ -93,12 +94,25 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                 });
             }
         },
-        onFailure: (e) => {
-            const serverError = e?.value?.formErrors;
-            const message = `Failed to upload the file! ${serverError?.file ?? serverError?.[nonFieldError] ?? ''}`;
+        onFailure: ({
+            value: {
+                formErrors,
+            },
+        }) => {
+            const err = transformObjectError(formErrors, () => undefined);
+            // NOTE: could not use getErrorObject
+            const serverErrorMessage = err?.[nonFieldError] || (
+                typeof err?.file === 'object'
+                    ? err[nonFieldError]
+                    : err?.file
+            );
             alert.show(
-                message,
-                { variant: 'danger' },
+                // FIXME use translation
+                'Failed to upload the file!',
+                {
+                    variant: 'danger',
+                    description: serverErrorMessage,
+                },
             );
         },
     });

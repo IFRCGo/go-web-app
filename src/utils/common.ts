@@ -255,6 +255,10 @@ export function formatNumber(
     options?: FormatNumberOptions,
 ): undefined
 export function formatNumber(
+    value: number | null | undefined,
+    options?: FormatNumberOptions,
+): undefined
+export function formatNumber(
     value: number,
     options?: FormatNumberOptions,
 ): string
