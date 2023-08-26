@@ -236,6 +236,14 @@ interface FormatNumberOptions {
 }
 
 export function formatNumber(
+    value: null | undefined,
+    options?: FormatNumberOptions,
+): undefined
+export function formatNumber(
+    value: number,
+    options?: FormatNumberOptions,
+): string
+export function formatNumber(
     value: number | null | undefined,
     options?: FormatNumberOptions,
 ) {

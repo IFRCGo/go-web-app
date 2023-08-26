@@ -65,6 +65,7 @@ const feedbackLink = 'https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    // FIXME: we can use useUrlSearchState instead of useState
     const [activeView, setActiveView] = useState<SearchResponseKeys | undefined>();
     const [urlSearchValue, setUrlSearchValue] = useUrlSearchState<string | undefined>(
         KEY_URL_SEARCH,
