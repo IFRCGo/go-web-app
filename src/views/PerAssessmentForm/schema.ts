@@ -8,6 +8,7 @@ import type { paths } from '#generated/types';
 import { DeepReplace } from '#utils/common';
 
 type AssessmentRequestBody = paths['/api/v2/per-assessment/{id}/']['put']['requestBody']['content']['application/json'];
+
 type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
 
 type AreaResponse = NonNullable<AssessmentFormFields['area_responses']>[number];
@@ -18,23 +19,11 @@ type QuestionResponseFormFields = Omit<QuestionResponse, 'question'> & {
     question: NonNullable<QuestionResponse['question']>;
 }
 
-type ComponentResponseFormFields = DeepReplace<
-    ComponentResponse,
-    QuestionResponse,
-    QuestionResponseFormFields
->;
-
-type AreaResponseFormFields = DeepReplace<
-    AreaResponse,
-    ComponentResponse,
-    ComponentResponseFormFields
->;
-
 export type PartialAssessment = PartialForm<
     DeepReplace<
         AssessmentFormFields,
-        AreaResponse,
-        AreaResponseFormFields
+        QuestionResponse,
+        QuestionResponseFormFields
     >,
     'area' | 'component' | 'question'
 >;
