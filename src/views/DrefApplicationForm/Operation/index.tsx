@@ -165,8 +165,6 @@ function Operation(props: Props) {
         [interventionMap, plannedInterventionOptions],
     );
 
-    const isSurgePersonnelDeployed = ;
-
     const handleRiskSecurityAdd = useCallback(() => {
         const newRiskSecurityItem: RiskSecurityFormFields = {
             client_id: randomString(),

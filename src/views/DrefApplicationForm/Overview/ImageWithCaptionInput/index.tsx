@@ -7,6 +7,7 @@ import {
 import {
     _cs,
     isDefined,
+    randomString,
 } from '@togglecorp/fujs';
 
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
@@ -17,6 +18,7 @@ import styles from './styles.module.css';
 // FIXME: is this type correct?
 type Value = {
     id?: number | undefined;
+    client_id: string;
     caption?: string | undefined;
 };
 
@@ -50,7 +52,11 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
         disabled,
     } = props;
 
-    const setFieldValue = useFormObject(name, onChange, {});
+    const setFieldValue = useFormObject(
+        name,
+        onChange,
+        () => ({ client_id: randomString() }),
+    );
 
     const error = getErrorObject(formError);
 

@@ -207,6 +207,9 @@ export function Component() {
                     (intervention) => ({
                         ...injectClientId(intervention),
                         indicators: intervention.indicators?.map(injectClientId),
+                        // FIXME: This should be named budget_details
+                        // Do we need in the form?
+                        budget_file_details: undefined,
                     }),
                 ),
                 needs_identified: needs_identified?.map(injectClientId),

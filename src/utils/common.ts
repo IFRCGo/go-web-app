@@ -20,6 +20,20 @@ type DeepNonNullable<T> = T extends object ? (
     ) : (
         { [P in keyof T]-?: DeepNonNullable<T[P]> }
     )
+) : NonNullable<T>;
+
+export type Unfurl<T> = {
+    [key in keyof T]: T[key]
+};
+
+type SanitizeKeys<T> = T extends string ? T : never;
+type CheckPattern<KEY, KEYS extends string | number | symbol, PATTERN extends string> = KEY extends `${SanitizeKeys<KEYS>}${PATTERN}` ? never : KEY;
+export type DeepRemoveKeyPattern<T, PATTERN extends string> = T extends object ? (
+    T extends (infer K)[] ? (
+        DeepRemoveKeyPattern<K, PATTERN>[]
+    ) : (
+        { [P in CheckPattern<keyof T, keyof T, PATTERN>]: DeepRemoveKeyPattern<T[P], PATTERN> }
+    )
 ) : T;
 
 export type DeepReplace<T, A, B> = (

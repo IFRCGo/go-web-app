@@ -14,6 +14,7 @@ import {
     nonZeroCondition,
 } from '#utils/form';
 import { type components } from '#generated/types';
+import { type DeepReplace } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 
 // TYPES
@@ -53,25 +54,19 @@ export const DISASTER_TYPE_EPIDEMIC = 1;
 type FieldReportResponse = GoApiResponse<'/api/v2/field-report/{id}/'>;
 export type FieldReportBody = GoApiResponse<'/api/v2/field-report/{id}/', 'PUT'>;
 
-export type FormValue = Omit<FieldReportBody, 'countries'> & {
-    // FIXME: why do we need to change countries to country
-    // fix this in the server later
+type ContactRaw = NonNullable<FieldReportBody['contacts']>[number];
+type Contact = Omit<ContactRaw, 'ctype'> & {
+    // FIXME: Fix this in the server later
+    ctype: ContactType;
+};
+
+export type FormValue = Omit<
+    DeepReplace<FieldReportBody, ContactRaw, Contact>,
+    'countries'
+> & {
+    // FIXME: Why do we need to change countries to country
+    // Fix this in the server later
     country: number,
-
-    actions_taken: {
-        id: number,
-        organization: OrganizationType;
-        summary?: string;
-        actions: number[];
-    }[],
-
-    contacts: {
-        ctype: ContactType;
-        name?: string;
-        title?: string;
-        email?: string;
-        phone?: string;
-    }[],
 };
 
 export type PartialFormValue = PurgeNull<PartialForm<FormValue, 'uuid' | 'ctype' | 'organization'>>;
@@ -122,10 +117,12 @@ export function transformFormFieldsToAPIFields(
         country,
         start_date,
         sit_fields_date,
+        contacts,
         ...otherProps
     } = formValues;
     return {
         ...otherProps,
+        contacts,
         countries: isDefined(country) ? [country] : [],
         start_date: isDefined(start_date)
             ? (new Date(start_date)).toISOString()
@@ -180,7 +177,7 @@ export function transformAPIFieldsToFormFields(
         // })),
         contacts: contacts?.map((c) => ({
             ...c,
-            // FIXME: this is not an enum in the server
+            // FIXME: Fix this in the server later
             ctype: c.ctype as ContactType,
         })),
     };
