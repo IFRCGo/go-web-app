@@ -79,7 +79,23 @@ function ComponentInput(props: Props) {
     );
 
     const mappedQuestionResponses = listToMap(
-        questionResponses,
+        questionResponses?.map(
+            (questionResponse) => {
+                const {
+                    question,
+                    answer,
+                } = questionResponse;
+                if (isNotDefined(question) || isNotDefined(answer)) {
+                    return null;
+                }
+
+                return {
+                    ...questionResponse,
+                    question,
+                    answer,
+                };
+            },
+        ).filter(isDefined) ?? [],
         (questionResponse) => questionResponse.question,
         (questionResponse) => ({
             answer: questionResponse.answer,

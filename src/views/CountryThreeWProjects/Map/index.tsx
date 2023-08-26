@@ -100,7 +100,6 @@ function getGeoJson(
     districtDenormalizedProjectList: (Project & {
         project_district_detail: Pick<
             District,
-            'code'
             | 'id'
             | 'is_deprecated'
             | 'is_enclave'

@@ -5,12 +5,37 @@ import {
 } from '@togglecorp/toggle-form';
 
 import type { paths } from '#generated/types';
+import { DeepReplace } from '#utils/common';
 
 type AssessmentRequestBody = paths['/api/v2/per-assessment/{id}/']['put']['requestBody']['content']['application/json'];
 type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
 
+type AreaResponse = NonNullable<AssessmentFormFields['area_responses']>[number];
+type ComponentResponse = NonNullable<AreaResponse['component_responses']>[number];
+type QuestionResponse = NonNullable<ComponentResponse['question_responses']>[number];
+
+type QuestionResponseFormFields = Omit<QuestionResponse, 'question'> & {
+    question: NonNullable<QuestionResponse['question']>;
+}
+
+type ComponentResponseFormFields = DeepReplace<
+    ComponentResponse,
+    QuestionResponse,
+    QuestionResponseFormFields
+>;
+
+type AreaResponseFormFields = DeepReplace<
+    AreaResponse,
+    ComponentResponse,
+    ComponentResponseFormFields
+>;
+
 export type PartialAssessment = PartialForm<
-    AssessmentFormFields,
+    DeepReplace<
+        AssessmentFormFields,
+        AreaResponse,
+        AreaResponseFormFields
+    >,
     'area' | 'component' | 'question'
 >;
 type AssessmentSchema = ObjectSchema<PartialAssessment>

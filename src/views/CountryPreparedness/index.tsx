@@ -217,11 +217,24 @@ export function Component() {
 
             const answerCounts = mapToList(
                 listToGroupList(
-                    componentAnswerList,
+                    componentAnswerList.map(
+                        (componentAnswer) => {
+                            const { answer } = componentAnswer;
+                            if (isNotDefined(answer)) {
+                                return null;
+                            }
+
+                            return {
+                                ...componentAnswer,
+                                answer,
+                            };
+                        },
+                    ).filter(isDefined),
                     (questionResponse) => questionResponse.answer,
                 ),
                 (answerList) => ({
                     id: answerList[0].answer,
+                    // FIXME: use strings
                     label: `${formAnswerMap[answerList[0].answer]} ${answerList.length}`,
                     count: answerList.length,
                 }),
