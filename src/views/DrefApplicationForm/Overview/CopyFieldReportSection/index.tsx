@@ -106,7 +106,6 @@ function CopyFieldReportSection(props: Props) {
             const un_or_other_actor = value.un_or_other_actor ?? fieldReportResponse.actions_others;
             const country = value.country ?? fieldReportResponse.countries[0];
 
-            // TODO verify the following
             const district = (value.district && value.district.length > 0)
                 ? value.district
                 : fieldReportResponse.districts;
@@ -116,7 +115,6 @@ function CopyFieldReportSection(props: Props) {
                 ?? fieldReportResponse.gov_num_affected
                 ?? fieldReportResponse.other_num_affected;
 
-            // FIXME: use constants
             const partner_national_society = value?.partner_national_society
                 ?? fieldReportResponse.actions_taken?.find((a) => a.organization === 'PNS')?.summary;
             const ifrc = value?.ifrc
@@ -126,25 +124,24 @@ function CopyFieldReportSection(props: Props) {
 
             let {
                 national_society_contact_name,
-                national_society_contact_title,
                 national_society_contact_email,
                 national_society_contact_phone_number,
+                national_society_contact_title,
                 ifrc_emergency_name,
-                ifrc_emergency_title,
                 ifrc_emergency_email,
+                ifrc_emergency_title,
                 ifrc_emergency_phone_number,
                 media_contact_name,
-                media_contact_title,
                 media_contact_email,
+                media_contact_title,
                 media_contact_phone_number,
             } = value;
 
-            // FIXME: Should this be `and` or `or` logic
             if (
-                !national_society_contact_name
-                && !national_society_contact_email
-                && !national_society_contact_title
-                && !national_society_contact_phone_number
+                !value.national_society_contact_name
+                && !value.national_society_contact_email
+                && !value.national_society_contact_title
+                && !value.national_society_contact_phone_number
             ) {
                 const nsContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'NationalSociety',
@@ -157,12 +154,11 @@ function CopyFieldReportSection(props: Props) {
                 }
             }
 
-            // FIXME: Should this be `and` or `or` logic
             if (
-                !ifrc_emergency_name
-                && !ifrc_emergency_email
-                && !ifrc_emergency_title
-                && !ifrc_emergency_phone_number
+                !value.ifrc_emergency_name
+                && !value.ifrc_emergency_email
+                && !value.ifrc_emergency_title
+                && !value.ifrc_emergency_phone_number
             ) {
                 const federationContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'Federation',
@@ -175,12 +171,11 @@ function CopyFieldReportSection(props: Props) {
                 }
             }
 
-            // FIXME: Should this be `and` or `or` logic
             if (
-                !media_contact_name
-                && !media_contact_email
-                && !media_contact_title
-                && !media_contact_phone_number
+                !value.media_contact_name
+                && !value.media_contact_email
+                && !value.media_contact_title
+                && !value.media_contact_phone_number
             ) {
                 const mediaContact = fieldReportResponse.contacts?.find(
                     (contact) => contact.ctype === 'Media',
@@ -212,22 +207,10 @@ function CopyFieldReportSection(props: Props) {
             setFieldValue(fieldReportResponse.id, 'field_report');
             setFieldValue(country, 'country');
             setFieldValue(district, 'district');
-
-            if (isDefined(num_affected)) {
-                setFieldValue(num_affected, 'num_affected');
-            }
-
-            if (isDefined(partner_national_society)) {
-                setFieldValue(partner_national_society, 'partner_national_society');
-            }
-
-            if (isDefined(ifrc)) {
-                setFieldValue(ifrc, 'ifrc');
-            }
-
-            if (isDefined(icrc)) {
-                setFieldValue(icrc, 'icrc');
-            }
+            setFieldValue(num_affected, 'num_affected');
+            setFieldValue(partner_national_society, 'partner_national_society');
+            setFieldValue(ifrc, 'ifrc');
+            setFieldValue(icrc, 'icrc');
 
             alert.show(
                 strings.drefFormCopyFRSuccessMessage,
