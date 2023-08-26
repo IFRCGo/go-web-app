@@ -38,6 +38,7 @@ import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
 import { injectClientId } from '#utils/common';
+import { transformObjectError } from '#utils/restRequest/error';
 
 import drefSchema, {
     type DrefRequestBody,
@@ -257,12 +258,22 @@ export function Component() {
             value: { formErrors, messageForNotification },
             debugMessage,
         }) => {
-            // TODO: verify formErrors
-            // setError(formErrors);
+            // FIXME:
+            // getKey for
+            // 1. national_society_actions
+            // 2. risk_security
+            // 3. planned_interventions
+            // 4. indicators
+            // 5. images_file
+            // 6. needs_identified
+            setError(transformObjectError(formErrors, () => undefined));
 
+            /*
+            FIXME: this should be an array
             if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
                 setShowObsoletePayloadModal(true);
             }
+            */
 
             alert.show(
                 strings.drefFormSaveRequestFailureMessage,
@@ -303,12 +314,14 @@ export function Component() {
             value: { formErrors, messageForNotification },
             debugMessage,
         }) => {
-            // TODO: verify formErrors
-            // setError(formErrors);
+            setError(transformObjectError(formErrors, () => undefined));
 
+            /*
+            FIXME: this should be an array
             if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
                 setShowObsoletePayloadModal(true);
             }
+            */
 
             alert.show(
                 strings.drefFormSaveRequestFailureMessage,

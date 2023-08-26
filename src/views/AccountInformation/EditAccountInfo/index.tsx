@@ -29,6 +29,7 @@ import {
 import { stringValueSelector } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
+import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -149,8 +150,7 @@ function EditAccountInfo(props: Props) {
                 },
             } = error;
 
-            setError(formErrors);
-            // FIXME: Error message from server is not properly sent
+            setError(transformObjectError(formErrors, () => undefined));
 
             alert.show(
                 strings.editAccountFailureMessage,

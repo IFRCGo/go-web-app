@@ -18,6 +18,7 @@ import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { GoApiBody, useLazyRequest } from '#utils/restRequest';
 import UserContext from '#contexts/user';
+import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -102,8 +103,7 @@ function ChangePasswordModal(props: Props) {
                 },
             } = error;
 
-            // FIXME: Error message from server is not properly sent
-            setError(formErrors);
+            setError(transformObjectError(formErrors, () => undefined));
 
             alert.show(
                 strings.changePasswordFailureMessage,

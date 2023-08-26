@@ -23,6 +23,7 @@ import {
     removeNull,
 } from '@togglecorp/toggle-form';
 
+import { transformObjectError } from '#utils/restRequest/error';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import Tab from '#components/Tabs/Tab';
@@ -256,7 +257,11 @@ export function Component() {
             },
             debugMessage,
         }) => {
-            onErrorSet(formErrors);
+            // FIXME:
+            // getKey for
+            // 1. contacts
+            // 2. actions_taken
+            onErrorSet(transformObjectError(formErrors, () => undefined));
             alert.show(
                 <p>
                     {strings.formErrorLabel}
@@ -302,7 +307,7 @@ export function Component() {
             },
             debugMessage,
         }) => {
-            onErrorSet(formErrors);
+            onErrorSet(transformObjectError(formErrors, () => undefined));
             alert.show(
                 <p>
                     {strings.formErrorLabel}

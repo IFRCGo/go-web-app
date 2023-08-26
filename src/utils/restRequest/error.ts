@@ -3,14 +3,14 @@ import {
     listToMap,
     mapToMap,
 } from '@togglecorp/fujs';
-import { nonFieldError as nonFieldErrorSymbol } from '@togglecorp/toggle-form';
+import { nonFieldError } from '@togglecorp/toggle-form';
 
 type ResponseLeafError = string[];
 
-type ResponseObjectError = {
+export type ResponseObjectError = {
     [key: string]: ResponseObjectError | ResponseArrayError | ResponseLeafError | undefined;
 } & {
-    nonFieldError?: string | undefined;
+    non_field_errors?: string | undefined;
 };
 
 type ResponseArrayError = (ResponseObjectError | ResponseArrayError | ResponseLeafError)[];
@@ -20,7 +20,7 @@ type FormArrayError = {
     [key: string]: FormLeafError | FormObjectError | FormArrayError | undefined;
 }
 type FormObjectError = {
-    [nonFieldErrorSymbol]?: string
+    [nonFieldError]?: string
 } & {
     [key: string]: FormLeafError | FormObjectError | FormArrayError | undefined;
 };
@@ -140,12 +140,12 @@ export function transformObjectError(
         return undefined;
     }
     const {
-        nonFieldError,
+        non_field_errors,
         ...fieldErrors
     } = error;
 
     return {
-        [nonFieldErrorSymbol]: nonFieldError,
+        [nonFieldError]: non_field_errors,
         ...mapToMap(
             fieldErrors,
             (key) => key,

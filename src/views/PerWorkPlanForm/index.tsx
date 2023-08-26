@@ -33,6 +33,7 @@ import { PER_PHASE_WORKPLAN } from '#utils/domain/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
+import { transformObjectError } from '#utils/restRequest/error';
 
 import PrioritizedActionInput from './PrioritizedActionInput';
 import AdditionalActionInput from './AdditionalActionInput';
@@ -173,40 +174,11 @@ export function Component() {
             },
             debugMessage,
         }) => {
-            const componentIndexMapping = listToMap(
-                value?.component_responses ?? [],
-                (_, index) => index,
-                (componentResponse, _, index) => ({
-                    index,
-                    value: componentResponse,
-                }),
-            );
-
-            const customComponentIndexMapping = listToMap(
-                value?.custom_component_responses ?? [],
-                (_, index) => index,
-                (customComponentResponse, _, index) => ({
-                    index,
-                    value: customComponentResponse,
-                }),
-            );
-
-            // TODO: add proper typing for errors
-            const transformedError = {
-                component_responses: listToMap(
-                    formErrors?.component_responses as Record<string, string[]>[] ?? [],
-                    (_, index) => (
-                        componentIndexMapping?.[index].value.component
-                    ),
-                ),
-                custom_component_responses: listToMap(
-                    formErrors?.custom_component_responses as Record<string, string[]>[] ?? [],
-                    (_, index) => (
-                        customComponentIndexMapping?.[index].value.client_id
-                    ),
-                ),
-            };
-            setError(transformedError);
+            // FIXME:
+            // getKey for
+            // 1. component_responses
+            // 2. custom_component_responses
+            setError(transformObjectError(formErrors, () => undefined));
             alert.show(
                 strings.saveRequestFailureMessage,
                 {

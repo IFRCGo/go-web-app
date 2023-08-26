@@ -20,6 +20,7 @@ import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
 import UserContext from '#contexts/user';
+import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -111,7 +112,7 @@ export function Component() {
                 },
             } = error;
 
-            setError(formErrors);
+            setError(transformObjectError(formErrors, () => undefined));
         },
     });
 

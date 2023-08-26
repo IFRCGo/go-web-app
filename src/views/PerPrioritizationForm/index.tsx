@@ -43,6 +43,7 @@ import {
     useRequest,
 } from '#utils/restRequest';
 import RouteContext from '#contexts/route';
+import { transformObjectError } from '#utils/restRequest/error';
 
 import {
     prioritizationSchema,
@@ -173,10 +174,14 @@ export function Component() {
         onFailure: ({
             value: {
                 messageForNotification,
-                // formErrors,
+                formErrors,
             },
             debugMessage,
         }) => {
+            // FIXME:
+            // getKey for
+            // 1. component_responses
+            setError(transformObjectError(formErrors, () => undefined));
             alert.show(
                 strings.saveRequestFailureMessage,
                 {

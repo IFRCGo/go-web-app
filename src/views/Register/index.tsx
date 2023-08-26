@@ -19,6 +19,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { isDefined, isValidEmail } from '@togglecorp/fujs';
 
+import { transformObjectError } from '#utils/restRequest/error';
 import RouteContext from '#contexts/route';
 import Page from '#components/Page';
 import TextInput from '#components/TextInput';
@@ -197,7 +198,7 @@ export function Component() {
                 },
             } = error;
 
-            setError(formErrors);
+            setError(transformObjectError(formErrors, () => undefined));
 
             const message = strings.registrationFailure;
             alert.show(
