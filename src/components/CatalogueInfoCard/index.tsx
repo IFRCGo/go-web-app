@@ -58,6 +58,7 @@ function CatalogueInfoCard(props: Props) {
                 pending={false}
                 filtered={false}
                 rendererParams={rendererParams}
+                compact
             />
         </Container>
     );

@@ -34,8 +34,8 @@ import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import RouteContext from '#contexts/route';
 
-import CustomComponentInput from './CustomComponentInput';
-import ComponentInput from './ComponentInput';
+import PrioritizedActionInput from './PrioritizedActionInput';
+import AdditionalActionInput from './AdditionalActionInput';
 
 import {
     WorkPlanBody,
@@ -314,7 +314,7 @@ export function Component() {
                     {strings.saveAndFinalizeWorkPlan}
                 </ConfirmButton>
             )}
-            spacing="loose"
+            spacing="relaxed"
         >
             {pending && (
                 <BlockLoading />
@@ -340,10 +340,10 @@ export function Component() {
                         childrenContainerClassName={styles.componentList}
                         withHeaderBorder
                         withInternalPadding
-                        spacing="loose"
+                        spacing="relaxed"
                     >
                         {prioritizationResponse?.component_responses?.map((componentResponse) => (
-                            <ComponentInput
+                            <PrioritizedActionInput
                                 key={componentResponse.component}
                                 index={componentResponseMapping[componentResponse.component]?.index}
                                 value={componentResponseMapping[componentResponse.component]?.value}
@@ -360,7 +360,7 @@ export function Component() {
                         heading={strings.actionsHeading}
                         withHeaderBorder
                         withInternalPadding
-                        spacing="loose"
+                        spacing="relaxed"
                         actions={(
                             <Button
                                 name={undefined}
@@ -374,7 +374,7 @@ export function Component() {
                         )}
                     >
                         {value?.custom_component_responses?.map((customComponent, i) => (
-                            <CustomComponentInput
+                            <AdditionalActionInput
                                 key={customComponent.client_id}
                                 actionNumber={i + 1}
                                 index={

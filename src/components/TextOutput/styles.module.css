@@ -1,12 +1,12 @@
 .text-output {
     display: flex;
     gap: var(--go-ui-spacing-sm);
-    line-height: var(--go-ui-line-height-snug);
 
     .container {
         display: flex;
+        align-items: baseline;
         flex-wrap: wrap;
-        gap: var(--go-ui-spacing-xs);
+        gap: 0 var(--go-ui-spacing-sm);
 
         .label {
             &.with-colon::after {
@@ -14,7 +14,6 @@
             }
         }
     }
-
 
     .strong {
         font-weight: var(--go-ui-font-weight-semibold);

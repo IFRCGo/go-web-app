@@ -44,7 +44,7 @@ interface Props {
     readOnly?: boolean;
 }
 
-function CustomComponentInput(props: Props) {
+function AdditionalActionInput(props: Props) {
     const {
         onChange,
         index,
@@ -74,7 +74,7 @@ function CustomComponentInput(props: Props) {
 
     return (
         <Container
-            className={styles.customComponentInput}
+            className={styles.additionalActionInput}
             heading={resolveToString(
                 strings.actionInputHeading,
                 { actionNumber },
@@ -135,4 +135,4 @@ function CustomComponentInput(props: Props) {
     );
 }
 
-export default CustomComponentInput;
+export default AdditionalActionInput;

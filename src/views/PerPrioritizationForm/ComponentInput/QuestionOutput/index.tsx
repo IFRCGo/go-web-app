@@ -1,9 +1,10 @@
+import { isNotDefined } from '@togglecorp/fujs';
 import styles from './styles.module.css';
 
 interface Props {
     question: string;
     answer: string | undefined;
-    questionNum: number;
+    questionNum: number | undefined | null;
     componentNum: number;
     notes?: string | null;
 }
@@ -16,6 +17,10 @@ function QuestionOutput(props: Props) {
         answer,
         notes,
     } = props;
+
+    if (isNotDefined(questionNum)) {
+        return null;
+    }
 
     return (
         <div className={styles.questionOutput}>

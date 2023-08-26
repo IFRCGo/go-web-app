@@ -187,6 +187,9 @@ export function Component() {
                             { perId: String(response.id) },
                         ),
                     );
+
+                    // Move the page position to top when moving on to next step
+                    window.scrollTo(0, 0);
                 }
             }
             // TODO: log error?
@@ -343,12 +346,13 @@ export function Component() {
                 className={styles.container}
                 childrenContainerClassName={styles.sectionContent}
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.nationalSocietyInputLabel}
                     withoutPadding
-                    twoColumn
+                    numPreferredColumns={2}
+                    withAsteriskOnTitle
                 >
                     <NationalSocietySelectInput
                         name="country"
@@ -365,13 +369,14 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withInternalPadding
                 withHeaderBorder
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.dateOfOrientationInputLabel}
                     description={strings.dateOfOrientationInputDescription}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
+                    withAsteriskOnTitle
                 >
                     <DateInput
                         name="date_of_orientation"
@@ -405,13 +410,14 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
-                    twoColumn
+                    numPreferredColumns={2}
                     title={strings.dateOfAssessmentInputLabel}
                     description={strings.dateOfAssessmentInputDescription}
                     withoutPadding
+                    withAsteriskOnTitle
                 >
                     <DateInput
                         name="date_of_assessment"
@@ -422,9 +428,10 @@ export function Component() {
                     />
                 </InputSection>
                 <InputSection
-                    twoColumn
+                    numPreferredColumns={2}
                     title={strings.typeOfAssessmentInputLabel}
                     withoutPadding
+                    withAsteriskOnTitle={isDefined(value.date_of_assessment)}
                 >
                     <SelectInput
                         name="type_of_assessment"
@@ -439,7 +446,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.dateOfPreviousPerAssessmentInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <DateInput
@@ -451,7 +458,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.typeOfPreviousPerAssessmentInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <SelectInput
@@ -479,7 +486,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.whatMethodHasThisAssessmentUsedInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <SelectInput
@@ -539,12 +546,12 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.perProcessCycleNumberInputLabel}
                     description={strings.assessmentNumberInputDescription}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <NumberInput
@@ -562,11 +569,11 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.workPlanDevelopmentDateInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <DateInput
@@ -578,7 +585,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.workPlanRevisionDateInputLabel}
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <DateInput
@@ -595,13 +602,12 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="loose"
+                spacing="comfortable"
             >
                 <InputSection
                     title={strings.nsFocalPointInputLabel}
                     description={strings.nsFocalPointInputDescription}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <TextInput
@@ -629,8 +635,7 @@ export function Component() {
                 <InputSection
                     title={strings.nsSecondFocalPointInputLabel}
                     description={strings.nsSecondFocalPointInputDescription}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <TextInput
@@ -657,8 +662,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.partnerFocalPointInputLabel}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <TextInput
@@ -692,8 +696,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.perFacilitatorInputLabel}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                     withoutPadding
                 >
                     <TextInput

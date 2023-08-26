@@ -132,8 +132,6 @@ function EarlyActionFields(props: Props) {
                             key={organization.key}
                             title={organization.title}
                             description={organization.description}
-                            oneColumn
-                            multiRow
                         >
                             <ActionInput
                                 name={index}

@@ -6,7 +6,7 @@ import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import CheckList from '#components/Checklist';
-import List from '#components/List';
+import Grid from '#components/Grid';
 import Pager from '#components/Pager';
 import Container from '#components/Container';
 import useInputState from '#hooks/useInputState';
@@ -58,6 +58,7 @@ function Readiness() {
         response: emergencyResponseUnitTypesResponse,
     } = useRequest({
         url: '/api/v2/erutype',
+        preserveResponse: true,
     });
 
     const handleERUOwnerTypesChange = useCallback((values: EmergencyResponseUnitType['key'][] | undefined) => {
@@ -95,41 +96,38 @@ function Readiness() {
                 />
             )}
             childrenContainerClassName={styles.content}
-        >
-            <Container
-                heading={strings.eruOwnersTableFilterReady}
-                className={styles.filterContainer}
-                headingLevel={4}
-                footerContent={(
+            filtersContainerClassName={styles.filters}
+            filters={(
+                <>
+                    <CheckList
+                        label={strings.eruOwnersTableFilterReady}
+                        listContainerClassName={styles.checklistContainer}
+                        name="eruType"
+                        // FIXME: typings should be fixed in the server
+                        options={emergencyResponseUnitTypesResponse as EmergencyResponseUnitType[]}
+                        value={selectedERUTypes}
+                        keySelector={emergencyResponseUnitTypeKeySelector}
+                        labelSelector={emergencyResponseUnitTypeLabelSelector}
+                        onChange={handleERUOwnerTypesChange}
+                    />
                     <Button
                         name={undefined}
                         variant="secondary"
                         onClick={handleClearFilter}
                         disabled={emergencyResponseUnitTypesPending
-                        || isNotDefined(selectedERUTypes)}
+                            || isNotDefined(selectedERUTypes)}
                     >
                         {strings.eruOwnersTableFilterClear}
                     </Button>
-                )}
-            >
-                <CheckList
-                    direction="vertical"
-                    name="eruType"
-                    // FIXME: typings should be fixed in the server
-                    options={emergencyResponseUnitTypesResponse as EmergencyResponseUnitType[]}
-                    value={selectedERUTypes}
-                    keySelector={emergencyResponseUnitTypeKeySelector}
-                    labelSelector={emergencyResponseUnitTypeLabelSelector}
-                    onChange={handleERUOwnerTypesChange}
-                />
-            </Container>
-            <List
-                className={styles.eruOwnersList}
+                </>
+            )}
+        >
+            <Grid
+                numPreferredColumns={3}
                 data={eruOwnersResponse?.results}
                 pending={eruOwnersPending}
                 errored={isDefined(eruOwnersError)}
-                filtered={false}
-                withMessageOverContent
+                filtered={isDefined(selectedERUTypes)}
                 keySelector={eruOwnerKeySelector}
                 renderer={EmergencyResponseUnitOwnerCard}
                 rendererParams={rendererParams}

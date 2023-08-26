@@ -111,6 +111,7 @@ function ComponentInput(props: Props) {
     }, [component.id, onSelectionChange]);
 
     const componentNum = component.component_num;
+
     if (isNotDefined(componentNum)) {
         return null;
     }
@@ -121,7 +122,7 @@ function ComponentInput(props: Props) {
             onExpansionChange={setExpanded}
             heading={`${component?.component_num}. ${component.title}`}
             headingLevel={4}
-            spacing="loose"
+            spacing="relaxed"
             icons={(
                 <Checkbox
                     name={index}
@@ -137,12 +138,12 @@ function ComponentInput(props: Props) {
                     <div className={styles.additionalInformation}>
                         <div>
                             {/* FIXME: use translations */}
-                            {ratingDisplay ?? '0 - Not implemented'}
+                            {ratingDisplay ?? '0 - Not reviewed'}
                         </div>
                         <div className={styles.separator} />
                         <div>
                             {/* FIXME: use translations */}
-                            {`${numResponses} benchmarks`}
+                            {`${numResponses} benchmarks assessed`}
                         </div>
                         {expanded && answerStats.length > 0 && (
                             <div className={styles.answersByCount}>
@@ -172,23 +173,18 @@ function ComponentInput(props: Props) {
             {formQuestionsPending && (
                 <BlockLoading />
             )}
+            {/* FIXME: use List */}
             {formQuestions && formQuestions.results?.map(
-                (perFormQuestion) => {
-                    if (isNotDefined(perFormQuestion.question_num)) {
-                        return null;
-                    }
-
-                    return (
-                        <QuestionOutput
-                            key={perFormQuestion.id}
-                            question={perFormQuestion.question}
-                            questionNum={perFormQuestion.question_num}
-                            componentNum={componentNum}
-                            answer={mappedQuestionResponses?.[perFormQuestion.id]?.answerDisplay}
-                            notes={mappedQuestionResponses?.[perFormQuestion.id]?.notes}
-                        />
-                    );
-                },
+                (perFormQuestion) => (
+                    <QuestionOutput
+                        key={perFormQuestion.id}
+                        question={perFormQuestion.question}
+                        questionNum={perFormQuestion.question_num}
+                        componentNum={componentNum}
+                        answer={mappedQuestionResponses?.[perFormQuestion.id]?.answerDisplay}
+                        notes={mappedQuestionResponses?.[perFormQuestion.id]?.notes}
+                    />
+                ),
             )}
         </ExpandableContainer>
     );

@@ -301,8 +301,7 @@ function ResponseFields(props: Props) {
                             key={contact.key}
                             title={contact.title}
                             description={contact.description}
-                            multiRow
-                            twoColumn
+                            numPreferredColumns={2}
                         >
                             <ContactInput
                                 name={index}

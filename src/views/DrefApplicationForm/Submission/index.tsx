@@ -44,7 +44,10 @@ function Submission(props: Props) {
                 heading={strings.drefFormOperationalTimeframes}
                 className={styles.operationalTimeframes}
             >
-                <InputSection fullWidthColumn>
+                <InputSection
+                    withoutTitleSection
+                    numPreferredColumns={2}
+                >
                     <DateInput
                         label={strings.drefFormNsRequestDate}
                         name="ns_request_date"
@@ -72,7 +75,10 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                <InputSection fullWidthColumn>
+                <InputSection
+                    withoutTitleSection
+                    numPreferredColumns={3}
+                >
                     <NumberInput
                         label={strings.drefFormOperationTimeframeSubmission}
                         name="operation_timeframe"
@@ -114,7 +120,7 @@ function Submission(props: Props) {
                 <InputSection
                     title={strings.drefFormAppealCode}
                     description={strings.drefFormAppealCodeDescription}
-                    twoColumn
+                    numPreferredColumns={2}
                 >
                     <TextInput
                         name="appeal_code"
@@ -127,7 +133,7 @@ function Submission(props: Props) {
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={strings.drefFormGlideNum}
-                        twoColumn
+                        numPreferredColumns={2}
                     >
                         <TextInput
                             name="glide_code"
@@ -141,8 +147,7 @@ function Submission(props: Props) {
                 <InputSection
                     title={strings.drefFormAppealManager}
                     description={strings.drefFormAppealManagerDescription}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                 >
                     <TextInput
                         label={strings.drefFormSubmissionNameLabel}
@@ -180,8 +185,7 @@ function Submission(props: Props) {
                 <InputSection
                     title={strings.drefFormProjectManager}
                     description={strings.drefFormProjectManagerDescription}
-                    multiRow
-                    twoColumn
+                    numPreferredColumns={2}
                 >
                     <TextInput
                         label={strings.drefFormSubmissionNameLabel}
@@ -219,8 +223,7 @@ function Submission(props: Props) {
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={strings.drefFormNationalSocietyContact}
-                        multiRow
-                        twoColumn
+                        numPreferredColumns={2}
                     >
                         <TextInput
                             label={strings.drefFormSubmissionNameLabel}
@@ -259,8 +262,7 @@ function Submission(props: Props) {
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={strings.drefFormIfrcEmergency}
-                        multiRow
-                        twoColumn
+                        numPreferredColumns={2}
                     >
                         <TextInput
                             label={strings.drefFormSubmissionNameLabel}
@@ -299,8 +301,7 @@ function Submission(props: Props) {
                 {value?.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={strings.drefFormMediaContact}
-                        multiRow
-                        twoColumn
+                        numPreferredColumns={2}
                     >
                         <TextInput
                             label={strings.drefFormSubmissionNameLabel}

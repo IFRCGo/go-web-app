@@ -2,38 +2,22 @@ import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-export interface InputBaseProps {
+type NumColumn = 1 | 2 | 3;
+export interface Props {
     className?: string;
     title?: React.ReactNode;
     children?: React.ReactNode;
     description?: React.ReactNode;
     contentSectionClassName?: string;
     tooltip?: string;
-    multiRow?: boolean;
     normalDescription?: boolean;
     descriptionContainerClassName?: string;
-    fullWidthColumn?: boolean;
+    withoutTitleSection?: boolean;
     titleClassName?: string;
     withoutPadding?: boolean;
+    withAsteriskOnTitle?: boolean;
+    numPreferredColumns?: NumColumn;
 }
-
-type Props = InputBaseProps & ({
-    oneColumn: true;
-    twoColumn?: never;
-    threeColumn?: never;
-} | {
-    oneColumn?: never;
-    twoColumn: true;
-    threeColumn?: never;
-} | {
-    oneColumn?: never;
-    twoColumn?: never;
-    threeColumn: true;
-} | {
-    oneColumn?: never;
-    twoColumn?: never;
-    threeColumn?: never;
-});
 
 // FIXME: simplify props, responsive styling
 function InputSection(props: Props) {
@@ -43,46 +27,55 @@ function InputSection(props: Props) {
         children,
         description,
         tooltip,
-        multiRow,
         contentSectionClassName,
         descriptionContainerClassName,
         normalDescription,
-        fullWidthColumn,
         titleClassName,
+        withoutTitleSection = false,
         withoutPadding = false,
+        withAsteriskOnTitle,
+        numPreferredColumns = 1,
     } = props;
 
     return (
         <div
             className={_cs(
-                className,
                 styles.inputSection,
-                multiRow && styles.multiRow,
-                // eslint-disable-next-line react/destructuring-assignment
-                props.oneColumn && styles.oneColumn,
-                // eslint-disable-next-line react/destructuring-assignment
-                props.twoColumn && styles.twoColumn,
-                // eslint-disable-next-line react/destructuring-assignment
-                props.threeColumn && styles.threeColumn,
                 !normalDescription && styles.specialDescription,
-                fullWidthColumn && styles.fullWidthColumn,
+                withoutTitleSection && styles.withoutTitleSection,
                 !withoutPadding && styles.withPadding,
+                className,
             )}
         >
-            <div
-                className={styles.sectionTitle}
-                title={tooltip}
-            >
-                {title && (
-                    <div className={_cs(styles.title, titleClassName)}>
-                        {title}
+            {!withoutTitleSection && (
+                <div
+                    className={styles.titleSection}
+                    title={tooltip}
+                >
+                    {title && (
+                        <div className={_cs(styles.title, titleClassName)}>
+                            {title}
+                            {withAsteriskOnTitle && (
+                                <span aria-hidden className={styles.asterisk}>
+                                    *
+                                </span>
+                            )}
+                        </div>
+                    )}
+                    <div className={_cs(styles.description, descriptionContainerClassName)}>
+                        {description}
                     </div>
-                )}
-                <div className={_cs(styles.description, descriptionContainerClassName)}>
-                    {description}
                 </div>
-            </div>
-            <div className={_cs(styles.sectionContent, contentSectionClassName)}>
+            )}
+            <div
+                className={_cs(
+                    styles.contentSection,
+                    numPreferredColumns === 1 && styles.oneColumn,
+                    numPreferredColumns === 2 && styles.twoColumn,
+                    numPreferredColumns === 3 && styles.threeColumn,
+                    contentSectionClassName,
+                )}
+            >
                 {children}
             </div>
         </div>

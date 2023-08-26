@@ -165,8 +165,6 @@ function ActionsFields(props: Props) {
                                 key={organization.key}
                                 title={organization.title}
                                 description={organization.description}
-                                oneColumn
-                                multiRow
                             >
                                 <ActionInput
                                     name={index}
@@ -316,8 +314,6 @@ function ActionsFields(props: Props) {
                             key={organization.key}
                             title={organization.title}
                             description={organization.description}
-                            oneColumn
-                            multiRow
                         >
                             <ActionInput
                                 name={index}

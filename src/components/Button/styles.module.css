@@ -20,6 +20,7 @@
     max-width: 100%;
     overflow: hidden;
     text-transform: var(--text-transform);
+    line-height: var(--go-ui-line-height-tight);
     color: var(--color-text);
     font-family: inherit;
     font-size: var(--font-size);

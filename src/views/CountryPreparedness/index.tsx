@@ -477,7 +477,7 @@ export function Component() {
                                         isDefined(component.rating)
                                             ? `${component.rating.value} - ${component.rating.title}`
                                             // FIXME: use translation
-                                            : '0 - Not Reviewed'
+                                            : '0 - Not reviewed'
                                     )}
                                 />
                                 <div>

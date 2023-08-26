@@ -7,7 +7,7 @@ import {
 } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import Link from '#components/Link';
-import List from '#components/List';
+import Grid from '#components/Grid';
 import useTranslation from '#hooks/useTranslation';
 import UserContext from '#contexts/user';
 import RouteContext from '#contexts/route';
@@ -96,7 +96,6 @@ function HighlightedOperations(props: Props) {
     const rendererParams = useCallback(
         (_: number, emergency: EventListItem) => ({
             data: emergency,
-            className: styles.operation,
             subscriptionMap,
             pending: mePending,
             retriggerSubscription: retriggerUserDetails,
@@ -126,8 +125,7 @@ function HighlightedOperations(props: Props) {
                 </Link>
             )}
         >
-            <List
-                className={styles.emergencyList}
+            <Grid
                 data={featuredEmergencies}
                 pending={featuredEmergencyPending}
                 errored={isDefined(featuredEmergencyResponseError)}
@@ -135,6 +133,7 @@ function HighlightedOperations(props: Props) {
                 keySelector={keySelector}
                 renderer={OperationCard}
                 rendererParams={rendererParams}
+                numPreferredColumns={3}
             />
         </Container>
     );

@@ -32,7 +32,7 @@ function InputLabel(props: Props) {
             {children}
             {required && (
                 <span aria-hidden className={styles.required}>
-                    {' *'}
+                    *
                 </span>
             )}
         </div>

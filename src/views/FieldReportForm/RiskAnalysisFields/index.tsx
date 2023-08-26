@@ -50,7 +50,7 @@ function RiskAnalysisFields(props: Props) {
             <InputSection
                 title={strings.situationFieldsEWPotentiallyAffectedLabel}
                 description={strings.situationFieldsEWPotentiallyAffectedDescription}
-                threeColumn
+                numPreferredColumns={3}
             >
                 <NumberInput
                     label={strings.situationFieldsRCRC}
@@ -83,7 +83,7 @@ function RiskAnalysisFields(props: Props) {
             <InputSection
                 title={strings.situationFieldsEWHighestRiskLabel}
                 description={strings.situationFieldsEWHighestRiskDescription}
-                threeColumn
+                numPreferredColumns={3}
             >
                 <NumberInput
                     label={strings.situationFieldsRCRC}
@@ -116,7 +116,7 @@ function RiskAnalysisFields(props: Props) {
             <InputSection
                 title={strings.situationFieldsEWAffectedPopCenteresLabel}
                 description={strings.situationFieldsEWAffectedPopCenteresDescription}
-                threeColumn
+                numPreferredColumns={3}
             >
                 <TextInput
                     label={strings.situationFieldsRCRC}

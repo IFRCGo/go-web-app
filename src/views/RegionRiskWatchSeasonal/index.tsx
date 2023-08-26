@@ -726,6 +726,7 @@ export function Component() {
                     withHeaderBorder
                 >
                     {dataPending && <BlockLoading />}
+                    {/* FIXME: use List */}
                     {!dataPending && filteredData?.map(
                         (dataItem) => (
                             <div

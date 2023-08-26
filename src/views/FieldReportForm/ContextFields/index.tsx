@@ -236,7 +236,7 @@ function ContextFields(props: Props) {
             <InputSection
                 title={strings.disasterTypeLabel}
                 description={strings.disasterTypeDescription}
-                twoColumn
+                numPreferredColumns={2}
             >
                 <DisasterTypeSelectInput
                     name="dtype"
@@ -254,7 +254,7 @@ function ContextFields(props: Props) {
             <InputSection
                 title={startDateSectionTitle}
                 description={startDateSectionDescription}
-                twoColumn
+                numPreferredColumns={2}
             >
                 <DateInput
                     name="start_date"

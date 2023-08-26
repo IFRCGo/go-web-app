@@ -619,6 +619,7 @@ export function Component() {
                         </Tab>
                     </TabList>
                 )}
+                infoContainerClassName={styles.tabListContainer}
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
             >

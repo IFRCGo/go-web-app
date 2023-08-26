@@ -17,6 +17,16 @@
                 width: var(--go-ui-width-separator-md);
             }
 
+            @media screen and (max-width: 40rem) {
+                flex-direction: column;
+                gap: var(--go-ui-spacing-xs);
+
+                .separator {
+                    display: none;
+                }
+            }
+
+
             .answers-by-count {
                 display: flex;
                 gap: var(--go-ui-spacing-md);

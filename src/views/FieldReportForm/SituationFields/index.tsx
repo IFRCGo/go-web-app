@@ -109,7 +109,7 @@ function SituationFields(props: Props) {
                 <div className={styles.otherDetails}>
                     <InputSection
                         title={strings.fieldsStep2SourceOfFiguresLabel}
-                        twoColumn
+                        numPreferredColumns={2}
                     >
                         <SelectInput
                             name="epi_figures_source"
@@ -138,7 +138,7 @@ function SituationFields(props: Props) {
                     <InputSection
                         title={strings.fieldsStep2SituationFieldsDateEPILabel}
                         description={strings.fieldsStep2SituationFieldsDateEPIDescription}
-                        twoColumn
+                        numPreferredColumns={2}
                     >
                         <DateInput
                             name="sit_fields_date"
@@ -187,7 +187,7 @@ function SituationFields(props: Props) {
             >
                 <InputSection
                     title={sectionHeading}
-                    twoColumn
+                    numPreferredColumns={2}
                 >
                     <NumberInput
                         label={strings.fieldsStep2SituationFieldsEPICasesLabel}
@@ -243,7 +243,7 @@ function SituationFields(props: Props) {
                 <div className={styles.otherDetails}>
                     <InputSection
                         title={strings.fieldsStep2SourceOfFiguresLabel}
-                        twoColumn
+                        numPreferredColumns={2}
                     >
                         <SelectInput
                             name="epi_figures_source"
@@ -272,7 +272,7 @@ function SituationFields(props: Props) {
                     <InputSection
                         title={strings.fieldsStep2SituationFieldsDateEPILabel}
                         description={strings.fieldsStep2SituationFieldsDateEPIDescription}
-                        twoColumn
+                        numPreferredColumns={2}
                     >
                         <DateInput
                             name="sit_fields_date"
@@ -322,7 +322,7 @@ function SituationFields(props: Props) {
             <InputSection
                 title={strings.fieldsStep2SituationFieldsEVTInjuredLabel}
                 description={strings.fieldsStep2SituationFieldsEVTInjuredDescription}
-                threeColumn
+                numPreferredColumns={3}
             >
                 <NumberInput
                     label={strings.fieldsStep2SituationFieldsRCRC}
@@ -355,7 +355,7 @@ function SituationFields(props: Props) {
             <InputSection
                 title={strings.fieldsStep2SituationFieldsEVTDeadLabel}
                 description={strings.fieldsStep2SituationFieldsEVTDeadDescription}
-                threeColumn
+                numPreferredColumns={3}
             >
                 <NumberInput
                     label={strings.fieldsStep2SituationFieldsRCRC}
@@ -388,7 +388,7 @@ function SituationFields(props: Props) {
             <InputSection
                 title={strings.fieldsStep2SituationFieldsEVTMissingLabel}
                 description={strings.fieldsStep2SituationFieldsEVTMissingDescription}
-                threeColumn
+                numPreferredColumns={3}
             >
                 <NumberInput
                     label={strings.fieldsStep2SituationFieldsRCRC}
@@ -421,7 +421,7 @@ function SituationFields(props: Props) {
             <InputSection
                 title={strings.fieldsStep2SituationFieldsEVTAffectedLabel}
                 description={strings.fieldsStep2SituationFieldsEVTAffectedDescription}
-                threeColumn
+                numPreferredColumns={3}
             >
                 <NumberInput
                     label={strings.fieldsStep2SituationFieldsRCRC}
@@ -454,7 +454,7 @@ function SituationFields(props: Props) {
             <InputSection
                 title={strings.fieldsStep2SituationFieldsEVTDisplacedLabel}
                 description={strings.fieldsStep2SituationFieldsEVTDisplacedDescription}
-                threeColumn
+                numPreferredColumns={3}
             >
                 <NumberInput
                     label={strings.fieldsStep2SituationFieldsRCRC}

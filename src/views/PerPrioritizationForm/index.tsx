@@ -164,6 +164,9 @@ export function Component() {
                             { perId: String(perId) },
                         ),
                     );
+
+                    // Move the page position to top when moving on to next step
+                    window.scrollTo(0, 0);
                 }
             }
         },
@@ -342,7 +345,6 @@ export function Component() {
                 heading={strings.prioritizationHeading}
                 headingLevel={2}
                 withHeaderBorder
-                spacing="loose"
                 actions={(
                     <DropdownMenu
                         label={resolveToString(

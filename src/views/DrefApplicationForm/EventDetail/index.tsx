@@ -148,8 +148,6 @@ function EventDetail(props: Props) {
                     <InputSection
                         title={strings.drefFormLessonsLearnedTitle}
                         description={strings.drefFormLessonsLearnedDescription}
-                        oneColumn
-                        multiRow
                     >
                         <TextArea
                             name="lessons_learned"
@@ -196,8 +194,6 @@ function EventDetail(props: Props) {
                                 ? strings.drefFormWhatWhereWhen
                                 : strings.drefFormImminentDisaster
                         }
-                        oneColumn
-                        multiRow
                     >
                         <TextArea
                             name="event_description"
@@ -212,8 +208,6 @@ function EventDetail(props: Props) {
                     <InputSection
                         title={strings.drefFormTargetCommunities}
                         description={strings.drefFormTargetCommunitiesDescription}
-                        oneColumn
-                        multiRow
                     >
                         <TextArea
                             name="anticipatory_actions"
@@ -266,8 +260,6 @@ function EventDetail(props: Props) {
                     <InputSection
                         title={strings.drefFormScopeAndScaleEvent}
                         description={strings.drefFormScopeAndScaleDescription}
-                        oneColumn
-                        multiRow
                     >
                         <TextArea
                             name="event_scope"

@@ -121,7 +121,6 @@ export function Component() {
                     keySelector={keySelector}
                     renderer={OperationInfoCard}
                     rendererParams={rendererParams}
-                    withMessageOverContent
                 />
             </Container>
             <Container

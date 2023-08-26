@@ -3,14 +3,13 @@ import { _cs } from '@togglecorp/fujs';
 import { generatePath } from 'react-router-dom';
 
 import Container from '#components/Container';
-import List from '#components/List';
+import RawList from '#components/RawList';
 import Link from '#components/Link';
 import TextOutput from '#components/TextOutput';
-import Heading from '#components/Heading';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { type GoApiResponse } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
+import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -98,53 +97,41 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
             )}
             childrenContainerClassName={styles.figures}
         >
-            <div className={styles.figure}>
-                <Heading
-                    level={4}
-                    className={styles.heading}
-                >
-                    {resolveToString(
-                        strings.emergencyResponseUnitOwnerCardReady,
-                        { count: readyEmergencyResponseUnits.length },
-                    )}
-                </Heading>
-                {readyEmergencyResponseUnits.length > 0 && (
-                    <List
-                        className={styles.list}
-                        data={readyEmergencyResponseUnits}
-                        keySelector={emergencyResponseUnitKeySelector}
-                        renderer={TextOutput}
-                        errored={false}
-                        pending={false}
-                        filtered={false}
-                        rendererParams={rendererParams}
-                    />
+            <Container
+                className={styles.figure}
+                heading={resolveToString(
+                    strings.emergencyResponseUnitOwnerCardReady,
+                    { count: readyEmergencyResponseUnits.length },
                 )}
-            </div>
+                headingLevel={4}
+                childrenContainerClassName={styles.content}
+            >
+                <RawList
+                    data={readyEmergencyResponseUnits}
+                    keySelector={emergencyResponseUnitKeySelector}
+                    renderer={TextOutput}
+                    rendererParams={rendererParams}
+                />
+            </Container>
             <div className={styles.separator} />
-            <div className={styles.figure}>
-                <Heading
-                    level={4}
-                    className={styles.heading}
-                >
-                    {resolveToString(
-                        strings.emergencyResponseUnitOwnerCardDeployed,
-                        { count: deployedEmergencyResponseUnits.length },
-                    )}
-                </Heading>
+            <Container
+                className={styles.figure}
+                childrenContainerClassName={styles.content}
+                heading={resolveToString(
+                    strings.emergencyResponseUnitOwnerCardDeployed,
+                    { count: deployedEmergencyResponseUnits.length },
+                )}
+                headingLevel={4}
+            >
                 {deployedEmergencyResponseUnits.length > 0 && (
-                    <List
-                        className={styles.list}
+                    <RawList
                         data={deployedEmergencyResponseUnits}
                         keySelector={emergencyResponseUnitKeySelector}
                         renderer={TextOutput}
-                        errored={false}
-                        pending={false}
-                        filtered={false}
                         rendererParams={rendererDeployedParams}
                     />
                 )}
-            </div>
+            </Container>
         </Container>
     );
 }
