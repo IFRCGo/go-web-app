@@ -74,15 +74,15 @@ function Actions(props: Props) {
         disabled,
     } = props;
 
+    const [selectedNeed, setSelectedNeed] = useState<NeedOption['key'] | undefined>();
+    const [selectedNsAction, setSelectedNsAction] = useState<NsActionOption['key'] | undefined>();
+
     const strings = useTranslation(i18n);
 
     const {
         dref_national_society_action_title: nsActionOptions,
         dref_identified_need_title: needOptions,
     } = useGlobalEnums();
-
-    const [selectedNeed, setSelectedNeed] = useState<NeedOption['key'] | undefined>();
-    const [selectedNsAction, setSelectedNsAction] = useState<NsActionOption['key'] | undefined>();
 
     const error = getErrorObject(formError);
 
@@ -167,10 +167,6 @@ function Actions(props: Props) {
         [nsActionsMap, nsActionOptions],
     );
 
-    const hasMajorCoordinationMechanism = value.is_there_major_coordination_mechanism;
-
-    const didNsStartedAnyActions = value.did_national_society;
-
     const needsIdenfiedTitleDisplayMap = useMemo(
         () => (
             listToMap(
@@ -214,7 +210,7 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {didNsStartedAnyActions && (
+                {value.did_national_society && (
                     <InputSection
                         title={
                             value?.type_of_dref === TYPE_IMMINENT
@@ -362,7 +358,7 @@ function Actions(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {hasMajorCoordinationMechanism && (
+                {value.is_there_major_coordination_mechanism && (
                     <InputSection
                         description={strings.drefFormCoordinationMechanismDescription}
                     >

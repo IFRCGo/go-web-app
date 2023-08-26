@@ -45,7 +45,7 @@ import {
     TYPE_LOAN,
 } from '../common';
 import { type PartialDref } from '../schema';
-import ImageWithCaptionInput from '../ImageWithCaptionInput';
+import ImageWithCaptionInput from './ImageWithCaptionInput';
 import CopyFieldReportSection from './CopyFieldReportSection';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
@@ -131,12 +131,12 @@ function Overview(props: Props) {
         () => {
             const countryName = countryOptions?.find(
                 (country) => country.id === value?.country,
-            )?.name;
+            )?.name || '{Country}';
             const disasterName = disasterTypes?.find(
                 (disasterType) => disasterType.id === value?.disaster_type,
-            )?.name;
+            )?.name || '{Disaster}';
             const currentYear = new Date().getFullYear();
-            // FIXME: we should only set title when all of these variables are defined
+
             const title = `${countryName} ${disasterName} ${currentYear}`;
             setFieldValue(title, 'title');
         },
@@ -148,14 +148,6 @@ function Overview(props: Props) {
             setFieldValue,
         ],
     );
-
-    const shouldDisableGenerateTitle = isNotDefined(value?.country)
-        || isNotDefined(value?.disaster_type)
-        || isNotDefined(disasterTypes);
-
-    const showManMadeEventInput = value?.disaster_type === DISASTER_FIRE
-        || value?.disaster_type === DISASTER_FLASH_FLOOD
-        || value?.disaster_type === DISASTER_FLOOD;
 
     const error = getErrorObject(formError);
 
@@ -244,18 +236,21 @@ function Overview(props: Props) {
                     error={error?.type_of_onset}
                     disabled={disabled}
                 />
-                {showManMadeEventInput ? (
-                    <BooleanInput
-                        name="is_man_made_event"
-                        label={strings.drefFormManMadeEvent}
-                        value={value?.is_man_made_event}
-                        onChange={setFieldValue}
-                        error={error?.is_man_made_event}
-                        disabled={disabled}
-                    />
-                ) : (
-                    <div />
-                )}
+                {(value?.disaster_type === DISASTER_FIRE
+                    || value?.disaster_type === DISASTER_FLASH_FLOOD
+                    || value?.disaster_type === DISASTER_FLOOD)
+                    ? (
+                        <BooleanInput
+                            name="is_man_made_event"
+                            label={strings.drefFormManMadeEvent}
+                            value={value?.is_man_made_event}
+                            onChange={setFieldValue}
+                            error={error?.is_man_made_event}
+                            disabled={disabled}
+                        />
+                    ) : (
+                        <div />
+                    )}
                 <SelectInput
                     name="disaster_category"
                     label={(
@@ -324,7 +319,12 @@ function Overview(props: Props) {
                     name={undefined}
                     variant="secondary"
                     onClick={handleGenerateTitleButtonClick}
-                    disabled={shouldDisableGenerateTitle || disabled}
+                    disabled={(
+                        disabled
+                        || isNotDefined(value?.country)
+                        || isNotDefined(value?.disaster_type)
+                        || isNotDefined(disasterTypes)
+                    )}
                 >
                     {strings.drefFormGenerateTitle}
                 </Button>

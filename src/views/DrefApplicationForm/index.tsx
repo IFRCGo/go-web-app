@@ -213,9 +213,11 @@ export function Component() {
                 national_society_actions: national_society_actions?.map(injectClientId),
                 risk_security: risk_security?.map(injectClientId),
                 event_map_file: isDefined(event_map_file)
-                    ? injectClientId(event_map_file) : undefined,
+                    ? injectClientId(event_map_file)
+                    : undefined,
                 cover_image_file: isDefined(cover_image_file)
-                    ? injectClientId(cover_image_file) : undefined,
+                    ? injectClientId(cover_image_file)
+                    : undefined,
                 images_file: images_file?.map(injectClientId),
             });
         },
@@ -250,7 +252,7 @@ export function Component() {
             debugMessage,
         }) => {
             // TODO: verify formErrors
-            setError(formErrors);
+            // setError(formErrors);
 
             if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
                 setShowObsoletePayloadModal(true);
@@ -296,7 +298,7 @@ export function Component() {
             debugMessage,
         }) => {
             // TODO: verify formErrors
-            setError(formErrors);
+            // setError(formErrors);
 
             if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
                 setShowObsoletePayloadModal(true);
@@ -315,6 +317,7 @@ export function Component() {
 
     const handleFormSubmit = useCallback(
         (modifiedAt?: string) => {
+            // FIXME: use createSubmitHandler
             const result = validate();
             if (result.errored) {
                 setError(result.error);
@@ -335,6 +338,7 @@ export function Component() {
         },
         [validate, setError, updateDref, createDref, drefId],
     );
+
     const handleObsoletePayloadOverwiteButtonClick = useCallback(
         (newModifiedAt: string | undefined) => {
             setShowObsoletePayloadModal(false);

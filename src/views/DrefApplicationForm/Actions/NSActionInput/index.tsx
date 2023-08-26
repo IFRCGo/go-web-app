@@ -1,9 +1,9 @@
 import { isDefined } from '@togglecorp/fujs';
 import {
-    ArrayError,
+    type ArrayError,
     useFormObject,
     getErrorObject,
-    SetValueArg,
+    type SetValueArg,
 } from '@togglecorp/toggle-form';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 
@@ -11,7 +11,7 @@ import TextArea from '#components/TextArea';
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
 
-import { PartialDref } from '../../schema';
+import { type PartialDref } from '../../schema';
 
 import styles from './styles.module.css';
 

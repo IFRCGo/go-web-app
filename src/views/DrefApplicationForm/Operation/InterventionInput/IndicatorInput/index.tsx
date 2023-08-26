@@ -1,9 +1,9 @@
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 import {
-    ArrayError,
+    type ArrayError,
     getErrorObject,
     useFormObject,
-    SetValueArg,
+    type SetValueArg,
 } from '@togglecorp/toggle-form';
 
 import Button from '#components/Button';

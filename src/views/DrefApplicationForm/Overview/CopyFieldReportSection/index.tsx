@@ -65,7 +65,10 @@ function CopyFieldReportSection(props: Props) {
             }
 
             setFieldReportOptions(
-                (oldOptions) => unique([...(oldOptions ?? []), fr], (option) => option.id),
+                (oldOptions) => unique(
+                    [...(oldOptions ?? []), fr],
+                    (option) => option.id,
+                ),
             );
         },
     });
