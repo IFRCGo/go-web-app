@@ -17,6 +17,7 @@
         "flashUpdateFormContextGraphicDescription":"Upload any supportive graphics",
         "flashUpdateFormContextReferenceDescription":"Upload any supportive links or documents",
         "flashUpdateFormContextReferenceAddButtonLabel":"Add Reference",
+        "flashUpdateFormGenerateButtonLabel":"Generate",
         "flashUpdateFormContextSituationalDescription":"Brief overview of the current situation and the anticipated disaster."
     }
 }

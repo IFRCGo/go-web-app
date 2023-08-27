@@ -1,3 +1,4 @@
+import { isDefined } from '@togglecorp/fujs';
 import {
     PartialForm,
     ArraySchema,
@@ -6,9 +7,9 @@ import {
     emailCondition,
     addCondition,
 } from '@togglecorp/toggle-form';
-import { isDefined } from '@togglecorp/fujs';
 
 import { type GoApiBody } from '#utils/restRequest';
+import { getDuplicates } from '#utils/common';
 
 export type FlashUpdateBody = GoApiBody<'/api/v2/flash-update/{id}/', 'PUT'>;
 type CountryDistrictRaw = NonNullable<NonNullable<FlashUpdateBody['country_district']>>[number];
@@ -92,6 +93,12 @@ const finalSchema: FormSchema = {
                         caption: {},
                     }),
                 }),
+                validation: (val) => {
+                    if ((val?.length ?? 0) > 3) {
+                        return 'More than 3 graphics are not allowed';
+                    }
+                    return undefined;
+                },
             },
             map_files: {
                 keySelector: (mapFile) => mapFile.client_id,
@@ -102,6 +109,12 @@ const finalSchema: FormSchema = {
                         caption: {},
                     }),
                 }),
+                validation: (val) => {
+                    if ((val?.length ?? 0) > 3) {
+                        return 'More than 3 maps are not allowed';
+                    }
+                    return undefined;
+                },
             },
             references: {
                 keySelector: (reference) => reference.client_id,
@@ -136,11 +149,6 @@ const finalSchema: FormSchema = {
             ['country_district'] as const,
             ['country_district'] as const,
             (): Pick<FormSchemaFields, 'country_district'> => ({
-                /*
-                TODO: Add unique condition for country list
-                const countryIds = val?.country_district
-                    ?.map((country) => country.country).filter(isDefined);
-                */
                 country_district: {
                     keySelector: (country) => country.client_id,
                     member: (): CountryDistrictsSchemaMember => ({
@@ -154,32 +162,26 @@ const finalSchema: FormSchema = {
                             district: { defaultValue: [] },
                         }),
                     }),
-                    // validation: [lengthSmallerThanCondition(11)],
+                    validation: (val) => {
+                        if ((val?.length ?? 0) > 10) {
+                            return 'More than 10 countries are not allowed';
+                        }
+                        const dups = getDuplicates(
+                            (val ?? []).map((item) => item.country).filter(isDefined),
+                            (item) => item,
+                            (count) => count > 1,
+                        );
+                        if (dups.length >= 1) {
+                            return 'Duplicate countries are not allowed';
+                        }
+
+                        return undefined;
+                    },
                 },
             }),
         );
 
         return schema;
-    },
-    validation: (value) => {
-        const errors = [];
-        if ((value?.country_district?.length ?? 0) > 10) {
-            errors.push('More that 10 countries are not allowed');
-        }
-
-        if ((value?.graphics_files?.length ?? 0) > 3) {
-            errors.push('More that 3 graphics are not allowed');
-        }
-
-        if ((value?.map_files?.length ?? 0) > 3) {
-            errors.push('More that 3 maps are not allowed');
-        }
-
-        if (errors.length > 0) {
-            return errors.join(', ');
-        }
-
-        return undefined;
     },
 };
 

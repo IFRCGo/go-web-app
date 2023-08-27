@@ -1,9 +1,12 @@
 import {
     useCallback,
+    useMemo,
     type SetStateAction,
     type Dispatch,
 } from 'react';
 import {
+    isDefined,
+    listToMap,
     randomString,
 } from '@togglecorp/fujs';
 import {
@@ -18,8 +21,11 @@ import InputSection from '#components/InputSection';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import RichTextArea from '#components/parked/RichTextArea';
 import useTranslation from '#hooks/useTranslation';
+import useCountry from '#hooks/domain/useCountry';
+import useDisasterType from '#hooks/domain/useDisasterType';
 import TextInput from '#components/TextInput';
 import Button from '#components/Button';
+import NonFieldError from '#components/NonFieldError';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 
 import i18n from './i18n.json';
@@ -104,7 +110,6 @@ function ContextTab(props: Props) {
         );
     }, [onValueChange]);
 
-    /*
     const countryOptions = useCountry();
     const countryTitleMapById = useMemo(() => (
         listToMap(
@@ -114,9 +119,11 @@ function ContextTab(props: Props) {
         )
     ), [countryOptions]);
     const disasterOptions = useDisasterType();
-    const generateTitle = useCallback((countries: number[], disaster: number) => {
-        const countriesTitles = countries
-            .map((country) => countryTitleMapById[country])
+
+    const handleTitleGenerateButtonClick = useCallback(() => {
+        const countriesTitles = value.country_district
+            ?.map((country) => (country.country ? countryTitleMapById[country.country] : undefined))
+            .filter(isDefined)
             .join(' - ');
 
         const now = new Date();
@@ -124,14 +131,16 @@ function ContextTab(props: Props) {
         const yyyy = now.getFullYear().toString();
 
         const date = `${mm}/${yyyy}`;
-        const selectedHazard = disasterOptions?.find((item) => item.id === disaster);
+        const selectedHazard = disasterOptions?.find((item) => item.id === value?.hazard_type);
 
-        return (`${countriesTitles} - ${selectedHazard?.name}  ${date}`);
+        onValueChange(`${countriesTitles} - ${selectedHazard?.name}  ${date}`, 'title');
     }, [
-        countryTitleMapById,
         disasterOptions,
+        countryTitleMapById,
+        value?.country_district,
+        value?.hazard_type,
+        onValueChange,
     ]);
-    */
 
     return (
         <Container
@@ -143,6 +152,7 @@ function ContextTab(props: Props) {
                 multiRow
                 oneColumn
             >
+                <NonFieldError error={getErrorObject(error?.country_district)} />
                 {value.country_district?.map((countryDistrict, index) => (
                     <CountryProvinceInput
                         key={countryDistrict.client_id}
@@ -190,6 +200,16 @@ function ContextTab(props: Props) {
                     value={value.title}
                     onChange={onValueChange}
                     error={error?.title}
+                    actions={(
+                        <Button
+                            name={undefined}
+                            disabled={!value.country_district || !value.hazard_type}
+                            onClick={handleTitleGenerateButtonClick}
+                            variant="tertiary"
+                        >
+                            {strings.flashUpdateFormGenerateButtonLabel}
+                        </Button>
+                    )}
                     placeholder={strings.flashUpdateFormContextTitlePlaceholder}
                     disabled={disabled}
                 />

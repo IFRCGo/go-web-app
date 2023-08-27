@@ -14,6 +14,7 @@ import {
 } from '@togglecorp/fujs';
 
 import IconButton from '#components/IconButton';
+import NonFieldError from '#components/NonFieldError';
 import GoMultiFileInput, {
     type SupportedPaths,
 } from '#components/domain/GoMultiFileInput';
@@ -118,6 +119,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
 
     return (
         <div className={_cs(styles.multiImageWithCaptionInput, className)}>
+            <NonFieldError error={error} />
             <GoMultiFileInput
                 name="id"
                 accept="image/*"

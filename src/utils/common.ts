@@ -1,5 +1,6 @@
 import {
     isDefined,
+    listToMap,
     isNotDefined,
     isFalsyString,
     caseInsensitiveSubmatch,
@@ -100,6 +101,22 @@ export function avgSafe(list: UnsafeNumberList) {
 
     const listSum = sum(safeList);
     return listSum / safeList.length;
+}
+
+export function getDuplicates<T, K extends string | number>(
+    list: T[],
+    keySelector: (item: T) => K,
+    filter: (count: number) => boolean = (count) => count > 1,
+) {
+    const counts = listToMap<T, number, K>(
+        list,
+        keySelector,
+        (_, key, __, acc) => {
+            const value: number | undefined = acc[key];
+            return isDefined(value) ? value + 1 : 1;
+        },
+    );
+    return Object.keys(counts).filter((key) => filter(counts[key as K]));
 }
 
 export function isObject(foo: unknown): foo is object {
