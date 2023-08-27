@@ -1,0 +1,31 @@
+.active-dref-table {
+    .filters {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    }
+
+    .table {
+        .date {
+            width: 7rem;
+        }
+
+        .appeal-code {
+            width: 8rem;
+        }
+
+        .title {
+            width: 0%;
+            min-width: 8rem;
+        }
+
+        .stage {
+            width: 8rem;
+        }
+
+        .sub-cell {
+            border-bottom: unset;
+            background-color: var(--go-ui-color-gray-20);
+        }
+    }
+}

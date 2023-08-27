@@ -1,0 +1,13 @@
+{
+    "namespace": "accountDrefApplications",
+    "strings": {
+        "activeDrefTitle": "Active DREF Operations",
+        "activeDrefTableCreatedHeading": "Created",
+        "activeDrefTableAppealCodeHeading": "Appeal code",
+        "activeDrefTableTitleHeading": "Title",
+        "activeDrefTableStageHeading": "Stage",
+        "activeDrefTableTypeOfDrefHeading": "Type of DREF",
+        "activeDrefTableCountryHeading": "Country",
+        "activeDrefTableStatusHeading": "Status"
+    }
+}

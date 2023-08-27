@@ -405,3 +405,39 @@ export function denormalizeList<ListItem, SecondaryListItem, ReturnType>(
 
     return newList;
 }
+
+export function hasSomeDefinedValue(item: unknown) {
+    if (isNotDefined(item)) {
+        return false;
+    }
+
+    if (typeof item === 'boolean') {
+        return true;
+    }
+
+    if (typeof item === 'number') {
+        return !Number.isNaN(item);
+    }
+
+    if (typeof item === 'string') {
+        return isTruthyString(item.trim());
+    }
+
+    if (Array.isArray(item)) {
+        if (item.length === 0) {
+            return false;
+        }
+
+        return item.some(hasSomeDefinedValue);
+    }
+
+    if (typeof item === 'object') {
+        if (!item) {
+            return false;
+        }
+
+        return Object.values(item).some(hasSomeDefinedValue);
+    }
+
+    return false;
+}

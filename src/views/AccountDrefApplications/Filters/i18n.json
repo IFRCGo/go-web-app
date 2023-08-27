@@ -1,0 +1,9 @@
+{
+    "namespace": "accountDrefApplications",
+    "strings": {
+        "filterCountryPlaceholder": "All countries",
+        "filterTypeOfDrefPlaceholder": "All type of DREFs",
+        "filterDisasterTypePlaceholder": "All disaster types",
+        "filterAppealCodePlaceholder": "Search appeal code"
+    }
+}

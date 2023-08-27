@@ -65,8 +65,7 @@
         --color-text: var(--go-ui-color-white);
 
         &.disabled {
-            --color-border: var(--go-ui-color-gray-40);
-            --color-background: var(--go-ui-color-gray-40);
+            filter: saturate(50%);
         }
 
         &:not(.disabled) {
@@ -82,8 +81,7 @@
         --color-text: var(--go-ui-color-primary-red);
 
         &.disabled {
-            --color-text: var(--go-ui-color-gray-40);
-            --color-border: var(--go-ui-color-gray-40);
+            filter: saturate(50%);
         }
 
         &:not(.disabled) {

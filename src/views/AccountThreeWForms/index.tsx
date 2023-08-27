@@ -278,10 +278,7 @@ export function Component(props: Props) {
     );
 
     return (
-        <Container
-            className={_cs(styles.threeWList, className)}
-            childrenContainerClassName={styles.mainContent}
-        >
+        <div className={_cs(styles.threeWList, className)}>
             <Container
                 heading={strings.threeWProjects}
                 withHeaderBorder
@@ -324,7 +321,7 @@ export function Component(props: Props) {
                     filtered={false}
                 />
             </Container>
-        </Container>
+        </div>
     );
 }
 

@@ -105,7 +105,7 @@ function Header(props: Props) {
         className: headingSectionClassName,
         icons,
         iconsContainerClassName,
-        noWrap: !wrapHeadingContent,
+        withoutWrap: !wrapHeadingContent,
     });
 
     if (!content && !children) {
