@@ -1,0 +1,22 @@
+{
+    "namespace": "fieldReportDetails",
+    "strings": {
+        "earlyPotentiallyAffectedRCLabel": "Potentiall Affected (RC)",
+        "earlyPotentiallyAffectedGovernmentLabel": "Potentially Affected (Government)",
+        "earlyPotentiallyAffectedOtherLabel": "Potentially Affected (Other)",
+        "earlyPeopleAtHighestRiskRcLabel": "People at Highest Risk (RC)",
+        "earlyPeopleAtHighestRiskGovernmentLabel": "People at Highest Risk (Government)",
+        "earlyPeopleAtHighestRiskOtherLabel": "People at Highest Risk (Other)",
+        "earlyAffectedPopCentresRCLabel": "Affected Pop Centres (RC)",
+        "earlyAffectedGovernmentLabel": "Affected (Government)",
+        "earlyAffectedPopCentersOtherLabel": "Affected Pop Centres (Other)",
+        "earlyAssistedRCLabel": "Assisted (RC)",
+        "earlyAssistedRCGovernmentLabel": "Assisted (Government)",
+        "earlyAssistedOtherLabel": "Assisted (Other)",
+        "earlySourceForDataMarkedLabel": "Sources for data marked as Other",
+        "earlyRiskAnalysis": "Risk Analysis",
+        "earlyVisibilityLabel": "Visibility",
+        "earlyForecastedDateOfImpact":"Forecasted Date of Impact",
+        "earlyReportDateLabel": "Report Date Label"
+    }
+}

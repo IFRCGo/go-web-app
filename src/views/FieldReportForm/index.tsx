@@ -41,6 +41,16 @@ import { resolveToString } from '#utils/translation';
 import { formatDate } from '#utils/common';
 import { useRequest, useLazyRequest } from '#utils/restRequest';
 import RouteContext from '#contexts/route';
+import {
+    type FieldReportStatusEnum,
+    type ReportType,
+    type OrganizationType,
+    FIELD_REPORT_STATUS_EARLY_WARNING,
+    FIELD_REPORT_STATUS_EVENT,
+    VISIBILITY_PUBLIC,
+    BULLETIN_PUBLISHED_NO,
+    DISASTER_TYPE_EPIDEMIC,
+} from '#utils/constants';
 
 import ContextFields from './ContextFields';
 import RiskAnalysisFields from './RiskAnalysisFields';
@@ -53,25 +63,21 @@ import {
     reportSchema,
     transformAPIFieldsToFormFields,
     transformFormFieldsToAPIFields,
-    type Status,
-    type ReportType,
     type FieldReportBody,
     type PartialFormValue,
     type FormValue,
-    type OrganizationType,
-    STATUS_EARLY_WARNING,
-    STATUS_EVENT,
-    VISIBILITY_PUBLIC,
-    BULLETIN_PUBLISHED_NO,
-    DISASTER_TYPE_EPIDEMIC,
 } from './common';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
 type TabKeys = 'context' | 'situation' | 'risk-analysis' | 'actions' | 'early-actions' | 'response';
 
-function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undefined) {
-    if (status === STATUS_EVENT && direction === 1) {
+function getNextStep(
+    current: TabKeys,
+    direction: 1 | -1,
+    status: FieldReportStatusEnum | undefined,
+) {
+    if (status === FIELD_REPORT_STATUS_EVENT && direction === 1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             context: 'situation',
             situation: 'actions',
@@ -79,7 +85,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undef
         };
         return mapping[current];
     }
-    if (status === STATUS_EVENT && direction === -1) {
+    if (status === FIELD_REPORT_STATUS_EVENT && direction === -1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             response: 'actions',
             actions: 'situation',
@@ -87,7 +93,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undef
         };
         return mapping[current];
     }
-    if (status === STATUS_EARLY_WARNING && direction === 1) {
+    if (status === FIELD_REPORT_STATUS_EARLY_WARNING && direction === 1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             context: 'risk-analysis',
             'risk-analysis': 'early-actions',
@@ -95,7 +101,7 @@ function getNextStep(current: TabKeys, direction: 1 | -1, status: Status | undef
         };
         return mapping[current];
     }
-    if (status === STATUS_EARLY_WARNING && direction === -1) {
+    if (status === FIELD_REPORT_STATUS_EARLY_WARNING && direction === -1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             response: 'early-actions',
             'early-actions': 'risk-analysis',
@@ -142,7 +148,7 @@ export function Component() {
         reportSchema,
         {
             value: {
-                status: STATUS_EVENT,
+                status: FIELD_REPORT_STATUS_EVENT,
                 is_covid_report: false,
                 visibility: VISIBILITY_PUBLIC,
                 bulletin: BULLETIN_PUBLISHED_NO,
@@ -498,7 +504,7 @@ export function Component() {
     }, [reviewCountryResponse, value.country]);
 
     const reportType: ReportType = useMemo(() => {
-        if (value.status === STATUS_EARLY_WARNING) {
+        if (value.status === FIELD_REPORT_STATUS_EARLY_WARNING) {
             return 'EW';
         }
 
@@ -574,7 +580,7 @@ export function Component() {
                         >
                             {strings.formItemContextLabel}
                         </Tab>
-                        {value.status === STATUS_EARLY_WARNING && (
+                        {value.status === FIELD_REPORT_STATUS_EARLY_WARNING && (
                             <Tab
                                 name="risk-analysis"
                                 step={2}
@@ -584,7 +590,7 @@ export function Component() {
                                 {strings.formItemRiskAnalysisLabel}
                             </Tab>
                         )}
-                        {value.status === STATUS_EVENT && (
+                        {value.status === FIELD_REPORT_STATUS_EVENT && (
                             <Tab
                                 name="situation"
                                 step={2}
@@ -594,7 +600,7 @@ export function Component() {
                                 {strings.formItemSituationLabel}
                             </Tab>
                         )}
-                        {value.status === STATUS_EARLY_WARNING && (
+                        {value.status === FIELD_REPORT_STATUS_EARLY_WARNING && (
                             <Tab
                                 name="early-actions"
                                 step={3}
@@ -604,7 +610,7 @@ export function Component() {
                                 {strings.formItemEarlyActionsLabel}
                             </Tab>
                         )}
-                        {value.status === STATUS_EVENT && (
+                        {value.status === FIELD_REPORT_STATUS_EVENT && (
                             <Tab
                                 name="actions"
                                 step={3}

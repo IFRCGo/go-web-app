@@ -56,7 +56,7 @@ export function Component() {
 
     const {
         emergency: emergencyRoute,
-        fieldReportFormEdit: fieldReportFormEditRoute,
+        fieldReportDetails: fieldReportDetailsRoute,
     } = useContext(RouteContext);
 
     const columns = useMemo(
@@ -77,9 +77,11 @@ export function Component() {
                 (item) => ({
                     sortable: true,
                     columnClassName: styles.summary,
-                    // FIXME: need to direct to details page instead
                     to: isDefined(item.id)
-                        ? generatePath(fieldReportFormEditRoute.absolutePath, { reportId: item.id })
+                        ? generatePath(
+                            fieldReportDetailsRoute.absolutePath,
+                            { fieldReportId: item.id },
+                        )
                         : undefined,
                 }),
             ),
@@ -105,7 +107,7 @@ export function Component() {
                 (item) => item.countries_details,
             ),
         ]),
-        [strings, emergencyRoute, fieldReportFormEditRoute],
+        [strings, emergencyRoute, fieldReportDetailsRoute],
     );
 
     let ordering;

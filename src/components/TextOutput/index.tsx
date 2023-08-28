@@ -1,6 +1,7 @@
 import { _cs } from '@togglecorp/fujs';
 
 import NumberOutput, { Props as NumberOutputProps } from '#components/NumberOutput';
+import BooleanOutput, { Props as BooleanOutputProps } from '#components/BooleanOutput';
 import DateOutput, { Props as DateOutputProps } from '#components/DateOutput';
 
 import styles from './styles.module.css';
@@ -20,6 +21,10 @@ interface BaseProps {
     invalidText?: React.ReactNode;
 }
 
+interface BooleanProps extends BooleanOutputProps {
+    valueType: 'boolean',
+}
+
 interface NumberProps extends NumberOutputProps {
     valueType: 'number',
 }
@@ -34,7 +39,7 @@ interface NodeProps {
 }
 
 type Props = BaseProps & (
-    NodeProps | DateProps | NumberProps
+    NodeProps | DateProps | NumberProps | BooleanProps
 );
 
 function TextOutput(props: Props) {
@@ -68,6 +73,14 @@ function TextOutput(props: Props) {
     } else if (otherProps.valueType === 'date') {
         valueComponent = (
             <DateOutput
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...otherProps}
+                invalidText={invalidText}
+            />
+        );
+    } else if (otherProps.valueType === 'boolean') {
+        valueComponent = (
+            <BooleanOutput
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...otherProps}
                 invalidText={invalidText}

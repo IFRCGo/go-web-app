@@ -1,0 +1,79 @@
+.field-report-details {
+    .description {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        gap: var(--go-ui-spacing-sm);
+
+        .basic-info {
+            display: inline-flex;
+            font-size: var(--go-ui-font-size-lg);
+            font-weight: var(--go-ui-font-weight-medium);
+            gap: var(--go-ui-spacing-lg);
+
+            .separator {
+                flex-shrink: 0;
+                background-color: var(--go-ui-color-separator);
+                width: var(--go-ui-width-separator-md);
+                height: 1.5rem;
+            }
+
+            .title-link {
+                text-align: left;
+            }
+        }
+
+        .latest-updated-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+            color: var(--go-ui-color-text-light);
+            gap: var(--go-ui-spacing-sm);
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-3xl);
+
+        .basic-details {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        }
+
+        .numeric-details {
+            display: grid;
+            grid-gap: var(--go-ui-spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        }
+
+        .actions-taken {
+            .action-category {
+                display: flex;
+                align-items: center;
+                gap: var(--go-ui-spacing-sm);
+
+                .icon {
+                    font-size: var(--go-ui-font-size-icon-multiplier);
+                }
+            }
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .contact {
+                .type {
+                    font-weight: var(--go-ui-font-weight-bold);
+                }
+            }
+        }
+    }
+}
+

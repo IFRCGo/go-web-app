@@ -1,0 +1,31 @@
+{
+    "namespace": "fieldReportDetails",
+    "strings": {
+        "fieldReportTitle": "IFRC GO - Field Report Details",
+        "editReportButtonLabel": "Edit Report",
+        "lastUpdatedByLabel": "Last updated by {user} on {date} ({region} - {district})",
+        "numericDetailsTitle": "Numeric Details (People)",
+        "riskAnalysisTitle": "Risk Analysis",
+        "descriptionTitle": "Description",
+        "covidFieldReportLabel": "COVID-19 Field Report",
+        "visibilityLabel": "Visibility",
+        "startDateLabel": "Start Date",
+        "forecastedDateLabel": "Forecasted Date of Impact",
+        "reportDateLabel": "Report Date",
+        "requestForAssistanceHeading": "Request For Assistance",
+        "governmentAssistanceLabel": "Government Requests International Assistance",
+        "nsAssistanceLabel": "NS Requests International Assistance",
+        "informationBulletinPublishedLabel": "Information Bulletin Published",
+        "actionsTakenByOthersHeading": "Actions taken by others",
+        "actionsTakenHeading": "Actions taken by {organization}",
+        "externalPartnersLabel": "External partners",
+        "supportedActivitiesLabel": "Supported activities",
+        "plannedResponsesLabel": "Planned International Response",
+        "contactTitle": "Contacts",
+        "sourcesTitle": "Sources",
+        "sourcesForDataMarkedLabel": "Sources for data marked as Other",
+        "epiSource": "Source",
+        "notesLabel": "Notes",
+        "dateOfData": "Date of Data"
+    }
+}

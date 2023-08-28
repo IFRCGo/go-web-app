@@ -19,15 +19,15 @@ import DisasterTypeSelectInput, { type DisasterTypeItem } from '#components/doma
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import EventElasticSearchSelectInput, { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
-
 import {
     DISASTER_TYPE_EPIDEMIC,
-    STATUS_EARLY_WARNING,
-    STATUS_EVENT,
-    type PartialFormValue,
+    FIELD_REPORT_STATUS_EARLY_WARNING,
+    FIELD_REPORT_STATUS_EVENT,
     type ReportType,
-    type Status,
-} from '../common';
+    type FieldReportStatusEnum,
+} from '#utils/constants';
+
+import { type PartialFormValue } from '../common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -71,15 +71,15 @@ function ContextFields(props: Props) {
 
     // FIXME: memoize this
     const statusOptions = api_field_report_status?.filter((item) => (
-        item.key === STATUS_EARLY_WARNING || item.key === STATUS_EVENT
+        item.key === FIELD_REPORT_STATUS_EARLY_WARNING || item.key === FIELD_REPORT_STATUS_EVENT
     ));
 
     // FIXME: memoize this
-    const statusDescriptionSelector = ({ key }: { key: Status }) => {
-        if (key === STATUS_EARLY_WARNING) {
+    const statusDescriptionSelector = ({ key }: { key: FieldReportStatusEnum }) => {
+        if (key === FIELD_REPORT_STATUS_EARLY_WARNING) {
             return strings.statusEarlyWarningDescription;
         }
-        if (key === STATUS_EVENT) {
+        if (key === FIELD_REPORT_STATUS_EVENT) {
             return strings.statusEventDescription;
         }
         return '';
@@ -145,9 +145,9 @@ function ContextFields(props: Props) {
     );
 
     const handleStatusChange = useCallback(
-        (val: Status, name: 'status') => {
+        (val: FieldReportStatusEnum, name: 'status') => {
             onValueChange(val, name);
-            if (val === STATUS_EARLY_WARNING) {
+            if (val === FIELD_REPORT_STATUS_EARLY_WARNING) {
                 onValueChange(false, 'is_covid_report');
                 if (value.dtype === DISASTER_TYPE_EPIDEMIC) {
                     onValueChange(undefined, 'dtype');
@@ -188,7 +188,7 @@ function ContextFields(props: Props) {
                     value={value.is_covid_report}
                     onChange={handleIsCovidReportChange}
                     error={error?.is_covid_report}
-                    disabled={value.status === STATUS_EARLY_WARNING || disabled}
+                    disabled={value.status === FIELD_REPORT_STATUS_EARLY_WARNING || disabled}
                 />
             </InputSection>
 
@@ -241,7 +241,7 @@ function ContextFields(props: Props) {
                 <DisasterTypeSelectInput
                     name="dtype"
                     optionsFilter={(
-                        value.status === STATUS_EARLY_WARNING
+                        value.status === FIELD_REPORT_STATUS_EARLY_WARNING
                             ? isNotEpidemic
                             : undefined
                     )}

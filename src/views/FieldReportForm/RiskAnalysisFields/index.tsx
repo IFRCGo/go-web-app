@@ -12,9 +12,7 @@ import NumberInput from '#components/NumberInput';
 import TextArea from '#components/TextArea';
 import useTranslation from '#hooks/useTranslation';
 
-import {
-    type PartialFormValue,
-} from '../common';
+import { type PartialFormValue } from '../common';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 

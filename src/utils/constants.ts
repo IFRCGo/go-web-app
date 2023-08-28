@@ -2,13 +2,6 @@ import {
     components,
 } from '#generated/types';
 
-type OperationTypeEnum = components['schemas']['OperationTypeEnum'];
-type StatusTypeEnum = components['schemas']['Key1d2Enum'];
-type ProgrammeTypeEnum = components['schemas']['Key1d2Enum'];
-// FIXME: This is the same as OperationType. Needs to be fixed in the server
-type DrefStatus = components['schemas']['OperationTypeEnum'];
-type SubscriptionRecordTypeEnum = components['schemas']['RtypeEnum'];
-
 export const DEFAULT_DATE_FORMAT = 'dd-MM-yyyy';
 
 // Alert
@@ -64,25 +57,30 @@ export const COLOR_PRIMARY_RED = '#f5333f';
 
 // Three W
 
+type OperationTypeEnum = components['schemas']['OperationTypeEnum'];
 export const OPERATION_TYPE_PROGRAMME = 0 satisfies OperationTypeEnum;
 export const OPERATION_TYPE_EMERGENCY = 1 satisfies OperationTypeEnum;
-// FIXME: Remove this multi thing
 export const OPERATION_TYPE_MULTI = -1;
 
+type ProgrammeTypeEnum = components['schemas']['Key1d2Enum'];
 export const PROGRAMME_TYPE_MULTILATERAL = 1 satisfies ProgrammeTypeEnum;
 export const PROGRAMME_TYPE_DOMESTIC = 2 satisfies ProgrammeTypeEnum;
 export const PROGRAMME_TYPE_BILATERAL = 0 satisfies ProgrammeTypeEnum;
 
+type StatusTypeEnum = components['schemas']['Key1d2Enum'];
 export const PROJECT_STATUS_COMPLETED = 2 satisfies StatusTypeEnum;
 export const PROJECT_STATUS_ONGOING = 1 satisfies StatusTypeEnum;
 export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
 
 // DREF
 
+// FIXME: This is the same as OperationType. Needs to be fixed in the server
+type DrefStatus = components['schemas']['OperationTypeEnum'];
 export const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
 export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;
 
 // Subscriptions
+type SubscriptionRecordTypeEnum = components['schemas']['RtypeEnum'];
 export const SUBSCRIPTION_SURGE_ALERT = 3 satisfies SubscriptionRecordTypeEnum;
 export const SUBSCRIPTION_COUNTRY = 4 satisfies SubscriptionRecordTypeEnum;
 export const SUBSCRIPTION_REGION = 5 satisfies SubscriptionRecordTypeEnum;
@@ -94,3 +92,33 @@ export const SUBSCRIPTION_WEEKLY_DIGEST = 11 satisfies SubscriptionRecordTypeEnu
 export const SUBSCRIPTION_NEW_EMERGENCIES = 12 satisfies SubscriptionRecordTypeEnum;
 export const SUBSCRIPTION_NEW_OPERATIONS = 13 satisfies SubscriptionRecordTypeEnum;
 export const SUBSCRIPTION_GENERAL = 14 satisfies SubscriptionRecordTypeEnum;
+
+// Field Report
+
+export type FieldReportStatusEnum = components['schemas']['StatusBb2Enum'];
+export const FIELD_REPORT_STATUS_EARLY_WARNING = 8 satisfies FieldReportStatusEnum;
+export const FIELD_REPORT_STATUS_EVENT = 9 satisfies FieldReportStatusEnum;
+
+export type Bulletin = components['schemas']['BulletinEnum'];
+export const BULLETIN_PUBLISHED_NO = 0 satisfies Bulletin;
+export const BULLETIN_PUBLISHED_PLANNED = 2 satisfies Bulletin;
+export const BULLETIN_PUBLISHED_YES = 3 satisfies Bulletin;
+
+type RequestChoices = components['schemas']['Key02bEnum'];
+export const REQUEST_CHOICES_NO = 0 satisfies RequestChoices;
+
+export type ContactType = 'Originator' | 'NationalSociety' | 'Federation' | 'Media';
+export type OrganizationType = components['schemas']['Key1aeEnum'];
+export type ReportType = components['schemas']['FieldReportTypesEnum'];
+export type CategoryType = components['schemas']['KeyA87Enum'];
+
+// Common
+
+// FIXME: we need to identify a typesafe way to get this value
+export const DISASTER_TYPE_EPIDEMIC = 1;
+
+export type Visibility = components['schemas']['VisibilityD1bEnum'];
+export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;
+export const VISIBILITY_IFRC_SECRETARIAT = 2 satisfies Visibility;
+export const VISIBILITY_PUBLIC = 3 satisfies Visibility;
+export const VISIBILITY_IFRC_NS = 4 satisfies Visibility;

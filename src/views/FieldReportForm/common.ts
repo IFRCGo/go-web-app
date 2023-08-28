@@ -13,41 +13,15 @@ import {
     positiveIntegerCondition,
     nonZeroCondition,
 } from '#utils/form';
-import { type components } from '#generated/types';
 import { type DeepReplace } from '#utils/common';
+import {
+    type ContactType,
+    type FieldReportStatusEnum,
+    FIELD_REPORT_STATUS_EARLY_WARNING,
+    FIELD_REPORT_STATUS_EVENT,
+    DISASTER_TYPE_EPIDEMIC,
+} from '#utils/constants';
 import { type GoApiResponse } from '#utils/restRequest';
-
-// TYPES
-
-// FIXME: This is not an enum in the server
-export type ContactType = 'Originator' | 'NationalSociety' | 'Federation' | 'Media';
-export type OrganizationType = components['schemas']['Key1aeEnum'];
-
-export type Status = components['schemas']['StatusBb2Enum'];
-export type Bulletin = components['schemas']['BulletinEnum'];
-export type Visibility = components['schemas']['VisibilityD1bEnum'];
-export type ReportType = components['schemas']['FieldReportTypesEnum'];
-export type CategoryType = components['schemas']['KeyA87Enum'];
-type RequestChoices = components['schemas']['Key02bEnum'];
-
-// CONSTANTS
-
-export const STATUS_EARLY_WARNING = 8 satisfies Status;
-export const STATUS_EVENT = 9 satisfies Status;
-
-export const BULLETIN_PUBLISHED_NO = 0 satisfies Bulletin;
-export const BULLETIN_PUBLISHED_PLANNED = 2 satisfies Bulletin;
-export const BULLETIN_PUBLISHED_YES = 3 satisfies Bulletin;
-
-export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;
-export const VISIBILITY_IFRC_SECRETARIAT = 2 satisfies Visibility;
-export const VISIBILITY_PUBLIC = 3 satisfies Visibility;
-export const VISIBILITY_IFRC_NS = 4 satisfies Visibility;
-
-export const REQUEST_CHOICES_NO = 0 satisfies RequestChoices;
-
-// FIXME: we need to identify a typesafe way to get this value
-export const DISASTER_TYPE_EPIDEMIC = 1;
 
 // FORM
 
@@ -84,11 +58,11 @@ type ActionTakenSchema = ObjectSchema<NonNullable<PartialFormValue['actions_take
 type ActionTakenField = ReturnType<ActionTakenSchema['fields']>;
 
 export function getReportType(
-    status: Status | undefined,
+    status: FieldReportStatusEnum | undefined,
     is_covid_report: boolean | undefined,
     dtype: number | undefined,
 ) {
-    if (status === STATUS_EARLY_WARNING) {
+    if (status === FIELD_REPORT_STATUS_EARLY_WARNING) {
         return 'EW';
     }
 
@@ -101,13 +75,6 @@ export function getReportType(
     }
 
     return 'EVT';
-}
-
-function validStatusCondition(value: number | string | null | undefined) {
-    if (value === STATUS_EARLY_WARNING || value === STATUS_EVENT) {
-        return undefined;
-    }
-    return 'Status should either be an Event or an Early Warning / Early Action';
 }
 
 export function transformFormFieldsToAPIFields(
@@ -140,41 +107,20 @@ export function transformAPIFieldsToFormFields(
         countries,
         start_date,
         sit_fields_date,
-        // districts,
-        // user,
-        // dtype,
-        // event,
-        // regions,
-        // external_partners,
-        // supported_activities,
-        // actions_taken,
         contacts,
         ...otherProps
     } = response;
 
     // FIXME: fix for actions_taken
-
     return {
         ...otherProps,
-        // user: user?.id,
-        // dtype: dtype?.id,
-        // event: event?.id,
         country: isDefined(countries) && countries.length > 0 ? countries[0] : undefined,
-        // districts: districts?.map((d) => d.id) ?? [],
-        // regions: regions?.map((r) => r.id) ?? [],
-        // external_partners: external_partners?.map((e) => e.id) ?? [],
-        // supported_activities: supported_activities?.map((a) => a.id) ?? [],
         start_date: isDefined(start_date)
             ? start_date.split('T')[0]
             : start_date,
         sit_fields_date: isDefined(sit_fields_date)
             ? sit_fields_date.split('T')[0]
             : sit_fields_date,
-        // actions_taken: actions_taken?.map((a) => ({
-        //     ...a,
-        //     // FIXME: the server should directly return the id
-        //     actions: a.actions.map((item) => item.id),
-        // })),
         contacts: contacts?.map((c) => ({
             ...c,
             // FIXME: Fix this in the server later
@@ -183,10 +129,17 @@ export function transformAPIFieldsToFormFields(
     };
 }
 
+function validStatusCondition(value: number | string | null | undefined) {
+    if (value === FIELD_REPORT_STATUS_EARLY_WARNING || value === FIELD_REPORT_STATUS_EVENT) {
+        return undefined;
+    }
+    return 'Status should either be an Event or an Early Warning / Early Action';
+}
+
 export const reportSchema: FormSchema = {
     validation: (value) => {
         if (
-            value?.status === STATUS_EARLY_WARNING
+            value?.status === FIELD_REPORT_STATUS_EARLY_WARNING
             && value?.dtype === DISASTER_TYPE_EPIDEMIC
         ) {
             return 'Early Warning / Early action cannot be selected when disaster type is Epidemic or vice-versa';
