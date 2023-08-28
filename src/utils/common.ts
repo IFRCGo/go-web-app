@@ -1,5 +1,6 @@
 import {
     isDefined,
+    listToMap,
     isNotDefined,
     isFalsyString,
     caseInsensitiveSubmatch,
@@ -100,6 +101,22 @@ export function avgSafe(list: UnsafeNumberList) {
 
     const listSum = sum(safeList);
     return listSum / safeList.length;
+}
+
+export function getDuplicates<T, K extends string | number>(
+    list: T[],
+    keySelector: (item: T) => K,
+    filter: (count: number) => boolean = (count) => count > 1,
+) {
+    const counts = listToMap<T, number, K>(
+        list,
+        keySelector,
+        (_, key, __, acc) => {
+            const value: number | undefined = acc[key];
+            return isDefined(value) ? value + 1 : 1;
+        },
+    );
+    return Object.keys(counts).filter((key) => filter(counts[key as K]));
 }
 
 export function isObject(foo: unknown): foo is object {
@@ -366,11 +383,26 @@ export function getNumberOfDaysInMonth(year: number, month: number) {
     return dateWithLastDateOfPrevMonth.getDate();
 }
 
-export function injectClientId<V extends { id: number }>(obj: V): (V & { client_id: string }) {
+export function injectClientId<V extends {
+    id: number,
+    client_id?: string | null,
+}>(obj: V): (Omit<V, 'client_id'> & {
+    client_id: string,
+}) {
     return {
         ...obj,
-        client_id: String(obj.id),
+        client_id: obj.client_id ?? String(obj.id),
     };
+}
+
+export function getCurrentMonthYear() {
+    const now = new Date();
+    const mm = (now.getMonth() + 1).toString().padStart(2, '0');
+    const yyyy = now.getFullYear().toString();
+
+    const date = `${mm}/${yyyy}`;
+
+    return date;
 }
 
 export function getMonthList() {

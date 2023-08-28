@@ -1,0 +1,18 @@
+{
+    "namespace": "flashUpdateForm",
+    "strings": {
+        "flashUpdateFormActionTakenByNationalSocietyPlaceholder":"Brief description of the action",
+        "flashUpdateFormActionTakenByRcrcPlaceholder":"Brief description of the action",
+        "flashUpdateFormActionTakenByIfrcPlaceholder":"Brief description of the action",
+        "flashUpdateFormActionTakenByGovernmentPlaceholder":"Brief description of the action",
+        "flashUpdateFormActionTakenByNationalSocietyLabel":"Actions Taken by National Society",
+        "flashUpdateFormActionTakenByIfrcLabel":"Actions Taken by IFRC",
+        "flashUpdateFormActionTakenByGovernmentLabel":"Actions Taken by Government",
+        "flashUpdateFormActionTakenByNationalSocietyDescription":"Select the activities undertaken by the National Society and describe.",
+        "flashUpdateFormActionTakenByRcrcDescription":"Select the activities taken or coordination done by the RCRC and describe.",
+        "flashUpdateFormActionTakenByIfrcDescription":"Select the activities taken or coordination done by the IFRC and describe.",
+        "flashUpdateFormActionTakenByGovernmentDescription":"Select the activities undertaken by the government and describe.",
+        "flashUpdateFormActionTakenTitle":"Actions",
+        "flashUpdateFormActionTakenByRcrcLabel":"Actions Taken by RCRC"
+    }
+}

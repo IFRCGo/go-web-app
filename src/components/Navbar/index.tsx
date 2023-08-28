@@ -44,6 +44,7 @@ function Navbar(props: Props) {
         search: searchRoute,
         newThreeWActivity: newThreeWActivityFromRoute,
         newDrefApplicationForm: newDrefApplicationFormRoute,
+        flashUpdateFormNew: flashUpdateFormNewRoute,
         fieldReportFormNew: fieldReportFormNewRoute,
     } = useContext(RouteContext);
 
@@ -136,7 +137,7 @@ function Navbar(props: Props) {
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             type="link"
-                            to="/"
+                            to={flashUpdateFormNewRoute.absolutePath}
                         >
                             {strings.headerDropdownNewFlashUpdate}
                         </DropdownMenuItem>

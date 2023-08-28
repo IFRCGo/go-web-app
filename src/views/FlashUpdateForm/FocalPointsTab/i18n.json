@@ -1,0 +1,19 @@
+{
+    "namespace": "flashUpdateForm",
+    "strings": {
+        "flashUpdateFormFocalOriginatorTitle":"Originator",
+        "flashUpdateFormFocalOriginatorDescription":"IFRC staff completing the Flash Update",
+        "flashUpdateFormFocalOriginatorNameLabel":"Name *",
+        "flashUpdateFormFocalOriginatorTitleLabel":"Title",
+        "flashUpdateFormFocalOriginatorEmailLabel":"Email *",
+        "flashUpdateFormFocalOriginatorPhoneLabel":"Phone",
+        "flashUpdateFormFocalIfrcTitle":"IFRC Focal Point",
+        "flashUpdateFormFocalIfrcDescription":"IFRC staff who is overall responsible for supporting the NS in its response to the disaster event.",
+        "flashUpdateFormFocalIfrcNameLabel":"Name",
+        "flashUpdateFormFocalIfrcTitleLabel":"Title",
+        "flashUpdateFormFocalIfrcEmailLabel":"Email",
+        "flashUpdateFormFocalIfrcPhoneLabel":"Phone",
+        "flashUpdateFormVisibilityTitle":"Visibility",
+        "flashUpdateFormVisibilityDescription":"After hitting Submit, the information will be shared with IFRC Secretariat only."
+    }
+}

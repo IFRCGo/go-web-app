@@ -1,0 +1,7 @@
+{
+    "namespace": "flashUpdateForm",
+    "strings": {
+        "flashUpdateFormContextCountryLabel":"Select a country",
+        "flashUpdateFormContextProvinceLabel":"Select region / province"
+    }
+}

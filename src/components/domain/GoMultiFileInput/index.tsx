@@ -21,9 +21,9 @@ import Button from '#components/Button';
 
 import styles from './styles.module.css';
 
-type supportedPaths = '/api/v2/per-file/multiple/' | '/api/v2/dref-files/multiple/' | '/api/v2/flash-update-file/multiple/';
+export type SupportedPaths = '/api/v2/per-file/multiple/' | '/api/v2/dref-files/multiple/' | '/api/v2/flash-update-file/multiple/';
 
-type RequestBody = paths[supportedPaths]['post']['requestBody']['content']['application/json'];
+type RequestBody = paths[SupportedPaths]['post']['requestBody']['content']['application/json'];
 
 interface FileUploadResult {
     id: number;
@@ -48,7 +48,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     onChange: (value: number[] | undefined, name: T) => void;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
-    url: supportedPaths;
+    url: SupportedPaths;
     value: number[] | undefined | null;
     variant?: ButtonVariant;
     withoutPreview?: boolean;
