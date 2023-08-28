@@ -13,7 +13,7 @@ interface AddAlertOption {
     debugMessage?: string;
 }
 
-function useAlertContext() {
+function useAlert() {
     const {
         addAlert,
         // removeAlert,
@@ -40,4 +40,4 @@ function useAlertContext() {
     }), [show]);
 }
 
-export default useAlertContext;
+export default useAlert;

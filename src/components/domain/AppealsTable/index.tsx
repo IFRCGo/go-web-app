@@ -222,7 +222,6 @@ function AppealsTable(props: Props) {
                         value={filterDisplacement}
                         onChange={handleDisplacementTypeChange}
                     />
-                    <div />
                 </>
             )}
             footerActions={(

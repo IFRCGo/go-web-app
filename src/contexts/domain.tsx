@@ -10,6 +10,7 @@ export type UserMe = paths['/api/v2/user/me/']['get']['responses']['200']['conte
 
 export interface Domain {
     register: (name: CacheKey) => void;
+    invalidate: (name: CacheKey) => void;
 
     countries?: Countries;
     countriesPending?: boolean;
@@ -27,6 +28,8 @@ export interface Domain {
 const DomainContext = createContext<Domain>({
     // eslint-disable-next-line no-console
     register: () => { console.warn('DomainContext::register called before it was initialized'); },
+    // eslint-disable-next-line no-console
+    invalidate: () => { console.warn('DomainContext::invalidate called before it was initialized'); },
 });
 
 export default DomainContext;

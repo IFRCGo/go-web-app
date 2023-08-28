@@ -1,0 +1,29 @@
+{
+    "namespace": "accountNotifications",
+    "strings": {
+        "subscriptionPreferencesHeading": "Subscription Preferences",
+        "subscriptionPreferencesUpdatedMessage": "Subscription preferences updated!",
+        "subscriptionUpdateButtonLabel": "Update Notification Preferences",
+        "subscriptionNotificationTypesHeading": "Notification types",
+        "subscriptionNotificationTypesDescription": "Notification types",
+        "subscriptionWeeklyDigestHeading": "Weekly Digest",
+        "subscriptionWeeklyDigestDescription": "Select to get a weekly compilation of emergency events based on your preferences.",
+        "subscriptionNewEmergenciesHeading": "New Emergencies",
+        "subscriptionNewEmergenciesDescription": "Select to receive notifications for new emergency events (includes Field Reports, GDACS alerts and WHO Alerts).",
+        "subscriptionNewOperationsHeading": "New Operations",
+        "subscriptionNewOperationsDescription": "Select to receive notifications of new IFRC supported emergency operations.",
+        "subscriptionGeneralAnnouncementsHeading": "General Announcements",
+        "subscriptionRegionalNotificationsHeading": "Regional Notifications",
+        "subscriptionRegionalNotificationsDescription": "Select one or more regions to receive notifications about.",
+        "subscriptionCountryLevelNotificationsHeading": "Country-level Notifications",
+        "subscriptionCountryLevelNotificationsDescription": "Select one or more countries to receive notifications about.",
+        "subscriptionCountryInputPlaceholder": "No countries selected",
+        "subscriptionDisasterTypesHeading": "Disaster Types",
+        "subscriptionDisasterTypesDescription": "Select one or more countries to receive notifications about.",
+        "subscriptionSurgeNotificationsHeading": "Surge Notifications",
+        "subscriptionSurgeAlertCheckboxLabel": "Surge Alerts",
+        "subscriptionSurgeDeploymentMessagesCheckboxLabel": "Deployment Messages",
+        "subscriptionOtherNotificationsHeading": "Other Notifications",
+        "subscriptionPerDueDateCheckboxLabel": "PER Due Dates"
+    }
+}

@@ -10,14 +10,9 @@
         font-size: 1.3em;
     }
 
-    .children {
-        align-items: flex-start;
-        flex-direction: column;
-
-        .description {
-            color: var(--go-ui-color-text-light);
-            font-size: var(--go-ui-font-size-xs);
-        }
+    .description {
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-xs);
     }
 
     .input {
