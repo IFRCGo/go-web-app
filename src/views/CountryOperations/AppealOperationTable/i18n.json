@@ -1,6 +1,5 @@
-
 {
-    "namespace": "CountryOperations",
+    "namespace": "AppealOperationTable",
     "strings": {
         "appealsTableStartDate": "Start Date",
         "appealsTableType": "Type of Appeal",
