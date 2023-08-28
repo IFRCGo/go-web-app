@@ -5,6 +5,7 @@ import {
 type OperationTypeEnum = components['schemas']['OperationTypeEnum'];
 type StatusTypeEnum = components['schemas']['Key1d2Enum'];
 type ProgrammeTypeEnum = components['schemas']['Key1d2Enum'];
+// FIXME: This is the same as OperationType. Needs to be fixed in the server
 type DrefStatus = components['schemas']['OperationTypeEnum'];
 
 export const DEFAULT_DATE_FORMAT = 'dd-MM-yyyy';
