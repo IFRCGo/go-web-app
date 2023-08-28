@@ -4,7 +4,7 @@ import {
     useState,
     useContext,
 } from 'react';
-import { EntriesAsList } from '@togglecorp/toggle-form';
+import { type EntriesAsList } from '@togglecorp/toggle-form';
 import { isDefined, listToGroupList } from '@togglecorp/fujs';
 
 import MultiSelectInput from '#components/MultiSelectInput';

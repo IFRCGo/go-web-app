@@ -5,7 +5,7 @@ import Container from '#components/Container';
 import List from '#components/List';
 import Pager from '#components/Pager';
 import useUserMe from '#hooks/domain/useUserMe';
-import { GoApiResponse, ListResponseItem, useRequest } from '#utils/restRequest';
+import { type GoApiResponse, type ListResponseItem, useRequest } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
 import useTranslation from '#hooks/useTranslation';
 

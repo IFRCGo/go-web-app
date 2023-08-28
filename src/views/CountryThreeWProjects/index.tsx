@@ -47,8 +47,8 @@ import {
     numericValueSelector,
     stringLabelSelector,
 } from '#utils/selectors';
+import ProjectActions, { Props as ProjectActionsProps } from '#views/CountryThreeW/ProjectActions';
 
-import ProjectActions, { Props as ProjectActionsProps } from './ProjectActions';
 import Map from './Map';
 import Filter, { FilterValue } from './Filters';
 
@@ -482,6 +482,7 @@ export function Component() {
                             })}
                             {districtIdList.length === 0 && (
                                 <Message
+                                    // FIXME: use translations
                                     description="Data not available!"
                                 />
                             )}
@@ -494,6 +495,8 @@ export function Component() {
                         { count: localNSProjects.length },
                     )}
                     withHeaderBorder
+                    initiallyExpanded
+                    headingLevel={4}
                 >
                     <Table
                         filtered={false}

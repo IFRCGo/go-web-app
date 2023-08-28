@@ -940,7 +940,7 @@ const allThreeW = customWrapRoute({
 });
 
 const countryAllThreeW = customWrapRoute({
-    path: 'three-w/all/:countryId',
+    path: 'countries/:countryId/three-w/projects/all',
     component: {
         render: () => import('#views/CountryAllThreeW'),
         props: {},
@@ -948,7 +948,21 @@ const countryAllThreeW = customWrapRoute({
     parent: root,
     wrapperComponent: Auth,
     context: {
-        title: 'Country All 3W',
+        title: 'All 3W Projects in the Country',
+        visibility: 'anything',
+    },
+});
+
+const countryAllThreeWNationalSocietyProjects = customWrapRoute({
+    path: 'countries/:countryId/three-w/ns-projects/all',
+    component: {
+        render: () => import('#views/CountryAllThreeWNationalSocietyProjects'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'All 3W Projects by the Country National Society',
         visibility: 'anything',
     },
 });
@@ -1946,6 +1960,7 @@ const wrappedRoutes = {
     search,
     allThreeW,
     countryAllThreeW,
+    countryAllThreeWNationalSocietyProjects,
     allAppeals,
     allEmergencies,
     allFieldReports,

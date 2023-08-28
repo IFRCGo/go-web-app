@@ -65,8 +65,9 @@ export function Component() {
     const outletContext = useMemo<CountryOutletContext>(
         () => ({
             countryResponse,
+            countryResponsePending,
         }),
-        [countryResponse],
+        [countryResponse, countryResponsePending],
     );
 
     const pending = countryResponsePending || aggregatedAppealPending;

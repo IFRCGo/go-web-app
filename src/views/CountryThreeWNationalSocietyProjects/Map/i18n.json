@@ -1,0 +1,7 @@
+{
+    "namespace": "CountryThreeWNationalSocietyProjects",
+    "strings": {
+        "reportingNationalSociety": "Reporting NS",
+        "receivingCountry": "Receiving Country"
+    }
+}

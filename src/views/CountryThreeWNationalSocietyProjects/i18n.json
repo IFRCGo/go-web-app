@@ -1,0 +1,24 @@
+{
+    "namespace": "CountryThreeWNationalSocietyProjects",
+    "strings": {
+        "activeDeploymentsTitle": "Countries where NS has Reported Projects",
+        "targetedPopulationTitle": "Targeted Population",
+        "totalProjectsTitle": "Total Projects",
+        "ongoingProjectBudgetTitle": "Total Budget (CHF) for Ongoing Projects",
+        "threeWOngoingProjectsTitle": "Ongoing Projects",
+        "exportProjects": "Export",
+        "viewAllProjects": "View All Projects",
+        "threeWNSCountryMapSidebarTitle": "National Society Projects By Country",
+        "countryProjects": "{countryName} ({numProjects} Projects)",
+        "threeWTableReceivingCountry": "Receiving Country",
+        "threeWTableProjectName": "Project Name",
+        "threeWTableSector": "Sector",
+        "threeWTableTotalBudget": "Total Budget",
+        "threeWTableProgrammeType": "Programme Type",
+        "threeWTableDisasterType": "Disaster Type",
+        "threeWTablePeopleTargeted": "People Targeted",
+        "threeWTablePeopleReached": "Services Provided to People in Need",
+        "otherNSProjects": "Projects by Other NS ({count})",
+        "projects": "Projects ({count})"
+    }
+}

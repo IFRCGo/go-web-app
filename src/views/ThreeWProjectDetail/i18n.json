@@ -3,7 +3,7 @@
     "strings": {
         "threeWDetailsHeading": "3W Details",
         "editProject": "Edit Project",
-        "lastModifiedOnTitle": "Last Modified On",
+        "lastModifiedOnTitle": "Last modified on",
         "lastModifiedDetail": "{date}",
         "lastModifiedDetailByUser": "by {user}",
         "tagsTitle": "Tags",
