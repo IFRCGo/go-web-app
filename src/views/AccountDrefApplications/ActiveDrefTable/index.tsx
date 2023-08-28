@@ -48,6 +48,14 @@ function ActiveDrefTable(props: Props) {
         appeal_code: undefined,
     });
 
+    const handleFilterChange = useCallback(
+        (...args: Parameters<typeof setFilterValue>) => {
+            setFilterValue(...args);
+            setPage(1);
+        },
+        [],
+    );
+
     const debouncedFilterValue = useDebouncedValue(filterValue);
 
     const {
@@ -305,7 +313,7 @@ function ActiveDrefTable(props: Props) {
             filters={(
                 <Filters
                     value={filterValue}
-                    onChange={setFilterValue}
+                    onChange={handleFilterChange}
                 />
             )}
         >
