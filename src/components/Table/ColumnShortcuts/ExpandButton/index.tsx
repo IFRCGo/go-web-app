@@ -1,6 +1,6 @@
 import {
     ChevronUpLineIcon,
-    ChevronRightLineIcon,
+    ChevronDownLineIcon,
 } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 import Button from '#components/Button';
@@ -39,7 +39,7 @@ function ExpandButton<K>(props : ExpandButtonProps<K>) {
             {expanded ? (
                 <ChevronUpLineIcon className={styles.icon} />
             ) : (
-                <ChevronRightLineIcon className={styles.icon} />
+                <ChevronDownLineIcon className={styles.icon} />
             )}
         </Button>
     );

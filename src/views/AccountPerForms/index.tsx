@@ -134,7 +134,7 @@ export function Component() {
 
     const aggregatedColumns = useMemo(
         () => ([
-            createExpansionIndicatorColumn<PerProcessStatusItem, number | string>(
+            createExpansionIndicatorColumn<PerProcessStatusItem, number>(
                 false,
             ),
             ...baseColumn,
@@ -191,7 +191,6 @@ export function Component() {
         <Container
             className={styles.accountPerForms}
             heading={strings.processStatusTitle}
-            headingLevel={2}
             withHeaderBorder
             actions={(
                 <Link

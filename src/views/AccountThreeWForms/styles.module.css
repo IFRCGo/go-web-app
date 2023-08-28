@@ -1,19 +1,16 @@
 .three-w-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-4xl);
     padding: var(--go-ui-spacing-4xl) 0;
     min-height: 30vh;
 
-    .main-content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-4xl);
+    .project-table,
+    .activity-table {
+        width: 100%;
+    }
 
-        .project-table,
-        .activity-table {
-            width: 100%;
-        }
-
-        .action-column {
-            width: var(--go-ui-font-size-5xl);
-        }
+    .action-column {
+        width: var(--go-ui-font-size-5xl);
     }
 }

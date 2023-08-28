@@ -168,7 +168,7 @@
     --go-ui-color-element-background: rgb(0 0 0 / .06);
     --go-ui-color-foreground: #ffffff;
     --go-ui-color-background-overlay: rgb(255 255 255 / .88);
-    --go-ui-color-background-hover: rgb(0 0 0 / .1);
+    --go-ui-color-background-hover: rgb(0 0 0 / .06);
 
     --go-ui-opacity-disabled-element: 0.5;
     --go-ui-opacity-chart-point: 0.8;

@@ -76,6 +76,7 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
         childrenContainerClassName: childrenClassName,
         actionsContainerClassName: actionsClassName,
         spacing,
+        withoutWrap: true,
     });
 
     return {

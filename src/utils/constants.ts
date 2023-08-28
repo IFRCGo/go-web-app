@@ -5,6 +5,8 @@ import {
 type OperationTypeEnum = components['schemas']['OperationTypeEnum'];
 type StatusTypeEnum = components['schemas']['Key1d2Enum'];
 type ProgrammeTypeEnum = components['schemas']['Key1d2Enum'];
+// FIXME: This is the same as OperationType. Needs to be fixed in the server
+type DrefStatus = components['schemas']['OperationTypeEnum'];
 
 export const DEFAULT_DATE_FORMAT = 'dd-MM-yyyy';
 
@@ -73,3 +75,8 @@ export const PROGRAMME_TYPE_BILATERAL = 0 satisfies ProgrammeTypeEnum;
 export const PROJECT_STATUS_COMPLETED = 2 satisfies StatusTypeEnum;
 export const PROJECT_STATUS_ONGOING = 1 satisfies StatusTypeEnum;
 export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
+
+// DREF
+
+export const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
+export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;

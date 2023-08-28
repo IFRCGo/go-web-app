@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     color: var(--go-ui-color-text-black);
-    font-weight: var(--go-ui-font-weight-medium);
+    font-weight: var(--go-ui-font-weight-semibold);
     gap: var(--go-ui-spacing-sm);
 
     .sort-button {

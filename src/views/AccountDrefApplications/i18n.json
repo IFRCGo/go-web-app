@@ -1,0 +1,7 @@
+{
+    "namespace": "accountDrefApplications",
+    "strings": {
+        "showCompletedButtonLabel": "Show completed DREFs",
+        "backToActiveButtonLabel": "Back to active DREFs"
+    }
+}

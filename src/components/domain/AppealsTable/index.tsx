@@ -41,6 +41,8 @@ const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 
+const PAGE_SIZE = 5;
+
 const endDate = (new Date()).toISOString();
 type BaseProps = {
     className?: string;
@@ -155,7 +157,6 @@ function AppealsTable(props: Props) {
     ] = useInputState<number | undefined>(undefined);
     const [page, setPage] = useState(1);
 
-    const PAGE_SIZE = 5;
     const query = useMemo<AppealQueryParams>(
         () => {
             const baseQuery: AppealQueryParams = {

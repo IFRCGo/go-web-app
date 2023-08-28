@@ -22,7 +22,7 @@ export interface Props {
     childrenContainerClassName?: string;
     actionsContainerClassName?: string;
     spacing?: SpacingType;
-    noWrap?: boolean;
+    withoutWrap?: boolean;
 }
 
 function useBasicLayout(props: Props) {
@@ -35,13 +35,13 @@ function useBasicLayout(props: Props) {
         childrenContainerClassName,
         actionsContainerClassName,
         spacing = 'comfortable',
-        noWrap,
+        withoutWrap,
     } = props;
 
     const containerClassName = _cs(
         styles.basicLayout,
         spacingTypeToClassNameMap[spacing],
-        noWrap && styles.noWrap,
+        withoutWrap && styles.noWrap,
         className,
     );
 

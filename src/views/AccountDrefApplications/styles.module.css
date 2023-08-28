@@ -1,0 +1,7 @@
+.account-dref-applications {
+    padding: var(--go-ui-spacing-4xl) 0;
+
+    .icon {
+        font-size: var(--go-ui-font-size-icon-multiplier);
+    }
+}
