@@ -265,7 +265,7 @@ export function Component() {
                 (component) => component.rating,
             );
 
-            const componentsWithRating = prioritizationResponse.component_responses?.map(
+            const componentsWithRating = prioritizationResponse.prioritized_action_responses?.map(
                 (componentResponse) => ({
                     id: componentResponse.id,
                     details: componentResponse.component_details,

@@ -137,7 +137,7 @@ export function Component() {
     const {
         setValue: setComponentValue,
         removeValue: removeComponentValue,
-    } = useFormArray('component_responses', setFieldValue);
+    } = useFormArray('prioritized_action_responses', setFieldValue);
 
     const {
         pending: savePerPrioritizationPending,
@@ -180,7 +180,7 @@ export function Component() {
         }) => {
             // FIXME:
             // getKey for
-            // 1. component_responses
+            // 1. prioritized_action_responses
             setError(transformObjectError(formErrors, () => undefined));
             alert.show(
                 strings.saveRequestFailureMessage,
@@ -248,7 +248,7 @@ export function Component() {
     }, [savePerPrioritization, statusResponse]);
 
     const componentResponseMapping = listToMap(
-        value?.component_responses ?? [],
+        value?.prioritized_action_responses ?? [],
         (componentResponse) => componentResponse.component,
         (componentResponse, _, index) => ({
             index,

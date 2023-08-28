@@ -26,7 +26,7 @@ type AreaResponse = NonNullable<AssessmentResponse['area_responses']>[number];
 type ComponentResponse = NonNullable<AreaResponse['component_responses']>[number];
 
 type PerFormComponentResponse = GoApiResponse<'/api/v2/per-formcomponent/'>;
-type Value = NonNullable<PartialPrioritization['component_responses']>[number];
+type Value = NonNullable<PartialPrioritization['prioritized_action_responses']>[number];
 
 interface Props {
     value?: Value;
