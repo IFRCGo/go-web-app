@@ -1,14 +1,15 @@
 import React from 'react';
 import { randomString } from '@togglecorp/fujs';
 import {
-    ArrayError,
     useFormObject,
-    type SetValueArg,
     getErrorObject,
+    type SetValueArg,
+    type ArrayError,
 } from '@togglecorp/toggle-form';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 
 import DateInput from '#components/DateInput';
+import NonFieldError from '#components/NonFieldError';
 import TextInput from '#components/TextInput';
 import IconButton from '#components/IconButton';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
@@ -18,10 +19,6 @@ import { PartialReferenceType } from '../../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-const defaultFormValues: PartialReferenceType = {
-    client_id: randomString(),
-};
 
 interface Props {
     value: PartialReferenceType;
@@ -47,13 +44,17 @@ function ReferenceInput(props: Props) {
     } = props;
     const strings = useTranslation(i18n);
 
-    const onValueChange = useFormObject(index, onChange, defaultFormValues);
+    const onValueChange = useFormObject(index, onChange, () => ({
+        client_id: randomString(),
+    }));
+
     const error = (value && value?.client_id && errorFromProps)
         ? getErrorObject(errorFromProps?.[value?.client_id])
         : undefined;
 
     return (
         <div className={styles.reference}>
+            <NonFieldError error={error} />
             <div className={styles.firstColumn}>
                 <DateInput
                     className={styles.inputDate}

@@ -1,16 +1,19 @@
 import { useMemo } from 'react';
 import {
-    EntriesAsList,
-    Error,
+    type EntriesAsList,
+    type Error,
     useFormArray,
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
+import NonFieldError from '#components/NonFieldError';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 import InputSection from '#components/InputSection';
-import { useRequest } from '#utils/restRequest';
-import { type GoApiResponse } from '#utils/restRequest';
+import {
+    useRequest,
+    type GoApiResponse,
+} from '#utils/restRequest';
 
 import {
     type FormType,
@@ -86,35 +89,32 @@ function ActionsInput(props: Props) {
 
     const error = getErrorObject(formError);
 
-    const [
-        placeholder,
-        title,
-        description,
-    ] = useMemo(() => ([
-        {
-            NTLS: strings.flashUpdateFormActionTakenByNationalSocietyPlaceholder,
-            PNS: strings.flashUpdateFormActionTakenByRcrcPlaceholder,
-            FDRN: strings.flashUpdateFormActionTakenByIfrcPlaceholder,
-            GOV: strings.flashUpdateFormActionTakenByGovernmentPlaceholder,
-        },
-        {
-            NTLS: strings.flashUpdateFormActionTakenByNationalSocietyLabel,
-            PNS: strings.flashUpdateFormActionTakenByRcrcLabel,
-            FDRN: strings.flashUpdateFormActionTakenByIfrcLabel,
-            GOV: strings.flashUpdateFormActionTakenByGovernmentLabel,
-        },
-        {
-            NTLS: strings.flashUpdateFormActionTakenByNationalSocietyDescription,
-            PNS: strings.flashUpdateFormActionTakenByRcrcDescription,
-            FDRN: strings.flashUpdateFormActionTakenByIfrcDescription,
-            GOV: strings.flashUpdateFormActionTakenByGovernmentDescription,
-        },
-    ] as const), [strings]);
+    const placeholder = useMemo(() => ({
+        NTLS: strings.flashUpdateFormActionTakenByNationalSocietyPlaceholder,
+        PNS: strings.flashUpdateFormActionTakenByRcrcPlaceholder,
+        FDRN: strings.flashUpdateFormActionTakenByIfrcPlaceholder,
+        GOV: strings.flashUpdateFormActionTakenByGovernmentPlaceholder,
+    } as const), [strings]);
+
+    const title = useMemo(() => ({
+        NTLS: strings.flashUpdateFormActionTakenByNationalSocietyLabel,
+        PNS: strings.flashUpdateFormActionTakenByRcrcLabel,
+        FDRN: strings.flashUpdateFormActionTakenByIfrcLabel,
+        GOV: strings.flashUpdateFormActionTakenByGovernmentLabel,
+    } as const), [strings]);
+
+    const description = useMemo(() => ({
+        NTLS: strings.flashUpdateFormActionTakenByNationalSocietyDescription,
+        PNS: strings.flashUpdateFormActionTakenByRcrcDescription,
+        FDRN: strings.flashUpdateFormActionTakenByIfrcDescription,
+        GOV: strings.flashUpdateFormActionTakenByGovernmentDescription,
+    } as const), [strings]);
 
     return (
         <Container
             heading={strings.flashUpdateFormActionTakenTitle}
         >
+            <NonFieldError error={getErrorObject(error?.actions_taken)} />
             {value?.actions_taken?.map((actionTaken, index) => (
                 actionTaken.organization ? (
                     <InputSection
@@ -129,7 +129,7 @@ function ActionsInput(props: Props) {
                                 ? placeholder[actionTaken.organization] : undefined}
                             value={actionTaken}
                             onChange={setValue}
-                            actionOptions={actionOptionsMap[actionTaken.organization]}
+                            options={actionOptionsMap[actionTaken.organization]}
                             disabled={disabled}
                         />
                     </InputSection>

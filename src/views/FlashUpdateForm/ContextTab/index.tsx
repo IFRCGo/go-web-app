@@ -133,7 +133,7 @@ function ContextTab(props: Props) {
         const date = `${mm}/${yyyy}`;
         const selectedHazard = disasterOptions?.find((item) => item.id === value?.hazard_type);
 
-        onValueChange(`${countriesTitles} - ${selectedHazard?.name}  ${date}`, 'title');
+        onValueChange(`${countriesTitles ?? 'Countries'} - ${selectedHazard?.name ?? 'Hazard'}  ${date}`, 'title');
     }, [
         disasterOptions,
         countryTitleMapById,
@@ -231,6 +231,7 @@ function ContextTab(props: Props) {
                 title={strings.flashUpdateFormContextGraphicTitle}
                 description={strings.flashUpdateFormContextGraphicDescription}
             >
+                <NonFieldError error={getErrorObject(error?.graphics_files)} />
                 <MultiImageWithCaptionInput
                     // FIXME: Add translations
                     label="Upload"
@@ -248,6 +249,7 @@ function ContextTab(props: Props) {
                 title={strings.flashUpdateFormContextMapTitle}
                 description={strings.flashUpdateFormContextMapDescription}
             >
+                <NonFieldError error={getErrorObject(error?.map_files)} />
                 <MultiImageWithCaptionInput
                     // FIXME: Add translations
                     label="Upload"
@@ -267,6 +269,7 @@ function ContextTab(props: Props) {
                 multiRow
                 oneColumn
             >
+                <NonFieldError error={getErrorObject(error?.references)} />
                 {value.references?.map((reference, index) => (
                     <ReferenceInput
                         key={reference.client_id}

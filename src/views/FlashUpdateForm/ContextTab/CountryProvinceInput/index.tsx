@@ -11,6 +11,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 
+import NonFieldError from '#components/NonFieldError';
 import IconButton from '#components/IconButton';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import useTranslation from '#hooks/useTranslation';
@@ -79,6 +80,7 @@ function CountryProvinceInput(props: Props) {
 
     return (
         <div className={styles.countryDistrictInput}>
+            <NonFieldError error={error} />
             <CountrySelectInput
                 error={error?.country}
                 label={strings.flashUpdateFormContextCountryLabel}

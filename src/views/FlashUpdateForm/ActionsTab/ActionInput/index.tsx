@@ -7,6 +7,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { randomString } from '@togglecorp/fujs';
 
+import NonFieldError from '#components/NonFieldError';
 import Checklist from '#components/Checklist';
 import TextArea from '#components/TextArea';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -17,6 +18,9 @@ import styles from './styles.module.css';
 type ActionsResponse = GoApiResponse<'/api/v2/flash-update-action/'>;
 type Action = NonNullable<ActionsResponse['results']>[number];
 
+const actionKeySelector = (d: Action) => d.id;
+const actionLabelSelector = (d: Action) => d.name ?? '---';
+
 const defaultValue: PartialActionTaken = {
     client_id: randomString(),
 };
@@ -26,7 +30,7 @@ interface Props {
     error: ArrayError<PartialActionTaken> | undefined;
     onChange: (value: SetValueArg<PartialActionTaken>, index: number) => void;
     index: number;
-    actionOptions: Action[];
+    options: Action[];
     disabled?: boolean;
     placeholder?: string;
 }
@@ -38,7 +42,7 @@ function ActionInput(props: Props) {
         onChange,
         index,
         disabled,
-        actionOptions,
+        options,
         placeholder,
     } = props;
 
@@ -49,6 +53,7 @@ function ActionInput(props: Props) {
 
     return (
         <div className={styles.actionInput}>
+            <NonFieldError error={error} />
             <TextArea
                 name="summary"
                 value={value.summary}
@@ -60,9 +65,9 @@ function ActionInput(props: Props) {
             <Checklist
                 name="actions"
                 onChange={onFieldChange}
-                options={actionOptions}
-                labelSelector={(d) => d.name ?? ''}
-                keySelector={(d) => d.id}
+                options={options}
+                labelSelector={actionLabelSelector}
+                keySelector={actionKeySelector}
                 // tooltipSelector={(d) => d.tooltip_text}
                 value={value.actions}
                 error={getErrorString(error?.actions)}

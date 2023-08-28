@@ -1,9 +1,9 @@
 import { useMemo, useCallback } from 'react';
 import {
-    ArrayError,
     getErrorObject,
     useFormArray,
-    SetValueArg,
+    type ArrayError,
+    type SetValueArg,
 } from '@togglecorp/toggle-form';
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
@@ -25,7 +25,7 @@ import styles from './styles.module.css';
 type Value = {
     client_id: string;
     id?: number;
-    caption?: string | null | undefined;
+    caption?: string;
 };
 
 interface Props<N> {
@@ -66,6 +66,8 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
         removeValue,
     } = useFormArray(name, onChange);
 
+    // NOTE: This is copied from DREF Application form, this component
+    // should be reused
     const handleFileInputChange = useCallback(
         (newValue: number[] | undefined) => {
             if (isDefined(newValue)) {
@@ -135,9 +137,11 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
             >
                 {label}
             </GoMultiFileInput>
-            {value && (
+            {value && value.length > 0 && (
                 <div className={styles.fileList}>
                     {value?.map((fileValue, index) => {
+                        // NOTE: Not sure why this is here, need to
+                        // talk with @frozenhelium
                         if (isNotDefined(fileValue.id)) {
                             return null;
                         }

@@ -3,9 +3,10 @@ import {
     useMemo,
     useCallback,
     useState,
+    useRef,
+    type ElementRef,
 } from 'react';
 import {
-    bound,
     listToMap,
     randomString,
     isDefined,
@@ -39,6 +40,7 @@ import {
 import {
     type DistrictItem,
 } from '#components/domain/DistrictSearchMultiSelectInput';
+import { injectClientId } from '#utils/common';
 
 import i18n from './i18n.json';
 import schema, {
@@ -51,31 +53,20 @@ import FocalPointsTab from './FocalPointsTab';
 import styles from './styles.module.css';
 
 type TabKeys = 'context' | 'actions' | 'focal';
-type TabNumbers = 1 | 2 | 3;
 
-const tabStepMap: Record<TabKeys, TabNumbers> = {
-    context: 1,
-    actions: 2,
-    focal: 3,
-};
-
-const tabByStepMap: Record<TabNumbers, TabKeys> = {
-    1: 'context',
-    2: 'actions',
-    3: 'focal',
-};
-
-const minStep = 1;
-const maxStep = 3;
-
-function getNextStep(currentStep: TabKeys, minSteps: number, maxSteps: number) {
-    const next = bound(tabStepMap[currentStep] + 1, minSteps, maxSteps) as TabNumbers;
-    return tabByStepMap[next];
-}
-
-function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps: number) {
-    const prev = bound(tabStepMap[currentStep] - 1, minSteps, maxSteps) as TabNumbers;
-    return tabByStepMap[prev];
+function getNextStep(current: TabKeys, direction: 1 | -1) {
+    if (direction === 1) {
+        const mapping: { [key in TabKeys]?: TabKeys } = {
+            context: 'actions',
+            actions: 'focal',
+        };
+        return mapping[current];
+    }
+    const mapping: { [key in TabKeys]?: TabKeys } = {
+        focal: 'actions',
+        actions: 'context',
+    };
+    return mapping[current];
 }
 
 const fieldsInContext: { [key in keyof FormType]?: true } = {
@@ -129,7 +120,7 @@ export function Component() {
     >([]);
 
     const {
-        flashUpdateFormEdit: flashUpdateFormEditRoute,
+        flashUpdateFormDetails: flashUpdateDetailRoute,
     } = useContext(RouteContext);
 
     const alert = useAlert();
@@ -145,6 +136,7 @@ export function Component() {
     } = useForm(schema, { value: defaultFormValues });
 
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const {
         pending: pendingFlashUpdateDetails,
@@ -155,30 +147,16 @@ export function Component() {
             id: Number(flashUpdateId),
         } : undefined,
         onSuccess: (response) => {
+            const sanitizedResponse = removeNull(response);
             setValue({
-                ...removeNull(response),
-                actions_taken: response.actions_taken?.map((action) => ({
-                    ...action,
-                    client_id: String(action.client_id) ?? String(action.id) ?? randomString(),
-                })),
-                graphics_files: response.graphics_files?.map((graphic) => ({
-                    ...graphic,
-                    client_id: String(graphic.client_id) ?? String(graphic.id) ?? randomString(),
-                })),
-                references: response.references?.map((reference) => ({
-                    ...reference,
-                    client_id: String(reference.client_id)
-                        ?? String(reference.id) ?? randomString(),
-                })),
-                country_district: response.country_district?.map((country) => ({
-                    ...country,
-                    client_id: String(country.client_id)
-                        ?? String(country.id) ?? randomString(),
-                })),
-                map_files: response.map_files?.map((map) => ({
-                    ...map,
-                    client_id: String(map.client_id)
-                        ?? String(map.id) ?? randomString(),
+                ...removeNull(sanitizedResponse),
+                graphics_files: sanitizedResponse.graphics_files?.map(injectClientId),
+                references: sanitizedResponse.references?.map(injectClientId),
+                country_district: sanitizedResponse.country_district?.map(injectClientId),
+                map_files: sanitizedResponse.map_files?.map(injectClientId),
+                actions_taken: sanitizedResponse.actions_taken?.map((item) => ({
+                    ...injectClientId(item),
+                    action_details: undefined,
                 })),
             });
 
@@ -229,7 +207,7 @@ export function Component() {
             );
             navigate(
                 generatePath(
-                    flashUpdateFormEditRoute.absolutePath,
+                    flashUpdateDetailRoute.absolutePath,
                     { flashUpdateId: response.id },
                 ),
             );
@@ -266,7 +244,7 @@ export function Component() {
             );
             navigate(
                 generatePath(
-                    flashUpdateFormEditRoute.absolutePath,
+                    flashUpdateDetailRoute.absolutePath,
                     { flashUpdateId: response.id },
                 ),
             );
@@ -286,6 +264,7 @@ export function Component() {
         },
     });
     const handleSubmit = useCallback((data: FormType) => {
+        formContentRef.current?.scrollIntoView();
         if (!flashUpdateId) {
             submitRequest(data as FlashUpdateBody);
         } else {
@@ -321,13 +300,19 @@ export function Component() {
         )
     ), [error]);
 
+    const handleTabChange = useCallback((newTab: TabKeys) => {
+        formContentRef.current?.scrollIntoView();
+        setActiveTab(newTab);
+    }, []);
+
     return (
         <Tabs
             value={activeTab}
-            onChange={setActiveTab}
+            onChange={handleTabChange}
             variant="step"
         >
             <Page
+                elementRef={formContentRef}
                 className={styles.flashUpdateForm}
                 title={strings.flashUpdateFormPageTitle}
                 heading={strings.flashUpdateFormPageHeading}
@@ -390,24 +375,24 @@ export function Component() {
                 </TabPanel>
                 <div className={styles.pageActions}>
                     <Button
-                        name={getPreviousStep(activeTab, minStep, maxStep)}
-                        onClick={setActiveTab}
-                        disabled={tabStepMap[activeTab] <= minStep}
+                        name={getNextStep(activeTab, -1) ?? activeTab}
+                        onClick={handleTabChange}
+                        disabled={!getNextStep(activeTab, -1)}
                         variant="secondary"
                     >
                         {strings.flashUpdateBackButtonLabel}
                     </Button>
-                    {tabStepMap[activeTab] < maxStep && (
+                    {!!getNextStep(activeTab, -1) && (
                         <Button
-                            name={getNextStep(activeTab, minStep, maxStep)}
-                            onClick={setActiveTab}
-                            disabled={tabStepMap[activeTab] >= maxStep}
+                            name={getNextStep(activeTab, 1) ?? activeTab}
+                            onClick={handleTabChange}
+                            disabled={!getNextStep(activeTab, 1)}
                             variant="secondary"
                         >
                             {strings.flashUpdateContinueButtonLabel}
                         </Button>
                     )}
-                    {tabStepMap[activeTab] >= maxStep && (
+                    {!getNextStep(activeTab, -1) && (
                         <Button
                             name={undefined}
                             onClick={createSubmitHandler(
