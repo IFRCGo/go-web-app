@@ -1,0 +1,16 @@
+
+{
+    "namespace": "CountryOperations",
+    "strings": {
+        "appealsTableStartDate": "Start Date",
+        "appealsTableType": "Type of Appeal",
+        "appealsTableCode": "Code",
+        "appealsTableName": "Name",
+        "appealsTableEmergency": "Emergency",
+        "appealsTableDisastertype": "Disaster Type",
+        "appealsTableRequestedAmount": "Requested Amount",
+        "appealsTableFundedAmount": "Funding",
+        "appealsTableStatus": "Active",
+        "appealsTableCountry": "Country"
+    }
+}

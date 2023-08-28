@@ -130,7 +130,6 @@ function AppealsTable(props: Props) {
             createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
-                // FIXME: use progress bar here
                 (item) => 100 * (Number(item.amount_funded) / Number(item.amount_requested)),
                 { sortable: true },
             ),
