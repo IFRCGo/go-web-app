@@ -20,6 +20,7 @@ function FieldReportListItem(props: Props) {
 
     return (
         <ExpandableContainer
+            // FIXME: Add link to field report details page
             heading={data.summary}
             headingLevel={4}
             headingDescription={(

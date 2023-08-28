@@ -1,6 +1,8 @@
+import { useContext } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
 import { FocusLineIcon } from '@ifrc-go/icons';
 
+import DomainContext from '#contexts/domain';
 import Container from '#components/Container';
 import Button from '#components/Button';
 import NumberOutput from '#components/NumberOutput';
@@ -25,8 +27,6 @@ interface Props {
     className?: string;
     data: EventListItem;
     subscriptionMap: Record<number, boolean>,
-    pending: boolean;
-    retriggerSubscription: () => void,
 }
 
 function OperationCard(props: Props) {
@@ -42,9 +42,9 @@ function OperationCard(props: Props) {
             countries = [],
         },
         subscriptionMap,
-        pending,
-        retriggerSubscription: requestSubscriptionRetrigger,
     } = props;
+
+    const { invalidate } = useContext(DomainContext);
 
     const {
         pending: addSubscriptionPending,
@@ -56,7 +56,9 @@ function OperationCard(props: Props) {
             type: 'followedEvent',
             value: eventId,
         }]),
-        onSuccess: requestSubscriptionRetrigger,
+        onSuccess: () => {
+            invalidate('user-me');
+        },
     });
 
     const {
@@ -68,7 +70,9 @@ function OperationCard(props: Props) {
         body: (eventId: number) => ([{
             value: eventId,
         }]),
-        onSuccess: requestSubscriptionRetrigger,
+        onSuccess: () => {
+            invalidate('user-me');
+        },
     });
 
     const subscriptionPending = addSubscriptionPending || removeSubscriptionPending;
@@ -137,7 +141,7 @@ function OperationCard(props: Props) {
                 <Button
                     name={id}
                     variant="secondary"
-                    disabled={pending || subscriptionPending}
+                    disabled={subscriptionPending}
                     onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
                 >
                     {isSubscribed ? strings.operationCardUnfollow : strings.operationCardFollow}

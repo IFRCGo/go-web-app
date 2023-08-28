@@ -8,8 +8,8 @@ export function Component() {
 
     return (
         <div className={styles.accountNotifications}>
-            <SubscriptionPreferences />
             <SubmittedFieldReports />
+            <SubscriptionPreferences />
         </div>
     );
 }

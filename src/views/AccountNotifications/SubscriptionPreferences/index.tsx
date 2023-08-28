@@ -2,6 +2,7 @@ import {
     useCallback,
     useEffect,
     useState,
+    useContext,
 } from 'react';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 import { isDefined, listToGroupList } from '@togglecorp/fujs';
@@ -31,6 +32,7 @@ import {
     SUBSCRIPTION_SURGE_DEPLOYMENT_MESSAGES,
     SUBSCRIPTION_WEEKLY_DIGEST,
 } from '#utils/constants';
+import DomainContext from '#contexts/domain';
 import { type GoApiBody, useLazyRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 
@@ -72,6 +74,7 @@ function SubscriptionPreferences() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
     const { api_region_name: regionOptions } = useGlobalEnums();
+    const { invalidate } = useContext(DomainContext);
 
     const [value, setValue] = useState<Value>({});
     const { trigger: updateUserSubscription } = useLazyRequest({
@@ -83,11 +86,12 @@ function SubscriptionPreferences() {
                 strings.subscriptionPreferencesUpdatedMessage,
                 { variant: 'success' },
             );
-            // TODO: invalidate userMe
+            invalidate('user-me');
         },
         // TODO: handle failure
     });
 
+    // NOTE: Setting initial value from userMe
     useEffect(
         () => {
             if (!user) {

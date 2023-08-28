@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import DomainContext from '#contexts/domain';
 import Header from '#components/Header';
 import Button from '#components/Button';
 import TextOutput from '#components/TextOutput';
@@ -16,8 +18,6 @@ export interface Props {
     className?: string;
     operationsData: OperationsResponse;
     subscriptionMap: Record<number, boolean>,
-    pending: boolean;
-    retriggerSubscription: () => void,
 }
 
 function OperationInfoCard(props: Props) {
@@ -29,11 +29,11 @@ function OperationInfoCard(props: Props) {
             updated_at,
         },
         subscriptionMap,
-        pending,
-        retriggerSubscription: requestSubscriptionRetrigger,
     } = props;
 
     const strings = useTranslation(i18n);
+
+    const { invalidate } = useContext(DomainContext);
 
     const {
         pending: addSubscriptionPending,
@@ -45,7 +45,9 @@ function OperationInfoCard(props: Props) {
             value: eventId,
         }]),
         url: '/api/v2/add_subscription/',
-        onSuccess: requestSubscriptionRetrigger,
+        onSuccess: () => {
+            invalidate('user-me');
+        },
     });
 
     const {
@@ -57,7 +59,9 @@ function OperationInfoCard(props: Props) {
             value: eventId,
         }]),
         url: '/api/v2/del_subscription/',
-        onSuccess: requestSubscriptionRetrigger,
+        onSuccess: () => {
+            invalidate('user-me');
+        },
     });
 
     const subscriptionPending = addSubscriptionPending || removeSubscriptionPending;
@@ -73,7 +77,7 @@ function OperationInfoCard(props: Props) {
                 <Button
                     name={id}
                     variant="secondary"
-                    disabled={pending || subscriptionPending}
+                    disabled={subscriptionPending}
                     onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
                 >
                     {isSubscribed

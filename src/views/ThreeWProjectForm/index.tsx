@@ -66,6 +66,7 @@ import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput'
 import useTranslation from '#hooks/useTranslation';
 import type { GlobalEnums } from '#contexts/domain';
 import { injectClientId } from '#utils/common';
+import useUserMe from '#hooks/domain/useUserMe';
 
 import schema, {
     type ProjectResponseBody,
@@ -288,12 +289,7 @@ export function Component() {
         url: '/api/v2/primarysector',
     });
 
-    const {
-        pending: pendingMe,
-        response: meResponse,
-    } = useRequest({
-        url: '/api/v2/user/me/',
-    });
+    const meResponse = useUserMe();
 
     const visibilityOptions = useMemo(() => {
         const orgType = meResponse?.profile?.org_type;
@@ -1054,7 +1050,7 @@ export function Component() {
                             options={visibilityOptions}
                             keySelector={visibilityKeySelector}
                             labelSelector={visibilityLabelSelector}
-                            disabled={pendingMe || disabled}
+                            disabled={disabled}
                         />
                     </InputSection>
                     <div className={styles.formActions}>

@@ -19,6 +19,7 @@ import TextInput from '#components/TextInput';
 import NonFieldError from '#components/NonFieldError';
 import SelectInput from '#components/SelectInput';
 import UserContext from '#contexts/user';
+import DomainContext from '#contexts/domain';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import {
@@ -104,6 +105,7 @@ function EditAccountInfo(props: Props) {
 
     const strings = useTranslation(i18n);
     const { userAuth } = useContext(UserContext);
+    const { invalidate } = useContext(DomainContext);
     const { api_profile_org_types: organizationTypeOptions } = useGlobalEnums();
 
     const {
@@ -141,7 +143,7 @@ function EditAccountInfo(props: Props) {
                 strings.editAccoutSuccessfulMessage,
                 { variant: 'success' },
             );
-            // TODO: invalidate userMe
+            invalidate('user-me');
             handleModalCloseButton();
         },
         onFailure: (error) => {

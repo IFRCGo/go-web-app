@@ -3,19 +3,18 @@ import {
     _cs,
     listToMap,
     isDefined,
-    isNotDefined,
 } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import Grid from '#components/Grid';
 import useTranslation from '#hooks/useTranslation';
-import UserContext from '#contexts/user';
 import RouteContext from '#contexts/route';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
     useRequest,
 } from '#utils/restRequest';
+import useUserMe from '#hooks/domain/useUserMe';
 
 import OperationCard from './OperationCard';
 import i18n from './i18n.json';
@@ -49,7 +48,6 @@ function HighlightedOperations(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const { userAuth: userDetails } = useContext(UserContext);
     const { allEmergencies: allEmergenciesRoute } = useContext(RouteContext);
 
     // eslint-disable-next-line react/destructuring-assignment
@@ -78,14 +76,7 @@ function HighlightedOperations(props: Props) {
         query,
     });
 
-    const {
-        pending: mePending,
-        response: meResponse,
-        retrigger: retriggerUserDetails,
-    } = useRequest({
-        skip: isNotDefined(userDetails),
-        url: '/api/v2/user/me/',
-    });
+    const meResponse = useUserMe();
 
     const subscriptionMap = listToMap(
         meResponse?.subscription?.filter(
@@ -99,10 +90,8 @@ function HighlightedOperations(props: Props) {
         (_: number, emergency: EventListItem) => ({
             data: emergency,
             subscriptionMap,
-            pending: mePending,
-            retriggerSubscription: retriggerUserDetails,
         }),
-        [mePending, subscriptionMap, retriggerUserDetails],
+        [subscriptionMap],
     );
 
     const featuredEmergencies = featuredEmergencyResponse?.results;

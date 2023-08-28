@@ -40,6 +40,7 @@ export function Component() {
     const {
         response: globalEnums,
         pending: globalEnumsPending,
+        retrigger: globalEnumsTrigger,
     } = useRequest({
         skip: !fetch['global-enums'],
         url: '/api/v2/global-enums/',
@@ -48,6 +49,7 @@ export function Component() {
     const {
         response: countries,
         pending: countriesPending,
+        retrigger: countriesTrigger,
     } = useRequest({
         skip: !fetch.country,
         url: '/api/v2/country/',
@@ -57,24 +59,57 @@ export function Component() {
     const {
         response: disasterTypes,
         pending: disasterTypesPending,
+        retrigger: disasterTypesTrigger,
     } = useRequest({
         skip: !fetch['disaster-type'],
         url: '/api/v2/disaster_type/',
         query: { limit: 9999 },
     });
 
+    const userSkip = !fetch['user-me'] || !userDetails;
+
     const {
         response: userMe,
         pending: userMePending,
+        retrigger: userMeTrigger,
     } = useRequest({
         // FIXME: check if the value is cleared when userDetails is cleared
-        skip: !fetch['user-me'] || !userDetails,
+        skip: userSkip,
         url: '/api/v2/user/me/',
     });
+
+    const invalidate = useCallback(
+        (name: CacheKey) => {
+            switch (name) {
+                case 'country':
+                    countriesTrigger();
+                    break;
+                case 'global-enums':
+                    globalEnumsTrigger();
+                    break;
+                case 'disaster-type':
+                    disasterTypesTrigger();
+                    break;
+                case 'user-me':
+                    userMeTrigger();
+                    break;
+                default:
+                    // eslint-disable-next-line no-console
+                    console.error(`Cannot call invalidate on '${name}'`);
+            }
+        },
+        [
+            countriesTrigger,
+            globalEnumsTrigger,
+            disasterTypesTrigger,
+            userMeTrigger,
+        ],
+    );
 
     const contextValue = useMemo(
         (): Domain => ({
             register,
+            invalidate,
 
             countriesPending,
             countries,
@@ -98,6 +133,7 @@ export function Component() {
             globalEnums,
             globalEnumsPending,
             register,
+            invalidate,
         ],
     );
 
