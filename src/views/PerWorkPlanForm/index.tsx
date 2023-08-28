@@ -96,13 +96,13 @@ export function Component() {
         },
         onSuccess: (response) => {
             const {
-                custom_component_responses,
+                additional_action_responses,
                 ...remainingWorkPlan
             } = response;
 
             setValue({
                 ...remainingWorkPlan,
-                custom_component_responses: custom_component_responses?.map(
+                additional_action_responses: additional_action_responses?.map(
                     (customResponse) => ({
                         ...customResponse,
                         client_id: String(customResponse.id),
@@ -115,7 +115,7 @@ export function Component() {
     const componentResponseMapping = useMemo(
         () => (
             listToMap(
-                value?.component_responses ?? [],
+                value?.prioritized_action_responses ?? [],
                 (componentResponse) => componentResponse.component,
                 (componentResponse, _, index) => ({
                     index,
@@ -123,13 +123,13 @@ export function Component() {
                 }),
             )
         ),
-        [value?.component_responses],
+        [value?.prioritized_action_responses],
     );
 
     const customComponentResponseMapping = useMemo(
         () => (
             listToMap(
-                value?.custom_component_responses ?? [],
+                value?.additional_action_responses ?? [],
                 (customComponentResponse) => customComponentResponse.client_id,
                 (customComponentResponse, _, index) => ({
                     index,
@@ -137,7 +137,7 @@ export function Component() {
                 }),
             )
         ),
-        [value?.custom_component_responses],
+        [value?.additional_action_responses],
     );
 
     const {
@@ -175,9 +175,9 @@ export function Component() {
             debugMessage,
         }) => {
             // FIXME:
-            // getKey for
-            // 1. component_responses
-            // 2. custom_component_responses
+            // getKey for (names have changed)
+            // 1. prioritized_action_responses
+            // 2. additional_action_responses
             setError(transformObjectError(formErrors, () => undefined));
             alert.show(
                 strings.saveRequestFailureMessage,
@@ -192,16 +192,16 @@ export function Component() {
 
     const {
         setValue: setComponentValue,
-    } = useFormArray<'component_responses', NonNullable<PartialWorkPlan['component_responses']>[number]>(
-        'component_responses',
+    } = useFormArray<'prioritized_action_responses', NonNullable<PartialWorkPlan['prioritized_action_responses']>[number]>(
+        'prioritized_action_responses',
         setFieldValue,
     );
 
     const {
         setValue: setCustomComponentValue,
         removeValue: removeCustomComponentValue,
-    } = useFormArray<'custom_component_responses', NonNullable<PartialWorkPlan['custom_component_responses']>[number]>(
-        'custom_component_responses',
+    } = useFormArray<'additional_action_responses', NonNullable<PartialWorkPlan['additional_action_responses']>[number]>(
+        'additional_action_responses',
         setFieldValue,
     );
 
@@ -238,12 +238,12 @@ export function Component() {
     );
 
     const handleAddCustomActivity = useCallback(() => {
-        const newCustomActivity: NonNullable<PartialWorkPlan['custom_component_responses']>[number] = {
+        const newCustomActivity: NonNullable<PartialWorkPlan['additional_action_responses']>[number] = {
             client_id: randomString(),
         };
 
         setFieldValue(
-            (oldValue?: PartialWorkPlan['custom_component_responses']) => {
+            (oldValue: PartialWorkPlan['additional_action_responses']) => {
                 if (oldValue) {
                     return [
                         ...oldValue,
@@ -253,7 +253,7 @@ export function Component() {
 
                 return [newCustomActivity];
             },
-            'custom_component_responses',
+            'additional_action_responses',
         );
     }, [setFieldValue]);
 
@@ -264,8 +264,8 @@ export function Component() {
     const pending = prioritizationPending
         || workPlanPending;
 
-    const componentResponseError = getErrorObject(error?.component_responses);
-    const customComponentError = getErrorObject(error?.custom_component_responses);
+    const componentResponseError = getErrorObject(error?.prioritized_action_responses);
+    const customComponentError = getErrorObject(error?.additional_action_responses);
 
     const readOnlyMode = statusResponse?.phase !== PER_PHASE_WORKPLAN;
 
@@ -314,7 +314,8 @@ export function Component() {
                         withInternalPadding
                         spacing="relaxed"
                     >
-                        {prioritizationResponse?.component_responses?.map((componentResponse) => (
+                        {/* eslint-disable-next-line max-len */}
+                        {prioritizationResponse?.prioritized_action_responses?.map((componentResponse) => (
                             <PrioritizedActionInput
                                 key={componentResponse.component}
                                 index={componentResponseMapping[componentResponse.component]?.index}
@@ -345,7 +346,7 @@ export function Component() {
                             </Button>
                         )}
                     >
-                        {value?.custom_component_responses?.map((customComponent, i) => (
+                        {value?.additional_action_responses?.map((customComponent, i) => (
                             <AdditionalActionInput
                                 key={customComponent.client_id}
                                 actionNumber={i + 1}
@@ -361,7 +362,7 @@ export function Component() {
                                 readOnly={readOnlyMode}
                             />
                         ))}
-                        {(value?.custom_component_responses?.length ?? 0) === 0 && (
+                        {(value?.additional_action_responses?.length ?? 0) === 0 && (
                             <div>
                                 {strings.noActionsLabel}
                             </div>

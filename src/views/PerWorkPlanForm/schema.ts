@@ -6,13 +6,13 @@ import {
 import { paths } from '#generated/types';
 
 export type WorkPlanBody = paths['/api/v2/per-work-plan/{id}/']['put']['requestBody']['content']['application/json'];
-type ComponentResponse = NonNullable<WorkPlanBody['component_responses']>[number];
-type CustomComponentResponse = NonNullable<WorkPlanBody['custom_component_responses']>[number];
+type ComponentResponse = NonNullable<WorkPlanBody['prioritized_action_responses']>[number];
+type CustomComponentResponse = NonNullable<WorkPlanBody['additional_action_responses']>[number];
 
-// FIXME: add a NOTE why we are removing the id
-type WorkPlanFormFields = Omit<WorkPlanBody, 'id' | 'component_responses' | 'custom_component_responses'> & {
-    component_responses: Omit<ComponentResponse, 'id'>[];
-    custom_component_responses: (Omit<CustomComponentResponse, 'id'> & {
+// FIXME: we need to use DeepReplace here
+type WorkPlanFormFields = Omit<WorkPlanBody, 'id' | 'prioritized_action_responses' | 'additional_action_responses'> & {
+    prioritized_action_responses: Omit<ComponentResponse, 'id'>[];
+    additional_action_responses: (Omit<CustomComponentResponse, 'id'> & {
         client_id: string;
     })[];
 }
@@ -25,8 +25,7 @@ export const workplanSchema: WorkPlanFormScheme = {
     fields: (): WorkPlanFormSchemeFields => ({
         is_draft: {},
         overview: {},
-        // FIXME: rename to prioritized_action_responses in server
-        component_responses: {
+        prioritized_action_responses: {
             keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
                 fields: () => ({
@@ -40,8 +39,7 @@ export const workplanSchema: WorkPlanFormScheme = {
                 }),
             }),
         },
-        // FIXME: rename to additional_action_responses in server
-        custom_component_responses: {
+        additional_action_responses: {
             keySelector: (customComponentResponse) => customComponentResponse.client_id,
             member: () => ({
                 fields: () => ({

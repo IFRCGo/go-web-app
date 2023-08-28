@@ -25,7 +25,7 @@ import { PartialWorkPlan } from '../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type Value = NonNullable<PartialWorkPlan['custom_component_responses']>[number];
+type Value = NonNullable<PartialWorkPlan['additional_action_responses']>[number];
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];

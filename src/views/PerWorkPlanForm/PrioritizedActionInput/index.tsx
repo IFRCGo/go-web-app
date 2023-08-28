@@ -22,8 +22,8 @@ import styles from './styles.module.css';
 
 type PrioritizationResponse = GoApiResponse<'/api/v2/per-prioritization/{id}/', 'PUT'>;
 
-type Value = NonNullable<PartialWorkPlan['component_responses']>[number];
-type ComponentResponse = NonNullable<PrioritizationResponse['component_responses']>[number];
+type Value = NonNullable<PartialWorkPlan['prioritized_action_responses']>[number];
+type ComponentResponse = NonNullable<PrioritizationResponse['prioritized_action_responses']>[number];
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PerWorkPlanStatusOption = NonNullable<GlobalEnumsResponse['per_workplanstatus']>[number];
