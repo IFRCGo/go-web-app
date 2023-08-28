@@ -1,6 +1,5 @@
 import {
     useContext,
-    useMemo,
     useCallback,
     useState,
     useRef,
@@ -17,6 +16,9 @@ import {
     useForm,
     createSubmitHandler,
     removeNull,
+    analyzeErrors,
+    getErrorObject,
+    type Error,
 } from '@togglecorp/toggle-form';
 import {
     useParams,
@@ -69,30 +71,51 @@ function getNextStep(current: TabKeys, direction: 1 | -1) {
     return mapping[current];
 }
 
-const fieldsInContext: { [key in keyof FormType]?: true } = {
-    country_district: true,
-    references: true,
-    hazard_type: true,
-    title: true,
-    situational_overview: true,
-    graphics_files: true,
-    map_files: true,
+const fieldsInContext: (keyof FormType)[] = [
+    'country_district',
+    'references',
+    'hazard_type',
+    'title',
+    'situational_overview',
+    'graphics_files',
+    'map_files',
+];
+
+const fieldsInActions: (keyof FormType)[] = [
+    'actions_taken',
+];
+
+const fieldsInFocalPoints: (keyof FormType)[] = [
+    'originator_name',
+    'originator_title',
+    'originator_email',
+    'originator_phone',
+    'ifrc_name',
+    'ifrc_title',
+    'ifrc_email',
+    'ifrc_phone',
+];
+
+const tabToFieldsMap: Record<TabKeys, (keyof FormType)[]> = {
+    context: fieldsInContext,
+    actions: fieldsInActions,
+    focal: fieldsInFocalPoints,
 };
 
-const fieldsInActions: { [key in keyof FormType]?: true } = {
-    actions_taken: true,
-};
+function checkTabErrors(error: Error<FormType> | undefined, tabKey: TabKeys) {
+    if (!analyzeErrors(error)) {
+        return false;
+    }
 
-const fieldsInFocalPoints: { [key in keyof FormType]?: true } = {
-    originator_name: true,
-    originator_title: true,
-    originator_email: true,
-    originator_phone: true,
-    ifrc_name: true,
-    ifrc_title: true,
-    ifrc_email: true,
-    ifrc_phone: true,
-};
+    const fields = tabToFieldsMap[tabKey];
+    const fieldErrors = getErrorObject(error);
+
+    const hasErrorOnAnyField = fields.some(
+        (field) => analyzeErrors(getErrorObject(fieldErrors?.[field])),
+    );
+
+    return hasErrorOnAnyField;
+}
 
 type ActionWithoutSummary = Omit<NonNullable<FormType['actions_taken']>[number], 'summary'>;
 const defaultActionsTaken: ActionWithoutSummary[] = [
@@ -282,24 +305,6 @@ export function Component() {
 
     const disabled = pending;
 
-    const errorInContext = useMemo(() => (
-        !!error && Object.keys(error).some(
-            (fieldName) => fieldsInContext[fieldName as keyof typeof error],
-        )
-    ), [error]);
-
-    const errorInActions = useMemo(() => (
-        !!error && Object.keys(error).some(
-            (fieldName) => fieldsInActions[fieldName as keyof typeof error],
-        )
-    ), [error]);
-
-    const errorInFocalPoints = useMemo(() => (
-        !!error && Object.keys(error).some(
-            (fieldName) => fieldsInFocalPoints[fieldName as keyof typeof error],
-        )
-    ), [error]);
-
     const handleTabChange = useCallback((newTab: TabKeys) => {
         formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
@@ -323,21 +328,21 @@ export function Component() {
                         <Tab
                             name="context"
                             step={1}
-                            errored={errorInContext}
+                            errored={checkTabErrors(error, 'context')}
                         >
                             {strings.flashUpdateTabContextLabel}
                         </Tab>
                         <Tab
                             name="actions"
                             step={2}
-                            errored={errorInActions}
+                            errored={checkTabErrors(error, 'actions')}
                         >
                             {strings.flashUpdateTabActionLabel}
                         </Tab>
                         <Tab
                             name="focal"
                             step={3}
-                            errored={errorInFocalPoints}
+                            errored={checkTabErrors(error, 'focal')}
                         >
                             {strings.flashUpdateTabFocalLabel}
                         </Tab>

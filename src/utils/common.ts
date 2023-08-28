@@ -396,6 +396,16 @@ export function injectClientId<V extends {
     };
 }
 
+export function getCurrentMonthYear() {
+    const now = new Date();
+    const mm = (now.getMonth() + 1).toString().padStart(2, '0');
+    const yyyy = now.getFullYear().toString();
+
+    const date = `${mm}/${yyyy}`;
+
+    return date;
+}
+
 export function getMonthList() {
     const monthKeyList = Array.from(Array(12).keys());
     return monthKeyList.map(

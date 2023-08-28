@@ -27,6 +27,7 @@ import TextInput from '#components/TextInput';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import { getCurrentMonthYear } from '#utils/common';
 
 import i18n from './i18n.json';
 import ReferenceInput from './ReferenceInput';
@@ -126,11 +127,7 @@ function ContextTab(props: Props) {
             .filter(isDefined)
             .join(' - ');
 
-        const now = new Date();
-        const mm = (now.getMonth() + 1).toString().padStart(2, '0');
-        const yyyy = now.getFullYear().toString();
-
-        const date = `${mm}/${yyyy}`;
+        const date = getCurrentMonthYear();
         const selectedHazard = disasterOptions?.find((item) => item.id === value?.hazard_type);
 
         onValueChange(`${countriesTitles ?? 'Countries'} - ${selectedHazard?.name ?? 'Hazard'}  ${date}`, 'title');
