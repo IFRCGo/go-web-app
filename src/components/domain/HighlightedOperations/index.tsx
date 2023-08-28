@@ -11,16 +11,18 @@ import Grid from '#components/Grid';
 import useTranslation from '#hooks/useTranslation';
 import UserContext from '#contexts/user';
 import RouteContext from '#contexts/route';
-import { useRequest } from '#utils/restRequest';
-import { paths } from '#generated/types';
+import {
+    type GoApiResponse,
+    type GoApiUrlQuery,
+    useRequest,
+} from '#utils/restRequest';
 
 import OperationCard from './OperationCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetEvent = paths['/api/v2/event/']['get'];
-type EventQueryParams = GetEvent['parameters']['query'];
-type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventQueryParams = GoApiUrlQuery<'/api/v2/event/'>;
+type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
 const keySelector = (event: EventListItem) => event.id;

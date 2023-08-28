@@ -26,6 +26,10 @@ export type RiskApiResponse<URL extends keyof riskApiPaths, METHOD extends 'GET'
 export type RiskApiUrlQuery<URL extends keyof riskApiPaths, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET'> = ApiUrlQuery<riskApiPaths, URL, METHOD>
 export type RiskApiBody<URL extends keyof riskApiPaths, METHOD extends 'POST' | 'PUT' | 'PATCH'> = ApiBody<riskApiPaths, URL, METHOD>
 
+export type ListResponseItem<RESPONSE extends {
+    results?: Array<unknown>
+} | undefined> = NonNullable<NonNullable<RESPONSE>['results']>[number];
+
 // FIXME: identify a way to do this without a cast
 const useGoRequest = useRequest as <
     PATH extends keyof goApiPaths,
