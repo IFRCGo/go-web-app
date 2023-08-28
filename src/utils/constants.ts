@@ -7,6 +7,7 @@ type StatusTypeEnum = components['schemas']['Key1d2Enum'];
 type ProgrammeTypeEnum = components['schemas']['Key1d2Enum'];
 // FIXME: This is the same as OperationType. Needs to be fixed in the server
 type DrefStatus = components['schemas']['OperationTypeEnum'];
+type SubscriptionRecordTypeEnum = components['schemas']['RtypeEnum'];
 
 export const DEFAULT_DATE_FORMAT = 'dd-MM-yyyy';
 
@@ -80,3 +81,16 @@ export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
 
 export const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
 export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;
+
+// Subscriptions
+export const SUBSCRIPTION_SURGE_ALERT = 3 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_COUNTRY = 4 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_REGION = 5 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_DISASTER_TYPE = 6 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_PER_DUE_DATE = 7 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_FOLLOWED_EVENTS = 8 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_SURGE_DEPLOYMENT_MESSAGES = 9 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_WEEKLY_DIGEST = 11 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_NEW_EMERGENCIES = 12 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_NEW_OPERATIONS = 13 satisfies SubscriptionRecordTypeEnum;
+export const SUBSCRIPTION_GENERAL = 14 satisfies SubscriptionRecordTypeEnum;

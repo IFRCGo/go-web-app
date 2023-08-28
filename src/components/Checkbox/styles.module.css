@@ -4,7 +4,7 @@
     cursor: pointer;
     gap: var(--go-ui-spacing-sm);
 
-    .inner {
+    .checkmark-container {
         position: relative;
         line-height: 0;
         font-size: var(--go-ui-font-size-icon-multiplier);
@@ -15,6 +15,13 @@
             width: 0;
             height: 0;
             appearance: none;
+        }
+    }
+
+    .content {
+        .description {
+            color: var(--go-ui-color-text-light);
+            font-size: var(--go-ui-font-size-xs);
         }
     }
 

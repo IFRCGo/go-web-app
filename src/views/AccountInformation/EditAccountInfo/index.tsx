@@ -141,6 +141,7 @@ function EditAccountInfo(props: Props) {
                 strings.editAccoutSuccessfulMessage,
                 { variant: 'success' },
             );
+            // TODO: invalidate userMe
             handleModalCloseButton();
         },
         onFailure: (error) => {

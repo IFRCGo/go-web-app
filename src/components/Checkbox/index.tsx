@@ -24,6 +24,7 @@ export interface Props<NAME> {
     readOnly?: boolean;
     tooltip?: string;
     value: boolean | undefined | null;
+    description?: React.ReactNode;
 }
 
 function Checkbox<const NAME>(props: Props<NAME>) {
@@ -45,6 +46,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         readOnly,
         tooltip,
         value,
+        description,
         ...otherProps
     } = props;
 
@@ -74,7 +76,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
             className={className}
             title={tooltip}
         >
-            <div className={_cs(styles.inner, checkmarkContainerClassName)}>
+            <div className={_cs(styles.checkmarkContainer, checkmarkContainerClassName)}>
                 <Checkmark
                     className={_cs(styles.checkmark, checkmarkClassName)}
                     value={checked ?? false}
@@ -91,11 +93,18 @@ function Checkbox<const NAME>(props: Props<NAME>) {
                     {...otherProps} // eslint-disable-line react/jsx-props-no-spreading
                 />
             </div>
-            {label && (
-                <div className={labelContainerClassName}>
-                    {label}
-                </div>
-            )}
+            <div className={styles.content}>
+                {label && (
+                    <div className={labelContainerClassName}>
+                        {label}
+                    </div>
+                )}
+                {description && (
+                    <div className={styles.description}>
+                        {description}
+                    </div>
+                )}
+            </div>
             {error && (
                 <InputError className={_cs(styles.inputError, errorContainerClassName)}>
                     {error}

@@ -99,55 +99,29 @@ export function Component() {
     return (
         <div className={styles.accountInformation}>
             <Container
-                className={styles.operationsFollowing}
-                heading={strings.operationFollowingHeading}
-                withHeaderBorder
-                headingLevel={2}
-                footerActions={(
-                    <Pager
-                        activePage={page}
-                        itemsCount={operationsRes?.count ?? 0}
-                        maxItemsPerPage={ITEM_PER_PAGE}
-                        onActivePageChange={setPage}
-                    />
-                )}
-            >
-                <List
-                    className={styles.operationsList}
-                    data={eventList}
-                    pending={operationsPending}
-                    errored={isDefined(operationResponseError)}
-                    filtered={false}
-                    keySelector={keySelector}
-                    renderer={OperationInfoCard}
-                    rendererParams={rendererParams}
-                />
-            </Container>
-            <Container
                 className={styles.userInformation}
                 heading={strings.accountInformationHeading}
                 withHeaderBorder
-                headingLevel={2}
-                footerActions={(
-                    <Button
-                        name
-                        className={styles.changePasswordButton}
-                        onClick={setShowChangePasswordModal}
-                        variant="secondary"
-                    >
-                        {strings.changePasswordButtonLabel}
-                    </Button>
-                )}
                 actions={(
-                    <Button
-                        name
-                        icons={(<PencilFillIcon />)}
-                        onClick={setShowEditProfileModal}
-                        variant="secondary"
-                        disabled={isNotDefined(meResponse)}
-                    >
-                        {strings.editProfileButtonLabel}
-                    </Button>
+                    <>
+                        <Button
+                            name
+                            className={styles.changePasswordButton}
+                            onClick={setShowChangePasswordModal}
+                            variant="tertiary"
+                        >
+                            {strings.changePasswordButtonLabel}
+                        </Button>
+                        <Button
+                            name
+                            icons={(<PencilFillIcon />)}
+                            onClick={setShowEditProfileModal}
+                            variant="secondary"
+                            disabled={isNotDefined(meResponse)}
+                        >
+                            {strings.editProfileButtonLabel}
+                        </Button>
+                    </>
                 )}
                 childrenContainerClassName={styles.content}
             >
@@ -196,6 +170,30 @@ export function Component() {
                         />
                     </>
                 )}
+            </Container>
+            <Container
+                className={styles.operationsFollowing}
+                heading={strings.operationFollowingHeading}
+                withHeaderBorder
+                footerActions={(
+                    <Pager
+                        activePage={page}
+                        itemsCount={operationsRes?.count ?? 0}
+                        maxItemsPerPage={ITEM_PER_PAGE}
+                        onActivePageChange={setPage}
+                    />
+                )}
+            >
+                <List
+                    className={styles.operationsList}
+                    data={eventList}
+                    pending={operationsPending}
+                    errored={isDefined(operationResponseError)}
+                    filtered={false}
+                    keySelector={keySelector}
+                    renderer={OperationInfoCard}
+                    rendererParams={rendererParams}
+                />
             </Container>
             {showEditProfileModal && (
                 <EditAccountInfo

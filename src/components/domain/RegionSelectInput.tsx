@@ -2,8 +2,12 @@ import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { components } from '#generated/types';
+import { stringValueSelector } from '#utils/selectors';
 
 export type RegionOption = components['schemas']['ApiRegionNameEnum'];
+function regionKeySelector(option: RegionOption) {
+    return option.key;
+}
 
 type Props<NAME> = SelectInputProps<
     RegionOption['key'],
@@ -37,8 +41,8 @@ function RegionSelectInput<const NAME>(props: Props<NAME>) {
             className={className}
             name={name}
             options={regionOptions}
-            keySelector={(item) => item.key}
-            labelSelector={(item) => item.value}
+            keySelector={regionKeySelector}
+            labelSelector={stringValueSelector}
             value={value}
             onChange={onChange}
         />

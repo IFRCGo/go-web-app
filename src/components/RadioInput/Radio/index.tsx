@@ -5,7 +5,7 @@ import {
     RadioButtonLineIcon,
 } from '@ifrc-go/icons';
 
-import ElementFragments from '#components/ElementFragments';
+import useBasicLayout from '#hooks/useBasicLayout';
 
 import styles from './styles.module.css';
 
@@ -40,33 +40,40 @@ function Radio<N, IN>(props: Props<N, IN>) {
         }
     }, [name, onClick]);
 
+    const {
+        content,
+        containerClassName,
+    } = useBasicLayout({
+        icons: value ? (
+            <RadioButtonLineIcon className={styles.icon} />
+        ) : (
+            <CheckboxBlankCircleLineIcon className={styles.icon} />
+        ),
+        children: (
+            <>
+                {label}
+                {description && (
+                    <div className={styles.description}>
+                        {description}
+                    </div>
+                )}
+            </>
+        ),
+    });
+
     return (
         // eslint-disable-next-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for
         <label
             className={_cs(
                 styles.radio,
                 value && styles.active,
-                className,
                 disabled && styles.disabled,
                 readOnly && styles.readOnly,
+                containerClassName,
+                className,
             )}
         >
-            <ElementFragments
-                icons={value ? (
-                    <RadioButtonLineIcon className={styles.icon} />
-                ) : (
-                    <CheckboxBlankCircleLineIcon className={styles.icon} />
-                )}
-                childrenContainerClassName={styles.children}
-            >
-                {label}
-
-                {description && (
-                    <div className={styles.description}>
-                        {description}
-                    </div>
-                )}
-            </ElementFragments>
+            {content}
             <input
                 className={styles.input}
                 type="radio"

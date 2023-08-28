@@ -4,7 +4,7 @@
     box-shadow: var(--go-ui-box-shadow-2xl);
     background-color: var(--go-ui-color-white);
     padding: var(--go-ui-spacing-sm) 0;
-    max-height: 50vh;
+    max-height: 40vh;
     overflow: auto;
 
     &.top-orientation {
