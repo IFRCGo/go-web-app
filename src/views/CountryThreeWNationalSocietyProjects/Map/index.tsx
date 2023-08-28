@@ -135,23 +135,30 @@ function generateProjectsLineGeoJson(
 
     return {
         type: 'FeatureCollection' as const,
-        features: relationsList.map((relation) => ({
-            id: relation.id,
-            type: 'Feature' as const,
-            geometry: {
-                type: 'LineString' as const,
-                coordinates: [
-                    countriesMap[relation.reportingNS]
-                        .centroid.coordinates as [number, number] ?? [0, 0],
-                    countriesMap[relation.projectCountry]
-                        .centroid.coordinates as [number, number] ?? [0, 0],
-                ],
-            },
-            properties: {
-                projectCountry: relation.projectCountry,
-                reportingNS: relation.reportingNS,
-            },
-        })),
+        features: relationsList.map((relation) => {
+            const from = countriesMap[relation.reportingNS]
+                ?.centroid.coordinates as [number, number] | undefined;
+            const to = countriesMap[relation.projectCountry]
+                ?.centroid.coordinates as [number, number] | undefined;
+            if (isNotDefined(from) || isNotDefined(to)) {
+                return undefined;
+            }
+            return {
+                id: relation.id,
+                type: 'Feature' as const,
+                geometry: {
+                    type: 'LineString' as const,
+                    coordinates: [
+                        from,
+                        to,
+                    ],
+                },
+                properties: {
+                    projectCountry: relation.projectCountry,
+                    reportingNS: relation.reportingNS,
+                },
+            };
+        }).filter(isDefined),
     };
 }
 
@@ -165,6 +172,11 @@ function generateProjectGeoJson(
     return {
         type: 'FeatureCollection' as const,
         features: countries.map((country) => {
+            const { centroid } = country;
+            if (isNotDefined(centroid)) {
+                return undefined;
+            }
+
             const countryProjects = groupedProjects?.[country.id];
             if (isNotDefined(countryProjects)) {
                 return undefined;
@@ -180,7 +192,7 @@ function generateProjectGeoJson(
                 },
                 geometry: {
                     type: 'Point' as const,
-                    coordinates: country.centroid?.coordinates as [number, number] ?? [],
+                    coordinates: centroid.coordinates as [number, number],
                 },
             };
         }).filter(isDefined),
@@ -231,7 +243,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         reportingNSProjectGeoJson,
         projectsLineGeoJson,
     } = useMemo(
-        () => (countries ? {
+        () => ({
             receivingCountryProjectGeoJson: generateProjectGeoJson(
                 countries,
                 projectList,
@@ -246,7 +258,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                 countries,
                 projectList,
             ),
-        } : {}),
+        }),
         [countries, projectList],
     );
 
@@ -296,6 +308,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                     navControlPosition="top-right"
                     debug={false}
                 >
+                    {/* FIXME: Add bounds */}
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
                     {receivingCountryProjectGeoJson && (
                         <MapSource
@@ -375,7 +388,8 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                             />
                         </MapSource>
                     )}
-                    {clickedPointProperties?.lngLat && clickedPointProperties.feature.id && (
+                    {/* eslint-disable-next-line max-len */}
+                    {clickedPointProperties?.lngLat && isDefined(clickedPointProperties.feature.id) && (
                         <MapPopup
                             coordinates={clickedPointProperties.lngLat}
                             onCloseButtonClick={handlePointClose}

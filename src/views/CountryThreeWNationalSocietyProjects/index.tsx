@@ -28,7 +28,7 @@ import type { CountryOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
 import { resolveToString } from '#utils/translation';
-import { sumSafe } from '#utils/common';
+import { sumSafe, hasSomeDefinedValue } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 import {
@@ -93,7 +93,10 @@ function filterProjects(projectList: Project[], filters: Partial<Record<ProjectK
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { countryResponse } = useOutletContext<CountryOutletContext>();
+    const {
+        countryResponse,
+        countryResponsePending,
+    } = useOutletContext<CountryOutletContext>();
 
     const {
         countryAllThreeWNationalSocietyProjects: countryAllThreeWNationalSocietyProjectsRoute,
@@ -106,6 +109,8 @@ export function Component() {
         primary_sector: [],
         secondary_sectors: [],
     });
+
+    const isFiltered = hasSomeDefinedValue(filters);
 
     const {
         pending: projectListPending,
@@ -340,7 +345,8 @@ export function Component() {
                             {countryIdList.map((countryId) => {
                                 const projectsInCountry = countryGroupedProjects[countryId];
 
-                                if (isNotDefined(projectsInCountry)
+                                if (
+                                    isNotDefined(projectsInCountry)
                                     || projectsInCountry.length === 0
                                 ) {
                                     return null;
@@ -387,6 +393,8 @@ export function Component() {
                                     </ExpandableContainer>
                                 );
                             })}
+                            {/* FIXME: Show empty message for when filter is applied */}
+                            {/* FIXME: Show empty message for when filter is applied */}
                             {countryIdList.length === 0 && (
                                 <Message
                                     // FIXME: use translations
@@ -404,8 +412,8 @@ export function Component() {
                     )}
                 >
                     <Table
-                        filtered={false}
-                        pending={false}
+                        filtered={isFiltered}
+                        pending={projectListPending || countryResponsePending}
                         data={ongoingProjects}
                         columns={tableColumns}
                         keySelector={numericIdSelector}
