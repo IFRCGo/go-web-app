@@ -32,7 +32,9 @@ import {
     SUBSCRIPTION_WEEKLY_DIGEST,
 } from '#utils/constants';
 import { type GoApiBody, useLazyRequest } from '#utils/restRequest';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export type RegionOption = components['schemas']['ApiRegionNameEnum'];
@@ -68,6 +70,7 @@ function SubscriptionPreferences() {
     const disasterTypeOptions = useDisasterTypes();
     const user = useUserMe();
     const alert = useAlert();
+    const strings = useTranslation(i18n);
     const { api_region_name: regionOptions } = useGlobalEnums();
 
     const [value, setValue] = useState<Value>({});
@@ -77,7 +80,7 @@ function SubscriptionPreferences() {
         body: (ctx: UpdateSubscriptionBody) => ctx,
         onSuccess: () => {
             alert.show(
-                'Subscription preferences updated!',
+                strings.subscriptionPreferencesUpdatedMessage,
                 { variant: 'success' },
             );
             // TODO: invalidate userMe
@@ -196,7 +199,7 @@ function SubscriptionPreferences() {
     return (
         <Container
             className={styles.subscriptionPreferences}
-            heading="Subscription Preferences"
+            heading={strings.subscriptionPreferencesHeading}
             childrenContainerClassName={styles.content}
             withHeaderBorder
             footerActions={(
@@ -204,48 +207,48 @@ function SubscriptionPreferences() {
                     name={value}
                     onClick={handleUpdateButtonClick}
                 >
-                    Update Notification Preferences
+                    {strings.subscriptionUpdateButtonLabel}
                 </Button>
             )}
         >
             <Container
-                heading="Notification types"
-                headerDescription="Set basic notification types"
+                heading={strings.subscriptionNotificationTypesHeading}
+                headerDescription={strings.subscriptionNotificationTypesDescription}
                 spacing="compact"
                 childrenContainerClassName={styles.notificationTypeInputListContent}
                 headingLevel={5}
             >
                 <Checkbox
                     name="weeklyDigest"
-                    label="Weekly Digest"
-                    description="Select to get a weekly compilation of emergency events based on your preferences."
+                    label={strings.subscriptionWeeklyDigestHeading}
+                    description={strings.subscriptionWeeklyDigestDescription}
                     value={value.weeklyDigest}
                     onChange={handleChange}
                 />
                 <Checkbox
                     name="newEmergencies"
-                    label="New Emergencies"
-                    description="Select to receive notifications for new emergency events (includes Field Reports, GDACS alerts and WHO Alerts)."
+                    label={strings.subscriptionNewEmergenciesHeading}
+                    description={strings.subscriptionNewEmergenciesDescription}
                     value={value.newEmergencies}
                     onChange={handleChange}
                 />
                 <Checkbox
                     name="newOperations"
-                    label="New Operations"
-                    description="Select to receive notifications of new IFRC supported emergency operations."
+                    label={strings.subscriptionNewOperationsHeading}
+                    description={strings.subscriptionNewOperationsDescription}
                     value={value.newOperations}
                     onChange={handleChange}
                 />
                 <Checkbox
                     name="general"
-                    label="General Announcements"
+                    label={strings.subscriptionGeneralAnnouncementsHeading}
                     value={value.general}
                     onChange={handleChange}
                 />
             </Container>
             <Container
-                heading="Regional notifications"
-                headerDescription="Select one or more regions to receive notifications about."
+                heading={strings.subscriptionRegionalNotificationsHeading}
+                headerDescription={strings.subscriptionRegionalNotificationsDescription}
                 spacing="compact"
                 headingLevel={5}
             >
@@ -260,14 +263,14 @@ function SubscriptionPreferences() {
                 />
             </Container>
             <Container
-                heading="Country-level notifications"
-                headerDescription="Select one or more countries to receive notifications about."
+                heading={strings.subscriptionCountryLevelNotificationsHeading}
+                headerDescription={strings.subscriptionCountryLevelNotificationsDescription}
                 spacing="compact"
                 headingLevel={5}
             >
                 <MultiSelectInput
                     name="country"
-                    placeholder="No countries selected"
+                    placeholder={strings.subscriptionCountryInputPlaceholder}
                     options={countryOptions}
                     keySelector={numericIdSelector}
                     labelSelector={stringNameSelector}
@@ -276,8 +279,8 @@ function SubscriptionPreferences() {
                 />
             </Container>
             <Container
-                heading="Disaster types"
-                headerDescription="Select one or more countries to receive notifications about."
+                heading={strings.subscriptionDisasterTypesHeading}
+                headerDescription={strings.subscriptionDisasterTypesDescription}
                 spacing="compact"
                 headingLevel={5}
             >
@@ -292,33 +295,33 @@ function SubscriptionPreferences() {
                 />
             </Container>
             <Container
-                heading="Surge Notifications"
+                heading={strings.subscriptionSurgeNotificationsHeading}
                 spacing="compact"
                 childrenContainerClassName={styles.surgeNotificationsListContent}
                 headingLevel={5}
             >
                 <Checkbox
                     name="surge"
-                    label="Surge alerts"
+                    label={strings.subscriptionSurgeAlertCheckboxLabel}
                     value={value.surge}
                     onChange={handleChange}
                 />
                 <Checkbox
                     name="surgeDM"
-                    label="Deployment Messages"
+                    label={strings.subscriptionSurgeDeploymentMessagesCheckboxLabel}
                     value={value.surgeDM}
                     onChange={handleChange}
                 />
             </Container>
             <Container
-                heading="Other Notifications"
+                heading={strings.subscriptionOtherNotificationsHeading}
                 spacing="compact"
                 childrenContainerClassName={styles.otherNotificationsListContent}
                 headingLevel={5}
             >
                 <Checkbox
                     name="perDueDate"
-                    label="PER Due Dates"
+                    label={strings.subscriptionPerDueDateCheckboxLabel}
                     value={value.perDueDate}
                     onChange={handleChange}
                 />

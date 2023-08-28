@@ -7,8 +7,11 @@ import Pager from '#components/Pager';
 import useUserMe from '#hooks/domain/useUserMe';
 import { GoApiResponse, ListResponseItem, useRequest } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
+import useTranslation from '#hooks/useTranslation';
 
 import FieldReportListItem, { type Props as FieldReportListItemProps } from './FieldReportListItem';
+
+import i18n from './i18n.json';
 
 type FieldReportItem = ListResponseItem<GoApiResponse<'/api/v2/field-report/'>>;
 const ITEM_PER_PAGE = 10;
@@ -16,6 +19,7 @@ const ITEM_PER_PAGE = 10;
 function SubmittedFieldReports() {
     const userMe = useUserMe();
     const [page, setPage] = useState(1);
+    const strings = useTranslation(i18n);
 
     const {
         response: fieldReportResponse,
@@ -40,7 +44,7 @@ function SubmittedFieldReports() {
 
     return (
         <Container
-            heading="Submitted Field Reports"
+            heading={strings.fieldReportsByUserHeading}
             withHeaderBorder
             footerActions={(
                 <Pager

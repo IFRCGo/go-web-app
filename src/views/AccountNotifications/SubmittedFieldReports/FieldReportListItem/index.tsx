@@ -3,8 +3,10 @@ import { isTruthyString } from '@togglecorp/fujs';
 import ExpandableContainer from '#components/ExpandableContainer';
 import TextOutput from '#components/TextOutput';
 import HtmlOutput from '#components/HtmlOutput';
+import useTranslation from '#hooks/useTranslation';
 
 import { type GoApiResponse, type ListResponseItem } from '#utils/restRequest';
+import i18n from './i18n.json';
 
 type FieldReportItem = ListResponseItem<GoApiResponse<'/api/v2/field-report/'>>;
 
@@ -14,6 +16,7 @@ export interface Props {
 
 function FieldReportListItem(props: Props) {
     const { data } = props;
+    const strings = useTranslation(i18n);
 
     return (
         <ExpandableContainer
@@ -21,7 +24,7 @@ function FieldReportListItem(props: Props) {
             headingLevel={4}
             headingDescription={(
                 <TextOutput
-                    label="Last Updated"
+                    label={strings.fieldReportLastUpdatedLabel}
                     value={data.updated_at ?? data.created_at}
                     valueType="date"
                 />
@@ -31,7 +34,7 @@ function FieldReportListItem(props: Props) {
                 <HtmlOutput
                     value={data.description}
                 />
-            ) : 'Description not available!'}
+            ) : strings.fieldReportNoDescriptionLabel}
         </ExpandableContainer>
     );
 }
