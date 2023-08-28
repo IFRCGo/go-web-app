@@ -109,7 +109,7 @@ function CountryProvinceInput(props: Props) {
                 // FIXME: Use translations
                 ariaLabel="Remove"
                 variant="tertiary"
-                disabled={index === 0 || disabled}
+                disabled={disabled}
             >
                 <DeleteBinLineIcon />
             </IconButton>

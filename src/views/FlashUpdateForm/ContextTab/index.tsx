@@ -146,8 +146,6 @@ function ContextTab(props: Props) {
             <InputSection
                 title={strings.flashUpdateFormContextCountryTitle}
                 description={strings.flashUpdateFormContextCountryDescription}
-                multiRow
-                oneColumn
             >
                 <NonFieldError error={getErrorObject(error?.country_district)} />
                 {value.country_district?.map((countryDistrict, index) => (
@@ -228,7 +226,6 @@ function ContextTab(props: Props) {
                 title={strings.flashUpdateFormContextGraphicTitle}
                 description={strings.flashUpdateFormContextGraphicDescription}
             >
-                <NonFieldError error={getErrorObject(error?.graphics_files)} />
                 <MultiImageWithCaptionInput
                     // FIXME: Add translations
                     label="Upload"
@@ -246,7 +243,6 @@ function ContextTab(props: Props) {
                 title={strings.flashUpdateFormContextMapTitle}
                 description={strings.flashUpdateFormContextMapDescription}
             >
-                <NonFieldError error={getErrorObject(error?.map_files)} />
                 <MultiImageWithCaptionInput
                     // FIXME: Add translations
                     label="Upload"
@@ -263,8 +259,6 @@ function ContextTab(props: Props) {
             <InputSection
                 title={strings.flashUpdateFormContextReferenceTitle}
                 description={strings.flashUpdateFormContextReferenceDescription}
-                multiRow
-                oneColumn
             >
                 <NonFieldError error={getErrorObject(error?.references)} />
                 {value.references?.map((reference, index) => (

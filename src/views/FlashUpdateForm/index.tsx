@@ -9,6 +9,7 @@ import {
     listToMap,
     randomString,
     isDefined,
+    isNotDefined,
     isFalsyString,
     isTruthyString,
 } from '@togglecorp/fujs';
@@ -16,9 +17,6 @@ import {
     useForm,
     createSubmitHandler,
     removeNull,
-    analyzeErrors,
-    getErrorObject,
-    type Error,
 } from '@togglecorp/toggle-form';
 import {
     useParams,
@@ -45,6 +43,11 @@ import {
 import { injectClientId } from '#utils/common';
 
 import i18n from './i18n.json';
+import {
+    checkTabErrors,
+    getNextStep,
+    type TabKeys,
+} from './common';
 import schema, {
     type FormType,
     type FlashUpdateBody,
@@ -54,99 +57,36 @@ import ContextTab from './ContextTab';
 import FocalPointsTab from './FocalPointsTab';
 import styles from './styles.module.css';
 
-type TabKeys = 'context' | 'actions' | 'focal';
-
-function getNextStep(current: TabKeys, direction: 1 | -1) {
-    if (direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            context: 'actions',
-            actions: 'focal',
-        };
-        return mapping[current];
-    }
-    const mapping: { [key in TabKeys]?: TabKeys } = {
-        focal: 'actions',
-        actions: 'context',
-    };
-    return mapping[current];
-}
-
-const fieldsInContext: (keyof FormType)[] = [
-    'country_district',
-    'references',
-    'hazard_type',
-    'title',
-    'situational_overview',
-    'graphics_files',
-    'map_files',
-];
-
-const fieldsInActions: (keyof FormType)[] = [
-    'actions_taken',
-];
-
-const fieldsInFocalPoints: (keyof FormType)[] = [
-    'originator_name',
-    'originator_title',
-    'originator_email',
-    'originator_phone',
-    'ifrc_name',
-    'ifrc_title',
-    'ifrc_email',
-    'ifrc_phone',
-];
-
-const tabToFieldsMap: Record<TabKeys, (keyof FormType)[]> = {
-    context: fieldsInContext,
-    actions: fieldsInActions,
-    focal: fieldsInFocalPoints,
-};
-
-function checkTabErrors(error: Error<FormType> | undefined, tabKey: TabKeys) {
-    if (!analyzeErrors(error)) {
-        return false;
-    }
-
-    const fields = tabToFieldsMap[tabKey];
-    const fieldErrors = getErrorObject(error);
-
-    const hasErrorOnAnyField = fields.some(
-        (field) => analyzeErrors(getErrorObject(fieldErrors?.[field])),
-    );
-
-    return hasErrorOnAnyField;
-}
-
-type ActionWithoutSummary = Omit<NonNullable<FormType['actions_taken']>[number], 'summary'>;
-const defaultActionsTaken: ActionWithoutSummary[] = [
-    { client_id: randomString(), organization: 'NTLS', actions: [] },
-    { client_id: randomString(), organization: 'PNS', actions: [] },
-    { client_id: randomString(), organization: 'FDRN', actions: [] },
-    { client_id: randomString(), organization: 'GOV', actions: [] },
-];
-
 const defaultFormValues: FormType = {
     country_district: [{
         client_id: randomString(),
     }],
-    actions_taken: defaultActionsTaken,
+    actions_taken: [
+        { client_id: randomString(), organization: 'NTLS', actions: [] },
+        { client_id: randomString(), organization: 'PNS', actions: [] },
+        { client_id: randomString(), organization: 'FDRN', actions: [] },
+        { client_id: randomString(), organization: 'GOV', actions: [] },
+    ],
 };
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const [activeTab, setActiveTab] = useState<TabKeys>('context');
+
     const { flashUpdateId } = useParams<{ flashUpdateId: string }>();
 
+    const [activeTab, setActiveTab] = useState<TabKeys>('context');
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
     >([]);
+    const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
 
     const {
         flashUpdateFormDetails: flashUpdateDetailRoute,
     } = useContext(RouteContext);
 
     const alert = useAlert();
+
     const navigate = useNavigate();
 
     const {
@@ -158,7 +98,6 @@ export function Component() {
         setValue,
     } = useForm(schema, { value: defaultFormValues });
 
-    const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
     const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const {
@@ -204,14 +143,14 @@ export function Component() {
                 listToMap(
                     files,
                     (item) => item.id,
+                    // FIXME: The typing should be fixed from the server
                     (item) => item.file ?? '',
                 ),
             );
-
             setDistrictOptions(
-                response?.country_district?.map((country) => ([
-                    ...(country?.district_details ?? []),
-                ])).flat(),
+                response?.country_district?.flatMap((country) => (
+                    country.district_details
+                )),
             );
         },
     });
@@ -239,6 +178,7 @@ export function Component() {
             value: { messageForNotification },
             debugMessage,
         }) => {
+            // FIXME: handle errors
             alert.show(
                 strings.flashUpdateFormSaveRequestFailureMessage,
                 {
@@ -276,6 +216,7 @@ export function Component() {
             value: { messageForNotification },
             debugMessage,
         }) => {
+            // FIXME: handle errors
             alert.show(
                 strings.flashUpdateFormSaveRequestFailureMessage,
                 {
@@ -286,6 +227,7 @@ export function Component() {
             );
         },
     });
+
     const handleSubmit = useCallback((data: FormType) => {
         formContentRef.current?.scrollIntoView();
         if (!flashUpdateId) {
@@ -299,16 +241,23 @@ export function Component() {
         submitRequest,
     ]);
 
+    const handleTabChange = useCallback((newTab: TabKeys) => {
+        formContentRef.current?.scrollIntoView();
+        setActiveTab(newTab);
+    }, []);
+
     const submitPending = createSubmitPending || updateSubmitPending;
 
     const pending = submitPending || pendingFlashUpdateDetails;
 
     const disabled = pending;
 
-    const handleTabChange = useCallback((newTab: TabKeys) => {
-        formContentRef.current?.scrollIntoView();
-        setActiveTab(newTab);
-    }, []);
+    const prevTab = getNextStep(activeTab, -1);
+    const nextTab = getNextStep(activeTab, 1);
+
+    // TODO:
+    // Handle permission: Only ifrc user should be able do edit this page
+    // Check language mismatch
 
     return (
         <Tabs
@@ -378,40 +327,38 @@ export function Component() {
                         disabled={disabled}
                     />
                 </TabPanel>
-                <div className={styles.pageActions}>
-                    <Button
-                        name={getNextStep(activeTab, -1) ?? activeTab}
-                        onClick={handleTabChange}
-                        disabled={!getNextStep(activeTab, -1)}
-                        variant="secondary"
-                    >
-                        {strings.flashUpdateBackButtonLabel}
-                    </Button>
-                    {!!getNextStep(activeTab, -1) && (
+                <div className={styles.actions}>
+                    <div className={styles.pageActions}>
                         <Button
-                            name={getNextStep(activeTab, 1) ?? activeTab}
+                            name={prevTab ?? activeTab}
                             onClick={handleTabChange}
-                            disabled={!getNextStep(activeTab, 1)}
+                            disabled={isNotDefined(prevTab)}
+                            variant="secondary"
+                        >
+                            {strings.flashUpdateBackButtonLabel}
+                        </Button>
+                        <Button
+                            name={nextTab ?? activeTab}
+                            onClick={handleTabChange}
+                            disabled={isNotDefined(nextTab)}
                             variant="secondary"
                         >
                             {strings.flashUpdateContinueButtonLabel}
                         </Button>
-                    )}
-                    {!getNextStep(activeTab, -1) && (
-                        <Button
-                            name={undefined}
-                            onClick={createSubmitHandler(
-                                validate,
-                                setError,
-                                handleSubmit,
-                            )}
-                            disabled={submitPending}
-                            variant="secondary"
-                        >
-                            {/* FIXME: Use translations */}
-                            Submit
-                        </Button>
-                    )}
+                    </div>
+                    <Button
+                        name={undefined}
+                        onClick={createSubmitHandler(
+                            validate,
+                            setError,
+                            handleSubmit,
+                        )}
+                        disabled={activeTab !== 'focal' || submitPending}
+                        variant="secondary"
+                    >
+                        {/* FIXME: Use translations */}
+                        Submit
+                    </Button>
                 </div>
             </Page>
         </Tabs>

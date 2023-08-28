@@ -132,7 +132,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                 setFileIdToUrlMap={setFileIdToUrlMap}
                 icons={icons}
                 actions={actions}
-                hidePreview
+                withoutPreview
                 disabled={disabled}
             >
                 {label}

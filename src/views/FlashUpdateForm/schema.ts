@@ -91,18 +91,41 @@ export type ActionsSchemaMember = ReturnType<ActionsSchema['member']>;
 const finalSchema: FormSchema = {
     fields: (): FormSchemaFields => {
         const schema: FormSchemaFields = {
+            country_district: {
+                keySelector: (country) => country.client_id,
+                member: (): CountryDistrictsSchemaMember => ({
+                    fields: (): CountryDistrictSchemaFields => ({
+                        client_id: {},
+                        country: {
+                            required: true,
+                            // NOTE: Validation yet to be written
+                            // validations: [blacklistCondition(countryIds ?? [])],
+                        },
+                        district: { defaultValue: [] },
+                    }),
+                }),
+                validation: (val) => {
+                    if ((val?.length ?? 0) <= 0) {
+                        return 'At least 1 country should be selected';
+                    }
+                    if ((val?.length ?? 0) > 10) {
+                        return 'More than 10 countries are not allowed';
+                    }
+                    const dups = getDuplicates(
+                        (val ?? []).map((item) => item.country).filter(isDefined),
+                        (item) => item,
+                        (count) => count > 1,
+                    );
+                    if (dups.length >= 1) {
+                        return 'Duplicate countries are not allowed';
+                    }
+
+                    return undefined;
+                },
+            },
             hazard_type: { required: true },
             title: { required: true },
             situational_overview: { required: true },
-            originator_name: { required: true },
-            originator_email: { required: true, validations: [emailCondition] },
-            originator_phone: {},
-            originator_title: {},
-            ifrc_email: {},
-            ifrc_name: {},
-            ifrc_phone: {},
-            ifrc_title: {},
-            share_with: {},
             graphics_files: {
                 keySelector: (graphic) => graphic.client_id,
                 member: (): GraphicsSchemaMember => ({
@@ -148,35 +171,8 @@ const finalSchema: FormSchema = {
                     }),
                 }),
             },
-            country_district: {
-                keySelector: (country) => country.client_id,
-                member: (): CountryDistrictsSchemaMember => ({
-                    fields: (): CountryDistrictSchemaFields => ({
-                        client_id: {},
-                        country: {
-                            required: true,
-                            // NOTE: Validation yet to be written
-                            // validations: [blacklistCondition(countryIds ?? [])],
-                        },
-                        district: { defaultValue: [] },
-                    }),
-                }),
-                validation: (val) => {
-                    if ((val?.length ?? 0) > 10) {
-                        return 'More than 10 countries are not allowed';
-                    }
-                    const dups = getDuplicates(
-                        (val ?? []).map((item) => item.country).filter(isDefined),
-                        (item) => item,
-                        (count) => count > 1,
-                    );
-                    if (dups.length >= 1) {
-                        return 'Duplicate countries are not allowed';
-                    }
 
-                    return undefined;
-                },
-            },
+            // ACTIONS
             actions_taken: {
                 keySelector: (actionTaken) => actionTaken.client_id,
                 member: (): ActionsSchemaMember => ({
@@ -189,6 +185,19 @@ const finalSchema: FormSchema = {
                     }),
                 }),
             },
+
+            // FOCAL POINTS
+            originator_name: { required: true },
+            originator_email: { required: true, validations: [emailCondition] },
+            originator_phone: {},
+            originator_title: {},
+            ifrc_email: {},
+            ifrc_name: {},
+            ifrc_phone: {},
+            ifrc_title: {},
+
+            // ?
+            share_with: {},
         };
 
         return schema;
