@@ -1,5 +1,4 @@
 import KeyFigure from '#components/KeyFigure';
-import TextOutput from '#components/TextOutput';
 import type { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 
@@ -65,13 +64,6 @@ function EpidemicNumericDetails(props: Props) {
             <KeyFigure
                 description={strings.epidemicDelegatesLabel}
                 value={value?.num_expats_delegates}
-            />
-            {/* FIXME: move outside */}
-            {/* FIXME: not in the field report */}
-            <TextOutput
-                label={strings.epidemicSourceLabel}
-                value={value?.other_sources}
-                strongLabel
             />
         </>
     );

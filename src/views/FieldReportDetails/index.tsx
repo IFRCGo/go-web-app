@@ -6,6 +6,8 @@ import {
     isTruthyString,
     isFalsyString,
     listToMap,
+    listToGroupList,
+    mapToList,
 } from '@togglecorp/fujs';
 import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 
@@ -23,6 +25,7 @@ import {
     FIELD_REPORT_STATUS_EARLY_WARNING,
     DISASTER_TYPE_EPIDEMIC,
     type ReportType,
+    type CategoryType,
 } from '#utils/constants';
 import { joinList } from '#utils/common';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -49,9 +52,17 @@ export function Component() {
 
     const {
         api_region_name,
-        api_request_choices,
         api_action_org,
+        api_field_report_bulletin,
+        api_request_choices,
     } = useGlobalEnums();
+
+    const requestChoicesMap = listToMap(
+        api_request_choices,
+        // NOTE: we are converting the type of option.key to number
+        (option) => Number(option.key),
+        (option) => option.value,
+    );
 
     const regionNameMap = listToMap(
         api_region_name,
@@ -59,8 +70,8 @@ export function Component() {
         (option) => option.value,
     );
 
-    const requestChoiceMap = listToMap(
-        api_request_choices,
+    const bulletinMap = listToMap(
+        api_field_report_bulletin,
         (option) => option.key,
         (option) => option.value,
     );
@@ -87,7 +98,7 @@ export function Component() {
     const actionsTaken = fieldReportResponse?.actions_taken;
     const countries = fieldReportResponse?.countries_details;
     const districts = fieldReportResponse?.districts_details;
-    const event = fieldReportResponse?.event;
+    const eventDetails = fieldReportResponse?.event_details;
     const summary = fieldReportResponse?.summary;
     const contacts = fieldReportResponse?.contacts;
     const requestAssistance = fieldReportResponse?.request_assistance;
@@ -96,6 +107,8 @@ export function Component() {
     const startDate = fieldReportResponse?.start_date;
     const otherSources = fieldReportResponse?.other_sources;
     const description = fieldReportResponse?.description;
+    const actionsOthers = fieldReportResponse?.actions_others;
+    const sources = fieldReportResponse?.sources;
 
     // NOTE: Only in EPIDEMIC or EVENT or EARLY WARNING
 
@@ -108,12 +121,27 @@ export function Component() {
 
     // NOTE: Only in COVID
     const externalPartners = fieldReportResponse?.external_partners_details;
+    const supportedActivities = fieldReportResponse?.supported_activities_details;
+    const notesHealth = fieldReportResponse?.notes_health;
+    const notesNs = fieldReportResponse?.notes_ns;
+    const notesSocioeco = fieldReportResponse?.notes_socioeco;
+    const dref = fieldReportResponse?.dref;
+    const appeal = fieldReportResponse?.appeal;
+    const fact = fieldReportResponse?.fact;
+    const ifrcStaff = fieldReportResponse?.ifrc_staff;
+
+    // NOTE: Only in EW
+
+    const forecastBasedAction = fieldReportResponse?.forecast_based_action;
+    const forecastBasedResponse: number | undefined = fieldReportResponse?.forecast_based_response;
 
     // NOTE: Not coming from form
     const regions = fieldReportResponse?.regions_details;
     const reportDate = fieldReportResponse?.report_date;
     const user = fieldReportResponse?.user_details?.username;
     const lastTouchedAt = fieldReportResponse?.updated_at ?? fieldReportResponse?.created_at;
+    const rdrt = fieldReportResponse?.rdrt;
+    const epiSources = fieldReportResponse?.epi_figures_source_display;
 
     const reportType: ReportType = useMemo(() => {
         if (fieldReportResponse?.status === FIELD_REPORT_STATUS_EARLY_WARNING) {
@@ -131,11 +159,59 @@ export function Component() {
         return 'EVT';
     }, [fieldReportResponse]);
 
+    const plannedResponses = [
+        {
+            key: 'dref',
+            // FIXME: use translations
+            title: 'DREF',
+            value: reportType !== 'COVID' ? dref : undefined,
+        },
+        {
+            key: 'appeal',
+            // FIXME: use translations
+            title: 'Emergency Appeal',
+            value: reportType !== 'COVID' ? appeal : undefined,
+        },
+        {
+            key: 'rdrt',
+            // FIXME: use translations
+            title: 'RDRT/RITS',
+            // FIXME: We do not know when to hide this field
+            value: rdrt,
+        },
+        {
+            key: 'fact',
+            // FIXME: use translations
+            title: 'Rapid Response Personnel',
+            value: reportType !== 'COVID' ? fact : undefined,
+        },
+        {
+            key: 'ifrc-staff',
+            // FIXME: use translations
+            title: 'Emergency Response Units',
+            value: reportType !== 'COVID' ? ifrcStaff : undefined,
+        },
+        {
+            key: 'forecast-based-response',
+            // FIXME: use translations
+            title: 'Forecast Based Response',
+            // FIXME: We do not know when to hide this field
+            value: forecastBasedResponse,
+        },
+        {
+            key: 'forecast-based-action',
+            // FIXME: use translations
+            title: 'Forecast Based Action',
+            value: reportType === 'EW' ? forecastBasedAction : undefined,
+        },
+    ].filter((plannedResponse) => isDefined(plannedResponse.value) && plannedResponse.value !== 0);
+
     // FIXME: Translation Warning Banner should be shown
+    // FIXME: Breadcrumbs
 
     return (
         <Page
-            title={strings.fieldReportDetailsHeading}
+            title={strings.fieldReportTitle}
             className={styles.fieldReportDetails}
             heading={summary}
             actions={(
@@ -175,23 +251,21 @@ export function Component() {
                             ))}
                         </div>
                         <div className={styles.separator} />
-
                         <Link
                             className={styles.titleLink}
-                            to={isDefined(event)
+                            to={isDefined(eventDetails)
                                 ? generatePath(
                                     emergenciesRoute.absolutePath,
-                                    { emergencyId: event },
+                                    { emergencyId: eventDetails.id },
                                 )
                                 : undefined}
                         >
-                            {/* FIXME: Shouldn't this be event name? */}
-                            {summary}
+                            {eventDetails?.name}
                         </Link>
                     </div>
                     <div className={styles.latestUpdatedDetail}>
                         {resolveToComponent(strings.lastUpdatedByLabel, {
-                            user: user || '?',
+                            user: user || '--',
                             date: (
                                 <DateOutput
                                     value={lastTouchedAt}
@@ -204,10 +278,10 @@ export function Component() {
                                         : undefined
                                 ))
                                 .filter(isDefined)
-                                .join(', ') || '?',
+                                .join(', ') || '--',
                             district: districts
                                 ?.map((district) => district.name)
-                                .join(', ') || '?',
+                                .join(', ') || '--',
                         })}
                     </div>
                 </>
@@ -220,24 +294,61 @@ export function Component() {
                     value={visibility}
                     strongValue
                 />
-                <TextOutput
-                    label={strings.startDateLabel}
-                    value={startDate}
-                    valueType="date"
-                    strongValue
-                />
+                {reportType === 'EW' ? (
+                    <TextOutput
+                        label={strings.forecastedDateLabel}
+                        value={startDate}
+                        valueType="date"
+                        strongValue
+                    />
+                ) : (
+                    <TextOutput
+                        label={strings.startDateLabel}
+                        value={startDate}
+                        valueType="date"
+                        strongValue
+                    />
+                )}
                 <TextOutput
                     label={strings.reportDateLabel}
                     value={reportDate}
                     valueType="date"
                     strongValue
                 />
+                {reportType === 'COVID' && (
+                    <TextOutput
+                        label={strings.covidFieldReportLabel}
+                        value
+                        valueType="boolean"
+                        strongValue
+                    />
+                )}
             </div>
             <Container
                 childrenContainerClassName={styles.numericDetails}
                 heading={strings.numericDetailsTitle}
                 withHeaderBorder
+                headerDescription={(
+                    <>
+                        {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(sitFieldsDate) && (
+                            <TextOutput
+                                label={strings.dateOfData}
+                                value={sitFieldsDate}
+                                valueType="date"
+                            />
+                        )}
+                        {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(epiSources) && (
+                            <TextOutput
+                                label={strings.epiSource}
+                                value={epiSources}
+                            />
+                        )}
+                        {/* FIXME: We need to add more content here */}
+                        <div />
+                    </>
+                )}
             >
+                {/* FIXME: Confirm the fields for these numeric details */}
                 {reportType === 'COVID' && (
                     <CovidNumericDetails
                         value={fieldReportResponse}
@@ -282,28 +393,17 @@ export function Component() {
                     />
                 </Container>
             )}
-            {/* NOTE: In old, only COVID was checked */}
-            {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(sitFieldsDate) && (
-                <Container
-                    heading={strings.dateOfData}
-                    withHeaderBorder
-                    childrenContainerClassName={styles.requestForAssistanceContent}
-                >
-                    <DateOutput
-                        value={sitFieldsDate}
-                    />
-                </Container>
-            )}
+
             {isTruthyString(description) && (
                 <Container
-                    childrenContainerClassName={styles.numericDetails}
-                    heading
+                    heading={reportType === 'EW' ? strings.riskAnalysisTitle : strings.descriptionTitle}
                 >
                     <HtmlOutput
                         value={description}
                     />
                 </Container>
             )}
+
             <Container
                 heading={strings.requestForAssistanceHeading}
                 withHeaderBorder
@@ -322,23 +422,33 @@ export function Component() {
                     strongValue
                 />
             </Container>
+
             {isDefined(bulletin) && reportType !== 'COVID' && (
                 <Container
                     heading={strings.informationBulletinPublishedLabel}
                     withHeaderBorder
                 >
-                    {requestChoiceMap?.[bulletin] ?? '--'}
+                    {bulletinMap?.[bulletin] ?? '--'}
                 </Container>
             )}
-            {/* FIXME: iterate by NTLS, FDRN, PNS */}
-            {/* FIXME: display in that order */}
-            {/* FIXME: then group by category */}
-            {/* FIXME: show notes using data.notes_health, data.notes_ns and data.notes_socioeco */}
-            {/* FIXME: weird logic to show category and action name */}
             {actionsTaken?.map((actionTaken) => {
-                if (actionTaken.actions_details.length <= 0 || isFalsyString(actionTaken.summary)) {
+                if (actionTaken.actions_details.length <= 0 && isFalsyString(actionTaken.summary)) {
                     return null;
                 }
+
+                const actionsGroupedByCategory = listToGroupList(
+                    actionTaken.actions_details,
+                    (item) => item.category ?? '',
+                    (item) => item,
+                );
+                const categoryItems = mapToList(
+                    actionsGroupedByCategory,
+                    (item, key) => ({
+                        category: key as (CategoryType | ''),
+                        actions: item,
+                    }),
+                );
+
                 return (
                     <Container
                         key={actionTaken.id}
@@ -349,22 +459,125 @@ export function Component() {
                         withHeaderBorder
                         className={styles.actionsTaken}
                     >
-                        {actionTaken.actions_details?.map((value) => (
-                            <div
-                                key={value.id}
-                                className={styles.actionCategory}
+                        {categoryItems?.map((value) => (
+                            <Container
+                                key={value.category}
+                                heading={value.category}
+                                headingLevel={5}
+                                spacing="compact"
                             >
-                                <CheckboxCircleLineIcon className={styles.icon} />
-                                <div className={styles.label}>
-                                    {value.name}
-                                </div>
-                            </div>
+                                {value.actions.map((action) => (
+                                    <div
+                                        key={action.id}
+                                        className={styles.actionCategory}
+                                    >
+                                        <CheckboxCircleLineIcon className={styles.icon} />
+                                        <div className={styles.label}>
+                                            {action.name}
+                                        </div>
+                                    </div>
+                                ))}
+                                {reportType === 'COVID' && value.category === 'Health' && (
+                                    <TextOutput
+                                        // FIXME: use translations
+                                        label="Notes"
+                                        value={notesHealth}
+                                    />
+                                )}
+                                {reportType === 'COVID' && value.category === 'NS Institutional Strengthening' && (
+                                    <TextOutput
+                                        // FIXME: use translations
+                                        label="Notes"
+                                        value={notesNs}
+                                    />
+                                )}
+                                {reportType === 'COVID' && value.category === 'Socioeconomic Interventions' && (
+                                    <TextOutput
+                                        // FIXME: use translations
+                                        label="Notes"
+                                        value={notesSocioeco}
+                                    />
+                                )}
+                            </Container>
                         ))}
-                        {actionTaken.summary}
+                        <TextOutput
+                            // FIXME: use translations
+                            label="Summary"
+                            value={actionTaken.summary}
+                        />
                     </Container>
                 );
             })}
-            {/* FIXME: actions_other missing */}
+            {isTruthyString(actionsOthers) && (
+                <Container
+                    heading={strings.actionsTakenByOthersHeading}
+                    withHeaderBorder
+                >
+                    <HtmlOutput
+                        value={actionsOthers}
+                    />
+                </Container>
+            )}
+            {/* NOTE: There was not condition on old details */}
+            {isDefined(externalPartners) && externalPartners.length > 0 && reportType === 'COVID' && (
+                <Container
+                    heading={strings.externalPartnersLabel}
+                    withHeaderBorder
+                >
+                    <ul>
+                        {externalPartners.map((partner) => (
+                            <li key={partner.id}>
+                                {partner?.name || '--'}
+                            </li>
+                        ))}
+                    </ul>
+                </Container>
+            )}
+            {/* NOTE: There was not condition on old details */}
+            {isDefined(supportedActivities) && supportedActivities.length > 0 && reportType === 'COVID' && (
+                <Container
+                    heading={strings.supportedActivitiesLabel}
+                    withHeaderBorder
+                >
+                    <ul>
+                        {supportedActivities.map((supportedActivity) => (
+                            <li key={supportedActivity.id}>
+                                {supportedActivity?.name || '--'}
+                            </li>
+                        ))}
+                    </ul>
+                </Container>
+            )}
+            {plannedResponses.length > 0 && (
+                <Container
+                    heading={strings.plannedResponsesLabel}
+                    withHeaderBorder
+                >
+                    {plannedResponses.map((plannedResponse) => (
+                        <TextOutput
+                            key={plannedResponse.key}
+                            label={plannedResponse.title}
+                            value={isDefined(plannedResponse.value)
+                                ? requestChoicesMap?.[plannedResponse.value]
+                                : undefined}
+                        />
+                    ))}
+                </Container>
+            )}
+            {isDefined(sources) && sources.length > 0 && (
+                <Container
+                    heading={strings.sourcesTitle}
+                    withHeaderBorder
+                >
+                    {sources.map((source) => (
+                        <TextOutput
+                            key={source.id}
+                            label={source.stype}
+                            value={source.spec}
+                        />
+                    ))}
+                </Container>
+            )}
             {isDefined(contacts) && contacts.length > 0 && (
                 <Container
                     heading={strings.contactTitle}
@@ -397,23 +610,6 @@ export function Component() {
                     ))}
                 </Container>
             )}
-            {/* FIXME: There was not condition on external partners */}
-            {isDefined(externalPartners) && externalPartners.length > 0 && reportType === 'COVID' && (
-                <Container
-                    heading={strings.externalPartnersSupportedActivitiesLabel}
-                    withHeaderBorder
-                >
-                    {externalPartners.map((partner) => (
-                        <div key={partner.id}>
-                            {partner?.name}
-                        </div>
-                    ))}
-                </Container>
-            )}
-            {/* FIXME: dref, appeal, rdrt, fact, ifrc_staff, forecast_based_response,
-            forecast_based_action missing  */}
-            {/* FIXME: supported_activities missing */}
-            {/* FIXME: sources missing */}
         </Page>
     );
 }

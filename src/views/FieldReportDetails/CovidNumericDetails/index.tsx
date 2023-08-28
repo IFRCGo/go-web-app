@@ -2,8 +2,6 @@ import type { paths } from '#generated/types';
 import KeyFigure from '#components/KeyFigure';
 import useTranslation from '#hooks/useTranslation';
 import TextOutput from '#components/TextOutput';
-import Container from '#components/Container';
-import HtmlOutput from '#components/HtmlOutput';
 
 import i18n from './i18n.json';
 
@@ -64,22 +62,6 @@ function CovidNumericDetails(props: Props) {
                 description={strings.covidVolunteersLabel}
                 value={value?.num_volunteers}
             />
-            <TextOutput
-                label={strings.covidFieldReportLabel}
-                value={value?.is_covid_report}
-                valueType="boolean"
-                strongValue
-            />
-            {/* FIXME: This is not there in old details */}
-            {/* FIXME: This should be moved outside */}
-            <Container
-                heading={strings.covidSummaryLabel}
-                withHeaderBorder
-            >
-                <HtmlOutput
-                    value={value?.actions_others}
-                />
-            </Container>
         </>
     );
 }

@@ -11,8 +11,6 @@
         "covidLocalStaff": "Local Staff",
         "covidSourceLabel": "Source",
         "covidNotesLabel": "Notes",
-        "covidVolunteersLabel": "volunteersLabel",
-        "covidFieldReportLabel": "COVID-19 Field Report",
-        "covidSummaryLabel": "Summary"
+        "covidVolunteersLabel": "volunteersLabel"
     }
 }

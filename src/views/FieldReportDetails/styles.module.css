@@ -51,26 +51,14 @@
             grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
         }
 
-        .request-for-assistance-content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-md);
-        }
-
         .actions-taken {
-            .action-list {
+            .action-category {
                 display: flex;
-                flex-direction: column;
+                align-items: center;
                 gap: var(--go-ui-spacing-sm);
 
-                .action-category {
-                    display: flex;
-                    align-items: center;
-                    gap: var(--go-ui-spacing-sm);
-
-                    .icon {
-                        font-size: var(--go-ui-font-size-icon-multiplier);
-                    }
+                .icon {
+                    font-size: var(--go-ui-font-size-icon-multiplier);
                 }
             }
         }
