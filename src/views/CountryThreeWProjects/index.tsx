@@ -482,6 +482,7 @@ export function Component() {
                             })}
                             {districtIdList.length === 0 && (
                                 <Message
+                                    // FIXME: use translations
                                     description="Data not available!"
                                 />
                             )}

@@ -47,7 +47,7 @@ export function Component() {
     const {
         countryThreeW: countryThreeWRoute,
         country: countryRoute,
-        threeWProjectDetail: threeWProjectDetailRoute,
+        threeWProjectEdit: threeWProjectEditRoute,
         emergency: emergencyRoute,
     } = useContext(RouteContext);
 
@@ -80,6 +80,7 @@ export function Component() {
         reachedFemale: data.reached_female,
         reachedOther: data.reached_other,
         reachedTotal: data.reached_total,
+
         isAnnualSplit: true,
     }), []);
 
@@ -92,7 +93,7 @@ export function Component() {
                 <Link
                     variant="secondary"
                     to={generatePath(
-                        threeWProjectDetailRoute.absolutePath,
+                        threeWProjectEditRoute.absolutePath,
                         { projectId },
                     )}
                     icons={<PencilFillIcon />}
@@ -104,6 +105,7 @@ export function Component() {
                 <TextOutput
                     valueClassName={styles.modifiedOnValue}
                     label={strings.lastModifiedOnTitle}
+                    // FIXME: this should all be 1 string with templates
                     value={(
                         <>
                             {resolveToComponent(strings.lastModifiedDetail, {
@@ -121,7 +123,6 @@ export function Component() {
                         </>
                     )}
                     strongLabel
-                    withoutLabelColon
                 />
             )}
         >
@@ -129,9 +130,7 @@ export function Component() {
                 <BlockLoading />
             ) : (
                 <div className={styles.projectList}>
-                    <Container
-                        childrenContainerClassName={styles.projectDetails}
-                    >
+                    <Container childrenContainerClassName={styles.projectDetails}>
                         <TextOutput
                             label={strings.reportingNationalSocietyTitle}
                             value={(
@@ -149,25 +148,21 @@ export function Component() {
                                     {projectResponse?.reporting_ns_detail?.society_name}
                                 </Link>
                             )}
-                            withoutLabelColon
                             strongValue
                         />
                         <TextOutput
                             label={strings.countryAndRegionTitle}
                             value={(
-                                <>
-                                    <Link
-                                        className={styles.countryLink}
-                                        withForwardIcon
-                                        to={countryLink}
-                                    >
-                                        {projectResponse?.project_country_detail?.name}
-                                    </Link>
-                                    {districtList}
-                                </>
+                                <Link
+                                    className={styles.countryLink}
+                                    withForwardIcon
+                                    to={countryLink}
+                                >
+                                    {projectResponse?.project_country_detail?.name}
+                                </Link>
                             )}
+                            description={districtList}
                             strongValue
-                            withoutLabelColon
                         />
                         {isDefined(projectResponse?.reporting_ns_contact_name) && (
                             <>
@@ -178,7 +173,6 @@ export function Component() {
                                         projectResponse?.reporting_ns_contact_role,
                                     ].filter(isDefined).join(', ')}
                                     strongValue
-                                    withoutLabelColon
                                 />
                                 <TextOutput
                                     label={strings.nsContactLabel}
@@ -190,7 +184,6 @@ export function Component() {
                                         </Link>
                                     )}
                                     strongValue
-                                    withoutLabelColon
                                 />
                             </>
                         )}
@@ -198,7 +191,6 @@ export function Component() {
                             label={strings.projectTypeLabel}
                             value={projectResponse?.operation_type_display}
                             strongValue
-                            withoutLabelColon
                         />
                         <TextOutput
                             label={(
@@ -210,7 +202,6 @@ export function Component() {
                                             <TextOutput
                                                 label={strings.projectTypeToolTipLabel}
                                                 value={strings.projectTypeToolTipValue}
-                                                withoutLabelColon
                                                 strongLabel
                                             />
                                         </Tooltip>
@@ -219,7 +210,6 @@ export function Component() {
                             )}
                             value={projectResponse?.programme_type_display}
                             strongValue
-                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.linkedOperationLabel}
@@ -237,19 +227,16 @@ export function Component() {
                                 </Link>
                             )}
                             strongValue
-                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.disasterTypeLabel}
                             value={projectResponse?.dtype_detail?.name}
                             strongValue
-                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.primarySectorLabel}
                             value={projectResponse?.primary_sector_display}
                             strongValue
-                            withoutLabelColon
                         />
                         <TextOutput
                             label={(
@@ -261,7 +248,6 @@ export function Component() {
                                             <TextOutput
                                                 label={strings.peopleReachedToolTipLabel}
                                                 value={strings.peopleReachedToolTipValue}
-                                                withoutLabelColon
                                                 strongLabel
                                             />
                                         </Tooltip>
@@ -270,34 +256,29 @@ export function Component() {
                             )}
                             value={projectResponse?.secondary_sectors_display}
                             strongValue
-                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWStartDate}
                             value={projectResponse?.start_date}
                             valueType="date"
                             strongValue
-                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.threeWEndDate}
                             value={projectResponse?.end_date}
                             valueType="date"
                             strongValue
-                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.statusLabel}
                             value={projectResponse?.status_display}
                             strongValue
-                            withoutLabelColon
                         />
                         <TextOutput
                             label={strings.budgetAmountLabel}
                             value={projectResponse?.budget_amount}
                             valueType="number"
                             strongValue
-                            withoutLabelColon
                         />
                     </Container>
                     {(projectResponse?.annual_split_detail?.length ?? 0) > 0 ? (

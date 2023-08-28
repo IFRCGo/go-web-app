@@ -23,6 +23,7 @@ import Link from '#components/Link';
 import PieChart from '#components/PieChart';
 import RouteContext from '#contexts/route';
 import Table from '#components/Table';
+import Message from '#components/Message';
 import type { CountryOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
@@ -40,6 +41,8 @@ import {
     numericValueSelector,
     stringLabelSelector,
 } from '#utils/selectors';
+
+// FIXME: One view should not import from another view
 import ProjectActions, { Props as ProjectActionsProps } from '#views/CountryThreeW/ProjectActions';
 
 import Filter, { FilterValue } from './Filters';
@@ -233,24 +236,28 @@ export function Component() {
         ),
     ]), [reTriggerProjectListRequest, strings]);
 
+    const countryIdList = Object.keys(countryGroupedProjects);
+
     return (
         <div className={styles.countryThreeWNationalSocietyProjects}>
             {projectListPending ? (
                 <BlockLoading />
             ) : (
-                <div className={styles.keyFigureList}>
-                    <div className={styles.keyFigures}>
+                <div className={styles.keyFigureCardList}>
+                    <div className={styles.keyFigureCard}>
                         <KeyFigure
+                            className={styles.keyFigure}
                             value={activeNSCount}
                             description={strings.activeDeploymentsTitle}
                         />
                         <div className={styles.separator} />
                         <KeyFigure
+                            className={styles.keyFigure}
                             value={targetedPopulation}
                             description={strings.targetedPopulationTitle}
                         />
                     </div>
-                    <div className={styles.keyFigures}>
+                    <div className={styles.keyFigureCard}>
                         <KeyFigure
                             className={styles.keyFigure}
                             value={projectList.length}
@@ -258,14 +265,17 @@ export function Component() {
                         />
                         <div className={styles.separator} />
                         <PieChart
+                            className={styles.pieChart}
                             data={programmeTypeStats}
                             valueSelector={numericValueSelector}
                             labelSelector={stringLabelSelector}
                             keySelector={stringLabelSelector}
                             colors={primaryRedColorShades}
+                            pieRadius={40}
+                            chartPadding={10}
                         />
                     </div>
-                    <div className={styles.keyFigures}>
+                    <div className={styles.keyFigureCard}>
                         <KeyFigure
                             className={styles.keyFigure}
                             value={ongoingProjectBudget}
@@ -273,19 +283,23 @@ export function Component() {
                         />
                         <div className={styles.separator} />
                         <PieChart
+                            className={styles.pieChart}
                             data={projectStatusTypeStats}
                             valueSelector={numericValueSelector}
                             labelSelector={stringLabelSelector}
                             keySelector={stringLabelSelector}
                             colors={primaryRedColorShades}
+                            pieRadius={40}
+                            chartPadding={10}
                         />
                     </div>
                 </div>
             )}
             <Container
+                className={styles.ongoingProjects}
+                childrenContainerClassName={styles.content}
                 heading={strings.threeWOngoingProjectsTitle}
                 withHeaderBorder
-                childrenContainerClassName={styles.content}
                 filters={(
                     <Filter
                         value={filters}
@@ -297,15 +311,16 @@ export function Component() {
                         <Button
                             variant="primary"
                             name={undefined}
-                            icons={(<DownloadFillIcon />)}
+                            icons={<DownloadFillIcon />}
                         >
                             {strings.exportProjects}
                         </Button>
                         <Link
                             to={isDefined(countryResponse)
-                                ? generatePath(countryAllThreeWNationalSocietyProjectsRoute.absolutePath, { // eslint-disable-line max-len
-                                    countryId: countryResponse.id,
-                                }) : undefined}
+                                ? generatePath(
+                                    countryAllThreeWNationalSocietyProjectsRoute.absolutePath,
+                                    { countryId: countryResponse.id },
+                                ) : undefined}
                             withForwardIcon
                         >
                             {strings.viewAllProjects}
@@ -313,70 +328,79 @@ export function Component() {
                     </>
                 )}
             >
-                <div className={styles.topSection}>
-                    <div className={styles.mapContainer}>
-                        <Map
-                            className={styles.mapContainer}
-                            projectList={ongoingProjects}
-                        />
-                    </div>
-                    <Container
-                        className={styles.sidebar}
-                        heading={strings.threeWNSCountryMapSidebarTitle}
-                    >
-                        {Object.entries(countryGroupedProjects).map(([countryId, projects]) => {
-                            if (isNotDefined(projects) || projects.length === 0) {
-                                return null;
-                            }
+                <Map
+                    projectList={ongoingProjects}
+                    sidebarContent={(
+                        <Container
+                            className={styles.sidebar}
+                            heading={strings.threeWNSCountryMapSidebarTitle}
+                            withInternalPadding
+                            childrenContainerClassName={styles.sidebarContent}
+                        >
+                            {countryIdList.map((countryId) => {
+                                const projectsInCountry = countryGroupedProjects[countryId];
 
-                            // NOTE: we will always have at least one project as it is
-                            // project list is aggregated using listToGroupList
-                            const countryName = projects[0].project_country_detail.name;
+                                if (isNotDefined(projectsInCountry)
+                                    || projectsInCountry.length === 0
+                                ) {
+                                    return null;
+                                }
 
-                            return (
-                                <ExpandableContainer
-                                    key={countryId}
-                                    heading={resolveToString(
-                                        strings.countryProjects,
-                                        {
-                                            countryName,
-                                            numProjects: projects.length,
-                                        },
-                                    )}
-                                    headingLevel={4}
-                                >
-                                    {/* NOTE: projects array will always have an element
-                                      * as we are using listToGroupList to get it.
-                                      */}
-                                    {projects.map((project) => (
-                                        <div
-                                            key={project.id}
-                                            className={styles.projectDetailItem}
-                                        >
-                                            <div className={styles.name}>
-                                                {project.name}
+                                // NOTE: we will always have at least one project as it is
+                                // project list is aggregated using listToGroupList
+                                const countryName = projectsInCountry[0]
+                                    .project_country_detail.name;
+
+                                return (
+                                    <ExpandableContainer
+                                        key={countryId}
+                                        heading={resolveToString(
+                                            strings.countryProjects,
+                                            {
+                                                countryName,
+                                                numProjects: projectsInCountry.length,
+                                            },
+                                        )}
+                                        headingLevel={4}
+                                        childrenContainerClassName={styles.projectsInCountry}
+                                    >
+                                        {/* NOTE: projects array will always have an element
+                                          * as we are using listToGroupList to get it.
+                                          */}
+                                        {projectsInCountry.map((project) => (
+                                            <div
+                                                key={project.id}
+                                                className={styles.projectInCountryItem}
+                                            >
+                                                <div className={styles.name}>
+                                                    {project.name}
+                                                </div>
+                                                <ProjectActions
+                                                    project={project}
+                                                    className={styles.action}
+                                                    onProjectDeletionSuccess={
+                                                        reTriggerProjectListRequest
+                                                    }
+                                                />
                                             </div>
-                                            <ProjectActions
-                                                project={project}
-                                                className={styles.actions}
-                                                onProjectDeletionSuccess={
-                                                    reTriggerProjectListRequest
-                                                }
-                                            />
-                                        </div>
-                                    ))}
-                                </ExpandableContainer>
-                            );
-                        })}
-                    </Container>
-                </div>
+                                        ))}
+                                    </ExpandableContainer>
+                                );
+                            })}
+                            {countryIdList.length === 0 && (
+                                <Message
+                                    // FIXME: use translations
+                                    description="Data not available!"
+                                />
+                            )}
+                        </Container>
+                    )}
+                />
                 <ExpandableContainer
                     initiallyExpanded
                     heading={resolveToString(
                         strings.projects,
-                        {
-                            count: ongoingProjects.length,
-                        },
+                        { count: ongoingProjects.length },
                     )}
                 >
                     <Table

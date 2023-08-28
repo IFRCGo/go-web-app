@@ -2,6 +2,7 @@ import {
     useState,
     useMemo,
     useCallback,
+    useContext,
 } from 'react';
 import {
     _cs,
@@ -26,10 +27,9 @@ import {
 import LegendItem from '#components/LegendItem';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import MapPopup from '#components/MapPopup';
-import TextOutput from '#components/TextOutput';
 import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
 import useTranslation from '#hooks/useTranslation';
-import { type GoApiResponse } from '#utils/restRequest';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
@@ -42,7 +42,15 @@ import {
     COLOR_BLACK,
 } from '#utils/constants';
 
+import useCountry from '#hooks/domain/useCountry';
+import Message from '#components/Message';
+import Link from '#components/Link';
+import RouteContext from '#contexts/route';
+import { generatePath } from 'react-router-dom';
+
+// FIXME: we should move this image to assets
 import image from './arrow.png';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -182,21 +190,41 @@ function generateProjectGeoJson(
 interface Props {
     className?: string;
     projectList: Project[];
+    sidebarContent?: React.ReactNode;
 }
 function CountryThreeWNationalSocietyProjectsMap(props: Props) {
     const {
         className,
         projectList,
+        sidebarContent,
     } = props;
 
     const strings = useTranslation(i18n);
     const countries = useCountryRaw();
     const [iconReady, setIconReady] = useState(false);
+    const {
+        threeWProjectDetail: threeWProjectDetailRoute,
+    } = useContext(RouteContext);
 
     const [
         clickedPointProperties,
         setClickedPointProperties,
     ] = useState<ClickedPoint | undefined>();
+
+    const clickedPointCountry = useCountry({
+        id: Number(clickedPointProperties?.feature?.id ?? -1),
+    });
+
+    const {
+        response: clickedPointProjectsResponse,
+        pending: clickedPointProjectsResponsePending,
+    } = useRequest({
+        skip: isNotDefined(clickedPointCountry?.iso3),
+        url: '/api/v2/project/',
+        query: {
+            country: clickedPointCountry?.iso3,
+        },
+    });
 
     const {
         receivingCountryProjectGeoJson,
@@ -258,131 +286,145 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
     }, []);
 
     return (
-        <Map
-            scaleControlShown
-            mapStyle={defaultMapStyle}
-            mapOptions={defaultMapOptions}
-            navControlShown
-            navControlPosition="top-right"
-            debug={false}
-        >
-            <MapContainerWithDisclaimer
-                className={_cs(styles.mapContainer, className)}
-            />
-            <div className={styles.legend}>
-                <LegendItem
-                    color={COLOR_BLUE}
-                    label={strings.reportingNationalSociety}
-                />
-                <LegendItem
-                    color={COLOR_RED}
-                    label={strings.receivingCountry}
-                />
+        <div className={_cs(styles.map, className)}>
+            <div className={styles.mapWithLegend}>
+                <Map
+                    scaleControlShown
+                    mapStyle={defaultMapStyle}
+                    mapOptions={defaultMapOptions}
+                    navControlShown
+                    navControlPosition="top-right"
+                    debug={false}
+                >
+                    <MapContainerWithDisclaimer className={styles.mapContainer} />
+                    {receivingCountryProjectGeoJson && (
+                        <MapSource
+                            sourceKey="receiving-points"
+                            sourceOptions={sourceOption}
+                            geoJson={receivingCountryProjectGeoJson}
+                        >
+                            <MapLayer
+                                layerKey="reporting-points-halo-circle"
+                                onClick={handlePointClick}
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: redPointHaloCirclePaint,
+                                }}
+                            />
+                            <MapLayer
+                                layerKey="receiving-points-circle"
+                                onClick={handlePointClick}
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: redPointCirclePaint,
+                                }}
+                            />
+                        </MapSource>
+                    )}
+                    {reportingNSProjectGeoJson && (
+                        <MapSource
+                            sourceKey="reporting-points"
+                            sourceOptions={sourceOption}
+                            geoJson={reportingNSProjectGeoJson}
+                        >
+                            <MapLayer
+                                layerKey="reporting-points-halo-circle"
+                                onClick={handlePointClick}
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: bluePointHaloCirclePaint,
+                                }}
+                            />
+                            <MapLayer
+                                layerKey="reporting-points-circle"
+                                onClick={handlePointClick}
+                                layerOptions={{
+                                    type: 'circle',
+                                    paint: bluePointCirclePaint,
+                                }}
+                            />
+                        </MapSource>
+                    )}
+                    <MapImage
+                        name="equilateral-arrow-icon"
+                        url={image}
+                        imageOptions={arrowImageOptions}
+                        onLoad={handleIconLoad}
+                    />
+                    {projectsLineGeoJson && (
+                        <MapSource
+                            sourceKey="lines"
+                            sourceOptions={sourceOption}
+                            geoJson={projectsLineGeoJson}
+                        >
+                            <MapLayer
+                                layerKey="points-line"
+                                layerOptions={{
+                                    type: 'line',
+                                    layout: lineLayout,
+                                    paint: linePaint,
+                                }}
+                            />
+                            <MapLayer
+                                layerKey="arrow-icon"
+                                layerOptions={{
+                                    type: 'symbol',
+                                    paint: arrowPaint,
+                                    layout: iconReady ? arrowLayout : hiddenLayout,
+                                }}
+                            />
+                        </MapSource>
+                    )}
+                    {clickedPointProperties?.lngLat && clickedPointProperties.feature.id && (
+                        <MapPopup
+                            coordinates={clickedPointProperties.lngLat}
+                            onCloseButtonClick={handlePointClose}
+                            heading={clickedPointProperties.feature.properties.countryName}
+                            childrenContainerClassName={styles.mapPopupContent}
+                        >
+                            {(clickedPointProjectsResponsePending
+                                || clickedPointProjectsResponse?.count === 0) && (
+                                <Message
+                                    pending={clickedPointProjectsResponsePending}
+                                    description={!clickedPointProjectsResponsePending && 'Data not available!'}
+                                    compact
+                                />
+                            )}
+                            {clickedPointProjectsResponse?.results?.map(
+                                (project) => (
+                                    <Link
+                                        className={styles.project}
+                                        key={project.id}
+                                        to={generatePath(
+                                            threeWProjectDetailRoute.absolutePath,
+                                            { projectId: project.id },
+                                        )}
+                                        withForwardIcon
+                                    >
+                                        {project.name}
+                                    </Link>
+                                ),
+                            )}
+                        </MapPopup>
+                    )}
+                </Map>
+                <div className={styles.legend}>
+                    <LegendItem
+                        color={COLOR_BLUE}
+                        label={strings.reportingNationalSociety}
+                    />
+                    <LegendItem
+                        color={COLOR_RED}
+                        label={strings.receivingCountry}
+                    />
+                </div>
             </div>
-            {receivingCountryProjectGeoJson && (
-                <MapSource
-                    sourceKey="receiving-points"
-                    sourceOptions={sourceOption}
-                    geoJson={receivingCountryProjectGeoJson}
-                >
-                    <MapLayer
-                        layerKey="reporting-points-halo-circle"
-                        onClick={handlePointClick}
-                        layerOptions={{
-                            type: 'circle',
-                            paint: redPointHaloCirclePaint,
-                        }}
-                    />
-                    <MapLayer
-                        layerKey="receiving-points-circle"
-                        onClick={handlePointClick}
-                        layerOptions={{
-                            type: 'circle',
-                            paint: redPointCirclePaint,
-                        }}
-                    />
-                </MapSource>
+            {sidebarContent && (
+                <div className={styles.sidebar}>
+                    {sidebarContent}
+                </div>
             )}
-            {reportingNSProjectGeoJson && (
-                <MapSource
-                    sourceKey="reporting-points"
-                    sourceOptions={sourceOption}
-                    geoJson={reportingNSProjectGeoJson}
-                >
-                    <MapLayer
-                        layerKey="reporting-points-halo-circle"
-                        onClick={handlePointClick}
-                        layerOptions={{
-                            type: 'circle',
-                            paint: bluePointHaloCirclePaint,
-                        }}
-                    />
-                    <MapLayer
-                        layerKey="reporting-points-circle"
-                        onClick={handlePointClick}
-                        layerOptions={{
-                            type: 'circle',
-                            paint: bluePointCirclePaint,
-                        }}
-                    />
-                </MapSource>
-            )}
-            <MapImage
-                name="equilateral-arrow-icon"
-                url={image}
-                imageOptions={arrowImageOptions}
-                onLoad={handleIconLoad}
-            />
-            {projectsLineGeoJson && (
-                <MapSource
-                    sourceKey="lines"
-                    sourceOptions={sourceOption}
-                    geoJson={projectsLineGeoJson}
-                >
-                    <MapLayer
-                        layerKey="points-line"
-                        layerOptions={{
-                            type: 'line',
-                            layout: lineLayout,
-                            paint: linePaint,
-                        }}
-                    />
-                    <MapLayer
-                        layerKey="arrow-icon"
-                        layerOptions={{
-                            type: 'symbol',
-                            paint: arrowPaint,
-                            layout: iconReady ? arrowLayout : hiddenLayout,
-                        }}
-                    />
-                </MapSource>
-            )}
-            {clickedPointProperties?.lngLat && clickedPointProperties.feature.id && (
-                <MapPopup
-                    coordinates={clickedPointProperties.lngLat}
-                    onCloseButtonClick={handlePointClose}
-                    heading={clickedPointProperties.feature.properties.countryName}
-                >
-                    <div>
-                        {projectList
-                            .filter((project) => (
-                                // eslint-disable-next-line max-len
-                                project.project_country === clickedPointProperties.feature.properties.countryId
-                            ))
-                            .map((project) => (
-                                <div
-                                    className={styles.project}
-                                    key={project.id}
-                                >
-                                    <TextOutput
-                                        value={project.name}
-                                    />
-                                </div>
-                            ))}
-                    </div>
-                </MapPopup>
-            )}
-        </Map>
+        </div>
     );
 }
 

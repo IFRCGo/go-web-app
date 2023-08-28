@@ -38,6 +38,7 @@ function ProjectActions(props: Props) {
     const {
         newThreeWProject: newThreeWProjectRoute,
         threeWProjectEdit: threeWProjectEditRoute,
+        threeWProjectDetail: threeWProjectDetailRoute,
     } = useContext(RouteContext);
 
     const {
@@ -78,12 +79,10 @@ function ProjectActions(props: Props) {
             >
                 <DropdownMenuItem
                     type="link"
-                    // FIXME: replace with route when threeW Details route is developed
                     to={generatePath(
-                        threeWProjectEditRoute.absolutePath,
+                        threeWProjectDetailRoute.absolutePath,
                         { projectId: project.id },
                     )}
-                    disabled
                     icons={<SearchLineIcon />}
                 >
                     {strings.projectViewDetails}
