@@ -24,7 +24,7 @@ export function getNextStep(current: TabKeys, direction: 1 | -1) {
     return mapping[current];
 }
 
-const fieldsInContext: (keyof FormType)[] = [
+const fieldsInContext = [
     'country_district',
     'references',
     'hazard_type',
@@ -32,13 +32,13 @@ const fieldsInContext: (keyof FormType)[] = [
     'situational_overview',
     'graphics_files',
     'map_files',
-];
+] satisfies (keyof FormType)[];
 
-const fieldsInActions: (keyof FormType)[] = [
+const fieldsInActions = [
     'actions_taken',
-];
+] satisfies (keyof FormType)[];
 
-const fieldsInFocalPoints: (keyof FormType)[] = [
+const fieldsInFocalPoints = [
     'originator_name',
     'originator_title',
     'originator_email',
@@ -47,9 +47,9 @@ const fieldsInFocalPoints: (keyof FormType)[] = [
     'ifrc_title',
     'ifrc_email',
     'ifrc_phone',
-];
+] satisfies (keyof FormType)[];
 
-const tabToFieldsMap: Record<TabKeys, (keyof FormType)[]> = {
+const tabToFieldsMap = {
     context: fieldsInContext,
     actions: fieldsInActions,
     focal: fieldsInFocalPoints,
@@ -64,7 +64,11 @@ export function checkTabErrors(error: Error<FormType> | undefined, tabKey: TabKe
     const fieldErrors = getErrorObject(error);
 
     const hasErrorOnAnyField = fields.some(
-        (field) => analyzeErrors(fieldErrors?.[field]),
+        (field) => {
+            const fieldError = fieldErrors?.[field];
+            const isErrored = analyzeErrors(fieldError);
+            return isErrored;
+        },
     );
 
     return hasErrorOnAnyField;

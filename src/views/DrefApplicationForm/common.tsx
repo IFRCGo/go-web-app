@@ -78,7 +78,7 @@ const overviewFields: (keyof PartialDref)[] = [
     'is_man_made_event',
     // 'is_assessment_report',
     'type_of_dref',
-];
+] satisfies (keyof PartialDref)[];
 
 const eventDetailFields: (keyof PartialDref)[] = [
     'did_it_affect_same_population',
@@ -92,7 +92,7 @@ const eventDetailFields: (keyof PartialDref)[] = [
     'images_file',
     'event_date',
     'event_text',
-];
+] satisfies (keyof PartialDref)[];
 
 const actionsFields: (keyof PartialDref)[] = [
     'national_society_actions',
@@ -108,7 +108,7 @@ const actionsFields: (keyof PartialDref)[] = [
     'ns_respond_date',
     'is_there_major_coordination_mechanism',
     'assessment_report',
-];
+] satisfies (keyof PartialDref)[];
 
 const operationFields: (keyof PartialDref)[] = [
     'people_assisted',
@@ -133,7 +133,7 @@ const operationFields: (keyof PartialDref)[] = [
     'is_surge_personnel_deployed',
     'risk_security',
     'risk_security_concern',
-];
+] satisfies (keyof PartialDref)[];
 
 const submissionFields: (keyof PartialDref)[] = [
     'ns_request_date',
@@ -165,9 +165,9 @@ const submissionFields: (keyof PartialDref)[] = [
     'media_contact_email',
     'media_contact_phone_number',
     'media_contact_title',
-];
+] satisfies (keyof PartialDref)[];
 
-const tabToFieldsMap: Record<TabKeys, (keyof PartialDref)[]> = {
+const tabToFieldsMap = {
     overview: overviewFields,
     eventDetail: eventDetailFields,
     actions: actionsFields,
@@ -184,7 +184,11 @@ export function checkTabErrors(error: Error<PartialDref> | undefined, tabKey: Ta
     const fieldErrors = getErrorObject(error);
 
     const hasErrorOnAnyField = fields.some(
-        (field) => analyzeErrors(getErrorObject(fieldErrors?.[field])),
+        (field) => {
+            const fieldError = fieldErrors?.[field];
+            const isErrored = analyzeErrors<unknown>(fieldError);
+            return isErrored;
+        },
     );
 
     return hasErrorOnAnyField;
