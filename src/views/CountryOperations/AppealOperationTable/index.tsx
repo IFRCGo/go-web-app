@@ -12,6 +12,7 @@ import {
 } from '@togglecorp/fujs';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
+import { resolveToComponent } from '#utils/translation';
 import Container from '#components/Container';
 import {
     useSortState,
@@ -34,6 +35,7 @@ import {
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type AppealTableItem = NonNullable<GoApiResponse<'/api/v2/appeal/'>['results']>[number];
 const keySelector = (appeal: AppealTableItem) => appeal.id;
@@ -43,16 +45,27 @@ const PAGE_SIZE = 5;
 
 interface Props {
     countryId?: string;
+    countryName?: string;
 }
 
 function AppealOperationTable(props: Props) {
-    const { countryId } = props;
+    const {
+        countryId,
+        countryName,
+    } = props;
+
     const strings = useTranslation(i18n);
 
     const sortState = useSortState();
     const { sorting } = sortState;
 
     const [page, setPage] = useState(1);
+    const viewAllOperations = resolveToComponent(
+        strings.allOperations,
+        {
+            name: countryName,
+        },
+    );
     const {
         pending: countryAppealPending,
         response: countryAppealResponse,
@@ -88,8 +101,10 @@ function AppealOperationTable(props: Props) {
                 strings.appealsTableName,
                 (item) => item.name,
                 (item) => ({
-                    to: isDefined(item.event)
-                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event })
+                    to: isDefined(item.id)
+                        ? generatePath(emergencyRoute.absolutePath, {
+                            emergencyId: item.id,
+                        })
                         : undefined,
                 }),
                 {
@@ -130,7 +145,7 @@ function AppealOperationTable(props: Props) {
     );
 
     return (
-        <>
+        <div className={styles.appealContent}>
             <Container
                 footerActions={(
                     <Pager
@@ -159,9 +174,9 @@ function AppealOperationTable(props: Props) {
                 withForwardIcon
                 withUnderline
             >
-                {strings.allOperations}
+                {viewAllOperations}
             </Link>
-        </>
+        </div>
     );
 }
 

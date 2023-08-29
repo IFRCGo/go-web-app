@@ -1,0 +1,13 @@
+{
+    "namespace": "EmergenciesOperationTable",
+    "strings": {
+        "emergenciesHeading": "Recent Emergencies",
+        "emergenciesStartDate": "Start Date",
+        "emergenciesName": "Name",
+        "emergenciesDisasterType": "Disaster Type",
+        "emergenciesGlide": "Glide",
+        "emergenciesRequestedAmount": "Requested Amount",
+        "emergenciesAffected": "Affected",
+        "allEmergencies": "View All Emergencies for {name}"
+    }
+}

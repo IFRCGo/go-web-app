@@ -11,6 +11,6 @@
         "appealsTableFundedAmount": "Funding",
         "appealsTableStatus": "Active",
         "appealsTableCountry": "Country",
-        "allOperations": "View All Operations For Afghanistan"
+        "allOperations": "View All Operations For {name}"
     }
 }

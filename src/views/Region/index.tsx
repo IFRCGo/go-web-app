@@ -54,7 +54,6 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(regionId),
         url: '/api/v2/region_key_figure/',
-        // FIXME: the request is not triggered when pathVariables change
         query: { region: Number(regionId) } as never,
     });
 
