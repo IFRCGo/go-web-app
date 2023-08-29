@@ -1,6 +1,7 @@
 import {
     useMemo,
     useContext,
+    useState,
 } from 'react';
 import {
     generatePath,
@@ -24,6 +25,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Table from '#components/Table';
 import Container from '#components/Container';
+import Pager from '#components/Pager';
 
 import i18n from './i18n.json';
 
@@ -52,6 +54,9 @@ function EmergenciesOperationTable(props: Props) {
         countryId,
         countryName,
     } = props;
+
+    const [page, setPage] = useState(1);
+
     const strings = useTranslation(i18n);
 
     const sortState = useSortState();
@@ -150,6 +155,14 @@ function EmergenciesOperationTable(props: Props) {
                 >
                     {viewAllEmergencies}
                 </Link>
+            )}
+            footerActions={(
+                <Pager
+                    activePage={page}
+                    itemsCount={countryEmergenciesResponse?.count ?? 0}
+                    maxItemsPerPage={PAGE_SIZE}
+                    onActivePageChange={setPage}
+                />
             )}
         >
             <SortContext.Provider value={sortState}>
