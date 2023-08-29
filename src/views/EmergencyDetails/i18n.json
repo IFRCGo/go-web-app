@@ -11,6 +11,7 @@
         "visibility": "Visibility",
         "MDRCode": "MDR Code",
         "assisanceRequestedByNS": "NS Requests International Assistance",
-        "assisanceRequestedByGovernment": "Government Requests International Assistance"
+        "assisanceRequestedByGovernment": "Government Requests International Assistance",
+        "situationalOverviewTitle": "Situational Overview"
     }
 }

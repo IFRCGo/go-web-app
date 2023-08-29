@@ -8,6 +8,8 @@ import Container from '#components/Container';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
+import ExpandableContainer from '#components/ExpandableContainer';
+import HtmlOutput from '#components/HtmlOutput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -123,6 +125,19 @@ export function Component() {
                     />
                 </div>
             </Container>
+            {isDefined(emergencyResponse) && isDefined(emergencyResponse?.summary) && (
+                <ExpandableContainer
+                    heading={strings.situationalOverviewTitle}
+                    withHeaderBorder
+                    childrenContainerClassName={styles.overviewContainer}
+                    initiallyExpanded
+                >
+                    <HtmlOutput
+                        value={emergencyResponse.summary}
+                    />
+
+                </ExpandableContainer>
+            )}
         </div>
     );
 }

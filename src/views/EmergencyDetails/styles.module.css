@@ -1,5 +1,8 @@
 .emergency-details {
+    display: flex;
+    flex-direction: column;
     padding: var(--go-ui-spacing-5xl) 0;
+    gap: var(--go-ui-spacing-5xl);
 
     .key-figure-list {
         display: flex;
