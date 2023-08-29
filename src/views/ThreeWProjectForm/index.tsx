@@ -214,6 +214,10 @@ export function Component() {
         DistrictItem[] | undefined | null
     >([]);
 
+    const [admin2Options, setAdmin2Options] = useState<
+    { id: number; name: string; district_id: number }[] | undefined | null
+    >([]);
+
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
     >([]);
@@ -227,6 +231,7 @@ export function Component() {
         } : undefined,
         onSuccess: (response) => {
             setDistrictOptions(response.project_districts_detail);
+            setAdmin2Options(response.project_admin2_detail);
             setEventOptions([{
                 ...response.event_detail,
                 // FIXME: event dtype id is a must inside event mini but
@@ -264,7 +269,7 @@ export function Component() {
         (val: number | undefined, name: 'project_country') => {
             setFieldValue(val, name);
             setFieldValue(undefined, 'project_districts' as const);
-            // FIXME: Add admin2 select input
+            setFieldValue(undefined, 'project_admin2' as const);
         },
         [setFieldValue],
     );

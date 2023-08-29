@@ -1,0 +1,29 @@
+.district-item {
+    display: flex;
+    flex-direction: column;
+
+    .button {
+        display: flex;
+        justify-content: space-between;
+        padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+        width: 100%;
+
+        .actions {
+            opacity: 0;
+        }
+
+        &:hover {
+            background-color: var(--go-ui-color-background);
+
+            .actions {
+                opacity: 1;
+            }
+        }
+    }
+
+    .admin-2-items {
+        display: flex;
+        flex-direction: column;
+        padding-left: var(--go-ui-spacing-lg);
+    }
+}

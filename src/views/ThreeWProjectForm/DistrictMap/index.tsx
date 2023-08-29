@@ -3,12 +3,15 @@ import useBoolean from '#hooks/useBoolean';
 
 import DistrictMapModal, { type Props as MapModalProps } from './DistrictMapModal';
 
-type Props<NAME> = Omit<MapModalProps<NAME>, 'countryId'> & {
+type Props<NAME, ADMIN2_NAME> = Omit<MapModalProps<NAME, ADMIN2_NAME>, 'countryId'> & {
     countryId: number | undefined;
     className?: string;
 };
 
-function DistrictMap<const NAME>(props: Props<NAME>) {
+function DistrictMap<
+    const NAME,
+    const ADMIN2_NAME,
+>(props: Props<NAME, ADMIN2_NAME>) {
     const {
         className,
         countryId,
