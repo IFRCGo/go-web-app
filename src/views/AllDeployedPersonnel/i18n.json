@@ -1,0 +1,16 @@
+{
+    "namespace": "allDeployedPersonnel",
+    "strings": {
+        "containerHeading": "All Deployed Personnel ({count})",
+        "exportTable": "Export Table",
+        "rapidResponse": "Rapid Response",
+        "personnelTableStartDate": "Start Date",
+        "personnelTableEndDate": "End Date",
+        "personnelTableName": "Name",
+        "personnelTablePosition": "Position",
+        "personnelTableType": "Type",
+        "personnelTableDeployingParty": "Deploying Party",
+        "personnelTableDeployedTo": "Deploying To",
+        "personnelTableEmergency": "Emergency"
+    }
+}
