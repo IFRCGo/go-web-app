@@ -13,4 +13,25 @@
             box-shadow: var(--go-ui-box-shadow-lg);
         }
     }
+
+    .overview-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--go-ui-spacing-lg);
+
+        .overview {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 25rem;
+            gap: var(--go-ui-spacing-sm);
+
+            .color-dot {
+                flex-shrink: 0;
+                border-radius: 0.3rem;
+                width: 0.6rem;
+                height: 0.6rem;
+            }
+        }
+    }
 }
