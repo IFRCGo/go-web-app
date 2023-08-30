@@ -1680,6 +1680,34 @@ const drefApplicationExport = customWrapRoute({
     },
 });
 
+const drefOperationalUpdateExport = customWrapRoute({
+    path: 'dref-operational-update/:opsUpdateId/export',
+    component: {
+        render: () => import('#views/DrefOperationalUpdateExport'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Dref Operational Update Export',
+        visibility: 'is-authenticated',
+    },
+});
+
+const drefFinalReportExport = customWrapRoute({
+    path: 'dref-final-report/:finalReportId/export',
+    component: {
+        render: () => import('#views/DrefFinalReportExport'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Dref Final Report Export',
+        visibility: 'is-authenticated',
+    },
+});
+
 const fieldReportFormNew = customWrapRoute({
     parent: rootLayout,
     path: 'field-report/new',
@@ -1898,6 +1926,8 @@ const wrappedRoutes = {
     newDrefApplicationForm,
     drefApplicationForm,
     drefApplicationExport,
+    drefOperationalUpdateExport,
+    drefFinalReportExport,
     fieldReportFormNew,
     fieldReportFormEdit,
     fieldReportDetails,

@@ -9,13 +9,13 @@ import {
 
 import Container from '#components/Container';
 import Image from '#components/Image';
-import Link from '#components/Link';
 import Header from '#components/Header';
 import TextOutput from '#components/TextOutput';
-import NumberOutput from '#components/NumberOutput';
 import DescriptionText from '#components/domain/DescriptionText';
 import BlockTextOutput from '#components/domain/BlockTextOutput';
+import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
+import Link from '#components/Link';
 import { useRequest } from '#utils/restRequest';
 import { DREF_TYPE_ASSESSMENT, DREF_TYPE_IMMINENT } from '#utils/constants';
 
@@ -28,12 +28,11 @@ import styles from './styles.module.css';
 TODO:
 - Footer with page number and logo
 - Separate font for headings
-- Translation
 */
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { drefId } = useParams<{ drefId: string }>();
+    const { finalReportId } = useParams<{ finalReportId: string }>();
     const [previewReady, setPreviewReady] = useState(false);
     const strings = useTranslation(i18n);
 
@@ -41,10 +40,10 @@ export function Component() {
         // pending: fetchingDref,
         response: drefResponse,
     } = useRequest({
-        skip: isFalsyString(drefId),
-        url: '/api/v2/dref/{id}/',
-        pathVariables: isDefined(drefId) ? {
-            id: drefId,
+        skip: isFalsyString(finalReportId),
+        url: '/api/v2/dref-final-report/{id}/',
+        pathVariables: isDefined(finalReportId) ? {
+            id: finalReportId,
         } : undefined,
         onSuccess: () => {
             async function waitForImages() {
@@ -67,38 +66,24 @@ export function Component() {
         },
     });
 
+    const showMainDonorsSection = isTruthyString(drefResponse?.main_donors?.trim());
     const eventDescriptionDefined = isTruthyString(drefResponse?.event_description?.trim());
     const eventScopeDefined = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT
         && isTruthyString(drefResponse?.event_scope?.trim());
     const imagesFileDefined = isDefined(drefResponse)
         && isDefined(drefResponse.images_file)
         && drefResponse.images_file.length > 0;
-    const anticipatoryActionsDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
-        && isTruthyString(drefResponse?.anticipatory_actions?.trim());
     const showEventDescriptionSection = eventDescriptionDefined
         || eventScopeDefined
         || imagesFileDefined
-        || anticipatoryActionsDefined
         || isDefined(drefResponse?.event_map_file?.file);
-
-    const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
-    const showPreviousOperations = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-        isDefined(drefResponse?.did_it_affect_same_area)
-            || isDefined(drefResponse?.did_it_affect_same_population)
-            || isDefined(drefResponse?.did_ns_respond)
-            || isDefined(drefResponse?.did_ns_request_fund)
-            || isTruthyString(drefResponse?.ns_request_text?.trim())
-            || isTruthyString(drefResponse?.dref_recurrent_text?.trim())
-            || lessonsLearnedDefined
-    );
 
     const ifrcActionsDefined = isTruthyString(drefResponse?.ifrc?.trim());
     const partnerNsActionsDefined = isTruthyString(drefResponse?.partner_national_society?.trim());
     const showMovementPartnersActionsSection = ifrcActionsDefined || partnerNsActionsDefined;
 
-    const showNsAction = isDefined(drefResponse)
-        && isDefined(drefResponse.national_society_actions)
-        && drefResponse.national_society_actions.length > 0;
+    const showNsActionsSection = isDefined(drefResponse?.has_national_society_conducted)
+        || isTruthyString(drefResponse?.national_society_conducted_description);
 
     const icrcActionsDefined = isTruthyString(drefResponse?.icrc?.trim());
 
@@ -115,14 +100,12 @@ export function Component() {
         || unOrOtherActorDefined
         || majorCoordinationMechanismDefined;
 
-    const identifiedGapsDefined = drefResponse?.type_of_dref !== DREF_TYPE_IMMINENT
-        && isTruthyString(drefResponse?.identified_gaps?.trim());
     const needsIdentifiedDefined = isDefined(drefResponse)
         && isDefined(drefResponse.needs_identified)
         && drefResponse.needs_identified.length > 0;
     const showNeedsIdentifiedSection = isDefined(drefResponse)
         && drefResponse.type_of_dref !== DREF_TYPE_ASSESSMENT
-        && (identifiedGapsDefined || needsIdentifiedDefined);
+        && needsIdentifiedDefined;
 
     const operationObjectiveDefined = isTruthyString(drefResponse?.operation_objective?.trim());
     const responseStrategyDefined = isTruthyString(drefResponse?.response_strategy?.trim());
@@ -142,22 +125,15 @@ export function Component() {
         && isDefined(drefResponse.planned_interventions)
         && drefResponse.planned_interventions.length > 0;
 
-    const humanResourceDefined = isTruthyString(drefResponse?.human_resource?.trim());
-    const surgePersonnelDeployedDefined = isTruthyString(
-        drefResponse?.surge_personnel_deployed?.trim(),
+    const financialReportDescriptionDefined = isTruthyString(
+        drefResponse?.financial_report_description?.trim(),
     );
-    const logisticCapacityOfNsDefined = isTruthyString(
-        drefResponse?.logistic_capacity_of_ns?.trim(),
+    const financialReportPreviewDefined = isTruthyString(
+        drefResponse?.financial_report_preview?.trim(),
     );
-    const pmerDefined = isTruthyString(drefResponse?.pmer?.trim());
-    const communicationDefined = isTruthyString(drefResponse?.communication?.trim());
-    const showAboutSupportServicesSection = humanResourceDefined
-        || surgePersonnelDeployedDefined
-        || logisticCapacityOfNsDefined
-        || pmerDefined
-        || communicationDefined;
-
-    const showBudgetOverview = isTruthyString(drefResponse?.budget_file_details?.file);
+    const showFinancialReportSection = financialReportPreviewDefined
+        || financialReportDescriptionDefined
+        || isTruthyString(drefResponse?.financial_report_details?.file);
 
     const nsContactText = [
         drefResponse?.national_society_contact_name,
@@ -201,7 +177,7 @@ export function Component() {
         || mediaContactDefined;
 
     return (
-        <div className={styles.drefApplicationExport}>
+        <div className={styles.drefFinalReportExport}>
             <div className={styles.pageTitleSection}>
                 <img
                     className={styles.ifrcLogo}
@@ -263,7 +239,7 @@ export function Component() {
                 <TextOutput
                     className={styles.budget}
                     label={strings.drefAllocationLabel}
-                    value={drefResponse?.amount_requested}
+                    value={drefResponse?.total_dref_allocation}
                     valueType="number"
                     prefix={strings.chfPrefix}
                     strongValue
@@ -277,7 +253,7 @@ export function Component() {
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.peopleAffectedLabel}
-                    value={drefResponse?.num_affected}
+                    value={drefResponse?.number_of_people_affected}
                     valueType="number"
                     suffix={strings.peopleSuffix}
                     strongValue
@@ -291,32 +267,27 @@ export function Component() {
                     strongValue
                 />
                 <TextOutput
-                    className={styles.metaItem}
+                    className={styles.dateItem}
                     label={strings.operationStartDateLabel}
-                    value={drefResponse?.date_of_approval}
+                    value={drefResponse?.operation_start_date}
                     valueType="date"
                     strongValue
                 />
                 <TextOutput
-                    className={styles.metaItem}
+                    className={styles.dateItem}
+                    label={strings.operationEndDateLabel}
+                    // FIXME: Find out the field
+                    // value={drefResponse?.operation_end_date}
+                    value={undefined}
+                    valueType="date"
+                    strongValue
+                />
+                <TextOutput
+                    className={styles.dateItem}
                     label={strings.operationTimeframeLabel}
-                    value={drefResponse?.operation_timeframe}
+                    value={drefResponse?.total_operation_timeframe}
                     valueType="number"
                     suffix={strings.monthsSuffix}
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.operationEndDateLabel}
-                    value={drefResponse?.end_date}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.drefPublishedLabel}
-                    value={drefResponse?.publishing_date}
-                    valueType="date"
                     strongValue
                 />
                 <TextOutput
@@ -328,6 +299,11 @@ export function Component() {
                     strongValue
                 />
             </div>
+            {showMainDonorsSection && (
+                <DescriptionText className={styles.mainDonorText}>
+                    {drefResponse?.main_donors}
+                </DescriptionText>
+            )}
             {showEventDescriptionSection && (
                 <Container
                     heading={strings.eventDescriptionSectionHeading}
@@ -335,7 +311,6 @@ export function Component() {
                     headingLevel={2}
                     childrenContainerClassName={styles.content}
                 >
-                    {/* TODO: approximate date of impact */}
                     <Image
                         src={drefResponse?.event_map_file?.file}
                         caption={drefResponse?.event_map_file?.caption}
@@ -352,15 +327,13 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
-                    {anticipatoryActionsDefined && (
-                        <Container
-                            heading={strings.anticipatoryActionsHeading}
-                            spacing="compact"
-                        >
-                            <DescriptionText>
-                                {drefResponse?.anticipatory_actions}
-                            </DescriptionText>
-                        </Container>
+                    {imagesFileDefined && drefResponse.images_file?.map(
+                        (imageFile) => (
+                            <Image
+                                src={imageFile.file}
+                                caption={imageFile.caption}
+                            />
+                        ),
                     )}
                     {eventScopeDefined && (
                         <Container
@@ -372,87 +345,27 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
-                    {imagesFileDefined && drefResponse.images_file?.map(
-                        (imageFile) => (
-                            <Image
-                                src={imageFile.file}
-                                alt=""
-                                caption={imageFile.caption}
-                            />
-                        ),
-                    )}
                 </Container>
             )}
-            {showPreviousOperations && (
+            {showNsActionsSection && (
                 <Container
-                    heading={strings.previousOperationsSectionHeading}
-                    className={styles.previousOperationSection}
-                    childrenContainerClassName={styles.content}
-                    headingLevel={2}
-                >
-                    <BlockTextOutput
-                        label={strings.sameAreaAffectedLabel}
-                        value={drefResponse?.did_it_affect_same_area}
-                        valueType="boolean"
-                        strongValue
-                    />
-                    <BlockTextOutput
-                        label={strings.samePopulationAffectedLabel}
-                        value={drefResponse?.did_it_affect_same_population}
-                        valueType="boolean"
-                        strongValue
-                    />
-                    <BlockTextOutput
-                        label={strings.didNsRespondLabel}
-                        value={drefResponse?.did_ns_respond}
-                        valueType="boolean"
-                        strongValue
-                    />
-                    <BlockTextOutput
-                        label={strings.didNsRequestFundLabel}
-                        value={drefResponse?.did_ns_request_fund}
-                        valueType="boolean"
-                        strongValue
-                    />
-                    <BlockTextOutput
-                        label={strings.nsOperationLabel}
-                        value={drefResponse?.ns_request_text}
-                        valueType="text"
-                    />
-                    <BlockTextOutput
-                        label={strings.recurrentEventJustificationLabel}
-                        value={drefResponse?.dref_recurrent_text}
-                        valueType="text"
-                    />
-                    {lessonsLearnedDefined && (
-                        <TextOutput
-                            className={styles.lessonsLearned}
-                            label={strings.lessonsLearnedLabel}
-                            value={drefResponse?.lessons_learned}
-                            valueType="text"
-                            strongLabel
-                        />
-                    )}
-                </Container>
-            )}
-            {showNsAction && (
-                <Container
-                    heading={strings.currentNationalSocietyActionsHeading}
+                    heading={strings.nationalSocietyActionsHeading}
                     className={styles.nsActionsSection}
                     childrenContainerClassName={styles.content}
                     headingLevel={2}
                 >
-                    {drefResponse?.national_society_actions?.map(
-                        (nsAction) => (
-                            <BlockTextOutput
-                                key={nsAction.id}
-                                label={nsAction.title_display}
-                                value={nsAction.description}
-                                valueType="text"
-                                strongLabel
-                            />
-                        ),
-                    )}
+                    <BlockTextOutput
+                        label={strings.nsConductedInterventionLabel}
+                        value={drefResponse?.has_national_society_conducted}
+                        valueType="boolean"
+                        strongLabel
+                    />
+                    <BlockTextOutput
+                        label={strings.nsInterventionDescriptionLabel}
+                        value={drefResponse?.national_society_conducted_description}
+                        valueType="text"
+                        strongLabel
+                    />
                 </Container>
             )}
             {showMovementPartnersActionsSection && (
@@ -559,14 +472,6 @@ export function Component() {
                             </Container>
                         ),
                     )}
-                    {identifiedGapsDefined && (
-                        <Container
-                            heading={strings.identifiedGapsHeading}
-                            spacing="compact"
-                        >
-                            {drefResponse?.identified_gaps}
-                        </Container>
-                    )}
                 </Container>
             )}
             {showOperationStrategySection && (
@@ -627,6 +532,7 @@ export function Component() {
                     )}
                 </Container>
             )}
+            {/* TODO: check if this section is also optional */}
             <Container
                 heading={strings.targetPopulationSectionHeading}
                 headingLevel={2}
@@ -671,23 +577,27 @@ export function Component() {
                 )}
                 <BlockTextOutput
                     label={strings.ruralLabel}
-                    // FIXME: this is currently sent as string
-                    value={drefResponse?.people_per_local || undefined}
+                    value={isDefined(drefResponse?.people_per_local)
+                        ? Number(drefResponse?.people_per_local)
+                        : undefined}
                     valueType="number"
                     suffix="%"
                     strongValue
                 />
                 <BlockTextOutput
                     label={strings.urbanLabel}
-                    // FIXME: this is currently sent as string
-                    value={drefResponse?.people_per_urban || undefined}
+                    value={isDefined(drefResponse?.people_per_urban)
+                        ? Number(drefResponse?.people_per_urban)
+                        : undefined}
                     suffix="%"
                     valueType="number"
                     strongValue
                 />
                 <BlockTextOutput
                     label={strings.peopleWithDisabilitesLabel}
-                    value={drefResponse?.disability_people_per || undefined}
+                    value={isDefined(drefResponse?.disability_people_per)
+                        ? Number(drefResponse?.disability_people_per)
+                        : undefined}
                     labelClassName={styles.disabilityLabel}
                     valueClassName={styles.disabilityValue}
                     suffix="%"
@@ -754,9 +664,9 @@ export function Component() {
             )}
             {plannedInterventionDefined && (
                 <Container
-                    heading={strings.plannedInterventionSectionHeading}
+                    heading={strings.interventionSectionHeading}
                     headingLevel={2}
-                    className={styles.plannedInterventionSection}
+                    className={styles.implementationSection}
                     childrenContainerClassName={styles.content}
                 >
                     {drefResponse?.planned_interventions?.map(
@@ -775,16 +685,22 @@ export function Component() {
                                 headerDescription={(
                                     <>
                                         <TextOutput
+                                            label={strings.budgetLabel}
+                                            value={plannedIntervention.budget}
+                                            valueType="number"
+                                            prefix={strings.chfPrefix}
+                                            strongLabel
+                                        />
+                                        <TextOutput
                                             label={strings.targetedPersonsLabel}
                                             value={plannedIntervention.person_targeted}
                                             valueType="number"
                                             strongLabel
                                         />
                                         <TextOutput
-                                            label={strings.budgetLabel}
-                                            value={plannedIntervention.budget}
+                                            label={strings.assistedPersonsLabel}
+                                            value={plannedIntervention.person_assisted}
                                             valueType="number"
-                                            prefix={strings.chfPrefix}
                                             strongLabel
                                         />
                                     </>
@@ -805,6 +721,9 @@ export function Component() {
                                     <div className={styles.targetLabel}>
                                         {strings.indicatorTargetLabel}
                                     </div>
+                                    <div className={styles.actualLabel}>
+                                        {strings.indicatorActualLabel}
+                                    </div>
                                     {plannedIntervention.indicators?.map(
                                         (indicator) => (
                                             <>
@@ -815,102 +734,84 @@ export function Component() {
                                                     className={styles.target}
                                                     value={indicator.target}
                                                 />
+                                                <NumberOutput
+                                                    className={styles.actual}
+                                                    value={indicator.actual}
+                                                />
                                             </>
                                         ),
                                     )}
                                 </Container>
-                                <Container
-                                    heading={strings.priorityActionsHeading}
-                                    headingLevel={4}
-                                    spacing="compact"
-                                >
-                                    <DescriptionText>
-                                        {plannedIntervention.description}
-                                    </DescriptionText>
-                                </Container>
+                                {isTruthyString(
+                                    plannedIntervention
+                                        .narrative_description_of_achievements?.trim(),
+                                ) && (
+                                    <Container
+                                        heading={strings.achievementsHeading}
+                                        headingLevel={4}
+                                        spacing="compact"
+                                    >
+                                        <DescriptionText>
+                                            {plannedIntervention
+                                                .narrative_description_of_achievements}
+                                        </DescriptionText>
+                                    </Container>
+                                )}
+                                {isTruthyString(plannedIntervention.lessons_learnt?.trim()) && (
+                                    <Container
+                                        heading={strings.lessonsLearntHeading}
+                                        headingLevel={4}
+                                        spacing="compact"
+                                    >
+                                        <DescriptionText>
+                                            {plannedIntervention.lessons_learnt}
+                                        </DescriptionText>
+                                    </Container>
+                                )}
+                                {isTruthyString(plannedIntervention.challenges?.trim()) && (
+                                    <Container
+                                        heading={strings.challengesHeading}
+                                        headingLevel={4}
+                                        spacing="compact"
+                                    >
+                                        <DescriptionText>
+                                            {plannedIntervention.challenges}
+                                        </DescriptionText>
+                                    </Container>
+                                )}
                             </Container>
                         ),
                     )}
                 </Container>
             )}
-            {showAboutSupportServicesSection && (
+            {showFinancialReportSection && (
                 <Container
-                    heading={strings.aboutSupportServicesSectionHeading}
+                    heading={strings.financialReportSectionHeading}
                     headingLevel={2}
-                    className={styles.aboutSupportServicesSection}
-                    childrenContainerClassName={styles.content}
-                >
-                    {humanResourceDefined && (
-                        <Container
-                            heading={strings.humanResourcesHeading}
-                            spacing="compact"
-                        >
-                            <DescriptionText>
-                                {drefResponse?.human_resource}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {surgePersonnelDeployedDefined && (
-                        <Container
-                            heading={strings.surgePersonnelDeployedHeading}
-                            spacing="compact"
-                        >
-                            <DescriptionText>
-                                {drefResponse?.surge_personnel_deployed}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {logisticCapacityOfNsDefined && (
-                        <Container
-                            heading={strings.logisticCapacityHeading}
-                            spacing="compact"
-                        >
-                            <DescriptionText>
-                                {drefResponse?.logistic_capacity_of_ns}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {pmerDefined && (
-                        <Container
-                            heading={strings.pmerHeading}
-                            spacing="compact"
-                        >
-                            <DescriptionText>
-                                {drefResponse?.pmer}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                    {communicationDefined && (
-                        <Container
-                            heading={strings.communicationHeading}
-                            spacing="compact"
-                        >
-                            <DescriptionText>
-                                {drefResponse?.communication}
-                            </DescriptionText>
-                        </Container>
-                    )}
-                </Container>
-            )}
-            {showBudgetOverview && (
-                <Container
-                    heading={strings.budgetOverSectionHeading}
-                    headingLevel={2}
-                    className={styles.budgetOverviewSection}
+                    className={styles.financialOverviewSection}
                     childrenContainerClassName={styles.content}
                     actions={(
-                        <Link
-                            to={drefResponse?.budget_file_details?.file}
-                        >
+                        <Link to={drefResponse?.financial_report_details?.file}>
                             <DownloadLineIcon className={styles.downloadIcon} />
                         </Link>
                     )}
                 >
-                    <img
-                        className={styles.budgetFilePreview}
-                        src={drefResponse?.budget_file_preview}
-                        alt=""
-                    />
+                    {financialReportPreviewDefined && (
+                        <img
+                            className={styles.preview}
+                            src={drefResponse?.financial_report_preview}
+                            alt=""
+                        />
+                    )}
+                    {financialReportDescriptionDefined && (
+                        <Container
+                            heading={strings.financialReportVariancesHeading}
+                        >
+                            <DescriptionText>
+                                {drefResponse?.financial_report_description}
+                            </DescriptionText>
+                        </Container>
+                    )}
                 </Container>
             )}
             {showContactsSection && (
@@ -974,4 +875,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'DrefApplicationExport';
+Component.displayName = 'DrefFinalReportExport';

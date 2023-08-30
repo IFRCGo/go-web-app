@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     isDefined,
     isFalsyString,
@@ -9,12 +8,11 @@ import {
 
 import Container from '#components/Container';
 import Image from '#components/Image';
-import Link from '#components/Link';
 import Header from '#components/Header';
 import TextOutput from '#components/TextOutput';
-import NumberOutput from '#components/NumberOutput';
 import DescriptionText from '#components/domain/DescriptionText';
 import BlockTextOutput from '#components/domain/BlockTextOutput';
+import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { DREF_TYPE_ASSESSMENT, DREF_TYPE_IMMINENT } from '#utils/constants';
@@ -28,12 +26,11 @@ import styles from './styles.module.css';
 TODO:
 - Footer with page number and logo
 - Separate font for headings
-- Translation
 */
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { drefId } = useParams<{ drefId: string }>();
+    const { opsUpdateId } = useParams<{ opsUpdateId: string }>();
     const [previewReady, setPreviewReady] = useState(false);
     const strings = useTranslation(i18n);
 
@@ -41,10 +38,10 @@ export function Component() {
         // pending: fetchingDref,
         response: drefResponse,
     } = useRequest({
-        skip: isFalsyString(drefId),
-        url: '/api/v2/dref/{id}/',
-        pathVariables: isDefined(drefId) ? {
-            id: drefId,
+        skip: isFalsyString(opsUpdateId),
+        url: '/api/v2/dref-op-update/{id}/',
+        pathVariables: isDefined(opsUpdateId) ? {
+            id: opsUpdateId,
         } : undefined,
         onSuccess: () => {
             async function waitForImages() {
@@ -81,24 +78,30 @@ export function Component() {
         || anticipatoryActionsDefined
         || isDefined(drefResponse?.event_map_file?.file);
 
-    const lessonsLearnedDefined = isTruthyString(drefResponse?.lessons_learned?.trim());
-    const showPreviousOperations = drefResponse?.type_of_dref !== DREF_TYPE_ASSESSMENT && (
-        isDefined(drefResponse?.did_it_affect_same_area)
-            || isDefined(drefResponse?.did_it_affect_same_population)
-            || isDefined(drefResponse?.did_ns_respond)
-            || isDefined(drefResponse?.did_ns_request_fund)
-            || isTruthyString(drefResponse?.ns_request_text?.trim())
-            || isTruthyString(drefResponse?.dref_recurrent_text?.trim())
-            || lessonsLearnedDefined
-    );
-
     const ifrcActionsDefined = isTruthyString(drefResponse?.ifrc?.trim());
     const partnerNsActionsDefined = isTruthyString(drefResponse?.partner_national_society?.trim());
     const showMovementPartnersActionsSection = ifrcActionsDefined || partnerNsActionsDefined;
 
-    const showNsAction = isDefined(drefResponse)
+    const summaryOfChangeDefined = isTruthyString(drefResponse?.summary_of_change?.trim());
+    const specifiedTriggerMetDefined = drefResponse?.type_of_dref === DREF_TYPE_IMMINENT
+        && isTruthyString(drefResponse?.specified_trigger_met?.trim());
+    const showSummaryOfChangesSection = summaryOfChangeDefined
+        || specifiedTriggerMetDefined
+        || isDefined(drefResponse?.changing_timeframe_operation)
+        || isDefined(drefResponse?.changing_geographic_location)
+        || isDefined(drefResponse?.changing_budget)
+        || isDefined(drefResponse?.changing_operation_strategy)
+        || isDefined(drefResponse?.changing_target_population_of_operation)
+        || isDefined(drefResponse?.request_for_second_allocation)
+        || isDefined(drefResponse?.has_forecasted_event_materialize);
+
+    const nsActionImagesDefined = isDefined(drefResponse)
+        && drefResponse.photos_file
+        && drefResponse.photos_file.length > 0;
+    const nsActionsDefined = isDefined(drefResponse)
         && isDefined(drefResponse.national_society_actions)
         && drefResponse.national_society_actions.length > 0;
+    const showNsActionsSection = nsActionsDefined || nsActionImagesDefined;
 
     const icrcActionsDefined = isTruthyString(drefResponse?.icrc?.trim());
 
@@ -157,7 +160,7 @@ export function Component() {
         || pmerDefined
         || communicationDefined;
 
-    const showBudgetOverview = isTruthyString(drefResponse?.budget_file_details?.file);
+    // const showBudgetOverviewSection = isTruthyString(drefResponse?.budget_file_details?.file);
 
     const nsContactText = [
         drefResponse?.national_society_contact_name,
@@ -201,7 +204,7 @@ export function Component() {
         || mediaContactDefined;
 
     return (
-        <div className={styles.drefApplicationExport}>
+        <div className={styles.drefOperationalUpdateExport}>
             <div className={styles.pageTitleSection}>
                 <img
                     className={styles.ifrcLogo}
@@ -263,7 +266,7 @@ export function Component() {
                 <TextOutput
                     className={styles.budget}
                     label={strings.drefAllocationLabel}
-                    value={drefResponse?.amount_requested}
+                    value={drefResponse?.total_dref_allocation}
                     valueType="number"
                     prefix={strings.chfPrefix}
                     strongValue
@@ -277,7 +280,7 @@ export function Component() {
                 <TextOutput
                     className={styles.metaItem}
                     label={strings.peopleAffectedLabel}
-                    value={drefResponse?.num_affected}
+                    value={drefResponse?.number_of_people_affected}
                     valueType="number"
                     suffix={strings.peopleSuffix}
                     strongValue
@@ -299,24 +302,24 @@ export function Component() {
                 />
                 <TextOutput
                     className={styles.metaItem}
+                    label={strings.operationEndDateLabel}
+                    value={drefResponse?.new_operational_end_date}
+                    valueType="date"
+                    strongValue
+                />
+                <TextOutput
+                    className={styles.metaItem}
                     label={strings.operationTimeframeLabel}
-                    value={drefResponse?.operation_timeframe}
+                    value={drefResponse?.total_operation_timeframe}
                     valueType="number"
                     suffix={strings.monthsSuffix}
                     strongValue
                 />
                 <TextOutput
                     className={styles.metaItem}
-                    label={strings.operationEndDateLabel}
-                    value={drefResponse?.end_date}
-                    valueType="date"
-                    strongValue
-                />
-                <TextOutput
-                    className={styles.metaItem}
-                    label={strings.drefPublishedLabel}
-                    value={drefResponse?.publishing_date}
-                    valueType="date"
+                    label={strings.additionalAllocationRequestedLabel}
+                    value={drefResponse?.additional_allocation}
+                    valueType="number"
                     strongValue
                 />
                 <TextOutput
@@ -335,7 +338,6 @@ export function Component() {
                     headingLevel={2}
                     childrenContainerClassName={styles.content}
                 >
-                    {/* TODO: approximate date of impact */}
                     <Image
                         src={drefResponse?.event_map_file?.file}
                         caption={drefResponse?.event_map_file?.caption}
@@ -351,6 +353,14 @@ export function Component() {
                                 {drefResponse?.event_description}
                             </DescriptionText>
                         </Container>
+                    )}
+                    {imagesFileDefined && drefResponse.images_file?.map(
+                        (imageFile) => (
+                            <Image
+                                src={imageFile.file}
+                                caption={imageFile.caption}
+                            />
+                        ),
                     )}
                     {anticipatoryActionsDefined && (
                         <Container
@@ -372,86 +382,106 @@ export function Component() {
                             </DescriptionText>
                         </Container>
                     )}
-                    {imagesFileDefined && drefResponse.images_file?.map(
-                        (imageFile) => (
-                            <Image
-                                src={imageFile.file}
-                                alt=""
-                                caption={imageFile.caption}
-                            />
-                        ),
-                    )}
                 </Container>
             )}
-            {showPreviousOperations && (
+            {showSummaryOfChangesSection && (
                 <Container
-                    heading={strings.previousOperationsSectionHeading}
-                    className={styles.previousOperationSection}
+                    heading={strings.summaryOfChangesSectionHeading}
+                    className={styles.summaryOfChangesSection}
                     childrenContainerClassName={styles.content}
                     headingLevel={2}
                 >
                     <BlockTextOutput
-                        label={strings.sameAreaAffectedLabel}
-                        value={drefResponse?.did_it_affect_same_area}
+                        label={strings.changingTimeFrameLabel}
+                        value={drefResponse?.changing_timeframe_operation}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        label={strings.samePopulationAffectedLabel}
-                        value={drefResponse?.did_it_affect_same_population}
+                        label={strings.changingStrategyLabel}
+                        value={drefResponse?.changing_operation_strategy}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        label={strings.didNsRespondLabel}
-                        value={drefResponse?.did_ns_respond}
+                        label={strings.changingTargetPopulationLabel}
+                        value={drefResponse?.changing_target_population_of_operation}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        label={strings.didNsRequestFundLabel}
-                        value={drefResponse?.did_ns_request_fund}
+                        label={strings.changingLocationLabel}
+                        value={drefResponse?.changing_geographic_location}
                         valueType="boolean"
                         strongValue
                     />
                     <BlockTextOutput
-                        label={strings.nsOperationLabel}
-                        value={drefResponse?.ns_request_text}
-                        valueType="text"
+                        label={strings.changingBudgetLabel}
+                        value={drefResponse?.changing_budget}
+                        valueType="boolean"
+                        strongValue
                     />
                     <BlockTextOutput
-                        label={strings.recurrentEventJustificationLabel}
-                        value={drefResponse?.dref_recurrent_text}
-                        valueType="text"
+                        label={strings.secondAllocationLabel}
+                        value={drefResponse?.request_for_second_allocation}
+                        valueType="boolean"
+                        strongValue
                     />
-                    {lessonsLearnedDefined && (
+                    <BlockTextOutput
+                        label={strings.eventMaterializedLabel}
+                        value={drefResponse?.has_forecasted_event_materialize}
+                        valueType="boolean"
+                        strongValue
+                    />
+                    {summaryOfChangeDefined && (
                         <TextOutput
-                            className={styles.lessonsLearned}
-                            label={strings.lessonsLearnedLabel}
-                            value={drefResponse?.lessons_learned}
+                            className={styles.summary}
+                            label={strings.changeSummaryLabel}
+                            value={drefResponse?.summary_of_change}
+                            valueType="text"
+                            strongLabel
+                        />
+                    )}
+                    {specifiedTriggerMetDefined && (
+                        <TextOutput
+                            className={styles.specifiedTriggerMet}
+                            label={strings.specifiedTriggerMetLabel}
+                            value={drefResponse?.specified_trigger_met}
                             valueType="text"
                             strongLabel
                         />
                     )}
                 </Container>
             )}
-            {showNsAction && (
+            {showNsActionsSection && (
                 <Container
                     heading={strings.currentNationalSocietyActionsHeading}
                     className={styles.nsActionsSection}
                     childrenContainerClassName={styles.content}
                     headingLevel={2}
                 >
-                    {drefResponse?.national_society_actions?.map(
-                        (nsAction) => (
-                            <BlockTextOutput
-                                key={nsAction.id}
-                                label={nsAction.title_display}
-                                value={nsAction.description}
-                                valueType="text"
-                                strongLabel
+                    {nsActionImagesDefined && drefResponse?.photos_file?.map(
+                        (nsActionImage) => (
+                            <Image
+                                src={nsActionImage.file}
+                                caption={nsActionImage.caption}
                             />
                         ),
+                    )}
+                    {nsActionsDefined && (
+                        <div className={styles.actions}>
+                            {drefResponse?.national_society_actions?.map(
+                                (nsAction) => (
+                                    <BlockTextOutput
+                                        key={nsAction.id}
+                                        label={nsAction.title_display}
+                                        value={nsAction.description}
+                                        valueType="text"
+                                        strongLabel
+                                    />
+                                ),
+                            )}
+                        </div>
                     )}
                 </Container>
             )}
@@ -627,6 +657,7 @@ export function Component() {
                     )}
                 </Container>
             )}
+            {/* TODO: check if this section is also optional */}
             <Container
                 heading={strings.targetPopulationSectionHeading}
                 headingLevel={2}
@@ -671,23 +702,27 @@ export function Component() {
                 )}
                 <BlockTextOutput
                     label={strings.ruralLabel}
-                    // FIXME: this is currently sent as string
-                    value={drefResponse?.people_per_local || undefined}
+                    value={isDefined(drefResponse?.people_per_local)
+                        ? Number(drefResponse?.people_per_local)
+                        : undefined}
                     valueType="number"
                     suffix="%"
                     strongValue
                 />
                 <BlockTextOutput
                     label={strings.urbanLabel}
-                    // FIXME: this is currently sent as string
-                    value={drefResponse?.people_per_urban || undefined}
+                    value={isDefined(drefResponse?.people_per_urban)
+                        ? Number(drefResponse?.people_per_urban)
+                        : undefined}
                     suffix="%"
                     valueType="number"
                     strongValue
                 />
                 <BlockTextOutput
                     label={strings.peopleWithDisabilitesLabel}
-                    value={drefResponse?.disability_people_per || undefined}
+                    value={isDefined(drefResponse?.disability_people_per)
+                        ? Number(drefResponse?.disability_people_per)
+                        : undefined}
                     labelClassName={styles.disabilityLabel}
                     valueClassName={styles.disabilityValue}
                     suffix="%"
@@ -805,6 +840,9 @@ export function Component() {
                                     <div className={styles.targetLabel}>
                                         {strings.indicatorTargetLabel}
                                     </div>
+                                    <div className={styles.actualLabel}>
+                                        {strings.indicatorActualLabel}
+                                    </div>
                                     {plannedIntervention.indicators?.map(
                                         (indicator) => (
                                             <>
@@ -815,17 +853,21 @@ export function Component() {
                                                     className={styles.target}
                                                     value={indicator.target}
                                                 />
+                                                <NumberOutput
+                                                    className={styles.actual}
+                                                    value={indicator.actual}
+                                                />
                                             </>
                                         ),
                                     )}
                                 </Container>
                                 <Container
-                                    heading={strings.priorityActionsHeading}
+                                    heading={strings.progressTowardsOutcomeHeading}
                                     headingLevel={4}
                                     spacing="compact"
                                 >
                                     <DescriptionText>
-                                        {plannedIntervention.description}
+                                        {plannedIntervention.progress_towards_outcome}
                                     </DescriptionText>
                                 </Container>
                             </Container>
@@ -892,7 +934,8 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {showBudgetOverview && (
+            {/* FIXME: confirm if budget overview section is needed here */}
+            {/* showBudgetOverviewSection && (
                 <Container
                     heading={strings.budgetOverSectionHeading}
                     headingLevel={2}
@@ -912,7 +955,7 @@ export function Component() {
                         alt=""
                     />
                 </Container>
-            )}
+            ) */}
             {showContactsSection && (
                 <Container
                     className={styles.contactInformationSection}
@@ -974,4 +1017,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'DrefApplicationExport';
+Component.displayName = 'DrefOperationalUpdateExport';

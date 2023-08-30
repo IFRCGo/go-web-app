@@ -1,4 +1,4 @@
-.dref-application-export {
+.dref-operational-update-export {
     --pdf-element-bg: var(--go-ui-color-gray-20);
 
     display: flex;
@@ -65,14 +65,15 @@
         }
     }
 
-    .previous-operation-section {
+    .summary-of-changes-section {
         .content {
             display: grid;
             grid-gap: var(--go-ui-width-separator-md);
             grid-template-columns: 1fr 1fr;
         }
 
-        .lessons-learned {
+        .specified-trigger-met,
+        .summary {
             grid-column: span 2;
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-lg);
@@ -81,12 +82,25 @@
     }
 
     .other-actions-section,
-    .movement-partners-actions-section,
-    .ns-actions-section {
+    .movement-partners-actions-section {
         .content {
             display: grid;
             grid-gap: var(--go-ui-width-separator-md);
             grid-template-columns: 1fr 2fr;
+        }
+    }
+
+    .ns-actions-section {
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-lg);
+
+            .actions {
+                display: grid;
+                grid-gap: var(--go-ui-width-separator-md);
+                grid-template-columns: 1fr 2fr;
+            }
         }
     }
 
@@ -193,18 +207,20 @@
 
                     .indicators-content {
                         display: grid;
-                        grid-template-columns: 5fr 3fr;
+                        grid-template-columns: 4fr 2fr 2fr;
                         grid-gap: var(--go-ui-width-separator-sm);
 
                         .title-label,
-                        .target-label {
+                        .target-label,
+                        .actual-label {
                             background-color: var(--go-ui-color-element-background);
                             padding: var(--go-ui-spacing-sm);
                             font-weight: var(--go-ui-font-weight-semibold);
                         }
 
                         .title,
-                        .target {
+                        .target,
+                        .actual {
                             background-color: var(--go-ui-color-element-background);
                             padding: var(--go-ui-spacing-sm);
                         }
