@@ -44,13 +44,11 @@ export function Component() {
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-mobile-clinic_01.jpg"
                     caption={strings.emergencyClinicMobileDistributing}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-mobile-clinic_02.jpg"
                     caption={strings.emergencyClinicMobileClinic}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
             </div>

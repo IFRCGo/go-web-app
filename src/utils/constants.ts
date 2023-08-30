@@ -78,6 +78,9 @@ export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
 type DrefStatus = components['schemas']['OperationTypeEnum'];
 export const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
 export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;
+type TypeOfDrefEnum = components['schemas']['TypeOfDrefEnum'];
+export const DREF_TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
+export const DREF_TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
 
 // Subscriptions
 type SubscriptionRecordTypeEnum = components['schemas']['RtypeEnum'];

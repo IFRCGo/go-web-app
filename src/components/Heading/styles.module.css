@@ -36,27 +36,15 @@
     &.level-four {
         --font-size: var(--go-ui-font-size-lg);
         --line-height: var(--go-ui-line-height-medium);
-
-        @media print {
-            color: var(--go-ui-color-primary-red);
-        }
     }
 
     &.level-five {
         --font-size: var(--go-ui-font-size-md);
         --line-height: var(--go-ui-line-height-medium);
-
-        @media print {
-            color: var(--go-ui-color-primary-red);
-        }
     }
 
     &.level-six {
         --font-size: var(--go-ui-font-size-sm);
         --line-height: var(--go-ui-line-height-medium);
-
-        @media print {
-            color: var(--go-ui-color-primary-red);
-        }
     }
 }

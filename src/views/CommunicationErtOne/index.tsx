@@ -44,19 +44,16 @@ export function Component() {
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/comms-comms_01.jpg"
                     caption={strings.communicationErtOneImageOne}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/comms-comms_02.jpg"
                     caption={strings.communicationErtOneImageTwo}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/comms-comms_03.jpg"
                     caption={strings.communicationErtOneImageThree}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
             </div>

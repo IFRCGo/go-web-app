@@ -1,17 +1,19 @@
 .text-output {
     display: flex;
-    gap: var(--go-ui-spacing-sm);
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0 var(--go-ui-spacing-sm);
 
-    .container {
-        display: flex;
-        align-items: baseline;
-        flex-wrap: wrap;
-        gap: 0 var(--go-ui-spacing-sm);
+    .label {
+        &.with-colon::after {
+            content: ':';
+        }
+    }
 
-        .label {
-            &.with-colon::after {
-                content: ':';
-            }
+    .value {
+        &.text-type {
+            text-align: justify;
+            white-space: pre-wrap;
         }
     }
 

@@ -12,9 +12,10 @@
             grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
 
             .image {
-                min-height: 10rem;
+                height: 16rem;
             }
         }
+
         .inner-content {
             display: flex;
             flex-direction: column;
