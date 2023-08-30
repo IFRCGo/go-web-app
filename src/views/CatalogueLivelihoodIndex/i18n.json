@@ -1,0 +1,31 @@
+{
+    "namespace": "catalogueLivelihoods",
+    "strings": {
+        "catalogueLivelihoodTitle": "Livelihoods and Basic Needs",
+        "catalogueLivelihoodDetail": "IFRC operates within the Sustainable Livelihoods Framework and has identified 5 types of Livelihoods assistance: 1. provisioning for lost livelihoods sources (basic needs assistance), 2. livelihoods recovery including replacement of lost Livelihoods assets, 3. livelihoods strengthening, 4. livelihoods diversification and 5. livelihoods protection. In Surge context, interventions will first focus on meeting basic needs through livelihoods provisioning, which includes that immediate food and nutrition needs are met (typically through in-kind support, cash or voucher assistance). Meanwhile other activities can be designed aiming at preventing further erosion of productive assets (livelihoods protection) or supporting the recovery of livelihoods through assets’ replacement and skills strengthening.",
+        "catalogueLivelihoodRoleHeading": "Rapid Response Personnel",
+        "catalogueLivelihoodRoleTitle": "Role Profiles",
+        "catalogueLivelihoodCoordinator": "Livelihoods and Basic Needs Coordinator",
+        "catalogueLivelihoodOfficer": "Livelihoods and Basic Needs Officer",
+        "catalogueLivelihoodServicesHeading": "Services",
+        "catalogueLivelihoodServicesRapidResponse": "Rapid Response",
+        "catalogueLivelihoodServicesTitle": "Livelihoods and Basic needs",
+        "catalogueLivelihoodAdditionalResources": "Additional Resources",
+        "catalogueLivelihoodLearnMore": "Learn More",
+        "catalogueAdditionalResources": "Additional Resources",
+        "catalogueIFRCLivelihoodsResourceCenter": "IFRC Livelihoods Resource Centre (LRC)",
+        "catalogueIFRCLivelihoodsResourceCenterDescription": "The Centre plays an active role in raising awareness and common understanding around livelihoods.",
+        "catalogueLivelihoodsToolbox": "Livelihoods Toolbox",
+        "catalogueLivelihoodsToolboxDescription": "This Livelihoods Toolbox is meant to be a practical resource for livelihoods programming; a dynamic but structured box to facilitate access and understanding to existing tools for the different phases of a livelihoods project.",
+        "catalogueLivelihoodsIndicators": "Livelihoods Indicators",
+        "catalogueLivelihoodsIndicatorsDescription": "Key indicators and a compilation of livelihood indicators.",
+        "catalogueHouseholdEconomicsSecurity": "Household Economic Security Guidelines (under revision)",
+        "catalogueHouseholdEconomicsSecurityDescription": "Technical guidelines for assessment, analysis, and programme design.",
+        "catalogueLivelihoodsGuidelines": "Livelihoods Guidelines",
+        "catalogueLivelihoodsGuidelinesDescription": "This is a practical ‘how to’ guide to start or improve livelihoods programming under an early recovery or developmental programme.",
+        "catalogueLivelihoodsFoodSecurity": "Food security assessment guidelines",
+        "catalogueLivelihoodsFoodSecurityDescription": "This guide aims to assist National Society staff and volunteers throughout the world in undertaking food security assessments. It does not require prior knowledge or experience.",
+        "catalogueLivelihoodsResource": "Livelihoods Resource Centre trainings",
+        "catalogueLivelihoodsResourceDescription": "A number of standard training packages exist and can be taught by the Livelihoods Resource Centre (face-to-face or online)"
+    }
+}
