@@ -12,6 +12,9 @@
         "MDRCode": "MDR Code",
         "assisanceRequestedByNS": "NS Requests International Assistance",
         "assisanceRequestedByGovernment": "Government Requests International Assistance",
-        "situationalOverviewTitle": "Situational Overview"
+        "situationalOverviewTitle": "Situational Overview",
+        "linksTitle": "Links",
+        "emergencyMapTitle": "Affected Region",
+        "exportMap": "Export"
     }
 }

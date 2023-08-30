@@ -54,6 +54,7 @@ export const COLOR_RED = '#f5333f';
 export const COLOR_DARK_RED = '#730413';
 export const COLOR_PRIMARY_BLUE = '#011e41';
 export const COLOR_PRIMARY_RED = '#f5333f';
+export const COLOR_LIGHT_RED = 'rgba(245,50,63,0.5)';
 
 // Three W
 

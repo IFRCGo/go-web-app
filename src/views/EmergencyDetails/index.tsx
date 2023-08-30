@@ -1,15 +1,21 @@
 import { useOutletContext } from 'react-router-dom';
 import useTranslation from '#hooks/useTranslation';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isTruthyString } from '@togglecorp/fujs';
+import { DownloadFillIcon } from '@ifrc-go/icons';
 
-import KeyFigure from '#components/KeyFigure';
-import TextOutput from '#components/TextOutput';
+import Button from '#components/Button';
 import Container from '#components/Container';
-import type { EmergencyOutletContext } from '#utils/outletContext';
-import useDisasterType from '#hooks/domain/useDisasterType';
-import SeverityIndicator from '#components/domain/SeverityIndicator';
 import ExpandableContainer from '#components/ExpandableContainer';
 import HtmlOutput from '#components/HtmlOutput';
+import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
+import SeverityIndicator from '#components/domain/SeverityIndicator';
+import TextOutput from '#components/TextOutput';
+import Tooltip from '#components/Tooltip';
+import type { EmergencyOutletContext } from '#utils/outletContext';
+import useDisasterType from '#hooks/domain/useDisasterType';
+
+import EmergencyMap from './EmergencyMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -125,19 +131,66 @@ export function Component() {
                     />
                 </div>
             </Container>
-            {isDefined(emergencyResponse) && isDefined(emergencyResponse?.summary) && (
+            {isDefined(emergencyResponse)
+                && isDefined(emergencyResponse?.summary)
+                && isTruthyString(emergencyResponse.summary)
+                && (
+                    <ExpandableContainer
+                        heading={strings.situationalOverviewTitle}
+                        withHeaderBorder
+                        childrenContainerClassName={styles.overviewContainer}
+                        initiallyExpanded
+                    >
+                        <HtmlOutput
+                            value={emergencyResponse.summary}
+                        />
+                    </ExpandableContainer>
+                )}
+            {isDefined(emergencyResponse)
+                && isDefined(emergencyResponse?.links)
+                && emergencyResponse.links.length > 0 && (
                 <ExpandableContainer
-                    heading={strings.situationalOverviewTitle}
+                    heading={strings.linksTitle}
                     withHeaderBorder
                     childrenContainerClassName={styles.overviewContainer}
                     initiallyExpanded
                 >
-                    <HtmlOutput
-                        value={emergencyResponse.summary}
-                    />
-
+                    {emergencyResponse.links.map((link) => (
+                        <Link
+                            id={link.id.toString()}
+                            to={link.url}
+                            withExternalLinkIcon
+                        >
+                            <Tooltip className={styles.tooltip}>
+                                {link.description}
+                            </Tooltip>
+                            {link.title}
+                        </Link>
+                    ))}
                 </ExpandableContainer>
             )}
+            <div>
+                {emergencyResponse && (
+                    <Container
+                        heading={strings.emergencyMapTitle}
+                        actions={(
+                            <Button
+                                variant="secondary"
+                                name={undefined}
+                                title={strings.exportMap}
+                                icons={(<DownloadFillIcon />)}
+                            >
+                                {strings.exportMap}
+                            </Button>
+                        )}
+                    >
+                        {emergencyResponse && (
+                            <EmergencyMap
+                                event={emergencyResponse}
+                            />
+                        )}
+                    </Container>
+                )}
         </div>
     );
 }
