@@ -10,6 +10,7 @@
         "catalogueHealth": "Health",
         "catalogueInformationManagement": "Information Management (IM)",
         "catalogueInformationTechnologyTelecom": "Information Technology & Telecom (IT/T)",
-        "catalogueLivelihoodsAndBasicNeeds": "Livelihoods And Basic needs"
+        "catalogueLivelihoodsAndBasicNeeds": "Livelihoods And Basic needs",
+        "catalogueLogistics": "Logistics"
     }
 }

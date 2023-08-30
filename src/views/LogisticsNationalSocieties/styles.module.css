@@ -1,0 +1,21 @@
+.logistics-national-societies {
+    padding-top: var(--go-ui-spacing-md);
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
+
+        .inner-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+        }
+    }
+}
+
+.designed-for {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+}
