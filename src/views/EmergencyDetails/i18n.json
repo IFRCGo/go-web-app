@@ -15,6 +15,7 @@
         "situationalOverviewTitle": "Situational Overview",
         "linksTitle": "Links",
         "emergencyMapTitle": "Affected Region",
-        "exportMap": "Export"
+        "exportMap": "Export",
+        "contactsTitle": "Contacts"
     }
 }

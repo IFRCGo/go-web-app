@@ -1,7 +1,11 @@
 import { useOutletContext } from 'react-router-dom';
 import useTranslation from '#hooks/useTranslation';
 import {
-    compareDate, isDefined, isNotDefined, isTruthyString,
+    compareDate,
+    isDefined,
+    isNotDefined,
+    isTruthyString,
+    listToGroupList,
 } from '@togglecorp/fujs';
 import { DownloadFillIcon } from '@ifrc-go/icons';
 
@@ -84,6 +88,13 @@ export function Component() {
     const assistanceIsRequestedByCountry = firstFieldReport?.request_assistance;
     const latestFieldReport = hasFieldReports
         ? getFieldReport(emergencyResponse.field_reports, compareDate) : undefined;
+
+    const groupedContacts = listToGroupList(
+        emergencyResponse?.contacts?.filter(
+            (contact) => isDefined(contact) && isDefined(contact.ctype),
+        ),
+        (contact) => contact.ctype,
+    );
 
     return (
         <div className={styles.emergencyDetails}>
@@ -248,6 +259,55 @@ export function Component() {
                     </Container>
                 )}
             </div>
+            {isDefined(emergencyResponse)
+                && isDefined(emergencyResponse.contacts)
+                && emergencyResponse.contacts.length > 0 && (
+                <Container
+                    heading={strings.contactsTitle}
+                    childrenContainerClassName={styles.contactsContainer}
+                    withHeaderBorder
+                >
+                    {Object.entries(groupedContacts).map(([contactType, contacts]) => (
+                        <Container
+                            className={styles.contactListContainer}
+                            key={contactType}
+                            heading={contactType}
+                            withHeaderBorder
+                            childrenContainerClassName={styles.contactList}
+                        >
+                            {contacts.map((contact) => (
+                                <div key={contact.id}>
+                                    <TextOutput
+                                        value={contact.name}
+                                        strongValue
+                                    />
+                                    <TextOutput
+                                        value={contact.title}
+                                    />
+                                    <TextOutput
+                                        value={(
+                                            <Link
+                                                to={`mailto:${contact.email}`}
+                                            >
+                                                {contact.email}
+                                            </Link>
+                                        )}
+                                    />
+                                    <TextOutput
+                                        value={(
+                                            <Link
+                                                to={`tel:${contact.phone}`}
+                                            >
+                                                {contact.phone}
+                                            </Link>
+                                        )}
+                                    />
+                                </div>
+                            ))}
+                        </Container>
+                    ))}
+                </Container>
+            )}
         </div>
     );
 }

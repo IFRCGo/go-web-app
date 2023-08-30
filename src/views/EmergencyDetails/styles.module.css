@@ -25,8 +25,8 @@
 
         .overview {
             display: flex;
-            flex-direction: column;
             flex-basis: 25rem;
+            flex-direction: column;
             gap: var(--go-ui-spacing-sm);
 
             .color-dot {
@@ -51,10 +51,30 @@
         .field-report-stats-container {
             display: flex;
             flex-grow: 1;
-            padding: 0 var(--go-ui-spacing-md);
+            padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
 
             .field-report-stats {
                 flex-grow: 1;
+            }
+        }
+    }
+
+    .contacts-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--go-ui-spacing-lg);
+
+        .contact-list-container {
+            flex-basis: 16rem;
+            border-radius: var(--go-ui-border-radius-md);
+            box-shadow: var(--go-ui-box-shadow-lg);
+            padding: var(--go-ui-spacing-md);
+
+            .contact-list {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-md);
             }
         }
     }
