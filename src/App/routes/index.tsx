@@ -1666,6 +1666,20 @@ const drefApplicationForm = customWrapRoute({
     },
 });
 
+const drefApplicationExport = customWrapRoute({
+    path: 'dref-application/:drefId/export',
+    component: {
+        render: () => import('#views/DrefApplicationExport'),
+        props: {},
+    },
+    parent: root,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Dref Application Export',
+        visibility: 'is-authenticated',
+    },
+});
+
 const fieldReportFormNew = customWrapRoute({
     parent: rootLayout,
     path: 'field-report/new',
@@ -1883,6 +1897,7 @@ const wrappedRoutes = {
     allDeployedEmergencyResponseUnits,
     newDrefApplicationForm,
     drefApplicationForm,
+    drefApplicationExport,
     fieldReportFormNew,
     fieldReportFormEdit,
     fieldReportDetails,

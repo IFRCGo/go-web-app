@@ -9,30 +9,54 @@
     &.level-one {
         --font-size: var(--go-ui-font-size-4xl);
         --line-height: var(--go-ui-line-height-none);
+
+        @media print {
+            color: var(--go-ui-color-primary-blue);
+        }
     }
 
     &.level-two {
         --font-size: var(--go-ui-font-size-2xl);
         --line-height: var(--go-ui-line-height-tight);
+
+        @media print {
+            color: var(--go-ui-color-primary-blue);
+        }
     }
 
     &.level-three {
         --font-size: var(--go-ui-font-size-xl);
         --line-height: var(--go-ui-line-height-snug);
+
+        @media print {
+            color: var(--go-ui-color-primary-red);
+        }
     }
 
     &.level-four {
         --font-size: var(--go-ui-font-size-lg);
         --line-height: var(--go-ui-line-height-medium);
+
+        @media print {
+            color: var(--go-ui-color-primary-red);
+        }
     }
 
     &.level-five {
         --font-size: var(--go-ui-font-size-md);
         --line-height: var(--go-ui-line-height-medium);
+
+        @media print {
+            color: var(--go-ui-color-primary-red);
+        }
     }
 
     &.level-six {
         --font-size: var(--go-ui-font-size-sm);
         --line-height: var(--go-ui-line-height-medium);
+
+        @media print {
+            color: var(--go-ui-color-primary-red);
+        }
     }
 }

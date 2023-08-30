@@ -1,0 +1,66 @@
+.dref-application-export {
+    display: flex;
+    flex-direction: column;
+    gap: 10mm;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 15mm;
+    background-color: var(--go-ui-color-foreground);
+    counter-reset: page;
+
+    .cover {
+        margin: 0;
+
+        .image {
+            width: 100%;
+        }
+
+        .caption {
+            text-align: center;
+        }
+    }
+
+    .meta-section {
+        display: grid;
+        grid-gap: 1mm;
+        grid-template-columns: repeat(auto-fit, minmax(40mm, 1fr));
+
+        >* {
+            padding: 2mm;
+            background-color: var(--go-ui-color-background);
+        }
+
+        .budget {
+            grid-column: span 2;
+        }
+    }
+
+    .event-description-section {
+        break-before: page;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 10mm;
+
+            .event-map {
+                margin: 0;
+
+                .image {
+                    width: 100%;
+                }
+
+                .caption {
+                    text-align: center;
+                }
+            }
+
+            .description-text {
+                white-space: pre-wrap;
+                text-align: justify;
+            }
+        }
+    }
+}
+

@@ -217,6 +217,10 @@ body {
     margin: 0;
     background-color: var(--go-ui-color-background);
     padding: 0;
+
+    @media print {
+        background-color: var(--go-ui-color-foreground);
+    }
 }
 
 html {

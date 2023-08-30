@@ -33,6 +33,7 @@ export interface Props {
     tooltip?: number | string | null | undefined;
     currency?: boolean;
     unit?: Intl.NumberFormatOptions['unit'];
+    prefix?: React.ReactNode;
     suffix?: React.ReactNode;
     maximumFractionDigits?: Intl.NumberFormatOptions['maximumFractionDigits'];
 
@@ -51,6 +52,7 @@ function NumberOutput(props: Props) {
         value,
         tooltip,
         unit,
+        prefix,
         suffix,
         maximumFractionDigits,
     } = props;
@@ -74,6 +76,7 @@ function NumberOutput(props: Props) {
 
             return (
                 <>
+                    {prefix}
                     {formattedValue}
                     {suffix}
                 </>
@@ -87,6 +90,7 @@ function NumberOutput(props: Props) {
             currency,
             unit,
             maximumFractionDigits,
+            prefix,
             suffix,
         ],
     );
