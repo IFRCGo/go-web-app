@@ -8,7 +8,7 @@
         "appealsTableEmergency": "Emergency",
         "appealsTableDisastertype": "Disaster Type",
         "appealsTableRequestedAmount": "Requested Amount",
-        "appealsTableFundedAmount": "Funding",
+        "appealsTableFundedAmount": "Funding (CHF)",
         "appealsTableStatus": "Active",
         "appealsTableCountry": "Country",
         "allOperations": "View All Operations For {name}"

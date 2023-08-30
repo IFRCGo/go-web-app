@@ -1,7 +1,7 @@
 {
     "namespace": "EmergenciesOperationTable",
     "strings": {
-        "emergenciesHeading": "Recent Emergencies",
+        "emergenciesHeading": "Recent Emergencies ({count})",
         "emergenciesStartDate": "Start Date",
         "emergenciesName": "Name",
         "emergenciesDisasterType": "Disaster Type",

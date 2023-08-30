@@ -38,13 +38,15 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type AppealTableItem = NonNullable<GoApiResponse<'/api/v2/appeal/'>['results']>[number];
-const keySelector = (appeal: AppealTableItem) => appeal.id;
+function keySelector(appeal: AppealTableItem) {
+    return appeal.id;
+}
 
 const now = new Date().toISOString();
 const PAGE_SIZE = 5;
 
 interface Props {
-    countryId?: string;
+    countryId: string;
     countryName?: string;
 }
 
@@ -60,12 +62,6 @@ function AppealOperationTable(props: Props) {
     const { sorting } = sortState;
 
     const [page, setPage] = useState(1);
-    const viewAllOperations = resolveToComponent(
-        strings.allOperations,
-        {
-            name: countryName,
-        },
-    );
     const {
         pending: countryAppealPending,
         response: countryAppealResponse,
@@ -96,25 +92,25 @@ function AppealOperationTable(props: Props) {
                     sortable: true,
                 },
             ),
-            createLinkColumn<AppealTableItem, string>(
-                'operation',
+            createStringColumn<AppealTableItem, string>(
+                'appeal__name',
                 strings.appealsTableName,
                 (item) => item.name,
-                (item) => ({
-                    to: isDefined(item.id)
-                        ? generatePath(emergencyRoute.absolutePath, {
-                            emergencyId: item.id,
-                        })
-                        : undefined,
-                }),
                 {
                     sortable: true,
                 },
             ),
-            createNumberColumn<AppealTableItem, string>(
+            createLinkColumn<AppealTableItem, string>(
                 'event',
                 strings.appealsTableEmergency,
                 (item) => item.event,
+                (item) => ({
+                    to: isDefined(item.event)
+                        ? generatePath(emergencyRoute.absolutePath, {
+                            emergencyId: item.event,
+                        })
+                        : undefined,
+                }),
             ),
             createStringColumn<AppealTableItem, string>(
                 'dtype',
@@ -125,23 +121,32 @@ function AppealOperationTable(props: Props) {
             createNumberColumn<AppealTableItem, string>(
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
-                (item) => Number(item.amount_requested),
+                // FIXME amount_requested should be number from server
+                (item) => (isDefined(item.amount_requested)
+                    ? Number(item.amount_requested)
+                    : undefined),
                 { sortable: true },
             ),
             createProgressColumn<AppealTableItem, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
                 (item) => 100 * (Number(item.amount_funded) / Number(item.amount_requested)),
-                { sortable: true },
             ),
             createStringColumn<AppealTableItem, string>(
-                'active',
+                'status',
                 strings.appealsTableStatus,
                 (item) => item.status_display,
                 { sortable: true },
             ),
         ]),
         [emergencyRoute, strings],
+    );
+
+    const viewAllOperations = resolveToComponent(
+        strings.allOperations,
+        {
+            name: countryName,
+        },
     );
 
     return (

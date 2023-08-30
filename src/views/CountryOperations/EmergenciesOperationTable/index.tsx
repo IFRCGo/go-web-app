@@ -30,22 +30,24 @@ import Pager from '#components/Pager';
 import i18n from './i18n.json';
 
 type EmergenciesTableItem = NonNullable<GoApiResponse<'/api/v2/event/'>['results']>[number];
-const keySelector = (emergency: EmergenciesTableItem) => emergency.id;
+function keySelector(emergency: EmergenciesTableItem) {
+    return emergency.id;
+}
 
 const PAGE_SIZE = 5;
-const now = new Date();
-now.setDate(now.getDate() - 30);
-now.setHours(0, 0, 0, 0);
+const thirtyDaysAgo = new Date();
+thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+thirtyDaysAgo.setHours(0, 0, 0, 0);
 
-const startDate = now.toISOString();
+const disasterStartDate = thirtyDaysAgo.toISOString();
 
-const getMostRecentAffectedValue = (fieldReport: EmergenciesTableItem['field_reports']) => {
+function getMostRecentAffectedValue(fieldReport: EmergenciesTableItem['field_reports']) {
     const latestReport = max(fieldReport, (item) => new Date(item.updated_at).getTime());
     return latestReport?.num_affected;
-};
+}
 
 interface Props {
-    countryId?: string;
+    countryId: string;
     countryName?: string;
 }
 
@@ -61,12 +63,6 @@ function EmergenciesOperationTable(props: Props) {
 
     const sortState = useSortState();
     const { sorting } = sortState;
-    const viewAllEmergencies = resolveToComponent(
-        strings.allEmergencies,
-        {
-            name: countryName,
-        },
-    );
 
     const {
         emergency: emergencyRoute,
@@ -76,7 +72,7 @@ function EmergenciesOperationTable(props: Props) {
     const columns = useMemo(
         () => ([
             createDateColumn<EmergenciesTableItem, number>(
-                'start_date',
+                'disaster_start_date',
                 strings.emergenciesStartDate,
                 (item) => item.disaster_start_date,
                 {
@@ -102,7 +98,6 @@ function EmergenciesOperationTable(props: Props) {
                 'dtype',
                 strings.emergenciesDisasterType,
                 (item) => item.dtype.name,
-                { sortable: true },
             ),
             createStringColumn<EmergenciesTableItem, number>(
                 'glide',
@@ -111,16 +106,14 @@ function EmergenciesOperationTable(props: Props) {
                 { sortable: true },
             ),
             createStringColumn<EmergenciesTableItem, number>(
-                'requested_amount',
+                'amount_requested',
                 strings.emergenciesRequestedAmount,
                 (item) => item.appeals[0]?.amount_requested,
-                { sortable: true },
             ),
             createNumberColumn<EmergenciesTableItem, number>(
-                'affected',
+                'num_affected',
                 strings.emergenciesAffected,
                 (item) => item.num_affected ?? getMostRecentAffectedValue(item.field_reports),
-                { sortable: true },
             ),
         ]),
         [emergencyRoute, strings],
@@ -134,15 +127,30 @@ function EmergenciesOperationTable(props: Props) {
         preserveResponse: true,
         query: {
             limit: PAGE_SIZE,
+            offset: PAGE_SIZE * (page - 1),
             countries__in: Number(countryId),
             ordering: getOrdering(sorting),
-            disaster_start_date__gte: startDate,
+            disaster_start_date__gte: disasterStartDate,
         },
     });
 
+    const viewAllEmergencies = resolveToComponent(
+        strings.allEmergencies,
+        {
+            name: countryName,
+        },
+    );
+
+    const emergenciesHeading = resolveToComponent(
+        strings.emergenciesHeading,
+        {
+            count: countryEmergenciesResponse?.count,
+        },
+    );
+
     return (
         <Container
-            heading={strings.emergenciesHeading}
+            heading={emergenciesHeading}
             withHeaderBorder
             actions={(
                 <Link
