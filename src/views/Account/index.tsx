@@ -6,7 +6,6 @@ import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
 import UserContext from '#contexts/user';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
@@ -14,13 +13,6 @@ import i18n from './i18n.json';
 export function Component() {
     const strings = useTranslation(i18n);
     const { userAuth: userDetails } = useContext(UserContext);
-    const {
-        accountInformation: accountInformationRoute,
-        accountNotifications: accountNotificationsRoute,
-        accountPerForms: accountPERFormsRoute,
-        accountDrefApplications: accountDREFApplicationsRoute,
-        accountThreeWForms: accountThreeWFormsRoute,
-    } = useContext(RouteContext);
 
     return (
         <Page
@@ -29,27 +21,27 @@ export function Component() {
         >
             <NavigationTabList>
                 <NavigationTab
-                    to={accountInformationRoute.absolutePath}
+                    to="accountInformation"
                 >
                     {strings.accountInformation}
                 </NavigationTab>
                 <NavigationTab
-                    to={accountNotificationsRoute.absolutePath}
+                    to="accountNotifications"
                 >
                     {strings.accountNotification}
                 </NavigationTab>
                 <NavigationTab
-                    to={accountPERFormsRoute.absolutePath}
+                    to="accountPerForms"
                 >
                     {strings.accountPerForms}
                 </NavigationTab>
                 <NavigationTab
-                    to={accountDREFApplicationsRoute.absolutePath}
+                    to="accountDrefApplications"
                 >
                     {strings.accountMyDrefApplications}
                 </NavigationTab>
                 <NavigationTab
-                    to={accountThreeWFormsRoute.absolutePath}
+                    to="accountThreeWForms"
                 >
                     {strings.accountThreeWForms}
                 </NavigationTab>

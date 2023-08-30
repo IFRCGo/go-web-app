@@ -1,5 +1,3 @@
-import { useContext, useMemo } from 'react';
-import { generatePath } from 'react-router-dom';
 import {
     AddLineIcon,
     CaseManagementIcon,
@@ -14,7 +12,6 @@ import DropdownMenuItem from '#components/DropdownMenuItem';
 import TableActions from '#components/Table/TableActions';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { components } from '#generated/types';
 import {
     DREF_STATUS_COMPLETED,
@@ -47,31 +44,6 @@ function DrefTableActions(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-
-    const {
-        drefApplicationForm: drefApplicationFormRoute,
-    } = useContext(RouteContext);
-
-    const editPath = useMemo(
-        () => {
-            if (applicationType === 'DREF') {
-                return generatePath(drefApplicationFormRoute.absolutePath, { drefId: id });
-            }
-
-            if (applicationType === 'OPS_UPDATE') {
-                // TODO: add links for Operationl Update
-                return undefined;
-            }
-
-            if (applicationType === 'FINAL_REPORT') {
-                // TODO: add links for Final Report
-                return undefined;
-            }
-
-            return undefined;
-        },
-        [id, applicationType, drefApplicationFormRoute],
-    );
 
     const canDownloadAllocation = status === DREF_STATUS_COMPLETED
         && (applicationType === 'DREF' || applicationType === 'OPS_UPDATE');
@@ -137,9 +109,11 @@ function DrefTableActions(props: Props) {
                 </>
             )}
         >
-            {status === DREF_STATUS_IN_PROGRESS && (
+            {/* TODO: Add links for OPS_UPDATE and FINAL_REPORT */}
+            {status === DREF_STATUS_IN_PROGRESS && applicationType === 'DREF' && (
                 <Link
-                    to={editPath}
+                    to="drefApplicationForm"
+                    urlParams={{ drefId: id }}
                     variant="secondary"
                     icons={<PencilLineIcon className={styles.icon} />}
                 >

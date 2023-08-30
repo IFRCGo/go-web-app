@@ -197,7 +197,10 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                                 className={styles.file}
                                 key={valueUrl.id}
                             >
-                                <Link to={valueUrl.url}>
+                                <Link
+                                    to={valueUrl.url}
+                                    external
+                                >
                                     {getFileNameFromUrl(valueUrl.url)}
                                 </Link>
                                 <Button

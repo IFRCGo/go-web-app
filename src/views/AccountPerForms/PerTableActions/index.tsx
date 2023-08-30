@@ -1,9 +1,6 @@
 import {
-    useContext,
     useCallback,
-    useMemo,
 } from 'react';
-import { generatePath } from 'react-router-dom';
 import { isDefined } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
@@ -18,7 +15,6 @@ import {
 } from '#utils/domain/per';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
-import RouteContext from '#contexts/route';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
 
@@ -42,35 +38,16 @@ function PerTableActions(props: Props) {
 
     const strings = useTranslation(i18n);
     const { per_perphases } = useGlobalEnums();
-    const {
-        perOverviewForm: perOverviewFormRoute,
-        perAssessmentForm: perAssessmentFormRoute,
-        perPrioritizationForm: perPrioritizationFormRoute,
-        perWorkPlanForm: perWorkPlanFormRoute,
-    } = useContext(RouteContext);
-
-    const perPhaseUrl = useMemo<Record<NonNullable<PerPhase>, string | undefined>>(
-        () => ({
-            [PER_PHASE_OVERVIEW]: generatePath(perOverviewFormRoute.absolutePath, { perId }),
-            [PER_PHASE_ASSESSMENT]: generatePath(perAssessmentFormRoute.absolutePath, { perId }),
-            [PER_PHASE_PRIORITIZATION]: generatePath(
-                perPrioritizationFormRoute.absolutePath,
-                { perId },
-            ),
-            [PER_PHASE_WORKPLAN]: generatePath(perWorkPlanFormRoute.absolutePath, { perId }),
-            [PER_PHASE_ACTION]: undefined,
-        }),
-        [
-            perId,
-            perAssessmentFormRoute,
-            perOverviewFormRoute,
-            perPrioritizationFormRoute,
-            perWorkPlanFormRoute,
-        ],
-    );
 
     const getRouteUrl = useCallback(
         (currentPhase: number) => {
+            const perPhaseUrl = {
+                [PER_PHASE_OVERVIEW]: 'perOverviewForm',
+                [PER_PHASE_ASSESSMENT]: 'perAssessmentForm',
+                [PER_PHASE_PRIORITIZATION]: 'perPrioritizationForm',
+                [PER_PHASE_WORKPLAN]: 'perWorkPlanForm',
+            } as const;
+
             if (
                 currentPhase === PER_PHASE_OVERVIEW
                 || currentPhase === PER_PHASE_ASSESSMENT
@@ -82,7 +59,7 @@ function PerTableActions(props: Props) {
 
             return undefined;
         },
-        [perPhaseUrl],
+        [],
     );
 
     return (
@@ -94,6 +71,7 @@ function PerTableActions(props: Props) {
                             key={perPhase.key}
                             type="link"
                             to={getRouteUrl(perPhase.key)}
+                            urlParams={{ perId }}
                             disabled={perPhase.key > (phase ?? 1)}
                         >
                             {phase === perPhase.key
@@ -112,6 +90,7 @@ function PerTableActions(props: Props) {
             {isDefined(phase) && phase <= PER_PHASE_WORKPLAN && (
                 <Link
                     to={getRouteUrl(phase)}
+                    urlParams={{ perId }}
                     withUnderline
                 >
                     {resolveToString(
@@ -123,10 +102,8 @@ function PerTableActions(props: Props) {
             {isDefined(phase) && phase === PER_PHASE_ACTION && (
                 <Link
                     variant="secondary"
-                    to={generatePath(
-                        perWorkPlanFormRoute.absolutePath,
-                        { perId },
-                    )}
+                    to="perWorkPlanForm"
+                    urlParams={{ perId }}
                 >
                     {strings.tableActionViewWorkPlan}
                 </Link>

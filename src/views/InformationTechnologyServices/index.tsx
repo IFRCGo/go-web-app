@@ -1,10 +1,8 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
-import RouteContext from '#contexts/route';
+import useRouting from '#hooks/useRouting';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
 import TextOutput from '#components/TextOutput';
@@ -18,15 +16,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueInformationTechnology: catalogueInformationTechnologyRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueInformationTechnologyRoute.absolutePath));
-    }, [goBack, catalogueInformationTechnologyRoute.absolutePath]);
+        goBack('catalogueInformationTechnology');
+    }, [goBack]);
 
     return (
         <Container
@@ -69,6 +63,7 @@ export function Component() {
                             link: (
                                 <Link
                                     to="https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fitt%2FITT%20Service%20Catalogue%20January%202023%20Final%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fitt&p=true&ga=1"
+                                    external
                                 >
                                     {strings.surgeITEmergencyServicesDetailTextTwoLink}
                                 </Link>
@@ -158,6 +153,7 @@ export function Component() {
             >
                 <Link
                     to="http://pscentre.org/"
+                    external
                     variant="tertiary"
                     withExternalLinkIcon
                 >

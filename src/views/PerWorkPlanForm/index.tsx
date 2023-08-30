@@ -1,8 +1,7 @@
-import { useCallback, useMemo, useContext } from 'react';
+import { useCallback, useMemo } from 'react';
 import { AddLineIcon } from '@ifrc-go/icons';
 import {
     useOutletContext,
-    useNavigate,
 } from 'react-router-dom';
 import {
     isNotDefined,
@@ -18,6 +17,7 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
+import useRouting from '#hooks/useRouting';
 import Button from '#components/Button';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
@@ -32,7 +32,6 @@ import { type PerProcessOutletContext } from '#utils/outletContext';
 import { PER_PHASE_WORKPLAN } from '#utils/domain/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
-import RouteContext from '#contexts/route';
 import { transformObjectError } from '#utils/restRequest/error';
 
 import PrioritizedActionInput from './PrioritizedActionInput';
@@ -51,16 +50,13 @@ const defaultValue: PartialWorkPlan = {};
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const navigate = useNavigate();
+    const { navigate } = useRouting();
     const alert = useAlert();
     const {
         statusResponse,
         actionDivRef,
         refetchStatusResponse,
     } = useOutletContext<PerProcessOutletContext>();
-    const {
-        accountPerForms: accountPerFromsRoute,
-    } = useContext(RouteContext);
 
     const {
         value,
@@ -164,7 +160,7 @@ export function Component() {
             );
 
             if (response.is_draft === false) {
-                navigate(accountPerFromsRoute.absolutePath);
+                navigate('accountPerForms');
             }
         },
         onFailure: ({

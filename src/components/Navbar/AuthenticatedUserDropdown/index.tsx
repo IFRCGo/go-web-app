@@ -5,7 +5,6 @@ import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
 import UserContext from '#contexts/user';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
@@ -21,7 +20,7 @@ function AuthenticatedUserDropdown(props: Props) {
     const strings = useTranslation(i18n);
 
     const { userAuth: userDetails, removeUserAuth: removeUser } = useContext(UserContext);
-    const { account: accountRoute } = useContext(RouteContext);
+
     const handleLogoutClick = useCallback(() => {
         removeUser();
     }, [removeUser]);
@@ -38,7 +37,7 @@ function AuthenticatedUserDropdown(props: Props) {
         >
             <DropdownMenuItem
                 type="link"
-                to={accountRoute.absolutePath}
+                to="accountLayout"
             >
                 {strings.userMenuAccount}
             </DropdownMenuItem>

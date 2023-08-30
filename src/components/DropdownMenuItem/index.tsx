@@ -5,7 +5,7 @@ type ButtonTypeProps<NAME> = Omit<ButtonProps<NAME>, 'variant'> & {
     type: 'button';
 }
 
-type LinkTypeProps = Omit<LinkProps, 'variant'> & {
+type LinkTypeProps = LinkProps<'variant'> & {
     type: 'link';
 }
 

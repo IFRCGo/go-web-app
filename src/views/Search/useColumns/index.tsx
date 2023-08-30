@@ -1,6 +1,5 @@
-import { useContext, useMemo } from 'react';
-import { generatePath } from 'react-router-dom';
-import { isNotDefined, isDefined } from '@togglecorp/fujs';
+import { useMemo } from 'react';
+import { isNotDefined } from '@togglecorp/fujs';
 
 import {
     createNumberColumn,
@@ -13,7 +12,6 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import type { paths } from '#generated/types';
 import { getDuration } from '#utils/common';
 
@@ -32,7 +30,6 @@ type Strings = (typeof i18n)['strings'];
 
 function getEmergencyColumns(
     strings: Strings,
-    emergencyRoutePath: string,
 ) {
     return [
         createLinkColumn<EmergencyResult, number>(
@@ -40,10 +37,8 @@ function getEmergencyColumns(
             strings.searchEmergencyTableTitle,
             (emergency) => emergency.name,
             (emergency) => ({
-                to: generatePath(
-                    emergencyRoutePath,
-                    { emergencyId: String(emergency.id) },
-                ),
+                to: 'emergenciesLayout',
+                urlParams: { emergencyId: String(emergency.id) },
                 icons: (
                     <SeverityIndicator
                         title={emergency.severity_level_display}
@@ -102,24 +97,24 @@ function getFieldReportColumns(strings: Strings) {
             strings.searchFieldReportTableTitle,
             (fieldReport) => fieldReport.name,
             (fieldReport) => ({
-                // FIXME: use from routes
-                to: `/reports/${fieldReport.id}`,
+                to: 'fieldReportDetails',
+                urlParams: {
+                    fieldReportId: fieldReport.id,
+                },
             }),
         ),
     ];
 }
 
-function getProjectColumns(strings: Strings, emergencyRoutePath: string) {
+function getProjectColumns(strings: Strings) {
     return [
         createLinkColumn<ProjectResult, number>(
             'emergency_name',
             strings.searchProjectTableEmergency,
             (project) => project.event_name,
             (project) => ({
-                to: generatePath(
-                    emergencyRoutePath,
-                    { emergencyId: String(project.event_id) },
-                ),
+                to: 'emergenciesLayout',
+                urlParams: { emergencyId: project.event_id },
             }),
         ),
         createStringColumn<ProjectResult, number>(
@@ -132,8 +127,8 @@ function getProjectColumns(strings: Strings, emergencyRoutePath: string) {
             strings.searchProjectTableProjectName,
             (project) => project.name,
             (project) => ({
-                // FIXME: use route path
-                to: `/three-w/${project.id}`,
+                to: 'threeWProjectDetail',
+                urlParams: { projectId: project.id },
             }),
         ),
         createDateRangeColumn<ProjectResult, number>(
@@ -159,8 +154,6 @@ function getProjectColumns(strings: Strings, emergencyRoutePath: string) {
 
 function getRapidResponseDeploymentColumns(
     strings: Strings,
-    countryRoutePath: string,
-    emergencyRoutePath: string,
 ) {
     return [
         createDateColumn<RapidResponseDeploymentResult, number>(
@@ -193,11 +186,8 @@ function getRapidResponseDeploymentColumns(
             strings.searchRapidDeploymentTableDeployingParty,
             (rapidResponse) => rapidResponse.deploying_country_name,
             (rapidResponse) => ({
-                to: isDefined(rapidResponse.deploying_country_id)
-                    ? generatePath(
-                        countryRoutePath,
-                        { countryId: String(rapidResponse.deploying_country_id) },
-                    ) : undefined,
+                to: 'countriesLayout',
+                urlParams: { countryId: rapidResponse.deploying_country_id },
             }),
         ),
         createLinkColumn<RapidResponseDeploymentResult, number>(
@@ -205,11 +195,8 @@ function getRapidResponseDeploymentColumns(
             strings.searchRapidDeploymentTableDeployedTo,
             (rapidResponse) => rapidResponse.deployed_to_country_name,
             (rapidResponse) => ({
-                to: isDefined(rapidResponse.deployed_to_country_id)
-                    ? generatePath(
-                        countryRoutePath,
-                        { countryId: String(rapidResponse.deployed_to_country_id) },
-                    ) : undefined,
+                to: 'countriesLayout',
+                urlParams: { countryId: rapidResponse.deployed_to_country_id },
             }),
         ),
         createLinkColumn<RapidResponseDeploymentResult, number>(
@@ -217,10 +204,8 @@ function getRapidResponseDeploymentColumns(
             strings.searchRapidDeploymentTableEmergency,
             (rapidResponse) => rapidResponse.event_name,
             (rapidResponse) => ({
-                to: generatePath(
-                    emergencyRoutePath,
-                    { emergencyId: rapidResponse.event_id },
-                ),
+                to: 'emergenciesLayout',
+                urlParams: { emergencyId: rapidResponse.event_id },
             }),
         ),
     ];
@@ -269,7 +254,10 @@ function getSurgeAlertColumns(strings: Strings) {
             strings.searchSurgeAlertTableEmergency,
             (surgeAlert) => surgeAlert.event_name,
             (surgeAlert) => ({
-                to: `/emergencies/${surgeAlert.event_id}`,
+                to: 'emergenciesLayout',
+                urlParams: {
+                    emergencyId: surgeAlert.event_id,
+                },
             }),
         ),
         createLinkColumn<SurgeAlertResult, number>(
@@ -277,7 +265,10 @@ function getSurgeAlertColumns(strings: Strings) {
             strings.searchSurgeAlertTableCountry,
             (surgeAlert) => surgeAlert.country,
             (surgeAlert) => ({
-                to: `/countries/${surgeAlert.country_id}`,
+                to: 'countriesLayout',
+                urlParams: {
+                    countryId: surgeAlert.country_id,
+                },
             }),
         ),
         createStringColumn<SurgeAlertResult, number>(
@@ -288,7 +279,7 @@ function getSurgeAlertColumns(strings: Strings) {
     ];
 }
 
-function getSurgeDeploymentColumns(strings: Strings, countryPath: string, emergencyPath: string) {
+function getSurgeDeploymentColumns(strings: Strings) {
     return [
         createStringColumn<SurgeDeploymentResult, number>(
             'owner',
@@ -315,10 +306,8 @@ function getSurgeDeploymentColumns(strings: Strings, countryPath: string, emerge
             strings.searchSurgeDeploymentsTableCountryDeployedTo,
             (surgeDeployment) => surgeDeployment.deployed_country,
             (surgeDeployment) => ({
-                to: generatePath(
-                    countryPath,
-                    { countryId: surgeDeployment.deployed_country_id },
-                ),
+                to: 'countriesLayout',
+                urlParams: { countdryId: surgeDeployment.deployed_country_id },
             }),
         ),
         createLinkColumn<SurgeDeploymentResult, number>(
@@ -326,9 +315,8 @@ function getSurgeDeploymentColumns(strings: Strings, countryPath: string, emerge
             strings.searchSurgeDeploymentsTableEmergency,
             (surgeDeployment) => surgeDeployment.event_name,
             (surgeDeployment) => ({
-                to: isDefined(surgeDeployment.event_id)
-                    ? generatePath(emergencyPath, { emergencyId: surgeDeployment.event_id })
-                    : undefined,
+                to: 'emergenciesLayout',
+                urlParams: { emergencyId: surgeDeployment.event_id },
             }),
         ),
     ];
@@ -336,11 +324,6 @@ function getSurgeDeploymentColumns(strings: Strings, countryPath: string, emerge
 
 function useColumns(searchResponse: SearchResponse | undefined) {
     const strings = useTranslation(i18n);
-    const {
-        emergency: emergencyRoute,
-        country: countryRoute,
-    } = useContext(RouteContext);
-
     const columnMap = useMemo(
         () => ({
             reports: {
@@ -351,7 +334,6 @@ function useColumns(searchResponse: SearchResponse | undefined) {
             emergencies: {
                 columns: getEmergencyColumns(
                     strings,
-                    emergencyRoute.absolutePath,
                 ),
                 keySelector: (item: EmergencyResult) => item.id,
                 data: searchResponse?.emergencies as EmergencyResult[],
@@ -359,7 +341,6 @@ function useColumns(searchResponse: SearchResponse | undefined) {
             projects: {
                 columns: getProjectColumns(
                     strings,
-                    emergencyRoute.absolutePath,
                 ),
                 keySelector: (item: ProjectResult) => item.id,
                 data: searchResponse?.projects,
@@ -367,8 +348,6 @@ function useColumns(searchResponse: SearchResponse | undefined) {
             rapid_response_deployments: {
                 columns: getRapidResponseDeploymentColumns(
                     strings,
-                    countryRoute.absolutePath,
-                    emergencyRoute.absolutePath,
                 ),
                 keySelector: (item: RapidResponseDeploymentResult) => item.id,
                 data: searchResponse?.rapid_response_deployments,
@@ -381,14 +360,12 @@ function useColumns(searchResponse: SearchResponse | undefined) {
             surge_deployments: {
                 columns: getSurgeDeploymentColumns(
                     strings,
-                    countryRoute.absolutePath,
-                    emergencyRoute.absolutePath,
                 ),
                 keySelector: (item: SurgeDeploymentResult) => item.id,
                 data: searchResponse?.surge_deployments,
             },
         }),
-        [strings, countryRoute, emergencyRoute, searchResponse],
+        [strings, searchResponse],
     );
 
     return columnMap;

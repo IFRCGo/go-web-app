@@ -1,6 +1,4 @@
-import { useState, useMemo, useContext } from 'react';
-import { isDefined } from '@togglecorp/fujs';
-import { generatePath } from 'react-router-dom';
+import { useState, useMemo } from 'react';
 
 import { useSortState, SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
@@ -18,7 +16,6 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import type { GoApiResponse } from '#utils/restRequest';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -36,11 +33,6 @@ function FieldReportsTable() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
-    const {
-        emergency: emergencyRoute,
-        allFieldReports: allFieldReportsRoute,
-        fieldReportDetails: fieldReportDetailsRoute,
-    } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -58,10 +50,8 @@ function FieldReportsTable() {
                 strings.fieldReportsTableName,
                 (item) => item.summary,
                 (item) => ({
-                    to: generatePath(
-                        fieldReportDetailsRoute.absolutePath,
-                        { fieldReportId: item.id },
-                    ),
+                    to: 'fieldReportDetails',
+                    urlParams: { fieldReportId: item.id },
                 }),
                 {
                     sortable: true,
@@ -73,9 +63,8 @@ function FieldReportsTable() {
                 strings.fieldReportsTableEmergency,
                 (item) => item.event_details?.name,
                 (item) => ({
-                    to: isDefined(item.event)
-                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event })
-                        : undefined,
+                    to: 'emergenciesLayout',
+                    urlParams: { emergencyId: item.event },
                 }),
             ),
             createStringColumn<FieldReportListItem, number>(
@@ -90,7 +79,7 @@ function FieldReportsTable() {
                 (item) => item.countries_details,
             ),
         ]),
-        [strings, emergencyRoute, fieldReportDetailsRoute],
+        [strings],
     );
 
     let ordering;
@@ -139,7 +128,7 @@ function FieldReportsTable() {
             withHeaderBorder
             actions={(
                 <Link
-                    to={allFieldReportsRoute.absolutePath}
+                    to="allFieldReports"
                     withForwardIcon
                     withUnderline
                 >

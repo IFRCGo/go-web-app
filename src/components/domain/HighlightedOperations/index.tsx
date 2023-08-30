@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
     _cs,
     listToMap,
@@ -8,7 +8,6 @@ import Container from '#components/Container';
 import Link from '#components/Link';
 import Grid from '#components/Grid';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import {
     type GoApiResponse,
     type GoApiUrlQuery,
@@ -48,7 +47,6 @@ function HighlightedOperations(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const { allEmergencies: allEmergenciesRoute } = useContext(RouteContext);
 
     // eslint-disable-next-line react/destructuring-assignment
     const regionId = variant === 'region' ? props.regionId : undefined;
@@ -103,10 +101,8 @@ function HighlightedOperations(props: Props) {
             heading={strings.highlightedOperationsTitle}
             actions={(
                 <Link
-                    to={{
-                        pathname: allEmergenciesRoute.absolutePath,
-                        search: variant === 'region' ? `region=${regionId}` : undefined,
-                    }}
+                    to="allEmergencies"
+                    urlSearch={variant === 'region' ? `region=${regionId}` : undefined}
                     withForwardIcon
                     withUnderline
                 >

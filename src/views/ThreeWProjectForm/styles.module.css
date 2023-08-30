@@ -1,11 +1,16 @@
-.three-w-project-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-md);
-
-    .formActions {
+.three-w-project-page {
+    .tab-list {
+        width: 100%;
+    }
+    .three-w-project-form {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         gap: var(--go-ui-spacing-md);
+
+        .formActions {
+            display: flex;
+            justify-content: center;
+            gap: var(--go-ui-spacing-md);
+        }
     }
 }

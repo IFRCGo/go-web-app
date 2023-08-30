@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { Outlet, generatePath } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import {
     BasecampIcon,
     CashTransferIcon,
@@ -11,7 +10,6 @@ import {
     EmergencyTelecommunicationsIcon,
 } from '@ifrc-go/icons';
 
-import RouteContext from '#contexts/route';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
@@ -21,18 +19,6 @@ import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const {
-        catalogueOverview: catalogueServiceRoute,
-        catalogueEmergency: catalogueEmergencyRoute,
-        catalogueBasecamp: catalogueBasecampRoute,
-        catalogueCash: catalogueCashRoute,
-        catalogueCommunityEngagement: catalogueCommunityEngagementRoute,
-        catalogueCommunication: catalogueCommunicationRoute,
-        catalogueHealth: catalogueHealthRoute,
-        catalogueInformationManagement: catalogueInformationManagementRoute,
-        catalogueInformationTechnology: catalogueInformationTechnologyRoute,
-    } = useContext(RouteContext);
-
     const strings = useTranslation(i18n);
 
     return (
@@ -42,79 +28,61 @@ export function Component() {
                 variant="vertical"
             >
                 <NavigationTab
-                    to={generatePath(
-                        catalogueServiceRoute.absolutePath,
-                    )}
+                    to="catalogueOverview"
                 >
                     {strings.catalogueServiceOverview}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueEmergencyRoute.absolutePath,
-                    )}
+                    to="catalogueEmergency"
                     parentRoute
                 >
                     <CoordinatedAssessementIcon className={styles.icon} />
                     {strings.catalogueEmergency}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueBasecampRoute.absolutePath,
-                    )}
+                    to="catalogueBasecamp"
                     parentRoute
                 >
                     <BasecampIcon className={styles.icon} />
                     {strings.catalogueBasecamp}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueCashRoute.absolutePath,
-                    )}
+                    to="catalogueCash"
                     parentRoute
                 >
                     <CashTransferIcon className={styles.icon} />
                     {strings.catalogueCash}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueCommunityEngagementRoute.absolutePath,
-                    )}
+                    to="catalogueCommunityEngagement"
                     parentRoute
                 >
                     <PartnershipIcon className={styles.icon} />
                     {strings.catalogueCommunityEngagement}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueCommunicationRoute.absolutePath,
-                    )}
+                    to="catalogueCommunication"
                     parentRoute
                 >
                     <PublicInformationIcon className={styles.icon} />
                     {strings.catalogueCommunication}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueHealthRoute.absolutePath,
-                    )}
+                    to="catalogueHealth"
                     parentRoute
                 >
                     <HealthIcon className={styles.icon} />
                     {strings.catalogueHealth}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueInformationManagementRoute.absolutePath,
-                    )}
+                    to="catalogueInformationManagement"
                     parentRoute
                 >
                     <AnalysisIcon className={styles.icon} />
                     {strings.catalogueInformationManagement}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueInformationTechnologyRoute.absolutePath,
-                    )}
+                    to="catalogueInformationTechnology"
                     parentRoute
                 >
                     <EmergencyTelecommunicationsIcon className={styles.icon} />

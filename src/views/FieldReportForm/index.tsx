@@ -1,6 +1,5 @@
 import {
     useState,
-    useContext,
     useCallback,
     useMemo,
     useRef,
@@ -8,8 +7,6 @@ import {
 } from 'react';
 import {
     useParams,
-    useNavigate,
-    generatePath,
 } from 'react-router-dom';
 import {
     isDefined,
@@ -23,6 +20,7 @@ import {
     removeNull,
 } from '@togglecorp/toggle-form';
 
+import useRouting from '#hooks/useRouting';
 import { transformObjectError } from '#utils/restRequest/error';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
@@ -40,7 +38,6 @@ import useDisasterType from '#hooks/domain/useDisasterType';
 import { resolveToString } from '#utils/translation';
 import { formatDate } from '#utils/common';
 import { useRequest, useLazyRequest } from '#utils/restRequest';
-import RouteContext from '#contexts/route';
 import {
     type FieldReportStatusEnum,
     type ReportType,
@@ -118,12 +115,7 @@ export function Component() {
 
     const alert = useAlert();
 
-    const navigate = useNavigate();
-
-    const {
-        // FIXME: navigate to field detail page
-        allFieldReports: fieldReportFormEditRoute,
-    } = useContext(RouteContext);
+    const { navigate } = useRouting();
 
     const strings = useTranslation(i18n);
 
@@ -251,10 +243,10 @@ export function Component() {
                 strings.formRedirectMessage,
                 { variant: 'success' },
             );
-            navigate(generatePath(
-                fieldReportFormEditRoute.absolutePath,
-                { id: response.id },
-            ));
+            navigate(
+                'fieldReportDetails',
+                { params: { id: response.id } },
+            );
         },
         onFailure: ({
             value: {
@@ -298,10 +290,10 @@ export function Component() {
             );
             window.setTimeout(
                 () => {
-                    navigate(generatePath(
-                        fieldReportFormEditRoute.absolutePath,
-                        { id: response.id },
-                    ));
+                    navigate(
+                        'fieldReportDetails',
+                        { params: { id: response.id } },
+                    );
                 },
                 250,
             );

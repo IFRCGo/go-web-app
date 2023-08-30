@@ -1,10 +1,8 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
-import RouteContext from '#contexts/route';
+import useRouting from '#hooks/useRouting';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
 import TextOutput from '#components/TextOutput';
@@ -17,15 +15,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueHealth: catalogueHealthRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueHealthRoute.absolutePath));
-    }, [goBack, catalogueHealthRoute.absolutePath]);
+        goBack('catalogueHealth');
+    }, [goBack]);
 
     return (
         <Container
@@ -149,6 +143,7 @@ export function Component() {
             >
                 <Link
                     to="http://pscentre.org/"
+                    external
                     variant="tertiary"
                     withExternalLinkIcon
                 >

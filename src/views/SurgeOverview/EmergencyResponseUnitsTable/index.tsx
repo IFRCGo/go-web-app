@@ -1,10 +1,8 @@
 import {
     useState,
     useMemo,
-    useContext,
     useCallback,
 } from 'react';
-import { generatePath } from 'react-router-dom';
 import { isDefined } from '@togglecorp/fujs';
 
 import Table from '#components/Table';
@@ -15,7 +13,6 @@ import useInputState from '#hooks/useInputState';
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import {
     createLinkColumn,
     createNumberColumn,
@@ -45,12 +42,6 @@ const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType)
 function EmergencyResponseUnitsTable() {
     const [page, setPage] = useState(1);
     const [emergencyResponseUnitType, setEmergencyResponseType] = useInputState<EmergencyResponseUnitType['key'] | undefined>(undefined);
-
-    const {
-        country: countryRoute,
-        emergency: emergencyRoute,
-        allDeployedEmergencyResponseUnits: allDeployedEmergencyResponseUnitsRoute,
-    } = useContext(RouteContext);
 
     const strings = useTranslation(i18n);
 
@@ -124,9 +115,10 @@ function EmergencyResponseUnitsTable() {
             strings.emergencyResponseUnitsTableDeployedTo,
             (emergencyResponseUnit) => emergencyResponseUnit.deployed_to.name,
             (emergencyResponseUnit) => ({
-                to: generatePath(countryRoute.absolutePath, {
+                to: 'countriesLayout',
+                urlParams: {
                     countryId: emergencyResponseUnit.deployed_to.id,
-                }),
+                },
             }),
             {
                 sortable: true,
@@ -137,15 +129,14 @@ function EmergencyResponseUnitsTable() {
             strings.emergencyResponseUnitsTableEmergency,
             (emergencyResponseUnit) => emergencyResponseUnit.event?.name,
             (emergencyResponseUnit) => ({
-                to: emergencyResponseUnit.event?.id ? generatePath(emergencyRoute.absolutePath, {
-                    emergencyId: emergencyResponseUnit.event?.id,
-                }) : undefined,
+                to: 'emergenciesLayout',
+                urlParams: { emergencyId: emergencyResponseUnit.event?.id },
             }),
             {
                 sortable: true,
             },
         ),
-    ]), [strings, emergencyRoute, countryRoute]);
+    ]), [strings]);
 
     return (
         <Container
@@ -179,7 +170,7 @@ function EmergencyResponseUnitsTable() {
             )}
             actions={(
                 <Link
-                    to={allDeployedEmergencyResponseUnitsRoute.absolutePath}
+                    to="allDeployedEmergencyResponseUnits"
                     withForwardIcon
                     withUnderline
                 >

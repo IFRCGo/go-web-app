@@ -1,5 +1,5 @@
-import { Outlet, useParams, generatePath } from 'react-router-dom';
-import { useContext, useMemo, useRef } from 'react';
+import { Outlet, useParams } from 'react-router-dom';
+import { useMemo, useRef } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import NavigationTab from '#components/NavigationTab';
@@ -7,7 +7,6 @@ import NavigationTabList from '#components/NavigationTabList';
 import Page from '#components/Page';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
 
 import {
@@ -26,14 +25,6 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
     const { perId } = useParams<{ perId: string }>();
-    const {
-        newPerOverviewForm: newPerOverviewFormRoute,
-        perOverviewForm: perOverviewFormRoute,
-        perAssessmentForm: perAssessmentFormRoute,
-        perPrioritizationForm: perPrioritizationFormRoute,
-        perWorkPlanForm: perWorkPlanFormRoute,
-        accountPerForms: accountPerFormsRoute,
-    } = useContext(RouteContext);
 
     const {
         response: statusResponse,
@@ -69,7 +60,7 @@ export function Component() {
             actions={(
                 <>
                     <Link
-                        to={accountPerFormsRoute.absolutePath}
+                        to="accountPerForms"
                         variant="secondary"
                     >
                         {strings.perProcessBackButtonLabel}
@@ -85,33 +76,35 @@ export function Component() {
                 >
                     <NavigationTab
                         stepCompleted={currentStep > PER_PHASE_OVERVIEW}
-                        to={isDefined(perId)
-                            ? generatePath(perOverviewFormRoute.absolutePath, { perId })
-                            : newPerOverviewFormRoute.absolutePath}
+                        to={isDefined(perId) ? 'perOverviewForm' : 'newPerOverviewForm'}
+                        urlParams={isDefined(perId) ? { perId } : undefined}
                     >
                         {strings.perFormTabOverviewLabel}
                     </NavigationTab>
                     <NavigationTab
                         stepCompleted={currentStep > PER_PHASE_ASSESSMENT}
                         to={isDefined(perId) && currentStep >= PER_PHASE_ASSESSMENT
-                            ? generatePath(perAssessmentFormRoute.absolutePath, { perId })
+                            ? 'perAssessmentForm'
                             : undefined}
+                        urlParams={isDefined(perId) ? { perId } : undefined}
                     >
                         {strings.perFormTabAssessmentLabel}
                     </NavigationTab>
                     <NavigationTab
                         stepCompleted={currentStep > PER_PHASE_PRIORITIZATION}
                         to={isDefined(perId) && currentStep >= PER_PHASE_PRIORITIZATION
-                            ? generatePath(perPrioritizationFormRoute.absolutePath, { perId })
+                            ? 'perPrioritizationForm'
                             : undefined}
+                        urlParams={isDefined(perId) ? { perId } : undefined}
                     >
                         {strings.perFormTabPrioritizationLabel}
                     </NavigationTab>
                     <NavigationTab
                         stepCompleted={currentStep > PER_PHASE_WORKPLAN}
                         to={isDefined(perId) && currentStep >= PER_PHASE_WORKPLAN
-                            ? generatePath(perWorkPlanFormRoute.absolutePath, { perId })
+                            ? 'perWorkPlanForm'
                             : undefined}
+                        urlParams={isDefined(perId) ? { perId } : undefined}
                     >
                         {strings.perFormTabWorkPlanLabel}
                     </NavigationTab>

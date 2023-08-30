@@ -1,7 +1,6 @@
 import {
     useState,
     useMemo,
-    useContext,
 } from 'react';
 
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
@@ -16,7 +15,6 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
@@ -39,8 +37,6 @@ function FlashUpdateTable() {
     const strings = useTranslation(i18n);
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
-
-    const { allFlashUpdates: allFlashUpdatesRoute } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -125,7 +121,7 @@ function FlashUpdateTable() {
             )}
             actions={(
                 <Link
-                    to={allFlashUpdatesRoute.absolutePath}
+                    to="allFlashUpdates"
                     withUnderline
                     withForwardIcon
                 >

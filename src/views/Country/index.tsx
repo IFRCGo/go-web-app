@@ -1,5 +1,5 @@
-import { useParams, Outlet, generatePath } from 'react-router-dom';
-import { useContext, useMemo } from 'react';
+import { useParams, Outlet } from 'react-router-dom';
+import { useMemo } from 'react';
 import {
     DrefIcon,
     AppealsIcon,
@@ -15,7 +15,6 @@ import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
-import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { type CountryOutletContext } from '#utils/outletContext';
@@ -29,15 +28,6 @@ export function Component() {
     const { countryId } = useParams<{ countryId: string }>();
 
     const strings = useTranslation(i18n);
-
-    const {
-        countryOperations: countryOperationsRoute,
-        countryThreeW: countryThreeWRoute,
-        countryRiskWatch: countryRiskWatchRoute,
-        countryPreparedness: countryPreparednessRoute,
-        countryPlan: countryPlanRoute,
-        countryAdditionalData: countryAdditionalDataRoute,
-    } = useContext(RouteContext);
 
     const {
         pending: countryResponsePending,
@@ -145,52 +135,40 @@ export function Component() {
         >
             <NavigationTabList>
                 <NavigationTab
-                    to={generatePath(
-                        countryOperationsRoute.absolutePath,
-                        { countryId },
-                    )}
+                    to="countryOperations"
+                    urlParams={{ countryId }}
                 >
                     {strings.countryOperationsTab}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        countryThreeWRoute.absolutePath,
-                        { countryId },
-                    )}
+                    to="countriesThreeWLayout"
+                    urlParams={{ countryId }}
                     parentRoute
                 >
                     {strings.country3WTab}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        countryRiskWatchRoute.absolutePath,
-                        { countryId },
-                    )}
+                    to="countryRiskWatch"
+                    urlParams={{ countryId }}
                 >
                     {strings.countryRiskTab}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        countryPreparednessRoute.absolutePath,
-                        { countryId },
-                    )}
+                    to="countryPreparedness"
+                    urlParams={{ countryId }}
                 >
                     {strings.countryPreparednessTab}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        countryPlanRoute.absolutePath,
-                        { countryId },
-                    )}
+                    to="countryPlan"
+                    urlParams={{ countryId }}
                 >
                     {strings.countryCountryPlanTab}
                 </NavigationTab>
                 {hasAdditionalInfoData && (
                     <NavigationTab
-                        to={generatePath(
-                            countryAdditionalDataRoute.absolutePath,
-                            { countryId },
-                        )}
+                        to="countryAdditionalData"
+                        urlParams={{ countryId }}
                     >
                         {additionalInfoTabName}
                     </NavigationTab>
@@ -202,12 +180,14 @@ export function Component() {
             <div className={styles.links}>
                 <Link
                     to={countryResponse?.fdrs ? `https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}` : undefined}
+                    external
                     withExternalLinkIcon
                 >
                     {strings.nationalSocietyPageOnFDRS}
                 </Link>
                 <Link
                     to={countryResponse?.url_ifrc}
+                    external
                     withExternalLinkIcon
                 >
                     {resolveToString(
@@ -217,6 +197,7 @@ export function Component() {
                 </Link>
                 <Link
                     to={countryResponse?.iso3 ? `https://reliefweb.int/country/${countryResponse.iso3}` : undefined}
+                    external
                     withExternalLinkIcon
                 >
                     {resolveToString(
@@ -226,6 +207,7 @@ export function Component() {
                 </Link>
                 <Link
                     to={countryResponse?.society_url ? countryResponse?.society_url : undefined}
+                    external
                     withExternalLinkIcon
                 >
                     {resolveToString(

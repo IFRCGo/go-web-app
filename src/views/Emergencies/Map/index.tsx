@@ -1,7 +1,6 @@
 import {
-    useContext, useMemo, useCallback, useState,
+    useMemo, useCallback, useState,
 } from 'react';
-import { generatePath } from 'react-router-dom';
 import {
     _cs,
     isDefined,
@@ -34,7 +33,6 @@ import {
 import { sumSafe } from '#utils/common';
 import { resolveToComponent } from '#utils/translation';
 import { getNumAffected } from '#utils/domain/emergency';
-import RouteContext from '#contexts/route';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 
 import i18n from './i18n.json';
@@ -94,11 +92,6 @@ function EmergenciesMap(props: Props) {
         className,
         eventList,
     } = props;
-
-    const {
-        country: countryRoute,
-        allEmergencies: allEmergenciesRoute,
-    } = useContext(RouteContext);
 
     const [
         clickedPointProperties,
@@ -242,7 +235,7 @@ function EmergenciesMap(props: Props) {
             withHeaderBorder
             actions={(
                 <Link
-                    to={allEmergenciesRoute.absolutePath}
+                    to="allEmergencies"
                     withUnderline
                     withForwardIcon
                 >
@@ -303,13 +296,10 @@ function EmergenciesMap(props: Props) {
                         coordinates={clickedPointProperties.lngLat}
                         heading={(
                             <Link
-                                to={
-                                    generatePath(
-                                        countryRoute.absolutePath,
-                                        // eslint-disable-next-line max-len
-                                        { countryId: clickedPointProperties.feature.properties.country_id },
-                                    )
-                                }
+                                to="countriesLayout"
+                                urlParams={{
+                                    countryId: clickedPointProperties.feature.properties.country_id,
+                                }}
                             >
                                 {clickedPointProperties.feature.properties.name}
                             </Link>

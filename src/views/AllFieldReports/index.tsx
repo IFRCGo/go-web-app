@@ -1,6 +1,5 @@
-import { useState, useMemo, useContext } from 'react';
+import { useState, useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
-import { generatePath } from 'react-router-dom';
 
 import Page from '#components/Page';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -17,7 +16,6 @@ import Pager from '#components/Pager';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
-import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
@@ -54,11 +52,6 @@ export function Component() {
         (country) => country,
     );
 
-    const {
-        emergency: emergencyRoute,
-        fieldReportDetails: fieldReportDetailsRoute,
-    } = useContext(RouteContext);
-
     const columns = useMemo(
         () => ([
             createDateColumn<FieldReportListItem, number>(
@@ -77,12 +70,8 @@ export function Component() {
                 (item) => ({
                     sortable: true,
                     columnClassName: styles.summary,
-                    to: isDefined(item.id)
-                        ? generatePath(
-                            fieldReportDetailsRoute.absolutePath,
-                            { fieldReportId: item.id },
-                        )
-                        : undefined,
+                    to: 'fieldReportDetails',
+                    urlParams: { fieldReportId: item.id },
                 }),
             ),
             createLinkColumn<FieldReportListItem, number>(
@@ -90,9 +79,8 @@ export function Component() {
                 strings.allFieldReportsEmergency,
                 (item) => item.event_details?.name,
                 (item) => ({
-                    to: isDefined(item.event)
-                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event })
-                        : undefined,
+                    to: 'emergenciesLayout',
+                    urlParams: { emergencyId: item.event },
                 }),
             ),
             createStringColumn<FieldReportListItem, number>(
@@ -107,7 +95,7 @@ export function Component() {
                 (item) => item.countries_details,
             ),
         ]),
-        [strings, emergencyRoute, fieldReportDetailsRoute],
+        [strings],
     );
 
     let ordering;

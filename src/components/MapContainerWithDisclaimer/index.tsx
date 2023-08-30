@@ -22,7 +22,10 @@ function MapContainerWithDisclaimer(props: Props) {
         strings.mapSourcesLabel,
         {
             uncodsLink: (
-                <Link to="https://cod.unocha.org/">
+                <Link
+                    to="https://cod.unocha.org/"
+                    external
+                >
                     {strings.mapSourceUNCODsLabel}
                 </Link>
             ),
@@ -49,6 +52,7 @@ function MapContainerWithDisclaimer(props: Props) {
                         >
                             <Link
                                 to="https://www.mapbox.com/about/maps/"
+                                external
                                 title="Mapbox"
                                 aria-label="Mapbox"
                                 role="listitem"
@@ -57,6 +61,7 @@ function MapContainerWithDisclaimer(props: Props) {
                             </Link>
                             <Link
                                 to="https://www.openstreetmap.org/about/"
+                                external
                                 title="OpenStreetMap"
                                 aria-label="OpenStreetMap"
                                 role="listitem"
@@ -66,6 +71,7 @@ function MapContainerWithDisclaimer(props: Props) {
                             <Link
                                 className="mapbox-improve-map"
                                 to={`https://apps.mapbox.com/feedback/?owner=go-ifrc&amp;id=ckrfe16ru4c8718phmckdfjh0&amp;access_token=${mbtoken}`}
+                                external
                                 title="Map feedback"
                                 aria-label={strings.feedbackAriaLabel}
                                 role="listitem"

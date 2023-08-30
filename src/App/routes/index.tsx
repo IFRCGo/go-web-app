@@ -12,9 +12,8 @@ import type {
 
 import { Component as RootLayout } from '#views/RootLayout';
 
-import Auth from './Auth';
-
-import PageError from './PageError';
+import Auth from '../Auth';
+import PageError from '../PageError';
 
 type ExtendedProps = {
     title: string,
@@ -30,7 +29,9 @@ interface CustomWrapRoute {
 }
 const customWrapRoute: CustomWrapRoute = wrapRoute;
 
-const root = customWrapRoute({
+// NOTE: We should not use layout or index routes in links
+
+const rootLayout = customWrapRoute({
     path: '/',
     errorElement: <PageError />,
     component: {
@@ -46,12 +47,12 @@ const root = customWrapRoute({
 });
 
 const login = customWrapRoute({
+    parent: rootLayout,
     path: 'login',
     component: {
         render: () => import('#views/Login'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Login',
@@ -60,12 +61,12 @@ const login = customWrapRoute({
 });
 
 const register = customWrapRoute({
+    parent: rootLayout,
     path: 'register',
     component: {
         render: () => import('#views/Register'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Register',
@@ -74,12 +75,12 @@ const register = customWrapRoute({
 });
 
 const home = customWrapRoute({
+    parent: rootLayout,
     index: true,
     component: {
         render: () => import('#views/Home'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Home',
@@ -87,13 +88,15 @@ const home = customWrapRoute({
     },
 });
 
-const region = customWrapRoute({
+type DefaultRegionsChild = 'operations';
+const regionsLayout = customWrapRoute({
+    parent: rootLayout,
     path: 'regions/:regionId',
+    forwardPath: 'operations' satisfies DefaultRegionsChild,
     component: {
         render: () => import('#views/Region'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Region',
@@ -101,27 +104,14 @@ const region = customWrapRoute({
     },
 });
 
-const regionOperations = customWrapRoute({
-    path: 'operations',
-    component: {
-        render: () => import('#views/RegionOperations'),
-        props: {},
-    },
-    parent: region,
-    context: {
-        title: 'Region Operations',
-        visibility: 'anything',
-    },
-});
-
 const regionIndex = customWrapRoute({
-    parent: region,
+    parent: regionsLayout,
     index: true,
     component: {
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: regionOperations.path as string,
+            to: 'operations' satisfies DefaultRegionsChild,
             replace: true,
         },
     },
@@ -131,68 +121,55 @@ const regionIndex = customWrapRoute({
     },
 });
 
+const regionOperations = customWrapRoute({
+    parent: regionsLayout,
+    path: 'operations' satisfies DefaultRegionsChild,
+    component: {
+        render: () => import('#views/RegionOperations'),
+        props: {},
+    },
+    context: {
+        title: 'Region Operations',
+        visibility: 'anything',
+    },
+});
+
 const regionThreeW = customWrapRoute({
+    parent: regionsLayout,
     path: 'three-w',
     component: {
         render: () => import('#views/RegionThreeW'),
         props: {},
     },
-    parent: region,
     context: {
         title: 'Region 3W',
         visibility: 'anything',
     },
 });
 
-const regionRiskWatch = customWrapRoute({
+type DefaultRegionRiskWatchChild = 'seasonal';
+const regionRiskWatchLayout = customWrapRoute({
+    parent: regionsLayout,
     path: 'risk-watch',
+    forwardPath: 'seasonal' satisfies DefaultRegionRiskWatchChild,
     component: {
         render: () => import('#views/RegionRiskWatch'),
         props: {},
     },
-    parent: region,
     context: {
         title: 'Region Risk Watch',
         visibility: 'anything',
     },
 });
 
-// FIXME rename and make consistent with view name
-const regionImminentRiskWatch = customWrapRoute({
-    path: 'imminent',
-    component: {
-        render: () => import('#views/RegionRiskWatchImminent'),
-        props: {},
-    },
-    parent: regionRiskWatch,
-    context: {
-        title: 'Region Risk Watch - Imminent',
-        visibility: 'anything',
-    },
-});
-
-// FIXME rename and make consistent with view name
-const regionSeasonalRiskWatch = customWrapRoute({
-    path: 'seasonal',
-    component: {
-        render: () => import('#views/RegionRiskWatchSeasonal'),
-        props: {},
-    },
-    parent: regionRiskWatch,
-    context: {
-        title: 'Region Risk Watch - Seasonal',
-        visibility: 'anything',
-    },
-});
-
 const regionRiskIndex = customWrapRoute({
-    parent: regionRiskWatch,
+    parent: regionRiskWatchLayout,
     index: true,
     component: {
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: regionSeasonalRiskWatch.path as string,
+            to: 'seasonal' satisfies DefaultRegionRiskWatchChild,
             replace: true,
         },
     },
@@ -202,13 +179,39 @@ const regionRiskIndex = customWrapRoute({
     },
 });
 
+const regionImminentRiskWatch = customWrapRoute({
+    parent: regionRiskWatchLayout,
+    path: 'imminent',
+    component: {
+        render: () => import('#views/RegionRiskWatchImminent'),
+        props: {},
+    },
+    context: {
+        title: 'Region Risk Watch - Imminent',
+        visibility: 'anything',
+    },
+});
+
+const regionSeasonalRiskWatch = customWrapRoute({
+    parent: regionRiskWatchLayout,
+    path: 'seasonal' satisfies DefaultRegionRiskWatchChild,
+    component: {
+        render: () => import('#views/RegionRiskWatchSeasonal'),
+        props: {},
+    },
+    context: {
+        title: 'Region Risk Watch - Seasonal',
+        visibility: 'anything',
+    },
+});
+
 const regionPreparedness = customWrapRoute({
+    parent: regionsLayout,
     path: 'preparedness',
     component: {
         render: () => import('#views/RegionPreparedness'),
         props: {},
     },
-    parent: region,
     context: {
         title: 'Region Preparedness',
         visibility: 'anything',
@@ -216,12 +219,12 @@ const regionPreparedness = customWrapRoute({
 });
 
 const regionProfile = customWrapRoute({
+    parent: regionsLayout,
     path: 'profile',
     component: {
         render: () => import('#views/RegionProfile'),
         props: {},
     },
-    parent: region,
     context: {
         title: 'Region Profile',
         visibility: 'anything',
@@ -229,25 +232,27 @@ const regionProfile = customWrapRoute({
 });
 
 const regionAdditionalInfo = customWrapRoute({
+    parent: regionsLayout,
     path: 'additional-info',
     component: {
         render: () => import('#views/RegionAdditionalInfo'),
         props: {},
     },
-    parent: region,
     context: {
         title: 'Region Additional Info',
         visibility: 'anything',
     },
 });
 
-const country = customWrapRoute({
+type DefaultCountriesChild = 'operations';
+const countriesLayout = customWrapRoute({
+    parent: rootLayout,
     path: 'countries/:countryId',
+    forwardPath: 'operations' satisfies DefaultCountriesChild,
     component: {
         render: () => import('#views/Country'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Country',
@@ -255,27 +260,14 @@ const country = customWrapRoute({
     },
 });
 
-const countryOperations = customWrapRoute({
-    path: 'operations',
-    component: {
-        render: () => import('#views/CountryOperations'),
-        props: {},
-    },
-    parent: country,
-    context: {
-        title: 'Country Operations',
-        visibility: 'anything',
-    },
-});
-
 const countryIndex = customWrapRoute({
-    parent: country,
+    parent: countriesLayout,
     index: true,
     component: {
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: countryOperations.path as string,
+            to: 'operations' satisfies DefaultCountriesChild,
             replace: true,
         },
     },
@@ -285,39 +277,28 @@ const countryIndex = customWrapRoute({
     },
 });
 
-const countryThreeW = customWrapRoute({
+const countryOperations = customWrapRoute({
+    parent: countriesLayout,
+    path: 'operations' satisfies DefaultCountriesChild,
+    component: {
+        render: () => import('#views/CountryOperations'),
+        props: {},
+    },
+    context: {
+        title: 'Country Operations',
+        visibility: 'anything',
+    },
+});
+
+type DefaultCountryThreeWChild = 'projects';
+const countriesThreeWLayout = customWrapRoute({
+    parent: countriesLayout,
     path: 'three-w',
+    forwardPath: 'projects' satisfies DefaultCountryThreeWChild,
     component: {
         render: () => import('#views/CountryThreeW'),
         props: {},
     },
-    parent: country,
-    context: {
-        title: 'Country 3W',
-        visibility: 'anything',
-    },
-});
-
-const countryThreeWProjects = customWrapRoute({
-    path: 'projects',
-    component: {
-        render: () => import('#views/CountryThreeWProjects'),
-        props: {},
-    },
-    parent: countryThreeW,
-    context: {
-        title: 'Country 3W',
-        visibility: 'anything',
-    },
-});
-
-const countryThreeWNationalSocietyProjects = customWrapRoute({
-    path: 'ns-projects',
-    component: {
-        render: () => import('#views/CountryThreeWNationalSocietyProjects'),
-        props: {},
-    },
-    parent: countryThreeW,
     context: {
         title: 'Country 3W',
         visibility: 'anything',
@@ -325,13 +306,13 @@ const countryThreeWNationalSocietyProjects = customWrapRoute({
 });
 
 const countryThreeWIndex = customWrapRoute({
-    parent: countryThreeW,
+    parent: countriesThreeWLayout,
     index: true,
     component: {
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: countryThreeWProjects.path as string,
+            to: 'projects' satisfies DefaultCountryThreeWChild,
             replace: true,
         },
     },
@@ -341,13 +322,39 @@ const countryThreeWIndex = customWrapRoute({
     },
 });
 
+const countryThreeWProjects = customWrapRoute({
+    parent: countriesThreeWLayout,
+    path: 'projects' satisfies DefaultCountryThreeWChild,
+    component: {
+        render: () => import('#views/CountryThreeWProjects'),
+        props: {},
+    },
+    context: {
+        title: 'Country 3W Projects',
+        visibility: 'anything',
+    },
+});
+
+const countryThreeWNationalSocietyProjects = customWrapRoute({
+    parent: countriesThreeWLayout,
+    path: 'ns-projects',
+    component: {
+        render: () => import('#views/CountryThreeWNationalSocietyProjects'),
+        props: {},
+    },
+    context: {
+        title: 'Country 3W National Society Project',
+        visibility: 'anything',
+    },
+});
+
 const countryRiskWatch = customWrapRoute({
+    parent: countriesLayout,
     path: 'risk-watch',
     component: {
         render: () => import('#views/CountryRiskWatch'),
         props: {},
     },
-    parent: country,
     context: {
         title: 'Country Risk Watch',
         visibility: 'anything',
@@ -355,12 +362,12 @@ const countryRiskWatch = customWrapRoute({
 });
 
 const countryPreparedness = customWrapRoute({
+    parent: countriesLayout,
     path: 'preparedness',
     component: {
         render: () => import('#views/CountryPreparedness'),
         props: {},
     },
-    parent: country,
     context: {
         title: 'Country Preparedness',
         visibility: 'anything',
@@ -368,12 +375,12 @@ const countryPreparedness = customWrapRoute({
 });
 
 const countryPlan = customWrapRoute({
+    parent: countriesLayout,
     path: 'plan',
     component: {
         render: () => import('#views/CountryPlan'),
         props: {},
     },
-    parent: country,
     context: {
         title: 'Country Plan',
         visibility: 'anything',
@@ -381,12 +388,12 @@ const countryPlan = customWrapRoute({
 });
 
 const countryAdditionalData = customWrapRoute({
+    parent: countriesLayout,
     path: 'additional-data',
     component: {
         render: () => import('#views/CountryAdditionalData'),
         props: {},
     },
-    parent: country,
     context: {
         title: 'Country Additional Data',
         visibility: 'anything',
@@ -394,12 +401,12 @@ const countryAdditionalData = customWrapRoute({
 });
 
 const emergencies = customWrapRoute({
+    parent: rootLayout,
     path: 'emergencies',
     component: {
         render: () => import('#views/Emergencies'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Emergencies',
@@ -407,13 +414,15 @@ const emergencies = customWrapRoute({
     },
 });
 
-const emergency = customWrapRoute({
+type DefaultEmergenciesChild = 'details';
+const emergenciesLayout = customWrapRoute({
+    parent: rootLayout,
     path: 'emergencies/:emergencyId',
+    forwardPath: 'details' satisfies DefaultEmergenciesChild,
     component: {
         render: () => import('#views/Emergency'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Emergency',
@@ -421,27 +430,14 @@ const emergency = customWrapRoute({
     },
 });
 
-const emergencyDetails = customWrapRoute({
-    path: 'details',
-    component: {
-        render: () => import('#views/EmergencyDetails'),
-        props: {},
-    },
-    parent: emergency,
-    context: {
-        title: 'Emergency Details',
-        visibility: 'anything',
-    },
-});
-
 const emergencyIndex = customWrapRoute({
-    parent: emergency,
+    parent: emergenciesLayout,
     index: true,
     component: {
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: emergencyDetails.path as string,
+            to: 'details' satisfies DefaultEmergenciesChild,
             replace: true,
         },
     },
@@ -451,50 +447,66 @@ const emergencyIndex = customWrapRoute({
     },
 });
 
+const emergencyDetails = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'details' satisfies DefaultEmergenciesChild,
+    component: {
+        render: () => import('#views/EmergencyDetails'),
+        props: {},
+    },
+    context: {
+        title: 'Emergency Details',
+        visibility: 'anything',
+    },
+});
+
 const emergencyReportsAndDocuments = customWrapRoute({
+    parent: emergenciesLayout,
     path: 'reports',
     component: {
         render: () => import('#views/EmergencyReportAndDocument'),
         props: {},
     },
-    parent: emergency,
     context: {
         title: 'Emergency Reports/Documents',
         visibility: 'anything',
     },
 });
+
 const emergencyActivities = customWrapRoute({
+    parent: emergenciesLayout,
     path: 'activities',
     component: {
         render: () => import('#views/EmergencyActivities'),
         props: {},
     },
-    parent: emergency,
     context: {
         title: 'Emergency Activities',
         visibility: 'anything',
     },
 });
 const emergencySurge = customWrapRoute({
+    parent: emergenciesLayout,
     path: 'surge',
     component: {
         render: () => import('#views/EmergencySurge'),
         props: {},
     },
-    parent: emergency,
     context: {
         title: 'Emergency Surge',
         visibility: 'anything',
     },
 });
 
-const surge = customWrapRoute({
+type DefaultSurgeChild = 'overview';
+const surgeLayout = customWrapRoute({
+    parent: rootLayout,
     path: 'surge',
+    forwardPath: 'overview' satisfies DefaultSurgeChild,
     component: {
         render: () => import('#views/Surge'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Surge',
@@ -502,53 +514,14 @@ const surge = customWrapRoute({
     },
 });
 
-const surgeOverview = customWrapRoute({
-    path: 'overview',
-    component: {
-        render: () => import('#views/SurgeOverview'),
-        props: {},
-    },
-    parent: surge,
-    context: {
-        title: 'Surge Overview',
-        visibility: 'anything',
-    },
-});
-
-const surgeOperationalToolbox = customWrapRoute({
-    path: 'operational-toolbox',
-    component: {
-        render: () => import('#views/SurgeOperationalToolbox'),
-        props: {},
-    },
-    parent: surge,
-    context: {
-        title: 'Surge Operational Toolbox',
-        visibility: 'anything',
-    },
-});
-
-const surgeCatalogue = customWrapRoute({
-    path: 'catalogue',
-    component: {
-        render: () => import('#views/SurgeCatalogue'),
-        props: {},
-    },
-    parent: surge,
-    context: {
-        title: 'Surge Services Catalogue',
-        visibility: 'anything',
-    },
-});
-
 const surgeIndex = customWrapRoute({
-    parent: surge,
+    parent: surgeLayout,
     index: true,
     component: {
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: surgeOverview.path as string,
+            to: 'overview' satisfies DefaultSurgeChild,
             replace: true,
         },
     },
@@ -558,13 +531,73 @@ const surgeIndex = customWrapRoute({
     },
 });
 
-const preparedness = customWrapRoute({
+const surgeOverview = customWrapRoute({
+    parent: surgeLayout,
+    path: 'overview' satisfies DefaultSurgeChild,
+    component: {
+        render: () => import('#views/SurgeOverview'),
+        props: {},
+    },
+    context: {
+        title: 'Surge Overview',
+        visibility: 'anything',
+    },
+});
+
+const surgeOperationalToolbox = customWrapRoute({
+    parent: surgeLayout,
+    path: 'operational-toolbox',
+    component: {
+        render: () => import('#views/SurgeOperationalToolbox'),
+        props: {},
+    },
+    context: {
+        title: 'Surge Operational Toolbox',
+        visibility: 'anything',
+    },
+});
+
+type DefaultSurgeCatalogueChild = 'overview';
+const surgeCatalogueLayout = customWrapRoute({
+    parent: surgeLayout,
+    path: 'catalogue',
+    forwardPath: 'overview' satisfies DefaultSurgeCatalogueChild,
+    component: {
+        render: () => import('#views/SurgeCatalogue'),
+        props: {},
+    },
+    context: {
+        title: 'Surge Services Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const catalogueIndex = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: 'overview' satisfies DefaultSurgeCatalogueChild,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Surge Catalogue index',
+        visibility: 'anything',
+    },
+});
+
+type DefaultPreparednessChild = 'global-summary';
+const preparednessLayout = customWrapRoute({
+    parent: rootLayout,
     path: 'preparedness',
+    forwardPath: 'global-summary' satisfies DefaultPreparednessChild,
     component: {
         render: () => import('#views/Preparedness'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Preparedness',
@@ -572,70 +605,14 @@ const preparedness = customWrapRoute({
     },
 });
 
-const preparednessGlobalSummary = customWrapRoute({
-    path: 'global-summary',
-    component: {
-        render: () => import('#views/PreparednessGlobalSummary'),
-        props: {},
-    },
-    parent: preparedness,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Preparedness - Global Summary',
-        visibility: 'anything',
-    },
-});
-
-const preparednessGlobalPerformance = customWrapRoute({
-    path: 'global-performance',
-    component: {
-        render: () => import('#views/PreparednessGlobalPerformance'),
-        props: {},
-    },
-    parent: preparedness,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Preparedness - Global Performace',
-        visibility: 'anything',
-    },
-});
-
-const preparednessGlobalCatalogue = customWrapRoute({
-    path: 'catalogue-learning',
-    component: {
-        render: () => import('#views/PreparednessCatalogueResources'),
-        props: {},
-    },
-    parent: preparedness,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Preparedness - Catalogue of learning',
-        visibility: 'anything',
-    },
-});
-
-const preparednessGlobalOperational = customWrapRoute({
-    path: 'operational-learning',
-    component: {
-        render: () => import('#views/PreparednessOperationalLearning'),
-        props: {},
-    },
-    parent: preparedness,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Preparedness - Operational learning',
-        visibility: 'anything',
-    },
-});
-
 const preparednessIndex = customWrapRoute({
-    parent: preparedness,
+    parent: preparednessLayout,
     index: true,
     component: {
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: preparednessGlobalSummary.path as string,
+            to: 'global-summary' satisfies DefaultPreparednessChild,
             replace: true,
         },
     },
@@ -645,14 +622,70 @@ const preparednessIndex = customWrapRoute({
     },
 });
 
+const preparednessGlobalSummary = customWrapRoute({
+    parent: preparednessLayout,
+    path: 'global-summary' satisfies DefaultPreparednessChild,
+    component: {
+        render: () => import('#views/PreparednessGlobalSummary'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Preparedness - Global Summary',
+        visibility: 'anything',
+    },
+});
+
+const preparednessGlobalPerformance = customWrapRoute({
+    parent: preparednessLayout,
+    path: 'global-performance',
+    component: {
+        render: () => import('#views/PreparednessGlobalPerformance'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Preparedness - Global Performace',
+        visibility: 'anything',
+    },
+});
+
+const preparednessGlobalCatalogue = customWrapRoute({
+    parent: preparednessLayout,
+    path: 'catalogue-learning',
+    component: {
+        render: () => import('#views/PreparednessCatalogueResources'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Preparedness - Catalogue of learning',
+        visibility: 'anything',
+    },
+});
+
+const preparednessGlobalOperational = customWrapRoute({
+    parent: preparednessLayout,
+    path: 'operational-learning',
+    component: {
+        render: () => import('#views/PreparednessOperationalLearning'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Preparedness - Operational learning',
+        visibility: 'anything',
+    },
+});
+
 const globalThreeW = customWrapRoute({
+    parent: rootLayout,
     // TODO: rename to `three-w` and manage conflicting routes
     path: 'global-three-w',
     component: {
         render: () => import('#views/GlobalThreeW'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Global Three W',
@@ -660,27 +693,13 @@ const globalThreeW = customWrapRoute({
     },
 });
 
-const threeW = customWrapRoute({
-    path: 'three-w',
-    component: {
-        render: () => import('#views/ThreeW'),
-        props: {},
-    },
-    parent: root,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Three W',
-        visibility: 'anything',
-    },
-});
-
 const newThreeWProject = customWrapRoute({
-    path: 'project/new',
+    parent: rootLayout,
+    path: 'three-w/projects/new',
     component: {
         render: () => import('#views/ThreeWProjectForm'),
         props: {},
     },
-    parent: threeW,
     wrapperComponent: Auth,
     context: {
         title: 'New 3w project',
@@ -689,12 +708,12 @@ const newThreeWProject = customWrapRoute({
 });
 
 const threeWProjectDetail = customWrapRoute({
-    path: 'project/:projectId/',
+    parent: rootLayout,
+    path: 'three-w/projects/:projectId/',
     component: {
         render: () => import('#views/ThreeWProjectDetail'),
         props: {},
     },
-    parent: threeW,
     wrapperComponent: Auth,
     context: {
         title: 'ThreeW Project Detail',
@@ -703,12 +722,12 @@ const threeWProjectDetail = customWrapRoute({
 });
 
 const threeWProjectEdit = customWrapRoute({
-    path: 'project/:projectId/edit',
+    parent: rootLayout,
+    path: 'three-w/projects/:projectId/edit',
     component: {
         render: () => import('#views/ThreeWProjectForm'),
         props: {},
     },
-    parent: threeW,
     wrapperComponent: Auth,
     context: {
         title: 'Edit 3W project',
@@ -717,12 +736,12 @@ const threeWProjectEdit = customWrapRoute({
 });
 
 const newThreeWActivity = customWrapRoute({
-    path: 'activity/new',
+    parent: rootLayout,
+    path: 'three-w/activities/new',
     component: {
         render: () => import('#views/ThreeWActivityForm'),
         props: {},
     },
-    parent: threeW,
     wrapperComponent: Auth,
     context: {
         title: 'New 3W activity',
@@ -731,12 +750,12 @@ const newThreeWActivity = customWrapRoute({
 });
 
 const threeWActivityEdit = customWrapRoute({
-    path: 'activity/:activityId/edit',
+    parent: rootLayout,
+    path: 'three-w/activities/:activityId/edit',
     component: {
         render: () => import('#views/ThreeWActivityForm'),
         props: {},
     },
-    parent: threeW,
     wrapperComponent: Auth,
     context: {
         title: 'Edit 3W Activity',
@@ -744,13 +763,15 @@ const threeWActivityEdit = customWrapRoute({
     },
 });
 
-const riskWatch = customWrapRoute({
+type DefaultRiskWatchChild = 'seasonal';
+const riskWatchLayout = customWrapRoute({
+    parent: rootLayout,
     path: 'risk-watch',
+    forwardPath: 'seasonal' satisfies DefaultRiskWatchChild,
     component: {
         render: () => import('#views/RiskWatch'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Risk',
@@ -758,9 +779,26 @@ const riskWatch = customWrapRoute({
     },
 });
 
+const riskWatchIndex = customWrapRoute({
+    parent: riskWatchLayout,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: 'seasonal' satisfies DefaultRiskWatchChild,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Risk watch index',
+        visibility: 'anything',
+    },
+});
+
 const riskWatchSeasonal = customWrapRoute({
-    path: 'seasonal',
-    parent: riskWatch,
+    parent: riskWatchLayout,
+    path: 'seasonal' satisfies DefaultRiskWatchChild,
     component: {
         render: () => import('#views/RiskWatchSeasonal'),
         props: {},
@@ -771,26 +809,9 @@ const riskWatchSeasonal = customWrapRoute({
     },
 });
 
-const riskWatchIndex = customWrapRoute({
-    parent: riskWatch,
-    index: true,
-    component: {
-        eagerLoad: true,
-        render: Navigate,
-        props: {
-            to: riskWatchSeasonal.path as string,
-            replace: true,
-        },
-    },
-    context: {
-        title: 'Risk watch index',
-        visibility: 'anything',
-    },
-});
-
 const riskWatchImminent = customWrapRoute({
+    parent: riskWatchLayout,
     path: 'imminent',
-    parent: riskWatch,
     component: {
         render: () => import('#views/RiskWatchImminent'),
         props: {},
@@ -801,13 +822,15 @@ const riskWatchImminent = customWrapRoute({
     },
 });
 
-const account = customWrapRoute({
+type DefaultAccountChild = 'account-information';
+const accountLayout = customWrapRoute({
+    parent: rootLayout,
     path: 'account',
+    forwardPath: 'account-information' satisfies DefaultAccountChild,
     component: {
         render: () => import('#views/Account'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Account',
@@ -815,27 +838,14 @@ const account = customWrapRoute({
     },
 });
 
-const accountInformation = customWrapRoute({
-    path: 'account-information',
-    component: {
-        render: () => import('#views/AccountInformation'),
-        props: {},
-    },
-    parent: account,
-    context: {
-        title: 'Account Information',
-        visibility: 'is-authenticated',
-    },
-});
-
 const accountIndex = customWrapRoute({
-    parent: account,
+    parent: accountLayout,
     index: true,
     component: {
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: accountInformation.path as string,
+            to: 'account-information' satisfies DefaultAccountChild,
             replace: true,
         },
     },
@@ -845,13 +855,26 @@ const accountIndex = customWrapRoute({
     },
 });
 
+const accountInformation = customWrapRoute({
+    parent: accountLayout,
+    path: 'account-information' satisfies DefaultAccountChild,
+    component: {
+        render: () => import('#views/AccountInformation'),
+        props: {},
+    },
+    context: {
+        title: 'Account Information',
+        visibility: 'is-authenticated',
+    },
+});
+
 const accountNotifications = customWrapRoute({
+    parent: accountLayout,
     path: 'notifications',
     component: {
         render: () => import('#views/AccountNotifications'),
         props: {},
     },
-    parent: account,
     context: {
         title: 'Account Notifications',
         visibility: 'is-authenticated',
@@ -859,12 +882,12 @@ const accountNotifications = customWrapRoute({
 });
 
 const accountPerForms = customWrapRoute({
+    parent: accountLayout,
     path: 'per-forms',
     component: {
         render: () => import('#views/AccountPerForms'),
         props: {},
     },
-    parent: account,
     context: {
         title: 'Account PER Forms',
         visibility: 'is-authenticated',
@@ -872,12 +895,12 @@ const accountPerForms = customWrapRoute({
 });
 
 const accountDrefApplications = customWrapRoute({
+    parent: accountLayout,
     path: 'dref-applications',
     component: {
         render: () => import('#views/AccountDrefApplications'),
         props: {},
     },
-    parent: account,
     context: {
         title: 'Account DREF Applications',
         visibility: 'is-authenticated',
@@ -885,12 +908,12 @@ const accountDrefApplications = customWrapRoute({
 });
 
 const accountThreeWForms = customWrapRoute({
+    parent: accountLayout,
     path: 'three-w-forms',
     component: {
         render: () => import('#views/AccountThreeWForms'),
         props: {},
     },
-    parent: account,
     context: {
         title: 'Account DREF Applications',
         visibility: 'is-authenticated',
@@ -898,12 +921,12 @@ const accountThreeWForms = customWrapRoute({
 });
 
 const resources = customWrapRoute({
+    parent: rootLayout,
     path: 'resources',
     component: {
         render: () => import('#views/Resources'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Resources',
@@ -912,12 +935,12 @@ const resources = customWrapRoute({
 });
 
 const search = customWrapRoute({
+    parent: rootLayout,
     path: 'search',
     component: {
         render: () => import('#views/Search'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Search',
@@ -926,12 +949,12 @@ const search = customWrapRoute({
 });
 
 const allThreeW = customWrapRoute({
+    parent: rootLayout,
     path: 'three-w/all',
     component: {
         render: () => import('#views/AllThreeW'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'All 3W',
@@ -939,13 +962,14 @@ const allThreeW = customWrapRoute({
     },
 });
 
+// FIXME: We should instead use allThreeW with search parameter
 const countryAllThreeW = customWrapRoute({
+    parent: rootLayout,
     path: 'countries/:countryId/three-w/projects/all',
     component: {
         render: () => import('#views/CountryAllThreeW'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'All 3W Projects in the Country',
@@ -953,13 +977,14 @@ const countryAllThreeW = customWrapRoute({
     },
 });
 
+// FIXME: We should instead use allThreeW with search parameter
 const countryAllThreeWNationalSocietyProjects = customWrapRoute({
+    parent: rootLayout,
     path: 'countries/:countryId/three-w/ns-projects/all',
     component: {
         render: () => import('#views/CountryAllThreeWNationalSocietyProjects'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'All 3W Projects by the Country National Society',
@@ -968,12 +993,12 @@ const countryAllThreeWNationalSocietyProjects = customWrapRoute({
 });
 
 const allAppeals = customWrapRoute({
+    parent: rootLayout,
     path: 'appeals/all',
     component: {
         render: () => import('#views/AllAppeals'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'All Appeals',
@@ -982,12 +1007,12 @@ const allAppeals = customWrapRoute({
 });
 
 const allEmergencies = customWrapRoute({
+    parent: rootLayout,
     path: 'emergencies/all',
     component: {
         render: () => import('#views/AllEmergencies'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'All Emergencies',
@@ -996,12 +1021,12 @@ const allEmergencies = customWrapRoute({
 });
 
 const allFieldReports = customWrapRoute({
+    parent: rootLayout,
     path: 'field-reports/all',
     component: {
         render: () => import('#views/AllFieldReports'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'All Field Reports',
@@ -1009,27 +1034,13 @@ const allFieldReports = customWrapRoute({
     },
 });
 
-const flashUpdates = customWrapRoute({
-    path: 'flash-update',
-    component: {
-        render: () => import('#views/FlashUpdates'),
-        props: {},
-    },
-    parent: root,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Flash Updates',
-        visibility: 'anything',
-    },
-});
-
 const allFlashUpdates = customWrapRoute({
-    path: 'all',
+    parent: rootLayout,
+    path: 'flash-updates/all',
     component: {
         render: () => import('#views/AllFlashUpdates'),
         props: {},
     },
-    parent: flashUpdates,
     wrapperComponent: Auth,
     context: {
         title: 'All Flash Updates',
@@ -1038,12 +1049,12 @@ const allFlashUpdates = customWrapRoute({
 });
 
 const flashUpdateFormNew = customWrapRoute({
-    path: 'new',
+    parent: rootLayout,
+    path: 'flash-updates/new',
     component: {
         render: () => import('#views/FlashUpdateForm'),
         props: {},
     },
-    parent: flashUpdates,
     wrapperComponent: Auth,
     context: {
         title: 'New Flash Update',
@@ -1052,12 +1063,12 @@ const flashUpdateFormNew = customWrapRoute({
 });
 
 const flashUpdateFormEdit = customWrapRoute({
-    path: ':flashUpdateId/edit',
+    parent: rootLayout,
+    path: 'flash-updates/:flashUpdateId/edit',
     component: {
         render: () => import('#views/FlashUpdateForm'),
         props: {},
     },
-    parent: flashUpdates,
     wrapperComponent: Auth,
     context: {
         title: 'Flash Update Edit',
@@ -1066,12 +1077,12 @@ const flashUpdateFormEdit = customWrapRoute({
 });
 
 const flashUpdateFormDetails = customWrapRoute({
-    path: ':flashUpdateId',
+    parent: rootLayout,
+    path: 'flash-updates/:flashUpdateId',
     component: {
         render: () => import('#views/FlashUpdateDetails'),
         props: {},
     },
-    parent: flashUpdates,
     wrapperComponent: Auth,
     context: {
         title: 'Flash Update Details',
@@ -1080,12 +1091,12 @@ const flashUpdateFormDetails = customWrapRoute({
 });
 
 const allSurgeAlerts = customWrapRoute({
+    parent: rootLayout,
     path: 'alerts/all',
     component: {
         render: () => import('#views/AllSurgeAlerts'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'All Surge Alerts',
@@ -1094,12 +1105,12 @@ const allSurgeAlerts = customWrapRoute({
 });
 
 const catalogueOverview = customWrapRoute({
-    path: 'overview',
+    parent: surgeCatalogueLayout,
+    path: 'overview' satisfies DefaultSurgeCatalogueChild,
     component: {
         render: () => import('#views/CatalogueService'),
         props: {},
     },
-    parent: surgeCatalogue,
     wrapperComponent: Auth,
     context: {
         title: 'Surge Services Catalogue',
@@ -1107,44 +1118,13 @@ const catalogueOverview = customWrapRoute({
     },
 });
 
-const catalogueIndex = customWrapRoute({
-    parent: surgeCatalogue,
-    index: true,
-    component: {
-        eagerLoad: true,
-        render: Navigate,
-        props: {
-            to: catalogueOverview.path as string,
-            replace: true,
-        },
-    },
-    context: {
-        title: 'Surge Catalogue index',
-        visibility: 'anything',
-    },
-});
-
 const catalogueEmergency = customWrapRoute({
+    parent: surgeCatalogueLayout,
     path: 'emergency',
     component: {
         render: () => import('#views/CatalogueEmergency'),
         props: {},
     },
-    parent: surgeCatalogue,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Emergency Catalogue',
-        visibility: 'anything',
-    },
-});
-
-const catalogueEmergencyIndex = customWrapRoute({
-    index: true,
-    component: {
-        render: () => import('#views/CatalogueEmergencyIndex'),
-        props: {},
-    },
-    parent: catalogueEmergency,
     wrapperComponent: Auth,
     context: {
         title: 'Emergency Catalogue',
@@ -1153,12 +1133,12 @@ const catalogueEmergencyIndex = customWrapRoute({
 });
 
 const assessmentCell = customWrapRoute({
-    path: 'assessment-cell',
+    parent: surgeCatalogueLayout,
+    path: 'emergency/assessment-cell',
     component: {
         render: () => import('#views/AssessmentCell'),
         props: {},
     },
-    parent: catalogueEmergency,
     wrapperComponent: Auth,
     context: {
         title: 'Assessment Cell',
@@ -1167,26 +1147,12 @@ const assessmentCell = customWrapRoute({
 });
 
 const catalogueBasecamp = customWrapRoute({
+    parent: surgeCatalogueLayout,
     path: 'basecamp',
     component: {
         render: () => import('#views/CatalogueBasecamp'),
         props: {},
     },
-    parent: surgeCatalogue,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Basecamp Catalogue',
-        visibility: 'anything',
-    },
-});
-
-const catalogueBasecampIndex = customWrapRoute({
-    index: true,
-    component: {
-        render: () => import('#views/CatalogueBasecampIndex'),
-        props: {},
-    },
-    parent: catalogueBasecamp,
     wrapperComponent: Auth,
     context: {
         title: 'Basecampe Catalogue',
@@ -1195,12 +1161,12 @@ const catalogueBasecampIndex = customWrapRoute({
 });
 
 const basecampEruSmall = customWrapRoute({
-    path: 'eru-small',
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/eru-small',
     component: {
         render: () => import('#views/BasecampEruSmall'),
         props: {},
     },
-    parent: catalogueBasecamp,
     wrapperComponent: Auth,
     context: {
         title: 'Basecamp ERU Small',
@@ -1209,12 +1175,12 @@ const basecampEruSmall = customWrapRoute({
 });
 
 const basecampEruMedium = customWrapRoute({
-    path: 'eru-medium',
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/eru-medium',
     component: {
         render: () => import('#views/BasecampEruMedium'),
         props: {},
     },
-    parent: catalogueBasecamp,
     wrapperComponent: Auth,
     context: {
         title: 'Basecamp ERU Medium',
@@ -1223,12 +1189,12 @@ const basecampEruMedium = customWrapRoute({
 });
 
 const basecampEruLarge = customWrapRoute({
-    path: 'eru-large',
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/eru-large',
     component: {
         render: () => import('#views/BasecampEruLarge'),
         props: {},
     },
-    parent: catalogueBasecamp,
     wrapperComponent: Auth,
     context: {
         title: 'Basecamp ERU Large',
@@ -1237,12 +1203,12 @@ const basecampEruLarge = customWrapRoute({
 });
 
 const basecampFacilityManagement = customWrapRoute({
-    path: 'facility-management',
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/facility-management',
     component: {
         render: () => import('#views/BasecampFacilityManagement'),
         props: {},
     },
-    parent: catalogueBasecamp,
     wrapperComponent: Auth,
     context: {
         title: 'Basecamp Facility Management',
@@ -1251,26 +1217,12 @@ const basecampFacilityManagement = customWrapRoute({
 });
 
 const catalogueCash = customWrapRoute({
+    parent: surgeCatalogueLayout,
     path: 'cash',
     component: {
         render: () => import('#views/CatalogueCash'),
         props: {},
     },
-    parent: surgeCatalogue,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Cash and Vouchers Assistance Catalogue',
-        visibility: 'anything',
-    },
-});
-
-const catalogueCashIndex = customWrapRoute({
-    index: true,
-    component: {
-        render: () => import('#views/CatalogueCashIndex'),
-        props: {},
-    },
-    parent: catalogueCash,
     wrapperComponent: Auth,
     context: {
         title: 'Cash and Vouchers Assistance Catalogue',
@@ -1279,12 +1231,12 @@ const catalogueCashIndex = customWrapRoute({
 });
 
 const cashAndVoucherAssistance = customWrapRoute({
-    path: 'cva',
+    parent: surgeCatalogueLayout,
+    path: 'cash/cva',
     component: {
         render: () => import('#views/CashAndVoucherAssistance'),
         props: {},
     },
-    parent: catalogueCash,
     wrapperComponent: Auth,
     context: {
         title: 'Cash and Vouchers Assistance',
@@ -1293,26 +1245,12 @@ const cashAndVoucherAssistance = customWrapRoute({
 });
 
 const catalogueCommunityEngagement = customWrapRoute({
+    parent: surgeCatalogueLayout,
     path: 'community',
     component: {
         render: () => import('#views/CatalogueCommunityEngagement'),
         props: {},
     },
-    parent: surgeCatalogue,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Community Engagement and Accountability (CEA)',
-        visibility: 'anything',
-    },
-});
-
-const catalogueCommunityEngagementIndex = customWrapRoute({
-    index: true,
-    component: {
-        render: () => import('#views/CatalogueCommunityEngagementIndex'),
-        props: {},
-    },
-    parent: catalogueCommunityEngagement,
     wrapperComponent: Auth,
     context: {
         title: 'Community Engagement and Accountability (CEA)',
@@ -1321,12 +1259,12 @@ const catalogueCommunityEngagementIndex = customWrapRoute({
 });
 
 const communityEngagement = customWrapRoute({
-    path: 'community-engagement-accountability',
+    parent: surgeCatalogueLayout,
+    path: 'community/community-engagement-accountability',
     component: {
         render: () => import('#views/CommunityEngagement'),
         props: {},
     },
-    parent: catalogueCommunityEngagement,
     wrapperComponent: Auth,
     context: {
         title: 'Community Engagement and Accountability (CEA)',
@@ -1335,26 +1273,12 @@ const communityEngagement = customWrapRoute({
 });
 
 const catalogueCommunication = customWrapRoute({
+    parent: surgeCatalogueLayout,
     path: 'communication',
     component: {
         render: () => import('#views/CatalogueCommunication'),
         props: {},
     },
-    parent: surgeCatalogue,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Communication',
-        visibility: 'anything',
-    },
-});
-
-const catalogueCommunicationIndex = customWrapRoute({
-    index: true,
-    component: {
-        render: () => import('#views/CatalogueCommunicationIndex'),
-        props: {},
-    },
-    parent: catalogueCommunication,
     wrapperComponent: Auth,
     context: {
         title: 'Communication',
@@ -1363,12 +1287,12 @@ const catalogueCommunicationIndex = customWrapRoute({
 });
 
 const communicationErtOne = customWrapRoute({
-    path: 'cert-1',
+    parent: surgeCatalogueLayout,
+    path: 'communication/cert-1',
     component: {
         render: () => import('#views/CommunicationErtOne'),
         props: {},
     },
-    parent: catalogueCommunication,
     wrapperComponent: Auth,
     context: {
         title: 'Communication Emergency Response Tool 1',
@@ -1377,12 +1301,12 @@ const communicationErtOne = customWrapRoute({
 });
 
 const communicationErtTwo = customWrapRoute({
-    path: 'cert-2',
+    parent: surgeCatalogueLayout,
+    path: 'communication/cert-2',
     component: {
         render: () => import('#views/CommunicationErtTwo'),
         props: {},
     },
-    parent: catalogueCommunication,
     wrapperComponent: Auth,
     context: {
         title: 'Communication Emergency Response Tool 2',
@@ -1391,12 +1315,12 @@ const communicationErtTwo = customWrapRoute({
 });
 
 const communicationErtThree = customWrapRoute({
-    path: 'cert-3',
+    parent: surgeCatalogueLayout,
+    path: 'communication/cert-3',
     component: {
         render: () => import('#views/CommunicationErtThree'),
         props: {},
     },
-    parent: catalogueCommunication,
     wrapperComponent: Auth,
     context: {
         title: 'Communication Emergency Response Tool 3',
@@ -1405,41 +1329,27 @@ const communicationErtThree = customWrapRoute({
 });
 
 const catalogueHealth = customWrapRoute({
+    parent: surgeCatalogueLayout,
     path: 'health',
     component: {
         render: () => import('#views/CatalogueHealth'),
         props: {},
     },
-    parent: surgeCatalogue,
     wrapperComponent: Auth,
     context: {
         title: 'Health',
         visibility: 'anything',
     },
 
-});
-
-const catalogueHealthIndex = customWrapRoute({
-    index: true,
-    component: {
-        render: () => import('#views/CatalogueHealthIndex'),
-        props: {},
-    },
-    parent: catalogueHealth,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Health',
-        visibility: 'anything',
-    },
 });
 
 const healthEruClinic = customWrapRoute({
-    path: 'eru-clinic',
+    parent: surgeCatalogueLayout,
+    path: 'health/eru-clinic',
     component: {
         render: () => import('#views/HealthEruClinic'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'ERU Red Cross Red Crescent Emergency Clinic',
@@ -1448,12 +1358,12 @@ const healthEruClinic = customWrapRoute({
 });
 
 const healthEruHospital = customWrapRoute({
-    path: 'eru-hospital',
+    parent: surgeCatalogueLayout,
+    path: 'health/eru-hospital',
     component: {
         render: () => import('#views/HealthEruHospital'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'ERU Red Cross Red Crescent Emergency Hospital',
@@ -1462,12 +1372,12 @@ const healthEruHospital = customWrapRoute({
 });
 
 const healthSurgical = customWrapRoute({
-    path: 'eru-surgical',
+    parent: surgeCatalogueLayout,
+    path: 'health/eru-surgical',
     component: {
         render: () => import('#views/HealthSurgical'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'Health Surgical',
@@ -1476,12 +1386,12 @@ const healthSurgical = customWrapRoute({
 });
 
 const healthMaternalNewbornClinic = customWrapRoute({
-    path: 'maternal-newborn-clinic',
+    parent: surgeCatalogueLayout,
+    path: 'health/maternal-newborn-clinic',
     component: {
         render: () => import('#views/HealthMaternalNewbornClinic'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'Maternal NewBorn Health Clinic',
@@ -1490,12 +1400,12 @@ const healthMaternalNewbornClinic = customWrapRoute({
 });
 
 const healthEmergencyClinic = customWrapRoute({
-    path: 'emergency-clinic',
+    parent: surgeCatalogueLayout,
+    path: 'health/emergency-clinic',
     component: {
         render: () => import('#views/HealthEmergencyClinic'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'Emergency Mobile Clinic',
@@ -1504,12 +1414,12 @@ const healthEmergencyClinic = customWrapRoute({
 });
 
 const healthEmergencyChloreaTreatment = customWrapRoute({
-    path: 'emergency-chlorea-treatment',
+    parent: surgeCatalogueLayout,
+    path: 'health/emergency-chlorea-treatment',
     component: {
         render: () => import('#views/HealthEmergencyChloreaTreatment'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'Emergency Response Unit Chlorea Treatment Center',
@@ -1518,12 +1428,12 @@ const healthEmergencyChloreaTreatment = customWrapRoute({
 });
 
 const healthCCMC = customWrapRoute({
-    path: 'community-case-management-chlorea',
+    parent: surgeCatalogueLayout,
+    path: 'health/community-case-management-chlorea',
     component: {
         render: () => import('#views/HealthCCMC'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'Community Case Management of Chlorea',
@@ -1532,12 +1442,12 @@ const healthCCMC = customWrapRoute({
 });
 
 const healthCBS = customWrapRoute({
-    path: 'community-based-surveillance',
+    parent: surgeCatalogueLayout,
+    path: 'health/community-based-surveillance',
     component: {
         render: () => import('#views/HealthCBS'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'Community Based Surveillance',
@@ -1546,12 +1456,12 @@ const healthCBS = customWrapRoute({
 });
 
 const healthBurials = customWrapRoute({
-    path: 'safe-dignified-burials',
+    parent: surgeCatalogueLayout,
+    path: 'health/safe-dignified-burials',
     component: {
         render: () => import('#views/HealthBurials'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'Safe and Dignified Burials',
@@ -1560,12 +1470,12 @@ const healthBurials = customWrapRoute({
 });
 
 const healthCCMM = customWrapRoute({
-    path: 'community-management-malnutrition',
+    parent: surgeCatalogueLayout,
+    path: 'health/community-management-malnutrition',
     component: {
         render: () => import('#views/HealthCCMM'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'Community Case Management of Malnutrition',
@@ -1574,12 +1484,12 @@ const healthCCMM = customWrapRoute({
 });
 
 const healthPSS = customWrapRoute({
-    path: 'psychosocial-support',
+    parent: surgeCatalogueLayout,
+    path: 'health/psychosocial-support',
     component: {
         render: () => import('#views/HealthPSS'),
         props: {},
     },
-    parent: catalogueHealth,
     wrapperComponent: Auth,
     context: {
         title: 'Emergency Response Unit Psychosocial Support',
@@ -1588,41 +1498,27 @@ const healthPSS = customWrapRoute({
 });
 
 const catalogueInformationManagement = customWrapRoute({
+    parent: surgeCatalogueLayout,
     path: 'information-management',
     component: {
         render: () => import('#views/CatalogueInformationManagement'),
         props: {},
     },
-    parent: surgeCatalogue,
     wrapperComponent: Auth,
     context: {
         title: 'Information Management',
         visibility: 'anything',
     },
 
-});
-
-const catalogueInformationManagementIndex = customWrapRoute({
-    index: true,
-    component: {
-        render: () => import('#views/CatalogueInformationManagementIndex'),
-        props: {},
-    },
-    parent: catalogueInformationManagement,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Information Management',
-        visibility: 'anything',
-    },
 });
 
 const informationManagementSatelliteImagery = customWrapRoute({
-    path: 'satellite-imagery',
+    parent: surgeCatalogueLayout,
+    path: 'information-management/satellite-imagery',
     component: {
         render: () => import('#views/InformationManagementSatelliteImagery'),
         props: {},
     },
-    parent: catalogueInformationManagement,
     wrapperComponent: Auth,
     context: {
         title: 'Satellite Imagery',
@@ -1631,12 +1527,12 @@ const informationManagementSatelliteImagery = customWrapRoute({
 });
 
 const informationManagementRoles = customWrapRoute({
-    path: 'roles-responsibility',
+    parent: surgeCatalogueLayout,
+    path: 'information-management/roles-responsibility',
     component: {
         render: () => import('#views/InformationManagementRoles'),
         props: {},
     },
-    parent: catalogueInformationManagement,
     wrapperComponent: Auth,
     context: {
         title: 'Roles and Responsibilities',
@@ -1645,12 +1541,12 @@ const informationManagementRoles = customWrapRoute({
 });
 
 const informationManagementSupport = customWrapRoute({
-    path: 'support',
+    parent: surgeCatalogueLayout,
+    path: 'information-management/support',
     component: {
         render: () => import('#views/InformationManagementSupport'),
         props: {},
     },
-    parent: catalogueInformationManagement,
     wrapperComponent: Auth,
     context: {
         title: 'Information Management Support',
@@ -1659,12 +1555,12 @@ const informationManagementSupport = customWrapRoute({
 });
 
 const informationManagementOperationsSupport = customWrapRoute({
-    path: 'operation-support',
+    parent: surgeCatalogueLayout,
+    path: 'information-management/operation-support',
     component: {
         render: () => import('#views/InformationManagementOperationsSupport'),
         props: {},
     },
-    parent: catalogueInformationManagement,
     wrapperComponent: Auth,
     context: {
         title: 'Information Management Support for Operations',
@@ -1673,12 +1569,12 @@ const informationManagementOperationsSupport = customWrapRoute({
 });
 
 const informationManagementComposition = customWrapRoute({
-    path: 'composition',
+    parent: surgeCatalogueLayout,
+    path: 'information-management/composition',
     component: {
         render: () => import('#views/InformationManagementComposition'),
         props: {},
     },
-    parent: catalogueInformationManagement,
     wrapperComponent: Auth,
     context: {
         title: 'Composition of IM Resources',
@@ -1687,26 +1583,12 @@ const informationManagementComposition = customWrapRoute({
 });
 
 const catalogueInformationTechnology = customWrapRoute({
+    parent: surgeCatalogueLayout,
     path: 'information-technology',
     component: {
         render: () => import('#views/CatalogueInformationTechnology'),
         props: {},
     },
-    parent: surgeCatalogue,
-    wrapperComponent: Auth,
-    context: {
-        title: 'Information Technology',
-        visibility: 'anything',
-    },
-});
-
-const catalogueInformationTechnologyIndex = customWrapRoute({
-    index: true,
-    component: {
-        render: () => import('#views/CatalogueInformationTechnologyIndex'),
-        props: {},
-    },
-    parent: catalogueInformationTechnology,
     wrapperComponent: Auth,
     context: {
         title: 'Information Technology',
@@ -1715,12 +1597,12 @@ const catalogueInformationTechnologyIndex = customWrapRoute({
 });
 
 const informationTechnologyServices = customWrapRoute({
-    path: 'information-technology-services',
+    parent: surgeCatalogueLayout,
+    path: 'information-technology/information-technology-services',
     component: {
         render: () => import('#views/InformationTechnologyServices'),
         props: {},
     },
-    parent: catalogueInformationTechnology,
     wrapperComponent: Auth,
     context: {
         title: 'Information Technology Service',
@@ -1729,12 +1611,12 @@ const informationTechnologyServices = customWrapRoute({
 });
 
 const allDeployedPersonnel = customWrapRoute({
+    parent: rootLayout,
     path: 'personnel/all',
     component: {
         render: () => import('#views/AllDeployedPersonnel'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'All Deployed Personnel',
@@ -1743,12 +1625,12 @@ const allDeployedPersonnel = customWrapRoute({
 });
 
 const allDeployedEmergencyResponseUnits = customWrapRoute({
+    parent: rootLayout,
     path: 'eru/all',
     component: {
         render: () => import('#views/AllDeployedEmergencyResponseUnits'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'All Deployed Emergency Response Units',
@@ -1757,12 +1639,12 @@ const allDeployedEmergencyResponseUnits = customWrapRoute({
 });
 
 const newDrefApplicationForm = customWrapRoute({
+    parent: rootLayout,
     path: 'dref-application/new',
     component: {
         render: () => import('#views/DrefApplicationForm'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'New Dref Application Form',
@@ -1771,12 +1653,12 @@ const newDrefApplicationForm = customWrapRoute({
 });
 
 const drefApplicationForm = customWrapRoute({
+    parent: rootLayout,
     path: 'dref-application/:drefId/edit',
     component: {
         render: () => import('#views/DrefApplicationForm'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Dref Application Form',
@@ -1785,12 +1667,12 @@ const drefApplicationForm = customWrapRoute({
 });
 
 const fieldReportFormNew = customWrapRoute({
+    parent: rootLayout,
     path: 'field-report/new',
     component: {
         render: () => import('#views/FieldReportForm'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'New Field Report Form',
@@ -1799,12 +1681,12 @@ const fieldReportFormNew = customWrapRoute({
 });
 
 const fieldReportFormEdit = customWrapRoute({
+    parent: rootLayout,
     path: 'field-reports/:fieldReportId/edit',
     component: {
         render: () => import('#views/FieldReportForm'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Edit Field Report Form',
@@ -1813,12 +1695,12 @@ const fieldReportFormEdit = customWrapRoute({
 });
 
 const fieldReportDetails = customWrapRoute({
+    parent: rootLayout,
     path: 'field-reports/:fieldReportId',
     component: {
         render: () => import('#views/FieldReportDetails'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
         title: 'Field Report Details',
@@ -1826,29 +1708,46 @@ const fieldReportDetails = customWrapRoute({
     },
 });
 
-const perProcessForm = customWrapRoute({
+type DefaultPerProcessChild = 'new';
+const perProcessLayout = customWrapRoute({
+    parent: rootLayout,
     path: 'per-process',
+    forwardPath: 'new' satisfies DefaultPerProcessChild,
     component: {
         render: () => import('#views/PerProcessForm'),
         props: {},
     },
-    parent: root,
     wrapperComponent: Auth,
     context: {
-        title: 'New Per Process',
+        title: 'Per Process',
         visibility: 'is-authenticated',
     },
 });
 
-// NOTE: Add index to redirect to /new
+const perProcessFormIndex = customWrapRoute({
+    parent: perProcessLayout,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: 'new' satisfies DefaultPerProcessChild,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Per Process Index',
+        visibility: 'anything',
+    },
+});
 
 const newPerOverviewForm = customWrapRoute({
-    path: 'new',
+    parent: perProcessLayout,
+    path: 'new' satisfies DefaultPerProcessChild,
     component: {
         render: () => import('#views/PerOverviewForm'),
         props: {},
     },
-    parent: perProcessForm,
     wrapperComponent: Auth,
     context: {
         title: 'New Per Process',
@@ -1857,12 +1756,12 @@ const newPerOverviewForm = customWrapRoute({
 });
 
 const perOverviewForm = customWrapRoute({
+    parent: perProcessLayout,
     path: ':perId/overview',
     component: {
         render: () => import('#views/PerOverviewForm'),
         props: {},
     },
-    parent: perProcessForm,
     wrapperComponent: Auth,
     context: {
         title: 'New Per Process',
@@ -1871,12 +1770,12 @@ const perOverviewForm = customWrapRoute({
 });
 
 const perAssessmentForm = customWrapRoute({
+    parent: perProcessLayout,
     path: ':perId/assessment',
     component: {
         render: () => import('#views/PerAssessmentForm'),
         props: {},
     },
-    parent: perProcessForm,
     wrapperComponent: Auth,
     context: {
         title: 'New Per Process Form',
@@ -1885,12 +1784,12 @@ const perAssessmentForm = customWrapRoute({
 });
 
 const perPrioritizationForm = customWrapRoute({
+    parent: perProcessLayout,
     path: ':perId/prioritization',
     component: {
         render: () => import('#views/PerPrioritizationForm'),
         props: {},
     },
-    parent: perProcessForm,
     wrapperComponent: Auth,
     context: {
         title: 'New Per Process Form',
@@ -1899,12 +1798,12 @@ const perPrioritizationForm = customWrapRoute({
 });
 
 const perWorkPlanForm = customWrapRoute({
+    parent: perProcessLayout,
     path: ':perId/work-plan',
     component: {
         render: () => import('#views/PerWorkPlanForm'),
         props: {},
     },
-    parent: perProcessForm,
     wrapperComponent: Auth,
     context: {
         title: 'New Per Process Form',
@@ -1913,25 +1812,25 @@ const perWorkPlanForm = customWrapRoute({
 });
 
 const wrappedRoutes = {
-    root,
+    rootLayout,
     login,
     register,
     home,
-    region,
+    regionsLayout,
     regionIndex,
     regionOperations,
     regionThreeW,
-    regionRiskWatch,
+    regionRiskWatchLayout,
     regionRiskIndex,
     regionImminentRiskWatch,
     regionSeasonalRiskWatch,
     regionPreparedness,
     regionProfile,
     regionAdditionalInfo,
-    country,
+    countriesLayout,
     countryIndex,
     countryOperations,
-    countryThreeW,
+    countriesThreeWLayout,
     countryThreeWProjects,
     countryThreeWNationalSocietyProjects,
     countryThreeWIndex,
@@ -1940,30 +1839,30 @@ const wrappedRoutes = {
     countryPlan,
     countryAdditionalData,
     emergencies,
-    emergency,
+    emergenciesLayout,
     emergencyDetails,
     emergencyIndex,
     emergencyReportsAndDocuments,
     emergencyActivities,
     emergencySurge,
-    surge,
+    surgeLayout,
     surgeOverview,
     surgeOperationalToolbox,
-    surgeCatalogue,
+    surgeCatalogueLayout,
     surgeIndex,
-    preparedness,
+    preparednessLayout,
     preparednessGlobalSummary,
     preparednessGlobalPerformance,
     preparednessGlobalCatalogue,
     preparednessGlobalOperational,
     preparednessIndex,
-    threeW,
+    perProcessFormIndex,
     globalThreeW,
     newThreeWProject,
     threeWProjectEdit,
     threeWActivityEdit,
     newThreeWActivity,
-    account,
+    accountLayout,
     accountIndex,
     accountInformation,
     accountNotifications,
@@ -1986,16 +1885,15 @@ const wrappedRoutes = {
     drefApplicationForm,
     fieldReportFormNew,
     fieldReportFormEdit,
-    flashUpdates,
     fieldReportDetails,
     flashUpdateFormNew,
     flashUpdateFormDetails,
     flashUpdateFormEdit,
-    riskWatch,
+    riskWatchLayout,
     riskWatchIndex,
     riskWatchImminent,
     riskWatchSeasonal,
-    perProcessForm,
+    perProcessLayout,
     perOverviewForm,
     newPerOverviewForm,
     perAssessmentForm,
@@ -2004,27 +1902,21 @@ const wrappedRoutes = {
     catalogueOverview,
     catalogueIndex,
     catalogueEmergency,
-    catalogueEmergencyIndex,
     assessmentCell,
     catalogueBasecamp,
-    catalogueBasecampIndex,
     basecampEruSmall,
     basecampEruMedium,
     basecampEruLarge,
     basecampFacilityManagement,
     catalogueCash,
-    catalogueCashIndex,
     cashAndVoucherAssistance,
     catalogueCommunityEngagement,
-    catalogueCommunityEngagementIndex,
     communityEngagement,
     catalogueCommunication,
-    catalogueCommunicationIndex,
     communicationErtOne,
     communicationErtTwo,
     communicationErtThree,
     catalogueHealth,
-    catalogueHealthIndex,
     healthEruClinic,
     healthEruHospital,
     healthSurgical,
@@ -2037,14 +1929,12 @@ const wrappedRoutes = {
     healthCCMM,
     healthPSS,
     catalogueInformationManagement,
-    catalogueInformationManagementIndex,
     informationManagementSatelliteImagery,
     informationManagementRoles,
     informationManagementSupport,
     informationManagementOperationsSupport,
     informationManagementComposition,
     catalogueInformationTechnology,
-    catalogueInformationTechnologyIndex,
     informationTechnologyServices,
     threeWProjectDetail,
 };

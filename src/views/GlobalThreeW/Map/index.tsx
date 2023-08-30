@@ -1,6 +1,4 @@
-import { generatePath } from 'react-router-dom';
 import {
-    useContext,
     useState,
     useMemo,
     useCallback,
@@ -23,7 +21,6 @@ import MapPopup from '#components/MapPopup';
 import Link from '#components/Link';
 import TextOutput from '#components/TextOutput';
 import LegendItem from '#components/LegendItem';
-import RouteContext from '#contexts/route';
 import BarChart from '#components/BarChart';
 import type { GoApiResponse } from '#utils/restRequest';
 import {
@@ -157,10 +154,6 @@ function GlobalThreeWMap(props: Props) {
 
     // FIXME typings need to be fixed in server
     const projectList = projectListFromProps as unknown as NsProjectsResponse[] | undefined;
-
-    const {
-        countryThreeW: countryThreeWRoute,
-    } = useContext(RouteContext);
 
     const [
         clickedPointProperties,
@@ -362,17 +355,13 @@ function GlobalThreeWMap(props: Props) {
                     onCloseButtonClick={handlePointClose}
                     heading={(
                         <Link
-                            to={
-                                generatePath(
-                                    countryThreeWRoute.absolutePath,
-                                    {
-                                        countryId: clickedPointProperties
-                                            .feature
-                                            .properties
-                                            .countryId,
-                                    },
-                                )
-                            }
+                            to="countriesThreeWLayout"
+                            urlParams={{
+                                countryId: clickedPointProperties
+                                    .feature
+                                    .properties
+                                    .countryId,
+                            }}
                         >
                             {selectedNsProjectStats.name}
                         </Link>

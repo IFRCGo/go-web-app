@@ -1,9 +1,4 @@
-import { useContext } from 'react';
 import Link from '#components/Link';
-
-import RouteContext from '#contexts/route';
-import { generatePath } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
 
 export interface Props {
     id: number;
@@ -12,16 +7,11 @@ export interface Props {
 
 function CountryLink(props: Props) {
     const { id, name } = props;
-    const { country: countryRoute } = useContext(RouteContext);
 
     return (
         <Link
-            to={
-                isDefined(id) ? generatePath(
-                    countryRoute.absolutePath,
-                    { countryId: id },
-                ) : undefined
-            }
+            to="countriesLayout"
+            urlParams={{ countryId: id }}
         >
             {name}
         </Link>

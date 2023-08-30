@@ -1,5 +1,5 @@
-import { useMemo, useContext } from 'react';
-import { useParams, Outlet, generatePath } from 'react-router-dom';
+import { useMemo } from 'react';
+import { useParams, Outlet } from 'react-router-dom';
 import {
     DrefIcon,
     AppealsIcon,
@@ -16,7 +16,6 @@ import KeyFigure from '#components/KeyFigure';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
 import { type RegionOutletContext } from '#utils/outletContext';
 
@@ -27,15 +26,6 @@ import styles from './styles.module.css';
 export function Component() {
     const { regionId } = useParams<{ regionId: string }>();
     const strings = useTranslation(i18n);
-
-    const {
-        regionOperations: regionOperationsRoute,
-        regionThreeW: regionThreeWRoute,
-        regionRiskWatch: regionRiskWatchRoute,
-        regionPreparedness: regionPreparednessRoute,
-        regionProfile: regionProfileRoute,
-        regionAdditionalInfo: regionAdditionalInfoRoute,
-    } = useContext(RouteContext);
 
     const {
         pending: regionPending,
@@ -146,54 +136,42 @@ export function Component() {
         >
             <NavigationTabList>
                 <NavigationTab
-                    to={generatePath(
-                        regionOperationsRoute.absolutePath,
-                        { regionId },
-                    )}
+                    to="regionOperations"
+                    urlParams={{ regionId }}
                 >
                     {strings.regionOperationsTab}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        regionThreeWRoute.absolutePath,
-                        { regionId },
-                    )}
+                    to="regionThreeW"
+                    urlParams={{ regionId }}
                 >
                     {strings.region3WTab}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        regionRiskWatchRoute.absolutePath,
-                        { regionId },
-                    )}
+                    to="regionRiskWatchLayout"
+                    urlParams={{ regionId }}
                     parentRoute
                 >
                     {strings.regionRiskTab}
                 </NavigationTab>
                 {hasPreparednessSnippet && (
                     <NavigationTab
-                        to={generatePath(
-                            regionPreparednessRoute.absolutePath,
-                            { regionId },
-                        )}
+                        to="regionPreparedness"
+                        urlParams={{ regionId }}
                     >
                         {strings.regionPreparednessTab}
                     </NavigationTab>
                 )}
                 <NavigationTab
-                    to={generatePath(
-                        regionProfileRoute.absolutePath,
-                        { regionId },
-                    )}
+                    to="regionProfile"
+                    urlParams={{ regionId }}
                 >
                     {strings.regionProfileTab}
                 </NavigationTab>
                 {hasAdditionalInfoSnippet && (
                     <NavigationTab
-                        to={generatePath(
-                            regionAdditionalInfoRoute.absolutePath,
-                            { regionId },
-                        )}
+                        to="regionAdditionalInfo"
+                        urlParams={{ regionId }}
                     >
                         {additionalInfoTabName}
                     </NavigationTab>

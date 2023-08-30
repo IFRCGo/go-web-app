@@ -1,10 +1,8 @@
 import {
     useState,
     useMemo,
-    useContext,
     useCallback,
 } from 'react';
-import { generatePath } from 'react-router-dom';
 import { isDefined, _cs } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
@@ -23,7 +21,6 @@ import {
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 
@@ -69,10 +66,6 @@ function AppealsTable(props: Props) {
     const { sorting } = sortState;
     const strings = useTranslation(i18n);
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
-    const {
-        country: countryRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
     //
     // eslint-disable-next-line react/destructuring-assignment
     const regionId = variant === 'region' ? props.regionId : undefined;
@@ -110,9 +103,8 @@ function AppealsTable(props: Props) {
                 strings.appealsTableOperation,
                 (item) => item.name,
                 (item) => ({
-                    to: isDefined(item.event)
-                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event })
-                        : undefined,
+                    to: 'emergenciesLayout',
+                    urlParams: { emergencyId: item.event },
                 }),
             ),
             createStringColumn<AppealListItem, string>(
@@ -138,14 +130,12 @@ function AppealsTable(props: Props) {
                 strings.appealsTableCountry,
                 (item) => item.country.name,
                 (item) => ({
-                    to: generatePath(
-                        countryRoute.absolutePath,
-                        { countryId: String(item.country.id) },
-                    ),
+                    to: 'countriesLayout',
+                    urlParams: { countryId: item.country.id },
                 }),
             ),
         ]),
-        [strings, countryRoute, emergencyRoute],
+        [strings],
     );
 
     // FIXME: clear appealType and displacementType when filter is changed

@@ -1,9 +1,7 @@
 import {
     useState,
     useMemo,
-    useContext,
 } from 'react';
-import { generatePath } from 'react-router-dom';
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
@@ -17,7 +15,6 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import NumberOutput from '#components/NumberOutput';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -47,11 +44,6 @@ function EventItemsTable(props: Props) {
     const { sorting } = sortState;
     const [page, setPage] = useState(1);
 
-    const {
-        emergency: emergencyRoute,
-        allEmergencies: allEmergenciesRoute,
-    } = useContext(RouteContext);
-
     const columns = useMemo(
         () => ([
             createDateColumn<EventListItem, number>(
@@ -68,7 +60,8 @@ function EventItemsTable(props: Props) {
                 strings.regionEmergenciesTableName,
                 (item) => item.name,
                 (item) => ({
-                    to: generatePath(emergencyRoute.absolutePath, { emergencyId: item.id }),
+                    to: 'emergenciesLayout',
+                    urlParams: { emergencyId: item.id },
                 }),
             ),
             createStringColumn<EventListItem, number>(
@@ -95,7 +88,7 @@ function EventItemsTable(props: Props) {
                 (item) => item.countries,
             ),
         ]),
-        [strings, emergencyRoute],
+        [strings],
     );
 
     const {
@@ -129,10 +122,8 @@ function EventItemsTable(props: Props) {
             heading={heading}
             actions={(
                 <Link
-                    to={{
-                        pathname: allEmergenciesRoute.absolutePath,
-                        search: `region=${regionId}`,
-                    }}
+                    to="allEmergencies"
+                    urlSearch={`region=${regionId}`}
                     withForwardIcon
                     withUnderline
                 >

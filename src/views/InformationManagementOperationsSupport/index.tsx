@@ -1,12 +1,10 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
+import useRouting from '#hooks/useRouting';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
-import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import Link from '#components/Link';
 
@@ -17,15 +15,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueInformationManagement: catalogueInformationManagementRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueInformationManagementRoute.absolutePath));
-    }, [goBack, catalogueInformationManagementRoute.absolutePath]);
+        goBack('catalogueInformationManagement');
+    }, [goBack]);
     return (
         <Container
             className={styles.operationSupport}
@@ -58,6 +52,7 @@ export function Component() {
                         link: (
                             <Link
                                 to="https://ifrcgoproject.medium.com/information-saves-lives-scaling-data-analytics-in-the-ifrc-network-fd3686718f9c"
+                                external
                             >
                                 {strings.iMOperationSupportDescriptionLink}
                             </Link>

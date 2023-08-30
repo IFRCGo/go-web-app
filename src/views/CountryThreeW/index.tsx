@@ -1,7 +1,5 @@
-import { useContext } from 'react';
 import {
     Outlet,
-    generatePath,
     useParams,
     useOutletContext,
 } from 'react-router-dom';
@@ -13,7 +11,6 @@ import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import Container from '#components/Container';
 import Button from '#components/Button';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -26,11 +23,6 @@ export function Component() {
     const { countryResponse } = outletContext;
 
     const strings = useTranslation(i18n);
-
-    const {
-        countryThreeWProjects: countryThreeWProjectsRoute,
-        countryThreeWNationalSocietyProjects: countryThreeWNationalSocietyProjectsRoute,
-    } = useContext(RouteContext);
 
     return (
         <Container
@@ -47,10 +39,8 @@ export function Component() {
         >
             <NavigationTabList variant="secondary">
                 <NavigationTab
-                    to={generatePath(
-                        countryThreeWProjectsRoute.absolutePath,
-                        { countryId },
-                    )}
+                    to="countryThreeWProjects"
+                    urlParams={{ countryId }}
                 >
                     {resolveToString(
                         strings.countryThreeWProjectsTab,
@@ -58,10 +48,8 @@ export function Component() {
                     )}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        countryThreeWNationalSocietyProjectsRoute.absolutePath,
-                        { countryId },
-                    )}
+                    to="countryThreeWNationalSocietyProjects"
+                    urlParams={{ countryId }}
                 >
                     {resolveToString(
                         strings.countryThreeWNationalSocietyProjectsTab,

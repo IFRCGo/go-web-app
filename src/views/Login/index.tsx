@@ -172,15 +172,21 @@ export function Component() {
                     />
                 </div>
                 <div className={styles.utilityLinks}>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <Link
-                        to="recover-account"
+                        // FIXME: add link
+                        // to="recoverAccount"
+                        to={null}
                         title={strings.loginRecoverTitle}
                         withUnderline
                     >
                         {strings.loginForgotUserPass}
                     </Link>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <Link
-                        to="resend-validation"
+                        // FIXME: add link
+                        // to="resendValidation"
+                        to={null}
                         title={strings.loginResendValidationTitle}
                         withUnderline
                     >

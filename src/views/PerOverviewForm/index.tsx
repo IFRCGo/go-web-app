@@ -1,13 +1,10 @@
 import {
     useMemo,
     useCallback,
-    useContext,
     useState,
 } from 'react';
 import {
     useParams,
-    useNavigate,
-    generatePath,
     useOutletContext,
 } from 'react-router-dom';
 import {
@@ -18,6 +15,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { isNotDefined, isDefined, listToMap } from '@togglecorp/fujs';
 
+import useRouting from '#hooks/useRouting';
 import { transformObjectError } from '#utils/restRequest/error';
 import Portal from '#components/Portal';
 import Button from '#components/Button';
@@ -34,7 +32,6 @@ import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
-import RouteContext from '#contexts/route';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import type { paths } from '#generated/types';
 import { PER_PHASE_OVERVIEW, PER_PHASE_ASSESSMENT } from '#utils/domain/per';
@@ -70,17 +67,13 @@ const emptyFileIdToUrlMap: Record<number, string> = {};
 export function Component() {
     const strings = useTranslation(i18n);
     const alert = useAlertContext();
-    const navigate = useNavigate();
+    const { navigate } = useRouting();
     const { perId } = useParams<{ perId: string }>();
     const {
         statusResponse,
         actionDivRef,
         refetchStatusResponse,
     } = useOutletContext<PerProcessOutletContext>();
-    const {
-        perAssessmentForm: perAssessmentFormRoute,
-        perOverviewForm: perOverviewFormRoute,
-    } = useContext(RouteContext);
 
     const { per_overviewassessmentmethods } = useGlobalEnums();
 
@@ -174,20 +167,16 @@ export function Component() {
                 // Redirect from new form to edit route
                 if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
                     navigate(
-                        generatePath(
-                            perOverviewFormRoute.absolutePath,
-                            { perId: String(response.id) },
-                        ),
+                        'perOverviewForm',
+                        { params: { perId: response.id } },
                     );
                 }
 
                 // Redirect to assessment form
                 if (response.phase === PER_PHASE_ASSESSMENT && value?.is_draft !== false) {
                     navigate(
-                        generatePath(
-                            perAssessmentFormRoute.absolutePath,
-                            { perId: String(response.id) },
-                        ),
+                        'perAssessmentForm',
+                        { params: { perId: response.id } },
                     );
 
                     // Move the page position to top when moving on to next step
@@ -236,20 +225,16 @@ export function Component() {
                 // Redirect from new form to edit route
                 if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
                     navigate(
-                        generatePath(
-                            perOverviewFormRoute.absolutePath,
-                            { perId: String(response.id) },
-                        ),
+                        'perOverviewForm',
+                        { params: { perId: response.id } },
                     );
                 }
 
                 // Redirect to assessment form
                 if (response.phase === PER_PHASE_ASSESSMENT) {
                     navigate(
-                        generatePath(
-                            perAssessmentFormRoute.absolutePath,
-                            { perId: String(response.id) },
-                        ),
+                        'perAssessmentForm',
+                        { params: { perId: response.id } },
                     );
                 }
             }

@@ -147,6 +147,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
             {!withoutPreview && isDefined(selectedFileUrl) ? (
                 <Link
                     to={selectedFileUrl}
+                    external
                 >
                     1 file selected
                 </Link>

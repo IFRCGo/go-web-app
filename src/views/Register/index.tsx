@@ -1,11 +1,6 @@
 import {
     useCallback,
-    useContext,
 } from 'react';
-import {
-    useNavigate,
-    generatePath,
-} from 'react-router-dom';
 import {
     useForm,
     type ObjectSchema,
@@ -19,8 +14,8 @@ import {
 } from '@togglecorp/toggle-form';
 import { isDefined, isValidEmail } from '@togglecorp/fujs';
 
+import useRouting from '#hooks/useRouting';
 import { transformObjectError } from '#utils/restRequest/error';
-import RouteContext from '#contexts/route';
 import Page from '#components/Page';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
@@ -149,7 +144,6 @@ const formSchema: FormSchema = {
 export function Component() {
     const strings = useTranslation(i18n);
     const { api_profile_org_types: organizationTypes } = useGlobalEnums();
-    const { login: loginRoute } = useContext(RouteContext);
 
     const { response: whiteListDomainResponse } = useRequest({
         url: '/api/v2/domainwhitelist/',
@@ -171,7 +165,7 @@ export function Component() {
     );
 
     const alert = useAlert();
-    const navigate = useNavigate();
+    const { navigate } = useRouting();
 
     const fieldError = getErrorObject(formError);
     const isNationalSociety = formValue.organization_type === 'NTLS';
@@ -189,7 +183,7 @@ export function Component() {
                 message,
                 { variant: 'success' },
             );
-            navigate(generatePath(loginRoute.absolutePath));
+            navigate('login');
         },
         onFailure: (error) => {
             const {
@@ -234,7 +228,7 @@ export function Component() {
         {
             loginLink: (
                 <Link
-                    to={loginRoute.absolutePath}
+                    to="login"
                     withUnderline
                 >
                     {strings.registerLogin}

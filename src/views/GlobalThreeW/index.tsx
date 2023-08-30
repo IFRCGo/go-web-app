@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import {
     ShieldCrossLineIcon,
     RedCrossNationalSocietyIcon,
@@ -12,7 +12,6 @@ import KeyFigure from '#components/KeyFigure';
 import Container from '#components/Container';
 import BarChart from '#components/BarChart';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { useRequest } from '#utils/restRequest';
 import PieChart from '#components/PieChart';
@@ -97,16 +96,15 @@ export function Component() {
         strings.globalThreeWPageDescriptionP2,
         {
             contactLink: (
-                <Link to="mailto:im@ifrc.org">
+                <Link
+                    to="mailto:im@ifrc.org"
+                    external
+                >
                     IM@ifrc.org
                 </Link>
             ),
         },
     );
-
-    const {
-        newThreeWProject: newThreeWProjectRoute,
-    } = useContext(RouteContext);
 
     return (
         <Page
@@ -115,7 +113,7 @@ export function Component() {
             heading={strings.globalThreeWPageHeading}
             actions={(
                 <Link
-                    to={newThreeWProjectRoute.absolutePath}
+                    to="newThreeWProject"
                     variant="secondary"
                 >
                     {strings.globalThreeWAddProjectButtonLabel}

@@ -1,13 +1,10 @@
 import {
     useState,
     useCallback,
-    useContext,
     useRef,
     type ElementRef,
 } from 'react';
 import {
-    generatePath,
-    useNavigate,
     useParams,
 } from 'react-router-dom';
 import {
@@ -21,6 +18,7 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 
+import useRouting from '#hooks/useRouting';
 import Page from '#components/Page';
 import Tab from '#components/Tabs/Tab';
 import Tabs from '#components/Tabs';
@@ -36,7 +34,6 @@ import {
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
-import RouteContext from '#contexts/route';
 import { injectClientId } from '#utils/common';
 import { transformObjectError } from '#utils/restRequest/error';
 
@@ -103,12 +100,8 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
 
-    const {
-        drefApplicationForm: drefApplicationFormRoute,
-    } = useContext(RouteContext);
-
     const alert = useAlert();
-    const navigate = useNavigate();
+    const { navigate } = useRouting();
     const strings = useTranslation(i18n);
 
     const formContentRef = useRef<ElementRef<'div'>>(null);
@@ -247,10 +240,8 @@ export function Component() {
                 handleDrefLoad(response);
             } else {
                 navigate(
-                    generatePath(
-                        drefApplicationFormRoute.absolutePath,
-                        { drefId: response.id },
-                    ),
+                    'drefApplicationForm',
+                    { params: { drefId: response.id } },
                 );
             }
         },
@@ -303,10 +294,8 @@ export function Component() {
                 handleDrefLoad(response);
             } else {
                 navigate(
-                    generatePath(
-                        drefApplicationFormRoute.absolutePath,
-                        { drefId: response.id },
-                    ),
+                    'drefApplicationForm',
+                    { params: { drefId: response.id } },
                 );
             }
         },

@@ -5,7 +5,7 @@
 
         .iframe {
             border: none;
-            background-color: var(--go-ui-color-gray-30);
+            /* background-color: var(--go-ui-color-gray-30); */
             width: 100%;
             max-width: 30rem;
             height: 100vh;

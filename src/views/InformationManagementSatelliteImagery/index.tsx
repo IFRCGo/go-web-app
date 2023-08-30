@@ -1,12 +1,10 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
+import useRouting from '#hooks/useRouting';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
-import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import Link from '#components/Link';
 
@@ -17,15 +15,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueInformationManagement: catalogueInformationManagementRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueInformationManagementRoute.absolutePath));
-    }, [goBack, catalogueInformationManagementRoute.absolutePath]);
+        goBack('catalogueInformationManagement');
+    }, [goBack]);
 
     return (
         <Container
@@ -50,6 +44,7 @@ export function Component() {
             <div>{strings.satelliteImageryTextTwo}</div>
             <Link
                 to="https://americanredcross.github.io/images-from-above/index.html"
+                external
             >
                 {strings.satelliteImageryTextThree}
             </Link>
@@ -60,6 +55,7 @@ export function Component() {
                         link: (
                             <Link
                                 to="https://surgelearning.ifrc.org/resources/minimum-training-required-surge-personnel"
+                                external
                             >
                                 {strings.thisSpreadsheetLink}
                             </Link>
@@ -80,6 +76,7 @@ export function Component() {
                             link: (
                                 <Link
                                     to="https://americanredcross.github.io/images-from-above/index.html"
+                                    external
                                 >
                                     {strings.imagesFromAboveLink}
                                 </Link>
@@ -109,7 +106,10 @@ export function Component() {
                 withHeaderBorder
                 childrenContainerClassName={styles.content}
             >
-                <Link to="https://www.unitar.org/maps">
+                <Link
+                    to="https://www.unitar.org/maps"
+                    external
+                >
                     {strings.satelliteImageryUnitarLink}
                 </Link>
                 <div>{strings.satelliteUNOSATTextOne}</div>
@@ -125,6 +125,7 @@ export function Component() {
                                     link: (
                                         <Link
                                             to="https://www.unitar.org/maps"
+                                            external
                                         >
                                             {strings.satelliteTheirWebsiteLink}
                                         </Link>
@@ -139,6 +140,7 @@ export function Component() {
                                     link: (
                                         <Link
                                             to="https://smcs.unosat.org/home"
+                                            external
                                         >
                                             {strings.satelliteMappingCoordinationLink}
                                         </Link>
@@ -155,6 +157,7 @@ export function Component() {
                                 link: (
                                     <Link
                                         to="mailto:im@ifrc.org"
+                                        external
                                     >
                                         {strings.imageryImEmailLink}
                                     </Link>
@@ -180,7 +183,10 @@ export function Component() {
                 withHeaderBorder
                 childrenContainerClassName={styles.content}
             >
-                <Link to="https://mapswipe.org">
+                <Link
+                    to="https://mapswipe.org"
+                    external
+                >
                     {strings.satelliteMapSwipeLink}
                 </Link>
                 <div>{strings.satelliteMapSwipeTextOne}</div>
@@ -195,6 +201,7 @@ export function Component() {
                             emailLink: (
                                 <Link
                                     to="mailto:info@mapswipe.org"
+                                    external
                                 >
                                     {strings.satelliteMapSwipeDescriptionEmailLink}
                                 </Link>
@@ -202,6 +209,7 @@ export function Component() {
                             link: (
                                 <Link
                                     to="https://mapswipe.org/en/index.html"
+                                    external
                                 >
                                     {strings.satelliteMapSwipeDescriptionOnTheWebsite}
                                 </Link>
@@ -236,7 +244,10 @@ export function Component() {
                     <li>
                         <div className={styles.imagerySourcesList}>
                             {strings.imagerySourcesSubTitleItemOne}
-                            <Link to="https://www.maxar.com/open-data">
+                            <Link
+                                to="https://www.maxar.com/open-data"
+                                external
+                            >
                                 {strings.imagerySourcesSubTitleItemLink}
                             </Link>
                         </div>
@@ -244,7 +255,10 @@ export function Component() {
                     <li>
                         <div className={styles.imagerySourcesList}>
                             {strings.imagerySourcesSubTitleItemTwo}
-                            <Link to="https://www.planet.com/disasterdata">
+                            <Link
+                                to="https://www.planet.com/disasterdata"
+                                external
+                            >
                                 {strings.imagerySourcesSubTitleItemTwoLink}
                             </Link>
                         </div>
@@ -257,6 +271,7 @@ export function Component() {
                             link: (
                                 <Link
                                     to="https://openaerialmap.org/"
+                                    external
                                 >
                                     {strings.imagerySourcesSubTitleDetailLink}
                                 </Link>
@@ -279,13 +294,19 @@ export function Component() {
                 withHeaderBorder
                 childrenContainerClassName={styles.content}
             >
-                <Link to="https://disasterscharter.org/web/guest/home">
+                <Link
+                    to="https://disasterscharter.org/web/guest/home"
+                    external
+                >
                     {strings.imagerySourcesDisastersCharterHomeLink}
                 </Link>
                 <div>{strings.imagerySourcesInternationalSpaceTextOne}</div>
                 <div>{strings.imagerySourcesInternationalSpaceTextTwo}</div>
                 <div>{strings.imagerySourcesInternationalSpaceTextThree}</div>
-                <Link to="https://disasterscharter.org/web/guest/charter-activations">
+                <Link
+                    to="https://disasterscharter.org/web/guest/charter-activations"
+                    external
+                >
                     {strings.imagerySourcesDisastersCharterLink}
                 </Link>
                 <div>{strings.imagerySourcesInternationalSpaceTextFour}</div>
@@ -296,7 +317,10 @@ export function Component() {
                 withHeaderBorder
                 childrenContainerClassName={styles.content}
             >
-                <Link to="https://www.intelligence-airbusds.com/airbus-foundation/">
+                <Link
+                    to="https://www.intelligence-airbusds.com/airbus-foundation/"
+                    external
+                >
                     {strings.imageryAirbusFoundationLink}
                 </Link>
                 <div>{strings.imageryAirbusFoundationTextOne}</div>
@@ -307,6 +331,7 @@ export function Component() {
                             link: (
                                 <Link
                                     to="mailto:im@ifrc.org"
+                                    external
                                 >
                                     {strings.imageryImEmailLink}
                                 </Link>
@@ -323,6 +348,7 @@ export function Component() {
                                 link: (
                                     <Link
                                         to="https://www.intelligence-airbusds.com/airbus-foundation/"
+                                        external
                                     >
                                         {strings.imageryAirbusFoundationListOneLink}
                                     </Link>
@@ -374,6 +400,7 @@ export function Component() {
                                     link: (
                                         <Link
                                             to="mailto:im@ifrc.org"
+                                            external
                                         >
                                             {strings.imageryImEmailLink}
                                         </Link>

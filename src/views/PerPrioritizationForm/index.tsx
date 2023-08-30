@@ -1,12 +1,9 @@
 import {
     useCallback,
-    useContext,
     useMemo,
     useState,
 } from 'react';
 import {
-    generatePath,
-    useNavigate,
     useParams,
     useOutletContext,
 } from 'react-router-dom';
@@ -25,6 +22,7 @@ import {
 } from '@togglecorp/fujs';
 import { CheckLineIcon } from '@ifrc-go/icons';
 
+import useRouting from '#hooks/useRouting';
 import Container from '#components/Container';
 import Portal from '#components/Portal';
 import Button from '#components/Button';
@@ -42,7 +40,6 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import RouteContext from '#contexts/route';
 import { transformObjectError } from '#utils/restRequest/error';
 
 import {
@@ -60,10 +57,9 @@ type SortKey = 'component' | 'rating' | 'benchmark';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { perId } = useParams<{ perId: string }>();
-    const navigate = useNavigate();
+    const { navigate } = useRouting();
     const alert = useAlert();
     const strings = useTranslation(i18n);
-    const { perWorkPlanForm: perWorkPlanFormRoute } = useContext(RouteContext);
     const [sortBy, setSortBy] = useState<SortKey>('component');
 
     const {
@@ -160,10 +156,8 @@ export function Component() {
 
                 if (response.is_draft === false) {
                     navigate(
-                        generatePath(
-                            perWorkPlanFormRoute.absolutePath,
-                            { perId: String(perId) },
-                        ),
+                        'perWorkPlanForm',
+                        { params: { perId } },
                     );
 
                     // Move the page position to top when moving on to next step

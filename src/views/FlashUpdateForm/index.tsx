@@ -1,5 +1,4 @@
 import {
-    useContext,
     useCallback,
     useState,
     useRef,
@@ -20,12 +19,10 @@ import {
 } from '@togglecorp/toggle-form';
 import {
     useParams,
-    generatePath,
-    useNavigate,
 } from 'react-router-dom';
 
+import useRouting from '#hooks/useRouting';
 import useAlert from '#hooks/useAlert';
-import RouteContext from '#contexts/route';
 import Page from '#components/Page';
 import useTranslation from '#hooks/useTranslation';
 import Tab from '#components/Tabs/Tab';
@@ -81,13 +78,9 @@ export function Component() {
     >([]);
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
 
-    const {
-        flashUpdateFormDetails: flashUpdateDetailRoute,
-    } = useContext(RouteContext);
-
     const alert = useAlert();
 
-    const navigate = useNavigate();
+    const { navigate } = useRouting();
 
     const {
         value,
@@ -168,10 +161,8 @@ export function Component() {
                 { variant: 'success' },
             );
             navigate(
-                generatePath(
-                    flashUpdateDetailRoute.absolutePath,
-                    { flashUpdateId: response.id },
-                ),
+                'flashUpdateFormDetails',
+                { params: { flashUpdateId: response.id } },
             );
         },
         onFailure: ({
@@ -206,10 +197,8 @@ export function Component() {
                 { variant: 'success' },
             );
             navigate(
-                generatePath(
-                    flashUpdateDetailRoute.absolutePath,
-                    { flashUpdateId: response.id },
-                ),
+                'flashUpdateFormDetails',
+                { params: { flashUpdateId: response.id } },
             );
         },
         onFailure: ({

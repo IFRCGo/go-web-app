@@ -1,5 +1,4 @@
-import { useState, useMemo, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useState, useMemo } from 'react';
 
 import Table from '#components/Table';
 import Link from '#components/Link';
@@ -13,7 +12,6 @@ import { useSortState, SortContext, getOrdering } from '#components/Table/useSor
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -27,11 +25,6 @@ const PAGE_SIZE = 25;
 
 function PersonnelByEventTable() {
     const [page, setPage] = useState(1);
-
-    const {
-        allDeployedPersonnel: allDeployedPersonnelRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
 
     const strings = useTranslation(i18n);
 
@@ -57,9 +50,10 @@ function PersonnelByEventTable() {
             strings.personnelByEventTableEmergency,
             (personnelByEvent) => personnelByEvent.name,
             (personnelByEvent) => ({
-                to: generatePath(emergencyRoute.absolutePath, {
+                to: 'emergenciesLayout',
+                urlParams: {
                     emergencyId: personnelByEvent.id,
-                }),
+                },
             }),
         ),
         createStringColumn<PersonnelByEventListItem, number>(
@@ -80,7 +74,7 @@ function PersonnelByEventTable() {
                 sortable: true,
             },
         ),
-    ]), [strings, emergencyRoute]);
+    ]), [strings]);
 
     return (
         <Container
@@ -97,7 +91,7 @@ function PersonnelByEventTable() {
             )}
             actions={(
                 <Link
-                    to={allDeployedPersonnelRoute.absolutePath}
+                    to="allDeployedPersonnel"
                     withForwardIcon
                     withUnderline
                 >

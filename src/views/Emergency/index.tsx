@@ -1,5 +1,5 @@
-import { useContext, useMemo } from 'react';
-import { generatePath, useParams, Outlet } from 'react-router-dom';
+import { useMemo } from 'react';
+import { useParams, Outlet } from 'react-router-dom';
 import {
     FundingIcon,
     FundingCoverageIcon,
@@ -15,7 +15,6 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 import { type EmergencyOutletContext } from '#utils/outletContext';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -24,13 +23,6 @@ import styles from './styles.module.css';
 export function Component() {
     const { emergencyId } = useParams<{ emergencyId: string }>();
     const strings = useTranslation(i18n);
-
-    const {
-        emergencyDetails: emergencyDetailsRoute,
-        emergencyReportsAndDocuments: emergencyReportsAndDocumentsRoute,
-        emergencyActivities: emergencyActivitiesRoute,
-        emergencySurge: emergencySurgeRoute,
-    } = useContext(RouteContext);
 
     const {
         // pending: emergencyPending,
@@ -101,34 +93,26 @@ export function Component() {
         >
             <NavigationTabList>
                 <NavigationTab
-                    to={generatePath(
-                        emergencyDetailsRoute.absolutePath,
-                        { emergencyId },
-                    )}
+                    to="emergencyDetails"
+                    urlParams={{ emergencyId }}
                 >
                     {strings.emergencyTabDetails}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        emergencyReportsAndDocumentsRoute.absolutePath,
-                        { emergencyId },
-                    )}
+                    to="emergencyReportsAndDocuments"
+                    urlParams={{ emergencyId }}
                 >
                     {strings.emergencyTabReports}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        emergencyActivitiesRoute.absolutePath,
-                        { emergencyId },
-                    )}
+                    to="emergencyActivities"
+                    urlParams={{ emergencyId }}
                 >
                     {strings.emergencyTabActivities}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        emergencySurgeRoute.absolutePath,
-                        { emergencyId },
-                    )}
+                    to="emergencySurge"
+                    urlParams={{ emergencyId }}
                 >
                     {strings.emergencyTabSurge}
                 </NavigationTab>

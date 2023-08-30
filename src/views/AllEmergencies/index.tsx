@@ -1,9 +1,7 @@
 import {
     useState,
     useMemo,
-    useContext,
 } from 'react';
-import { generatePath } from 'react-router-dom';
 import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
@@ -21,7 +19,6 @@ import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
-import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import {
     useRequest,
@@ -53,8 +50,6 @@ export function Component() {
     const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
     const { sorting } = sortState;
 
-    const { emergency: emergencyRoute } = useContext(RouteContext);
-
     const columns = useMemo(
         () => ([
             createDateColumn<EventListItem, number>(
@@ -71,7 +66,8 @@ export function Component() {
                 strings.allEmergenciesName,
                 (item) => item.name,
                 (item) => ({
-                    to: generatePath(emergencyRoute.absolutePath, { emergencyId: item.id }),
+                    to: 'emergenciesLayout',
+                    urlParams: { emergencyId: item.id },
                 }),
             ),
             createStringColumn<EventListItem, number>(
@@ -98,7 +94,7 @@ export function Component() {
                 (item) => item.countries,
             ),
         ]),
-        [strings, emergencyRoute],
+        [strings],
     );
 
     const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(

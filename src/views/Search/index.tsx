@@ -279,6 +279,7 @@ export function Component() {
                         </div>
                         <Link
                             to={feedbackLink}
+                            external
                             variant="secondary"
                         >
                             {strings.searchPageFeedbackButton}

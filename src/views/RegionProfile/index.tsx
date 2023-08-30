@@ -56,6 +56,7 @@ export function Component() {
                         <Link
                             key={link.id}
                             to={link.url}
+                            external
                             withUnderline
                             withExternalLinkIcon
                         >

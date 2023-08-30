@@ -1,9 +1,7 @@
 import {
     useState,
     useMemo,
-    useContext,
 } from 'react';
-import { generatePath } from 'react-router-dom';
 import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
@@ -16,7 +14,6 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -41,8 +38,6 @@ function EventItemsTable() {
     const { sorting } = sortState;
     const [page, setPage] = useState(1);
 
-    const { emergency: emergencyRoute } = useContext(RouteContext);
-
     const columns = useMemo(
         () => ([
             createDateColumn<EventListItem, number>(
@@ -59,7 +54,8 @@ function EventItemsTable() {
                 strings.emergenciesTableName,
                 (item) => item.name,
                 (item) => ({
-                    to: generatePath(emergencyRoute.absolutePath, { emergencyId: item.id }),
+                    to: 'emergenciesLayout',
+                    urlParams: { emergencyId: item.id },
                 }),
             ),
             createStringColumn<EventListItem, number>(
@@ -86,7 +82,7 @@ function EventItemsTable() {
                 (item) => item.countries,
             ),
         ]),
-        [strings, emergencyRoute],
+        [strings],
     );
 
     const query = useMemo<EventQueryParams>(

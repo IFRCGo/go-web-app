@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import {
-    generatePath,
     useLocation,
     matchPath,
 } from 'react-router-dom';
@@ -28,7 +27,9 @@ function RegionDropdown(props: Props) {
     const location = useLocation();
 
     const strings = useTranslation(i18n);
-    const { region: regionRoute } = useContext(RouteContext);
+    const {
+        regionsLayout: regionRoute,
+    } = useContext(RouteContext);
     const {
         api_region_name: regionOptions,
     } = useGlobalEnums();
@@ -59,10 +60,8 @@ function RegionDropdown(props: Props) {
                     <DropdownMenuItem
                         type="link"
                         key={region.key}
-                        to={generatePath(
-                            regionRoute.absolutePath,
-                            { regionId: String(region.key) },
-                        )}
+                        to="regionsLayout"
+                        urlParams={{ regionId: region.key }}
                         className={_cs(
                             styles.menuItem,
                             match?.params?.regionId === String(region.key) && styles.active,

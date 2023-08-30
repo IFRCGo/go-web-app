@@ -174,9 +174,11 @@
     }
 
     &.tertiary {
-        &:hover {
-            text-decoration: underline;
-            color: var(--go-ui-color-primary-red);
+        &:not(.disabled) {
+            &:hover {
+                text-decoration: underline;
+                color: var(--go-ui-color-primary-red);
+            }
         }
 
         &.active {

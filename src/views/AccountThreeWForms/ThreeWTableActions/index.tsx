@@ -1,15 +1,12 @@
-import { useContext } from 'react';
 import {
     CopyLineIcon,
     PencilFillIcon,
     ShareBoxLineIcon,
 } from '@ifrc-go/icons';
-import { generatePath } from 'react-router-dom';
 
 import TableActions from '#components/Table/TableActions';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
@@ -31,13 +28,6 @@ function ThreeWTableActions(props: Props) {
     } = props;
     const strings = useTranslation(i18n);
 
-    const {
-        threeWProjectEdit: threeWProjectEditRoute,
-        threeWProjectDetail: threeWProjectDetailRoute,
-        newThreeWProject: newThreeWProjectRoute,
-        threeWActivityEdit: threeWActivityEditRoute,
-    } = useContext(RouteContext);
-
     if (type === 'activity') {
         return (
             <TableActions
@@ -45,18 +35,18 @@ function ThreeWTableActions(props: Props) {
                     <>
                         <DropdownMenuItem
                             type="link"
-                            // TODO: use routes
-                            to={`/emergency-three-w/activity/${activityId}/`}
+                            // FIXME: add link
+                            to={null}
+                            // to="threeWActivityDetails"
+                            urlParams={{ activityId }}
                             icons={<ShareBoxLineIcon />}
                         >
                             {strings.threeWViewDetails}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             type="link"
-                            to={generatePath(
-                                threeWActivityEditRoute.absolutePath,
-                                { activityId },
-                            )}
+                            to="threeWActivityEdit"
+                            urlParams={{ activityId }}
                             icons={<PencilFillIcon />}
                         >
                             {strings.threeWEdit}
@@ -73,20 +63,16 @@ function ThreeWTableActions(props: Props) {
                 <>
                     <DropdownMenuItem
                         type="link"
-                        to={generatePath(
-                            threeWProjectDetailRoute.absolutePath,
-                            { projectId },
-                        )}
+                        to="threeWProjectDetail"
+                        urlParams={{ projectId }}
                         icons={<ShareBoxLineIcon />}
                     >
                         {strings.threeWViewDetails}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         type="link"
-                        to={generatePath(
-                            threeWProjectEditRoute.absolutePath,
-                            { projectId },
-                        )}
+                        to="threeWProjectEdit"
+                        urlParams={{ projectId }}
                         icons={<PencilFillIcon />}
                     >
                         {strings.threeWEdit}
@@ -94,12 +80,8 @@ function ThreeWTableActions(props: Props) {
                     <DropdownMenuItem
                         type="link"
                         // TODO: implement duplication logic
-                        to={(
-                            generatePath(
-                                newThreeWProjectRoute.absolutePath,
-                                { projectId },
-                            )
-                        )}
+                        to="newThreeWProject"
+                        urlParams={{ projectId }}
                         icons={<CopyLineIcon />}
                     >
                         {strings.threeWDuplicate}

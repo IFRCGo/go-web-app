@@ -1,17 +1,12 @@
 import {
     useMemo,
-    useContext,
     useState,
 } from 'react';
-import {
-    generatePath,
-} from 'react-router-dom';
 import {
     isDefined,
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
-import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
 import Container from '#components/Container';
@@ -77,10 +72,6 @@ function AppealOperationTable(props: Props) {
             country: countryId,
         },
     });
-    const {
-        emergency: emergencyRoute,
-        allAppeals: allAppealsRoute,
-    } = useContext(RouteContext);
 
     const columns = useMemo(
         () => ([
@@ -106,11 +97,10 @@ function AppealOperationTable(props: Props) {
                 // FIXME: use translations
                 (item) => (isDefined(item.event) ? 'Link' : undefined),
                 (item) => ({
-                    to: isDefined(item.event)
-                        ? generatePath(emergencyRoute.absolutePath, {
-                            emergencyId: item.event,
-                        })
-                        : undefined,
+                    to: 'emergenciesLayout',
+                    urlParams: {
+                        emergencyId: item.event,
+                    },
                 }),
             ),
             createStringColumn<AppealTableItem, string>(
@@ -147,7 +137,7 @@ function AppealOperationTable(props: Props) {
                 { sortable: true },
             ),
         ]),
-        [emergencyRoute, strings],
+        [strings],
     );
 
     const viewAllOperations = resolveToComponent(
@@ -180,10 +170,8 @@ function AppealOperationTable(props: Props) {
                 </SortContext.Provider>
             </Container>
             <Link
-                to={{
-                    pathname: allAppealsRoute.absolutePath,
-                    search: `country=${countryId}`,
-                }}
+                to="allAppeals"
+                urlSearch={`country=${countryId}`}
                 withForwardIcon
                 withUnderline
             >
