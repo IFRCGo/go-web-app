@@ -1,0 +1,16 @@
+{
+    "namespace": "AppealOperationTable",
+    "strings": {
+        "appealsTableStartDate": "Start Date",
+        "appealsTableType": "Type of Appeal",
+        "appealsTableCode": "Code",
+        "appealsTableName": "Name",
+        "appealsTableEmergency": "Emergency",
+        "appealsTableDisastertype": "Disaster Type",
+        "appealsTableRequestedAmount": "Requested Amount",
+        "appealsTableFundedAmount": "Funding (CHF)",
+        "appealsTableStatus": "Active",
+        "appealsTableCountry": "Country",
+        "allOperations": "View All Operations For {name}"
+    }
+}
