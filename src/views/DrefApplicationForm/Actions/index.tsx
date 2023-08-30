@@ -378,6 +378,7 @@ function Actions(props: Props) {
                             : strings.drefFormNeedsIdentified
                     }
                 >
+                    {/* NOTE: Only when RESPONSE */}
                     {value?.type_of_dref !== TYPE_IMMINENT && (
                         <InputSection>
                             <GoSingleFileInput

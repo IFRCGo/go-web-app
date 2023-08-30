@@ -127,7 +127,7 @@ function Operation(props: Props) {
             w.push('Total targeted population is different from that in Operation Overview');
         }
 
-        if (value?.type_of_dref !== TYPE_ASSESSMENT && sumSafe([
+        if (sumSafe([
             value?.women,
             value?.men,
             value?.girls,
@@ -139,7 +139,6 @@ function Operation(props: Props) {
 
         return w;
     }, [
-        value?.type_of_dref,
         value?.num_assisted,
         value?.women,
         value?.men,
