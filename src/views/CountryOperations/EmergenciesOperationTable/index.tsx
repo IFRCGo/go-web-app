@@ -6,7 +6,7 @@ import {
 import {
     generatePath,
 } from 'react-router-dom';
-import { isDefined, max } from '@togglecorp/fujs';
+import { isDefined, isTruthyString, max } from '@togglecorp/fujs';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
 import Link from '#components/Link';
@@ -34,7 +34,7 @@ function keySelector(emergency: EmergenciesTableItem) {
     return emergency.id;
 }
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
@@ -47,7 +47,7 @@ function getMostRecentAffectedValue(fieldReport: EmergenciesTableItem['field_rep
 }
 
 interface Props {
-    countryId: string;
+    countryId: number;
     countryName?: string;
 }
 
@@ -97,7 +97,8 @@ function EmergenciesOperationTable(props: Props) {
             createStringColumn<EmergenciesTableItem, number>(
                 'dtype',
                 strings.emergenciesDisasterType,
-                (item) => item.dtype.name,
+                // FIXME: the typing for server should be fixed
+                (item) => item.dtype?.name,
             ),
             createStringColumn<EmergenciesTableItem, number>(
                 'glide',
@@ -105,10 +106,13 @@ function EmergenciesOperationTable(props: Props) {
                 (item) => item.glide,
                 { sortable: true },
             ),
-            createStringColumn<EmergenciesTableItem, number>(
+            createNumberColumn<EmergenciesTableItem, number>(
                 'amount_requested',
                 strings.emergenciesRequestedAmount,
-                (item) => item.appeals[0]?.amount_requested,
+                (item) => {
+                    const value = item.appeals[0]?.amount_requested;
+                    return isTruthyString(value) ? Number(value) : undefined;
+                },
             ),
             createNumberColumn<EmergenciesTableItem, number>(
                 'num_affected',
@@ -128,7 +132,7 @@ function EmergenciesOperationTable(props: Props) {
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            countries__in: Number(countryId),
+            countries__in: countryId,
             ordering: getOrdering(sorting),
             disaster_start_date__gte: disasterStartDate,
         },

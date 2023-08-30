@@ -175,7 +175,7 @@ export function createStringColumn<D, K extends string | number>(
         cellContainerClassName: options?.cellContainerClassName,
         cellRenderer: Cell,
         cellRendererParams: (_: K, datum: D): CellProps<string> => ({
-            value: accessor(datum),
+            value: accessor(datum) || '--',
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareString(accessor(foo), accessor(bar)),
@@ -224,6 +224,7 @@ export function createNumberColumn<D, K extends string | number>(
             suffix: options?.suffix,
             compact: true,
             maximumFractionDigits: options?.maximumFractionDigits,
+            invalidText: '--',
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareNumber(accessor(foo), accessor(bar)),
@@ -260,6 +261,7 @@ export function createDateColumn<D, K>(
         cellRenderer: DateOutput,
         cellRendererParams: (_: K, datum: D): DateOutputProps => ({
             value: accessor(datum),
+            invalidText: '--',
         }),
         valueSelector: accessor,
         valueComparator: (foo: D, bar: D) => compareDate(accessor(foo), accessor(bar)),
@@ -330,7 +332,7 @@ export function createLinkColumn<D, K>(
         },
         cellRenderer: Link,
         cellRendererParams: (_: K, datum: D): LinkProps => ({
-            children: accessor(datum),
+            children: accessor(datum) || '--',
             withUnderline: true,
             ...rendererParams(datum),
         }),

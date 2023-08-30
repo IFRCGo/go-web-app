@@ -3,6 +3,7 @@ import {
     useOutletContext,
 } from 'react-router-dom';
 import { type CountryOutletContext } from '#utils/outletContext';
+import { isFalsyString } from '@togglecorp/fujs';
 
 import AppealOperationTable from './AppealOperationTable';
 import EmergenciesOperationTable from './EmergenciesOperationTable';
@@ -13,14 +14,21 @@ export function Component() {
     const { countryId } = useParams<{ countryId: string }>();
     const { countryResponse } = useOutletContext<CountryOutletContext>();
 
+    // FIXME: show proper error message
+    if (isFalsyString(countryId)) {
+        return null;
+    }
+
+    const numericCountryId = Number(countryId);
+
     return (
         <div className={styles.operationContent}>
             <AppealOperationTable
-                countryId={countryId}
+                countryId={numericCountryId}
                 countryName={countryResponse?.name ?? '--'}
             />
             <EmergenciesOperationTable
-                countryId={countryId}
+                countryId={numericCountryId}
                 countryName={countryResponse?.name ?? '--'}
             />
         </div>

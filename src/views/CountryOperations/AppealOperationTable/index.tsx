@@ -9,6 +9,7 @@ import {
 import {
     isDefined,
     isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
@@ -27,7 +28,6 @@ import {
     createNumberColumn,
     createDateColumn,
     createLinkColumn,
-    createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
 import {
     type GoApiResponse,
@@ -43,10 +43,10 @@ function keySelector(appeal: AppealTableItem) {
 }
 
 const now = new Date().toISOString();
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 interface Props {
-    countryId: string;
+    countryId: number;
     countryName?: string;
 }
 
@@ -74,7 +74,7 @@ function AppealOperationTable(props: Props) {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             ordering: getOrdering(sorting),
-            country: Number(countryId),
+            country: countryId,
         },
     });
     const {
@@ -103,7 +103,8 @@ function AppealOperationTable(props: Props) {
             createLinkColumn<AppealTableItem, string>(
                 'event',
                 strings.appealsTableEmergency,
-                (item) => item.event,
+                // FIXME: use translations
+                (item) => (isDefined(item.event) ? 'Link' : undefined),
                 (item) => ({
                     to: isDefined(item.event)
                         ? generatePath(emergencyRoute.absolutePath, {
@@ -122,15 +123,22 @@ function AppealOperationTable(props: Props) {
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
                 // FIXME amount_requested should be number from server
-                (item) => (isDefined(item.amount_requested)
-                    ? Number(item.amount_requested)
-                    : undefined),
+                (item) => (
+                    isTruthyString(item.amount_requested)
+                        ? Number(item.amount_requested)
+                        : undefined
+                ),
                 { sortable: true },
             ),
-            createProgressColumn<AppealTableItem, string>(
+            createNumberColumn<AppealTableItem, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
-                (item) => 100 * (Number(item.amount_funded) / Number(item.amount_requested)),
+                (item) => (
+                    isTruthyString(item.amount_funded)
+                        ? Number(item.amount_funded)
+                        : undefined
+                ),
+                { sortable: true },
             ),
             createStringColumn<AppealTableItem, string>(
                 'status',
