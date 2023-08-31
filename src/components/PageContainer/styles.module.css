@@ -3,6 +3,9 @@
         margin: 0 auto;
         padding: var(--go-ui-spacing-2xl);
         width: 100%;
-        max-width: var(--go-ui-page-width-max);
+
+        @media screen {
+            max-width: var(--go-ui-page-width-max);
+        }
     }
 }

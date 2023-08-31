@@ -3,13 +3,15 @@
 
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-    background-color: var(--go-ui-color-foreground);
-    padding: var(--go-ui-spacing-3xl);
-    width: 210mm;
-    min-height: 297mm;
-    counter-reset: page;
     gap: var(--go-ui-spacing-2xl);
+
+    @media screen {
+        margin: var(--go-ui-spacing-2xl) auto;
+        background-color: var(--go-ui-color-foreground);
+        padding: var(--go-ui-spacing-3xl);
+        width: 210mm;
+        min-height: 297mm;
+    }
 
     .page-title-section {
         display: flex;
@@ -37,6 +39,7 @@
             flex-direction: column;
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-sm);
+            break-inside: avoid;
         }
 
         .glide-code,
@@ -46,12 +49,14 @@
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-sm);
             grid-column: span 2;
+            break-inside: avoid;
         }
 
         .targeted-areas {
             background-color: var(--pdf-element-bg);
             padding: var(--go-ui-spacing-sm);
             grid-column: span 4;
+            break-inside: avoid;
         }
     }
 
@@ -153,7 +158,7 @@
                 .mitigation {
                     background-color: var(--pdf-element-bg);
                     padding: var(--go-ui-spacing-md);
-                    page-break-inside: avoid;
+                    break-inside: avoid;
                 }
 
                 .risk-title,
@@ -161,7 +166,7 @@
                     background-color: var(--pdf-element-bg);
                     padding: var(--go-ui-spacing-md);
                     font-weight: var(--go-ui-font-weight-semibold);
-                    page-break-inside: avoid;
+                    break-inside: avoid;
                 }
             }
         }
@@ -224,7 +229,6 @@
 
     .budget-overview-section {
         break-before: page;
-        page-break-inside: avoid;
 
         .download-icon {
             font-size: 2rem;

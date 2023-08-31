@@ -5,7 +5,7 @@
     .value {
         background-color: var(--go-ui-color-gray-20);
         padding: var(--go-ui-spacing-md);
-        page-break-inside: avoid;
+        break-inside: avoid;
     }
 }
 

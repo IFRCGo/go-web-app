@@ -1672,7 +1672,7 @@ const drefApplicationExport = customWrapRoute({
         render: () => import('#views/DrefApplicationExport'),
         props: {},
     },
-    parent: root,
+    parent: rootLayout,
     wrapperComponent: Auth,
     context: {
         title: 'Dref Application Export',
@@ -1686,7 +1686,7 @@ const drefOperationalUpdateExport = customWrapRoute({
         render: () => import('#views/DrefOperationalUpdateExport'),
         props: {},
     },
-    parent: root,
+    parent: rootLayout,
     wrapperComponent: Auth,
     context: {
         title: 'Dref Operational Update Export',
@@ -1700,7 +1700,7 @@ const drefFinalReportExport = customWrapRoute({
         render: () => import('#views/DrefFinalReportExport'),
         props: {},
     },
-    parent: root,
+    parent: rootLayout,
     wrapperComponent: Auth,
     context: {
         title: 'Dref Final Report Export',

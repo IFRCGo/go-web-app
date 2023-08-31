@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
     isDefined,
@@ -357,6 +357,7 @@ export function Component() {
                     {imagesFileDefined && drefResponse.images_file?.map(
                         (imageFile) => (
                             <Image
+                                key={imageFile.id}
                                 src={imageFile.file}
                                 caption={imageFile.caption}
                             />
@@ -463,6 +464,7 @@ export function Component() {
                     {nsActionImagesDefined && drefResponse?.photos_file?.map(
                         (nsActionImage) => (
                             <Image
+                                key={nsActionImage.id}
                                 src={nsActionImage.file}
                                 caption={nsActionImage.caption}
                             />
@@ -573,6 +575,7 @@ export function Component() {
                     {needsIdentifiedDefined && drefResponse?.needs_identified?.map(
                         (identifiedNeed) => (
                             <Container
+                                key={identifiedNeed.id}
                                 heading={identifiedNeed.title_display}
                                 spacing="compact"
                                 icons={(
@@ -762,14 +765,14 @@ export function Component() {
                             </div>
                             {drefResponse?.risk_security?.map(
                                 (riskSecurity) => (
-                                    <>
+                                    <Fragment key={riskSecurity.id}>
                                         <div className={styles.risk}>
                                             {riskSecurity.risk}
                                         </div>
                                         <div className={styles.mitigation}>
                                             {riskSecurity.mitigation}
                                         </div>
-                                    </>
+                                    </Fragment>
                                 ),
                             )}
                         </Container>
@@ -797,6 +800,7 @@ export function Component() {
                     {drefResponse?.planned_interventions?.map(
                         (plannedIntervention) => (
                             <Container
+                                key={plannedIntervention.id}
                                 className={styles.plannedIntervention}
                                 icons={(
                                     <img
@@ -845,7 +849,7 @@ export function Component() {
                                     </div>
                                     {plannedIntervention.indicators?.map(
                                         (indicator) => (
-                                            <>
+                                            <Fragment key={indicator.id}>
                                                 <div className={styles.title}>
                                                     {indicator.title}
                                                 </div>
@@ -857,7 +861,7 @@ export function Component() {
                                                     className={styles.actual}
                                                     value={indicator.actual}
                                                 />
-                                            </>
+                                            </Fragment>
                                         ),
                                     )}
                                 </Container>
