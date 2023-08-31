@@ -1624,6 +1624,34 @@ const informationTechnologyServices = customWrapRoute({
     },
 });
 
+const catalogueLivelihood = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'livelihood',
+    component: {
+        render: () => import('#views/CatalogueLivelihood'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Livelihoods and Basic Needs',
+        visibility: 'anything',
+    },
+});
+
+const livelihoodServices = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'livelihood/livelihoods-and-basic-needs',
+    component: {
+        render: () => import('#views/LivelihoodServices'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Livelihood Service',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     parent: rootLayout,
     path: 'personnel/all',
@@ -1996,7 +2024,9 @@ const wrappedRoutes = {
     informationManagementComposition,
     catalogueInformationTechnology,
     informationTechnologyServices,
+    catalogueLivelihood,
     threeWProjectDetail,
+    livelihoodServices,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
