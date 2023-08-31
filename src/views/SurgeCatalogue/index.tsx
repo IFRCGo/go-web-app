@@ -10,6 +10,7 @@ import {
     EmergencyTelecommunicationsIcon,
     LivelihoodIcon,
     LogisticsIcon,
+    GroupIcon,
 } from '@ifrc-go/icons';
 
 import NavigationTabList from '#components/NavigationTabList';
@@ -103,6 +104,13 @@ export function Component() {
                 >
                     <LogisticsIcon className={styles.icon} />
                     {strings.catalogueLogistics}
+                </NavigationTab>
+                <NavigationTab
+                    to="catalogueOperations"
+                    parentRoute
+                >
+                    <GroupIcon className={styles.icon} />
+                    {strings.catalogueOperations}
                 </NavigationTab>
             </NavigationTabList>
             <div className={styles.content}>
