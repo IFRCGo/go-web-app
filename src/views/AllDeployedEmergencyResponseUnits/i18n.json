@@ -1,0 +1,14 @@
+
+{
+    "namespace": "allDeployedEmergencyResponseUnits",
+    "strings": {
+        "containerHeading": "All Deployed Erus ({count})",
+        "exportTable": "Export Table",
+        "eruTableName": "Owner",
+        "eruTableType": "Type",
+        "eruTablePersonnel": "Personnel Units",
+        "eruTableEquipment":"Equipments Units",
+        "eruTableCountry": "Country Deployed To",
+        "eruTableEmergency": "Emergency"
+    }
+}
