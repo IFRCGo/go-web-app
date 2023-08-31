@@ -1,9 +1,7 @@
-import { useContext, useMemo, useCallback } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useMemo } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import { type GoApiResponse } from '#utils/restRequest';
-import RouteContext from '#contexts/route';
 import Link from '#components/Link';
 import Container from '#components/Container';
 
@@ -40,11 +38,6 @@ function ResultList(props: Props) {
         actions,
     } = props;
 
-    const {
-        region: regionRoute,
-        country: countryRoute,
-    } = useContext(RouteContext);
-
     const data: SearchResponse[ResultKey] = searchResponse[resultKey];
 
     const limitedData = useMemo(
@@ -60,21 +53,6 @@ function ResultList(props: Props) {
             return data.slice(0, maxItems);
         },
         [data, maxItems],
-    );
-
-    const getTo = useCallback(
-        (id: number) => {
-            if (resultKey === 'regions') {
-                return generatePath(regionRoute.absolutePath, { regionId: String(id) });
-            }
-
-            if (resultKey === 'countries' || resultKey === 'district_province_response') {
-                return generatePath(countryRoute.absolutePath, { countryId: String(id) });
-            }
-
-            return undefined;
-        },
-        [resultKey, countryRoute, regionRoute],
     );
 
     if (isNotDefined(data) || data.length === 0) {
@@ -102,21 +80,30 @@ function ResultList(props: Props) {
                             className={styles.item}
                             key={result.id}
                         >
-                            <Link
-                                to={
-                                    getTo(
-                                        isDistrictProvinceResult(result, resultKey)
+                            {resultKey === 'regions' && (
+                                <Link
+                                    to="regionsLayout"
+                                    urlParams={{
+                                        countryId: result.id,
+                                    }}
+                                >
+                                    {result.name}
+                                </Link>
+                            )}
+                            {(resultKey === 'countries' || resultKey === 'district_province_response') && (
+                                <Link
+                                    to="countriesLayout"
+                                    urlParams={{
+                                        countryId: isDistrictProvinceResult(result, resultKey)
                                             ? result.country_id
                                             : result.id,
-                                    )
-                                }
-                                withUnderline
-                                withForwardIcon
-                            >
-                                {isDistrictProvinceResult(result, resultKey)
-                                    ? result.country
-                                    : result.name}
-                            </Link>
+                                    }}
+                                >
+                                    {isDistrictProvinceResult(result, resultKey)
+                                        ? result.country
+                                        : result.name}
+                                </Link>
+                            )}
                             {isDistrictProvinceResult(result, resultKey) && result.name}
                         </div>
                     );

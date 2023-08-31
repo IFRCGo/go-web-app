@@ -52,6 +52,7 @@ export function Component() {
                     <Link
                         variant="secondary"
                         to={countryPlanResponse?.public_plan_file ?? undefined}
+                        external
                         className={styles.downloadLink}
                         icons={<DownloadLineIcon className={styles.icon} />}
                     >
@@ -63,6 +64,7 @@ export function Component() {
                     <Link
                         variant="secondary"
                         to={countryPlanResponse?.internal_plan_file}
+                        external
                         className={styles.downloadLink}
                         icons={<DownloadLineIcon className={styles.icon} />}
                     >

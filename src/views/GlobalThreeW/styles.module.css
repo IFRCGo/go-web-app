@@ -40,7 +40,8 @@
         }
 
         .ppp-iframe {
-            border: unset;
+            border: none;
+            /* background-color: var(--go-ui-color-gray-30); */
             width: 100%;
             height: 54rem;
         }

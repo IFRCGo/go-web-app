@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-import { generatePath } from 'react-router-dom';
 import {
     MoreFillIcon,
     SearchLineIcon,
@@ -20,7 +18,6 @@ import useAlert from '#hooks/useAlert';
 import { adminUrl } from '#config';
 import { type GoApiResponse } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
@@ -35,11 +32,6 @@ export interface Props {
 function ProjectActions(props: Props) {
     const strings = useTranslation(i18n);
     const alert = useAlert();
-    const {
-        newThreeWProject: newThreeWProjectRoute,
-        threeWProjectEdit: threeWProjectEditRoute,
-        threeWProjectDetail: threeWProjectDetailRoute,
-    } = useContext(RouteContext);
 
     const {
         className,
@@ -79,29 +71,23 @@ function ProjectActions(props: Props) {
             >
                 <DropdownMenuItem
                     type="link"
-                    to={generatePath(
-                        threeWProjectDetailRoute.absolutePath,
-                        { projectId: project.id },
-                    )}
+                    to="threeWProjectDetail"
+                    urlParams={{ projectId: project.id }}
                     icons={<SearchLineIcon />}
                 >
                     {strings.projectViewDetails}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     type="link"
-                    to={generatePath(
-                        threeWProjectEditRoute.absolutePath,
-                        { projectId: project.id },
-                    )}
+                    to="threeWProjectEdit"
+                    urlParams={{ projectId: project.id }}
                     icons={<PencilFillIcon />}
                 >
                     {strings.actionDropdownEditLabel}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     type="link"
-                    to={generatePath(
-                        newThreeWProjectRoute.absolutePath,
-                    )}
+                    to="newThreeWProject"
                     state={{ projectId: project.id }}
                     icons={<CopyLineIcon />}
                 >
@@ -111,6 +97,7 @@ function ProjectActions(props: Props) {
                     type="link"
                     icons={<HistoryLineIcon />}
                     to={resolveUrl(adminUrl, `deployments/project/${project.id}/history/`)}
+                    external
                 >
                     {strings.projectHistory}
                 </DropdownMenuItem>

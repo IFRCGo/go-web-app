@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { resolve } from 'url';
 import { _cs } from '@togglecorp/fujs';
 import {
@@ -12,7 +11,6 @@ import Heading from '#components/Heading';
 import Link from '#components/Link';
 import PageContainer from '#components/PageContainer';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import { adminUrl, appVersion, appCommitHash } from '#config';
 
@@ -27,8 +25,6 @@ function GlobalFooter(props: Props) {
     const {
         className,
     } = props;
-
-    const { resources: resourcesRoute } = useContext(RouteContext);
 
     const date = new Date();
     const year = date.getFullYear();
@@ -67,13 +63,22 @@ function GlobalFooter(props: Props) {
                     Find out more
                 </Heading>
                 <div className={styles.subSection}>
-                    <Link to="https://ifrc.org">
+                    <Link
+                        to="https://ifrc.org"
+                        external
+                    >
                         ifrc.org
                     </Link>
-                    <Link to="https://rcrcsims.org">
+                    <Link
+                        to="https://rcrcsims.org"
+                        external
+                    >
                         rcrcsims.org
                     </Link>
-                    <Link to="https://data.ifrc.org">
+                    <Link
+                        to="https://data.ifrc.org"
+                        external
+                    >
                         data.ifrc.org
                     </Link>
                 </div>
@@ -83,14 +88,20 @@ function GlobalFooter(props: Props) {
                     Helpful links
                 </Heading>
                 <div className={styles.subSection}>
-                    <Link to="https://github.com/ifrcgo/go-frontend">
+                    <Link
+                        to="https://github.com/ifrcgo/go-frontend"
+                        external
+                    >
                         {strings.footerOpenSourceCode}
                     </Link>
-                    <Link to={resolve(adminUrl, 'docs')}>
+                    <Link
+                        to={resolve(adminUrl, 'docs')}
+                        external
+                    >
                         {strings.footerApiDocumentation}
                     </Link>
                     <Link
-                        to={resourcesRoute.absolutePath}
+                        to="resources"
                     >
                         {strings.footerOtherResources}
                     </Link>
@@ -103,31 +114,36 @@ function GlobalFooter(props: Props) {
                 <Link
                     to="mailto:im@ifrc.org"
                     variant="primary"
+                    external
                 >
                     im@ifrc.org
                 </Link>
                 <div className={styles.socialIcons}>
                     <Link
-                        to="https://ifrcgoproject.medium.com"
                         className={styles.socialIcon}
+                        to="https://ifrcgoproject.medium.com"
+                        external
                     >
                         <SocialMediumIcon />
                     </Link>
                     <Link
-                        to="https://www.facebook.com/IFRC"
                         className={styles.socialIcon}
+                        to="https://www.facebook.com/IFRC"
+                        external
                     >
                         <SocialFacebookIcon />
                     </Link>
                     <Link
-                        to="https://twitter.com/ifrcgo"
                         className={styles.socialIcon}
+                        to="https://twitter.com/ifrcgo"
+                        external
                     >
                         <SocialTwitterIcon />
                     </Link>
                     <Link
-                        to="https://www.youtube.com/watch?v=dwPsQzla9A4"
                         className={styles.socialIcon}
+                        to="https://www.youtube.com/watch?v=dwPsQzla9A4"
+                        external
                     >
                         <SocialYoutubeIcon />
                     </Link>

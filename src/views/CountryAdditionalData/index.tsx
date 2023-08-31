@@ -59,6 +59,7 @@ export function Component() {
     const countryLinkRendererParams = useCallback(
         (_: number, data: CountryLinksType): LinkProps => ({
             to: data.url,
+            external: true,
             withExternalLinkIcon: true,
             children: data.title,
         }),

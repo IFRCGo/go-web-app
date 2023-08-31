@@ -1,13 +1,10 @@
 import {
     useState,
     useCallback,
-    useContext,
     useRef,
     type ElementRef,
 } from 'react';
 import {
-    generatePath,
-    useNavigate,
     useParams,
     useOutletContext,
 } from 'react-router-dom';
@@ -27,6 +24,7 @@ import {
     removeNull,
 } from '@togglecorp/toggle-form';
 
+import useRouting from '#hooks/useRouting';
 import { transformObjectError } from '#utils/restRequest/error';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
@@ -40,7 +38,6 @@ import PerAssessmentSummary from '#components/domain/PerAssessmentSummary';
 import ConfirmButton from '#components/ConfirmButton';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import {
     useLazyRequest,
     useRequest,
@@ -75,10 +72,7 @@ export function Component() {
     const formContentRef = useRef<ElementRef<'div'>>(null);
     const strings = useTranslation(i18n);
     const alert = useAlert();
-    const navigate = useNavigate();
-    const {
-        perPrioritizationForm: perPrioritizationFormRoute,
-    } = useContext(RouteContext);
+    const { navigate } = useRouting();
     const {
         statusResponse,
         refetchStatusResponse,
@@ -179,10 +173,8 @@ export function Component() {
 
             if (response.is_draft === false) {
                 navigate(
-                    generatePath(
-                        perPrioritizationFormRoute.absolutePath,
-                        { perId: String(perId) },
-                    ),
+                    'perPrioritizationForm',
+                    { params: { perId } },
                 );
 
                 // Move the page position to top when moving on to next step

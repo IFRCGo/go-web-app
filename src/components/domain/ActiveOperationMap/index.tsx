@@ -1,11 +1,9 @@
 import {
-    useContext,
     useMemo,
     useCallback,
     useState,
 } from 'react';
 import type { LngLatBoundsLike } from 'mapbox-gl';
-import { generatePath } from 'react-router-dom';
 import {
     _cs,
     isDefined,
@@ -39,7 +37,6 @@ import {
 } from '#utils/map';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import { sumSafe } from '#utils/common';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 
@@ -127,11 +124,6 @@ function ActiveOperationMap(props: Props) {
         },
         [variant, regionId],
     );
-
-    const {
-        country: countryRoute,
-        allAppeals: allAppealsRoute,
-    } = useContext(RouteContext);
 
     const [
         clickedPointProperties,
@@ -268,10 +260,8 @@ function ActiveOperationMap(props: Props) {
             withHeaderBorder
             actions={(
                 <Link
-                    to={{
-                        pathname: allAppealsRoute.absolutePath,
-                        search: variant === 'region' ? `region=${regionId}` : undefined,
-                    }}
+                    to="allAppeals"
+                    urlSearch={`region=${regionId}`}
                     withForwardIcon
                     withUnderline
                 >
@@ -336,13 +326,10 @@ function ActiveOperationMap(props: Props) {
                         coordinates={clickedPointProperties.lngLat}
                         heading={(
                             <Link
-                                to={
-                                    generatePath(
-                                        countryRoute.absolutePath,
-                                        // eslint-disable-next-line max-len
-                                        { countryId: clickedPointProperties.feature.properties.country_id },
-                                    )
-                                }
+                                to="countriesLayout"
+                                urlParams={{
+                                    countryId: clickedPointProperties.feature.properties.country_id,
+                                }}
                             >
                                 {clickedPointProperties.feature.properties.name}
                             </Link>

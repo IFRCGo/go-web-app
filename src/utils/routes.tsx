@@ -3,6 +3,7 @@ import {
     mapToList,
     randomString,
     isNotDefined,
+    isDefined,
 } from '@togglecorp/fujs';
 import {
     IndexRouteObject,
@@ -52,6 +53,7 @@ export type MyInputIndexRouteObject<T, K extends object> = {
         render: (prop: T) => React.ReactElement<any, any> | null
         props: T & JSX.IntrinsicAttributes;
     };
+    forwardPath?: string;
     parent?: MyOutputRouteObject<K>;
     context: K;
 } & Omit<IndexRouteObject, OmitInputRouteObjectKeys>;
@@ -75,6 +77,7 @@ export type MyInputNonIndexRouteObject<T, K extends object> = {
         props: T & JSX.IntrinsicAttributes;
     };
 
+    forwardPath?: string;
     parent?: MyOutputRouteObject<K>;
     context: K;
 } & Omit<NonIndexRouteObject, OmitInputRouteObjectKeys>;
@@ -88,12 +91,14 @@ type OmitOutputRouteObjectKeys = 'Component' | 'element';
 export type MyOutputIndexRouteObject<K extends object> = {
     id: string;
     absolutePath: string;
+    absoluteForwardPath: string;
     parent?: MyOutputRouteObject<K>;
 } & Omit<IndexRouteObject, OmitOutputRouteObjectKeys> & K;
 
 export type MyOutputNonIndexRouteObject<K extends object> = {
     id: string;
     absolutePath: string;
+    absoluteForwardPath: string;
     parent?: MyOutputRouteObject<K>;
 } & Omit<NonIndexRouteObject, OmitOutputRouteObjectKeys> & K;
 
@@ -116,6 +121,7 @@ export function wrapRoute<K extends object, T>(
             component,
             parent,
             context,
+            forwardPath,
             ...remainingRouteOptions
         } = myRouteOptions;
 
@@ -150,11 +156,16 @@ export function wrapRoute<K extends object, T>(
                 },
             };
         }
+        const absolutePath = parent?.absolutePath ?? '/';
         return {
             ...remainingRouteOptions,
             ...dynamicProps,
+            ...context,
             parent,
-            absolutePath: parent?.absolutePath ?? '/',
+            absolutePath,
+            absoluteForwardPath: isDefined(forwardPath)
+                ? joinUrlPart([absolutePath, forwardPath])
+                : absolutePath,
             id: randomString(),
         };
     }
@@ -164,6 +175,7 @@ export function wrapRoute<K extends object, T>(
         component,
         parent,
         context,
+        forwardPath,
         ...remainingRouteOptions
     } = myRouteOptions;
 
@@ -206,9 +218,12 @@ export function wrapRoute<K extends object, T>(
     return {
         ...remainingRouteOptions,
         ...dynamicProps,
-
+        ...context,
         parent,
         absolutePath,
+        absoluteForwardPath: isDefined(forwardPath)
+            ? joinUrlPart([absolutePath, forwardPath])
+            : absolutePath,
         id: randomString(),
     };
 }

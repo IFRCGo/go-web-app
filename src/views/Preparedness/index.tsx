@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { Outlet, generatePath } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import perApproach from '#assets/content/per_approach_notext.svg';
 import Container from '#components/Container';
@@ -9,7 +8,6 @@ import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
@@ -18,13 +16,6 @@ import styles from './styles.module.css';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-
-    const {
-        preparednessGlobalSummary: globalSummaryRoute,
-        preparednessGlobalPerformance: globalPerformanceRoute,
-        preparednessGlobalCatalogue: globalCatalogueRoute,
-        preparednessGlobalOperational: globalOperationalRoute,
-    } = useContext(RouteContext);
 
     return (
         <Page
@@ -40,6 +31,7 @@ export function Component() {
                 actions={(
                     <Link
                         to="mailto:PER.Team@ifrc.org"
+                        external
                         variant="primary"
                     >
                         {strings.contactPerTeam}
@@ -53,6 +45,7 @@ export function Component() {
                             link: (
                                 <Link
                                     to="https://www.ifrc.org/our-work/disasters-climate-and-crises/disaster-preparedness"
+                                    external
                                     className={styles.approachLink}
                                 >
                                     {strings.approachDescriptionLinkLabel}
@@ -70,30 +63,22 @@ export function Component() {
             </Container>
             <NavigationTabList>
                 <NavigationTab
-                    to={generatePath(
-                        globalSummaryRoute.absolutePath,
-                    )}
+                    to="preparednessGlobalSummary"
                 >
                     {strings.globalSummary}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        globalPerformanceRoute.absolutePath,
-                    )}
+                    to="preparednessGlobalPerformance"
                 >
                     {strings.globalPerformance}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        globalCatalogueRoute.absolutePath,
-                    )}
+                    to="preparednessGlobalCatalogue"
                 >
                     {strings.catalogueOfResources}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        globalOperationalRoute.absolutePath,
-                    )}
+                    to="preparednessGlobalOperational"
                 >
                     {strings.operationalLearning}
                 </NavigationTab>

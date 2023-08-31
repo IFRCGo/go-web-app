@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { Outlet, generatePath } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { DeployedIcon, EmergencyResponseUnitIcon, ClinicIcon } from '@ifrc-go/icons';
 
 import NavigationTabList from '#components/NavigationTabList';
@@ -8,7 +7,6 @@ import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
-import RouteContext from '#contexts/route';
 import KeyFigure from '#components/KeyFigure';
 
 import i18n from './i18n.json';
@@ -17,12 +15,6 @@ import styles from './styles.module.css';
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-
-    const {
-        surgeOverview: surgeOverviewRoute,
-        surgeOperationalToolbox: surgeOperationalToolboxRoute,
-        surgeCatalogue: surgeCatalogueRoute,
-    } = useContext(RouteContext);
 
     const {
         pending: surgeAggregatedResponsePending,
@@ -67,23 +59,17 @@ export function Component() {
         >
             <NavigationTabList>
                 <NavigationTab
-                    to={generatePath(
-                        surgeOverviewRoute.absolutePath,
-                    )}
+                    to="surgeOverview"
                 >
                     {strings.surgeOverviewTab}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        surgeOperationalToolboxRoute.absolutePath,
-                    )}
+                    to="surgeOperationalToolbox"
                 >
                     {strings.operationalToolboxTab}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        surgeCatalogueRoute.absolutePath,
-                    )}
+                    to="surgeCatalogueLayout"
                     parentRoute
                 >
                     {strings.surgeCatalogueTab}

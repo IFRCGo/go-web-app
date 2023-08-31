@@ -1,10 +1,8 @@
 import {
-    useContext,
     useMemo,
     useState,
 } from 'react';
 import {
-    isDefined,
     isNotDefined,
     listToGroupList,
     listToMap,
@@ -12,7 +10,6 @@ import {
     unique,
 } from '@togglecorp/fujs';
 import {
-    generatePath,
     useOutletContext,
 } from 'react-router-dom';
 import {
@@ -27,7 +24,6 @@ import ExpandableContainer from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import PieChart from '#components/PieChart';
-import RouteContext from '#contexts/route';
 import Table from '#components/Table';
 import Message from '#components/Message';
 import type { CountryOutletContext } from '#utils/outletContext';
@@ -102,11 +98,6 @@ function filterProjects(projectList: Project[], filters: Partial<Record<ProjectK
 export function Component() {
     const strings = useTranslation(i18n);
     const { countryResponse } = useOutletContext<CountryOutletContext>();
-
-    const {
-        countryAllThreeW: countryAllThreeWRoute,
-        threeWProjectEdit: threeWProjectEditRoute,
-    } = useContext(RouteContext);
 
     const [filters, setFilters] = useState<FilterValue>({
         reporting_ns: [],
@@ -370,10 +361,8 @@ export function Component() {
                             {strings.exportProjects}
                         </Button>
                         <Link
-                            to={isDefined(countryResponse)
-                                ? generatePath(countryAllThreeWRoute.absolutePath, {
-                                    countryId: countryResponse.id,
-                                }) : undefined}
+                            to="countryAllThreeW"
+                            urlParams={{ countryId: countryResponse?.id }}
                             withForwardIcon
                         >
                             {strings.viewAllProjects}
@@ -427,10 +416,8 @@ export function Component() {
                                                         {project.name}
                                                     </div>
                                                     <Link
-                                                        to={generatePath(
-                                                            threeWProjectEditRoute.absolutePath,
-                                                            { projectId: project.id },
-                                                        )}
+                                                        to="threeWProjectEdit"
+                                                        urlParams={{ projectId: project.id }}
                                                         variant="tertiary"
                                                         icons={<PencilFillIcon />}
                                                         className={styles.action}

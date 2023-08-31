@@ -1,7 +1,5 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 
-import RouteContext from '#contexts/route';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import Container from '#components/Container';
 import Link from '#components/Link';
@@ -9,7 +7,7 @@ import IconButton from '#components/IconButton';
 import Image from '#components/Image';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
+import useRouting from '#hooks/useRouting';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -18,15 +16,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueHealth: catalogueHealthRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueHealthRoute.absolutePath));
-    }, [goBack, catalogueHealthRoute.absolutePath]);
+        goBack('catalogueHealth');
+    }, [goBack]);
 
     return (
         <Container
@@ -263,6 +257,7 @@ export function Component() {
             >
                 <Link
                     to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=e3cabf24db361810d40e16f35b9619c7"
+                    external
                     variant="tertiary"
                     withExternalLinkIcon
                 >
@@ -270,6 +265,7 @@ export function Component() {
                 </Link>
                 <Link
                     to="https://www.youtube.com/watch?v=TIW6nf-MPb0"
+                    external
                     variant="tertiary"
                     withExternalLinkIcon
                 >

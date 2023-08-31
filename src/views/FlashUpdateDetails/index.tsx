@@ -1,5 +1,5 @@
-import { useContext, useMemo } from 'react';
-import { useParams, generatePath } from 'react-router-dom';
+import { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import {
     isDefined,
     isNotDefined,
@@ -9,7 +9,6 @@ import { PencilFillIcon } from '@ifrc-go/icons';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import Button from '#components/Button';
-import RouteContext from '#contexts/route';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import DateOutput from '#components/DateOutput';
@@ -35,11 +34,6 @@ export function Component() {
             id: Number(flashUpdateId),
         },
     });
-
-    const {
-        country: countryRoute,
-        flashUpdateFormEdit: flashUpdateFormEditRoute,
-    } = useContext(RouteContext);
 
     const hasActions = useMemo(
         () => flashUpdateResponse?.actions_taken?.map(
@@ -67,10 +61,8 @@ export function Component() {
                     </Button>
                     <Link
                         className={styles.editLink}
-                        to={generatePath(
-                            flashUpdateFormEditRoute.absolutePath,
-                            { flashUpdateId },
-                        )}
+                        to="flashUpdateFormEdit"
+                        urlParams={{ flashUpdateId }}
                         icons={<PencilFillIcon />}
                         variant="secondary"
                     >
@@ -83,14 +75,8 @@ export function Component() {
                 (flashUpdateResponse?.country_district?.map((country) => (
                     <Link
                         key={country.country_details.id}
-                        to={country?.country_details
-                            ? generatePath(
-                                countryRoute.absolutePath,
-                                {
-                                    countryId: country
-                                        ?.country_details.id,
-                                },
-                            ) : undefined}
+                        to="countriesLayout"
+                        urlParams={{ countryId: country?.country_details.id }}
                     >
                         {country.country_details.name}
                     </Link>
@@ -229,7 +215,10 @@ export function Component() {
                                     <div className={styles.description}>
                                         {reference.source_description}
                                     </div>
-                                    <Link to={reference.url}>
+                                    <Link
+                                        to={reference.url}
+                                        external
+                                    >
                                         {reference.url}
                                     </Link>
                                     {reference.document_details?.file ? (

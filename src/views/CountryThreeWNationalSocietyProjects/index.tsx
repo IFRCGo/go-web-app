@@ -1,4 +1,4 @@
-import { useMemo, useState, useContext } from 'react';
+import { useMemo, useState } from 'react';
 import {
     isDefined,
     isNotDefined,
@@ -7,7 +7,6 @@ import {
     unique,
 } from '@togglecorp/fujs';
 import {
-    generatePath,
     useOutletContext,
 } from 'react-router-dom';
 import {
@@ -21,7 +20,6 @@ import ExpandableContainer from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import PieChart from '#components/PieChart';
-import RouteContext from '#contexts/route';
 import Table from '#components/Table';
 import Message from '#components/Message';
 import type { CountryOutletContext } from '#utils/outletContext';
@@ -97,10 +95,6 @@ export function Component() {
         countryResponse,
         countryResponsePending,
     } = useOutletContext<CountryOutletContext>();
-
-    const {
-        countryAllThreeWNationalSocietyProjects: countryAllThreeWNationalSocietyProjectsRoute,
-    } = useContext(RouteContext);
 
     const [filters, setFilters] = useState<FilterValue>({
         project_country: [],
@@ -321,11 +315,8 @@ export function Component() {
                             {strings.exportProjects}
                         </Button>
                         <Link
-                            to={isDefined(countryResponse)
-                                ? generatePath(
-                                    countryAllThreeWNationalSocietyProjectsRoute.absolutePath,
-                                    { countryId: countryResponse.id },
-                                ) : undefined}
+                            to="countryAllThreeWNationalSocietyProjects"
+                            urlParams={{ countryId: countryResponse?.id }}
                             withForwardIcon
                         >
                             {strings.viewAllProjects}

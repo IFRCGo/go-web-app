@@ -1,8 +1,8 @@
 import { useCallback, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { isNotDefined, _cs } from '@togglecorp/fujs';
 import { SearchLineIcon } from '@ifrc-go/icons';
 
+import useRouting from '#hooks/useRouting';
 import PageContainer from '#components/PageContainer';
 import Link from '#components/Link';
 import TextInput from '#components/TextInput';
@@ -14,7 +14,6 @@ import RegionDropdown from '#components/domain/RegionDropdown';
 import useTranslation from '#hooks/useTranslation';
 import useInputState from '#hooks/useInputState';
 import { KEY_URL_SEARCH, SEARCH_TEXT_LENGTH_MIN } from '#utils/constants';
-import RouteContext from '#contexts/route';
 import UserContext from '#contexts/user';
 import goLogo from '#assets/icons/go-logo-2020.svg';
 
@@ -31,44 +30,27 @@ function Navbar(props: Props) {
         className,
     } = props;
 
-    const {
-        home: homeRoute,
-        resources: resourcesRoute,
-        login: loginRoute,
-        register: registerRoute,
-        emergencies: emergenciesRoute,
-        surge: surgeRoute,
-        preparedness: preparednessRoute,
-        globalThreeW: globalThreeWRoute,
-        riskWatch: riskWatchRoute,
-        search: searchRoute,
-        newThreeWActivity: newThreeWActivityFromRoute,
-        newDrefApplicationForm: newDrefApplicationFormRoute,
-        flashUpdateFormNew: flashUpdateFormNewRoute,
-        fieldReportFormNew: fieldReportFormNewRoute,
-    } = useContext(RouteContext);
-
     const { userAuth: userDetails } = useContext(UserContext);
     const strings = useTranslation(i18n);
     const [searchText, setSearchText] = useInputState<string | undefined>(undefined);
 
-    const navigate = useNavigate();
+    const { navigate } = useRouting();
 
     const handleSearchInputEnter = useCallback(() => {
         const searchStringSafe = searchText?.trim() ?? '';
         if (searchStringSafe.length >= SEARCH_TEXT_LENGTH_MIN) {
-            const searchPage = searchRoute.absolutePath;
             setSearchText(undefined);
-            navigate({
-                pathname: searchPage,
-                search: `${KEY_URL_SEARCH}=${searchText}`,
-            });
+            navigate(
+                'search',
+                {
+                    search: `${KEY_URL_SEARCH}=${searchText}`,
+                },
+            );
         }
     }, [
         searchText,
         setSearchText,
         navigate,
-        searchRoute.absolutePath,
     ]);
 
     return (
@@ -78,7 +60,7 @@ function Navbar(props: Props) {
                 contentClassName={styles.topContent}
             >
                 <Link
-                    to={homeRoute.absolutePath}
+                    to="home"
                     className={styles.brand}
                 >
                     <img
@@ -92,7 +74,7 @@ function Navbar(props: Props) {
                     variant="tertiary"
                 >
                     <NavigationTab
-                        to={resourcesRoute.absolutePath}
+                        to="resources"
                         className={styles.actionItem}
                     >
                         {strings.headerMenuResources}
@@ -100,13 +82,13 @@ function Navbar(props: Props) {
                     {isNotDefined(userDetails) && (
                         <>
                             <NavigationTab
-                                to={loginRoute.absolutePath}
+                                to="login"
                                 className={styles.actionItem}
                             >
                                 {strings.userMenuLogin}
                             </NavigationTab>
                             <NavigationTab
-                                to={registerRoute.absolutePath}
+                                to="register"
                                 className={styles.actionItem}
                             >
                                 {strings.userMenuRegister}
@@ -119,25 +101,25 @@ function Navbar(props: Props) {
                     >
                         <DropdownMenuItem
                             type="link"
-                            to={fieldReportFormNewRoute.absolutePath}
+                            to="fieldReportFormNew"
                         >
                             {strings.headerDropdownNewFieldReport}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             type="link"
-                            to={newThreeWActivityFromRoute.absolutePath}
+                            to="newThreeWActivity"
                         >
                             {strings.headerDropdownNew3WActivity}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             type="link"
-                            to={newDrefApplicationFormRoute.absolutePath}
+                            to="newDrefApplicationForm"
                         >
                             {strings.headerDropdownNewDrefApplication}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             type="link"
-                            to={flashUpdateFormNewRoute.absolutePath}
+                            to="flashUpdateFormNew"
                         >
                             {strings.headerDropdownNewFlashUpdate}
                         </DropdownMenuItem>
@@ -151,16 +133,15 @@ function Navbar(props: Props) {
                         variant="tertiary"
                     >
                         <NavigationTab
-                            to={homeRoute.absolutePath}
+                            to="home"
                             className={styles.menuItem}
                             title={strings.headerMenuHomeTooltip}
-                            parentRoute
                         >
                             {strings.headerMenuHome}
                         </NavigationTab>
                         <RegionDropdown />
                         <NavigationTab
-                            to={emergenciesRoute.absolutePath}
+                            to="emergencies"
                             className={styles.menuItem}
                             title={strings.headerMenuEmergenciesTooltip}
                             parentRoute
@@ -168,7 +149,7 @@ function Navbar(props: Props) {
                             {strings.headerMenuEmergencies}
                         </NavigationTab>
                         <NavigationTab
-                            to={surgeRoute.absolutePath}
+                            to="surgeLayout"
                             className={styles.menuItem}
                             title={strings.headerMenuSurgeTooltip}
                             parentRoute
@@ -176,7 +157,7 @@ function Navbar(props: Props) {
                             {strings.headerMenuSurge}
                         </NavigationTab>
                         <NavigationTab
-                            to={preparednessRoute.absolutePath}
+                            to="preparednessLayout"
                             className={styles.menuItem}
                             title={strings.headerMenuPreparednessTooltip}
                             parentRoute
@@ -184,7 +165,7 @@ function Navbar(props: Props) {
                             {strings.headerMenuPreparedness}
                         </NavigationTab>
                         <NavigationTab
-                            to={globalThreeWRoute.absolutePath}
+                            to="globalThreeW"
                             className={styles.menuItem}
                             title={strings.headerMenuThreeWTooltip}
                             parentRoute
@@ -192,7 +173,7 @@ function Navbar(props: Props) {
                             {strings.headerMenuThreeW}
                         </NavigationTab>
                         <NavigationTab
-                            to={riskWatchRoute.absolutePath}
+                            to="riskWatchLayout"
                             className={styles.menuItem}
                             title={strings.headerMenuThreeWTooltip}
                             parentRoute
@@ -207,6 +188,7 @@ function Navbar(props: Props) {
                             name={undefined}
                             onChange={setSearchText}
                             icons={<SearchLineIcon />}
+                            // FIXME: do not inline functions
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     e.preventDefault();

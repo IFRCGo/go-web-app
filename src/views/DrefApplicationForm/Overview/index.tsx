@@ -261,6 +261,7 @@ function Overview(props: Props) {
                             <Link
                                 title={strings.drefFormClickEmergencyResponseFramework}
                                 to={disasterCategoryLink}
+                                external
                                 variant="tertiary"
                             >
                                 <WikiHelpSectionLineIcon />
@@ -339,6 +340,7 @@ function Overview(props: Props) {
                             <Link
                                 title={strings.drefFormClickEmergencyResponseFramework}
                                 to={totalPopulationRiskImminentLink}
+                                external
                             >
                                 <WikiHelpSectionLineIcon />
                             </Link>
@@ -349,6 +351,7 @@ function Overview(props: Props) {
                             <Link
                                 title={strings.drefFormClickEmergencyResponseFramework}
                                 to={totalPeopleAffectedSlowSuddenLink}
+                                external
                             >
                                 <WikiHelpSectionLineIcon />
                             </Link>
@@ -376,6 +379,7 @@ function Overview(props: Props) {
                                 <Link
                                     title={strings.drefFormClickEmergencyResponseFramework}
                                     to={peopleInNeedLink}
+                                    external
                                 >
                                     <WikiHelpSectionLineIcon />
                                 </Link>
@@ -400,6 +404,7 @@ function Overview(props: Props) {
                             <Link
                                 title={strings.drefFormClickEmergencyResponseFramework}
                                 to={peopleTargetedLink}
+                                external
                             >
                                 <WikiHelpSectionLineIcon />
                             </Link>

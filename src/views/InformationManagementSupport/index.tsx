@@ -1,13 +1,11 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import surge from '#assets/images/IFRC_Surge_01.jpg';
 
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
+import useRouting from '#hooks/useRouting';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
-import RouteContext from '#contexts/route';
 import Header from '#components/Header';
 
 import i18n from './i18n.json';
@@ -17,15 +15,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueInformationManagement: catalogueInformationManagementRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueInformationManagementRoute.absolutePath));
-    }, [goBack, catalogueInformationManagementRoute.absolutePath]);
+        goBack('catalogueInformationManagement');
+    }, [goBack]);
     return (
         <Container
             className={styles.support}

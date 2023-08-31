@@ -1,5 +1,4 @@
-import { useState, useMemo, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useState, useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
@@ -18,7 +17,6 @@ import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
-import RouteContext from '#contexts/route';
 import { resolveToComponent } from '#utils/translation';
 import {
     useRequest,
@@ -55,10 +53,6 @@ export function Component() {
     const sortState = useSortState();
     const { sorting } = sortState;
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
-    const {
-        country: countryRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
     const [page, setPage] = useState(1);
 
     const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealTypeOption['key'] | undefined>(
@@ -172,9 +166,8 @@ export function Component() {
                 strings.allAppealsOperation,
                 (item) => item.name,
                 (item) => ({
-                    to: isDefined(item.event)
-                        ? generatePath(emergencyRoute.absolutePath, { emergencyId: item.event })
-                        : undefined,
+                    to: 'emergenciesLayout',
+                    urlParams: { emergencyId: item?.event },
                 }),
             ),
             createStringColumn<AppealListItem, string>(
@@ -204,14 +197,12 @@ export function Component() {
                 strings.allAppealsCountry,
                 (item) => item.country?.name,
                 (item) => ({
-                    to: generatePath(
-                        countryRoute.absolutePath,
-                        { countryId: String(item.country?.id) },
-                    ),
+                    to: 'countriesLayout',
+                    urlParams: { countryId: item.country?.id },
                 }),
             ),
         ]),
-        [strings, countryRoute, emergencyRoute],
+        [strings],
     );
 
     const heading = useMemo(

@@ -2,7 +2,6 @@ import {
     useState,
     useMemo,
     useCallback,
-    useContext,
 } from 'react';
 import {
     _cs,
@@ -45,8 +44,6 @@ import {
 import useCountry from '#hooks/domain/useCountry';
 import Message from '#components/Message';
 import Link from '#components/Link';
-import RouteContext from '#contexts/route';
-import { generatePath } from 'react-router-dom';
 
 // FIXME: we should move this image to assets
 import image from './arrow.png';
@@ -214,9 +211,6 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
     const strings = useTranslation(i18n);
     const countries = useCountryRaw();
     const [iconReady, setIconReady] = useState(false);
-    const {
-        threeWProjectDetail: threeWProjectDetailRoute,
-    } = useContext(RouteContext);
 
     const [
         clickedPointProperties,
@@ -409,10 +403,8 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                                     <Link
                                         className={styles.project}
                                         key={project.id}
-                                        to={generatePath(
-                                            threeWProjectDetailRoute.absolutePath,
-                                            { projectId: project.id },
-                                        )}
+                                        to="threeWProjectDetail"
+                                        urlParams={{ projectId: project.id }}
                                         withForwardIcon
                                     >
                                         {project.name}

@@ -1,10 +1,7 @@
 import {
     useState,
     useMemo,
-    useContext,
 } from 'react';
-import { generatePath } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import { useRequest } from '#utils/restRequest';
@@ -19,7 +16,6 @@ import {
     createElementColumn,
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
-import RouteContext from '#contexts/route';
 import Pager from '#components/Pager';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
@@ -47,10 +43,6 @@ export function Component() {
     const { sorting } = sortState;
     const [page, setPage] = useState(1);
 
-    const {
-        flashUpdateFormDetails: flashUpdateFormDetailsRoute,
-    } = useContext(RouteContext);
-
     const columns = useMemo(
         () => ([
             createDateColumn<FlashUpdateListItem, TableKey>(
@@ -67,11 +59,8 @@ export function Component() {
                 strings.allFlashUpdatesReport,
                 (item) => item.title,
                 (item) => ({
-                    to: isDefined(item.id)
-                        ? generatePath(
-                            flashUpdateFormDetailsRoute.absolutePath,
-                            { flashUpdateId: item.id },
-                        ) : undefined,
+                    to: 'flashUpdateFormDetails',
+                    urlParams: { flashUpdateId: item.id },
                 }),
                 {
                     sortable: true,
@@ -104,7 +93,7 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings, flashUpdateFormDetailsRoute],
+        [strings],
     );
 
     const {

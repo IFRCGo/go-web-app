@@ -358,6 +358,7 @@ export function Component() {
                     <div className={styles.contactContainer}>
                         <Link
                             to={perTeamEmail}
+                            external
                             variant="secondary"
                         >
                             {/* FIXME: use translation */}

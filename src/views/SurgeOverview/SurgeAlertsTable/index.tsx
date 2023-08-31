@@ -1,5 +1,4 @@
-import { useState, useMemo, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useState, useMemo } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import Table from '#components/Table';
@@ -15,7 +14,6 @@ import { useSortState, SortContext, getOrdering } from '#components/Table/useSor
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -64,12 +62,6 @@ function getStatus(alert: SurgeAlertListItem, strings: Record<string, string>) {
 
 function SurgeAlertsTable() {
     const [page, setPage] = useState(1);
-
-    const {
-        allSurgeAlerts: allSurgeAlertsRoute,
-        country: countryRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
 
     const strings = useTranslation(i18n);
 
@@ -131,9 +123,10 @@ function SurgeAlertsTable() {
             strings.surgeAlertsTableEmergency,
             (surgeAlert) => surgeAlert.event.name,
             (surgeAlert) => ({
-                to: generatePath(emergencyRoute.absolutePath, {
+                to: 'emergenciesLayout',
+                urlParams: {
                     emergencyId: surgeAlert.event.id,
-                }),
+                },
             }),
         ),
         createLinkColumn<SurgeAlertListItem, number>(
@@ -141,9 +134,10 @@ function SurgeAlertsTable() {
             strings.surgeAlertsTableCountry,
             (surgeAlert) => surgeAlert.country.name,
             (surgeAlert) => ({
-                to: generatePath(countryRoute.absolutePath, {
+                to: 'countriesLayout',
+                urlParams: {
                     countryId: surgeAlert.country.id,
-                }),
+                },
             }),
         ),
         createStringColumn<SurgeAlertListItem, number>(
@@ -151,7 +145,7 @@ function SurgeAlertsTable() {
             strings.surgeAlertsTableStatus,
             (surgeAlert) => getStatus(surgeAlert, strings),
         ),
-    ]), [strings, emergencyRoute, countryRoute]);
+    ]), [strings]);
 
     return (
         <Container
@@ -168,7 +162,7 @@ function SurgeAlertsTable() {
             )}
             actions={(
                 <Link
-                    to={allSurgeAlertsRoute.absolutePath}
+                    to="allSurgeAlerts"
                     withForwardIcon
                     withUnderline
                 >

@@ -1,13 +1,17 @@
-import { useCallback, useContext } from 'react';
-import { _cs, isNotDefined } from '@togglecorp/fujs';
+import { useCallback, useContext, useMemo } from 'react';
+import { _cs, isDefined } from '@togglecorp/fujs';
 import {
+    matchPath,
     NavLink,
-    NavLinkProps,
+    useLocation,
 } from 'react-router-dom';
 import { CheckFillIcon } from '@ifrc-go/icons';
 
 import NavigationTabContext from '#contexts/navigation-tab';
+import RouteContext from '#contexts/route';
+import { useLink, type UrlParams } from '#components/Link';
 
+import { type WrappedRoutes } from '../../App/routes';
 import styles from './styles.module.css';
 
 interface Props {
@@ -15,20 +19,28 @@ interface Props {
     children?: React.ReactNode;
     stepCompleted?: boolean;
     title?: string;
-    to?: string;
     parentRoute?: boolean;
     disabled?: boolean;
+
+    to: keyof WrappedRoutes | undefined | null;
+
+    urlParams?: UrlParams;
+    urlSearch?: string;
+    urlHash?: string;
 }
 
 function NavigationTab(props: Props) {
     const {
         children,
         to,
+        urlParams,
+        urlSearch,
+        urlHash,
         className,
         title,
         stepCompleted,
         parentRoute = false,
-        disabled,
+        disabled: disabledFromProps,
     } = props;
 
     const {
@@ -36,20 +48,53 @@ function NavigationTab(props: Props) {
         className: classNameFromContext,
     } = useContext(NavigationTabContext);
 
-    const defaultClassName = _cs(
-        styles.navigationTab,
-        variant === 'primary' && styles.primary,
-        variant === 'secondary' && styles.secondary,
-        variant === 'tertiary' && styles.tertiary,
-        variant === 'step' && styles.step,
-        variant === 'vertical' && styles.vertical,
-        stepCompleted && styles.completed,
-        classNameFromContext,
-        className,
+    const location = useLocation();
+
+    const routes = useContext(RouteContext);
+
+    const {
+        disabled: disabledLink,
+        to: toLink,
+    } = useLink({
+        to,
+        external: false,
+        urlParams,
+    });
+
+    const disabled = disabledLink || disabledFromProps;
+
+    const handleClick = useCallback((
+        event: React.MouseEvent<HTMLAnchorElement> | undefined,
+    ) => {
+        if (disabled) {
+            event?.preventDefault();
+        }
+    }, [disabled]);
+
+    const isActive = isDefined(to) && matchPath(
+        {
+            // eslint-disable-next-line react/destructuring-assignment
+            path: routes[to].absolutePath,
+            end: !parentRoute,
+        },
+        location.pathname,
     );
 
-    const getClassName: Exclude<NavLinkProps['className'], string | undefined> = useCallback(
-        ({ isActive }) => {
+    const linkClassName = useMemo(
+        () => {
+            const defaultClassName = _cs(
+                styles.navigationTab,
+                variant === 'primary' && styles.primary,
+                variant === 'secondary' && styles.secondary,
+                variant === 'tertiary' && styles.tertiary,
+                variant === 'step' && styles.step,
+                variant === 'vertical' && styles.vertical,
+                stepCompleted && styles.completed,
+                classNameFromContext,
+                className,
+                disabled && styles.disabled,
+            );
+
             if (!isActive) {
                 return defaultClassName;
             }
@@ -57,17 +102,29 @@ function NavigationTab(props: Props) {
             return _cs(
                 styles.active,
                 defaultClassName,
-                disabled && styles.disabled,
             );
         },
         [
-            defaultClassName,
+            className,
+            classNameFromContext,
+            stepCompleted,
+            variant,
+            isActive,
             disabled,
         ],
     );
 
-    const navChild = (
-        <>
+    return (
+        <NavLink
+            to={{
+                pathname: toLink,
+                search: urlSearch,
+                hash: urlHash,
+            }}
+            className={linkClassName}
+            onClick={handleClick}
+            title={title}
+        >
             {variant === 'step' && (
                 <div className={styles.visualElements}>
                     <div className={styles.progressBarStart} />
@@ -90,34 +147,6 @@ function NavigationTab(props: Props) {
             {variant === 'primary' && (
                 <div className={styles.dummy} />
             )}
-        </>
-    );
-
-    const handleClick = useCallback((
-        event: React.MouseEvent<HTMLAnchorElement> | undefined,
-    ) => {
-        if (disabled) {
-            event?.preventDefault();
-        }
-    }, [disabled]);
-
-    if (isNotDefined(to)) {
-        return (
-            <div className={_cs(defaultClassName, styles.disabled)}>
-                {navChild}
-            </div>
-        );
-    }
-
-    return (
-        <NavLink
-            to={to}
-            className={getClassName}
-            onClick={handleClick}
-            end={!parentRoute}
-            title={title}
-        >
-            {navChild}
         </NavLink>
     );
 }

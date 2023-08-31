@@ -1,14 +1,9 @@
 import {
     useMemo,
-    useContext,
     useState,
 } from 'react';
-import {
-    generatePath,
-} from 'react-router-dom';
-import { isDefined, isTruthyString, max } from '@togglecorp/fujs';
+import { isTruthyString, max } from '@togglecorp/fujs';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import Link from '#components/Link';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
@@ -64,11 +59,6 @@ function EmergenciesOperationTable(props: Props) {
     const sortState = useSortState();
     const { sorting } = sortState;
 
-    const {
-        emergency: emergencyRoute,
-        allEmergencies: allEmergenciesRoute,
-    } = useContext(RouteContext);
-
     const columns = useMemo(
         () => ([
             createDateColumn<EmergenciesTableItem, number>(
@@ -84,11 +74,8 @@ function EmergenciesOperationTable(props: Props) {
                 strings.emergenciesName,
                 (item) => item.name,
                 (item) => ({
-                    to: isDefined(item.id)
-                        ? generatePath(emergencyRoute.absolutePath, {
-                            emergencyId: item.id,
-                        })
-                        : undefined,
+                    to: 'emergenciesLayout',
+                    urlParams: { emergencyId: item.id },
                 }),
                 {
                     sortable: true,
@@ -120,7 +107,7 @@ function EmergenciesOperationTable(props: Props) {
                 (item) => item.num_affected ?? getMostRecentAffectedValue(item.field_reports),
             ),
         ]),
-        [emergencyRoute, strings],
+        [strings],
     );
 
     const {
@@ -158,10 +145,8 @@ function EmergenciesOperationTable(props: Props) {
             withHeaderBorder
             actions={(
                 <Link
-                    to={{
-                        pathname: allEmergenciesRoute.absolutePath,
-                        search: `country=${countryId}`,
-                    }}
+                    to="allEmergencies"
+                    urlSearch={`country=${countryId}`}
                     withForwardIcon
                     withUnderline
                 >

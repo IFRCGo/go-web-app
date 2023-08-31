@@ -1,10 +1,8 @@
 import {
     useMemo,
-    useContext,
     useCallback,
     useState,
 } from 'react';
-import { generatePath } from 'react-router-dom';
 import {
     isNotDefined,
     isDefined,
@@ -28,7 +26,6 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import RegionSelectInput, { type RegionOption } from '#components/domain/RegionSelectInput';
 import Link from '#components/Link';
 import Container from '#components/Container';
-import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
@@ -74,11 +71,6 @@ export function Component() {
         } as never,
     });
 
-    const {
-        country: countryRoute,
-        newPerOverviewForm: newPerOverviewFormRoute,
-    } = useContext(RouteContext);
-
     const handleExpandClick = useCallback(
         (row: PerProcessStatusItem) => {
             setExpandedRow(
@@ -95,10 +87,8 @@ export function Component() {
                 strings.tableCountryTitle,
                 (item) => item.country_details?.name,
                 (item) => ({
-                    to: generatePath(
-                        countryRoute.absolutePath,
-                        { countryId: String(item.country) },
-                    ),
+                    to: 'countriesLayout',
+                    urlParams: { countryId: item.country },
                 }),
             ),
             createDateColumn<PerProcessStatusItem, number>(
@@ -129,7 +119,7 @@ export function Component() {
                 }),
             ),
         ]),
-        [strings, countryRoute],
+        [strings],
     );
 
     const aggregatedColumns = useMemo(
@@ -194,7 +184,7 @@ export function Component() {
             withHeaderBorder
             actions={(
                 <Link
-                    to={newPerOverviewFormRoute.absolutePath}
+                    to="newPerOverviewForm"
                     variant="primary"
                 >
                     {strings.newProcessButtonLabel}

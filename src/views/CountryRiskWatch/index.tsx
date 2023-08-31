@@ -86,6 +86,7 @@ export function Component() {
                     actions={(
                         <Link
                             to="https://www.ifrc.org/appeals?date_from=&date_to=&type%5B%5D=30&appeal_code=&text="
+                            external
                             withExternalLinkIcon
                             variant="primary"
                         >

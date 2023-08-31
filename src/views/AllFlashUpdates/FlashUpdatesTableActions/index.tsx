@@ -1,5 +1,3 @@
-import { generatePath } from 'react-router-dom';
-import { useContext } from 'react';
 import {
     PencilFillIcon,
     ShareBoxLineIcon,
@@ -8,7 +6,6 @@ import {
 import TableActions from '#components/Table/TableActions';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 
 import i18n from './i18n.json';
 
@@ -20,12 +17,8 @@ function FlashUpdatesTableActions(props: Props) {
     const {
         flashUpdateId,
     } = props;
-    const strings = useTranslation(i18n);
 
-    const {
-        flashUpdateFormEdit: flashUpdateFormEditRoute,
-        flashUpdateFormDetails: flashUpdateFormDetailsRoute,
-    } = useContext(RouteContext);
+    const strings = useTranslation(i18n);
 
     return (
         <TableActions
@@ -33,24 +26,16 @@ function FlashUpdatesTableActions(props: Props) {
                 <>
                     <DropdownMenuItem
                         type="link"
-                        to={(
-                            generatePath(
-                                flashUpdateFormDetailsRoute.absolutePath,
-                                { flashUpdateId },
-                            )
-                        )}
+                        to="flashUpdateFormDetails"
+                        urlParams={{ flashUpdateId }}
                         icons={<ShareBoxLineIcon />}
                     >
                         {strings.flashUpdateViewDetails}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         type="link"
-                        to={(
-                            generatePath(
-                                flashUpdateFormEditRoute.absolutePath,
-                                { flashUpdateId },
-                            )
-                        )}
+                        to="flashUpdateFormEdit"
+                        urlParams={{ flashUpdateId }}
                         icons={<PencilFillIcon />}
                     >
                         {strings.flashUpdateEdit}

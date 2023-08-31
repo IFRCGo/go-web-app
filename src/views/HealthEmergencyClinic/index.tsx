@@ -1,12 +1,10 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
-import RouteContext from '#contexts/route';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 import IconButton from '#components/IconButton';
-import useGoBack from '#hooks/useGoBack';
+import useRouting from '#hooks/useRouting';
 import Image from '#components/Image';
 import TextOutput from '#components/TextOutput';
 
@@ -17,14 +15,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueHealth: catalogueHealthRoute,
-    } = useContext(RouteContext);
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueHealthRoute.absolutePath));
-    }, [goBack, catalogueHealthRoute.absolutePath]);
+        goBack('catalogueHealth');
+    }, [goBack]);
 
     return (
         <Container

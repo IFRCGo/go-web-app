@@ -1,9 +1,8 @@
-import { useMemo, useCallback, useContext } from 'react';
-import { generatePath, useParams } from 'react-router-dom';
+import { useMemo, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import { InformationLineIcon, PencilFillIcon } from '@ifrc-go/icons';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
-import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
@@ -44,22 +43,6 @@ export function Component() {
         } : undefined,
     });
 
-    const {
-        countryThreeW: countryThreeWRoute,
-        country: countryRoute,
-        threeWProjectEdit: threeWProjectEditRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
-
-    const countryLink = projectResponse?.project_country_detail.id
-        ? generatePath(
-            countryRoute.absolutePath,
-            {
-                countryId: projectResponse
-                    ?.project_country_detail.id,
-            },
-        ) : undefined;
-
     const districtList = useMemo(() => (
         projectResponse
             ?.project_districts_detail
@@ -92,10 +75,8 @@ export function Component() {
             actions={(
                 <Link
                     variant="secondary"
-                    to={generatePath(
-                        threeWProjectEditRoute.absolutePath,
-                        { projectId },
-                    )}
+                    to="threeWProjectEdit"
+                    urlParams={{ projectId }}
                     icons={<PencilFillIcon />}
                 >
                     {strings.editProject}
@@ -137,13 +118,10 @@ export function Component() {
                                 <Link
                                     className={styles.countryLink}
                                     withForwardIcon
-                                    to={projectResponse?.reporting_ns_detail.id
-                                        ? generatePath(
-                                            countryThreeWRoute.absolutePath,
-                                            {
-                                                countryId: projectResponse?.reporting_ns_detail.id,
-                                            },
-                                        ) : undefined}
+                                    to="countriesThreeWLayout"
+                                    urlParams={{
+                                        countryId: projectResponse?.reporting_ns_detail.id,
+                                    }}
                                 >
                                     {projectResponse?.reporting_ns_detail?.society_name}
                                 </Link>
@@ -156,7 +134,10 @@ export function Component() {
                                 <Link
                                     className={styles.countryLink}
                                     withForwardIcon
-                                    to={countryLink}
+                                    to="countriesLayout"
+                                    urlParams={{
+                                        countryId: projectResponse?.project_country_detail.id,
+                                    }}
                                 >
                                     {projectResponse?.project_country_detail?.name}
                                 </Link>
@@ -179,6 +160,7 @@ export function Component() {
                                     value={(
                                         <Link
                                             to={`mailto:${projectResponse?.reporting_ns_contact_email}`}
+                                            external
                                         >
                                             {projectResponse?.reporting_ns_contact_email}
                                         </Link>
@@ -216,12 +198,10 @@ export function Component() {
                             value={(
                                 <Link
                                     className={styles.countryLink}
-                                    to={projectResponse?.event_detail?.id ? generatePath(
-                                        emergencyRoute.absolutePath,
-                                        {
-                                            emergencyId: projectResponse?.event_detail?.id,
-                                        },
-                                    ) : undefined}
+                                    to="emergenciesLayout"
+                                    urlParams={{
+                                        emergencyId: projectResponse?.event_detail?.id,
+                                    }}
                                 >
                                     {projectResponse?.event_detail?.name}
                                 </Link>

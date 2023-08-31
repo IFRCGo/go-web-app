@@ -1,5 +1,5 @@
-import { Fragment, useContext, useMemo } from 'react';
-import { useParams, generatePath } from 'react-router-dom';
+import { Fragment, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import {
     isDefined,
     isNotDefined,
@@ -20,7 +20,6 @@ import TextOutput from '#components/TextOutput';
 import HtmlOutput from '#components/HtmlOutput';
 import { useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
-import RouteContext from '#contexts/route';
 import {
     FIELD_REPORT_STATUS_EARLY_WARNING,
     DISASTER_TYPE_EPIDEMIC,
@@ -42,13 +41,6 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
     const { fieldReportId } = useParams<{ fieldReportId: string }>();
-
-    const {
-        country: countryRoute,
-        // FIXME: need to change to emergency page
-        emergencies: emergenciesRoute,
-        fieldReportFormEdit: fieldReportEditRoute,
-    } = useContext(RouteContext);
 
     const {
         api_region_name,
@@ -217,10 +209,8 @@ export function Component() {
             actions={(
                 <Link
                     className={styles.editLink}
-                    to={generatePath(
-                        fieldReportEditRoute.absolutePath,
-                        { fieldReportId },
-                    )}
+                    to="fieldReportFormEdit"
+                    urlParams={{ fieldReportId }}
                     variant="secondary"
                 >
                     {strings.editReportButtonLabel}
@@ -239,10 +229,8 @@ export function Component() {
                                 <Fragment key={country.id}>
                                     <Link
                                         className={styles.titleLink}
-                                        to={generatePath(
-                                            countryRoute.absolutePath,
-                                            { countryId: country.id },
-                                        )}
+                                        to="countriesLayout"
+                                        urlParams={{ countryId: country.id }}
                                     >
                                         {country.name}
                                     </Link>
@@ -253,12 +241,8 @@ export function Component() {
                         <div className={styles.separator} />
                         <Link
                             className={styles.titleLink}
-                            to={isDefined(eventDetails)
-                                ? generatePath(
-                                    emergenciesRoute.absolutePath,
-                                    { emergencyId: eventDetails.id },
-                                )
-                                : undefined}
+                            to="emergencies"
+                            urlParams={{ emergencyId: eventDetails?.id }}
                         >
                             {eventDetails?.name}
                         </Link>
@@ -600,6 +584,7 @@ export function Component() {
                                     isTruthyString(contact.email) ? (
                                         <Link
                                             to={`mailto:${contact.email}`}
+                                            external
                                         >
                                             {contact.email}
                                         </Link>

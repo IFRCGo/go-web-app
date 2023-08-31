@@ -1,7 +1,6 @@
 import {
     useMemo,
     useState,
-    useContext,
     useCallback,
 } from 'react';
 import {
@@ -16,7 +15,6 @@ import Map, {
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
-import { generatePath } from 'react-router-dom';
 
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
@@ -32,7 +30,6 @@ import {
     defaultNavControlPosition,
     defaultNavControlOptions,
 } from '#utils/map';
-import RouteContext from '#contexts/route';
 import { useRequest } from '#utils/restRequest';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 
@@ -88,9 +85,6 @@ function SurgeMap(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const {
-        country: countryRoute,
-    } = useContext(RouteContext);
     const [
         clickedPointProperties,
         setClickedPointProperties,
@@ -147,7 +141,7 @@ function SurgeMap(props: Props) {
 
     const countryGroupedPersonnel = useMemo(() => {
         const personnelWithCountry = personnelResponse?.results
-            ?.filter((personnel) => isDefined(personnel.deployment.country_deployed_to.iso3))
+            ?.filter((personnel) => isDefined(personnel.deployment.country_deployed_to?.iso3))
             ?.map((personnel) => ({
                 units: 1,
                 deployedTo: personnel.deployment.country_deployed_to,
@@ -160,7 +154,7 @@ function SurgeMap(props: Props) {
         return (
             listToGroupList(
                 personnelWithCountry,
-                (personnel) => personnel.deployedTo.id,
+                (personnel) => personnel.deployedTo?.id,
             )
         );
     }, [personnelResponse]);
@@ -306,13 +300,10 @@ function SurgeMap(props: Props) {
                         coordinates={clickedPointProperties.lngLat}
                         heading={(
                             <Link
-                                to={
-                                    generatePath(
-                                        countryRoute.absolutePath,
-                                        // eslint-disable-next-line max-len
-                                        { countryId: clickedPointProperties.feature.properties.country_id },
-                                    )
-                                }
+                                to="countriesLayout"
+                                urlParams={{
+                                    countryId: clickedPointProperties.feature.properties.country_id,
+                                }}
                             >
                                 {clickedPointProperties.feature.properties.name}
                             </Link>
