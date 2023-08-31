@@ -26,6 +26,15 @@ export function Component() {
 
     const technicalProfiles: LinkData[] = [
         {
+            title: strings.cataloguePGI,
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbXcICqULRhBss7nNlI-YUwB0JMTv-_fqTQlUpT2H0Cr7g',
+            external: true,
+            withExternalLinkIcon: true,
+        },
+    ];
+
+    const rapidResponseData: LinkData[] = [
+        {
             title: strings.catalogueProtectionGender,
             to: 'protectionGender',
             withForwardIcon: true,
@@ -79,7 +88,7 @@ export function Component() {
             >
                 <CatalogueInfoCard
                     title={strings.catalogueProtectionRapidResponse}
-                    data={technicalProfiles}
+                    data={rapidResponseData}
                 />
             </Container>
             <Container
