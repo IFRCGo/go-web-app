@@ -1,14 +1,12 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 
-import RouteContext from '#contexts/route';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
 import Image from '#components/Image';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
+import useRouting from '#hooks/useRouting';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -17,15 +15,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueProtection: catalogueProtectionRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueProtectionRoute.absolutePath));
-    }, [goBack, catalogueProtectionRoute.absolutePath]);
+        goBack('catalogueProtection');
+    }, [goBack]);
 
     return (
         <Container
@@ -50,25 +44,21 @@ export function Component() {
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/pgi-pgi_01.jpg"
                     caption={strings.protectionImageOneCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/pgi-pgi_02.jpg"
                     caption={strings.protectionImageTwoCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/pgi-pgi_05.jpg"
                     caption={strings.protectionImageThreeCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/pgi-pgi_04.jpg"
                     caption={strings.protectionImageFourCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
             </div>

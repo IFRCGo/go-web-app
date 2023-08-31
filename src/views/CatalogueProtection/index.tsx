@@ -1,8 +1,4 @@
-import { useContext } from 'react';
-import { generatePath } from 'react-router-dom';
-
 import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
-import RouteContext from '#contexts/route';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 
@@ -13,19 +9,17 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        protectionGender: protectionGenderRoute,
-    } = useContext(RouteContext);
-
     const roleProfiles: LinkData[] = [
         {
             title: strings.cataloguePGICoordinator,
             to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fpgi%2FRapid%20Response%20Profile%20Protection%2C%20Gender%20and%20Inclusion%20Coordinator%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fpgi&p=true&ga=1',
+            external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.cataloguePGIOfficer,
             to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fpgi%2FRapid%20Response%20Profile%20Protection%2C%20Gender%20and%20Inclusion%20Officer%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fpgi&p=true&ga=1',
+            external: true,
             withExternalLinkIcon: true,
         },
     ];
@@ -33,7 +27,7 @@ export function Component() {
     const technicalProfiles: LinkData[] = [
         {
             title: strings.catalogueProtectionGender,
-            to: generatePath(protectionGenderRoute.absolutePath),
+            to: 'protectionGender',
             withForwardIcon: true,
         },
     ];
@@ -42,6 +36,7 @@ export function Component() {
         {
             title: strings.catalogueProtectionLearnMore,
             to: 'https://www.ifrc.org/document/minimum-standards-pgi-emergencies',
+            external: true,
             withForwardIcon: true,
         },
     ];
@@ -50,6 +45,7 @@ export function Component() {
         {
             title: strings.catalogueProtectionLearnMore,
             to: 'https://www.ifrc.org/media/48958',
+            external: true,
             withForwardIcon: true,
         },
     ];

@@ -114,9 +114,7 @@ export function Component() {
                     {strings.catalogueOperations}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueProtectionRoute.absolutePath,
-                    )}
+                    to="catalogueProtection"
                     parentRoute
                 >
                     <ProtectionIcon className={styles.icon} />
