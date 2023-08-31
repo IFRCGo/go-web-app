@@ -1,0 +1,18 @@
+{
+    "namespace": "allSurgeAlerts",
+    "strings": {
+        "allSurgeAlertsTitle": "All Surge Alerts",
+        "allSurgeAlertsHeading": "All Surge Alerts ({numSurgeAlerts})",
+        "surgeAlertDate": "Alert Date",
+        "surgeAlertDuration": "Duration",
+        "surgeAlertPosition": "Position",
+        "surgeAlertStartDate": "Start Date",
+        "surgeAlertKeywords": "Keywords",
+        "surgeAlertEmergency": "Emergency",
+        "surgeAlertCountry": "Country",
+        "surgeAlertStatus": "Status",
+        "surgeAlertOpen": "Open",
+        "surgeAlertClosed": "Closed",
+        "surgeAlertStoodDown": "Stood down"
+    }
+}

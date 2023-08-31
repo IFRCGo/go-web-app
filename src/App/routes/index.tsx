@@ -950,7 +950,7 @@ const search = customWrapRoute({
 
 const allThreeWProject = customWrapRoute({
     parent: rootLayout,
-    path: 'three-w/project/all',
+    path: 'three-w/projects/all',
     component: {
         render: () => import('#views/AllThreeWProject'),
         props: {},
@@ -964,7 +964,7 @@ const allThreeWProject = customWrapRoute({
 
 const allThreeWActivity = customWrapRoute({
     parent: rootLayout,
-    path: 'three-w/activity/all',
+    path: 'three-w/activities/all',
     component: {
         render: () => import('#views/AllThreeWActivity'),
         props: {},
