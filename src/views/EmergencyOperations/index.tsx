@@ -1,10 +1,8 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
-import RouteContext from '#contexts/route';
+import useRouting from '#hooks/useRouting';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
 import TextOutput from '#components/TextOutput';
@@ -18,15 +16,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueInformationTechnology: catalogueInformationTechnologyRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueInformationTechnologyRoute.absolutePath));
-    }, [goBack, catalogueInformationTechnologyRoute.absolutePath]);
+        goBack('catalogueInformationTechnology');
+    }, [goBack]);
 
     return (
         <Container
@@ -146,6 +140,7 @@ export function Component() {
                                 link: (
                                     <Link
                                         to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/disasters/disaster-and-crisis-mangement/disaster-response/surge-capacity/heops/"
+                                        external
                                     >
                                         {strings.surgeOperationsFedNet}
                                     </Link>
@@ -160,6 +155,7 @@ export function Component() {
                                 link: (
                                     <Link
                                         to="https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement%2FHeOps%20bios%20%2D%202020%2002%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement&p=true&ga=1"
+                                        external
                                     >
                                         {strings.surgeOperationsShort}
                                     </Link>

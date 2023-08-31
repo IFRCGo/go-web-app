@@ -106,9 +106,7 @@ export function Component() {
                     {strings.catalogueLogistics}
                 </NavigationTab>
                 <NavigationTab
-                    to={generatePath(
-                        catalogueOperationsRoute.absolutePath,
-                    )}
+                    to="catalogueOperations"
                     parentRoute
                 >
                     <GroupIcon className={styles.icon} />
