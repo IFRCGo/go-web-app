@@ -11,6 +11,7 @@ import {
     LivelihoodIcon,
     LogisticsIcon,
     GroupIcon,
+    ProtectionIcon,
 } from '@ifrc-go/icons';
 
 import NavigationTabList from '#components/NavigationTabList';
@@ -111,6 +112,15 @@ export function Component() {
                 >
                     <GroupIcon className={styles.icon} />
                     {strings.catalogueOperations}
+                </NavigationTab>
+                <NavigationTab
+                    to={generatePath(
+                        catalogueProtectionRoute.absolutePath,
+                    )}
+                    parentRoute
+                >
+                    <ProtectionIcon className={styles.icon} />
+                    {strings.catalogueProtection}
                 </NavigationTab>
             </NavigationTabList>
             <div className={styles.content}>

@@ -584,7 +584,7 @@ const catalogueIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Surge Catalogue index',
+        title: 'Surge Catalogue Index',
         visibility: 'anything',
     },
 });
@@ -1680,6 +1680,34 @@ const catalogueInformationTechnology = customWrapRoute({
     },
 });
 
+const catalogueProtection = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'protection',
+    component: {
+        render: () => import('#views/CatalogueProtection'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Protection',
+        visibility: 'anything',
+    },
+});
+
+const protectionGender = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'protection/protection-gender-and-inclusion',
+    component: {
+        render: () => import('#views/ProtectionGender'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Protection Gender and Inclusion',
+        visibility: 'anything',
+    },
+});
+
 const informationTechnologyServices = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'information-technology/information-technology-services',
@@ -2102,6 +2130,8 @@ const wrappedRoutes = {
     logisticsNationalSocieties,
     catalogueOperations,
     emergencyOperations,
+    catalogueProtection,
+    protectionGender,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
