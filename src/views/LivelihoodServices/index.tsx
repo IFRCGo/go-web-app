@@ -1,15 +1,13 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
-import RouteContext from '#contexts/route';
 import IconButton from '#components/IconButton';
 import Image from '#components/Image';
 import Link from '#components/Link';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
+import useRouting from '#hooks/useRouting';
 import { resolveToComponent } from '#utils/translation';
 
 import i18n from './i18n.json';
@@ -19,15 +17,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        livelihoodServices: livelihoodServicesRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(livelihoodServicesRoute.absolutePath));
-    }, [goBack, livelihoodServicesRoute.absolutePath]);
+        goBack('livelihoodServices');
+    }, [goBack]);
 
     return (
         <Container
@@ -50,33 +44,29 @@ export function Component() {
         >
             <div className={styles.imageList}>
                 <Image
+                    className={styles.image}
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/livelihoods-basic-needs_01.jpg"
                     caption={strings.livelihoodImageOneCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/livelihoods-basic-needs_02.jpg"
                     caption={strings.livelihoodImageTwoCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/livelihoods-basic-needs_03.jpg"
                     caption={strings.livelihoodImageThreeCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/livelihoods-basic-needs_04.jpg"
                     caption={strings.livelihoodImageFourCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/livelihoods-basic-needs_05.jpg"
                     caption={strings.livelihoodImageFiveCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
             </div>
@@ -94,6 +84,7 @@ export function Component() {
                             link: (
                                 <Link
                                     to="https://www.livelihoodscentre.org/"
+                                    external
                                 >
                                     {strings.livelihoodLink}
                                 </Link>
@@ -101,6 +92,7 @@ export function Component() {
                             livelihoodLink: (
                                 <Link
                                     to="https://www.livelihoodscentre.org/-/inundaciones-en-la-region-sur-de-paragu-1"
+                                    external
                                 >
                                     {strings.livelihoodWhatLink}
                                 </Link>
@@ -116,6 +108,7 @@ export function Component() {
                             link: (
                                 <Link
                                     to="mailto: livelihoods@cruzroja.es"
+                                    external
                                 >
                                     {strings.livelihoodEmailLink}
                                 </Link>
