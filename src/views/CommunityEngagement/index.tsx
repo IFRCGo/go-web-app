@@ -44,31 +44,26 @@ export function Component() {
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/cea-cea_01.jpg"
                     caption={strings.communityEngagementImageOne}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/cea-cea_02.jpg"
                     caption={strings.communityEngagementImageTwo}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/cea-cea_03.jpg"
                     caption={strings.communityEngagementImageThree}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/cea-cea_04.jpg"
                     caption={strings.communityEngagementImageFour}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/cea-cea_05.jpg"
                     caption={strings.communityEngagementImageFive}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
             </div>

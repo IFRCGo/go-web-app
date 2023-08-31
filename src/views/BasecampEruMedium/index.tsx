@@ -44,31 +44,26 @@ export function Component() {
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_01.jpg"
                     caption={strings.basecampEruMediumImageOne}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_02.jpg"
                     caption={strings.basecampEruMediumImageTwo}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_03.jpg"
                     caption={strings.basecampEruMediumImageThree}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_04.jpg"
                     caption={strings.basecampEruMediumImageFour}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_05.jpg"
                     caption={strings.basecampEruMediumImageFive}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
             </div>

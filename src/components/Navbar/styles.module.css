@@ -51,4 +51,8 @@
             flex-grow: 0.5;
         }
     }
+
+    @media print {
+        display: none;
+    }
 }

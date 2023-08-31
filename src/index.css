@@ -212,15 +212,12 @@
     box-sizing: border-box;
 }
 
-html,
-body {
-    margin: 0;
-    background-color: var(--go-ui-color-background);
-    padding: 0;
-}
-
 html {
-    scrollbar-gutter: stable;
+    @media screen {
+        margin: 0;
+        padding: 0;
+        scrollbar-gutter: stable;
+    }
 }
 
 body {
@@ -229,4 +226,16 @@ body {
     font-family: var(--go-ui-font-family-sans-serif);
     font-size: var(--go-ui-font-size-md);
     font-weight: var(--go-ui-font-weight-normal);
+
+    @media screen {
+        margin: 0;
+        background-color: var(--go-ui-color-background);
+        padding: 0;
+    }
+}
+
+@media print {
+    @page {
+        size: portrait A4;
+    }
 }

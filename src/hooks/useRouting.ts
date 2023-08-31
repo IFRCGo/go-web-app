@@ -27,7 +27,7 @@ function useRouting() {
             },
             otherOptions?: NavigateOptions,
         ) => {
-            const resolvedPath = resolvePath(
+            const { resolvedPath } = resolvePath(
                 path,
                 routes,
                 options?.params,

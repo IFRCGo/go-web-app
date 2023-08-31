@@ -33,13 +33,18 @@ interface DateProps extends DateOutputProps {
     valueType: 'date',
 }
 
+interface TextProps {
+    valueType: 'text',
+    value: string | null | undefined;
+}
+
 interface NodeProps {
     valueType?: never;
     value?: React.ReactNode;
 }
 
-type Props = BaseProps & (
-    NodeProps | DateProps | NumberProps | BooleanProps
+export type Props = BaseProps & (
+    NodeProps | TextProps | DateProps | NumberProps | BooleanProps
 );
 
 function TextOutput(props: Props) {
@@ -91,40 +96,39 @@ function TextOutput(props: Props) {
     return (
         <div className={_cs(styles.textOutput, className)}>
             {icon}
-            <div className={styles.container}>
-                {label && (
-                    <div
-                        className={_cs(
-                            styles.label,
-                            strongLabel && styles.strong,
-                            labelClassName,
-                            !withoutLabelColon && styles.withColon,
-                        )}
-                    >
-                        {label}
-                    </div>
-                )}
+            {label && (
                 <div
                     className={_cs(
-                        styles.value,
-                        strongValue && styles.strong,
-                        valueClassName,
+                        styles.label,
+                        strongLabel && styles.strong,
+                        labelClassName,
+                        !withoutLabelColon && styles.withColon,
                     )}
                 >
-                    {valueComponent}
+                    {label}
                 </div>
-                {description && (
-                    <div
-                        className={_cs(
-                            styles.description,
-                            strongDescription && styles.strong,
-                            descriptionClassName,
-                        )}
-                    >
-                        {description}
-                    </div>
+            )}
+            <div
+                className={_cs(
+                    styles.value,
+                    strongValue && styles.strong,
+                    otherProps.valueType === 'text' && styles.textType,
+                    valueClassName,
                 )}
+            >
+                {valueComponent}
             </div>
+            {description && (
+                <div
+                    className={_cs(
+                        styles.description,
+                        strongDescription && styles.strong,
+                        descriptionClassName,
+                    )}
+                >
+                    {description}
+                </div>
+            )}
         </div>
     );
 }

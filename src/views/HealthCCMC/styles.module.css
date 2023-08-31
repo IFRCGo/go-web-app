@@ -10,7 +10,7 @@
             display: flex;
 
             .image {
-                min-height: 10rem;
+                height: 10rem;
             }
         }
         .emergency-description {

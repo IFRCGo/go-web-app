@@ -1,0 +1,257 @@
+.dref-application-export {
+    --pdf-element-bg: var(--go-ui-color-gray-20);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-2xl);
+
+    @media screen {
+        margin: var(--go-ui-spacing-2xl) auto;
+        background-color: var(--go-ui-color-foreground);
+        padding: var(--go-ui-spacing-3xl);
+        width: 210mm;
+        min-height: 297mm;
+    }
+
+    .page-title-section {
+        display: flex;
+        justify-content: space-between;
+        text-align: right;
+
+        .ifrc-logo {
+            width: 6rem;
+            height: 6rem;
+        }
+
+        .dref-content-title {
+            font-size: var(--go-ui-font-size-lg);
+            font-weight: var(--go-ui-font-weight-semibold);
+        }
+    }
+
+    .meta-section {
+        display: grid;
+        grid-gap: var(--go-ui-width-separator-md);
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-sm);
+            break-inside: avoid;
+        }
+
+        .glide-code,
+        .budget {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-sm);
+            grid-column: span 2;
+            break-inside: avoid;
+        }
+
+        .targeted-areas {
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-sm);
+            grid-column: span 4;
+            break-inside: avoid;
+        }
+    }
+
+    .event-description-section {
+        break-before: page;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
+        }
+    }
+
+    .previous-operation-section {
+        .content {
+            display: grid;
+            grid-gap: var(--go-ui-width-separator-md);
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .lessons-learned {
+            grid-column: span 2;
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-lg);
+            gap: var(--go-ui-spacing-lg);
+        }
+    }
+
+    .other-actions-section,
+    .movement-partners-actions-section,
+    .ns-actions-section {
+        .content {
+            display: grid;
+            grid-gap: var(--go-ui-width-separator-md);
+            grid-template-columns: 1fr 2fr;
+        }
+    }
+
+    .icrc-actions-section {
+        .content {
+            background-color: var(--pdf-element-bg);
+            padding: var(--go-ui-spacing-lg);
+        }
+    }
+
+    .needs-identified-section {
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
+
+            .icon {
+                width: 2rem;
+                height: 2rem;
+            }
+        }
+    }
+
+    .targeting-strategy-section,
+    .operational-strategy-section {
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
+        }
+    }
+
+    .target-population-section {
+        .content {
+            display: grid;
+            grid-gap: var(--go-ui-width-separator-md);
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+
+            .total-targeted-population-value {
+                grid-column: span 2;
+                color: var(--go-ui-color-primary-red);
+            }
+
+            .total-targeted-population-label,
+            .disability-value,
+            .disability-label {
+                grid-column: span 2;
+            }
+        }
+    }
+
+    .risk-and-security-considerations-section {
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
+
+            .risk-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: var(--go-ui-width-separator-md);
+
+                .risk,
+                .mitigation {
+                    background-color: var(--pdf-element-bg);
+                    padding: var(--go-ui-spacing-md);
+                    break-inside: avoid;
+                }
+
+                .risk-title,
+                .mitigation-title {
+                    background-color: var(--pdf-element-bg);
+                    padding: var(--go-ui-spacing-md);
+                    font-weight: var(--go-ui-font-weight-semibold);
+                    break-inside: avoid;
+                }
+            }
+        }
+    }
+
+    .planned-intervention-section {
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-lg);
+
+            .planned-intervention {
+                background-color: var(--pdf-element-bg);
+
+                .meta-details {
+                    display: flex;
+                    gap: var(--go-ui-spacing-lg);
+                }
+
+                .icon {
+                    width: 2rem;
+                    height: 2rem;
+                }
+
+                .planned-intervention-content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--go-ui-spacing-lg);
+
+                    .indicators-content {
+                        display: grid;
+                        grid-template-columns: 5fr 3fr;
+                        grid-gap: var(--go-ui-width-separator-sm);
+
+                        .title-label,
+                        .target-label {
+                            background-color: var(--go-ui-color-element-background);
+                            padding: var(--go-ui-spacing-sm);
+                            font-weight: var(--go-ui-font-weight-semibold);
+                        }
+
+                        .title,
+                        .target {
+                            background-color: var(--go-ui-color-element-background);
+                            padding: var(--go-ui-spacing-sm);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .about-support-services-section {
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-2xl);
+        }
+    }
+
+    .budget-overview-section {
+        break-before: page;
+
+        .download-icon {
+            font-size: 2rem;
+        }
+
+        .content {
+            .budget-file-preview {
+                width: 100%;
+                height: 220mm;
+                object-fit: contain;
+                object-position: top center;
+            }
+        }
+    }
+
+    .contact-information-section {
+        break-before: page;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-lg);
+        }
+    }
+}
+

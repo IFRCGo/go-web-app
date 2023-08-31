@@ -44,7 +44,6 @@ export function Component() {
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-ccmc_01.jpg"
                     caption={strings.communityCaseImageCaption}
-                    height="10rem"
                     imageClassName={styles.image}
                 />
             </div>

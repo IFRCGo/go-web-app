@@ -45,37 +45,31 @@ export function Component() {
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-emt2_01.jpg"
                     caption={strings.healthEruHospitalImageOne}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-emt2_02.jpg"
                     caption={strings.healthEruHospitalImageTwo}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-emt2_03.jpg"
                     caption={strings.healthEruHospitalImageThree}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-emt2_04.jpg"
                     caption={strings.healthEruHospitalImageFour}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-emt2_05.jpg"
                     caption={strings.healthEruHospitalImageFive}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/health-emt2_06.jpg"
                     caption={strings.healthEruHospitalImageSix}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
             </div>

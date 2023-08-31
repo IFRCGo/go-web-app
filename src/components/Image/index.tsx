@@ -3,39 +3,31 @@ import styles from './styles.module.css';
 
 interface Props {
     className?: string;
-    src?: string;
+    src: string | null | undefined;
     alt?: string;
-    fit?: React.CSSProperties['objectFit'];
-    width?: number | string;
-    height?: number | string;
     caption?: React.ReactNode;
     imageClassName?: string;
 }
 
 function Image(props: Props) {
     const {
-        fit = 'cover',
-        width = '100%',
-        height = 'auto',
         className,
         src,
-        alt,
+        alt = '',
         caption,
         imageClassName,
     } = props;
 
+    if (!src) {
+        return null;
+    }
+
     return (
         <figure className={_cs(styles.imageContainer, className)}>
             <img
-                // FIXME: use css for styling
                 src={src}
                 alt={alt}
                 className={_cs(styles.image, imageClassName)}
-                style={{
-                    objectFit: fit,
-                    width,
-                    height,
-                }}
             />
             {isDefined(caption) && (
                 <figcaption className={styles.caption}>
