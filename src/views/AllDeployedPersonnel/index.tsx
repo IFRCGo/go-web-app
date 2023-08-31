@@ -1,18 +1,14 @@
 import {
     useState,
     useMemo,
-    useContext,
     useCallback,
 } from 'react';
-import { generatePath } from 'react-router-dom';
-import { isDefined } from '@togglecorp/fujs';
 import useTranslation from '#hooks/useTranslation';
 import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
-import RouteContext from '#contexts/route';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import Page from '#components/Page';
@@ -44,10 +40,6 @@ export function Component() {
     const strings = useTranslation(i18n);
     const sortState = useSortState();
     const { sorting } = sortState;
-    const {
-        country: countryRoute,
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
 
     const getTypeName = useCallback((type: PersonnelTableItem['type']) => {
         if (type === 'rr') {
@@ -120,26 +112,18 @@ export function Component() {
                     || item.country_from?.name
                 ),
                 (item) => ({
-                    to: isDefined(item.country_from?.id)
-                        ? generatePath(countryRoute.absolutePath, {
-                            countryId: item.country_from?.id,
-                        })
-                        : undefined,
+                    to: 'countriesLayout',
+                    urlParams: { countryId: item.country_from?.id },
                 }),
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(
                 'deployed_to',
                 strings.personnelTableDeployedTo,
                 (item) => item.country_to?.name,
                 (item) => ({
-                    to: isDefined(item.country_to?.id)
-                        ? generatePath(countryRoute.absolutePath, {
-                            countryId: item.country_to?.id,
-                        })
-                        : undefined,
+                    to: 'countriesLayout',
+                    urlParams: { countryId: item.country_to?.id },
                 }),
             ),
             createLinkColumn<PersonnelTableItem, number>(
@@ -147,11 +131,10 @@ export function Component() {
                 strings.personnelTableEmergency,
                 (item) => item.deployment?.event_deployed_to?.name,
                 (item) => ({
-                    to: isDefined(item.deployment?.event_deployed_to?.id)
-                        ? generatePath(emergencyRoute.absolutePath, {
-                            emergencyId: item.deployment?.event_deployed_to?.id,
-                        })
-                        : undefined,
+                    to: 'emergenciesLayout',
+                    urlParams: {
+                        emergencyId: item.deployment?.event_deployed_to?.id,
+                    },
                 }),
                 {
                     sortable: true,
@@ -159,8 +142,6 @@ export function Component() {
             ),
         ]),
         [
-            countryRoute,
-            emergencyRoute,
             strings,
             getTypeName,
         ],
