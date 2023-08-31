@@ -120,6 +120,13 @@ export function Component() {
                     <ProtectionIcon className={styles.icon} />
                     {strings.catalogueProtection}
                 </NavigationTab>
+                <NavigationTab
+                    to="cataloguePMER"
+                    parentRoute
+                >
+                    <EmergencyTelecommunicationsIcon className={styles.icon} />
+                    {strings.cataloguePMER}
+                </NavigationTab>
             </NavigationTabList>
             <div className={styles.content}>
                 <Outlet />

@@ -1708,6 +1708,20 @@ const protectionGender = customWrapRoute({
     },
 });
 
+const cataloguePMER = customWrapRoute({
+    path: 'pmer',
+    component: {
+        render: () => import('#views/CataloguePMER'),
+        props: {},
+    },
+    parent: surgeCatalogueLayout,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Planning, Monitoring, Evaluation And Reporting (PMER)',
+        visibility: 'anything',
+    },
+});
+
 const informationTechnologyServices = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'information-technology/information-technology-services',
@@ -2150,6 +2164,7 @@ const wrappedRoutes = {
     informationManagementOperationsSupport,
     informationManagementComposition,
     catalogueInformationTechnology,
+    cataloguePMER,
     informationTechnologyServices,
     catalogueLivelihood,
     threeWProjectDetail,
