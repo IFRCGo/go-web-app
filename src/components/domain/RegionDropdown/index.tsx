@@ -3,8 +3,9 @@ import {
     useLocation,
     matchPath,
 } from 'react-router-dom';
-import { _cs, isDefined } from '@togglecorp/fujs';
+import { _cs, isDefined, isNotDefined } from '@togglecorp/fujs';
 
+import Message from '#components/Message';
 import DropdownMenu, { Props as DropdownMenuProps } from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
@@ -55,6 +56,13 @@ function RegionDropdown(props: Props) {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
+            {(isNotDefined(regionOptions) || regionOptions.length === 0) && (
+                <Message
+                    // FIXME: use translation
+                    description="Not available!"
+                    compact
+                />
+            )}
             {regionOptions?.map(
                 (region) => (
                     <DropdownMenuItem

@@ -20,7 +20,7 @@ import TextOutput from '#components/TextOutput';
 import Tooltip from '#components/Tooltip';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import useDisasterType from '#hooks/domain/useDisasterType';
-import type { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import EmergencyMap from './EmergencyMap';
 import FieldReportStats from './FieldReportStats';
@@ -44,6 +44,7 @@ function getFieldReport(
         return undefined;
     }
 
+    // FIXME: use max function
     return reports.reduce((
         selectedReport: FieldReport | undefined,
         currentReport: FieldReport | undefined,
@@ -90,9 +91,23 @@ export function Component() {
         ? getFieldReport(emergencyResponse.field_reports, compareDate) : undefined;
 
     const groupedContacts = listToGroupList(
-        emergencyResponse?.contacts?.filter(
-            (contact) => isDefined(contact) && isDefined(contact.ctype),
-        ),
+        emergencyResponse?.contacts?.map(
+            (contact) => {
+                if (isNotDefined(contact)) {
+                    return undefined;
+                }
+
+                const { ctype } = contact;
+                if (isNotDefined(ctype)) {
+                    return undefined;
+                }
+
+                return {
+                    ...contact,
+                    ctype,
+                };
+            },
+        ).filter(isDefined) ?? [],
         (contact) => contact.ctype,
     );
 
@@ -208,23 +223,26 @@ export function Component() {
                 >
                     {emergencyResponse.links.map((link) => (
                         <Link
-                            id={link.id.toString()}
+                            key={link.id}
                             to={link.url}
+                            external
                             withExternalLinkIcon
                         >
+                            {link.title}
                             <Tooltip className={styles.tooltip}>
                                 {link.description}
                             </Tooltip>
-                            {link.title}
                         </Link>
                     ))}
                 </ExpandableContainer>
             )}
+            {/* TODO: style it properly */}
             <div className={styles.mapKeyFigureContainer}>
                 {emergencyResponse && !emergencyResponse.hide_field_report_map && (
                     <Container
                         className={styles.mapContainer}
                         heading={strings.emergencyMapTitle}
+                        withHeaderBorder
                         actions={(
                             <Button
                                 variant="secondary"
@@ -249,7 +267,6 @@ export function Component() {
                     <Container
                         className={styles.fieldReportStatsContainer}
                         heading={strings.emergencyKeyFiguresTitle}
-                        childrenContainerClassName={styles.fieldReportStats}
                         withHeaderBorder
                     >
                         <FieldReportStats
@@ -267,6 +284,7 @@ export function Component() {
                     childrenContainerClassName={styles.contactsContainer}
                     withHeaderBorder
                 >
+                    {/* FIXME: lets not use Object.entries here */}
                     {Object.entries(groupedContacts).map(([contactType, contacts]) => (
                         <Container
                             className={styles.contactListContainer}
@@ -274,6 +292,8 @@ export function Component() {
                             heading={contactType}
                             withHeaderBorder
                             childrenContainerClassName={styles.contactList}
+                            spacing="cozy"
+                            withInternalPadding
                         >
                             {contacts.map((contact) => (
                                 <div key={contact.id}>
@@ -288,6 +308,7 @@ export function Component() {
                                         value={(
                                             <Link
                                                 to={`mailto:${contact.email}`}
+                                                external
                                             >
                                                 {contact.email}
                                             </Link>
@@ -297,6 +318,7 @@ export function Component() {
                                         value={(
                                             <Link
                                                 to={`tel:${contact.phone}`}
+                                                external
                                             >
                                                 {contact.phone}
                                             </Link>

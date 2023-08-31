@@ -1,17 +1,14 @@
-import { useContext } from 'react';
-import { generatePath } from 'react-router-dom';
-
-import Container from '#components/Container';
+import { useMemo } from 'react';
 import DateOutput from '#components/DateOutput';
 import Link from '#components/Link';
-import RouteContext from '#contexts/route';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
-import type { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 import {
     FIELD_REPORT_STATUS_EARLY_WARNING,
     DISASTER_TYPE_EPIDEMIC,
+    ReportType,
 } from '#utils/constants';
 
 import i18n from './i18n.json';
@@ -31,10 +28,6 @@ function FieldReportStats(props: Props) {
         report,
     } = props;
 
-    const {
-        fieldReportDetails: fieldReportDetailsRoute,
-    } = useContext(RouteContext);
-
     const strings = useTranslation(i18n);
 
     const reportLink = resolveToComponent(
@@ -42,10 +35,8 @@ function FieldReportStats(props: Props) {
         {
             link: (
                 <Link
-                    to={generatePath(
-                        fieldReportDetailsRoute.absolutePath,
-                        { fieldReportId: report.id },
-                    )}
+                    to="fieldReportDetails"
+                    urlParams={{ fieldReportId: report.id }}
                 >
                     {report.summary}
                 </Link>
@@ -69,7 +60,23 @@ function FieldReportStats(props: Props) {
     const numAssisted = report.num_assisted
         ?? report.gov_num_assisted ?? report.other_num_assisted;
 
-    if (report.status === FIELD_REPORT_STATUS_EARLY_WARNING) {
+    const reportType: ReportType = useMemo(() => {
+        if (report.status === FIELD_REPORT_STATUS_EARLY_WARNING) {
+            return 'EW';
+        }
+
+        if (report.is_covid_report) {
+            return 'COVID';
+        }
+
+        if (disasterType === DISASTER_TYPE_EPIDEMIC) {
+            return 'EPI';
+        }
+
+        return 'EVT';
+    }, [report, disasterType]);
+
+    if (reportType === 'EW') {
         const numPotentiallyAffected = report.num_potentially_affected
             ?? report.gov_num_potentially_affected ?? report.other_num_potentially_affected;
         const numHighestRisk = report.num_highest_risk
@@ -78,9 +85,7 @@ function FieldReportStats(props: Props) {
             ?? report.gov_affected_pop_centres ?? report.other_affected_pop_centres;
 
         return (
-            <Container
-                childrenContainerClassName={styles.keyFigureList}
-            >
+            <div className={styles.keyFigureList}>
                 <TextOutput
                     label={strings.potentiallyAffected}
                     valueType="number"
@@ -95,7 +100,6 @@ function FieldReportStats(props: Props) {
                 />
                 <TextOutput
                     label={strings.affectedPopCenters}
-                    valueType="number"
                     strongValue
                     value={affectedPopulationCenters}
                 />
@@ -112,14 +116,13 @@ function FieldReportStats(props: Props) {
                     value={report.num_assisted}
                 />
                 {reportLink}
-            </Container>
+            </div>
         );
     }
-    if (report.is_covid_report) {
+
+    if (reportType === 'COVID') {
         return (
-            <Container
-                childrenContainerClassName={styles.keyFigureList}
-            >
+            <div className={styles.keyFigureList}>
                 <TextOutput
                     label={strings.cases}
                     valueType="number"
@@ -134,7 +137,6 @@ function FieldReportStats(props: Props) {
                 />
                 <TextOutput
                     label={strings.epiSource}
-                    valueType="number"
                     strongValue
                     value={report.epi_figures_source_display}
                 />
@@ -156,14 +158,13 @@ function FieldReportStats(props: Props) {
                     strongValue
                     value={report.num_volunteers}
                 />
-            </Container>
+            </div>
         );
     }
-    if (disasterType === DISASTER_TYPE_EPIDEMIC) {
+
+    if (reportType === 'EPI') {
         return (
-            <Container
-                childrenContainerClassName={styles.keyFigureList}
-            >
+            <div className={styles.keyFigureList}>
                 <TextOutput
                     label={strings.cases}
                     valueType="number"
@@ -196,7 +197,6 @@ function FieldReportStats(props: Props) {
                 />
                 <TextOutput
                     label={strings.epiSource}
-                    valueType="number"
                     strongValue
                     value={report.epi_figures_source_display}
                 />
@@ -224,14 +224,12 @@ function FieldReportStats(props: Props) {
                     strongValue
                     value={report.num_expats_delegates}
                 />
-            </Container>
+            </div>
         );
     }
 
     return (
-        <Container
-            childrenContainerClassName={styles.keyFigureList}
-        >
+        <div className={styles.keyFigureList}>
             <TextOutput
                 label={strings.affected}
                 valueType="number"
@@ -286,7 +284,7 @@ function FieldReportStats(props: Props) {
                 strongValue
                 value={report.num_expats_delegates}
             />
-        </Container>
+        </div>
     );
 }
 

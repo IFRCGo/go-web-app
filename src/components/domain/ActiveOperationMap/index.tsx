@@ -39,6 +39,7 @@ import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
 import { sumSafe } from '#utils/common';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
+import { DEFAULT_MAP_PADDING, DURATION_MAP_ZOOM } from '#utils/constants';
 
 import i18n from './i18n.json';
 import {
@@ -372,10 +373,9 @@ function ActiveOperationMap(props: Props) {
                 )}
                 {isDefined(bbox) && (
                     <MapBounds
-                        // FIXME: use defined constants
-                        duration={1000}
+                        duration={DURATION_MAP_ZOOM}
                         bounds={bbox}
-                        padding={50}
+                        padding={DEFAULT_MAP_PADDING}
                     />
                 )}
             </Map>

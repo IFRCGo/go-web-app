@@ -37,39 +37,33 @@
             }
         }
     }
+
     .map-key-figure-container {
         display: flex;
         flex-grow: 1;
         gap: var(--go-ui-spacing-md);
 
         .map-container {
-            display: flex;
-            flex-basis: 70%;
-            width: 100%;
+            flex-grow: 1;
         }
 
         .field-report-stats-container {
-            display: flex;
-            flex-grow: 1;
-            padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+            flex-basis: calc(8vw + 16rem);
+        }
 
-            .field-report-stats {
-                flex-grow: 1;
-            }
+        @media screen and (max-width: 50rem) {
+            flex-direction: column;
         }
     }
 
     .contacts-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: var(--go-ui-spacing-lg);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+        grid-gap: var(--go-ui-spacing-lg);
 
         .contact-list-container {
-            flex-basis: 16rem;
             border-radius: var(--go-ui-border-radius-md);
             box-shadow: var(--go-ui-box-shadow-lg);
-            padding: var(--go-ui-spacing-md);
 
             .contact-list {
                 display: flex;

@@ -68,41 +68,31 @@ export function Component() {
                 'start_date',
                 strings.personnelTableStartDate,
                 (item) => item.start_date,
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createDateColumn<PersonnelTableItem, number>(
                 'end_date',
                 strings.personnelTableEndDate,
                 (item) => item.end_date,
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createStringColumn<PersonnelTableItem, number>(
                 'name',
                 strings.personnelTableName,
                 (item) => item.name,
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createStringColumn<PersonnelTableItem, number>(
                 'role',
                 strings.personnelTablePosition,
                 (item) => item.role,
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createStringColumn<PersonnelTableItem, number>(
                 'type',
                 strings.personnelTableType,
                 (item) => getTypeName(item.type),
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(
                 'country_from',

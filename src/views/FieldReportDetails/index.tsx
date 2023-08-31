@@ -125,12 +125,16 @@ export function Component() {
     // NOTE: Only in EW
 
     const forecastBasedAction = fieldReportResponse?.forecast_based_action;
-    const forecastBasedResponse: number | undefined = fieldReportResponse?.forecast_based_response;
+    // const forecastBasedResponse: number | undefined = fieldReportResponse
+    //     ?.forecast_based_response;
 
     // NOTE: Not coming from form
     const regions = fieldReportResponse?.regions_details;
     const reportDate = fieldReportResponse?.report_date;
-    const user = fieldReportResponse?.user_details?.username;
+
+    // FIXME use common function for display name
+    const user = fieldReportResponse?.user_details?.username ?? 'Unknown User';
+
     const lastTouchedAt = fieldReportResponse?.updated_at ?? fieldReportResponse?.created_at;
     const rdrt = fieldReportResponse?.rdrt;
     const epiSources = fieldReportResponse?.epi_figures_source_display;
@@ -183,6 +187,7 @@ export function Component() {
             title: 'Emergency Response Units',
             value: reportType !== 'COVID' ? ifrcStaff : undefined,
         },
+        /*
         {
             key: 'forecast-based-response',
             // FIXME: use translations
@@ -190,6 +195,7 @@ export function Component() {
             // FIXME: We do not know when to hide this field
             value: forecastBasedResponse,
         },
+        */
         {
             key: 'forecast-based-action',
             // FIXME: use translations

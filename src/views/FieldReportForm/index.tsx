@@ -355,7 +355,7 @@ export function Component() {
         ) => {
             const dateLabel = formatDate(new Date());
             const iso3Label = isDefined(country)
-                ? countryIsoOptions.find(({ id }) => id === country)?.iso3
+                ? countryIsoOptions?.find(({ id }) => id === country)?.iso3
                 : undefined;
 
             // COVID-19

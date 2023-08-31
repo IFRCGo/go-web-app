@@ -239,17 +239,17 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
     } = useMemo(
         () => ({
             receivingCountryProjectGeoJson: generateProjectGeoJson(
-                countries,
+                countries ?? [],
                 projectList,
                 (project) => project.project_country,
             ),
             reportingNSProjectGeoJson: generateProjectGeoJson(
-                countries,
+                countries ?? [],
                 projectList,
                 (project) => project.reporting_ns,
             ),
             projectsLineGeoJson: generateProjectsLineGeoJson(
-                countries,
+                countries ?? [],
                 projectList,
             ),
         }),

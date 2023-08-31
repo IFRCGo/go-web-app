@@ -44,6 +44,8 @@ import {
     OPERATION_TYPE_EMERGENCY,
     OPERATION_TYPE_MULTI,
     OPERATION_TYPE_PROGRAMME,
+    DURATION_MAP_ZOOM,
+    DEFAULT_MAP_PADDING,
 } from '#utils/constants';
 
 import i18n from './i18n.json';
@@ -324,9 +326,8 @@ function CountryThreeWMap(props: Props) {
                         </MapSource>
                     )}
                     <MapBounds
-                        // FIXME: use defined constants
-                        duration={1000}
-                        padding={10}
+                        duration={DURATION_MAP_ZOOM}
+                        padding={DEFAULT_MAP_PADDING}
                         bounds={countryBounds}
                     />
                     {multiTypeGeo && (

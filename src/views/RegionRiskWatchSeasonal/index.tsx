@@ -57,6 +57,8 @@ import {
     CATEGORY_RISK_MEDIUM,
     CATEGORY_RISK_VERY_HIGH,
     CATEGORY_RISK_VERY_LOW,
+    DURATION_MAP_ZOOM,
+    DEFAULT_MAP_PADDING,
 } from '#utils/constants';
 import { type RegionOutletContext } from '#utils/outletContext';
 
@@ -709,10 +711,9 @@ export function Component() {
                         />
                     </MapSource>
                     <MapBounds
-                        // FIXME: use defined constants
-                        duration={1000}
+                        duration={DURATION_MAP_ZOOM}
                         bounds={bbox}
-                        padding={50}
+                        padding={DEFAULT_MAP_PADDING}
                     />
                 </Map>
                 <Container

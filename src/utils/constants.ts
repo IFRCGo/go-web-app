@@ -8,6 +8,10 @@ export const DEFAULT_DATE_FORMAT = 'dd-MM-yyyy';
 
 export const DURATION_DEFAULT_ALERT_DISMISS = 4500;
 
+// Map
+export const DURATION_MAP_ZOOM = 1000;
+export const DEFAULT_MAP_PADDING = 50;
+
 // Table
 
 export const WIDTH_DEFAULT_TABLE_COLUMN = 108;
@@ -54,7 +58,6 @@ export const COLOR_RED = '#f5333f';
 export const COLOR_DARK_RED = '#730413';
 export const COLOR_PRIMARY_BLUE = '#011e41';
 export const COLOR_PRIMARY_RED = '#f5333f';
-export const COLOR_LIGHT_RED = 'rgba(245,50,63,0.5)';
 
 // Three W
 

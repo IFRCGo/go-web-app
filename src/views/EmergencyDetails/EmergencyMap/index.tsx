@@ -1,6 +1,9 @@
+import { useMemo } from 'react';
 import {
     _cs,
     isDefined,
+    isNotDefined,
+    listToMap,
 } from '@togglecorp/fujs';
 import type { FillLayer } from 'mapbox-gl';
 import Map, {
@@ -11,9 +14,8 @@ import Map, {
 import getBbox from '@turf/bbox';
 
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
-import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
-import type { GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 import {
     defaultMapStyle,
     defaultMapOptions,
@@ -21,7 +23,12 @@ import {
     defaultNavControlOptions,
 } from '#utils/map';
 import useCountryRaw, { type Country } from '#hooks/domain/useCountryRaw';
-import { COLOR_LIGHT_GREY, COLOR_LIGHT_RED } from '#utils/constants';
+import {
+    COLOR_LIGHT_GREY,
+    COLOR_RED,
+    DEFAULT_MAP_PADDING,
+    DURATION_MAP_ZOOM,
+} from '#utils/constants';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -56,68 +63,104 @@ function EmergencyMap(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const countries = useCountryRaw();
-    const countryIdList = event.countries.map((country) => country.id);
-    const countryList = countryIdList.map(
-        (id) => countries?.find((country) => country.id === id),
-    ).filter(isDefined);
+    const countriesRaw = useCountryRaw();
 
-    const bounds = getBoundingBox(countryList);
+    const countryMapById = useMemo(
+        () => listToMap(
+            countriesRaw,
+            (country) => country.id,
+        ),
+        [countriesRaw],
+    );
 
-    const districtIdList = event.districts.map((district) => district.id);
+    const countryIdList = useMemo(
+        () => event.countries.map(
+            (country) => country.id,
+        ),
+        [event],
+    );
 
-    const adminOneHightlightLayerOptions: Omit<FillLayer, 'id'> = {
-        type: 'fill',
-        layout: {
-            visibility: 'visible',
-        },
-        filter: [
-            'in',
-            'district_id',
-            ...districtIdList,
-        ],
-    };
+    const countryList = useMemo(
+        () => countryIdList.map(
+            (countryId) => {
+                const country = countryMapById?.[countryId];
 
-    const adminOneLabelSelectedLayerOptions: Omit<FillLayer, 'id'> = {
-        type: 'fill',
-        layout: {
-            visibility: 'visible',
-        },
-        filter: [
-            'in',
-            'district_id',
-            ...districtIdList,
-        ],
-    };
+                if (isNotDefined(country)) {
+                    return undefined;
+                }
 
-    const adminZeroHighlightLayerOptions: Omit<FillLayer, 'id'> = {
-        type: 'fill',
-        layout: {
-            visibility: 'visible',
-        },
-        filter: [
-            '!in',
-            'country_id',
-            ...countryIdList,
-        ],
-    };
+                return country;
+            },
+        ).filter(isDefined),
+        [countryIdList, countryMapById],
+    );
 
-    const legendOptions = [
-        {
-            label: strings.affectedCountry,
-            color: COLOR_LIGHT_GREY,
-        },
-        {
-            label: strings.affectedProvince,
-            color: COLOR_LIGHT_RED,
-        },
-    ];
+    const bounds = useMemo(
+        () => getBoundingBox(countryList),
+        [countryList],
+    );
+    const districtIdList = useMemo(
+        () => event.districts.map(
+            (district) => district.id,
+        ),
+        [event],
+    );
+
+    const adminOneHightlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
+        () => ({
+            type: 'fill',
+            layout: { visibility: 'visible' },
+            filter: [
+                'in',
+                'district_id',
+                ...districtIdList,
+            ],
+        }),
+        [districtIdList],
+    );
+
+    const adminOneLabelSelectedLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
+        () => ({
+            type: 'fill',
+            layout: { visibility: 'visible' },
+            filter: [
+                'in',
+                'district_id',
+                ...districtIdList,
+            ],
+        }),
+        [districtIdList],
+    );
+
+    const adminZeroHighlightLayerOptions = useMemo<Omit<FillLayer, 'id'>>(
+        () => ({
+            type: 'fill',
+            layout: { visibility: 'visible' },
+            filter: [
+                '!in',
+                'country_id',
+                ...countryIdList,
+            ],
+        }),
+        [countryIdList],
+    );
+
+    const legendOptions = useMemo(
+        () => ([
+            {
+                label: strings.affectedCountry,
+                color: COLOR_LIGHT_GREY,
+            },
+            {
+                label: strings.affectedProvince,
+                color: COLOR_RED,
+            },
+        ]),
+        [strings],
+    );
 
     return (
-        <Container
-            className={_cs(styles.emergencyMap, className)}
-            withHeaderBorder
-        >
+        <div className={_cs(styles.emergencyMap, className)}>
             <Map
                 mapStyle={defaultMapStyle}
                 mapOptions={defaultMapOptions}
@@ -147,9 +190,9 @@ function EmergencyMap(props: Props) {
                 </MapSource>
                 {isDefined(bounds) && (
                     <MapBounds
-                        duration={1000}
+                        duration={DURATION_MAP_ZOOM}
                         bounds={bounds}
-                        padding={50}
+                        padding={DEFAULT_MAP_PADDING}
                     />
                 )}
             </Map>
@@ -169,7 +212,7 @@ function EmergencyMap(props: Props) {
                     </div>
                 ))}
             </div>
-        </Container>
+        </div>
     );
 }
 
