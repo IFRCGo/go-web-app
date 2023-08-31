@@ -1,0 +1,14 @@
+{
+    "namespace": "allThreeWActivity",
+    "strings": {
+        "allThreeWTitle": "All 3W",
+        "allThreeWActivityHeading": "All 3W Activity ({numThreeWs})",
+        "allThreeWActivityNS": "National Society / ERU",
+        "allThreeWActivityTitle": "Title",
+        "allThreeWActivityStartDate": "Start Date",
+        "allThreeWActivityCountry": "Country",
+        "allThreeWActivityRegion": "Province / Region",
+        "allThreeWActivityStatus": "Status",
+        "allThreeWActivityPeopleReached": "Services provided to people in need"
+    }
+}
