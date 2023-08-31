@@ -1,14 +1,12 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import Container from '#components/Container';
-import RouteContext from '#contexts/route';
 import IconButton from '#components/IconButton';
 import Image from '#components/Image';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
+import useRouting from '#hooks/useRouting';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -17,15 +15,11 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        logisticsEmergency: logisticsEmergencyRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(logisticsEmergencyRoute.absolutePath));
-    }, [goBack, logisticsEmergencyRoute.absolutePath]);
+        goBack('logisticsEmergency');
+    }, [goBack]);
 
     return (
         <Container
@@ -50,62 +44,51 @@ export function Component() {
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_01.jpg"
                     caption={strings.logisticsEmergencyImageOneCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_02.jpg"
                     caption={strings.logisticsEmergencyImageTwoCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_03.jpg"
                     caption={strings.logisticsEmergencyImageThreeCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_04.jpg"
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_05.jpg"
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_06.jpg"
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_07.jpg"
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_08.jpg"
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_09.jpg"
                     caption={strings.logisticsEmergencyImageNineCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_10.jpg"
                     caption={strings.logisticsEmergencyImageTenCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
                 <Image
                     src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/logs_11.jpg"
                     caption={strings.logisticsEmergencyImageElevenCaption}
-                    height="16rem"
                     imageClassName={styles.image}
                 />
             </div>

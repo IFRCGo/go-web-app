@@ -1,12 +1,10 @@
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 
 import useTranslation from '#hooks/useTranslation';
-import useGoBack from '#hooks/useGoBack';
+import useRouting from '#hooks/useRouting';
 import Container from '#components/Container';
 import IconButton from '#components/IconButton';
-import RouteContext from '#contexts/route';
 import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
 import { resolveToComponent } from '#utils/translation';
@@ -18,15 +16,12 @@ import styles from './styles.module.css';
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const {
-        catalogueInformationManagement: catalogueInformationManagementRoute,
-    } = useContext(RouteContext);
-
-    const goBack = useGoBack();
+    const { goBack } = useRouting();
 
     const handleBackButtonClick = useCallback(() => {
-        goBack(generatePath(catalogueInformationManagementRoute.absolutePath));
-    }, [goBack, catalogueInformationManagementRoute.absolutePath]);
+        goBack('catalogueInformationManagement');
+    }, [goBack]);
+
     return (
         <Container
             className={styles.support}
@@ -160,6 +155,7 @@ export function Component() {
                     <li>
                         <Link
                             to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/mobilization-of-goods/"
+                            external
                             variant="tertiary"
                             withExternalLinkIcon
                         >
@@ -169,6 +165,7 @@ export function Component() {
                     <li>
                         <Link
                             to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/procurement/"
+                            external
                             variant="tertiary"
                             withExternalLinkIcon
                         >
@@ -178,6 +175,7 @@ export function Component() {
                     <li>
                         <Link
                             to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/our-global-structure/DubaiLPSCM/global-fleet-base/vehicle-rental-programme/"
+                            external
                             variant="tertiary"
                             withExternalLinkIcon
                         >
@@ -187,6 +185,7 @@ export function Component() {
                     <li>
                         <Link
                             to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
+                            external
                             variant="tertiary"
                             withExternalLinkIcon
                         >
@@ -196,6 +195,7 @@ export function Component() {
                     <li>
                         <Link
                             to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/contingency-stock/"
+                            external
                             variant="tertiary"
                             withExternalLinkIcon
                         >
@@ -205,6 +205,7 @@ export function Component() {
                     <li>
                         <Link
                             to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/logistics-training-and-workshop/"
+                            external
                             variant="tertiary"
                             withExternalLinkIcon
                         >
@@ -219,6 +220,7 @@ export function Component() {
                             link: (
                                 <Link
                                     to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
+                                    external
                                 >
                                     {strings.logisticsAdditionalResourcesContact}
                                 </Link>

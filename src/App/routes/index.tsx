@@ -1600,7 +1600,7 @@ const catalogueLogistics = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'logistics',
     component: {
-        render: () => import('#views/CatalogueLogisticsIndex'),
+        render: () => import('#views/CatalogueLogistics'),
         props: {},
     },
     wrapperComponent: Auth,
@@ -1862,7 +1862,7 @@ const perProcessFormIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Per Process Index',
+        title: 'Per Process',
         visibility: 'anything',
     },
 });
