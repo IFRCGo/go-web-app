@@ -1,5 +1,4 @@
-import { useContext, useMemo, useState } from 'react';
-import { generatePath } from 'react-router-dom';
+import { useMemo, useState, useCallback } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
@@ -11,7 +10,6 @@ import {
     createDateColumn,
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
-import RouteContext from '#contexts/route';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
@@ -36,7 +34,11 @@ function getPositionString(alert: SurgeListItem) {
 }
 
 function getMolnixKeywords(molnixTags: SurgeListItem['molnix_tags']) {
-    return molnixTags.filter((tag) => !tag.name.startsWith('OP-')).map((tag) => tag.name).join(', ');
+    return molnixTags
+        .map((tag) => tag.name)
+        .filter((tag) => !tag.startsWith('OP-'))
+        .filter((tag) => !['Nosuitable', 'NotSurge', 'OpsChange'].includes(tag))
+        .join(', ');
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -56,17 +58,16 @@ export function Component() {
         },
     });
 
-    const {
-        emergency: emergencyRoute,
-    } = useContext(RouteContext);
-
-    function getStatus(alert: SurgeListItem) {
-        if (alert.is_stood_down) {
-            return strings.surgeAlertStoodDown;
-        }
-        const closed = isDefined(alert.end) ? new Date(alert.end).getTime() < today : undefined;
-        return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
-    }
+    const getStatus = useCallback(
+        (alert: SurgeListItem) => {
+            if (alert.is_stood_down) {
+                return strings.surgeAlertStoodDown;
+            }
+            const closed = isDefined(alert.end) ? new Date(alert.end).getTime() < today : undefined;
+            return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
+        },
+        [strings],
+    );
 
     const columns = useMemo(
         () => ([
@@ -101,7 +102,10 @@ export function Component() {
                     const startDate = new Date(item.start);
                     const nowMs = new Date().getTime();
 
-                    const duration = startDate.getTime() < nowMs ? 'Immediately' : startDate.toISOString();
+                    // FIXME: use translations
+                    const duration = startDate.getTime() < nowMs
+                        ? 'Immediately'
+                        : startDate.toISOString();
 
                     return duration;
                 },
@@ -121,17 +125,20 @@ export function Component() {
                 strings.surgeAlertEmergency,
                 (item) => item.event?.name,
                 (item) => ({
-                    to: isDefined(item.event)
-                        ? generatePath(
-                            emergencyRoute.absolutePath,
-                            { emergencyId: item.event?.id },
-                        ) : undefined,
+                    to: 'emergenciesLayout',
+                    urlParams: { emergencyId: item.event?.id },
                 }),
             ),
-            createStringColumn<SurgeListItem, TableKey>(
+            createLinkColumn<SurgeListItem, TableKey>(
                 'country',
                 strings.surgeAlertCountry,
                 (item) => item.country?.name,
+                (item) => ({
+                    to: 'countriesLayout',
+                    urlParams: {
+                        countryId: item.country?.id,
+                    },
+                }),
             ),
             createStringColumn<SurgeListItem, TableKey>(
                 'status',
@@ -139,7 +146,7 @@ export function Component() {
                 (item) => getStatus(item),
             ),
         ]),
-        [strings, emergencyRoute.absolutePath],
+        [strings, getStatus],
     );
 
     const heading = resolveToComponent(
