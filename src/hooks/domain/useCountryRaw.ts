@@ -31,10 +31,10 @@ type PropsForIso3 = {
     region?: never;
 }
 
-function useCountryForMap(props?: ListProps): Array<Country>
-function useCountryForMap(props: PropsForId): Country | undefined
-function useCountryForMap(props: PropsForIso3): Country | undefined
-function useCountryForMap(
+function useCountryRaw(props?: ListProps): Array<Country> | undefined
+function useCountryRaw(props: PropsForId): Country | undefined
+function useCountryRaw(props: PropsForIso3): Country | undefined
+function useCountryRaw(
     props?: ListProps | PropsForId | PropsForIso3,
 ): (Country | undefined | Array<Country>) {
     const { countries: countriesUnsafe, register } = useContext(DomainContext);
@@ -73,4 +73,4 @@ function useCountryForMap(
     return returnValue;
 }
 
-export default useCountryForMap;
+export default useCountryRaw;

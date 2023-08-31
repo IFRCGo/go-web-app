@@ -8,6 +8,10 @@ export const DEFAULT_DATE_FORMAT = 'dd-MM-yyyy';
 
 export const DURATION_DEFAULT_ALERT_DISMISS = 4500;
 
+// Map
+export const DURATION_MAP_ZOOM = 1000;
+export const DEFAULT_MAP_PADDING = 50;
+
 // Table
 
 export const WIDTH_DEFAULT_TABLE_COLUMN = 108;

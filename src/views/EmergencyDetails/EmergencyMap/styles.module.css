@@ -1,0 +1,26 @@
+.emergency-map {
+    .map-container {
+        height: 40rem;
+    }
+
+    .footer {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-lg);
+        gap: var(--go-ui-spacing-md);
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--go-ui-spacing-sm);
+
+            .color {
+                border-radius: 0.5rem;
+                width: 0.75rem;
+                height: 0.75rem;
+            }
+        }
+    }
+}

@@ -1,5 +1,8 @@
 .emergency-details {
+    display: flex;
+    flex-direction: column;
     padding: var(--go-ui-spacing-5xl) 0;
+    gap: var(--go-ui-spacing-5xl);
 
     .key-figure-list {
         display: flex;
@@ -11,6 +14,62 @@
             flex-basis: 20rem;
             border-radius: var(--go-ui-border-radius-md);
             box-shadow: var(--go-ui-box-shadow-lg);
+        }
+    }
+
+    .overview-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--go-ui-spacing-lg);
+
+        .overview {
+            display: flex;
+            flex-basis: 25rem;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-sm);
+
+            .color-dot {
+                flex-shrink: 0;
+                border-radius: 0.3rem;
+                width: 0.6rem;
+                height: 0.6rem;
+            }
+        }
+    }
+
+    .map-key-figure-container {
+        display: flex;
+        flex-grow: 1;
+        gap: var(--go-ui-spacing-md);
+
+        .map-container {
+            flex-grow: 1;
+        }
+
+        .field-report-stats-container {
+            flex-basis: calc(8vw + 16rem);
+        }
+
+        @media screen and (max-width: 50rem) {
+            flex-direction: column;
+        }
+    }
+
+    .contacts-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+        grid-gap: var(--go-ui-spacing-lg);
+
+        .contact-list-container {
+            border-radius: var(--go-ui-border-radius-md);
+            box-shadow: var(--go-ui-box-shadow-lg);
+
+            .contact-list {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-md);
+            }
         }
     }
 }

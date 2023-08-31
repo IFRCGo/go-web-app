@@ -2,6 +2,20 @@
     "namespace": "emergencyDetails",
     "strings": {
         "emergencyKeyFiguresTitle": "Key Figures",
-        "emergencyKeyFigureSource": "Source"
+        "emergencyKeyFigureSource": "Source",
+        "emergencyOverviewTitle": "Emergency Overview",
+        "disasterCategorization": "Disaster Categorization",
+        "disasterType": "Disaster Type",
+        "GLIDENumber": "GLIDE Number",
+        "startDate": "Start Date",
+        "visibility": "Visibility",
+        "MDRCode": "MDR Code",
+        "assisanceRequestedByNS": "NS Requests International Assistance",
+        "assisanceRequestedByGovernment": "Government Requests International Assistance",
+        "situationalOverviewTitle": "Situational Overview",
+        "linksTitle": "Links",
+        "emergencyMapTitle": "Affected Region",
+        "exportMap": "Export",
+        "contactsTitle": "Contacts"
     }
 }

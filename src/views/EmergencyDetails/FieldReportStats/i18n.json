@@ -1,0 +1,26 @@
+{
+    "namespace": "emergencyDetails",
+    "strings": {
+        "potentiallyAffected": "Potentially Affected",
+        "highestRisk": "Highest Risk",
+        "affectedPopCenters": "Affected Population Centers",
+        "assistedByGovernment": "Number of People Assisted by Government - Early Action'",
+        "assistedByRCRC": "Number of People Assisted by RCRC Movement - Early Action",
+        "source": "Source: {link} {date}",
+        "cases": "Cases",
+        "suspectedCases": "Suspected Cases",
+        "probableCases": "Probable Cases",
+        "confirmedCases": "Confirmed Cases",
+        "numberOfDead": "Dead",
+        "epiSource": "Source",
+        "assisted": "Assisted",
+        "localStaff": "Local Staff",
+        "volunteers": "Volunteers",
+        "delegates": "Delegates",
+        "affected": "Affected",
+        "injured": "Injured",
+        "dead": "Dead",
+        "missing": "Missing",
+        "displaced": "Displaced"
+    }
+}

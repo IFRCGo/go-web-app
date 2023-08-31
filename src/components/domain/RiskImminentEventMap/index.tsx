@@ -24,7 +24,7 @@ import {
     defaultMapStyle,
 } from '#utils/map';
 import type { components } from '#generated/riskTypes';
-import { COLOR_WHITE } from '#utils/constants';
+import { COLOR_WHITE, DEFAULT_MAP_PADDING, DURATION_MAP_ZOOM } from '#utils/constants';
 
 import {
     exposureFillLayer,
@@ -294,9 +294,9 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                 </MapSource>
                 {bounds && (
                     <MapBounds
-                        duration={3000}
+                        duration={DURATION_MAP_ZOOM}
                         bounds={bounds}
-                        padding={50}
+                        padding={DEFAULT_MAP_PADDING}
                     />
                 )}
             </Map>
