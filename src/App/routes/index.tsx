@@ -1596,6 +1596,48 @@ const informationManagementComposition = customWrapRoute({
     },
 });
 
+const catalogueLogistics = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'logistics',
+    component: {
+        render: () => import('#views/CatalogueLogistics'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Logistics',
+        visibility: 'anything',
+    },
+});
+
+const logisticsEmergency = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'logistics/logistics-eru',
+    component: {
+        render: () => import('#views/LogisticsEmergency'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Response Unit',
+        visibility: 'anything',
+    },
+});
+
+const logisticsNationalSocieties = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'logistics/lpscm-for-national-societies',
+    component: {
+        render: () => import('#views/LogisticsNationalSocieties'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'LPSCM for National Societies',
+        visibility: 'anything',
+    },
+});
+
 const catalogueInformationTechnology = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'information-technology',
@@ -1820,7 +1862,7 @@ const perProcessFormIndex = customWrapRoute({
         },
     },
     context: {
-        title: 'Per Process Index',
+        title: 'Per Process',
         visibility: 'anything',
     },
 });
@@ -2027,6 +2069,9 @@ const wrappedRoutes = {
     catalogueLivelihood,
     threeWProjectDetail,
     livelihoodServices,
+    catalogueLogistics,
+    logisticsEmergency,
+    logisticsNationalSocieties,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
