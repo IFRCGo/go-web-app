@@ -53,10 +53,6 @@ function EventDetail(props: Props) {
 
     const operationalLearningPlatformUrl = resolveUrl(window.location.origin, 'preparedness#operational-learning');
 
-    const eventDateByOnsetType = value.type_of_onset === ONSET_SUDDEN
-        ? strings.drefFormEventDate
-        : strings.drefFormSlowEventDate;
-
     return (
         <div className={styles.eventDetail}>
             {value.type_of_dref !== TYPE_ASSESSMENT && value.type_of_dref !== TYPE_LOAN && (
@@ -165,14 +161,10 @@ function EventDetail(props: Props) {
             <Container
                 heading={strings.drefFormDescriptionEvent}
             >
-                <InputSection
-                    title={(
-                        value.type_of_dref === TYPE_IMMINENT
-                            ? strings.drefFormApproximateDateOfImpact
-                            : eventDateByOnsetType
-                    )}
-                >
-                    {value.type_of_dref === TYPE_IMMINENT ? (
+                {value.type_of_dref === TYPE_IMMINENT ? (
+                    <InputSection
+                        title={strings.drefFormApproximateDateOfImpact}
+                    >
                         <TextArea
                             name="event_text"
                             value={value.event_text}
@@ -180,7 +172,15 @@ function EventDetail(props: Props) {
                             error={error?.event_text}
                             disabled={disabled}
                         />
-                    ) : (
+                    </InputSection>
+                ) : (
+                    <InputSection
+                        title={(
+                            value.type_of_onset === ONSET_SUDDEN
+                                ? strings.drefFormEventDate
+                                : strings.drefFormSlowEventDate
+                        )}
+                    >
                         <DateInput
                             name="event_date"
                             value={value.event_date}
@@ -188,8 +188,8 @@ function EventDetail(props: Props) {
                             error={error?.event_date}
                             disabled={disabled}
                         />
-                    )}
-                </InputSection>
+                    </InputSection>
+                )}
                 {value.type_of_dref !== TYPE_LOAN && (
                     <InputSection
                         title={

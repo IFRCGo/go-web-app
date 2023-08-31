@@ -420,20 +420,18 @@ function Overview(props: Props) {
                 {/* NOTE: Empty div to preserve the layout */}
                 <div />
             </InputSection>
-            {value?.type_of_dref !== TYPE_LOAN && (
-                <InputSection
-                    title={strings.drefFormRequestAmount}
-                    numPreferredColumns={2}
-                >
-                    <NumberInput
-                        name="amount_requested"
-                        value={value?.amount_requested}
-                        onChange={setFieldValue}
-                        error={error?.amount_requested}
-                        disabled={disabled}
-                    />
-                </InputSection>
-            )}
+            <InputSection
+                title={strings.drefFormRequestAmount}
+                numPreferredColumns={2}
+            >
+                <NumberInput
+                    name="amount_requested"
+                    value={value?.amount_requested}
+                    onChange={setFieldValue}
+                    error={error?.amount_requested}
+                    disabled={disabled}
+                />
+            </InputSection>
             {value?.type_of_dref !== TYPE_LOAN && (
                 <InputSection
                     title={strings.drefFormEmergencyAppealPlanned}
