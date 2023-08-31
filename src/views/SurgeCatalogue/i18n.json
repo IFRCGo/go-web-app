@@ -11,6 +11,7 @@
         "catalogueInformationManagement": "Information Management (IM)",
         "catalogueInformationTechnologyTelecom": "Information Technology & Telecom (IT/T)",
         "catalogueLivelihoodsAndBasicNeeds": "Livelihoods And Basic needs",
-        "catalogueLogistics": "Logistics"
+        "catalogueLogistics": "Logistics",
+        "catalogueOperations": "Operations Management"
     }
 }

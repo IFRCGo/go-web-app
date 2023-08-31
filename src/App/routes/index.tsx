@@ -1638,6 +1638,48 @@ const logisticsNationalSocieties = customWrapRoute({
     },
 });
 
+const catalogueOperations = customWrapRoute({
+    path: 'operations',
+    component: {
+        render: () => import('#views/CatalogueOperations'),
+        props: {},
+    },
+    parent: surgeCatalogue,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Operations Management',
+        visibility: 'anything',
+    },
+});
+
+const catalogueOperationsIndex = customWrapRoute({
+    index: true,
+    component: {
+        render: () => import('#views/CatalogueOperationsIndex'),
+        props: {},
+    },
+    parent: catalogueOperations,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Operations Management',
+        visibility: 'anything',
+    },
+});
+
+const emergencyOperations = customWrapRoute({
+    path: 'head-of-emergency-operations-heops',
+    component: {
+        render: () => import('#views/EmergencyOperations'),
+        props: {},
+    },
+    parent: catalogueOperations,
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Technology Service',
+        visibility: 'anything',
+    },
+});
+
 const catalogueInformationTechnology = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'information-technology',
@@ -2072,6 +2114,9 @@ const wrappedRoutes = {
     catalogueLogistics,
     logisticsEmergency,
     logisticsNationalSocieties,
+    catalogueOperations,
+    catalogueOperationsIndex,
+    emergencyOperations,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
