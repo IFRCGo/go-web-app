@@ -1,0 +1,23 @@
+{
+    "namespace": "protection",
+    "strings": {
+        "catalogueProtection": "Protection, Gender and Inclusion (PGI)",
+        "catalogueRapidResponsePersonnel": "Rapid Response Personnel",
+        "catalogueProtectionRoleTitle": "Role Profiles",
+        "cataloguePGICoordinator": "PGI Coordinator",
+        "cataloguePGIOfficer": "PGI Officer",
+        "cataloguePGI": "PGI",
+        "catalogueProtectionRapidResponse": "Rapid Response",
+        "catalogueTechnical": "Technical Competency Framework",
+        "catalogueTechnicalDescription": "Tiered compentencies describing the knowledge and skills expected of personnel in this sector.",
+        "catalogueTechnicalPGI": "PGI",
+        "catalogueProtectionGender": "Protection - Gender and Inclusion",
+        "catalogueProtectionServicesHeading": "Services",
+        "catalogueAdditionalResources": "Additional Resources",
+        "catalogueStandard": "Minimum standard commitments",
+        "catalogueStandardDescription": "Minimum standard commitments to gender and diversity in emergency programming.",
+        "catalogueProtectionLearnMore": "Learn More",
+        "catalogueAllUnderOneRoof": "All Under One Roof",
+        "catalogueAllUnderOneRoofDescription": "Disability-inclusive shelter and settlements in emergencies."
+    }
+}
