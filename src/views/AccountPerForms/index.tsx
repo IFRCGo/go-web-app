@@ -87,7 +87,7 @@ export function Component() {
                 strings.tableCountryTitle,
                 (item) => item.country_details?.name,
                 (item) => ({
-                    to: 'countriesLayout',
+                    to: 'countryPreparedness',
                     urlParams: { countryId: item.country },
                 }),
             ),

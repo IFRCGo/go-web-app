@@ -8,7 +8,7 @@ import {
     TargetedPopulationIcon,
     AppealsTwoIcon,
 } from '@ifrc-go/icons';
-import { isNotDefined, isTruthyString } from '@togglecorp/fujs';
+import { isDefined, isNotDefined, isTruthyString } from '@togglecorp/fujs';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
@@ -22,6 +22,7 @@ import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import Message from '#components/Message';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -32,6 +33,7 @@ export function Component() {
     const {
         pending: countryResponsePending,
         response: countryResponse,
+        error: countryResponseError,
     } = useRequest({
         // FIXME: need to check if countryId can be ''
         skip: isNotDefined(countryId),
@@ -72,13 +74,29 @@ export function Component() {
         || (countryResponse.contacts && countryResponse.contacts.length > 0)
     );
 
+    const pageTitle = resolveToString(
+        strings.countryPageTitle,
+        { countryName: countryResponse?.name ?? strings.countryPageTitleFallbackCountry },
+    );
+
+    if (isDefined(countryResponseError)) {
+        return (
+            <Page
+                title={pageTitle}
+                className={styles.country}
+            >
+                <Message
+                    title="Error loading data for the country!"
+                    description={countryResponseError.value?.messageForNotification}
+                />
+            </Page>
+        );
+    }
+
     return (
         <Page
             className={styles.country}
-            title={resolveToString(
-                strings.countryPageTitle,
-                { countryName: countryResponse?.name ?? strings.countryPageTitleFallbackCountry },
-            )}
+            title={pageTitle}
             heading={countryResponse?.name ?? '--'}
             infoContainerClassName={styles.keyFigureList}
             info={(
@@ -177,45 +195,55 @@ export function Component() {
             <Outlet
                 context={outletContext}
             />
-            <div className={styles.links}>
-                <Link
-                    to={countryResponse?.fdrs ? `https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}` : undefined}
-                    external
-                    withExternalLinkIcon
-                >
-                    {strings.nationalSocietyPageOnFDRS}
-                </Link>
-                <Link
-                    to={countryResponse?.url_ifrc}
-                    external
-                    withExternalLinkIcon
-                >
-                    {resolveToString(
-                        strings.countryOnIFRC,
-                        { countryName: countryResponse?.name ?? '-' },
+            {isDefined(countryResponse) && (
+                <div className={styles.links}>
+                    {isTruthyString(countryResponse.fdrs) && (
+                        <Link
+                            to={`https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}`}
+                            external
+                            withExternalLinkIcon
+                        >
+                            {strings.nationalSocietyPageOnFDRS}
+                        </Link>
                     )}
-                </Link>
-                <Link
-                    to={countryResponse?.iso3 ? `https://reliefweb.int/country/${countryResponse.iso3}` : undefined}
-                    external
-                    withExternalLinkIcon
-                >
-                    {resolveToString(
-                        strings.countryOnReliefWeb,
-                        { countryName: countryResponse?.name ?? '-' },
+                    {isTruthyString(countryResponse.url_ifrc) && (
+                        <Link
+                            to={countryResponse.url_ifrc}
+                            external
+                            withExternalLinkIcon
+                        >
+                            {resolveToString(
+                                strings.countryOnIFRC,
+                                { countryName: countryResponse?.name ?? '-' },
+                            )}
+                        </Link>
                     )}
-                </Link>
-                <Link
-                    to={countryResponse?.society_url ? countryResponse?.society_url : undefined}
-                    external
-                    withExternalLinkIcon
-                >
-                    {resolveToString(
-                        strings.countryRCHomepage,
-                        { countryName: countryResponse?.name ?? '-' },
+                    {isTruthyString(countryResponse.iso3) && (
+                        <Link
+                            to={`https://reliefweb.int/country/${countryResponse.iso3}`}
+                            external
+                            withExternalLinkIcon
+                        >
+                            {resolveToString(
+                                strings.countryOnReliefWeb,
+                                { countryName: countryResponse?.name ?? '-' },
+                            )}
+                        </Link>
                     )}
-                </Link>
-            </div>
+                    {isTruthyString(countryResponse.society_url) && (
+                        <Link
+                            to={countryResponse?.society_url}
+                            external
+                            withExternalLinkIcon
+                        >
+                            {resolveToString(
+                                strings.countryRCHomepage,
+                                { countryName: countryResponse?.name ?? '-' },
+                            )}
+                        </Link>
+                    )}
+                </div>
+            )}
         </Page>
     );
 }

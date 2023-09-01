@@ -1,12 +1,14 @@
 .country-preparedness {
     padding: var(--go-ui-spacing-4xl) 0;
+    min-height: 40vh;
 
     .preparedness-content {
         display: grid;
-        grid-gap: var(--go-ui-spacing-6xl);
+        grid-gap: var(--go-ui-spacing-2xl);
         grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-        padding: var(--go-ui-spacing-4xl) 0;
+        padding: var(--go-ui-spacing-2xl) 0;
 
+        .pending-message,
         .empty-message {
             grid-column: 1 / -1;
         }
@@ -17,7 +19,7 @@
             grid-gap: var(--go-ui-spacing-xl);
             grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
             border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-            padding: var(--go-ui-spacing-2xl);
+            padding: var(--go-ui-spacing-xl);
 
             .contact-container {
                 grid-column: 1 / -1;
@@ -40,9 +42,19 @@
             }
         }
 
+        .benchmark-summary-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
+
+            .key-figure {
+                padding: 0;
+            }
+        }
+
         .top-rated-component-content {
             display: grid;
-            grid-gap: var(--go-ui-spacing-xl);
+            grid-gap: var(--go-ui-spacing-md);
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 
             @media screen and (max-width: 20rem) {
@@ -60,9 +72,22 @@
         }
 
         .priority-components-content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-md);
+            display: grid;
+            grid-gap: var(--go-ui-spacing-md);
+            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+
+            @media screen and (max-width: 20rem) {
+                grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+            }
+
+            .priority-component {
+                border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            }
+
+            .icon {
+                color: var(--go-ui-color-primary-red);
+                font-size: var(--go-ui-font-size-icon-multiplier);
+            }
         }
 
         .rating-results {
@@ -70,7 +95,7 @@
 
             .rating-results-content {
                 display: grid;
-                grid-gap: var(--go-ui-spacing-xl);
+                grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-xl);
                 grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 
                 .separator {
