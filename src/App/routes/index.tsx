@@ -1680,6 +1680,47 @@ const catalogueInformationTechnology = customWrapRoute({
     },
 });
 
+const catalogueShelter = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'shelter',
+    component: {
+        render: () => import('#views/CatalogueShelter'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Shelter',
+        visibility: 'anything',
+    },
+});
+
+const shelterCoordinator = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'shelter/sct-shelter-coordination-team',
+    component: {
+        render: () => import('#views/ShelterCoordinator'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Shelter Surge Coordinator',
+        visibility: 'anything',
+    },
+});
+const shelterTechnical = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'shelter/stt-shelter-technical-team',
+    component: {
+        render: () => import('#views/ShelterTechnical'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Shelter Technical Team',
+        visibility: 'anything',
+    },
+});
+
 const catalogueProtection = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'protection',
@@ -2206,6 +2247,9 @@ const wrappedRoutes = {
     emergencyOperations,
     catalogueProtection,
     protectionGender,
+    catalogueShelter,
+    shelterTechnical,
+    shelterCoordinator,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
