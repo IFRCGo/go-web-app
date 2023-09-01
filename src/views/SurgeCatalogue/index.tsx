@@ -12,6 +12,7 @@ import {
     LogisticsIcon,
     GroupIcon,
     ProtectionIcon,
+    MonitoringIcon,
 } from '@ifrc-go/icons';
 
 import NavigationTabList from '#components/NavigationTabList';
@@ -124,7 +125,7 @@ export function Component() {
                     to="cataloguePMER"
                     parentRoute
                 >
-                    <EmergencyTelecommunicationsIcon className={styles.icon} />
+                    <MonitoringIcon className={styles.icon} />
                     {strings.cataloguePMER}
                 </NavigationTab>
             </NavigationTabList>

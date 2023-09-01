@@ -4,6 +4,7 @@ import CatalogueInfoCard,
 } from '#components/CatalogueInfoCard';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
+import styles from './styles.module.css';
 
 import i18n from './i18n.json';
 
@@ -29,7 +30,7 @@ export function Component() {
     const services: LinkData[] = [
         {
             title: strings.cataloguePMEREPoA,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EagyYJ2dxJtJodnkN7u-KGABUEDjjQR8iGbFP3_BNl3Fgw',
+            to: 'catalogueEPOA',
             withForwardIcon: true,
         },
     ];
@@ -37,7 +38,7 @@ export function Component() {
     const evaluation: LinkData[] = [
         {
             title: strings.cataloguePMERRTE,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EagyYJ2dxJtJodnkN7u-KGABUEDjjQR8iGbFP3_BNl3Fgw',
+            to: 'catalogueRTE',
             withForwardIcon: true,
         },
     ];
@@ -46,11 +47,14 @@ export function Component() {
         <Container
             headingLevel={2}
             heading={strings.cataloguePMERTitle}
+            className={styles.cataloguePmer}
+            childrenContainerClassName={styles.content}
         >
             <div>{strings.cataloguePMERDetail}</div>
             <Container
                 heading={strings.cataloguePMERRapidHeading}
                 withHeaderBorder
+                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.cataloguePMERRoleHeading}
@@ -60,6 +64,7 @@ export function Component() {
             <Container
                 heading={strings.cataloguePMERServicesHeading}
                 withHeaderBorder
+                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.cataloguePMERPlanningHeading}
