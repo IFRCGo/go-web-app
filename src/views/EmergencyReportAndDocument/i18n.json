@@ -2,6 +2,7 @@
     "namespace": "emergencyReportAndDocument",
     "strings": {
         "emergencyReportAndDocumentTempContent": "Emergency Reports / Documents",
-        "featuredDocuments": "Featured Documents"
+        "featuredDocuments": "Featured Documents",
+        "situationReports": "Situation Reports"
     }
 }
