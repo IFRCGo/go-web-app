@@ -1,0 +1,40 @@
+.emergency-report-and-document {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-5xl) 0;
+    gap: var(--go-ui-spacing-5xl);
+
+    .featured-document-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--go-ui-spacing-xl);
+
+        .featured-document {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 20rem;
+            border-radius: var(--go-ui-border-radius-md);
+            box-shadow: var(--go-ui-box-shadow-xl);
+
+            .document-details {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-sm);
+
+                .document-title {
+                    padding: var(--go-ui-spacing-sm);
+                }
+
+                .description {
+                    padding: var(--go-ui-spacing-md) 0;
+                }
+            }
+
+            .image {
+                width: 100%;
+                height: 16rem;
+            }
+        }
+    }
+}
