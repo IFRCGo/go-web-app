@@ -1,0 +1,21 @@
+{
+    "namespace": "WashKit2",
+    "strings": {
+        "washKit5Title": "KIT 5",
+        "washKit5": "WASH Kit 5",
+        "washKit5Capacity": "Capacity",
+        "washKit5CapacityText": "Water treatment for a population of up to 5,000 people.",
+        "washKit5EmergencyServices": "Emergency Services",
+        "washKit5ShelterCapacityTextOne": "Designed for the treatment and distribution of water for small populations, this kit can treat up to 75,000 litres of water a day for a population of up to 5,000 people. This kit requires the availability of local surface or ground water supply. Limited sanitation capacity for a first response is supplied within the kit, as well as some capacity for water trucking. The kit allows for the transport of treated water to several distribution points (capacity of up to 15,000 litres of water a day) with limited possibility of setting up different storage and distribution points (preconditions are the availability of flatbed trucks, fuel, road access).",
+        "washKit5ShelterCapacityTextTwo": "Hygiene promotion, as well as training in the proper use of the equipment supplied, is an essential part of the operation and must be carried out alongside distribution activities. Local water and sanitation technicians and Red Cross Red Crescent volunteers for training and distribution of items are needed.",
+        "washKit5EmergencyServicesSectionOne": "This kit provides water treatment at household level for up to 2,000 people (400 families), with no central treatment or storage capacity. This kit provides very basic sanitation facilities for a small population and is designed for response to the needs of scattered populations at household level and when people targeted numbers are limited.",
+        "washKit5EmergencyServicesSectionTwo": "Hygiene promotion, as well as training in the use of materials and tools in the kit, is an essential part of the operation and must be carried out alongside distribution activities. Availability of local water sources is required. Local water and sanitation technicians and Red Cross Red Crescent volunteers are needed to ensure that the people targeted are familiar with household level water treatment methods.",
+        "washKit5GoBack": "Go Back",
+        "washKit5Specification": "Specification",
+        "washKit5SpecificationWeightLabel": "Weight",
+        "washKit5SpecificationWeightValue": "3.5 MT",
+        "washKit5SpecificationVolumeLabel": "Volume",
+        "washKit5SpecificationVolumeValue": "15 m3",
+        "washKit5SpecificationDetail":"This kit should be pre-positioned at country level."
+    }
+}
