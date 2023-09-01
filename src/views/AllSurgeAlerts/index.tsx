@@ -105,6 +105,7 @@ export function Component() {
                     // FIXME: use translations
                     const duration = startDate.getTime() < nowMs
                         ? 'Immediately'
+                        // FIXME: we should use toLocaleString instead
                         : startDate.toISOString();
 
                     return duration;

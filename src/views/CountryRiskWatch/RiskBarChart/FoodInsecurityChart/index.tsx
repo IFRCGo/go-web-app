@@ -59,6 +59,7 @@ const xAxisFormatter = (date: Date) => date.toLocaleString(
     { month: 'short' },
 );
 
+// FIXME: rename this formatDate
 const formatDate = (date: Date) => date.toLocaleString(
     navigator.language,
     {

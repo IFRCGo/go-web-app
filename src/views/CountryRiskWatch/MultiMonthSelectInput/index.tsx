@@ -119,8 +119,9 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
                 {keyList.map(
                     (key) => {
                         const date = new Date();
-                        date.setDate(1);
                         date.setMonth(key);
+                        date.setDate(1);
+                        date.setHours(0, 0, 0, 0);
 
                         const monthName = date.toLocaleString(
                             navigator.language,

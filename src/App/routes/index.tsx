@@ -1780,7 +1780,7 @@ const allDeployedEmergencyResponseUnits = customWrapRoute({
 
 const newDrefApplicationForm = customWrapRoute({
     parent: rootLayout,
-    path: 'dref-application/new',
+    path: 'dref-applications/new',
     component: {
         render: () => import('#views/DrefApplicationForm'),
         props: {},
@@ -1794,7 +1794,7 @@ const newDrefApplicationForm = customWrapRoute({
 
 const drefApplicationForm = customWrapRoute({
     parent: rootLayout,
-    path: 'dref-application/:drefId/edit',
+    path: 'dref-applications/:drefId/edit',
     component: {
         render: () => import('#views/DrefApplicationForm'),
         props: {},
@@ -1807,7 +1807,7 @@ const drefApplicationForm = customWrapRoute({
 });
 
 const drefApplicationExport = customWrapRoute({
-    path: 'dref-application/:drefId/export',
+    path: 'dref-applications/:drefId/export',
     component: {
         render: () => import('#views/DrefApplicationExport'),
         props: {},
@@ -1820,8 +1820,22 @@ const drefApplicationExport = customWrapRoute({
     },
 });
 
+const drefOperationalUpdateForm = customWrapRoute({
+    parent: rootLayout,
+    path: 'dref-operational-updates/:opsUpdateId/edit',
+    component: {
+        render: () => import('#views/Home'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Dref Operational Update Form',
+        visibility: 'is-authenticated',
+    },
+});
+
 const drefOperationalUpdateExport = customWrapRoute({
-    path: 'dref-operational-update/:opsUpdateId/export',
+    path: 'dref-operational-updates/:opsUpdateId/export',
     component: {
         render: () => import('#views/DrefOperationalUpdateExport'),
         props: {},
@@ -1833,9 +1847,22 @@ const drefOperationalUpdateExport = customWrapRoute({
         visibility: 'is-authenticated',
     },
 });
+const drefFinalReportForm = customWrapRoute({
+    parent: rootLayout,
+    path: 'dref-final-reports/:finalReportId/edit',
+    component: {
+        render: () => import('#views/Home'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Dref Final Report Form',
+        visibility: 'is-authenticated',
+    },
+});
 
 const drefFinalReportExport = customWrapRoute({
-    path: 'dref-final-report/:finalReportId/export',
+    path: 'dref-final-reports/:finalReportId/export',
     component: {
         render: () => import('#views/DrefFinalReportExport'),
         props: {},
@@ -2067,7 +2094,9 @@ const wrappedRoutes = {
     newDrefApplicationForm,
     drefApplicationForm,
     drefApplicationExport,
+    drefOperationalUpdateForm,
     drefOperationalUpdateExport,
+    drefFinalReportForm,
     drefFinalReportExport,
     fieldReportFormNew,
     fieldReportFormEdit,

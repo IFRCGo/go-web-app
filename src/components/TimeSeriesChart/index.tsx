@@ -18,6 +18,7 @@ import {
     getPathData,
     getScaleFunction,
 } from '#utils/chart';
+import { formatDate } from '#utils/common';
 
 import ChartPoint from './ChartPoint';
 import styles from './styles.module.css';
@@ -35,7 +36,7 @@ const chartMargin = {
 
 const getFormattedKey = (dateFromProps: string | Date) => {
     const date = new Date(dateFromProps);
-    return `${date.getFullYear()}-${date.getMonth()}`;
+    return formatDate(date, 'yyyy-MM');
 };
 
 interface Props<K> {

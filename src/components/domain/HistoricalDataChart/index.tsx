@@ -130,6 +130,7 @@ function chartPointSelector(chartPoint: ChartPoint) {
     return chartPoint;
 }
 
+// FIXME: rename this formatDate
 function formatDate(date: Date) {
     return date.toLocaleString(
         navigator.language,

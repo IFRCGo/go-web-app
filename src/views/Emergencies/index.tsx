@@ -24,7 +24,7 @@ import TimeSeriesChart from '#components/TimeSeriesChart';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { getDatesSeparatedByMonths } from '#utils/chart';
-import { sumSafe } from '#utils/common';
+import { sumSafe, formatDate } from '#utils/common';
 
 import Map from './Map';
 import FieldReportTable from './FieldReportsTable';
@@ -35,7 +35,7 @@ import styles from './styles.module.css';
 
 const getFormattedKey = (dateFromProps: string | Date) => {
     const date = new Date(dateFromProps);
-    return `${date.getFullYear()}-${date.getMonth()}`;
+    return formatDate(date, 'yyyy-MM');
 };
 
 function timeseriesChartClassNameSelector() {
@@ -63,10 +63,12 @@ function typeNameSelector(groupedEvent: EmergencyByType) {
 }
 const timeSeriesDataKeys = ['events'];
 
+// FIXME: use a separate utility
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
 
+// FIXME: use a separate utility
 const oneYearAgo = new Date();
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 oneYearAgo.setHours(0, 0, 0, 0);

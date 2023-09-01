@@ -7,6 +7,7 @@ import BarChart from '#components/BarChart';
 import TimeSeriesChart from '#components/TimeSeriesChart';
 import { getDatesSeparatedByMonths } from '#utils/chart';
 import { paths } from '#generated/types';
+import { formatDate } from '#utils/common';
 
 import SurgeMap from './SurgeMap';
 import SurgeAlertsTable from './SurgeAlertsTable';
@@ -24,9 +25,10 @@ const timeSeriesDataKeys = ['deployments'];
 
 const getFormattedKey = (dateFromProps: string | Date) => {
     const date = new Date(dateFromProps);
-    return `${date.getFullYear()}-${date.getMonth()}`;
+    return formatDate(date, 'yyyy-MM');
 };
 
+// FIXME: use a separate utility
 const oneYearAgo = new Date();
 oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 oneYearAgo.setMonth(oneYearAgo.getMonth() + 1);

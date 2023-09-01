@@ -8,6 +8,7 @@ import TimeSeriesChart from '#components/TimeSeriesChart';
 import Button from '#components/Button';
 import { getDatesSeparatedByYear } from '#utils/chart';
 import useTranslation from '#hooks/useTranslation';
+import { formatDate } from '#utils/common';
 
 import PointDetails from '../PointDetails';
 
@@ -26,9 +27,10 @@ const dataKeys: DATA_KEY[] = [
 
 const getFormattedKey = (dateFromProps: string | Date) => {
     const date = new Date(dateFromProps);
-    return `${date.getFullYear()}-${date.getMonth()}`;
+    return formatDate(date, 'yyyy-MM');
 };
 
+// FIXME: use a separate utility
 const now = new Date();
 const startDate = new Date(now.getFullYear() - 10, 0, 1);
 const endDate = new Date(now.getFullYear(), 11, 31);

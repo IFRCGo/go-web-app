@@ -114,9 +114,11 @@ export function getDatesSeparatedByYear(startDate: Date, endDate: Date) {
 export function getDatesSeparatedByMonths(startDate: Date, endDate: Date) {
     const currentDate = new Date(startDate);
     currentDate.setDate(1);
+    currentDate.setHours(0, 0, 0, 0);
 
     const targetDate = new Date(endDate);
     targetDate.setDate(1);
+    targetDate.setHours(0, 0, 0, 0);
 
     const dates = [];
 
