@@ -17,6 +17,9 @@ import { adminUrl, appVersion, appCommitHash } from '#config';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+const date = new Date();
+const year = date.getFullYear();
+
 interface Props {
     className?: string;
 }
@@ -26,8 +29,6 @@ function GlobalFooter(props: Props) {
         className,
     } = props;
 
-    const date = new Date();
-    const year = date.getFullYear();
     const strings = useTranslation(i18n);
     const copyrightText = resolveToComponent(
         strings.footerIFRC,

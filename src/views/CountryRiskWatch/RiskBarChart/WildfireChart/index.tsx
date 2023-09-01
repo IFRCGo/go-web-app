@@ -33,6 +33,7 @@ const chartMargin = {
     bottom: X_AXIS_HEIGHT + CHART_OFFSET,
 };
 
+// FIXME: rename this formatDate
 const formatDate = (date: Date) => date.toLocaleString(
     navigator.language,
     { month: 'short' },

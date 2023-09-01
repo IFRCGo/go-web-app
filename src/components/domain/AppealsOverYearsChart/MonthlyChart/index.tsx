@@ -9,6 +9,7 @@ import Button from '#components/Button';
 import { getDatesSeparatedByMonths } from '#utils/chart';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
+import { formatDate } from '#utils/common';
 
 import PointDetails from '../PointDetails';
 
@@ -42,7 +43,7 @@ const dateFormatter = new Intl.DateTimeFormat(
 
 const getFormattedKey = (dateFromProps: string | Date) => {
     const date = new Date(dateFromProps);
-    return `${date.getFullYear()}-${date.getMonth()}`;
+    return formatDate(date, 'yyyy-MM');
 };
 
 interface Props {

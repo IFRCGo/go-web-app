@@ -23,6 +23,7 @@ type SurgeAlertListItem = NonNullable<GetSurgeAlertResponse['results']>[number];
 
 const surgeAlertKeySelector = (item: SurgeAlertListItem) => item.id;
 
+// FIXME: use a separate utility
 const aMonthAgo = new Date();
 aMonthAgo.setMonth(aMonthAgo.getMonth() - 1);
 aMonthAgo.setHours(0, 0, 0, 0);

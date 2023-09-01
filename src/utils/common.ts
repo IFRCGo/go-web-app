@@ -398,12 +398,7 @@ export function injectClientId<V extends {
 
 export function getCurrentMonthYear() {
     const now = new Date();
-    const mm = (now.getMonth() + 1).toString().padStart(2, '0');
-    const yyyy = now.getFullYear().toString();
-
-    const date = `${mm}/${yyyy}`;
-
-    return date;
+    return formatDate(now, 'MM/yyyy');
 }
 
 export function getMonthList() {
@@ -411,8 +406,9 @@ export function getMonthList() {
     return monthKeyList.map(
         (monthKey) => {
             const date = new Date();
-            date.setDate(1);
             date.setMonth(monthKey);
+            date.setDate(1);
+            date.setHours(0, 0, 0, 0);
 
             return {
                 key: monthKey,

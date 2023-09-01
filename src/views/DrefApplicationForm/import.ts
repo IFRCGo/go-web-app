@@ -12,8 +12,6 @@ import {
     isFalsyString,
 } from '@togglecorp/fujs';
 
-// import { dateToDateString } from '#utils';
-
 function getChildren(node: Node | undefined, name: string) {
     if (isNotDefined(node) || isNotDefined(node.children)) {
         return undefined;

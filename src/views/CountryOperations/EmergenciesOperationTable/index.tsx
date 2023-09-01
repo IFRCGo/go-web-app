@@ -30,6 +30,8 @@ function keySelector(emergency: EmergenciesTableItem) {
 }
 
 const PAGE_SIZE = 10;
+
+// FIXME: use a separate utility
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);

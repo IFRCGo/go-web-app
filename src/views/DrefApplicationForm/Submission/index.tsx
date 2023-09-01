@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import {
     type Error,
     type EntriesAsList,
@@ -10,12 +12,35 @@ import TextInput from '#components/TextInput';
 import DateInput from '#components/DateInput';
 import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
+import { formatDate } from '#utils/common';
 
 import { TYPE_LOAN } from '../common';
 import { type PartialDref } from '../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+function calculateEndDate(
+    dateOfApproval: string | undefined,
+    operationTimeframe: number | undefined,
+) {
+    if (isNotDefined(dateOfApproval) || isNotDefined(operationTimeframe)) {
+        return undefined;
+    }
+    const approvalDate = new Date(dateOfApproval);
+    if (Number.isNaN(approvalDate)) {
+        return undefined;
+    }
+    // FIXME: use a separate utility
+    approvalDate.setMonth(
+        approvalDate.getMonth() + operationTimeframe + 1,
+    );
+    approvalDate.setDate(0);
+    approvalDate.setHours(0, 0, 0, 0);
+
+    // NOTE: need to change the data type
+    return formatDate(approvalDate, 'yyyy-MM-dd');
+}
 
 type Value = PartialDref;
 
@@ -37,6 +62,34 @@ function Submission(props: Props) {
     const strings = useTranslation(i18n);
 
     const error = getErrorObject(formError);
+
+    const handleOperationTimeframeChange = useCallback(
+        (val: number | undefined, name: 'operation_timeframe') => {
+            setFieldValue(val, name);
+            const endDate = calculateEndDate(
+                value.date_of_approval,
+                val,
+            );
+            if (isDefined(endDate)) {
+                setFieldValue(endDate, 'end_date');
+            }
+        },
+        [setFieldValue, value.date_of_approval],
+    );
+
+    const handleDateOfApproval = useCallback(
+        (val: string | undefined, name: 'date_of_approval') => {
+            setFieldValue(val, name);
+            const endDate = calculateEndDate(
+                val,
+                value.operation_timeframe,
+            );
+            if (isDefined(endDate)) {
+                setFieldValue(endDate, 'end_date');
+            }
+        },
+        [setFieldValue, value.operation_timeframe],
+    );
 
     return (
         <div className={styles.submission}>
@@ -69,7 +122,7 @@ function Submission(props: Props) {
                         label={strings.drefFormDateOfApproval}
                         name="date_of_approval"
                         value={value.date_of_approval}
-                        onChange={setFieldValue}
+                        onChange={handleDateOfApproval}
                         error={error?.date_of_approval}
                         hint={strings.drefFormAddedByGeneva}
                         disabled={disabled}
@@ -84,7 +137,7 @@ function Submission(props: Props) {
                         name="operation_timeframe"
                         placeholder={strings.drefFormOperationTimeframeSubmissionDescription}
                         value={value.operation_timeframe}
-                        onChange={setFieldValue}
+                        onChange={handleOperationTimeframeChange}
                         error={error?.operation_timeframe}
                         disabled={disabled}
                     />
