@@ -53,6 +53,16 @@ export type DeepReplace<T, A, B> = (
         )
 )
 
+export function roundSafe(value: number | undefined | null): number | undefined
+export function roundSafe(value: number): number
+export function roundSafe(value: number | undefined | null): number | undefined {
+    if (isNotDefined(value)) {
+        return undefined;
+    }
+
+    return Math.round(value);
+}
+
 function getNumberListSafe(list: UnsafeNumberList) {
     if (isNotDefined(list)) {
         return undefined;

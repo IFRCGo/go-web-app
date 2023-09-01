@@ -1,6 +1,12 @@
 import { Fragment, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { AnalysisIcon, AnalyzingIcon, CheckboxFillIcon, CheckboxIndeterminateFillIcon, CloseCircleLineIcon } from '@ifrc-go/icons';
+import {
+    AnalysisIcon,
+    AnalyzingIcon,
+    CheckboxFillIcon,
+    CheckboxIndeterminateFillIcon,
+    CloseCircleLineIcon,
+} from '@ifrc-go/icons';
 import {
     compareNumber,
     isDefined,
@@ -12,7 +18,6 @@ import {
 
 import Message from '#components/Message';
 import Link from '#components/Link';
-import BarChart from '#components/BarChart';
 import Heading from '#components/Heading';
 import { sumSafe } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
@@ -26,7 +31,6 @@ import StackedProgressBar from '#components/StackedProgressBar';
 import {
     numericCountSelector,
     numericIdSelector,
-    numericValueSelector,
     stringLabelSelector,
     stringTitleSelector,
 } from '#utils/selectors';

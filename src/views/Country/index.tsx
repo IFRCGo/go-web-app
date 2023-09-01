@@ -14,6 +14,7 @@ import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import KeyFigure from '#components/KeyFigure';
+import Message from '#components/Message';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
@@ -22,7 +23,6 @@ import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import Message from '#components/Message';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {

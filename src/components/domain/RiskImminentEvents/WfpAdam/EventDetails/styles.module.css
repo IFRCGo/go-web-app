@@ -4,20 +4,10 @@
         flex-direction: column;
         gap: var(--go-ui-spacing-lg);
 
-        .event-meta {
+        .useful-links-content {
             display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-2xs);
-        }
-
-        .exposure-details {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-2xs);
-        }
-
-        .description {
-            color: var(--go-ui-color-text-light);
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
         }
     }
 }

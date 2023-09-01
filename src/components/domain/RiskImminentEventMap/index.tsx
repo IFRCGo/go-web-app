@@ -19,12 +19,17 @@ import getBuffer from '@turf/buffer';
 import Container from '#components/Container';
 import Button from '#components/Button';
 import List from '#components/List';
+import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
     defaultMapOptions,
     defaultMapStyle,
 } from '#utils/map';
 import type { components } from '#generated/riskTypes';
-import { COLOR_WHITE, DEFAULT_MAP_PADDING, DURATION_MAP_ZOOM } from '#utils/constants';
+import {
+    COLOR_WHITE,
+    DEFAULT_MAP_PADDING,
+    DURATION_MAP_ZOOM,
+} from '#utils/constants';
 
 import {
     exposureFillLayer,
@@ -35,6 +40,7 @@ import {
     hazardKeyToIconmap,
     invisibleLayout,
     hazardPointIconLayout,
+    trackArrowLayer,
 } from './mapStyles';
 
 import styles from './styles.module.css';
@@ -64,28 +70,34 @@ interface EventItemProps<EVENT> {
     onExpandClick: (eventId: number | string) => void;
 }
 
-interface EventDetailProps<EVENT> {
+interface EventDetailProps<EVENT, EXPOSURE> {
     data: EVENT;
+    exposure: EXPOSURE | undefined;
+    pending: boolean;
 }
 
-interface Props<EVENT> {
+type Footprint = GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined;
+
+interface Props<EVENT, EXPOSURE, KEY extends string | number> {
     events: EVENT[] | undefined;
-    keySelector: (event: EVENT) => string | number;
+    keySelector: (event: EVENT) => KEY;
     pointFeatureSelector: (event: EVENT) => EventPointFeature | undefined;
-    footprintSelector?: (
-        eventId: string | number | undefined,
-        successCallback: (
-            footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined
-        ) => void,
-    ) => void;
+    footprintSelector: (activeEventExposure: EXPOSURE | undefined) => Footprint | undefined;
+    activeEventExposure: EXPOSURE | undefined;
     listItemRenderer: React.ComponentType<EventItemProps<EVENT>>;
-    detailRenderer: React.ComponentType<EventDetailProps<EVENT>>;
+    detailRenderer: React.ComponentType<EventDetailProps<EVENT, EXPOSURE>>;
     pending: boolean;
     sidePanelHeading: React.ReactNode;
     bbox: LngLatBoundsLike | undefined;
+    onActiveEventChange: (eventId: KEY | undefined) => void;
+    activeEventExposurePending: boolean;
 }
 
-function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
+function RiskImminentEventMap<
+    EVENT,
+    EXPOSURE,
+    KEY extends string | number
+>(props: Props<EVENT, EXPOSURE, KEY>) {
     const {
         events,
         pointFeatureSelector,
@@ -93,12 +105,15 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
         listItemRenderer,
         detailRenderer,
         pending,
+        activeEventExposure,
         footprintSelector,
         sidePanelHeading,
         bbox,
+        onActiveEventChange,
+        activeEventExposurePending,
     } = props;
 
-    const [activeEventId, setActiveEventId] = useState<string | number | undefined>();
+    const [activeEventId, setActiveEventId] = useState<KEY | undefined>(undefined);
     const activeEvent = useMemo(
         () => {
             if (isNotDefined(activeEventId)) {
@@ -112,13 +127,20 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
         [activeEventId, keySelector, events],
     );
 
-    const [activePointFootprint, setActivePointFootprint] = useState<
-        GeoJSON.FeatureCollection<GeoJSON.Geometry> | undefined
-    >(undefined);
+    const activeEventFootprint = useMemo(
+        () => {
+            if (isNotDefined(activeEventId) || activeEventExposurePending) {
+                return undefined;
+            }
+
+            return footprintSelector(activeEventExposure);
+        },
+        [activeEventId, activeEventExposure, activeEventExposurePending, footprintSelector],
+    );
 
     const bounds = useMemo(
         () => {
-            if (isNotDefined(activeEvent)) {
+            if (isNotDefined(activeEvent) || activeEventExposurePending) {
                 return bbox;
             }
 
@@ -128,11 +150,11 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
             }
             const bufferedPoint = getBuffer(activePoint, 10);
 
-            if (activePointFootprint) {
+            if (activeEventFootprint) {
                 return getBbox({
-                    ...activePointFootprint,
+                    ...activeEventFootprint,
                     features: [
-                        ...activePointFootprint.features,
+                        ...activeEventFootprint.features,
                         bufferedPoint,
                     ],
                 });
@@ -140,8 +162,11 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
 
             return getBbox(bufferedPoint);
         },
-        [activeEvent, activePointFootprint, pointFeatureSelector, bbox],
+        [activeEvent, activeEventFootprint, pointFeatureSelector, bbox, activeEventExposurePending],
     );
+
+    // Avoid abrupt zooming
+    const boundsSafe = useDebouncedValue(bounds);
 
     const pointFeatureCollection = useMemo<
         GeoJSON.FeatureCollection<GeoJSON.Point, EventPointProperties>
@@ -155,42 +180,27 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
         [events, pointFeatureSelector],
     );
 
-    const promptForFootprint = useCallback(
-        (eventId: string | number | undefined) => {
-            if (isNotDefined(footprintSelector)) {
-                return;
-            }
-
-            // FIXME: check if component is still
-            // mounted when we get the footprint
-            footprintSelector(eventId, setActivePointFootprint);
-        },
-        [footprintSelector],
-    );
-
     const setActiveEventIdSafe = useCallback(
-        (eventId: number | string | undefined) => {
-            setActiveEventId(eventId);
-            if (isDefined(eventId)) {
-                promptForFootprint(eventId);
-            } else {
-                setActivePointFootprint(undefined);
-            }
+        (eventId: string | number | undefined) => {
+            const eventIdSafe = eventId as KEY | undefined;
+
+            setActiveEventId(eventIdSafe);
+            onActiveEventChange(eventIdSafe);
         },
-        [promptForFootprint],
+        [onActiveEventChange],
     );
 
     const handlePointClick = useCallback(
         (e: mapboxgl.MapboxGeoJSONFeature) => {
             const pointProperties = e.properties as EventPointProperties;
-            setActiveEventIdSafe(pointProperties.id);
+            setActiveEventIdSafe(pointProperties.id as KEY | undefined);
             return undefined;
         },
         [setActiveEventIdSafe],
     );
 
     const eventListRendererParams = useCallback(
-        (_: string | number, event: EVENT) => ({
+        (_: string | number, event: EVENT): EventItemProps<EVENT> => ({
             data: event,
             onExpandClick: setActiveEventIdSafe,
         }),
@@ -237,7 +247,6 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                 navControlPosition="top-right"
                 scaleControlShown={false}
             >
-                {/* FIXME: MapImage is not working in strict mode */}
                 {hazardKeys.map((key) => {
                     const url = hazardKeyToIconmap[key];
 
@@ -256,32 +265,36 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                     );
                 })}
                 <MapContainer className={styles.mapContainer} />
+                {/* FIXME: footprint layer should always be the bottom layer */}
+                {activeEventFootprint && (
+                    <MapSource
+                        sourceKey="active-event-footprint"
+                        sourceOptions={geojsonSourceOptions}
+                        geoJson={activeEventFootprint}
+                    >
+                        <MapLayer
+                            layerKey="exposure-fill"
+                            layerOptions={exposureFillLayer}
+                        />
+                        <MapLayer
+                            layerKey="track-outline"
+                            layerOptions={trackOutlineLayer}
+                        />
+                        <MapLayer
+                            layerKey="track-arrow"
+                            layerOptions={trackArrowLayer}
+                        />
+                        <MapLayer
+                            layerKey="track-point"
+                            layerOptions={trackPointLayer}
+                        />
+                    </MapSource>
+                )}
                 <MapSource
                     sourceKey="event-points"
                     sourceOptions={geojsonSourceOptions}
                     geoJson={pointFeatureCollection}
                 >
-                    {/* FIXME: footprint layer should always be the bottom layer */}
-                    {activePointFootprint && (
-                        <MapSource
-                            sourceKey="active-event-footprint"
-                            sourceOptions={geojsonSourceOptions}
-                            geoJson={activePointFootprint}
-                        >
-                            <MapLayer
-                                layerKey="exposure-fill"
-                                layerOptions={exposureFillLayer}
-                            />
-                            <MapLayer
-                                layerKey="track-outline"
-                                layerOptions={trackOutlineLayer}
-                            />
-                            <MapLayer
-                                layerKey="track-point"
-                                layerOptions={trackPointLayer}
-                            />
-                        </MapSource>
-                    )}
                     <MapLayer
                         onClick={handlePointClick}
                         layerKey="point-circle"
@@ -292,10 +305,10 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                         layerOptions={hazardPointIconLayer}
                     />
                 </MapSource>
-                {bounds && (
+                {boundsSafe && (
                     <MapBounds
                         duration={DURATION_MAP_ZOOM}
-                        bounds={bounds}
+                        bounds={boundsSafe}
                         padding={DEFAULT_MAP_PADDING}
                     />
                 )}
@@ -335,6 +348,8 @@ function RiskImminentEventMap<EVENT>(props: Props<EVENT>) {
                 {isDefined(activeEvent) && (
                     <DetailComponent
                         data={activeEvent}
+                        exposure={activeEventExposure}
+                        pending={activeEventExposurePending}
                     />
                 )}
             </Container>

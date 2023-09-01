@@ -1,22 +1,18 @@
-import type { LngLatBoundsLike } from 'mapbox-gl';
 import { useCallback } from 'react';
+import { type LngLatBoundsLike } from 'mapbox-gl';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
-import type { EventPointFeature } from '#components/domain/RiskImminentEventMap';
-import { useRiskLazyRequest, useRiskRequest } from '#utils/restRequest';
+import { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import { RiskApiResponse, useRiskLazyRequest, useRiskRequest } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { isValidFeatureCollection } from '#utils/domain/risk';
-import type { paths } from '#generated/riskTypes';
 
 import EventListItem from './EventListItem';
 import EventDetails from './EventDetails';
 
-type GetImminentEvents = paths['/api/v1/gdacs/']['get'];
-type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
+type ImminentEventResponse = RiskApiResponse<'/api/v1/gdacs/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
-
-type FootprintCallback = (footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry>) => void;
 
 function getLayerType(geometryType: GeoJSON.Geometry['type']) {
     if (geometryType === 'Point' || geometryType === 'MultiPoint') {
@@ -71,42 +67,16 @@ function Gdacs(props: Props) {
         },
     });
 
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/gdacs/{id}/exposure/', {
-        successCallback: FootprintCallback
+    const {
+        response: exposureResponse,
+        pending: exposureResponsePending,
+        trigger: getFootprint,
+    } = useRiskLazyRequest<'/api/v1/gdacs/{id}/exposure/', {
         eventId: number | string,
     }>({
         apiType: 'risk',
         url: '/api/v1/gdacs/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
-        onSuccess: (response, { successCallback }) => {
-            // FIXME: typings should be fixed in the server
-            const { footprint_geojson } = response as unknown as { footprint_geojson: unknown };
-
-            if (isNotDefined(footprint_geojson)) {
-                return;
-            }
-
-            // FIXME: typings should be fixed in the server
-            const footprint = isValidFeatureCollection(footprint_geojson)
-                ? footprint_geojson : undefined;
-
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
-                type: 'FeatureCollection' as const,
-                features: [
-                    ...footprint?.features?.map(
-                        (feature) => ({
-                            ...feature,
-                            properties: {
-                                ...feature.properties,
-                                type: getLayerType(feature.geometry.type),
-                            },
-                        }),
-                    ) ?? [],
-                ].filter(isDefined),
-            };
-
-            successCallback(geoJson);
-        },
     });
 
     const pointFeatureSelector = useCallback(
@@ -142,14 +112,45 @@ function Gdacs(props: Props) {
     );
 
     const footprintSelector = useCallback(
-        (eventId: number | string | undefined, callback: FootprintCallback) => {
+        (exposure: RiskApiResponse<'/api/v1/gdacs/{id}/exposure/'> | undefined) => {
+            if (isNotDefined(exposure)) {
+                return undefined;
+            }
+
+            const { footprint_geojson } = exposure;
+
+            if (isNotDefined(footprint_geojson)) {
+                return undefined;
+            }
+
+            const footprint = isValidFeatureCollection(footprint_geojson)
+                ? footprint_geojson : undefined;
+
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+                type: 'FeatureCollection' as const,
+                features: [
+                    ...footprint?.features?.map(
+                        (feature) => ({
+                            ...feature,
+                            properties: {
+                                ...feature.properties,
+                                type: getLayerType(feature.geometry.type),
+                            },
+                        }),
+                    ) ?? [],
+                ].filter(isDefined),
+            };
+
+            return geoJson;
+        },
+        [],
+    );
+
+    const handleActiveEventChange = useCallback(
+        (eventId: number | undefined) => {
             if (isDefined(eventId)) {
-                getFootprint({
-                    eventId,
-                    successCallback: callback,
-                });
+                getFootprint({ eventId });
             } else {
-                // NOTE: using undefined in context clears out the response
                 getFootprint(undefined);
             }
         },
@@ -167,6 +168,9 @@ function Gdacs(props: Props) {
             sidePanelHeading={title}
             footprintSelector={footprintSelector}
             bbox={bbox}
+            activeEventExposure={exposureResponse}
+            activeEventExposurePending={exposureResponsePending}
+            onActiveEventChange={handleActiveEventChange}
         />
     );
 }

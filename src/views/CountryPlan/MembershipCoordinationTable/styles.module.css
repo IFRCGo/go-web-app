@@ -1,6 +1,7 @@
 .membership-coordination-table {
     .icon {
         color: var(--go-ui-color-primary-red);
+        font-size: var(--go-ui-font-size-icon-multiplier);
     }
 
     .sector-heading {

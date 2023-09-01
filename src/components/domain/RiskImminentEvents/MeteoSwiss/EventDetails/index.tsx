@@ -1,18 +1,18 @@
+import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
-import type { paths } from '#generated/riskTypes';
-// import { useRiskRequest } from '#utils/restRequest';
+import { type RiskApiResponse } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 
-type GetImminentEvents = paths['/api/v1/meteoswiss/']['get'];
-type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
-type EventItem = NonNullable<ImminentEventResponse['results']>[number];
+type MeteoSwissResponse = RiskApiResponse<'/api/v1/meteoswiss/'>;
+type MeteoSwissItem = NonNullable<MeteoSwissResponse['results']>[number];
+type MeteoSwissExposure = RiskApiResponse<'/api/v1/meteoswiss/{id}/exposure/'>;
 
 interface Props {
-    data: EventItem;
-    icons?: React.ReactNode;
-    actions?: React.ReactNode;
+    data: MeteoSwissItem;
+    exposure: MeteoSwissExposure | undefined;
+    pending: boolean;
 }
 
 function EventDetails(props: Props) {
@@ -22,17 +22,12 @@ function EventDetails(props: Props) {
             hazard_name,
             start_date,
         },
-        icons,
-        actions,
+        pending,
+        exposure,
     } = props;
 
-    /*
-    const { response: exposureResponse } = useRiskRequest({
-        apiType: 'risk',
-        url: '/api/v1/meteoswiss/{id}/exposure/',
-        pathVariables: { id },
-    });
-     */
+    // eslint-disable-next-line no-console
+    console.info(exposure);
 
     // TODO: add exposure details
     return (
@@ -41,10 +36,8 @@ function EventDetails(props: Props) {
             childrenContainerClassName={styles.content}
             heading={hazard_name}
             headingLevel={4}
-            icons={icons}
-            actions={actions}
-        >
-            <div className={styles.eventMeta}>
+            spacing="compact"
+            headerDescription={(
                 <TextOutput
                     // FIXME: use translation
                     label="Started on"
@@ -52,7 +45,9 @@ function EventDetails(props: Props) {
                     valueType="date"
                     strongValue
                 />
-            </div>
+            )}
+        >
+            {pending && <BlockLoading />}
         </Container>
     );
 }
