@@ -8,7 +8,7 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 import useTranslation from '#hooks/useTranslation';
-import { resolveToComponent } from '#utils/translation';
+import { resolveToComponent, resolveToString } from '#utils/translation';
 import Container from '#components/Container';
 import {
     useSortState,
@@ -26,13 +26,13 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import {
     type GoApiResponse,
+    type ListResponseItem,
     useRequest,
 } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
-type AppealTableItem = NonNullable<GoApiResponse<'/api/v2/appeal/'>['results']>[number];
+type AppealTableItem = ListResponseItem<GoApiResponse<'/api/v2/appeal/'>>;
 function keySelector(appeal: AppealTableItem) {
     return appeal.id;
 }
@@ -79,17 +79,13 @@ function AppealOperationTable(props: Props) {
                 'start_date',
                 strings.appealsTableStartDate,
                 (item) => item.start_date,
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createStringColumn<AppealTableItem, string>(
                 'appeal__name',
                 strings.appealsTableName,
                 (item) => item.name,
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createLinkColumn<AppealTableItem, string>(
                 'event',
@@ -140,44 +136,49 @@ function AppealOperationTable(props: Props) {
         [strings],
     );
 
-    const viewAllOperations = resolveToComponent(
-        strings.allOperations,
-        {
-            name: countryName,
-        },
+    const viewAllOperationsLinkLabel = resolveToComponent(
+        strings.appealsTableAllOperationsLinkLabel,
+        { name: countryName },
+    );
+
+    const heading = resolveToString(
+        strings.appealsTableHeading,
+        { numOperations: countryAppealResponse?.count },
     );
 
     return (
-        <div className={styles.appealContent}>
-            <Container
-                footerActions={(
-                    <Pager
-                        activePage={page}
-                        itemsCount={countryAppealResponse?.count ?? 0}
-                        maxItemsPerPage={PAGE_SIZE}
-                        onActivePageChange={setPage}
-                    />
-                )}
-            >
-                <SortContext.Provider value={sortState}>
-                    <Table
-                        filtered={false}
-                        pending={countryAppealPending}
-                        data={countryAppealResponse?.results}
-                        keySelector={keySelector}
-                        columns={columns}
-                    />
-                </SortContext.Provider>
-            </Container>
-            <Link
-                to="allAppeals"
-                urlSearch={`country=${countryId}`}
-                withForwardIcon
-                withUnderline
-            >
-                {viewAllOperations}
-            </Link>
-        </div>
+        <Container
+            heading={heading}
+            withHeaderBorder
+            actions={(
+                <Link
+                    to="allAppeals"
+                    urlSearch={`country=${countryId}`}
+                    withForwardIcon
+                    withUnderline
+                >
+                    {viewAllOperationsLinkLabel}
+                </Link>
+            )}
+            footerActions={(
+                <Pager
+                    activePage={page}
+                    itemsCount={countryAppealResponse?.count ?? 0}
+                    maxItemsPerPage={PAGE_SIZE}
+                    onActivePageChange={setPage}
+                />
+            )}
+        >
+            <SortContext.Provider value={sortState}>
+                <Table
+                    filtered={false}
+                    pending={countryAppealPending}
+                    data={countryAppealResponse?.results}
+                    keySelector={keySelector}
+                    columns={columns}
+                />
+            </SortContext.Provider>
+        </Container>
     );
 }
 

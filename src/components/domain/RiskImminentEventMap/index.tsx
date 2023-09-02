@@ -23,6 +23,8 @@ import useDebouncedValue from '#hooks/useDebouncedValue';
 import {
     defaultMapOptions,
     defaultMapStyle,
+    defaultNavControlOptions,
+    defaultNavControlPosition,
 } from '#utils/map';
 import type { components } from '#generated/riskTypes';
 import {
@@ -244,7 +246,8 @@ function RiskImminentEventMap<
                 mapStyle={defaultMapStyle}
                 mapOptions={defaultMapOptions}
                 navControlShown
-                navControlPosition="top-right"
+                navControlPosition={defaultNavControlPosition}
+                navControlOptions={defaultNavControlOptions}
                 scaleControlShown={false}
             >
                 {hazardKeys.map((key) => {
