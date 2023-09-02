@@ -45,6 +45,8 @@ import {
     type HazardTypeOption,
     type RiskDataItem,
     type RiskMetricOption,
+    getExposureRiskCategory,
+    getDisplacementRiskCategory,
 } from '#utils/domain/risk';
 import { useRiskRequest } from '#utils/restRequest';
 import { formatNumber, maxSafe, sumSafe } from '#utils/common';
@@ -488,24 +490,42 @@ export function Component() {
                                     return undefined;
                                 }
 
+                                let riskCategory;
+                                if (filters.riskMetric === 'exposure') {
+                                    riskCategory = getExposureRiskCategory(newValue);
+                                } else if (filters.riskMetric === 'displacement') {
+                                    riskCategory = getDisplacementRiskCategory(newValue);
+                                } else if (filters.riskMetric === 'riskScore') {
+                                    riskCategory = newValue;
+                                }
+
+                                if (isNotDefined(riskCategory)) {
+                                    return undefined;
+                                }
+
                                 return {
                                     value: newValue,
+                                    riskCategory,
                                     hazard_type: item.hazard_type,
                                     hazard_type_display: item.hazard_type_display,
                                 };
                             },
                         ).filter(isDefined).sort(
-                            (a, b) => compareNumber(a.value, b.value, -1),
+                            (a, b) => compareNumber(a.riskCategory, b.riskCategory, -1),
                         );
 
                         const maxValue = maxSafe(valueListByHazard.map(({ value }) => value));
                         const sum = sumSafe(valueListByHazard.map(({ value }) => value));
+                        const maxRiskCategory = maxSafe(
+                            valueListByHazard.map(({ riskCategory }) => riskCategory),
+                        );
 
                         if (
                             isNotDefined(maxValue)
-                            || maxValue === 0
-                            || isNotDefined(sum)
-                            || sum === 0
+                                || maxValue === 0
+                                || isNotDefined(sum)
+                                || sum === 0
+                                || isNotDefined(maxRiskCategory)
                         ) {
                             return undefined;
                         }
@@ -520,9 +540,10 @@ export function Component() {
 
                         return {
                             iso3: key,
-                            valueListByHazard: normalizedValueListByHazard,
                             totalValue,
                             maxValue,
+                            riskCategory: maxRiskCategory,
+                            valueListByHazard: normalizedValueListByHazard,
                             country_details: firstItem.country_details,
                         };
                     },
@@ -635,10 +656,10 @@ export function Component() {
                                 [
                                     'interpolate',
                                     ['exponential', 1],
-                                    ['number', item.normalizedValue],
-                                    0,
+                                    ['number', item.riskCategory],
+                                    CATEGORY_RISK_VERY_LOW,
                                     COLOR_LIGHT_BLUE,
-                                    1,
+                                    CATEGORY_RISK_VERY_HIGH,
                                     COLOR_PRIMARY_RED,
                                 ],
                             ],

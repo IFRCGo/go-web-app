@@ -45,6 +45,7 @@ function InfoPopup(props: Props) {
             <Container
                 heading={title}
                 childrenContainerClassName={styles.content}
+                spacing="cozy"
             >
                 {description}
             </Container>

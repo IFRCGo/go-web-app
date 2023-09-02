@@ -404,6 +404,7 @@ function HistoricalDataChart(props: Props) {
                                         )}
                                         withHeaderBorder
                                         withInternalPadding
+                                        spacing="cozy"
                                     >
                                         <TextOutput
                                             value={point.numAffected}

@@ -408,3 +408,51 @@ export const applicableHazardsByRiskMetric: Record<RiskMetric, HazardType[]> = {
     displacement: ['TC', 'FL', 'SS'],
     riskScore: ['DR', 'TC', 'FL', 'WF'],
 };
+
+export function getExposureRiskCategory(exposure: number) {
+    // Ten million
+    if (exposure > 10000000) {
+        return CATEGORY_RISK_VERY_HIGH;
+    }
+
+    // One million
+    if (exposure > 1000000) {
+        return CATEGORY_RISK_HIGH;
+    }
+
+    // Hundred thousand
+    if (exposure > 100000) {
+        return CATEGORY_RISK_MEDIUM;
+    }
+
+    // Ten thousand
+    if (exposure > 10000) {
+        return CATEGORY_RISK_LOW;
+    }
+
+    return CATEGORY_RISK_VERY_LOW;
+}
+
+export function getDisplacementRiskCategory(displacement: number) {
+    // One million
+    if (displacement > 1000000) {
+        return CATEGORY_RISK_VERY_HIGH;
+    }
+
+    // Hundred thousand
+    if (displacement > 100000) {
+        return CATEGORY_RISK_HIGH;
+    }
+
+    // Ten thousand
+    if (displacement > 10000) {
+        return CATEGORY_RISK_MEDIUM;
+    }
+
+    // One thousand
+    if (displacement > 1000) {
+        return CATEGORY_RISK_LOW;
+    }
+
+    return CATEGORY_RISK_VERY_LOW;
+}
