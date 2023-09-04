@@ -1,0 +1,27 @@
+.operation {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-4xl);
+
+    .planned-intervention {
+        .actions {
+            display: flex;
+            align-items: flex-end;
+            align-self: flex-end;
+        }
+    }
+
+    .urban-to-rural {
+        .inputs {
+            display: flex;
+            gap: var(--go-ui-spacing-xs);
+        }
+    }
+
+    .warning {
+        display: flex;
+        align-items: baseline;
+        gap: var(--go-ui-spacing-sm);
+        color: var(--go-ui-color-yellow);
+    }
+}

@@ -1,0 +1,13 @@
+.operation-overview {
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+
+        .generate-title-button {
+            flex-basis: initial;
+            flex-grow: unset;
+            flex-shrink: 0;
+        }
+    }
+}

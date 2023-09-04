@@ -33,12 +33,14 @@ import {
 // Shouldn't this be set for all integer types?
 const MAX_INT_LIMIT = 2147483647;
 
+/*
 // Why not use lengthLessThanCondition?
 function max500CharCondition(value: string | undefined) {
     return isDefined(value) && value.length > 500
         ? 'Maximum 500 characters are allowed'
         : undefined;
 }
+*/
 
 function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
     return isDefined(value) && Array.isArray(value) && value.length > 2
@@ -46,8 +48,8 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
         : undefined;
 }
 
-export type DrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
-export type DrefRequestBody = GoApiBody<'/api/v2/dref/{id}/', 'PUT'>;
+export type DrefResponse = GoApiResponse<'/api/v2/dref-op-update/{id}/'>;
+export type DrefRequestBody = GoApiBody<'/api/v2/dref-op-update/{id}/', 'PUT'>;
 
 type NeedIdentifiedResponse = NonNullable<DrefRequestBody['needs_identified']>[number];
 type NsActionResponse = NonNullable<DrefRequestBody['national_society_actions']>[number];
@@ -123,16 +125,19 @@ const schema: DrefFormSchema = {
             type_of_onset: { required: true },
             disaster_category: {},
             country: {},
-            district: { defaultValue: [] },
+            // FIXME: Do we need to chagne the defaultValue?
+            // district: { defaultValue: [] },
+            district: {},
             disaster_type: {},
             title: {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            num_affected: { validations: [positiveIntegerCondition] },
-            num_assisted: { validations: [positiveIntegerCondition] },
-            amount_requested: { validations: [positiveNumberCondition] },
-            field_report: {}, // This value is set from CopyFieldReportSection
+            number_of_people_targeted: { validations: [positiveIntegerCondition] },
+            number_of_people_affected: { validations: [positiveIntegerCondition] },
+            additional_allocation: { validations: [positiveIntegerCondition] },
+            dref_allocated_so_far: {},
+            total_dref_allocation: {},
 
             // EVENT DETAILS
 
@@ -148,14 +153,7 @@ const schema: DrefFormSchema = {
 
             // SUBMISSION
             ns_request_date: {},
-            submission_to_geneva: {},
             date_of_approval: {},
-            operation_timeframe: {
-                validations: [
-                    positiveIntegerCondition,
-                    lessThanOrEqualToCondition(30),
-                ],
-            },
             appeal_code: {},
             ifrc_appeal_manager_name: {},
             ifrc_appeal_manager_email: { validations: [emailCondition] },
@@ -165,9 +163,13 @@ const schema: DrefFormSchema = {
             ifrc_project_manager_email: { validations: [emailCondition] },
             ifrc_project_manager_title: {},
             ifrc_project_manager_phone_number: {},
+            total_operation_timeframe: {},
+
+            // NOT IN UI
 
             // government_requested_assistance_date: {}, // NOTE: Not found in the UI
-            // community_involved: {}, // NOTE: Not found in the UI
+            dref: {},
+            has_event_occurred: {},
         };
 
         // OVERVIEW
@@ -243,18 +245,21 @@ const schema: DrefFormSchema = {
         // EVENT DETAILS
 
         const eventDetailDrefTypeRelatedFields = [
-            'did_it_affect_same_area',
-            'did_it_affect_same_population',
-            'did_ns_respond',
-            'did_ns_request_fund',
-            'lessons_learned',
             'event_scope',
             'event_text',
             'anticipatory_actions',
-            'supporting_document',
             'event_date',
             'event_description',
             'images_file',
+
+            'summary_of_change',
+            'changing_timeframe_operation',
+            'changing_operation_strategy',
+            'changing_budget',
+            'changing_target_population_of_operation',
+            'changing_geographic_location',
+            'request_for_second_allocation',
+            'has_forecasted_event_materialize',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -267,18 +272,21 @@ const schema: DrefFormSchema = {
             eventDetailDrefTypeRelatedFields,
             (val): EventDetailDrefTypeRelatedFields => {
                 let conditionalFields: EventDetailDrefTypeRelatedFields = {
-                    did_it_affect_same_area: { forceValue: nullValue },
-                    did_it_affect_same_population: { forceValue: nullValue },
-                    did_ns_respond: { forceValue: nullValue },
-                    did_ns_request_fund: { forceValue: nullValue },
-                    lessons_learned: { forceValue: nullValue },
                     event_scope: { forceValue: nullValue },
                     event_text: { forceValue: nullValue },
                     anticipatory_actions: { forceValue: nullValue },
-                    supporting_document: { forceValue: nullValue },
                     event_date: { forceValue: nullValue },
                     event_description: { forceValue: nullValue },
                     images_file: { forceValue: nullValue },
+
+                    summary_of_change: { forceValue: nullValue },
+                    changing_timeframe_operation: { forceValue: nullValue },
+                    changing_operation_strategy: { forceValue: nullValue },
+                    changing_budget: { forceValue: nullValue },
+                    changing_target_population_of_operation: { forceValue: nullValue },
+                    changing_geographic_location: { forceValue: nullValue },
+                    request_for_second_allocation: { forceValue: nullValue },
+                    has_forecasted_event_materialize: { forceValue: nullValue },
                 };
 
                 if (
@@ -287,11 +295,6 @@ const schema: DrefFormSchema = {
                 ) {
                     conditionalFields = {
                         ...conditionalFields,
-                        did_it_affect_same_area: {},
-                        did_it_affect_same_population: {},
-                        did_ns_respond: {},
-                        did_ns_request_fund: {},
-                        lessons_learned: {},
                         event_scope: {},
                     };
                 }
@@ -299,9 +302,10 @@ const schema: DrefFormSchema = {
                 if (val?.type_of_dref === TYPE_IMMINENT) {
                     conditionalFields = {
                         ...conditionalFields,
-                        event_text: { validations: [max500CharCondition] },
+                        // FIXME: Do we need to remove the validation?
+                        // event_text: { validations: [max500CharCondition] },
+                        event_text: {},
                         anticipatory_actions: {},
-                        supporting_document: {},
                     };
                 } else {
                     conditionalFields = {
@@ -328,8 +332,17 @@ const schema: DrefFormSchema = {
                             }),
                             // FIXME: this is not defined on array schema type
                             defaultValue: [],
+                            // FIXME: this is not defined on array schema type
                             validations: [lessThanEqualToTwoImagesCondition],
                         },
+                        summary_of_change: {},
+                        changing_timeframe_operation: {},
+                        changing_operation_strategy: {},
+                        changing_budget: {},
+                        changing_target_population_of_operation: {},
+                        changing_geographic_location: {},
+                        request_for_second_allocation: {},
+                        has_forecasted_event_materialize: {},
                     };
                 }
 
@@ -340,50 +353,16 @@ const schema: DrefFormSchema = {
         formFields = addCondition(
             formFields,
             formValue,
-            ['type_of_dref', 'did_ns_request_fund'],
-            ['ns_request_text'],
-            (val): Pick<DrefFormSchemaFields, 'ns_request_text'> => {
-                if (
-                    val?.type_of_dref !== TYPE_ASSESSMENT
-                && val?.type_of_dref !== TYPE_LOAN
-                && val?.did_ns_request_fund
-                ) {
+            ['type_of_dref', 'has_forecasted_event_materialize'],
+            ['specified_trigger_met'],
+            (val): Pick<DrefFormSchemaFields, 'has_forecasted_event_materialize'> => {
+                if (val?.type_of_dref === TYPE_IMMINENT && val?.has_forecasted_event_materialize) {
                     return {
-                        ns_request_text: {},
+                        specified_trigger_met: {},
                     };
                 }
                 return {
-                    ns_request_text: { forceValue: nullValue },
-                };
-            },
-        );
-
-        formFields = addCondition(
-            formFields,
-            formValue,
-            [
-                'type_of_dref',
-                'did_ns_request_fund',
-                'did_ns_respond',
-                'did_it_affect_same_population',
-                'did_it_affect_same_area',
-            ],
-            ['dref_recurrent_text'],
-            (val): Pick<DrefFormSchemaFields, 'dref_recurrent_text'> => {
-                if (
-                    val?.type_of_dref !== TYPE_ASSESSMENT
-                    && val?.type_of_dref !== TYPE_LOAN
-                    && val?.did_ns_request_fund
-                    && val?.did_ns_respond
-                    && val?.did_it_affect_same_population
-                    && val?.did_it_affect_same_area
-                ) {
-                    return {
-                        dref_recurrent_text: {},
-                    };
-                }
-                return {
-                    dref_recurrent_text: { forceValue: nullValue },
+                    specified_trigger_met: { forceValue: nullValue },
                 };
             },
         );
@@ -437,6 +416,7 @@ const schema: DrefFormSchema = {
             'national_authorities',
             'un_or_other_actor',
             'is_there_major_coordination_mechanism',
+            'photos_file',
         ] as const;
         type ActionsDrefTypeRelatedFields = Pick<
             DrefFormSchemaFields,
@@ -454,6 +434,8 @@ const schema: DrefFormSchema = {
                     identified_gaps: { forceValue: nullValue },
                     did_national_society: { forceValue: nullValue },
                     national_society_actions: { forceValue: nullValue },
+                    // FIXME: Should this be force array?
+                    photos_file: { forceValue: nullValue },
                     ifrc: { forceValue: nullValue },
                     icrc: { forceValue: nullValue },
                     partner_national_society: { forceValue: nullValue },
@@ -484,6 +466,7 @@ const schema: DrefFormSchema = {
                             }),
                         }),
                     },
+                    photos_file: { validations: [lessThanEqualToTwoImagesCondition] },
                     ifrc: {},
                     icrc: {},
                     partner_national_society: {},
@@ -635,17 +618,22 @@ const schema: DrefFormSchema = {
                                 client_id: {},
                                 title: { required: true },
                                 budget: {
+                                    required: true,
                                     validations: [
                                         positiveIntegerCondition,
                                         lessThanOrEqualToCondition(MAX_INT_LIMIT),
                                     ],
                                 },
                                 person_targeted: {
+                                    required: true,
                                     validations: [
                                         positiveIntegerCondition,
                                         lessThanOrEqualToCondition(MAX_INT_LIMIT),
                                     ],
                                 },
+                                progress_towards_outcome: {},
+                                male: {},
+                                female: {},
                                 indicators: {
                                     keySelector: (indicator) => indicator.client_id,
                                     member: () => ({
@@ -653,6 +641,7 @@ const schema: DrefFormSchema = {
                                             client_id: {},
                                             title: {},
                                             target: { validations: [positiveNumberCondition] },
+                                            actual: {},
                                         }),
                                     }),
                                 },
@@ -707,6 +696,10 @@ const schema: DrefFormSchema = {
         // SUBMISSION
 
         const submissionDrefTypeRelatedFields = [
+            'new_operational_start_date',
+            'new_operational_end_date',
+            'reporting_start_date',
+            'reporting_end_date',
             'national_society_contact_name',
             'national_society_contact_title',
             'national_society_contact_email',
@@ -723,8 +716,6 @@ const schema: DrefFormSchema = {
             'media_contact_title',
             'media_contact_email',
             'media_contact_phone_number',
-            'end_date',
-            'publishing_date',
             'glide_code',
         ] as const;
         type SubmissionDrefTypeRelatedFields = Pick<
@@ -738,6 +729,10 @@ const schema: DrefFormSchema = {
             submissionDrefTypeRelatedFields,
             (val): SubmissionDrefTypeRelatedFields => {
                 const baseSubmissionFields: SubmissionDrefTypeRelatedFields = {
+                    new_operational_start_date: { forceValue: nullValue },
+                    new_operational_end_date: { forceValue: nullValue },
+                    reporting_start_date: { forceValue: nullValue },
+                    reporting_end_date: { forceValue: nullValue },
                     national_society_contact_name: { forceValue: nullValue },
                     national_society_contact_title: { forceValue: nullValue },
                     national_society_contact_email: { forceValue: nullValue },
@@ -754,16 +749,16 @@ const schema: DrefFormSchema = {
                     media_contact_title: { forceValue: nullValue },
                     media_contact_email: { forceValue: nullValue },
                     media_contact_phone_number: { forceValue: nullValue },
-                    end_date: { forceValue: nullValue },
-                    publishing_date: { forceValue: nullValue },
                     glide_code: { forceValue: nullValue },
                 };
 
                 if (val?.type_of_dref !== TYPE_LOAN) {
                     return {
                         ...baseSubmissionFields,
-                        end_date: {},
-                        publishing_date: {},
+                        new_operational_start_date: {},
+                        new_operational_end_date: {},
+                        reporting_start_date: {},
+                        reporting_end_date: {},
                         glide_code: {},
                         national_society_contact_name: {},
                         national_society_contact_title: {},

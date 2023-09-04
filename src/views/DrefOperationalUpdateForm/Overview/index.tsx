@@ -30,6 +30,7 @@ import {
     numericIdSelector,
     stringValueSelector,
 } from '#utils/selectors';
+import { sumSafe } from '#utils/common';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useCountry from '#hooks/domain/useCountry';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
@@ -43,10 +44,10 @@ import {
     DISASTER_FLASH_FLOOD,
     TYPE_IMMINENT,
     TYPE_LOAN,
+    ONSET_SUDDEN,
 } from '../common';
 import { type PartialDref } from '../schema';
 import ImageWithCaptionInput from './ImageWithCaptionInput';
-import CopyFieldReportSection from './CopyFieldReportSection';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
@@ -122,9 +123,33 @@ function Overview(props: Props) {
         },
     });
 
-    const handleNSChange = useCallback((nationalSociety: number | undefined) => {
+    const handleTypeOfOnsetChange = useCallback((
+        typeOfOnset: OnsetTypeOption['key'] | undefined,
+        name: 'type_of_onset',
+    ) => {
+        setFieldValue(typeOfOnset, name);
+        if (typeOfOnset === ONSET_SUDDEN) {
+            setFieldValue(false, 'emergency_appeal_planned');
+        }
+    }, [setFieldValue]);
+
+    const handleAdditionalAllocationChange = useCallback((
+        additionalAllocation: number | undefined,
+        name: 'additional_allocation',
+    ) => {
+        setFieldValue(additionalAllocation, name);
+        setFieldValue(
+            sumSafe([
+                value.dref_allocated_so_far,
+                additionalAllocation,
+            ]),
+            'total_dref_allocation',
+        );
+    }, [setFieldValue, value.dref_allocated_so_far]);
+
+    const handleNSChange = useCallback((nationalSociety: number | undefined, name: 'national_society') => {
         // FIXME: should we also change national_society when country is changed?
-        setFieldValue(nationalSociety, 'national_society');
+        setFieldValue(nationalSociety, name);
         setFieldValue(nationalSociety, 'country');
     }, [setFieldValue]);
 
@@ -185,13 +210,6 @@ function Overview(props: Props) {
                     disabled={disabled}
                 />
             </InputSection>
-            { value?.type_of_dref !== TYPE_LOAN && (
-                <CopyFieldReportSection
-                    value={value}
-                    setFieldValue={setFieldValue}
-                    disabled={disabled}
-                />
-            )}
             <InputSection title={strings.drefFormDrefTypeTitle}>
                 <SelectInput
                     name="type_of_dref"
@@ -232,7 +250,7 @@ function Overview(props: Props) {
                     keySelector={onsetTypeKeySelector}
                     labelSelector={stringValueSelector}
                     value={value?.type_of_onset}
-                    onChange={setFieldValue}
+                    onChange={handleTypeOfOnsetChange}
                     error={error?.type_of_onset}
                     disabled={disabled}
                 />
@@ -294,6 +312,7 @@ function Overview(props: Props) {
                     error={error?.country}
                     disabled={disabled}
                 />
+                {/* FIXME: use district search select input */}
                 <MultiSelectInput
                     name="district"
                     label={strings.drefFormAddRegion}
@@ -334,7 +353,7 @@ function Overview(props: Props) {
                 numPreferredColumns={2}
             >
                 <NumberInput
-                    name="num_affected"
+                    name="number_of_people_affected"
                     label={value?.type_of_dref === TYPE_IMMINENT ? (
                         <>
                             {strings.drefFormRiskPeopleLabel}
@@ -358,9 +377,9 @@ function Overview(props: Props) {
                             </Link>
                         </>
                     )}
-                    value={value?.num_affected}
+                    value={value?.number_of_people_affected}
                     onChange={setFieldValue}
-                    error={error?.num_affected}
+                    error={error?.number_of_people_affected}
                     hint={(
                         value?.type_of_dref === TYPE_IMMINENT
                             ? strings.drefFormPeopleAffectedDescriptionImminent
@@ -411,28 +430,56 @@ function Overview(props: Props) {
                             </Link>
                         </>
                     )}
-                    name="num_assisted"
-                    value={value?.num_assisted}
+                    name="number_of_people_targeted"
+                    value={value?.number_of_people_targeted}
                     onChange={setFieldValue}
-                    error={error?.num_assisted}
+                    error={error?.number_of_people_targeted}
                     hint={strings.drefFormPeopleTargetedDescription}
                     disabled={disabled}
                 />
                 {/* NOTE: Empty div to preserve the layout */}
                 <div />
             </InputSection>
+
             <InputSection
-                title={strings.drefFormRequestAmount}
+                title={strings.drefOperationalUpdateAllocationSoFar}
                 numPreferredColumns={2}
             >
                 <NumberInput
-                    name="amount_requested"
-                    value={value?.amount_requested}
-                    onChange={setFieldValue}
-                    error={error?.amount_requested}
+                    name="dref_allocated_so_far"
+                    value={value.dref_allocated_so_far}
+                    onChange={undefined}
+                    error={error?.dref_allocated_so_far}
+                    disabled={disabled}
+                    readOnly
+                />
+            </InputSection>
+            <InputSection
+                title={strings.drefOperationalUpdateAdditionalAllocationRequested}
+                numPreferredColumns={2}
+            >
+                <NumberInput
+                    name="additional_allocation"
+                    value={value.additional_allocation}
+                    onChange={handleAdditionalAllocationChange}
+                    error={error?.additional_allocation}
                     disabled={disabled}
                 />
             </InputSection>
+            <InputSection
+                title={strings.drefOperationalUpdateTotalAllocation}
+                numPreferredColumns={2}
+            >
+                <NumberInput
+                    name="total_dref_allocation"
+                    value={value.total_dref_allocation}
+                    onChange={undefined}
+                    error={error?.total_dref_allocation}
+                    disabled={disabled}
+                    readOnly
+                />
+            </InputSection>
+
             {value?.type_of_dref !== TYPE_LOAN && (
                 <InputSection
                     title={strings.drefFormEmergencyAppealPlanned}
@@ -480,6 +527,20 @@ function Overview(props: Props) {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         label={strings.drefFormUploadAnImageLabel}
+                        disabled={disabled}
+                    />
+                </InputSection>
+            )}
+            {value?.type_of_dref !== TYPE_LOAN && (
+                <InputSection
+                    title={strings.drefOperationalUpdateNumber}
+                >
+                    <NumberInput
+                        readOnly
+                        name="operational_update_number"
+                        value={value.operational_update_number}
+                        onChange={undefined}
+                        error={error?.operational_update_number}
                         disabled={disabled}
                     />
                 </InputSection>

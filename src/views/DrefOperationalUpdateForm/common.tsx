@@ -58,11 +58,8 @@ export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps
 
 // FORM ERROR
 
-// FIXME: check these
 const overviewFields: (keyof PartialDref)[] = [
     'users',
-    'field_report',
-    'title_prefix',
     'title',
     'national_society',
     'country',
@@ -71,28 +68,35 @@ const overviewFields: (keyof PartialDref)[] = [
     'disaster_type',
     'type_of_onset',
     'disaster_category',
-    'num_affected',
-    'amount_requested',
     'event_map_file',
     'cover_image_file',
     'emergency_appeal_planned',
     'is_man_made_event',
     // 'is_assessment_report',
     'type_of_dref',
+    'number_of_people_targeted',
+    'number_of_people_affected',
+    'additional_allocation',
+    'dref_allocated_so_far',
+    'total_dref_allocation',
 ] satisfies (keyof PartialDref)[];
 
 const eventDetailFields: (keyof PartialDref)[] = [
-    'did_it_affect_same_population',
-    'did_it_affect_same_area',
-    'did_ns_respond',
-    'did_ns_request_fund',
-    'ns_request_text',
-    'lessons_learned',
     'event_description',
     'event_scope',
     'images_file',
     'event_date',
     'event_text',
+    'anticipatory_actions',
+    'summary_of_change',
+    'changing_timeframe_operation',
+    'changing_operation_strategy',
+    'changing_budget',
+    'changing_target_population_of_operation',
+    'changing_geographic_location',
+    'request_for_second_allocation',
+    'has_forecasted_event_materialize',
+    'specified_trigger_met',
 ] satisfies (keyof PartialDref)[];
 
 const actionsFields: (keyof PartialDref)[] = [
@@ -109,6 +113,8 @@ const actionsFields: (keyof PartialDref)[] = [
     'ns_respond_date',
     'is_there_major_coordination_mechanism',
     'assessment_report',
+    'did_national_society',
+    'photos_file',
 ] satisfies (keyof PartialDref)[];
 
 const operationFields: (keyof PartialDref)[] = [
@@ -134,16 +140,14 @@ const operationFields: (keyof PartialDref)[] = [
     'is_surge_personnel_deployed',
     'risk_security',
     'risk_security_concern',
+    'selection_criteria',
+    'total_targeted_population',
 ] satisfies (keyof PartialDref)[];
 
 const submissionFields: (keyof PartialDref)[] = [
     'ns_request_date',
     // 'start_date',
-    'end_date',
-    'submission_to_geneva',
     'date_of_approval',
-    'operation_timeframe',
-    'did_national_society',
     'appeal_code',
     'glide_code',
     'ifrc_appeal_manager_name',
@@ -162,10 +166,19 @@ const submissionFields: (keyof PartialDref)[] = [
     'ifrc_emergency_email',
     'ifrc_emergency_phone_number',
     'ifrc_emergency_title',
+    'regional_focal_point_name',
+    'regional_focal_point_title',
+    'regional_focal_point_email',
+    'regional_focal_point_phone_number',
     'media_contact_name',
     'media_contact_email',
     'media_contact_phone_number',
     'media_contact_title',
+    'total_operation_timeframe',
+    'new_operational_start_date',
+    'new_operational_end_date',
+    'reporting_start_date',
+    'reporting_end_date',
 ] satisfies (keyof PartialDref)[];
 
 const tabToFieldsMap = {

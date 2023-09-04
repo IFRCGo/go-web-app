@@ -120,6 +120,16 @@ function DrefTableActions(props: Props) {
                     {strings.dropdownActionEditExport}
                 </Link>
             )}
+            {status === DREF_STATUS_IN_PROGRESS && applicationType === 'OPS_UPDATE' && (
+                <Link
+                    to="drefOperationalUpdateForm"
+                    urlParams={{ opsUpdateId: id }}
+                    variant="secondary"
+                    icons={<PencilLineIcon className={styles.icon} />}
+                >
+                    {strings.dropdownActionEditExport}
+                </Link>
+            )}
         </TableActions>
     );
 }
