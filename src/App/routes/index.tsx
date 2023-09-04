@@ -1973,6 +1973,34 @@ const livelihoodServices = customWrapRoute({
     },
 });
 
+const catalogueSecurity = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'security',
+    component: {
+        render: () => import('#views/CatalogueSecurity'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Security',
+        visibility: 'anything',
+    },
+});
+
+const securityManagement = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'security/security-management',
+    component: {
+        render: () => import('#views/CatalogueSecurity/SecurityManagement'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Security Management',
+        visibility: 'anything',
+    },
+});
+
 const allDeployedPersonnel = customWrapRoute({
     parent: rootLayout,
     path: 'personnel/all',
@@ -2380,6 +2408,8 @@ const wrappedRoutes = {
     catalogueLivelihood,
     threeWProjectDetail,
     livelihoodServices,
+    catalogueSecurity,
+    securityManagement,
     catalogueLogistics,
     logisticsEmergency,
     logisticsNationalSocieties,
