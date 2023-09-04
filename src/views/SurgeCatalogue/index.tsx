@@ -125,7 +125,6 @@ export function Component() {
                     {strings.catalogueProtection}
                 </NavigationTab>
                 <NavigationTab
-<<<<<<< HEAD
                     to="cataloguePMER"
                     parentRoute
                 >

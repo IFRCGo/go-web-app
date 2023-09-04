@@ -4,7 +4,9 @@ import CatalogueInfoCard,
 {
     type LinkData,
 } from '#components/CatalogueInfoCard';
+
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -31,26 +33,32 @@ export function Component() {
         <Container
             headingLevel={2}
             heading={strings.catalogueReliefTitle}
+            className={styles.catalogueRelief}
+            childrenContainerClassName={styles.content}
         >
             <div>{strings.catalogueReliefDescription}</div>
             <Container
                 heading={strings.rapidResponsePersonnelTitle}
                 withHeaderBorder
+                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.reliefTechnicalTitle}
                     description={strings.reliefTechnicalDescription}
                     data={reliefTechnical}
                 />
+                <div />
             </Container>
             <Container
                 heading={strings.reliefServicesTitle}
                 withHeaderBorder
+                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.reliefEmergencyTitle}
                     data={reliefEmergency}
                 />
+                <div />
             </Container>
         </Container>
     );
