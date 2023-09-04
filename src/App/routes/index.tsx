@@ -1847,6 +1847,34 @@ const waterTreatment = customWrapRoute({
     },
 });
 
+const catalogueRelief = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'relief',
+    component: {
+        render: () => import('#views/CatalogueRelief'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Relief',
+        visibility: 'anything',
+    },
+});
+
+const catalogueERURelief = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'relief/eru-relief',
+    component: {
+        render: () => import('#views/CatalogueRelief/CatalogueERURelief'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'ERU Relief',
+        visibility: 'anything',
+    },
+});
+
 const protectionGender = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'protection/protection-gender-and-inclusion',
@@ -2358,6 +2386,8 @@ const wrappedRoutes = {
     catalogueOperations,
     emergencyOperations,
     catalogueProtection,
+    catalogueRelief,
+    catalogueERURelief,
     protectionGender,
     catalogueShelter,
     shelterTechnical,
