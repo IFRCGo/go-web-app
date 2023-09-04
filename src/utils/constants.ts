@@ -16,9 +16,10 @@ export const DEFAULT_MAP_PADDING = 50;
 
 export const WIDTH_DEFAULT_TABLE_COLUMN = 108;
 
-// Auth
+// Storage
 
 export const KEY_USER_STORAGE = 'user';
+export const KEY_LANGUAGE_STORAGE = 'language';
 
 // Search page
 

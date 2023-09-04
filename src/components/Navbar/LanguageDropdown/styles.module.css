@@ -1,0 +1,8 @@
+.icon {
+    color: transparent;
+    font-size: var(--go-ui-font-size-icon-multiplier);
+
+    &.active {
+        color: var(--go-ui-color-primary-red)
+    }
+}

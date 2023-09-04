@@ -18,10 +18,13 @@ import Navbar from '#components/Navbar';
 import GlobalFooter from '#components/GlobalFooter';
 import AlertContainer from '#components/AlertContainer';
 import useDebouncedValue from '#hooks/useDebouncedValue';
+import useInputState from '#hooks/useInputState';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
 import DomainContext, { type CacheKey, type Domain } from '#contexts/domain';
 import UserContext from '#contexts/user';
-import LanguageContext, { type LanguageContextProps } from '#contexts/language';
+import LanguageContext, { Language, type LanguageContextProps } from '#contexts/language';
+import { getFromStorage, setToStorage } from '#utils/localStorage';
+import { KEY_LANGUAGE_STORAGE } from '#utils/constants';
 
 import styles from './styles.module.css';
 
@@ -33,19 +36,36 @@ export function Component() {
     const isLoading = state === 'loading';
     const isLoadingDebounced = useDebouncedValue(isLoading);
     const [strings, setStrings] = useState<LanguageContextProps['strings']>({});
-    const [currentLanguage, setCurrentLanguage] = useState<LanguageContextProps['currentLanguage']>('en');
+    const [currentLanguage, setCurrentLanguage] = useInputState<LanguageContextProps['currentLanguage']>(
+        'en',
+        (newValue) => {
+            setToStorage(
+                KEY_LANGUAGE_STORAGE,
+                newValue,
+            );
 
-    const [fetch, setFetch] = useState<{ [key in CacheKey]?: boolean }>({});
+            return newValue;
+        },
+    );
+    const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
     const [
         languageNamespace,
         setLanguageNamespace,
     ] = useState<Record<string, StringNamespaceStatus>>({});
-
     const { userAuth: userDetails } = useContext(UserContext);
+    const languageRequestTimeoutRef = useRef<number | undefined>();
 
-    const register = useCallback(
+    useEffect(
+        () => {
+            const language = getFromStorage<Language>(KEY_LANGUAGE_STORAGE);
+            setCurrentLanguage(language ?? 'en');
+        },
+        [setCurrentLanguage],
+    );
+
+    const registerDomainData = useCallback(
         (name: CacheKey) => {
-            setFetch((prevState) => ({
+            setFetchDomainData((prevState) => ({
                 ...prevState,
                 [name]: true,
             }));
@@ -102,8 +122,6 @@ export function Component() {
         },
     });
 
-    const languageRequestTimeoutRef = useRef<number | undefined>();
-
     useEffect(
         () => {
             if (languagePending) {
@@ -155,7 +173,7 @@ export function Component() {
         pending: globalEnumsPending,
         retrigger: globalEnumsTrigger,
     } = useRequest({
-        skip: !fetch['global-enums'],
+        skip: !fetchDomainData['global-enums'],
         url: '/api/v2/global-enums/',
     });
 
@@ -164,7 +182,7 @@ export function Component() {
         pending: countriesPending,
         retrigger: countriesTrigger,
     } = useRequest({
-        skip: !fetch.country,
+        skip: !fetchDomainData.country,
         url: '/api/v2/country/',
         query: { limit: 9999 },
     });
@@ -174,12 +192,12 @@ export function Component() {
         pending: disasterTypesPending,
         retrigger: disasterTypesTrigger,
     } = useRequest({
-        skip: !fetch['disaster-type'],
+        skip: !fetchDomainData['disaster-type'],
         url: '/api/v2/disaster_type/',
         query: { limit: 9999 },
     });
 
-    const userSkip = !fetch['user-me'] || !userDetails;
+    const userSkip = !fetchDomainData['user-me'] || !userDetails;
 
     const {
         response: userMe,
@@ -191,7 +209,7 @@ export function Component() {
         url: '/api/v2/user/me/',
     });
 
-    const invalidate = useCallback(
+    const invalidateDomainData = useCallback(
         (name: CacheKey) => {
             switch (name) {
                 case 'country':
@@ -219,10 +237,10 @@ export function Component() {
         ],
     );
 
-    const contextValue = useMemo(
+    const domainContextValue = useMemo(
         (): Domain => ({
-            register,
-            invalidate,
+            register: registerDomainData,
+            invalidate: invalidateDomainData,
 
             countriesPending,
             countries,
@@ -245,8 +263,8 @@ export function Component() {
             disasterTypesPending,
             globalEnums,
             globalEnumsPending,
-            register,
-            invalidate,
+            registerDomainData,
+            invalidateDomainData,
         ],
     );
 
@@ -262,11 +280,12 @@ export function Component() {
             currentLanguage,
             strings,
             registerLanguageNamespace,
+            setCurrentLanguage,
         ],
     );
 
     return (
-        <DomainContext.Provider value={contextValue}>
+        <DomainContext.Provider value={domainContextValue}>
             <LanguageContext.Provider value={languageContextValue}>
                 <div className={styles.root}>
                     {(isLoading || isLoadingDebounced) && (
