@@ -1,4 +1,6 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+
+import LanguageContext from '#contexts/language';
 
 interface Internationalization<S extends Record<string, string>> {
     namespace: string;
@@ -6,11 +8,16 @@ interface Internationalization<S extends Record<string, string>> {
 }
 
 function useTranslation<S extends Record<string, string>>(i18n: Internationalization<S>) {
+    const {
+        strings,
+        registerNamespace,
+    } = useContext(LanguageContext);
+
     useEffect(() => {
-        // eslint-disable-next-line no-console
-        console.info('fetching translations for', i18n.namespace);
-    }, [i18n.namespace]);
-    return i18n.strings;
+        registerNamespace(i18n.namespace, i18n.strings);
+    }, [registerNamespace, i18n]);
+
+    return strings[i18n.namespace] ?? i18n.strings;
 }
 
 export default useTranslation;
