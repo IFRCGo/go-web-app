@@ -3,7 +3,7 @@ import { cwd, exit } from 'process';
 import { join } from 'path';
 import { promisify } from 'util';
 import { readFile } from 'fs';
-import { mapToList, listToMap, isDefined, unique } from '@togglecorp/fujs';
+import { mapToList, listToMap, isDefined } from '@togglecorp/fujs';
 
 const glob = fg.glob;
 
