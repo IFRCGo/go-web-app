@@ -1,26 +1,38 @@
-import { useMemo, useCallback } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useMemo, useCallback, useContext } from 'react';
+import { useOutletContext, generatePath } from 'react-router-dom';
 import { isDefined, isNotDefined, listToGroupList } from '@togglecorp/fujs';
 
-import List from '#components/List';
-import Link from '#components/Link';
-import TextOutput from '#components/TextOutput';
 import Container from '#components/Container';
 import Image from '#components/Image';
+import Link from '#components/Link';
+import List from '#components/List';
+import Table from '#components/Table';
+import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
+import RouteContext from '#contexts/route';
 import type { EmergencyOutletContext } from '#utils/outletContext';
-import { useRequest } from '#utils/restRequest';
-import { numericIdSelector } from '#utils/selectors';
 import type { GoApiResponse } from '#utils/restRequest';
+import { numericIdSelector } from '#utils/selectors';
+import { useRequest } from '#utils/restRequest';
+import {
+    createStringColumn,
+    createDateColumn,
+    createLinkColumn,
+    createCountryListColumn,
+} from '#components/Table/ColumnShortcuts';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type SituationReportType = NonNullable<NonNullable<GoApiResponse<'/api/v2/situation_report/'>>['results']>[number];
+type FieldReportListItem = NonNullable<NonNullable<NonNullable<EmergencyOutletContext['emergencyResponse']>>['field_reports']>[number];
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
+    const {
+        fieldReportDetails: fieldReportDetailsRoute,
+    } = useContext(RouteContext);
 
     const {
         response: situationReportsResponse,
@@ -30,8 +42,41 @@ export function Component() {
         query: isDefined(emergencyResponse) ? {
             event: emergencyResponse.id,
             limit: 1000, // FIXME: we should not use this unbounded request
-        } : undefined,
+        } : undefined, // TODO: we need to add search filter in server
     });
+
+    const columns = useMemo(
+        () => ([
+            createDateColumn<FieldReportListItem, number>(
+                'created_at',
+                strings.fieldReportsTableCreatedAt,
+                (item) => item.created_at,
+                {
+                    columnClassName: styles.createdAt,
+                },
+            ),
+            createLinkColumn<FieldReportListItem, number>(
+                'summary',
+                strings.fieldReportsTableName,
+                (item) => item.summary,
+                (item) => ({
+                    to: generatePath(
+                        fieldReportDetailsRoute.absolutePath,
+                        { fieldReportId: item.id },
+                    ),
+                }),
+                {
+                    columnClassName: styles.summary,
+                },
+            ),
+            createCountryListColumn<FieldReportListItem, number>(
+                'countries',
+                strings.fieldReportsTableCountry,
+                (item) => item.countries,
+            ),
+        ]),
+        [strings, fieldReportDetailsRoute],
+    );
 
     const groupedSituationReports = useMemo(() => (
         listToGroupList(
@@ -121,6 +166,23 @@ export function Component() {
                             />
                         </Container>
                     ))}
+                </Container>
+            )}
+            {isDefined(emergencyResponse)
+                && isDefined(emergencyResponse.field_reports)
+                && emergencyResponse.field_reports.length > 0 && (
+                <Container
+                    heading={strings.fieldReports}
+                    withHeaderBorder
+                >
+                    <Table
+                        pending={false}
+                        filtered={false}
+                        className={styles.table}
+                        columns={columns}
+                        keySelector={numericIdSelector}
+                        data={emergencyResponse.field_reports}
+                    />
                 </Container>
             )}
         </div>

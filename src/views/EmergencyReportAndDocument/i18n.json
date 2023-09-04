@@ -3,6 +3,12 @@
     "strings": {
         "emergencyReportAndDocumentTempContent": "Emergency Reports / Documents",
         "featuredDocuments": "Featured Documents",
-        "situationReports": "Situation Reports"
+        "situationReports": "Situation Reports",
+        "fieldReports": "Field Reports",
+        "fieldReportsTableTitle": "Field Reports in the last 30 days ({numFieldReports})",
+        "fieldReportsTableCreatedAt": "Created At",
+        "fieldReportsTableName": "Name",
+        "fieldReportsTableCountry": "Countries",
+        "fieldReportsTableRegion": "Region"
     }
 }
