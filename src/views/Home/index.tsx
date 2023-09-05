@@ -17,7 +17,9 @@ import {
     isDefined,
     isNotDefined,
     unique,
+    isTruthyString,
 } from '@togglecorp/fujs';
+import { Md5 } from 'ts-md5';
 
 import PageContainer from '#components/PageContainer';
 import PageHeader from '#components/PageHeader';
@@ -44,12 +46,22 @@ import { numericIdSelector } from '#utils/selectors';
 import { getPercentage } from '#utils/common';
 import useFilterState from '#hooks/useFilterState';
 import { resolveToString } from '#utils/translation';
-import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import {
+    type GoApiResponse,
+    type GoApiBody,
+    useLazyRequest,
+    useRequest,
+} from '#utils/restRequest';
 
 import i18n from './i18n.json';
+import migratedStrings from './go-migrated-strings.json';
+
 import styles from './styles.module.css';
 
 type OperationsResponse = GoApiResponse<'/api/v2/event/'>;
+const LANG = 'ar';
+
+type RequestBody = GoApiBody<'/api/v2/language/{id}/bulk-action/', 'POST'>;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -90,6 +102,36 @@ export function Component() {
         },
         preserveResponse: true,
     });
+
+    const {
+        trigger,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/language/{id}/bulk-action/',
+        body: (ctx: RequestBody) => ctx,
+        pathVariables: { id: LANG },
+    });
+
+    useEffect(
+        () => {
+            const actions = migratedStrings.map(
+                (string) => ({
+                    action: 'set' as const,
+                    key: `${string.namespace}:${string.key}`,
+                    value: string.oldMatch?.[LANG],
+                    hash: Md5.hashStr(string.value),
+                    page_name: string.namespace,
+                }),
+            ).filter(({ value }) => isTruthyString(value));
+
+            // FIXME: we can trigger to update the database
+            // eslint-disable-next-line no-console
+            console.log(actions);
+
+            // trigger({ actions });
+        },
+        [trigger],
+    );
 
     const pending = aggregatedAppealPending;
     const eventList = subscribedEventsResponse?.results;
