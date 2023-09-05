@@ -1708,6 +1708,48 @@ const protectionGender = customWrapRoute({
     },
 });
 
+const cataloguePMER = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'planning',
+    component: {
+        render: () => import('#views/CataloguePMER'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Planning, Monitoring, Evaluation And Reporting (PMER)',
+        visibility: 'anything',
+    },
+});
+
+const catalogueEPOA = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'planning/emergency-plan-of-action-epoa-monitoring-evaluation-plan',
+    component: {
+        render: () => import('#views/CataloguePMER/CatalogueEPOA'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency plan of action EPOA monitoring evaluation plan',
+        visibility: 'anything',
+    },
+});
+
+const catalogueRTE = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'planning/real-time-evaluation-rte-and-guidance',
+    component: {
+        render: () => import('#views/CataloguePMER/CatalogueRTE'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Real time evaluation RTE and guidance',
+        visibility: 'anything',
+    },
+});
+
 const informationTechnologyServices = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'information-technology/information-technology-services',
@@ -2150,6 +2192,9 @@ const wrappedRoutes = {
     informationManagementOperationsSupport,
     informationManagementComposition,
     catalogueInformationTechnology,
+    cataloguePMER,
+    catalogueEPOA,
+    catalogueRTE,
     informationTechnologyServices,
     catalogueLivelihood,
     threeWProjectDetail,
