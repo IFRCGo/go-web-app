@@ -19,6 +19,12 @@ import { type EmergencyOutletContext } from '#utils/outletContext';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+function routeName(text: string | null | undefined) {
+    if (isNotDefined(text)) {
+        return 'additional-tab';
+    }
+    return text.toLowerCase().split(' ').join('-');
+}
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { emergencyId } = useParams<{ emergencyId: string }>();
@@ -33,6 +39,18 @@ export function Component() {
         url: '/api/v2/event/{id}/',
         pathVariables: {
             id: Number(emergencyId),
+        },
+    });
+
+    const {
+        // pending: emergencyPending,
+        response: emergencySnippetResponse,
+    } = useRequest({
+        // FIXME: need to check if emergencyId can be ''
+        skip: isNotDefined(emergencyId),
+        url: '/api/v2/event_snippet/',
+        query: {
+            event: Number(emergencyId),
         },
     });
 
@@ -52,11 +70,44 @@ export function Component() {
         ),
     );
 
+    const emergencyAdditionalTabs = useMemo(() => {
+        if (
+            isNotDefined(emergencyResponse)
+            || isNotDefined(emergencySnippetResponse)
+            || isNotDefined(emergencySnippetResponse.results)
+        ) {
+            return [];
+        }
+
+        const tabOneTitle = emergencyResponse.tab_one_title || 'Tab One';
+        const tabTwoTitle = emergencyResponse.tab_two_title || 'Tab Two';
+        const tabThreeTitle = emergencyResponse.tab_three_title || 'Tab Three';
+
+        return [
+            {
+                name: tabOneTitle,
+                routeName: routeName(tabOneTitle),
+                snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 1),
+            },
+            {
+                name: tabTwoTitle,
+                routeName: routeName(tabTwoTitle),
+                snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 2),
+            },
+            {
+                name: tabThreeTitle,
+                routeName: routeName(tabThreeTitle),
+                snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 3),
+            },
+        ].filter((tabInfo) => tabInfo.snippets.length > 0);
+    }, [emergencyResponse, emergencySnippetResponse]);
+
     const outletContext = useMemo<EmergencyOutletContext>(
         () => ({
             emergencyResponse,
+            emergencyAdditionalTabs,
         }),
-        [emergencyResponse],
+        [emergencyResponse, emergencyAdditionalTabs],
     );
 
     return (
@@ -116,6 +167,16 @@ export function Component() {
                 >
                     {strings.emergencyTabSurge}
                 </NavigationTab>
+                {emergencyAdditionalTabs.map((tab) => (
+                    <NavigationTab
+                        to="emergencyAdditionalTab"
+                        urlParams={{
+                            routeName: tab.routeName,
+                        }}
+                    >
+                        {tab.name}
+                    </NavigationTab>
+                ))}
             </NavigationTabList>
             <Outlet
                 context={outletContext}

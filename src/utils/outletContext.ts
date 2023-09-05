@@ -2,8 +2,18 @@ import type { GoApiResponse } from '#utils/restRequest';
 
 type EmergencyResponse = GoApiResponse<'/api/v2/event/{id}/'>;
 
+type EmergencySnippetsResponse = GoApiResponse<'/api/v2/event_snippet/'>;
+type Snippets = EmergencySnippetsResponse['results'];
+
+interface EmergencyAdditionalTabs {
+    name: string;
+    routeName: string;
+    snippets: Snippets;
+}
+
 export interface EmergencyOutletContext {
     emergencyResponse: EmergencyResponse | undefined;
+    emergencyAdditionalTabs: EmergencyAdditionalTabs[] | undefined;
 }
 
 export type CountryResponse = GoApiResponse<'/api/v2/country/{id}/'>
