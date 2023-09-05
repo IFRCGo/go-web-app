@@ -86,7 +86,7 @@ export function Component() {
                 className={styles.country}
             >
                 <Message
-                    title="Error loading data for the country!"
+                    title={strings.countryLoadingErrorMessage}
                     description={countryResponseError.value?.messageForNotification}
                 />
             </Page>

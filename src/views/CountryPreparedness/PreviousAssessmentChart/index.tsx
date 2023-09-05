@@ -29,6 +29,7 @@ function PreviousAssessmentCharts(props: Props) {
         containerRef,
         {
             xValueSelector: (datum) => datum.assessment_number,
+            // FIXME: use translations
             xAxisLabelFormatter: (datum) => `Cycle ${datum.assessment_number} (${formatDate(datum.date_of_assessment, 'yyyy')})`,
             yValueSelector: (datum) => datum.average_rating ?? 0,
             keySelector: (datum) => datum.date_of_assessment,

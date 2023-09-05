@@ -221,7 +221,7 @@ export function Component() {
             const ratingCounts = mapToList(
                 listToGroupList(
                     componentList.filter((component) => isDefined(component.rating)),
-                    (component) => component.rating.value,
+                    (component) => component.rating?.value,
                 ),
                 (ratingList) => ({
                     id: ratingList[0].rating?.id,
@@ -302,7 +302,7 @@ export function Component() {
             const componentsToBeStrengthened = componentsWithRating.map(
                 (component) => ({
                     id: component.id,
-                    value: component.rating.value,
+                    value: component.rating?.value,
                     label: component.details.title,
                     rating: component.rating,
                 }),
@@ -497,7 +497,7 @@ export function Component() {
                             <Container
                                 key={component.details.id}
                                 className={styles.topRatedComponent}
-                                heading={component.rating.title}
+                                heading={component.rating?.title}
                                 headingLevel={5}
                                 withHeaderBorder
                                 withInternalPadding
@@ -522,7 +522,7 @@ export function Component() {
                             <Container
                                 key={priorityComponent.id}
                                 className={styles.priorityComponent}
-                                heading={priorityComponent.rating.title}
+                                heading={priorityComponent.rating?.title}
                                 headingLevel={5}
                                 withHeaderBorder
                                 withInternalPadding
@@ -583,4 +583,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'RegionPreparedness';
+Component.displayName = 'CountryPreparedness';

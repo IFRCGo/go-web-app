@@ -78,21 +78,9 @@ function EventDetails(props: Props) {
         pending,
     } = props;
 
-    const {
-        death,
-        displaced,
-        exposed_population,
-        people_affected,
-        impact,
-    } = (exposure?.population_exposure as GdacsPopulationExposure | undefined) ?? {};
+    const populationExposure = exposure?.population_exposure as GdacsPopulationExposure | undefined;
+    const eventDetails = event_details as GdacsEventDetails | undefined;
 
-    const {
-        url,
-        severitydata,
-        source,
-    } = (event_details as GdacsEventDetails | undefined) ?? {};
-
-    // TODO: add exposure details
     return (
         <Container
             className={styles.eventDetails}
@@ -111,7 +99,7 @@ function EventDetails(props: Props) {
             )}
         >
             {pending && <BlockLoading />}
-            {isDefined(url) && (
+            {isDefined(eventDetails?.url) && (
                 <Container
                     // FIXME: use translation
                     heading="Useful links:"
@@ -119,9 +107,9 @@ function EventDetails(props: Props) {
                     childrenContainerClassName={styles.usefulLinksContent}
                     spacing="compact"
                 >
-                    {isDefined(url.details) && (
+                    {isDefined(eventDetails?.url.details) && (
                         <Link
-                            to={url.details}
+                            to={eventDetails?.url.details}
                             external
                             withExternalLinkIcon
                         >
@@ -129,9 +117,9 @@ function EventDetails(props: Props) {
                             More Details
                         </Link>
                     )}
-                    {isDefined(url.geometry) && (
+                    {isDefined(eventDetails?.url.geometry) && (
                         <Link
-                            to={url.geometry}
+                            to={eventDetails?.url.geometry}
                             external
                             withExternalLinkIcon
                         >
@@ -139,9 +127,9 @@ function EventDetails(props: Props) {
                             Geometry
                         </Link>
                     )}
-                    {isDefined(url.report) && (
+                    {isDefined(eventDetails?.url.report) && (
                         <Link
-                            to={url.report}
+                            to={eventDetails?.url.report}
                             external
                             withExternalLinkIcon
                         >
@@ -152,55 +140,55 @@ function EventDetails(props: Props) {
                 </Container>
             )}
             <div className={styles.eventDetails}>
-                {isDefined(source) && (
+                {isDefined(eventDetails?.source) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Source"
-                        value={source}
+                        value={eventDetails?.source}
                     />
                 )}
-                {isDefined(death) && (
+                {isDefined(populationExposure?.death) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Death"
-                        value={death}
+                        value={populationExposure?.death}
                         valueType="number"
                     />
                 )}
-                {isDefined(displaced) && (
+                {isDefined(populationExposure?.displaced) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Displaced"
-                        value={displaced}
+                        value={populationExposure?.displaced}
                         valueType="number"
                     />
                 )}
-                {isDefined(exposed_population) && (
+                {isDefined(populationExposure?.exposed_population) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Population exposed"
-                        value={exposed_population}
+                        value={populationExposure?.exposed_population}
                     />
                 )}
-                {isDefined(people_affected) && (
+                {isDefined(populationExposure?.people_affected) && (
                     <TextOutput
                         // FIXME: use translation
                         label="People affected"
-                        value={people_affected}
+                        value={populationExposure?.people_affected}
                     />
                 )}
-                {isDefined(impact) && (
+                {isDefined(populationExposure?.impact) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Impact"
-                        value={impact}
+                        value={populationExposure?.impact}
                     />
                 )}
-                {isDefined(severitydata) && (
+                {isDefined(eventDetails?.severitydata) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Severity"
-                        value={severitydata?.severitytext}
+                        value={eventDetails?.severitydata?.severitytext}
                     />
                 )}
             </div>

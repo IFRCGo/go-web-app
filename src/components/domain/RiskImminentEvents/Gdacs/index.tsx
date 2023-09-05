@@ -124,7 +124,8 @@ function Gdacs(props: Props) {
             }
 
             const footprint = isValidFeatureCollection(footprint_geojson)
-                ? footprint_geojson : undefined;
+                ? footprint_geojson
+                : undefined;
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
                 type: 'FeatureCollection' as const,

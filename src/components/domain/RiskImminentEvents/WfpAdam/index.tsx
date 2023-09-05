@@ -130,7 +130,8 @@ function WfpAdam(props: Props) {
             }
 
             const stormPositions = isValidFeatureCollection(storm_position_geojson)
-                ? storm_position_geojson : undefined;
+                ? storm_position_geojson
+                : undefined;
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
                 type: 'FeatureCollection' as const,

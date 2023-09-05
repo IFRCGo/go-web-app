@@ -122,21 +122,15 @@ function MeteoSwiss(props: Props) {
             }
 
             // FIXME: typings should be fixed in the server
-            const {
-                footprint_geojson: {
-                    footprint_geojson,
-                } = {},
-            } = exposure as unknown as { footprint_geojson?: {
-                    footprint_geojson: unknown
-                }
-            };
+            const footprint_geojson = exposure?.footprint_geojson?.footprint_geojson;
 
             if (isNotDefined(footprint_geojson)) {
                 return undefined;
             }
 
             const footprint = isValidFeatureCollection(footprint_geojson)
-                ? footprint_geojson : undefined;
+                ? footprint_geojson
+                : undefined;
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
                 type: 'FeatureCollection' as const,

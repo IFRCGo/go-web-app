@@ -26,7 +26,7 @@ interface WfpAdamPopulationExposure {
     exposure_120_kmh?: number;
 }
 
-interface WfpAdamEventeDetails {
+interface WfpAdamEventDetails {
     event_id: string;
     mag?: number;
     mmni?: number;
@@ -91,12 +91,14 @@ function EventDetails(props: Props) {
             const { storm_position_geojson } = exposure;
 
             const geoJson = isValidFeatureCollection(storm_position_geojson)
-                ? storm_position_geojson : undefined;
+                ? storm_position_geojson
+                : undefined;
 
             const points = geoJson?.features.map(
                 (pointFeature) => {
-                    if (!isValidPointFeature(pointFeature)
-                        || isNotDefined(pointFeature.properties)
+                    if (
+                        !isValidPointFeature(pointFeature)
+                            || isNotDefined(pointFeature.properties)
                     ) {
                         return undefined;
                     }
@@ -127,32 +129,14 @@ function EventDetails(props: Props) {
         [exposure],
     );
 
-    const {
-        from_date,
-        to_date,
-        population_impact,
-        population,
-        depth,
-        wind_speed,
-        effective_date,
-        dashboard_url,
-        alert_level,
-        flood_area,
-        fl_croplnd,
-        source,
-        sitrep,
-        url,
-        mag,
-    } = (event_details as WfpAdamEventeDetails | undefined) ?? {};
+    const eventDetails = event_details as WfpAdamEventDetails | undefined;
 
-    const {
-        exposure_60_kmh,
-        exposure_90_kmh,
-        exposure_120_kmh,
-    } = (exposure?.population_exposure as WfpAdamPopulationExposure | undefined) ?? {};
+    // eslint-disable-next-line max-len
+    const populationExposure = exposure?.population_exposure as WfpAdamPopulationExposure | undefined;
 
-    const dashboardUrl = dashboard_url ?? url?.map;
-    const populationImpact = roundSafe(population_impact) ?? roundSafe(population);
+    const dashboardUrl = eventDetails?.dashboard_url ?? eventDetails?.url?.map;
+    const populationImpact = roundSafe(eventDetails?.population_impact)
+        ?? roundSafe(eventDetails?.population);
     const maxWindSpeed = maxSafe(
         stormPoints?.map(({ windSpeed }) => windSpeed),
     );
@@ -191,7 +175,8 @@ function EventDetails(props: Props) {
                     )}
                 </div>
             )}
-            {(isDefined(url) || isDefined(dashboard_url)) && (
+            {isDefined(eventDetails)
+                && (isDefined(eventDetails.url) || isDefined(eventDetails.dashboard_url)) && (
                 <Container
                     // FIXME: use translation
                     heading="Useful links:"
@@ -209,11 +194,11 @@ function EventDetails(props: Props) {
                             Dashboard
                         </Link>
                     )}
-                    {isDefined(url) && (
+                    {isDefined(eventDetails?.url) && (
                         <>
-                            {isDefined(url.shakemap) && (
+                            {isDefined(eventDetails.url.shakemap) && (
                                 <Link
-                                    to={url.shakemap}
+                                    to={eventDetails?.url.shakemap}
                                     external
                                     withExternalLinkIcon
                                 >
@@ -221,9 +206,9 @@ function EventDetails(props: Props) {
                                     Shakemap
                                 </Link>
                             )}
-                            {isDefined(url.population) && (
+                            {isDefined(eventDetails.url.population) && (
                                 <Link
-                                    to={url.population}
+                                    to={eventDetails.url.population}
                                     external
                                     withExternalLinkIcon
                                 >
@@ -231,9 +216,9 @@ function EventDetails(props: Props) {
                                     Population table
                                 </Link>
                             )}
-                            {isDefined(url.wind) && (
+                            {isDefined(eventDetails.url.wind) && (
                                 <Link
-                                    to={url.wind}
+                                    to={eventDetails.url.wind}
                                     external
                                     withExternalLinkIcon
                                 >
@@ -241,9 +226,9 @@ function EventDetails(props: Props) {
                                     Wind
                                 </Link>
                             )}
-                            {isDefined(url.rainfall) && (
+                            {isDefined(eventDetails.url.rainfall) && (
                                 <Link
-                                    to={url.rainfall}
+                                    to={eventDetails.url.rainfall}
                                     external
                                     withExternalLinkIcon
                                 >
@@ -251,9 +236,9 @@ function EventDetails(props: Props) {
                                     Rainfall
                                 </Link>
                             )}
-                            {isDefined(url.shapefile) && (
+                            {isDefined(eventDetails.url.shapefile) && (
                                 <Link
-                                    to={url.shapefile}
+                                    to={eventDetails.url.shapefile}
                                     external
                                     withExternalLinkIcon
                                 >
@@ -266,11 +251,11 @@ function EventDetails(props: Props) {
                 </Container>
             )}
             <div>
-                {isDefined(wind_speed) && (
+                {isDefined(eventDetails?.wind_speed) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Wind speed"
-                        value={wind_speed}
+                        value={eventDetails?.wind_speed}
                     />
                 )}
                 {isDefined(populationImpact) && (
@@ -284,110 +269,110 @@ function EventDetails(props: Props) {
                 )}
             </div>
             <div>
-                {isDefined(source) && (
+                {isDefined(eventDetails?.source) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Source"
-                        value={source}
+                        value={eventDetails?.source}
                     />
                 )}
-                {isDefined(sitrep) && (
+                {isDefined(eventDetails?.sitrep) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Sitrep"
-                        value={sitrep}
+                        value={eventDetails?.sitrep}
                     />
                 )}
-                {isDefined(mag) && (
+                {isDefined(eventDetails?.mag) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Magnitude"
-                        value={mag}
+                        value={eventDetails?.mag}
                         valueType="number"
                     />
                 )}
-                {isDefined(depth) && (
+                {isDefined(eventDetails?.depth) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Depth (km)"
-                        value={depth}
+                        value={eventDetails?.depth}
                         valueType="number"
                     />
                 )}
-                {isDefined(alert_level) && (
+                {isDefined(eventDetails?.alert_level) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Alert Type"
-                        value={alert_level}
+                        value={eventDetails?.alert_level}
                     />
                 )}
-                {isDefined(effective_date) && (
+                {isDefined(eventDetails?.effective_date) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Effective"
-                        value={effective_date}
+                        value={eventDetails?.effective_date}
                         valueType="date"
                     />
                 )}
-                {isDefined(from_date) && (
+                {isDefined(eventDetails?.from_date) && (
                     <TextOutput
                         // FIXME: use translation
                         label="From date"
-                        value={from_date}
+                        value={eventDetails?.from_date}
                         valueType="date"
                     />
                 )}
-                {isDefined(to_date) && (
+                {isDefined(eventDetails?.to_date) && (
                     <TextOutput
                         // FIXME: use translation
                         label="To date"
-                        value={to_date}
+                        value={eventDetails?.to_date}
                         valueType="date"
                     />
                 )}
             </div>
             <div>
-                {isDefined(exposure_60_kmh) && (
+                {isDefined(populationExposure?.exposure_60_kmh) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Exposure (60km/h)"
-                        value={exposure_60_kmh}
+                        value={populationExposure?.exposure_60_kmh}
                         valueType="number"
                         maximumFractionDigits={0}
                     />
                 )}
-                {isDefined(exposure_90_kmh) && (
+                {isDefined(populationExposure?.exposure_90_kmh) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Exposure (90km/h)"
-                        value={exposure_90_kmh}
+                        value={populationExposure?.exposure_90_kmh}
                         valueType="number"
                         maximumFractionDigits={0}
                     />
                 )}
-                {isDefined(exposure_120_kmh) && (
+                {isDefined(populationExposure?.exposure_120_kmh) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Exposure (120km/h)"
-                        value={exposure_120_kmh}
+                        value={populationExposure?.exposure_120_kmh}
                         valueType="number"
                         maximumFractionDigits={0}
                     />
                 )}
-                {isDefined(flood_area) && (
+                {isDefined(eventDetails?.flood_area) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Flood Area"
-                        value={flood_area}
+                        value={eventDetails?.flood_area}
                         valueType="number"
                         suffix="hectares"
                     />
                 )}
-                {isDefined(fl_croplnd) && (
+                {isDefined(eventDetails?.fl_croplnd) && (
                     <TextOutput
                         // FIXME: use translation
                         label="Flood Cropland"
-                        value={fl_croplnd}
+                        value={eventDetails?.fl_croplnd}
                         valueType="number"
                         suffix="hectares"
                     />
