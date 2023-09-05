@@ -265,19 +265,6 @@ export function Component() {
                 changing_budget: changing_budget ?? false,
                 request_for_second_allocation: request_for_second_allocation ?? false,
                 has_forecasted_event_materialize: has_forecasted_event_materialize ?? false,
-
-                // FIXME: fix these in the server
-                /*
-                disability_people_per: isDefined(disability_people_per)
-                    ? Number(disability_people_per)
-                    : undefined,
-                people_per_urban: isDefined(people_per_urban)
-                    ? Number(people_per_urban)
-                    : undefined,
-                people_per_local: isDefined(people_per_local)
-                    ? Number(people_per_local)
-                    : undefined,
-                */
             });
         },
     });

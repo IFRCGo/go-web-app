@@ -355,7 +355,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['type_of_dref', 'has_forecasted_event_materialize'],
             ['specified_trigger_met'],
-            (val): Pick<DrefFormSchemaFields, 'has_forecasted_event_materialize'> => {
+            (val): Pick<DrefFormSchemaFields, 'specified_trigger_met'> => {
                 if (val?.type_of_dref === TYPE_IMMINENT && val?.has_forecasted_event_materialize) {
                     return {
                         specified_trigger_met: {},

@@ -339,6 +339,10 @@ export function formatDate(
     format: string,
 ): undefined;
 export function formatDate(
+    value: string | Date | number | null | undefined,
+    format: string,
+): string | undefined;
+export function formatDate(
     value: Date | string | number | null | undefined,
     format = DEFAULT_DATE_FORMAT,
 ) {
