@@ -1,4 +1,6 @@
-import { useMemo, useCallback, useContext } from 'react';
+import {
+    useMemo, useCallback, useContext, useState,
+} from 'react';
 import { useOutletContext, generatePath } from 'react-router-dom';
 import {
     isDefined,
@@ -7,27 +9,29 @@ import {
     unique,
 } from '@togglecorp/fujs';
 
-import { resolveUrl } from '#utils/resolveUrl';
 import Container from '#components/Container';
 import Image from '#components/Image';
 import Link from '#components/Link';
 import List from '#components/List';
+import Pager from '#components/Pager';
+import RouteContext from '#contexts/route';
 import Table from '#components/Table';
 import TextOutput from '#components/TextOutput';
-import useTranslation from '#hooks/useTranslation';
-import RouteContext from '#contexts/route';
 import useRegion from '#hooks/domain/useRegion';
+import useTranslation from '#hooks/useTranslation';
+import { adminUrl } from '#config';
+import { numericIdSelector } from '#utils/selectors';
 import { resolveToString } from '#utils/translation';
+import { resolveUrl } from '#utils/resolveUrl';
+import { useRequest } from '#utils/restRequest';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import type { GoApiResponse } from '#utils/restRequest';
-import { numericIdSelector } from '#utils/selectors';
-import { useRequest } from '#utils/restRequest';
-import { adminUrl } from '#config';
 import {
     createDateColumn,
     createLinkColumn,
     createCountryListColumn,
     createRegionListColumn,
+    createStringColumn,
 } from '#components/Table/ColumnShortcuts';
 
 import i18n from './i18n.json';
@@ -35,10 +39,15 @@ import styles from './styles.module.css';
 
 type SituationReportType = NonNullable<NonNullable<GoApiResponse<'/api/v2/situation_report/'>>['results']>[number];
 type FieldReportListItem = NonNullable<NonNullable<NonNullable<EmergencyOutletContext['emergencyResponse']>>['field_reports']>[number];
+type AppealDocumentType = NonNullable<NonNullable<GoApiResponse<'/api/v2/appeal_document/'>>['results']>[number];
+
+const PAGE_SIZE = 25;
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
+    const [page, setPage] = useState(1);
     const {
         fieldReportDetails: fieldReportDetailsRoute,
     } = useContext(RouteContext);
@@ -56,6 +65,22 @@ export function Component() {
         } : undefined, // TODO: we need to add search filter in server
     });
 
+    const {
+        pending: appealDocumentsPending,
+        response: appealDocumentsResponse,
+    } = useRequest({
+        skip: isNotDefined(emergencyResponse?.appeals)
+           || (isDefined(emergencyResponse)
+            && isDefined(emergencyResponse.appeals)
+            && emergencyResponse.appeals.length < 1),
+        url: '/api/v2/appeal_document/',
+        query: isDefined(emergencyResponse) ? {
+            appeal__in: emergencyResponse.appeals.map((appeal) => appeal.id).filter(isDefined),
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * (page - 1),
+        } : undefined, // TODO: fix typing issue in server
+    });
+
     const getRegionList = useCallback((regionList: number[]) => (
         regionList.map((region) => regions?.find((r) => r.id === region))
             .filter(isDefined)
@@ -68,7 +93,7 @@ export function Component() {
                 strings.fieldReportsTableCreatedAt,
                 (item) => item.created_at,
                 {
-                    columnClassName: styles.createdAt,
+                    columnClassName: styles.date,
                 },
             ),
             createLinkColumn<FieldReportListItem, number>(
@@ -103,6 +128,43 @@ export function Component() {
         [strings, fieldReportDetailsRoute, getRegionList],
     );
 
+    const appealColumns = useMemo(
+        () => ([
+            createDateColumn<AppealDocumentType, number>(
+                'created_at',
+                strings.appealDocumentDate,
+                (item) => item.created_at,
+                {
+                    columnClassName: styles.date,
+                },
+            ),
+            createStringColumn<AppealDocumentType, number>(
+                'iso',
+                strings.appealDocumentLocation,
+                (item) => item.iso,
+            ),
+            createStringColumn<AppealDocumentType, number>(
+                'code',
+                strings.appealDocumentCode,
+                (item) => item.appeal,
+            ),
+            createStringColumn<AppealDocumentType, number>(
+                'description',
+                strings.appealDocumentDescription,
+                (item) => item.description,
+            ),
+            createLinkColumn<AppealDocumentType, number>(
+                'name',
+                strings.appealDocumentLink,
+                (item) => item.name,
+                (item) => ({
+                    to: item.document ?? item.document_url,
+                }),
+            ),
+        ]),
+        [strings],
+    );
+
     const groupedSituationReports = useMemo(() => (
         listToGroupList(
             situationReportsResponse?.results?.filter(
@@ -113,11 +175,9 @@ export function Component() {
             (situationReport) => situationReport.type.type,
         )), [situationReportsResponse?.results]);
 
-    console.warn('groupedSituationReports', groupedSituationReports, situationReportsResponse?.results);
-
     const situationReportsRendererParams = useCallback(
         (_: number, value: SituationReportType) => ({
-            to: value.document ?? undefined,
+            to: value.document ?? value.document_url,
             children: value.name,
         }),
         [],
@@ -220,6 +280,34 @@ export function Component() {
                         columns={columns}
                         keySelector={numericIdSelector}
                         data={emergencyResponse.field_reports}
+                    />
+                </Container>
+            )}
+            {isDefined(emergencyResponse)
+                && isDefined(emergencyResponse.appeals)
+                && emergencyResponse.appeals.length > 0 && (
+                <Container
+                    heading={resolveToString(
+                        strings.appealDocuments,
+                        { count: appealDocumentsResponse?.count },
+                    )}
+                    withHeaderBorder
+                    footerActions={(
+                        <Pager
+                            activePage={page}
+                            itemsCount={appealDocumentsResponse?.count ?? 0}
+                            maxItemsPerPage={PAGE_SIZE}
+                            onActivePageChange={setPage}
+                        />
+                    )}
+                >
+                    <Table
+                        pending={appealDocumentsPending}
+                        filtered={false}
+                        className={styles.table}
+                        columns={appealColumns}
+                        keySelector={numericIdSelector}
+                        data={appealDocumentsResponse?.results}
                     />
                 </Container>
             )}

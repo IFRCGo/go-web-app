@@ -10,6 +10,12 @@
         "fieldReportsTableName": "Name",
         "fieldReportsTableCountry": "Countries",
         "fieldReportsTableRegion": "Regions",
-        "addAReportLink": "Add a Report"
+        "addAReportLink": "Add a Report",
+        "appealDocuments": "Appeal Documents ({count})",
+        "appealDocumentDate": "Date",
+        "appealDocumentLocation": "Location",
+        "appealDocumentCode": "Code",
+        "appealDocumentDescription": "Description",
+        "appealDocumentLink": "Name"
     }
 }

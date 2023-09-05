@@ -60,3 +60,10 @@
         }
     }
 }
+
+.table {
+    .date {
+        width: 0%;
+        min-width: 9rem;
+    }
+}
