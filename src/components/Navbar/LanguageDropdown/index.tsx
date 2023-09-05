@@ -15,6 +15,13 @@ const languageNameMap: Record<Language, string> = {
     ar: 'عربي',
 };
 
+const languageNameMapEn: Record<Language, string> = {
+    en: 'English',
+    fr: 'French',
+    es: 'Spanish',
+    ar: 'Arabic',
+};
+
 const languageList = mapToList(
     languageNameMap,
     (value, key) => ({ key: key as Language, value }),
@@ -49,7 +56,7 @@ function LangaugeDropdown() {
 
     return (
         <DropdownMenu
-            label={languageNameMap[currentLanguage]}
+            label={languageNameMapEn[currentLanguage]}
             variant="tertiary"
         >
             {languageList.map(

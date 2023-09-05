@@ -9,8 +9,10 @@ import {
 import {
     _cs,
     isDefined,
+    listToGroupList,
     listToMap,
     mapToList,
+    mapToMap,
 } from '@togglecorp/fujs';
 import { Outlet, useNavigation } from 'react-router-dom';
 
@@ -18,50 +20,30 @@ import Navbar from '#components/Navbar';
 import GlobalFooter from '#components/GlobalFooter';
 import AlertContainer from '#components/AlertContainer';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import useInputState from '#hooks/useInputState';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
 import DomainContext, { type CacheKey, type Domain } from '#contexts/domain';
 import UserContext from '#contexts/user';
-import LanguageContext, { Language, type LanguageContextProps } from '#contexts/language';
-import { getFromStorage, setToStorage } from '#utils/localStorage';
-import { KEY_LANGUAGE_STORAGE } from '#utils/constants';
+import LanguageContext from '#contexts/language';
 
 import styles from './styles.module.css';
-
-type StringNamespaceStatus = 'queued' | 'pending' | 'fetched';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { state } = useNavigation();
     const isLoading = state === 'loading';
     const isLoadingDebounced = useDebouncedValue(isLoading);
-    const [strings, setStrings] = useState<LanguageContextProps['strings']>({});
-    const [currentLanguage, setCurrentLanguage] = useInputState<LanguageContextProps['currentLanguage']>(
-        'en',
-        (newValue) => {
-            setToStorage(
-                KEY_LANGUAGE_STORAGE,
-                newValue,
-            );
 
-            return newValue;
-        },
-    );
-    const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
-    const [
-        languageNamespace,
-        setLanguageNamespace,
-    ] = useState<Record<string, StringNamespaceStatus>>({});
     const { userAuth: userDetails } = useContext(UserContext);
+
+    const {
+        currentLanguage,
+        setStrings,
+        setLanguageNamespaceStatus,
+        languageNamespaceStatus,
+    } = useContext(LanguageContext);
     const languageRequestTimeoutRef = useRef<number | undefined>();
 
-    useEffect(
-        () => {
-            const language = getFromStorage<Language>(KEY_LANGUAGE_STORAGE);
-            setCurrentLanguage(language ?? 'en');
-        },
-        [setCurrentLanguage],
-    );
+    const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
 
     const registerDomainData = useCallback(
         (name: CacheKey) => {
@@ -73,58 +55,65 @@ export function Component() {
         [],
     );
 
-    const registerLanguageNamespace = useCallback(
-        (namespace: string, fallbackStrings: Record<string, string>) => {
-            setStrings(
-                (prevValue) => {
-                    if (isDefined(prevValue[namespace])) {
-                        return {
-                            ...prevValue,
-                            [namespace]: {
-                                ...prevValue[namespace],
-                                ...fallbackStrings,
-                            },
-                        };
-                    }
-
-                    return {
-                        ...prevValue,
-                        [namespace]: fallbackStrings,
-                    };
-                },
-            );
-
-            setLanguageNamespace((prevValue) => {
-                if (isDefined(prevValue[namespace])) {
-                    return prevValue;
-                }
-
-                return {
-                    ...prevValue,
-                    [namespace]: 'queued',
-                };
-            });
-        },
-        [setStrings],
-    );
-
     const {
         pending: languagePending,
         trigger: fetchLanguage,
     } = useLazyRequest<'/api/v2/language/{id}/', { pages: Array<string> }>({
         url: '/api/v2/language/{id}/',
         // FIXME: typings should be fixed in the server
-        query: ({ pages }) => ({ pages } as never),
+        query: ({ pages }) => ({ page_name: pages }) as never,
         pathVariables: () => ({ id: currentLanguage }),
-        onSuccess: () => {
-            // TODO: Add response to the context
-            // TODO: update status of namespaces
+        onSuccess: (response, { pages }) => {
+            const stringMap = mapToMap(
+                listToGroupList(
+                    response.strings,
+                    ({ key }) => key.split(':')[0],
+                ),
+                (key) => key,
+                (values) => (
+                    listToMap(
+                        values,
+                        ({ key }) => key.split(':')[1],
+                        ({ value }) => value,
+                    )
+                ),
+            );
+
+            setStrings(
+                (prevValue) => {
+                    const namespaces = Object.keys(prevValue);
+
+                    return {
+                        ...listToMap(
+                            namespaces,
+                            (namespace) => namespace,
+                            (namespace) => ({
+                                ...prevValue[namespace],
+                                ...stringMap?.[namespace],
+                            }),
+                        ),
+                    };
+                },
+            );
+
+            setLanguageNamespaceStatus(
+                (prevValue) => ({
+                    ...prevValue,
+                    ...listToMap(
+                        pages,
+                        (key) => key,
+                        // TODO: set to pending
+                        // () => 'pending',
+                        () => 'fetched',
+                    ),
+                }),
+            );
         },
     });
 
     useEffect(
         () => {
-            if (languagePending) {
+            if (languagePending || currentLanguage === 'en') {
                 return;
             }
 
@@ -132,7 +121,7 @@ export function Component() {
             languageRequestTimeoutRef.current = window.setTimeout(
                 () => {
                     // FIXME: check if the component is still mounted
-                    setLanguageNamespace(
+                    setLanguageNamespaceStatus(
                         (prevState) => {
                             const keys = mapToList(
                                 prevState,
@@ -143,19 +132,14 @@ export function Component() {
                                 return prevState;
                             }
 
-                            // eslint-disable-next-line no-console
-                            console.info('fetching taranslations for', keys.join(', '));
-                            // TODO: send the request
-                            // fetchLanguage({ pages: keys });
+                            fetchLanguage({ pages: keys });
 
                             return {
                                 ...prevState,
                                 ...listToMap(
                                     keys,
                                     (key) => key,
-                                    // TODO: set to pending
-                                    // () => 'pending',
-                                    () => 'fetched',
+                                    () => 'pending',
                                 ),
                             };
                         },
@@ -165,7 +149,13 @@ export function Component() {
                 200,
             );
         },
-        [languagePending, fetchLanguage, languageNamespace, setLanguageNamespace],
+        [
+            languagePending,
+            currentLanguage,
+            fetchLanguage,
+            languageNamespaceStatus,
+            setLanguageNamespaceStatus,
+        ],
     );
 
     const {
@@ -268,42 +258,24 @@ export function Component() {
         ],
     );
 
-    const languageContextValue = useMemo<LanguageContextProps>(
-        () => ({
-            currentLanguage,
-            setCurrentLanguage,
-            strings,
-            setStrings,
-            registerNamespace: registerLanguageNamespace,
-        }),
-        [
-            currentLanguage,
-            strings,
-            registerLanguageNamespace,
-            setCurrentLanguage,
-        ],
-    );
-
     return (
         <DomainContext.Provider value={domainContextValue}>
-            <LanguageContext.Provider value={languageContextValue}>
-                <div className={styles.root}>
-                    {(isLoading || isLoadingDebounced) && (
-                        <div
-                            className={_cs(
-                                styles.navigationLoader,
-                                !isLoading && isLoadingDebounced && styles.disappear,
-                            )}
-                        />
-                    )}
-                    <Navbar className={styles.navbar} />
-                    <div className={styles.pageContent}>
-                        <Outlet />
-                    </div>
-                    <GlobalFooter className={styles.footer} />
-                    <AlertContainer />
+            <div className={styles.root}>
+                {(isLoading || isLoadingDebounced) && (
+                    <div
+                        className={_cs(
+                            styles.navigationLoader,
+                            !isLoading && isLoadingDebounced && styles.disappear,
+                        )}
+                    />
+                )}
+                <Navbar className={styles.navbar} />
+                <div className={styles.pageContent}>
+                    <Outlet />
                 </div>
-            </LanguageContext.Provider>
+                <GlobalFooter className={styles.footer} />
+                <AlertContainer />
+            </div>
         </DomainContext.Provider>
     );
 }
