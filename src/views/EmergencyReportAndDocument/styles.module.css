@@ -12,8 +12,8 @@
 
         .featured-document {
             display: flex;
-            flex-direction: column;
             flex-basis: 20rem;
+            flex-direction: column;
             border-radius: var(--go-ui-border-radius-md);
             box-shadow: var(--go-ui-box-shadow-xl);
 
@@ -46,8 +46,8 @@
 
         .situation-report {
             display: flex;
-            flex-direction: column;
             flex-basis: 24rem;
+            flex-direction: column;
             border-radius: var(--go-ui-border-radius-md);
             box-shadow: var(--go-ui-box-shadow-xl);
             padding: var(--go-ui-spacing-md);

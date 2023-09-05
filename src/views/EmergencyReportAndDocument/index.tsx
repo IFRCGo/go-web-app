@@ -1,31 +1,33 @@
 import {
-    useMemo, useCallback, useContext, useState,
+    useMemo,
+    useCallback,
+    useState,
 } from 'react';
-import { useOutletContext, generatePath } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import {
     isDefined,
     isNotDefined,
     listToGroupList,
+    listToMap,
     unique,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import Image from '#components/Image';
-import Link from '#components/Link';
+import Link, { Props as LinkProps } from '#components/Link';
 import List from '#components/List';
 import Pager from '#components/Pager';
-import RouteContext from '#contexts/route';
 import Table from '#components/Table';
 import TextOutput from '#components/TextOutput';
-import useRegion from '#hooks/domain/useRegion';
+import useRegion, { type Region } from '#hooks/domain/useRegion';
 import useTranslation from '#hooks/useTranslation';
 import { adminUrl } from '#config';
 import { numericIdSelector } from '#utils/selectors';
 import { resolveToString } from '#utils/translation';
 import { resolveUrl } from '#utils/resolveUrl';
 import { useRequest } from '#utils/restRequest';
-import type { EmergencyOutletContext } from '#utils/outletContext';
-import type { GoApiResponse } from '#utils/restRequest';
+import { type EmergencyOutletContext } from '#utils/outletContext';
+import { type GoApiResponse } from '#utils/restRequest';
 import {
     createDateColumn,
     createLinkColumn,
@@ -38,7 +40,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type SituationReportType = NonNullable<NonNullable<GoApiResponse<'/api/v2/situation_report/'>>['results']>[number];
-type FieldReportListItem = NonNullable<NonNullable<NonNullable<EmergencyOutletContext['emergencyResponse']>>['field_reports']>[number];
+type FieldReportListItem = NonNullable<NonNullable<NonNullable<EmergencyOutletContext['emergencyResponse']>>['field_reports']>[number] & { regions: Region[] };
 type AppealDocumentType = NonNullable<NonNullable<GoApiResponse<'/api/v2/appeal_document/'>>['results']>[number];
 
 const PAGE_SIZE = 25;
@@ -48,9 +50,6 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
     const [page, setPage] = useState(1);
-    const {
-        fieldReportDetails: fieldReportDetailsRoute,
-    } = useContext(RouteContext);
 
     const regions = useRegion();
 
@@ -70,21 +69,42 @@ export function Component() {
         response: appealDocumentsResponse,
     } = useRequest({
         skip: isNotDefined(emergencyResponse?.appeals)
-           || (isDefined(emergencyResponse)
+           || ((isDefined(emergencyResponse)
             && isDefined(emergencyResponse.appeals)
-            && emergencyResponse.appeals.length < 1),
+            && emergencyResponse.appeals.length < 1)),
         url: '/api/v2/appeal_document/',
         query: isDefined(emergencyResponse) ? {
-            appeal__in: emergencyResponse.appeals.map((appeal) => appeal.id).filter(isDefined),
+            /* FIXME: instead of sending list of appeals the API should be able to filter
+             *  appeals document by emergency id
+             */
+            appeal: emergencyResponse.appeals.map((appeal) => appeal.id).filter(isDefined),
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
         } : undefined, // TODO: fix typing issue in server
     });
 
-    const getRegionList = useCallback((regionList: number[]) => (
-        regionList.map((region) => regions?.find((r) => r.id === region))
-            .filter(isDefined)
+    const regionsMap = useMemo(() => (
+        listToMap(regions ?? [], (region) => region.id)
     ), [regions]);
+
+    const getRegionList = useCallback((regionList: number[]) => (
+        regionList.map((region) => regionsMap[region])
+            .filter(isDefined)
+    ), [regionsMap]);
+
+    const fieldReports = useMemo(() => {
+        const transformedFieldReports = emergencyResponse?.field_reports.map((fieldReport) => {
+            const regionsIds = unique(fieldReport.countries.map((country) => country.region))
+                .filter(isDefined);
+
+            return {
+                ...fieldReport,
+                regions: getRegionList(regionsIds),
+            };
+        });
+
+        return transformedFieldReports;
+    }, [emergencyResponse?.field_reports, getRegionList]);
 
     const columns = useMemo(
         () => ([
@@ -101,10 +121,8 @@ export function Component() {
                 strings.fieldReportsTableName,
                 (item) => item.summary,
                 (item) => ({
-                    to: generatePath(
-                        fieldReportDetailsRoute.absolutePath,
-                        { fieldReportId: item.id },
-                    ),
+                    to: 'fieldReportDetails',
+                    urlParams: { fieldReportId: item.id },
                 }),
                 {
                     columnClassName: styles.summary,
@@ -118,14 +136,10 @@ export function Component() {
             createRegionListColumn<FieldReportListItem, number>(
                 'regions',
                 strings.fieldReportsTableRegion,
-                (item) => {
-                    const ids = unique(item.countries.map((country) => country.region))
-                        .filter(isDefined);
-                    return getRegionList(ids);
-                },
+                (item) => item.regions,
             ),
         ]),
-        [strings, fieldReportDetailsRoute, getRegionList],
+        [strings],
     );
 
     const appealColumns = useMemo(
@@ -146,7 +160,7 @@ export function Component() {
             createStringColumn<AppealDocumentType, number>(
                 'code',
                 strings.appealDocumentCode,
-                (item) => item.appeal,
+                (item) => item.appeal.code,
             ),
             createStringColumn<AppealDocumentType, number>(
                 'description',
@@ -158,7 +172,8 @@ export function Component() {
                 strings.appealDocumentLink,
                 (item) => item.name,
                 (item) => ({
-                    to: item.document ?? item.document_url,
+                    external: true,
+                    to: item.document ?? item.document_url ?? undefined,
                 }),
             ),
         ]),
@@ -169,14 +184,15 @@ export function Component() {
         listToGroupList(
             situationReportsResponse?.results?.filter(
                 (situationReport) => (
-                    isDefined(situationReport.type.type) // FIXME: fix typings in server side
+                    isDefined(situationReport.type.type)
                 ),
-            ),
+            ) ?? [],
             (situationReport) => situationReport.type.type,
         )), [situationReportsResponse?.results]);
 
     const situationReportsRendererParams = useCallback(
-        (_: number, value: SituationReportType) => ({
+        (_: number, value: SituationReportType): LinkProps => ({
+            external: true,
             to: value.document ?? value.document_url,
             children: value.name,
         }),
@@ -209,6 +225,7 @@ export function Component() {
                                     className={styles.documentTitle}
                                     value={(
                                         <Link
+                                            external
                                             to={featuredDocument.file}
                                         >
                                             {featuredDocument.title}
@@ -232,6 +249,7 @@ export function Component() {
                     actions={(
                         <Link
                             variant="secondary"
+                            external
                             to={resolveUrl(adminUrl, `api/event/${emergencyResponse?.id}/change`)}
                             title={strings.addAReportLink}
                         >
@@ -279,7 +297,7 @@ export function Component() {
                         className={styles.table}
                         columns={columns}
                         keySelector={numericIdSelector}
-                        data={emergencyResponse.field_reports}
+                        data={fieldReports}
                     />
                 </Container>
             )}
