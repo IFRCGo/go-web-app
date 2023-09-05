@@ -9,13 +9,18 @@ import {
     RouterProvider,
 } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
-import { unique } from '@togglecorp/fujs';
+import { isDefined, unique } from '@togglecorp/fujs';
 
 import UserContext, { UserAuth, UserContextProps } from '#contexts/user';
 import AlertContext, { AlertParams, AlertContextProps } from '#contexts/alert';
 import RouteContext from '#contexts/route';
+import LanguageContext, {
+    Language,
+    LanguageNamespaceStatus,
+    type LanguageContextProps,
+} from '#contexts/language';
 import { RequestContext } from '#utils/restRequest';
-import { KEY_USER_STORAGE } from '#utils/constants';
+import { KEY_LANGUAGE_STORAGE, KEY_USER_STORAGE } from '#utils/constants';
 import {
     processGoUrls,
     processGoOptions,
@@ -106,10 +111,6 @@ function App() {
         }
     }, []);
 
-    useEffect(() => {
-        hydrateUserAuth();
-    }, [hydrateUserAuth]);
-
     const removeUserAuth = useCallback(() => {
         removeFromStorage(KEY_USER_STORAGE);
         setUserAuth(undefined);
@@ -123,6 +124,67 @@ function App() {
         );
     }, []);
 
+    // Translation
+
+    const [strings, setStrings] = useState<LanguageContextProps['strings']>({});
+    const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
+    const [
+        languageNamespaceStatus,
+        setLanguageNamespaceStatus,
+    ] = useState<Record<string, LanguageNamespaceStatus>>({});
+
+    const setAndStoreCurrentLanguage = useCallback(
+        (newLanugage: Language) => {
+            setCurrentLanguage(newLanugage);
+            setToStorage(KEY_LANGUAGE_STORAGE, newLanugage);
+        },
+        [],
+    );
+
+    const registerLanguageNamespace = useCallback(
+        (namespace: string, fallbackStrings: Record<string, string>) => {
+            setStrings(
+                (prevValue) => {
+                    if (isDefined(prevValue[namespace])) {
+                        return {
+                            ...prevValue,
+                            [namespace]: {
+                                ...fallbackStrings,
+                                ...prevValue[namespace],
+                            },
+                        };
+                    }
+
+                    return {
+                        ...prevValue,
+                        [namespace]: fallbackStrings,
+                    };
+                },
+            );
+
+            setLanguageNamespaceStatus((prevValue) => {
+                if (isDefined(prevValue[namespace])) {
+                    return prevValue;
+                }
+
+                return {
+                    ...prevValue,
+                    // NOTE: This will fetch if the data is not already fetched
+                    [namespace]: prevValue[namespace] === 'fetched' ? 'fetched' : 'queued',
+                };
+            });
+        },
+        [setStrings],
+    );
+
+    // Hydration
+    useEffect(() => {
+        hydrateUserAuth();
+
+        const language = getFromStorage<Language>(KEY_LANGUAGE_STORAGE);
+        setCurrentLanguage(language ?? 'en');
+    }, [hydrateUserAuth]);
+
     const userContextValue = useMemo<UserContextProps>(
         () => ({
             userAuth,
@@ -133,24 +195,46 @@ function App() {
         [userAuth, hydrateUserAuth, setAndStoreUserAuth, removeUserAuth],
     );
 
+    const languageContextValue = useMemo<LanguageContextProps>(
+        () => ({
+            languageNamespaceStatus,
+            setLanguageNamespaceStatus,
+            currentLanguage,
+            setCurrentLanguage: setAndStoreCurrentLanguage,
+            strings,
+            setStrings,
+            registerNamespace: registerLanguageNamespace,
+        }),
+        [
+            languageNamespaceStatus,
+            setLanguageNamespaceStatus,
+            currentLanguage,
+            setAndStoreCurrentLanguage,
+            strings,
+            registerLanguageNamespace,
+        ],
+    );
+
     return (
         <RouteContext.Provider value={wrappedRoutes}>
             <UserContext.Provider value={userContextValue}>
                 <AlertContext.Provider value={alertContextValue}>
                     <RequestContext.Provider value={requestContextValue}>
-                        <RouterProvider
-                            router={router}
-                            fallbackElement={(
-                                <div className={styles.fallbackElement}>
-                                    <img
-                                        className={styles.goLogo}
-                                        alt="IFRC GO"
-                                        src={goLogo}
-                                    />
-                                    {`${appTitle} loading...`}
-                                </div>
-                            )}
-                        />
+                        <LanguageContext.Provider value={languageContextValue}>
+                            <RouterProvider
+                                router={router}
+                                fallbackElement={(
+                                    <div className={styles.fallbackElement}>
+                                        <img
+                                            className={styles.goLogo}
+                                            alt="IFRC GO"
+                                            src={goLogo}
+                                        />
+                                        {`${appTitle} loading...`}
+                                    </div>
+                                )}
+                            />
+                        </LanguageContext.Provider>
                     </RequestContext.Provider>
                 </AlertContext.Provider>
             </UserContext.Provider>

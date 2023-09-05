@@ -18,6 +18,7 @@ import UserContext from '#contexts/user';
 import goLogo from '#assets/icons/go-logo-2020.svg';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
+import LangaugeDropdown from './LanguageDropdown';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -73,6 +74,7 @@ function Navbar(props: Props) {
                     className={styles.actions}
                     variant="tertiary"
                 >
+                    <LangaugeDropdown />
                     <NavigationTab
                         to="resources"
                         className={styles.actionItem}

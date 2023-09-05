@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import {
     isNotDefined,
     isDefined,
@@ -6,6 +6,7 @@ import {
 } from '@togglecorp/fujs';
 
 import { formatNumber } from '#utils/common';
+import LanguageContext from '#contexts/language';
 
 import styles from './styles.module.css';
 
@@ -57,6 +58,8 @@ function NumberOutput(props: Props) {
         maximumFractionDigits,
     } = props;
 
+    const { currentLanguage } = useContext(LanguageContext);
+
     const val = useMemo(
         () => {
             if (isNotDefined(value)) {
@@ -71,6 +74,7 @@ function NumberOutput(props: Props) {
                     separatorHidden,
                     maximumFractionDigits,
                     unit,
+                    language: currentLanguage,
                 },
             );
 
@@ -91,6 +95,7 @@ function NumberOutput(props: Props) {
             unit,
             maximumFractionDigits,
             prefix,
+            currentLanguage,
             suffix,
         ],
     );

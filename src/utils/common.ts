@@ -276,6 +276,7 @@ interface FormatNumberOptions {
     maximumFractionDigits?: Intl.NumberFormatOptions['maximumFractionDigits'];
     compact?: boolean;
     separatorHidden?: boolean,
+    language?: string,
 }
 
 export function formatNumber(
@@ -302,7 +303,7 @@ export function formatNumber(
 
     if (isNotDefined(options)) {
         formattingOptions.maximumFractionDigits = Math.abs(value) >= 1000 ? 0 : 2;
-        return new Intl.NumberFormat(navigator.language, formattingOptions).format(value);
+        return new Intl.NumberFormat(undefined, formattingOptions).format(value);
     }
 
     const {
@@ -311,6 +312,7 @@ export function formatNumber(
         maximumFractionDigits,
         compact,
         separatorHidden,
+        language,
     } = options;
 
     if (isTruthyString(unit)) {
@@ -334,7 +336,7 @@ export function formatNumber(
         formattingOptions.maximumFractionDigits = Math.abs(value) >= 1000 ? 0 : 2;
     }
 
-    const newValue = new Intl.NumberFormat(navigator.language, formattingOptions)
+    const newValue = new Intl.NumberFormat(language, formattingOptions)
         .format(value);
 
     return newValue;

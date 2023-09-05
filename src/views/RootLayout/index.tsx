@@ -3,17 +3,30 @@ import {
     useCallback,
     useState,
     useContext,
+    useEffect,
+    useRef,
 } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import {
+    unstable_batchedUpdates,
+} from 'react-dom';
+import {
+    _cs,
+    listToGroupList,
+    listToMap,
+    mapToList,
+    mapToMap,
+    isFalsyString,
+} from '@togglecorp/fujs';
 import { Outlet, useNavigation } from 'react-router-dom';
 
 import Navbar from '#components/Navbar';
 import GlobalFooter from '#components/GlobalFooter';
 import AlertContainer from '#components/AlertContainer';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import { useRequest } from '#utils/restRequest';
+import { useLazyRequest, useRequest } from '#utils/restRequest';
 import DomainContext, { type CacheKey, type Domain } from '#contexts/domain';
 import UserContext from '#contexts/user';
+import LanguageContext from '#contexts/language';
 
 import styles from './styles.module.css';
 
@@ -23,13 +36,24 @@ export function Component() {
     const isLoading = state === 'loading';
     const isLoadingDebounced = useDebouncedValue(isLoading);
 
-    const [fetch, setFetch] = useState<{ [key in CacheKey]?: boolean }>({});
-
     const { userAuth: userDetails } = useContext(UserContext);
 
-    const register = useCallback(
+    const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
+
+    const [languagePending, setLanguagePending] = useState(false);
+
+    const {
+        currentLanguage,
+        setStrings,
+        setLanguageNamespaceStatus,
+        languageNamespaceStatus,
+    } = useContext(LanguageContext);
+
+    const languageRequestTimeoutRef = useRef<number | undefined>();
+
+    const registerDomainData = useCallback(
         (name: CacheKey) => {
-            setFetch((prevState) => ({
+            setFetchDomainData((prevState) => ({
                 ...prevState,
                 [name]: true,
             }));
@@ -38,11 +62,146 @@ export function Component() {
     );
 
     const {
+        trigger: fetchLanguage,
+    } = useLazyRequest<'/api/v2/language/{id}/', { pages: Array<string> }>({
+        url: '/api/v2/language/{id}/',
+        // FIXME: typings should be fixed in the server
+        query: ({ pages }) => ({ page_name: pages }) as never,
+        pathVariables: () => ({ id: currentLanguage }),
+        onSuccess: (response, { pages }) => {
+            const stringMap = mapToMap(
+                listToGroupList(
+                    response.strings,
+                    ({ key }) => key.split(':')[0],
+                ),
+                (key) => key,
+                (values) => (
+                    listToMap(
+                        values,
+                        ({ key }) => key.split(':')[1],
+                        ({ value }) => value,
+                    )
+                ),
+            );
+
+            setStrings(
+                (prevValue) => {
+                    const namespaces = Object.keys(prevValue);
+
+                    return {
+                        ...listToMap(
+                            namespaces,
+                            (namespace) => namespace,
+                            (namespace) => ({
+                                ...prevValue[namespace],
+                                ...stringMap?.[namespace],
+                            }),
+                        ),
+                    };
+                },
+            );
+            setLanguageNamespaceStatus(
+                (prevValue) => ({
+                    ...prevValue,
+                    ...listToMap(
+                        pages,
+                        (key) => key,
+                        // TODO: set to pending
+                        // () => 'pending',
+                        () => 'fetched',
+                    ),
+                }),
+            );
+            setLanguagePending(false);
+        },
+        onFailure: (err, { pages }) => {
+            // eslint-disable-next-line no-console
+            console.error(err);
+
+            // FIXME: If we get an error, we should try again?
+            setLanguageNamespaceStatus(
+                (prevValue) => ({
+                    ...prevValue,
+                    ...listToMap(
+                        pages,
+                        (key) => key,
+                        () => 'failed',
+                    ),
+                }),
+            );
+            setLanguagePending(false);
+        },
+    });
+
+    const queuedLanguages = useMemo(
+        () => {
+            const languages = mapToList(
+                languageNamespaceStatus,
+                (item, key) => ({ key, status: item }),
+            );
+            return languages
+                .filter((item) => item.status === 'queued')
+                .map((item) => item.key)
+                .sort()
+                .join(',');
+        },
+        [languageNamespaceStatus],
+    );
+
+    useEffect(
+        () => {
+            if (
+                languagePending
+                || currentLanguage === 'en'
+                || isFalsyString(queuedLanguages)
+            ) {
+                return undefined;
+            }
+
+            languageRequestTimeoutRef.current = window.setTimeout(
+                () => {
+                    const keys = queuedLanguages.split(',');
+
+                    unstable_batchedUpdates(() => {
+                        // FIXME: check if the component is still mounted
+                        setLanguageNamespaceStatus(
+                            (prevState) => ({
+                                ...prevState,
+                                ...listToMap(
+                                    keys,
+                                    (key) => key,
+                                    () => 'pending',
+                                ),
+                            }),
+                        );
+                        setLanguagePending(true);
+                    });
+
+                    fetchLanguage({ pages: keys });
+                },
+                // FIXME: use constatnt
+                200,
+            );
+
+            return () => {
+                window.clearTimeout(languageRequestTimeoutRef.current);
+            };
+        },
+        [
+            queuedLanguages,
+            languagePending,
+            currentLanguage,
+            fetchLanguage,
+            setLanguageNamespaceStatus,
+        ],
+    );
+
+    const {
         response: globalEnums,
         pending: globalEnumsPending,
         retrigger: globalEnumsTrigger,
     } = useRequest({
-        skip: !fetch['global-enums'],
+        skip: !fetchDomainData['global-enums'],
         url: '/api/v2/global-enums/',
     });
 
@@ -51,7 +210,7 @@ export function Component() {
         pending: countriesPending,
         retrigger: countriesTrigger,
     } = useRequest({
-        skip: !fetch.country,
+        skip: !fetchDomainData.country,
         url: '/api/v2/country/',
         query: { limit: 9999 },
     });
@@ -61,12 +220,12 @@ export function Component() {
         pending: disasterTypesPending,
         retrigger: disasterTypesTrigger,
     } = useRequest({
-        skip: !fetch['disaster-type'],
+        skip: !fetchDomainData['disaster-type'],
         url: '/api/v2/disaster_type/',
         query: { limit: 9999 },
     });
 
-    const userSkip = !fetch['user-me'] || !userDetails;
+    const userSkip = !fetchDomainData['user-me'] || !userDetails;
 
     const {
         response: userMe,
@@ -78,7 +237,7 @@ export function Component() {
         url: '/api/v2/user/me/',
     });
 
-    const invalidate = useCallback(
+    const invalidateDomainData = useCallback(
         (name: CacheKey) => {
             switch (name) {
                 case 'country':
@@ -106,10 +265,10 @@ export function Component() {
         ],
     );
 
-    const contextValue = useMemo(
+    const domainContextValue = useMemo(
         (): Domain => ({
-            register,
-            invalidate,
+            register: registerDomainData,
+            invalidate: invalidateDomainData,
 
             countriesPending,
             countries,
@@ -132,13 +291,13 @@ export function Component() {
             disasterTypesPending,
             globalEnums,
             globalEnumsPending,
-            register,
-            invalidate,
+            registerDomainData,
+            invalidateDomainData,
         ],
     );
 
     return (
-        <DomainContext.Provider value={contextValue}>
+        <DomainContext.Provider value={domainContextValue}>
             <div className={styles.root}>
                 {(isLoading || isLoadingDebounced) && (
                     <div

@@ -82,33 +82,25 @@ function EmergencyResponseUnitsTable() {
             strings.emergencyResponseUnitsTableOwner,
             (emergencyResponseUnit) => emergencyResponseUnit
                 .eru_owner.national_society_country.society_name,
-            {
-                sortable: true,
-            },
+            { sortable: true },
         ),
         createStringColumn<EmergencyResponseUnitListItem, number>(
             'type',
             strings.emergencyResponseUnitsTableType,
             (emergencyResponseUnit) => emergencyResponseUnit.type_display,
-            {
-                sortable: true,
-            },
+            { sortable: true },
         ),
         createNumberColumn<EmergencyResponseUnitListItem, number>(
             'units',
             strings.emergencyResponseUnitsTableUnits,
             (emergencyResponseUnit) => emergencyResponseUnit.units,
-            {
-                sortable: true,
-            },
+            { sortable: true },
         ),
         createNumberColumn<EmergencyResponseUnitListItem, number>(
             'equipment_units',
             strings.emergencyResponseUnitsTableEquipment,
             (emergencyResponseUnit) => emergencyResponseUnit.equipment_units,
-            {
-                sortable: true,
-            },
+            { sortable: true },
         ),
         createLinkColumn<EmergencyResponseUnitListItem, number>(
             'deployed_to__society_name',
@@ -120,9 +112,7 @@ function EmergencyResponseUnitsTable() {
                     countryId: emergencyResponseUnit.deployed_to.id,
                 },
             }),
-            {
-                sortable: true,
-            },
+            { sortable: true },
         ),
         createLinkColumn<EmergencyResponseUnitListItem, number>(
             'event__name',
@@ -132,9 +122,7 @@ function EmergencyResponseUnitsTable() {
                 to: 'emergenciesLayout',
                 urlParams: { emergencyId: emergencyResponseUnit.event?.id },
             }),
-            {
-                sortable: true,
-            },
+            { sortable: true },
         ),
     ]), [strings]);
 
@@ -143,7 +131,7 @@ function EmergencyResponseUnitsTable() {
             className={styles.emergencyResponseUnitsTable}
             heading={resolveToString(
                 strings.emergencyResponseUnitsTableHeading,
-                { count: emergencyResponseUnitsResponse?.count },
+                { count: emergencyResponseUnitsResponse?.count ?? '--' },
             )}
             withHeaderBorder
             filtersContainerClassName={styles.filters}
