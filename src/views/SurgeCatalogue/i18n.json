@@ -17,6 +17,7 @@
         "cataloguePMER": "Planning, Monitoring, Evaluation And Reporting (PMER)",
         "catalogueShelter": "Shelter",
         "catalogueWater": "Water, sanitation, and hygiene (WASH)",
-        "catalogueRelief": "Relief"
+        "catalogueRelief": "Relief",
+        "catalogueSecurity": "Security"
     }
 }

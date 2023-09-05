@@ -1,0 +1,16 @@
+{
+    "namespace": "catalogueSecurity",
+    "strings": {
+        "catalogueSecurityTitle": "Security",
+        "catalogueSecurityDescription": "The IFRC provides security management support to any Movement partner requesting IFRC security support in operational contexts where the IFRC has the required capacity and the country office is deemed to be in compliance with the IFRC Minimum Security Requirements. The services are detailed within the 'IFRC security management support to Movement partners' procedures and are based upon 4 Levels of security coverage, depending on the modality of service requests. Movement partners can contact relevant IFRC Regional or Country offices for further information.",
+        "rapidResponsePersonnelTitle": "Rapid Response Personnel",
+        "securityRoleProfilesTitle": "Role Profiles",
+        "securityTechnicalTitle": "Technical Competency Framework",
+        "securityTechnicalDescription": "Tiered compentencies describing the knowledge and skills expected of personnel in this sector.",
+        "securityServicesTitle": "Services",
+        "securityRapidResponseTitle": "Rapid Response",
+        "catalogueSecurityCoordinator": "Security Coordinator",
+        "catalogueSecurityOfficer": "Security Officer",
+        "learnMore": "Learn more"
+    }
+}
