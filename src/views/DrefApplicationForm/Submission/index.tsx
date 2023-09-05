@@ -99,7 +99,7 @@ function Submission(props: Props) {
             >
                 <InputSection
                     withoutTitleSection
-                    numPreferredColumns={2}
+                    numPreferredColumns={3}
                 >
                     <DateInput
                         label={strings.drefFormNsRequestDate}
@@ -127,11 +127,6 @@ function Submission(props: Props) {
                         hint={strings.drefFormAddedByGeneva}
                         disabled={disabled}
                     />
-                </InputSection>
-                <InputSection
-                    withoutTitleSection
-                    numPreferredColumns={3}
-                >
                     <NumberInput
                         label={strings.drefFormOperationTimeframeSubmission}
                         name="operation_timeframe"

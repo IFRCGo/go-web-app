@@ -3,11 +3,22 @@
     flex-direction: column;
     gap: var(--go-ui-spacing-4xl);
 
-    .planned-intervention {
-        .actions {
-            display: flex;
-            align-items: flex-end;
-            align-self: flex-end;
+    .icon {
+        font-size: var(--go-ui-font-size-icon-multiplier);
+    }
+
+    .intervention-selection-container {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-md);
+
+        .input {
+            flex-basis: 0;
+            flex-grow: 1;
+        }
+
+        .remove-button {
+            flex-shrink: 0;
         }
     }
 
@@ -20,8 +31,9 @@
 
     .warning {
         display: flex;
-        align-items: baseline;
+        align-items: flex-start;
         gap: var(--go-ui-spacing-sm);
-        color: var(--go-ui-color-yellow);
+        color: var(--go-ui-color-warning);
+        font-weight: var(--go-ui-font-weight-semibold);
     }
 }

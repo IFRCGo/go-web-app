@@ -98,7 +98,10 @@ function Submission(props: Props) {
                 heading={strings.drefFormOperationalTimeframes}
                 className={styles.operationalTimeframes}
             >
-                <InputSection>
+                <InputSection
+                    withoutTitleSection
+                    numPreferredColumns={3}
+                >
                     {value.type_of_dref !== TYPE_LOAN && (
                         <DateInput
                             label={strings.drefOperationalUpdateTimeFrameDateOfEvent}
@@ -143,25 +146,26 @@ function Submission(props: Props) {
                             error={error?.date_of_approval}
                         />
                     )}
+                    {value.type_of_dref !== TYPE_LOAN && (
+                        <>
+                            <DateInput
+                                // eslint-disable-next-line max-len
+                                label={strings.drefOperationalUpdateTimeFrameReportingTimeFrameStart}
+                                name="reporting_start_date"
+                                value={value.reporting_start_date}
+                                onChange={setFieldValue}
+                                error={error?.reporting_start_date}
+                            />
+                            <DateInput
+                                label={strings.drefOperationalUpdateTimeFrameReportingTimeFrameEnd}
+                                name="reporting_end_date"
+                                value={value.reporting_end_date}
+                                onChange={setFieldValue}
+                                error={error?.reporting_end_date}
+                            />
+                        </>
+                    )}
                 </InputSection>
-                {value.type_of_dref !== TYPE_LOAN && (
-                    <InputSection>
-                        <DateInput
-                            label={strings.drefOperationalUpdateTimeFrameReportingTimeFrameStart}
-                            name="reporting_start_date"
-                            value={value.reporting_start_date}
-                            onChange={setFieldValue}
-                            error={error?.reporting_start_date}
-                        />
-                        <DateInput
-                            label={strings.drefOperationalUpdateTimeFrameReportingTimeFrameEnd}
-                            name="reporting_end_date"
-                            value={value.reporting_end_date}
-                            onChange={setFieldValue}
-                            error={error?.reporting_end_date}
-                        />
-                    </InputSection>
-                )}
             </Container>
 
             <Container

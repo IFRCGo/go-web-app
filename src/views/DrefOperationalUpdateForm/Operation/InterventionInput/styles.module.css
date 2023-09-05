@@ -1,13 +1,7 @@
 .intervention-input {
-    background-color: var(--go-ui-color-white);
-
-    .title-container {
+    .action {
         display: flex;
-        gap: var(--go-ui-spacing-sm);
-
-        .label {
-            flex-grow: 1;
-        }
+        justify-content: flex-end;
     }
 
     .description-container {
@@ -16,7 +10,13 @@
         gap: var(--go-ui-spacing-sm);
     }
 
+    .indicator-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+    }
+
     .empty-message {
-        color: var(--go-ui-color-gray-50);
+        color: var(--go-ui-color-text-light);
     }
 }

@@ -12,6 +12,7 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
+import NonFieldError from '#components/NonFieldError';
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import TextInput from '#components/TextInput';
 
@@ -109,6 +110,9 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
 
     return (
         <div className={_cs(styles.multiImageWithCaptionInput, className)}>
+            <NonFieldError
+                error={error}
+            />
             <GoMultiFileInput
                 name="id"
                 accept="image/*"

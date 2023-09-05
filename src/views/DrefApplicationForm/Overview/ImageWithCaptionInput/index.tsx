@@ -10,6 +10,7 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
+import NonFieldError from '#components/NonFieldError';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import TextInput from '#components/TextInput';
 
@@ -66,6 +67,9 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
 
     return (
         <div className={_cs(styles.imageWithCaptionInput, className)}>
+            <NonFieldError
+                error={error}
+            />
             <GoSingleFileInput
                 name="id"
                 accept="image/*"

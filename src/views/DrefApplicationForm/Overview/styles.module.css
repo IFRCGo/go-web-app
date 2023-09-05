@@ -4,10 +4,19 @@
         flex-direction: column;
         gap: var(--go-ui-spacing-md);
 
-        .generate-title-button {
-            flex-basis: initial;
-            flex-grow: unset;
-            flex-shrink: 0;
+        .title-container {
+            display: flex;
+            align-items: center;
+            gap: var(--go-ui-spacing-md);
+            flex-wrap: wrap;
+
+            .title-input {
+                flex-grow: 1;
+            }
+
+            .generate-title-button {
+                flex-shrink: 0;
+            }
         }
     }
 }

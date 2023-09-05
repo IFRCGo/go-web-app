@@ -97,24 +97,8 @@ function InterventionInput(props: Props) {
         <InputSection
             className={styles.interventionInput}
             titleClassName={styles.titleContainer}
-            title={(
-                <>
-                    <div className={styles.label}>
-                        {interventionLabel ?? '--'}
-                    </div>
-                    <Button
-                        name={index}
-                        onClick={onRemove}
-                        variant="tertiary"
-                        title={strings.drefFormRemoveIntervention}
-                        disabled={disabled}
-                    >
-                        <DeleteBinTwoLineIcon />
-                    </Button>
-                </>
-            )}
-            numPreferredColumns={2}
-            normalDescription
+            title={interventionLabel ?? '--'}
+            numPreferredColumns={1}
             descriptionContainerClassName={styles.descriptionContainer}
             description={(
                 <>
@@ -137,6 +121,19 @@ function InterventionInput(props: Props) {
                 </>
             )}
         >
+            <div className={styles.action}>
+                <Button
+                    name={index}
+                    onClick={onRemove}
+                    variant="tertiary"
+                    title={strings.drefFormRemoveIntervention}
+                    disabled={disabled}
+                    icons={<DeleteBinTwoLineIcon />}
+                >
+                    {/* FIXME: use translation */}
+                    Remove Intervention
+                </Button>
+            </div>
             <TextArea
                 label={strings.drefFormListOfActivities}
                 name="description"
@@ -148,8 +145,8 @@ function InterventionInput(props: Props) {
             />
             <Container
                 heading={strings.drefFormIndicatorsLabel}
-                headingLevel={4}
-                actions={(
+                headingLevel={5}
+                footerIcons={(
                     <Button
                         variant="secondary"
                         name={undefined}

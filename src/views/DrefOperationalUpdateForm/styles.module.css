@@ -20,4 +20,22 @@
             }
         }
     }
+
+    .icon {
+        font-size: var(--go-ui-font-size-icon-multiplier);
+    }
+
+    .warnings {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-sm);
+
+        .warning {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--go-ui-spacing-sm);
+            color: var(--go-ui-color-warning);
+            font-weight: var(--go-ui-font-weight-semibold);
+        }
+    }
 }

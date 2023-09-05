@@ -54,10 +54,12 @@ function NeedInput(props: Props) {
 
     return (
         <InputSection
+            className={styles.needInput}
             title={needLabel}
             contentSectionClassName={styles.content}
         >
             <TextArea
+                className={styles.descriptionInput}
                 name="description"
                 value={value.description}
                 onChange={onFieldChange}

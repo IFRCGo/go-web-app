@@ -192,7 +192,10 @@ function Overview(props: Props) {
                     disabled={disabled}
                 />
             )}
-            <InputSection title={strings.drefFormDrefTypeTitle}>
+            <InputSection
+                title={strings.drefFormDrefTypeTitle}
+                numPreferredColumns={2}
+            >
                 <SelectInput
                     name="type_of_dref"
                     label={strings.drefFormTypeOfDref}
@@ -308,27 +311,30 @@ function Overview(props: Props) {
                 />
             </InputSection>
             <InputSection title={strings.drefFormTitle}>
-                <TextInput
-                    name="title"
-                    value={value?.title}
-                    onChange={setFieldValue}
-                    error={error?.title}
-                    disabled={disabled}
-                />
-                <Button
-                    className={styles.generateTitleButton}
-                    name={undefined}
-                    variant="secondary"
-                    onClick={handleGenerateTitleButtonClick}
-                    disabled={(
-                        disabled
-                        || isNotDefined(value?.country)
-                        || isNotDefined(value?.disaster_type)
-                        || isNotDefined(disasterTypes)
-                    )}
-                >
-                    {strings.drefFormGenerateTitle}
-                </Button>
+                <div className={styles.titleContainer}>
+                    <TextInput
+                        name="title"
+                        className={styles.titleInput}
+                        value={value?.title}
+                        onChange={setFieldValue}
+                        error={error?.title}
+                        disabled={disabled}
+                    />
+                    <Button
+                        className={styles.generateTitleButton}
+                        name={undefined}
+                        variant="secondary"
+                        onClick={handleGenerateTitleButtonClick}
+                        disabled={(
+                            disabled
+                            || isNotDefined(value?.country)
+                            || isNotDefined(value?.disaster_type)
+                            || isNotDefined(disasterTypes)
+                        )}
+                    >
+                        {strings.drefFormGenerateTitle}
+                    </Button>
+                </div>
             </InputSection>
             <InputSection
                 numPreferredColumns={2}

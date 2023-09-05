@@ -8,6 +8,7 @@ import {
 import {
     useParams,
 } from 'react-router-dom';
+import { ErrorWarningFillIcon } from '@ifrc-go/icons';
 import {
     useForm,
     removeNull,
@@ -533,6 +534,11 @@ export function Component() {
         ],
     );
 
+    const hasAnyWarning = isTruthyString(peopleTargetedWarning)
+        || isTruthyString(operationTimeframeWarning)
+        || isTruthyString(budgetWarning)
+        || isTruthyString(geoWarning);
+
     return (
         <Tabs
             value={activeTab}
@@ -600,6 +606,38 @@ export function Component() {
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
             >
+                <NonFieldError
+                    error={formError}
+                    message={strings.drefFormGeneralError}
+                />
+                {hasAnyWarning && (
+                    <div className={styles.warnings}>
+                        {operationTimeframeWarning && (
+                            <div className={styles.warning}>
+                                <ErrorWarningFillIcon className={styles.icon} />
+                                {operationTimeframeWarning}
+                            </div>
+                        )}
+                        {budgetWarning && (
+                            <div className={styles.warning}>
+                                <ErrorWarningFillIcon className={styles.icon} />
+                                {budgetWarning}
+                            </div>
+                        )}
+                        {geoWarning && (
+                            <div className={styles.warning}>
+                                <ErrorWarningFillIcon className={styles.icon} />
+                                {geoWarning}
+                            </div>
+                        )}
+                        {peopleTargetedWarning && (
+                            <div className={styles.warning}>
+                                <ErrorWarningFillIcon className={styles.icon} />
+                                {peopleTargetedWarning}
+                            </div>
+                        )}
+                    </div>
+                )}
                 <TabPanel name="overview">
                     <Overview
                         value={value}
@@ -648,22 +686,6 @@ export function Component() {
                         disabled={disabled}
                     />
                 </TabPanel>
-                <NonFieldError
-                    error={formError}
-                    message={strings.drefFormGeneralError}
-                />
-                {operationTimeframeWarning && (
-                    <div className={styles.warning}>{operationTimeframeWarning}</div>
-                )}
-                {budgetWarning && (
-                    <div className={styles.warning}>{budgetWarning}</div>
-                )}
-                {geoWarning && (
-                    <div className={styles.warning}>{geoWarning}</div>
-                )}
-                {peopleTargetedWarning && (
-                    <div className={styles.warning}>{peopleTargetedWarning}</div>
-                )}
                 <div className={styles.actions}>
                     <div className={styles.pageActions}>
                         <Button

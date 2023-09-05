@@ -240,18 +240,20 @@ function Actions(props: Props) {
                         label={strings.operationalUpdateCurrentNsImageLabel}
                         disabled={disabled}
                     />
-                    <SelectInput
-                        label={strings.drefFormNationalSocietiesActionsLabel}
-                        name={undefined}
-                        options={filteredNsActionOptions}
-                        value={selectedNsAction}
-                        keySelector={nsActionKeySelector}
-                        labelSelector={stringValueSelector}
-                        onChange={setSelectedNsAction}
-                        disabled={disabled}
-                    />
-                    <div className={styles.addNsActionButtonContainer}>
+                    <div className={styles.addNsActionContainer}>
+                        <SelectInput
+                            className={styles.input}
+                            label={strings.drefFormNationalSocietiesActionsLabel}
+                            name={undefined}
+                            options={filteredNsActionOptions}
+                            value={selectedNsAction}
+                            keySelector={nsActionKeySelector}
+                            labelSelector={stringValueSelector}
+                            onChange={setSelectedNsAction}
+                            disabled={disabled}
+                        />
                         <Button
+                            className={styles.action}
                             variant="secondary"
                             name={selectedNsAction}
                             onClick={handleNsActionAddButtonClick}
@@ -275,7 +277,7 @@ function Actions(props: Props) {
                 ))}
             </Container>
             <Container
-                heading={strings.drefFormMovementPartners}
+                heading={strings.ifrcNetworkActionsHeading}
             >
                 <InputSection
                     title={strings.drefFormIfrc}
@@ -291,6 +293,22 @@ function Actions(props: Props) {
                     />
                 </InputSection>
                 <InputSection
+                    title={strings.drefFormPartnerNationalSociety}
+                    description={strings.drefFormPartnerNationalSocietyDescription}
+                >
+                    <TextArea
+                        name="partner_national_society"
+                        onChange={setFieldValue}
+                        value={value.partner_national_society}
+                        error={error?.partner_national_society}
+                        disabled={disabled}
+                    />
+                </InputSection>
+            </Container>
+            <Container
+                heading={strings.icrcActionsHeading}
+            >
+                <InputSection
                     title={strings.drefFormIcrc}
                     description={strings.drefFormIcrcDescription}
                 >
@@ -300,18 +318,6 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value.icrc}
                         error={error?.icrc}
-                        disabled={disabled}
-                    />
-                </InputSection>
-                <InputSection
-                    title={strings.drefFormPartnerNationalSociety}
-                    description={strings.drefFormPartnerNationalSocietyDescription}
-                >
-                    <TextArea
-                        name="partner_national_society"
-                        onChange={setFieldValue}
-                        value={value.partner_national_society}
-                        error={error?.partner_national_society}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -408,18 +414,20 @@ function Actions(props: Props) {
                         </InputSection>
                     )}
                     <InputSection>
-                        <SelectInput
-                            label={strings.drefFormActionFieldsLabel}
-                            name={undefined}
-                            onChange={setSelectedNeed}
-                            keySelector={needOptionKeySelector}
-                            labelSelector={stringValueSelector}
-                            options={filteredNeedOptions}
-                            value={selectedNeed}
-                            disabled={disabled}
-                        />
-                        <div className={styles.addNeedButtonContainer}>
+                        <div className={styles.addNeedContainer}>
+                            <SelectInput
+                                className={styles.input}
+                                label={strings.drefFormActionFieldsLabel}
+                                name={undefined}
+                                onChange={setSelectedNeed}
+                                keySelector={needOptionKeySelector}
+                                labelSelector={stringValueSelector}
+                                options={filteredNeedOptions}
+                                value={selectedNeed}
+                                disabled={disabled}
+                            />
                             <Button
+                                className={styles.action}
                                 variant="secondary"
                                 name={selectedNeed}
                                 onClick={handleNeedAddButtonClick}

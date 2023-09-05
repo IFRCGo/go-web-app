@@ -184,6 +184,7 @@ function EventDetail(props: Props) {
                                 ? strings.drefFormEventDate
                                 : strings.drefFormSlowEventDate
                         )}
+                        numPreferredColumns={2}
                     >
                         <DateInput
                             name="event_date"

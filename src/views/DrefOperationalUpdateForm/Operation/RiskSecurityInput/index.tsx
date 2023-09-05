@@ -54,6 +54,7 @@ function RiskSecurityInput(props: Props) {
     return (
         <div className={styles.riskSecurityInput}>
             <TextArea
+                className={styles.input}
                 label={strings.drefFormRiskSecurityRiskLabel}
                 name="risk"
                 value={value.risk}
@@ -62,6 +63,7 @@ function RiskSecurityInput(props: Props) {
                 disabled={disabled}
             />
             <TextArea
+                className={styles.input}
                 label={strings.drefFormRiskSecurityMitigationLabel}
                 name="mitigation"
                 value={value.mitigation}

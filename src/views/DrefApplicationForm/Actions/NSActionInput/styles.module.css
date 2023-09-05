@@ -1,17 +1,16 @@
-.content {
-    display: flex;
-    align-items: flex-end;
+.ns-action-input {
+    .content {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--go-ui-spacing-md);
+        flex-wrap: wrap;
 
-    >* {
-        flex-basis: 0;
-        flex-grow: 1;
-    }
+        .description-input {
+            flex-grow: 1;
+        }
 
-    .remove-button {
-        flex-basis: unset;
-        flex-grow: unset;
-        flex-shrink: 0;
-        margin-bottom: 0.5em;
-        padding: var(--go-ui-spacing-md);
+        .remove-button {
+            flex-shrink: 0;
+        }
     }
 }

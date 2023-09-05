@@ -327,27 +327,30 @@ function Overview(props: Props) {
                 />
             </InputSection>
             <InputSection title={strings.drefFormTitle}>
-                <TextInput
-                    name="title"
-                    value={value?.title}
-                    onChange={setFieldValue}
-                    error={error?.title}
-                    disabled={disabled}
-                />
-                <Button
-                    className={styles.generateTitleButton}
-                    name={undefined}
-                    variant="secondary"
-                    onClick={handleGenerateTitleButtonClick}
-                    disabled={(
-                        disabled
-                        || isNotDefined(value?.country)
-                        || isNotDefined(value?.disaster_type)
-                        || isNotDefined(disasterTypes)
-                    )}
-                >
-                    {strings.drefFormGenerateTitle}
-                </Button>
+                <div className={styles.titleContainer}>
+                    <TextInput
+                        className={styles.titleInput}
+                        name="title"
+                        value={value?.title}
+                        onChange={setFieldValue}
+                        error={error?.title}
+                        disabled={disabled}
+                    />
+                    <Button
+                        className={styles.generateTitleButton}
+                        name={undefined}
+                        variant="secondary"
+                        onClick={handleGenerateTitleButtonClick}
+                        disabled={(
+                            disabled
+                            || isNotDefined(value?.country)
+                            || isNotDefined(value?.disaster_type)
+                            || isNotDefined(disasterTypes)
+                        )}
+                    >
+                        {strings.drefFormGenerateTitle}
+                    </Button>
+                </div>
             </InputSection>
             <InputSection
                 numPreferredColumns={2}
@@ -534,6 +537,7 @@ function Overview(props: Props) {
             {value?.type_of_dref !== TYPE_LOAN && (
                 <InputSection
                     title={strings.drefOperationalUpdateNumber}
+                    numPreferredColumns={2}
                 >
                     <NumberInput
                         readOnly

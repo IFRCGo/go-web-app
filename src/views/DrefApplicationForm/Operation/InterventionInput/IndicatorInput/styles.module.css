@@ -1,10 +1,10 @@
 .indicator {
-    display: flex;
-    gap: var(--go-ui-spacing-md);
+    display: grid;
+    grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+    grid-template-columns: 10fr 4fr 1fr;
     align-items: center;
 
-    .inputs {
-        display: flex;
-        gap: var(--go-ui-spacing-md);
+    @media screen and (max-width: 30rem) {
+        grid-template-columns: 1fr;
     }
 }

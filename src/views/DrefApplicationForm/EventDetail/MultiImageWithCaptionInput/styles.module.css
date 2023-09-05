@@ -5,9 +5,9 @@
     gap: var(--go-ui-spacing-md);
 
     .file-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--go-ui-spacing-md);
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 
         .preview-and-caption {
             display: flex;
@@ -16,8 +16,8 @@
 
             .preview {
                 background-color: var(--go-ui-color-background);
-                width: 10rem;
-                height: 10rem;
+                width: 100%;
+                height: 12rem;
                 object-fit: contain;
                 object-position: center center;
             }

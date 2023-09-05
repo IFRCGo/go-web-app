@@ -54,10 +54,12 @@ function NsActionInput(props: Props) {
 
     return (
         <InputSection
+            className={styles.nsActionInput}
             title={nsActionLabel}
             contentSectionClassName={styles.content}
         >
             <TextArea
+                className={styles.descriptionInput}
                 name="description"
                 value={value.description}
                 onChange={onFieldChange}
