@@ -331,6 +331,14 @@ export function formatNumber(
 }
 
 export function formatDate(
+    value: string | Date | number,
+    format: string,
+): string;
+export function formatDate(
+    value: null | undefined,
+    format: string,
+): undefined;
+export function formatDate(
     value: Date | string | number | null | undefined,
     format = DEFAULT_DATE_FORMAT,
 ) {
@@ -495,4 +503,32 @@ export function joinList(list: React.ReactNode[], separator: React.ReactNode) {
         {},
         ...joinedList,
     );
+}
+
+export function isSimilarArray<T extends string | number>(
+    aList: T[] | undefined,
+    bList: T[] | undefined,
+) {
+    if (!aList && !bList) {
+        return true;
+    }
+
+    if (!aList || !bList) {
+        return false;
+    }
+
+    if (aList.length !== bList.length) {
+        return false;
+    }
+
+    if (aList.length === 0 && bList.length === 0) {
+        return true;
+    }
+
+    const aMap = listToMap(
+        aList,
+        (a) => a,
+        () => true,
+    );
+    return bList.every((b) => aMap[b]);
 }

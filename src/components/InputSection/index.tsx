@@ -10,7 +10,6 @@ export interface Props {
     description?: React.ReactNode;
     contentSectionClassName?: string;
     tooltip?: string;
-    normalDescription?: boolean;
     descriptionContainerClassName?: string;
     withoutTitleSection?: boolean;
     titleClassName?: string;
@@ -29,7 +28,6 @@ function InputSection(props: Props) {
         tooltip,
         contentSectionClassName,
         descriptionContainerClassName,
-        normalDescription,
         titleClassName,
         withoutTitleSection = false,
         withoutPadding = false,
@@ -41,7 +39,6 @@ function InputSection(props: Props) {
         <div
             className={_cs(
                 styles.inputSection,
-                !normalDescription && styles.specialDescription,
                 withoutTitleSection && styles.withoutTitleSection,
                 !withoutPadding && styles.withPadding,
                 className,

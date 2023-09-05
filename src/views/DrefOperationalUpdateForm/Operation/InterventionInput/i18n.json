@@ -1,0 +1,15 @@
+{
+    "namespace": "drefOperationalUpdateForm",
+    "strings": {
+        "drefOperationalUpdateProgressTowardsOutcome": "Progress Towards Outcome",
+        "drefOperationalUpdateIndicatorMaleLabel": "Male",
+        "drefOperationalUpdateIndicatorFemaleLabel": "Female",
+        "drefFormInterventionBudgetLabel": "Budget",
+        "drefFormInterventionPersonTargetedLabel": "Persons Targeted",
+        "drefFormListOfActivities": "List of Activities",
+        "drefAddIndicatorButtonLabel": "Add Indicator",
+        "drefFormIndicatorsLabel": "Indicators",
+        "drefFormRemoveIntervention": "Remove Intervention",
+        "drefFormNoIndicatorMessage": "No indicators"
+    }
+}

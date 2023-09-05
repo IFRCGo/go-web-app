@@ -51,35 +51,34 @@ function IndicatorInput(props: Props) {
 
     return (
         <div className={styles.indicator}>
-            <div className={styles.inputs}>
-                <TextInput
-                    label={strings.drefFormIndicatorTitleLabel}
-                    name="title"
-                    value={value.title}
-                    onChange={onFieldChange}
-                    error={error?.title}
-                    disabled={disabled}
-                />
-                <NumberInput
-                    label={strings.drefFormIndicatorTargetLabel}
-                    name="target"
-                    value={value.target}
-                    onChange={onFieldChange}
-                    error={error?.target}
-                    disabled={disabled}
-                />
-            </div>
-            <div>
-                <Button
-                    name={index}
-                    onClick={onRemove}
-                    variant="tertiary"
-                    title={strings.drefIndicatorRemoveButtonLabel}
-                    disabled={disabled}
-                >
-                    <DeleteBinTwoLineIcon />
-                </Button>
-            </div>
+            <TextInput
+                className={styles.titleInput}
+                label={strings.drefFormIndicatorTitleLabel}
+                name="title"
+                value={value.title}
+                onChange={onFieldChange}
+                error={error?.title}
+                disabled={disabled}
+            />
+            <NumberInput
+                className={styles.numberInput}
+                label={strings.drefFormIndicatorTargetLabel}
+                name="target"
+                value={value.target}
+                onChange={onFieldChange}
+                error={error?.target}
+                disabled={disabled}
+            />
+            <Button
+                name={index}
+                className={styles.removeButton}
+                onClick={onRemove}
+                variant="tertiary"
+                title={strings.drefIndicatorRemoveButtonLabel}
+                disabled={disabled}
+            >
+                <DeleteBinTwoLineIcon />
+            </Button>
         </div>
     );
 }

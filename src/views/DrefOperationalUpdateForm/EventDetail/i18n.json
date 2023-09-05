@@ -1,0 +1,28 @@
+{
+    "namespace": "drefOperationalUpdateForm",
+    "strings": {
+        "drefOperationalUpdateSummaryChangeHeading": "Summary of changes",
+        "drefOperationalUpdateSummaryAreYouChangingTimeFrame": "Are you changing the timeframe of the operation",
+        "drefOperationalUpdateSummaryAreYouChangingStrategy": "Are you changing the operational strategy",
+        "drefOperationalUpdateSummaryAreYouChangingTargetPopulation": "Are you changing the target population of the operation",
+        "drefOperationalUpdateSummaryAreYouChangingGeographicalLocation": "Are you changing the geographical location",
+        "drefOperationalUpdateSummaryAreYouChangingBudget": "Are you making changes to the budget",
+        "drefOperationalUpdateSummaryRequestForSecondAllocation": "Is this a request for a second allocation",
+        "drefOperationalUpdateEventMaterialize": "Has the forecasted event materialize?",
+        "drefOperationalUpdateEventMaterializeExplain": "Please explain how is the operation is transitioning from Anticipatory to Response",
+        "drefOperationalUpdateEventMaterializeExplainDescription": "Explain on whether the specified triggers have been met, and if the event has materialized either as forecasted or if there were any differences. Also please provide an update on the readiness, prepositioning and/or early actions implemented so far",
+        "drefOperationalUpdateSummaryExplain": "Please explain the summary of changes and justification",
+        "drefFormApproximateDateOfImpact": "Approximate date of impact",
+        "drefFormDescriptionEvent": "Description of the Event",
+        "drefFormEventDate": "Date of the Event",
+        "drefFormImminentDisaster": "Provide any updates in the situation since the field report and explain what is expected to happen.",
+        "drefFormScopeAndScaleDescription": "Describe the extent this hazard will produce negative impacts on lives, livelihoods, well-being and infrastructure. Explain which people are most likely to experience the impacts of this hazard? Where do they live, and why are they vulnerable? Please explain which groups (e.g elderly, children, people with disabilities, IDPs, Refugees, etc.) are most likely to be affected? Provide historic information on how communities have been affected by the magnitude of this hazard in the past?",
+        "drefFormScopeAndScaleEvent": "Scope and scale of the event",
+        "drefFormSlowEventDate": "Date when the trigger was met",
+        "drefFormTargetCommunities": "Explain why your National Society is acting now and what criteria is used to launch this operation.",
+        "drefFormTargetCommunitiesDescription": "If the operation uses triggers related to different phases (such as readiness activities and early actions) add your triggers and data sources",
+        "drefFormUploadPhotos": "Upload photos (e.g. impact of the events, NS in the field, assessments)",
+        "drefFormUploadPhotosLimitation": "Add maximum 2 photos",
+        "drefFormWhatWhereWhen": "What happened, where and when?"
+    }
+}

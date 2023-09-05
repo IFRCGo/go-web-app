@@ -1,0 +1,29 @@
+{
+    "namespace": "drefOperationalUpdateForm",
+    "strings": {
+        "drefOperationalUpdateTimeFrameDateOfEvent": "Operation start Date",
+        "drefOperationalUpdateTimeFrameNationalSocietyLoanRequest": "National Society Loan request date",
+        "drefOperationalUpdateTimeFrameTotalOperatingTimeFrame": "Total operating timeframe",
+        "drefOperationalUpdateTimeFrameExtensionRequestedIfYes": "New operational end date",
+        "drefOperationalDateOfApprovalOfLoan": "Date of approval of Loan",
+        "drefOperationalUpdateTimeFrameReportingTimeFrameStart": "Reporting Timeframe start date",
+        "drefOperationalUpdateTimeFrameReportingTimeFrameEnd": "Reporting Timeframe end date",
+        "drefFormAppealCode": "Appeal Code",
+        "drefFormAppealCodeDescription": "Added by the regional PMER",
+        "drefFormAppealManager": "IFRC Appeal Manager:",
+        "drefFormAppealManagerDescription": "Added by the regional office",
+        "drefFormGlideNum": "GLIDE number",
+        "drefFormIfrcEmergency": "IFRC focal point for the emergency:",
+        "drefFormDrefRegionalPoint": "DREF Regional Focal point:",
+        "drefFormMediaContact": "Media Contact:",
+        "drefFormNationalSocietyContact": "National Society contact:",
+        "drefFormOperationalTimeframes": "Operational Timeframes",
+        "drefFormProjectManager": "IFRC Project Manager:",
+        "drefFormProjectManagerDescription": "Added by the regional office",
+        "drefFormTrackingData": "Tracking Data and Contacts",
+        "drefFormSubmissionNameLabel": "Name",
+        "drefFormSubmissionTitleLabel": "Title",
+        "drefFromSubmissionEmailLabel": "Email",
+        "drefFromSubmissionPhoneNumberLabel": "Phone Number"
+    }
+}

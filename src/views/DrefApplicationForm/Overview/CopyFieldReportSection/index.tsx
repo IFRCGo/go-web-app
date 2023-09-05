@@ -229,23 +229,25 @@ function CopyFieldReportSection(props: Props) {
 
     return (
         <InputSection
+            className={styles.copyFieldReportSection}
             title={strings.drefFormEventDetailsTitle}
             description={strings.drefFormEventDescription}
         >
-            <FieldReportSearchSelectInput
-                className={styles.region}
-                name={undefined}
-                value={fieldReport}
-                onChange={setFieldReport}
-                nationalSociety={value?.national_society}
-                options={fieldReportOptions}
-                onOptionsChange={setFieldReportOptions}
-                placeholder={strings.drefFormSelectFieldReportPlaceholder}
-                nonClearable
-                disabled={disabled}
-            />
-            <div className={styles.actions}>
+            <div className={styles.content}>
+                <FieldReportSearchSelectInput
+                    className={styles.input}
+                    name={undefined}
+                    value={fieldReport}
+                    onChange={setFieldReport}
+                    nationalSociety={value?.national_society}
+                    options={fieldReportOptions}
+                    onOptionsChange={setFieldReportOptions}
+                    placeholder={strings.drefFormSelectFieldReportPlaceholder}
+                    nonClearable
+                    disabled={disabled}
+                />
                 <Button
+                    className={styles.action}
                     variant="secondary"
                     disabled={isNotDefined(fieldReport) || frDetailPending || disabled}
                     onClick={handleCopyButtonClick}

@@ -19,7 +19,6 @@
 
     .content {
         flex-grow: 1;
-        padding: var(--go-ui-spacing-xs) 0;
     }
 
     .footer {

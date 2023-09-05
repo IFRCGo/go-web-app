@@ -1,0 +1,22 @@
+.intervention-input {
+    .action {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .description-container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-sm);
+    }
+
+    .indicator-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+    }
+
+    .empty-message {
+        color: var(--go-ui-color-text-light);
+    }
+}

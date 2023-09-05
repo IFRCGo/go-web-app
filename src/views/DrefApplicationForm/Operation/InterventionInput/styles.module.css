@@ -1,13 +1,7 @@
 .intervention-input {
-    background-color: var(--go-ui-color-white);
-
-    .title-container {
+    .action {
         display: flex;
-        gap: var(--go-ui-spacing-sm);
-
-        .label {
-            flex-grow: 1;
-        }
+        justify-content: flex-end;
     }
 
     .description-container {
@@ -17,6 +11,6 @@
     }
 
     .empty-message {
-        color: var(--go-ui-color-gray-50);
+        color: var(--go-ui-color-text-light);
     }
 }

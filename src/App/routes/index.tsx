@@ -1824,7 +1824,7 @@ const drefOperationalUpdateForm = customWrapRoute({
     parent: rootLayout,
     path: 'dref-operational-updates/:opsUpdateId/edit',
     component: {
-        render: () => import('#views/Home'),
+        render: () => import('#views/DrefOperationalUpdateForm'),
         props: {},
     },
     wrapperComponent: Auth,

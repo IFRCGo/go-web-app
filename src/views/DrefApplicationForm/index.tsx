@@ -451,6 +451,10 @@ export function Component() {
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
             >
+                <NonFieldError
+                    error={formError}
+                    message={strings.drefFormGeneralError}
+                />
                 <TabPanel name="overview">
                     <Overview
                         value={value}
@@ -499,10 +503,6 @@ export function Component() {
                         disabled={disabled}
                     />
                 </TabPanel>
-                <NonFieldError
-                    error={formError}
-                    message={strings.drefFormGeneralError}
-                />
                 <div className={styles.actions}>
                     <div className={styles.pageActions}>
                         <Button

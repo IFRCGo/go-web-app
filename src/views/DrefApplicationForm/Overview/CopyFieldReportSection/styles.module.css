@@ -1,4 +1,17 @@
-.actions {
-    flex-grow: unset;
-    padding: var(--go-ui-spacing-md);
+.copy-field-report-section {
+    .content {
+        display: flex;
+        align-items: center;
+        align-self: flex-start;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-md);
+
+        .input {
+            flex-grow: 1;
+        }
+
+        .action {
+            flex-shrink: 0;
+        }
+    }
 }

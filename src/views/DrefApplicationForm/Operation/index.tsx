@@ -14,7 +14,7 @@ import {
     useFormArray,
     getErrorObject,
 } from '@togglecorp/toggle-form';
-import { AlertWarningLineIcon } from '@ifrc-go/icons';
+import { ErrorWarningFillIcon } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
@@ -272,7 +272,7 @@ function Operation(props: Props) {
                             className={styles.warning}
                             key={w}
                         >
-                            <AlertWarningLineIcon />
+                            <ErrorWarningFillIcon className={styles.icon} />
                             {w}
                         </div>
                     ))
@@ -443,25 +443,27 @@ function Operation(props: Props) {
                     </GoSingleFileInput>
                 </InputSection>
                 <InputSection
-                    normalDescription
                     description={!plannedBudgetMatchRequestedAmount && (
                         <div className={styles.warning}>
+                            <ErrorWarningFillIcon className={styles.icon} />
                             {strings.drefFormResponseTotalAmountOfPlannedBudget}
                         </div>
                     )}
                 >
-                    <SelectInput
-                        name={undefined}
-                        label={strings.drefFormInterventionsLabel}
-                        options={filteredInterventionOptions}
-                        keySelector={plannedInterventionKeySelector}
-                        labelSelector={stringValueSelector}
-                        onChange={setSelectedIntervention}
-                        value={selectedIntervention}
-                        disabled={disabled}
-                    />
-                    <div className={styles.actions}>
+                    <div className={styles.interventionSelectionContainer}>
+                        <SelectInput
+                            className={styles.input}
+                            name={undefined}
+                            label={strings.drefFormInterventionsLabel}
+                            options={filteredInterventionOptions}
+                            keySelector={plannedInterventionKeySelector}
+                            labelSelector={stringValueSelector}
+                            onChange={setSelectedIntervention}
+                            value={selectedIntervention}
+                            disabled={disabled}
+                        />
                         <Button
+                            className={styles.action}
                             variant="secondary"
                             name={selectedIntervention}
                             onClick={handleInterventionAddButtonClick}
@@ -471,11 +473,11 @@ function Operation(props: Props) {
                         </Button>
                     </div>
                 </InputSection>
-                {value?.planned_interventions?.map((pi, i) => (
+                {value?.planned_interventions?.map((intervention, i) => (
                     <InterventionInput
-                        key={pi.client_id}
+                        key={intervention.client_id}
                         index={i}
-                        value={pi}
+                        value={intervention}
                         onChange={onInterventionChange}
                         onRemove={onInterventionRemove}
                         error={getErrorObject(error?.planned_interventions)}

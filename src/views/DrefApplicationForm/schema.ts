@@ -670,6 +670,9 @@ const schema: DrefFormSchema = {
                         men: { validations: [positiveIntegerCondition] },
                         girls: { validations: [positiveIntegerCondition] },
                         boys: { validations: [positiveIntegerCondition] },
+                        logistic_capacity_of_ns: {},
+                        pmer: {},
+                        communication: {},
                     };
                 }
                 if (val?.type_of_dref === TYPE_IMMINENT) {
@@ -678,13 +681,6 @@ const schema: DrefFormSchema = {
                         people_targeted_with_early_actions: {
                             validations: [positiveIntegerCondition],
                         },
-                    };
-                } else {
-                    conditionalFields = {
-                        ...conditionalFields,
-                        logistic_capacity_of_ns: {},
-                        pmer: {},
-                        communication: {},
                     };
                 }
                 return conditionalFields;
