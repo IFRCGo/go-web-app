@@ -216,6 +216,16 @@ export function Component() {
     });
 
     const {
+        response: regions,
+        pending: regionsPending,
+        retrigger: regionsTrigger,
+    } = useRequest({
+        skip: !fetchDomainData.region,
+        url: '/api/v2/region/',
+        query: { limit: 9999 },
+    });
+
+    const {
         response: disasterTypes,
         pending: disasterTypesPending,
         retrigger: disasterTypesTrigger,
@@ -252,6 +262,9 @@ export function Component() {
                 case 'user-me':
                     userMeTrigger();
                     break;
+                case 'region':
+                    regionsTrigger();
+                    break;
                 default:
                     // eslint-disable-next-line no-console
                     console.error(`Cannot call invalidate on '${name}'`);
@@ -259,6 +272,7 @@ export function Component() {
         },
         [
             countriesTrigger,
+            regionsTrigger,
             globalEnumsTrigger,
             disasterTypesTrigger,
             userMeTrigger,
@@ -281,6 +295,9 @@ export function Component() {
 
             globalEnums,
             globalEnumsPending,
+
+            regionsPending,
+            regions,
         }),
         [
             userMe,
@@ -291,6 +308,8 @@ export function Component() {
             disasterTypesPending,
             globalEnums,
             globalEnumsPending,
+            regions,
+            regionsPending,
             registerDomainData,
             invalidateDomainData,
         ],
