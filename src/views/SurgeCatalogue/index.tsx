@@ -13,6 +13,7 @@ import {
     GroupIcon,
     ProtectionIcon,
     MonitoringIcon,
+    ShelterIcon,
 } from '@ifrc-go/icons';
 
 import NavigationTabList from '#components/NavigationTabList';
@@ -127,6 +128,13 @@ export function Component() {
                 >
                     <MonitoringIcon className={styles.icon} />
                     {strings.cataloguePMER}
+                </NavigationTab>
+                <NavigationTab
+                    to="catalogueShelter"
+                    parentRoute
+                >
+                    <ShelterIcon className={styles.icon} />
+                    {strings.catalogueShelter}
                 </NavigationTab>
             </NavigationTabList>
             <div className={styles.content}>
