@@ -148,18 +148,16 @@ function EventDetail(props: Props) {
                             />
                         </InputSection>
                     )}
-                    {value.type_of_dref !== TYPE_LOAN && (
-                        <InputSection title={strings.drefOperationalUpdateSummaryExplain}>
-                            <TextArea
-                                name="summary_of_change"
-                                value={value.summary_of_change}
-                                onChange={setFieldValue}
-                                error={error?.summary_of_change}
-                                placeholder={strings.drefOperationalUpdateSummaryExplain}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                    )}
+                    <InputSection title={strings.drefOperationalUpdateSummaryExplain}>
+                        <TextArea
+                            name="summary_of_change"
+                            value={value.summary_of_change}
+                            onChange={setFieldValue}
+                            error={error?.summary_of_change}
+                            placeholder={strings.drefOperationalUpdateSummaryExplain}
+                            disabled={disabled}
+                        />
+                    </InputSection>
                 </Container>
             )}
             <Container

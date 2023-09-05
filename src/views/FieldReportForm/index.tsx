@@ -353,7 +353,7 @@ export function Component() {
             dtype: number | null | undefined,
             summary: string | null | undefined,
         ) => {
-            const dateLabel = formatDate(new Date());
+            const dateLabel = formatDate(new Date(), 'yyyy-MM-dd');
             const iso3Label = isDefined(country)
                 ? countryIsoOptions?.find(({ id }) => id === country)?.iso3
                 : undefined;
