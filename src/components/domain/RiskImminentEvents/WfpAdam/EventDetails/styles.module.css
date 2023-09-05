@@ -4,20 +4,24 @@
         flex-direction: column;
         gap: var(--go-ui-spacing-lg);
 
-        .event-meta {
+        .wind-speed-chart {
             display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-2xs);
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 10rem;
+
+            .bar {
+                border-top-left-radius: 2pt;
+                border-top-right-radius: 2pt;
+                background-color: var(--go-ui-color-primary-red);
+                width: 4pt;
+            }
         }
 
-        .exposure-details {
+        .useful-links-content {
             display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-2xs);
-        }
-
-        .description {
-            color: var(--go-ui-color-text-light);
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
         }
     }
 }

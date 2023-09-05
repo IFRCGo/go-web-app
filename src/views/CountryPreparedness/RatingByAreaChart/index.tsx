@@ -23,7 +23,7 @@ function chartPointSelector(chartPoint: ChartPoint) {
 
 const X_AXIS_HEIGHT = 50;
 const Y_AXIS_WIDTH = 90;
-const CHART_OFFSET = 10;
+const CHART_OFFSET = 16;
 
 const chartMargin = {
     left: Y_AXIS_WIDTH + CHART_OFFSET,
@@ -107,9 +107,11 @@ function RatingByAreaChart(props: Props) {
         [data, chartBounds, ratingOptions, formAreaOptions],
     );
 
-    const maxBarWidth = (chartBounds.width / 5);
-    const barWidth = Math.max(maxBarWidth * 0.6, 10);
-    const barGap = (maxBarWidth - barWidth) / 4;
+    const barWidth = 10;
+
+    const maxBarWidth = ((chartBounds.width - chartMargin.right - chartMargin.left) / 5);
+    // const barWidth = Math.max(maxBarWidth * 0.6, 10);
+    const barGap = (maxBarWidth - barWidth) / 2;
 
     return (
         <div
@@ -137,6 +139,7 @@ function RatingByAreaChart(props: Props) {
                             className={styles.rect}
                             x={point.x + barGap}
                             y={point.y}
+                            ry={barWidth / 2}
                             width={barWidth}
                             height={Math.max(chartBounds.height - point.y - chartMargin.bottom, 0)}
                         >

@@ -1,22 +1,22 @@
-import type { LngLatBoundsLike } from 'mapbox-gl';
 import { useCallback } from 'react';
+import { type LngLatBoundsLike } from 'mapbox-gl';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
-import type { EventPointFeature } from '#components/domain/RiskImminentEventMap';
-import { useRiskLazyRequest, useRiskRequest } from '#utils/restRequest';
+import { type EventPointFeature } from '#components/domain/RiskImminentEventMap';
+import {
+    type RiskApiResponse,
+    useRiskLazyRequest,
+    useRiskRequest,
+} from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { isValidFeature, isValidPointFeature } from '#utils/domain/risk';
-import type { paths } from '#generated/riskTypes';
 
 import EventListItem from './EventListItem';
 import EventDetails from './EventDetails';
 
-type GetImminentEvents = paths['/api/v1/pdc/']['get'];
-type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
+type ImminentEventResponse = RiskApiResponse<'/api/v1/pdc/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
-
-type FootprintCallback = (footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry>) => void;
 
 type BaseProps = {
     title: React.ReactNode;
@@ -59,27 +59,75 @@ function Pdc(props: Props) {
         },
     });
 
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/pdc/{id}/exposure/', {
-        successCallback: FootprintCallback,
+    const {
+        response: exposureResponse,
+        pending: exposureResponsePending,
+        trigger: getFootprint,
+    } = useRiskLazyRequest<'/api/v1/pdc/{id}/exposure/', {
         eventId: number | string,
     }>({
         apiType: 'risk',
         url: '/api/v1/pdc/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
-        onSuccess: (response, { successCallback }) => {
+    });
+
+    const pointFeatureSelector = useCallback(
+        (event: EventItem): EventPointFeature | undefined => {
+            const {
+                id,
+                latitude,
+                longitude,
+                hazard_type,
+            } = event;
+
+            if (isNotDefined(latitude)
+                || isNotDefined(longitude)
+                || isNotDefined(hazard_type)
+                || hazard_type === ''
+            ) {
+                return undefined;
+            }
+
+            return {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [longitude, latitude],
+                },
+                properties: {
+                    id,
+                    hazard_type,
+                },
+            };
+        },
+        [],
+    );
+
+    const footprintSelector = useCallback(
+        (exposure: RiskApiResponse<'/api/v1/pdc/{id}/exposure/'> | undefined) => {
+            if (isNotDefined(exposure)) {
+                return undefined;
+            }
+
             const {
                 footprint_geojson,
                 storm_position_geojson,
-            } = response;
+            } = exposure;
 
             if (isNotDefined(footprint_geojson) && isNotDefined(storm_position_geojson)) {
-                return;
+                return undefined;
             }
 
             const footprint = isValidFeature(footprint_geojson) ? footprint_geojson : undefined;
             // FIXME: typings should be fixed in the server
             const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
                 ?.filter(isValidPointFeature);
+
+            // forecast_date_time : "2023 SEP 04, 00:00Z"
+            // severity : "WARNING"
+            // storm_name : "HAIKUI"
+            // track_heading : "WNW"
+            // wind_speed_mph : 75
 
             const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
                 type: 'FeatureCollection' as const,
@@ -117,51 +165,16 @@ function Pdc(props: Props) {
                 ].filter(isDefined),
             };
 
-            successCallback(geoJson);
-        },
-    });
-
-    const pointFeatureSelector = useCallback(
-        (event: EventItem): EventPointFeature | undefined => {
-            const {
-                id,
-                latitude,
-                longitude,
-                hazard_type,
-            } = event;
-
-            if (isNotDefined(latitude)
-                || isNotDefined(longitude)
-                || isNotDefined(hazard_type)
-                || hazard_type === ''
-            ) {
-                return undefined;
-            }
-
-            return {
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [longitude, latitude],
-                },
-                properties: {
-                    id,
-                    hazard_type,
-                },
-            };
+            return geoJson;
         },
         [],
     );
 
-    const footprintSelector = useCallback(
-        (eventId: number | string | undefined, callback: FootprintCallback) => {
+    const handleActiveEventChange = useCallback(
+        (eventId: number | undefined) => {
             if (isDefined(eventId)) {
-                getFootprint({
-                    eventId,
-                    successCallback: callback,
-                });
+                getFootprint({ eventId });
             } else {
-                // NOTE: using undefined in context clears out the response
                 getFootprint(undefined);
             }
         },
@@ -179,6 +192,9 @@ function Pdc(props: Props) {
             sidePanelHeading={title}
             footprintSelector={footprintSelector}
             bbox={bbox}
+            activeEventExposure={exposureResponse}
+            activeEventExposurePending={exposureResponsePending}
+            onActiveEventChange={handleActiveEventChange}
         />
     );
 }

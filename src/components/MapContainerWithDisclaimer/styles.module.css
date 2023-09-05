@@ -23,6 +23,6 @@
     .attribution {
         display: flex;
         flex-wrap: wrap;
-        gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-2xs) var(--go-ui-spacing-sm);
     }
 }

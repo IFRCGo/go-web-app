@@ -4,19 +4,19 @@ import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import RiskImminentEventMap from '#components/domain/RiskImminentEventMap';
 import type { EventPointFeature } from '#components/domain/RiskImminentEventMap';
-import { useRiskLazyRequest, useRiskRequest } from '#utils/restRequest';
+import {
+    type RiskApiResponse,
+    useRiskLazyRequest,
+    useRiskRequest,
+} from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { isValidFeatureCollection } from '#utils/domain/risk';
-import type { paths } from '#generated/riskTypes';
 
 import EventListItem from './EventListItem';
 import EventDetails from './EventDetails';
 
-type GetImminentEvents = paths['/api/v1/meteoswiss/']['get'];
-type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
+type ImminentEventResponse = RiskApiResponse<'/api/v1/meteoswiss/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
-
-type FootprintCallback = (footprint: GeoJSON.FeatureCollection<GeoJSON.Geometry>) => void;
 
 function getLayerType(geometryType: GeoJSON.Geometry['type']) {
     if (geometryType === 'Point' || geometryType === 'MultiPoint') {
@@ -71,49 +71,16 @@ function MeteoSwiss(props: Props) {
         },
     });
 
-    const { trigger: getFootprint } = useRiskLazyRequest<'/api/v1/meteoswiss/{id}/exposure/', {
-        successCallback: FootprintCallback,
+    const {
+        response: exposureResponse,
+        pending: exposureResponsePending,
+        trigger: getFootprint,
+    } = useRiskLazyRequest<'/api/v1/meteoswiss/{id}/exposure/', {
         eventId: number | string,
     }>({
         apiType: 'risk',
         url: '/api/v1/meteoswiss/{id}/exposure/',
         pathVariables: ({ eventId }) => ({ id: Number(eventId) }),
-        onSuccess: (response, { successCallback }) => {
-            // FIXME: typings should be fixed in the server
-            const {
-                footprint_geojson: {
-                    footprint_geojson,
-                } = {},
-            } = response as unknown as { footprint_geojson?: {
-                    footprint_geojson: unknown
-                }
-            };
-
-            if (isNotDefined(footprint_geojson)) {
-                return;
-            }
-
-            // FIXME: typings should be fixed in the server
-            const footprint = isValidFeatureCollection(footprint_geojson)
-                ? footprint_geojson : undefined;
-
-            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
-                type: 'FeatureCollection' as const,
-                features: [
-                    ...footprint?.features?.map(
-                        (feature) => ({
-                            ...feature,
-                            properties: {
-                                ...feature.properties,
-                                type: getLayerType(feature.geometry.type),
-                            },
-                        }),
-                    ) ?? [],
-                ].filter(isDefined),
-            };
-
-            successCallback(geoJson);
-        },
     });
 
     const pointFeatureSelector = useCallback(
@@ -149,14 +116,58 @@ function MeteoSwiss(props: Props) {
     );
 
     const footprintSelector = useCallback(
-        (eventId: number | string | undefined, callback: FootprintCallback) => {
+        (exposure: RiskApiResponse<'/api/v1/meteoswiss/{id}/exposure/'> | undefined) => {
+            if (isNotDefined(exposure)) {
+                return undefined;
+            }
+
+            // FIXME: typings should be fixed in the server
+            const footprint_geojson = exposure?.footprint_geojson?.footprint_geojson;
+
+            if (isNotDefined(footprint_geojson)) {
+                return undefined;
+            }
+
+            const footprint = isValidFeatureCollection(footprint_geojson)
+                ? footprint_geojson
+                : undefined;
+
+            const geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+                type: 'FeatureCollection' as const,
+                features: [
+                    ...footprint?.features?.map(
+                        (feature) => {
+                            if (isNotDefined(feature)) {
+                                return undefined;
+                            }
+
+                            const { geometry } = feature;
+                            if (isNotDefined(geometry)) {
+                                return undefined;
+                            }
+
+                            return {
+                                ...feature,
+                                properties: {
+                                    ...feature.properties,
+                                    type: getLayerType(feature.geometry.type),
+                                },
+                            };
+                        },
+                    ) ?? [],
+                ].filter(isDefined),
+            };
+
+            return geoJson;
+        },
+        [],
+    );
+
+    const handleActiveEventChange = useCallback(
+        (eventId: number | undefined) => {
             if (isDefined(eventId)) {
-                getFootprint({
-                    eventId,
-                    successCallback: callback,
-                });
+                getFootprint({ eventId });
             } else {
-                // NOTE: using undefined in context clears out the response
                 getFootprint(undefined);
             }
         },
@@ -174,6 +185,9 @@ function MeteoSwiss(props: Props) {
             sidePanelHeading={title}
             footprintSelector={footprintSelector}
             bbox={bbox}
+            activeEventExposure={exposureResponse}
+            activeEventExposurePending={exposureResponsePending}
+            onActiveEventChange={handleActiveEventChange}
         />
     );
 }

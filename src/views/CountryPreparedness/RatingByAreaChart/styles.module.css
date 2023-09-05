@@ -6,7 +6,7 @@
         height: 100%;
 
         .rect {
-            fill: var(--go-ui-color-primary-blue);
+            fill: var(--go-ui-color-primary-red);
         }
     }
 }

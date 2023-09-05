@@ -3,12 +3,11 @@ import { ChevronRightLineIcon } from '@ifrc-go/icons';
 import Button from '#components/Button';
 import Header from '#components/Header';
 import TextOutput from '#components/TextOutput';
-import type { paths } from '#generated/riskTypes';
+import { type RiskApiResponse } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 
-type GetImminentEvents = paths['/api/v1/pdc/']['get'];
-type ImminentEventResponse = GetImminentEvents['responses']['200']['content']['application/json'];
+type ImminentEventResponse = RiskApiResponse<'/api/v1/pdc/'>;
 type EventItem = NonNullable<ImminentEventResponse['results']>[number];
 
 interface Props {

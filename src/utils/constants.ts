@@ -42,6 +42,11 @@ export const CATEGORY_RISK_MEDIUM = 3;
 export const CATEGORY_RISK_HIGH = 4;
 export const CATEGORY_RISK_VERY_HIGH = 5;
 
+export const FORECAST_SEVERITY_UNKNOWN = 0;
+export const FORECAST_SEVERITY_INFO = 1;
+export const FORECAST_SEVERITY_WARNING = 2;
+export const FORECAST_SEVERITY_DANGER = 3;
+
 // Colors
 
 export const COLOR_WHITE = '#ffffff';

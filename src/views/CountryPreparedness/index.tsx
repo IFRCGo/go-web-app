@@ -1,6 +1,12 @@
 import { Fragment, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { AnalysisIcon, AnalyzingIcon, CheckboxFillIcon } from '@ifrc-go/icons';
+import {
+    AnalysisIcon,
+    AnalyzingIcon,
+    CheckboxFillIcon,
+    CheckboxIndeterminateFillIcon,
+    CloseCircleLineIcon,
+} from '@ifrc-go/icons';
 import {
     compareNumber,
     isDefined,
@@ -12,7 +18,6 @@ import {
 
 import Message from '#components/Message';
 import Link from '#components/Link';
-import BarChart from '#components/BarChart';
 import Heading from '#components/Heading';
 import { sumSafe } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
@@ -26,7 +31,6 @@ import StackedProgressBar from '#components/StackedProgressBar';
 import {
     numericCountSelector,
     numericIdSelector,
-    numericValueSelector,
     stringLabelSelector,
     stringTitleSelector,
 } from '#utils/selectors';
@@ -38,8 +42,9 @@ import styles from './styles.module.css';
 
 const primaryRedColorShades = [
     'var(--go-ui-color-red-90)',
-    'var(--go-ui-color-red-60)',
-    'var(--go-ui-color-red-40)',
+    'var(--go-ui-color-red-70)',
+    'var(--go-ui-color-red-50)',
+    'var(--go-ui-color-red-30)',
     'var(--go-ui-color-red-20)',
     'var(--go-ui-color-red-10)',
 ];
@@ -53,36 +58,48 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { countryId } = useParams<{ countryId: string }>();
 
-    const { response: formAnswerResponse } = useRequest({
-        url: '/api/v2/per-formanswer/',
-    });
-
     const {
-        // pending: perOptionsPending,
-        response: perOptionsResponse,
+        pending: pendingLatestPerResponse,
+        response: latestPerResponse,
+        error: latestPerResponseError,
     } = useRequest({
-        url: '/api/v2/per-options/',
-    });
-
-    const {
-        // pending: perFormAreaPending,
-        response: perFormAreaResponse,
-    } = useRequest({
-        url: '/api/v2/per-formarea/',
-    });
-
-    const { response: latestPerResponse } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/latest-per-overview/',
         // FIXME: typings should be fixed in server
         query: { country_id: Number(countryId) } as never,
     });
 
+    const countryHasNoPer = latestPerResponse?.results?.length === 0;
+
     // FIXME: we get a list form the server because we are using a filter on listing api
     const perId = latestPerResponse?.results?.[0]?.id;
     const prevAssessmentRatings = latestPerResponse?.results?.[0]?.assessment_ratings;
 
     const {
+        pending: formAnswerPending,
+        response: formAnswerResponse,
+    } = useRequest({
+        skip: isNotDefined(perId),
+        url: '/api/v2/per-formanswer/',
+    });
+
+    const {
+        pending: perOptionsPending,
+        response: perOptionsResponse,
+    } = useRequest({
+        skip: isNotDefined(perId),
+        url: '/api/v2/per-options/',
+    });
+
+    const {
+        pending: perFormAreaPending,
+        response: perFormAreaResponse,
+    } = useRequest({
+        url: '/api/v2/per-formarea/',
+    });
+
+    const {
+        pending: perProcessStatusPending,
         response: processStatusResponse,
     } = useRequest({
         skip: isNotDefined(perId),
@@ -93,8 +110,8 @@ export function Component() {
     });
 
     const {
+        pending: overviewResponsePending,
         response: overviewResponse,
-        pending: pendingOverviewResponse,
     } = useRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-overview/{id}/',
@@ -103,7 +120,10 @@ export function Component() {
         },
     });
 
-    const { response: assessmentResponse } = useRequest({
+    const {
+        pending: assessmentResponsePending,
+        response: assessmentResponse,
+    } = useRequest({
         skip: isNotDefined(processStatusResponse?.assessment),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {
@@ -111,7 +131,10 @@ export function Component() {
         },
     });
 
-    const { response: prioritizationResponse } = useRequest({
+    const {
+        pending: prioritizationResponsePending,
+        response: prioritizationResponse,
+    } = useRequest({
         skip: isNotDefined(processStatusResponse?.prioritization),
         url: '/api/v2/per-prioritization/{id}/',
         pathVariables: {
@@ -132,11 +155,14 @@ export function Component() {
 
     const assessmentStats = useMemo(
         () => {
-            if (isNotDefined(assessmentResponse)) {
+            if (isNotDefined(assessmentResponse)
+                || isNotDefined(assessmentResponse.area_responses)
+                || assessmentResponse.area_responses.length === 0
+            ) {
                 return undefined;
             }
 
-            const componentList = assessmentResponse.area_responses?.flatMap(
+            const componentList = assessmentResponse.area_responses.flatMap(
                 (areaResponse) => (
                     areaResponse.component_responses?.map(
                         (componentResponse) => ({
@@ -195,7 +221,7 @@ export function Component() {
             const ratingCounts = mapToList(
                 listToGroupList(
                     componentList.filter((component) => isDefined(component.rating)),
-                    (component) => component.rating.value,
+                    (component) => component.rating?.value,
                 ),
                 (ratingList) => ({
                     id: ratingList[0].rating?.id,
@@ -207,7 +233,7 @@ export function Component() {
                 compareNumber(a.value, b.value, -1)
             ));
 
-            const componentAnswerList = assessmentResponse.area_responses?.flatMap(
+            const componentAnswerList = assessmentResponse.area_responses.flatMap(
                 (areaResponse) => (
                     areaResponse.component_responses?.flatMap(
                         (componentResponse) => componentResponse.question_responses,
@@ -276,8 +302,9 @@ export function Component() {
             const componentsToBeStrengthened = componentsWithRating.map(
                 (component) => ({
                     id: component.id,
-                    value: component.rating.value,
+                    value: component.rating?.value,
                     label: component.details.title,
+                    rating: component.rating,
                 }),
             );
 
@@ -300,9 +327,56 @@ export function Component() {
     const hasAnswerCounts = hasAssessmentStats && assessmentStats.answerCounts.length > 0;
     const hasRatedComponents = hasAssessmentStats && assessmentStats.topRatedComponents.length > 0;
     const hasRatingsByArea = hasAssessmentStats && assessmentStats.ratingByArea.length > 0;
-    const hasComponentsWithRating = hasPrioritizationStats
+    const hasPriorityComponents = hasPrioritizationStats
         && prioritizationStats.componentsWithRating.length > 0;
     const hasPrevAssessments = prevAssessmentRatings && prevAssessmentRatings.length > 1;
+    const showComponentsByArea = hasRatingsByArea
+        && perOptionsResponse
+        && perFormAreaResponse;
+
+    const pending = pendingLatestPerResponse
+        || formAnswerPending
+        || perOptionsPending
+        || perFormAreaPending
+        || perProcessStatusPending
+        || overviewResponsePending
+        || assessmentResponsePending
+        || prioritizationResponsePending;
+
+    if (isNotDefined(countryId) || (!pending && isDefined(latestPerResponseError))) {
+        return (
+            <Message
+                className={styles.countryPreparedness}
+                icon={<CloseCircleLineIcon />}
+                title={strings.nsPreparednessAndResponseCapacityHeading}
+                // FIXME: use translation
+                description="There was an error loading the PER data!"
+            />
+        );
+    }
+
+    if (countryHasNoPer) {
+        return (
+            <Message
+                className={styles.countryPreparedness}
+                icon={<AnalysisIcon />}
+                title={strings.nsPreparednessAndResponseCapacityHeading}
+                // FIXME: use translation
+                description="PER data not available for this Country yet!"
+            />
+        );
+    }
+
+    if (pending) {
+        return (
+            <Message
+                className={styles.pendingMessage}
+                pending
+                // FIXME: use translation
+                description="Fetching data..."
+            />
+        );
+    }
 
     return (
         <Container
@@ -312,69 +386,50 @@ export function Component() {
             headingLevel={2}
             withHeaderBorder
         >
-            {!hasPer && (
-                <Message
-                    className={styles.emptyMessage}
-                    pending={pendingOverviewResponse}
-                    icon={<AnalysisIcon />}
-                    // FIXME: use translation
-                    title={pendingOverviewResponse ? 'Fetching data...' : 'PER not available yet for this Country!'}
+            <div className={styles.latestPerDetails}>
+                <TextOutput
+                    label={strings.startDateLabel}
+                    value={overviewResponse?.date_of_assessment}
+                    valueType="date"
+                    strongValue
                 />
-            )}
-            {hasPer && (
-                <div className={styles.latestPerDetails}>
-                    <TextOutput
-                        label={strings.startDateLabel}
-                        value={overviewResponse?.date_of_assessment}
-                        valueType="date"
-                        strongValue
-                    />
-                    <TextOutput
-                        label={strings.perPhaseLabel}
-                        value={processStatusResponse?.phase_display}
-                        strongValue
-                    />
-                    <TextOutput
-                        label={strings.focalPointNameLabel}
-                        value={overviewResponse?.ns_focal_point_name}
-                        strongValue
-                    />
-                    <TextOutput
-                        label={strings.perCycleLabel}
-                        value={overviewResponse?.phase}
-                        valueType="number"
-                        strongValue
-                    />
-                    <TextOutput
-                        label={strings.typeOfAssessmentLabel}
-                        value={overviewResponse?.type_of_assessment_details?.name}
-                        strongValue
-                    />
-                    <TextOutput
-                        label={strings.focalPointEmailLitle}
-                        value={overviewResponse?.ns_focal_point_email}
-                        strongValue
-                    />
-                    <div className={styles.contactContainer}>
-                        <Link
-                            to={perTeamEmail}
-                            external
-                            variant="secondary"
-                        >
-                            {/* FIXME: use translation */}
-                            Contact PER Team
-                        </Link>
-                    </div>
+                <TextOutput
+                    label={strings.perPhaseLabel}
+                    value={processStatusResponse?.phase_display}
+                    strongValue
+                />
+                <TextOutput
+                    label={strings.focalPointNameLabel}
+                    value={overviewResponse?.ns_focal_point_name}
+                    strongValue
+                />
+                <TextOutput
+                    label={strings.perCycleLabel}
+                    value={overviewResponse?.assessment_number}
+                    valueType="number"
+                    strongValue
+                />
+                <TextOutput
+                    label={strings.typeOfAssessmentLabel}
+                    value={overviewResponse?.type_of_assessment_details?.name}
+                    strongValue
+                />
+                <TextOutput
+                    label={strings.focalPointEmailLitle}
+                    value={overviewResponse?.ns_focal_point_email}
+                    strongValue
+                />
+                <div className={styles.contactContainer}>
+                    <Link
+                        to={perTeamEmail}
+                        external
+                        variant="secondary"
+                    >
+                        {/* FIXME: use translation */}
+                        Contact PER Team
+                    </Link>
                 </div>
-            )}
-            {hasPer && !hasAssessmentStats && (
-                <Message
-                    className={styles.emptyMessage}
-                    icon={<AnalyzingIcon />}
-                    // FIXME: use translation
-                    title="Assessment has not been done yet!"
-                />
-            )}
+            </div>
             {hasRatingCounts && (
                 <Container
                     heading={strings.perAssessmentHeading}
@@ -403,12 +458,13 @@ export function Component() {
                         colorSelector={primaryRedColorShadeSelector}
                     />
                     <KeyFigure
+                        className={styles.keyFigure}
                         value={assessmentStats?.averageRating}
                         description={strings.averageComponentRatingLabel}
                     />
                 </Container>
             )}
-            {hasRatingsByArea && perOptionsResponse && perFormAreaResponse && (
+            {showComponentsByArea && (
                 <Container
                     heading={strings.componentsByAreaHeading}
                     withHeaderBorder
@@ -441,12 +497,13 @@ export function Component() {
                             <Container
                                 key={component.details.id}
                                 className={styles.topRatedComponent}
-                                heading={component.rating.title}
+                                heading={component.rating?.title}
                                 headingLevel={5}
                                 withHeaderBorder
                                 withInternalPadding
                                 icons={<CheckboxFillIcon className={styles.icon} />}
                                 withoutWrapInHeading
+                                spacing="cozy"
                             >
                                 {component.details.title}
                             </Container>
@@ -454,19 +511,29 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {hasComponentsWithRating && (
+            {hasPriorityComponents && (
                 <Container
                     heading={strings.priorityComponentToBeStrengthenedHeading}
                     childrenContainerClassName={styles.priorityComponentsContent}
                     withHeaderBorder
                 >
-                    <BarChart
-                        maxValue={5}
-                        data={prioritizationStats.componentsToBeStrengthened}
-                        keySelector={numericIdSelector}
-                        labelSelector={stringLabelSelector}
-                        valueSelector={numericValueSelector}
-                    />
+                    {prioritizationStats.componentsToBeStrengthened.map(
+                        (priorityComponent) => (
+                            <Container
+                                key={priorityComponent.id}
+                                className={styles.priorityComponent}
+                                heading={priorityComponent.rating?.title}
+                                headingLevel={5}
+                                withHeaderBorder
+                                withInternalPadding
+                                icons={<CheckboxIndeterminateFillIcon className={styles.icon} />}
+                                withoutWrapInHeading
+                                spacing="cozy"
+                            >
+                                {priorityComponent.label}
+                            </Container>
+                        ),
+                    )}
                 </Container>
             )}
             {hasRatedComponents && (
@@ -503,8 +570,17 @@ export function Component() {
                     )}
                 </Container>
             )}
+            {!hasAssessmentStats && (
+                <Message
+                    className={styles.emptyMessage}
+                    icon={<AnalyzingIcon />}
+                    // FIXME: use translation
+                    title="Charts not available!"
+                    description="Assessment has not been performed yet for current PER cycle!"
+                />
+            )}
         </Container>
     );
 }
 
-Component.displayName = 'RegionPreparedness';
+Component.displayName = 'CountryPreparedness';

@@ -1,4 +1,6 @@
 .popup {
+    padding: var(--go-ui-spacing-sm) 0;
+
     .list {
         display: flex;
         flex-direction: column;

@@ -65,39 +65,35 @@ function EmergenciesOperationTable(props: Props) {
         () => ([
             createDateColumn<EmergenciesTableItem, number>(
                 'disaster_start_date',
-                strings.emergenciesStartDate,
+                strings.emergenciesTableStartDate,
                 (item) => item.disaster_start_date,
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createLinkColumn<EmergenciesTableItem, number>(
                 'name',
-                strings.emergenciesName,
+                strings.emergenciesTableName,
                 (item) => item.name,
                 (item) => ({
                     to: 'emergenciesLayout',
                     urlParams: { emergencyId: item.id },
                 }),
-                {
-                    sortable: true,
-                },
+                { sortable: true },
             ),
             createStringColumn<EmergenciesTableItem, number>(
                 'dtype',
-                strings.emergenciesDisasterType,
+                strings.emergenciesTableDisasterType,
                 // FIXME: the typing for server should be fixed
                 (item) => item.dtype?.name,
             ),
             createStringColumn<EmergenciesTableItem, number>(
                 'glide',
-                strings.emergenciesGlide,
+                strings.emergenciesTableGlide,
                 (item) => item.glide,
                 { sortable: true },
             ),
             createNumberColumn<EmergenciesTableItem, number>(
                 'amount_requested',
-                strings.emergenciesRequestedAmount,
+                strings.emergenciesTableRequestedAmount,
                 (item) => {
                     const value = item.appeals[0]?.amount_requested;
                     return isTruthyString(value) ? Number(value) : undefined;
@@ -105,7 +101,7 @@ function EmergenciesOperationTable(props: Props) {
             ),
             createNumberColumn<EmergenciesTableItem, number>(
                 'num_affected',
-                strings.emergenciesAffected,
+                strings.emergenciesTableAffected,
                 (item) => item.num_affected ?? getMostRecentAffectedValue(item.field_reports),
             ),
         ]),
@@ -127,18 +123,14 @@ function EmergenciesOperationTable(props: Props) {
         },
     });
 
-    const viewAllEmergencies = resolveToComponent(
-        strings.allEmergencies,
-        {
-            name: countryName,
-        },
+    const viewAllEmergenciesLinkLabel = resolveToComponent(
+        strings.emergenciesTableAllEmergenciesLinkLabel,
+        { name: countryName },
     );
 
     const emergenciesHeading = resolveToComponent(
-        strings.emergenciesHeading,
-        {
-            count: countryEmergenciesResponse?.count,
-        },
+        strings.emergenciesTableHeading,
+        { count: countryEmergenciesResponse?.count },
     );
 
     return (
@@ -152,7 +144,7 @@ function EmergenciesOperationTable(props: Props) {
                     withForwardIcon
                     withUnderline
                 >
-                    {viewAllEmergencies}
+                    {viewAllEmergenciesLinkLabel}
                 </Link>
             )}
             footerActions={(

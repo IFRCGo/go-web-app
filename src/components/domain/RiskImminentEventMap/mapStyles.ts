@@ -5,6 +5,7 @@ import type {
     LineLayer,
     CircleLayer,
     Layout,
+    SymbolLayer,
 } from 'mapbox-gl';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
 import { COLOR_BLACK, COLOR_PRIMARY_BLUE } from '#utils/constants';
@@ -96,6 +97,26 @@ export const trackOutlineLayer: Omit<LineLayer, 'id'> = {
     paint: {
         'line-color': COLOR_BLACK,
         'line-opacity': 0.5,
+    },
+};
+
+export const trackArrowLayer: Omit<SymbolLayer, 'id'> = {
+    type: 'symbol',
+    filter: [
+        '==',
+        ['get', 'type'],
+        'track',
+    ],
+    paint: {
+        'icon-color': COLOR_BLACK,
+        'icon-opacity': 0.6,
+    },
+    layout: {
+        'icon-allow-overlap': true,
+        'symbol-placement': 'line',
+        'icon-image': 'triangle-11',
+        'icon-size': 0.6,
+        'icon-rotate': 90,
     },
 };
 

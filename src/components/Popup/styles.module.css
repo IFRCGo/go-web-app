@@ -3,7 +3,6 @@
     border-radius: var(--go-ui-spacing-xs);
     box-shadow: var(--go-ui-box-shadow-2xl);
     background-color: var(--go-ui-color-white);
-    padding: var(--go-ui-spacing-sm) 0;
     max-height: 40vh;
     overflow: auto;
 
