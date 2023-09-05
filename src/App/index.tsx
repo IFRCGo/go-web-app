@@ -149,8 +149,8 @@ function App() {
                         return {
                             ...prevValue,
                             [namespace]: {
-                                ...prevValue[namespace],
                                 ...fallbackStrings,
+                                ...prevValue[namespace],
                             },
                         };
                     }
@@ -169,7 +169,8 @@ function App() {
 
                 return {
                     ...prevValue,
-                    [namespace]: 'queued',
+                    // NOTE: This will fetch if the data is not already fetched
+                    [namespace]: prevValue[namespace] === 'fetched' ? 'fetched' : 'queued',
                 };
             });
         },

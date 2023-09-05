@@ -17,7 +17,9 @@ function useTranslation<S extends Record<string, string>>(i18n: Internationaliza
         registerNamespace(i18n.namespace, i18n.strings);
     }, [registerNamespace, i18n]);
 
-    return strings[i18n.namespace] ?? i18n.strings;
+    const dynamicStrings = strings[i18n.namespace] as typeof i18n.strings;
+
+    return dynamicStrings ?? i18n.strings;
 }
 
 export default useTranslation;

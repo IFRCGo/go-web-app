@@ -7,12 +7,15 @@ import {
     useRef,
 } from 'react';
 import {
+    unstable_batchedUpdates,
+} from 'react-dom';
+import {
     _cs,
-    isDefined,
     listToGroupList,
     listToMap,
     mapToList,
     mapToMap,
+    isFalsyString,
 } from '@togglecorp/fujs';
 import { Outlet, useNavigation } from 'react-router-dom';
 
@@ -35,15 +38,18 @@ export function Component() {
 
     const { userAuth: userDetails } = useContext(UserContext);
 
+    const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
+
+    const [languagePending, setLanguagePending] = useState(false);
+
     const {
         currentLanguage,
         setStrings,
         setLanguageNamespaceStatus,
         languageNamespaceStatus,
     } = useContext(LanguageContext);
-    const languageRequestTimeoutRef = useRef<number | undefined>();
 
-    const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
+    const languageRequestTimeoutRef = useRef<number | undefined>();
 
     const registerDomainData = useCallback(
         (name: CacheKey) => {
@@ -56,7 +62,6 @@ export function Component() {
     );
 
     const {
-        pending: languagePending,
         trigger: fetchLanguage,
     } = useLazyRequest<'/api/v2/language/{id}/', { pages: Array<string> }>({
         url: '/api/v2/language/{id}/',
@@ -95,7 +100,6 @@ export function Component() {
                     };
                 },
             );
-
             setLanguageNamespaceStatus(
                 (prevValue) => ({
                     ...prevValue,
@@ -108,52 +112,86 @@ export function Component() {
                     ),
                 }),
             );
+            setLanguagePending(false);
+        },
+        onFailure: (err, { pages }) => {
+            // eslint-disable-next-line no-console
+            console.error(err);
+
+            // FIXME: If we get an error, we should try again?
+            setLanguageNamespaceStatus(
+                (prevValue) => ({
+                    ...prevValue,
+                    ...listToMap(
+                        pages,
+                        (key) => key,
+                        () => 'failed',
+                    ),
+                }),
+            );
+            setLanguagePending(false);
         },
     });
 
+    const queuedLanguages = useMemo(
+        () => {
+            const languages = mapToList(
+                languageNamespaceStatus,
+                (item, key) => ({ key, status: item }),
+            );
+            return languages
+                .filter((item) => item.status === 'queued')
+                .map((item) => item.key)
+                .sort()
+                .join(',');
+        },
+        [languageNamespaceStatus],
+    );
+
     useEffect(
         () => {
-            if (languagePending || currentLanguage === 'en') {
-                return;
+            if (
+                languagePending
+                || currentLanguage === 'en'
+                || isFalsyString(queuedLanguages)
+            ) {
+                return undefined;
             }
 
-            window.clearTimeout(languageRequestTimeoutRef.current);
             languageRequestTimeoutRef.current = window.setTimeout(
                 () => {
-                    // FIXME: check if the component is still mounted
-                    setLanguageNamespaceStatus(
-                        (prevState) => {
-                            const keys = mapToList(
-                                prevState,
-                                (value, key) => (value === 'queued' ? key : undefined),
-                            ).filter(isDefined);
+                    const keys = queuedLanguages.split(',');
 
-                            if (keys.length === 0) {
-                                return prevState;
-                            }
-
-                            fetchLanguage({ pages: keys });
-
-                            return {
+                    unstable_batchedUpdates(() => {
+                        // FIXME: check if the component is still mounted
+                        setLanguageNamespaceStatus(
+                            (prevState) => ({
                                 ...prevState,
                                 ...listToMap(
                                     keys,
                                     (key) => key,
                                     () => 'pending',
                                 ),
-                            };
-                        },
-                    );
+                            }),
+                        );
+                        setLanguagePending(true);
+                    });
+
+                    fetchLanguage({ pages: keys });
                 },
                 // FIXME: use constatnt
                 200,
             );
+
+            return () => {
+                window.clearTimeout(languageRequestTimeoutRef.current);
+            };
         },
         [
+            queuedLanguages,
             languagePending,
             currentLanguage,
             fetchLanguage,
-            languageNamespaceStatus,
             setLanguageNamespaceStatus,
         ],
     );

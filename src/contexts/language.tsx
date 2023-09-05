@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 export type Language = 'en' | 'fr' | 'es' | 'ar';
-export type LanguageNamespaceStatus = 'queued' | 'pending' | 'fetched';
+export type LanguageNamespaceStatus = 'queued' | 'pending' | 'fetched' | 'failed';
 
 type Strings = Record<string, Record<string, string>>;
 
