@@ -1721,6 +1721,20 @@ const shelterTechnical = customWrapRoute({
     },
 });
 
+const catalogueWater = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'water',
+    component: {
+        render: () => import('#views/CatalogueWater'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Water',
+        visibility: 'anything',
+    },
+});
+
 const catalogueProtection = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'protection',
@@ -1731,6 +1745,104 @@ const catalogueProtection = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Protection',
+        visibility: 'anything',
+    },
+});
+
+const washKit2 = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'water/kit-2',
+    component: {
+        render: () => import('#views/WashKit2'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Kit-2',
+        visibility: 'anything',
+    },
+});
+
+const washKit5 = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'water/kit-5',
+    component: {
+        render: () => import('#views/WashKit5'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Kit-5',
+        visibility: 'anything',
+    },
+});
+
+const washM15 = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'water/m15-eru',
+    component: {
+        render: () => import('#views/WashM15'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'M15 ERU',
+        visibility: 'anything',
+    },
+});
+
+const washM20 = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'water/msm20-eru',
+    component: {
+        render: () => import('#views/WashM20'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'M20 ERU',
+        visibility: 'anything',
+    },
+});
+
+const washM40 = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'water/m40-eru',
+    component: {
+        render: () => import('#views/WashM40'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'M40 ERU',
+        visibility: 'anything',
+    },
+});
+
+const waterSupply = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'water/water-supply-rehabilitation-wsr',
+    component: {
+        render: () => import('#views/WaterSupply'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Water Supply Rehabilitation',
+        visibility: 'anything',
+    },
+});
+
+const waterTreatment = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'water/household-water-treatment-and-safe-storage-hwts',
+    component: {
+        render: () => import('#views/WaterTreatment'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Household Water Treatment and Safe Storage',
         visibility: 'anything',
     },
 });
@@ -2250,6 +2362,14 @@ const wrappedRoutes = {
     catalogueShelter,
     shelterTechnical,
     shelterCoordinator,
+    catalogueWater,
+    washKit2,
+    washKit5,
+    washM15,
+    washM20,
+    washM40,
+    waterSupply,
+    waterTreatment,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

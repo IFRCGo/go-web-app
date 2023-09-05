@@ -1,0 +1,19 @@
+.water-treatment{
+    padding-top: var(--go-ui-spacing-md);
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-lg);
+
+        .inner-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+        }
+
+        .personnel {
+            font-style: italic;
+        }
+    }
+}
