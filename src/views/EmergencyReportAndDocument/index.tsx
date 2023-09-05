@@ -1,7 +1,13 @@
 import { useMemo, useCallback, useContext } from 'react';
 import { useOutletContext, generatePath } from 'react-router-dom';
-import { isDefined, isNotDefined, listToGroupList } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isNotDefined,
+    listToGroupList,
+    unique,
+} from '@togglecorp/fujs';
 
+import { resolveUrl } from '#utils/resolveUrl';
 import Container from '#components/Container';
 import Image from '#components/Image';
 import Link from '#components/Link';
@@ -10,15 +16,18 @@ import Table from '#components/Table';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
 import RouteContext from '#contexts/route';
+import useRegion from '#hooks/domain/useRegion';
+import { resolveToString } from '#utils/translation';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import type { GoApiResponse } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { useRequest } from '#utils/restRequest';
+import { adminUrl } from '#config';
 import {
-    createStringColumn,
     createDateColumn,
     createLinkColumn,
     createCountryListColumn,
+    createRegionListColumn,
 } from '#components/Table/ColumnShortcuts';
 
 import i18n from './i18n.json';
@@ -34,6 +43,8 @@ export function Component() {
         fieldReportDetails: fieldReportDetailsRoute,
     } = useContext(RouteContext);
 
+    const regions = useRegion();
+
     const {
         response: situationReportsResponse,
     } = useRequest({
@@ -44,6 +55,11 @@ export function Component() {
             limit: 1000, // FIXME: we should not use this unbounded request
         } : undefined, // TODO: we need to add search filter in server
     });
+
+    const getRegionList = useCallback((regionList: number[]) => (
+        regionList.map((region) => regions?.find((r) => r.id === region))
+            .filter(isDefined)
+    ), [regions]);
 
     const columns = useMemo(
         () => ([
@@ -74,8 +90,17 @@ export function Component() {
                 strings.fieldReportsTableCountry,
                 (item) => item.countries,
             ),
+            createRegionListColumn<FieldReportListItem, number>(
+                'regions',
+                strings.fieldReportsTableRegion,
+                (item) => {
+                    const ids = unique(item.countries.map((country) => country.region))
+                        .filter(isDefined);
+                    return getRegionList(ids);
+                },
+            ),
         ]),
-        [strings, fieldReportDetailsRoute],
+        [strings, fieldReportDetailsRoute, getRegionList],
     );
 
     const groupedSituationReports = useMemo(() => (
@@ -88,11 +113,12 @@ export function Component() {
             (situationReport) => situationReport.type.type,
         )), [situationReportsResponse?.results]);
 
+    console.warn('groupedSituationReports', groupedSituationReports, situationReportsResponse?.results);
+
     const situationReportsRendererParams = useCallback(
         (_: number, value: SituationReportType) => ({
             to: value.document ?? undefined,
             children: value.name,
-            withExternalLinkIcon: true,
         }),
         [],
     );
@@ -140,9 +166,18 @@ export function Component() {
                 && isDefined(situationReportsResponse.results)
                 && situationReportsResponse.results?.length > 0 && (
                 <Container
-                    heading={strings.situationReports}
+                    heading={strings.responseDocuments}
                     childrenContainerClassName={styles.situationReportList}
                     withHeaderBorder
+                    actions={(
+                        <Link
+                            variant="secondary"
+                            to={resolveUrl(adminUrl, `api/event/${emergencyResponse?.id}/change`)}
+                            title={strings.addAReportLink}
+                        >
+                            {strings.addAReportLink}
+                        </Link>
+                    )}
                 >
                     {Object.entries(groupedSituationReports).map(([reportType, reports]) => (
                         <Container
@@ -172,7 +207,10 @@ export function Component() {
                 && isDefined(emergencyResponse.field_reports)
                 && emergencyResponse.field_reports.length > 0 && (
                 <Container
-                    heading={strings.fieldReports}
+                    heading={resolveToString(
+                        strings.fieldReports,
+                        { count: emergencyResponse.field_reports.length },
+                    )}
                     withHeaderBorder
                 >
                     <Table
