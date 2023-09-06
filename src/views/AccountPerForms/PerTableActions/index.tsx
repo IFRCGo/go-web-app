@@ -1,7 +1,7 @@
 import {
     useCallback,
 } from 'react';
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, listToMap } from '@togglecorp/fujs';
 
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import Link from '#components/Link';
@@ -38,6 +38,11 @@ function PerTableActions(props: Props) {
 
     const strings = useTranslation(i18n);
     const { per_perphases } = useGlobalEnums();
+    const phaseMap = listToMap(
+        per_perphases,
+        ({ key }) => key,
+        ({ value }) => value,
+    );
 
     const getRouteUrl = useCallback(
         (currentPhase: number) => {
@@ -64,27 +69,44 @@ function PerTableActions(props: Props) {
 
     return (
         <TableActions
-            extraActions={per_perphases?.map(
-                (perPhase) => (
-                    perPhase.key === PER_PHASE_ACTION ? null : (
+            extraActions={isDefined(phase) && (
+                <>
+                    {phase === PER_PHASE_OVERVIEW ? (
                         <DropdownMenuItem
-                            key={perPhase.key}
                             type="link"
-                            to={getRouteUrl(perPhase.key)}
+                            to="perOverviewForm"
                             urlParams={{ perId }}
-                            disabled={perPhase.key > (phase ?? 1)}
                         >
-                            {phase === perPhase.key
-                                ? resolveToString(
-                                    strings.tableActionEditLabel,
-                                    { phaseDisplay: perPhase.value },
-                                ) : resolveToString(
-                                    strings.tableActionViewLabel,
-                                    { phaseDisplay: perPhase.value },
-                                )}
+                            {resolveToString(strings.tableActionEditLabel, { phaseDisplay: phaseMap?.[PER_PHASE_OVERVIEW] ?? '--' })}
                         </DropdownMenuItem>
-                    )
-                ),
+                    ) : (
+                        <DropdownMenuItem
+                            type="link"
+                            to="perOverviewForm"
+                            urlParams={{ perId }}
+                        >
+                            {resolveToString(strings.tableActionViewLabel, { phaseDisplay: phaseMap?.[PER_PHASE_OVERVIEW] ?? '--' })}
+                        </DropdownMenuItem>
+                    )}
+                    {phase > PER_PHASE_ASSESSMENT && (
+                        <DropdownMenuItem
+                            type="link"
+                            to="perAssessmentForm"
+                            urlParams={{ perId }}
+                        >
+                            {resolveToString(strings.tableActionViewLabel, { phaseDisplay: phaseMap?.[PER_PHASE_ASSESSMENT] ?? '--' })}
+                        </DropdownMenuItem>
+                    )}
+                    {phase > PER_PHASE_PRIORITIZATION && (
+                        <DropdownMenuItem
+                            type="link"
+                            to="perPrioritizationForm"
+                            urlParams={{ perId }}
+                        >
+                            {resolveToString(strings.tableActionEditLabel, { phaseDisplay: phaseMap?.[PER_PHASE_PRIORITIZATION] ?? '--' })}
+                        </DropdownMenuItem>
+                    )}
+                </>
             )}
         >
             {isDefined(phase) && phase <= PER_PHASE_WORKPLAN && (
@@ -101,11 +123,11 @@ function PerTableActions(props: Props) {
             )}
             {isDefined(phase) && phase === PER_PHASE_ACTION && (
                 <Link
-                    variant="secondary"
                     to="perWorkPlanForm"
                     urlParams={{ perId }}
+                    withUnderline
                 >
-                    {strings.tableActionViewWorkPlan}
+                    {resolveToString(strings.tableActionEditLabel, { phaseDisplay: phaseMap?.[PER_PHASE_WORKPLAN] ?? '--' })}
                 </Link>
             )}
         </TableActions>

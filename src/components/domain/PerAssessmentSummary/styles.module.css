@@ -21,16 +21,23 @@
 
             .area-rating {
                 display: flex;
+                align-items: center;
                 flex-direction: column;
+
+                .rating-value {
+                    font-size: var(--go-ui-font-size-sm);
+                    font-weight: var(--go-ui-font-weight-semibold);
+                }
 
                 .bar-container {
                     display: flex;
                     align-items: flex-end;
                     background-color: var(--go-ui-color-separator);
-                    height: 3rem;
+                    width: 1rem;
+                    height: 4rem;
 
                     .filled-bar {
-                        background-color: var(--go-ui-color-primary-blue);
+                        background-color: var(--go-ui-color-primary-red);
                         width: 100%;
                     }
                 }

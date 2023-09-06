@@ -5,11 +5,13 @@ import {
     _cs,
     isDefined,
     isNotDefined,
+    compareNumber,
 } from '@togglecorp/fujs';
 import { PartialForm } from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import ProgressBar from '#components/ProgressBar';
+import NumberOutput from '#components/NumberOutput';
 import StackedProgressBar from '#components/StackedProgressBar';
 import TextOutput from '#components/TextOutput';
 import { sumSafe } from '#utils/common';
@@ -120,6 +122,8 @@ function PerAssessmentSummary(props: Props) {
             ratingDisplay: ratingIdToTitleMap?.[Number(rating)],
             components,
         }),
+    )?.sort(
+        (a, b) => compareNumber(a.ratingValue, b.ratingValue, -1),
     );
 
     const averageRatingByAreaMap = listToMap(
@@ -166,16 +170,16 @@ function PerAssessmentSummary(props: Props) {
             heading="Summary"
             // FIXME: use translations
             headerDescription={(
-                `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} benchmarks.`
+                `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} benchmarks assessed.`
             )}
             childrenContainerClassName={styles.content}
             withHeaderBorder
-            spacing="loose"
+            spacing="relaxed"
         >
             <div className={styles.totalProgress}>
                 <ProgressBar
-                    title="Answered: "
-                    showPercentageInTitle
+                    // FIXME: use translation
+                    title={`Benchmarks assessed: ${allAnsweredResponses?.length ?? '--'}/${totalQuestionCount}`}
                     value={allAnsweredResponses?.length ?? 0}
                     totalValue={totalQuestionCount}
                     description={(
@@ -186,6 +190,7 @@ function PerAssessmentSummary(props: Props) {
                                         key={groupedResponse.answer}
                                         label={groupedResponse.answerDisplay}
                                         value={groupedResponse.responses.length}
+                                        strongValue
                                     />
                                 ),
                             )}
@@ -214,11 +219,15 @@ function PerAssessmentSummary(props: Props) {
                             className={styles.areaRating}
                             key={rating.areaId}
                         >
+                            <NumberOutput
+                                className={styles.ratingValue}
+                                value={rating.rating}
+                            />
                             <div className={styles.barContainer}>
                                 <div
                                     className={styles.filledBar}
                                     style={{
-                                        height: `${(100 * (rating.rating ?? 0)) / 5}%`,
+                                        height: `${(100 * (rating.rating ?? 0)) / (averageRatingByAreaList.length ?? 1)}%`,
                                     }}
                                 />
                             </div>

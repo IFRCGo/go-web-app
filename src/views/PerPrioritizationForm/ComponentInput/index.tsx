@@ -5,6 +5,7 @@ import {
     mapToList,
     isNotDefined,
     isDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
 
@@ -136,7 +137,9 @@ function ComponentInput(props: Props) {
         <ExpandableContainer
             className={styles.componentInput}
             onExpansionChange={setExpanded}
-            heading={`${component?.component_num}. ${component.title}`}
+            heading={isTruthyString(component.component_letter)
+                ? `${component.component_num}(${component.component_letter}). ${component.title}`
+                : `${component.component_num}. ${component.title}`}
             headingLevel={4}
             spacing="relaxed"
             icons={(

@@ -84,7 +84,8 @@ export function Component() {
         error: formError,
         setError,
         validate,
-    } = useForm(overviewSchema, { value: {} });
+        // FIXME: use enum constatnt
+    } = useForm(overviewSchema, { value: { assessment_method: 'per' } });
 
     const [
         fileIdToUrlMap,

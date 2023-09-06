@@ -213,7 +213,7 @@ export function Component() {
             // TODO: we might have to revisit this logic
             savePerWorkPlan({
                 ...formValues,
-                is_draft: true,
+                is_draft: formValues?.is_draft ?? true,
             } as WorkPlanBody);
         },
         [savePerWorkPlan, statusResponse?.workplan],
