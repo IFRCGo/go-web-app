@@ -17,6 +17,7 @@ import {
     WaterSanitationAndHygieneIcon,
     NonFoodItemsIcon,
     SafetyAndSecurityIcon,
+    MoreOptionsIcon,
 } from '@ifrc-go/icons';
 
 import NavigationTabList from '#components/NavigationTabList';
@@ -159,6 +160,13 @@ export function Component() {
                 >
                     <SafetyAndSecurityIcon className={styles.icon} />
                     {strings.catalogueSecurity}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueOther"
+                    parentRoute
+                >
+                    <MoreOptionsIcon className={styles.icon} />
+                    {strings.catalogueOther}
                 </NavigationTab>
             </NavigationTabList>
             <div className={styles.content}>

@@ -1,0 +1,11 @@
+{
+    "namespace": "surgeCatalogueOtherMigration",
+    "strings": {
+        "migrationHeading": "Migration",
+        "otherOverview": "Overview",
+        "otherOverviewDetail": "The IFRC and its member National Societies provide assistance and protection to migrants, irrespective of status, the host community, as well as those left behind. Collectively we have experience responding to large scale population movements such as those experienced in Cox’s Bazar, the Caravan’s in the Americas or the European Migrant Crisis. In addition, National Red Cross Red Crescent Societies support local communities displaced by disaster, conflict and climate change.",
+        "rapidResponse": "Rapid Response Personnel Role Profile",
+        "rapidResponseDetail":"Details about the expectations for this specialty can be found in the {link}",
+        "otherLink": "Rapid Response Migration and Displacement Coordinator role profile."
+    }
+}

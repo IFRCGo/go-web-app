@@ -1485,6 +1485,160 @@ const surgeCatalogueSecurityManagement = customWrapRoute({
     },
 });
 
+const surgeCatalogueOther = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other',
+    component: {
+        render: () => import('#views/SurgeCatalogueOther'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherCivilMilitaryRelations = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/civil-military-relations',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherCivilMilitaryRelations'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherDisasterRiskReduction = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/disaster-risk-reduction',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherDisasterRiskReduction'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherHumanResources = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/human-resources',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherHumanResources'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherInternationalDisasterResponseLaw = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/international-disaster-response-law',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherInternationalDisasterResponseLaw'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherMigration = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/migration',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherMigration'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherNationalSocietyDevelopment = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/national-society-development',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherNationalSocietyDevelopment'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherPartnershipResourceDevelopment = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/partnership-resource-development',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherPartnershipResourceDevelopment'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherPreparednessEffectiveResponse = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/preparedness-effective-response',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherPreparednessEffectiveResponse'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherRecovery = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/recovery',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherRecovery'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOtherGreenResponse = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'other/green-response',
+    component: {
+        render: () => import('#views/SurgeCatalogueOtherGreenResponse'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Other',
+        visibility: 'anything',
+    },
+});
+
 type DefaultPreparednessChild = 'global-summary';
 const preparednessLayout = customWrapRoute({
     parent: rootLayout,
@@ -2444,6 +2598,17 @@ const wrappedRoutes = {
     surgeCatalogueWashKitM40Eru,
     surgeCatalogueWashWaterSupplyRehabilitation,
     surgeCatalogueWashHwts,
+    surgeCatalogueOther,
+    surgeCatalogueOtherCivilMilitaryRelations,
+    surgeCatalogueOtherDisasterRiskReduction,
+    surgeCatalogueOtherHumanResources,
+    surgeCatalogueOtherInternationalDisasterResponseLaw,
+    surgeCatalogueOtherMigration,
+    surgeCatalogueOtherNationalSocietyDevelopment,
+    surgeCatalogueOtherPartnershipResourceDevelopment,
+    surgeCatalogueOtherPreparednessEffectiveResponse,
+    surgeCatalogueOtherRecovery,
+    surgeCatalogueOtherGreenResponse,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));
