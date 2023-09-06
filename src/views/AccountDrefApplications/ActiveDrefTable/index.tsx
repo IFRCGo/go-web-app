@@ -180,6 +180,7 @@ function ActiveDrefTable(props: Props) {
                     if (!originalDref) {
                         return {
                             id,
+                            drefId: id,
                             status: item.status,
                             applicationType: item.application_type,
                             canAddOpsUpdate: false,
@@ -210,6 +211,7 @@ function ActiveDrefTable(props: Props) {
 
                     return {
                         id,
+                        drefId: originalDref.id,
                         status: item.status,
                         applicationType: item.application_type,
                         canAddOpsUpdate,

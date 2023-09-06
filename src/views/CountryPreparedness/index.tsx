@@ -16,6 +16,7 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
+import Button from '#components/Button';
 import Message from '#components/Message';
 import Link from '#components/Link';
 import Heading from '#components/Heading';
@@ -73,6 +74,7 @@ export function Component() {
 
     // FIXME: we get a list form the server because we are using a filter on listing api
     const perId = latestPerResponse?.results?.[0]?.id;
+    const latestPerOverview = latestPerResponse?.results?.[0];
     const prevAssessmentRatings = latestPerResponse?.results?.[0]?.assessment_ratings;
 
     const {
@@ -104,17 +106,6 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-process-status/{id}/',
-        pathVariables: {
-            id: Number(perId),
-        },
-    });
-
-    const {
-        pending: overviewResponsePending,
-        response: overviewResponse,
-    } = useRequest({
-        skip: isNotDefined(perId),
-        url: '/api/v2/per-overview/{id}/',
         pathVariables: {
             id: Number(perId),
         },
@@ -318,7 +309,8 @@ export function Component() {
 
     // FIXME: fill this value
     const perTeamEmail = '';
-    const hasPer = isDefined(overviewResponse);
+    const hasPer = isDefined(latestPerResponse);
+    const limitedAccess = hasPer && isNotDefined(processStatusResponse);
 
     const hasAssessmentStats = hasPer && isDefined(assessmentStats);
     const hasPrioritizationStats = hasPer && isDefined(prioritizationStats);
@@ -339,7 +331,6 @@ export function Component() {
         || perOptionsPending
         || perFormAreaPending
         || perProcessStatusPending
-        || overviewResponsePending
         || assessmentResponsePending
         || prioritizationResponsePending;
 
@@ -389,7 +380,7 @@ export function Component() {
             <div className={styles.latestPerDetails}>
                 <TextOutput
                     label={strings.startDateLabel}
-                    value={overviewResponse?.date_of_assessment}
+                    value={latestPerOverview?.date_of_assessment}
                     valueType="date"
                     strongValue
                 />
@@ -400,23 +391,23 @@ export function Component() {
                 />
                 <TextOutput
                     label={strings.focalPointNameLabel}
-                    value={overviewResponse?.ns_focal_point_name}
+                    value={latestPerOverview?.ns_focal_point_name}
                     strongValue
                 />
                 <TextOutput
                     label={strings.perCycleLabel}
-                    value={overviewResponse?.assessment_number}
+                    value={latestPerOverview?.assessment_number}
                     valueType="number"
                     strongValue
                 />
                 <TextOutput
                     label={strings.typeOfAssessmentLabel}
-                    value={overviewResponse?.type_of_assessment_details?.name}
+                    value={latestPerOverview?.type_of_assessment?.name}
                     strongValue
                 />
                 <TextOutput
                     label={strings.focalPointEmailLitle}
-                    value={overviewResponse?.ns_focal_point_email}
+                    value={latestPerOverview?.ns_focal_point_email}
                     strongValue
                 />
                 <div className={styles.contactContainer}>
@@ -522,7 +513,8 @@ export function Component() {
                             <Container
                                 key={priorityComponent.id}
                                 className={styles.priorityComponent}
-                                heading={priorityComponent.rating?.title}
+                                // FIXME: use translation
+                                heading={priorityComponent.rating?.title ?? 'Not Reviewed'}
                                 headingLevel={5}
                                 withHeaderBorder
                                 withInternalPadding
@@ -570,13 +562,32 @@ export function Component() {
                     )}
                 </Container>
             )}
-            {!hasAssessmentStats && (
+            {!limitedAccess && !hasAssessmentStats && (
                 <Message
                     className={styles.emptyMessage}
                     icon={<AnalyzingIcon />}
                     // FIXME: use translation
                     title="Charts not available!"
+                    // FIXME: use translation
                     description="Assessment has not been performed yet for current PER cycle!"
+                />
+            )}
+            {limitedAccess && (
+                <Message
+                    className={styles.limitedAccessAction}
+                    // FIXME: use translation
+                    title="Limited access!"
+                    // FIXME: use translation
+                    description="You do not have enough permission to view more details on this PER."
+                    actions={(
+                        <Button
+                            variant="primary"
+                            name={undefined}
+                        >
+                            {/* FIXME: use translation */}
+                            Request to see more
+                        </Button>
+                    )}
                 />
             )}
         </Container>

@@ -10,7 +10,9 @@
         "saveRequestSuccessMessage": "PER Process created/updated successfully",
         "saveRequestFailureMessage": "Failed to create/update PER Process",
         "saveLabel": "Save",
-        "confirmHeading": "Confirm Prioritization",
-        "confirmMessage": "You're about to submit the results of PER Prioritization. Once submitted, the results cannot be edited. You'll be redirected to the Workplan form after the successful submission"
+        "submitConfirmHeading": "Confirm Prioritization",
+        "submitConfirmMessage": "You're about to submit the results of PER Prioritization. Once submitted, you'll be redirected to the Workplan form!",
+        "postSubmitEditConfirmHeading": "Confirm Save",
+        "postSubmitEditConfirmMessage": "You're about to overwrite PER Prioritization form which is already submitted. Please be aware that any Workplan Action associated to Prioritized Component will also be removed!"
     }
 }

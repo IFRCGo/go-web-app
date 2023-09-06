@@ -87,8 +87,8 @@ function Alert<N extends string>(props: Props<N>) {
             )}
             icons={icon[type]}
             heading={title}
-            headingLevel={4}
-            ellipsizeHeading
+            headingLevel={5}
+            // ellipsizeHeading
             actions={nonDismissable && (
                 <Button
                     name={undefined}
@@ -99,6 +99,8 @@ function Alert<N extends string>(props: Props<N>) {
                     <CloseLineIcon className={styles.closeIcon} />
                 </Button>
             )}
+            withoutWrapInHeading
+            spacing="compact"
             footerActions={debugMessage && (
                 <div className={styles.actions}>
                     <Button

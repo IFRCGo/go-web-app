@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { ChevronDownLineIcon, ChevronUpLineIcon } from '@ifrc-go/icons';
 
-import useBoolean from '#hooks/useBoolean';
+import useBooleanState from '#hooks/useBooleanState';
 import Button from '#components/Button';
 
 import Container, { Props as ContainerProps } from '../Container';
@@ -36,7 +36,7 @@ function ExpandableContainer(props: Props) {
             setValue: setExpanded,
             toggle: toggleExpanded,
         },
-    ] = useBoolean(!!initiallyExpanded);
+    ] = useBooleanState(!!initiallyExpanded);
 
     useEffect(() => {
         if (onExpansionChange) {
