@@ -17,6 +17,7 @@ import Pager from '#components/Pager';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import { SUBSCRIPTION_FOLLOWED_EVENTS } from '#utils/constants';
 
 import OperationInfoCard, { type Props as OperationInfoCardProps } from './OperationInfoCard';
 import ChangePasswordModal from './ChangePassword';
@@ -40,26 +41,33 @@ export function Component() {
 
     const {
         error: operationResponseError,
-        response: operationsRes,
+        response: operationsResponse,
         pending: operationsPending,
     } = useRequest({
         url: '/api/v2/event/',
         query: {
-            is_featured: 1,
+            // FIXME: we should only fetch subscrived events
+            is_featured: true,
             limit: ITEM_PER_PAGE,
             offset: ITEM_PER_PAGE * (page - 1),
-            // FIXME: typings should be fixed in server
-        } as never,
+        },
         preserveResponse: true,
     });
 
     const meResponse = useUserMe();
 
+    // FIXME: we do not need this
     const subscriptionMap = listToMap(
-        meResponse?.subscription?.filter(
-            (sub) => isDefined(sub.event),
-        ) ?? [],
-        (sub) => sub.event ?? 'unknown',
+        meResponse?.subscription?.map(
+            ({ rtype, event }) => {
+                if (rtype !== SUBSCRIPTION_FOLLOWED_EVENTS || isNotDefined(event)) {
+                    return undefined;
+                }
+
+                return event;
+            },
+        ).filter(isDefined) ?? [],
+        (event) => event,
         () => true,
     );
 
@@ -81,7 +89,7 @@ export function Component() {
         setShowChangePasswordModal(false);
     }, []);
 
-    const eventList = operationsRes?.results;
+    const eventList = operationsResponse?.results;
 
     return (
         <div className={styles.accountInformation}>
@@ -116,41 +124,50 @@ export function Component() {
                     <TextOutput
                         label={strings.usernameLabel}
                         value={meResponse?.username}
+                        strongLabel
                     />
                     <TextOutput
                         label={strings.fullNameLabel}
+                        strongLabel
                         value={
                             [meResponse?.first_name, meResponse?.last_name]
                                 .filter(isTruthyString).join(' ')
                         }
                     />
                     <TextOutput
+                        strongLabel
                         label={strings.locationLabel}
                         value={meResponse?.profile?.city}
                     />
                     <TextOutput
                         label={strings.emailLabel}
                         value={meResponse?.email}
+                        strongLabel
                     />
                     <TextOutput
                         label={strings.phoneNumberLabel}
                         value={meResponse?.profile?.phone_number}
+                        strongLabel
                     />
                     <TextOutput
                         label={strings.organizationLabel}
                         value={meResponse?.profile?.org}
+                        strongLabel
                     />
                     <TextOutput
                         label={strings.organizationTypeLabel}
                         value={meResponse?.profile?.org_type}
+                        strongLabel
                     />
                     <TextOutput
                         label={strings.departmentLabel}
                         value={meResponse?.profile?.department}
+                        strongLabel
                     />
                     <TextOutput
                         label={strings.positionLabel}
                         value={meResponse?.profile?.position}
+                        strongLabel
                     />
                 </>
             </Container>
@@ -161,7 +178,7 @@ export function Component() {
                 footerActions={(
                     <Pager
                         activePage={page}
-                        itemsCount={operationsRes?.count ?? 0}
+                        itemsCount={operationsResponse?.count ?? 0}
                         maxItemsPerPage={ITEM_PER_PAGE}
                         onActivePageChange={setPage}
                     />

@@ -1,7 +1,7 @@
 .additional-action-input {
     .content {
         display: grid;
-        grid-gap: var(--go-ui-spacing-lg);
+        grid-gap: var(--go-ui-spacing-md);
         grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
     }
 }

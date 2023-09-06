@@ -23,6 +23,7 @@ import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import ConfirmButton from '#components/ConfirmButton';
 import TextOutput from '#components/TextOutput';
+import Link from '#components/Link';
 import Portal from '#components/Portal';
 import {
     useLazyRequest,
@@ -263,26 +264,27 @@ export function Component() {
     const componentResponseError = getErrorObject(error?.prioritized_action_responses);
     const customComponentError = getErrorObject(error?.additional_action_responses);
 
-    const readOnlyMode = statusResponse?.phase !== PER_PHASE_WORKPLAN;
+    const readOnlyMode = isNotDefined(statusResponse)
+        || isNotDefined(statusResponse.phase)
+        || statusResponse.phase < PER_PHASE_WORKPLAN;
 
     return (
         <Container
             className={styles.perWorkPlanForm}
             childrenContainerClassName={styles.content}
-            footerActions={(
+            footerActions={value.is_draft !== false && (
                 <ConfirmButton
                     name={undefined}
                     variant="secondary"
                     onConfirm={handleFormFinalSubmit}
-                    disabled={savePerWorkPlanPending
-                        || readOnlyMode}
+                    disabled={pending || savePerWorkPlanPending || readOnlyMode}
                     confirmHeading={strings.confirmHeading}
                     confirmMessage={strings.confirmMessage}
                 >
                     {strings.saveAndFinalizeWorkPlan}
                 </ConfirmButton>
             )}
-            spacing="relaxed"
+            spacing="comfortable"
         >
             {pending && (
                 <BlockLoading />
@@ -295,12 +297,24 @@ export function Component() {
                             value={workPlanResponse?.overview_details?.workplan_development_date}
                             strongValue
                         />
-                        <TextOutput
-                            label={strings.perResponsibleLabel}
-                            value={workPlanResponse?.overview_details?.ns_focal_point_name}
-                            description={workPlanResponse?.overview_details?.ns_focal_point_email}
-                            strongValue
-                        />
+                        <div className={styles.responsible}>
+                            <TextOutput
+                                label={strings.perResponsibleLabel}
+                                value={workPlanResponse?.overview_details?.ns_focal_point_name}
+                                // eslint-disable-next-line max-len
+                                description={workPlanResponse?.overview_details?.ns_focal_point_email}
+                                strongValue
+                            />
+                            {isDefined(statusResponse?.id) && (
+                                <Link
+                                    to="perOverviewForm"
+                                    urlParams={{ perId: statusResponse?.id }}
+                                    variant="secondary"
+                                >
+                                    {strings.editResponsibleButtonLabel}
+                                </Link>
+                            )}
+                        </div>
                     </div>
                     <Container
                         className={styles.prioritizedComponents}

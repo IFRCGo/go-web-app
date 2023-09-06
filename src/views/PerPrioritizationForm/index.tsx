@@ -225,7 +225,7 @@ export function Component() {
         }
         savePerPrioritization({
             ...formValues,
-            is_draft: true,
+            is_draft: formValues?.is_draft ?? true,
         } as PrioritizationRequestBody);
     }, [savePerPrioritization, statusResponse]);
 
@@ -278,7 +278,9 @@ export function Component() {
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
 
-    const readOnlyMode = statusResponse?.phase !== PER_PHASE_PRIORITIZATION;
+    const readOnlyMode = isNotDefined(statusResponse)
+        || isNotDefined(statusResponse.phase)
+        || statusResponse.phase < PER_PHASE_PRIORITIZATION;
 
     const sortedFormComponents = useMemo(
         () => (
@@ -375,19 +377,18 @@ export function Component() {
                         )}
                     </DropdownMenu>
                 )}
-                footerActions={(
+                footerActions={value?.is_draft !== false ? (
                     <ConfirmButton
                         name={undefined}
                         variant="secondary"
                         onConfirm={handleFormFinalSubmit}
-                        disabled={savePerPrioritizationPending
-                            || statusResponse?.phase !== PER_PHASE_PRIORITIZATION}
-                        confirmHeading={strings.confirmHeading}
-                        confirmMessage={strings.confirmMessage}
+                        disabled={pending || savePerPrioritizationPending || readOnlyMode}
+                        confirmHeading={strings.submitConfirmHeading}
+                        confirmMessage={strings.submitConfirmMessage}
                     >
                         {strings.perSelectAndAddToWorkPlan}
                     </ConfirmButton>
-                )}
+                ) : undefined}
                 childrenContainerClassName={styles.componentList}
             >
                 {!pending && sortedFormComponents.map((component) => {
@@ -416,15 +417,27 @@ export function Component() {
             </Container>
             {actionDivRef.current && (
                 <Portal container={actionDivRef?.current}>
-                    <Button
-                        name={undefined}
-                        variant="secondary"
-                        onClick={handleFormSubmit}
-                        disabled={savePerPrioritizationPending
-                            || readOnlyMode}
-                    >
-                        {strings.saveLabel}
-                    </Button>
+                    {value.is_draft === false ? (
+                        <ConfirmButton
+                            name={undefined}
+                            variant="secondary"
+                            onConfirm={handleFormSubmit}
+                            confirmHeading={strings.postSubmitEditConfirmHeading}
+                            confirmMessage={strings.postSubmitEditConfirmMessage}
+                            disabled={savePerPrioritizationPending || readOnlyMode}
+                        >
+                            {strings.saveLabel}
+                        </ConfirmButton>
+                    ) : (
+                        <Button
+                            name={undefined}
+                            variant="secondary"
+                            onClick={handleFormSubmit}
+                            disabled={savePerPrioritizationPending || readOnlyMode}
+                        >
+                            {strings.saveLabel}
+                        </Button>
+                    )}
                 </Portal>
             )}
         </div>
