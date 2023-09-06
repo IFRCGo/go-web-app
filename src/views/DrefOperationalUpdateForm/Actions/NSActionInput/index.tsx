@@ -11,11 +11,11 @@ import TextArea from '#components/TextArea';
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
 
-import { type PartialDref } from '../../schema';
+import { type PartialOpsUpdate } from '../../schema';
 
 import styles from './styles.module.css';
 
-type NsActionFormFields = NonNullable<PartialDref['national_society_actions']>[number];
+type NsActionFormFields = NonNullable<PartialOpsUpdate['national_society_actions']>[number];
 
 const defaultNsActionValue: NsActionFormFields = {
     client_id: '-1',

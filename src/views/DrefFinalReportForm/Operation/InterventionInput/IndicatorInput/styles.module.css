@@ -1,0 +1,10 @@
+.indicator {
+    display: grid;
+    grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+    grid-template-columns: 10fr 4fr 1fr;
+    align-items: center;
+
+    @media screen and (max-width: 30rem) {
+        grid-template-columns: 1fr;
+    }
+}

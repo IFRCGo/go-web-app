@@ -21,8 +21,6 @@ import InputSection from '#components/InputSection';
 import SelectInput from '#components/SelectInput';
 import BooleanInput from '#components/BooleanInput';
 import TextArea from '#components/TextArea';
-import DateInput from '#components/DateInput';
-import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import useTranslation from '#hooks/useTranslation';
 import { stringValueSelector } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -32,27 +30,19 @@ import {
     TYPE_IMMINENT,
     TYPE_ASSESSMENT,
 } from '../common';
-// FIXME: move common components together
-import MultiImageWithCaptionInput from '../EventDetail/MultiImageWithCaptionInput';
-import { type PartialOpsUpdate } from '../schema';
+import { type PartialFinalReport } from '../schema';
 
 import NeedInput from './NeedInput';
-import NsActionInput from './NSActionInput';
 import i18n from './i18n.json';
 
 import styles from './styles.module.css';
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
-type NsActionOption = NonNullable<GlobalEnumsResponse['dref_national_society_action_title']>[number];
 type NeedOption = NonNullable<GlobalEnumsResponse['dref_identified_need_title']>[number];
 
-type Value = PartialOpsUpdate;
-type NeedFormFields = NonNullable<PartialOpsUpdate['needs_identified']>[number];
-type NsActionFormFields = NonNullable<PartialOpsUpdate['national_society_actions']>[number];
+type Value = PartialFinalReport;
+type NeedFormFields = NonNullable<PartialFinalReport['needs_identified']>[number];
 
-function nsActionKeySelector(option: NsActionOption) {
-    return option.key;
-}
 function needOptionKeySelector(option: NeedOption) {
     return option.key;
 }
@@ -61,8 +51,6 @@ interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
     error: Error<Value> | undefined;
-    fileIdToUrlMap: Record<number, string>;
-    setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     disabled?: boolean;
 }
 
@@ -71,18 +59,14 @@ function Actions(props: Props) {
         value,
         setFieldValue,
         error: formError,
-        fileIdToUrlMap,
-        setFileIdToUrlMap,
         disabled,
     } = props;
 
     const [selectedNeed, setSelectedNeed] = useState<NeedOption['key'] | undefined>();
-    const [selectedNsAction, setSelectedNsAction] = useState<NsActionOption['key'] | undefined>();
 
     const strings = useTranslation(i18n);
 
     const {
-        dref_national_society_action_title: nsActionOptions,
         dref_identified_need_title: needOptions,
     } = useGlobalEnums();
 
@@ -93,13 +77,6 @@ function Actions(props: Props) {
         removeValue: onNeedRemove,
     } = useFormArray<'needs_identified', NeedFormFields>(
         'needs_identified',
-        setFieldValue,
-    );
-    const {
-        setValue: onNsActionChange,
-        removeValue: onNsActionRemove,
-    } = useFormArray<'national_society_actions', NsActionFormFields>(
-        'national_society_actions',
         setFieldValue,
     );
 
@@ -119,22 +96,6 @@ function Actions(props: Props) {
         setSelectedNeed(undefined);
     }, [setFieldValue, setSelectedNeed]);
 
-    const handleNsActionAddButtonClick = useCallback((title: NsActionOption['key'] | undefined) => {
-        const newNsActionItem: NsActionFormFields = {
-            client_id: randomString(),
-            title,
-        };
-
-        setFieldValue(
-            (oldValue: NsActionFormFields[] | undefined) => (
-                [...(oldValue ?? []), newNsActionItem]
-            ),
-            'national_society_actions' as const,
-        );
-
-        setSelectedNsAction(undefined);
-    }, [setFieldValue, setSelectedNsAction]);
-
     const needsIdentifiedMap = useMemo(() => (
         listToMap(
             value.needs_identified,
@@ -152,23 +113,6 @@ function Actions(props: Props) {
         [needsIdentifiedMap, needOptions],
     );
 
-    const nsActionsMap = useMemo(() => (
-        listToMap(
-            value.national_society_actions,
-            (d) => d.title ?? '',
-            () => true,
-        )
-    ), [value.national_society_actions]);
-
-    const filteredNsActionOptions = useMemo(
-        () => (
-            nsActionOptions?.filter(
-                (nsAction) => !nsActionsMap?.[nsAction.key],
-            )
-        ),
-        [nsActionsMap, nsActionOptions],
-    );
-
     const needsIdenfiedTitleDisplayMap = useMemo(
         () => (
             listToMap(
@@ -179,103 +123,36 @@ function Actions(props: Props) {
         ),
         [needOptions],
     );
-    const nsActionTitleDisplayMap = useMemo(
-        () => (
-            listToMap(
-                nsActionOptions,
-                (nsAction) => nsAction.key,
-                (nsAction) => nsAction.value,
-            )
-        ),
-        [nsActionOptions],
-    );
 
     return (
         <div className={styles.actions}>
             <Container
                 className={styles.nationalSocietyActions}
+                heading={strings.finalReportNationalSocietiesActions}
                 headerDescription={strings.drefFormNationalSocietiesActionsDescription}
-                heading={strings.drefFormNationalSocietiesActions}
             >
-                <InputSection
-                    title={
-                        value?.type_of_dref !== TYPE_IMMINENT
-                            ? strings.drefFormDidNationalSocietyStartedSlow
-                            : strings.drefFormDidNationalSocietyStartedImminent
-                    }
-                >
+                <InputSection title={strings.finalReportHaveNationalSocietyConducted}>
                     <BooleanInput
-                        name="did_national_society"
+                        name="has_national_society_conducted"
                         onChange={setFieldValue}
-                        value={value?.did_national_society}
-                        error={error?.did_national_society}
-                        disabled={disabled}
+                        value={value?.has_national_society_conducted}
+                        error={error?.has_national_society_conducted}
                     />
                 </InputSection>
-                {value.did_national_society && (
-                    <InputSection
-                        title={
-                            value?.type_of_dref === TYPE_IMMINENT
-                                ? strings.drefFormNSAnticipatoryAction
-                                : strings.drefFormNsResponseStarted
-                        }
-                    >
-                        <DateInput
-                            name="ns_respond_date"
-                            value={value.ns_respond_date}
+                {value.has_national_society_conducted && (
+                    <InputSection title={strings.finalReportDescriptionOfAdditionalActivities}>
+                        <TextArea
+                            name="national_society_conducted_description"
+                            value={value.national_society_conducted_description}
                             onChange={setFieldValue}
-                            error={error?.ns_respond_date}
-                            disabled={disabled}
+                            error={error?.national_society_conducted_description}
                         />
                     </InputSection>
                 )}
-                <InputSection>
-                    <MultiImageWithCaptionInput
-                        name="photos_file"
-                        value={value?.photos_file}
-                        onChange={setFieldValue}
-                        error={getErrorObject(error?.photos_file)}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.operationalUpdateCurrentNsImageLabel}
-                        disabled={disabled}
-                    />
-                    <div className={styles.addNsActionContainer}>
-                        <SelectInput
-                            className={styles.input}
-                            label={strings.drefFormNationalSocietiesActionsLabel}
-                            name={undefined}
-                            options={filteredNsActionOptions}
-                            value={selectedNsAction}
-                            keySelector={nsActionKeySelector}
-                            labelSelector={stringValueSelector}
-                            onChange={setSelectedNsAction}
-                            disabled={disabled}
-                        />
-                        <Button
-                            className={styles.action}
-                            variant="secondary"
-                            name={selectedNsAction}
-                            onClick={handleNsActionAddButtonClick}
-                            disabled={isNotDefined(selectedNsAction) || disabled}
-                        >
-                            {strings.drefFormAddButton}
-                        </Button>
-                    </div>
-                </InputSection>
-                {value?.national_society_actions?.map((nsAction, i) => (
-                    <NsActionInput
-                        key={nsAction.client_id}
-                        index={i}
-                        value={nsAction}
-                        onChange={onNsActionChange}
-                        onRemove={onNsActionRemove}
-                        error={getErrorObject(error?.national_society_actions)}
-                        titleDisplayMap={nsActionTitleDisplayMap}
-                        disabled={disabled}
-                    />
-                ))}
             </Container>
+
+            {/* HERE */}
+
             <Container
                 heading={strings.ifrcNetworkActionsHeading}
             >
@@ -387,6 +264,7 @@ function Actions(props: Props) {
                     </InputSection>
                 )}
             </Container>
+            {/* FIXME: This condition was not there before */}
             {value?.type_of_dref !== TYPE_ASSESSMENT && (
                 <Container
                     className={styles.needsIdentified}
@@ -396,23 +274,6 @@ function Actions(props: Props) {
                             : strings.drefFormNeedsIdentified
                     }
                 >
-                    {/* NOTE: Only when RESPONSE */}
-                    {value?.type_of_dref !== TYPE_IMMINENT && (
-                        <InputSection>
-                            <GoSingleFileInput
-                                name="assessment_report"
-                                accept=".pdf, .docx, .pptx"
-                                onChange={setFieldValue}
-                                url="/api/v2/dref-files/"
-                                value={value?.assessment_report}
-                                fileIdToUrlMap={fileIdToUrlMap}
-                                setFileIdToUrlMap={setFileIdToUrlMap}
-                                disabled={disabled}
-                            >
-                                {strings.drefFormAssessmentReportUploadButtonLabel}
-                            </GoSingleFileInput>
-                        </InputSection>
-                    )}
                     <InputSection>
                         <div className={styles.addNeedContainer}>
                             <SelectInput
@@ -449,20 +310,6 @@ function Actions(props: Props) {
                             disabled={disabled}
                         />
                     ))}
-                    {value?.type_of_dref !== TYPE_IMMINENT && (
-                        <InputSection
-                            title={strings.drefFormGapsInAssessment}
-                        >
-                            <TextArea
-                                label={strings.drefFormActionDescription}
-                                name="identified_gaps"
-                                onChange={setFieldValue}
-                                value={value.identified_gaps}
-                                error={error?.identified_gaps}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                    )}
                 </Container>
             )}
         </div>

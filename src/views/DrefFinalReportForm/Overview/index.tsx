@@ -18,11 +18,11 @@ import InputSection from '#components/InputSection';
 import Link from '#components/Link';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
+import TextArea from '#components/TextArea';
 import SelectInput from '#components/SelectInput';
 import MultiSelectInput from '#components/MultiSelectInput';
 import NumberInput from '#components/NumberInput';
-import BooleanInput from '#components/BooleanInput';
-import UserSearchMultiSelectInput, { type User } from '#components/domain/UserSearchMultiSelectInput';
+import UserSearchMultiSelectInput from '#components/domain/UserSearchMultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import {
@@ -30,7 +30,6 @@ import {
     numericIdSelector,
     stringValueSelector,
 } from '#utils/selectors';
-import { sumSafe } from '#utils/common';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useCountry from '#hooks/domain/useCountry';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
@@ -39,17 +38,14 @@ import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput'
 import useDisasterType from '#hooks/domain/useDisasterType';
 
 import {
-    DISASTER_FIRE,
-    DISASTER_FLOOD,
-    DISASTER_FLASH_FLOOD,
     TYPE_IMMINENT,
-    TYPE_LOAN,
-    ONSET_SUDDEN,
 } from '../common';
-import { type PartialOpsUpdate } from '../schema';
+import { type PartialFinalReport } from '../schema';
 import ImageWithCaptionInput from './ImageWithCaptionInput';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
+
+type UserListItem = NonNullable<GoApiResponse<'/api/v2/user/'>['results']>[number];
 
 const disasterCategoryLink = 'https://www.ifrc.org/sites/default/files/2021-07/IFRC%20Emergency%20Response%20Framework%20-%202017.pdf';
 const totalPopulationRiskImminentLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
@@ -73,9 +69,9 @@ function onsetTypeKeySelector(option: OnsetTypeOption) {
 }
 
 interface Props {
-    value: PartialOpsUpdate;
-    setFieldValue: (...entries: EntriesAsList<PartialOpsUpdate>) => void;
-    error: Error<PartialOpsUpdate> | undefined;
+    value: PartialFinalReport;
+    setFieldValue: (...entries: EntriesAsList<PartialFinalReport>) => void;
+    error: Error<PartialFinalReport> | undefined;
     disabled?: boolean;
 
     fileIdToUrlMap: Record<number, string>;
@@ -101,7 +97,7 @@ function Overview(props: Props) {
 
     // FIXME: move this and dref options outside
     const [userOptions, setUserOptions] = useState<
-        User[] | undefined | null
+        UserListItem[] | undefined | null
     >([]);
 
     const countryOptions = useCountry();
@@ -121,33 +117,9 @@ function Overview(props: Props) {
         },
     });
 
-    const handleTypeOfOnsetChange = useCallback((
-        typeOfOnset: OnsetTypeOption['key'] | undefined,
-        name: 'type_of_onset',
-    ) => {
-        setFieldValue(typeOfOnset, name);
-        if (typeOfOnset === ONSET_SUDDEN) {
-            setFieldValue(false, 'emergency_appeal_planned');
-        }
-    }, [setFieldValue]);
-
-    const handleAdditionalAllocationChange = useCallback((
-        additionalAllocation: number | undefined,
-        name: 'additional_allocation',
-    ) => {
-        setFieldValue(additionalAllocation, name);
-        setFieldValue(
-            sumSafe([
-                value.dref_allocated_so_far,
-                additionalAllocation,
-            ]),
-            'total_dref_allocation',
-        );
-    }, [setFieldValue, value.dref_allocated_so_far]);
-
-    const handleNSChange = useCallback((nationalSociety: number | undefined, name: 'national_society') => {
+    const handleNSChange = useCallback((nationalSociety: number | undefined) => {
         // FIXME: should we also change national_society when country is changed?
-        setFieldValue(nationalSociety, name);
+        setFieldValue(nationalSociety, 'national_society');
         setFieldValue(nationalSociety, 'country');
     }, [setFieldValue]);
 
@@ -208,7 +180,10 @@ function Overview(props: Props) {
                     disabled={disabled}
                 />
             </InputSection>
-            <InputSection title={strings.drefFormDrefTypeTitle}>
+            <InputSection
+                title={strings.drefFormDrefTypeTitle}
+                numPreferredColumns={2}
+            >
                 <SelectInput
                     name="type_of_dref"
                     label={strings.drefFormTypeOfDref}
@@ -248,11 +223,11 @@ function Overview(props: Props) {
                     keySelector={onsetTypeKeySelector}
                     labelSelector={stringValueSelector}
                     value={value?.type_of_onset}
-                    onChange={handleTypeOfOnsetChange}
+                    onChange={setFieldValue}
                     error={error?.type_of_onset}
                     disabled={disabled}
                 />
-                {(value?.disaster_type === DISASTER_FIRE
+                {/* (value?.disaster_type === DISASTER_FIRE
                     || value?.disaster_type === DISASTER_FLASH_FLOOD
                     || value?.disaster_type === DISASTER_FLOOD)
                     ? (
@@ -266,7 +241,7 @@ function Overview(props: Props) {
                         />
                     ) : (
                         <div />
-                    )}
+                    ) */}
                 <SelectInput
                     name="disaster_category"
                     label={(
@@ -310,7 +285,6 @@ function Overview(props: Props) {
                     error={error?.country}
                     disabled={disabled}
                 />
-                {/* FIXME: use district search select input */}
                 <MultiSelectInput
                     name="district"
                     label={strings.drefFormAddRegion}
@@ -327,8 +301,8 @@ function Overview(props: Props) {
             <InputSection title={strings.drefFormTitle}>
                 <div className={styles.titleContainer}>
                     <TextInput
-                        className={styles.titleInput}
                         name="title"
+                        className={styles.titleInput}
                         value={value?.title}
                         onChange={setFieldValue}
                         error={error?.title}
@@ -388,36 +362,55 @@ function Overview(props: Props) {
                     )}
                     disabled={disabled}
                 />
-                {value?.type_of_dref !== TYPE_LOAN && (
-                    <NumberInput
-                        label={(
-                            <>
-                                {
-                                    value?.type_of_dref === TYPE_IMMINENT
-                                        ? strings.drefFormEstimatedPeopleInNeed
-                                        : strings.drefFormPeopleInNeed
-                                }
-                                <Link
-                                    title={strings.drefFormClickEmergencyResponseFramework}
-                                    to={peopleInNeedLink}
-                                    external
-                                >
-                                    <WikiHelpSectionLineIcon />
-                                </Link>
-                            </>
-                        )}
-                        name="people_in_need"
-                        value={value?.people_in_need}
-                        onChange={setFieldValue}
-                        error={error?.people_in_need}
-                        hint={(
-                            value?.type_of_dref === TYPE_IMMINENT
-                                ? strings.drefFormPeopleInNeedDescriptionImminent
-                                : strings.drefFormPeopleInNeedDescriptionSlowSudden
-                        )}
-                        disabled={disabled}
-                    />
-                )}
+                <NumberInput
+                    label={(
+                        <>
+                            {
+                                value?.type_of_dref === TYPE_IMMINENT
+                                    ? strings.drefFormEstimatedPeopleInNeed
+                                    : strings.drefFormPeopleInNeed
+                            }
+                            <Link
+                                title={strings.drefFormClickEmergencyResponseFramework}
+                                to={peopleInNeedLink}
+                                external
+                            >
+                                <WikiHelpSectionLineIcon />
+                            </Link>
+                        </>
+                    )}
+                    name="people_in_need"
+                    value={value?.people_in_need}
+                    onChange={setFieldValue}
+                    error={error?.people_in_need}
+                    hint={(
+                        value?.type_of_dref === TYPE_IMMINENT
+                            ? strings.drefFormPeopleInNeedDescriptionImminent
+                            : strings.drefFormPeopleInNeedDescriptionSlowSudden
+                    )}
+                    disabled={disabled}
+                />
+                <NumberInput
+                    label={(
+                        <>
+                            {strings.finalReportPeopleTargeted}
+                            <Link
+                                // FIXME: use translations
+                                title="Click to view Emergency Response Framework"
+                                to={peopleTargetedLink}
+                                external
+                            >
+                                <WikiHelpSectionLineIcon />
+                            </Link>
+                        </>
+                    )}
+                    name="number_of_people_targeted"
+                    value={value.number_of_people_targeted}
+                    onChange={setFieldValue}
+                    error={error?.number_of_people_targeted}
+                    hint={strings.drefFormPeopleTargetedDescription}
+                    disabled={disabled}
+                />
                 <NumberInput
                     label={(
                         <>
@@ -431,122 +424,74 @@ function Overview(props: Props) {
                             </Link>
                         </>
                     )}
-                    name="number_of_people_targeted"
-                    value={value?.number_of_people_targeted}
+                    name="num_assisted"
+                    value={value?.num_assisted}
                     onChange={setFieldValue}
-                    error={error?.number_of_people_targeted}
+                    error={error?.num_assisted}
                     hint={strings.drefFormPeopleTargetedDescription}
                     disabled={disabled}
                 />
                 {/* NOTE: Empty div to preserve the layout */}
                 <div />
             </InputSection>
-
             <InputSection
-                title={strings.drefOperationalUpdateAllocationSoFar}
-                numPreferredColumns={2}
-            >
-                <NumberInput
-                    name="dref_allocated_so_far"
-                    value={value.dref_allocated_so_far}
-                    onChange={undefined}
-                    error={error?.dref_allocated_so_far}
-                    disabled={disabled}
-                    readOnly
-                />
-            </InputSection>
-            <InputSection
-                title={strings.drefOperationalUpdateAdditionalAllocationRequested}
-                numPreferredColumns={2}
-            >
-                <NumberInput
-                    name="additional_allocation"
-                    value={value.additional_allocation}
-                    onChange={handleAdditionalAllocationChange}
-                    error={error?.additional_allocation}
-                    disabled={disabled}
-                />
-            </InputSection>
-            <InputSection
-                title={strings.drefOperationalUpdateTotalAllocation}
-                numPreferredColumns={2}
+                title={strings.finalReportTotalAllocation}
             >
                 <NumberInput
                     name="total_dref_allocation"
                     value={value.total_dref_allocation}
-                    onChange={undefined}
                     error={error?.total_dref_allocation}
-                    disabled={disabled}
+                    onChange={undefined}
                     readOnly
+                    disabled={disabled}
                 />
             </InputSection>
 
-            {value?.type_of_dref !== TYPE_LOAN && (
-                <InputSection
-                    title={strings.drefFormEmergencyAppealPlanned}
-                >
-                    <BooleanInput
-                        name="emergency_appeal_planned"
-                        value={value?.emergency_appeal_planned}
-                        onChange={setFieldValue}
-                        error={error?.emergency_appeal_planned}
-                        disabled={disabled}
-                    />
-                </InputSection>
-            )}
-            {value?.type_of_dref !== TYPE_LOAN && (
-                <InputSection
-                    title={strings.drefFormUploadMap}
-                    description={strings.drefFormUploadMapDescription}
-                    contentSectionClassName={styles.imageInputContent}
-                    numPreferredColumns={2}
-                >
-                    <ImageWithCaptionInput
-                        name="event_map_file"
-                        value={value?.event_map_file}
-                        onChange={setFieldValue}
-                        error={getErrorObject(error?.event_map_file)}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.drefFormUploadAnImageLabel}
-                        disabled={disabled}
-                    />
-                </InputSection>
-            )}
-            {value?.type_of_dref !== TYPE_LOAN && (
-                <InputSection
-                    title={strings.drefFormUploadCoverImage}
-                    description={strings.drefFormUploadCoverImageDescription}
-                    contentSectionClassName={styles.imageInputContent}
-                    numPreferredColumns={2}
-                >
-                    <ImageWithCaptionInput
-                        name="cover_image_file"
-                        value={value?.cover_image_file}
-                        onChange={setFieldValue}
-                        error={getErrorObject(error?.cover_image_file)}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        label={strings.drefFormUploadAnImageLabel}
-                        disabled={disabled}
-                    />
-                </InputSection>
-            )}
-            {value?.type_of_dref !== TYPE_LOAN && (
-                <InputSection
-                    title={strings.drefOperationalUpdateNumber}
-                    numPreferredColumns={2}
-                >
-                    <NumberInput
-                        readOnly
-                        name="operational_update_number"
-                        value={value.operational_update_number}
-                        onChange={undefined}
-                        error={error?.operational_update_number}
-                        disabled={disabled}
-                    />
-                </InputSection>
-            )}
+            <InputSection
+                title={strings.drefFormUploadMap}
+                description={strings.drefFormUploadMapDescription}
+                contentSectionClassName={styles.imageInputContent}
+                numPreferredColumns={2}
+            >
+                <ImageWithCaptionInput
+                    name="event_map_file"
+                    value={value?.event_map_file}
+                    onChange={setFieldValue}
+                    error={getErrorObject(error?.event_map_file)}
+                    fileIdToUrlMap={fileIdToUrlMap}
+                    setFileIdToUrlMap={setFileIdToUrlMap}
+                    label={strings.drefFormUploadAnImageLabel}
+                    disabled={disabled}
+                />
+            </InputSection>
+            <InputSection
+                title={strings.drefFormUploadCoverImage}
+                description={strings.drefFormUploadCoverImageDescription}
+                contentSectionClassName={styles.imageInputContent}
+                numPreferredColumns={2}
+            >
+                <ImageWithCaptionInput
+                    name="cover_image_file"
+                    value={value?.cover_image_file}
+                    onChange={setFieldValue}
+                    error={getErrorObject(error?.cover_image_file)}
+                    fileIdToUrlMap={fileIdToUrlMap}
+                    setFileIdToUrlMap={setFileIdToUrlMap}
+                    label={strings.drefFormUploadAnImageLabel}
+                    disabled={disabled}
+                />
+            </InputSection>
+            <InputSection
+                title={strings.finalReportMainDonor}
+            >
+                <TextArea
+                    name="main_donors"
+                    value={value.main_donors}
+                    onChange={setFieldValue}
+                    error={error?.main_donors}
+                    disabled={disabled}
+                />
+            </InputSection>
         </Container>
     );
 }

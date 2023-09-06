@@ -1,0 +1,16 @@
+.need-input {
+    .content {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--go-ui-spacing-md);
+        flex-wrap: wrap;
+
+        .description-input {
+            flex-grow: 1;
+        }
+
+        .remove-button {
+            flex-shrink: 0;
+        }
+    }
+}

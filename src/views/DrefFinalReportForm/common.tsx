@@ -6,7 +6,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { type components } from '#generated/types';
 
-import { type PartialOpsUpdate } from './schema';
+import { type PartialFinalReport } from './schema';
 
 export type TypeOfDrefEnum = components['schemas']['TypeOfDrefEnum'];
 type TypeOfOnsetEnum = components['schemas']['TypeOfOnsetEnum'];
@@ -58,7 +58,13 @@ export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps
 
 // FORM ERROR
 
-const overviewFields: (keyof PartialOpsUpdate)[] = [
+// FIXME: check these
+const overviewFields: (keyof PartialFinalReport)[] = [
+    'number_of_people_affected',
+    'number_of_people_targeted',
+    'num_assisted',
+    'total_dref_allocation',
+    'main_donors',
     'users',
     'title',
     'national_society',
@@ -70,54 +76,37 @@ const overviewFields: (keyof PartialOpsUpdate)[] = [
     'disaster_category',
     'event_map_file',
     'cover_image_file',
-    'emergency_appeal_planned',
-    'is_man_made_event',
-    // 'is_assessment_report',
     'type_of_dref',
-    'number_of_people_targeted',
-    'number_of_people_affected',
-    'additional_allocation',
-    'dref_allocated_so_far',
-    'total_dref_allocation',
-] satisfies (keyof PartialOpsUpdate)[];
+] satisfies (keyof PartialFinalReport)[];
 
-const eventDetailFields: (keyof PartialOpsUpdate)[] = [
+const eventDetailFields: (keyof PartialFinalReport)[] = [
     'event_description',
     'event_scope',
     'images_file',
     'event_date',
     'event_text',
-    'anticipatory_actions',
-    'summary_of_change',
-    'changing_timeframe_operation',
-    'changing_operation_strategy',
-    'changing_budget',
-    'changing_target_population_of_operation',
-    'changing_geographic_location',
-    'request_for_second_allocation',
-    'has_forecasted_event_materialize',
-    'specified_trigger_met',
-] satisfies (keyof PartialOpsUpdate)[];
+] satisfies (keyof PartialFinalReport)[];
 
-const actionsFields: (keyof PartialOpsUpdate)[] = [
-    'national_society_actions',
+const actionsFields: (keyof PartialFinalReport)[] = [
+    'has_national_society_conducted',
+    'national_society_conducted_description',
     'ifrc',
     'icrc',
     'partner_national_society',
     'government_requested_assistance',
     'national_authorities',
     'un_or_other_actor',
-    'major_coordination_mechanism',
     'needs_identified',
-    'identified_gaps',
-    'ns_respond_date',
     'is_there_major_coordination_mechanism',
-    'assessment_report',
-    'did_national_society',
-    'photos_file',
-] satisfies (keyof PartialOpsUpdate)[];
+] satisfies (keyof PartialFinalReport)[];
 
-const operationFields: (keyof PartialOpsUpdate)[] = [
+const operationFields: (keyof PartialFinalReport)[] = [
+    'change_in_operational_strategy',
+    'change_in_operational_strategy_text',
+    'total_targeted_population',
+    'financial_report',
+    'financial_report_description',
+
     'people_assisted',
     'women',
     'men',
@@ -130,24 +119,17 @@ const operationFields: (keyof PartialOpsUpdate)[] = [
     'people_targeted_with_early_actions',
     'operation_objective',
     'response_strategy',
-    'human_resource',
-    'surge_personnel_deployed',
-    'logistic_capacity_of_ns',
-    'pmer',
-    'communication',
-    'budget_file',
     'planned_interventions',
-    'is_surge_personnel_deployed',
     'risk_security',
     'risk_security_concern',
-    'selection_criteria',
-    'total_targeted_population',
-] satisfies (keyof PartialOpsUpdate)[];
+] satisfies (keyof PartialFinalReport)[];
 
-const submissionFields: (keyof PartialOpsUpdate)[] = [
-    'ns_request_date',
-    // 'start_date',
-    'date_of_approval',
+const submissionFields: (keyof PartialFinalReport)[] = [
+    'operation_start_date',
+    'total_operation_timeframe',
+    'operation_end_date',
+    'date_of_publication',
+
     'appeal_code',
     'glide_code',
     'ifrc_appeal_manager_name',
@@ -166,20 +148,11 @@ const submissionFields: (keyof PartialOpsUpdate)[] = [
     'ifrc_emergency_email',
     'ifrc_emergency_phone_number',
     'ifrc_emergency_title',
-    'regional_focal_point_name',
-    'regional_focal_point_title',
-    'regional_focal_point_email',
-    'regional_focal_point_phone_number',
     'media_contact_name',
     'media_contact_email',
     'media_contact_phone_number',
     'media_contact_title',
-    'total_operation_timeframe',
-    'new_operational_start_date',
-    'new_operational_end_date',
-    'reporting_start_date',
-    'reporting_end_date',
-] satisfies (keyof PartialOpsUpdate)[];
+] satisfies (keyof PartialFinalReport)[];
 
 const tabToFieldsMap = {
     overview: overviewFields,
@@ -189,7 +162,7 @@ const tabToFieldsMap = {
     submission: submissionFields,
 };
 
-export function checkTabErrors(error: Error<PartialOpsUpdate> | undefined, tabKey: TabKeys) {
+export function checkTabErrors(error: Error<PartialFinalReport> | undefined, tabKey: TabKeys) {
     if (isNotDefined(analyzeErrors(error))) {
         return false;
     }

@@ -2,13 +2,11 @@ import {
     useState,
     useCallback,
     useRef,
-    useMemo,
     type ElementRef,
 } from 'react';
 import {
     useParams,
 } from 'react-router-dom';
-import { ErrorWarningFillIcon } from '@ifrc-go/icons';
 import {
     useForm,
     removeNull,
@@ -20,6 +18,7 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 
+import useRouting from '#hooks/useRouting';
 import Page from '#components/Page';
 import Tab from '#components/Tabs/Tab';
 import Tabs from '#components/Tabs';
@@ -34,16 +33,14 @@ import {
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
-import { injectClientId, isSimilarArray } from '#utils/common';
+import { injectClientId } from '#utils/common';
 import { transformObjectError } from '#utils/restRequest/error';
 
-import opsUpdateSchema, {
-    type OpsUpdateRequestBody,
+import finalReportSchema, {
+    type FinalReportRequestBody,
 } from './schema';
 import {
     checkTabErrors,
-    TYPE_LOAN,
-    type TypeOfDrefEnum,
 } from './common';
 import Overview from './Overview';
 import EventDetail from './EventDetail';
@@ -54,25 +51,11 @@ import ObsoletePayloadModal from './ObsoletePayloadModal';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetOpsUpdateResponse = GoApiResponse<'/api/v2/dref-op-update/{id}/'>;
+type GetFinalReportResponse = GoApiResponse<'/api/v2/dref-final-report/{id}/'>;
 
 export type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 
-function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | undefined) {
-    if (typeOfDref === TYPE_LOAN && direction === 1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            overview: 'eventDetail',
-            eventDetail: 'submission',
-        };
-        return mapping[current];
-    }
-    if (typeOfDref === TYPE_LOAN && direction === -1) {
-        const mapping: { [key in TabKeys]?: TabKeys } = {
-            submission: 'eventDetail',
-            eventDetail: 'overview',
-        };
-        return mapping[current];
-    }
+function getNextStep(current: TabKeys, direction: 1 | -1) {
     if (direction === 1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             overview: 'eventDetail',
@@ -96,9 +79,10 @@ function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDref
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { opsUpdateId } = useParams<{ opsUpdateId: string }>();
+    const { finalReportId } = useParams<{ finalReportId: string }>();
 
     const alert = useAlert();
+    const { navigate } = useRouting();
     const strings = useTranslation(i18n);
 
     const formContentRef = useRef<ElementRef<'div'>>(null);
@@ -119,7 +103,7 @@ export function Component() {
         setError,
         setValue,
     } = useForm(
-        opsUpdateSchema,
+        finalReportSchema,
         {
             value: {
                 planned_interventions: [],
@@ -127,33 +111,19 @@ export function Component() {
                 needs_identified: [],
                 images_file: [],
                 users: [],
-                // is_assessment_report: false,
-                changing_timeframe_operation: false,
-                changing_operation_strategy: false,
-                changing_target_population_of_operation: false,
-                changing_geographic_location: false,
-                changing_budget: false,
-                request_for_second_allocation: false,
-                has_forecasted_event_materialize: false,
+                has_national_society_conducted: false,
             },
         },
     );
 
-    const handleOpsUpdateLoad = useCallback(
-        (response: GetOpsUpdateResponse) => {
+    const handleFinalReportLoad = useCallback(
+        (response: GetFinalReportResponse) => {
             lastModifiedAtRef.current = response?.modified_at;
 
             setFileIdToUrlMap((prevMap) => {
                 const newMap = {
                     ...prevMap,
                 };
-
-                if (
-                    response.budget_file_details
-                    && response.budget_file_details.file
-                ) {
-                    newMap[response.budget_file_details.id] = response.budget_file_details.file;
-                }
                 if (
                     response.assessment_report_details
                     && response.assessment_report_details.file
@@ -174,6 +144,15 @@ export function Component() {
                 ) {
                     newMap[response.cover_image_file.id] = response.cover_image_file.file;
                 }
+
+                if (
+                    response.financial_report_details
+                    && response.financial_report_details
+                ) {
+                    // eslint-disable-next-line max-len
+                    newMap[response.financial_report_details.id] = response.financial_report_details.file;
+                }
+                /*
                 if ((response.photos_file?.length ?? 0) > 0) {
                     response.photos_file?.forEach((img) => {
                         if (isDefined(img.file)) {
@@ -181,6 +160,7 @@ export function Component() {
                         }
                     });
                 }
+                */
                 if ((response.images_file?.length ?? 0) > 0) {
                     response.images_file?.forEach((img) => {
                         if (isDefined(img.file)) {
@@ -194,17 +174,14 @@ export function Component() {
         [],
     );
 
-    const {
-        pending: fetchingOpsUpdate,
-        response: opsUpdateResponse,
-    } = useRequest({
-        url: '/api/v2/dref-op-update/{id}/',
-        skip: isFalsyString(opsUpdateId),
-        pathVariables: isDefined(opsUpdateId) ? {
-            id: opsUpdateId,
+    const { pending: fetchingFinalReport } = useRequest({
+        skip: isFalsyString(finalReportId),
+        url: '/api/v2/dref-final-report/{id}/',
+        pathVariables: isDefined(finalReportId) ? {
+            id: finalReportId,
         } : undefined,
         onSuccess: (response) => {
-            handleOpsUpdateLoad(response);
+            handleFinalReportLoad(response);
 
             const {
                 planned_interventions,
@@ -215,18 +192,6 @@ export function Component() {
                 cover_image_file,
                 images_file,
                 photos_file,
-                changing_timeframe_operation,
-                changing_operation_strategy,
-                changing_target_population_of_operation,
-                changing_geographic_location,
-                changing_budget,
-                request_for_second_allocation,
-                has_forecasted_event_materialize,
-                // disability_people_per,
-                // people_per_urban,
-                // people_per_local,
-
-                // is_assessment_report,
                 ...otherValues
             } = removeNull(response);
 
@@ -244,6 +209,8 @@ export function Component() {
                 needs_identified: needs_identified?.map(injectClientId),
                 national_society_actions: national_society_actions?.map(injectClientId),
                 risk_security: risk_security?.map(injectClientId),
+                // FIXME: We might need to remove photos_file
+                photos_file: photos_file?.map(injectClientId),
                 event_map_file: isDefined(event_map_file)
                     ? injectClientId(event_map_file)
                     : undefined,
@@ -251,81 +218,38 @@ export function Component() {
                     ? injectClientId(cover_image_file)
                     : undefined,
                 images_file: images_file?.map(injectClientId),
-                photos_file: photos_file?.map(injectClientId),
-
-                // is_assessment_report: is_assessment_report ?? false,
-                changing_timeframe_operation: changing_timeframe_operation ?? false,
-                changing_operation_strategy: changing_operation_strategy ?? false,
-                // eslint-disable-next-line max-len
-                changing_target_population_of_operation: changing_target_population_of_operation ?? false,
-                changing_geographic_location: changing_geographic_location ?? false,
-                changing_budget: changing_budget ?? false,
-                request_for_second_allocation: request_for_second_allocation ?? false,
-                has_forecasted_event_materialize: has_forecasted_event_materialize ?? false,
             });
         },
     });
 
     const {
-        pending: fetchingDref,
-        response: drefResponse,
-    } = useRequest({
-        url: '/api/v2/dref/{id}/',
-        pathVariables: isDefined(opsUpdateResponse) && isDefined(opsUpdateResponse.dref) ? {
-            id: String(opsUpdateResponse.dref),
-        } : undefined,
-        skip: isNotDefined(opsUpdateResponse?.dref),
-    });
-
-    const prevOperationalUpdateId = useMemo(() => {
-        const currentOpsUpdate = drefResponse
-            ?.operational_update_details
-            ?.find((ou) => !ou.is_published);
-
-        if (isNotDefined(currentOpsUpdate)) {
-            return undefined;
-        }
-
-        const prevOpsUpdateNumber = (currentOpsUpdate.operational_update_number ?? 0) - 1;
-        const prevOpsUpdate = drefResponse
-            ?.operational_update_details
-            ?.find((ou) => ou.operational_update_number === prevOpsUpdateNumber);
-
-        return prevOpsUpdate?.id;
-    }, [drefResponse]);
-
-    const {
-        pending: fetchingPrevOpsUpdate,
-        response: prevOpsUpdateResponse,
-    } = useRequest({
-        url: '/api/v2/dref-op-update/{id}/',
-        skip: isFalsyString(prevOperationalUpdateId),
-        pathVariables: isDefined(prevOperationalUpdateId) ? {
-            id: String(prevOperationalUpdateId),
-        } : undefined,
-    });
-
-    const {
-        pending: updateOpsUpdatePending,
-        trigger: updateOpsUpdate,
+        pending: updateFinalReportPending,
+        trigger: updateFinalReport,
     } = useLazyRequest({
-        url: '/api/v2/dref-op-update/{id}/',
+        url: '/api/v2/dref-final-report/{id}/',
         method: 'PUT',
-        pathVariables: isDefined(opsUpdateId) ? { id: opsUpdateId } : undefined,
-        body: (formFields: OpsUpdateRequestBody) => formFields,
+        pathVariables: isDefined(finalReportId) ? { id: finalReportId } : undefined,
+        body: (formFields: FinalReportRequestBody) => formFields,
         onSuccess: (response) => {
             alert.show(
                 strings.drefFormSaveRequestSuccessMessage,
                 { variant: 'success' },
             );
-            handleOpsUpdateLoad(response);
+            if (isTruthyString(finalReportId)) {
+                handleFinalReportLoad(response);
+            } else {
+                navigate(
+                    'drefFinalReportForm',
+                    { params: { drefId: response.id } },
+                );
+            }
         },
         onFailure: ({
             value: { formErrors, messageForNotification },
             debugMessage,
         }) => {
             // FIXME:
-            // getKey for (not updated)
+            // getKey for
             // 1. national_society_actions
             // 2. risk_security
             // 3. planned_interventions
@@ -363,14 +287,12 @@ export function Component() {
                 return;
             }
 
-            updateOpsUpdate({
+            updateFinalReport({
                 ...result.value,
                 modified_at: modifiedAt ?? lastModifiedAtRef.current,
-                // FIXME: change server so that we don't need to send user field
-                // FIXME: do the same for dref application
-            } as OpsUpdateRequestBody);
+            } as FinalReportRequestBody);
         },
-        [validate, setError, updateOpsUpdate],
+        [validate, setError, updateFinalReport],
     );
 
     const handleObsoletePayloadOverwiteButtonClick = useCallback(
@@ -387,125 +309,10 @@ export function Component() {
         setActiveTab(newTab);
     }, []);
 
-    const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
-    const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
-
-    const disabled = fetchingOpsUpdate
-        || updateOpsUpdatePending
-        || fetchingDref
-        || fetchingPrevOpsUpdate;
-
-    const operationTimeframeWarning = useMemo(
-        () => {
-            if (value.type_of_dref === TYPE_LOAN) {
-                return undefined;
-            }
-
-            const currentValue = value.total_operation_timeframe;
-            const prevValue = prevOpsUpdateResponse?.total_operation_timeframe
-                ?? drefResponse?.operation_timeframe;
-
-            if (value.changing_timeframe_operation && currentValue === prevValue) {
-                // FIXME: use translations
-                return 'Please select a different timeframe when selected yes on changing the operation timeframe';
-            }
-
-            if (
-                value.total_operation_timeframe !== prevValue
-                && value.changing_timeframe_operation
-            ) {
-                // FIXME: use translations
-                return 'Please select yes on changing the operation timeframe';
-            }
-
-            return undefined;
-        },
-        [
-            value.total_operation_timeframe,
-            value.changing_timeframe_operation,
-            value.type_of_dref,
-            drefResponse,
-            prevOpsUpdateResponse,
-        ],
-    );
-
-    const budgetWarning = useMemo(
-        () => {
-            if (isDefined(value.additional_allocation) && value.additional_allocation > 0) {
-                if (!value.changing_budget || !value.request_for_second_allocation) {
-                    // FIXME: use translations
-                    return 'When requesting for additional budget allocation, the fields "Are you making changes to the budget" and "Is this a request for a second allocation" both should be marked "Yes" in "Event Details" section';
-                }
-            } else if (value.changing_budget || value.request_for_second_allocation) {
-                // FIXME: use translations
-                return 'The field "Additional Allocation Requested" should be filled in "Operation Overview" section to change the budget or for a second allocation';
-            }
-
-            return undefined;
-        },
-        [
-            value.request_for_second_allocation,
-            value.changing_budget,
-            value.additional_allocation,
-        ],
-    );
-
-    const geoWarning = useMemo(
-        () => {
-            const prevValue = prevOpsUpdateResponse?.district ?? drefResponse?.district;
-            const currentValue = value.district;
-            const areDistrictsSimilar = isSimilarArray(currentValue, prevValue);
-
-            if (value.changing_geographic_location && areDistrictsSimilar) {
-                // FIXME: use translations
-                return 'Please select a different district when selected yes on changing geographic location';
-            }
-
-            if (!value.changing_geographic_location && !areDistrictsSimilar) {
-                // FIXME: use translations
-                return 'Please select yes on changing geographic location';
-            }
-
-            return undefined;
-        },
-        [
-            value.district,
-            value.changing_geographic_location,
-            prevOpsUpdateResponse,
-            drefResponse,
-        ],
-    );
-
-    const peopleTargetedWarning = useMemo(
-        () => {
-            const prevValue = prevOpsUpdateResponse?.total_targeted_population
-                ?? drefResponse?.total_targeted_population;
-            const currentValue = value.total_targeted_population;
-
-            if (value.changing_target_population_of_operation && currentValue === prevValue) {
-                // FIXME: use translations
-                return 'Please select a different value for targeted population when selected yes on changing target population';
-            }
-
-            if (!value.changing_target_population_of_operation && currentValue !== prevValue) {
-                // FIXME: use translations
-                return 'Please select yes on changing target population';
-            }
-
-            return undefined;
-        },
-        [
-            value.total_targeted_population,
-            value.changing_target_population_of_operation,
-            prevOpsUpdateResponse,
-            drefResponse,
-        ],
-    );
-
-    const hasAnyWarning = isTruthyString(peopleTargetedWarning)
-        || isTruthyString(operationTimeframeWarning)
-        || isTruthyString(budgetWarning)
-        || isTruthyString(geoWarning);
+    const nextStep = getNextStep(activeTab, 1);
+    const prevStep = getNextStep(activeTab, -1);
+    const saveFinalReportPending = updateFinalReportPending;
+    const disabled = fetchingFinalReport || saveFinalReportPending;
 
     return (
         <Tabs
@@ -516,7 +323,7 @@ export function Component() {
         >
             <Page
                 elementRef={formContentRef}
-                className={styles.drefApplicationForm}
+                className={styles.drefFinalReportForm}
                 title={strings.drefFormPageTitle}
                 heading={strings.drefFormPageHeading}
                 info={(
@@ -535,27 +342,23 @@ export function Component() {
                         >
                             {strings.drefFormTabEventDetailLabel}
                         </Tab>
-                        {value.type_of_dref !== TYPE_LOAN && (
-                            <Tab
-                                name="actions"
-                                step={3}
-                                errored={checkTabErrors(formError, 'actions')}
-                            >
-                                {strings.drefFormTabActionsLabel}
-                            </Tab>
-                        )}
-                        {value.type_of_dref !== TYPE_LOAN && (
-                            <Tab
-                                name="operation"
-                                step={4}
-                                errored={checkTabErrors(formError, 'operation')}
-                            >
-                                {strings.drefFormTabOperationLabel}
-                            </Tab>
-                        )}
+                        <Tab
+                            name="actions"
+                            step={3}
+                            errored={checkTabErrors(formError, 'actions')}
+                        >
+                            {strings.drefFormTabActionsLabel}
+                        </Tab>
+                        <Tab
+                            name="operation"
+                            step={4}
+                            errored={checkTabErrors(formError, 'operation')}
+                        >
+                            {strings.drefFormTabOperationLabel}
+                        </Tab>
                         <Tab
                             name="submission"
-                            step={value.type_of_dref === TYPE_LOAN ? 3 : 5}
+                            step={5}
                             errored={checkTabErrors(formError, 'submission')}
                         >
                             {strings.drefFormTabSubmissionLabel}
@@ -569,34 +372,6 @@ export function Component() {
                     error={formError}
                     message={strings.drefFormGeneralError}
                 />
-                {hasAnyWarning && (
-                    <div className={styles.warnings}>
-                        {operationTimeframeWarning && (
-                            <div className={styles.warning}>
-                                <ErrorWarningFillIcon className={styles.icon} />
-                                {operationTimeframeWarning}
-                            </div>
-                        )}
-                        {budgetWarning && (
-                            <div className={styles.warning}>
-                                <ErrorWarningFillIcon className={styles.icon} />
-                                {budgetWarning}
-                            </div>
-                        )}
-                        {geoWarning && (
-                            <div className={styles.warning}>
-                                <ErrorWarningFillIcon className={styles.icon} />
-                                {geoWarning}
-                            </div>
-                        )}
-                        {peopleTargetedWarning && (
-                            <div className={styles.warning}>
-                                <ErrorWarningFillIcon className={styles.icon} />
-                                {peopleTargetedWarning}
-                            </div>
-                        )}
-                    </div>
-                )}
                 <TabPanel name="overview">
                     <Overview
                         value={value}
@@ -621,8 +396,6 @@ export function Component() {
                     <Actions
                         value={value}
                         setFieldValue={setFieldValue}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
                         error={formError}
                         disabled={disabled}
                     />
@@ -672,9 +445,9 @@ export function Component() {
                         {strings.drefFormSubmitButtonLabel}
                     </Button>
                 </div>
-                {isTruthyString(opsUpdateId) && showObsoletePayloadModal && (
+                {isTruthyString(finalReportId) && showObsoletePayloadModal && (
                     <ObsoletePayloadModal
-                        opsUpdateId={+opsUpdateId}
+                        finalReportId={+finalReportId}
                         onOverwriteButtonClick={handleObsoletePayloadOverwiteButtonClick}
                         onCancelButtonClick={setShowObsoletePayloadModal}
                     />

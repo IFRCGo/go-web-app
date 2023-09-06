@@ -6,7 +6,7 @@
         "dropdownActionAddOpsUpdateLabel": "Add Operationl Update",
         "dropdownActionCreateFinalReportLabel": "Create Final Report",
         "dropdownActionShareLabel": "Share",
-        "dropdownActionShareExport": "Export",
-        "dropdownActionEditExport": "Edit"
+        "dropdownActionExportLabel": "Export",
+        "dropdownActionEditLabel": "Edit"
     }
 }

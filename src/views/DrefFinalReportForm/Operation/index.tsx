@@ -37,7 +37,7 @@ import {
     TYPE_ASSESSMENT,
     TYPE_IMMINENT,
 } from '../common';
-import { type PartialOpsUpdate } from '../schema';
+import { type PartialFinalReport } from '../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -45,9 +45,9 @@ import styles from './styles.module.css';
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PlannedInterventionOption = NonNullable<GlobalEnumsResponse['dref_planned_intervention_title']>[number];
 
-type Value = PartialOpsUpdate;
-type PlannedInterventionFormFields = NonNullable<PartialOpsUpdate['planned_interventions']>[number];
-type RiskSecurityFormFields = NonNullable<PartialOpsUpdate['risk_security']>[number];
+type Value = PartialFinalReport;
+type PlannedInterventionFormFields = NonNullable<PartialFinalReport['planned_interventions']>[number];
+type RiskSecurityFormFields = NonNullable<PartialFinalReport['risk_security']>[number];
 
 function plannedInterventionKeySelector(option: PlannedInterventionOption) {
     return option.key;
@@ -139,26 +139,6 @@ function Operation(props: Props) {
         value?.girls,
         value?.boys,
         value?.total_targeted_population,
-    ]);
-
-    // FIXME: we might need to use this in DREF form as well
-    const warningsBudget = useMemo(() => {
-        if (isNotDefined(value?.total_dref_allocation)) {
-            return [];
-        }
-
-        const w = [];
-
-        const totalBudget = sumSafe(value?.planned_interventions?.map((item) => item.budget));
-
-        if (totalBudget !== value?.total_dref_allocation) {
-            // FIXME: use translations
-            w.push('Total DREF allocation is not equal to sum of other budget fields');
-        }
-        return w;
-    }, [
-        value?.total_dref_allocation,
-        value?.planned_interventions,
     ]);
 
     const interventionMap = useMemo(() => (
@@ -265,9 +245,34 @@ function Operation(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
+                <InputSection
+                    title={strings.finalReportChangeToOperationStrategy}
+                >
+                    <BooleanInput
+                        name="change_in_operational_strategy"
+                        value={value.change_in_operational_strategy}
+                        onChange={setFieldValue}
+                        error={error?.change_in_operational_strategy}
+                        disabled={disabled}
+                    />
+                </InputSection>
+                {value.change_in_operational_strategy_text && (
+                    <InputSection
+                        title={strings.finalReportChangeToOperationStrategyExplain}
+                    >
+                        <TextArea
+                            label={strings.drefFormDescription}
+                            name="change_in_operational_strategy_text"
+                            onChange={setFieldValue}
+                            value={value.change_in_operational_strategy_text}
+                            error={error?.change_in_operational_strategy_text}
+                        />
+                    </InputSection>
+                )}
             </Container>
             <Container
                 heading={strings.drefFormAssistedPopulation}
+                // FIXME: This condition was not present
                 headerDescription={(
                     value?.type_of_dref !== TYPE_ASSESSMENT
                     && warnings?.map((w) => (
@@ -285,6 +290,7 @@ function Operation(props: Props) {
                     title={strings.drefFormTargetedPopulation}
                     numPreferredColumns={2}
                 >
+                    {/* FIXME: This condition was not present */}
                     {value?.type_of_dref !== TYPE_ASSESSMENT && (
                         <>
                             <NumberInput
@@ -430,34 +436,7 @@ function Operation(props: Props) {
             <Container
                 heading={strings.drefFormPlannedIntervention}
                 className={styles.plannedIntervention}
-                headerDescription={(
-                    warningsBudget?.map((w) => (
-                        <div
-                            className={styles.warning}
-                            key={w}
-                        >
-                            <ErrorWarningFillIcon className={styles.icon} />
-                            {w}
-                        </div>
-                    ))
-                )}
             >
-                <InputSection>
-                    <GoSingleFileInput
-                        accept=".pdf"
-                        name="budget_file"
-                        onChange={setFieldValue}
-                        url="/api/v2/dref-files/"
-                        value={value?.budget_file}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        // FIXME: make this change to other forms as well
-                        error={value?.budget_file}
-                        disabled={disabled}
-                    >
-                        {strings.drefFormBudgetTemplateUploadButtonLabel}
-                    </GoSingleFileInput>
-                </InputSection>
                 <InputSection>
                     <div className={styles.interventionSelectionContainer}>
                         <SelectInput
@@ -496,88 +475,32 @@ function Operation(props: Props) {
                 ))}
             </Container>
             <Container
-                heading={strings.drefFormSupportServices}
+                heading={strings.finalReportFinancialReport}
             >
-                <InputSection
-                    title={strings.drefFormHumanResourceDescription}
-                >
+                <InputSection>
+                    <GoSingleFileInput
+                        accept=".pdf"
+                        name="financial_report"
+                        value={value.financial_report}
+                        onChange={setFieldValue}
+                        url="/api/v2/dref-files/"
+                        error={error?.financial_report}
+                        fileIdToUrlMap={fileIdToUrlMap}
+                        setFileIdToUrlMap={setFileIdToUrlMap}
+                        disabled={disabled}
+                    >
+                        {strings.finalReportFinancialReportAttachment}
+                    </GoSingleFileInput>
+                </InputSection>
+                <InputSection title={strings.finalReportFinancialReportVariances}>
                     <TextArea
-                        label={strings.drefFormOperationDescription}
-                        name="human_resource"
+                        name="financial_report_description"
+                        value={value.financial_report_description}
                         onChange={setFieldValue}
-                        value={value.human_resource}
-                        error={error?.human_resource}
+                        error={error?.financial_report_description}
                         disabled={disabled}
                     />
                 </InputSection>
-                <InputSection
-                    title={strings.drefFormSurgePersonnelDeployed}
-                    description={value?.is_surge_personnel_deployed
-                        ? strings.drefFormSurgePersonnelDeployedDescription
-                        : undefined}
-                >
-                    <BooleanInput
-                        name="is_surge_personnel_deployed"
-                        value={value.is_surge_personnel_deployed}
-                        onChange={setFieldValue}
-                        error={error?.is_surge_personnel_deployed}
-                        disabled={disabled}
-                    />
-                    {value?.is_surge_personnel_deployed && (
-                        <TextArea
-                            label={strings.drefFormOperationDescription}
-                            name="surge_personnel_deployed"
-                            onChange={setFieldValue}
-                            value={value.surge_personnel_deployed}
-                            error={error?.surge_personnel_deployed}
-                            placeholder={strings.drefFormSurgePersonnelDeployedDescription}
-                            disabled={disabled}
-                        />
-                    )}
-                </InputSection>
-                {value?.type_of_dref !== TYPE_ASSESSMENT && (
-                    <>
-                        <InputSection
-                            title={strings.drefFormLogisticCapacityOfNs}
-                            description={strings.drefFormLogisticCapacityOfNsDescription}
-                        >
-                            <TextArea
-                                label={strings.drefFormOperationDescription}
-                                name="logistic_capacity_of_ns"
-                                onChange={setFieldValue}
-                                value={value.logistic_capacity_of_ns}
-                                error={error?.logistic_capacity_of_ns}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
-                            title={strings.drefFormPmer}
-                            description={strings.drefFormPmerDescription}
-                        >
-                            <TextArea
-                                label={strings.drefFormOperationDescription}
-                                name="pmer"
-                                onChange={setFieldValue}
-                                value={value.pmer}
-                                error={error?.pmer}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
-                            title={strings.drefFormCommunication}
-                            description={strings.drefFormCommunicationDescription}
-                        >
-                            <TextArea
-                                label={strings.drefFormOperationDescription}
-                                name="communication"
-                                onChange={setFieldValue}
-                                value={value.communication}
-                                error={error?.communication}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                    </>
-                )}
             </Container>
         </div>
     );

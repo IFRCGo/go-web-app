@@ -12,11 +12,11 @@ import TextArea from '#components/TextArea';
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
 
-import { type PartialOpsUpdate } from '../../schema';
+import { type PartialFinalReport } from '../../schema';
 
 import styles from './styles.module.css';
 
-type NeedFormFields = NonNullable<PartialOpsUpdate['needs_identified']>[number];
+type NeedFormFields = NonNullable<PartialFinalReport['needs_identified']>[number];
 const defaultNeedValue: NeedFormFields = {
     client_id: '-1',
 };

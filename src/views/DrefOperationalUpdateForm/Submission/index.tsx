@@ -15,7 +15,7 @@ import useTranslation from '#hooks/useTranslation';
 import { formatDate } from '#utils/common';
 
 import { TYPE_LOAN } from '../common';
-import { type PartialDref } from '../schema';
+import { type PartialOpsUpdate } from '../schema';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -43,7 +43,7 @@ function calculateEndDate(
     return formatDate(approvalDate, 'yyyy-MM-dd');
 }
 
-type Value = PartialDref;
+type Value = PartialOpsUpdate;
 
 interface Props {
     value: Value;

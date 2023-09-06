@@ -11,11 +11,11 @@ import NumberInput from '#components/NumberInput';
 import TextInput from '#components/TextInput';
 import useTranslation from '#hooks/useTranslation';
 
-import { PartialOpsUpdate } from '../../../schema';
+import { PartialFinalReport } from '../../../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type PlannedInterventionFormFields = NonNullable<PartialOpsUpdate['planned_interventions']>[number];
+type PlannedInterventionFormFields = NonNullable<PartialFinalReport['planned_interventions']>[number];
 type IndicatorFormFields = NonNullable<PlannedInterventionFormFields['indicators']>[number];
 
 const defaultIndicatorValue: IndicatorFormFields = {
@@ -70,7 +70,6 @@ function IndicatorInput(props: Props) {
                 disabled={disabled}
             />
             <NumberInput
-                className={styles.numberInput}
                 label={strings.drefOperationalUpdateIndicatorActualLabel}
                 name="actual"
                 value={value.actual}

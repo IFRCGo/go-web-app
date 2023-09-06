@@ -16,24 +16,24 @@ import useTranslation from '#hooks/useTranslation';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetOpsUpdateResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
+type GetFinalReportResponse = GoApiResponse<'/api/v2/dref-final-report/{id}/'>;
 
 // FIXME: use common function
-function getUserName(user: GetOpsUpdateResponse['modified_by_details'] | undefined) {
+function getUserName(user: GetFinalReportResponse['modified_by_details'] | undefined) {
     return [user?.first_name, user?.last_name].filter(isTruthyString).join(' ')
         || user?.username
         || 'Unknown User';
 }
 
 interface Props {
-    opsUpdateId: number;
+    finalReportId: number;
     onOverwriteButtonClick: (newModifiedAt: string | undefined) => void;
     onCancelButtonClick: (_: boolean) => void;
 }
 
 function ObsoletePayloadResolutionModal(props: Props) {
     const {
-        opsUpdateId,
+        finalReportId,
         onOverwriteButtonClick,
         onCancelButtonClick,
     } = props;
@@ -41,13 +41,13 @@ function ObsoletePayloadResolutionModal(props: Props) {
     const strings = useTranslation(i18n);
 
     const {
-        pending: opsUpdatePending,
-        response: opsUpdateResponse,
+        pending: finalReportPending,
+        response: finalReportResponse,
     } = useRequest({
-        skip: isNotDefined(opsUpdateId),
-        url: '/api/v2/dref-op-update/{id}/',
-        pathVariables: isDefined(opsUpdateId) ? {
-            id: String(opsUpdateId),
+        skip: isNotDefined(finalReportId),
+        url: '/api/v2/dref-final-report/{id}/',
+        pathVariables: isDefined(finalReportId) ? {
+            id: String(finalReportId),
         } : undefined,
     });
 
@@ -66,8 +66,8 @@ function ObsoletePayloadResolutionModal(props: Props) {
                         {strings.drefChangesCancelButton}
                     </Button>
                     <Button
-                        name={opsUpdateResponse?.modified_at}
-                        disabled={opsUpdatePending}
+                        name={finalReportResponse?.modified_at}
+                        disabled={finalReportPending}
                         onClick={onOverwriteButtonClick}
                     >
                         {strings.drefChangesOverwriteButton}
@@ -75,15 +75,15 @@ function ObsoletePayloadResolutionModal(props: Props) {
                 </>
             )}
         >
-            {opsUpdatePending && (
+            {finalReportPending && (
                 <BlockLoading />
             )}
-            {!opsUpdatePending && (
+            {!finalReportPending && (
                 <>
                     <div>
                         {strings.drefConflictWhileSaving}
                         <strong>
-                            {getUserName(opsUpdateResponse?.modified_by_details)}
+                            {getUserName(finalReportResponse?.modified_by_details)}
                         </strong>
                     </div>
                     <div>

@@ -17,13 +17,13 @@ import {
     TYPE_LOAN,
     ONSET_SUDDEN,
 } from '../common';
-import { type PartialDref } from '../schema';
+import { type PartialOpsUpdate } from '../schema';
 
 import MultiImageWithCaptionInput from './MultiImageWithCaptionInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type Value = PartialDref;
+type Value = PartialOpsUpdate;
 interface Props {
     value: Value;
     setFieldValue: (...entries: EntriesAsList<Value>) => void;
