@@ -8,7 +8,8 @@ import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import useDebouncedValue from '#hooks/useDebouncedValue';
 
-type User = NonNullable<GoApiResponse<'/api/v2/user/'>['results']>[number];
+type UserDetails = NonNullable<GoApiResponse<'/api/v2/user/'>['results']>[number];
+export type User = Pick<UserDetails, 'id' | 'first_name' | 'last_name' | 'username'>;
 
 const keySelector = (d: User) => d.id;
 const labelSelector = (user: User) => {

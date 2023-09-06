@@ -1,79 +1,43 @@
 .modal-container {
-    --padding: var(--go-ui-spacing-lg);
-    --spacing: var(--go-ui-spacing-lg);
-
     display: block;
     width: 100%;
 
     &.size-sm {
         max-width: var(--go-ui-width-modal-sm);
-        --padding: var(--go-ui-spacing-lg);
-        --spacing: var(--go-ui-spacing-lg);
     }
 
     &.size-md {
         max-width: var(--go-ui-width-modal-md);
-        --padding: var(--go-ui-spacing-xl);
-        --spacing: var(--go-ui-spacing-xl);
     }
 
     &.size-lg {
         max-width: var(--go-ui-width-modal-lg);
-        --padding: var(--go-ui-spacing-2xl);
-        --spacing: var(--go-ui-spacing-2xl);
     }
 
     &.size-xl {
         max-width: var(--go-ui-width-modal-lg);
-        --padding: var(--go-ui-spacing-2xl);
-        --spacing: var(--go-ui-spacing-2xl);
     }
 
     &.size-full {
         width: 100vw;
         height: 100vh;
-        --padding: var(--go-ui-spacing-2xl);
-        --spacing: var(--go-ui-spacing-2xl);
     }
 
     &.size-auto {
         max-width: fit-content;
-        --padding: var(--go-ui-spacing-lg);
-        --spacing: var(--go-ui-spacing-lg);
     }
 
     .modal {
-        display: flex;
-        flex-direction: column;
         border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
         border-radius: var(--go-ui-border-radius-md);
         background-color: var(--go-ui-color-white);
-        padding: var(--padding);
         width: 100%;
         min-width: var(--go-ui-width-min-modal);
         height: 100%;
         min-height: var(--go-ui-height-min-modal);
-        overflow: auto;
-        gap: var(--spacing);
-
-        .modal-header-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: var(--spacing);
-
-            .close-button {
-                align-self: flex-end;
-            }
-        }
 
         .close-icon {
             font-size: var(--go-ui-font-size-icon-multiplier);
-        }
-
-        .modal-body {
-            flex-grow: 1;
-            overflow: auto;
         }
     }
 }

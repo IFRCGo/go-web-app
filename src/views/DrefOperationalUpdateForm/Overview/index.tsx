@@ -22,7 +22,7 @@ import SelectInput from '#components/SelectInput';
 import MultiSelectInput from '#components/MultiSelectInput';
 import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
-import UserSearchMultiSelectInput from '#components/domain/UserSearchMultiSelectInput';
+import UserSearchMultiSelectInput, { type User } from '#components/domain/UserSearchMultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import {
@@ -50,8 +50,6 @@ import { type PartialDref } from '../schema';
 import ImageWithCaptionInput from './ImageWithCaptionInput';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
-
-type UserListItem = NonNullable<GoApiResponse<'/api/v2/user/'>['results']>[number];
 
 const disasterCategoryLink = 'https://www.ifrc.org/sites/default/files/2021-07/IFRC%20Emergency%20Response%20Framework%20-%202017.pdf';
 const totalPopulationRiskImminentLink = 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF%2FHum%20Pop%20Definitions%20for%20DREF%20Form%5F21072022%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FDREF&p=true&ga=1';
@@ -103,7 +101,7 @@ function Overview(props: Props) {
 
     // FIXME: move this and dref options outside
     const [userOptions, setUserOptions] = useState<
-        UserListItem[] | undefined | null
+        User[] | undefined | null
     >([]);
 
     const countryOptions = useCountry();

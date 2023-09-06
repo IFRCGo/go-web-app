@@ -16,6 +16,7 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 
+import Button from '#components/Button';
 import Message from '#components/Message';
 import Link from '#components/Link';
 import Heading from '#components/Heading';
@@ -39,7 +40,6 @@ import PreviousAssessmentCharts from './PreviousAssessmentChart';
 import RatingByAreaChart from './RatingByAreaChart';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import Button from '#components/Button';
 
 const primaryRedColorShades = [
     'var(--go-ui-color-red-90)',
@@ -568,13 +568,16 @@ export function Component() {
                     icon={<AnalyzingIcon />}
                     // FIXME: use translation
                     title="Charts not available!"
+                    // FIXME: use translation
                     description="Assessment has not been performed yet for current PER cycle!"
                 />
             )}
             {limitedAccess && (
                 <Message
                     className={styles.limitedAccessAction}
+                    // FIXME: use translation
                     title="Limited access!"
+                    // FIXME: use translation
                     description="You do not have enough permission to view more details on this PER."
                     actions={(
                         <Button

@@ -205,7 +205,7 @@ function EditAccountInfo(props: Props) {
                     </Button>
                 </>
             )}
-            bodyClassName={styles.content}
+            childrenContainerClassName={styles.content}
         >
             <NonFieldError
                 className={styles.nonFieldError}

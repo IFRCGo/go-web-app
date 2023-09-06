@@ -47,17 +47,27 @@ export function Component() {
             id: drefId,
         } : undefined,
         onSuccess: () => {
+            // FIXME: create common function / hook for this
             async function waitForImages() {
                 const images = document.querySelectorAll('img');
+                if (images.length === 0) {
+                    setPreviewReady(true);
+                    return;
+                }
+
                 const promises = Array.from(images).map(
-                    (image) => (
-                        new Promise((accept) => {
+                    (image) => {
+                        if (image.complete) {
+                            return undefined;
+                        }
+
+                        return new Promise((accept) => {
                             image.addEventListener('load', () => {
                                 accept(true);
                             });
-                        })
-                    ),
-                );
+                        });
+                    },
+                ).filter(isDefined);
 
                 await Promise.all(promises);
                 setPreviewReady(true);

@@ -152,7 +152,7 @@ function ChangePasswordModal(props: Props) {
                     </Button>
                 </>
             )}
-            bodyClassName={styles.content}
+            childrenContainerClassName={styles.content}
         >
             <NonFieldError
                 className={styles.serverError}

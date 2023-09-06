@@ -60,16 +60,15 @@ function Navbar(props: Props) {
                 className={styles.top}
                 contentClassName={styles.topContent}
             >
-                <Link
-                    to="home"
-                    className={styles.brand}
-                >
-                    <img
-                        className={styles.goIcon}
-                        src={goLogo}
-                        alt={strings.headerLogoAltText}
-                    />
-                </Link>
+                <div className={styles.brand}>
+                    <Link to="home">
+                        <img
+                            className={styles.goIcon}
+                            src={goLogo}
+                            alt={strings.headerLogoAltText}
+                        />
+                    </Link>
+                </div>
                 <NavigationTabList
                     className={styles.actions}
                     variant="tertiary"

@@ -40,7 +40,7 @@ import {
 import DateInput from '#components/DateInput';
 import useCountry from '#hooks/domain/useCountry';
 import useNationalSociety from '#hooks/domain/useNationalSociety';
-import useBoolean from '#hooks/useBoolean';
+import useBooleanState from '#hooks/useBooleanState';
 import RadioInput from '#components/RadioInput';
 import NonFieldError from '#components/NonFieldError';
 import Checklist from '#components/Checklist';
@@ -140,7 +140,7 @@ export function Component() {
             setTrue: showSubmitConfirmation,
             setFalse: hideSubmitConfirmation,
         },
-    ] = useBoolean(false);
+    ] = useBooleanState(false);
 
     const error = getErrorObject(formError);
     const [finalValues, setFinalValues] = useState<ActivityResponseBody | undefined>();
@@ -771,7 +771,7 @@ export function Component() {
                         onClose={hideSubmitConfirmation}
                         footerClassName={styles.footer}
                         footerContentClassName={styles.footerContent}
-                        bodyClassName={styles.modalBody}
+                        childrenContainerClassName={styles.modalBody}
                         footerContent={(
                             <>
                                 <Button

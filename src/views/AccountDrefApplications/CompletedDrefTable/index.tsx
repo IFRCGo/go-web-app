@@ -62,12 +62,11 @@ function CompletedDrefTable(props: Props) {
     });
 
     type DrefResultItem = NonNullable<NonNullable<typeof completedDrefResponse>['results']>[number];
-    type DrefItem = Omit<DrefResultItem, 'dref'>;
-    type Key = DrefItem['id'];
+    type Key = DrefResultItem['id'];
 
-    const [expandedRow, setExpandedRow] = useState<DrefItem | undefined>();
+    const [expandedRow, setExpandedRow] = useState<DrefResultItem | undefined>();
     const handleExpandClick = useCallback(
-        (row: DrefItem) => {
+        (row: DrefResultItem) => {
             setExpandedRow(
                 (prevValue) => (prevValue?.id === row.id ? undefined : row),
             );
@@ -77,46 +76,47 @@ function CompletedDrefTable(props: Props) {
 
     const baseColumns = useMemo(
         () => ([
-            createDateColumn<DrefItem, Key>(
+            createDateColumn<DrefResultItem, Key>(
                 'created_at',
                 strings.completedDrefTableCreatedHeading,
                 (item) => item.created_at,
                 { columnClassName: styles.date },
             ),
-            createStringColumn<DrefItem, Key>(
+            createStringColumn<DrefResultItem, Key>(
                 'appeal_code',
                 strings.completedDrefTableAppealCodeHeading,
                 (item) => item.appeal_code,
                 { columnClassName: styles.appealCode },
             ),
-            createStringColumn<DrefItem, Key>(
+            createStringColumn<DrefResultItem, Key>(
                 'title',
                 strings.completedDrefTableTitleHeading,
                 (item) => item.title,
                 { columnClassName: styles.title },
             ),
-            createStringColumn<DrefItem, Key>(
+            createStringColumn<DrefResultItem, Key>(
                 'type',
                 strings.completedDrefTableStageHeading,
                 (item) => item.application_type_display,
                 { columnClassName: styles.stage },
             ),
-            createStringColumn<DrefItem, Key>(
+            createStringColumn<DrefResultItem, Key>(
                 'country',
                 strings.completedDrefTableCountryHeading,
                 (item) => item.country_details?.name,
             ),
-            createStringColumn<DrefItem, Key>(
+            createStringColumn<DrefResultItem, Key>(
                 'status',
                 strings.completedDrefTableStatusHeading,
                 (item) => item.status_display,
             ),
-            createElementColumn<DrefItem, Key, DrefTableActionsProps>(
+            createElementColumn<DrefResultItem, Key, DrefTableActionsProps>(
                 'actions',
                 '',
                 DrefTableActions,
                 (id, item) => ({
                     id,
+                    drefId: item.dref.id,
                     status: item.status,
                     applicationType: item.application_type,
                     canAddOpsUpdate: false,
@@ -129,9 +129,9 @@ function CompletedDrefTable(props: Props) {
 
     const columns = useMemo(
         () => ([
-            createExpansionIndicatorColumn<DrefItem, Key>(false),
+            createExpansionIndicatorColumn<DrefResultItem, Key>(false),
             ...baseColumns,
-            createExpandColumn<DrefItem, Key>(
+            createExpandColumn<DrefResultItem, Key>(
                 'expandRow',
                 '',
                 (row) => ({
@@ -146,7 +146,7 @@ function CompletedDrefTable(props: Props) {
 
     const detailColumns = useMemo(
         () => ([
-            createExpansionIndicatorColumn<DrefItem, Key>(true),
+            createExpansionIndicatorColumn<DrefResultItem, Key>(true),
             ...baseColumns,
             createEmptyColumn(),
         ]),
@@ -159,15 +159,22 @@ function CompletedDrefTable(props: Props) {
                 return row;
             }
 
-            const { operational_update_details } = datum.dref;
+            const {
+                operational_update_details,
+            } = datum.dref;
             type OperationalUpdateType = typeof operational_update_details;
 
             // eslint-disable-next-line max-len
             const opsUpdateList = (operational_update_details ?? []) as unknown as OperationalUpdateType[];
 
-            const subRows: DrefItem[] = [
-                ...opsUpdateList,
-                datum.dref,
+            const subRows: DrefResultItem[] = [
+                ...opsUpdateList.map(
+                    (opsUpdate) => ({
+                        ...opsUpdate,
+                        dref: datum.dref,
+                    }),
+                ),
+                { ...datum.dref, dref: datum.dref },
             ];
 
             return (
