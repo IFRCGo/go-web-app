@@ -8,12 +8,17 @@
 
         .bar-info {
             display: flex;
-            padding: 0 var(--go-ui-spacing-xs);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-weight: var(--go-ui-font-weight-medium);
+            align-items: baseline;
+            justify-content: center;
             gap: var(--go-ui-spacing-2xs);
+
+            .value {
+                font-weight: var(--go-ui-font-weight-semibold);
+            }
+
+            .percentage {
+                font-size: var(--go-ui-font-size-sm);
+            }
         }
     }
 

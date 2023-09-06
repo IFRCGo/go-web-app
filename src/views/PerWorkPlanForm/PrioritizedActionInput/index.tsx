@@ -4,6 +4,7 @@ import {
     type Error,
     getErrorObject,
 } from '@togglecorp/toggle-form';
+import { isTruthyString } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import DateInput from '#components/DateInput';
@@ -67,7 +68,9 @@ function PrioritizedActionInput(props: Props) {
         <Container
             className={styles.prioritizedActionInput}
             // FIXME: use translations
-            heading={`${component?.component_num}. ${component?.title}`}
+            heading={isTruthyString(component.component_letter)
+                ? `${component.component_num}(${component.component_letter}). ${component.title}`
+                : `${component.component_num}. ${component.title}`}
             headingLevel={4}
             spacing="compact"
             childrenContainerClassName={styles.content}

@@ -103,7 +103,7 @@ function ComponentInput(props: Props) {
             withHeaderBorder
             headerDescription={component.description}
             headingClassName={styles.heading}
-            spacing="loose"
+            spacing="relaxed"
             headingDescriptionContainerClassName={styles.statusSelectionContainer}
             withoutWrapInHeading
             headingDescription={(
