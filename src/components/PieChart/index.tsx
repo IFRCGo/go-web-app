@@ -124,7 +124,7 @@ function PieChart<D>(props: Props<D>) {
                             key={datum.key}
                             className={styles.path}
                             d={getPathData(pieRadius, datum.startAngle, datum.endAngle)}
-                            fill={colors[i]}
+                            fill={colors[i % colors.length]}
                         >
                             <title>
                                 {`${datum.label}: ${datum.value}`}
@@ -139,7 +139,7 @@ function PieChart<D>(props: Props<D>) {
                         className={styles.legendItem}
                         key={datum.key}
                         label={datum.label}
-                        color={colors[i]}
+                        color={colors[i % colors.length]}
                     />
                 ))}
             </div>
