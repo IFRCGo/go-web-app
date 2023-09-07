@@ -13,22 +13,26 @@ import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import { components } from '#generated/types';
 
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import EmergencyResponseUnitOwnerCard from './EmergencyResponseUnitOwnerCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type EruTypeEnum = components['schemas']['Key187Enum'];
 
 type GetERUOwnersResponse = GoApiResponse<'/api/v2/eru_owner/'>;
 type ERUOwnerListItem = NonNullable<GetERUOwnersResponse['results']>[number];
 
 interface EmergencyResponseUnitType {
-    key: number;
-    label: string;
+    key: EruTypeEnum;
+    label?: string;
 }
 const PAGE_SIZE = 10;
 const eruOwnerKeySelector = (item: ERUOwnerListItem) => item.id;
 const emergencyResponseUnitTypeKeySelector = (item: EmergencyResponseUnitType) => item.key;
-const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType) => item.label;
+const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType) => item.label ?? '?';
 
 function Readiness() {
     const [page, setPage] = useState(1);
@@ -49,17 +53,12 @@ function Readiness() {
             eru_type: selectedERUTypes,
             available: isDefined(selectedERUTypes)
                 && selectedERUTypes.length > 0 ? true : undefined,
-            // FIXME: typings should be fixed in the server
-        } as never,
+        },
     });
 
     const {
-        pending: emergencyResponseUnitTypesPending,
-        response: emergencyResponseUnitTypesResponse,
-    } = useRequest({
-        url: '/api/v2/erutype',
-        preserveResponse: true,
-    });
+        deployments_eru_type,
+    } = useGlobalEnums();
 
     const handleERUOwnerTypesChange = useCallback((values: EmergencyResponseUnitType['key'][] | undefined) => {
         if (isDefined(values) && values.length > 0) {
@@ -103,8 +102,7 @@ function Readiness() {
                         label={strings.eruOwnersTableFilterReady}
                         listContainerClassName={styles.checklistContainer}
                         name="eruType"
-                        // FIXME: typings should be fixed in the server
-                        options={emergencyResponseUnitTypesResponse as EmergencyResponseUnitType[]}
+                        options={deployments_eru_type}
                         value={selectedERUTypes}
                         keySelector={emergencyResponseUnitTypeKeySelector}
                         labelSelector={emergencyResponseUnitTypeLabelSelector}
@@ -114,8 +112,7 @@ function Readiness() {
                         name={undefined}
                         variant="secondary"
                         onClick={handleClearFilter}
-                        disabled={emergencyResponseUnitTypesPending
-                            || isNotDefined(selectedERUTypes)}
+                        disabled={isNotDefined(selectedERUTypes)}
                     >
                         {strings.eruOwnersTableFilterClear}
                     </Button>

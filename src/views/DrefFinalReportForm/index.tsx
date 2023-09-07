@@ -110,7 +110,6 @@ export function Component() {
                 national_society_actions: [],
                 needs_identified: [],
                 images_file: [],
-                users: [],
                 has_national_society_conducted: false,
             },
         },
@@ -147,7 +146,7 @@ export function Component() {
 
                 if (
                     response.financial_report_details
-                    && response.financial_report_details
+                    && response.financial_report_details.file
                 ) {
                     // eslint-disable-next-line max-len
                     newMap[response.financial_report_details.id] = response.financial_report_details.file;
@@ -201,9 +200,6 @@ export function Component() {
                     (intervention) => ({
                         ...injectClientId(intervention),
                         indicators: intervention.indicators?.map(injectClientId),
-                        // FIXME: This should be named budget_details
-                        // Do we need in the form?
-                        budget_file_details: undefined,
                     }),
                 ),
                 needs_identified: needs_identified?.map(injectClientId),

@@ -59,7 +59,6 @@ export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps
 // FORM ERROR
 
 const overviewFields: (keyof PartialOpsUpdate)[] = [
-    'users',
     'title',
     'national_society',
     'country',

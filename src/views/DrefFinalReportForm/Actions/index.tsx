@@ -99,7 +99,7 @@ function Actions(props: Props) {
     const needsIdentifiedMap = useMemo(() => (
         listToMap(
             value.needs_identified,
-            (d) => d.title ?? '',
+            (d) => d.title ?? '<no-key>',
             () => true,
         )
     ), [value.needs_identified]);

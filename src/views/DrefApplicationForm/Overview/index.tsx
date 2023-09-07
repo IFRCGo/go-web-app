@@ -1,5 +1,4 @@
 import {
-    useState,
     useCallback,
 } from 'react';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
@@ -22,7 +21,6 @@ import SelectInput from '#components/SelectInput';
 import MultiSelectInput from '#components/MultiSelectInput';
 import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
-import UserSearchMultiSelectInput, { type User } from '#components/domain/UserSearchMultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import {
@@ -98,11 +96,6 @@ function Overview(props: Props) {
         dref_dref_onset_type: drefOnsetTypeOptions,
     } = useGlobalEnums();
 
-    // FIXME: move this and dref options outside
-    const [userOptions, setUserOptions] = useState<
-        User[] | undefined | null
-    >([]);
-
     const countryOptions = useCountry();
 
     const disasterTypes = useDisasterType();
@@ -156,20 +149,6 @@ function Overview(props: Props) {
             className={styles.operationOverview}
             childrenContainerClassName={styles.content}
         >
-            <InputSection
-                title={strings.drefFormSharingTitle}
-                description={strings.drefFormSharingDescription}
-            >
-                <UserSearchMultiSelectInput
-                    name="users"
-                    value={value?.users}
-                    onChange={setFieldValue}
-                    options={userOptions}
-                    onOptionsChange={setUserOptions}
-                    placeholder={strings.drefFormSelectUsersLabel}
-                    disabled={disabled}
-                />
-            </InputSection>
             <InputSection
                 title={strings.drefFormNationalSociety}
                 numPreferredColumns={2}

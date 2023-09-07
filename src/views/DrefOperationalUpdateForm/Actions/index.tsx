@@ -138,7 +138,7 @@ function Actions(props: Props) {
     const needsIdentifiedMap = useMemo(() => (
         listToMap(
             value.needs_identified,
-            (d) => d.title ?? '',
+            (d) => d.title ?? '<no-key>',
             () => true,
         )
     ), [value.needs_identified]);
@@ -155,7 +155,7 @@ function Actions(props: Props) {
     const nsActionsMap = useMemo(() => (
         listToMap(
             value.national_society_actions,
-            (d) => d.title ?? '',
+            (d) => d.title ?? '<no-key>',
             () => true,
         )
     ), [value.national_society_actions]);

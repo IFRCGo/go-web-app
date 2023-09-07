@@ -117,7 +117,6 @@ const schema: DrefFormSchema = {
     fields: (formValue): DrefFormSchemaFields => {
         let formFields: DrefFormSchemaFields = {
             // OVERVIEW
-            users: { defaultValue: [] },
             national_society: { required: true },
             type_of_dref: { required: true },
             type_of_onset: { required: true },

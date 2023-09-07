@@ -93,11 +93,11 @@ export function Component() {
         response: aggregateEventResponse,
     } = useRequest({
         url: '/api/v1/aggregate/',
+        // FIXME: fix typing in server (low priority)
         query: {
             model_type: 'event',
             unit: 'month',
             start_date: encodeDate(oneYearAgo),
-            // FIXME: typings should be fixed in server
         } as never,
     });
 
@@ -167,19 +167,20 @@ export function Component() {
         () => {
             const emergenciesMapByType = listToGroupList(
                 eventsResponse?.results ?? [],
-                (event) => event.dtype.id,
+                (event) => event.dtype?.id ?? '<no-key>',
             );
 
             return mapToList(
                 emergenciesMapByType,
                 (event, disasterType) => {
-                    if (isFalsyString(event[0].dtype.name)) {
+                    const dtype = event[0].dtype?.name;
+                    if (isFalsyString(dtype)) {
                         return undefined;
                     }
 
                     return {
                         type: disasterType,
-                        typeName: event[0].dtype.name,
+                        typeName: dtype,
                         numOfEvents: event.length,
                     };
                 },

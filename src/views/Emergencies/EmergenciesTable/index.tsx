@@ -62,20 +62,18 @@ function EventItemsTable() {
             createStringColumn<EventListItem, number>(
                 'dtype',
                 strings.emergenciesTableDisasterType,
-                (item) => item.dtype.name,
+                (item) => item.dtype?.name,
             ),
             createStringColumn<EventListItem, number>(
                 'glide',
                 strings.emergenciesTableGlide,
-                // FIXME: empty string from server
-                (item) => item.glide || '-',
+                (item) => item.glide,
             ),
             createNumberColumn<EventListItem, number>(
                 'amount_requested',
                 strings.emergenciesTableRequestedAmt,
                 (item) => sumSafe(
-                    // FIXME: server should send number value
-                    item.appeals.map((appeal) => Number(appeal.amount_requested)),
+                    item.appeals.map((appeal) => appeal.amount_requested),
                 ),
             ),
             createCountryListColumn<EventListItem, number>(

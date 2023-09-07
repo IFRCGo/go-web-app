@@ -118,7 +118,9 @@ function CompletedDrefTable(props: Props) {
                     id,
                     drefId: item.dref.id,
                     status: item.status,
-                    applicationType: item.application_type,
+                    // FIXME: fix typing in server (medium priority)
+                    // the application_type should be an enum
+                    applicationType: item.application_type as 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT',
                     canAddOpsUpdate: false,
                     canCreateFinalReport: false,
                 }),
@@ -162,10 +164,8 @@ function CompletedDrefTable(props: Props) {
             const {
                 operational_update_details,
             } = datum.dref;
-            type OperationalUpdateType = typeof operational_update_details;
 
-            // eslint-disable-next-line max-len
-            const opsUpdateList = (operational_update_details ?? []) as unknown as OperationalUpdateType[];
+            const opsUpdateList = operational_update_details ?? [];
 
             const subRows: DrefResultItem[] = [
                 ...opsUpdateList.map(

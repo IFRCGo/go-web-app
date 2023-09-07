@@ -80,7 +80,7 @@ function YearlyChart(props: Props) {
         query: {
             filter_atype: APPEAL_TYPE_EMERGENCY,
             ...queryParams,
-            // FIXME: need to fix the typing in server
+            // FIXME: fix typing in server (low priority)
         } as never,
     });
 
@@ -92,7 +92,7 @@ function YearlyChart(props: Props) {
         query: {
             filter_atype: APPEAL_TYPE_DREF,
             ...queryParams,
-            // FIXME: need to fix the typing in server
+            // FIXME: fix typing in server (low priority)
         } as never,
     });
 

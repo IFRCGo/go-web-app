@@ -76,11 +76,15 @@ type ProjectGeoJson = GeoJSON.FeatureCollection<GeoJSON.Point, GeoJsonProps>;
 function getOperationType(projectList: Project[]) {
     const operationTypeList = unique(
         projectList
-            .filter((d) => isDefined(d.operation_type))
-            .map((d) => ({
-                // FIXME: typings should be fixed in the server
-                id: d.operation_type as number,
-            })),
+            .map((d) => {
+                if (isNotDefined(d.operation_type)) {
+                    return undefined;
+                }
+                return {
+                    id: d.operation_type,
+                };
+            })
+            .filter(isDefined),
         (d) => d.id,
     ) ?? [];
 

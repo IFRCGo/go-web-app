@@ -66,9 +66,10 @@ export function Component() {
         skip: isNotDefined(expandedRow),
         url: '/api/v2/per-process-status/',
         query: {
-            country: Number(expandedRow?.country),
-            // FIXME: typings should be fixed in server
-        } as never,
+            country: expandedRow?.country
+                ? [expandedRow.country]
+                : undefined,
+        },
     });
 
     const handleExpandClick = useCallback(

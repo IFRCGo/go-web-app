@@ -13,7 +13,6 @@ import { NameType } from '#components/types';
 import type { ButtonVariant } from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
-import { paths } from '#generated/types';
 import useAlert from '#hooks/useAlert';
 
 import { DeleteBinFillIcon } from '@ifrc-go/icons';
@@ -22,8 +21,6 @@ import Button from '#components/Button';
 import styles from './styles.module.css';
 
 export type SupportedPaths = '/api/v2/per-file/multiple/' | '/api/v2/dref-files/multiple/' | '/api/v2/flash-update-file/multiple/';
-
-type RequestBody = paths[SupportedPaths]['post']['requestBody']['content']['application/json'];
 
 interface FileUploadResult {
     id: number;
@@ -95,11 +92,12 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                 formData.append('file', file);
             });
 
-            // FIXME: typing should be fixed in the server
-            return formData.getAll('file') as unknown as RequestBody;
+            // FIXME: fix typing in server (low priority)
+            // the server generated type for response and body is the same
+            return formData.getAll('file') as never;
         },
         onSuccess: (responseUnsafe) => {
-            // FIXME: typing should be fixed in the server
+            // FIXME: fix typing in server (medium priority)
             const response = responseUnsafe as unknown as FileUploadResult[];
 
             const ids = response.map((val) => keySelector(val));

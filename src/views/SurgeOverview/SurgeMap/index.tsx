@@ -154,7 +154,7 @@ function SurgeMap(props: Props) {
         return (
             listToGroupList(
                 personnelWithCountry,
-                (personnel) => personnel.deployedTo?.id,
+                (personnel) => personnel.deployedTo?.id ?? '<no-key>',
             )
         );
     }, [personnelResponse]);

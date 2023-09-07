@@ -103,8 +103,7 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(urlSearchValue),
         url: '/api/v1/search/',
-        // FIXME: typings should be fixed in the server
-        query: { [KEY_URL_SEARCH]: urlSearchValue } as never,
+        query: { [KEY_URL_SEARCH]: urlSearchValue ?? '' },
     });
 
     const headingStringMap = useMemo<Record<SearchResponseKeys, string>>(

@@ -153,7 +153,7 @@ function ActiveOperationMap(props: Props) {
     const countryGroupedAppeal = useMemo(() => (
         listToGroupList(
             appealResponse?.results ?? [],
-            (appeal) => appeal.country.iso3 ?? '',
+            (appeal) => appeal.country.iso3 ?? '<no-key>',
         )
     ), [appealResponse]);
 

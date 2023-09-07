@@ -220,8 +220,9 @@ export function Component() {
             setEventOptions(
                 eventOption
                     ? [{
-                        ...eventOption,
+                        id: eventOption.id,
                         name: eventOption.name ?? '?',
+                        dtype: eventOption.dtype_details,
                     }]
                     : [],
             );

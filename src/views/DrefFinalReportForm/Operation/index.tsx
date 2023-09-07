@@ -144,7 +144,7 @@ function Operation(props: Props) {
     const interventionMap = useMemo(() => (
         listToMap(
             value.planned_interventions,
-            (plannedIntervention) => plannedIntervention.title ?? '',
+            (plannedIntervention) => plannedIntervention.title ?? '<no-key>',
             () => true,
         )
     ), [value.planned_interventions]);

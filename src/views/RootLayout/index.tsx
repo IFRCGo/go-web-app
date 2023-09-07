@@ -65,7 +65,7 @@ export function Component() {
         trigger: fetchLanguage,
     } = useLazyRequest<'/api/v2/language/{id}/', { pages: Array<string> }>({
         url: '/api/v2/language/{id}/',
-        // FIXME: typings should be fixed in the server
+        // FIXME: fix typing in server (medium priority)
         query: ({ pages }) => ({ page_name: pages }) as never,
         pathVariables: () => ({ id: currentLanguage }),
         onSuccess: (response, { pages }) => {

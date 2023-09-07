@@ -73,9 +73,9 @@ export function Component() {
         response: nsProjectsResponse,
     } = useRequest({
         url: '/api/v2/global-project/ns-ongoing-projects-stats/',
+        // FIXME: fix typing in server (medium priority)
         query: {
             ...filters,
-            // FIXME: typings should be fixed in server
         } as never,
     });
 

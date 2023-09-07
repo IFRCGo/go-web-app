@@ -13,10 +13,7 @@ const EXPORT_STATUS_ERRORED = 2;
 interface Props {
     id: number;
     onCancel: () => void;
-
-    // FIXME: typings should be fixed in the server
-    // Should be DREF | OPS_UPDATE | FINAL_REPORT
-    applicationType: string;
+    applicationType: 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
 }
 
 function DrefExportModal(props: Props) {
@@ -56,8 +53,9 @@ function DrefExportModal(props: Props) {
         skip: isDefined(exportId) || isNotDefined(id),
         method: 'POST',
         url: '/api/v2/pdf-export/',
-        // FIXME: typings should be fixed in the server
-        body: exportTriggerBody,
+        // FIXME: fix typing in server (low priority)
+        // the server generated type for response and body is the same
+        body: exportTriggerBody as never,
         onSuccess: (response) => {
             if (isDefined(response.id)) {
                 setExportId(response.id);

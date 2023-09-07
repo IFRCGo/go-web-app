@@ -108,7 +108,7 @@ function AppealOperationTable(props: Props) {
             createNumberColumn<AppealTableItem, string>(
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
-                // FIXME amount_requested should be number from server
+                // FIXME: fix typing in server (medium priority)
                 (item) => (
                     isTruthyString(item.amount_requested)
                         ? Number(item.amount_requested)

@@ -84,7 +84,8 @@ export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
 
 // DREF
 
-// FIXME: This is the same as OperationType. Needs to be fixed in the server
+// FIXME: fix typing in server (medium priority)
+// This should not be the same as OperationType.
 type DrefStatus = components['schemas']['OperationTypeEnum'];
 export const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
 export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;
