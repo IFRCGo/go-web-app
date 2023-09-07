@@ -1,5 +1,6 @@
 import {
     useState,
+    useEffect,
     useCallback,
     useMemo,
     useRef,
@@ -90,7 +91,21 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         admin2Error,
     } = props;
 
-    const waitingForDblClick = useRef<number | undefined>(undefined);
+    const waitingForDblClick = useRef<{
+        [key: string]: number | undefined,
+    }>({});
+
+    useEffect(
+        // eslint-disable-next-line arrow-body-style
+        () => {
+            return () => {
+                Object.values(waitingForDblClick.current).forEach((timeout) => {
+                    window.clearTimeout(timeout);
+                });
+            };
+        },
+        [],
+    );
 
     const [districts, setDistricts] = useState<number[] | undefined>(districtsValue);
     const [admin2Selections, setAdmin2Selections] = useState<number[] | undefined>(admin2Value);
@@ -288,43 +303,50 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
     ]);
 
     const handleDistrictClick = useCallback((clickedFeature: MapboxGeoJSONFeature) => {
-        if (waitingForDblClick.current) {
-            window.clearTimeout(waitingForDblClick.current);
+        // console.log('single click register', new Date().getTime());
+        const properties = clickedFeature.properties as {
+            country_id?: number;
+            district_id?: number;
+            name?: string;
+        };
+        console.log(properties);
+        if (properties.country_id !== countryId) {
+            return false;
         }
-        waitingForDblClick.current = window.setTimeout(
+        const id = properties.district_id;
+        if (!id) {
+            return false;
+        }
+
+        if (waitingForDblClick.current[id]) {
+            window.clearTimeout(waitingForDblClick.current[id]);
+        }
+        waitingForDblClick.current[id] = window.setTimeout(
             () => {
-                const properties = clickedFeature?.properties as {
-                    country_id?: number;
-                    district_id?: number;
-                    name?: string;
-                };
-                if (properties.country_id !== countryId) {
-                    return;
-                }
                 onDistrictsOptionsChange((oldOptions) => {
-                    if (!properties.name || !properties.district_id) {
+                    if (!properties.name) {
                         return oldOptions;
                     }
-                    return unique(
+                    const xxx = unique(
                         [
                             ...(oldOptions ?? []),
                             {
-                                id: properties.district_id,
+                                id,
                                 name: properties.name,
                             },
                         ],
                         (item) => item.id,
                     );
+                    console.warn(xxx, id);
+                    return xxx;
                 });
                 handleDistrictChange((oldVal = []) => {
-                    if (!properties.district_id) {
-                        return oldVal;
-                    }
-                    const index = oldVal?.indexOf(properties.district_id);
+                    // console.log('single click call', new Date().getTime());
+                    const index = oldVal?.indexOf(id);
                     if (isNotDefined(index) || index === -1) {
                         return [
                             ...oldVal,
-                            properties.district_id,
+                            id,
                         ];
                     }
                     const newVal = [...oldVal];
@@ -333,7 +355,9 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     return newVal;
                 });
             },
-            50,
+            // Why we are using 500ms
+            // https://en.wikipedia.org/wiki/Double-click#Speed_and_timing
+            500,
         );
 
         return false;
@@ -391,11 +415,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
     ]);
 
     const handleDistrictDoubleClick = useCallback((clickedFeature: MapboxGeoJSONFeature) => {
-        if (waitingForDblClick.current) {
-            window.clearTimeout(waitingForDblClick.current);
-            waitingForDblClick.current = undefined;
-        }
-
+        // console.log('double click call', new Date().getTime());
         const properties = clickedFeature?.properties as {
             country_id?: number;
             district_id?: number;
@@ -404,33 +424,40 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         if (properties.country_id !== countryId) {
             return false;
         }
-        if (properties?.district_id) {
-            setSelectedDistrict(properties.district_id);
+        const id = properties.district_id;
+        if (!id) {
+            return false;
         }
+
+        if (waitingForDblClick.current[id]) {
+            window.clearTimeout(waitingForDblClick.current[id]);
+            waitingForDblClick.current[id] = undefined;
+        }
+
+        setSelectedDistrict(id);
         onDistrictsOptionsChange((oldOptions) => {
-            if (!properties.name || !properties.district_id) {
+            if (!properties.name) {
                 return oldOptions;
             }
-            return unique(
+            const xxx = unique(
                 [
                     ...(oldOptions ?? []),
                     {
-                        id: properties.district_id,
+                        id,
                         name: properties.name,
                     },
                 ],
                 (item) => item.id,
             );
+            console.warn(xxx, id);
+            return xxx;
         });
-        handleDistrictChange((oldVal = []) => {
-            if (!properties.district_id) {
-                return oldVal;
-            }
-            return unique([
+        handleDistrictChange((oldVal = []) => (
+            unique([
                 ...oldVal,
-                properties.district_id,
-            ]);
-        });
+                id,
+            ])
+        ));
         return false;
     }, [
         countryId,
@@ -500,7 +527,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     Save
                 </Button>
             )}
-            bodyClassName={styles.body}
+            childrenContainerClassName={styles.body}
             size="xl"
         >
             <div className={styles.leftContainer}>
