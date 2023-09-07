@@ -28,6 +28,7 @@ import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import Message from '#components/Message';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import {
     useRequest,
     useLazyRequest,
@@ -92,6 +93,9 @@ export function Component() {
 
     const [activeTab, setActiveTab] = useState<TabKeys>('overview');
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
+    const [districtOptions, setDistrictOptions] = useState<
+        DistrictItem[] | undefined | null
+    >([]);
     const [
         showObsoletePayloadModal,
         setShowObsoletePayloadModal,
@@ -223,6 +227,8 @@ export function Component() {
                     : undefined,
                 images_file: images_file?.map(injectClientId),
             });
+
+            setDistrictOptions(response.district_details);
         },
     });
 
@@ -413,6 +419,8 @@ export function Component() {
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
                                 disabled={disabled}
+                                districtOptions={districtOptions}
+                                setDistrictOptions={setDistrictOptions}
                             />
                         </TabPanel>
                         <TabPanel name="eventDetail">

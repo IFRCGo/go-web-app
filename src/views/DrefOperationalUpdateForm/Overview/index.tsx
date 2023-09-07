@@ -1,5 +1,7 @@
 import {
     useCallback,
+    type SetStateAction,
+    type Dispatch,
 } from 'react';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
@@ -34,6 +36,10 @@ import useCountry from '#hooks/domain/useCountry';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import DistrictSearchMultiSelectInput,
+{
+    type DistrictItem,
+} from '#components/domain/DistrictSearchMultiSelectInput';
 import useDisasterType from '#hooks/domain/useDisasterType';
 
 import {
@@ -78,6 +84,8 @@ interface Props {
 
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    districtOptions: DistrictItem[] | null | undefined;
+    setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
 }
 
 function Overview(props: Props) {
@@ -88,6 +96,8 @@ function Overview(props: Props) {
         fileIdToUrlMap,
         setFileIdToUrlMap,
         disabled,
+        districtOptions,
+        setDistrictOptions,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -288,18 +298,16 @@ function Overview(props: Props) {
                     error={error?.country}
                     disabled={disabled}
                 />
-                {/* FIXME: use district search select input */}
-                <MultiSelectInput
+                <DistrictSearchMultiSelectInput
                     name="district"
+                    countryId={value.country}
                     label={strings.drefFormAddRegion}
-                    options={districtsResponse?.results}
-                    optionsPending={districtsResponsePending}
-                    keySelector={numericIdSelector}
-                    labelSelector={stringNameSelector}
-                    value={value?.district}
+                    options={districtOptions}
                     onChange={setFieldValue}
-                    error={getErrorString(error?.district)}
+                    value={value?.district}
                     disabled={disabled}
+                    onOptionsChange={setDistrictOptions}
+                    error={getErrorString(error?.district)}
                 />
             </InputSection>
             <InputSection title={strings.drefFormTitle}>
