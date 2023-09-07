@@ -5,21 +5,16 @@ import { CheckFillIcon } from '@ifrc-go/icons';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import LanguageContext, { type Language } from '#contexts/language';
+import { languageNameMapEn } from '#utils/common';
 
 import styles from './styles.module.css';
 
+// NOTE: these doesn't need to be translated
 const languageNameMap: Record<Language, string> = {
     en: 'English',
     fr: 'Français',
     es: 'Española',
     ar: 'عربي',
-};
-
-const languageNameMapEn: Record<Language, string> = {
-    en: 'English',
-    fr: 'French',
-    es: 'Spanish',
-    ar: 'Arabic',
 };
 
 const languageList = mapToList(

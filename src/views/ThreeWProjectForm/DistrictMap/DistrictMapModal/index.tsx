@@ -555,7 +555,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                         managed={false}
                     >
                         <MapLayer
-                            layerKey="admin-1-highlight"
+                            layerKey="admin-1"
                             hoverable
                             layerOptions={adminOneFillLayerOptions}
                             onClick={!disabled ? handleDistrictClick : undefined}

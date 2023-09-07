@@ -12,6 +12,7 @@ import {
     populateFormat,
     breakFormat,
 } from '@togglecorp/fujs';
+import { type Language } from '#contexts/language';
 
 import { DEFAULT_DATE_FORMAT } from './constants';
 
@@ -548,3 +549,11 @@ export function isSimilarArray<T extends string | number>(
     );
     return bList.every((b) => aMap[b]);
 }
+
+// NOTE: these doesn't need to be translated
+export const languageNameMapEn: Record<Language, string> = {
+    en: 'English',
+    fr: 'French',
+    es: 'Spanish',
+    ar: 'Arabic',
+};
