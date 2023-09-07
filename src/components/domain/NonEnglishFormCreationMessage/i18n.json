@@ -1,0 +1,7 @@
+{
+    "namespace":"common",
+    "strings":{
+        "languageMismatchErrorMessage": "This form can only be create in English at the moment!",
+        "languageMismatchHelpMessage": "Please change the language to English to edit it!"
+    }
+}

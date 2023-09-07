@@ -27,6 +27,8 @@ import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
+import Message from '#components/Message';
+import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import {
     useRequest,
     useLazyRequest,
@@ -36,6 +38,7 @@ import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { injectClientId, isSimilarArray } from '#utils/common';
 import { transformObjectError } from '#utils/restRequest/error';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 
 import opsUpdateSchema, {
     type OpsUpdateRequestBody,
@@ -109,6 +112,7 @@ export function Component() {
         showObsoletePayloadModal,
         setShowObsoletePayloadModal,
     ] = useState(false);
+    const currentLanguage = useCurrentLanguage();
     const lastModifiedAtRef = useRef<string | undefined>();
 
     const {
@@ -196,6 +200,7 @@ export function Component() {
     const {
         pending: fetchingOpsUpdate,
         response: opsUpdateResponse,
+        error: opsUpdateResponseError,
     } = useRequest({
         url: '/api/v2/dref-op-update/{id}/',
         skip: isFalsyString(opsUpdateId),
@@ -314,7 +319,7 @@ export function Component() {
         body: (formFields: OpsUpdateRequestBody) => formFields,
         onSuccess: (response) => {
             alert.show(
-                strings.drefFormSaveRequestSuccessMessage,
+                strings.formSaveRequestSuccessMessage,
                 { variant: 'success' },
             );
             handleOpsUpdateLoad(response);
@@ -341,7 +346,7 @@ export function Component() {
             */
 
             alert.show(
-                strings.drefFormSaveRequestFailureMessage,
+                strings.formSaveRequestFailureMessage,
                 {
                     variant: 'danger',
                     description: messageForNotification,
@@ -386,11 +391,6 @@ export function Component() {
 
     const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
     const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
-
-    const disabled = fetchingOpsUpdate
-        || updateOpsUpdatePending
-        || fetchingDref
-        || fetchingPrevOpsUpdate;
 
     const operationTimeframeWarning = useMemo(
         () => {
@@ -504,6 +504,18 @@ export function Component() {
         || isTruthyString(budgetWarning)
         || isTruthyString(geoWarning);
 
+    const disabled = fetchingOpsUpdate
+        || updateOpsUpdatePending
+        || fetchingDref
+        || fetchingPrevOpsUpdate;
+
+    const languageMismatch = isDefined(opsUpdateId)
+        && isDefined(drefResponse)
+        && currentLanguage !== opsUpdateResponse?.translation_module_original_language;
+    const shouldHideForm = languageMismatch
+        || fetchingOpsUpdate
+        || isDefined(opsUpdateResponseError);
+
     return (
         <Tabs
             value={activeTab}
@@ -513,24 +525,24 @@ export function Component() {
         >
             <Page
                 elementRef={formContentRef}
-                className={styles.drefApplicationForm}
-                title={strings.drefFormPageTitle}
-                heading={strings.drefFormPageHeading}
-                info={(
+                className={styles.drefOperationalUpdateForm}
+                title={strings.formPageTitle}
+                heading={strings.formPageHeading}
+                info={!shouldHideForm && (
                     <TabList className={styles.tabList}>
                         <Tab
                             name="overview"
                             step={1}
                             errored={checkTabErrors(formError, 'overview')}
                         >
-                            {strings.drefFormTabOverviewLabel}
+                            {strings.formTabOverviewLabel}
                         </Tab>
                         <Tab
                             name="eventDetail"
                             step={2}
                             errored={checkTabErrors(formError, 'eventDetail')}
                         >
-                            {strings.drefFormTabEventDetailLabel}
+                            {strings.formTabEventDetailLabel}
                         </Tab>
                         {value.type_of_dref !== TYPE_LOAN && (
                             <Tab
@@ -538,7 +550,7 @@ export function Component() {
                                 step={3}
                                 errored={checkTabErrors(formError, 'actions')}
                             >
-                                {strings.drefFormTabActionsLabel}
+                                {strings.formTabActionsLabel}
                             </Tab>
                         )}
                         {value.type_of_dref !== TYPE_LOAN && (
@@ -547,7 +559,7 @@ export function Component() {
                                 step={4}
                                 errored={checkTabErrors(formError, 'operation')}
                             >
-                                {strings.drefFormTabOperationLabel}
+                                {strings.formTabOperationLabel}
                             </Tab>
                         )}
                         <Tab
@@ -555,120 +567,144 @@ export function Component() {
                             step={value.type_of_dref === TYPE_LOAN ? 3 : 5}
                             errored={checkTabErrors(formError, 'submission')}
                         >
-                            {strings.drefFormTabSubmissionLabel}
+                            {strings.formTabSubmissionLabel}
                         </Tab>
                     </TabList>
                 )}
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
             >
-                <NonFieldError
-                    error={formError}
-                    message={strings.drefFormGeneralError}
-                />
-                {hasAnyWarning && (
-                    <div className={styles.warnings}>
-                        {operationTimeframeWarning && (
-                            <div className={styles.warning}>
-                                <ErrorWarningFillIcon className={styles.icon} />
-                                {operationTimeframeWarning}
-                            </div>
-                        )}
-                        {budgetWarning && (
-                            <div className={styles.warning}>
-                                <ErrorWarningFillIcon className={styles.icon} />
-                                {budgetWarning}
-                            </div>
-                        )}
-                        {geoWarning && (
-                            <div className={styles.warning}>
-                                <ErrorWarningFillIcon className={styles.icon} />
-                                {geoWarning}
-                            </div>
-                        )}
-                        {peopleTargetedWarning && (
-                            <div className={styles.warning}>
-                                <ErrorWarningFillIcon className={styles.icon} />
-                                {peopleTargetedWarning}
-                            </div>
-                        )}
-                    </div>
+                {fetchingOpsUpdate && (
+                    <Message
+                        pending
+                        title={strings.formLoadingMessage}
+                    />
                 )}
-                <TabPanel name="overview">
-                    <Overview
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        error={formError}
-                        disabled={disabled}
+                {languageMismatch && (
+                    <LanguageMismatchMessage
+                        title={strings.formNotAvailableInSelectedLanguageMessage}
+                        originalLanguage={drefResponse.translation_module_original_language}
                     />
-                </TabPanel>
-                <TabPanel name="eventDetail">
-                    <EventDetail
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        error={formError}
-                        disabled={disabled}
+                )}
+                {isDefined(opsUpdateResponseError) && (
+                    <Message
+                        variant="error"
+                        title={strings.formLoadErrorTitle}
+                        description={opsUpdateResponseError.value.messageForNotification}
+                        actions={strings.formLoadErrorHelpText}
                     />
-                </TabPanel>
-                <TabPanel name="actions">
-                    <Actions
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        error={formError}
-                        disabled={disabled}
-                    />
-                </TabPanel>
-                <TabPanel name="operation">
-                    <Operation
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        error={formError}
-                        disabled={disabled}
-                    />
-                </TabPanel>
-                <TabPanel name="submission">
-                    <Submission
-                        value={value}
-                        setFieldValue={setFieldValue}
-                        error={formError}
-                        disabled={disabled}
-                    />
-                </TabPanel>
-                <div className={styles.actions}>
-                    <div className={styles.pageActions}>
-                        <Button
-                            name={prevStep ?? activeTab}
-                            onClick={handleTabChange}
-                            disabled={isNotDefined(prevStep)}
-                            variant="secondary"
-                        >
-                            {strings.drefFormBackButtonLabel}
-                        </Button>
-                        <Button
-                            name={nextStep ?? activeTab}
-                            onClick={handleTabChange}
-                            disabled={isNotDefined(nextStep)}
-                            variant="secondary"
-                        >
-                            {strings.drefFormContinueButtonLabel}
-                        </Button>
-                    </div>
-                    <Button
-                        name={undefined}
-                        onClick={handleFormSubmit}
-                        disabled={activeTab !== 'submission' || disabled}
-                    >
-                        {strings.drefFormSubmitButtonLabel}
-                    </Button>
-                </div>
+                )}
+                {!shouldHideForm && (
+                    <>
+                        <NonFieldError
+                            error={formError}
+                            message={strings.formGeneralError}
+                        />
+                        {hasAnyWarning && (
+                            <div className={styles.warnings}>
+                                {operationTimeframeWarning && (
+                                    <div className={styles.warning}>
+                                        <ErrorWarningFillIcon className={styles.icon} />
+                                        {operationTimeframeWarning}
+                                    </div>
+                                )}
+                                {budgetWarning && (
+                                    <div className={styles.warning}>
+                                        <ErrorWarningFillIcon className={styles.icon} />
+                                        {budgetWarning}
+                                    </div>
+                                )}
+                                {geoWarning && (
+                                    <div className={styles.warning}>
+                                        <ErrorWarningFillIcon className={styles.icon} />
+                                        {geoWarning}
+                                    </div>
+                                )}
+                                {peopleTargetedWarning && (
+                                    <div className={styles.warning}>
+                                        <ErrorWarningFillIcon className={styles.icon} />
+                                        {peopleTargetedWarning}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        <TabPanel name="overview">
+                            <Overview
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                error={formError}
+                                disabled={disabled}
+                            />
+                        </TabPanel>
+                        <TabPanel name="eventDetail">
+                            <EventDetail
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                error={formError}
+                                disabled={disabled}
+                            />
+                        </TabPanel>
+                        <TabPanel name="actions">
+                            <Actions
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                error={formError}
+                                disabled={disabled}
+                            />
+                        </TabPanel>
+                        <TabPanel name="operation">
+                            <Operation
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                error={formError}
+                                disabled={disabled}
+                            />
+                        </TabPanel>
+                        <TabPanel name="submission">
+                            <Submission
+                                value={value}
+                                setFieldValue={setFieldValue}
+                                error={formError}
+                                disabled={disabled}
+                            />
+                        </TabPanel>
+                        <div className={styles.actions}>
+                            <div className={styles.pageActions}>
+                                <Button
+                                    name={prevStep ?? activeTab}
+                                    onClick={handleTabChange}
+                                    disabled={isNotDefined(prevStep)}
+                                    variant="secondary"
+                                >
+                                    {strings.formBackButtonLabel}
+                                </Button>
+                                <Button
+                                    name={nextStep ?? activeTab}
+                                    onClick={handleTabChange}
+                                    disabled={isNotDefined(nextStep)}
+                                    variant="secondary"
+                                >
+                                    {strings.formContinueButtonLabel}
+                                </Button>
+                            </div>
+                            <Button
+                                name={undefined}
+                                onClick={handleFormSubmit}
+                                disabled={activeTab !== 'submission' || disabled}
+                            >
+                                {strings.formSubmitButtonLabel}
+                            </Button>
+                        </div>
+                    </>
+                )}
                 {isTruthyString(opsUpdateId) && showObsoletePayloadModal && (
                     <ObsoletePayloadModal
                         opsUpdateId={+opsUpdateId}
