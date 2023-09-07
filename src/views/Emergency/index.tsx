@@ -25,13 +25,13 @@ function routeName(text: string | null | undefined) {
     }
     return text.toLowerCase().split(' ').join('-');
 }
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { emergencyId } = useParams<{ emergencyId: string }>();
     const strings = useTranslation(i18n);
 
     const {
-        // pending: emergencyPending,
         response: emergencyResponse,
     } = useRequest({
         // FIXME: need to check if emergencyId can be ''
@@ -43,7 +43,6 @@ export function Component() {
     });
 
     const {
-        // pending: emergencyPending,
         response: emergencySnippetResponse,
     } = useRequest({
         // FIXME: need to check if emergencyId can be ''
@@ -168,10 +167,12 @@ export function Component() {
                     {strings.emergencyTabSurge}
                 </NavigationTab>
                 {emergencyAdditionalTabs.map((tab) => (
+                    // FIXME all mapped tabs are selected at once
                     <NavigationTab
                         to="emergencyAdditionalTab"
                         urlParams={{
                             routeName: tab.routeName,
+                            emergencyId,
                         }}
                     >
                         {tab.name}
