@@ -12,11 +12,11 @@ import Button from '#components/Button';
 import TextArea from '#components/TextArea';
 import useTranslation from '#hooks/useTranslation';
 
-import { type PartialOpsUpdate } from '../../schema';
+import { type PartialFinalReport } from '../../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type RiskSecurityFormFields = NonNullable<PartialOpsUpdate['risk_security']>[number];
+type RiskSecurityFormFields = NonNullable<PartialFinalReport['risk_security']>[number];
 
 interface Props {
     value: RiskSecurityFormFields;

@@ -2102,7 +2102,7 @@ const drefFinalReportForm = customWrapRoute({
     parent: rootLayout,
     path: 'dref-final-reports/:finalReportId/edit',
     component: {
-        render: () => import('#views/Home'),
+        render: () => import('#views/DrefFinalReportForm'),
         props: {},
     },
     wrapperComponent: Auth,

@@ -138,12 +138,11 @@ function DrefTableActions(props: Props) {
                         icons={<DocumentPdfLineIcon className={styles.icon} />}
                         onClick={handleExportClick}
                     >
-                        {strings.dropdownActionShareExport}
+                        {strings.dropdownActionExportLabel}
                     </DropdownMenuItem>
                 </>
             )}
         >
-            {/* TODO: Add links for OPS_UPDATE and FINAL_REPORT */}
             {status === DREF_STATUS_IN_PROGRESS && applicationType === 'DREF' && (
                 <Link
                     to="drefApplicationForm"
@@ -151,7 +150,7 @@ function DrefTableActions(props: Props) {
                     variant="secondary"
                     icons={<PencilLineIcon className={styles.icon} />}
                 >
-                    {strings.dropdownActionEditExport}
+                    {strings.dropdownActionEditLabel}
                 </Link>
             )}
             {status === DREF_STATUS_IN_PROGRESS && applicationType === 'OPS_UPDATE' && (
@@ -161,7 +160,17 @@ function DrefTableActions(props: Props) {
                     variant="secondary"
                     icons={<PencilLineIcon className={styles.icon} />}
                 >
-                    {strings.dropdownActionEditExport}
+                    {strings.dropdownActionEditLabel}
+                </Link>
+            )}
+            {status === DREF_STATUS_IN_PROGRESS && applicationType === 'FINAL_REPORT' && (
+                <Link
+                    to="drefFinalReportForm"
+                    urlParams={{ finalReportId: id }}
+                    variant="secondary"
+                    icons={<PencilLineIcon className={styles.icon} />}
+                >
+                    {strings.dropdownActionEditLabel}
                 </Link>
             )}
             {showExportModal && (

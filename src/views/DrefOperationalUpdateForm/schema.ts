@@ -33,14 +33,12 @@ import {
 // Shouldn't this be set for all integer types?
 const MAX_INT_LIMIT = 2147483647;
 
-/*
 // Why not use lengthLessThanCondition?
 function max500CharCondition(value: string | undefined) {
     return isDefined(value) && value.length > 500
         ? 'Maximum 500 characters are allowed'
         : undefined;
 }
-*/
 
 function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
     return isDefined(value) && Array.isArray(value) && value.length > 2
@@ -48,15 +46,15 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
         : undefined;
 }
 
-export type DrefResponse = GoApiResponse<'/api/v2/dref-op-update/{id}/'>;
-export type DrefRequestBody = GoApiBody<'/api/v2/dref-op-update/{id}/', 'PUT'>;
+export type OpsUpdateResponse = GoApiResponse<'/api/v2/dref-op-update/{id}/'>;
+export type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/{id}/', 'PUT'>;
 
-type NeedIdentifiedResponse = NonNullable<DrefRequestBody['needs_identified']>[number];
-type NsActionResponse = NonNullable<DrefRequestBody['national_society_actions']>[number];
-type InterventionResponse = NonNullable<DrefRequestBody['planned_interventions']>[number];
+type NeedIdentifiedResponse = NonNullable<OpsUpdateRequestBody['needs_identified']>[number];
+type NsActionResponse = NonNullable<OpsUpdateRequestBody['national_society_actions']>[number];
+type InterventionResponse = NonNullable<OpsUpdateRequestBody['planned_interventions']>[number];
 type IndicatorResponse = NonNullable<InterventionResponse['indicators']>[number];
-type RiskSecurityResponse = NonNullable<DrefRequestBody['risk_security']>[number];
-type ImagesFileResponse = NonNullable<DrefRequestBody['images_file']>[number];
+type RiskSecurityResponse = NonNullable<OpsUpdateRequestBody['risk_security']>[number];
+type ImagesFileResponse = NonNullable<OpsUpdateRequestBody['images_file']>[number];
 
 type NeedIdentifiedFormFields = NeedIdentifiedResponse & { client_id: string };
 type NsActionFormFields = NsActionResponse & { client_id: string; }
@@ -66,12 +64,12 @@ type IndicatorFormFields = IndicatorResponse & { client_id: string };
 type RiskSecurityFormFields = RiskSecurityResponse & { client_id: string; };
 type ImagesFileFormFields = ImagesFileResponse & { client_id: string };
 
-type EventMapFileResponse = NonNullable<DrefRequestBody['event_map_file']>;
+type EventMapFileResponse = NonNullable<OpsUpdateRequestBody['event_map_file']>;
 type EventMapFileFormField = Omit<EventMapFileResponse, 'client_id'> & {
     client_id: string;
 };
 
-type DrefFormFields = (
+type OpsUpdateFormFields = (
     DeepReplace<
         DeepReplace<
             DeepReplace<
@@ -80,7 +78,7 @@ type DrefFormFields = (
                         DeepReplace<
                             DeepReplace<
                                 DeepReplace<
-                                    DrefRequestBody,
+                                    OpsUpdateRequestBody,
                                     NeedIdentifiedResponse,
                                     NeedIdentifiedFormFields
                                 >,
@@ -107,17 +105,17 @@ type DrefFormFields = (
     >
 );
 
-export type PartialDref = PartialForm<
-    PurgeNull<DeepRemoveKeyPattern<DrefFormFields, '_details' | '_display'>>,
+export type PartialOpsUpdate = PartialForm<
+    PurgeNull<DeepRemoveKeyPattern<OpsUpdateFormFields, '_details' | '_display'>>,
     'client_id'
 >;
 
-type DrefFormSchema = ObjectSchema<PartialDref>;
-type DrefFormSchemaFields = ReturnType<DrefFormSchema['fields']>;
+type OpsUpdateFormSchema = ObjectSchema<PartialOpsUpdate>;
+type OpsUpdateFormSchemaFields = ReturnType<OpsUpdateFormSchema['fields']>;
 
-const schema: DrefFormSchema = {
-    fields: (formValue): DrefFormSchemaFields => {
-        let formFields: DrefFormSchemaFields = {
+const schema: OpsUpdateFormSchema = {
+    fields: (formValue): OpsUpdateFormSchemaFields => {
+        let formFields: OpsUpdateFormSchemaFields = {
             // OVERVIEW
             users: { defaultValue: [] },
             national_society: { required: true },
@@ -125,9 +123,7 @@ const schema: DrefFormSchema = {
             type_of_onset: { required: true },
             disaster_category: {},
             country: {},
-            // FIXME: Do we need to chagne the defaultValue?
-            // district: { defaultValue: [] },
-            district: {},
+            district: { defaultValue: [] },
             disaster_type: {},
             title: {
                 required: true,
@@ -179,7 +175,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['disaster_type'],
             ['is_man_made_event'],
-            (val): Pick<DrefFormSchemaFields, 'is_man_made_event'> => {
+            (val): Pick<OpsUpdateFormSchemaFields, 'is_man_made_event'> => {
                 if (
                     val?.disaster_type === DISASTER_FIRE
                     || val?.disaster_type === DISASTER_FLOOD
@@ -202,7 +198,7 @@ const schema: DrefFormSchema = {
             'cover_image_file',
         ] as const;
         type OverviewDrefTypeRelatedFields = Pick<
-            DrefFormSchemaFields,
+            OpsUpdateFormSchemaFields,
             typeof overviewDrefTypeRelatedFields[number]
         >;
         formFields = addCondition(
@@ -262,7 +258,7 @@ const schema: DrefFormSchema = {
             'has_forecasted_event_materialize',
         ] as const;
         type EventDetailDrefTypeRelatedFields = Pick<
-            DrefFormSchemaFields,
+            OpsUpdateFormSchemaFields,
             typeof eventDetailDrefTypeRelatedFields[number]
         >;
         formFields = addCondition(
@@ -302,9 +298,7 @@ const schema: DrefFormSchema = {
                 if (val?.type_of_dref === TYPE_IMMINENT) {
                     conditionalFields = {
                         ...conditionalFields,
-                        // FIXME: Do we need to remove the validation?
-                        // event_text: { validations: [max500CharCondition] },
-                        event_text: {},
+                        event_text: { validations: [max500CharCondition] },
                         anticipatory_actions: {},
                     };
                 } else {
@@ -355,7 +349,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['type_of_dref', 'has_forecasted_event_materialize'],
             ['specified_trigger_met'],
-            (val): Pick<DrefFormSchemaFields, 'specified_trigger_met'> => {
+            (val): Pick<OpsUpdateFormSchemaFields, 'specified_trigger_met'> => {
                 if (val?.type_of_dref === TYPE_IMMINENT && val?.has_forecasted_event_materialize) {
                     return {
                         specified_trigger_met: {},
@@ -374,7 +368,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['did_national_society', 'type_of_dref'],
             ['ns_respond_date'],
-            (val): Pick<DrefFormSchemaFields, 'ns_respond_date'> => {
+            (val): Pick<OpsUpdateFormSchemaFields, 'ns_respond_date'> => {
                 if (val?.type_of_dref !== TYPE_LOAN && val?.did_national_society) {
                     return {
                         ns_respond_date: {},
@@ -391,7 +385,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['is_there_major_coordination_mechanism', 'type_of_dref'],
             ['major_coordination_mechanism'],
-            (val): Pick<DrefFormSchemaFields, 'major_coordination_mechanism'> => {
+            (val): Pick<OpsUpdateFormSchemaFields, 'major_coordination_mechanism'> => {
                 if (val?.type_of_dref !== TYPE_LOAN && val?.is_there_major_coordination_mechanism) {
                     return {
                         major_coordination_mechanism: {},
@@ -419,7 +413,7 @@ const schema: DrefFormSchema = {
             'photos_file',
         ] as const;
         type ActionsDrefTypeRelatedFields = Pick<
-            DrefFormSchemaFields,
+            OpsUpdateFormSchemaFields,
             typeof actionsDrefTypeRelatedFields[number]
         >;
         formFields = addCondition(
@@ -532,7 +526,7 @@ const schema: DrefFormSchema = {
             'is_surge_personnel_deployed',
         ] as const;
         type OperationDrefTypeRelatedFields = Pick<
-            DrefFormSchemaFields,
+            OpsUpdateFormSchemaFields,
             typeof operationDrefTypeRelatedFields[number]
         >;
         formFields = addCondition(
@@ -681,7 +675,7 @@ const schema: DrefFormSchema = {
             formValue,
             ['type_of_dref', 'is_surge_personnel_deployed'],
             ['surge_personnel_deployed'],
-            (val): Pick<DrefFormSchemaFields, 'surge_personnel_deployed'> => {
+            (val): Pick<OpsUpdateFormSchemaFields, 'surge_personnel_deployed'> => {
                 if (val?.type_of_dref !== TYPE_LOAN && val?.is_surge_personnel_deployed) {
                     return {
                         surge_personnel_deployed: {},
@@ -719,7 +713,7 @@ const schema: DrefFormSchema = {
             'glide_code',
         ] as const;
         type SubmissionDrefTypeRelatedFields = Pick<
-            DrefFormSchemaFields,
+            OpsUpdateFormSchemaFields,
             typeof submissionDrefTypeRelatedFields[number]
         >;
         formFields = addCondition(

@@ -1,5 +1,5 @@
 {
-    "namespace": "drefOperationalUpdateForm",
+    "namespace": "drefFinalReportForm",
     "strings": {
         "drefFormPageTitle": "IFRC GO - DREF Application",
         "drefFormSaveButtonLabel": "Save",

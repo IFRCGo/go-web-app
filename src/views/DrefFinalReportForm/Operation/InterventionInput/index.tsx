@@ -20,13 +20,13 @@ import InputSection from '#components/InputSection';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 
-import { type PartialOpsUpdate } from '../../schema';
+import { type PartialFinalReport } from '../../schema';
 import IndicatorInput from './IndicatorInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type PlannedInterventionFormFields = NonNullable<PartialOpsUpdate['planned_interventions']>[number];
+type PlannedInterventionFormFields = NonNullable<PartialFinalReport['planned_interventions']>[number];
 type IndicatorFormFields = NonNullable<PlannedInterventionFormFields['indicators']>[number];
 
 const defaultInterventionValue: PlannedInterventionFormFields = {
@@ -119,6 +119,14 @@ function InterventionInput(props: Props) {
                         disabled={disabled}
                     />
                     <NumberInput
+                        label={strings.drefFormInterventionPersonAssistedLabel}
+                        name="person_assisted"
+                        value={value.person_assisted}
+                        onChange={onFieldChange}
+                        error={error?.person_assisted}
+                        disabled={disabled}
+                    />
+                    <NumberInput
                         label={strings.drefOperationalUpdateIndicatorMaleLabel}
                         name="male"
                         value={value.male}
@@ -159,10 +167,36 @@ function InterventionInput(props: Props) {
                 disabled={disabled}
                 autoBullets
             />
+            <TextArea
+                label={strings.finalReportPlannedInterventionNarrativeAchievement}
+                name="narrative_description_of_achievements"
+                value={value.narrative_description_of_achievements}
+                onChange={onFieldChange}
+                error={error?.narrative_description_of_achievements}
+                disabled={disabled}
+                autoBullets
+            />
+            <TextArea
+                label={strings.finalReportPlannedInterventionLessonsLearnt}
+                name="lessons_learnt"
+                value={value.lessons_learnt}
+                onChange={onFieldChange}
+                error={error?.lessons_learnt}
+                disabled={disabled}
+                autoBullets
+            />
+            <TextArea
+                label={strings.finalReportPlannedInterventionChallenges}
+                name="challenges"
+                value={value.challenges}
+                onChange={onFieldChange}
+                error={error?.challenges}
+                disabled={disabled}
+                autoBullets
+            />
             <Container
                 heading={strings.drefFormIndicatorsLabel}
                 headingLevel={5}
-                spacing="compact"
                 footerIcons={(
                     <Button
                         variant="secondary"
@@ -173,7 +207,6 @@ function InterventionInput(props: Props) {
                         {strings.drefAddIndicatorButtonLabel}
                     </Button>
                 )}
-                childrenContainerClassName={styles.indicatorContent}
             >
                 {value?.indicators?.map((indicator, i) => (
                     <IndicatorInput
@@ -192,14 +225,6 @@ function InterventionInput(props: Props) {
                     </div>
                 )}
             </Container>
-            <TextArea
-                label={strings.drefOperationalUpdateProgressTowardsOutcome}
-                name="progress_towards_outcome"
-                value={value.progress_towards_outcome}
-                onChange={onFieldChange}
-                error={error?.progress_towards_outcome}
-                disabled={disabled}
-            />
         </InputSection>
     );
 }
