@@ -17,6 +17,7 @@ export type Props<
     OPTION,
     RENDER_PROPS,
     OMISSION | 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount'
+    | 'selectedOnTop'
 >;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -56,6 +57,7 @@ function SelectInput<
                 labelSelector={labelSelector}
                 sortFunction={rankedSearchOnList}
                 searchOptions={options}
+                selectedOnTop={false}
             />
         );
     }
@@ -72,6 +74,7 @@ function SelectInput<
             labelSelector={labelSelector}
             sortFunction={rankedSearchOnList}
             searchOptions={options}
+            selectedOnTop={false}
         />
     );
 }

@@ -17,7 +17,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput, { type DisasterTypeItem } from '#components/domain/DisasterTypeSelectInput';
 import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
-import EventElasticSearchSelectInput, { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
+import EventSearchSelectInput, { type EventItem } from '#components/domain/EventSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import {
     DISASTER_TYPE_EPIDEMIC,
@@ -197,7 +197,7 @@ function ContextFields(props: Props) {
                 title="Search for existing emergency *"
                 description="Type the name of the country you want to report on in the box above to begin the search."
             >
-                <EventElasticSearchSelectInput
+                <EventSearchSelectInput
                     label={strings.emergencySelectLabel}
                     placeholder={strings.emergencySelectPlaceholder}
                     name="event"

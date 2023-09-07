@@ -33,6 +33,7 @@ type DistrictMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
     Def,
     'onSearchValueChange' | 'searchOptions' | 'optionsPending'
     | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
+    | 'selectedOnTop'
 > & {
     countryId?: number;
 };
@@ -68,6 +69,7 @@ function DistrictSearchMultiSelectInput<const NAME>(
         skip: isNotDefined(countryId) || !opened,
         url: '/api/v2/district/',
         query,
+        preserveResponse: true,
     });
 
     const {
@@ -123,6 +125,7 @@ function DistrictSearchMultiSelectInput<const NAME>(
                     <CheckDoubleFillIcon className={styles.icon} />
                 </Button>
             )}
+            selectedOnTop
         />
     );
 }

@@ -155,9 +155,9 @@ export function Component() {
         const projectsOngoing = filteredProjectList
             .filter((p) => p.status === PROJECT_STATUS_ONGOING);
 
-        const ongoingBudget = sumSafe(projectsOngoing?.map((d) => d.budget_amount ?? 0));
+        const ongoingBudget = sumSafe(projectsOngoing?.map((d) => d.budget_amount)) ?? 0;
 
-        const peopleTargeted = sumSafe(filteredProjectList?.map((d) => d.target_total ?? 0));
+        const peopleTargeted = sumSafe(filteredProjectList?.map((d) => d.target_total)) ?? 0;
 
         const programmeTypeGrouped = (
             listToGroupList(

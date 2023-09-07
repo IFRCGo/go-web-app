@@ -10,6 +10,12 @@
             flex-shrink: 0;
         }
     }
+
+    .info-message {
+        padding: var(--go-ui-spacing-sm);
+        text-align: center;
+        color: var(--go-ui-color-text-light);
+    }
 }
 
 .icon {

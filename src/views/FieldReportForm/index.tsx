@@ -30,7 +30,7 @@ import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
 import Page from '#components/Page';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
-import { type EventItem } from '#components/domain/EventElasticSearchSelectInput';
+import { type EventItem } from '#components/domain/EventSearchSelectInput';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 import useCountryRaw from '#hooks/domain/useCountryRaw';

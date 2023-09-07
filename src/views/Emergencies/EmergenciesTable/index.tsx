@@ -74,6 +74,7 @@ function EventItemsTable() {
                 'amount_requested',
                 strings.emergenciesTableRequestedAmt,
                 (item) => sumSafe(
+                    // FIXME: server should send number value
                     item.appeals.map((appeal) => Number(appeal.amount_requested)),
                 ),
             ),

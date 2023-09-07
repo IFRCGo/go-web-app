@@ -9,7 +9,6 @@ import {
     isNotDefined,
     listToGroupList,
     mapToList,
-    sum,
 } from '@togglecorp/fujs';
 import Map, {
     MapSource,
@@ -33,6 +32,7 @@ import {
 import { useRequest } from '#utils/restRequest';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 
+import { sumSafe } from '#utils/common';
 import {
     ScaleOption,
     getScaleOptions,
@@ -178,7 +178,7 @@ function SurgeMap(props: Props) {
                         return undefined;
                     }
 
-                    const units = eruList ? sum(eruList.map((eru) => eru.units ?? 0)) : 0;
+                    const units = sumSafe(eruList?.map((eru) => eru.units)) ?? 0;
                     const personnel = personnelList ? personnelList.length : 0;
 
                     return {
@@ -208,7 +208,7 @@ function SurgeMap(props: Props) {
                 ),
                 (eru) => ({
                     ...eru[0].event,
-                    units: sum(eru.map((e) => e.units ?? 0)),
+                    units: sumSafe(eru.map((e) => e.units)) ?? 0,
                 }),
             ),
             personnelDeployedEvents: mapToList(
@@ -219,7 +219,7 @@ function SurgeMap(props: Props) {
                 ),
                 (personnel) => ({
                     ...personnel[0].event,
-                    units: sum(personnel.map((p) => p.units ?? 0)),
+                    units: sumSafe(personnel.map((p) => p.units)) ?? 0,
                 }),
             ),
         }

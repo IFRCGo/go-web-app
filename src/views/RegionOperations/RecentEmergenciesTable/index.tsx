@@ -80,6 +80,7 @@ function EventItemsTable(props: Props) {
                 'amount_requested',
                 strings.regionEmergenciesTableRequestedAmt,
                 (item) => sumSafe(
+                    // FIXME: server should send number value
                     item.appeals.map((appeal) => Number(appeal.amount_requested)),
                 ),
             ),

@@ -44,6 +44,8 @@ export type Props<
         ) => OPTION[];
         onSearchValueChange?: (value: string | undefined) => void;
         onShowDropdownChange?: (value: boolean) => void;
+
+        selectedOnTop: boolean;
     }, OMISSION>
     & SelectInputContainerProps<OPTION_KEY, NAME, OPTION, RENDER_PROPS,
         'name'
@@ -108,6 +110,7 @@ function SearchSelectInput<
         onSearchValueChange,
         onShowDropdownChange,
         hideOptionFilter,
+        selectedOnTop,
         ...otherProps
     } = props;
 
@@ -151,6 +154,12 @@ function SearchSelectInput<
                 keySelector,
             );
 
+            if (!selectedOnTop) {
+                return sortFunction
+                    ? sortFunction(allOptions, searchInputValue, labelSelector)
+                    : allOptions;
+            }
+
             const initiallySelected = allOptions
                 .filter((item) => selectedKeys[keySelector(item)]);
             const initiallyNotSelected = allOptions
@@ -172,6 +181,7 @@ function SearchSelectInput<
             ];
         },
         [
+            selectedOnTop,
             keySelector,
             labelSelector,
             searchInputValue,
