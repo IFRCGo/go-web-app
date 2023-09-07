@@ -14,9 +14,10 @@ export function Component() {
         <div
             className={styles.additionalTab}
         >
-            {additionalTab?.snippets?.map((sanitize) => (
+            {additionalTab?.snippets?.map((snippet) => (
                 <HtmlOutput
-                    value={sanitize.snippet}
+                    key={snippet.id}
+                    value={snippet.snippet}
                     className={styles.additionalContent}
                 />
             ))}

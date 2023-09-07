@@ -19,11 +19,8 @@ import { type EmergencyOutletContext } from '#utils/outletContext';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-function routeName(text: string | null | undefined) {
-    if (isNotDefined(text)) {
-        return 'additional-tab';
-    }
-    return text.toLowerCase().split(' ').join('-');
+function getRouteIdFromName(text: string) {
+    return text.toLowerCase().trim().split(' ').join('-');
 }
 
 // eslint-disable-next-line import/prefer-default-export
@@ -85,17 +82,17 @@ export function Component() {
         return [
             {
                 name: tabOneTitle,
-                routeName: routeName(tabOneTitle),
+                routeName: getRouteIdFromName(tabOneTitle),
                 snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 1),
             },
             {
                 name: tabTwoTitle,
-                routeName: routeName(tabTwoTitle),
+                routeName: getRouteIdFromName(tabTwoTitle),
                 snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 2),
             },
             {
                 name: tabThreeTitle,
-                routeName: routeName(tabThreeTitle),
+                routeName: getRouteIdFromName(tabThreeTitle),
                 snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 3),
             },
         ].filter((tabInfo) => tabInfo.snippets.length > 0);
@@ -169,6 +166,7 @@ export function Component() {
                 {emergencyAdditionalTabs.map((tab) => (
                     // FIXME all mapped tabs are selected at once
                     <NavigationTab
+                        key={tab.routeName}
                         to="emergencyAdditionalTab"
                         urlParams={{
                             routeName: tab.routeName,
