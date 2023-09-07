@@ -15,8 +15,8 @@ function NonEnglishFormCreationMessage(props: Props) {
         <Message
             variant="error"
             title={title}
-            description={strings.languageMismatchErrorMessage}
-            actions={strings.languageMismatchHelpMessage}
+            description={strings.fonNonEnglishErrorMessage}
+            actions={strings.formNonEnglishHelpMessage}
         />
     );
 }
