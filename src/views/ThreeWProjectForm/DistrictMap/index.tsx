@@ -1,5 +1,5 @@
 import Button from '#components/Button';
-import useBoolean from '#hooks/useBoolean';
+import useBooleanState from '#hooks/useBooleanState';
 
 import DistrictMapModal, { type Props as MapModalProps } from './DistrictMapModal';
 
@@ -25,7 +25,7 @@ function DistrictMap<
             setTrue: showModal,
             setFalse: hideModal,
         },
-    ] = useBoolean(false);
+    ] = useBooleanState(false);
 
     return (
         <>
