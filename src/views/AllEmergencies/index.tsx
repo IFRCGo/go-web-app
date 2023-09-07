@@ -85,6 +85,7 @@ export function Component() {
                 'amount_requested',
                 strings.allEmergenciesRequestedAmt,
                 (item) => sumSafe(
+                    // FIXME: server should send number value
                     item.appeals.map((appeal) => Number(appeal.amount_requested)),
                 ),
             ),

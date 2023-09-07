@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import SearchSelectInput, {
     Props as SearchSelectInputProps,

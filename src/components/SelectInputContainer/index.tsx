@@ -60,7 +60,6 @@ export type SelectInputContainerProps<
         nonClearable?: boolean;
         onClearButtonClick: () => void;
         onSelectAllButtonClick?: () => void;
-        emptyMessage?: React.ReactNode;
     }, OMISSION>
     & Omit<InputContainerProps, 'input'>
 );
@@ -119,7 +118,6 @@ function SelectInputContainer<
         totalOptionsCount = 0,
         hasValue,
         autoFocus,
-        emptyMessage,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
@@ -344,8 +342,14 @@ function SelectInputContainer<
                         errored={optionsErrored}
                         filtered={optionsFiltered}
                         pending={optionsPending}
-                        emptyMessage={emptyMessage}
-                        filteredMessage={emptyMessage}
+                        // FIXME: use translations
+                        pendingMessage="Fetching options..."
+                        // FIXME: use translations
+                        emptyMessage="No option available"
+                        // FIXME: use translations
+                        filteredMessage="No option available for the search"
+                        // FIXME: use translations
+                        errorMessage="Could not load options"
                         compact
                     />
                     {!optionsPending && !optionsErrored && !!infoMessage && (

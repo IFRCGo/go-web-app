@@ -82,7 +82,7 @@ function PieChart<D>(props: Props<D>) {
         chartPadding = DEFAULT_CHART_PADDING,
     } = props;
 
-    const totalValue = sumSafe(data?.map((datum) => valueSelector(datum)) ?? []);
+    const totalValue = sumSafe(data?.map((datum) => valueSelector(datum)));
     const totalValueSafe = isNotDefined(totalValue) || totalValue === 0 ? 1 : totalValue;
 
     const renderData = useMemo(

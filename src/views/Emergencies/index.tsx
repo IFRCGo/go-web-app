@@ -136,6 +136,7 @@ export function Component() {
                 )),
             );
 
+            // FIXME: Let's use flatMap then sumSafe
             const amountRequestedCalculated = sumSafe(
                 events?.map(
                     (event) => (
@@ -144,6 +145,7 @@ export function Component() {
                 ),
             );
 
+            // FIXME: Let's use flatMap then sumSafe
             const fundingCalculated = sumSafe(
                 events?.map(
                     (event) => (

@@ -79,7 +79,9 @@ function OperationCard(props: Props) {
 
     const strings = useTranslation(i18n);
     const targetedPopulation = sumSafe(appeals.map((appeal) => appeal.num_beneficiaries));
+    // FIXME: server should send number value
     const amountRequested = sumSafe(appeals.map((appeal) => +(appeal.amount_requested ?? 0)));
+    // FIXME: server should send number value
     const amountFunded = sumSafe(appeals.map((appeal) => +(appeal.amount_funded ?? 0)));
 
     // FIXME: let's use progress utility
