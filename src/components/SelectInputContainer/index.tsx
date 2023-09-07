@@ -246,14 +246,10 @@ function SelectInputContainer<
 
     const optionsCount = options.length;
 
-    // FIXME: this message will not be shown ever because
-    // in list, message is only shown when it's empty
     // FIXME: use translation
     const infoMessage = totalOptionsCount - optionsCount > 0
         ? `and ${totalOptionsCount - optionsCount} more`
         : undefined;
-    // eslint-disable-next-line no-console
-    console.info('FIXME: implement infoMessage', infoMessage);
 
     return (
         <>
@@ -348,11 +344,15 @@ function SelectInputContainer<
                         errored={optionsErrored}
                         filtered={optionsFiltered}
                         pending={optionsPending}
-                        // message={infoMessage}
                         emptyMessage={emptyMessage}
                         filteredMessage={emptyMessage}
                         compact
                     />
+                    {!optionsPending && !optionsErrored && !!infoMessage && (
+                        <div className={styles.infoMessage}>
+                            {infoMessage}
+                        </div>
+                    )}
                 </Popup>
             )}
         </>

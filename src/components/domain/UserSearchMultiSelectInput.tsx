@@ -27,6 +27,7 @@ type UserMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
     User,
     Def,
     'onSearchValueChange' | 'searchOptions' | 'optionsPending' | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
+    | 'selectedOnTop'
 >;
 
 // FIXME: better state handling, better popup messages
@@ -41,18 +42,18 @@ function UserSearchMultiSelectInput<const NAME>(
     const [dropdownShown, setShowDropdown] = useState(false);
     const [searchText, setSearchText] = useState<string | undefined>('');
     const debouncedSearchText = useDebouncedValue(searchText);
-    const safeSearchText = debouncedSearchText?.trim() ?? '';
 
     const {
         pending,
         response,
     } = useRequest({
-        skip: !dropdownShown || safeSearchText.length < 2,
+        skip: !dropdownShown,
         url: '/api/v2/users/',
         query: {
             name: debouncedSearchText,
             limit: 20,
         },
+        preserveResponse: true,
     });
 
     return (
@@ -67,6 +68,7 @@ function UserSearchMultiSelectInput<const NAME>(
             optionsPending={pending}
             totalOptionsCount={response?.count ?? 0}
             onShowDropdownChange={setShowDropdown}
+            selectedOnTop
         />
     );
 }

@@ -20,6 +20,7 @@ export type MultiSelectInputProps<
     OPTION,
     RENDER_PROPS,
     OMISSION | 'onSearchValueChange' | 'searchOptions' | 'onShowDropdownChange' | 'totalOptionsCount' | 'onSelectAllButtonClick'
+    | 'selectedOnTop'
 > & {
     withSelectAll?: boolean;
 };
@@ -65,6 +66,7 @@ function MultiSelectInput<
             sortFunction={rankedSearchOnList}
             searchOptions={options}
             onSelectAllButtonClick={withSelectAll ? handleSelectAll : undefined}
+            selectedOnTop={false}
         />
     );
 }

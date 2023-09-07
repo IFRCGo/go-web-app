@@ -25,6 +25,7 @@ type FieldReportSelectInputProps<NAME> = Props<
     FieldReportItem,
     Def,
     'onSearchValueChange' | 'searchOptions' | 'optionsPending' | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
+    | 'selectedOnTop'
 > & { nationalSociety?: number };
 
 function FieldReportSearchSelectInput<NAME>(
@@ -50,9 +51,10 @@ function FieldReportSearchSelectInput<NAME>(
         pending,
         response,
     } = useRequest({
-        skip: (searchText?.length ?? 0) === 0 || !opened,
+        skip: !opened,
         url: '/api/v2/field-report/',
         query,
+        preserveResponse: true,
     });
 
     return (
@@ -67,6 +69,7 @@ function FieldReportSearchSelectInput<NAME>(
             optionsPending={pending}
             totalOptionsCount={response?.count ?? 0}
             onShowDropdownChange={setOpened}
+            selectedOnTop
         />
     );
 }

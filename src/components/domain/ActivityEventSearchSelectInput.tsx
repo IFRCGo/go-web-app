@@ -23,6 +23,7 @@ type EventSelectInputProps<NAME> = SearchSelectInputProps<
     Def,
     'onSearchValueChange' | 'searchOptions' | 'optionsPending'
     | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
+    | 'selectedOnTop'
 >;
 
 function ActivityEventSearchSelectInput<const NAME>(
@@ -49,6 +50,7 @@ function ActivityEventSearchSelectInput<const NAME>(
         skip: !opened,
         url: '/api/v2/event/response-activity/',
         query,
+        preserveResponse: true,
     });
 
     return (
@@ -63,6 +65,7 @@ function ActivityEventSearchSelectInput<const NAME>(
             optionsPending={pending}
             totalOptionsCount={response?.count ?? 0}
             onShowDropdownChange={setOpened}
+            selectedOnTop
         />
     );
 }

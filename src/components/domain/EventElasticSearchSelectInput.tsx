@@ -31,6 +31,7 @@ type ElasticSearchSelectInput<NAME> = SearchSelectInputProps<
     Def,
     'onSearchValueChange' | 'searchOptions' | 'optionsPending'
     | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
+    | 'selectedOnTop'
 >;
 
 function EventElasticSearchSelectInput<const NAME>(
@@ -46,7 +47,7 @@ function EventElasticSearchSelectInput<const NAME>(
     const debouncedSearchText = useDebouncedValue(searchText);
 
     const query: GetSearchParams | undefined = ({
-        keyword: debouncedSearchText,
+        keyword: debouncedSearchText || '',
         // FIXME: server should fix this search params
     } as never);
 
@@ -54,9 +55,10 @@ function EventElasticSearchSelectInput<const NAME>(
         pending,
         response,
     } = useRequest({
-        skip: !opened || isFalsyString(searchText) || searchText.length < 2,
+        skip: !opened,
         url: '/api/v1/search/',
         query,
+        preserveResponse: true,
     });
 
     return (
@@ -71,6 +73,7 @@ function EventElasticSearchSelectInput<const NAME>(
             optionsPending={pending}
             totalOptionsCount={0}
             onShowDropdownChange={setOpened}
+            selectedOnTop
         />
     );
 }
