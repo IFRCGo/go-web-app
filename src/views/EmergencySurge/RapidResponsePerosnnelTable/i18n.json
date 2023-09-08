@@ -1,0 +1,13 @@
+{
+    "namespace": "rapidResponsePersonnelTable",
+    "strings": {
+        "rapidResponseTitle": "Rapid Response Personnel",
+        "rapidResponse": "Rapid Response",
+        "personnelTableStartDate": "Start Date",
+        "personnelTableEndDate": "End Date",
+        "personnelTableName": "Name",
+        "personnelTablePosition": "Position",
+        "personnelTableType": "Type",
+        "personnelTableDeployedTo": "Deploying To"
+    }
+}
