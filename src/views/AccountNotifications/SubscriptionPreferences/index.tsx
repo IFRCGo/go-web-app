@@ -194,7 +194,7 @@ function SubscriptionPreferences() {
                 },
             ).flat();
 
-            // FIXME typing should be fixed in the server
+            // FIXME: fix typing in server (low priority)
             updateUserSubscription(updates as never);
         },
         [updateUserSubscription],

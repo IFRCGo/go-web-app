@@ -507,7 +507,7 @@ type PartialCountry = Pick<CountryListItem, 'id' | 'name'>;
 
 const countryLinkRendererParams = (country: PartialCountry) => ({
     id: country.id,
-    name: country.name ?? '',
+    name: country.name ?? '?',
 });
 
 export function createCountryListColumn<DATUM, KEY>(

@@ -90,7 +90,7 @@ function MonthlyChart(props: Props) {
         query: {
             filter_atype: APPEAL_TYPE_EMERGENCY,
             ...queryParams,
-            // FIXME: need to fix typing in server
+            // FIXME: need to fix typing in server (low priority)
         } as never,
     });
 
@@ -102,7 +102,7 @@ function MonthlyChart(props: Props) {
         query: {
             filter_atype: APPEAL_TYPE_DREF,
             ...queryParams,
-            // FIXME: need to fix the typing in server
+            // FIXME: need to fix the typing in server (low priority)
         } as never,
     });
 

@@ -125,7 +125,7 @@ export function Component() {
                             <KeyFigure
                                 key={keyFigure.id}
                                 className={styles.keyFigure}
-                                // FIXME: get numeric value from server
+                                // FIXME: fix typing in server (medium priority)
                                 value={Number.parseFloat(keyFigure.number)}
                                 description={keyFigure.deck}
                             >

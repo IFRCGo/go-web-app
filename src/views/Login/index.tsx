@@ -90,7 +90,7 @@ export function Component() {
         url: '/get_auth_token',
         body: (body: FormFields) => body,
         onSuccess: (responseUnsafe) => {
-            // FIXME: typings should be fixed in the server
+            // FIXME: fix typing in server (low priority)
             const response = responseUnsafe as ResponseFields;
             setUser({
                 id: response.id,

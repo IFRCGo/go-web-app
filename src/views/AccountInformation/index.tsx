@@ -46,7 +46,8 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/event/',
         query: {
-            // FIXME: we should only fetch subscribed events (server)
+            // FIXME: add feature in server (medium priority)
+            // we should only fetch subscribed events
             is_featured: true,
             limit: ITEM_PER_PAGE,
             offset: ITEM_PER_PAGE * (page - 1),

@@ -65,7 +65,6 @@ const overviewFields: (keyof PartialFinalReport)[] = [
     'num_assisted',
     'total_dref_allocation',
     'main_donors',
-    'users',
     'title',
     'national_society',
     'country',

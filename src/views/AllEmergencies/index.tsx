@@ -78,15 +78,13 @@ export function Component() {
             createStringColumn<EventListItem, number>(
                 'glide',
                 strings.allEmergenciesGlide,
-                // FIXME: empty string from server
-                (item) => item.glide || '-',
+                (item) => item.glide,
             ),
             createNumberColumn<EventListItem, number>(
                 'amount_requested',
                 strings.allEmergenciesRequestedAmt,
                 (item) => sumSafe(
-                    // FIXME: server should send number value
-                    item.appeals.map((appeal) => Number(appeal.amount_requested)),
+                    item.appeals.map((appeal) => appeal.amount_requested),
                 ),
             ),
             createCountryListColumn<EventListItem, number>(

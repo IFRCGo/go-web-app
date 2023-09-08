@@ -35,7 +35,6 @@ export function Component() {
         response: countryResponse,
         error: countryResponseError,
     } = useRequest({
-        // FIXME: need to check if countryId can be ''
         skip: isNotDefined(countryId),
         url: '/api/v2/country/{id}/',
         pathVariables: {
@@ -47,11 +46,9 @@ export function Component() {
         pending: aggregatedAppealPending,
         response: aggregatedAppealResponse,
     } = useRequest({
-        // FIXME: need to check if countryId can be ''
         skip: isNotDefined(countryId),
         url: '/api/v2/appeal/aggregated',
-        // FIXME: typings should be fixed in the server
-        query: { country: Number(countryId) } as never,
+        query: { country: Number(countryId) },
     });
 
     const outletContext = useMemo<CountryOutletContext>(

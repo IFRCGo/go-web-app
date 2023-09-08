@@ -84,22 +84,14 @@ function ActiveDrefTable(props: Props) {
             } = dref;
 
             if (has_final_report) {
-                type FinalReportType = typeof final_report_details;
-                // FIXME: typing sholud be fixed in the server
-                const finalReportList = final_report_details as unknown as FinalReportType[];
-
+                const finalReportList = final_report_details;
                 return finalReportList[0];
             }
 
             if (has_ops_update) {
-                type OperationalUpdateType = typeof operational_update_details;
-                // FIXME: typing sholud be fixed in the server
-                // eslint-disable-next-line max-len
-                const opsUpdateList = operational_update_details as unknown as OperationalUpdateType[];
-
+                const opsUpdateList = operational_update_details;
                 return opsUpdateList[0];
             }
-
             return dref;
         },
         [],
@@ -115,7 +107,10 @@ function ActiveDrefTable(props: Props) {
     const latestDrefToOriginalMap = useMemo(
         () => listToMap(
             activeDrefResponse?.results ?? [],
-            (dref) => getLatestStageOfDref(dref).id,
+            (dref) => {
+                const val = getLatestStageOfDref(dref);
+                return val.id;
+            },
         ),
         [activeDrefResponse, getLatestStageOfDref],
     );
@@ -177,12 +172,15 @@ function ActiveDrefTable(props: Props) {
                 DrefTableActions,
                 (id, item) => {
                     const originalDref = latestDrefToOriginalMap[id];
+                    // FIXME: fix typing in server (medium priority)
+                    // the application_type should be an enum
+                    const applicationType = item.application_type as 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
                     if (!originalDref) {
                         return {
                             id,
                             drefId: id,
                             status: item.status,
-                            applicationType: item.application_type,
+                            applicationType,
                             canAddOpsUpdate: false,
                             canCreateFinalReport: false,
                         };
@@ -197,12 +195,12 @@ function ActiveDrefTable(props: Props) {
                     } = originalDref;
 
                     const canAddOpsUpdate = (is_published ?? false)
-                        && (item.application_type === 'DREF' || item.application_type === 'OPS_UPDATE')
+                        && (applicationType === 'DREF' || applicationType === 'OPS_UPDATE')
                         && !has_final_report
                         && unpublished_op_update_count === 0;
 
                     const canCreateFinalReport = !has_final_report
-                        && (item.application_type === 'DREF' || item.application_type === 'OPS_UPDATE')
+                        && (applicationType === 'DREF' || applicationType === 'OPS_UPDATE')
                         && (is_published ?? false)
                         && (
                             !has_ops_update
@@ -213,7 +211,7 @@ function ActiveDrefTable(props: Props) {
                         id,
                         drefId: originalDref.id,
                         status: item.status,
-                        applicationType: item.application_type,
+                        applicationType,
                         canAddOpsUpdate,
                         canCreateFinalReport,
                     };
@@ -266,13 +264,8 @@ function ActiveDrefTable(props: Props) {
                 operational_update_details,
             } = originalDref;
 
-            type FinalReportType = typeof final_report_details;
-            type OperationalUpdateType = typeof operational_update_details;
-
-            // FIXME: typing sholud be fixed in the server
-            const finalReportList = (final_report_details ?? []) as unknown as FinalReportType[];
-            // eslint-disable-next-line max-len
-            const opsUpdateList = (operational_update_details ?? []) as unknown as OperationalUpdateType[];
+            const finalReportList = final_report_details;
+            const opsUpdateList = operational_update_details;
 
             const subRows: LatestDref[] = [
                 ...finalReportList,

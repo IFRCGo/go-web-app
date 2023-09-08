@@ -119,7 +119,7 @@ function Pdc(props: Props) {
             }
 
             const footprint = isValidFeature(footprint_geojson) ? footprint_geojson : undefined;
-            // FIXME: typings should be fixed in the server
+            // FIXME: fix typing in server (low priority)
             const stormPositions = (storm_position_geojson as unknown as unknown[] | undefined)
                 ?.filter(isValidPointFeature);
 

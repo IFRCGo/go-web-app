@@ -428,7 +428,7 @@ export function Component() {
 
                 const actionsGroupedByCategory = listToGroupList(
                     actionTaken.actions_details,
-                    (item) => item.category ?? '',
+                    (item) => item.category ?? '<no-key>',
                     (item) => item,
                 );
                 const categoryItems = mapToList(

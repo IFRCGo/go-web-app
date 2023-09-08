@@ -121,7 +121,7 @@ function MeteoSwiss(props: Props) {
                 return undefined;
             }
 
-            // FIXME: typings should be fixed in the server
+            // FIXME: fix typing in server (low priority)
             const footprint_geojson = exposure?.footprint_geojson?.footprint_geojson;
 
             if (isNotDefined(footprint_geojson)) {

@@ -117,7 +117,6 @@ const schema: OpsUpdateFormSchema = {
     fields: (formValue): OpsUpdateFormSchemaFields => {
         let formFields: OpsUpdateFormSchemaFields = {
             // OVERVIEW
-            users: { defaultValue: [] },
             national_society: { required: true },
             type_of_dref: { required: true },
             type_of_onset: { required: true },
@@ -604,7 +603,7 @@ const schema: OpsUpdateFormSchema = {
                         }),
                     },
                     risk_security_concern: {},
-                    budget_file: {}, // FIXME: may need to check if this exits
+                    budget_file: {},
                     planned_interventions: {
                         keySelector: (n) => n.client_id,
                         member: () => ({

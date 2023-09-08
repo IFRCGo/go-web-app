@@ -60,7 +60,6 @@ export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps
 
 // FIXME: check these
 const overviewFields: (keyof PartialDref)[] = [
-    'users',
     'field_report',
     'title_prefix',
     'title',

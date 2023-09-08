@@ -44,7 +44,7 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(regionId),
         url: '/api/v2/region_key_figure/',
-        query: { region: Number(regionId) } as never,
+        query: { region: Number(regionId) },
     });
 
     const {
@@ -53,8 +53,7 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(regionId),
         url: '/api/v2/appeal/aggregated',
-        // FIXME: typings should be fixed in server
-        query: { region: Number(regionId) } as never,
+        query: { region: Number(regionId) },
     });
 
     const outletContext: RegionOutletContext = useMemo(

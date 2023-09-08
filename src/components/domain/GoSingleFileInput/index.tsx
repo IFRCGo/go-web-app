@@ -9,22 +9,11 @@ import type { ButtonVariant } from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
 import { nonFieldError } from '@togglecorp/toggle-form';
-import { paths } from '#generated/types';
 import useAlert from '#hooks/useAlert';
 
 import styles from './styles.module.css';
 
 type supportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/';
-
-type RequestBody = paths[supportedPaths]['post']['requestBody']['content']['application/json'];
-
-interface FileUploadResult {
-    id: number;
-    file: string;
-}
-
-const keySelector = (d: FileUploadResult) => d.id;
-const valueSelector = (d: FileUploadResult) => d.file;
 
 export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'| 'inputRef'> & {
     actions?: React.ReactNode;
@@ -75,20 +64,18 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         formData: true,
         url,
         method: 'POST',
-        body: (body: RequestBody) => body,
-        onSuccess: (responseUnsafe) => {
-            // FIXME: typing should be fixed in the server
-            const response = responseUnsafe as FileUploadResult;
-            const id = keySelector(response);
-            const file = valueSelector(response);
+        // FIXME: fix typing in server (low priority)
+        // the server generated type for response and body is the same
+        body: (body: { file: File }) => body as never,
+        onSuccess: (response) => {
+            const { id, file } = response;
             onChange(id, name);
 
-            if (setFileIdToUrlMap) {
+            if (isDefined(file) && setFileIdToUrlMap) {
                 setFileIdToUrlMap((oldMap) => {
                     const newMap = {
                         ...oldMap,
                     };
-
                     newMap[id] = file;
                     return newMap;
                 });
@@ -119,8 +106,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
 
     const handleChange = useCallback((file: File | undefined) => {
         if (file) {
-            // FIXME: typing should be fixed in the server
-            triggerFileUpload({ file } as unknown as RequestBody);
+            triggerFileUpload({ file });
         }
     }, [triggerFileUpload]);
 

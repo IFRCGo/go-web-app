@@ -39,10 +39,9 @@ function RegionKeyFigure(props: RegionKeyFigureProps) {
     } = props;
 
     return (
-        // NOTE also design may vary from original we need to fix that too
         <KeyFigure
             className={styles.regionKeyFigure}
-            // NOTE we should maintain key figures to take value as strings
+            // FIXME: fix typings from server (medium priority)
             value={Number.parseFloat(figure)}
             description={deck}
         >

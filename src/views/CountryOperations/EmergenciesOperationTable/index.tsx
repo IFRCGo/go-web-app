@@ -2,7 +2,7 @@ import {
     useMemo,
     useState,
 } from 'react';
-import { isTruthyString, max } from '@togglecorp/fujs';
+import { max } from '@togglecorp/fujs';
 import useTranslation from '#hooks/useTranslation';
 import Link from '#components/Link';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -82,7 +82,6 @@ function EmergenciesOperationTable(props: Props) {
             createStringColumn<EmergenciesTableItem, number>(
                 'dtype',
                 strings.emergenciesTableDisasterType,
-                // FIXME: the typing for server should be fixed
                 (item) => item.dtype?.name,
             ),
             createStringColumn<EmergenciesTableItem, number>(
@@ -94,10 +93,7 @@ function EmergenciesOperationTable(props: Props) {
             createNumberColumn<EmergenciesTableItem, number>(
                 'amount_requested',
                 strings.emergenciesTableRequestedAmount,
-                (item) => {
-                    const value = item.appeals[0]?.amount_requested;
-                    return isTruthyString(value) ? Number(value) : undefined;
-                },
+                (item) => item.appeals[0]?.amount_requested,
             ),
             createNumberColumn<EmergenciesTableItem, number>(
                 'num_affected',

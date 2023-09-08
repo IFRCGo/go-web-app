@@ -20,24 +20,27 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import { resolveToString } from '#utils/translation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import { components } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type EruTypeEnum = components['schemas']['Key187Enum'];
+
 type GetEmergencyResponseUnitsResponse = GoApiResponse<'/api/v2/eru/'>;
 type EmergencyResponseUnitListItem = NonNullable<GetEmergencyResponseUnitsResponse['results']>[number];
 
-// FIXME: fetch type from api
 interface EmergencyResponseUnitType {
-    key: number;
-    label: string;
+    key: EruTypeEnum;
+    label?: string;
 }
 const PAGE_SIZE = 5;
 
 const emergencyResponseUnitKeySelector = (item: EmergencyResponseUnitListItem) => item.id;
 
 const emergencyResponseUnitTypeKeySelector = (item: EmergencyResponseUnitType) => item.key;
-const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType) => item.label;
+const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType) => item.label ?? '?';
 
 function EmergencyResponseUnitsTable() {
     const [page, setPage] = useState(1);
@@ -64,12 +67,8 @@ function EmergencyResponseUnitsTable() {
     });
 
     const {
-        pending: emergencyResponseUnitTypesPending,
-        response: emergencyResponseUnitTypesResponse,
-    } = useRequest({
-        url: '/api/v2/erutype',
-        preserveResponse: true,
-    });
+        deployments_eru_type,
+    } = useGlobalEnums();
 
     const handleEmergencyResponseUnitTypeChange = useCallback((value: EmergencyResponseUnitType['key'] | undefined) => {
         setEmergencyResponseType(value);
@@ -143,9 +142,7 @@ function EmergencyResponseUnitsTable() {
                     onChange={handleEmergencyResponseUnitTypeChange}
                     keySelector={emergencyResponseUnitTypeKeySelector}
                     labelSelector={emergencyResponseUnitTypeLabelSelector}
-                    optionsPending={emergencyResponseUnitTypesPending}
-                    // FIXME: typings should be fixed in the server
-                    options={emergencyResponseUnitTypesResponse as EmergencyResponseUnitType[]}
+                    options={deployments_eru_type}
                 />
             )}
             footerActions={(

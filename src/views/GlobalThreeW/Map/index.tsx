@@ -74,8 +74,7 @@ interface ClickedPoint {
 
 type NSProjectGeoJson = GeoJSON.FeatureCollection<GeoJSON.Point, GeoJsonProps>;
 
-// FIXME: typings should be fixed in the server
-function getPointType(projectStat: NsProjectsResponse) {
+function getPointType(projectStat: NonNullable<NsProjectsResponse>[number]) {
     const {
         operation_types,
         operation_types_display,
@@ -84,9 +83,8 @@ function getPointType(projectStat: NsProjectsResponse) {
     // FIXME: what if operation_types length has zero length
     if (operation_types?.length === 1) {
         return {
-            // FIXME: typings should be fixed in the server
-            id: operation_types[0] as number,
-            title: operation_types_display?.[0] as string,
+            id: operation_types[0],
+            title: operation_types_display?.[0] ?? '?',
         };
     }
 
@@ -152,8 +150,7 @@ function GlobalThreeWMap(props: Props) {
         deployments_project_operation_type: operationTypeOptions,
     } = useGlobalEnums();
 
-    // FIXME typings need to be fixed in server
-    const projectList = projectListFromProps as unknown as NsProjectsResponse[] | undefined;
+    const projectList = projectListFromProps;
 
     const [
         clickedPointProperties,
@@ -229,8 +226,7 @@ function GlobalThreeWMap(props: Props) {
             return {
                 ...clickedProjectItem,
                 maxScaleValue: max(
-                    // FIXME typings should be fixed in the server
-                    clickedProjectItem.projects_per_sector as { count: number }[],
+                    clickedProjectItem.projects_per_sector,
                     (projectItem) => projectItem.count,
                 ),
             };
@@ -386,12 +382,7 @@ function GlobalThreeWMap(props: Props) {
                     >
                         <BarChart
                             className={styles.topProjectSectorsChart}
-                            // FIXME: typings should be fixed in the server
-                            data={selectedNsProjectStats.projects_per_sector as {
-                                count: number;
-                                primary_sector: number;
-                                primary_sector_display: string;
-                            }[]}
+                            data={selectedNsProjectStats.projects_per_sector}
                             keySelector={projectPerSectorKeySelector}
                             labelSelector={projectPerSectorLabelSelector}
                             valueSelector={countSelector}

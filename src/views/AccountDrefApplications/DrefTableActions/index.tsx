@@ -33,9 +33,7 @@ export interface Props {
     id: number;
     status: DrefStatus | null | undefined;
 
-    // FIXME: typings should be fixed in the server
-    // Should be DREF | OPS_UPDATE | FINAL_REPORT
-    applicationType: string;
+    applicationType: 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
     canAddOpsUpdate: boolean;
     canCreateFinalReport: boolean;
 }

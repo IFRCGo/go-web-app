@@ -79,10 +79,8 @@ function OperationCard(props: Props) {
 
     const strings = useTranslation(i18n);
     const targetedPopulation = sumSafe(appeals.map((appeal) => appeal.num_beneficiaries));
-    // FIXME: server should send number value
-    const amountRequested = sumSafe(appeals.map((appeal) => +(appeal.amount_requested ?? 0)));
-    // FIXME: server should send number value
-    const amountFunded = sumSafe(appeals.map((appeal) => +(appeal.amount_funded ?? 0)));
+    const amountRequested = sumSafe(appeals.map((appeal) => appeal.amount_requested));
+    const amountFunded = sumSafe(appeals.map((appeal) => appeal.amount_funded));
 
     // FIXME: let's use progress utility
     const coverage = isDefined(amountRequested)
@@ -95,14 +93,12 @@ function OperationCard(props: Props) {
     );
 
     const isSubscribed = subscriptionMap[id] ?? false;
-    let countriesInfoDisplay = strings.operationCardNoCountryInvolved;
 
-    if (countries.length > 0) {
-        if (countries.length === 1) {
-            countriesInfoDisplay = countries[0].name ?? '';
-        } else {
-            countriesInfoDisplay = strings.operationCardInvolvesMultipleCountries;
-        }
+    let countriesInfoDisplay = strings.operationCardNoCountryInvolved;
+    if (countries.length === 1) {
+        countriesInfoDisplay = countries[0].name ?? '?';
+    } else if (countries.length > 1) {
+        countriesInfoDisplay = strings.operationCardInvolvesMultipleCountries;
     }
 
     return (

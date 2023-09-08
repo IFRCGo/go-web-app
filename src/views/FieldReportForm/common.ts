@@ -30,7 +30,7 @@ export type FieldReportBody = GoApiResponse<'/api/v2/field-report/{id}/', 'PUT'>
 
 type ContactRaw = NonNullable<FieldReportBody['contacts']>[number];
 type Contact = Omit<ContactRaw, 'ctype'> & {
-    // FIXME: Fix this in the server later
+    // FIXME: fix typing in server (medium priority)
     ctype: ContactType;
 };
 
@@ -123,7 +123,7 @@ export function transformAPIFieldsToFormFields(
             : sit_fields_date,
         contacts: contacts?.map((c) => ({
             ...c,
-            // FIXME: Fix this in the server later
+            // FIXME: fix typing in server (medium priority)
             ctype: c.ctype as ContactType,
         })),
     };

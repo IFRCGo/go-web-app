@@ -126,7 +126,6 @@ export function Component() {
                 national_society_actions: [],
                 needs_identified: [],
                 images_file: [],
-                users: [],
                 // is_assessment_report: false,
                 changing_timeframe_operation: false,
                 changing_operation_strategy: false,
@@ -366,8 +365,6 @@ export function Component() {
             updateOpsUpdate({
                 ...result.value,
                 modified_at: modifiedAt ?? lastModifiedAtRef.current,
-                // FIXME: change server so that we don't need to send user field
-                // FIXME: do the same for dref application
             } as OpsUpdateRequestBody);
         },
         [validate, setError, updateOpsUpdate],

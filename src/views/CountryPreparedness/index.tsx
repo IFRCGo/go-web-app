@@ -66,13 +66,13 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/latest-per-overview/',
-        // FIXME: typings should be fixed in server
-        query: { country_id: Number(countryId) } as never,
+        query: { country_id: Number(countryId) },
     });
 
     const countryHasNoPer = latestPerResponse?.results?.length === 0;
 
-    // FIXME: we get a list form the server because we are using a filter on listing api
+    // FIXME: add feature on server (low priority)
+    // we get a list form the server because we are using a filter on listing api
     const perId = latestPerResponse?.results?.[0]?.id;
     const latestPerOverview = latestPerResponse?.results?.[0];
     const prevAssessmentRatings = latestPerResponse?.results?.[0]?.assessment_ratings;

@@ -136,8 +136,7 @@ export function Component() {
                 listToMap(
                     files,
                     (item) => item.id,
-                    // FIXME: The typing should be fixed from the server
-                    (item) => item.file ?? '',
+                    (item) => item.file,
                 ),
             );
             setDistrictOptions(

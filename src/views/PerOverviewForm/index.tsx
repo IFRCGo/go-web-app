@@ -45,7 +45,6 @@ import NationalSocietySelectInput from '#components/domain/NationalSocietySelect
 
 import {
     PerOverviewRequestBody,
-    PerOverviewResponse,
     overviewSchema,
     PartialOverviewFormFields,
 } from './schema';
@@ -212,9 +211,7 @@ export function Component() {
         url: '/api/v2/per-overview/',
         method: 'POST',
         body: (ctx: PerOverviewRequestBody) => ctx,
-        onSuccess: (responseUnsafe) => {
-            // FIXME: server should send type
-            const response = responseUnsafe as PerOverviewResponse;
+        onSuccess: (response) => {
             if (response && isDefined(response.id)) {
                 alert.show(
                     strings.saveRequestSuccessMessage,

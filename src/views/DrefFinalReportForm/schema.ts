@@ -114,7 +114,6 @@ const schema: FinalReportFormSchema = {
     fields: (formValue): FinalReportFormSchemaFields => {
         let formFields: FinalReportFormSchemaFields = {
             // OVERVIEW
-            users: { defaultValue: [] },
             national_society: { required: true },
             type_of_dref: { required: true },
             type_of_onset: { required: true },
@@ -233,7 +232,6 @@ const schema: FinalReportFormSchema = {
                 }),
             },
             risk_security_concern: {},
-            budget_file: {}, // FIXME: may need to check if this exits
             planned_interventions: {
                 keySelector: (n) => n.client_id,
                 member: () => ({
