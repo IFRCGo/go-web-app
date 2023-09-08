@@ -6,6 +6,17 @@ import type { SpacingType } from '#components/types';
 
 import styles from './styles.module.css';
 
+const spacingTypeToClassNameMap: Record<SpacingType, string> = {
+    none: styles.noSpacing,
+    condensed: styles.condensedSpacing,
+    compact: styles.compactSpacing,
+    cozy: styles.cozySpacing,
+    default: styles.defaultSpacing,
+    comfortable: styles.comfortableSpacing,
+    relaxed: styles.relaxedSpacing,
+    loose: styles.looseSpacing,
+};
+
 export interface Props {
     className?: string;
     elementRef?: React.Ref<HTMLDivElement>;
@@ -52,7 +63,7 @@ function Header(props: Props) {
         headingSectionClassName,
         headingContainerClassName,
         wrapHeadingContent = false,
-        spacing,
+        spacing = 'default',
     } = props;
 
     const headingComp = heading ? (
@@ -98,7 +109,6 @@ function Header(props: Props) {
         iconsContainerClassName,
         withoutWrap: !wrapHeadingContent,
         spacing,
-        variant: 'large',
     });
 
     if (!content && !children) {
@@ -110,6 +120,7 @@ function Header(props: Props) {
             className={_cs(
                 styles.header,
                 ellipsizeHeading && styles.headingEllipsized,
+                spacingTypeToClassNameMap[spacing],
                 className,
             )}
             ref={elementRef}

@@ -226,11 +226,11 @@ export function Component() {
             description={(
                 <>
                     <div className={styles.basicInfo}>
-                        <div>
+                        <span>
                             {disasterType}
-                        </div>
-                        <div className={styles.separator} />
-                        <div>
+                        </span>
+                        <span className={styles.separator} />
+                        <span>
                             {countries?.map((country, i) => (
                                 <Fragment key={country.id}>
                                     <Link
@@ -243,8 +243,8 @@ export function Component() {
                                     {i !== countries.length - 1 ? ', ' : null}
                                 </Fragment>
                             ))}
-                        </div>
-                        <div className={styles.separator} />
+                        </span>
+                        <span className={styles.separator} />
                         <Link
                             className={styles.titleLink}
                             to="emergencies"
@@ -387,6 +387,7 @@ export function Component() {
             {isTruthyString(description) && (
                 <Container
                     heading={reportType === 'EW' ? strings.riskAnalysisTitle : strings.descriptionTitle}
+                    withHeaderBorder
                 >
                     <HtmlOutput
                         value={description}

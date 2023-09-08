@@ -97,6 +97,7 @@ export function Component() {
                     heading={strings.goUserAdminGuide}
                     headerDescription={strings.goUserAdministrativeGuide}
                     withHeaderBorder
+                    withInternalPadding
                     childrenContainerClassName={styles.guideList}
                 >
                     {/* NOTE: We do not need to translate these links */}
@@ -126,8 +127,7 @@ export function Component() {
                     </Link>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <Link
-                        // FIXME: add link
-                        to={null}
+                        to={undefined}
                         icons={(
                             <span className={styles.iconCircle}>
                                 FR
@@ -207,6 +207,7 @@ export function Component() {
                     headerDescription={strings.goUserReferenceMaterial}
                     childrenContainerClassName={styles.guideList}
                     withHeaderBorder
+                    withInternalPadding
                 >
                     <Link
                         to="https://go-user-library.ifrc.org/"
@@ -284,6 +285,7 @@ export function Component() {
                     heading={strings.aboutSurgeServices}
                     childrenContainerClassName={styles.resourceContent}
                     withHeaderBorder
+                    withInternalPadding
                 >
                     <Link
                         to="https://docs.google.com/spreadsheets/d/1F-78qDc8vdh5hli5FLFeyTvlFQgw19OqZXMR50TQ1C0/edit?usp=sharing"
@@ -312,6 +314,7 @@ export function Component() {
                     heading={strings.aboutGuidanceMaterial}
                     childrenContainerClassName={styles.resourceContent}
                     withHeaderBorder
+                    withInternalPadding
                 >
                     <Link
                         to="https://www.cash-hub.org/"
@@ -347,6 +350,7 @@ export function Component() {
                     heading={strings.aboutOtherResources}
                     childrenContainerClassName={styles.resourceContent}
                     withHeaderBorder
+                    withInternalPadding
                 >
                     <Link
                         to="https://www.ifrc.org/reference-centres/"
@@ -387,22 +391,25 @@ export function Component() {
             >
                 {contacts.map((contact) => (
                     <div
-                        className={styles.contactRow}
+                        className={styles.contact}
                         key={contact.extent}
                     >
                         <div className={styles.extent}>
                             {contact.extent}
                         </div>
-                        <div className={styles.contactName}>
-                            {contact.name}
+                        <div>
+                            <div>
+                                {contact.name}
+                            </div>
+                            <Link
+                                to={`mailto:${contact.email}`}
+                                external
+                                className={styles.contactEmail}
+                                withExternalLinkIcon
+                            >
+                                {contact.email}
+                            </Link>
                         </div>
-                        <Link
-                            to={`mailto:${contact.email}`}
-                            external
-                            className={styles.contactEmail}
-                        >
-                            {contact.email}
-                        </Link>
                     </div>
                 ))}
             </Container>

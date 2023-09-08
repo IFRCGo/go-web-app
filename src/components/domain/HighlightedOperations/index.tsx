@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import {
-    _cs,
     listToMap,
     isDefined,
 } from '@togglecorp/fujs';
@@ -17,7 +16,6 @@ import useUserMe from '#hooks/domain/useUserMe';
 
 import OperationCard from './OperationCard';
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type EventQueryParams = GoApiUrlQuery<'/api/v2/event/'>;
 type EventResponse = GoApiResponse<'/api/v2/event/'>;
@@ -96,7 +94,7 @@ function HighlightedOperations(props: Props) {
 
     return (
         <Container
-            className={_cs(styles.highlightedOperations, className)}
+            className={className}
             withHeaderBorder
             heading={strings.highlightedOperationsTitle}
             actions={(

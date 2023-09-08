@@ -3,12 +3,13 @@
     --line-height: var(--go-ui-line-height-sm);
     display: flex;
     margin: 0;
+    line-height: var(--line-height);
     font-size: var(--font-size);
     font-weight: var(--go-ui-font-weight-semibold);
 
     &.level-one {
         --font-size: var(--go-ui-font-size-4xl);
-        --line-height: var(--go-ui-line-height-none);
+        --line-height: var(--go-ui-line-height-sm);
 
         @media print {
             color: var(--go-ui-color-primary-blue);
@@ -17,7 +18,7 @@
 
     &.level-two {
         --font-size: var(--go-ui-font-size-2xl);
-        --line-height: var(--go-ui-line-height-xs);
+        --line-height: var(--go-ui-line-height-sm);
 
         @media print {
             color: var(--go-ui-color-primary-blue);
@@ -35,16 +36,16 @@
 
     &.level-four {
         --font-size: var(--go-ui-font-size-lg);
-        --line-height: var(--go-ui-line-height-md);
+        --line-height: var(--go-ui-line-height-xs);
     }
 
     &.level-five {
         --font-size: var(--go-ui-font-size-md);
-        --line-height: var(--go-ui-line-height-md);
+        --line-height: var(--go-ui-line-height-xs);
     }
 
     &.level-six {
         --font-size: var(--go-ui-font-size-sm);
-        --line-height: var(--go-ui-line-height-md);
+        --line-height: var(--go-ui-line-height-xs);
     }
 }

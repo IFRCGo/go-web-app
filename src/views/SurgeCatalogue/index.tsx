@@ -84,7 +84,7 @@ export function Component() {
                     {strings.catalogueHealth}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCatalogueHealthEruClinic"
+                    to="surgeCatalogueInformationManagement"
                     parentRoute
                 >
                     <AnalysisIcon className={styles.icon} />

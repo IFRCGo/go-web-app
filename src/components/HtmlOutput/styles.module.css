@@ -1,5 +1,9 @@
-.rich-text-output {
+.html-output {
     p {
         margin: var(--go-ui-spacing-xs);
+    }
+
+    iframe {
+        width: 100%;
     }
 }

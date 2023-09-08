@@ -12,6 +12,7 @@ interface Props {
     value: number | undefined | null;
     compactValue?: boolean;
     description?: React.ReactNode;
+    descriptionClassName?: string;
     progressTitle?: React.ReactNode;
     progress?: number;
     progressDescription?: React.ReactNode;
@@ -26,6 +27,7 @@ function KeyFigure(props: Props) {
         value,
         compactValue,
         description,
+        descriptionClassName,
         progress,
         progressTitle,
         progressDescription,
@@ -51,7 +53,7 @@ function KeyFigure(props: Props) {
                 compact={compactValue}
             />
             {description && (
-                <div className={styles.description}>
+                <div className={descriptionClassName}>
                     {description}
                 </div>
             )}

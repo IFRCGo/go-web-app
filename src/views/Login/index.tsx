@@ -1,12 +1,10 @@
-import {
-    useCallback,
-    useContext,
-} from 'react';
+import { useContext, useMemo } from 'react';
 import {
     useForm,
     type ObjectSchema,
     requiredStringCondition,
     getErrorObject,
+    createSubmitHandler,
 } from '@togglecorp/toggle-form';
 import { isFalsyString } from '@togglecorp/fujs';
 
@@ -131,17 +129,14 @@ export function Component() {
         },
     );
 
-    const handleLoginButtonClick = useCallback(() => {
-        const result = validate();
-
-        if (result.errored) {
-            setError(result.error);
-            return;
-        }
-
-        const body = result.value;
-        login(body);
-    }, [validate, setError, login]);
+    const handleFormSubmit = useMemo(
+        () => createSubmitHandler(
+            validate,
+            setError,
+            login,
+        ),
+        [validate, setError, login],
+    );
 
     return (
         <Page
@@ -151,7 +146,10 @@ export function Component() {
             description={strings.loginSubHeader}
             mainSectionClassName={styles.mainSection}
         >
-            <div className={styles.form}>
+            <form
+                className={styles.form}
+                onSubmit={handleFormSubmit}
+            >
                 <NonFieldError error={formError} />
                 <div className={styles.fields}>
                     <TextInput
@@ -196,7 +194,7 @@ export function Component() {
                 <div className={styles.actions}>
                     <Button
                         name={undefined}
-                        onClick={handleLoginButtonClick}
+                        type="submit"
                     >
                         {strings.loginButton}
                     </Button>
@@ -204,7 +202,7 @@ export function Component() {
                         {signupInfo}
                     </div>
                 </div>
-            </div>
+            </form>
         </Page>
     );
 }

@@ -6,7 +6,6 @@ import {
     mapToList,
 } from '@togglecorp/fujs';
 import Map, {
-    MapContainer,
     MapSource,
     MapLayer,
     MapImage,
@@ -32,6 +31,7 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
+import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 
 import {
     exposureFillLayer,
@@ -267,7 +267,7 @@ function RiskImminentEventMap<
                         />
                     );
                 })}
-                <MapContainer className={styles.mapContainer} />
+                <MapContainerWithDisclaimer className={styles.mapContainer} />
                 {/* FIXME: footprint layer should always be the bottom layer */}
                 {activeEventFootprint && (
                     <MapSource

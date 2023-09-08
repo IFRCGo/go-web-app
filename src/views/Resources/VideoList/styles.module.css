@@ -1,6 +1,6 @@
 .video-list {
     display: flex;
-    gap: var(--go-ui-spacing-2xl);
+    gap: var(--go-ui-spacing-md);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
 

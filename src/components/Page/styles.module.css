@@ -16,7 +16,7 @@
         }
 
         .main-section {
-            padding: var(--go-ui-spacing-4xl) var(--go-ui-spacing-2xl);
+            padding: var(--go-ui-spacing-2xl) var(--go-ui-spacing-lg);
         }
     }
 }

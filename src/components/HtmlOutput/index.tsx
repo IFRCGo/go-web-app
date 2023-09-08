@@ -84,7 +84,7 @@ function HtmlOutput(props: Props) {
         <div
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
-            className={_cs(styles.richTextOutput, className)}
+            className={_cs(styles.htmlOutput, className)}
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={isDefined(sanitizedValue) ? {
                 __html: sanitizedValue,

@@ -118,6 +118,7 @@ function Container(props: Props) {
                     wrapHeadingContent={!withoutWrapInHeading}
                     headingDescription={headingDescription}
                     headingDescriptionContainerClassName={headingDescriptionContainerClassName}
+                    spacing={spacing}
                 >
                     {headerDescription}
                 </Header>

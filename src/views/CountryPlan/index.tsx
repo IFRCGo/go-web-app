@@ -41,7 +41,7 @@ export function Component() {
             className={styles.countryPlan}
             heading={resolveToString(
                 strings.countryPlanTitle,
-                { countryName: countryResponse?.name ?? '-' },
+                { countryName: countryResponse?.name ?? '--' },
             )}
             headingLevel={2}
             childrenContainerClassName={styles.content}
@@ -58,7 +58,7 @@ export function Component() {
                     >
                         {resolveToString(
                             strings.countryPlanDownloadPlan,
-                            { countryName: countryResponse?.name },
+                            { countryName: countryResponse?.name ?? '--' },
                         )}
                     </Link>
                     <Link
@@ -70,7 +70,7 @@ export function Component() {
                     >
                         {resolveToString(
                             strings.countryPlanDownloadPlanInternal,
-                            { countryName: countryResponse?.name },
+                            { countryName: countryResponse?.name ?? '--' },
                         )}
                     </Link>
                 </>

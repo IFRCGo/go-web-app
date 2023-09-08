@@ -110,4 +110,41 @@
             --gap: var(--go-ui-spacing-3xl);
         }
     }
+
+    &.small {
+        &.condensed-spacing {
+            --inner-gap: 0;
+            --gap: var(--go-ui-spacing-4xs);
+        }
+
+        &.compact-spacing {
+            --inner-gap: var(--go-ui-spacing-4xs);
+            --gap: var(--go-ui-spacing-3xs);
+        }
+
+        &.cozy-spacing {
+            --inner-gap: var(--go-ui-spacing-3xs);
+            --gap: var(--go-ui-spacing-2xs);
+        }
+
+        &.default-spacing {
+            --inner-gap: var(--go-ui-spacing-2xs);
+            --gap: var(--go-ui-spacing-xs);
+        }
+
+        &.comfortable-spacing {
+            --inner-gap: var(--go-ui-spacing-xs);
+            --gap: var(--go-ui-spacing-sm);
+        }
+
+        &.relaxed-spacing {
+            --inner-gap: var(--go-ui-spacing-sm);
+            --gap: var(--go-ui-spacing-md);
+        }
+
+        &.loose-spacing {
+            --inner-gap: var(--go-ui-spacing-md);
+            --gap: var(--go-ui-spacing-lg);
+        }
+    }
 }

@@ -85,7 +85,6 @@ export function Component() {
                 <Container
                     heading={strings.keyFigureHeading}
                     withHeaderBorder
-                    childrenContainerClassName={styles.keyFigureContent}
                 >
                     <List
                         className={styles.keyFigureList}

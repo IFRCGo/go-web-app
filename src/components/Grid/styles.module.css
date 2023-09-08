@@ -1,9 +1,9 @@
 .grid {
-    --spacing: var(--go-ui-spacing-lg);
+    --spacing: var(--go-ui-spacing-md);
     --num-columns: 2;
     display: grid;
-    grid-gap: var(--go-ui-spacing-xl);
-    grid-template-columns: repeat(auto-fill, minmax(calc(0.7 * var(--go-ui-page-width-max) / var(--num-columns)), 1fr));
+    grid-gap: var(--spacing);
+    grid-template-columns: repeat(auto-fill, minmax(calc(0.8 * var(--go-ui-page-width-max) / var(--num-columns)), 1fr));
     position: relative;
     min-height: var(--go-ui-content-min-height);
 
@@ -46,11 +46,19 @@
         --spacing: 0;
     }
 
+    &.condensed-spacing {
+        --spacing: var(--go-ui-spacing-2xs);
+    }
+
     &.compact-spacing {
-        --spacing: var(--go-ui-spacing-sm);
+        --spacing: var(--go-ui-spacing-xs);
     }
 
     &.cozy-spacing {
+        --spacing: var(--go-ui-spacing-sm);
+    }
+
+    &.default-spacing {
         --spacing: var(--go-ui-spacing-md);
     }
 

@@ -49,15 +49,15 @@
     --go-ui-spacing-4xs: calc(var(--base-spacing) * 0.0625);
     --go-ui-spacing-3xs: calc(var(--base-spacing) * 0.125);
     --go-ui-spacing-2xs: calc(var(--base-spacing) * 0.25);
-    --go-ui-spacing-xs: calc(var(--base-spacing) * 0.375);
+    --go-ui-spacing-xs: calc(var(--base-spacing) * 0.4);
     --go-ui-spacing-sm: calc(var(--base-spacing) * 0.625);
     --go-ui-spacing-md: calc(var(--base-spacing) * 1);
     --go-ui-spacing-lg: calc(var(--base-spacing) * 1.5);
     --go-ui-spacing-xl: calc(var(--base-spacing) * 2.25);
     --go-ui-spacing-2xl: calc(var(--base-spacing) * 3.375);
-    --go-ui-spacing-3xl: calc(var(--base-spacing) * 4.625);
-    --go-ui-spacing-4xl: calc(var(--base-spacing) * 6.125);
-    --go-ui-spacing-5xl: calc(var(--base-spacing) * 9.875);
+    --go-ui-spacing-3xl: calc(var(--base-spacing) * 5.0625);
+    --go-ui-spacing-4xl: calc(var(--base-spacing) * 7.5937);
+    --go-ui-spacing-5xl: calc(var(--base-spacing) * 11.39);
 
     --go-ui-width-separator-sm: 1pt;
     --go-ui-width-separator-md: 2pt;
@@ -81,12 +81,12 @@
     --go-ui-border-radius-3xl: 1.5rem;
     --go-ui-border-radius-full: 9999px;
 
-    --go-ui-box-shadow-xs: 0 1pt 2pt rgb(0 0 0 / 0.1);
-    --go-ui-box-shadow-sm: 0 2pt 6pt rgb(0 0 0 / 0.1);
-    --go-ui-box-shadow-md: 0 3pt 8pt rgb(0 0 0 / 0.1);
-    --go-ui-box-shadow-lg: 0 4pt 10pt -2pt rgb(0 0 0 / 0.25);
-    --go-ui-box-shadow-xl: 0 6pt 18pt -4pt rgb(0 0 0 / 0.375);
-    --go-ui-box-shadow-2xl: 0 8pt 20pt -5pt rgb(0 0 0 / 0.625);
+    --go-ui-box-shadow-xs: 0 1pt 2pt rgb(0 0 0 / 0.2);
+    --go-ui-box-shadow-sm: 0 1pt 4pt rgb(0 0 0 / 0.2);
+    --go-ui-box-shadow-md: 0 1pt 6pt -2pt rgb(0 0 0 / 0.375);
+    --go-ui-box-shadow-lg: 0 2pt 10pt -4pt rgb(0 0 0 / 0.5);
+    --go-ui-box-shadow-xl: 0 3pt 16pt -6pt rgb(0 0 0 / 0.5);
+    --go-ui-box-shadow-2xl: 0 4pt 24pt -8pt rgb(0 0 0 / 0.625);
     --go-ui-box-shadow-inner: inset 0 2pt 4pt 0 rgb(0 0 0 / 0.625);
     --go-ui-box-shadow-none: 0 0 #0000;
 
@@ -195,7 +195,8 @@
     --go-ui-color-map-dot-fba: #ff6b00;
     --go-ui-color-map-dot-multiple-types: #4c5d9b;
 
-    --go-ui-page-header-description-width-max: 48rem;
+    --go-ui-width-content-max: 50rem;
+    --go-ui-page-header-description-width-max: var(--go-ui-width-content-max);
     --go-ui-page-width-max: 90rem;
     --mapbox-icon-width: 88px;
 }

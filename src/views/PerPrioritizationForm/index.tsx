@@ -353,7 +353,7 @@ export function Component() {
                                     { sort: sortKeyToLabel[sortBy] },
                                 )}
                                 variant="tertiary"
-                                dropdownContainerClassName={styles.sortByDropdownContent}
+                                popupClassName={styles.sortByDropdownContent}
                             >
                                 {sortOptions.map(
                                     (sortOption) => (

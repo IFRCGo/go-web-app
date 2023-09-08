@@ -3,15 +3,15 @@
         display: flex;
         align-items: center;
         flex-direction: column;
-        gap: var(--go-ui-spacing-4xl);
+        gap: var(--go-ui-spacing-2xl);
 
         .form {
             display: grid;
-            grid-gap: var(--go-ui-spacing-2xl);
+            grid-gap: var(--go-ui-spacing-lg);
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
             background-color: var(--go-ui-color-white);
             width: 100%;
-            max-width: var(--go-ui-page-header-description-width-max);
+            max-width: var(--go-ui-width-content-max);
 
             .full-size-input {
                 grid-column: 1 / -1;

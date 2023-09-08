@@ -1,12 +1,16 @@
 .country-preparedness {
-    padding: var(--go-ui-spacing-4xl) 0;
+    padding: var(--go-ui-spacing-2xl) 0;
     min-height: 40vh;
 
     .preparedness-content {
         display: grid;
-        grid-gap: var(--go-ui-spacing-2xl);
-        grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-        padding: var(--go-ui-spacing-2xl) 0;
+        grid-gap: var(--go-ui-spacing-lg);
+        grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+        padding: var(--go-ui-spacing-lg) 0;
+
+        @media screen and (max-width: 40rem) {
+            grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+        }
 
         .pending-message,
         .empty-message {
@@ -18,17 +22,21 @@
         }
 
         .latest-per-details {
-            grid-column: 1 / -1;
             display: grid;
-            grid-gap: var(--go-ui-spacing-xl);
+            border-radius: var(--go-ui-border-radius-lg);
+            box-shadow: var(--go-ui-box-shadow-md);
+            background-color: var(--go-ui-color-background);
+            padding: var(--go-ui-spacing-lg);
+            grid-column: 1 / -1;
+            grid-gap: var(--go-ui-spacing-md);
             grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-            border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-            padding: var(--go-ui-spacing-xl);
 
             .contact-container {
-                grid-column: 1 / -1;
                 display: flex;
+                align-items: flex-end;
                 justify-content: center;
+                grid-column: 1 / -1;
+                grid-row-end: span 4;
             }
 
             @media screen and (max-width: 30rem) {

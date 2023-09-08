@@ -18,7 +18,7 @@ import styles from './styles.module.css';
 
 export interface Props {
     className?: string;
-    dropdownContainerClassName?: string;
+    popupClassName?: string;
     children?: React.ReactNode;
     label?: React.ReactNode;
     activeClassName?: string;
@@ -37,7 +37,7 @@ function DropdownMenu(props: Props) {
     const newButtonRef = useRef<HTMLButtonElement>(null);
     const {
         className,
-        dropdownContainerClassName,
+        popupClassName,
         children,
         label,
         activeClassName,
@@ -125,7 +125,7 @@ function DropdownMenu(props: Props) {
             {showDropdown && (
                 <Popup
                     elementRef={dropdownRef}
-                    className={_cs(styles.dropdownContent, dropdownContainerClassName)}
+                    className={_cs(styles.dropdownContent, popupClassName)}
                     parentRef={buttonRef}
                 >
                     {children}

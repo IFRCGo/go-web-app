@@ -41,7 +41,6 @@ function EventListItem(props: Props) {
                     <ChevronRightLineIcon className={styles.icon} />
                 </Button>
             )}
-            spacing="compact"
         >
             <TextOutput
                 // FIXME: use translation

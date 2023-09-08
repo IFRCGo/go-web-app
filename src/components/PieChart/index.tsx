@@ -136,6 +136,7 @@ function PieChart<D>(props: Props<D>) {
             <div className={styles.legend}>
                 {renderData.map((datum, i) => (
                     <LegendItem
+                        className={styles.legendItem}
                         key={datum.key}
                         label={datum.label}
                         color={colors[i]}

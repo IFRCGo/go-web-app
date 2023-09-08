@@ -218,7 +218,6 @@ function SubscriptionPreferences() {
             <Container
                 heading={strings.subscriptionNotificationTypesHeading}
                 headerDescription={strings.subscriptionNotificationTypesDescription}
-                spacing="compact"
                 childrenContainerClassName={styles.notificationTypeInputListContent}
                 headingLevel={5}
             >
@@ -253,7 +252,6 @@ function SubscriptionPreferences() {
             <Container
                 heading={strings.subscriptionRegionalNotificationsHeading}
                 headerDescription={strings.subscriptionRegionalNotificationsDescription}
-                spacing="compact"
                 headingLevel={5}
             >
                 <CheckList
@@ -269,7 +267,6 @@ function SubscriptionPreferences() {
             <Container
                 heading={strings.subscriptionCountryLevelNotificationsHeading}
                 headerDescription={strings.subscriptionCountryLevelNotificationsDescription}
-                spacing="compact"
                 headingLevel={5}
             >
                 <MultiSelectInput
@@ -285,7 +282,6 @@ function SubscriptionPreferences() {
             <Container
                 heading={strings.subscriptionDisasterTypesHeading}
                 headerDescription={strings.subscriptionDisasterTypesDescription}
-                spacing="compact"
                 headingLevel={5}
             >
                 <CheckList
@@ -300,7 +296,6 @@ function SubscriptionPreferences() {
             </Container>
             <Container
                 heading={strings.subscriptionSurgeNotificationsHeading}
-                spacing="compact"
                 childrenContainerClassName={styles.surgeNotificationsListContent}
                 headingLevel={5}
             >
@@ -319,7 +314,6 @@ function SubscriptionPreferences() {
             </Container>
             <Container
                 heading={strings.subscriptionOtherNotificationsHeading}
-                spacing="compact"
                 childrenContainerClassName={styles.otherNotificationsListContent}
                 headingLevel={5}
             >

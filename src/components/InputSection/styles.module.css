@@ -9,7 +9,7 @@
     }
 
     &.with-padding {
-        padding: var(--go-ui-spacing-md);
+        padding: var(--go-ui-spacing-lg);
     }
 
     .title-section {

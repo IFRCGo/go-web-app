@@ -1,9 +1,9 @@
 .th {
-    position: sticky;
-    top: 0;
-    z-index: 1;
     border-bottom: var(--go-ui-width-separator-sm) solid var(--go-ui-color-separator);
     background-color: var(--go-ui-color-white);
+    overflow: hidden;
+    vertical-align: bottom;
+    text-align: left;
 
     .resize-handle {
         position: absolute;

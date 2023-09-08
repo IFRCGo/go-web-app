@@ -4,19 +4,18 @@
         align-items: center;
         flex-direction: column;
         text-align: center;
-        gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-md);
 
         .basic-info {
-            display: inline-flex;
             font-size: var(--go-ui-font-size-lg);
             font-weight: var(--go-ui-font-weight-medium);
-            gap: var(--go-ui-spacing-lg);
 
             .separator {
-                flex-shrink: 0;
+                display: inline-block;
+                margin: 0 var(--go-ui-spacing-md);
                 background-color: var(--go-ui-color-separator);
                 width: var(--go-ui-width-separator-md);
-                height: 1.5rem;
+                height: 1rem;
             }
 
             .title-link {
@@ -37,7 +36,7 @@
     .content {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-3xl);
+        gap: var(--go-ui-spacing-2xl);
 
         .basic-details {
             display: grid;

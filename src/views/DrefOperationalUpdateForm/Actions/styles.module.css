@@ -1,7 +1,7 @@
 .actions {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-4xl);
+    gap: var(--go-ui-spacing-2xl);
 
     .add-need-container,
     .add-ns-action-container {

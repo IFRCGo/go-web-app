@@ -7,7 +7,6 @@
     background-color: var(--go-ui-color-foreground);
     min-height: var(--go-ui-content-min-height);
     text-align: center;
-    gap: var(--go-ui-spacing-md);
 
     .icon {
         color: var(--go-ui-color-text-light);

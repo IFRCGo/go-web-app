@@ -1,8 +1,8 @@
 .region-seasonal-risk-watch {
     display: flex;
     flex-direction: column;
-    padding: var(--go-ui-spacing-4xl) 0;
-    gap: var(--go-ui-spacing-4xl);
+    padding: var(--go-ui-spacing-2xl) 0;
+    gap: var(--go-ui-spacing-2xl);
     overflow: auto;
 
     .risk-map-container {

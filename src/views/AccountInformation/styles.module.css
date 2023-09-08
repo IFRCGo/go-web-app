@@ -1,8 +1,8 @@
 .account-information {
     display: grid;
-    grid-gap: var(--go-ui-spacing-4xl);
+    grid-gap: var(--go-ui-spacing-2xl);
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    padding: var(--go-ui-spacing-4xl) 0;
+    padding: var(--go-ui-spacing-2xl) 0;
 
     @media screen and (max-width: 30rem) {
         grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -13,7 +13,7 @@
             display: flex;
             position: relative;
             flex-direction: column;
-            gap: var(--go-ui-spacing-2xl);
+            gap: var(--go-ui-spacing-lg);
         }
 
     }
@@ -22,7 +22,7 @@
         .content {
             display: flex;
             flex-direction: column;
-            gap: var(--go-ui-spacing-xl);
+            gap: var(--go-ui-spacing-md);
         }
     }
 }

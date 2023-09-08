@@ -12,8 +12,9 @@
 }
 
 .dropdown-container {
-    padding: var(--go-ui-spacing-lg);
-    max-width: 24rem;
+    padding: 0;
+    min-width: min(20rem, 100vw);
+    max-width: 25rem;
 
     .content {
         font-size: var(--go-ui-font-size-sm);

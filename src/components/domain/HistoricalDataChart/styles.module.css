@@ -4,8 +4,8 @@
 
     .filters {
         display: grid;
-        grid-gap: var(--go-ui-spacing-xl);
-        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
     }
 
     .chart-container {
@@ -59,4 +59,8 @@
             }
         }
     }
+}
+
+.pop-up {
+    padding: 0;
 }

@@ -27,7 +27,7 @@ export interface Props {
     spacing?: SpacingType;
     withoutWrap?: boolean;
     withPadding?: boolean;
-    variant?: 'default' | 'large';
+    variant?: 'small' | 'default' | 'large';
 }
 
 function useBasicLayout(props: Props) {
@@ -51,6 +51,7 @@ function useBasicLayout(props: Props) {
         withoutWrap && styles.noWrap,
         withPadding && styles.withpadding,
         variant === 'large' && styles.large,
+        variant === 'small' && styles.small,
         className,
     );
 
