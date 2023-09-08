@@ -58,15 +58,15 @@ export interface Props<NAME, ADMIN2_NAME> {
     onModalClose: () => void;
     districtsName: NAME;
     districtsValue: number[] | undefined;
-    onDistrictsChange: (newVal: number[] | undefined, districtsName: NAME) => void;
     districtsError?: string;
     districtOptions: DistrictItem[] | undefined | null;
+    onDistrictsChange: (newVal: number[] | undefined, districtsName: NAME) => void;
     onDistrictsOptionsChange: Dispatch<SetStateAction<DistrictItem[] | undefined | null>>;
     admin2Name: ADMIN2_NAME;
     admin2Value: number[] | undefined;
-    onAdmin2Change: (newVal: number[] | undefined, admin2Name: ADMIN2_NAME) => void;
     admin2Error?: string;
     admin2Options: {id: number; name: string; district_id: number }[] | undefined | null;
+    onAdmin2Change: (newVal: number[] | undefined, admin2Name: ADMIN2_NAME) => void;
     onAdmin2OptionsChange: Dispatch<
         SetStateAction<{ id: number; name: string; district_id: number }[] | undefined | null>
     >;
@@ -109,6 +109,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
 
     const [districts, setDistricts] = useState<number[] | undefined>(districtsValue);
     const [admin2Selections, setAdmin2Selections] = useState<number[] | undefined>(admin2Value);
+
     const [selectedDistrict, setSelectedDistrict] = useState<number | undefined>();
 
     const updateAdmin2 = useCallback((newDistricts: number[] | undefined) => {
@@ -156,6 +157,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         pathVariables: selectedDistrict ? {
             id: selectedDistrict,
         } : undefined,
+        preserveResponse: true,
     });
 
     const countryDetails = useCountry({
@@ -309,7 +311,6 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
             district_id?: number;
             name?: string;
         };
-        console.log(properties);
         if (properties.country_id !== countryId) {
             return false;
         }
@@ -327,7 +328,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     if (!properties.name) {
                         return oldOptions;
                     }
-                    const xxx = unique(
+                    return unique(
                         [
                             ...(oldOptions ?? []),
                             {
@@ -337,8 +338,6 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                         ],
                         (item) => item.id,
                     );
-                    console.warn(xxx, id);
-                    return xxx;
                 });
                 handleDistrictChange((oldVal = []) => {
                     // console.log('single click call', new Date().getTime());
@@ -439,7 +438,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
             if (!properties.name) {
                 return oldOptions;
             }
-            const xxx = unique(
+            return unique(
                 [
                     ...(oldOptions ?? []),
                     {
@@ -449,8 +448,6 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                 ],
                 (item) => item.id,
             );
-            console.warn(xxx, id);
-            return xxx;
         });
         handleDistrictChange((oldVal = []) => (
             unique([
