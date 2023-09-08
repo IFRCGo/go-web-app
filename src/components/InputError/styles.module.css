@@ -18,7 +18,7 @@
         border-radius: var(--go-ui-spacing-xs);
         background-color: var(--go-ui-color-primary-red);
         padding: var(--go-ui-spacing-md);
-        color: var(--go-ui-color-primary-white);
+        color: var(--go-ui-color-white);
         font-size: var(--go-ui-font-size-sm);
 
         .icon {

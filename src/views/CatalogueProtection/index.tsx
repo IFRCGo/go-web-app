@@ -1,9 +1,9 @@
+import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
+import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
-import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -60,16 +60,11 @@ export function Component() {
     ];
 
     return (
-        <Container
-            headingLevel={2}
+        <SurgeCatalogueContainer
             heading={strings.catalogueProtection}
-            className={styles.protection}
-            childrenContainerClassName={styles.content}
         >
-            <Container
+            <SurgeCardContainer
                 heading={strings.catalogueRapidResponsePersonnel}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.catalogueProtectionRoleTitle}
@@ -80,21 +75,17 @@ export function Component() {
                     title={strings.catalogueTechnical}
                     data={technicalProfiles}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.catalogueProtectionServicesHeading}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.catalogueProtectionRapidResponse}
                     data={rapidResponseData}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.catalogueAdditionalResources}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.catalogueStandard}
@@ -106,8 +97,8 @@ export function Component() {
                     data={roofData}
                     description={strings.catalogueAllUnderOneRoofDescription}
                 />
-            </Container>
-        </Container>
+            </SurgeCardContainer>
+        </SurgeCatalogueContainer>
     );
 }
 

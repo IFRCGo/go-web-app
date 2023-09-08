@@ -1,9 +1,9 @@
+import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
+import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
-import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -111,17 +111,12 @@ export function Component() {
     ];
 
     return (
-        <Container
-            headingLevel={2}
+        <SurgeCatalogueContainer
             heading={strings.catalogueWaterTitle}
-            className={styles.catalogueWater}
-            childrenContainerClassName={styles.content}
+            description={strings.catalogueWaterDescription}
         >
-            <div>{strings.catalogueWaterDescription}</div>
-            <Container
+            <SurgeCardContainer
                 heading={strings.rapidResponse}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.rapidTitle}
@@ -132,11 +127,9 @@ export function Component() {
                     data={frameworkData}
                     description={strings.technicalFrameworkDetail}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.technicalServices}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.technicalEquipmentOne}
@@ -173,19 +166,17 @@ export function Component() {
                     data={equipmentTreatmentData}
                     description={strings.technicalWaterTreatmentDetail}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.additionalResources}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.additionWatsan}
                     data={additionalData}
                     description={strings.additionWatsanDetail}
                 />
-            </Container>
-        </Container>
+            </SurgeCardContainer>
+        </SurgeCatalogueContainer>
     );
 }
 

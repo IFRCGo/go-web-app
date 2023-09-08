@@ -1,9 +1,9 @@
-import Container from '#components/Container';
-import useTranslation from '#hooks/useTranslation';
+import SurgeCardContainer from '#components/domain/SurgeCardContainer';
+import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
 import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
+import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -66,16 +66,11 @@ export function Component() {
     ];
 
     return (
-        <Container
-            headingLevel={2}
+        <SurgeCatalogueContainer
             heading={strings.communityEngagementTitle}
-            className={styles.communityEngagement}
-            childrenContainerClassName={styles.content}
         >
-            <Container
+            <SurgeCardContainer
                 heading={strings.communityEngagementRapidResponsePersonnelTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.communityEngagementRoleProfiles}
@@ -86,23 +81,18 @@ export function Component() {
                     data={frameworkData}
                     description={strings.technicalCompetencyFrameworkDetails}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.communityEngagementServicesTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.rapidResponseTitle}
                     data={ceaServicesData}
                     description={strings.rapidResponseDetails}
                 />
-                <div />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.communityEngagementAdditionalResourcesTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.ceaTitle}
@@ -114,8 +104,8 @@ export function Component() {
                     data={ceaHubData}
                     description={strings.communityEngagementHubDetails}
                 />
-            </Container>
-        </Container>
+            </SurgeCardContainer>
+        </SurgeCatalogueContainer>
     );
 }
 

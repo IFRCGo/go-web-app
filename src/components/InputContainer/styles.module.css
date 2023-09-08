@@ -7,10 +7,10 @@
         border-bottom: var(--go-ui-width-separator-thin) solid transparent;
         border-radius: var(--go-ui-border-radius-md);
         background-color: var(--go-ui-color-element-background);
-        padding: 0 var(--go-ui-spacing-md);
+        padding: 0 var(--go-ui-spacing-sm);
 
         .input {
-            padding: var(--go-ui-spacing-sm) 0;
+            padding: var(--go-ui-spacing-xs) 0;
         }
     }
 
@@ -45,7 +45,7 @@
     }
 
     .input-hint {
-        color: var(--go-ui-color-gray-70);
+        color: var(--go-ui-color-text-light);
         font-size: var(--go-ui-font-size-sm);
     }
 

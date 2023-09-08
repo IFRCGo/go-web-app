@@ -1,9 +1,9 @@
-import Container from '#components/Container';
-import useTranslation from '#hooks/useTranslation';
+import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
+import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
+import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -82,19 +82,12 @@ export function Component() {
     ];
 
     return (
-        <Container
-            headingLevel={2}
+        <SurgeCatalogueContainer
             heading={strings.catalogueCommunicationTitle}
-            className={styles.catalogueCommunication}
-            childrenContainerClassName={styles.content}
+            description={strings.communicationDetails}
         >
-            <div>
-                {strings.communicationDetails}
-            </div>
-            <Container
+            <SurgeCardContainer
                 heading={strings.communicationRapidResponsePersonnelTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.communicationRoleProfiles}
@@ -105,11 +98,9 @@ export function Component() {
                     data={frameworkData}
                     description={strings.technicalCompetencyFrameworkDetails}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.communicationServicesTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.communicationServicesErtTitle}
@@ -126,8 +117,8 @@ export function Component() {
                     data={certThree}
                     description={strings.certThreeDetails}
                 />
-            </Container>
-        </Container>
+            </SurgeCardContainer>
+        </SurgeCatalogueContainer>
     );
 }
 

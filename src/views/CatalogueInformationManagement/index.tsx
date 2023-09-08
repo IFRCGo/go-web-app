@@ -1,10 +1,11 @@
-import pyramidLogo from '#assets/images/pyramid.png';
+import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
+import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
-import Container from '#components/Container';
+import Image from '#components/Image';
 import useTranslation from '#hooks/useTranslation';
+import pyramidLogo from '#assets/images/pyramid.png';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -123,26 +124,23 @@ export function Component() {
     ];
 
     return (
-        <Container
-            headingLevel={2}
+        <SurgeCatalogueContainer
             heading={strings.catalogueIMTitle}
-            className={styles.informationManagement}
-            childrenContainerClassName={styles.content}
+            description={(
+                <>
+                    <div>{strings.catalogueIMDetailTextOne}</div>
+                    <div>{strings.catalogueIMDetailTextTwo}</div>
+                    <div>{strings.catalogueIMDetailTextThree}</div>
+                    <div>{strings.catalogueIMDetailTextFour}</div>
+                    <Image
+                        src={pyramidLogo}
+                        alt="Information Management"
+                    />
+                </>
+            )}
         >
-            <div>{strings.catalogueIMDetailTextOne}</div>
-            <div>{strings.catalogueIMDetailTextTwo}</div>
-            <div>{strings.catalogueIMDetailTextThree}</div>
-            <div>{strings.catalogueIMDetailTextFour}</div>
-            <img
-                className={styles.logo}
-                src={pyramidLogo}
-                alt="Information Management"
-                width="120"
-            />
-            <Container
+            <SurgeCardContainer
                 heading={strings.catalogueIMRapidResponsePersonnel}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.catalogueIMRoleProfile}
@@ -153,11 +151,9 @@ export function Component() {
                     data={frameworkData}
                     description={strings.catalogueIMTechnicalDescription}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.catalogueIMServicesTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.catalogueIMServicesSims}
@@ -169,11 +165,9 @@ export function Component() {
                     data={satelliteData}
                     description={strings.catalogueIMServicesSatelliteImageryDescription}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.catalogueIMAdditionalResourcesTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.catalogueIMRole}
@@ -210,8 +204,8 @@ export function Component() {
                     data={deepLink}
                     description={strings.catalogueIMDeepDescription}
                 />
-            </Container>
-        </Container>
+            </SurgeCardContainer>
+        </SurgeCatalogueContainer>
     );
 }
 

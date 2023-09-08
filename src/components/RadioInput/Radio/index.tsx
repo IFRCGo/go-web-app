@@ -59,6 +59,7 @@ function Radio<N, IN>(props: Props<N, IN>) {
                 )}
             </>
         ),
+        spacing: 'compact',
     });
 
     return (

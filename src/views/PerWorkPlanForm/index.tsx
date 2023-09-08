@@ -284,7 +284,7 @@ export function Component() {
                     {strings.saveAndFinalizeWorkPlan}
                 </ConfirmButton>
             )}
-            spacing="comfortable"
+            spacing="loose"
         >
             {pending && (
                 <BlockLoading />

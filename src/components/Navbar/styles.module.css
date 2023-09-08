@@ -15,7 +15,7 @@
                 flex-grow: 1;
 
                 .go-icon {
-                    height: var(--go-ui-font-size-5xl);
+                    height: var(--go-ui-height-brand-icon);
                 }
             }
 

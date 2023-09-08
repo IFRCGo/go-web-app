@@ -335,86 +335,88 @@ export function Component() {
                 <BlockLoading />
             )}
             {!pending && (
-                <PerAssessmentSummary
-                    perOptionsResponse={perOptionsResponse}
-                    areaResponses={perAssessmentResponse?.area_responses}
-                    totalQuestionCount={questionsResponse?.count}
-                    areaIdToTitleMap={areaIdToTitleMap}
-                />
-            )}
-            <Container
-                heading={strings.prioritizationHeading}
-                headingLevel={2}
-                withHeaderBorder
-                actions={(
-                    <DropdownMenu
-                        label={resolveToString(
-                            strings.sortButtonLabel,
-                            { sort: sortKeyToLabel[sortBy] },
-                        )}
-                        variant="tertiary"
-                        dropdownContainerClassName={styles.sortByDropdownContent}
-                    >
-                        {sortOptions.map(
-                            (sortOption) => (
-                                <DropdownMenuItem
-                                    type="button"
-                                    key={sortOption.key}
-                                    name={sortOption.key}
-                                    onClick={setSortBy}
-                                    icons={(
-                                        <CheckLineIcon
-                                            className={_cs(
-                                                styles.checkmark,
-                                                sortOption.key === sortBy && styles.active,
+                <>
+                    <PerAssessmentSummary
+                        perOptionsResponse={perOptionsResponse}
+                        areaResponses={perAssessmentResponse?.area_responses}
+                        totalQuestionCount={questionsResponse?.count}
+                        areaIdToTitleMap={areaIdToTitleMap}
+                    />
+                    <Container
+                        heading={strings.prioritizationHeading}
+                        headingLevel={2}
+                        withHeaderBorder
+                        actions={(
+                            <DropdownMenu
+                                label={resolveToString(
+                                    strings.sortButtonLabel,
+                                    { sort: sortKeyToLabel[sortBy] },
+                                )}
+                                variant="tertiary"
+                                dropdownContainerClassName={styles.sortByDropdownContent}
+                            >
+                                {sortOptions.map(
+                                    (sortOption) => (
+                                        <DropdownMenuItem
+                                            type="button"
+                                            key={sortOption.key}
+                                            name={sortOption.key}
+                                            onClick={setSortBy}
+                                            icons={(
+                                                <CheckLineIcon
+                                                    className={_cs(
+                                                        styles.checkmark,
+                                                        sortOption.key === sortBy && styles.active,
+                                                    )}
+                                                />
                                             )}
-                                        />
-                                    )}
-                                >
-                                    {sortOption.label}
-                                </DropdownMenuItem>
-                            ),
+                                        >
+                                            {sortOption.label}
+                                        </DropdownMenuItem>
+                                    ),
+                                )}
+                            </DropdownMenu>
                         )}
-                    </DropdownMenu>
-                )}
-                footerActions={value?.is_draft !== false ? (
-                    <ConfirmButton
-                        name={undefined}
-                        variant="secondary"
-                        onConfirm={handleFormFinalSubmit}
-                        disabled={pending || savePerPrioritizationPending || readOnlyMode}
-                        confirmHeading={strings.submitConfirmHeading}
-                        confirmMessage={strings.submitConfirmMessage}
+                        footerActions={value?.is_draft !== false ? (
+                            <ConfirmButton
+                                name={undefined}
+                                variant="secondary"
+                                onConfirm={handleFormFinalSubmit}
+                                disabled={pending || savePerPrioritizationPending || readOnlyMode}
+                                confirmHeading={strings.submitConfirmHeading}
+                                confirmMessage={strings.submitConfirmMessage}
+                            >
+                                {strings.perSelectAndAddToWorkPlan}
+                            </ConfirmButton>
+                        ) : undefined}
+                        childrenContainerClassName={styles.componentList}
                     >
-                        {strings.perSelectAndAddToWorkPlan}
-                    </ConfirmButton>
-                ) : undefined}
-                childrenContainerClassName={styles.componentList}
-            >
-                {!pending && sortedFormComponents.map((component) => {
-                    const rating = assessmentComponentResponseMap
-                        ?.[component.id]?.rating_details;
-                    const ratingDisplay = isDefined(rating)
-                        ? `${rating.value} - ${rating.title}`
-                        : undefined;
+                        {!pending && sortedFormComponents.map((component) => {
+                            const rating = assessmentComponentResponseMap
+                                ?.[component.id]?.rating_details;
+                            const ratingDisplay = isDefined(rating)
+                                ? `${rating.value} - ${rating.title}`
+                                : undefined;
 
-                    return (
-                        <ComponentInput
-                            key={component.id}
-                            index={componentResponseMapping[component.id]?.index}
-                            value={componentResponseMapping[component.id]?.value}
-                            onChange={setComponentValue}
-                            component={component}
-                            onSelectionChange={handleSelectionChange}
-                            questionResponses={
-                                assessmentQuestionResponsesByComponent[component.id]
-                            }
-                            ratingDisplay={ratingDisplay}
-                            readOnly={readOnlyMode}
-                        />
-                    );
-                })}
-            </Container>
+                            return (
+                                <ComponentInput
+                                    key={component.id}
+                                    index={componentResponseMapping[component.id]?.index}
+                                    value={componentResponseMapping[component.id]?.value}
+                                    onChange={setComponentValue}
+                                    component={component}
+                                    onSelectionChange={handleSelectionChange}
+                                    questionResponses={
+                                        assessmentQuestionResponsesByComponent[component.id]
+                                    }
+                                    ratingDisplay={ratingDisplay}
+                                    readOnly={readOnlyMode}
+                                />
+                            );
+                        })}
+                    </Container>
+                </>
+            )}
             {actionDivRef.current && (
                 <Portal container={actionDivRef?.current}>
                     {value.is_draft === false ? (

@@ -47,10 +47,8 @@ export function Component() {
             heading={strings.catalogueBasecampTitle}
             className={styles.catalogueBasecamp}
             childrenContainerClassName={styles.content}
+            headerDescription={strings.basecampDetails}
         >
-            <div>
-                {strings.basecampDetails}
-            </div>
             <Container
                 heading={strings.basecampServicesTitle}
                 withHeaderBorder

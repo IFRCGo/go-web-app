@@ -1,6 +1,4 @@
 .cash-and-voucher-assistance {
-    padding-top: var(--go-ui-spacing-md);
-
     .content {
         display: flex;
         flex-direction: column;
@@ -8,13 +6,14 @@
 
         .image-list {
             display: grid;
-            grid-gap: var(--go-ui-spacing-3xs);
+            grid-gap: var(--go-ui-spacing-md);
             grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
 
             .image {
                 height: 16rem;
             }
         }
+
         .inner-content {
             display: flex;
             flex-direction: column;

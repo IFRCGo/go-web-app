@@ -9,8 +9,10 @@ import styles from './styles.module.css';
 
 const spacingTypeToClassNameMap: Record<SpacingType, string> = {
     none: styles.noSpacing,
+    condensed: styles.condensedSpacing,
     compact: styles.compactSpacing,
     cozy: styles.cozySpacing,
+    default: styles.defaultSpacing,
     comfortable: styles.comfortableSpacing,
     relaxed: styles.relaxedSpacing,
     loose: styles.looseSpacing,
@@ -77,7 +79,7 @@ function Container(props: Props) {
         headingContainerClassName,
         headingLevel,
         icons,
-        spacing = 'comfortable',
+        spacing = 'default',
         withHeaderBorder,
         withInternalPadding,
         withoutWrapInHeading = false,

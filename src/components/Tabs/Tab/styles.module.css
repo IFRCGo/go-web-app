@@ -154,7 +154,7 @@
             .children-wrapper {
                 border-color: var(--border-color);
                 border-bottom-color: transparent;
-                background-color: var(--go-ui-color-primary-white);
+                background-color: var(--go-ui-color-white);
                 padding: var(--go-ui-spacing-md) var(--go-ui-spacing-3xl);
             }
         }

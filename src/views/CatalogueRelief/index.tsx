@@ -1,12 +1,9 @@
+import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
+import SurgeCardContainer from '#components/domain/SurgeCardContainer';
+import CatalogueInfoCard, { type LinkData } from '#components/CatalogueInfoCard';
 import useTranslation from '#hooks/useTranslation';
-import Container from '#components/Container';
-import CatalogueInfoCard,
-{
-    type LinkData,
-} from '#components/CatalogueInfoCard';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -30,37 +27,28 @@ export function Component() {
     ];
 
     return (
-        <Container
-            headingLevel={2}
+        <SurgeCatalogueContainer
             heading={strings.catalogueReliefTitle}
-            className={styles.catalogueRelief}
-            childrenContainerClassName={styles.content}
+            description={strings.catalogueReliefDescription}
         >
-            <div>{strings.catalogueReliefDescription}</div>
-            <Container
+            <SurgeCardContainer
                 heading={strings.rapidResponsePersonnelTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.reliefTechnicalTitle}
                     description={strings.reliefTechnicalDescription}
                     data={reliefTechnical}
                 />
-                <div />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.reliefServicesTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.reliefEmergencyTitle}
                     data={reliefEmergency}
                 />
-                <div />
-            </Container>
-        </Container>
+            </SurgeCardContainer>
+        </SurgeCatalogueContainer>
     );
 }
 

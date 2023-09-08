@@ -1907,6 +1907,7 @@ const catalogueEPOA = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'planning/emergency-plan-of-action-epoa-monitoring-evaluation-plan',
     component: {
+        // FIXME: view should not be inside another view
         render: () => import('#views/CataloguePMER/CatalogueEPOA'),
         props: {},
     },
@@ -1921,6 +1922,7 @@ const catalogueRTE = customWrapRoute({
     parent: surgeCatalogueLayout,
     path: 'planning/real-time-evaluation-rte-and-guidance',
     component: {
+        // FIXME: view should not be inside another view
         render: () => import('#views/CataloguePMER/CatalogueRTE'),
         props: {},
     },

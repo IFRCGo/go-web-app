@@ -11,10 +11,10 @@
 
     .icon {
         color: var(--go-ui-color-text-light);
-        font-size: var(--go-ui-font-size-6xl);
+        font-size: var(--go-ui-height-status-icon);
 
         .spinner {
-            font-size: var(--go-ui-font-size-4xl);
+            font-size: var(--go-ui-height-compact-status-icon);
         }
     }
 

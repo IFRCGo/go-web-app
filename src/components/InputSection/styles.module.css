@@ -1,21 +1,21 @@
 .input-section {
     display: grid;
-    grid-gap: var(--go-ui-spacing-xl);
+    grid-gap: var(--go-ui-spacing-md);
     grid-template-columns: 1fr 2fr;
-    background-color: var(--go-ui-color-primary-white);
+    background-color: var(--go-ui-color-white);
 
     @media screen and (max-width: 60rem) {
         grid-template-columns: 1fr;
     }
 
     &.with-padding {
-        padding: var(--go-ui-spacing-xl);
+        padding: var(--go-ui-spacing-md);
     }
 
     .title-section {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-md);
+        gap: var(--go-ui-spacing-sm);
 
         .title {
             font-weight: var(--go-ui-font-weight-semibold);
@@ -28,7 +28,7 @@
 
     .content-section {
         display: grid;
-        grid-gap: var(--go-ui-spacing-lg);
+        grid-gap: var(--go-ui-spacing-sm);
 
         &.one-column {
             grid-template-columns: 1fr;

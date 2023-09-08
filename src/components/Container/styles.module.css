@@ -54,11 +54,19 @@
         --spacing: 0;
     }
 
+    &.condensed-spacing {
+        --spacing: var(--go-ui-spacing-2xs);
+    }
+
     &.compact-spacing {
-        --spacing: var(--go-ui-spacing-sm);
+        --spacing: var(--go-ui-spacing-xs);
     }
 
     &.cozy-spacing {
+        --spacing: var(--go-ui-spacing-sm);
+    }
+
+    &.default-spacing {
         --spacing: var(--go-ui-spacing-md);
     }
 

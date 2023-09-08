@@ -68,7 +68,6 @@
             padding: var(--go-ui-spacing-md);
 
             .title {
-                color: var(--go-ui-color-primary-gray);
                 font-size: var(--go-ui-font-size-sm);
             }
 

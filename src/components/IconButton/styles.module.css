@@ -50,7 +50,7 @@
 
     &.secondary {
         --color-border: var(--go-ui-color-primary-red);
-        --color-background: var(--go-ui-color-primary-white);
+        --color-background: var(--go-ui-color-white);
         --color-text: var(--go-ui-color-primary-red);
 
         &:disabled {

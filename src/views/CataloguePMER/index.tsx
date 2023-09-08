@@ -1,10 +1,7 @@
-import CatalogueInfoCard,
-{
-    type LinkData,
-} from '#components/CatalogueInfoCard';
-import Container from '#components/Container';
+import CatalogueInfoCard, { type LinkData } from '#components/CatalogueInfoCard';
+import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
+import SurgeCardContainer from '#components/domain/SurgeCardContainer';
 import useTranslation from '#hooks/useTranslation';
-import styles from './styles.module.css';
 
 import i18n from './i18n.json';
 
@@ -44,27 +41,20 @@ export function Component() {
     ];
 
     return (
-        <Container
-            headingLevel={2}
+        <SurgeCatalogueContainer
             heading={strings.cataloguePMERTitle}
-            className={styles.cataloguePmer}
-            childrenContainerClassName={styles.content}
+            description={strings.cataloguePMERDetail}
         >
-            <div>{strings.cataloguePMERDetail}</div>
-            <Container
+            <SurgeCardContainer
                 heading={strings.cataloguePMERRapidHeading}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.cataloguePMERRoleHeading}
                     data={rapidResponsePersonnel}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.cataloguePMERServicesHeading}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.cataloguePMERPlanningHeading}
@@ -74,8 +64,8 @@ export function Component() {
                     title={strings.cataloguePMEREvaluation}
                     data={evaluation}
                 />
-            </Container>
-        </Container>
+            </SurgeCardContainer>
+        </SurgeCatalogueContainer>
     );
 }
 

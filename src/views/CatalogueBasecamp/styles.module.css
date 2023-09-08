@@ -1,14 +1,13 @@
 .catalogue-basecamp {
-    padding-top: var(--go-ui-spacing-md);
-
     .content {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-2xl);
+        gap: var(--go-ui-spacing-xl);
+        padding: var(--go-ui-spacing-lg) 0;
 
         .cards {
             display: grid;
-            grid-gap: var(--go-ui-spacing-2xl);
+            grid-gap: var(--go-ui-spacing-md);
             grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 
             @media screen and (max-width: 30rem) {

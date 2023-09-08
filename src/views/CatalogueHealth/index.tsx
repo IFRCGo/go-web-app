@@ -1,9 +1,9 @@
-import Container from '#components/Container';
-import useTranslation from '#hooks/useTranslation';
+import SurgeCardContainer from '#components/domain/SurgeCardContainer';
+import SurgeCatalogueContainer from '#components/domain/SurgeCatalogueContainer';
 import CatalogueInfoCard, { LinkData } from '#components/CatalogueInfoCard';
+import useTranslation from '#hooks/useTranslation';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -191,19 +191,12 @@ export function Component() {
     ];
 
     return (
-        <Container
-            headingLevel={2}
+        <SurgeCatalogueContainer
             heading={strings.catalogueHealthTitle}
-            className={styles.catalogueHealth}
-            childrenContainerClassName={styles.content}
+            description={strings.healthDetails}
         >
-            <div>
-                {strings.healthDetails}
-            </div>
-            <Container
+            <SurgeCardContainer
                 heading={strings.healthRapidResponsePersonnelTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.healthRoleProfiles}
@@ -218,11 +211,9 @@ export function Component() {
                     data={frameworkData}
                     description={strings.technicalCompetencyFrameworkDetails}
                 />
-            </Container>
-            <Container
+            </SurgeCardContainer>
+            <SurgeCardContainer
                 heading={strings.healthServicesTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.cards}
             >
                 <CatalogueInfoCard
                     title={strings.healthServicesEruClinicTitle}
@@ -275,8 +266,8 @@ export function Component() {
                     data={healthPSS}
                     description={strings.healthPSSDetails}
                 />
-            </Container>
-        </Container>
+            </SurgeCardContainer>
+        </SurgeCatalogueContainer>
     );
 }
 
