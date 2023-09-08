@@ -1,16 +1,11 @@
-import {
-    useState,
-    useMemo,
-    useCallback,
-} from 'react';
-import { isDefined, _cs } from '@togglecorp/fujs';
+import { useMemo } from 'react';
+import { _cs } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import Table from '#components/Table';
 import SelectInput from '#components/SelectInput';
 import Container from '#components/Container';
-import useInputState from '#hooks/useInputState';
 import {
     createStringColumn,
     createNumberColumn,
@@ -18,11 +13,12 @@ import {
     createLinkColumn,
     createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import useFilterState from '#hooks/useFilterState';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -62,8 +58,22 @@ function AppealsTable(props: Props) {
         variant,
     } = props;
 
-    const sortState = useSortState();
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+        filter,
+        filtered,
+        setFilterField,
+    } = useFilterState<{
+        appeal?: AppealTypeOption['key'],
+        displacement?: number,
+    }>(
+        {},
+        undefined,
+    );
+
     const strings = useTranslation(i18n);
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
     //
@@ -138,22 +148,14 @@ function AppealsTable(props: Props) {
         [strings],
     );
 
-    // FIXME: clear appealType and displacementType when filter is changed
-    const [filterAppeal, setFilterAppeal] = useInputState<AppealTypeOption['key'] | undefined>(undefined);
-    const [
-        filterDisplacement,
-        setFilterDisplacement,
-    ] = useInputState<number | undefined>(undefined);
-    const [page, setPage] = useState(1);
-
     const query = useMemo<AppealQueryParams>(
         () => {
             const baseQuery: AppealQueryParams = {
                 limit: PAGE_SIZE,
                 offset: PAGE_SIZE * (page - 1),
-                ordering: getOrdering(sorting),
-                atype: filterAppeal,
-                dtype: filterDisplacement,
+                ordering,
+                atype: filter.appeal,
+                dtype: filter.displacement,
                 end_date__gt: endDate,
             };
 
@@ -166,7 +168,7 @@ function AppealsTable(props: Props) {
                 region: regionId,
             };
         },
-        [variant, regionId, page, sorting, filterAppeal, filterDisplacement],
+        [variant, regionId, page, ordering, filter],
     );
 
     const {
@@ -178,16 +180,6 @@ function AppealsTable(props: Props) {
         query,
     });
 
-    const handleAppealTypeChange = useCallback((value: AppealTypeOption['key'] | undefined) => {
-        setFilterAppeal(value);
-        setPage(1);
-    }, [setFilterAppeal]);
-
-    const handleDisplacementTypeChange = useCallback((value: number | undefined) => {
-        setFilterDisplacement(value);
-        setPage(1);
-    }, [setFilterDisplacement]);
-
     return (
         <Container
             className={_cs(styles.appealsTable, className)}
@@ -197,9 +189,9 @@ function AppealsTable(props: Props) {
                     <SelectInput
                         placeholder={strings.appealsTableFilterTypePlaceholder}
                         label={strings.appealsTableType}
-                        name={undefined}
-                        value={filterAppeal}
-                        onChange={handleAppealTypeChange}
+                        name="appeal"
+                        value={filter.appeal}
+                        onChange={setFilterField}
                         keySelector={appealTypeKeySelector}
                         labelSelector={appealTypeLabelSelector}
                         options={appealTypeOptions}
@@ -207,9 +199,9 @@ function AppealsTable(props: Props) {
                     <DisasterTypeSelectInput
                         placeholder={strings.appealsTableFilterDisastersPlaceholder}
                         label={strings.appealsTableDisastertype}
-                        name={undefined}
-                        value={filterDisplacement}
-                        onChange={handleDisplacementTypeChange}
+                        name="displacement"
+                        value={filter.displacement}
+                        onChange={setFilterField}
                     />
                 </>
             )}
@@ -225,7 +217,7 @@ function AppealsTable(props: Props) {
             <SortContext.Provider value={sortState}>
                 <Table
                     pending={appealsPending}
-                    filtered={isDefined(filterDisplacement) || isDefined(filterAppeal)}
+                    filtered={filtered}
                     className={styles.table}
                     columns={columns}
                     keySelector={appealKeySelector}
