@@ -28,7 +28,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.emergencyClinicTitle}
-            goBackFallbackLink="catalogueHealth"
+            goBackFallbackLink="surgeCatalogueHealth"
             imageList={imageList}
         >
             <SurgeContentContainer

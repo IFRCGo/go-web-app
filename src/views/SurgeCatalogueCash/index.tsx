@@ -12,7 +12,7 @@ export function Component() {
     const cvaServicesData: LinkData[] = [
         {
             title: strings.cvaServicesLinkTitle,
-            to: 'cashAndVoucherAssistance',
+            to: 'surgeCatalogueCashRapidResponse',
             withForwardIcon: true,
         },
     ];

@@ -12,7 +12,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.basecampFacilityManagementTitle}
-            goBackFallbackLink="catalogueBasecamp"
+            goBackFallbackLink="surgeCatalogueBasecamp"
         >
             <SurgeContentContainer
                 heading={strings.emergencyServices}

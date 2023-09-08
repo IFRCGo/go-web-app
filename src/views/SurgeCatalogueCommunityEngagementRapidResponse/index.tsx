@@ -40,7 +40,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.communityEngagementTitle}
-            goBackFallbackLink="catalogueCommunityEngagement"
+            goBackFallbackLink="surgeCatalogueCommunityEngagement"
             imageList={imageList}
         >
             <SurgeContentContainer

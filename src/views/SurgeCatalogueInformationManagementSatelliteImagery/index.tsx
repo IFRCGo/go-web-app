@@ -14,7 +14,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.satelliteImageryTitle}
-            goBackFallbackLink="catalogueInformationManagement"
+            goBackFallbackLink="surgeCatalogueInformationManagement"
         >
             <div>{strings.satelliteImageryTextOne}</div>
             <div>{strings.satelliteImageryTextTwo}</div>

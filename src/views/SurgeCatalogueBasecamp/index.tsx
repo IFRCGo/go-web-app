@@ -12,7 +12,7 @@ export function Component() {
     const eruSmall: LinkData[] = [
         {
             title: strings.basecampEruSmallTitle,
-            to: 'basecampEruSmall',
+            to: 'surgeCatalogueBasecampEruSmall',
             withForwardIcon: true,
         },
     ];
@@ -20,7 +20,7 @@ export function Component() {
     const eruMedium: LinkData[] = [
         {
             title: strings.basecampEruMediumTitle,
-            to: 'basecampEruMedium',
+            to: 'surgeCatalogueBasecampEruMedium',
             withForwardIcon: true,
         },
     ];
@@ -28,7 +28,7 @@ export function Component() {
     const eruLarge: LinkData[] = [
         {
             title: strings.basecampEruLargeTitle,
-            to: 'basecampEruLarge',
+            to: 'surgeCatalogueBasecampEruLarge',
             withForwardIcon: true,
         },
     ];
@@ -36,7 +36,7 @@ export function Component() {
     const facilityManagement: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'basecampFacilityManagement',
+            to: 'surgeCatalogueBasecampFacilityManagement',
             withForwardIcon: true,
         },
     ];

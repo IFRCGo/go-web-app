@@ -60,7 +60,7 @@ export function Component() {
     const ceaServicesData: LinkData[] = [
         {
             title: strings.ceaTitle,
-            to: 'communityEngagement',
+            to: 'surgeCatalogueCommunityEngagementRapidResponse',
             withForwardIcon: true,
         },
     ];

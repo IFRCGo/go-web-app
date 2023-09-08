@@ -14,7 +14,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.washM15}
-            goBackFallbackLink="catalogueWater"
+            goBackFallbackLink="surgeCatalogueWash"
         >
             <SurgeContentContainer
                 heading={strings.washCapacity}

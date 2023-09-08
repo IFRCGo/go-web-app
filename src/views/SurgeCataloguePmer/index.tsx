@@ -27,7 +27,7 @@ export function Component() {
     const services: LinkData[] = [
         {
             title: strings.cataloguePMEREPoA,
-            to: 'catalogueEPOA',
+            to: 'surgeCataloguePmerEmergencyPlanAction',
             withForwardIcon: true,
         },
     ];
@@ -35,7 +35,7 @@ export function Component() {
     const evaluation: LinkData[] = [
         {
             title: strings.cataloguePMERRTE,
-            to: 'catalogueRTE',
+            to: 'surgeCataloguePmerRealTimeEvaluation',
             withForwardIcon: true,
         },
     ];

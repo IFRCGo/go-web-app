@@ -51,7 +51,7 @@ export function Component() {
     const servicesData: LinkData[] = [
         {
             title: strings.catalogueOperationLearnMore,
-            to: 'emergencyOperations',
+            to: 'surgeCatalogueOperationManagementHeops',
             withForwardIcon: true,
         },
     ];

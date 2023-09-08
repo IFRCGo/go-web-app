@@ -21,7 +21,7 @@ export function Component() {
     const reliefEmergency: LinkData[] = [
         {
             title: strings.eruReliefTitle,
-            to: 'catalogueERURelief',
+            to: 'surgeCatalogueReliefEru',
             withForwardIcon: true,
         },
     ];

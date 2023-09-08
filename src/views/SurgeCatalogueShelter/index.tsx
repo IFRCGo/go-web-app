@@ -48,7 +48,7 @@ export function Component() {
     const catalogueServiceShelter: LinkData[] = [
         {
             title: strings.catalogueServiceShelterLink,
-            to: 'shelterCoordinator',
+            to: 'surgeCatalogueShelterCoordinatorTeam',
             withForwardIcon: true,
         },
     ];
@@ -56,7 +56,7 @@ export function Component() {
     const catalogueServiceCoordinator: LinkData[] = [
         {
             title: strings.catalogueShelterProgrammingLink,
-            to: 'shelterTechnical',
+            to: 'surgeCatalogueShelterTechnicalTeam',
             withForwardIcon: true,
         },
     ];

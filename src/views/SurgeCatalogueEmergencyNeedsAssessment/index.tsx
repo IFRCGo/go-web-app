@@ -50,7 +50,7 @@ export function Component() {
     const assessmentCellInfo: LinkData[] = useMemo(() => ([
         {
             title: strings.assessmentCell,
-            to: 'assessmentCell',
+            to: 'surgeCatalogueEmergencyNeedsAssessmentCell',
             withForwardIcon: true,
         },
     ]), [strings]);

@@ -14,7 +14,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.logisticsNSTitle}
-            goBackFallbackLink="catalogueLogistics"
+            goBackFallbackLink="surgeCatalogueLogistics"
         >
             <SurgeContentContainer
                 heading={strings.logisticsNSCapacity}

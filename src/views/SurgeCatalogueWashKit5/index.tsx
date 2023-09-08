@@ -13,7 +13,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.washKit5Title}
-            goBackFallbackLink="catalogueWater"
+            goBackFallbackLink="surgeCatalogueWash"
         >
             <Image
                 src="https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/wash-kit5_01.jpg"

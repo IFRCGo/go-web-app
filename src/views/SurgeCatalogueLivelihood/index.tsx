@@ -27,7 +27,7 @@ export function Component() {
     const emergencyResponseData: LinkData[] = [
         {
             title: strings.catalogueLivelihoodLearnMore,
-            to: 'livelihoodServices',
+            to: 'surgeCatalogueLivelihoodServices',
             withForwardIcon: true,
         },
     ];

@@ -86,7 +86,7 @@ export function Component() {
     const satelliteData: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'informationManagementSatelliteImagery',
+            to: 'surgeCatalogueInformationManagementSatelliteImagery',
             withForwardIcon: true,
         },
     ];
@@ -94,7 +94,7 @@ export function Component() {
     const roleData: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'informationManagementRoles',
+            to: 'surgeCatalogueInformationManagementRolesResponsibility',
             withForwardIcon: true,
         },
     ];
@@ -102,7 +102,7 @@ export function Component() {
     const ifrcRegionalData: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'informationManagementSupport',
+            to: 'surgeCatalogueInformationManagementSupport',
             withForwardIcon: true,
         },
     ];
@@ -110,7 +110,7 @@ export function Component() {
     const ifrcGenevaData: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'informationManagementOperationsSupport',
+            to: 'surgeCatalogueInformationManagementOperationSupport',
             withForwardIcon: true,
         },
     ];
@@ -118,7 +118,7 @@ export function Component() {
     const compositionData: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'informationManagementComposition',
+            to: 'surgeCatalogueInformationManagementComposition',
             withForwardIcon: true,
         },
     ];

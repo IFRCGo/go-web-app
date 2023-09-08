@@ -37,124 +37,124 @@ export function Component() {
                 variant="vertical"
             >
                 <NavigationTab
-                    to="catalogueOverview"
+                    to="surgeCatalogueOverview"
                 >
                     {strings.catalogueServiceOverview}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueEmergency"
+                    to="surgeCatalogueEmergencyNeedsAssessment"
                     parentRoute
                 >
                     <CoordinatedAssessementIcon className={styles.icon} />
                     {strings.catalogueEmergency}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueBasecamp"
+                    to="surgeCatalogueBasecamp"
                     parentRoute
                 >
                     <BasecampIcon className={styles.icon} />
                     {strings.catalogueBasecamp}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueCash"
+                    to="surgeCatalogueCash"
                     parentRoute
                 >
                     <CashTransferIcon className={styles.icon} />
                     {strings.catalogueCash}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueCommunityEngagement"
+                    to="surgeCatalogueCommunityEngagement"
                     parentRoute
                 >
                     <PartnershipIcon className={styles.icon} />
                     {strings.catalogueCommunityEngagement}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueCommunication"
+                    to="surgeCatalogueCommunication"
                     parentRoute
                 >
                     <PublicInformationIcon className={styles.icon} />
                     {strings.catalogueCommunication}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueHealth"
+                    to="surgeCatalogueHealth"
                     parentRoute
                 >
                     <HealthIcon className={styles.icon} />
                     {strings.catalogueHealth}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueInformationManagement"
+                    to="surgeCatalogueHealthEruClinic"
                     parentRoute
                 >
                     <AnalysisIcon className={styles.icon} />
                     {strings.catalogueInformationManagement}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueInformationTechnology"
+                    to="surgeCatalogueInformationTechnology"
                     parentRoute
                 >
                     <EmergencyTelecommunicationsIcon className={styles.icon} />
                     {strings.catalogueInformationTechnologyTelecom}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueLivelihood"
+                    to="surgeCatalogueLivelihood"
                     parentRoute
                 >
                     <LivelihoodIcon className={styles.icon} />
                     {strings.catalogueLivelihoodsAndBasicNeeds}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueLogistics"
+                    to="surgeCatalogueLogistics"
                     parentRoute
                 >
                     <LogisticsIcon className={styles.icon} />
                     {strings.catalogueLogistics}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueOperations"
+                    to="surgeCatalogueOperationsManagement"
                     parentRoute
                 >
                     <GroupIcon className={styles.icon} />
                     {strings.catalogueOperations}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueProtection"
+                    to="surgeCataloguePgi"
                     parentRoute
                 >
                     <ProtectionIcon className={styles.icon} />
                     {strings.catalogueProtection}
                 </NavigationTab>
                 <NavigationTab
-                    to="cataloguePMER"
+                    to="surgeCataloguePmer"
                     parentRoute
                 >
                     <MonitoringIcon className={styles.icon} />
                     {strings.cataloguePMER}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueShelter"
+                    to="surgeCatalogueShelter"
                     parentRoute
                 >
                     <ShelterIcon className={styles.icon} />
                     {strings.catalogueShelter}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueWater"
+                    to="surgeCatalogueWash"
                     parentRoute
                 >
                     <WaterSanitationAndHygieneIcon className={styles.icon} />
                     {strings.catalogueWater}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueRelief"
+                    to="surgeCatalogueRelief"
                     parentRoute
                 >
                     <NonFoodItemsIcon className={styles.icon} />
                     {strings.catalogueRelief}
                 </NavigationTab>
                 <NavigationTab
-                    to="catalogueSecurity"
+                    to="surgeCatalogueSecurity"
                     parentRoute
                 >
                     <SafetyAndSecurityIcon className={styles.icon} />

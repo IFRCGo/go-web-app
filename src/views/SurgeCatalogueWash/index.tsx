@@ -48,7 +48,7 @@ export function Component() {
     const equipmentKit1Data: LinkData[] = [
         {
             title: strings.technicalEquipmentOneLink,
-            to: 'washKit2',
+            to: 'surgeCatalogueWashKit2',
             withForwardIcon: true,
         },
     ];
@@ -56,7 +56,7 @@ export function Component() {
     const equipmentKit5Data: LinkData[] = [
         {
             title: strings.technicalEquipmentFive,
-            to: 'washKit5',
+            to: 'surgeCatalogueWashKit5',
             withForwardIcon: true,
         },
     ];
@@ -64,7 +64,7 @@ export function Component() {
     const equipmentM15Data: LinkData[] = [
         {
             title: strings.technicalEquipmentM15Link,
-            to: 'washM15',
+            to: 'surgeCatalogueWashKitM15Eru',
             withForwardIcon: true,
         },
     ];
@@ -72,7 +72,7 @@ export function Component() {
     const equipmentM20Data: LinkData[] = [
         {
             title: strings.technicalEquipmentM20Link,
-            to: 'washM20',
+            to: 'surgeCatalogueWashKitMsm20Eru',
             withForwardIcon: true,
         },
     ];
@@ -80,7 +80,7 @@ export function Component() {
     const equipmentM40Data: LinkData[] = [
         {
             title: strings.technicalEquipmentM40Link,
-            to: 'washM40',
+            to: 'surgeCatalogueWashKitM40Eru',
             withForwardIcon: true,
         },
     ];
@@ -88,7 +88,7 @@ export function Component() {
     const equipmentSupplyData: LinkData[] = [
         {
             title: strings.technicalEquipmentWaterSupplyLink,
-            to: 'waterSupply',
+            to: 'surgeCatalogueWashWaterSupplyRehabilitation',
             withForwardIcon: true,
         },
     ];
@@ -96,7 +96,7 @@ export function Component() {
     const equipmentTreatmentData: LinkData[] = [
         {
             title: strings.technicalEquipmentWaterTreatmentLink,
-            to: 'waterTreatment',
+            to: 'surgeCatalogueWashHwts',
             withForwardIcon: true,
         },
     ];

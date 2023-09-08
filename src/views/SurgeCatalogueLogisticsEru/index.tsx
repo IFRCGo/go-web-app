@@ -59,7 +59,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.logisticsEruTitle}
-            goBackFallbackLink="catalogueLogistics"
+            goBackFallbackLink="surgeCatalogueLogistics"
             imageList={imageList}
         >
             <SurgeContentContainer

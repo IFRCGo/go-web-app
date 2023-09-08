@@ -36,7 +36,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.basecampEruSmallTitle}
-            goBackFallbackLink="catalogueBasecamp"
+            goBackFallbackLink="surgeCatalogueBasecamp"
             imageList={imageList}
         >
             <SurgeContentContainer

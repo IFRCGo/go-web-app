@@ -52,7 +52,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.washM15}
-            goBackFallbackLink="catalogueWater"
+            goBackFallbackLink="surgeCatalogueWash"
             imageList={imageList}
         >
             <SurgeContentContainer

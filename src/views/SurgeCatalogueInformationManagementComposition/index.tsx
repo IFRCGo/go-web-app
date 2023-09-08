@@ -12,7 +12,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.iMCompositionTitle}
-            goBackFallbackLink="catalogueInformationManagement"
+            goBackFallbackLink="surgeCatalogueInformationManagement"
         >
             <div>{strings.iMCompositionDetail}</div>
             <ul>

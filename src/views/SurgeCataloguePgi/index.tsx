@@ -36,7 +36,7 @@ export function Component() {
     const rapidResponseData: LinkData[] = [
         {
             title: strings.catalogueProtectionGender,
-            to: 'protectionGender',
+            to: 'surgeCataloguePgiServices',
             withForwardIcon: true,
         },
     ];

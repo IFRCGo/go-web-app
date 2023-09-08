@@ -12,7 +12,7 @@ export function Component() {
     const clinic: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthEruClinic',
+            to: 'surgeCatalogueHealthEruClinic',
             withForwardIcon: true,
         },
     ];
@@ -20,7 +20,7 @@ export function Component() {
     const hospital: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthEruHospital',
+            to: 'surgeCatalogueHealthEruHospital',
             withForwardIcon: true,
         },
     ];
@@ -28,7 +28,7 @@ export function Component() {
     const surgical: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthSurgical',
+            to: 'surgeCatalogueHealthEruSurgical',
             withForwardIcon: true,
         },
     ];
@@ -36,7 +36,7 @@ export function Component() {
     const maternalNewbornClinic: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthMaternalNewbornClinic',
+            to: 'surgeCatalogueHealthMaternalNewbornClinic',
             withForwardIcon: true,
         },
     ];
@@ -44,7 +44,7 @@ export function Component() {
     const emergencyClinic: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthEmergencyClinic',
+            to: 'surgeCatalogueHealthEmergencyClinic',
             withForwardIcon: true,
         },
     ];
@@ -52,7 +52,7 @@ export function Component() {
     const emergencyChloreaTreatment: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthEmergencyChloreaTreatment',
+            to: 'surgeCatalogueHealthEruChloreaTreatment',
             withForwardIcon: true,
         },
     ];
@@ -60,7 +60,7 @@ export function Component() {
     const healthCCMC: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthCCMC',
+            to: 'surgeCatalogueHealthCommunityCaseManagementChlorea',
             withForwardIcon: true,
         },
     ];
@@ -68,7 +68,7 @@ export function Component() {
     const healthCBS: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthCBS',
+            to: 'surgeCatalogueHealthCommunityBasedSurveillance',
             withForwardIcon: true,
         },
     ];
@@ -76,7 +76,7 @@ export function Component() {
     const healthBurials: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthBurials',
+            to: 'surgeCatalogueHealthSafeDignifiedBurials',
             withForwardIcon: true,
         },
     ];
@@ -84,7 +84,7 @@ export function Component() {
     const healthCCMM: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthCCMM',
+            to: 'surgeCatalogueHealthCommunityManagementMalnutrition',
             withForwardIcon: true,
         },
     ];
@@ -92,7 +92,7 @@ export function Component() {
     const healthPSS: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'healthPSS',
+            to: 'surgeCatalogueHealthEruPsychosocialSupport',
             withForwardIcon: true,
         },
     ];

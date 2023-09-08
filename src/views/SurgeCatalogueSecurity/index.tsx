@@ -36,7 +36,7 @@ export function Component() {
     const securityRapidResponse: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'securityManagement',
+            to: 'surgeCatalogueSecurityManagement',
             withForwardIcon: true,
         },
     ];

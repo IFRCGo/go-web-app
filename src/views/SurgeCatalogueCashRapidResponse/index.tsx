@@ -40,7 +40,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.cashAndVoucherAssistanceTitle}
-            goBackFallbackLink="catalogueCash"
+            goBackFallbackLink="surgeCatalogueCash"
             imageList={imageList}
         >
             <SurgeContentContainer

@@ -32,7 +32,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.communicationErtOneTitle}
-            goBackFallbackLink="catalogueCommunication"
+            goBackFallbackLink="surgeCatalogueCommunication"
             imageList={imageList}
         >
             <SurgeContentContainer

@@ -11,7 +11,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.iMRolesTitle}
-            goBackFallbackLink="catalogueInformationManagement"
+            goBackFallbackLink="surgeCatalogueInformationManagement"
             description={strings.iMRolesDetail}
         >
             <SurgeContentContainer

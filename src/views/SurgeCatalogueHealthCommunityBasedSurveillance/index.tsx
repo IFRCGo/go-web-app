@@ -13,7 +13,7 @@ export function Component() {
     return (
         <SurgeCatalogueContainer
             heading={strings.communityBasedTitle}
-            goBackFallbackLink="catalogueHealth"
+            goBackFallbackLink="surgeCatalogueHealth"
         >
             <SurgeContentContainer
                 heading={strings.communityBasedCapacity}

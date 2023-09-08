@@ -12,7 +12,7 @@ export function Component() {
     const certOne: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'communicationErtOne',
+            to: 'surgeCatalogueCommunicationErtOne',
             withForwardIcon: true,
         },
     ];
@@ -20,7 +20,7 @@ export function Component() {
     const certTwo: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'communicationErtTwo',
+            to: 'surgeCatalogueCommunicationErtTwo',
             withForwardIcon: true,
         },
     ];
@@ -28,7 +28,7 @@ export function Component() {
     const certThree: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'communicationErtThree',
+            to: 'surgeCatalogueCommunicationErtThree',
             withForwardIcon: true,
         },
     ];

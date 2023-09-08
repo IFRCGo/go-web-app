@@ -92,7 +92,7 @@ export function Component() {
     const emergencyResponseData: LinkData[] = [
         {
             title: strings.catalogueLogisticsLogistic,
-            to: 'logisticsEmergency',
+            to: 'surgeCatalogueLogisticsEru',
             withForwardIcon: true,
         },
     ];
@@ -100,7 +100,7 @@ export function Component() {
     const nationalSocieties: LinkData[] = [
         {
             title: strings.catalogueLogisticsNS,
-            to: 'logisticsNationalSocieties',
+            to: 'surgeCatalogueLogisticsLpscmNs',
             withForwardIcon: true,
         },
     ];
