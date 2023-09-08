@@ -7,6 +7,7 @@ import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import Table from '#components/Table';
+import Link from '#components/Link';
 import {
     createStringColumn,
     createDateColumn,
@@ -157,6 +158,15 @@ export default function SurgeTable(props: Props) {
         <Container
             heading={strings.surgeAlertHeading}
             withHeaderBorder
+            actions={(
+                <Link
+                    to="allSurgeAlerts"
+                    withForwardIcon
+                    withUnderline
+                >
+                    {strings.surgeAlertsViewAll}
+                </Link>
+            )}
             footerActions={(
                 <Pager
                     activePage={projectActivePage}

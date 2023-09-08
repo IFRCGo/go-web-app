@@ -26,6 +26,7 @@ import {
     createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
 import Table from '#components/Table';
+import Link from '#components/Link';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { numericIdSelector } from '#utils/selectors';
 
@@ -152,6 +153,15 @@ export default function DeployedErusTable(props: Props) {
         <Container
             heading={containerHeading}
             withHeaderBorder
+            actions={(
+                <Link
+                    to="allDeployedEmergencyResponseUnits"
+                    withForwardIcon
+                    withUnderline
+                >
+                    {strings.deployedErusViewAll}
+                </Link>
+            )}
             footerActions={(
                 <Pager
                     activePage={page}

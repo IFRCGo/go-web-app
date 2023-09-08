@@ -1,5 +1,5 @@
 {
-    "namespace": "deployedErusTable",
+    "namespace": "emergencySurge",
     "strings": {
         "containerHeading": "Deployed Erus ({count})",
         "eruTableName": "Owner",
@@ -7,6 +7,7 @@
         "eruTablePersonnel": "Personnel Units",
         "eruTableEquipment":"Equipments Units",
         "eruTableCountry": "Country Deployed To",
-        "eruTableEmergency": "Emergency"
+        "eruTableEmergency": "Emergency",
+        "deployedErusViewAll": "View All Deployed ERUs"
     }
 }

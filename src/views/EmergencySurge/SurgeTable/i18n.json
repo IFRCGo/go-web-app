@@ -1,5 +1,5 @@
 {
-    "namespace": "surgeTable",
+    "namespace": "emergencySurge",
     "strings": {
         "surgeAlertHeading": "Open Surge Alerts",
         "surgeAlertDate": "Alert Date",
@@ -12,6 +12,7 @@
         "surgeAlertStatus": "Status",
         "surgeAlertOpen": "Open",
         "surgeAlertClosed": "Closed",
-        "surgeAlertStoodDown": "Stood down"
+        "surgeAlertStoodDown": "Stood down",
+        "surgeAlertsViewAll": "View All Surge Alerts"
     }
 }

@@ -26,6 +26,7 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/deployment/aggregated',
         preserveResponse: true,
+        // FIXME: fix typings in server (low priority)
         query: {
             event: Number(emergencyId),
         } as never,

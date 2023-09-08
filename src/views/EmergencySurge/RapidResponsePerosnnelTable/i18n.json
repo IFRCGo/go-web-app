@@ -1,5 +1,5 @@
 {
-    "namespace": "rapidResponsePersonnelTable",
+    "namespace": "emergencySurge",
     "strings": {
         "rapidResponseTitle": "Rapid Response Personnel",
         "rapidResponse": "Rapid Response",
@@ -8,6 +8,7 @@
         "personnelTableName": "Name",
         "personnelTablePosition": "Position",
         "personnelTableType": "Type",
-        "personnelTableDeployedTo": "Deploying To"
+        "personnelTableDeployedTo": "Deploying To",
+        "deployedPersonnelViewAll": "View All Deployed Personnel"
     }
 }

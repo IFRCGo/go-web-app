@@ -21,6 +21,7 @@ import {
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
 import Table from '#components/Table';
+import Link from '#components/Link';
 import { numericIdSelector } from '#utils/selectors';
 
 import i18n from './i18n.json';
@@ -114,6 +115,15 @@ export default function RapidResponsePersonnelTable(props: Props) {
         <Container
             heading={strings.rapidResponseTitle}
             withHeaderBorder
+            actions={(
+                <Link
+                    to="allDeployedPersonnel"
+                    withForwardIcon
+                    withUnderline
+                >
+                    {strings.deployedPersonnelViewAll}
+                </Link>
+            )}
             footerActions={(
                 <Pager
                     activePage={page}
