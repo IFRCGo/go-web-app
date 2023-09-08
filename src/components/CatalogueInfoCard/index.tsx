@@ -63,7 +63,7 @@ function CatalogueInfoCard(props: Props) {
             withInternalPadding
             headerDescriptionContainerClassName={descriptionClassName}
             headerDescription={description}
-            spacing="relaxed"
+            spacing="comfortable"
         >
             <List
                 className={styles.list}

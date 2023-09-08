@@ -1,18 +1,15 @@
 .radio {
     --cursor: default;
-    display: flex;
-    align-items: flex-start;
-    gap: var(--go-ui-spacing-sm);
     cursor: var(--cursor);
 
     .icon {
         transition: var(--go-ui-duration-transition-medium) color ease-in-out;
-        font-size: 1.3em;
+        font-size: var(--go-ui-font-size-icon-multiplier);
     }
 
     .description {
         color: var(--go-ui-color-text-light);
-        font-size: var(--go-ui-font-size-xs);
+        font-size: var(--go-ui-font-size-sm);
     }
 
     .input {

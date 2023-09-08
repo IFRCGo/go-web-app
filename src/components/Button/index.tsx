@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 
-import type { Props as LayoutProps } from '#hooks/useBasicLayout';
+import { SpacingType } from '#components/types';
 import useBasicLayout from '#hooks/useBasicLayout';
 import RawButton, { Props as RawButtonProps } from '#components/RawButton';
 import styles from './styles.module.css';
@@ -17,12 +17,12 @@ const buttonVariantToClassNameMap: Record<ButtonVariant, string> = {
     'dropdown-item': styles.dropdownItem,
 };
 
-type SpacingType = NonNullable<LayoutProps['spacing']>;
-
 const spacingTypeToClassNameMap: Record<SpacingType, string> = {
     none: styles.noSpacing,
+    condensed: styles.condensedSpacing,
     compact: styles.compactSpacing,
     cozy: styles.cozySpacing,
+    default: styles.defaultSpacing,
     comfortable: styles.comfortableSpacing,
     relaxed: styles.relaxedSpacing,
     loose: styles.looseSpacing,
@@ -53,7 +53,7 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
         icons,
         iconsContainerClassName: iconsClassName,
         variant = 'primary',
-        spacing = 'compact',
+        spacing = 'default',
     } = props;
 
     const buttonClassName = _cs(

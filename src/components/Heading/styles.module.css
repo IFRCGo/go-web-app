@@ -1,6 +1,6 @@
 .heading {
     --font-size: var(--go-ui-font-size-xl);
-    --line-height: var(--go-ui-line-height-snug);
+    --line-height: var(--go-ui-line-height-sm);
     display: flex;
     margin: 0;
     font-size: var(--font-size);
@@ -17,7 +17,7 @@
 
     &.level-two {
         --font-size: var(--go-ui-font-size-2xl);
-        --line-height: var(--go-ui-line-height-tight);
+        --line-height: var(--go-ui-line-height-xs);
 
         @media print {
             color: var(--go-ui-color-primary-blue);
@@ -26,7 +26,7 @@
 
     &.level-three {
         --font-size: var(--go-ui-font-size-xl);
-        --line-height: var(--go-ui-line-height-snug);
+        --line-height: var(--go-ui-line-height-sm);
 
         @media print {
             color: var(--go-ui-color-primary-red);
@@ -35,16 +35,16 @@
 
     &.level-four {
         --font-size: var(--go-ui-font-size-lg);
-        --line-height: var(--go-ui-line-height-medium);
+        --line-height: var(--go-ui-line-height-md);
     }
 
     &.level-five {
         --font-size: var(--go-ui-font-size-md);
-        --line-height: var(--go-ui-line-height-medium);
+        --line-height: var(--go-ui-line-height-md);
     }
 
     &.level-six {
         --font-size: var(--go-ui-font-size-sm);
-        --line-height: var(--go-ui-line-height-medium);
+        --line-height: var(--go-ui-line-height-md);
     }
 }

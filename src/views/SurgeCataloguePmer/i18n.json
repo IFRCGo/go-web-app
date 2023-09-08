@@ -1,0 +1,16 @@
+{
+    "namespace": "surgeCataloguePmer",
+    "strings": {
+        "cataloguePMERTitle": "Planning, Monitoring, Evaluation And Reporting (PMER)",
+        "cataloguePMERDetail": "PMER focuses on providing technical support and expertise across the operational and programme management cycle. It works together with Emergency Needs Assessment (ENA), Information Management (IM) and Community Engagement and Accountability (CEA) approaches and teams on the ground to ensure that information from community level needs assessment informs IFRC’s operational planning, robust monitoring frameworks, and regular, quality reports. PMER also carries out the relevant reviews and evaluations to meet accountability standards and improve operational learning for the future. PMER teams also provide capacity building in these quality programming skills to member National Societies involved in an operational responses where needed.",
+        "cataloguePMERRapidHeading": "Rapid Response Personnel",
+        "cataloguePMERRoleHeading": "Role Profiles",
+        "cataloguePMERCoordinator": "PMER Coordinator",
+        "cataloguePMEROfficer": "PMER Officer",
+        "cataloguePMERServicesHeading": "Services",
+        "cataloguePMERPlanningHeading": "Planning, reporting and monitoring",
+        "cataloguePMEREPoA": "Emergency Plan of Action (EPoA) Monitoring & Evaluation Plan",
+        "cataloguePMEREvaluation": "Evaluation",
+        "cataloguePMERRTE": "Real Time Evaluation (RTE) and guidance"
+    }
+}

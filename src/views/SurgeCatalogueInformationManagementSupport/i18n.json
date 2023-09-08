@@ -1,0 +1,26 @@
+{
+    "namespace": "surgeCatalogueInformationManagementSupport",
+    "strings": {
+        "iMSupportTitle": "IFRC Regional Office IM Support For Operations",
+        "iMSupportDetail": "The Regional Office IM Coordinator supports IFRC and NS operations through:",
+        "iMSituational": "Situational awareness through data collection, consolidation and analysis",
+        "iMSituationalItemOne": "Provide remote IM support to ongoing operations, typically including survey design, data visualisation and mapping",
+        "iMSituationalItemTwo": "Secondary data review to support analysis of current and forecasted priority needs, including through the IFRC Risk Watch process",
+        "iMSituationalItemThree": "Identify operational information gaps and propose means to address and support both managerial and programme levels through providing tools and methods for data collection and analysis, and advise based on the analysis findings",
+        "iMSituationalItemFour": "Maintain regional GO pages and access, including the creation of dashboards and other information products",
+        "iMSituationalItemFive": "Contribute and coordinate NS operational testing and maintenance of the GO platform",
+        "iMSituationalItemSix": "Contribute to PMER tasks through the provision of relevant data and insights",
+        "iMCoordination": "Coordination and strengthening of regional IM capacities for operations",
+        "iMCoordinationItemOne": "Organise and facilitate regional IM training, ad-hoc technical support and other learning opportunities, including data literacy, survey design and humanitarian information analysis, and for specific IM tools, e.g. KoBo (for mobile data collection), GIS, BI dashboard software, and quantitative and qualitative analysis tools",
+        "iMCoordinationItemTwo": "Coordinate and cooperate with regional IM focal points from humanitarian partners to ensure access and sharing of key data and information products",
+        "iMCoordinationItemThree": "Review surge IM applications in RRMS and set up pre- and post-deployment briefings with regional and Geneva IM colleagues to ensure continuous improvement",
+        "iMCoordinationItemFour": "Maintain and develop regional surge IM capacity through network-building and ensuring clear communication and learning pathways for regional IM",
+        "iMCoordinationItemFive": "Research and represent IM needs of NS in regional planning and resource mobilisation processes",
+        "iMCoordinationItemSix": "Ensure coherence and implementation of the IFRC IM strategic direction, including work planning with Regional Office and NS counterparts to ensure the digital transformation of disaster management workflows.",
+        "iMResponsible": "Responsible operational data stewardship",
+        "iMResponsibleItemOne": "Advocate and apply responsible data protection principles across regional operations",
+        "iMResponsibleItemTwo": "Document and archive data and analysis produced for operations",
+        "iMResponsibleItemThree": "Ensure (de)briefing for surge IM and handover and training to enable a smooth transition to NS colleagues post-surge IM deployment.",
+        "iMResponsibleImageAlt": "Responsible Operation"
+   }
+}

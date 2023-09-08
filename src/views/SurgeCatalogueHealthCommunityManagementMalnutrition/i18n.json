@@ -1,0 +1,15 @@
+{
+    "namespace": "surgeCatalogueHealthCommunityManagementMalnutrition",
+    "strings": {
+        "healthCCMMTitle": "Community Case Management Of Malnutrition (CCMM)",
+        "healthCCMMCapacityTitle": "Capacity",
+        "healthCCMMCapacityDetail": "Under development.",
+        "healthCCMMEmergencyServices": "Emergency Services",
+        "healthCCMMEmergencyServicesDetail": "Rapid setup and maintenance of Community Management of Acute Malnutrition (CMAM) programming.",
+        "healthCCMMDesignedFor": "DESIGNED FOR",
+        "healthCCMMDesignedForDetail": "The key objective of a CMAM programme is to reduce mortality and morbidity from acute malnutrition by providing timely diagnosis and effective treatment of acute malnutrition, and through building local capacity (health system and community) in the identification and management of acute malnutrition.",
+        "healthCCMMDesignedSpecification": "Specifications",
+        "healthCCMMNsLabel": "National societies providing this service",
+        "healthCCMMNsValue": "French"
+    }
+}

@@ -1,0 +1,24 @@
+.surge-catalogue-container {
+    .image-list {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-xs);
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+
+        .image {
+            height: 16rem;
+        }
+    }
+
+    .description {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-xl);
+        padding: var(--go-ui-spacing-lg) 0;
+    }
+}

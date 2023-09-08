@@ -6,8 +6,10 @@ import styles from './styles.module.css';
 
 const spacingTypeToClassNameMap: Record<SpacingType, string> = {
     none: styles.noSpacing,
+    condensed: styles.condensed,
     compact: styles.compactSpacing,
     cozy: styles.cozySpacing,
+    default: styles.defaultSpacing,
     comfortable: styles.comfortableSpacing,
     relaxed: styles.relaxedSpacing,
     loose: styles.looseSpacing,
@@ -16,13 +18,16 @@ const spacingTypeToClassNameMap: Record<SpacingType, string> = {
 export interface Props {
     className?: string;
     icons?: React.ReactNode;
-    children: React.ReactNode | null | undefined;
+    children: React.ReactNode;
     actions?: React.ReactNode;
+    description?: React.ReactNode;
     iconsContainerClassName?: string;
     childrenContainerClassName?: string;
     actionsContainerClassName?: string;
     spacing?: SpacingType;
     withoutWrap?: boolean;
+    withPadding?: boolean;
+    variant?: 'default' | 'large';
 }
 
 function useBasicLayout(props: Props) {
@@ -34,14 +39,18 @@ function useBasicLayout(props: Props) {
         iconsContainerClassName,
         childrenContainerClassName,
         actionsContainerClassName,
-        spacing = 'comfortable',
+        spacing = 'default',
         withoutWrap,
+        withPadding,
+        variant = 'default',
     } = props;
 
     const containerClassName = _cs(
         styles.basicLayout,
         spacingTypeToClassNameMap[spacing],
         withoutWrap && styles.noWrap,
+        withPadding && styles.withpadding,
+        variant === 'large' && styles.large,
         className,
     );
 

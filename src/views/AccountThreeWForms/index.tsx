@@ -278,7 +278,7 @@ export function Component(props: Props) {
     );
 
     return (
-        <div className={_cs(styles.threeWList, className)}>
+        <div className={_cs(styles.accountThreeWForms, className)}>
             <Container
                 heading={strings.threeWProjects}
                 withHeaderBorder

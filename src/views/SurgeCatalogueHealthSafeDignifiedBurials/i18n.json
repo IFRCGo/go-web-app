@@ -1,0 +1,33 @@
+{
+    "namespace": "surgeCatalogueHealthSafeDignifiedBurials",
+    "strings": {
+        "safeAndDignifiedBurialsTitle": "Safe And Dignified Burials",
+        "healthBurialsCapacity": "Capacity",
+        "healthBurialsDetail": "Establishment of safe and culturally appropriate approaches to burials for outbreaks of hemorrhagic fevers (e.g. Ebola, Marburg) and other high impact diseases with a significant risk of post-mortem transmission.",
+        "healthBurialsEmergencyServicesTitle": "Emergency Services",
+        "healthBurialsEmergencyServicesDetail": "Design of SDB system, including alert, response and data management, for rapid implementation of SDB programming. Provides training, equipment, logistics, supportive supervision, etc. to ensure safe and functional SDB system.",
+        "healthBurialsPersonnel": "Personnel",
+        "healthBurialsTotalLabel": "Total",
+        "healthBurialsTotalValue": "Typically 5-6 people.",
+        "healthBurialsCompositionLabel": "Composition",
+        "healthBurialsCompositionValue": "Team leader, educator/trainer, logistician, PSS, IPC/WASH, finance/admin.",
+        "healthBurialsStandardComponentsLabel": "Standard Components",
+        "healthBurialsStandardComponentsListItemOne": "SDB training kit (1)",
+        "healthBurialsStandardComponentsListItemTwo": "SDB starter kit (2)",
+        "healthBurialsStandardComponentsListItemThree": "SDB replenishment kit (1)",
+        "healthBurialsStandardComponentsListItemFour": "Bodybags",
+        "healthBurialsStandardComponentsListItemFive": "Digital Data gathering kit",
+        "healthBurialsStandardComponentsListItemSix": "Vehicles x 2 per SDB team",
+        "healthBurialsSpecificationsLabel": "Specifications",
+        "healthBurialsSpecificationsWeightLabel": "Weight",
+        "healthBurialsSpecificationsWeightValue": "approx. 600 kg",
+        "healthBurialsSpecificationsVolumeLabel": "Volume",
+        "healthBurialsSpecificationsVolumeValue": "approx 3.2 CBM",
+        "healthBurialsSpecificationsCostLabel": "Cost (indicative)",
+        "healthBurialsSpecificationsCostValue": "(to be confirmed)",
+        "healthBurialsSpecificationsNsLabel": "National societies providing this service",
+        "healthBurialsSpecificationsNsValue": "Canadian",
+        "healthBurialsVariationLabel": "Variation On Configuration",
+        "healthBurialsVariationDescription": "Number of SDB teams and kits required to be scaled based on population and geography affected by outbreak."
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "namespace": "surgeCatalogueRelief",
+    "strings": {
+        "catalogueReliefTitle": "Relief",
+        "catalogueReliefDescription": "Through the support of the National Societies, the Relief ERU have set up unit to ensures that essential relief goods are delivered to the appropriate beneficiaries rapidly, effectively and in a well coordinated and dignified manner. This ERU carries out tasks related to beneficiary targeting, registration, distribution of relief items and monitoring and evaluation. It also covers emergency operational shelter and, where appropriate, may initiate alternative relief support, such as voucher and cash distributions.",
+        "rapidResponsePersonnelTitle": "Rapid Response Personnel",
+        "reliefTechnicalTitle": "Technical Competency Framework",
+        "reliefTechnicalDescription": "Tiered compentencies describing the knowledge and skills expected of personnel in this sector.",
+        "reliefServicesTitle": "Services",
+        "reliefEmergencyTitle": "Emergency Response Unit",
+        "eruReliefTitle": "ERU Relief"
+    }
+}

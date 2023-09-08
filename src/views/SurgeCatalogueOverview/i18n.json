@@ -1,0 +1,14 @@
+{
+    "namespace": "surgeCatalogueOverview",
+    "strings": {
+        "catalogueServiceTitle": "Catalogue of Surge Services",
+        "rapidResponseAndAssets": "Rapid Response Personnel and Assets",
+        "coreCompetencyFramework": "Core Competency Framework for Surge Personnel",
+        "rapidResponseAndAssetsDetailsTop": "Disasters and crisis can have devastating impacts on individuals and communities. The frequency, complexity and severity of impacts are likely to increase in the future due to factors such as climate change, displacement, conflict, rapid and unplanned urbanization, technological hazards and public health emergencies. At the same time, contexts are becoming more complex; countries experiencing disasters associated with natural hazards may simultaneously be affected by conflict or large-scale displacement. The International Federation of Red Cross and Red Crescent Societies (IFRC) and its member National Red Cross and Red Crescent Societies strive to reduce the impact of disasters. (extracted from DRM IFRC policy)",
+        "rapidResponseAndAssetsDetailsBottom": "In this catalogue of surge services you will find: the role profiles of the rapid response personnel and their technical competencies frameworks, a description of the existing assets including Emergency Response Unit and others, and references to other links for further information.",
+        "coreCompetencyFrameworkLabel": "The Core Competency Framework",
+        "link": "link",
+        "coreCompetencyFrameworkDetailsTop": "{link} for Surge Personnel is applicable to all Rapid Response personnel and is to be used as the underlying tool for an objective and transparent approach to recruitment, selection, performance management and learning and development.",
+        "coreCompetencyFrameworkDetailsBottom": "You can find the list of the Minimum trainings required for IFRC Surge personnel in this {link}. It provides guidance on minimum required courses for current and future Rapid Response personnel."
+    }
+}

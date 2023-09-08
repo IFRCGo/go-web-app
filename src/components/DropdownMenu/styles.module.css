@@ -9,4 +9,5 @@
 .dropdown-content {
     display: flex;
     flex-direction: column;
+    padding: var(--go-ui-spacing-sm) 0;
 }

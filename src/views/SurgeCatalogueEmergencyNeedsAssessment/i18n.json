@@ -1,0 +1,23 @@
+{
+    "namespace": "surgeCatalogueEmergencyNeedsAssessment",
+    "strings": {
+        "catalogueEmergencyTitle": "Emergency Needs Assessment",
+        "emergencyNeedsDetails": "The IFRC and it’s member National Societies has invested all along the years in needs assessment through the design and dissemination of guidelines, multiple learning and training activities, strengthening the network and lessons learned exercises. The needs assessment cell for emergency response, have been built based in the lesson learned from past operations. The assessment cell revised concept and approach have been promoted since 2019 and the National Societies network and IFRC capacity enhancement, should keep progressing from country to global level.",
+        "rapidResponsePersonnelTitle": "Rapid Response Personnel",
+        "rapidResponseRoleProfiles": "Role Profiles",
+        "servicesTitle": "Services",
+        "additionalResourcesTitle": "Additional Resources",
+        "assessmentCoordinator" :"Assessment Coordinator",
+        "informationAnalysisOfficer": "Humanitarian Information Analysis Officer",
+        "primaryDataCollectionOfficer" :"Primary Data Collection Officer",
+        "mappingAndVisualizationOfficer": "Mapping and Visualization Officer",
+        "technicalCompetencyFramework": "Technical Competency Framework",
+        "technicalCompetencyFrameworkDetails": "Tiered compentencies describing the knowledge and skills expected of personnel in this sector.",
+        "technicalCompetencyFrameworkAssesment": "Assessment",
+        "assessmentCell": "Assessment Cell",
+        "assessmentCellDetails": "The members of this team would be deployed in country or remotely, with a broad set of competencies from assessment, coordination, information gathering, management and analysis, GIS, and others.",
+        "assessmentAndPlanning": "Assessment and Planning",
+        "assessmentAndPlanningDetails": "FedNet is the extranet of the IFRC, a platform to collaborate, communicate and inform about the activities of the Federation, its member National Societies and the Secretariat. (requires FedNet login for access)",
+        "fedNet": "FedNet"
+    }
+}

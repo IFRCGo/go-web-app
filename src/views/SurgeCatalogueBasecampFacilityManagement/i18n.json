@@ -1,0 +1,26 @@
+{
+    "namespace": "surgeCatalogueBasecampFacilityManagement",
+    "strings": {
+        "basecampFacilityManagementTitle": "Facility Management",
+        "emergencyServices": "Emergency Services",
+        "designedFor": "Designed For",
+        "personnel": "Personnel",
+        "standardComponents": "Standard Components",
+        "basecampEruEmergencyListItemOne": "Can facilitate all aspects of facility management with a mix of buildings (if available), tents and local equipment.",
+        "basecampEruEmergencyListItemTwo": "Can help locate suitable buildings (empty building, housing complex or a hotel that can be rented) for accommodation or offices and transition it into a field hotel, office area or operation center.",
+        "designedForDetailsSectionOne": "Slow unset disasters.",
+        "designedForDetailsSectionTwo": "Disasters where infrastructure has not been seriously damaged.",
+        "personnelDetails": "Depends on the assignment.",
+        "standardComponentsDetails": "Modules can be taken from the Base Camp modules or purchased locally.",
+        "specifications": "Specifications",
+        "specificationsWeightLabel": "Weight",
+        "specificationsWeightValue": "Varies",
+        "specificationsVolumeLabel": "Volume",
+        "specificationsVolumeValue": "Varies",
+        "specificationsCostLabel": "Cost (Indicative)",
+        "specificationsCostValue": "Varies",
+        "specificationsNationalSocietyLabel": "National societies providing this service",
+        "specificationsNationalSocietyValue": "Danish",
+        "goBack": "Go Back"
+    }
+}
