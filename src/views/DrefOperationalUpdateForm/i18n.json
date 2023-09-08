@@ -19,6 +19,7 @@
         "formLoadErrorTitle": "Failed to load DREF Operational Update",
         "formLoadErrorHelpText": "Please make sure that the operational update with given id exists and you have the permission to view it",
         "formGeneralError": "Please correct all the errors before submission!",
-        "formBackButtonLabel": "Back"
+        "formBackButtonLabel": "Back",
+        "formShareButtonLabel": "Share"
     }
 }

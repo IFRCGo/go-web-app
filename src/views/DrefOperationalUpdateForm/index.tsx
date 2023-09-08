@@ -30,6 +30,7 @@ import NonFieldError from '#components/NonFieldError';
 import Message from '#components/Message';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
+import { type Props as ButtonProps } from '#components/Button';
 import {
     useRequest,
     useLazyRequest,
@@ -37,6 +38,7 @@ import {
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
+import useBooleanState from '#hooks/useBooleanState';
 import { injectClientId, isSimilarArray } from '#utils/common';
 import { transformObjectError } from '#utils/restRequest/error';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
@@ -49,6 +51,7 @@ import {
     TYPE_LOAN,
     type TypeOfDrefEnum,
 } from './common';
+import DrefShareModal from '../AccountDrefApplications/DrefTableActions/DrefShareModal';
 import Overview from './Overview';
 import EventDetail from './EventDetail';
 import Actions from './Actions';
@@ -117,6 +120,10 @@ export function Component() {
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
     >([]);
+    const [showShareModal, {
+        setTrue: setShowShareModalTrue,
+        setFalse: setShowShareModalFalse,
+    }] = useBooleanState(false);
     const lastModifiedAtRef = useRef<string | undefined>();
 
     const {
@@ -505,6 +512,13 @@ export function Component() {
         ],
     );
 
+    const handleShareClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
+        () => {
+            setShowShareModalTrue();
+        },
+        [setShowShareModalTrue],
+    );
+
     const hasAnyWarning = isTruthyString(peopleTargetedWarning)
         || isTruthyString(operationTimeframeWarning)
         || isTruthyString(budgetWarning)
@@ -531,9 +545,17 @@ export function Component() {
         >
             <Page
                 elementRef={formContentRef}
-                className={styles.drefOperationalUpdateForm}
+                className={styles.drefApplicationForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
+                actions={isTruthyString(opsUpdateId) && (
+                    <Button
+                        name={undefined}
+                        onClick={handleShareClick}
+                    >
+                        {strings.formShareButtonLabel}
+                    </Button>
+                )}
                 info={!shouldHideForm && (
                     <TabList className={styles.tabList}>
                         <Tab
@@ -718,6 +740,13 @@ export function Component() {
                         opsUpdateId={+opsUpdateId}
                         onOverwriteButtonClick={handleObsoletePayloadOverwiteButtonClick}
                         onCancelButtonClick={setShowObsoletePayloadModal}
+                    />
+                )}
+                {showShareModal && (
+                    <DrefShareModal
+                        onCancel={setShowShareModalFalse}
+                        onSuccess={setShowShareModalFalse}
+                        drefId={Number(opsUpdateId)}
                     />
                 )}
             </Page>

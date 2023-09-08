@@ -29,6 +29,7 @@ import NonFieldError from '#components/NonFieldError';
 import Message from '#components/Message';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import { type Props as ButtonProps } from '#components/Button';
 import {
     useRequest,
     useLazyRequest,
@@ -36,10 +37,12 @@ import {
 } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
+import useBooleanState from '#hooks/useBooleanState';
 import { injectClientId } from '#utils/common';
 import { transformObjectError } from '#utils/restRequest/error';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 
+import DrefShareModal from '../AccountDrefApplications/DrefTableActions/DrefShareModal';
 import finalReportSchema, {
     type FinalReportRequestBody,
 } from './schema';
@@ -101,6 +104,10 @@ export function Component() {
         setShowObsoletePayloadModal,
     ] = useState(false);
     const currentLanguage = useCurrentLanguage();
+    const [showShareModal, {
+        setTrue: setShowShareModalTrue,
+        setFalse: setShowShareModalFalse,
+    }] = useBooleanState(false);
     const lastModifiedAtRef = useRef<string | undefined>();
 
     const {
@@ -319,6 +326,13 @@ export function Component() {
         setActiveTab(newTab);
     }, []);
 
+    const handleShareClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
+        () => {
+            setShowShareModalTrue();
+        },
+        [setShowShareModalTrue],
+    );
+
     const nextStep = getNextStep(activeTab, 1);
     const prevStep = getNextStep(activeTab, -1);
     const saveFinalReportPending = updateFinalReportPending;
@@ -343,6 +357,14 @@ export function Component() {
                 className={styles.drefFinalReportForm}
                 title={strings.formPageTitle}
                 heading={strings.formPageHeading}
+                actions={isTruthyString(finalReportId) && (
+                    <Button
+                        name={undefined}
+                        onClick={handleShareClick}
+                    >
+                        {strings.formShareButtonLabel}
+                    </Button>
+                )}
                 info={!shouldHideForm && (
                     <TabList className={styles.tabList}>
                         <Tab
@@ -493,6 +515,13 @@ export function Component() {
                         finalReportId={+finalReportId}
                         onOverwriteButtonClick={handleObsoletePayloadOverwiteButtonClick}
                         onCancelButtonClick={setShowObsoletePayloadModal}
+                    />
+                )}
+                {showShareModal && (
+                    <DrefShareModal
+                        onCancel={setShowShareModalFalse}
+                        onSuccess={setShowShareModalFalse}
+                        drefId={Number(finalReportId)}
                     />
                 )}
             </Page>
