@@ -20,14 +20,11 @@ import Link from '#components/Link';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 import SelectInput from '#components/SelectInput';
-import MultiSelectInput from '#components/MultiSelectInput';
 import NumberInput from '#components/NumberInput';
 import BooleanInput from '#components/BooleanInput';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 import {
-    stringNameSelector,
-    numericIdSelector,
     stringValueSelector,
 } from '#utils/selectors';
 import { sumSafe } from '#utils/common';
@@ -36,8 +33,7 @@ import useCountry from '#hooks/domain/useCountry';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
-import DistrictSearchMultiSelectInput,
-{
+import DistrictSearchMultiSelectInput, {
     type DistrictItem,
 } from '#components/domain/DistrictSearchMultiSelectInput';
 import useDisasterType from '#hooks/domain/useDisasterType';
@@ -81,7 +77,6 @@ interface Props {
     setFieldValue: (...entries: EntriesAsList<PartialOpsUpdate>) => void;
     error: Error<PartialOpsUpdate> | undefined;
     disabled?: boolean;
-
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     districtOptions: DistrictItem[] | null | undefined;
@@ -110,19 +105,6 @@ function Overview(props: Props) {
     const countryOptions = useCountry();
 
     const disasterTypes = useDisasterType();
-
-    // FIXME: Use DistrictMultiSearchSelectInput
-    const {
-        pending: districtsResponsePending,
-        response: districtsResponse,
-    } = useRequest({
-        skip: isNotDefined(value?.country),
-        url: '/api/v2/district/',
-        query: {
-            country: value?.country,
-            limit: 100,
-        },
-    });
 
     const handleTypeOfOnsetChange = useCallback((
         typeOfOnset: OnsetTypeOption['key'] | undefined,
