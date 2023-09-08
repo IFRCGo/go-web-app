@@ -19,6 +19,8 @@
         "threeWTablePeopleTargeted": "People Targeted",
         "threeWTablePeopleReached": "Services Provided to People in Need",
         "otherNSProjects": "Projects by Other NS ({count})",
-        "projects": "Projects ({count})"
+        "projects": "Projects ({count})",
+        "programmeType": "Programme Type",
+        "projectStatus": "Project Status"
     }
 }

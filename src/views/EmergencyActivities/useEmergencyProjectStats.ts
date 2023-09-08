@@ -43,7 +43,6 @@ export function getPeopleReachedInActivity(activity: EmergencyProjectActivity) {
         other_unknown_age_count,
     } = activity;
 
-
     if (is_simplified_report === true) {
         return people_count ?? 0;
     }
@@ -85,33 +84,34 @@ export function getPeopleReached(project: EmergencyProject) {
     return peopleReached;
 }
 
-function useProjectStats(
+function useEmergencyProjectStats(
     projectList: EmergencyProject[] = [],
     filteredProjectList: EmergencyProject[] = [],
 ) {
-    const stats =  useMemo(() => {
+    const stats = useMemo(() => {
         const eruList = unique(
-            projectList?.map((p) => p.activity_lead === 'deployed_eru' ? p.deployed_eru : undefined)
-                .filter(isDefined)
+            projectList?.map((p) => (p.activity_lead === 'deployed_eru' ? p.deployed_eru : undefined))
+                .filter(isDefined),
         );
 
         const nsList = unique(
-            projectList?.map((p) => p.activity_lead === 'national_society' ? p.reporting_ns : undefined)
-                .filter(isDefined)
+            projectList?.map((p) => (p.activity_lead === 'national_society' ? p.reporting_ns : undefined))
+                .filter(isDefined),
         );
 
         const sectors = unique(
-            projectList?.map((p) => p.activities?.map(a => a.sector))
+            projectList?.map((p) => p.activities?.map((a) => a.sector))
                 .flat(1)
-                .filter(isDefined)
+                .filter(isDefined),
         );
 
         const sectorList = projectList
             ?.flatMap((project) => unique(
                 project.activities?.map((activity) => activity.sector_details) ?? [],
-                (activity) => activity.id))
+                (activity) => activity.id,
+            ));
 
-        const projectCountListBySector = Object.values(
+        const emergencyProjectCountListBySector = Object.values(
             sectorList.reduce((acc, val) => {
                 const newAcc = { ...acc };
                 if (!acc[val.id]) {
@@ -128,7 +128,7 @@ function useProjectStats(
                 }
 
                 return newAcc;
-            }, {} as Record<number, SectorCount>)
+            }, {} as Record<number, SectorCount>),
         );
 
         const projectCountByStatus = projectList.map((p) => p.status_display).reduce(
@@ -148,8 +148,10 @@ function useProjectStats(
             {} as Record<string, { title: string, count: number }>,
         );
 
-        const districtList = filteredProjectList?.map((p) => p.districts_details.map(d => d.id)).flat(1) ?? [];
-        const projectCountByDistrict = districtList.reduce((acc, val) => {
+        const districtList = filteredProjectList?.flatMap(
+            (p) => p.districts_details.map((d) => d.id),
+        ) ?? [];
+        const emergecyProjectCountByDistrict = districtList.reduce((acc, val) => {
             const newAcc = { ...acc };
             if (!newAcc[val]) {
                 newAcc[val] = 0;
@@ -159,7 +161,7 @@ function useProjectStats(
             return newAcc;
         }, {} as Record<number, number>);
 
-        const sectorGroupedProjectList = filteredProjectList.reduce((acc, val) => {
+        const sectorGroupedEmergencyProjectList = filteredProjectList.reduce((acc, val) => {
             const newAcc = { ...acc };
             val.activities?.forEach((activity) => {
                 if (!newAcc[activity.sector]) {
@@ -169,7 +171,9 @@ function useProjectStats(
                     };
                 }
 
-                const projectIndex = newAcc[activity.sector].projects.findIndex(d => d.id === val.id);
+                const projectIndex = newAcc[activity.sector].projects
+                    .findIndex((d) => d.id === val.id);
+
                 if (projectIndex === -1) {
                     newAcc[activity.sector].projects.push(val);
                 }
@@ -180,24 +184,23 @@ function useProjectStats(
             number, {
                 sectorDetails: SectorDetails;
                 projects: EmergencyProject[];
-            }>
-        );
+            }>);
 
         const peopleReached = sumSafe(projectList.map((p) => getPeopleReached(p)));
 
         return {
+            emergecyProjectCountByDistrict,
+            emergencyProjectCountListBySector,
+            emergencyProjectCountListByStatus: Object.values(projectCountByStatus),
+            peopleReached,
+            sectorGroupedEmergencyProjectList,
             uniqueEruCount: eruList?.length ?? 0,
             uniqueNsCount: nsList?.length ?? 0,
             uniqueSectorCount: sectors?.length ?? 0,
-            projectCountListBySector,
-            projectCountByDistrict,
-            peopleReached,
-            projectCountListByStatus: Object.values(projectCountByStatus),
-            sectorGroupedProjectList,
         };
     }, [projectList, filteredProjectList]);
 
     return stats;
 }
 
-export default useProjectStats;
+export default useEmergencyProjectStats;

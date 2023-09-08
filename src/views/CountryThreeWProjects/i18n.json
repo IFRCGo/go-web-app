@@ -21,6 +21,8 @@
         "threeWTableDisasterType": "Disaster Type",
         "threeWTablePeopleTargeted": "People Targeted",
         "threeWTablePeopleReached": "Services Provided to People in Need",
-        "otherNSProjects": "Projects by Other NS ({count})"
+        "otherNSProjects": "Projects by Other NS ({count})",
+        "programmeType": "Programme Type",
+        "projectStatus": "Project Status"
     }
 }

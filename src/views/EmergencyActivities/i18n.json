@@ -9,6 +9,17 @@
         "activitySectors": "Activity Sectors",
         "uniqueSectorCount": "Sectors",
         "totalActivities": "Total Activities",
-        "activityStatus": "Activity Status"
+        "activityStatus": "Activity Status",
+        "emergencyProjectNationalSociety": "National Society / ERU",
+        "emergencyProjectTitle": "Title",
+        "emergencyProjectStartDate": "Start Date",
+        "emergencyProjectCountry": "Country",
+        "emergencyProjectDistrict": "Province / Region",
+        "emergencyProjectStatus": "Status",
+        "emergencyProjectPeopleReached": "Services Provided to People in Need",
+        "threeWViewDetails": "View Details",
+        "threeWEdit": "Edit",
+        "threeWDuplicate": "Duplicate"
+
     }
 }

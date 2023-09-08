@@ -25,12 +25,13 @@ import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
+import TextOutput from '#components/TextOutput';
 import Message from '#components/Message';
 import type { CountryOutletContext } from '#utils/outletContext';
 import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
-import { sumSafe, denormalizeList } from '#utils/common';
+import { sumSafe, denormalizeList, hasSomeDefinedValue } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
 import {
@@ -107,6 +108,8 @@ export function Component() {
         primary_sector: [],
         secondary_sectors: [],
     });
+
+    const isFiltered = hasSomeDefinedValue(filters);
 
     const {
         pending: projectListPending,
@@ -311,16 +314,21 @@ export function Component() {
                             descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
-                        <PieChart
-                            className={styles.pieChart}
-                            data={programmeTypeStats}
-                            valueSelector={numericValueSelector}
-                            labelSelector={stringLabelSelector}
-                            keySelector={stringLabelSelector}
-                            colors={primaryRedColorShades}
-                            pieRadius={40}
-                            chartPadding={10}
-                        />
+                        <div>
+                            <TextOutput
+                                value={strings.programmeType}
+                            />
+                            <PieChart
+                                className={styles.pieChart}
+                                data={programmeTypeStats}
+                                valueSelector={numericValueSelector}
+                                labelSelector={stringLabelSelector}
+                                keySelector={stringLabelSelector}
+                                colors={primaryRedColorShades}
+                                pieRadius={40}
+                                chartPadding={10}
+                            />
+                        </div>
                     </div>
                     <div className={styles.keyFigureCard}>
                         <KeyFigure
@@ -330,16 +338,21 @@ export function Component() {
                             descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
-                        <PieChart
-                            className={styles.pieChart}
-                            data={projectStatusTypeStats}
-                            valueSelector={numericValueSelector}
-                            labelSelector={stringLabelSelector}
-                            keySelector={stringLabelSelector}
-                            colors={primaryRedColorShades}
-                            pieRadius={40}
-                            chartPadding={10}
-                        />
+                        <div>
+                            <TextOutput
+                                value={strings.projectStatus}
+                            />
+                            <PieChart
+                                className={styles.pieChart}
+                                data={projectStatusTypeStats}
+                                valueSelector={numericValueSelector}
+                                labelSelector={stringLabelSelector}
+                                keySelector={stringLabelSelector}
+                                colors={primaryRedColorShades}
+                                pieRadius={40}
+                                chartPadding={10}
+                            />
+                        </div>
                     </div>
                 </div>
             )}
@@ -491,8 +504,8 @@ export function Component() {
                     spacing="compact"
                 >
                     <Table
-                        filtered={false}
-                        pending={false}
+                        filtered={isFiltered}
+                        pending={projectListPending}
                         data={localNSProjects}
                         columns={tableColumns}
                         keySelector={numericIdSelector}
@@ -507,8 +520,8 @@ export function Component() {
                     spacing="compact"
                 >
                     <Table
-                        filtered={false}
-                        pending={false}
+                        filtered={isFiltered}
+                        pending={projectListPending}
                         data={otherNSProjects}
                         columns={tableColumns}
                         keySelector={numericIdSelector}

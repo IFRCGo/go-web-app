@@ -19,9 +19,10 @@ import Container from '#components/Container';
 import ExpandableContainer from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
+import Message from '#components/Message';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
-import Message from '#components/Message';
+import TextOutput from '#components/TextOutput';
 import type { CountryOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
@@ -265,16 +266,21 @@ export function Component() {
                             descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
-                        <PieChart
-                            className={styles.pieChart}
-                            data={programmeTypeStats}
-                            valueSelector={numericValueSelector}
-                            labelSelector={stringLabelSelector}
-                            keySelector={stringLabelSelector}
-                            colors={primaryRedColorShades}
-                            pieRadius={40}
-                            chartPadding={10}
-                        />
+                        <div>
+                            <TextOutput
+                                value={strings.programmeType}
+                            />
+                            <PieChart
+                                className={styles.pieChart}
+                                data={programmeTypeStats}
+                                valueSelector={numericValueSelector}
+                                labelSelector={stringLabelSelector}
+                                keySelector={stringLabelSelector}
+                                colors={primaryRedColorShades}
+                                pieRadius={40}
+                                chartPadding={10}
+                            />
+                        </div>
                     </div>
                     <div className={styles.keyFigureCard}>
                         <KeyFigure
@@ -284,16 +290,21 @@ export function Component() {
                             descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
-                        <PieChart
-                            className={styles.pieChart}
-                            data={projectStatusTypeStats}
-                            valueSelector={numericValueSelector}
-                            labelSelector={stringLabelSelector}
-                            keySelector={stringLabelSelector}
-                            colors={primaryRedColorShades}
-                            pieRadius={40}
-                            chartPadding={10}
-                        />
+                        <div>
+                            <TextOutput
+                                value={strings.projectStatus}
+                            />
+                            <PieChart
+                                className={styles.pieChart}
+                                data={projectStatusTypeStats}
+                                valueSelector={numericValueSelector}
+                                labelSelector={stringLabelSelector}
+                                keySelector={stringLabelSelector}
+                                colors={primaryRedColorShades}
+                                pieRadius={40}
+                                chartPadding={10}
+                            />
+                        </div>
                     </div>
                 </div>
             )}

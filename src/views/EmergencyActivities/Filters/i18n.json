@@ -1,0 +1,11 @@
+{
+    "namespace": "emergencyActivities",
+    "strings": {
+        "emergencyActivityFilterReportingNs": "National Society",
+        "emergencyActivityFilterEru": "ERU",
+        "emergencyActivityFilterSector": "Sector",
+        "emergencyActivityFilterStatus": "Status",
+        "emergencyActivityFilterCountry": "Country",
+        "emergencyActivityFilterDistrict": "Region/Province"
+    }
+}

@@ -1799,6 +1799,20 @@ const newThreeWActivity = customWrapRoute({
     },
 });
 
+const threeWActivityDetail = customWrapRoute({
+    parent: rootLayout,
+    path: 'three-w/activities/:activityId/',
+    component: {
+        render: () => import('#views/ThreeWActivityDetail'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'ThreeW Activity Detail',
+        visibility: 'anything',
+    },
+});
+
 const threeWActivityEdit = customWrapRoute({
     parent: rootLayout,
     path: 'three-w/activities/:activityId/edit',
@@ -2489,6 +2503,7 @@ const wrappedRoutes = {
     newThreeWProject,
     threeWProjectEdit,
     threeWActivityEdit,
+    threeWActivityDetail,
     newThreeWActivity,
     accountLayout,
     accountIndex,
