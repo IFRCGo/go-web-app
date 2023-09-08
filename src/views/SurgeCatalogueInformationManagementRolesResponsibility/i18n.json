@@ -1,0 +1,28 @@
+{
+    "namespace": "surgeCatalogueInformationManagementRolesResponsibility",
+    "strings": {
+        "iMRolesTitle": "Role And Responsibility",
+        "iMRolesDetail": "The specific activities and duties of an IM Coordinator vary according to operational needs but broadly fall within the following four areas:",
+        "iMRolesSituationalTitle": "Situational awareness, analysis and needs assessment",
+        "iMRolesSituationalItemOne": "Inform operational evidence-based decision-making through analysis and data visualisation",
+        "iMRolesSituationalItemTwo": "Contribute, or in the absence of an Assessment Cell, lead humanitarian needs analysis processes, including assessments, scenario development and risk/context analysis",
+        "iMRolesSituationalItemThree": "Maintain the GO platform emergency page to ensure a broader understanding of the humanitarian situation and response",
+        "iMRolesSituationalItemFour": "Develop an IM strategy to inform operational data collection, analysis and management",
+        "iMRolesDataCollectionTitle": "Data collection, consolidation and visualisation",
+        "iMRolesDataCollectionItemOne": "Maintain an IM system to capture information of the humanitarian situation by sector/geographic area to facilitate the flow of information from and to the field",
+        "iMRolesDataCollectionItemTwo": "Primary data collection, from survey design through management and training of field enumerators to data analysis and visualisation",
+        "iMRolesDataCollectionItemThree": "Coordinate and rationalise operational data collection and consolidation",
+        "iMRolesDataCollectionItemFour": "Advise and train NS and IFRC counterparts to build data literacy, and skills in primary and secondary data collection, analysis and management",
+        "iMRolesDataCollectionItemFive":  "Support PMER function through the provision of relevant data and insights",
+        "iMResponsibleDataTitle": "Responsible data stewardship",
+        "iMResponsibleDataItemOne": "Apply responsible data protection across the operation, including with communities, according to IFRC Data Protection guidelines and policies",
+        "iMResponsibleDataItemTwo": "Document and archive data and analysis produced throughout the operation",
+        "iMResponsibleDataItemThree": "Handover documentation and training to enable a smooth transition to NS colleagues post-deployment.",
+        "iMResponsibleDataItemFour": "Archive data and documentation as per IFRC SoPs",
+        "iMCoordinationTitle": "Coordination and information exchange",
+        "iMCoordinationItemOne": "Serve as a focal point to wider SIMS network to coordinate remote support",
+        "iMCoordinationItemTwo": "Ensure overall coordination of information and data flows, including Movement and inter-agency data, and participate in relevant WG (IMWG and/or Assessment & Analysis WG if no Assessment Coord)",
+        "iMCoordinationItemThree": "Work closely with the PMER unit, as well as other data-focused roles in Health, CVA, CEA, etc., to go beyond monitoring and reporting our own operation toward a greater understanding of needs and response options",
+        "iMCoordinationItemFour": "Coordinate with IM focal points among humanitarian partners to ensure shared accessibility of key data and information products"
+    }
+}

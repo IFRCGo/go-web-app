@@ -1,0 +1,23 @@
+{
+    "namespace": "surgeCataloguePmerEmergencyPlanAction",
+    "strings": {
+        "EPOATitle": "Emergency Plan of Action (EPoA) Monitoring & Evaluation Plan",
+        "capacityTitle": "Capacity",
+        "capacityDetails": "When a disaster or crisis occurs, the global surge request technical PMER support, which is mobilised by PMER Geneva and Regions. Experienced PMER personnel are contacted, identified and mobilised through the wider PMER network of IFRC and National Society contacts, based on operational need. It is recommended PMER is deployed in the early days or the response, alongside IM and CEA, to ensure strong planning and set up monitoring and reporting mechanisms (quality programming).",
+        "emergencyTitle": "Emergency Services",
+        "emergencyDetailsOne": "Development and coordination of the EPOA based on info gathered from needs assessment and field data gathering from technical teams.",
+        "emergencyDetailsTwo": "Design of the M&E plan and setting up of data collection methods/processes and ongoing support to operational monitoring.",
+        "emergencyDetailsThree": "Supporting and ensuring the delivery of institutional and specific donor reporting requirements and standards.",
+        "designedForTitle": "Designed For",
+        "designedForDetails": "Designed for the provision of support for all planning, monitoring and reporting functions to ensure the quality of the operation. These functions are essential for all emergency operations and should be considered core and the deployed personnel will also support the development of necessary planning, monitoring and reporting tools, processes and capacity building.",
+        "personnelTitle": "Personnel",
+        "personnelDetails": "See technical competencies and role profiles for: PMER Coordinator and PMER Delegate.",
+        "specificationsTitle": "Specifications",
+        "specificationsCostTitle": "Cost (indicative)",
+        "specificationsCostDetails": "Cost standard delegate and NSs staffing costs (IFRC or NS provision of staff). Profiles include trained and experienced PMER personnel from IFRC and NSs, preference to staff with IFRC systems experience or NS with min experience with IFRC.",
+        "specificationsNSTitle": "National societies providing this service",
+        "specificationsNSDetails": "Multiple",
+        "additionalTitle": "Additional Notes",
+        "additionalDetails": "Close link between work of PMER staff and the IM and CEA teams."
+    }
+}

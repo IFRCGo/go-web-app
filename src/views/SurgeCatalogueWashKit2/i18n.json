@@ -1,0 +1,20 @@
+{
+    "namespace": "surgeCatalogueWashKit2",
+    "strings": {
+        "washKitTitle": "KIT 2",
+        "washKitWashKit2": "WASH Kit 2",
+        "washKitCapacity": "Capacity",
+        "washKitCapacityText": "Water treatment at household level for 2,000 people (400 families).",
+        "washKitEmergencyServices": "Emergency Services",
+        "washKitShelterCapacityTextOne": "Provide support in shelter response operations through the IFRC shelter roster of trained professionals and partner National Societies.",
+        "washKitShelterCapacityTextTwo": "Flexible team that can be adapted to the specific needs of a response, as it is a flexible configuration of one or several individuals depending of needs and capacity of the HNS/operation and the nature of the disaster.",
+        "washKitEmergencyServicesSectionOne": "This kit provides water treatment at household level for up to 2,000 people (400 families), with no central treatment or storage capacity. This kit provides very basic sanitation facilities for a small population and is designed for response to the needs of scattered populations at household level and when people targeted numbers are limited.",
+        "washKitEmergencyServicesSectionTwo": "Hygiene promotion, as well as training in the use of materials and tools in the kit, is an essential part of the operation and must be carried out alongside distribution activities. Availability of local water sources is required. Local water and sanitation technicians and Red Cross Red Crescent volunteers are needed to ensure that the people targeted are familiar with household level water treatment methods.",
+        "washKit2Specification": "Specification",
+        "washKit2SpecificationWeightLabel": "Weight",
+        "washKit2SpecificationWeightValue": "1.5 MT",
+        "washKit2SpecificationVolumeLabel": "Volume",
+        "washKit2SpecificationVolumeValue": "8 m3",
+        "washKit2SpecificationDetail":"This kit should be pre-positioned at country level."
+    }
+}

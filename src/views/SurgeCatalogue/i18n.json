@@ -10,13 +10,13 @@
         "catalogueHealth": "Health",
         "catalogueInformationManagement": "Information Management (IM)",
         "catalogueInformationTechnologyTelecom": "Information Technology & Telecom (IT/T)",
-        "catalogueLivelihoodsAndBasicNeeds": "Livelihoods And Basic needs",
+        "catalogueLivelihoodsAndBasicNeeds": "Livelihoods and Basic Needs",
         "catalogueLogistics": "Logistics",
         "catalogueOperations": "Operations Management",
         "catalogueProtection": "Protection, Gender and Inclusion (PGI)",
-        "cataloguePMER": "Planning, Monitoring, Evaluation And Reporting (PMER)",
+        "cataloguePMER": "Planning, Monitoring, Evaluation and Reporting (PMER)",
         "catalogueShelter": "Shelter",
-        "catalogueWater": "Water, sanitation, and hygiene (WASH)",
+        "catalogueWater": "Water, Sanitation, and Hygiene (WASH)",
         "catalogueRelief": "Relief",
         "catalogueSecurity": "Security"
     }

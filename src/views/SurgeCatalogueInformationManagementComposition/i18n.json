@@ -1,0 +1,17 @@
+{
+    "namespace": "surgeCatalogueInformationManagementComposition",
+    "strings": {
+        "iMCompositionTitle": "Composition Of IM Resources",
+        "iMCompositionDetail": "In a large-scale (orange or red) emergency, it is expected that the IM Coordinator ensures operation-wide data compatibility and coherence between the following IM-related roles:",
+        "iMCompositionItemOne": "NS data focal points",
+        "iMCompositionItemTwo": "SIMS Remote Coordinator",
+        "iMCompositionItemThree": "Assessment Cell (potentially composed of Assessment Coordinator, Information Analyst, Primary Data Collection Specialist, Secondary Data Collection Specialist and Data Visualisation Specialist)",
+        "iMCompositionItemFour": "ERU IM Officers",
+        "iMCompositionItemFive": "Shelter Cluster IM Coordinator",
+        "iMCompositionItemSix": "Cash IM Officer",
+        "iMCompositionItemSeven": "PMER, particularly for the development of centralised reporting mechanisms",
+        "iMCompositionItemEight": "CEA and PGI data focal points, particularly in the areas of feedback mechanisms and sensitive comment handling and referral",
+        "iMCompositionDescription": "The IM coordination role varies in configuration and competencies depending on the phase of the emergency, existing deployed capacities, programmatic focus of the response, scope and scale of the crisis, etc.",
+        "iMCompositionImageAlt": "Composition of IM Resources"
+    }
+}

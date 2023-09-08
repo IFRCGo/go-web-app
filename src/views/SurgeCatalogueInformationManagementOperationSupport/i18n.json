@@ -1,0 +1,12 @@
+{
+    "namespace": "surgeCatalogueInformationManagementOperationSupport",
+    "strings": {
+        "iMOperationSupportTitle": "IFRC Geneva IM Support For Operations",
+        "iMOperationSupportDetail": "The Geneva IM Unit supports IFRC and NS operations through:",
+        "iMOperationSupportDetailItemOne": "Coordination across the IFRC network by maintaining and developing coherent learning pathways, common approaches to situational awareness and facilitation of surge IM expertise both deployed and through the global IFRC Surge IM Support (SIMS) network",
+        "iMOperationSupportDetailItemTwo": "Development of IFRC-wide solutions and frameworks to enable streamlined data collection, analysis and management, including the GO platform, the DEEP, and IFRC KoBo mobile data collection service",
+        "iMOperationSupportDetailItemThree": "Assess and improve the quality of evidence and analysis used to direct life-saving services before, during and after disasters, including through anticipatory and needs analysis",
+        "iMOperationSupportDescription": "See more information about the {link}",
+        "iMOperationSupportDescriptionLink": "IFRC IM strategic direction 2021-24, priorities and workplan."
+    }
+}

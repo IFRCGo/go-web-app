@@ -1,0 +1,17 @@
+{
+    "namespace": "surgeCatalogueOperationsManagement",
+    "strings": {
+        "catalogueOperationTitle": "Operations Management",
+        "catalogueOperationRoleHeading": "Rapid Response Personnel",
+        "catalogueOperationRoleTitle": "Role Profiles",
+        "catalogueOperationHead": "Head of Emergency Operations",
+        "catalogueOperationsManager": "Operations Manager",
+        "catalogueDeputyOperationsManager": "Deputy Operations Manager",
+        "catalogueFieldCoordinator": "Field Coordinator",
+        "catalogueCoordinatorOfficer": "Movement Coordination Officer",
+        "catalogueRecoveryCoordinator": "Recovery Coordinator",
+        "catalogueServicesTitle": "Services",
+        "catalogueRapidResponse": "Rapid Response",
+        "catalogueOperationLearnMore": "Head of Emergency Operations (HeOps)"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "namespace": "surgeCataloguePmerRealTimeEvaluation",
+    "strings": {
+        "rteHeading": "Real Time Evaluation (RTE) And Guidance",
+        "capacityTitle": "Capacity",
+        "capacityDetails": "RTE trained evaluators tagged on global surge roster.",
+        "emergencyTitle": "Emergency Services",
+        "emergencyDetails": "Setting up and delivery a quality real-time or other evaluation of the operation, in line with the requirements of the IFRC’s M&E Framework and the criteria for holding a RTE (scale, scope, value and complexity of an operation).",
+        "designedForTitle": "Designed For",
+        "designedForDetails": "RTEs and other evaluations are designed to assess, analyse and report back on the progress and quality of the operational delivery to affected populations and to help inform operational management decision-making and the future roll out of the response.",
+        "personnelTitle": "Personnel",
+        "personnelDetails": "RTE team leader externally recruited consultant. RTE team members identified from within the wider IFRC (Sect and NSs).",
+        "specificationsTitle": "Specifications",
+        "specificationsCostTitle": "Cost (indicative)",
+        "specificationsCostDetails": "Fees for the external consultant team leader. Mission costs for RCRC team members.",
+        "specificationsNSTitle": "National societies providing this service",
+        "specificationsNSDetails": "Multiple (plus external team leader).",
+        "additionalTitle": "Additional Notes",
+        "additionalDetails": "RTEs are set up for all major operations meeting the relevant criteria (scale, scope, value and complexity - see RTE guidance)."
+    }
+}

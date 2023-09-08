@@ -22,7 +22,7 @@
     --go-ui-height-social-icon: 3rem;
     --go-ui-height-key-figure-icon: 3.5rem;
     --go-ui-height-status-icon: 3rem;
-    --go-ui-height-compact-status-icon: 3rem;
+    --go-ui-height-compact-status-icon: 2rem;
 
     --go-ui-line-height-none: 1;
     --go-ui-line-height-xs: 1.25;
@@ -224,6 +224,10 @@ body {
         background-color: var(--go-ui-color-background);
         padding: 0;
     }
+}
+
+ul, ol, p {
+    margin: 0;
 }
 
 @media print {

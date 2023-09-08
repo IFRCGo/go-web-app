@@ -589,6 +589,889 @@ const catalogueIndex = customWrapRoute({
     },
 });
 
+const surgeCatalogueOverview = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'overview' satisfies DefaultSurgeCatalogueChild,
+    component: {
+        render: () => import('#views/SurgeCatalogueOverview'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Surge Services Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueEmergencyNeedsAssessment = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'emergency-needs-assessment',
+    component: {
+        render: () => import('#views/SurgeCatalogueEmergencyNeedsAssessment'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueEmergencyNeedsAssessmentCell = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'emergency-needs-assessment/cell',
+    component: {
+        render: () => import('#views/SurgeCatalogueEmergencyNeedsAssessmentCell'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Assessment Cell',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueBasecamp = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'basecamp',
+    component: {
+        render: () => import('#views/SurgeCatalogueBasecamp'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecampe Catalogue',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueBasecampEruSmall = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/eru-small',
+    component: {
+        render: () => import('#views/SurgeCatalogueBasecampEruSmall'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp ERU Small',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueBasecampEruMedium = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/eru-medium',
+    component: {
+        render: () => import('#views/SurgeCatalogueBasecampEruMedium'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp ERU Medium',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueBasecampEruLarge = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/eru-large',
+    component: {
+        render: () => import('#views/SurgeCatalogueBasecampEruLarge'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp ERU Large',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueBasecampFacilityManagement = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'basecamp/facility-management',
+    component: {
+        render: () => import('#views/SurgeCatalogueBasecampFacilityManagement'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Basecamp Facility Management',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueCash = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'cash',
+    component: {
+        render: () => import('#views/SurgeCatalogueCash'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cash and Vouchers Assistance',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueCashRapidResponse = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'cash/rapid-response',
+    component: {
+        render: () => import('#views/SurgeCatalogueCashRapidResponse'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Cash and Vouchers Assistance - Rapid Response',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueCommunityEngagement = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'community',
+    component: {
+        render: () => import('#views/SurgeCatalogueCommunityEngagement'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Engagement and Accountability (CEA)',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueCommunityEngagementRapidResponse = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'community/rapid-response',
+    component: {
+        render: () => import('#views/SurgeCatalogueCommunityEngagementRapidResponse'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Engagement and Accountability (CEA) - Rapid Response',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueCommunication = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'communication',
+    component: {
+        render: () => import('#views/SurgeCatalogueCommunication'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueCommunicationErtOne = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'communication/cert-1',
+    component: {
+        render: () => import('#views/SurgeCatalogueCommunicationErtOne'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication Emergency Response Tool 1',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueCommunicationErtTwo = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'communication/cert-2',
+    component: {
+        render: () => import('#views/SurgeCatalogueCommunicationErtTwo'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication Emergency Response Tool 2',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueCommunicationErtThree = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'communication/cert-3',
+    component: {
+        render: () => import('#views/SurgeCatalogueCommunicationErtThree'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Communication Emergency Response Tool 3',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealth = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealth'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Health',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthEruClinic = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/eru-clinic',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthEruClinic'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'ERU Red Cross Red Crescent Emergency Clinic',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthEruHospital = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/eru-hospital',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthEruHospital'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'ERU Red Cross Red Crescent Emergency Hospital',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthEruSurgical = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/eru-surgical',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthEruSurgical'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Health Surgical',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthMaternalNewbornClinic = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/maternal-newborn-clinic',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthMaternalNewbornClinic'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Maternal NewBorn Health Clinic',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthEmergencyClinic = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/emergency-clinic',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthEmergencyClinic'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Mobile Clinic',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthEruChloreaTreatment = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/eru-chlorea-treatment',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthEruChloreaTreatment'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Response Unit Chlorea Treatment Center',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthCommunityCaseManagementChlorea = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/community-case-management-chlorea',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthCommunityCaseManagementChlorea'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Case Management of Chlorea',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthCommunityBasedSurveillance = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/community-based-surveillance',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthCommunityBasedSurveillance'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Based Surveillance',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthSafeDignifiedBurials = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/safe-dignified-burials',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthSafeDignifiedBurials'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Safe and Dignified Burials',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthCommunityManagementMalnutrition = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/community-management-malnutrition',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthCommunityManagementMalnutrition'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Community Case Management of Malnutrition',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueHealthEruPsychosocialSupport = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'health/eru-psychosocial-support',
+    component: {
+        render: () => import('#views/SurgeCatalogueHealthEruPsychosocialSupport'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Response Unit Psychosocial Support',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueInformationManagement = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'information-management',
+    component: {
+        render: () => import('#views/SurgeCatalogueInformationManagement'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Management',
+        visibility: 'anything',
+    },
+
+});
+
+const surgeCatalogueInformationManagementSatelliteImagery = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'information-management/satellite-imagery',
+    component: {
+        render: () => import('#views/SurgeCatalogueInformationManagementSatelliteImagery'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Satellite Imagery',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueInformationManagementRolesResponsibility = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'information-management/roles-responsibility',
+    component: {
+        render: () => import('#views/SurgeCatalogueInformationManagementRolesResponsibility'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Roles and Responsibilities',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueInformationManagementSupport = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'information-management/support',
+    component: {
+        render: () => import('#views/SurgeCatalogueInformationManagementSupport'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Management Support',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueInformationManagementOperationSupport = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'information-management/operation-support',
+    component: {
+        render: () => import('#views/SurgeCatalogueInformationManagementOperationSupport'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Management Support for Operations',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueInformationManagementComposition = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'information-management/composition',
+    component: {
+        render: () => import('#views/SurgeCatalogueInformationManagementComposition'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Composition of IM Resources',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueInformationTechnology = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'information-technology',
+    component: {
+        render: () => import('#views/SurgeCatalogueInformationTechnology'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Technology',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueInformationTechnologyEruItTelecom = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'information-technology/eru-it-telecom',
+    component: {
+        render: () => import('#views/SurgeCatalogueInformationTechnologyEruItTelecom'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Information Technology Service',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueLivelihood = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'livelihood',
+    component: {
+        render: () => import('#views/SurgeCatalogueLivelihood'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Livelihoods and Basic Needs',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueLivelihoodServices = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'livelihood/services',
+    component: {
+        render: () => import('#views/SurgeCatalogueLivelihoodServices'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Livelihood Service',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueLogistics = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'logistics',
+    component: {
+        render: () => import('#views/SurgeCatalogueLogistics'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Logistics',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueLogisticsEru = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'logistics/eru',
+    component: {
+        render: () => import('#views/SurgeCatalogueLogisticsEru'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency Response Unit',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueLogisticsLpscmNs = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'logistics/lpscm-ns',
+    component: {
+        render: () => import('#views/SurgeCatalogueLogisticsLpscmNs'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'LPSCM for National Societies',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOperationsManagement = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'operations-management',
+    component: {
+        render: () => import('#views/SurgeCatalogueOperationsManagement'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Operations Management',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueOperationManagementHeops = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'operations-management/heops',
+    component: {
+        render: () => import('#views/SurgeCatalogueOperationsManagementHeops'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Head of Emergency Operations (HEOPS)',
+        visibility: 'anything',
+    },
+});
+
+const surgeCataloguePgi = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'pgi',
+    component: {
+        render: () => import('#views/SurgeCataloguePgi'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Protection, Gender and inclusion (PGI)',
+        visibility: 'anything',
+    },
+});
+
+const surgeCataloguePgiServices = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'pgi/services',
+    component: {
+        render: () => import('#views/SurgeCataloguePgiServices'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Protection Gender and Inclusion - Services',
+        visibility: 'anything',
+    },
+});
+
+const surgeCataloguePmer = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'pmer',
+    component: {
+        render: () => import('#views/SurgeCataloguePmer'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Planning, Monitoring, Evaluation And Reporting (PMER)',
+        visibility: 'anything',
+    },
+});
+
+const surgeCataloguePmerEmergencyPlanAction = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'pmer/emergency-plan-action',
+    component: {
+        render: () => import('#views/SurgeCataloguePmerEmergencyPlanAction'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Emergency plan of action EPOA monitoring evaluation plan',
+        visibility: 'anything',
+    },
+});
+
+const surgeCataloguePmerRealTimeEvaluation = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'pmer/real-time-evaluation',
+    component: {
+        render: () => import('#views/SurgeCataloguePmerRealTimeEvaluation'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Real time evaluation RTE and guidance',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueShelter = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'shelter',
+    component: {
+        render: () => import('#views/SurgeCatalogueShelter'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Shelter',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueShelterCoordinatorTeam = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'shelter/coordinator-team',
+    component: {
+        render: () => import('#views/SurgeCatalogueShelterCoordinatorTeam'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Shelter Surge Coordinator',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueShelterTechnicalTeam = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'shelter/technical-team',
+    component: {
+        render: () => import('#views/SurgeCatalogueShelterTechnicalTeam'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Shelter Technical Team',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueWash = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'wash',
+    component: {
+        render: () => import('#views/SurgeCatalogueWash'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Water, Sanitation and Hygiene (WASH)',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueWashKit2 = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'wash/kit-2',
+    component: {
+        render: () => import('#views/SurgeCatalogueWashKit2'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'WASH Kit-2',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueWashKit5 = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'wash/kit-5',
+    component: {
+        render: () => import('#views/SurgeCatalogueWashKit5'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'WASH Kit-5',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueWashKitM15Eru = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'wash/m15-eru',
+    component: {
+        render: () => import('#views/SurgeCatalogueWashKitM15Eru'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'WASH Kit-M15 ERU',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueWashKitMsm20Eru = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'wash/msm20-eru',
+    component: {
+        render: () => import('#views/SurgeCatalogueWashKitMsm20Eru'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Wash Kit-MSM20 ERU',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueWashKitM40Eru = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'wash/m40-eru',
+    component: {
+        render: () => import('#views/SurgeCatalogueWashKitM40Eru'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Wash Kit-M40 ERU',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueWashWaterSupplyRehabilitation = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'wash/water-supply-rehabilitation',
+    component: {
+        render: () => import('#views/SurgeCatalogueWashWaterSupplyRehabilitation'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Water Supply Rehabilitation',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueWashHwts = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'wash/hwts',
+    component: {
+        render: () => import('#views/SurgeCatalogueWashHwts'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Household Water Treatment and Safe Storage (HWTS)',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueRelief = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'relief',
+    component: {
+        render: () => import('#views/SurgeCatalogueRelief'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Relief',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueReliefEru = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'relief/eru',
+    component: {
+        render: () => import('#views/SurgeCatalogueReliefEru'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Relief ERU',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueSecurity = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'security',
+    component: {
+        render: () => import('#views/SurgeCatalogueSecurity'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Security',
+        visibility: 'anything',
+    },
+});
+
+const surgeCatalogueSecurityManagement = customWrapRoute({
+    parent: surgeCatalogueLayout,
+    path: 'security/management',
+    component: {
+        render: () => import('#views/SurgeCatalogueSecurityManagement'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Security Management',
+        visibility: 'anything',
+    },
+});
+
 type DefaultPreparednessChild = 'global-summary';
 const preparednessLayout = customWrapRoute({
     parent: rootLayout,
@@ -1118,891 +2001,6 @@ const allSurgeAlerts = customWrapRoute({
     },
 });
 
-const catalogueOverview = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'overview' satisfies DefaultSurgeCatalogueChild,
-    component: {
-        render: () => import('#views/CatalogueService'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Surge Services Catalogue',
-        visibility: 'anything',
-    },
-});
-
-const catalogueEmergency = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'emergency',
-    component: {
-        render: () => import('#views/CatalogueEmergency'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Emergency Catalogue',
-        visibility: 'anything',
-    },
-});
-
-const assessmentCell = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'emergency/assessment-cell',
-    component: {
-        render: () => import('#views/AssessmentCell'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Assessment Cell',
-        visibility: 'anything',
-    },
-});
-
-const catalogueBasecamp = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'basecamp',
-    component: {
-        render: () => import('#views/CatalogueBasecamp'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Basecampe Catalogue',
-        visibility: 'anything',
-    },
-});
-
-const basecampEruSmall = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'basecamp/eru-small',
-    component: {
-        render: () => import('#views/BasecampEruSmall'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Basecamp ERU Small',
-        visibility: 'anything',
-    },
-});
-
-const basecampEruMedium = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'basecamp/eru-medium',
-    component: {
-        render: () => import('#views/BasecampEruMedium'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Basecamp ERU Medium',
-        visibility: 'anything',
-    },
-});
-
-const basecampEruLarge = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'basecamp/eru-large',
-    component: {
-        render: () => import('#views/BasecampEruLarge'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Basecamp ERU Large',
-        visibility: 'anything',
-    },
-});
-
-const basecampFacilityManagement = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'basecamp/facility-management',
-    component: {
-        render: () => import('#views/BasecampFacilityManagement'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Basecamp Facility Management',
-        visibility: 'anything',
-    },
-});
-
-const catalogueCash = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'cash',
-    component: {
-        render: () => import('#views/CatalogueCash'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Cash and Vouchers Assistance Catalogue',
-        visibility: 'anything',
-    },
-});
-
-const cashAndVoucherAssistance = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'cash/cva',
-    component: {
-        render: () => import('#views/CashAndVoucherAssistance'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Cash and Vouchers Assistance',
-        visibility: 'anything',
-    },
-});
-
-const catalogueCommunityEngagement = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'community',
-    component: {
-        render: () => import('#views/CatalogueCommunityEngagement'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Community Engagement and Accountability (CEA)',
-        visibility: 'anything',
-    },
-});
-
-const communityEngagement = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'community/community-engagement-accountability',
-    component: {
-        render: () => import('#views/CommunityEngagement'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Community Engagement and Accountability (CEA)',
-        visibility: 'anything',
-    },
-});
-
-const catalogueCommunication = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'communication',
-    component: {
-        render: () => import('#views/CatalogueCommunication'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Communication',
-        visibility: 'anything',
-    },
-});
-
-const communicationErtOne = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'communication/cert-1',
-    component: {
-        render: () => import('#views/CommunicationErtOne'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Communication Emergency Response Tool 1',
-        visibility: 'anything',
-    },
-});
-
-const communicationErtTwo = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'communication/cert-2',
-    component: {
-        render: () => import('#views/CommunicationErtTwo'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Communication Emergency Response Tool 2',
-        visibility: 'anything',
-    },
-});
-
-const communicationErtThree = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'communication/cert-3',
-    component: {
-        render: () => import('#views/CommunicationErtThree'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Communication Emergency Response Tool 3',
-        visibility: 'anything',
-    },
-});
-
-const catalogueHealth = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health',
-    component: {
-        render: () => import('#views/CatalogueHealth'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Health',
-        visibility: 'anything',
-    },
-
-});
-
-const healthEruClinic = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/eru-clinic',
-    component: {
-        render: () => import('#views/HealthEruClinic'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'ERU Red Cross Red Crescent Emergency Clinic',
-        visibility: 'anything',
-    },
-});
-
-const healthEruHospital = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/eru-hospital',
-    component: {
-        render: () => import('#views/HealthEruHospital'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'ERU Red Cross Red Crescent Emergency Hospital',
-        visibility: 'anything',
-    },
-});
-
-const healthSurgical = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/eru-surgical',
-    component: {
-        render: () => import('#views/HealthSurgical'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Health Surgical',
-        visibility: 'anything',
-    },
-});
-
-const healthMaternalNewbornClinic = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/maternal-newborn-clinic',
-    component: {
-        render: () => import('#views/HealthMaternalNewbornClinic'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Maternal NewBorn Health Clinic',
-        visibility: 'anything',
-    },
-});
-
-const healthEmergencyClinic = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/emergency-clinic',
-    component: {
-        render: () => import('#views/HealthEmergencyClinic'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Emergency Mobile Clinic',
-        visibility: 'anything',
-    },
-});
-
-const healthEmergencyChloreaTreatment = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/emergency-chlorea-treatment',
-    component: {
-        render: () => import('#views/HealthEmergencyChloreaTreatment'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Emergency Response Unit Chlorea Treatment Center',
-        visibility: 'anything',
-    },
-});
-
-const healthCCMC = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/community-case-management-chlorea',
-    component: {
-        render: () => import('#views/HealthCCMC'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Community Case Management of Chlorea',
-        visibility: 'anything',
-    },
-});
-
-const healthCBS = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/community-based-surveillance',
-    component: {
-        render: () => import('#views/HealthCBS'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Community Based Surveillance',
-        visibility: 'anything',
-    },
-});
-
-const healthBurials = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/safe-dignified-burials',
-    component: {
-        render: () => import('#views/HealthBurials'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Safe and Dignified Burials',
-        visibility: 'anything',
-    },
-});
-
-const healthCCMM = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/community-management-malnutrition',
-    component: {
-        render: () => import('#views/HealthCCMM'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Community Case Management of Malnutrition',
-        visibility: 'anything',
-    },
-});
-
-const healthPSS = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'health/psychosocial-support',
-    component: {
-        render: () => import('#views/HealthPSS'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Emergency Response Unit Psychosocial Support',
-        visibility: 'anything',
-    },
-});
-
-const catalogueInformationManagement = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-management',
-    component: {
-        render: () => import('#views/CatalogueInformationManagement'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Information Management',
-        visibility: 'anything',
-    },
-
-});
-
-const informationManagementSatelliteImagery = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-management/satellite-imagery',
-    component: {
-        render: () => import('#views/InformationManagementSatelliteImagery'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Satellite Imagery',
-        visibility: 'anything',
-    },
-});
-
-const informationManagementRoles = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-management/roles-responsibility',
-    component: {
-        render: () => import('#views/InformationManagementRoles'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Roles and Responsibilities',
-        visibility: 'anything',
-    },
-});
-
-const informationManagementSupport = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-management/support',
-    component: {
-        render: () => import('#views/InformationManagementSupport'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Information Management Support',
-        visibility: 'anything',
-    },
-});
-
-const informationManagementOperationsSupport = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-management/operation-support',
-    component: {
-        render: () => import('#views/InformationManagementOperationsSupport'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Information Management Support for Operations',
-        visibility: 'anything',
-    },
-});
-
-const informationManagementComposition = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-management/composition',
-    component: {
-        render: () => import('#views/InformationManagementComposition'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Composition of IM Resources',
-        visibility: 'anything',
-    },
-});
-
-const catalogueLogistics = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'logistics',
-    component: {
-        render: () => import('#views/CatalogueLogistics'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Logistics',
-        visibility: 'anything',
-    },
-});
-
-const logisticsEmergency = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'logistics/logistics-eru',
-    component: {
-        render: () => import('#views/LogisticsEmergency'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Emergency Response Unit',
-        visibility: 'anything',
-    },
-});
-
-const logisticsNationalSocieties = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'logistics/lpscm-for-national-societies',
-    component: {
-        render: () => import('#views/LogisticsNationalSocieties'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'LPSCM for National Societies',
-        visibility: 'anything',
-    },
-});
-
-const catalogueOperations = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'operations',
-    component: {
-        render: () => import('#views/CatalogueOperations'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Operations Management',
-        visibility: 'anything',
-    },
-});
-
-const emergencyOperations = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'operations/head-of-emergency-operations-heops',
-    component: {
-        render: () => import('#views/EmergencyOperations'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Head of Emergency Operations (HEOPS)',
-        visibility: 'anything',
-    },
-});
-
-const catalogueInformationTechnology = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-technology',
-    component: {
-        render: () => import('#views/CatalogueInformationTechnology'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Information Technology',
-        visibility: 'anything',
-    },
-});
-
-const catalogueShelter = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'shelter',
-    component: {
-        render: () => import('#views/CatalogueShelter'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Shelter',
-        visibility: 'anything',
-    },
-});
-
-const shelterCoordinator = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'shelter/sct-shelter-coordination-team',
-    component: {
-        render: () => import('#views/ShelterCoordinator'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Shelter Surge Coordinator',
-        visibility: 'anything',
-    },
-});
-const shelterTechnical = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'shelter/stt-shelter-technical-team',
-    component: {
-        render: () => import('#views/ShelterTechnical'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Shelter Technical Team',
-        visibility: 'anything',
-    },
-});
-
-const catalogueWater = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'water',
-    component: {
-        render: () => import('#views/CatalogueWater'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Water',
-        visibility: 'anything',
-    },
-});
-
-const catalogueProtection = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'protection',
-    component: {
-        render: () => import('#views/CatalogueProtection'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Protection',
-        visibility: 'anything',
-    },
-});
-
-const washKit2 = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'water/kit-2',
-    component: {
-        render: () => import('#views/WashKit2'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Kit-2',
-        visibility: 'anything',
-    },
-});
-
-const washKit5 = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'water/kit-5',
-    component: {
-        render: () => import('#views/WashKit5'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Kit-5',
-        visibility: 'anything',
-    },
-});
-
-const washM15 = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'water/m15-eru',
-    component: {
-        render: () => import('#views/WashM15'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'M15 ERU',
-        visibility: 'anything',
-    },
-});
-
-const washM20 = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'water/msm20-eru',
-    component: {
-        render: () => import('#views/WashM20'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'M20 ERU',
-        visibility: 'anything',
-    },
-});
-
-const washM40 = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'water/m40-eru',
-    component: {
-        render: () => import('#views/WashM40'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'M40 ERU',
-        visibility: 'anything',
-    },
-});
-
-const waterSupply = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'water/water-supply-rehabilitation-wsr',
-    component: {
-        render: () => import('#views/WaterSupply'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Water Supply Rehabilitation',
-        visibility: 'anything',
-    },
-});
-
-const waterTreatment = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'water/household-water-treatment-and-safe-storage-hwts',
-    component: {
-        render: () => import('#views/WaterTreatment'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Household Water Treatment and Safe Storage',
-        visibility: 'anything',
-    },
-});
-
-const catalogueRelief = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'relief',
-    component: {
-        render: () => import('#views/CatalogueRelief'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Relief',
-        visibility: 'anything',
-    },
-});
-
-const catalogueERURelief = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'relief/eru-relief',
-    component: {
-        render: () => import('#views/CatalogueRelief/CatalogueERURelief'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'ERU Relief',
-        visibility: 'anything',
-    },
-});
-
-const protectionGender = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'protection/protection-gender-and-inclusion',
-    component: {
-        render: () => import('#views/ProtectionGender'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Protection Gender and Inclusion',
-        visibility: 'anything',
-    },
-});
-
-const cataloguePMER = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'planning',
-    component: {
-        render: () => import('#views/CataloguePMER'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Planning, Monitoring, Evaluation And Reporting (PMER)',
-        visibility: 'anything',
-    },
-});
-
-const catalogueEPOA = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'planning/emergency-plan-of-action-epoa-monitoring-evaluation-plan',
-    component: {
-        // FIXME: view should not be inside another view
-        render: () => import('#views/CataloguePMER/CatalogueEPOA'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Emergency plan of action EPOA monitoring evaluation plan',
-        visibility: 'anything',
-    },
-});
-
-const catalogueRTE = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'planning/real-time-evaluation-rte-and-guidance',
-    component: {
-        // FIXME: view should not be inside another view
-        render: () => import('#views/CataloguePMER/CatalogueRTE'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Real time evaluation RTE and guidance',
-        visibility: 'anything',
-    },
-});
-
-const informationTechnologyServices = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'information-technology/information-technology-services',
-    component: {
-        render: () => import('#views/InformationTechnologyServices'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Information Technology Service',
-        visibility: 'anything',
-    },
-});
-
-const catalogueLivelihood = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'livelihood',
-    component: {
-        render: () => import('#views/CatalogueLivelihood'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Livelihoods and Basic Needs',
-        visibility: 'anything',
-    },
-});
-
-const livelihoodServices = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'livelihood/livelihoods-and-basic-needs',
-    component: {
-        render: () => import('#views/LivelihoodServices'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Livelihood Service',
-        visibility: 'anything',
-    },
-});
-
-const catalogueSecurity = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'security',
-    component: {
-        render: () => import('#views/CatalogueSecurity'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Security',
-        visibility: 'anything',
-    },
-});
-
-const securityManagement = customWrapRoute({
-    parent: surgeCatalogueLayout,
-    path: 'security/security-management',
-    component: {
-        render: () => import('#views/CatalogueSecurity/SecurityManagement'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'Security Management',
-        visibility: 'anything',
-    },
-});
-
 const allDeployedPersonnel = customWrapRoute({
     parent: rootLayout,
     path: 'personnel/all',
@@ -2367,71 +2365,71 @@ const wrappedRoutes = {
     perAssessmentForm,
     perPrioritizationForm,
     perWorkPlanForm,
-    catalogueOverview,
-    catalogueIndex,
-    catalogueEmergency,
-    assessmentCell,
-    catalogueBasecamp,
-    basecampEruSmall,
-    basecampEruMedium,
-    basecampEruLarge,
-    basecampFacilityManagement,
-    catalogueCash,
-    cashAndVoucherAssistance,
-    catalogueCommunityEngagement,
-    communityEngagement,
-    catalogueCommunication,
-    communicationErtOne,
-    communicationErtTwo,
-    communicationErtThree,
-    catalogueHealth,
-    healthEruClinic,
-    healthEruHospital,
-    healthSurgical,
-    healthMaternalNewbornClinic,
-    healthEmergencyClinic,
-    healthEmergencyChloreaTreatment,
-    healthCCMC,
-    healthCBS,
-    healthBurials,
-    healthCCMM,
-    healthPSS,
-    catalogueInformationManagement,
-    informationManagementSatelliteImagery,
-    informationManagementRoles,
-    informationManagementSupport,
-    informationManagementOperationsSupport,
-    informationManagementComposition,
-    catalogueInformationTechnology,
-    cataloguePMER,
-    catalogueEPOA,
-    catalogueRTE,
-    informationTechnologyServices,
-    catalogueLivelihood,
     threeWProjectDetail,
-    livelihoodServices,
-    catalogueSecurity,
-    securityManagement,
-    catalogueLogistics,
-    logisticsEmergency,
-    logisticsNationalSocieties,
-    catalogueOperations,
-    emergencyOperations,
-    catalogueProtection,
-    catalogueRelief,
-    catalogueERURelief,
-    protectionGender,
-    catalogueShelter,
-    shelterTechnical,
-    shelterCoordinator,
-    catalogueWater,
-    washKit2,
-    washKit5,
-    washM15,
-    washM20,
-    washM40,
-    waterSupply,
-    waterTreatment,
+    catalogueOverview: surgeCatalogueOverview,
+    catalogueIndex,
+    catalogueEmergency: surgeCatalogueEmergencyNeedsAssessment,
+    assessmentCell: surgeCatalogueEmergencyNeedsAssessmentCell,
+    catalogueBasecamp: surgeCatalogueBasecamp,
+    basecampEruSmall: surgeCatalogueBasecampEruSmall,
+    basecampEruMedium: surgeCatalogueBasecampEruMedium,
+    basecampEruLarge: surgeCatalogueBasecampEruLarge,
+    basecampFacilityManagement: surgeCatalogueBasecampFacilityManagement,
+    catalogueCash: surgeCatalogueCash,
+    cashAndVoucherAssistance: surgeCatalogueCashRapidResponse,
+    catalogueCommunityEngagement: surgeCatalogueCommunityEngagement,
+    communityEngagement: surgeCatalogueCommunityEngagementRapidResponse,
+    catalogueCommunication: surgeCatalogueCommunication,
+    communicationErtOne: surgeCatalogueCommunicationErtOne,
+    communicationErtTwo: surgeCatalogueCommunicationErtTwo,
+    communicationErtThree: surgeCatalogueCommunicationErtThree,
+    catalogueHealth: surgeCatalogueHealth,
+    healthEruClinic: surgeCatalogueHealthEruClinic,
+    healthEruHospital: surgeCatalogueHealthEruHospital,
+    healthSurgical: surgeCatalogueHealthEruSurgical,
+    healthMaternalNewbornClinic: surgeCatalogueHealthMaternalNewbornClinic,
+    healthEmergencyClinic: surgeCatalogueHealthEmergencyClinic,
+    healthEmergencyChloreaTreatment: surgeCatalogueHealthEruChloreaTreatment,
+    healthCCMC: surgeCatalogueHealthCommunityCaseManagementChlorea,
+    healthCBS: surgeCatalogueHealthCommunityBasedSurveillance,
+    healthBurials: surgeCatalogueHealthSafeDignifiedBurials,
+    healthCCMM: surgeCatalogueHealthCommunityManagementMalnutrition,
+    healthPSS: surgeCatalogueHealthEruPsychosocialSupport,
+    catalogueInformationManagement: surgeCatalogueInformationManagement,
+    informationManagementSatelliteImagery: surgeCatalogueInformationManagementSatelliteImagery,
+    informationManagementRoles: surgeCatalogueInformationManagementRolesResponsibility,
+    informationManagementSupport: surgeCatalogueInformationManagementSupport,
+    informationManagementOperationsSupport: surgeCatalogueInformationManagementOperationSupport,
+    informationManagementComposition: surgeCatalogueInformationManagementComposition,
+    catalogueInformationTechnology: surgeCatalogueInformationTechnology,
+    cataloguePMER: surgeCataloguePmer,
+    catalogueEPOA: surgeCataloguePmerEmergencyPlanAction,
+    catalogueRTE: surgeCataloguePmerRealTimeEvaluation,
+    informationTechnologyServices: surgeCatalogueInformationTechnologyEruItTelecom,
+    catalogueLivelihood: surgeCatalogueLivelihood,
+    livelihoodServices: surgeCatalogueLivelihoodServices,
+    catalogueSecurity: surgeCatalogueSecurity,
+    securityManagement: surgeCatalogueSecurityManagement,
+    catalogueLogistics: surgeCatalogueLogistics,
+    logisticsEmergency: surgeCatalogueLogisticsEru,
+    logisticsNationalSocieties: surgeCatalogueLogisticsLpscmNs,
+    catalogueOperations: surgeCatalogueOperationsManagement,
+    emergencyOperations: surgeCatalogueOperationManagementHeops,
+    catalogueProtection: surgeCataloguePgi,
+    catalogueRelief: surgeCatalogueRelief,
+    catalogueERURelief: surgeCatalogueReliefEru,
+    protectionGender: surgeCataloguePgiServices,
+    catalogueShelter: surgeCatalogueShelter,
+    shelterTechnical: surgeCatalogueShelterTechnicalTeam,
+    shelterCoordinator: surgeCatalogueShelterCoordinatorTeam,
+    catalogueWater: surgeCatalogueWash,
+    washKit2: surgeCatalogueWashKit2,
+    washKit5: surgeCatalogueWashKit5,
+    washM15: surgeCatalogueWashKitM15Eru,
+    washM20: surgeCatalogueWashKitMsm20Eru,
+    washM40: surgeCatalogueWashKitM40Eru,
+    waterSupply: surgeCatalogueWashWaterSupplyRehabilitation,
+    waterTreatment: surgeCatalogueWashHwts,
 };
 
 export const unwrappedRoutes = unwrapRoute(Object.values(wrappedRoutes));

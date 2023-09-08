@@ -1,0 +1,21 @@
+{
+    "namespace": "surgeCatalogueShelter",
+    "strings": {
+        "catalogueShelterTitle": "Shelter",
+        "catalogueShelterDetail": "The IFRC and its member National Societies have built a network of Shelter & Settlements expertise to respond (individually or as a team) in case of need after a disaster on support to National Societies. This support can be provided to develop, coordinate and implement the Shelter component of the overall strategy of the Red Cross in response to the needs created by the impact of a disaster. But also to support the inter-agency coordination structure in place for the shelter sector to ensure that core services are provided to shelter agencies for an efficient humanitarian shelter response to the affected population on support of the government.",
+        "catalogueShelterRoleHeading": "Rapid Response Personnel",
+        "catalogueShelterRoleTitle": "Role Profiles",
+        "catalogueShelterProgrammeCoordinator": "Shelter Programme Coordination",
+        "catalogueShelterProgrammeLeader": "Shelter Programme Team Leader",
+        "catalogueShelterProgrammeTechnical": "Shelter Programme Technical Officer",
+        "catalogueClusterCoordinator": "Shelter Cluster Coordinator",
+        "catalogueShelterTechnicalFrameworkTitle": "Technical Competency Framework",
+        "catalogueShelterTechnicalFrameworkDetail": "Tiered compentencies describing the knowledge and skills expected of personnel in this sector.",
+        "catalogueShelterAndSettlement": "Shelter and Settlements",
+        "catalogueShelterServicesHeading": "Services",
+        "catalogueServiceShelter": "Shelter Surge Coordination (cluster approach)",
+        "catalogueServiceShelterLink": "SCT (Shelter Coordinator Team)",
+        "catalogueShelterProgramming": "Shelter Programming (Operation response)",
+        "catalogueShelterProgrammingLink": "STT (Shelter Technical Team)"
+    }
+}
