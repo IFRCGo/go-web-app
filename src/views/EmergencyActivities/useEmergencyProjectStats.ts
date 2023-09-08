@@ -151,7 +151,7 @@ function useEmergencyProjectStats(
         const districtList = filteredProjectList?.flatMap(
             (p) => p.districts_details.map((d) => d.id),
         ) ?? [];
-        const emergecyProjectCountByDistrict = districtList.reduce((acc, val) => {
+        const emergencyProjectCountByDistrict = districtList.reduce((acc, val) => {
             const newAcc = { ...acc };
             if (!newAcc[val]) {
                 newAcc[val] = 0;
@@ -189,7 +189,7 @@ function useEmergencyProjectStats(
         const peopleReached = sumSafe(projectList.map((p) => getPeopleReached(p)));
 
         return {
-            emergecyProjectCountByDistrict,
+            emergencyProjectCountByDistrict,
             emergencyProjectCountListBySector,
             emergencyProjectCountListByStatus: Object.values(projectCountByStatus),
             peopleReached,

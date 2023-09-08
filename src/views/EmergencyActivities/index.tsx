@@ -36,6 +36,7 @@ import {
 
 import { compareNumber, isDefined, isNotDefined } from '@togglecorp/fujs';
 import TextOutput from '#components/TextOutput';
+import ActivitiesMap from './ActivitesMap';
 import Filters, { type FilterValue } from './Filters';
 import useEmergencyProjectStats, { getPeopleReached } from './useEmergencyProjectStats';
 import i18n from './i18n.json';
@@ -361,6 +362,7 @@ export function Component() {
                 )}
             </Container>
             <Container
+                heading={strings.responseActivities}
                 withHeaderBorder
                 actions={(
                     <Button
@@ -386,6 +388,10 @@ export function Component() {
                     />
                 )}
             >
+                <ActivitiesMap
+                    emergencyProjectCountByDistrict={emergencyProjectCountByDistrict}
+                    sectorGroupedEmergencyProjectList={sectorGroupedEmergencyProjectList}
+                />
                 <Table
                     filtered={isFiltered}
                     pending={emergencyProjectListResponsePending}

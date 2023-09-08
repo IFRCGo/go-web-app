@@ -1,0 +1,10 @@
+{
+    "namespace": "emergencyActivities",
+    "strings": {
+        "severityLow": "Less than 2",
+        "severityMedium": "2 to 4",
+        "severityHigh": "5 to 9",
+        "severitySevere": "10 or more",
+        "numberOfProjects": "Number of Projects"
+    }
+}
