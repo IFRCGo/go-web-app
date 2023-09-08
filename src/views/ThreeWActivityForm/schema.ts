@@ -61,21 +61,25 @@ type ActionSupplyItem = {
     supply_value: number;
 }
 
-export type ActivityResponseBody = GoApiBody<'/api/v2/emergency-project/{id}/', 'PUT'>;
-type RawActivityItem = NonNullable<ActivityResponseBody['activities']>[number];
-type ActivityItem = NonNullable<ActivityResponseBody['activities']>[number] & {
+export type ActivityRequestBody = GoApiBody<'/api/v2/emergency-project/{id}/', 'PUT'>;
+
+export type RawActivityItem = NonNullable<ActivityRequestBody['activities']>[number];
+
+export type ActivityItem = Omit<RawActivityItem, 'points' | 'custom_supplies' | 'supplies'> & {
     client_id: string;
-    points?: (NonNullable<RawActivityItem['points']>[number] & { client_id: string })[]
+    points: (NonNullable<RawActivityItem['points']>[number] & { client_id: string })[]
     custom_supplies: CustomSupplyItem[];
     supplies: ActionSupplyItem[];
 };
+
 type ActivityFormFields = DeepReplace<
-    ActivityResponseBody,
+    ActivityRequestBody,
     RawActivityItem,
     ActivityItem
 >;
 
 export type PartialActivityItem = PartialForm<ActivityItem, 'client_id'>;
+
 export type PartialPointItem = PartialForm<NonNullable<ActivityItem['points']>[number], 'client_id'>;
 export type PartialCustomSupplyItem = PartialForm<CustomSupplyItem, 'client_id'>;
 export type PartialActionSupplyItem = PartialForm<ActionSupplyItem, 'client_id'>;
@@ -239,7 +243,7 @@ const finalSchema: FormSchema = {
                                     // If you force it as undefined type
                                     // it will not be sent to the server
                                     client_id: { forceValue: undefinedValue },
-                                    id: {},
+                                    // id: {},
                                     details: {},
                                     is_simplified_report: { defaultValue: true },
                                     sector: { required: true },
@@ -564,7 +568,7 @@ const finalSchema: FormSchema = {
                                                             client_id: {
                                                                 forceValue: undefinedValue,
                                                             },
-                                                            id: {},
+                                                            // id: {},
                                                             longitude: { required: true },
                                                             latitude: { required: true },
                                                             description: { required: true },

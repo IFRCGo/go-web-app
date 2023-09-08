@@ -31,9 +31,8 @@ import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
-import { useLazyRequest, useRequest } from '#utils/restRequest';
+import { useLazyRequest, useRequest, type GoApiResponse } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import type { paths } from '#generated/types';
 import { PER_PHASE_OVERVIEW, PER_PHASE_ASSESSMENT } from '#utils/domain/per';
 import type { PerProcessOutletContext } from '#utils/outletContext';
 import {
@@ -52,8 +51,7 @@ import {
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetGlobalEnums = paths['/api/v2/global-enums/']['get'];
-type GlobalEnumsResponse = GetGlobalEnums['responses']['200']['content']['application/json'];
+type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type PerOverviewAssessmentMethods = NonNullable<GlobalEnumsResponse['per_overviewassessmentmethods']>[number];
 
 function perAssessmentMethodsKeySelector(option: PerOverviewAssessmentMethods) {
@@ -129,8 +127,7 @@ export function Component() {
         skip: isNotDefined(value?.country) || isDefined(value?.is_draft),
         query: {
             country_id: Number(value?.country),
-            // FIXME: typing for query not available
-        } as never,
+        },
         onSuccess: (response) => {
             const lastAssessment = response.results?.[0];
             if (lastAssessment) {

@@ -15,13 +15,13 @@ import NumberOutput from '#components/NumberOutput';
 import StackedProgressBar from '#components/StackedProgressBar';
 import TextOutput from '#components/TextOutput';
 import { sumSafe } from '#utils/common';
-import type { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 
-type PerOptionsResponse = paths['/api/v2/per-options/']['get']['responses']['200']['content']['application/json'];
+type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
+type AssessmentRequestBody = GoApiResponse<'/api/v2/per-assessment/{id}/', 'PUT'>;
 
-type AssessmentRequestBody = paths['/api/v2/per-assessment/{id}/']['put']['requestBody']['content']['application/json'];
 export type PartialAssessment = PartialForm<
     AssessmentRequestBody,
     'area' | 'component' | 'question'

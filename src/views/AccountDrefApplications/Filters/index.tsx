@@ -8,11 +8,11 @@ import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput'
 import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { stringValueSelector } from '#utils/selectors';
-import { components } from '#generated/types';
+import { type components } from '#generated/types';
 
 import i18n from './i18n.json';
 
-type TypeOfDref = components['schemas']['TypeOfDrefEnum'];
+type TypeOfDref = components<'read'>['schemas']['TypeOfDrefEnum'];
 function typeOfDrefKeySelector({ key } : { key: TypeOfDref }) {
     return key;
 }

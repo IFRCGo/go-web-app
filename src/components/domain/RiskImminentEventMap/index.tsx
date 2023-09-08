@@ -26,7 +26,7 @@ import {
     defaultNavControlOptions,
     defaultNavControlPosition,
 } from '#utils/map';
-import type { components } from '#generated/riskTypes';
+import { type components } from '#generated/riskTypes';
 import {
     COLOR_WHITE,
     DEFAULT_MAP_PADDING,
@@ -51,7 +51,7 @@ const mapImageOption = {
     sdf: true,
 };
 
-type HazardType = components['schemas']['HazardTypeEnum'];
+type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
 const hazardKeys = Object.keys(hazardKeyToIconmap) as HazardType[];
 

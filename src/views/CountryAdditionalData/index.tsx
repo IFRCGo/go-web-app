@@ -35,7 +35,7 @@ export function Component() {
     } = useRequest({
         skip: isNotDefined(countryId),
         url: '/api/v2/country_snippet/',
-        query: { country: Number(countryId) } as never,
+        query: { country: Number(countryId) },
     });
 
     const hasCountrySnippet = countrySnippetResponse?.results

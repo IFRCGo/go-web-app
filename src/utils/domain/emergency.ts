@@ -1,9 +1,8 @@
 import { max } from '@togglecorp/fujs';
 import { sumSafe } from '#utils/common';
-import type { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 
-type GetEvent = paths['/api/v2/event/']['get'];
-type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
 // eslint-disable-next-line import/prefer-default-export

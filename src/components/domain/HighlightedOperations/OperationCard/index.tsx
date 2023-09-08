@@ -10,17 +10,16 @@ import KeyFigure from '#components/KeyFigure';
 import Tooltip from '#components/Tooltip';
 import TextOutput from '#components/TextOutput';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
-import { paths } from '#generated/types';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetEvent = paths['/api/v2/event/']['get'];
-type EventResponse = GetEvent['responses']['200']['content']['application/json'];
+type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
 
 interface Props {

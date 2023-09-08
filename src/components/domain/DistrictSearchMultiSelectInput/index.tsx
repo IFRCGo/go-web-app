@@ -9,16 +9,16 @@ import SearchMultiSelectInput, {
 import {
     useRequest,
     useLazyRequest,
+    type GoApiUrlQuery,
+    type GoApiResponse,
 } from '#utils/restRequest';
 import Button from '#components/Button';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import { paths } from '#generated/types';
 
 import styles from './styles.module.css';
 
-type GetDistrict = paths['/api/v2/district/']['get'];
-type GetDistrictParams = GetDistrict['parameters']['query'];
-type GetDistrictResponse = GetDistrict['responses']['200']['content']['application/json'];
+type GetDistrictParams = GoApiUrlQuery<'/api/v2/district/'>;
+type GetDistrictResponse = GoApiResponse<'/api/v2/district/'>;
 
 export type DistrictItem = Pick<NonNullable<GetDistrictResponse['results']>[number], 'id' | 'name'>;
 

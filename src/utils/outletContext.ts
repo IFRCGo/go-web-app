@@ -1,7 +1,7 @@
-import type { paths } from '#generated/types';
 import type { GoApiResponse } from '#utils/restRequest';
 
-type EmergencyResponse = paths['/api/v2/event/{id}/']['get']['responses']['200']['content']['application/json'];
+type EmergencyResponse = GoApiResponse<'/api/v2/event/{id}/'>;
+
 export interface EmergencyOutletContext {
     emergencyResponse: EmergencyResponse | undefined;
 }
@@ -20,7 +20,7 @@ export interface RegionOutletContext {
     regionKeyFigureResponse: RegionKeyFigureResponse | undefined;
 }
 
-type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
+type PerProcessStatusResponse = GoApiResponse<'/api/v2/per-process-status/{id}/'>;
 export interface PerProcessOutletContext {
     statusResponse: PerProcessStatusResponse | undefined,
     refetchStatusResponse: () => void,

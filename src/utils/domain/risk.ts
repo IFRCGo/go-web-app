@@ -9,7 +9,8 @@ import {
     unique,
 } from '@togglecorp/fujs';
 
-import type { paths, components } from '#generated/riskTypes';
+import { type RiskApiResponse } from '#utils/restRequest';
+import { type components } from '#generated/riskTypes';
 import { sumSafe, maxSafe, avgSafe } from '#utils/common';
 import {
     CATEGORY_RISK_HIGH,
@@ -27,7 +28,11 @@ import {
     COLOR_LIGHT_GREY,
 } from '#utils/constants';
 
-export type HazardType = components['schemas']['HazardTypeEnum'];
+export type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
+type IpcEstimationType = components<'read'>['schemas']['EstimationTypeEnum'];
+type CountrySeasonal = RiskApiResponse<'/api/v1/country-seasonal/'>;
+type IpcData = CountrySeasonal[number]['ipc_displacement_data'];
+type GwisData = CountrySeasonal[number]['gwis'];
 
 export const hazardTypeToColorMap: Record<HazardType, string> = {
     EQ: COLOR_HAZARD_EARTHQUAKE,
@@ -42,6 +47,7 @@ export const hazardTypeToColorMap: Record<HazardType, string> = {
     WF: COLOR_HAZARD_WILDFIRE,
 };
 
+// FIXME: fix typings in server (medium priority)
 export function getDataWithTruthyHazardType<
     HAZARD_TYPE extends HazardType | '',
     DATA extends { hazard_type?: HAZARD_TYPE | undefined | null }
@@ -117,12 +123,6 @@ export function getValueForSelectedMonths(
 
     return sumSafe(valueList);
 }
-
-type GetCountrySeasonal = paths['/api/v1/country-seasonal/']['get'];
-type CountrySeasonal = GetCountrySeasonal['responses']['200']['content']['application/json'];
-type IpcData = CountrySeasonal[number]['ipc_displacement_data'];
-type GwisData = CountrySeasonal[number]['gwis'];
-type IpcEstimationType = components['schemas']['EstimationTypeEnum'];
 
 const estimationPriorityMap: Record<IpcEstimationType, number> = {
     current: 0,

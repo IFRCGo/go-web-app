@@ -107,8 +107,6 @@ function getGeoJson(
         project_district_detail: Pick<
             District,
             | 'id'
-            | 'is_deprecated'
-            | 'is_enclave'
             | 'name'
         >;
     })[],

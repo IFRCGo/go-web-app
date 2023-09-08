@@ -8,8 +8,8 @@ import { type components } from '#generated/types';
 
 import { type PartialOpsUpdate } from './schema';
 
-export type TypeOfDrefEnum = components['schemas']['TypeOfDrefEnum'];
-type TypeOfOnsetEnum = components['schemas']['TypeOfOnsetEnum'];
+export type TypeOfDrefEnum = components<'read'>['schemas']['TypeOfDrefEnum'];
+type TypeOfOnsetEnum = components<'read'>['schemas']['TypeOfOnsetEnum'];
 
 // export const ONSET_SLOW = 1 satisfies TypeOfOnsetEnum;
 export const ONSET_SUDDEN = 2 satisfies TypeOfOnsetEnum;

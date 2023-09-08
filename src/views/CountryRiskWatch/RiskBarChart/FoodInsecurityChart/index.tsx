@@ -25,12 +25,11 @@ import {
     COLOR_HAZARD_FOOD_INSECURITY,
     COLOR_PRIMARY_RED,
 } from '#utils/constants';
-import { paths } from '#generated/riskTypes';
+import { type RiskApiResponse } from '#utils/restRequest';
 
 import styles from './styles.module.css';
 
-type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
-type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
+type CountryRiskResponse = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type RiskData = CountryRiskResponse[number];
 
 const colors = [

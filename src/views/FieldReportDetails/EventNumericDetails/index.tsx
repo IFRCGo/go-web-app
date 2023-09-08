@@ -1,10 +1,10 @@
-import type { paths } from '#generated/types';
 import KeyFigure from '#components/KeyFigure';
 import useTranslation from '#hooks/useTranslation';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-type FieldReportResponse = paths['/api/v2/field-report/{id}/']['get']['responses']['200']['content']['application/json'];
+type FieldReportResponse = GoApiResponse<'/api/v2/field-report/{id}/'>;
 
 interface Props {
     value: FieldReportResponse | undefined;

@@ -6,13 +6,13 @@ import SearchSelectInput, {
 
 import {
     useRequest,
+    type GoApiUrlQuery,
+    type GoApiResponse,
 } from '#utils/restRequest';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import { paths } from '#generated/types';
 
-type GetEvent = paths['/api/v2/event/mini/']['get'];
-type GetEventParams = GetEvent['parameters']['query'];
-type GetEventResponse = GetEvent['responses']['200']['content']['application/json'];
+type GetEventParams = GoApiUrlQuery<'/api/v2/event/mini/'>;
+type GetEventResponse = GoApiResponse<'/api/v2/event/mini/'>;
 export type EventItem = Pick<NonNullable<GetEventResponse['results']>[number], 'id' | 'name' | 'dtype'>;
 
 const keySelector = (d: EventItem) => d.id;

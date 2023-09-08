@@ -65,7 +65,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 
 import schema, {
     type FormType,
-    type ActivityResponseBody,
+    type ActivityRequestBody,
     type FormFields,
 } from './schema';
 import ActivitiesBySectorInput from './ActivitiesBySectorInput';
@@ -143,7 +143,7 @@ export function Component() {
     ] = useBooleanState(false);
 
     const error = getErrorObject(formError);
-    const [finalValues, setFinalValues] = useState<ActivityResponseBody | undefined>();
+    const [finalValues, setFinalValues] = useState<ActivityRequestBody | undefined>();
 
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
@@ -170,14 +170,16 @@ export function Component() {
                 // This should be fixed in server
                 dtype: { id: response.event_details?.dtype } as EventItem['dtype'],
             }]);
+
+            // type Activity = NonNullable<(typeof value)['activities']>[number];
             setValue({
                 ...response,
                 sectors: unique(
                     response.activities?.map((activity) => activity.sector) ?? [],
                     (item) => item,
                 ),
-                activities: response.activities?.map((activity) => ({
-                    ...injectClientId({
+                activities: response.activities?.map((activity) => {
+                    const val = injectClientId({
                         ...activity,
                         custom_supplies: mapToList(
                             activity.custom_supplies,
@@ -195,11 +197,10 @@ export function Component() {
                                 supply_value: item,
                             }),
                         ),
-                        points: activity.points?.map((point) => ({
-                            ...injectClientId(point),
-                        })),
-                    }),
-                })),
+                        points: activity.points?.map(injectClientId),
+                    });
+                    return val;
+                }),
             });
         },
     });
@@ -239,7 +240,7 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/emergency-project/',
         method: 'POST',
-        body: (ctx: ActivityResponseBody) => ctx,
+        body: (ctx: ActivityRequestBody) => ctx,
         onSuccess: (response) => {
             alert.show(
                 // FIXME: Add translations
@@ -275,7 +276,7 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/emergency-project/{id}/',
         method: 'PUT',
-        body: (ctx: ActivityResponseBody) => ctx,
+        body: (ctx: ActivityRequestBody) => ctx,
         pathVariables: {
             id: Number(activityId),
         },
@@ -859,7 +860,7 @@ export function Component() {
                                         ).map((activity) => (
                                             <TextOutput
                                                 icon={(<LegendIcon />)}
-                                                key={activity.id}
+                                                key={activity.client_id}
                                                 value={(
                                                     activity.action
                                                         ? (actionOptionsMap?.[

@@ -1,6 +1,4 @@
-import {
-    components,
-} from '#generated/types';
+import { type components } from '#generated/types';
 
 export const DEFAULT_DATE_FORMAT = 'dd-MM-yyyy';
 
@@ -67,17 +65,17 @@ export const COLOR_PRIMARY_RED = '#f5333f';
 
 // Three W
 
-type OperationTypeEnum = components['schemas']['OperationTypeEnum'];
+type OperationTypeEnum = components<'read'>['schemas']['OperationTypeEnum'];
 export const OPERATION_TYPE_PROGRAMME = 0 satisfies OperationTypeEnum;
 export const OPERATION_TYPE_EMERGENCY = 1 satisfies OperationTypeEnum;
 export const OPERATION_TYPE_MULTI = -1;
 
-type ProgrammeTypeEnum = components['schemas']['Key1d2Enum'];
+type ProgrammeTypeEnum = components<'read'>['schemas']['Key1d2Enum'];
 export const PROGRAMME_TYPE_MULTILATERAL = 1 satisfies ProgrammeTypeEnum;
 export const PROGRAMME_TYPE_DOMESTIC = 2 satisfies ProgrammeTypeEnum;
 export const PROGRAMME_TYPE_BILATERAL = 0 satisfies ProgrammeTypeEnum;
 
-type StatusTypeEnum = components['schemas']['Key1d2Enum'];
+type StatusTypeEnum = components<'read'>['schemas']['Key1d2Enum'];
 export const PROJECT_STATUS_COMPLETED = 2 satisfies StatusTypeEnum;
 export const PROJECT_STATUS_ONGOING = 1 satisfies StatusTypeEnum;
 export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
@@ -86,15 +84,15 @@ export const PROJECT_STATUS_PLANNED = 0 satisfies StatusTypeEnum;
 
 // FIXME: fix typing in server (medium priority)
 // This should not be the same as OperationType.
-type DrefStatus = components['schemas']['OperationTypeEnum'];
+type DrefStatus = components<'read'>['schemas']['OperationTypeEnum'];
 export const DREF_STATUS_COMPLETED = 1 satisfies DrefStatus;
 export const DREF_STATUS_IN_PROGRESS = 0 satisfies DrefStatus;
-type TypeOfDrefEnum = components['schemas']['TypeOfDrefEnum'];
+type TypeOfDrefEnum = components<'read'>['schemas']['TypeOfDrefEnum'];
 export const DREF_TYPE_IMMINENT = 0 satisfies TypeOfDrefEnum;
 export const DREF_TYPE_ASSESSMENT = 1 satisfies TypeOfDrefEnum;
 
 // Subscriptions
-type SubscriptionRecordTypeEnum = components['schemas']['RtypeEnum'];
+type SubscriptionRecordTypeEnum = components<'read'>['schemas']['RtypeEnum'];
 export const SUBSCRIPTION_SURGE_ALERT = 3 satisfies SubscriptionRecordTypeEnum;
 export const SUBSCRIPTION_COUNTRY = 4 satisfies SubscriptionRecordTypeEnum;
 export const SUBSCRIPTION_REGION = 5 satisfies SubscriptionRecordTypeEnum;
@@ -109,29 +107,29 @@ export const SUBSCRIPTION_GENERAL = 14 satisfies SubscriptionRecordTypeEnum;
 
 // Field Report
 
-export type FieldReportStatusEnum = components['schemas']['StatusBb2Enum'];
+export type FieldReportStatusEnum = components<'read'>['schemas']['StatusBb2Enum'];
 export const FIELD_REPORT_STATUS_EARLY_WARNING = 8 satisfies FieldReportStatusEnum;
 export const FIELD_REPORT_STATUS_EVENT = 9 satisfies FieldReportStatusEnum;
 
-export type Bulletin = components['schemas']['BulletinEnum'];
+export type Bulletin = components<'read'>['schemas']['BulletinEnum'];
 export const BULLETIN_PUBLISHED_NO = 0 satisfies Bulletin;
 export const BULLETIN_PUBLISHED_PLANNED = 2 satisfies Bulletin;
 export const BULLETIN_PUBLISHED_YES = 3 satisfies Bulletin;
 
-type RequestChoices = components['schemas']['Key02bEnum'];
+type RequestChoices = components<'read'>['schemas']['Key02bEnum'];
 export const REQUEST_CHOICES_NO = 0 satisfies RequestChoices;
 
 export type ContactType = 'Originator' | 'NationalSociety' | 'Federation' | 'Media';
-export type OrganizationType = components['schemas']['Key1aeEnum'];
-export type ReportType = components['schemas']['FieldReportTypesEnum'];
-export type CategoryType = components['schemas']['KeyA87Enum'];
+export type OrganizationType = components<'read'>['schemas']['Key1aeEnum'];
+export type ReportType = components<'read'>['schemas']['FieldReportTypesEnum'];
+export type CategoryType = components<'read'>['schemas']['KeyA87Enum'];
 
 // Common
 
 // FIXME: we need to identify a typesafe way to get this value
 export const DISASTER_TYPE_EPIDEMIC = 1;
 
-export type Visibility = components['schemas']['VisibilityD1bEnum'];
+export type Visibility = components<'read'>['schemas']['VisibilityD1bEnum'];
 export const VISIBILITY_RCRC_MOVEMENT = 1 satisfies Visibility;
 export const VISIBILITY_IFRC_SECRETARIAT = 2 satisfies Visibility;
 export const VISIBILITY_PUBLIC = 3 satisfies Visibility;

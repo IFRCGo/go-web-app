@@ -3,9 +3,9 @@ import {
     PartialForm,
     requiredStringCondition,
 } from '@togglecorp/toggle-form';
-import { paths } from '#generated/types';
+import { type GoApiBody } from '#utils/restRequest';
 
-export type WorkPlanBody = paths['/api/v2/per-work-plan/{id}/']['put']['requestBody']['content']['application/json'];
+export type WorkPlanBody = GoApiBody<'/api/v2/per-work-plan/{id}/', 'PUT'>;
 type ComponentResponse = NonNullable<WorkPlanBody['prioritized_action_responses']>[number];
 type CustomComponentResponse = NonNullable<WorkPlanBody['additional_action_responses']>[number];
 

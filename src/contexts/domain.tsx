@@ -3,7 +3,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 
 export type CacheKey = 'country' | 'global-enums' | 'disaster-type' | 'user-me';
 
-export type GlobalEnums = GoApiResponse<'/api/v2/global-enums/'>;
+export type GlobalEnums = Partial<GoApiResponse<'/api/v2/global-enums/'>>;
 export type Countries = GoApiResponse<'/api/v2/country/'>;
 export type DisasterTypes = GoApiResponse<'/api/v2/disaster_type/'>;
 export type UserMe = GoApiResponse<'/api/v2/user/me/'>;

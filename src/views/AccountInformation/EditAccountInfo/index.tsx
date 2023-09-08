@@ -37,13 +37,13 @@ import styles from './styles.module.css';
 
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type OrganizationTypeOption = {
-    key: NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number]['key'] | '';
+    key: NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number]['key'];
     value: string;
 }
 
 type UserMeResponse = GoApiResponse<'/api/v2/user/me/'>;
 
-type AccountRequestBody = GoApiBody<'/api/v2/user/{id}/', 'PUT'>;
+type AccountRequestBody = GoApiBody<'/api/v2/user/{id}/', 'PATCH'>;
 
 type PartialFormFields = PartialForm<AccountRequestBody>;
 
@@ -95,8 +95,7 @@ function EditAccountInfo(props: Props) {
         last_name: userDetails?.last_name,
         profile: {
             city: userDetails?.profile?.city,
-            org_type: userDetails?.profile?.org_type === ''
-                ? undefined : userDetails?.profile?.org_type,
+            org_type: userDetails?.profile?.org_type,
             org: userDetails?.profile?.org,
             department: userDetails?.profile?.department,
             phone_number: userDetails?.profile?.phone_number,

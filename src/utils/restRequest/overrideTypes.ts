@@ -4,6 +4,7 @@ import {
     useRequest,
     useLazyRequest,
 } from '@togglecorp/toggle-request';
+import { type DeepNevaRemove } from '#utils/common';
 
 import {
     TransformedError,
@@ -17,42 +18,42 @@ export type VALID_METHOD = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 export type ApiResponse<SCHEME, URL extends keyof SCHEME, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' = 'GET'> = (
     METHOD extends 'GET'
     ? SCHEME[URL] extends { get: { responses: { 200: { content: { 'application/json': infer Res } } } } }
-        ? Res
+        ? DeepNevaRemove<Res>
         : never
     : METHOD extends 'POST'
         ? SCHEME[URL] extends { post: { responses: { 201: { content: { 'application/json': infer Res } } } } }
-            ? Res
+            ? DeepNevaRemove<Res>
             : never
         : METHOD extends 'PATCH'
             ? SCHEME[URL] extends { patch: { responses: { 200: { content: { 'application/json': infer Res } } } } }
-                ? Res
+                ? DeepNevaRemove<Res>
                 : never
             : METHOD extends 'PUT'
                 ? SCHEME[URL] extends { put: { responses: { 200: { content: { 'application/json': infer Res } } } } }
-                    ? Res
+                    ? DeepNevaRemove<Res>
                     : never
                 : never
 )
 
 export type ApiUrlQuery<SCHEME, URL extends keyof SCHEME, METHOD extends 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET'> = (
     METHOD extends 'GET'
-    ? SCHEME[URL] extends { get: { parameters: { query: infer Query } } }
+    ? SCHEME[URL] extends { get: { parameters: { query?: infer Query } } }
         ? Query
         : never
     : METHOD extends 'POST'
-        ? SCHEME[URL] extends { post: { parameters: { query: infer Query } } }
+        ? SCHEME[URL] extends { post: { parameters: { query?: infer Query } } }
             ? Query
             : never
         : METHOD extends 'PATCH'
-            ? SCHEME[URL] extends { patch: { parameters: { query: infer Query } } }
+            ? SCHEME[URL] extends { patch: { parameters: { query?: infer Query } } }
                 ? Query
                 : never
             : METHOD extends 'PUT'
-                ? SCHEME[URL] extends { put: { parameters: { query: infer Query } } }
+                ? SCHEME[URL] extends { put: { parameters: { query?: infer Query } } }
                     ? Query
                     : never
                 : METHOD extends 'DELETE'
-                    ? SCHEME[URL] extends { delete: { parameters: { query: infer Query } } }
+                    ? SCHEME[URL] extends { delete: { parameters: { query?: infer Query } } }
                         ? Query
                         : never
                     : never
@@ -60,16 +61,16 @@ export type ApiUrlQuery<SCHEME, URL extends keyof SCHEME, METHOD extends 'GET' |
 
 export type ApiBody<SCHEME, URL extends keyof SCHEME, METHOD extends 'POST' | 'PUT' | 'PATCH'> = (
     METHOD extends 'POST'
-        ? SCHEME[URL] extends { post: { requestBody: { content: { 'application/json': infer Res } } } }
-            ? Res
+        ? SCHEME[URL] extends { post: { requestBody?: { content: { 'application/json': infer Res } } } }
+            ? DeepNevaRemove<Res>
             : never
         : METHOD extends 'PATCH'
-            ? SCHEME[URL] extends { patch: { requestBody: { content: { 'application/json': infer Res } } } }
-                ? Res
+            ? SCHEME[URL] extends { patch: { requestBody?: { content: { 'application/json': infer Res } } } }
+                ? DeepNevaRemove<Res>
                 : never
             : METHOD extends 'PUT'
-                ? SCHEME[URL] extends { put: { requestBody: { content: { 'application/json': infer Res } } } }
-                    ? Res
+                ? SCHEME[URL] extends { put: { requestBody?: { content: { 'application/json': infer Res } } } }
+                    ? DeepNevaRemove<Res>
                     : never
                 : never
 )
@@ -80,10 +81,10 @@ export type ApiBody<SCHEME, URL extends keyof SCHEME, METHOD extends 'POST' | 'P
 type ResolveResponseContent<RESPONSES, METHOD> = (
     METHOD extends 'POST'
         ? RESPONSES extends { 201 : { content: { 'application/json': infer Response } } }
-            ? Response
+            ? DeepNevaRemove<Response>
             : ResolveResponseContent<RESPONSES, undefined>
         : RESPONSES extends { 200 : { content: { 'application/json': infer Response } } }
-            ? Response
+            ? DeepNevaRemove<Response>
             : unknown
 );
 
@@ -94,14 +95,14 @@ type ResolvePath<PARAMETERS> = (
 );
 
 type ResolveQuery<PARAMETERS> = (
-    PARAMETERS extends { query: infer Query }
+    PARAMETERS extends { query?: infer Query }
         ? Query
         : unknown
 );
 
 type ResolveRequestBody<REQUEST_BODY> = (
     REQUEST_BODY extends { content: { 'application/json': infer RequestBody } }
-        ? RequestBody
+        ? DeepNevaRemove<RequestBody>
         : unknown
 );
 

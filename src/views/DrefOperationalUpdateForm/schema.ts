@@ -47,7 +47,9 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
 }
 
 export type OpsUpdateResponse = GoApiResponse<'/api/v2/dref-op-update/{id}/'>;
-export type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/{id}/', 'PUT'>;
+export type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/{id}/', 'PUT'> & {
+    operational_update_number: number | undefined;
+};
 
 type NeedIdentifiedResponse = NonNullable<OpsUpdateRequestBody['needs_identified']>[number];
 type NsActionResponse = NonNullable<OpsUpdateRequestBody['national_society_actions']>[number];
@@ -116,6 +118,8 @@ type OpsUpdateFormSchemaFields = ReturnType<OpsUpdateFormSchema['fields']>;
 const schema: OpsUpdateFormSchema = {
     fields: (formValue): OpsUpdateFormSchemaFields => {
         let formFields: OpsUpdateFormSchemaFields = {
+            operational_update_number: { forceValue: undefinedValue },
+
             // OVERVIEW
             national_society: { required: true },
             type_of_dref: { required: true },

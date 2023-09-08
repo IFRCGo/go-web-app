@@ -12,13 +12,12 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
 import useTranslation from '#hooks/useTranslation';
-import type { paths } from '#generated/types';
 import { getDuration } from '#utils/common';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 
-type GetSearch = paths['/api/v1/search/']['get'];
-type SearchResponse = GetSearch['responses']['200']['content']['application/json'];
+type SearchResponse = GoApiResponse<'/api/v1/search/'>;
 type EmergencyResult = NonNullable<SearchResponse['emergencies']>[number];
 type FieldReportResult = NonNullable<SearchResponse['reports']>[number];
 type ProjectResult = NonNullable<SearchResponse['projects']>[number];
