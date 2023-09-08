@@ -3,13 +3,11 @@ import { useState } from 'react';
 import SearchSelectInput, {
     Props as SearchSelectInputProps,
 } from '#components/SearchSelectInput';
-import { useRequest } from '#utils/restRequest';
+import { useRequest, type GoApiResponse, type GoApiUrlQuery } from '#utils/restRequest';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import { paths } from '#generated/types';
 
-type GetEvent = paths['/api/v2/event/response-activity/']['get'];
-type GetEventParams = GetEvent['parameters']['query'];
-type GetEventResponse = GetEvent['responses']['200']['content']['application/json'];
+type GetEventParams = GoApiUrlQuery<'/api/v2/event/response-activity/'>;
+type GetEventResponse = GoApiResponse<'/api/v2/event/response-activity/'>;
 export type EventItem = Pick<NonNullable<GetEventResponse['results']>[number], 'id' | 'name' | 'dtype' | 'emergency_response_contact_email'>;
 
 const keySelector = (d: EventItem) => d.id;

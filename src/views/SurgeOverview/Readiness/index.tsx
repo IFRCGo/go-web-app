@@ -13,14 +13,14 @@ import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
-import { components } from '#generated/types';
+import { type components } from '#generated/types';
 
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import EmergencyResponseUnitOwnerCard from './EmergencyResponseUnitOwnerCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type EruTypeEnum = components['schemas']['Key187Enum'];
+type EruTypeEnum = components<'read'>['schemas']['Key187Enum'];
 
 type GetERUOwnersResponse = GoApiResponse<'/api/v2/eru_owner/'>;
 type ERUOwnerListItem = NonNullable<GetERUOwnersResponse['results']>[number];

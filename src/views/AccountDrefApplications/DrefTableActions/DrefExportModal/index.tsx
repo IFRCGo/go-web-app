@@ -53,9 +53,7 @@ function DrefExportModal(props: Props) {
         skip: isDefined(exportId) || isNotDefined(id),
         method: 'POST',
         url: '/api/v2/pdf-export/',
-        // FIXME: fix typing in server (low priority)
-        // the server generated type for response and body is the same
-        body: exportTriggerBody as never,
+        body: exportTriggerBody,
         onSuccess: (response) => {
             if (isDefined(response.id)) {
                 setExportId(response.id);

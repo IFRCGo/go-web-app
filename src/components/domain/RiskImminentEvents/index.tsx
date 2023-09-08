@@ -11,7 +11,7 @@ import {
 import RadioInput from '#components/RadioInput';
 import { stringLabelSelector } from '#utils/selectors';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
-import type { components } from '#generated/riskTypes';
+import { type components } from '#generated/riskTypes';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
 
@@ -28,7 +28,7 @@ function viewKeySelector(option: ViewOption) {
     return option.key;
 }
 
-type HazardType = components['schemas']['HazardTypeEnum'];
+type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 const riskHazards: Array<{
     key: HazardType,
     label: string,

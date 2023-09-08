@@ -4,7 +4,6 @@ import {
     type ArraySchema,
     type PurgeNull,
     ObjectSchema,
-    undefinedValue,
     emailCondition,
 } from '@togglecorp/toggle-form';
 
@@ -130,7 +129,7 @@ const finalSchema: FormSchema = {
                 keySelector: (graphic) => graphic.client_id,
                 member: (): GraphicsSchemaMember => ({
                     fields: (): GraphicSchemaFields => ({
-                        id: { defaultValue: undefinedValue },
+                        // id: { defaultValue: undefinedValue },
                         client_id: {},
                         caption: {},
                     }),
@@ -146,7 +145,7 @@ const finalSchema: FormSchema = {
                 keySelector: (mapFile) => mapFile.client_id,
                 member: (): MapsSchemaMember => ({
                     fields: (): MapSchemaFields => ({
-                        id: { defaultValue: undefinedValue },
+                        // id: { defaultValue: undefinedValue },
                         client_id: {},
                         caption: {},
                     }),
@@ -162,7 +161,7 @@ const finalSchema: FormSchema = {
                 keySelector: (reference) => reference.client_id,
                 member: (): ReferencesSchemaMember => ({
                     fields: (): ReferenceSchemaFields => ({
-                        id: { defaultValue: undefinedValue },
+                        // id: { defaultValue: undefinedValue },
                         client_id: {},
                         date: { required: true },
                         source_description: { required: true },
@@ -177,7 +176,7 @@ const finalSchema: FormSchema = {
                 keySelector: (actionTaken) => actionTaken.client_id,
                 member: (): ActionsSchemaMember => ({
                     fields: (): ActionSchemaFields => ({
-                        id: { defaultValue: undefinedValue },
+                        // id: { defaultValue: undefinedValue },
                         client_id: {},
                         organization: {},
                         actions: {},

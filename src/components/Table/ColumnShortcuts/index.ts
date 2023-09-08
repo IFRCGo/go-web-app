@@ -8,37 +8,37 @@ import {
 } from '@togglecorp/fujs';
 
 import DateOutput from '#components/DateOutput';
-import type { Props as DateOutputProps } from '#components/DateOutput';
+import { type Props as DateOutputProps } from '#components/DateOutput';
 import DateRangeOutput from '#components/DateRangeOutput';
-import type { Props as DateRangeOutputProps } from '#components/DateRangeOutput';
+import { type Props as DateRangeOutputProps } from '#components/DateRangeOutput';
 import NumberOutput from '#components/NumberOutput';
-import type { Props as NumberOutputProps } from '#components/NumberOutput';
+import { type Props as NumberOutputProps } from '#components/NumberOutput';
 import BooleanOutput from '#components/BooleanOutput';
-import type { Props as BooleanOutputProps } from '#components/BooleanOutput';
+import { type Props as BooleanOutputProps } from '#components/BooleanOutput';
 import ProgressBar from '#components/ProgressBar';
-import type { Props as ProgressBarProps } from '#components/ProgressBar';
+import { type Props as ProgressBarProps } from '#components/ProgressBar';
 import ReducedListDisplay, {
     Props as ReducedListDisplayProps,
 } from '#components/ReducedListDisplay';
-import type { Props as LinkProps } from '#components/Link';
+import { type Props as LinkProps } from '#components/Link';
 import Link from '#components/Link';
-import { paths } from '#generated/types';
 import { numericIdSelector } from '#utils/selectors';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import TableActions, {
     Props as TableActionsProps,
 } from '../TableActions';
 import HeaderCell from '../HeaderCell';
-import type { HeaderCellProps } from '../HeaderCell';
+import { type HeaderCellProps } from '../HeaderCell';
 import Cell from '../Cell';
-import type { CellProps } from '../Cell';
-import type { SortDirection, Column } from '../types';
+import { type CellProps } from '../Cell';
+import { type SortDirection, Column } from '../types';
 import ExpandButton from './ExpandButton';
-import type { ExpandButtonProps } from './ExpandButton';
+import { type ExpandButtonProps } from './ExpandButton';
 import ExpansionIndicator from './ExpansionIndicator';
-import type { Props as ExpansionIndicatorProps } from './ExpansionIndicator';
+import { type Props as ExpansionIndicatorProps } from './ExpansionIndicator';
 import CountryLink from './CountryLink';
-import type { Props as CountryLinkProps } from './CountryLink';
+import { type Props as CountryLinkProps } from './CountryLink';
 
 import styles from './styles.module.css';
 
@@ -500,8 +500,7 @@ export function createListDisplayColumn<DATUM, KEY, LIST_ITEM, RENDERER_PROPS>(
     return item;
 }
 
-type GetCountry = paths['/api/v2/country/']['get'];
-type CountryResponse = GetCountry['responses']['200']['content']['application/json'];
+type CountryResponse = GoApiResponse<'/api/v2/country/'>;
 type CountryListItem = NonNullable<CountryResponse['results']>[number];
 type PartialCountry = Pick<CountryListItem, 'id' | 'name'>;
 

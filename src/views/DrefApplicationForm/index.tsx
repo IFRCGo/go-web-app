@@ -60,7 +60,8 @@ type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
 
 export type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 
-function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | undefined) {
+// FIXME: fix typings in server (medium priority)
+function getNextStep(current: TabKeys, direction: 1 | -1, typeOfDref: TypeOfDrefEnum | '' | undefined) {
     if (typeOfDref === TYPE_LOAN && direction === 1) {
         const mapping: { [key in TabKeys]?: TabKeys } = {
             overview: 'eventDetail',

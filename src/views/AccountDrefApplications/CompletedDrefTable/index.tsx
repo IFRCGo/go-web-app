@@ -172,9 +172,16 @@ function CompletedDrefTable(props: Props) {
                     (opsUpdate) => ({
                         ...opsUpdate,
                         dref: datum.dref,
+                        glide_code: datum.glide_code,
+                        date_of_publication: datum.date_of_publication,
                     }),
                 ),
-                { ...datum.dref, dref: datum.dref },
+                {
+                    ...datum.dref,
+                    dref: datum.dref,
+                    glide_code: datum.glide_code,
+                    date_of_publication: datum.date_of_publication,
+                },
             ];
 
             return (

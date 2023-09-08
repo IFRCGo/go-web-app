@@ -4,10 +4,10 @@ import {
     PurgeNull,
 } from '@togglecorp/toggle-form';
 
-import type { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 import { DeepReplace } from '#utils/common';
 
-type AssessmentRequestBody = paths['/api/v2/per-assessment/{id}/']['put']['requestBody']['content']['application/json'];
+type AssessmentRequestBody = GoApiResponse<'/api/v2/per-assessment/{id}/', 'PUT'>;
 
 type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
 

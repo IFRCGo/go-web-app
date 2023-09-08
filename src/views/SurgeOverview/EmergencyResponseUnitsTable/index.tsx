@@ -21,12 +21,12 @@ import {
 import { resolveToString } from '#utils/translation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import { components } from '#generated/types';
+import { type components } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type EruTypeEnum = components['schemas']['Key187Enum'];
+type EruTypeEnum = components<'read'>['schemas']['Key187Enum'];
 
 type GetEmergencyResponseUnitsResponse = GoApiResponse<'/api/v2/eru/'>;
 type EmergencyResponseUnitListItem = NonNullable<GetEmergencyResponseUnitsResponse['results']>[number];

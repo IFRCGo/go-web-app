@@ -10,8 +10,9 @@ import useColumns from '../useColumns';
 
 type SearchResponse = GoApiResponse<'/api/v1/search/'>;
 
-type SearchResponseKey = keyof SearchResponse;
-// FIXME: add a note why we are using extract here
+// FIXME: Why do we need to add NonNullable on keyof
+type SearchResponseKey = NonNullable<keyof SearchResponse>;
+// FIXME: add a note why we are using exclude here
 type ResultKey = Exclude<SearchResponseKey, 'regions' | 'countries' | 'district_province_response'>;
 
 interface Props {

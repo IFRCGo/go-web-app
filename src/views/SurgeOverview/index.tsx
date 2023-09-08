@@ -6,7 +6,7 @@ import { useRequest } from '#utils/restRequest';
 import BarChart from '#components/BarChart';
 import TimeSeriesChart from '#components/TimeSeriesChart';
 import { getDatesSeparatedByMonths } from '#utils/chart';
-import { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 import { formatDate } from '#utils/common';
 
 import SurgeMap from './SurgeMap';
@@ -17,8 +17,7 @@ import Readiness from './Readiness';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetDeploymentsByNationalSociety = paths['/api/v2/deployment/aggregated_by_ns']['get'];
-type GetDeploymentsByNationalSocietyResponse = GetDeploymentsByNationalSociety['responses']['200']['content']['application/json'];
+type GetDeploymentsByNationalSocietyResponse = GoApiResponse<'/api/v2/deployment/aggregated_by_ns'>;
 type DeploymentsByNationalSociety = GetDeploymentsByNationalSocietyResponse[number];
 
 const timeSeriesDataKeys = ['deployments'];

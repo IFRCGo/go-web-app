@@ -26,7 +26,7 @@ import {
     RiskMetricOption,
 } from '#utils/domain/risk';
 import { formatNumber } from '#utils/common';
-import type { paths, components } from '#generated/riskTypes';
+import { type components } from '#generated/riskTypes';
 import {
     CATEGORY_RISK_HIGH,
     CATEGORY_RISK_LOW,
@@ -34,14 +34,14 @@ import {
     CATEGORY_RISK_VERY_HIGH,
     CATEGORY_RISK_VERY_LOW,
 } from '#utils/constants';
+import { type RiskApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
-type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
+type CountryRiskResponse = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type RiskData = CountryRiskResponse[number];
-type HazardType = components['schemas']['HazardTypeEnum'];
+type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
 const selectedMonths = {
     0: true,

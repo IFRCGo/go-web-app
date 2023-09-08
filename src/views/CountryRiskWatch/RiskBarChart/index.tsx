@@ -31,7 +31,7 @@ import type {
     RiskMetric,
     RiskMetricOption,
 } from '#utils/domain/risk';
-import type { paths } from '#generated/riskTypes';
+import { type RiskApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -39,8 +39,7 @@ import FoodInsecurityChart from './FoodInsecurityChart';
 import WildfireChart from './WildfireChart';
 import CombinedChart from './CombinedChart';
 
-type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
-type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
+type CountryRiskResponse = RiskApiResponse<'/api/v1/country-seasonal/'>;
 type RiskData = CountryRiskResponse[number];
 
 interface Props {

@@ -3,9 +3,9 @@ import {
     PartialForm,
 } from '@togglecorp/toggle-form';
 
-import type { paths } from '#generated/types';
+import { type GoApiBody } from '#utils/restRequest';
 
-export type PrioritizationRequestBody = paths['/api/v2/per-prioritization/{id}/']['put']['requestBody']['content']['application/json'];
+export type PrioritizationRequestBody = GoApiBody<'/api/v2/per-prioritization/{id}/', 'PUT'>;
 
 type ComponentResponse = NonNullable<PrioritizationRequestBody['prioritized_action_responses']>[number];
 export type PrioritizationFormFields = Omit<PrioritizationRequestBody, 'id' | 'prioritized_action_responses'> & ({

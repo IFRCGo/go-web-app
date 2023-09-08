@@ -1,7 +1,8 @@
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
-import type { paths, components } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
+import { type components } from '#generated/types';
 
-type PerPhase = components['schemas']['PhaseEnum'];
+type PerPhase = components<'read'>['schemas']['PhaseEnum'];
 
 export const PER_PHASE_OVERVIEW = 1 satisfies PerPhase;
 export const PER_PHASE_ASSESSMENT = 2 satisfies PerPhase;
@@ -9,7 +10,7 @@ export const PER_PHASE_PRIORITIZATION = 3 satisfies PerPhase;
 export const PER_PHASE_WORKPLAN = 4 satisfies PerPhase;
 export const PER_PHASE_ACTION = 5 satisfies PerPhase;
 
-type PerProcessStatusResponse = paths['/api/v2/per-process-status/{id}/']['get']['responses']['200']['content']['application/json'];
+type PerProcessStatusResponse = GoApiResponse<'/api/v2/per-process-status/{id}/'>;
 
 export function getCurrentPerProcessStep(status: PerProcessStatusResponse | undefined) {
     if (isNotDefined(status)) {

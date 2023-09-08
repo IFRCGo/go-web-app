@@ -17,9 +17,9 @@ import cycloneIcon from '#assets/icons/risk/cyclone.png';
 import droughtIcon from '#assets/icons/risk/drought.png';
 import wildfireIcon from '#assets/icons/risk/wildfire.png';
 
-import type { components } from '#generated/riskTypes';
+import { type components } from '#generated/riskTypes';
 
-type HazardType = components['schemas']['HazardTypeEnum'];
+type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
 export const hazardKeyToIconmap: Record<HazardType, string | null> = {
     EQ: earthquakeIcon,

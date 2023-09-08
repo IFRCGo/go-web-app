@@ -19,7 +19,7 @@ import styles from './styles.module.css';
 
 type GetCountryRisk = paths['/api/v1/country-seasonal/']['get'];
 type CountryRiskResponse = GetCountryRisk['responses']['200']['content']['application/json'];
-type HazardType = components['schemas']['HazardTypeEnum'];
+type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 interface HazardTypeOption {
     hazard_type: HazardType;
     hazard_type_display: string;

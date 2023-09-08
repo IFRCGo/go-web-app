@@ -3,12 +3,12 @@ import { _cs } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
-import { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type AggregateResponse = paths['/api/v1/aggregate/']['get']['responses']['200']['content']['application/json'];
+type AggregateResponse = GoApiResponse<'/api/v1/aggregate/'>;
 type AggregateItem = AggregateResponse[number];
 
 interface Props {

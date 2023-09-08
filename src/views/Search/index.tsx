@@ -41,7 +41,8 @@ import styles from './styles.module.css';
 type SearchResponse = GoApiResponse<'/api/v1/search/'>;
 
 const MAX_VIEW_PER_SECTION = 5;
-type SearchResponseKeys = keyof SearchResponse;
+// FIXME: Why do we need to add NonNullable on keyof
+type SearchResponseKeys = NonNullable<keyof SearchResponse>;
 
 function isListTypeResult(
     resultKey: SearchResponseKeys,

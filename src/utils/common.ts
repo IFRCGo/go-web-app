@@ -11,6 +11,7 @@ import {
     Maybe,
     populateFormat,
     breakFormat,
+    randomString,
 } from '@togglecorp/fujs';
 
 import { DEFAULT_DATE_FORMAT } from './constants';
@@ -24,10 +25,6 @@ type DeepNonNullable<T> = T extends object ? (
         { [P in keyof T]-?: DeepNonNullable<T[P]> }
     )
 ) : NonNullable<T>;
-
-export type Unfurl<T> = {
-    [key in keyof T]: T[key]
-};
 
 type SanitizeKeys<T> = T extends string ? T : never;
 type CheckPattern<KEY, KEYS extends string | number | symbol, PATTERN extends string> = KEY extends `${SanitizeKeys<KEYS>}${PATTERN}` ? never : KEY;
@@ -52,6 +49,16 @@ export type DeepReplace<T, A, B> = (
                 )
         )
 )
+
+type NotNevaKeys<T> = {
+    [key in keyof T]-?: T[key] extends never ? never : key
+}[keyof T]
+
+export type DeepNevaRemove<T> = T extends (infer Z)[]
+    ? DeepNevaRemove<Z>[]
+    : T extends object
+        ? { [K in NotNevaKeys<T>]: DeepNevaRemove<T[K]> }
+        : T;
 
 export function roundSafe(value: number | undefined | null): number | undefined
 export function roundSafe(value: number): number
@@ -409,14 +416,16 @@ export function getNumberOfDaysInMonth(year: number, month: number) {
 }
 
 export function injectClientId<V extends {
-    id: number,
+    id?: number,
     client_id?: string | null,
 }>(obj: V): (Omit<V, 'client_id'> & {
     client_id: string,
 }) {
     return {
         ...obj,
-        client_id: obj.client_id ?? String(obj.id),
+        client_id: obj.client_id
+            ?? (isDefined(obj.id) ? String(obj.id) : undefined)
+            ?? randomString(),
     };
 }
 

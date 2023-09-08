@@ -14,7 +14,7 @@ import useCountry from '#hooks/domain/useCountry';
 import useDisasterTypes from '#hooks/domain/useDisasterType';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { numericIdSelector, stringNameSelector, stringValueSelector } from '#utils/selectors';
-import { components } from '#generated/types';
+import { type components } from '#generated/types';
 import Checkbox from '#components/Checkbox';
 import Button from '#components/Button';
 import useUserMe from '#hooks/domain/useUserMe';
@@ -39,7 +39,7 @@ import useTranslation from '#hooks/useTranslation';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-export type RegionOption = components['schemas']['ApiRegionNameEnum'];
+export type RegionOption = components<'read'>['schemas']['ApiRegionNameEnum'];
 
 function regionKeySelector(option: RegionOption) {
     return option.key;

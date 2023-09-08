@@ -15,7 +15,7 @@ import TableActions from '#components/Table/TableActions';
 import Link from '#components/Link';
 import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
-import { components } from '#generated/types';
+import { type components } from '#generated/types';
 import {
     DREF_STATUS_COMPLETED,
     DREF_STATUS_IN_PROGRESS,
@@ -26,7 +26,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 import DrefShareModal from './DrefShareModal';
 
-type DrefStatus = components['schemas']['OperationTypeEnum'];
+type DrefStatus = components<'read'>['schemas']['OperationTypeEnum'];
 
 export interface Props {
     drefId: number;

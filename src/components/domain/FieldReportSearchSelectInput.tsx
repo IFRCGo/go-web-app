@@ -6,13 +6,13 @@ import SearchSelectInput, {
 
 import {
     useRequest,
+    type GoApiUrlQuery,
+    type GoApiResponse,
 } from '#utils/restRequest';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import { paths } from '#generated/types';
 
-type GetFieldReport = paths['/api/v2/field-report/']['get'];
-type GetFieldReportParams = GetFieldReport['parameters']['query'];
-type GetFieldReportResponse = GetFieldReport['responses']['200']['content']['application/json'];
+type GetFieldReportParams = GoApiUrlQuery<'/api/v2/field-report/'>;
+type GetFieldReportResponse = GoApiResponse<'/api/v2/field-report/'>;
 export type FieldReportItem = Pick<NonNullable<GetFieldReportResponse['results']>[number], 'id' | 'summary'>;
 
 const keySelector = (d: FieldReportItem) => d.id;

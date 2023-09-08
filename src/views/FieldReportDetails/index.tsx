@@ -434,7 +434,7 @@ export function Component() {
                 const categoryItems = mapToList(
                     actionsGroupedByCategory,
                     (item, key) => ({
-                        category: key as (CategoryType | ''),
+                        category: key as CategoryType,
                         actions: item,
                     }),
                 );

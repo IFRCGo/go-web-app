@@ -7,7 +7,7 @@ import { isDefined } from '@togglecorp/fujs';
 import Container from '#components/Container';
 import TextArea from '#components/TextArea';
 import RadioInput from '#components/RadioInput';
-import type { paths } from '#generated/types';
+import { type GoApiResponse } from '#utils/restRequest';
 
 import type { PartialAssessment } from '../../../schema';
 
@@ -18,7 +18,7 @@ type ComponentResponse = NonNullable<AreaResponse['component_responses']>[number
 
 type Value = NonNullable<ComponentResponse['question_responses']>[number];
 
-type PerFormQuestionResponse = paths['/api/v2/per-formquestion/']['get']['responses']['200']['content']['application/json'];
+type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;
 type PerFormQuestion = NonNullable<PerFormQuestionResponse['results']>[number];
 type PerFormAnswer = PerFormQuestion['answers'][number];
 
