@@ -31,6 +31,7 @@ import Message from '#components/Message';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import { type Props as ButtonProps } from '#components/Button';
 import {
     useRequest,
     useLazyRequest,
@@ -39,6 +40,7 @@ import {
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
+import useBooleanState from '#hooks/useBooleanState';
 import { injectClientId } from '#utils/common';
 import { transformObjectError } from '#utils/restRequest/error';
 
@@ -59,6 +61,7 @@ import Operation from './Operation';
 import Submission from './Submission';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
 import i18n from './i18n.json';
+import DrefShareModal from '../AccountDrefApplications/DrefTableActions/DrefShareModal';
 import styles from './styles.module.css';
 
 type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
@@ -119,6 +122,10 @@ export function Component() {
         setShowObsoletePayloadModal,
     ] = useState(false);
     const currentLanguage = useCurrentLanguage();
+    const [showShareModal, {
+        setTrue: setShowShareModalTrue,
+        setFalse: setShowShareModalFalse,
+    }] = useBooleanState(false);
     const lastModifiedAtRef = useRef<string | undefined>();
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
@@ -392,6 +399,13 @@ export function Component() {
         setActiveTab(newTab);
     }, []);
 
+    const handleShareClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
+        () => {
+            setShowShareModalTrue();
+        },
+        [setShowShareModalTrue],
+    );
+
     const nextStep = getNextStep(activeTab, 1, value.type_of_dref);
     const prevStep = getNextStep(activeTab, -1, value.type_of_dref);
     const saveDrefPending = createDrefPending || updateDrefPending;
@@ -427,7 +441,14 @@ export function Component() {
                     >
                         {strings.formImportFromDocument}
                     </RawFileInput>
-                ) : undefined}
+                ) : (
+                    <Button
+                        name={undefined}
+                        onClick={handleShareClick}
+                    >
+                        {strings.formShareButtonLabel}
+                    </Button>
+                )}
                 info={!shouldHideForm && (
                     <TabList className={styles.tabList}>
                         <Tab
@@ -588,6 +609,13 @@ export function Component() {
                         drefId={+drefId}
                         onOverwriteButtonClick={handleObsoletePayloadOverwiteButtonClick}
                         onCancelButtonClick={setShowObsoletePayloadModal}
+                    />
+                )}
+                {showShareModal && (
+                    <DrefShareModal
+                        onCancel={setShowShareModalFalse}
+                        onSuccess={setShowShareModalFalse}
+                        drefId={Number(drefId)}
                     />
                 )}
             </Page>
