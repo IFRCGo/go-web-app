@@ -105,6 +105,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         // eslint-disable-next-line arrow-body-style
         () => {
             return () => {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 Object.values(waitingForDblClick.current).forEach((timeout) => {
                     window.clearTimeout(timeout);
                 });

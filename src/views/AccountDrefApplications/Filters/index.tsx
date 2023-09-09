@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 
 import TextInput from '#components/TextInput';

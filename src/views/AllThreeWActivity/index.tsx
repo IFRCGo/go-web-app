@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -11,6 +11,7 @@ import {
     createListDisplayColumn,
     createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
+import useFilterState from '#hooks/useFilterState';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
@@ -104,7 +105,13 @@ function getPeopleReached(project: ProjectListItem) {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const [projectActivePage, setProjectActivePage] = useState(1);
+    const {
+        page: projectActivePage,
+        setPage: setProjectActivePage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
     const {
         response: projectResponse,
         pending: projectResponsePending,

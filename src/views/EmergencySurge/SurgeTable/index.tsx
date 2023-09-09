@@ -1,6 +1,5 @@
 import {
     useMemo,
-    useState,
     useCallback,
 } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
@@ -17,6 +16,7 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { getDuration } from '#utils/common';
 import { numericIdSelector } from '#utils/selectors';
+import useFilterState from '#hooks/useFilterState';
 
 import i18n from './i18n.json';
 
@@ -47,7 +47,10 @@ interface Props {
 export default function SurgeTable(props: Props) {
     const { emergencyId } = props;
     const strings = useTranslation(i18n);
-    const [projectActivePage, setProjectActivePage] = useState(1);
+    const {
+        page: projectActivePage,
+        setPage: setProjectActivePage,
+    } = useFilterState<object>({}, undefined);
 
     const {
         response: surgeResponse,

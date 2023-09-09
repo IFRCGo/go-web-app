@@ -110,7 +110,7 @@ function PersonnelByEventTable() {
                     pending={personnelByEventPending}
                     columns={columns}
                     keySelector={personnelByEventKeySelector}
-                    data={personnelByEventResponse?.results as PersonnelByEventListItem[]}
+                    data={personnelByEventResponse?.results}
                     filtered={false}
                 />
             </SortContext.Provider>

@@ -1,5 +1,4 @@
 import {
-    useState,
     useMemo,
     useCallback,
 } from 'react';
@@ -16,9 +15,7 @@ import { resolveToComponent } from '#utils/translation';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import {
-    useSortState,
     SortContext,
-    getOrdering,
 } from '#components/Table/useSorting';
 import {
     createStringColumn,
@@ -29,6 +26,7 @@ import Table from '#components/Table';
 import Link from '#components/Link';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { numericIdSelector } from '#utils/selectors';
+import useFilterState from '#hooks/useFilterState';
 
 import i18n from './i18n.json';
 
@@ -42,10 +40,13 @@ interface Props {
 
 export default function DeployedErusTable(props: Props) {
     const { emergencyId } = props;
-    const [page, setPage] = useState(1);
     const strings = useTranslation(i18n);
-    const sortState = useSortState();
-    const { sorting } = sortState;
+    const {
+        page,
+        setPage,
+        sortState,
+        ordering,
+    } = useFilterState<object>({}, undefined);
 
     const {
         deployments_eru_type,
@@ -81,7 +82,7 @@ export default function DeployedErusTable(props: Props) {
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            ordering,
             deployed_to__isnull: false,
             event: Number(emergencyId),
         },
