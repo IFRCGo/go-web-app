@@ -12,6 +12,10 @@
                 width: 40rem;
                 height: 60vh;
             }
+
+            .back-button {
+                font-size: var(--go-ui-font-size-icon-multiplier);
+            }
         }
 
         .right-pane {

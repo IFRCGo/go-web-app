@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
     useState,
     useEffect,
@@ -9,6 +10,7 @@ import {
 } from 'react';
 import {
     type SymbolLayer,
+    type LineLayer,
     type FillLayer,
     type MapboxGeoJSONFeature,
 } from 'mapbox-gl';
@@ -17,6 +19,7 @@ import {
     isNotDefined,
     unique,
 } from '@togglecorp/fujs';
+import { ChevronLeftLineIcon } from '@ifrc-go/icons';
 import turfBbox from '@turf/bbox';
 
 import Modal from '#components/Modal';
@@ -37,9 +40,12 @@ import Map, {
     MapBounds,
 } from '@togglecorp/re-map';
 import {
+    COLOR_BLACK,
     COLOR_LIGHT_GREY,
     COLOR_PRIMARY_RED,
     COLOR_DARK_GREY,
+    COLOR_TEXT,
+    COLOR_TEXT_ON_DARK,
 } from '#utils/constants';
 import DistrictSearchMultiSelectInput, {
     type DistrictItem,
@@ -112,43 +118,6 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
 
     const [selectedDistrict, setSelectedDistrict] = useState<number | undefined>();
 
-    const updateAdmin2 = useCallback((newDistricts: number[] | undefined) => {
-        const admin2ToDistrictMap = listToMap(
-            admin2Options,
-            (item) => item.id,
-            (item) => item.district_id,
-        );
-        const filteredAdmin2s = admin2Selections?.filter(
-            (item) => (
-                admin2ToDistrictMap
-                    ? newDistricts?.includes(admin2ToDistrictMap?.[item])
-                    : false
-            ),
-        );
-        setAdmin2Selections(filteredAdmin2s);
-    }, [
-        admin2Selections,
-        admin2Options,
-    ]);
-
-    const handleDistrictChange = useCallback<typeof setDistricts>(
-        (x) => {
-            if (typeof x === 'function') {
-                setDistricts((prevValue) => {
-                    const newValue = x(prevValue);
-
-                    // TODO: Research if we can call function with setState here?
-                    updateAdmin2(newValue);
-                    return newValue;
-                });
-            } else {
-                updateAdmin2(x);
-                setDistricts(x);
-            }
-        },
-        [updateAdmin2],
-    );
-
     const {
         response: districtResponse,
     } = useRequest({
@@ -163,6 +132,8 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
     const countryDetails = useCountry({
         id: countryId,
     });
+
+    const iso3 = countryDetails?.iso3;
 
     const bounds = useMemo(() => {
         if (!countryDetails) {
@@ -202,12 +173,54 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         selectedDistrict,
     ]);
 
-    const adminTwoLabelLayerOptions: Omit<SymbolLayer, 'id'> | undefined = useMemo(() => (
-        countryDetails?.iso3 ? ({
-            type: 'symbol',
-            'source-layer': `go-admin2-${countryDetails?.iso3}-staging`,
+    const adminOneFillLayerOptions: Omit<FillLayer, 'id'> = useMemo(() => {
+        const defaultColor: NonNullable<FillLayer['paint']>['fill-color'] = [
+            'case',
+            ['boolean', ['feature-state', 'hovered'], false],
+            COLOR_DARK_GREY,
+            COLOR_LIGHT_GREY,
+        ];
+        const options: Omit<FillLayer, 'id'> = {
+            type: 'fill',
             paint: {
-                'text-opacity': [
+                'fill-color': (!districts || districts.length <= 0)
+                    ? defaultColor
+                    : [
+                        'match',
+                        ['get', 'district_id'],
+                        ...districts.flatMap((districtId) => [
+                            districtId,
+                            COLOR_PRIMARY_RED,
+                        ]),
+                        defaultColor,
+                    ],
+                'fill-outline-color': COLOR_DARK_GREY,
+                'fill-opacity': [
+                    'match',
+                    ['get', 'country_id'],
+                    countryId,
+                    1,
+                    0,
+                ],
+            },
+            layout: {
+                visibility: selectedDistrict ? 'none' : 'visible',
+            },
+        };
+        return options;
+    }, [
+        countryId,
+        districts,
+        selectedDistrict,
+    ]);
+
+    const adminTwoLineLayerOptions: Omit<LineLayer, 'id'> | undefined = useMemo(() => (
+        iso3 && selectedDistrict ? ({
+            type: 'line',
+            'source-layer': `go-admin2-${iso3}-staging`,
+            paint: {
+                'line-color': COLOR_BLACK,
+                'line-opacity': [
                     'match',
                     ['get', 'admin1_id'],
                     selectedDistrict,
@@ -216,75 +229,39 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                 ],
             },
             layout: {
-                'text-offset': [
-                    0, 1,
-                ],
-                visibility: selectedDistrict ? 'none' : 'visible',
+                visibility: 'visible',
             },
         }) : undefined
     ), [
-        countryDetails?.iso3,
+        iso3,
         selectedDistrict,
     ]);
 
-    const adminOneFillLayerOptions: Omit<FillLayer, 'id'> = useMemo(() => ({
-        type: 'fill',
-        paint: {
-            'fill-color': [
-                'match',
-                ['get', 'district_id'],
-                ...(districts ?? []).map((districtId) => [
-                    districtId,
-                    COLOR_PRIMARY_RED,
-                ]).flat(),
-                // FIXME: -1 is there as match requires minium 2 args
-                -1, COLOR_DARK_GREY,
-                [
-                    'case',
-                    ['boolean', ['feature-state', 'hovered'], false],
-                    COLOR_DARK_GREY,
-                    COLOR_LIGHT_GREY,
-                ],
-            ],
-            'fill-outline-color': COLOR_DARK_GREY,
-            'fill-opacity': [
-                'match',
-                ['get', 'country_id'],
-                countryId,
-                1,
-                0,
-            ],
-        },
-        layout: {
-            visibility: selectedDistrict ? 'none' : 'visible',
-        },
-    }), [
-        selectedDistrict,
-        countryId,
-        districts,
-    ]);
-
-    const adminTwoFillLayerOptions = useMemo((): Omit<FillLayer, 'id'> | undefined => (
-        (countryDetails?.iso3 && selectedDistrict) ? ({
+    const adminTwoFillLayerOptions = useMemo((): Omit<FillLayer, 'id'> | undefined => {
+        if (!iso3 || !selectedDistrict) {
+            return undefined;
+        }
+        const defaultColor: NonNullable<FillLayer['paint']>['fill-color'] = [
+            'case',
+            ['boolean', ['feature-state', 'hovered'], false],
+            COLOR_DARK_GREY,
+            COLOR_LIGHT_GREY,
+        ];
+        const options: Omit<FillLayer, 'id'> = {
             type: 'fill',
-            'source-layer': `go-admin2-${countryDetails?.iso3}-staging`,
+            'source-layer': `go-admin2-${iso3}-staging`,
             paint: {
-                'fill-color': [
-                    'match',
-                    ['get', 'id'],
-                    ...(admin2Selections ?? []).map((admin2Item) => [
-                        admin2Item,
-                        COLOR_PRIMARY_RED,
-                    ]).flat(),
-                    // FIXME: -1 is there as match requires minium 2 args
-                    -1, COLOR_DARK_GREY,
-                    [
-                        'case',
-                        ['boolean', ['feature-state', 'hovered'], false],
-                        COLOR_DARK_GREY,
-                        COLOR_LIGHT_GREY,
+                'fill-color': (!admin2Selections || admin2Selections.length <= 0)
+                    ? defaultColor
+                    : [
+                        'match',
+                        ['get', 'id'],
+                        ...admin2Selections.map((admin2Item) => [
+                            admin2Item,
+                            COLOR_PRIMARY_RED,
+                        ]).flat(),
+                        defaultColor,
                     ],
-                ],
                 'fill-outline-color': COLOR_DARK_GREY,
                 'fill-opacity': [
                     'match',
@@ -295,14 +272,92 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                 ],
             },
             layout: {
-                visibility: selectedDistrict ? 'visible' : 'none',
+                visibility: 'visible',
             },
-        }) : undefined
-    ), [
-        countryDetails?.iso3,
+        };
+        return options;
+    }, [
+        iso3,
         admin2Selections,
         selectedDistrict,
     ]);
+
+    const adminTwoLabelLayerOptions = useMemo((): Omit<SymbolLayer, 'id'> | undefined => {
+        const textColor: NonNullable<SymbolLayer['paint']>['text-color'] = (
+            admin2Selections && admin2Selections.length > 0
+                ? [
+                    'match',
+                    ['get', 'id'],
+                    ...admin2Selections.map((admin2) => [
+                        admin2,
+                        COLOR_TEXT_ON_DARK,
+                    ]).flat(),
+                    COLOR_TEXT,
+                ]
+                : COLOR_TEXT
+        );
+
+        const options: Omit<SymbolLayer, 'id'> = {
+            type: 'symbol',
+            'source-layer': `go-admin2-${iso3}-centroids`,
+            paint: {
+                'text-color': textColor,
+                'text-opacity': [
+                    'match',
+                    ['get', 'admin1_id'],
+                    selectedDistrict,
+                    1,
+                    0,
+                ],
+            },
+            layout: {
+                'text-field': ['get', 'name'],
+                'text-anchor': 'center',
+                'text-size': 10,
+            },
+        };
+        return options;
+    }, [iso3, admin2Selections, selectedDistrict]);
+
+    const updateAdmin2 = useCallback(
+        (newDistricts: number[] | undefined) => {
+            const admin2ToDistrictMap = listToMap(
+                admin2Options,
+                (item) => item.id,
+                (item) => item.district_id,
+            );
+            const filteredAdmin2s = admin2Selections?.filter(
+                (item) => (
+                    admin2ToDistrictMap
+                        ? newDistricts?.includes(admin2ToDistrictMap?.[item])
+                        : false
+                ),
+            );
+            setAdmin2Selections(filteredAdmin2s);
+        },
+        [
+            admin2Selections,
+            admin2Options,
+        ],
+    );
+
+    const handleDistrictChange = useCallback<typeof setDistricts>(
+        (x) => {
+            if (typeof x === 'function') {
+                setDistricts((prevValue) => {
+                    const newValue = x(prevValue);
+
+                    // TODO: Research if we can call function with setState here?
+                    updateAdmin2(newValue);
+                    return newValue;
+                });
+            } else {
+                updateAdmin2(x);
+                setDistricts(x);
+            }
+        },
+        [updateAdmin2],
+    );
 
     const handleDistrictClick = useCallback((clickedFeature: MapboxGeoJSONFeature) => {
         // console.log('single click register', new Date().getTime());
@@ -366,53 +421,6 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         handleDistrictChange,
     ]);
 
-    const handleAdmin2Click = useCallback((clickedFeature: MapboxGeoJSONFeature) => {
-        const properties = clickedFeature?.properties as {
-            id: number;
-            admin1_id: number;
-            name?: string;
-        };
-        if (properties.admin1_id !== selectedDistrict) {
-            return false;
-        }
-        onAdmin2OptionsChange((oldOptions) => {
-            if (!properties.name || !properties.id) {
-                return oldOptions;
-            }
-            return unique(
-                [
-                    ...(oldOptions ?? []),
-                    {
-                        id: properties.id,
-                        district_id: properties.admin1_id,
-                        name: properties.name,
-                    },
-                ],
-                (item) => item.id,
-            );
-        });
-        setAdmin2Selections((oldVal = []) => {
-            if (!properties.id) {
-                return oldVal;
-            }
-            const index = oldVal?.indexOf(properties.id);
-            if (isNotDefined(index) || index === -1) {
-                return [
-                    ...oldVal,
-                    properties.id,
-                ];
-            }
-            const newVal = [...oldVal];
-            newVal.splice(index, 1);
-
-            return newVal;
-        });
-        return false;
-    }, [
-        selectedDistrict,
-        onAdmin2OptionsChange,
-    ]);
-
     const handleDistrictDoubleClick = useCallback((clickedFeature: MapboxGeoJSONFeature) => {
         // console.log('double click call', new Date().getTime());
         const properties = clickedFeature?.properties as {
@@ -462,6 +470,71 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         handleDistrictChange,
     ]);
 
+    const handleDistrictRemove = useCallback((districtId: number) => {
+        if (districtId === selectedDistrict) {
+            setSelectedDistrict(undefined);
+        }
+        handleDistrictChange((oldVal = []) => (
+            oldVal.filter((item) => item !== districtId)
+        ));
+    }, [
+        handleDistrictChange,
+        selectedDistrict,
+    ]);
+
+    const handleAdmin2Click = useCallback((clickedFeature: MapboxGeoJSONFeature) => {
+        const properties = clickedFeature?.properties as {
+            id: number;
+            admin1_id: number;
+            name?: string;
+        };
+        if (properties.admin1_id !== selectedDistrict) {
+            return false;
+        }
+        onAdmin2OptionsChange((oldOptions) => {
+            if (!properties.name || !properties.id) {
+                return oldOptions;
+            }
+            return unique(
+                [
+                    ...(oldOptions ?? []),
+                    {
+                        id: properties.id,
+                        district_id: properties.admin1_id,
+                        name: properties.name,
+                    },
+                ],
+                (item) => item.id,
+            );
+        });
+        setAdmin2Selections((oldVal = []) => {
+            if (!properties.id) {
+                return oldVal;
+            }
+            const index = oldVal?.indexOf(properties.id);
+            if (isNotDefined(index) || index === -1) {
+                return [
+                    ...oldVal,
+                    properties.id,
+                ];
+            }
+            const newVal = [...oldVal];
+            newVal.splice(index, 1);
+
+            return newVal;
+        });
+        return false;
+    }, [
+        selectedDistrict,
+        onAdmin2OptionsChange,
+    ]);
+
+    const handleAdmin2Remove = useCallback((admin2Id: number) => {
+        setAdmin2Selections((oldVal = []) => (
+            oldVal.filter((item) => item !== admin2Id)
+        ));
+    }, []);
+
     const handleSaveClick = useCallback(() => {
         onDistrictsChange(districts, districtsName);
         onAdmin2Change(admin2Selections, admin2Name);
@@ -475,24 +548,6 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         districtsName,
         districts,
     ]);
-
-    const handleDistrictRemove = useCallback((districtId: number) => {
-        if (districtId === selectedDistrict) {
-            setSelectedDistrict(undefined);
-        }
-        handleDistrictChange((oldVal = []) => (
-            oldVal.filter((item) => item !== districtId)
-        ));
-    }, [
-        handleDistrictChange,
-        selectedDistrict,
-    ]);
-
-    const handleAdmin2Remove = useCallback((admin2Id: number) => {
-        setAdmin2Selections((oldVal = []) => (
-            oldVal.filter((item) => item !== admin2Id)
-        ));
-    }, []);
 
     const districtRendererParams = useCallback((districtId: number) => ({
         districtId,
@@ -533,6 +588,9 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                         name={undefined}
                         onClick={setSelectedDistrict}
                         variant="tertiary"
+                        icons={(
+                            <ChevronLeftLineIcon className={styles.backButton} />
+                        )}
                     >
                         {/* FIXME: Use translations */}
                         Back to Country
@@ -570,27 +628,39 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                             />
                         )}
                     </MapSource>
-                    {adminTwoFillLayerOptions && (
-                        <MapSource
-                            sourceKey="country-admin-2"
-                            sourceOptions={{
-                                type: 'vector',
-                                url: `mapbox://go-ifrc.go-admin2-${countryDetails?.iso3}-staging`,
-                            }}
-                        >
-                            <MapLayer
-                                layerKey="admin-2-fill"
-                                layerOptions={adminTwoFillLayerOptions}
-                                onClick={handleAdmin2Click}
-                                hoverable
-                            />
-                            {adminTwoLabelLayerOptions && (
+                    {adminTwoFillLayerOptions && adminTwoLineLayerOptions && adminTwoLabelLayerOptions && (
+                        <>
+                            <MapSource
+                                sourceKey="country-admin-2"
+                                sourceOptions={{
+                                    type: 'vector',
+                                    url: `mapbox://go-ifrc.go-admin2-${iso3}-staging`,
+                                }}
+                            >
+                                <MapLayer
+                                    layerKey="admin-2-fill"
+                                    layerOptions={adminTwoFillLayerOptions}
+                                    onClick={handleAdmin2Click}
+                                    hoverable
+                                />
                                 <MapLayer
                                     layerKey="admin-2-line"
+                                    layerOptions={adminTwoLineLayerOptions}
+                                />
+                            </MapSource>
+                            <MapSource
+                                sourceKey="country-admin-2-labels"
+                                sourceOptions={{
+                                    type: 'vector',
+                                    url: `mapbox://go-ifrc.go-admin2-${iso3}-centroids`,
+                                }}
+                            >
+                                <MapLayer
+                                    layerKey="admin-2-label"
                                     layerOptions={adminTwoLabelLayerOptions}
                                 />
-                            )}
-                        </MapSource>
+                            </MapSource>
+                        </>
                     )}
                 </Map>
             </div>

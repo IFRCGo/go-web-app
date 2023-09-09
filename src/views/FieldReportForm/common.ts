@@ -7,6 +7,7 @@ import {
     requiredStringCondition,
     addCondition,
     nullValue,
+    undefinedValue,
 } from '@togglecorp/toggle-form';
 
 import {
@@ -384,7 +385,7 @@ export const reportSchema: FormSchema = {
                                 fields: (): ActionTakenField => ({
                                     organization: { required: true },
                                     actions: {},
-                                    id: {},
+                                    id: { defaultValue: undefinedValue },
                                     summary: {},
                                 }),
                             }),
@@ -403,7 +404,7 @@ export const reportSchema: FormSchema = {
                                     const baseThree = {
                                         organization: { required: true },
                                         actions: {},
-                                        id: {},
+                                        id: { defaultValue: undefinedValue },
                                         summary: {},
                                     };
                                     // TODO:
@@ -432,7 +433,7 @@ export const reportSchema: FormSchema = {
                             fields: (): ActionTakenField => ({
                                 organization: { required: true },
                                 actions: {},
-                                id: {},
+                                id: { defaultValue: undefinedValue },
                                 summary: {},
                             }),
                         }),

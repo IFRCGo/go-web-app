@@ -70,6 +70,7 @@ function DistrictItem(props: Props) {
             <div className={styles.admin2Items}>
                 {admin2InCurrentDistrict?.map((item) => (
                     <Button
+                        key={item}
                         className={styles.button}
                         name={item}
                         onClick={onAdmin2Remove}
