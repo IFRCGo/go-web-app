@@ -1,9 +1,8 @@
 import {
-    useState,
     useMemo,
 } from 'react';
 
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import NumberOutput from '#components/NumberOutput';
 import Link from '#components/Link';
@@ -15,6 +14,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
@@ -32,12 +32,20 @@ thirtyDaysAgo.setHours(0, 0, 0, 0);
 
 const keySelector = (item: FlashUpdateListItem) => item.id;
 
+const PAGE_SIZE = 5;
 type TableKey = number;
 
 function FlashUpdateTable() {
     const strings = useTranslation(i18n);
-    const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        { name: 'created_at', direction: 'dsc' },
+    );
 
     const columns = useMemo(
         () => ([
@@ -75,9 +83,6 @@ function FlashUpdateTable() {
         [strings],
     );
 
-    const [page, setPage] = useState(1);
-
-    const PAGE_SIZE = 5;
     const {
         pending: flashUpdatePending,
         response: flashUpdateResponse,
@@ -87,7 +92,7 @@ function FlashUpdateTable() {
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            ordering,
             created_at__gte: thirtyDaysAgo.toISOString(),
         },
     });

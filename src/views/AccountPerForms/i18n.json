@@ -6,6 +6,8 @@
         "tableCountryTitle":"Country",
         "tableStartDateTitle": "Start Date",
         "tablePerCycleTitle": "PER Cycle",
-        "tablePerPhaseTitle": "PER Phase"
+        "tablePerPhaseTitle": "PER Phase",
+        "allRegions": "All Regions",
+        "allCountries": "All Countries"
     }
 }

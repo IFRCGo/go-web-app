@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
@@ -11,6 +11,7 @@ import {
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import { numericIdSelector } from '#utils/selectors';
@@ -44,7 +45,14 @@ function getMolnixKeywords(molnixTags: SurgeListItem['molnix_tags']) {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const [projectActivePage, setProjectActivePage] = useState(1);
+
+    const {
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
 
     const {
         response: surgeResponse,
@@ -54,7 +62,7 @@ export function Component() {
         preserveResponse: true,
         query: {
             limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (projectActivePage - 1),
+            offset: ITEM_PER_PAGE * (page - 1),
         },
     });
 
@@ -164,8 +172,8 @@ export function Component() {
             <Container
                 footerActions={(
                     <Pager
-                        activePage={projectActivePage}
-                        onActivePageChange={setProjectActivePage}
+                        activePage={page}
+                        onActivePageChange={setPage}
                         itemsCount={surgeResponse?.count ?? 0}
                         maxItemsPerPage={ITEM_PER_PAGE}
                     />

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
@@ -12,7 +12,7 @@ import {
     createLinkColumn,
     createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
@@ -24,6 +24,7 @@ import {
     type GoApiUrlQuery,
 } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useFilterState from '#hooks/useFilterState';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import RegionSelectInput from '#components/domain/RegionSelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
@@ -50,10 +51,18 @@ const PAGE_SIZE = 10;
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const sortState = useSortState();
-    const { sorting } = sortState;
+
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
+
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
-    const [page, setPage] = useState(1);
 
     const [filterAppealType, setFilterAppealType] = useUrlSearchState<AppealTypeOption['key'] | undefined>(
         'atype',
@@ -111,7 +120,7 @@ export function Component() {
         () => ({
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            ordering,
             atype: filterAppealType,
             dtype: filterDisasterType,
             country: filterCountry,
@@ -122,7 +131,7 @@ export function Component() {
             start_date__gte: undefined,
             */
         }),
-        [page, sorting, filterAppealType, filterDisasterType, filterCountry, filterRegion],
+        [page, ordering, filterAppealType, filterDisasterType, filterCountry, filterRegion],
     );
     const {
         pending: appealsPending,

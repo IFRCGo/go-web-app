@@ -1,11 +1,10 @@
 import {
-    useState,
     useMemo,
 } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -19,6 +18,7 @@ import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
+import useFilterState from '#hooks/useFilterState';
 import { resolveToComponent } from '#utils/translation';
 import {
     useRequest,
@@ -47,8 +47,15 @@ const eventKeySelector = (item: EventListItem) => item.id;
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        { name: 'created_at', direction: 'dsc' },
+    );
 
     const columns = useMemo(
         () => ([
@@ -131,18 +138,16 @@ export function Component() {
         (country) => country,
     );
 
-    const [page, setPage] = useState(1);
-
     const query = useMemo<EventQueryParams>(
         () => ({
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            ordering,
             dtype: filterDisasterType,
             region: filterRegion,
             countries__in: filterCountry,
         }),
-        [page, filterDisasterType, filterRegion, filterCountry, sorting],
+        [page, ordering, filterDisasterType, filterRegion, filterCountry],
     );
 
     const {

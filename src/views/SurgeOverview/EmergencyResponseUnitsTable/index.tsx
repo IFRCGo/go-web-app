@@ -1,7 +1,5 @@
 import {
-    useState,
     useMemo,
-    useCallback,
 } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 
@@ -9,8 +7,7 @@ import Table from '#components/Table';
 import SelectInput from '#components/SelectInput';
 import Link from '#components/Link';
 import Container from '#components/Container';
-import useInputState from '#hooks/useInputState';
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import {
@@ -21,6 +18,7 @@ import {
 import { resolveToString } from '#utils/translation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useFilterState from '#hooks/useFilterState';
 import { type components } from '#generated/types';
 
 import i18n from './i18n.json';
@@ -43,13 +41,21 @@ const emergencyResponseUnitTypeKeySelector = (item: EmergencyResponseUnitType) =
 const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType) => item.label ?? '?';
 
 function EmergencyResponseUnitsTable() {
-    const [page, setPage] = useState(1);
-    const [emergencyResponseUnitType, setEmergencyResponseType] = useInputState<EmergencyResponseUnitType['key'] | undefined>(undefined);
-
     const strings = useTranslation(i18n);
-
-    const sortState = useSortState();
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+        filter,
+        filtered,
+        setFilterField,
+    } = useFilterState<{
+        type?: EmergencyResponseUnitType['key'],
+    }>(
+        {},
+        undefined,
+    );
 
     const {
         pending: emergencyResponseUnitsPending,
@@ -61,19 +67,14 @@ function EmergencyResponseUnitsTable() {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             deployed_to__isnull: false,
-            ordering: getOrdering(sorting),
-            type: emergencyResponseUnitType,
+            ordering,
+            type: isDefined(filter.type) ? filter.type : undefined,
         },
     });
 
     const {
         deployments_eru_type,
     } = useGlobalEnums();
-
-    const handleEmergencyResponseUnitTypeChange = useCallback((value: EmergencyResponseUnitType['key'] | undefined) => {
-        setEmergencyResponseType(value);
-        setPage(1);
-    }, [setEmergencyResponseType]);
 
     const columns = useMemo(() => ([
         createStringColumn<EmergencyResponseUnitListItem, number>(
@@ -137,9 +138,9 @@ function EmergencyResponseUnitsTable() {
             filters={(
                 <SelectInput
                     placeholder={strings.emergencyResponseUnitTypeFilterPlaceholder}
-                    name={undefined}
-                    value={emergencyResponseUnitType}
-                    onChange={handleEmergencyResponseUnitTypeChange}
+                    name="type"
+                    value={filter.type}
+                    onChange={setFilterField}
                     keySelector={emergencyResponseUnitTypeKeySelector}
                     labelSelector={emergencyResponseUnitTypeLabelSelector}
                     options={deployments_eru_type}
@@ -170,7 +171,7 @@ function EmergencyResponseUnitsTable() {
                     columns={columns}
                     keySelector={emergencyResponseUnitKeySelector}
                     data={emergencyResponseUnitsResponse?.results}
-                    filtered={isDefined(emergencyResponseUnitType)}
+                    filtered={filtered}
                 />
             </SortContext.Provider>
         </Container>

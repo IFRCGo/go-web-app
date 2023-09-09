@@ -1,9 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -16,6 +16,7 @@ import Pager from '#components/Pager';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
+import useFilterState from '#hooks/useFilterState';
 import { resolveToComponent } from '#utils/translation';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
@@ -33,8 +34,15 @@ const PAGE_SIZE = 15;
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        { name: 'created_at', direction: 'dsc' },
+    );
     const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
         'dtype',
         (searchValue) => {
@@ -98,14 +106,6 @@ export function Component() {
         [strings],
     );
 
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
-    const [page, setPage] = useState(1);
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,

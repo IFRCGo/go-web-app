@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
@@ -12,6 +12,7 @@ import {
     createListDisplayColumn,
     createElementColumn,
 } from '#components/Table/ColumnShortcuts';
+import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 import { numericIdSelector } from '#utils/selectors';
@@ -115,9 +116,21 @@ interface Props {
 export function Component(props: Props) {
     const { className } = props;
     const strings = useTranslation(i18n);
+    const {
+        page: projectActivePage,
+        setPage: setProjectActivePage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
 
-    const [projectActivePage, setProjectActivePage] = useState(1);
-    const [activityActivePage, setActivityActivePage] = useState(1);
+    const {
+        page: activityActivePage,
+        setPage: setActivityActivePage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
 
     const {
         response: projectResponse,

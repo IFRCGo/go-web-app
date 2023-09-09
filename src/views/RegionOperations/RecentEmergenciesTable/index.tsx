@@ -1,8 +1,7 @@
 import {
-    useState,
     useMemo,
 } from 'react';
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import Link from '#components/Link';
@@ -15,6 +14,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import NumberOutput from '#components/NumberOutput';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -41,9 +41,15 @@ interface Props {
 function EventItemsTable(props: Props) {
     const { regionId } = props;
     const strings = useTranslation(i18n);
-    const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
-    const { sorting } = sortState;
-    const [page, setPage] = useState(1);
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        { name: 'created_at', direction: 'dsc' },
+    );
 
     const columns = useMemo(
         () => ([
@@ -100,7 +106,7 @@ function EventItemsTable(props: Props) {
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            ordering,
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
             regions__in: regionId,
         },

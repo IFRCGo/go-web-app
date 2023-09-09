@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import Table from '#components/Table';
@@ -6,8 +6,8 @@ import { createStringColumn } from '#components/Table/ColumnShortcuts';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import SelectInput from '#components/SelectInput';
-import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { useRiskRequest } from '#utils/restRequest';
 import type { GoApiResponse, RiskApiResponse } from '#utils/restRequest';
 import {
@@ -40,10 +40,21 @@ function PossibleEarlyActionTable(props: Props) {
         countryResponse,
     } = props;
     const strings = useTranslation(i18n);
-    const [page, setPage] = useState(1);
-
-    const [hazardType, setHazardType] = useInputState<string | undefined>(undefined);
-    const [sector, setSector] = useInputState<string | undefined>(undefined);
+    const {
+        page,
+        setPage,
+        filter,
+        filtered,
+        setFilterField,
+    } = useFilterState<{
+        // FIXME hazardType should be HazardType
+        // hazardType?: HazardType,
+        hazardType?: string,
+        sector?: string,
+    }>(
+        {},
+        undefined,
+    );
 
     const columns = useMemo(
         () => ([
@@ -114,12 +125,12 @@ function PossibleEarlyActionTable(props: Props) {
             limit: ITEM_PER_PAGE,
             offset: ITEM_PER_PAGE * (page - 1),
             iso3: countryResponse?.iso3 ?? undefined,
-            hazard_type: [hazardType] as HazardType[],
-            sectors: sector,
+            hazard_type: isDefined(filter.hazardType)
+                ? [filter.hazardType] as HazardType[]
+                : undefined,
+            sectors: filter.sector,
         },
     });
-
-    const filtered = isDefined(hazardType) || isDefined(sector);
 
     return (
         <Container
@@ -131,12 +142,12 @@ function PossibleEarlyActionTable(props: Props) {
                 <>
                     <SelectInput
                         placeholder={strings.earlyActionTableFilterHazardTypePlaceholder}
-                        name={undefined}
+                        name="hazardType"
                         options={earlyActionsOptionsResponse?.hazard_type}
                         keySelector={stringKeySelector}
                         labelSelector={stringValueSelector}
-                        value={hazardType}
-                        onChange={setHazardType}
+                        value={filter.hazardType}
+                        onChange={setFilterField}
                     />
                     <SelectInput
                         placeholder={strings.earlyActionTableFilterSectorPlaceholder}
@@ -144,8 +155,8 @@ function PossibleEarlyActionTable(props: Props) {
                         options={earlyActionsOptionsResponse?.sectors}
                         keySelector={stringNameSelector}
                         labelSelector={stringNameSelector}
-                        value={sector}
-                        onChange={setSector}
+                        value={filter.sector}
+                        onChange={setFilterField}
                     />
                     <div />
                 </>

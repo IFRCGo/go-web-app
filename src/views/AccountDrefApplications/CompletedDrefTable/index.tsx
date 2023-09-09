@@ -15,10 +15,9 @@ import Table from '#components/Table';
 import Pager from '#components/Pager';
 import TableBodyContent from '#components/Table/TableBodyContent';
 import useTranslation from '#hooks/useTranslation';
-import useDebouncedValue from '#hooks/useDebouncedValue';
+import useFilterState from '#hooks/useFilterState';
 import { numericIdSelector } from '#utils/selectors';
 import { useRequest } from '#utils/restRequest';
-import { hasSomeDefinedValue } from '#utils/common';
 
 import DrefTableActions, { type Props as DrefTableActionsProps } from '../DrefTableActions';
 import Filters, { type FilterValue } from '../Filters';
@@ -39,15 +38,16 @@ function CompletedDrefTable(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-    const [page, setPage] = useState(1);
-    const [filterValue, setFilterValue] = useState<FilterValue>({
-        country: undefined,
-        type_of_dref: undefined,
-        disaster_type: undefined,
-        appeal_code: undefined,
-    });
-
-    const debouncedFilterValue = useDebouncedValue(filterValue);
+    const {
+        page,
+        setPage,
+        filter,
+        filtered,
+        setFilterField,
+    } = useFilterState<FilterValue>(
+        {},
+        undefined,
+    );
 
     const {
         response: completedDrefResponse,
@@ -57,8 +57,11 @@ function CompletedDrefTable(props: Props) {
         query: {
             offset: NUM_ITEMS_PER_PAGE * (page - 1),
             limit: NUM_ITEMS_PER_PAGE,
-            ...debouncedFilterValue,
-        },
+            country: filter.country,
+            type_of_dref: filter.type_of_dref,
+            disaster_type: filter.disaster_type,
+            appeal_code: filter.appeal_code,
+        } as never,
     });
 
     type DrefResultItem = NonNullable<NonNullable<typeof completedDrefResponse>['results']>[number];
@@ -216,8 +219,8 @@ function CompletedDrefTable(props: Props) {
             filtersContainerClassName={styles.filters}
             filters={(
                 <Filters
-                    value={filterValue}
-                    onChange={setFilterValue}
+                    value={filter}
+                    onChange={setFilterField}
                 />
             )}
         >
@@ -228,7 +231,7 @@ function CompletedDrefTable(props: Props) {
                 keySelector={numericIdSelector}
                 pending={completedDrefResponsePending}
                 rowModifier={rowModifier}
-                filtered={hasSomeDefinedValue(filterValue)}
+                filtered={filtered}
             />
         </Container>
     );

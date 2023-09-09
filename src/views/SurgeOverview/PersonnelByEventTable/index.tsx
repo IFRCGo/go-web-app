@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import Table from '#components/Table';
 import Link from '#components/Link';
@@ -8,9 +8,10 @@ import {
     createNumberColumn,
     createStringColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -24,12 +25,17 @@ const personnelByEventKeySelector = (item: PersonnelByEventListItem) => item.id;
 const PAGE_SIZE = 25;
 
 function PersonnelByEventTable() {
-    const [page, setPage] = useState(1);
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
 
     const strings = useTranslation(i18n);
-
-    const sortState = useSortState();
-    const { sorting } = sortState;
 
     const {
         pending: personnelByEventPending,
@@ -40,7 +46,7 @@ function PersonnelByEventTable() {
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            ordering,
         },
     });
 
