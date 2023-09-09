@@ -236,8 +236,8 @@ export function Component() {
                 ...response,
                 // Set beginning is_annual_report switch according to
                 // the filled-in annual split details
-                is_annual_report: response.annual_split_detail?.length >= 1,
-                annual_split_detail: response.annual_split_detail.map((split) => ({
+                is_annual_report: (response.annual_splits ?? []).length >= 1,
+                annual_splits: response.annual_splits?.map((split) => ({
                     ...injectClientId(split),
                 })),
             });
@@ -334,8 +334,8 @@ export function Component() {
     const {
         setValue: setAnnualSplit,
         removeValue: removeAnnualSplit,
-    } = useFormArray<'annual_split_detail', PartialAnnualType>(
-        'annual_split_detail',
+    } = useFormArray<'annual_splits', PartialAnnualType>(
+        'annual_splits',
         setFieldValue,
     );
 
@@ -348,7 +348,7 @@ export function Component() {
             (oldValue: PartialAnnualType[] | undefined) => (
                 [...(oldValue ?? []), newAnnualSplit]
             ),
-            'annual_split_detail' as const,
+            'annual_splits' as const,
         );
         setFieldValue(true, 'is_annual_report');
     }, [setFieldValue]);
@@ -366,7 +366,7 @@ export function Component() {
     }, [setValue]);
 
     const annualSplitErrors = useMemo(
-        () => getErrorObject(error?.annual_split_detail),
+        () => getErrorObject(error?.annual_splits),
         [error],
     );
 
@@ -932,7 +932,7 @@ export function Component() {
                                     + strings.projectFormAnnually
                                 }
                             >
-                                {value?.annual_split_detail?.map((annual_split, i) => (
+                                {value?.annual_splits?.map((annual_split, i) => (
                                     <AnnualSplitInput
                                         key={annual_split.client_id}
                                         index={i}
