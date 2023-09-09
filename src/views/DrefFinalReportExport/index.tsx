@@ -73,6 +73,9 @@ export function Component() {
 
             waitForImages();
         },
+        onFailure: () => {
+            setPreviewReady(true);
+        },
     });
 
     const showMainDonorsSection = isTruthyString(drefResponse?.main_donors?.trim());

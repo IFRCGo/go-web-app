@@ -80,10 +80,10 @@ function Pdc(props: Props) {
                 hazard_type,
             } = event;
 
-            if (isNotDefined(latitude)
+            if (
+                isNotDefined(latitude)
                 || isNotDefined(longitude)
                 || isNotDefined(hazard_type)
-                || hazard_type === ''
             ) {
                 return undefined;
             }

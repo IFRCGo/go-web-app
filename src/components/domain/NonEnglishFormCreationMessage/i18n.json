@@ -1,0 +1,7 @@
+{
+    "namespace":"common",
+    "strings":{
+        "fonNonEnglishErrorMessage": "This form can only be create in English at the moment!",
+        "formNonEnglishHelpMessage": "Please change the language to English to edit it!"
+    }
+}

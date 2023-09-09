@@ -75,6 +75,9 @@ export function Component() {
 
             waitForImages();
         },
+        onFailure: () => {
+            setPreviewReady(true);
+        },
     });
 
     const eventDescriptionDefined = isTruthyString(drefResponse?.event_description?.trim());

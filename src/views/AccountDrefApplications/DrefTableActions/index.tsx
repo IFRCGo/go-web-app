@@ -174,7 +174,7 @@ function DrefTableActions(props: Props) {
             {showExportModal && (
                 <DrefExportModal
                     onCancel={setShowExportModalFalse}
-                    id={drefId}
+                    id={id}
                     applicationType={applicationType}
                 />
             )}

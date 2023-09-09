@@ -55,7 +55,7 @@ function ReturnPeriodTable(props: Props) {
             unique(
                 data?.map(
                     (datum) => {
-                        if (isFalsyString(datum.hazard_type) || datum.hazard_type === '') {
+                        if (isFalsyString(datum.hazard_type)) {
                             return undefined;
                         }
 
