@@ -1,0 +1,11 @@
+{
+    "namespace": "regionThreeW",
+    "strings": {
+        "threeWFilterOperationTypes": "Operation Types",
+        "threeWFilterProgrammeTypes": "Programme Types",
+        "threeWFilterSectors": "Sectors",
+        "threeWFilterTags": "Tags",
+        "threeWFilterProvinces": "Provinces",
+        "threeWFilterStatus": "Status"
+    }
+}

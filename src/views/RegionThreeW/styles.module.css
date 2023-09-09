@@ -40,6 +40,7 @@
                 padding: 0;
             }
         }
+
         .people-reached-card {
             display: flex;
             flex-direction: column;
@@ -53,6 +54,44 @@
                 flex-basis: 0;
                 flex-grow: 1;
                 padding: 0;
+            }
+        }
+    }
+
+    .movement-activities {
+        overflow: auto;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
+        }
+
+        .sidebar {
+            height: 100%;
+            overflow: auto;
+
+            .sidebar-content {
+                overflow: auto;
+
+                .projects-in-country {
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--go-ui-spacing-sm);
+
+                    .project-in-country-item {
+                        display: flex;
+
+                        .name {
+                            flex-grow: 1;
+                        }
+
+                        .action {
+                            flex-shrink: 0;
+                            font-size: var(--go-ui-font-size-icon-multiplier);
+                        }
+                    }
+                }
             }
         }
     }

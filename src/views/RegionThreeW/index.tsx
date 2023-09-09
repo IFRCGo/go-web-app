@@ -1,10 +1,17 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
+import {
+    DownloadFillIcon,
+} from '@ifrc-go/icons';
 
+import Link from '#components/Link';
+import Button from '#components/Button';
 import BlockLoading from '#components/BlockLoading';
+import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
 import PieChart from '#components/PieChart';
 import ProgressBar from '#components/ProgressBar';
@@ -17,6 +24,7 @@ import {
     stringNameSelector,
 } from '#utils/selectors';
 
+import Filters, { type FilterValue } from './Filters';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -36,6 +44,14 @@ export function Component() {
 
     const strings = useTranslation(i18n);
 
+    const [filters, setFilters] = useState<FilterValue>({
+        operation_type: [],
+        programme_type: [],
+        primary_sector: [],
+        secondary_sectors: [],
+        status: [],
+    });
+
     const {
         response: regionProjectOverviewResponse,
         pending: regionProjectOverviewResponsePending,
@@ -46,7 +62,19 @@ export function Component() {
             id: regionId,
         } : undefined,
     });
+    const {
+        response: regionalMovementActivitiesResponse,
+        pending: regionalMovementActivitiesResponsePending,
+    } = useRequest({
+        url: '/api/v2/region-project/{id}/movement-activities/',
+        skip: isNotDefined(regionId),
+        pathVariables: isDefined(regionId) ? {
+            id: regionId,
+        } : undefined,
+        query: filters,
+    });
 
+    console.warn('regionalMovementActivitiesResponse', regionalMovementActivitiesResponse);
     const projectByStatus = regionProjectOverviewResponse?.projects_by_status?.map((project) => {
         const name = projectStatus?.find((status) => (status.key === project.status))?.value;
         if (isDefined(name)) {
@@ -126,6 +154,36 @@ export function Component() {
                     </div>
                 </div>
             )}
+            <Container
+                className={styles.movementActivities}
+                childrenContainerClassName={styles.content}
+                heading={strings.movementActivities}
+                withHeaderBorder
+                filters={(
+                    <Filters
+                        value={filters}
+                        onChange={setFilters}
+                    />
+                )}
+                actions={(
+                    <>
+                        <Button
+                            variant="primary"
+                            name={undefined}
+                            icons={<DownloadFillIcon />}
+                        >
+                            {strings.export}
+                        </Button>
+                        <Link
+                            to="newThreeWActivity"
+                        >
+                            {strings.addThreeW}
+                        </Link>
+                    </>
+                )}
+            >
+                <div>sameer</div>
+            </Container>
         </div>
     );
 }

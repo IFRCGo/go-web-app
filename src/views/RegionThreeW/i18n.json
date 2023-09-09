@@ -6,6 +6,9 @@
         "totalPeopleReached": "Total Number of People Reached",
         "targetedPopulation": "Targeted Population",
         "totalProjectsByStatus": "Total Activities By Status",
-        "totalProjects": "Total Activities"
+        "totalProjects": "Total Activities",
+        "movementActivities": "Movement Activities",
+        "export": "Export",
+        "addThreeW": "Add"
     }
 }
