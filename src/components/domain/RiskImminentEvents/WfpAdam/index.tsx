@@ -94,10 +94,10 @@ function WfpAdam(props: Props) {
             const latitude = event_details?.latitude as number | undefined;
             const longitude = event_details?.longitude as number | undefined;
 
-            if (isNotDefined(latitude)
+            if (
+                isNotDefined(latitude)
                 || isNotDefined(longitude)
                 || isNotDefined(hazard_type)
-                || hazard_type === ''
             ) {
                 return undefined;
             }

@@ -145,7 +145,7 @@ export function getPrioritizedIpcData(data: IpcData) {
     // duplicate, so we need to sort by highest priority first
     const sortedData = data?.map(
         (item) => {
-            if (isFalsyString(item.estimation_type) || item.estimation_type === '') {
+            if (isFalsyString(item.estimation_type)) {
                 return undefined;
             }
 
