@@ -49,7 +49,7 @@ function PageHeader(props: Props) {
             <Container
                 className={styles.container}
                 icons={breadCrumbs}
-                actions={(
+                actions={(actions || wikiLink) && (
                     <>
                         {actions}
                         {wikiLink}
@@ -59,16 +59,20 @@ function PageHeader(props: Props) {
                 footerContentClassName={infoContainerClassName}
                 childrenContainerClassName={_cs(styles.header, headerClassName)}
             >
-                <Heading
-                    level={1}
-                    className={styles.heading}
-                >
-                    { heading }
-                </Heading>
-                {description && (
-                    <div className={_cs(styles.description, descriptionContainerClassName)}>
-                        { description }
-                    </div>
+                {(heading || description) && (
+                    <>
+                        <Heading
+                            level={1}
+                            className={styles.heading}
+                        >
+                            { heading }
+                        </Heading>
+                        {description && (
+                            <div className={_cs(styles.description, descriptionContainerClassName)}>
+                                { description }
+                            </div>
+                        )}
+                    </>
                 )}
             </Container>
         </PageContainer>

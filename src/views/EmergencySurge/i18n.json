@@ -1,6 +1,7 @@
 {
     "namespace": "emergencySurge",
     "strings": {
-        "emergencySurgeTempContent":"Emergency Surge"
+        "emergencyActiveDeployments": "Ongoing Rapid Response Deployments",
+        "emergencyActiveErus": "Deployed ERUs"
     }
 }
