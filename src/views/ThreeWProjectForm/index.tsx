@@ -671,11 +671,9 @@ export function Component() {
                                 districtsValue={value.project_districts}
                                 admin2Name="project_admin2"
                                 admin2Value={value.project_admin2}
-                                // FIXME: type issue
                                 onDistrictsChange={setFieldValue}
                                 districtOptions={districtOptions}
                                 onDistrictsOptionsChange={setDistrictOptions}
-                                // FIXME: type issue
                                 onAdmin2Change={setFieldValue}
                                 admin2Options={admin2Options}
                                 onAdmin2OptionsChange={setAdmin2Options}

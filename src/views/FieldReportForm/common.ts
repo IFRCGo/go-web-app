@@ -401,7 +401,7 @@ export const reportSchema: FormSchema = {
                             keySelector: (item) => item.organization,
                             member: (): ActionTakenListMember => ({
                                 fields: (): ActionTakenField => {
-                                    const baseThree = {
+                                    const baseThree: ActionTakenField = {
                                         organization: { required: true },
                                         actions: {},
                                         id: { defaultValue: undefinedValue },

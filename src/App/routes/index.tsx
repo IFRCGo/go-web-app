@@ -498,6 +498,19 @@ const emergencySurge = customWrapRoute({
     },
 });
 
+const emergencyAdditionalTab = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'additional-tab/:routeName',
+    component: {
+        render: () => import('#views/EmergencyAdditionalTab'),
+        props: {},
+    },
+    context: {
+        title: 'Emergency Additional Tab',
+        visibility: 'anything',
+    },
+});
+
 type DefaultSurgeChild = 'overview';
 const surgeLayout = customWrapRoute({
     parent: rootLayout,
@@ -2305,6 +2318,7 @@ const wrappedRoutes = {
     emergencyReportsAndDocuments,
     emergencyActivities,
     emergencySurge,
+    emergencyAdditionalTab,
     surgeLayout,
     surgeOverview,
     surgeOperationalToolbox,
