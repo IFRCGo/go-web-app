@@ -28,6 +28,7 @@ import TabPanel from '#components/Tabs/TabPanel';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import Message from '#components/Message';
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import {
     useRequest,
@@ -113,6 +114,9 @@ export function Component() {
         setShowObsoletePayloadModal,
     ] = useState(false);
     const currentLanguage = useCurrentLanguage();
+    const [districtOptions, setDistrictOptions] = useState<
+        DistrictItem[] | undefined | null
+    >([]);
     const lastModifiedAtRef = useRef<string | undefined>();
 
     const {
@@ -267,6 +271,8 @@ export function Component() {
                 request_for_second_allocation: request_for_second_allocation ?? false,
                 has_forecasted_event_materialize: has_forecasted_event_materialize ?? false,
             });
+
+            setDistrictOptions(response.district_details);
         },
     });
 
@@ -636,6 +642,8 @@ export function Component() {
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
                                 disabled={disabled}
+                                districtOptions={districtOptions}
+                                setDistrictOptions={setDistrictOptions}
                             />
                         </TabPanel>
                         <TabPanel name="eventDetail">

@@ -30,6 +30,7 @@ import NonFieldError from '#components/NonFieldError';
 import Message from '#components/Message';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import {
     useRequest,
     useLazyRequest,
@@ -119,6 +120,9 @@ export function Component() {
     ] = useState(false);
     const currentLanguage = useCurrentLanguage();
     const lastModifiedAtRef = useRef<string | undefined>();
+    const [districtOptions, setDistrictOptions] = useState<
+        DistrictItem[] | undefined | null
+    >([]);
 
     const {
         value,
@@ -227,6 +231,8 @@ export function Component() {
                     : undefined,
                 images_file: images_file?.map(injectClientId),
             });
+
+            setDistrictOptions(response.district_details);
         },
     });
 
@@ -506,6 +512,8 @@ export function Component() {
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 error={formError}
                                 disabled={disabled}
+                                districtOptions={districtOptions}
+                                setDistrictOptions={setDistrictOptions}
                             />
                         </TabPanel>
                         <TabPanel name="eventDetail">

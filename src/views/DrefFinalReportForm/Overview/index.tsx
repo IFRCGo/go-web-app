@@ -1,5 +1,7 @@
 import {
     useCallback,
+    type SetStateAction,
+    type Dispatch,
 } from 'react';
 import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 import {
@@ -19,13 +21,10 @@ import Button from '#components/Button';
 import TextInput from '#components/TextInput';
 import TextArea from '#components/TextArea';
 import SelectInput from '#components/SelectInput';
-import MultiSelectInput from '#components/MultiSelectInput';
 import NumberInput from '#components/NumberInput';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import { type GoApiResponse } from '#utils/restRequest';
 import {
-    stringNameSelector,
-    numericIdSelector,
     stringValueSelector,
 } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
@@ -33,6 +32,9 @@ import useCountry from '#hooks/domain/useCountry';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import DistrictSearchMultiSelectInput, {
+    type DistrictItem,
+} from '#components/domain/DistrictSearchMultiSelectInput';
 import useDisasterType from '#hooks/domain/useDisasterType';
 
 import {
@@ -72,6 +74,8 @@ interface Props {
 
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    districtOptions: DistrictItem[] | null | undefined;
+    setDistrictOptions: Dispatch<SetStateAction<DistrictItem[] | null | undefined>>;
 }
 
 function Overview(props: Props) {
@@ -82,6 +86,8 @@ function Overview(props: Props) {
         fileIdToUrlMap,
         setFileIdToUrlMap,
         disabled,
+        districtOptions,
+        setDistrictOptions,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -94,19 +100,6 @@ function Overview(props: Props) {
     const countryOptions = useCountry();
 
     const disasterTypes = useDisasterType();
-
-    // FIXME: Use DistrictMultiSearchSelectInput
-    const {
-        pending: districtsResponsePending,
-        response: districtsResponse,
-    } = useRequest({
-        skip: isNotDefined(value?.country),
-        url: '/api/v2/district/',
-        query: {
-            country: value?.country,
-            limit: 100,
-        },
-    });
 
     const handleNSChange = useCallback((nationalSociety: number | undefined) => {
         // FIXME: should we also change national_society when country is changed?
@@ -261,17 +254,16 @@ function Overview(props: Props) {
                     error={error?.country}
                     disabled={disabled}
                 />
-                <MultiSelectInput
+                <DistrictSearchMultiSelectInput
                     name="district"
+                    countryId={value.country}
                     label={strings.drefFormAddRegion}
-                    options={districtsResponse?.results}
-                    optionsPending={districtsResponsePending}
-                    keySelector={numericIdSelector}
-                    labelSelector={stringNameSelector}
-                    value={value?.district}
+                    options={districtOptions}
                     onChange={setFieldValue}
-                    error={getErrorString(error?.district)}
+                    value={value?.district}
                     disabled={disabled}
+                    onOptionsChange={setDistrictOptions}
+                    error={getErrorString(error?.district)}
                 />
             </InputSection>
             <InputSection title={strings.drefFormTitle}>
