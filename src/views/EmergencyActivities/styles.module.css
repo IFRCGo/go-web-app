@@ -47,6 +47,25 @@
         align-items: center;
         gap: var(--go-ui-spacing-xs);
     }
+
+    .response-activities {
+        overflow: auto;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xl);
+        }
+
+        .sidebar {
+            height: 100%;
+            overflow: auto;
+
+            .sidebar-content {
+                overflow: auto;
+            }
+        }
+    }
 }
 
 .tooltip {

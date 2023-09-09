@@ -1,0 +1,64 @@
+.activity-detail {
+    .header-description-container {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        gap: var(--go-ui-spacing-sm);
+
+        .progress-bar-container {
+            align-items: center;
+            flex-grow: 1;
+
+            .progress-bar {
+                gap: 0;
+            }
+        }
+    }
+
+    .project-list-item-container {
+        .project {
+            border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-20);
+            padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+
+            .heading {
+                justify-content: space-between;
+
+                .status {
+                    flex-shrink: 0;
+                    border: 1px solid var(--go-ui-color-gray-30);
+                    border-radius: 1em;
+                    background-color: var(--go-ui-color-gray-20);
+                    padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-sm);
+                }
+            }
+
+            .dates {
+                display: flex;
+                gap: var(--go-ui-spacing-sm);
+
+                .date {
+                    color: var(--go-ui-color-gray-60);
+                }
+            }
+
+            .activities {
+                min-height: unset;
+
+                .activity {
+                    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+                }
+            }
+        }
+    }
+}
+
+.tooltip {
+    display: flex;
+    align-items: center;
+    padding: var(--go-ui-spacing-sm);
+}
+
+
+
+
+

@@ -23,7 +23,7 @@
     }
 
     .sidebar {
-        flex-basis: calc(14vw + 16rem);
+        flex-basis: calc(14vw + 12rem);
         background-color: var(--go-ui-color-background);
         overflow: auto;
     }

@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo } from 'react';
 import {
     _cs,
     isDefined,
@@ -16,12 +16,12 @@ import Map, {
     MapBounds,
 } from '@togglecorp/re-map';
 
+import TextOutput from '#components/TextOutput';
 import LegendItem from '#components/LegendItem';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
-import { type GoApiResponse } from '#utils/restRequest';
-import type { EmergencyOutletContext } from '#utils/outletContext';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useTranslation from '#hooks/useTranslation';
-
+import type { EmergencyOutletContext } from '#utils/outletContext';
 import {
     defaultMapStyle,
     defaultMapOptions,
@@ -34,10 +34,8 @@ import {
     COLOR_LIGHT_GREY,
 } from '#utils/constants';
 
-import useCountryRaw from '#hooks/domain/useCountryRaw';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import TextOutput from '#components/TextOutput';
 
 const COLOR_SEVERITY_LOW = '#ccd2d9';
 const COLOR_SEVERITY_MEDIUM = '#99a5b4';
@@ -48,9 +46,6 @@ const SEVERITY_LOW = 2;
 const SEVERITY_MEDIUM = 5;
 const SEVERITY_HIGH = 10;
 
-type EmergencyProjectResponse = GoApiResponse<'/api/v2/emergency-project/'>;
-type EmergencyProject = NonNullable<EmergencyProjectResponse['results']>[number];
-
 function getEmergencyCountryIdList(emergency: EmergencyOutletContext['emergencyResponse']) {
     return unique(emergency?.countries.map((country) => country.id).filter(isDefined) ?? []);
 }
@@ -59,12 +54,6 @@ interface Props {
     className?: string;
     sidebarContent?: React.ReactNode;
     emergencyProjectCountByDistrict: Record<number, number>;
-    sectorGroupedEmergencyProjectList: Record<
-        number,
-        {
-            sectorDetails: NonNullable<EmergencyProject['activities']>[number]['sector_details'];
-            projects: EmergencyProject[];
-        }>
 }
 
 function ActivitiesMap(props: Props) {
@@ -72,10 +61,8 @@ function ActivitiesMap(props: Props) {
         className,
         sidebarContent,
         emergencyProjectCountByDistrict,
-        sectorGroupedEmergencyProjectList,
     } = props;
 
-    const [activeSector, setActiveSector] = useState<number | undefined>();
     const strings = useTranslation(i18n);
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
     const countryList = useCountryRaw();
@@ -92,21 +79,6 @@ function ActivitiesMap(props: Props) {
         () => getCountryListBoundingBox(emergencyCountryList),
         [emergencyCountryList],
     );
-
-    const sectorKeys = useMemo(
-        () => Object.keys(sectorGroupedEmergencyProjectList),
-        [sectorGroupedEmergencyProjectList],
-    );
-
-    const handleSectorClick = useCallback((sectorId: number) => {
-        setActiveSector((prevSectorId) => {
-            if (prevSectorId === sectorId) {
-                return undefined;
-            }
-
-            return sectorId;
-        });
-    }, []);
 
     const emergencyProjectCountByDistrictList = mapToList(
         emergencyProjectCountByDistrict,

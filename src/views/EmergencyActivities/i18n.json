@@ -20,6 +20,8 @@
         "threeWViewDetails": "View Details",
         "threeWEdit": "Edit",
         "threeWDuplicate": "Duplicate",
-        "responseActivities": "Response Activities"
+        "responseActivities": "Response Activities",
+        "activitiesBySector": "Activities by Sector",
+        "dataNotAvailable": "No Activities"
     }
 }

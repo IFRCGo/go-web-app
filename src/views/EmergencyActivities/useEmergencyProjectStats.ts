@@ -161,7 +161,7 @@ function useEmergencyProjectStats(
             return newAcc;
         }, {} as Record<number, number>);
 
-        const sectorGroupedEmergencyProjectList = filteredProjectList.reduce((acc, val) => {
+        const sectorGroupedEmergencyProjects = filteredProjectList.reduce((acc, val) => {
             const newAcc = { ...acc };
             val.activities?.forEach((activity) => {
                 if (!newAcc[activity.sector]) {
@@ -193,7 +193,7 @@ function useEmergencyProjectStats(
             emergencyProjectCountListBySector,
             emergencyProjectCountListByStatus: Object.values(projectCountByStatus),
             peopleReached,
-            sectorGroupedEmergencyProjectList,
+            sectorGroupedEmergencyProjects,
             uniqueEruCount: eruList?.length ?? 0,
             uniqueNsCount: nsList?.length ?? 0,
             uniqueSectorCount: sectors?.length ?? 0,

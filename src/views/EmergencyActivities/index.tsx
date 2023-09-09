@@ -2,6 +2,12 @@ import { useState, useMemo, useCallback } from 'react';
 import { sumSafe, hasSomeDefinedValue } from '#utils/common';
 import { useOutletContext } from 'react-router-dom';
 import {
+    compareNumber,
+    isDefined,
+    isNotDefined,
+    mapToList,
+} from '@togglecorp/fujs';
+import {
     InformationLineIcon,
     CopyLineIcon,
     PencilFillIcon,
@@ -13,9 +19,11 @@ import Button from '#components/Button';
 import Container from '#components/Container';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import KeyFigure from '#components/KeyFigure';
+import Message from '#components/Message';
 import Pager from '#components/Pager';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
+import TextOutput from '#components/TextOutput';
 import Tooltip from '#components/Tooltip';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
@@ -34,8 +42,7 @@ import {
     stringTitleSelector,
 } from '#utils/selectors';
 
-import { compareNumber, isDefined, isNotDefined } from '@togglecorp/fujs';
-import TextOutput from '#components/TextOutput';
+import ActivityDetail from './ActivityDetail';
 import ActivitiesMap from './ActivitesMap';
 import Filters, { type FilterValue } from './Filters';
 import useEmergencyProjectStats, { getPeopleReached } from './useEmergencyProjectStats';
@@ -158,7 +165,7 @@ export function Component() {
         emergencyProjectCountListBySector,
         emergencyProjectCountListByStatus,
         peopleReached,
-        sectorGroupedEmergencyProjectList,
+        sectorGroupedEmergencyProjects,
         uniqueEruCount,
         uniqueNsCount,
         uniqueSectorCount,
@@ -271,6 +278,21 @@ export function Component() {
         return filteredProjectList.slice(offset, offset + ITEM_PER_PAGE);
     }, [filteredProjectList, activePage]);
 
+    const sectorGroupedEmergencyProjectList = useMemo(() => (
+        mapToList(
+            sectorGroupedEmergencyProjects,
+            (value, key) => ({
+                sector: key,
+                projects: value.projects,
+                sectorDetails: value.sectorDetails,
+            }),
+        )
+    ), [sectorGroupedEmergencyProjects]);
+
+    const noActivitiesBySector = (isNotDefined(sectorGroupedEmergencyProjectList)
+        || (isDefined(sectorGroupedEmergencyProjectList)
+            && (sectorGroupedEmergencyProjectList.length < 1)));
+
     return (
         <div className={styles.emergencyActivities}>
             <Container
@@ -362,6 +384,8 @@ export function Component() {
                 )}
             </Container>
             <Container
+                className={styles.responseActivities}
+                childrenContainerClassName={styles.content}
                 heading={strings.responseActivities}
                 withHeaderBorder
                 actions={(
@@ -390,7 +414,28 @@ export function Component() {
             >
                 <ActivitiesMap
                     emergencyProjectCountByDistrict={emergencyProjectCountByDistrict}
-                    sectorGroupedEmergencyProjectList={sectorGroupedEmergencyProjectList}
+                    sidebarContent={(
+                        <Container
+                            className={styles.sidebar}
+                            heading={strings.activitiesBySector}
+                            withInternalPadding
+                            childrenContainerClassName={styles.sidebarContent}
+                        >
+                            {noActivitiesBySector && (
+                                <Message
+                                    title={strings.dataNotAvailable}
+                                    compact
+                                />
+                            )}
+                            {sectorGroupedEmergencyProjectList.map((sectorGroupedProject) => (
+                                <ActivityDetail
+                                    key={sectorGroupedProject.sector}
+                                    sectorDetails={sectorGroupedProject.sectorDetails}
+                                    projects={sectorGroupedProject.projects}
+                                />
+                            ))}
+                        </Container>
+                    )}
                 />
                 <Table
                     filtered={isFiltered}
