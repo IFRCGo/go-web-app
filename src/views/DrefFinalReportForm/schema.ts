@@ -170,7 +170,7 @@ const schema: FinalReportFormSchema = {
                 member: () => ({
                     fields: () => ({
                         client_id: {},
-                        id: {},
+                        id: { defaultValue: undefinedValue },
                         caption: {
                             required: true,
                             requiredValidation: requiredStringCondition,

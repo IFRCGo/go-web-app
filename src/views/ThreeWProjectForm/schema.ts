@@ -56,6 +56,7 @@ const finalSchema: FormSchema = {
             programme_type: { required: true },
             project_country: { required: true },
             project_districts: { defaultValue: [] },
+            project_admin2: { defaultValue: [] },
             reporting_ns: { required: true },
             reporting_ns_contact_name: {},
             reporting_ns_contact_role: {},

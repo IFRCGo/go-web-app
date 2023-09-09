@@ -45,7 +45,7 @@ import Checkbox from '#components/Checkbox';
 import TextOutput from '#components/TextOutput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
-import DistrictSearchMultiSelectInput, { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import EventSearchSelectInput, { type EventItem } from '#components/domain/EventSearchSelectInput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
@@ -74,6 +74,7 @@ import schema, {
     type PartialAnnualType,
 } from './schema';
 import AnnualSplitInput from './AnnualSplitInput';
+import DistrictMap from './DistrictMap';
 
 import styles from './styles.module.css';
 import i18n from './i18n.json';
@@ -213,6 +214,10 @@ export function Component() {
         DistrictItem[] | undefined | null
     >([]);
 
+    const [admin2Options, setAdmin2Options] = useState<
+    { id: number; name: string; district_id: number }[] | undefined | null
+    >([]);
+
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
     >([]);
@@ -226,6 +231,7 @@ export function Component() {
         } : undefined,
         onSuccess: (response) => {
             setDistrictOptions(response.project_districts_detail);
+            setAdmin2Options(response.project_admin2_detail);
             setEventOptions([{
                 ...response.event_detail,
                 // FIXME: event dtype id is a must inside event mini but
@@ -263,7 +269,7 @@ export function Component() {
         (val: number | undefined, name: 'project_country') => {
             setFieldValue(val, name);
             setFieldValue(undefined, 'project_districts' as const);
-            // FIXME: Add admin2 select input
+            setFieldValue(undefined, 'project_admin2' as const);
         },
         [setFieldValue],
     );
@@ -659,16 +665,24 @@ export function Component() {
                                 value={value.project_country}
                                 disabled={disabled}
                             />
-                            <DistrictSearchMultiSelectInput
-                                error={getErrorString(error?.project_districts)}
-                                label={strings.projectFormDistrictLabel}
-                                name="project_districts"
+                            <DistrictMap
+                                className={styles.districtMapButton}
+                                districtsName="project_districts"
+                                districtsValue={value.project_districts}
+                                admin2Name="project_admin2"
+                                admin2Value={value.project_admin2}
+                                // FIXME: type issue
+                                onDistrictsChange={setFieldValue}
+                                districtOptions={districtOptions}
+                                onDistrictsOptionsChange={setDistrictOptions}
+                                // FIXME: type issue
+                                onAdmin2Change={setFieldValue}
+                                admin2Options={admin2Options}
+                                onAdmin2OptionsChange={setAdmin2Options}
                                 countryId={value?.project_country}
-                                onChange={setFieldValue}
-                                options={districtOptions}
-                                onOptionsChange={setDistrictOptions}
-                                value={value.project_districts}
                                 disabled={disabled}
+                                districtsError={getErrorString(error?.project_districts)}
+                                admin2Error={getErrorString(error?.project_districts)}
                             />
                         </InputSection>
                         <InputSection

@@ -13,4 +13,17 @@
             gap: var(--go-ui-spacing-md);
         }
     }
+
+    .geo-select-content {
+        display: flex;
+        align-items: center;
+
+        .country-select {
+            flex-grow: 1;
+        }
+
+        .district-map-button {
+            flex-shrink: 0;
+        }
+    }
 }

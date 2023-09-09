@@ -1,0 +1,28 @@
+.district-map-modal {
+    .body {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+
+        .left-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-sm);
+
+            .map-container {
+                width: 40rem;
+                height: 60vh;
+            }
+
+            .back-button {
+                font-size: var(--go-ui-font-size-icon-multiplier);
+            }
+        }
+
+        .right-pane {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-sm);
+        }
+
+    }
+}
