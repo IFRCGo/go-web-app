@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 
 import TextInput from '#components/TextInput';
@@ -18,15 +17,15 @@ function typeOfDrefKeySelector({ key } : { key: TypeOfDref }) {
 }
 
 export interface FilterValue {
-    country: number | undefined;
-    type_of_dref: TypeOfDref | undefined;
-    disaster_type: number | undefined;
-    appeal_code: string | undefined;
+    country?: number | undefined;
+    type_of_dref?: TypeOfDref | undefined;
+    disaster_type?: number | undefined;
+    appeal_code?: string | undefined;
 }
 
 interface Props {
     value: FilterValue;
-    onChange: React.Dispatch<React.SetStateAction<FilterValue>>;
+    onChange: (...args: EntriesAsList<FilterValue>) => void;
 }
 
 function Filters(props: Props) {
@@ -38,23 +37,12 @@ function Filters(props: Props) {
     const strings = useTranslation(i18n);
     const { dref_dref_dref_type: drefTypeOptions } = useGlobalEnums();
 
-    const handleChange = useCallback(
-        (...args: EntriesAsList<FilterValue>) => {
-            const [val, key] = args;
-            onChange((prevValue): FilterValue => ({
-                ...prevValue,
-                [key]: val,
-            }));
-        },
-        [onChange],
-    );
-
     return (
         <>
             <CountrySelectInput
                 name="country"
                 value={value.country}
-                onChange={handleChange}
+                onChange={onChange}
                 placeholder={strings.filterCountryPlaceholder}
             />
             <SelectInput
@@ -64,19 +52,19 @@ function Filters(props: Props) {
                 keySelector={typeOfDrefKeySelector}
                 labelSelector={stringValueSelector}
                 value={value.type_of_dref}
-                onChange={handleChange}
+                onChange={onChange}
             />
             <DisasterTypeSelectInput
                 name="disaster_type"
                 placeholder={strings.filterDisasterTypePlaceholder}
                 value={value.disaster_type}
-                onChange={handleChange}
+                onChange={onChange}
             />
             <TextInput
                 name="appeal_code"
                 placeholder={strings.filterAppealCodePlaceholder}
                 value={value.appeal_code}
-                onChange={handleChange}
+                onChange={onChange}
             />
         </>
     );

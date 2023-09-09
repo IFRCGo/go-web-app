@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 
@@ -22,17 +21,17 @@ function countryNameSelector(country: Country) {
 }
 
 export interface FilterValue {
-    project_country: number[];
-    operation_type: number[];
-    programme_type: number[];
-    primary_sector: number[];
-    secondary_sectors: number[];
+    project_country?: number[];
+    operation_type?: number[];
+    programme_type?: number[];
+    primary_sector?: number[];
+    secondary_sectors?: number[];
 }
 
 interface Props {
     className?: string;
     value: FilterValue;
-    onChange: React.Dispatch<React.SetStateAction<FilterValue>>;
+    onChange: (...args: EntriesAsList<FilterValue>) => void;
     disabled?: boolean;
 }
 
@@ -61,20 +60,6 @@ function Filters(props: Props) {
 
     const countries = useCountryRaw();
 
-    const handleInputChange = useCallback((...args: EntriesAsList<FilterValue>) => {
-        const [val, key] = args;
-        if (onChange) {
-            onChange((oldFilterValue) => {
-                const newFilterValue = {
-                    ...oldFilterValue,
-                    [key]: val,
-                };
-
-                return newFilterValue;
-            });
-        }
-    }, [onChange]);
-
     return (
         <div className={_cs(styles.filters, className)}>
             <MultiSelectInput
@@ -84,7 +69,7 @@ function Filters(props: Props) {
                 value={value.project_country}
                 keySelector={numericIdSelector}
                 labelSelector={countryNameSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
             <MultiSelectInput
@@ -94,7 +79,7 @@ function Filters(props: Props) {
                 value={value.operation_type}
                 keySelector={numericKeySelector}
                 labelSelector={stringValueSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
             <MultiSelectInput
@@ -104,7 +89,7 @@ function Filters(props: Props) {
                 value={value.programme_type}
                 keySelector={numericKeySelector}
                 labelSelector={stringValueSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
             <MultiSelectInput
@@ -114,7 +99,7 @@ function Filters(props: Props) {
                 value={value.primary_sector}
                 keySelector={numericKeySelector}
                 labelSelector={stringLabelSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
             <MultiSelectInput
@@ -124,7 +109,7 @@ function Filters(props: Props) {
                 value={value.secondary_sectors}
                 keySelector={numericKeySelector}
                 labelSelector={stringLabelSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
         </div>

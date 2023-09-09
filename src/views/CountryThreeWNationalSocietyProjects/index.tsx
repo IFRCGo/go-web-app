@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
     isDefined,
     isNotDefined,
@@ -24,9 +24,10 @@ import Table from '#components/Table';
 import Message from '#components/Message';
 import type { CountryOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
 import { resolveToString } from '#utils/translation';
-import { sumSafe, hasSomeDefinedValue } from '#utils/common';
+import { sumSafe } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 import {
@@ -92,19 +93,17 @@ function filterProjects(projectList: Project[], filters: Partial<Record<ProjectK
 export function Component() {
     const strings = useTranslation(i18n);
     const {
+        filter,
+        filtered,
+        setFilterField,
+    } = useFilterState<FilterValue>(
+        {},
+        undefined,
+    );
+    const {
         countryResponse,
         countryResponsePending,
     } = useOutletContext<CountryOutletContext>();
-
-    const [filters, setFilters] = useState<FilterValue>({
-        project_country: [],
-        operation_type: [],
-        programme_type: [],
-        primary_sector: [],
-        secondary_sectors: [],
-    });
-
-    const isFiltered = hasSomeDefinedValue(filters);
 
     const {
         pending: projectListPending,
@@ -120,7 +119,7 @@ export function Component() {
     });
 
     const projectList = projectListResponse?.results ?? emptyProjectList;
-    const filteredProjectList = filterProjects(projectList, filters);
+    const filteredProjectList = filterProjects(projectList, filter);
 
     const {
         ongoingProjects,
@@ -301,8 +300,8 @@ export function Component() {
                 withHeaderBorder
                 filters={(
                     <Filter
-                        value={filters}
-                        onChange={setFilters}
+                        value={filter}
+                        onChange={setFilterField}
                     />
                 )}
                 actions={(
@@ -403,7 +402,7 @@ export function Component() {
                     )}
                 >
                     <Table
-                        filtered={isFiltered}
+                        filtered={filtered}
                         pending={projectListPending || countryResponsePending}
                         data={ongoingProjects}
                         columns={tableColumns}

@@ -1,5 +1,4 @@
 import {
-    useState,
     useMemo,
     useCallback,
 } from 'react';
@@ -18,9 +17,7 @@ import Pager from '#components/Pager';
 import Page from '#components/Page';
 import Button from '#components/Button';
 import {
-    useSortState,
     SortContext,
-    getOrdering,
 } from '#components/Table/useSorting';
 import {
     createStringColumn,
@@ -29,6 +26,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Table from '#components/Table';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useFilterState from '#hooks/useFilterState';
 
 import i18n from './i18n.json';
 
@@ -41,10 +39,16 @@ const PAGE_SIZE = 10;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const [page, setPage] = useState(1);
     const strings = useTranslation(i18n);
-    const sortState = useSortState();
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
 
     const {
         deployments_eru_type,
@@ -80,7 +84,7 @@ export function Component() {
         query: {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            ordering,
             deployed_to__isnull: false,
         },
     });

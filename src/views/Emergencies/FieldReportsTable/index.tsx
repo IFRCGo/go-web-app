@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { useSortState, SortContext } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Link from '#components/Link';
 import Container from '#components/Container';
@@ -13,6 +13,7 @@ import {
 import Pager from '#components/Pager';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import type { GoApiResponse } from '#utils/restRequest';
@@ -32,8 +33,15 @@ const fieldReportKeySelector = (item: FieldReportListItem) => item.id;
 
 function FieldReportsTable() {
     const strings = useTranslation(i18n);
-    const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        { name: 'created_at', direction: 'dsc' },
+    );
 
     const columns = useMemo(
         () => ([
@@ -82,15 +90,6 @@ function FieldReportsTable() {
         ]),
         [strings],
     );
-
-    let ordering;
-    if (sorting) {
-        ordering = sorting.direction === 'dsc'
-            ? `-${sorting.name}`
-            : sorting.name;
-    }
-
-    const [page, setPage] = useState(1);
 
     const PAGE_SIZE = 5;
     const {

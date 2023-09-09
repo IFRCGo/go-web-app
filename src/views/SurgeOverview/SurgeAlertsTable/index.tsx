@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
 import Table from '#components/Table';
@@ -10,9 +10,10 @@ import {
     createLinkColumn,
     createStringColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 
 import i18n from './i18n.json';
@@ -62,12 +63,16 @@ function getStatus(alert: SurgeAlertListItem, strings: Record<string, string>) {
 }
 
 function SurgeAlertsTable() {
-    const [page, setPage] = useState(1);
-
     const strings = useTranslation(i18n);
-
-    const sortState = useSortState();
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
 
     const {
         pending: surgeAlertsPending,
@@ -80,7 +85,7 @@ function SurgeAlertsTable() {
             offset: PAGE_SIZE * (page - 1),
             is_active: true,
             created_at__gte: aMonthAgo.toISOString(),
-            ordering: getOrdering(sorting),
+            ordering,
         },
     });
 

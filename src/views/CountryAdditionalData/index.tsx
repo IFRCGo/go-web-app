@@ -104,7 +104,7 @@ export function Component() {
                     keySelector={numericIdSelector}
                     withoutMessage
                     compact
-                    pending={false}
+                    pending={countrySnippetPending}
                     errored={false}
                     filtered={false}
                 />

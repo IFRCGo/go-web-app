@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -9,6 +9,7 @@ import {
     createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
@@ -25,7 +26,15 @@ const ITEM_PER_PAGE = 15;
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const [projectActivePage, setProjectActivePage] = useState(1);
+
+    const {
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
+
     const {
         response: projectResponse,
         pending: projectResponsePending,
@@ -34,7 +43,7 @@ export function Component() {
         preserveResponse: true,
         query: {
             limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (projectActivePage - 1),
+            offset: ITEM_PER_PAGE * (page - 1),
         },
     });
 
@@ -106,8 +115,8 @@ export function Component() {
             <Container
                 footerActions={(
                     <Pager
-                        activePage={projectActivePage}
-                        onActivePageChange={setProjectActivePage}
+                        activePage={page}
+                        onActivePageChange={setPage}
                         itemsCount={projectResponse?.count ?? 0}
                         maxItemsPerPage={ITEM_PER_PAGE}
                     />

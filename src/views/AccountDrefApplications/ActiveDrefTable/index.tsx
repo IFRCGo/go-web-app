@@ -14,11 +14,10 @@ import { type RowOptions } from '#components/Table/types';
 import Table from '#components/Table';
 import Pager from '#components/Pager';
 import TableBodyContent from '#components/Table/TableBodyContent';
-import useDebouncedValue from '#hooks/useDebouncedValue';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { numericIdSelector } from '#utils/selectors';
 import { useRequest } from '#utils/restRequest';
-import { hasSomeDefinedValue } from '#utils/common';
 
 import DrefTableActions, { type Props as DrefTableActionsProps } from '../DrefTableActions';
 import Filters, { type FilterValue } from '../Filters';
@@ -39,36 +38,32 @@ function ActiveDrefTable(props: Props) {
     } = props;
 
     const strings = useTranslation(i18n);
-
-    const [page, setPage] = useState(1);
-    const [filterValue, setFilterValue] = useState<FilterValue>({
-        country: undefined,
-        type_of_dref: undefined,
-        disaster_type: undefined,
-        appeal_code: undefined,
-    });
-
-    const handleFilterChange = useCallback(
-        (...args: Parameters<typeof setFilterValue>) => {
-            setFilterValue(...args);
-            setPage(1);
-        },
-        [],
+    const {
+        page,
+        setPage,
+        filter,
+        filtered,
+        setFilterField,
+    } = useFilterState<FilterValue>(
+        {},
+        undefined,
     );
-
-    const debouncedFilterValue = useDebouncedValue(filterValue);
 
     const {
         response: activeDrefResponse,
         pending: activeDrefResponsePending,
     } = useRequest({
         url: '/api/v2/active-dref/',
+        preserveResponse: true,
+        // FIXME server should handle this issue
         query: {
             offset: NUM_ITEMS_PER_PAGE * (page - 1),
             limit: NUM_ITEMS_PER_PAGE,
-            ...debouncedFilterValue,
-        },
-        preserveResponse: true,
+            country: filter.country,
+            type_of_dref: filter.type_of_dref,
+            disaster_type: filter.disaster_type,
+            appeal_code: filter.appeal_code,
+        } as never,
     });
 
     type DrefItem = NonNullable<NonNullable<typeof activeDrefResponse>['results']>[number];
@@ -307,8 +302,8 @@ function ActiveDrefTable(props: Props) {
             filtersContainerClassName={styles.filters}
             filters={(
                 <Filters
-                    value={filterValue}
-                    onChange={handleFilterChange}
+                    value={filter}
+                    onChange={setFilterField}
                 />
             )}
         >
@@ -319,7 +314,7 @@ function ActiveDrefTable(props: Props) {
                 keySelector={numericIdSelector}
                 pending={activeDrefResponsePending}
                 rowModifier={rowModifier}
-                filtered={hasSomeDefinedValue(filterValue)}
+                filtered={filtered}
             />
         </Container>
     );

@@ -1,6 +1,5 @@
 import {
     useMemo,
-    useState,
 } from 'react';
 import { max } from '@togglecorp/fujs';
 import useTranslation from '#hooks/useTranslation';
@@ -8,9 +7,7 @@ import Link from '#components/Link';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import {
-    useSortState,
     SortContext,
-    getOrdering,
 } from '#components/Table/useSorting';
 import {
     createStringColumn,
@@ -21,6 +18,7 @@ import {
 import Table from '#components/Table';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
+import useFilterState from '#hooks/useFilterState';
 
 import i18n from './i18n.json';
 
@@ -54,12 +52,16 @@ function EmergenciesOperationTable(props: Props) {
         countryName,
     } = props;
 
-    const [page, setPage] = useState(1);
-
     const strings = useTranslation(i18n);
-
-    const sortState = useSortState();
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
 
     const columns = useMemo(
         () => ([
@@ -114,7 +116,7 @@ function EmergenciesOperationTable(props: Props) {
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
             countries__in: countryId,
-            ordering: getOrdering(sorting),
+            ordering,
             disaster_start_date__gte: disasterStartDate,
         },
     });

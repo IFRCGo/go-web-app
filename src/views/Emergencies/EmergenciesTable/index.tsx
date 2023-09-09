@@ -1,8 +1,7 @@
 import {
-    useState,
     useMemo,
 } from 'react';
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Table from '#components/Table';
 import Container from '#components/Container';
 import {
@@ -14,6 +13,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -35,9 +35,15 @@ const keySelector = (item: EventListItem) => item.id;
 
 function EventItemsTable() {
     const strings = useTranslation(i18n);
-    const sortState = useSortState({ name: 'created_at', direction: 'dsc' });
-    const { sorting } = sortState;
-    const [page, setPage] = useState(1);
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        { name: 'created_at', direction: 'dsc' },
+    );
 
     const columns = useMemo(
         () => ([
@@ -89,10 +95,10 @@ function EventItemsTable() {
         () => ({
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            ordering,
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
         }),
-        [page, sorting],
+        [page, ordering],
     );
     const {
         pending: eventPending,

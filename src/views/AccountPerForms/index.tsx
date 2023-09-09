@@ -19,7 +19,7 @@ import {
     createExpansionIndicatorColumn,
     createElementColumn,
 } from '#components/Table/ColumnShortcuts';
-import { useSortState, SortContext, getOrdering } from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import TableBodyContent from '#components/Table/TableBodyContent';
 import { type RowOptions } from '#components/Table/types';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
@@ -27,9 +27,9 @@ import RegionSelectInput, { type RegionOption } from '#components/domain/RegionS
 import Link from '#components/Link';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { numericIdSelector } from '#utils/selectors';
-import useInputState from '#hooks/useInputState';
 
 import PerTableActions, { type Props as PerTableActionsProps } from './PerTableActions';
 import i18n from './i18n.json';
@@ -41,11 +41,21 @@ type PerProcessStatusItem = NonNullable<AggregatedPerProcessStatusResponse['resu
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const sortState = useSortState({ name: 'date_of_assessment', direction: 'dsc' });
-    const { sorting } = sortState;
+    const {
+        sortState,
+        ordering,
+        filter,
+        filtered,
+        setFilterField,
+    } = useFilterState<{
+        region?: RegionOption['key'],
+        country?: number,
+    }>(
+        {},
+        { name: 'date_of_assessment', direction: 'dsc' },
+    );
+
     const [expandedRow, setExpandedRow] = useState<PerProcessStatusItem | undefined>();
-    const [filterCountry, setFilterCountry] = useInputState<number | undefined>(undefined);
-    const [filterRegion, setFilterRegion] = useInputState<RegionOption['key'] | undefined>(undefined);
 
     const {
         pending: aggregatedStatusPending,
@@ -53,9 +63,9 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/aggregated-per-process-status/',
         query: {
-            ordering: getOrdering(sorting),
-            country: isDefined(filterCountry) ? [filterCountry] : undefined,
-            region: filterRegion,
+            ordering,
+            country: isDefined(filter.country) ? [filter.country] : undefined,
+            region: filter.region,
         },
     });
 
@@ -195,20 +205,18 @@ export function Component() {
             filters={(
                 <>
                     <RegionSelectInput
-                        // FIXME: use translations
-                        placeholder="All Regions"
-                        name={undefined}
-                        value={filterRegion}
-                        onChange={setFilterRegion}
-                        disabled={isDefined(filterCountry)}
+                        placeholder={strings.allRegions}
+                        name="region"
+                        value={filter.region}
+                        onChange={setFilterField}
+                        disabled={isDefined(filter.country)}
                     />
                     <CountrySelectInput
-                        // FIXME: use translations
-                        placeholder="All Countries"
-                        name={undefined}
-                        value={filterCountry}
-                        disabled={isDefined(filterRegion)}
-                        onChange={setFilterCountry}
+                        placeholder={strings.allCountries}
+                        name="country"
+                        value={filter.country}
+                        disabled={isDefined(filter.region)}
+                        onChange={setFilterField}
                     />
                     <div />
                 </>
@@ -221,7 +229,7 @@ export function Component() {
                     keySelector={numericIdSelector}
                     data={aggregatedStatusResponse?.results}
                     rowModifier={rowModifier}
-                    filtered={false}
+                    filtered={filtered}
                 />
             </SortContext.Provider>
         </Container>

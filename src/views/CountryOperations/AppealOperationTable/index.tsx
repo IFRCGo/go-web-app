@@ -1,6 +1,5 @@
 import {
     useMemo,
-    useState,
 } from 'react';
 import {
     isDefined,
@@ -8,12 +7,11 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import { resolveToComponent, resolveToString } from '#utils/translation';
 import Container from '#components/Container';
 import {
-    useSortState,
     SortContext,
-    getOrdering,
 } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import Link from '#components/Link';
@@ -51,12 +49,18 @@ function AppealOperationTable(props: Props) {
         countryName,
     } = props;
 
+    const {
+        sortState,
+        ordering,
+        page,
+        setPage,
+    } = useFilterState<object>(
+        {},
+        undefined,
+    );
+
     const strings = useTranslation(i18n);
 
-    const sortState = useSortState();
-    const { sorting } = sortState;
-
-    const [page, setPage] = useState(1);
     const {
         pending: countryAppealPending,
         response: countryAppealResponse,
@@ -68,7 +72,7 @@ function AppealOperationTable(props: Props) {
             end_date__gt: now,
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            ordering,
             country: countryId,
         },
     });
