@@ -6,7 +6,6 @@ import {
 import {
     useRequest,
 } from '#utils/restRequest';
-import Page from '#components/Page';
 import KeyFigure from '#components/KeyFigure';
 import useTranslation from '#hooks/useTranslation';
 import SurgeTable from './SurgeTable';
@@ -33,30 +32,24 @@ export function Component() {
     });
 
     return (
-        <Page
-            className={styles.emergency}
-            infoContainerClassName={styles.keyFigureList}
-            mainSectionClassName={styles.content}
-            info={(
-                <>
-                    <KeyFigure
-                        // FIXME use appropriate icon
-                        icon={<ShieldUserLineIcon />}
-                        className={styles.keyFigure}
-                        value={deployementResponse?.active_deployments}
-                        compactValue
-                        description={strings.emergencyActiveDeployments}
-                    />
-                    <KeyFigure
-                        icon={<EmergencyResponseUnitIcon />}
-                        className={styles.keyFigure}
-                        value={deployementResponse?.active_erus}
-                        compactValue
-                        description={strings.emergencyActiveErus}
-                    />
-                </>
-            )}
-        >
+        <div className={styles.emergencySurge}>
+            <div className={styles.keyFigureList}>
+                <KeyFigure
+                    // FIXME use appropriate icon
+                    icon={<ShieldUserLineIcon />}
+                    className={styles.keyFigure}
+                    value={deployementResponse?.active_deployments}
+                    compactValue
+                    description={strings.emergencyActiveDeployments}
+                />
+                <KeyFigure
+                    icon={<EmergencyResponseUnitIcon />}
+                    className={styles.keyFigure}
+                    value={deployementResponse?.active_erus}
+                    compactValue
+                    description={strings.emergencyActiveErus}
+                />
+            </div>
             <SurgeTable
                 emergencyId={emergencyId}
             />
@@ -66,7 +59,7 @@ export function Component() {
             <DeployedErusTable
                 emergencyId={emergencyId}
             />
-        </Page>
+        </div>
     );
 }
 

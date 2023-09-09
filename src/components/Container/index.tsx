@@ -88,6 +88,10 @@ function Container(props: Props) {
     const showFooter = footerIcons || footerContent || footerActions;
     const showHeader = heading || actions || icons || headerDescription || headingDescription;
 
+    if (!showHeader && !filters && !children && !showFooter) {
+        return null;
+    }
+
     return (
         <div
             className={_cs(
