@@ -3,7 +3,7 @@ import useBooleanState from '#hooks/useBooleanState';
 
 import DistrictMapModal, { type Props as MapModalProps } from './DistrictMapModal';
 
-type Props<NAME, ADMIN2_NAME> = Omit<MapModalProps<NAME, ADMIN2_NAME>, 'countryId'> & {
+type Props<NAME, ADMIN2_NAME> = Omit<MapModalProps<NAME, ADMIN2_NAME>, 'countryId' | 'onModalClose'> & {
     countryId: number | undefined;
     className?: string;
 };
