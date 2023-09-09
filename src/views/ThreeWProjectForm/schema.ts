@@ -24,7 +24,7 @@ import { type GoApiBody } from '#utils/restRequest';
 
 export type ProjectResponseBody = GoApiBody<'/api/v2/project/{id}/', 'PUT'>;
 
-type AnnualSplitRaw = ProjectResponseBody['annual_split_detail'][number];
+type AnnualSplitRaw = NonNullable<ProjectResponseBody['annual_splits']>[number];
 type AnnualSplit = AnnualSplitRaw & { client_id: string };
 type ProjectFormFields = DeepReplace<ProjectResponseBody, AnnualSplitRaw, AnnualSplit>;
 
@@ -33,7 +33,7 @@ export type FormType = PartialForm<ProjectFormFields & {
     is_annual_report: boolean;
 }, 'client_id'>;
 
-export type PartialAnnualType = NonNullable<FormType['annual_split_detail']>[number];
+export type PartialAnnualType = NonNullable<FormType['annual_splits']>[number];
 
 type FormSchema = ObjectSchema<FormType>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
@@ -129,9 +129,9 @@ const finalSchema: FormSchema = {
             schema,
             value,
             ['is_annual_report'] as const,
-            ['annual_split_detail'] as const,
+            ['annual_splits'] as const,
             (props) => (props?.is_annual_report ? {
-                annual_split_detail: {
+                annual_splits: {
                     keySelector: (split) => split.client_id,
                     member: (): AnnualSplitsSchemaMember => ({
                         fields: (): AnnualSplitSchemaFields => ({
@@ -140,7 +140,7 @@ const finalSchema: FormSchema = {
                             year: {
                                 validations: [requiredCondition, positiveIntegerCondition],
                             },
-                            id: {}, // can arrive from db, useful for update
+                            // id: {},
                             budget_amount: { validations: [positiveNumberCondition] },
                             target_male: { validations: [positiveIntegerCondition] },
                             target_female: { validations: [positiveIntegerCondition] },
@@ -158,7 +158,7 @@ const finalSchema: FormSchema = {
                     }),
                 },
             } : {
-                annual_split_detail: {
+                annual_splits: {
                     forceValue: nullValue,
                 },
             }),

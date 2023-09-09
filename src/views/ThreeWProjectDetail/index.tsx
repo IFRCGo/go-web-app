@@ -22,7 +22,7 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type ProjectItem = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
-type AnnualSplitItem = NonNullable<ProjectItem['annual_split_detail']>[number];
+type AnnualSplitItem = NonNullable<ProjectItem['annual_splits']>[number];
 
 const annualSplitKeySelector = (item: AnnualSplitItem) => item.id;
 
@@ -261,9 +261,9 @@ export function Component() {
                             strongValue
                         />
                     </Container>
-                    {(projectResponse?.annual_split_detail?.length ?? 0) > 0 ? (
+                    {(projectResponse?.annual_splits?.length ?? 0) > 0 ? (
                         <List
-                            data={projectResponse?.annual_split_detail}
+                            data={projectResponse?.annual_splits}
                             className={styles.yearDetail}
                             renderer={AnnualSplitListItem}
                             rendererParams={annualSplitListRendererParams}

@@ -15,6 +15,9 @@ const spacingTypeToClassNameMap: Record<SpacingType, string> = {
     comfortable: styles.comfortableSpacing,
     relaxed: styles.relaxedSpacing,
     loose: styles.looseSpacing,
+    // FIXME: use proper styling (medium priority)
+    default: 'default',
+    condensed: 'condensed',
 };
 
 export interface Props<
