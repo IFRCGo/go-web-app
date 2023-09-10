@@ -24,6 +24,7 @@ import {
     stringNameSelector,
 } from '#utils/selectors';
 
+import MovementActivitiesMap from './MovementActivitiesMap';
 import Filters, { type FilterValue } from './Filters';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -62,6 +63,7 @@ export function Component() {
             id: regionId,
         } : undefined,
     });
+
     const {
         response: regionalMovementActivitiesResponse,
         pending: regionalMovementActivitiesResponsePending,
@@ -71,10 +73,9 @@ export function Component() {
         pathVariables: isDefined(regionId) ? {
             id: regionId,
         } : undefined,
-        query: filters,
+        query: filters, // TODO: fix typings
     });
 
-    console.warn('regionalMovementActivitiesResponse', regionalMovementActivitiesResponse);
     const projectByStatus = regionProjectOverviewResponse?.projects_by_status?.map((project) => {
         const name = projectStatus?.find((status) => (status.key === project.status))?.value;
         if (isDefined(name)) {
@@ -182,7 +183,10 @@ export function Component() {
                     </>
                 )}
             >
-                <div>sameer</div>
+                <MovementActivitiesMap
+                    regionId={regionId}
+                    movementActivitiesResponse={regionalMovementActivitiesResponse}
+                />
             </Container>
         </div>
     );
