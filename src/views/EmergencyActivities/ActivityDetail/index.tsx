@@ -8,8 +8,8 @@ import List from '#components/List';
 import NumberOutput from '#components/NumberOutput';
 import ProgressBar from '#components/ProgressBar';
 import ReducedListDisplay from '#components/ReducedListDisplay';
+import InfoPopup from '#components/InfoPopup';
 import TextOutput from '#components/TextOutput';
-import Tooltip from '#components/Tooltip';
 import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
 import { numericIdSelector } from '#utils/selectors';
@@ -49,8 +49,9 @@ function Activity({ activity }: ActivityProps) {
         <Container
             heading={activity.action_details?.title ?? activity.custom_action}
             headingLevel={5}
-            spacing="none"
+            spacing="cozy"
             className={styles.activity}
+            withInternalPadding
         >
             <TextOutput
                 label={strings.peopleReached}
@@ -72,9 +73,7 @@ function ProjectListItem(props: ProjectListItemProps) {
         project,
         sectorDetails,
     } = props;
-
     const strings = useTranslation(i18n);
-
     const [
         detailsShown,
         {
@@ -82,6 +81,7 @@ function ProjectListItem(props: ProjectListItemProps) {
             setFalse: hideDetails,
         },
     ] = useBooleanState(false);
+
     const districtRendererParams = useCallback(
         (value: DistrictListItem) => ({
             name: value.name,
@@ -103,58 +103,47 @@ function ProjectListItem(props: ProjectListItemProps) {
 
     return (
         <Container
-            className={styles.project}
+            className={styles.projectListItem}
             heading={nsName}
             headingLevel={5}
-            headingContainerClassName={styles.heading}
-            headingDescriptionContainerClassName={styles.status}
-            headingDescription={project.status_display}
-            withoutWrapInHeading
-            footerActions={(
-                detailsShown ? (
-                    <Button
-                        variant="tertiary"
-                        name={undefined}
-                        onClick={hideDetails}
-                    >
-                        {strings.showLess}
-                    </Button>
-                ) : (
-                    <Button
-                        variant="tertiary"
-                        name={undefined}
-                        onClick={showDetails}
-                    >
-                        {strings.showMore}
-                    </Button>
-                )
+            actions={(
+                <div className={styles.status}>
+                    {project.status_display}
+                </div>
             )}
+            withoutWrapInHeading
+            spacing="condensed"
+            withInternalPadding
+            footerActions={(
+                <Button
+                    variant="tertiary"
+                    name={undefined}
+                    onClick={detailsShown ? hideDetails : showDetails}
+                >
+                    {detailsShown ? strings.showLess : strings.showMore}
+                </Button>
+            )}
+            headerDescriptionContainerClassName={styles.dates}
             headerDescription={(
                 <>
-                    <div className={styles.dates}>
-                        <DateOutput
-                            className={styles.date}
-                            value={project.start_date}
-                        />
-                        <DateOutput
-                            className={styles.date}
-                            value={project.end_date}
-                        />
-                    </div>
-                    <div>
-                        {project.districts_details && (
-                            <ReducedListDisplay
-                                list={project.districts_details}
-                                keySelector={numericIdSelector}
-                                renderer={DistrictNameOutput}
-                                rendererParams={districtRendererParams}
-                                title={strings.provinceOrRegion}
-                            />
-                        )}
-                    </div>
+                    <DateOutput
+                        value={project.start_date}
+                    />
+                    <DateOutput
+                        value={project.end_date}
+                    />
                 </>
             )}
         >
+            {project.districts_details && (
+                <ReducedListDisplay
+                    list={project.districts_details}
+                    keySelector={numericIdSelector}
+                    renderer={DistrictNameOutput}
+                    rendererParams={districtRendererParams}
+                    title={strings.provinceOrRegion}
+                />
+            )}
             {detailsShown && (
                 <List
                     className={styles.activities}
@@ -165,6 +154,7 @@ function ProjectListItem(props: ProjectListItemProps) {
                     pending={false}
                     errored={false}
                     filtered={false}
+                    compact
                 />
             )}
         </Container>
@@ -197,36 +187,33 @@ function ActivityDetail(props: Props) {
         <ExpandableContainer
             className={styles.activityDetail}
             heading={sectorDetails.title}
-            headingLevel={5}
+            headingLevel={4}
             headerDescriptionContainerClassName={styles.headerDescriptionContainer}
+            withHeaderBorder
             headerDescription={(
                 <>
-                    <div className={styles.progressBarContainer}>
-                        <ProgressBar
-                            className={styles.progressBar}
-                            value={completeProjectCount}
-                            totalValue={projectCount}
-                        />
-                        <Tooltip className={styles.tooltip}>
-                            <TextOutput
-                                value={resolveToString(
-                                    strings.completedProject,
-                                    {
-                                        totalProjects: projectCount,
-                                        completeProjectCount,
-                                    },
-                                )}
-                            />
-                        </Tooltip>
-                    </div>
+                    <ProgressBar
+                        className={styles.progressBar}
+                        value={completeProjectCount}
+                        totalValue={projectCount}
+                    />
                     <NumberOutput
                         value={completeProjectCount}
+                    />
+                    <InfoPopup
+                        description={resolveToString(
+                            strings.completedProject,
+                            {
+                                totalProjects: projectCount,
+                                completeProjectCount,
+                            },
+                        )}
                     />
                 </>
             )}
         >
             <List
-                className={styles.projectListItemContainer}
+                className={styles.projectListContainer}
                 errored={false}
                 pending={false}
                 filtered={false}
@@ -234,6 +221,7 @@ function ActivityDetail(props: Props) {
                 keySelector={numericIdSelector}
                 renderer={ProjectListItem}
                 rendererParams={projectListRendererParams}
+                compact
             />
         </ExpandableContainer>
     );

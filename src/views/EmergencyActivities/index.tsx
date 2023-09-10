@@ -15,10 +15,9 @@ import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
 import Message from '#components/Message';
 import Pager from '#components/Pager';
+import InfoPopup from '#components/InfoPopup';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
-import TextOutput from '#components/TextOutput';
-import Tooltip from '#components/Tooltip';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import useTranslation from '#hooks/useTranslation';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -293,17 +292,15 @@ export function Component() {
                                 value={(uniqueNsCount + uniqueEruCount)}
                                 description={strings.uniqueEruAndNationalSocietyCount}
                             />
-                            <div className={styles.separator} />
-                            <div className={styles.keyFigure}>
-                                <KeyFigure
-                                    className={styles.keyFigure}
-                                    value={peopleReached}
-                                    description={strings.peopleReached}
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={peopleReached}
+                                description={strings.peopleInNeedReached}
+                            >
+                                <InfoPopup
+                                    description={strings.peopleReachedTooltip}
                                 />
-                                <Tooltip className={styles.tooltip}>
-                                    {strings.peopleReachedTooltip}
-                                </Tooltip>
-                            </div>
+                            </KeyFigure>
                         </div>
                         <div className={styles.keyFigureCard}>
                             <KeyFigure
@@ -311,22 +308,16 @@ export function Component() {
                                 value={uniqueSectorCount}
                                 description={strings.uniqueSectorCount}
                             />
-                            <div className={styles.separator} />
-                            <div>
-                                <TextOutput
-                                    value={strings.activitySectors}
-                                />
-                                <PieChart
-                                    className={styles.pieChart}
-                                    data={aggreatedProjectCountListBySector}
-                                    valueSelector={numericCountSelector}
-                                    labelSelector={stringTitleSelector}
-                                    keySelector={stringTitleSelector}
-                                    colors={primaryRedColorShades}
-                                    pieRadius={40}
-                                    chartPadding={10}
-                                />
-                            </div>
+                            <PieChart
+                                className={styles.pieChart}
+                                data={aggreatedProjectCountListBySector}
+                                valueSelector={numericCountSelector}
+                                labelSelector={stringTitleSelector}
+                                keySelector={stringTitleSelector}
+                                colors={primaryRedColorShades}
+                                pieRadius={40}
+                                chartPadding={10}
+                            />
                         </div>
                         <div className={styles.keyFigureCard}>
                             <KeyFigure
@@ -334,22 +325,16 @@ export function Component() {
                                 value={emergencyProjectListResponse?.count}
                                 description={strings.totalActivities}
                             />
-                            <div className={styles.separator} />
-                            <div>
-                                <TextOutput
-                                    value={strings.activityStatus}
-                                />
-                                <PieChart
-                                    className={styles.pieChart}
-                                    data={aggreatedProjectCountListByStatus}
-                                    valueSelector={numericCountSelector}
-                                    labelSelector={stringTitleSelector}
-                                    keySelector={stringTitleSelector}
-                                    colors={primaryRedColorShades}
-                                    pieRadius={40}
-                                    chartPadding={10}
-                                />
-                            </div>
+                            <PieChart
+                                className={styles.pieChart}
+                                data={aggreatedProjectCountListByStatus}
+                                valueSelector={numericCountSelector}
+                                labelSelector={stringTitleSelector}
+                                keySelector={stringTitleSelector}
+                                colors={primaryRedColorShades}
+                                pieRadius={40}
+                                chartPadding={10}
+                            />
                         </div>
                     </div>
                 )}
@@ -359,15 +344,6 @@ export function Component() {
                 childrenContainerClassName={styles.content}
                 heading={strings.responseActivities}
                 withHeaderBorder
-                actions={(
-                    <Button
-                        variant="secondary"
-                        name={undefined}
-                        title={strings.addThreeWActivity}
-                    >
-                        {strings.addThreeWActivity}
-                    </Button>
-                )}
                 filters={(
                     <Filters
                         value={filters}
@@ -398,6 +374,7 @@ export function Component() {
                                     compact
                                 />
                             )}
+                            {/* FIXME: use List, add pending, filtered state */}
                             {sectorGroupedEmergencyProjectList.map((sectorGroupedProject) => (
                                 <ActivityDetail
                                     key={sectorGroupedProject.sector}

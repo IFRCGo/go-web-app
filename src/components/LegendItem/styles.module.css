@@ -1,10 +1,11 @@
 .legend-element {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: var(--go-ui-spacing-xs);
     font-size: var(--go-ui-font-size-sm);
 
     .color {
+        flex-shrink: 0;
         border-radius: 0.4em;
         width: 0.8em;
         height: 0.8em;

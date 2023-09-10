@@ -25,6 +25,8 @@ import type { EmergencyOutletContext } from '#utils/outletContext';
 import {
     defaultMapStyle,
     defaultMapOptions,
+    defaultNavControlPosition,
+    defaultNavControlOptions,
     getCountryListBoundingBox,
     adminLabelLayerOptions,
 } from '#utils/map';
@@ -133,12 +135,12 @@ function ActivitiesMap(props: Props) {
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
                 <Map
-                    scaleControlShown
                     mapStyle={defaultMapStyle}
                     mapOptions={defaultMapOptions}
                     navControlShown
-                    navControlPosition="top-right"
-                    debug={false}
+                    navControlPosition={defaultNavControlPosition}
+                    navControlOptions={defaultNavControlOptions}
+                    scaleControlShown={false}
                 >
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
                     <MapSource

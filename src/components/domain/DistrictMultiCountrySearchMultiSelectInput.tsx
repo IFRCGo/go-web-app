@@ -24,9 +24,10 @@ type DistrictMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
     NAME,
     DistrictItem,
     Def,
-    'onSearchValueChange' | 'searchOptions' | 'optionsPending'
+    'name' | 'onSearchValueChange' | 'searchOptions' | 'optionsPending' | 'selectedOnTop'
     | 'keySelector' | 'labelSelector' | 'totalOptionsCount' | 'onShowDropdownChange'
 > & {
+    name: NAME;
     countryIds?: number[];
 };
 
@@ -81,6 +82,7 @@ function MultiCountryDistrictSearchMultiSelectInput<const NAME>(
             optionsPending={pending}
             totalOptionsCount={response?.count ?? 0}
             onShowDropdownChange={setOpened}
+            selectedOnTop
         />
     );
 }
