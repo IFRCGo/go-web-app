@@ -30,7 +30,8 @@ type DistrictMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
     countryIds?: number[];
 };
 
-function DistrictMultiCountrySearchMultiSelectInput<const NAME>(
+// TODO: can anyone suggest a better function name? If so please change it accordingly.
+function MultiCountryDistrictSearchMultiSelectInput<const NAME>(
     props: DistrictMultiSelectInputProps<NAME>,
 ) {
     const {
@@ -84,4 +85,4 @@ function DistrictMultiCountrySearchMultiSelectInput<const NAME>(
     );
 }
 
-export default DistrictMultiCountrySearchMultiSelectInput;
+export default MultiCountryDistrictSearchMultiSelectInput;

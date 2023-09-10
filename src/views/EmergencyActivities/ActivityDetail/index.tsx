@@ -132,8 +132,14 @@ function ProjectListItem(props: ProjectListItemProps) {
             headerDescription={(
                 <>
                     <div className={styles.dates}>
-                        <DateOutput value={project.start_date} className={styles.date} />
-                        <DateOutput value={project.end_date} className={styles.date} />
+                        <DateOutput
+                            className={styles.date}
+                            value={project.start_date}
+                        />
+                        <DateOutput
+                            className={styles.date}
+                            value={project.end_date}
+                        />
                     </div>
                     <div>
                         {project.districts_details && (

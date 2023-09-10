@@ -66,6 +66,10 @@
             }
         }
     }
+
+    .activity-actions {
+        font-size: var(--go-ui-font-size-icon-multiplier);
+    }
 }
 
 .tooltip {

@@ -7,17 +7,11 @@ import {
     isNotDefined,
     mapToList,
 } from '@togglecorp/fujs';
-import {
-    InformationLineIcon,
-    CopyLineIcon,
-    PencilFillIcon,
-    ShareBoxLineIcon,
-} from '@ifrc-go/icons';
+import { InformationLineIcon } from '@ifrc-go/icons';
 
 import BlockLoading from '#components/BlockLoading';
 import Button from '#components/Button';
 import Container from '#components/Container';
-import DropdownMenuItem from '#components/DropdownMenuItem';
 import KeyFigure from '#components/KeyFigure';
 import Message from '#components/Message';
 import Pager from '#components/Pager';
@@ -30,7 +24,7 @@ import useTranslation from '#hooks/useTranslation';
 import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
 import {
-    createActionColumn,
+    createElementColumn,
     createDateColumn,
     createListDisplayColumn,
     createNumberColumn,
@@ -42,6 +36,7 @@ import {
     stringTitleSelector,
 } from '#utils/selectors';
 
+import ActivityActions, { type Props as ActivityActionsProps } from './ActivityActions';
 import ActivityDetail from './ActivityDetail';
 import ActivitiesMap from './ActivitesMap';
 import Filters, { type FilterValue } from './Filters';
@@ -228,37 +223,13 @@ export function Component() {
                 strings.emergencyProjectPeopleReached,
                 (item) => getPeopleReached(item),
             ),
-            createActionColumn<EmergencyProject, number>(
+            createElementColumn<EmergencyProject, number, ActivityActionsProps>(
                 'actions',
-                (item) => ({
-                    extraActions: (
-                        <>
-                            <DropdownMenuItem
-                                type="link"
-                                to="threeWActivityDetail"
-                                urlParams={{ activityId: item.id }}
-                                icons={<ShareBoxLineIcon />}
-                            >
-                                {strings.threeWViewDetails}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                                type="link"
-                                to="threeWActivityEdit"
-                                urlParams={{ activityId: item.id }}
-                                icons={<PencilFillIcon />}
-                            >
-                                {strings.threeWEdit}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                                type="link"
-                                to="newThreeWActivity"
-                                state={{ activityId: item.id }}
-                                icons={<CopyLineIcon />}
-                            >
-                                {strings.threeWDuplicate}
-                            </DropdownMenuItem>
-                        </>
-                    ),
+                '',
+                ActivityActions,
+                (_, item) => ({
+                    activityId: item.id,
+                    className: styles.activityActions,
                 }),
             ),
         ]),

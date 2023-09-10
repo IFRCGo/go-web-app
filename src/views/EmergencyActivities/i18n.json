@@ -17,9 +17,6 @@
         "emergencyProjectDistrict": "Province / Region",
         "emergencyProjectStatus": "Status",
         "emergencyProjectPeopleReached": "Services Provided to People in Need",
-        "threeWViewDetails": "View Details",
-        "threeWEdit": "Edit",
-        "threeWDuplicate": "Duplicate",
         "responseActivities": "Response Activities",
         "activitiesBySector": "Activities by Sector",
         "dataNotAvailable": "No Activities"
