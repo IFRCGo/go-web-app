@@ -24,6 +24,7 @@ import {
 } from '@togglecorp/toggle-form';
 import {
     useParams,
+    useLocation,
 } from 'react-router-dom';
 
 import useRouting from '#hooks/useRouting';
@@ -133,7 +134,12 @@ export function Component() {
         { value: defaultFormValues },
         beforeSubmitRef,
     );
-    const { activityId } = useParams<{ activityId: string }>();
+    const { activityId: activityIdFromParams } = useParams<{ activityId: string }>();
+
+    const { state } = useLocation();
+
+    const activityId = activityIdFromParams ?? state?.activityId as string | undefined;
+
     const [
         submitConfirmationShown,
         {

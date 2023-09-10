@@ -1,0 +1,54 @@
+.activity-detail {
+    .header-description-container {
+        display: flex;
+        align-items: center;
+        gap: var(--go-ui-spacing-sm);
+
+        .progress-bar {
+            flex-grow: 1;
+        }
+    }
+
+    .project-list-container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-sm);
+
+        .project-list-item {
+            &:not(:last-child) {
+                border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+            }
+
+            .status {
+                flex-shrink: 0;
+                border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+                border-radius: 1em;
+                background-color: var(--go-ui-color-gray-20);
+                padding: var(--go-ui-spacing-4xs) var(--go-ui-spacing-sm);
+                color: var(--go-ui-color-primary-blue);
+                font-size: var(--go-ui-font-size-xs);
+            }
+
+            .dates {
+                display: flex;
+                color: var(--go-ui-color-text-light);
+                gap: var(--go-ui-spacing-sm);
+            }
+
+            .activities {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-2xs);
+                padding: var(--go-ui-spacing-xs) 0;
+
+                .activity {
+                    background-color: var(--go-ui-color-background);
+                }
+            }
+        }
+    }
+}
+
+.tooltip {
+    padding: var(--go-ui-spacing-sm);
+}

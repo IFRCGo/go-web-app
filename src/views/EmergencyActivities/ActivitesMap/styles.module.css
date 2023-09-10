@@ -1,0 +1,49 @@
+.map {
+    display: flex;
+    gap: var(--go-ui-spacing-md);
+    height: 40rem;
+    overflow: auto;
+
+    .map-with-legend {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        .map-container {
+            flex-grow: 1;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: flex-end;
+            background-color: var(--go-ui-color-background);
+            gap: var(--go-ui-spacing-lg);
+            padding: var(--go-ui-spacing-lg);
+        }
+    }
+
+    .sidebar {
+        flex-basis: calc(14vw + 12rem);
+        background-color: var(--go-ui-color-background);
+        overflow: auto;
+    }
+
+    @media screen and (max-width: 50rem) {
+        flex-direction: column;
+        height: initial;
+
+        .sidebar {
+            flex-basis: unset;
+        }
+
+        .map-with-legend {
+            height: min(40rem, 70vh);
+        }
+    }
+}
+
+.map-popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+}

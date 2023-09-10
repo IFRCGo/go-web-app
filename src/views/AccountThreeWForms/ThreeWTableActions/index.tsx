@@ -79,9 +79,8 @@ function ThreeWTableActions(props: Props) {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         type="link"
-                        // TODO: implement duplication logic
                         to="newThreeWProject"
-                        urlParams={{ projectId }}
+                        state={{ projectId }}
                         icons={<CopyLineIcon />}
                     >
                         {strings.threeWDuplicate}

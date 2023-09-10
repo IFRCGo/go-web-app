@@ -4,6 +4,7 @@ import type {
     NavigationControl,
     Map,
 } from 'mapbox-gl';
+import getBbox from '@turf/bbox';
 
 import {
     COLOR_BLUE,
@@ -15,6 +16,7 @@ import {
     COLOR_LIGHT_GREY,
     COLOR_DARK_GREY,
 } from '#utils/constants';
+import { type Country } from '#hooks/domain/useCountryRaw';
 
 export const defaultMapStyle = 'mapbox://styles/go-ifrc/ckrfe16ru4c8718phmckdfjh0';
 type NavControlOptions = NonNullable<ConstructorParameters<typeof NavigationControl>[0]>;
@@ -148,3 +150,19 @@ export const adminFillLayerOptions: Omit<FillLayer, 'id'> = {
         ],
     },
 };
+
+export function getCountryListBoundingBox(countryList: Country[]) {
+    if (countryList.length < 1) {
+        return undefined;
+    }
+
+    const collection = {
+        type: 'FeatureCollection' as const,
+        features: countryList.map((country) => ({
+            type: 'Feature' as const,
+            geometry: country.bbox,
+        })),
+    };
+
+    return getBbox(collection);
+}

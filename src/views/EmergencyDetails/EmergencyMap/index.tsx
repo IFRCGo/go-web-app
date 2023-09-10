@@ -11,7 +11,6 @@ import Map, {
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
-import getBbox from '@turf/bbox';
 
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import useTranslation from '#hooks/useTranslation';
@@ -21,8 +20,9 @@ import {
     defaultMapOptions,
     defaultNavControlPosition,
     defaultNavControlOptions,
+    getCountryListBoundingBox,
 } from '#utils/map';
-import useCountryRaw, { type Country } from '#hooks/domain/useCountryRaw';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 import {
     COLOR_LIGHT_GREY,
     COLOR_RED,
@@ -34,22 +34,6 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type EventItem = GoApiResponse<'/api/v2/event/{id}'>;
-
-function getBoundingBox(countryList: Country[]) {
-    if (countryList.length < 1) {
-        return undefined;
-    }
-
-    const collection = {
-        type: 'FeatureCollection' as const,
-        features: countryList.map((country) => ({
-            type: 'Feature' as const,
-            geometry: country.bbox,
-        })),
-    };
-
-    return getBbox(collection);
-}
 
 interface Props {
     event: EventItem;
@@ -96,7 +80,7 @@ function EmergencyMap(props: Props) {
     );
 
     const bounds = useMemo(
-        () => getBoundingBox(countryList),
+        () => getCountryListBoundingBox(countryList),
         [countryList],
     );
     const districtIdList = useMemo(

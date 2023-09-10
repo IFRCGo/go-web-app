@@ -51,9 +51,11 @@ function ProgressBar(props: Props) {
                     }}
                 />
             </div>
-            <div className={styles.description}>
-                {description}
-            </div>
+            {description && (
+                <div className={styles.description}>
+                    {description}
+                </div>
+            )}
         </div>
     );
 }

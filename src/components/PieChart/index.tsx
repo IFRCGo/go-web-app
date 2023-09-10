@@ -61,6 +61,7 @@ function getPathData(radius: number, startAngle: number, endAngleFromParams: num
 
 interface Props<D> {
     className?: string;
+    legendClassName?: string;
     data: D[] | undefined | null;
     valueSelector: (datum: D) => number | undefined | null;
     labelSelector: (datum: D) => React.ReactNode;
@@ -80,6 +81,7 @@ function PieChart<D>(props: Props<D>) {
         colors,
         pieRadius = DEFAULT_PIE_RADIUS,
         chartPadding = DEFAULT_CHART_PADDING,
+        legendClassName,
     } = props;
 
     const totalValue = sumSafe(data?.map((datum) => valueSelector(datum)));
@@ -124,7 +126,7 @@ function PieChart<D>(props: Props<D>) {
                             key={datum.key}
                             className={styles.path}
                             d={getPathData(pieRadius, datum.startAngle, datum.endAngle)}
-                            fill={colors[i]}
+                            fill={colors[i % colors.length]}
                         >
                             <title>
                                 {`${datum.label}: ${datum.value}`}
@@ -133,13 +135,13 @@ function PieChart<D>(props: Props<D>) {
                     ))}
                 </g>
             </svg>
-            <div className={styles.legend}>
+            <div className={_cs(styles.legend, legendClassName)}>
                 {renderData.map((datum, i) => (
                     <LegendItem
                         className={styles.legendItem}
                         key={datum.key}
                         label={datum.label}
-                        color={colors[i]}
+                        color={colors[i % colors.length]}
                     />
                 ))}
             </div>
