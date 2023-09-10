@@ -44,7 +44,6 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
             withoutLabelColon: true,
             className: styles.textOutput,
             labelClassName: styles.label,
-            valueType: 'number',
         }),
         [],
     );

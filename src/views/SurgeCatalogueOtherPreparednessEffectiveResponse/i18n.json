@@ -1,0 +1,12 @@
+{
+    "namespace": "surgeCatalogueOtherPreparednessEffectiveResponse",
+    "strings": {
+        "preparednessHeading": "Preparedness For Effective Response (PER)",
+        "otherOverview": "Overview",
+        "otherOverviewDetail": "Preparedness for Effective Response (PER) is a cyclical approach designed to empower National Societies to become more creative and innovative in their disaster management actions, and contribute to the coordination of national and global response systems.",
+        "rapidResponse": "Rapid Response Personnel Role Profile",
+        "rapidResponseDetail":"Details about the expectations for this specialty can be found in the role profiles:",
+        "otherLinkOne": "Rapid Response Preparedness for Effective Response Coordinator role profile.",
+        "otherLinkTwo": "Rapid Response National Society Preparedness for Effective Response Officer role profile."
+    }
+}

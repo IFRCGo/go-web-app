@@ -1,0 +1,11 @@
+{
+    "namespace": "SurgeCatalogueOtherInternationalDisasterLaw",
+    "strings": {
+        "internationalDisasterHeading": "International Disaster Response Law",
+        "otherOverview": "Overview",
+        "otherOverviewDetail": "Addressing legal and regulatory issues that commonly arise concerning international assistance following disasters.",
+        "rapidResponse": "Rapid Response Personnel Role Profile",
+        "rapidResponseDetail":"Details about the expectations for this specialty can be found in the {link}",
+        "otherLink": "Rapid Response International Disaster Response Law Coordinator-Emergency Phase role profile."
+    }
+}

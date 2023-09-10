@@ -1,0 +1,15 @@
+{
+    "namespace": "surgeCatalogueOtherRecovery",
+    "strings": {
+        "recoveryHeading": "Recovery",
+        "otherOverview": "Overview",
+        "technicalHeading": "Technical Competency Framework",
+        "technicalDetail": "Tiered competencies describing the knowledge and skills expected of personnel in this sector can be found in the {link}",
+        "technicalLink": "Recovery technical competency framework.",
+        "otherOverviewDetail": "Supporting National Society and Operations Management to ensure that recovery is considered early in the operation; to help manage a smooth transition from rapid response to the medium-term operation which will support community recovery; and to ensure that the approach to recovery is holistic and integrated, working towards community resilience and better prepared NS.",
+        "rapidResponse": "Rapid Response Personnel Role Profile",
+        "rapidResponseDetail":"Details about the expectations for this specialty can be found in the role profiles:",
+        "otherLinkOne": "Rapid Response Recovery Coordinator role profile.",
+        "otherLinkTwo": "Rapid Response Early Recovery Officer role profile."
+    }
+}

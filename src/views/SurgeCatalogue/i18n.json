@@ -18,6 +18,7 @@
         "catalogueShelter": "Shelter",
         "catalogueWater": "Water, Sanitation, and Hygiene (WASH)",
         "catalogueRelief": "Relief",
-        "catalogueSecurity": "Security"
+        "catalogueSecurity": "Security",
+        "catalogueOther": "Other"
     }
 }

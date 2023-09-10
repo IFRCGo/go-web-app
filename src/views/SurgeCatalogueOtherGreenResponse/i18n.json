@@ -1,0 +1,12 @@
+{
+    "namespace": "surgeCatalogueOtherGreenResponse",
+    "strings": {
+        "greenResponseHeading": "Green Response",
+        "otherOverview": "Overview",
+        "otherOverviewDetailOne": "Analyse the environmental context, identify environmental risks caused by the crisis, and the potential environmental impact of the response and recovery interventions.",
+        "otherOverviewDetailTwo": "Support operational leadership and sectoral colleagues to promote a more environmentally sustainable response operation, by recommending ways to minimise harm done to the local environment, as well as minimise the contribution to climate change through greenhouse gas emissions. Work with National Society colleagues to build awareness of environmental issues in humanitarian contexts and to promote Green Response.",
+        "rapidResponse": "Rapid Response Personnel Role Profile",
+        "rapidResponseDetail": "Details about the expectations for this specialty can be found in the role profiles: {link}",
+        "otherLink": "Environmental Field Advisor"
+    }
+}
