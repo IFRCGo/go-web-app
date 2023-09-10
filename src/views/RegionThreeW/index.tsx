@@ -1,6 +1,7 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import {
+    _cs,
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
@@ -8,27 +9,30 @@ import {
     DownloadFillIcon,
 } from '@ifrc-go/icons';
 
+import BlockLoading from '#components/BlockLoading';
+import Button from '#components/Button';
+import Container from '#components/Container';
+import ExpandableContainer from '#components/ExpandableContainer';
+import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import List from '#components/List';
-import Button from '#components/Button';
-import BlockLoading from '#components/BlockLoading';
-import Container from '#components/Container';
-import KeyFigure from '#components/KeyFigure';
 import PieChart from '#components/PieChart';
 import ProgressBar from '#components/ProgressBar';
 import TextOutput from '#components/TextOutput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useTranslation from '#hooks/useTranslation';
-import { type GoApiResponse, useRequest } from '#utils/restRequest';
+import useFilterState from '#hooks/useFilterState';
 import { resolveToString } from '#utils/translation';
+import { type GoApiResponse, useRequest } from '#utils/restRequest';
 import {
     numericCountSelector,
     stringNameSelector,
     numericIdSelector,
 } from '#utils/selectors';
 
-import MovementActivitiesMap from './MovementActivitiesMap';
+import CountryProjectTable from './CountryProjectTable';
 import Filters, { type FilterValue } from './Filters';
+import MovementActivitiesMap from './MovementActivitiesMap';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -45,21 +49,24 @@ const primaryRedColorShades = [
 
 const MAX_SCALE_STOPS = 6;
 interface ScaleProps {
+    className?: string;
     max: number;
 }
 
 function Scale(props: ScaleProps) {
-    const { max } = props;
+    const { max, className } = props;
     const numbers = [];
 
-    const diff = max / MAX_SCALE_STOPS;
+    const diff = Math.ceil(max / (MAX_SCALE_STOPS));
 
-    for (let i = 0; i <= max; i += diff) {
-        numbers.push(i);
+    if (diff === 0) {
+        return null;
     }
-
+    for (let i = 0; i <= MAX_SCALE_STOPS; i += 1) {
+        numbers.push(i * diff);
+    }
     return (
-        <div className={styles.scale}>
+        <div className={_cs(styles.scale, className)}>
             {numbers.map((number) => <div key={number}>{number}</div>)}
         </div>
     );
@@ -73,13 +80,22 @@ export function Component() {
 
     const strings = useTranslation(i18n);
 
-    const [filters, setFilters] = useState<FilterValue>({
-        operation_type: [],
-        programme_type: [],
-        primary_sector: [],
-        secondary_sectors: [],
-        status: [],
-    });
+    const {
+        page,
+        setPage,
+        filter,
+        filtered,
+        setFilterField,
+    } = useFilterState<FilterValue>(
+        {
+            operation_type: [],
+            programme_type: [],
+            primary_sector: [],
+            secondary_sectors: [],
+            status: [],
+        },
+        undefined,
+    );
 
     const {
         response: regionProjectOverviewResponse,
@@ -98,29 +114,53 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/region-project/{id}/movement-activities/',
         skip: isNotDefined(regionId),
+        preserveResponse: true,
         pathVariables: isDefined(regionId) ? {
             id: regionId,
         } : undefined,
-        query: filters, // TODO: fix typings
+        query: filter, // TODO: fix typings in the server
     });
 
-    const projectByStatus = regionProjectOverviewResponse?.projects_by_status?.map((project) => {
-        const name = projectStatus?.find((status) => (status.key === project.status))?.value;
-        if (isDefined(name)) {
-            return {
-                count: project.count,
-                name,
-            };
-        }
-        return undefined;
-    }).filter(isDefined);
+    const projectByStatus = useMemo(() => (
+        regionProjectOverviewResponse?.projects_by_status?.map((project) => {
+            const name = projectStatus?.find((status) => (status.key === project.status))?.value;
+            if (isDefined(name)) {
+                return {
+                    count: project.count,
+                    name,
+                };
+            }
+            return undefined;
+        }).filter(isDefined)
+    ), [projectStatus, regionProjectOverviewResponse?.projects_by_status]);
 
-    const maxScaleValue = useMemo(() => (
-        Math.max(
-            ...(regionalMovementActivitiesResponse?.countries_count
-                .map((activity) => activity.projects_count)
-                .filter(isDefined) ?? []),
-        )), [regionalMovementActivitiesResponse?.countries_count]);
+    const maxScaleValue = useMemo(
+        () => (
+            Math.max(
+                ...(regionalMovementActivitiesResponse?.countries_count
+                    .map((activity) => activity.projects_count)
+                    .filter(isDefined) ?? []),
+                0,
+            )
+        ),
+        [regionalMovementActivitiesResponse?.countries_count],
+    );
+
+    const countryRendererParams = useCallback((_: number, country: CountryActivity) => ({
+        heading: country.name,
+        headingDescription: resolveToString(
+            strings.projectsCount,
+            { count: country.projects_count },
+        ),
+        children: (
+            <CountryProjectTable
+                country={country.iso3 ?? country.iso}
+                filters={filter}
+                page={page}
+                setPage={setPage}
+            />
+        ),
+    }), [strings.projectsCount, filter, page, setPage]);
 
     const countrySectorRendererParams = useCallback((_: number, country: CountryActivity) => ({
         title: (
@@ -139,9 +179,10 @@ export function Component() {
         ),
         className: styles.countrySector,
         value: country.projects_count,
-        totalValue: maxScaleValue,
+        totalValue: Math.ceil(maxScaleValue / MAX_SCALE_STOPS) * MAX_SCALE_STOPS,
     }), [maxScaleValue, strings.projectsCount]);
 
+    // FIXME: we need to show pending appropriately
     return (
         <div
             className={styles.regionThreeW}
@@ -217,8 +258,8 @@ export function Component() {
                 withHeaderBorder
                 filters={(
                     <Filters
-                        value={filters}
-                        onChange={setFilters}
+                        value={filter}
+                        onChange={setFilterField}
                     />
                 )}
                 actions={(
@@ -231,6 +272,7 @@ export function Component() {
                             {strings.export}
                         </Button>
                         <Link
+                            variant="secondary"
                             to="newThreeWActivity"
                         >
                             {strings.addThreeW}
@@ -244,13 +286,10 @@ export function Component() {
                     sidebarContent={(
                         <Container
                             className={styles.sidebar}
-                            headingClassName={styles.heading}
-                            heading={(
-                                <Scale max={maxScaleValue} />
-                            )}
                             withInternalPadding
                             childrenContainerClassName={styles.sidebarContent}
                         >
+                            <Scale max={maxScaleValue} className={styles.scale} />
                             <List
                                 className={styles.countryList}
                                 data={regionalMovementActivitiesResponse
@@ -262,10 +301,23 @@ export function Component() {
                                 compact
                                 pending={regionalMovementActivitiesResponsePending}
                                 errored={false}
-                                filtered={false}
+                                filtered={filtered}
                             />
                         </Container>
                     )}
+                />
+                <List
+                    className={styles.countryList}
+                    data={regionalMovementActivitiesResponse
+                        ?.countries_count}
+                    renderer={ExpandableContainer}
+                    rendererParams={countryRendererParams}
+                    keySelector={numericIdSelector}
+                    withoutMessage
+                    compact
+                    pending={regionalMovementActivitiesResponsePending}
+                    errored={false}
+                    filtered={filtered}
                 />
             </Container>
         </div>

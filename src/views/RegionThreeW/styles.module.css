@@ -74,8 +74,17 @@
             .heading {
                 width: 100%;
             }
+
             .sidebar-content {
                 overflow: auto;
+                position: relative;
+
+                .scale {
+                    position: sticky;
+                    top: 0;
+                    z-index: 1;
+                    background-color: var(--go-ui-color-background);
+                }
 
                 .country-list {
                     display: flex;

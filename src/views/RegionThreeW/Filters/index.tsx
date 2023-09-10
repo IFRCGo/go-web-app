@@ -17,21 +17,30 @@ import styles from './styles.module.css';
 
 type DeploymentsProjectStatus = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['deployments_project_status']>[number];
 
+type DeploymentsProjectOperationType = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['deployments_project_operation_type']>[number];
+type DeploymentsProjectProgrammeType = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['deployments_project_programme_type']>[number];
+
 function projectStatusSelector(option: DeploymentsProjectStatus) {
     return option.key;
 }
+function projectOperationTypeSelector(option: DeploymentsProjectOperationType) {
+    return option.key;
+}
+function projectProgrammeTypeSelector(option: DeploymentsProjectProgrammeType) {
+    return option.key;
+}
 export interface FilterValue {
-    operation_type: number[];
-    programme_type: number[];
+    operation_type: DeploymentsProjectOperationType['key'][];
+    programme_type: DeploymentsProjectProgrammeType['key'][];
     primary_sector: number[];
     secondary_sectors: number[];
-    status: number[];
+    status: DeploymentsProjectStatus['key'][];
 }
 
 interface Props {
     className?: string;
     value: FilterValue;
-    onChange: React.Dispatch<React.SetStateAction<FilterValue>>;
+    onChange: (...value: EntriesAsList<FilterValue>) => void;
     disabled?: boolean;
 }
 
@@ -59,20 +68,6 @@ function Filters(props: Props) {
         url: '/api/v2/secondarysector',
     });
 
-    const handleInputChange = useCallback((...args: EntriesAsList<FilterValue>) => {
-        const [val, key] = args;
-        if (onChange) {
-            onChange((oldFilterValue) => {
-                const newFilterValue = {
-                    ...oldFilterValue,
-                    [key]: val,
-                };
-
-                return newFilterValue;
-            });
-        }
-    }, [onChange]);
-
     return (
         <div className={_cs(styles.filters, className)}>
             <MultiSelectInput
@@ -80,9 +75,9 @@ function Filters(props: Props) {
                 placeholder={strings.threeWFilterOperationTypes}
                 options={projectOperationTypeOptions}
                 value={value.operation_type}
-                keySelector={numericKeySelector}
+                keySelector={projectOperationTypeSelector}
                 labelSelector={stringValueSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
             <MultiSelectInput
@@ -90,9 +85,9 @@ function Filters(props: Props) {
                 placeholder={strings.threeWFilterProgrammeTypes}
                 options={programmeTypeOptions}
                 value={value.programme_type}
-                keySelector={numericKeySelector}
+                keySelector={projectProgrammeTypeSelector}
                 labelSelector={stringValueSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
             <MultiSelectInput
@@ -102,7 +97,7 @@ function Filters(props: Props) {
                 value={value.primary_sector}
                 keySelector={numericKeySelector}
                 labelSelector={stringLabelSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
             <MultiSelectInput
@@ -112,7 +107,7 @@ function Filters(props: Props) {
                 value={value.secondary_sectors}
                 keySelector={numericKeySelector}
                 labelSelector={stringLabelSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
             <MultiSelectInput
@@ -122,7 +117,7 @@ function Filters(props: Props) {
                 value={value.status}
                 keySelector={projectStatusSelector}
                 labelSelector={stringValueSelector}
-                onChange={handleInputChange}
+                onChange={onChange}
                 disabled={disabled}
             />
         </div>

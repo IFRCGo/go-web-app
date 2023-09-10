@@ -25,7 +25,12 @@ function ProgressBar(props: Props) {
         showPercentageInTitle,
     } = props;
 
-    const percentage = (value / totalValue) * 100;
+    let percentage;
+    if (totalValue === 0) {
+        percentage = 0;
+    } else {
+        percentage = (value / totalValue) * 100;
+    }
 
     return (
         <div className={_cs(styles.progressWrapper, className)}>
