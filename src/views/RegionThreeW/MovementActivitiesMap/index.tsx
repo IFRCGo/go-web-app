@@ -18,9 +18,9 @@ import Map, {
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
 
-import Link from '#components/Link';
-import List from '#components/List';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
+import Link from '#components/Link';
+import RawList from '#components/RawList';
 import MapPopup from '#components/MapPopup';
 import TextOutput from '#components/TextOutput';
 import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
@@ -115,16 +115,21 @@ function MovementActivitiesMap(props: Props) {
         setClickedPointProperties,
     ] = useState<ClickedPoint | undefined>();
 
+    const countriesCount = useMemo(() => (
+        movementActivitiesResponse?.countries_count
+            .filter((country) => country.projects_count > 0)
+    ), [movementActivitiesResponse?.countries_count]);
+
     const maxScaleValue = useMemo(() => (
         Math.max(
-            ...(movementActivitiesResponse?.countries_count
-                .map((activity) => activity.projects_count)
+            ...(countriesCount
+                ?.map((activity) => activity.projects_count)
                 .filter(isDefined) ?? []),
-        )), [movementActivitiesResponse?.countries_count]);
+        )), [countriesCount]);
 
     const activitiesGeoJson = useMemo(() => (
-        getGeoJson(movementActivitiesResponse?.countries_count, countries)
-    ), [movementActivitiesResponse?.countries_count, countries]);
+        getGeoJson(countriesCount, countries)
+    ), [countriesCount, countries]);
 
     const selectedCountry = useMemo(() => (
         movementActivitiesResponse
@@ -138,9 +143,7 @@ function MovementActivitiesMap(props: Props) {
             (country) => country.id === clickedPointProperties?.feature.properties.id,
         ), [movementActivitiesResponse, clickedPointProperties?.feature.properties.id]);
 
-    const {
-        redPointHaloCirclePaint,
-    } = useMemo(
+    const { redPointHaloCirclePaint } = useMemo(
         () => ({
             redPointHaloCirclePaint: getPointCircleHaloPaint(COLOR_RED, 'projects_count', maxScaleValue),
         }),
@@ -165,25 +168,26 @@ function MovementActivitiesMap(props: Props) {
         [setClickedPointProperties],
     );
 
-    const nationalSocietyRendererParams = useCallback((
-        _: number,
-        val: ReportingNationalSociety,
-    ) => ({
-        className: styles.nationalSociety,
-        labelClassName: styles.label,
-        label: val.name,
-        strongLabel: true,
-        withoutLabelColon: true,
-        value: val.sectors.map((sector) => (
-            <TextOutput
-                key={sector.id}
-                label={sector.sector}
-                value={sector.count}
-                strongValue
-                withoutLabelColon
-            />
-        )),
-    }), []);
+    const nationalSocietyRendererParams = useCallback(
+        (_: number, val: ReportingNationalSociety) => ({
+            className: styles.nationalSociety,
+            labelClassName: styles.label,
+            label: val.name,
+            strongLabel: true,
+            withoutLabelColon: true,
+            // FIXME a separate component should be created
+            value: val.sectors.map((sector) => (
+                <TextOutput
+                    key={sector.id}
+                    label={sector.sector}
+                    value={sector.count}
+                    strongValue
+                    withoutLabelColon
+                />
+            )),
+        }),
+        [],
+    );
 
     return (
         <div className={_cs(styles.map, className)}>
@@ -270,19 +274,13 @@ function MovementActivitiesMap(props: Props) {
                                     { count: activeNSinSelectedCountry?.reporting_national_societies.length ?? '-' },
                                 )}
                             </div>
-                            <div>
-                                <List
-                                    className={styles.nationalSocietyList}
+                            <div className={styles.nationalSocietyList}>
+                                <RawList
                                     data={activeNSinSelectedCountry
                                         ?.reporting_national_societies}
                                     renderer={TextOutput}
                                     rendererParams={nationalSocietyRendererParams}
                                     keySelector={numericIdSelector}
-                                    withoutMessage
-                                    compact
-                                    pending={false}
-                                    errored={false}
-                                    filtered={false}
                                 />
                             </div>
                         </MapPopup>

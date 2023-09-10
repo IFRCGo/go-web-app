@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 

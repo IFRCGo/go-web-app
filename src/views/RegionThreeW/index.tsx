@@ -134,16 +134,21 @@ export function Component() {
         }).filter(isDefined)
     ), [projectStatus, regionProjectOverviewResponse?.projects_by_status]);
 
+    const countriesCount = useMemo(() => (
+        regionalMovementActivitiesResponse?.countries_count
+            .filter((country) => country.projects_count > 0)
+    ), [regionalMovementActivitiesResponse?.countries_count]);
+
     const maxScaleValue = useMemo(
         () => (
             Math.max(
-                ...(regionalMovementActivitiesResponse?.countries_count
-                    .map((activity) => activity.projects_count)
+                ...(countriesCount
+                    ?.map((activity) => activity.projects_count)
                     .filter(isDefined) ?? []),
                 0,
             )
         ),
-        [regionalMovementActivitiesResponse?.countries_count],
+        [countriesCount],
     );
 
     const countryRendererParams = useCallback((_: number, country: CountryActivity) => ({
@@ -292,8 +297,7 @@ export function Component() {
                             <Scale max={maxScaleValue} className={styles.scale} />
                             <List
                                 className={styles.countryList}
-                                data={regionalMovementActivitiesResponse
-                                    ?.countries_count}
+                                data={countriesCount}
                                 renderer={ProgressBar}
                                 rendererParams={countrySectorRendererParams}
                                 keySelector={numericIdSelector}
@@ -308,8 +312,7 @@ export function Component() {
                 />
                 <List
                     className={styles.countryList}
-                    data={regionalMovementActivitiesResponse
-                        ?.countries_count}
+                    data={countriesCount}
                     renderer={ExpandableContainer}
                     rendererParams={countryRendererParams}
                     keySelector={numericIdSelector}
