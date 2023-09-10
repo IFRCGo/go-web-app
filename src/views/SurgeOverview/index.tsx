@@ -93,6 +93,7 @@ export function Component() {
                     heading={resolveToString(strings.topFiveNationalSociety, { year: '2023' })}
                     className={styles.deploymentsByNationalSociety}
                     withHeaderBorder
+                    withInternalPadding
                 >
                     <BarChart
                         data={deploymentsByNationalSocietyResponse ?? []}
@@ -105,6 +106,7 @@ export function Component() {
                     heading={strings.ongoingDeployments}
                     className={styles.deploymentsOverLastYear}
                     withHeaderBorder
+                    withInternalPadding
                 >
                     {deploymentsByNationalSocietyResponse && (
                         <TimeSeriesChart

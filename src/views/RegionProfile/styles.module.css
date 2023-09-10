@@ -1,8 +1,8 @@
 .region-profile {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-5xl);
-    padding: var(--go-ui-spacing-5xl) 0;
+    gap: var(--go-ui-spacing-2xl);
+    padding: var(--go-ui-spacing-2xl) 0;
 
     .key-figures {
         display: flex;
@@ -11,14 +11,14 @@
         .key-figure {
             flex-basis: 26rem;
             border-radius: var(--go-ui-border-radius-md);
-            box-shadow: var(--go-ui-box-shadow-lg);
+            box-shadow: var(--go-ui-box-shadow-md);
         }
     }
 
     /* TODO: make these styles responsive */
     .additional-links{
         display: grid;
-        grid-gap: var(--go-ui-spacing-lg);
+        grid-gap: var(--go-ui-spacing-md);
         grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 
         @media screen and (max-width: 30rem) {
@@ -26,14 +26,28 @@
         }
     }
 
-    /* TODO: make these styles responsive */
-    .contact-list{
+    .contact-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
 
-        .spacer {
-            grid-column: 1 / -1;
+        .contact {
+            display: flex;
+            flex-direction: column;
+            border-radius: var(--go-ui-border-radius-lg);
+            box-shadow: var(--go-ui-box-shadow-sm);
+            padding: var(--go-ui-spacing-md);
+            gap: var(--go-ui-spacing-md);
+
+            .name {
+                font-size: var(--go-ui-font-size-lg);
+                font-weight: var(--go-ui-font-weight-semibold);
+            }
+
+            .title {
+                color: var(--go-ui-color-text-light);
+                font-size: var(--go-ui-font-size-sm);
+            }
         }
     }
 }

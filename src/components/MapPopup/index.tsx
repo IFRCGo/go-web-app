@@ -45,6 +45,7 @@ function MapPopup(props: Props) {
                 ellipsizeHeading
                 childrenContainerClassName={_cs(styles.content, childrenContainerClassName)}
                 withHeaderBorder
+                withInternalPadding
                 actions={(
                     <>
                         {actions}

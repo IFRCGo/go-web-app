@@ -1,29 +1,26 @@
 .login {
     .main-section {
         display: flex;
-        align-items: center;
         justify-content: center;
 
         .form {
             display: flex;
             flex-direction: column;
             flex-grow: 1;
-            background-color: var(--go-ui-color-white);
-            padding: var(--go-ui-spacing-3xl);
-            max-width: 50rem;
-            gap: var(--go-ui-spacing-4xl);
+            max-width: var(--go-ui-width-content-max);
+            gap: var(--go-ui-spacing-xl);
 
             .fields {
                 display: flex;
                 flex-direction: column;
-                gap: var(--go-ui-spacing-3xl);
+                gap: var(--go-ui-spacing-xl);
             }
 
             .utility-links {
                 display: flex;
                 align-items: flex-end;
                 flex-direction: column;
-                gap: var(--go-ui-spacing-md);
+                gap: var(--go-ui-spacing-sm);
             }
 
             .actions {
@@ -34,7 +31,7 @@
 
                 .sign-up {
                     display: flex;
-                    gap: var(--go-ui-spacing-md);
+                    gap: var(--go-ui-spacing-sm);
                 }
             }
         }

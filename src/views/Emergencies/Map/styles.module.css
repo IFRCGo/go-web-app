@@ -10,7 +10,7 @@
         justify-content: space-between;
         background-color: var(--go-ui-color-background);
         padding: var(--go-ui-spacing-lg);
-        gap: var(--go-ui-spacing-2xl);
+        gap: var(--go-ui-spacing-md);
 
         .legend {
             display: flex;
@@ -18,15 +18,7 @@
             gap: var(--go-ui-spacing-md);
 
             .legend-item {
-                display: flex;
-                align-items: center;
-                gap: var(--go-ui-spacing-sm);
-
-                .color {
-                    border-radius: 0.5rem;
-                    width: 0.75rem;
-                    height: 0.75rem;
-                }
+                font-size: var(--go-ui-font-size-md);
             }
         }
     }

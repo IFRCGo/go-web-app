@@ -17,13 +17,13 @@
 
         .header-row {
             .header-element {
-                overflow: hidden;
-                vertical-align: bottom;
-                text-align: left;
+                position: sticky;
+                top: 0;
+                z-index: 1;
 
                 .header-component {
-                    padding: var(--go-ui-spacing-md);
-                    overflow: hidden;
+                    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
+                    font-size: var(--go-ui-font-size-sm);
                 }
             }
         }

@@ -37,7 +37,7 @@ function InfoPopup(props: Props) {
                     )}
                 </div>
             )}
-            dropdownContainerClassName={styles.dropdownContainer}
+            popupClassName={styles.dropdownContainer}
             className={_cs(styles.infoPopup, className)}
             variant="tertiary"
             withoutDropdownIcon
@@ -45,7 +45,7 @@ function InfoPopup(props: Props) {
             <Container
                 heading={title}
                 childrenContainerClassName={styles.content}
-                spacing="cozy"
+                withInternalPadding
             >
                 {description}
             </Container>

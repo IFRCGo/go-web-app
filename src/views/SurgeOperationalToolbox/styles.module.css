@@ -1,20 +1,10 @@
 .surge-operational-toolbox {
-    padding: var(--go-ui-spacing-4xl) 0;
+    padding: var(--go-ui-spacing-2xl) 0;
 
-    .operational-toolbox-overview {
-        .content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-lg);
-
-            .how-to {
-                padding: 0 var(--go-ui-spacing-2xl);
-            }
-        }
-    }
-
-    .svg-container {
-        padding: var(--go-ui-spacing-xl) 0;
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-xl);
     }
 
     .footer {

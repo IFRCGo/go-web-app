@@ -20,6 +20,7 @@ import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import MapPopup from '#components/MapPopup';
+import LegendItem from '#components/LegendItem';
 import TextOutput from '#components/TextOutput';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
@@ -346,18 +347,12 @@ function EmergenciesMap(props: Props) {
                 </div>
                 <div className={styles.legend}>
                     {legendOptions.map((legendItem) => (
-                        <div
-                            key={legendItem.value}
+                        <LegendItem
                             className={styles.legendItem}
-                        >
-                            <div
-                                className={styles.color}
-                                style={{ backgroundColor: legendItem.color }}
-                            />
-                            <div className={styles.label}>
-                                {legendItem.label}
-                            </div>
-                        </div>
+                            key={legendItem.value}
+                            label={legendItem.label}
+                            color={legendItem.color}
+                        />
                     ))}
                 </div>
                 <div>

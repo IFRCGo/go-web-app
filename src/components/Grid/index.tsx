@@ -10,14 +10,13 @@ import styles from './styles.module.css';
 type NumColumn = 2 | 3 | 4 | 5;
 const spacingTypeToClassNameMap: Record<SpacingType, string> = {
     none: styles.noSpacing,
+    condensed: styles.condensedSpacing,
     compact: styles.compactSpacing,
     cozy: styles.cozySpacing,
+    default: styles.defaultSpacing,
     comfortable: styles.comfortableSpacing,
     relaxed: styles.relaxedSpacing,
     loose: styles.looseSpacing,
-    // FIXME: use proper styling (medium priority)
-    default: 'default',
-    condensed: 'condensed',
 };
 
 export interface Props<
@@ -51,7 +50,7 @@ function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         renderer,
         rendererParams,
         numPreferredColumns,
-        spacing = 'comfortable',
+        spacing = 'default',
 
         pending,
         errored,

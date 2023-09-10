@@ -77,6 +77,7 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
         actionsContainerClassName: actionsClassName,
         spacing,
         withoutWrap: true,
+        variant: 'small',
     });
 
     return {

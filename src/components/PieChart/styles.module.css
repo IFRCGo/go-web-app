@@ -8,5 +8,9 @@
         flex-direction: column;
         flex-grow: 1;
         justify-content: center;
+
+        .legend-item {
+            font-size: var(--go-ui-font-size-xs);
+        }
     }
 }

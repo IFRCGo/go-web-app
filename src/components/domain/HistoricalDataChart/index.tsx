@@ -331,19 +331,15 @@ function HistoricalDataChart(props: Props) {
             withHeaderBorder
             filtersContainerClassName={styles.filters}
             filters={(
-                <>
-                    <SelectInput
-                        name={undefined}
-                        placeholder={strings.hazardFilterPlaceholder}
-                        value={disasterFilter}
-                        onChange={setDisasterFilter}
-                        options={disasterOptions}
-                        keySelector={numericIdSelector}
-                        labelSelector={stringNameSelector}
-                    />
-                    <div />
-                    <div />
-                </>
+                <SelectInput
+                    name={undefined}
+                    placeholder={strings.hazardFilterPlaceholder}
+                    value={disasterFilter}
+                    onChange={setDisasterFilter}
+                    options={disasterOptions}
+                    keySelector={numericIdSelector}
+                    labelSelector={stringNameSelector}
+                />
             )}
         >
             <div
@@ -392,6 +388,7 @@ function HistoricalDataChart(props: Props) {
                                     label={hazardIdToIconMap[point.disasterType]}
                                     variant="tertiary"
                                     withoutDropdownIcon
+                                    popupClassName={styles.popUp}
                                 >
                                     <Container
                                         heading={point.event.dtype.name}
@@ -404,7 +401,6 @@ function HistoricalDataChart(props: Props) {
                                         )}
                                         withHeaderBorder
                                         withInternalPadding
-                                        spacing="cozy"
                                     >
                                         <TextOutput
                                             value={point.numAffected}
@@ -419,6 +415,7 @@ function HistoricalDataChart(props: Props) {
                                         <TextOutput
                                             value={coverage}
                                             valueType="number"
+                                            suffix="%"
                                             description={strings.fundingCoverageLabel}
                                         />
                                     </Container>

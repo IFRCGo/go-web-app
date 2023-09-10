@@ -585,17 +585,17 @@ export function Component() {
             heading={strings.surgeOperationalToolboxHeading}
             className={styles.surgeOperationalToolbox}
             headerDescription={strings.surgeOperationalToolboxHeadingDescription}
+            childrenContainerClassName={styles.content}
+            spacing="loose"
         >
             <ExpandableContainer
-                className={styles.operationalToolboxOverview}
                 heading={strings.operationalToolboxOverviewHeading}
-                childrenContainerClassName={styles.content}
-                spacing="loose"
+                spacing="comfortable"
                 initiallyExpanded
+                headerDescription={strings.overviewSectionHeader}
+                footerContent={strings.overviewSectionFooter}
             >
-                <div>{strings.overviewSectionHeader}</div>
                 <Container
-                    className={styles.howTo}
                     heading={strings.overviewNavigationHowTo}
                     headingLevel={5}
                 >
@@ -610,7 +610,6 @@ export function Component() {
                         strongLabel
                     />
                 </Container>
-                <div>{strings.overviewSectionFooter}</div>
             </ExpandableContainer>
             <div className={styles.svgContainer}>
                 <OperationalTimelineTitle />

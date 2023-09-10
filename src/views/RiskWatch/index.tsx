@@ -13,19 +13,23 @@ export function Component() {
     return (
         <Page
             title={strings.riskPageTitle}
+            // FIXME: use translation
+            heading="Risk Watch"
+            description={(
+                <NavigationTabList variant="secondary">
+                    <NavigationTab
+                        to="riskWatchImminent"
+                    >
+                        {strings.imminentTabLabel}
+                    </NavigationTab>
+                    <NavigationTab
+                        to="riskWatchSeasonal"
+                    >
+                        {strings.seasonalTabLabel}
+                    </NavigationTab>
+                </NavigationTabList>
+            )}
         >
-            <NavigationTabList variant="secondary">
-                <NavigationTab
-                    to="riskWatchImminent"
-                >
-                    {strings.imminentTabLabel}
-                </NavigationTab>
-                <NavigationTab
-                    to="riskWatchSeasonal"
-                >
-                    {strings.seasonalTabLabel}
-                </NavigationTab>
-            </NavigationTabList>
             <Outlet />
         </Page>
     );

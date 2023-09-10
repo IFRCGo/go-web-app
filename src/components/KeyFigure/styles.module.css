@@ -1,7 +1,7 @@
 .key-figure {
     display: flex;
     flex-direction: column;
-    padding: var(--go-ui-spacing-lg);
+    padding: var(--go-ui-spacing-md);
     gap: var(--go-ui-spacing-sm);
 
     .icon {

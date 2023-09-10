@@ -171,19 +171,15 @@ function ReturnPeriodTable(props: Props) {
             filtersContainerClassName={styles.filters}
             withHeaderBorder
             filters={(
-                <>
-                    <SelectInput
-                        name={undefined}
-                        options={hazardOptions}
-                        keySelector={hazardTypeKeySelector}
-                        labelSelector={hazardTypeLabelSelector}
-                        value={hazardType}
-                        onChange={setHazardType}
-                        nonClearable
-                    />
-                    <div />
-                    <div />
-                </>
+                <SelectInput
+                    name={undefined}
+                    options={hazardOptions}
+                    keySelector={hazardTypeKeySelector}
+                    labelSelector={hazardTypeLabelSelector}
+                    value={hazardType}
+                    onChange={setHazardType}
+                    nonClearable
+                />
             )}
         >
             <Table

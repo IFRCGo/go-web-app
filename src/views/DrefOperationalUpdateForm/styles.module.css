@@ -7,7 +7,7 @@
     .content {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-4xl);
+        gap: var(--go-ui-spacing-2xl);
 
         .actions {
             display: flex;
@@ -16,7 +16,7 @@
                 display: flex;
                 flex-grow: 1;
                 justify-content: center;
-                gap: var(--go-ui-spacing-lg);
+                gap: var(--go-ui-spacing-md);
             }
         }
     }
@@ -28,7 +28,7 @@
     .warnings {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-2xs);
 
         .warning {
             display: flex;

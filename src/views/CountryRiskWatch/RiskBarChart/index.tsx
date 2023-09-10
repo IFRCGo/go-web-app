@@ -12,6 +12,7 @@ import {
 import Container from '#components/Container';
 import SelectInput from '#components/SelectInput';
 import BlockLoading from '#components/BlockLoading';
+import LegendItem from '#components/LegendItem';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import { stringLabelSelector } from '#utils/selectors';
@@ -226,7 +227,6 @@ function RiskBarChart(props: Props) {
                         value={selectedHazardType}
                         onChange={setSelectedHazardType}
                     />
-                    <div />
                 </>
             )}
         >
@@ -253,20 +253,11 @@ function RiskBarChart(props: Props) {
                 <div className={styles.legend}>
                     {hazardListForDisplay.map(
                         (hazard) => (
-                            <div
+                            <LegendItem
                                 key={hazard.hazard_type}
-                                className={styles.legendItem}
-                            >
-                                <div
-                                    className={styles.color}
-                                    style={{
-                                        backgroundColor: hazardTypeToColorMap[hazard.hazard_type],
-                                    }}
-                                />
-                                <div className={styles.label}>
-                                    {hazard.hazard_type_display}
-                                </div>
-                            </div>
+                                label={hazard.hazard_type_display}
+                                color={hazardTypeToColorMap[hazard.hazard_type]}
+                            />
                         ),
                     )}
                 </div>

@@ -108,7 +108,6 @@ function OperationCard(props: Props) {
             ellipsizeHeading
             withInternalPadding
             withHeaderBorder
-            spacing="comfortable"
             withoutWrapInHeading
             icons={ifrc_severity_level ? (
                 <>

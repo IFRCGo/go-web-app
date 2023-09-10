@@ -218,7 +218,6 @@ export function Component() {
                         disabled={isDefined(filter.region)}
                         onChange={setFilterField}
                     />
-                    <div />
                 </>
             )}
         >

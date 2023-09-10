@@ -1,6 +1,6 @@
-import { Fragment } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { RedCrossNationalSocietyIcon } from '@ifrc-go/icons';
+import { isValidEmail } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
@@ -72,13 +72,29 @@ export function Component() {
                     childrenContainerClassName={styles.contactList}
                 >
                     {regionResponse.contacts.map((contact) => (
-                        <Fragment key={contact.id}>
-                            <div>{contact.name}</div>
-                            <div>{contact.title}</div>
-                            <div>{contact.ctype}</div>
-                            <div>{contact.email}</div>
-                            <div className={styles.spacer} />
-                        </Fragment>
+                        <div
+                            key={contact.id}
+                            className={styles.contact}
+                        >
+                            <div>
+                                <div className={styles.name}>{contact.name}</div>
+                                <div className={styles.title}>{contact.title}</div>
+                            </div>
+                            <div>
+                                <div>{contact.ctype}</div>
+                                {isValidEmail(contact.email) ? (
+                                    <Link
+                                        to={`mailto:${contact.email}`}
+                                        external
+                                        withExternalLinkIcon
+                                    >
+                                        {contact.email}
+                                    </Link>
+                                ) : (
+                                    <div>{contact.email}</div>
+                                )}
+                            </div>
+                        </div>
                     ))}
                 </Container>
             )}

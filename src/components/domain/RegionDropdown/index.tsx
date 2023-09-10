@@ -20,7 +20,7 @@ type Props = DropdownMenuProps;
 function RegionDropdown(props: Props) {
     const {
         className,
-        dropdownContainerClassName,
+        popupClassName: dropdownContainerClassName,
         variant = 'tertiary',
         ...otherProps
     } = props;
@@ -52,7 +52,7 @@ function RegionDropdown(props: Props) {
             )}
             label={strings.menuRegions}
             variant={variant}
-            dropdownContainerClassName={_cs(styles.dropdown, dropdownContainerClassName)}
+            popupClassName={_cs(styles.dropdown, dropdownContainerClassName)}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >

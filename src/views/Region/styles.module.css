@@ -7,7 +7,6 @@
         .key-figure {
             border-radius: var(--go-ui-border-radius-lg);
             background-color: var(--go-ui-color-white);
-            padding: var(--go-ui-spacing-xl);
             height: 100%;
         }
     }

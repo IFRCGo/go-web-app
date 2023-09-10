@@ -1,6 +1,4 @@
 .surge-map {
-    padding-top: var(--go-ui-spacing-2xl);
-
     .map-container {
         height: 40rem;
     }
@@ -20,15 +18,7 @@
             gap: var(--go-ui-spacing-md);
 
             .legend-item {
-                display: flex;
-                align-items: center;
-                gap: var(--go-ui-spacing-sm);
-
-                .color {
-                    border-radius: 0.5rem;
-                    width: 0.75rem;
-                    height: 0.75rem;
-                }
+                font-size: var(--go-ui-font-size-md);
             }
         }
     }

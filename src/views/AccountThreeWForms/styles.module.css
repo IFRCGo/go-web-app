@@ -1,8 +1,8 @@
 .account-three-w-forms {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-4xl);
-    padding: var(--go-ui-spacing-4xl) 0;
+    gap: var(--go-ui-spacing-2xl);
+    padding: var(--go-ui-spacing-xl) 0;
     min-height: 30vh;
 
     .project-table,

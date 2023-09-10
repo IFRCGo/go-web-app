@@ -42,6 +42,9 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
             label: eru.type_display,
             strongValue: true,
             withoutLabelColon: true,
+            className: styles.textOutput,
+            labelClassName: styles.label,
+            valueType: 'number',
         }),
         [],
     );
@@ -58,6 +61,7 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
                 </Link>
             ),
             label: eru.type_display,
+            labelClassName: styles.label,
             strongValue: true,
         }),
         [],
@@ -68,7 +72,7 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
             className={_cs(styles.emergencyResponseUnitOwnerCard, className)}
             withInternalPadding
             withHeaderBorder
-            spacing="relaxed"
+            spacing="comfortable"
             heading={(
                 <Link
                     to="countriesLayout"
@@ -94,6 +98,7 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
                     { count: readyEmergencyResponseUnits.length },
                 )}
                 headingLevel={4}
+                spacing="cozy"
                 childrenContainerClassName={styles.content}
             >
                 <RawList
@@ -112,6 +117,7 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
                     { count: deployedEmergencyResponseUnits.length },
                 )}
                 headingLevel={4}
+                spacing="cozy"
             >
                 {deployedEmergencyResponseUnits.length > 0 && (
                     <RawList

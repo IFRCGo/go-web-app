@@ -247,12 +247,14 @@ export function Component() {
                             className={styles.keyFigure}
                             value={activeNSCount}
                             description={strings.activeDeploymentsTitle}
+                            descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
                         <KeyFigure
                             className={styles.keyFigure}
                             value={targetedPopulation}
                             description={strings.targetedPopulationTitle}
+                            descriptionClassName={styles.keyFigureDescription}
                         />
                     </div>
                     <div className={styles.keyFigureCard}>
@@ -260,6 +262,7 @@ export function Component() {
                             className={styles.keyFigure}
                             value={projectList.length}
                             description={strings.totalProjectsTitle}
+                            descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
                         <PieChart
@@ -278,6 +281,7 @@ export function Component() {
                             className={styles.keyFigure}
                             value={ongoingProjectBudget}
                             description={strings.ongoingProjectBudgetTitle}
+                            descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
                         <PieChart
@@ -357,7 +361,7 @@ export function Component() {
                                                 numProjects: projectsInCountry.length,
                                             },
                                         )}
-                                        headingLevel={4}
+                                        headingLevel={5}
                                         childrenContainerClassName={styles.projectsInCountry}
                                     >
                                         {/* NOTE: projects array will always have an element
@@ -394,21 +398,21 @@ export function Component() {
                         </Container>
                     )}
                 />
-                <ExpandableContainer
-                    initiallyExpanded
-                    heading={resolveToString(
-                        strings.projects,
-                        { count: ongoingProjects.length },
-                    )}
-                >
-                    <Table
-                        filtered={filtered}
-                        pending={projectListPending || countryResponsePending}
-                        data={ongoingProjects}
-                        columns={tableColumns}
-                        keySelector={numericIdSelector}
-                    />
-                </ExpandableContainer>
+            </Container>
+            <Container
+                withHeaderBorder
+                heading={resolveToString(
+                    strings.projects,
+                    { count: ongoingProjects.length },
+                )}
+            >
+                <Table
+                    filtered={filtered}
+                    pending={projectListPending || countryResponsePending}
+                    data={ongoingProjects}
+                    columns={tableColumns}
+                    keySelector={numericIdSelector}
+                />
             </Container>
         </div>
     );

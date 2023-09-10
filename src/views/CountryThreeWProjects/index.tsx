@@ -293,12 +293,14 @@ export function Component() {
                             className={styles.keyFigure}
                             value={activeNSCount}
                             description={strings.activeDeploymentsTitle}
+                            descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
                         <KeyFigure
                             className={styles.keyFigure}
                             value={targetedPopulation}
                             description={strings.targetedPopulationTitle}
+                            descriptionClassName={styles.keyFigureDescription}
                         />
                     </div>
                     <div className={styles.keyFigureCard}>
@@ -306,6 +308,7 @@ export function Component() {
                             className={styles.keyFigure}
                             value={projectList.length}
                             description={strings.totalProjectsTitle}
+                            descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
                         <PieChart
@@ -324,6 +327,7 @@ export function Component() {
                             className={styles.keyFigure}
                             value={ongoingProjectBudget}
                             description={strings.ongoingProjectBudgetTitle}
+                            descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
                         <PieChart
@@ -399,7 +403,7 @@ export function Component() {
                                                 strings.otherProjects,
                                                 { numProjects: projectsInDistrict.length },
                                             )}
-                                            headingLevel={4}
+                                            headingLevel={5}
                                             initiallyExpanded
                                             childrenContainerClassName={styles.projectsInDistrict}
                                             withoutWrapInHeading
@@ -440,7 +444,7 @@ export function Component() {
                                                 numProjects: projectsInDistrict.length,
                                             },
                                         )}
-                                        headingLevel={4}
+                                        headingLevel={5}
                                         childrenContainerClassName={styles.projectsInDistrict}
                                         withoutWrapInHeading
                                     >
@@ -476,14 +480,15 @@ export function Component() {
                         </Container>
                     )}
                 />
-                <ExpandableContainer
+            </Container>
+            <div className={styles.tables}>
+                <Container
                     heading={resolveToString(
                         strings.localNSProjects,
                         { count: localNSProjects.length },
                     )}
                     withHeaderBorder
-                    initiallyExpanded
-                    headingLevel={4}
+                    spacing="compact"
                 >
                     <Table
                         filtered={false}
@@ -492,13 +497,14 @@ export function Component() {
                         columns={tableColumns}
                         keySelector={numericIdSelector}
                     />
-                </ExpandableContainer>
-                <ExpandableContainer
+                </Container>
+                <Container
                     heading={resolveToString(
                         strings.otherNSProjects,
                         { count: otherNSProjects.length },
                     )}
                     withHeaderBorder
+                    spacing="compact"
                 >
                     <Table
                         filtered={false}
@@ -507,8 +513,8 @@ export function Component() {
                         columns={tableColumns}
                         keySelector={numericIdSelector}
                     />
-                </ExpandableContainer>
-            </Container>
+                </Container>
+            </div>
         </div>
     );
 }

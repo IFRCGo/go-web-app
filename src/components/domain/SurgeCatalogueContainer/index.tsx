@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-import { ChevronLeftLineIcon } from '@ifrc-go/icons';
+import { ArrowLeftLineIcon } from '@ifrc-go/icons';
 import { isDefined } from '@togglecorp/fujs';
 
 import Image from '#components/Image';
-import IconButton from '#components/IconButton';
+import Button from '#components/Button';
 import Container from '#components/Container';
 import useRouting from '#hooks/useRouting';
 import { WrappedRoutes } from '../../../App/routes';
@@ -59,17 +59,15 @@ function SurgeCatalogueContainer(props: Props) {
                 ),
             )}
             icons={isDefined(goBackFallbackLink) && (
-                <IconButton
+                <Button
                     name={undefined}
                     onClick={handleBackButtonClick}
                     variant="tertiary"
                     // FIXME: use translation
                     title="Go back"
-                    // FIXME: use translation
-                    ariaLabel="Go back"
                 >
-                    <ChevronLeftLineIcon />
-                </IconButton>
+                    <ArrowLeftLineIcon className={styles.backIcon} />
+                </Button>
             )}
         >
             {children}

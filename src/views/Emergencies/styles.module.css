@@ -7,7 +7,6 @@
         .key-figure {
             border-radius: var(--go-ui-border-radius-lg);
             background-color: var(--go-ui-color-white);
-            padding: var(--go-ui-spacing-xl);
             height: 100%;
         }
     }
@@ -15,11 +14,11 @@
     .main-content {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-4xl);
+        gap: var(--go-ui-spacing-2xl);
 
         .charts {
             display: grid;
-            grid-gap: var(--go-ui-spacing-2xl);
+            grid-gap: var(--go-ui-spacing-md);
             grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
 
             @media screen and (max-width: 30rem) {
@@ -28,12 +27,12 @@
 
             .emergencies-by-type {
                 border-radius: var(--go-ui-border-radius-lg);
-                box-shadow: var(--go-ui-box-shadow-lg);
+                box-shadow: var(--go-ui-box-shadow-md);
             }
 
             .emergencies-over-last-year {
                 border-radius: var(--go-ui-border-radius-lg);
-                box-shadow: var(--go-ui-box-shadow-lg);
+                box-shadow: var(--go-ui-box-shadow-md);
 
                 .time-series-chart {
                     width: 100%;
@@ -42,7 +41,7 @@
                     .events-chart {
                         color: var(--go-ui-color-primary-red);
                         stroke: var(--go-ui-color-primary-red);
-                        stroke-width: var(1pt);
+                        stroke-width: 1pt;
                         fill: none;
                     }
                 }

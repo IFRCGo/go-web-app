@@ -158,7 +158,6 @@ function PossibleEarlyActionTable(props: Props) {
                         value={filter.sector}
                         onChange={setFilterField}
                     />
-                    <div />
                 </>
             )}
             footerActions={(
@@ -171,11 +170,13 @@ function PossibleEarlyActionTable(props: Props) {
             )}
         >
             <Table
+                className={styles.table}
                 pending={pendingPossibleEarlyAction}
                 filtered={filtered}
                 data={possibleEarlyActionResponse?.results}
                 columns={columns}
                 keySelector={numericIdSelector}
+                cellClassName={styles.cell}
             />
         </Container>
     );
