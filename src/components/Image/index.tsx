@@ -23,11 +23,11 @@ function Image(props: Props) {
     }
 
     return (
-        <figure className={_cs(styles.imageContainer, className)}>
+        <figure className={_cs(styles.image, className)}>
             <img
                 src={src}
                 alt={alt}
-                className={_cs(styles.image, imageClassName)}
+                className={_cs(styles.imgElement, imageClassName)}
             />
             {isDefined(caption) && (
                 <figcaption className={styles.caption}>

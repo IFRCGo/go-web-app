@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 interface Props {
     className?: string;
-    level: number | null;
+    level: number | undefined | null;
     title?: string;
 }
 
@@ -15,9 +15,9 @@ function SeverityIndicator(props: Props) {
         className,
     } = props;
     const classNameMap: Record<number, string> = {
-        1: styles.yellow,
+        0: styles.yellow,
+        1: styles.orange,
         2: styles.red,
-        3: styles.orange,
     };
 
     if (isNotDefined(level)) {

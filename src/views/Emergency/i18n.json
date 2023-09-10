@@ -1,7 +1,7 @@
 {
     "namespace": "emergency",
     "strings": {
-        "emergencyPageTitle": "IFRC GO - Emergency Details",
+        "emergencyPageTitle": "IFRC GO - Emergency",
         "emergencyTabDetails":"Emergency Details",
         "emergencyTabReports":"Reports/Documents",
         "emergencyTabActivities":"Activities",

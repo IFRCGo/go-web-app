@@ -1,0 +1,68 @@
+.emergency-report-and-document {
+    display: flex;
+    flex-direction: column;
+    padding: var(--go-ui-spacing-2xl) 0;
+    gap: var(--go-ui-spacing-2xl);
+
+    .featured-document-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
+        grid-gap: var(--go-ui-spacing-md);
+
+        .featured-document {
+            display: flex;
+            align-items: center;
+            gap: var(--go-ui-spacing-md);
+
+            .image-container {
+                flex-shrink: 0;
+                background-color: var(--go-ui-color-background);
+                width: 5rem;
+                height: 7rem;
+
+                .img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .details {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+                gap: var(--go-ui-spacing-xs);
+            }
+        }
+    }
+
+    .situation-report-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
+        grid-gap: var(--go-ui-spacing-md);
+
+        .situation-report {
+            border-radius: var(--go-ui-border-radius-lg);
+            box-shadow: var(--go-ui-box-shadow-md);
+
+            .reports {
+                display: flex;
+                flex-direction: column;
+                max-height: 20rem;
+                overflow: auto;
+                gap: var(--go-ui-spacing-sm);
+            }
+
+            .icon {
+                font-size: var(--go-ui-font-size-icon-multiplier);
+            }
+        }
+    }
+
+    .table {
+        .date {
+            width: 0%;
+            min-width: 9rem;
+        }
+    }
+}
+

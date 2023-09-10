@@ -142,15 +142,20 @@ function SurgeMap(props: Props) {
 
     const countryGroupedPersonnel = useMemo(() => {
         const personnelWithCountry = personnelResponse?.results
-            ?.filter((personnel) => isDefined(personnel.deployment.country_deployed_to?.iso3))
-            ?.map((personnel) => ({
-                units: 1,
-                deployedTo: personnel.deployment.country_deployed_to,
-                event: {
-                    id: personnel.deployment.event_deployed_to?.id,
-                    name: personnel.deployment.event_deployed_to?.name,
-                },
-            })) ?? [];
+            ?.map((personnel) => {
+                if (isNotDefined(personnel.deployment.country_deployed_to)) {
+                    return undefined;
+                }
+
+                return {
+                    units: 1,
+                    deployedTo: personnel.deployment.country_deployed_to,
+                    event: {
+                        id: personnel.deployment.event_deployed_to?.id,
+                        name: personnel.deployment.event_deployed_to?.name,
+                    },
+                };
+            }).filter(isDefined);
 
         return (
             listToGroupList(
@@ -174,7 +179,7 @@ function SurgeMap(props: Props) {
                     }
 
                     const eruList = countryGroupedErus[country.id];
-                    const personnelList = countryGroupedPersonnel[country.id];
+                    const personnelList = countryGroupedPersonnel?.[country.id];
                     if (isNotDefined(eruList) && isNotDefined(personnelList)) {
                         return undefined;
                     }
@@ -215,7 +220,7 @@ function SurgeMap(props: Props) {
             personnelDeployedEvents: mapToList(
                 listToGroupList(
                     // eslint-disable-next-line max-len
-                    countryGroupedPersonnel[clickedPointProperties.feature.properties.country_id] ?? [],
+                    countryGroupedPersonnel?.[clickedPointProperties.feature.properties.country_id] ?? [],
                     (personnel) => personnel.event.id,
                 ),
                 (personnel) => ({
