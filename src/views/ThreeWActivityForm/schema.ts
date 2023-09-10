@@ -415,6 +415,78 @@ const finalSchema: FormSchema = {
                                     },
                                 );
 
+                                const countFields = [
+                                    'people_count',
+                                    'male_count',
+                                    'female_count',
+                                    'people_households',
+                                    'household_count',
+                                ] as const;
+
+                                type CountSchema = Pick<
+                                    ActivityItemSchemaFields, (typeof countFields)[number]
+                                >;
+
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    [
+                                        'is_simplified_report',
+                                        'people_households',
+                                    ] as const,
+                                    countFields,
+                                    (val): CountSchema => {
+                                        const fields: CountSchema = {
+                                            people_count: {
+                                                forceValue: nullValue,
+                                            },
+                                            male_count: {
+                                                forceValue: nullValue,
+                                            },
+                                            female_count: {
+                                                forceValue: nullValue,
+                                            },
+                                            household_count: {
+                                                forceValue: nullValue,
+                                            },
+                                            people_households: {
+                                                defaultValue: undefinedValue,
+                                            },
+                                        };
+                                        if (!val?.is_simplified_report) {
+                                            return {
+                                                ...fields,
+                                                people_households: {
+                                                    forceValue: nullValue,
+                                                },
+                                            };
+                                        }
+                                        if (val?.people_households) {
+                                            return {
+                                                ...fields,
+                                                household_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                            };
+                                        }
+                                        if (val?.people_households) {
+                                            return {
+                                                ...fields,
+                                                people_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                male_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                                female_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
+                                            };
+                                        }
+                                        return fields;
+                                    },
+                                );
+
                                 const disaggregationFields = [
                                     'male_0_1_count',
                                     'male_2_5_count',
