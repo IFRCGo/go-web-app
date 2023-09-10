@@ -1,9 +1,9 @@
 import {
     useMemo,
     useCallback,
-    useState,
 } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { DownloadLineIcon } from '@ifrc-go/icons';
 import {
     isDefined,
     isNotDefined,
@@ -15,10 +15,10 @@ import {
 import Container from '#components/Container';
 import Image from '#components/Image';
 import Link, { Props as LinkProps } from '#components/Link';
-import List from '#components/List';
 import Pager from '#components/Pager';
 import Table from '#components/Table';
-import TextOutput from '#components/TextOutput';
+import RawList from '#components/RawList';
+import useFilterState from '#hooks/useFilterState';
 import useRegion, { type Region } from '#hooks/domain/useRegion';
 import useTranslation from '#hooks/useTranslation';
 import { adminUrl } from '#config';
@@ -43,13 +43,20 @@ type SituationReportType = NonNullable<NonNullable<GoApiResponse<'/api/v2/situat
 type FieldReportListItem = NonNullable<NonNullable<NonNullable<EmergencyOutletContext['emergencyResponse']>>['field_reports']>[number] & { regions: Region[] };
 type AppealDocumentType = NonNullable<NonNullable<GoApiResponse<'/api/v2/appeal_document/'>>['results']>[number];
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 10;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
-    const [page, setPage] = useState(1);
+    const {
+        page: appealDocumentsPage,
+        setPage: setAppealDocumentsPage,
+    } = useFilterState({}, undefined);
+    const {
+        page: fieldReportsPage,
+        setPage: setFieldReportsPage,
+    } = useFilterState({}, undefined);
 
     const regions = useRegion();
 
@@ -79,7 +86,7 @@ export function Component() {
              */
             appeal: emergencyResponse.appeals.map((appeal) => appeal.id).filter(isDefined),
             limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            offset: PAGE_SIZE * (appealDocumentsPage - 1),
         } : undefined, // TODO: fix typing issue in server
     });
 
@@ -93,6 +100,9 @@ export function Component() {
     ), [regionsMap]);
 
     const fieldReports = useMemo(() => {
+        const sliceStart = PAGE_SIZE * (fieldReportsPage - 1);
+        const sliceEnd = sliceStart + PAGE_SIZE;
+
         const transformedFieldReports = emergencyResponse?.field_reports.map((fieldReport) => {
             const regionsIds = unique(fieldReport.countries.map((country) => country.region))
                 .filter(isDefined);
@@ -101,10 +111,13 @@ export function Component() {
                 ...fieldReport,
                 regions: getRegionList(regionsIds),
             };
-        });
+        }).slice(
+            sliceStart,
+            sliceEnd,
+        );
 
         return transformedFieldReports;
-    }, [emergencyResponse?.field_reports, getRegionList]);
+    }, [emergencyResponse?.field_reports, getRegionList, fieldReportsPage]);
 
     const columns = useMemo(
         () => ([
@@ -173,6 +186,7 @@ export function Component() {
                 (item) => item.name,
                 (item) => ({
                     external: true,
+                    withExternalLinkIcon: true,
                     to: item.document ?? item.document_url ?? undefined,
                 }),
             ),
@@ -192,6 +206,7 @@ export function Component() {
 
     const situationReportsRendererParams = useCallback(
         (_: number, value: SituationReportType): LinkProps => ({
+            icons: <DownloadLineIcon className={styles.icon} />,
             external: true,
             to: value.document ?? value.document_url,
             children: value.name,
@@ -209,32 +224,32 @@ export function Component() {
                     childrenContainerClassName={styles.featuredDocumentList}
                     withHeaderBorder
                 >
+                    {/* FIXME: use Grid */}
                     {emergencyResponse.featured_documents.map(
                         (featuredDocument) => (
-                            <Container
+                            <div
                                 className={styles.featuredDocument}
                                 key={featuredDocument.id}
-                                childrenContainerClassName={styles.documentDetails}
                             >
                                 <Image
-                                    className={styles.image}
+                                    className={styles.imageContainer}
+                                    imageClassName={styles.img}
                                     src={featuredDocument.thumbnail}
-                                    alt={featuredDocument.title ?? undefined}
+                                    alt=""
                                 />
-                                <TextOutput
-                                    className={styles.documentTitle}
-                                    value={(
-                                        <Link
-                                            external
-                                            to={featuredDocument.file}
-                                        >
-                                            {featuredDocument.title}
-                                        </Link>
-                                    )}
-                                    descriptionClassName={styles.description}
-                                    description={featuredDocument.description}
-                                />
-                            </Container>
+                                <div className={styles.details}>
+                                    <Link
+                                        to={featuredDocument.file}
+                                        external
+                                        withExternalLinkIcon
+                                    >
+                                        {featuredDocument.title}
+                                    </Link>
+                                    <div>
+                                        {featuredDocument.description}
+                                    </div>
+                                </div>
+                            </div>
                         ),
                     )}
                 </Container>
@@ -257,25 +272,22 @@ export function Component() {
                         </Link>
                     )}
                 >
+                    {/* FIXME: lets no use object.entries here, also Grid can be used */}
                     {Object.entries(groupedSituationReports).map(([reportType, reports]) => (
                         <Container
                             className={styles.situationReport}
                             key={reportType}
                             heading={reportType}
                             withHeaderBorder
+                            withInternalPadding
                             childrenContainerClassName={styles.reports}
+                            headingLevel={4}
                         >
-
-                            <List
-                                className={styles.reports}
+                            <RawList
                                 data={reports}
                                 keySelector={numericIdSelector}
                                 renderer={Link}
-                                errored={false}
-                                pending={false}
-                                filtered={false}
                                 rendererParams={situationReportsRendererParams}
-                                compact
                             />
                         </Container>
                     ))}
@@ -290,6 +302,14 @@ export function Component() {
                         { count: emergencyResponse.field_reports.length },
                     )}
                     withHeaderBorder
+                    footerActions={(
+                        <Pager
+                            activePage={fieldReportsPage}
+                            itemsCount={emergencyResponse?.field_reports.length ?? 0}
+                            maxItemsPerPage={PAGE_SIZE}
+                            onActivePageChange={setFieldReportsPage}
+                        />
+                    )}
                 >
                     <Table
                         pending={false}
@@ -312,10 +332,10 @@ export function Component() {
                     withHeaderBorder
                     footerActions={(
                         <Pager
-                            activePage={page}
+                            activePage={appealDocumentsPage}
                             itemsCount={appealDocumentsResponse?.count ?? 0}
                             maxItemsPerPage={PAGE_SIZE}
-                            onActivePageChange={setPage}
+                            onActivePageChange={setAppealDocumentsPage}
                         />
                     )}
                 >

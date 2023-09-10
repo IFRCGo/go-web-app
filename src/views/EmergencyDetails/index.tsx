@@ -1,25 +1,26 @@
+import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import useTranslation from '#hooks/useTranslation';
+import { DownloadFillIcon } from '@ifrc-go/icons';
 import {
     compareDate,
     isDefined,
     isNotDefined,
     isTruthyString,
     listToGroupList,
+    listToMap,
 } from '@togglecorp/fujs';
-import { DownloadFillIcon } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
 import Container from '#components/Container';
-import ExpandableContainer from '#components/ExpandableContainer';
 import HtmlOutput from '#components/HtmlOutput';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
 import TextOutput from '#components/TextOutput';
-import Tooltip from '#components/Tooltip';
-import type { EmergencyOutletContext } from '#utils/outletContext';
+import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useDisasterType from '#hooks/domain/useDisasterType';
+import { type EmergencyOutletContext } from '#utils/outletContext';
 import { type GoApiResponse } from '#utils/restRequest';
 
 import EmergencyMap from './EmergencyMap';
@@ -66,6 +67,16 @@ export function Component() {
     const strings = useTranslation(i18n);
     const disasterTypes = useDisasterType();
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
+    const { api_visibility_choices } = useGlobalEnums();
+
+    const visibilityMap = useMemo(
+        () => listToMap(
+            api_visibility_choices,
+            ({ key }) => key,
+            ({ value }) => value,
+        ),
+        [api_visibility_choices],
+    );
 
     const hasKeyFigures = isDefined(emergencyResponse)
                        && emergencyResponse.key_figures.length !== 0;
@@ -108,7 +119,11 @@ export function Component() {
                 };
             },
         ).filter(isDefined) ?? [],
-        (contact) => contact.ctype,
+        (contact) => (
+            contact.email.endsWith('ifrc.org')
+                ? 'IFRC'
+                : 'National Societies'
+        ),
     );
 
     return (
@@ -138,104 +153,117 @@ export function Component() {
                     )}
                 </Container>
             )}
-            <Container
-                heading={strings.emergencyOverviewTitle}
-                withHeaderBorder
-                childrenContainerClassName={styles.overviewContainer}
-            >
-                <div className={styles.overview}>
+            {isDefined(emergencyResponse) && (
+                <Container
+                    heading={strings.emergencyOverviewTitle}
+                    withHeaderBorder
+                    childrenContainerClassName={styles.overviewContent}
+                >
                     <TextOutput
+                        className={styles.overviewItem}
                         label={strings.disasterCategorization}
-                        value={emergencyResponse?.ifrc_severity_level_display}
-                        description={(
-                            <SeverityIndicator
-                                level={isDefined(emergencyResponse?.ifrc_severity_level)
-                                    ? Number(emergencyResponse?.ifrc_severity_level) : null}
-                            />
+                        value={(
+                            <>
+                                {emergencyResponse.ifrc_severity_level_display}
+                                <SeverityIndicator
+                                    level={emergencyResponse.ifrc_severity_level}
+                                />
+                            </>
                         )}
+                        valueClassName={styles.disasterCategoryValue}
                         strongValue
                     />
                     <TextOutput
+                        className={styles.overviewItem}
                         label={strings.disasterType}
                         value={disasterType?.name}
                         strongValue
                     />
                     <TextOutput
-                        label={strings.GLIDENumber}
-                        value={emergencyResponse?.glide}
-                        strongValue
-                    />
-                    <TextOutput
+                        className={styles.overviewItem}
                         label={strings.startDate}
                         valueType="date"
                         value={emergencyResponse?.disaster_start_date}
                         strongValue
                     />
-                </div>
-                <div className={styles.overview}>
                     <TextOutput
+                        className={styles.overviewItem}
                         label={strings.visibility}
-                        value={emergencyResponse?.visibility}
+                        value={isDefined(emergencyResponse.visibility)
+                            ? visibilityMap?.[emergencyResponse.visibility]
+                            : '--'}
                         strongValue
                     />
                     <TextOutput
+                        className={styles.overviewItem}
                         label={strings.MDRCode}
                         value={mdrCode}
                         strongValue
                     />
                     <TextOutput
+                        className={styles.overviewItem}
+                        label={strings.GLIDENumber}
+                        value={emergencyResponse?.glide}
+                        strongValue
+                    />
+                    <TextOutput
+                        className={styles.overviewItem}
                         label={strings.assisanceRequestedByNS}
                         valueType="boolean"
                         value={assistanceIsRequestedByNS}
                         strongValue
                     />
                     <TextOutput
+                        className={styles.overviewItem}
                         label={strings.assisanceRequestedByGovernment}
                         valueType="boolean"
                         value={assistanceIsRequestedByCountry}
                         strongValue
                     />
-                </div>
-            </Container>
+                </Container>
+            )}
             {isDefined(emergencyResponse)
                 && isDefined(emergencyResponse?.summary)
                 && isTruthyString(emergencyResponse.summary)
                 && (
-                    <ExpandableContainer
+                    <Container
                         heading={strings.situationalOverviewTitle}
                         withHeaderBorder
-                        childrenContainerClassName={styles.overviewContainer}
-                        initiallyExpanded
                     >
                         <HtmlOutput
                             value={emergencyResponse.summary}
                         />
-                    </ExpandableContainer>
+                    </Container>
                 )}
             {isDefined(emergencyResponse)
                 && isDefined(emergencyResponse?.links)
-                && emergencyResponse.links.length > 0 && (
-                <ExpandableContainer
-                    heading={strings.linksTitle}
-                    withHeaderBorder
-                    childrenContainerClassName={styles.overviewContainer}
-                    initiallyExpanded
-                >
-                    {emergencyResponse.links.map((link) => (
-                        <Link
-                            key={link.id}
-                            to={link.url}
-                            external
-                            withExternalLinkIcon
-                        >
-                            {link.title}
-                            <Tooltip className={styles.tooltip}>
-                                {link.description}
-                            </Tooltip>
-                        </Link>
-                    ))}
-                </ExpandableContainer>
-            )}
+                && emergencyResponse.links.length > 0
+                && (
+                    <Container
+                        heading={strings.linksTitle}
+                        withHeaderBorder
+                        childrenContainerClassName={styles.linksContent}
+                    >
+                        {emergencyResponse.links.map((link) => (
+                            <div
+                                key={link.id}
+                                className={styles.linkContainer}
+                            >
+                                <Link
+                                    to={link.url}
+                                    external
+                                    withExternalLinkIcon
+                                    className={styles.link}
+                                >
+                                    {link.title}
+                                </Link>
+                                <div>
+                                    {link.description}
+                                </div>
+                            </div>
+                        ))}
+                    </Container>
+                )}
             {/* TODO: style it properly */}
             <div className={styles.mapKeyFigureContainer}>
                 {emergencyResponse && !emergencyResponse.hide_field_report_map && (
@@ -278,58 +306,71 @@ export function Component() {
             </div>
             {isDefined(emergencyResponse)
                 && isDefined(emergencyResponse.contacts)
-                && emergencyResponse.contacts.length > 0 && (
-                <Container
-                    heading={strings.contactsTitle}
-                    childrenContainerClassName={styles.contactsContainer}
-                    withHeaderBorder
-                >
-                    {/* FIXME: lets not use Object.entries here */}
-                    {Object.entries(groupedContacts).map(([contactType, contacts]) => (
-                        <Container
-                            className={styles.contactListContainer}
-                            key={contactType}
-                            heading={contactType}
-                            withHeaderBorder
-                            childrenContainerClassName={styles.contactList}
-                            spacing="cozy"
-                            withInternalPadding
-                        >
-                            {contacts.map((contact) => (
-                                <div key={contact.id}>
-                                    <TextOutput
-                                        value={contact.name}
-                                        strongValue
-                                    />
-                                    <TextOutput
-                                        value={contact.title}
-                                    />
-                                    <TextOutput
-                                        value={(
-                                            <Link
-                                                to={`mailto:${contact.email}`}
-                                                external
-                                            >
-                                                {contact.email}
-                                            </Link>
-                                        )}
-                                    />
-                                    <TextOutput
-                                        value={(
-                                            <Link
-                                                to={`tel:${contact.phone}`}
-                                                external
-                                            >
-                                                {contact.phone}
-                                            </Link>
-                                        )}
-                                    />
-                                </div>
-                            ))}
-                        </Container>
-                    ))}
-                </Container>
-            )}
+                && emergencyResponse.contacts.length > 0
+                && (
+                    <Container
+                        heading={strings.contactsTitle}
+                        childrenContainerClassName={styles.contactsContent}
+                        withHeaderBorder
+                    >
+                        {/* FIXME: lets not use Object.entries here */}
+                        {Object.entries(groupedContacts).map(([contactGroup, contacts]) => (
+                            <Container
+                                key={contactGroup}
+                                heading={contactGroup}
+                                childrenContainerClassName={styles.contactList}
+                                headingLevel={4}
+                            >
+                                {contacts.map((contact) => (
+                                    <div
+                                        key={contact.id}
+                                        className={styles.contact}
+                                    >
+                                        <div className={styles.details}>
+                                            <div className={styles.name}>
+                                                {contact.name}
+                                            </div>
+                                            <div className={styles.title}>
+                                                {contact.title}
+                                            </div>
+                                        </div>
+                                        <div className={styles.contactMechanisms}>
+                                            <div className={styles.type}>
+                                                {contact.ctype}
+                                            </div>
+                                            {isTruthyString(contact.email) && (
+                                                <TextOutput
+                                                    value={(
+                                                        <Link
+                                                            to={`mailto:${contact.email}`}
+                                                            external
+                                                            withExternalLinkIcon
+                                                        >
+                                                            {contact.email}
+                                                        </Link>
+                                                    )}
+                                                />
+                                            )}
+                                            {isTruthyString(contact.phone) && (
+                                                <TextOutput
+                                                    value={(
+                                                        <Link
+                                                            to={`tel:${contact.phone}`}
+                                                            withExternalLinkIcon
+                                                            external
+                                                        >
+                                                            {contact.phone}
+                                                        </Link>
+                                                    )}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </Container>
+                        ))}
+                    </Container>
+                )}
         </div>
     );
 }
