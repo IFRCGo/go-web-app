@@ -1,3 +1,30 @@
-.three-w {
-    color: inherit;
+.region-three-w {
+    .chart-container {
+        border: 1px solid red;
+        width: 100%;
+        height: 50rem;
+
+        .svg {
+            width: 100%;
+            height: 100%;
+
+            .rect {
+                fill: var(--go-ui-color-blue);
+                fill-opacity: 1;
+            }
+
+            .text {
+                font-size: var(--go-ui-font-size-xs);
+            }
+
+            .path {
+                fill: var(--go-ui-color-primary-red);
+                fill-opacity: 0.2;
+
+                &:hover {
+                    fill-opacity: 0.6;
+                }
+            }
+        }
+    }
 }
