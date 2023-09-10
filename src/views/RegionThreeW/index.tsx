@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import {
     isDefined,
@@ -9,6 +9,7 @@ import {
 } from '@ifrc-go/icons';
 
 import Link from '#components/Link';
+import List from '#components/List';
 import Button from '#components/Button';
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
@@ -18,16 +19,21 @@ import ProgressBar from '#components/ProgressBar';
 import TextOutput from '#components/TextOutput';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
+import { type GoApiResponse, useRequest } from '#utils/restRequest';
+import { resolveToString } from '#utils/translation';
 import {
     numericCountSelector,
     stringNameSelector,
+    numericIdSelector,
 } from '#utils/selectors';
 
 import MovementActivitiesMap from './MovementActivitiesMap';
 import Filters, { type FilterValue } from './Filters';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type MovementActivityResponse = GoApiResponse<'/api/v2/region-project/{id}/movement-activities/'>;
+type CountryActivity = NonNullable<MovementActivityResponse>['countries_count'][number];
 
 const primaryRedColorShades = [
     'var(--go-ui-color-red-90)',
@@ -36,6 +42,28 @@ const primaryRedColorShades = [
     'var(--go-ui-color-red-20)',
     'var(--go-ui-color-red-10)',
 ];
+
+const MAX_SCALE_STOPS = 6;
+interface ScaleProps {
+    max: number;
+}
+
+function Scale(props: ScaleProps) {
+    const { max } = props;
+    const numbers = [];
+
+    const diff = max / MAX_SCALE_STOPS;
+
+    for (let i = 0; i <= max; i += diff) {
+        numbers.push(i);
+    }
+
+    return (
+        <div className={styles.scale}>
+            {numbers.map((number) => <div key={number}>{number}</div>)}
+        </div>
+    );
+}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -86,6 +114,33 @@ export function Component() {
         }
         return undefined;
     }).filter(isDefined);
+
+    const maxScaleValue = useMemo(() => (
+        Math.max(
+            ...(regionalMovementActivitiesResponse?.countries_count
+                .map((activity) => activity.projects_count)
+                .filter(isDefined) ?? []),
+        )), [regionalMovementActivitiesResponse?.countries_count]);
+
+    const countrySectorRendererParams = useCallback((_: number, country: CountryActivity) => ({
+        title: (
+            <div className={styles.countrySectorTitle}>
+                <Link
+                    to="countryThreeWIndex"
+                    urlParams={{ countryId: country.id }}
+                >
+                    {country.name}
+                </Link>
+                {resolveToString(
+                    strings.projectsCount,
+                    { count: country.projects_count },
+                )}
+            </div>
+        ),
+        className: styles.countrySector,
+        value: country.projects_count,
+        totalValue: maxScaleValue,
+    }), [maxScaleValue, strings.projectsCount]);
 
     return (
         <div
@@ -186,6 +241,31 @@ export function Component() {
                 <MovementActivitiesMap
                     regionId={regionId}
                     movementActivitiesResponse={regionalMovementActivitiesResponse}
+                    sidebarContent={(
+                        <Container
+                            className={styles.sidebar}
+                            headingClassName={styles.heading}
+                            heading={(
+                                <Scale max={maxScaleValue} />
+                            )}
+                            withInternalPadding
+                            childrenContainerClassName={styles.sidebarContent}
+                        >
+                            <List
+                                className={styles.countryList}
+                                data={regionalMovementActivitiesResponse
+                                    ?.countries_count}
+                                renderer={ProgressBar}
+                                rendererParams={countrySectorRendererParams}
+                                keySelector={numericIdSelector}
+                                withoutMessage
+                                compact
+                                pending={regionalMovementActivitiesResponsePending}
+                                errored={false}
+                                filtered={false}
+                            />
+                        </Container>
+                    )}
                 />
             </Container>
         </div>

@@ -71,28 +71,38 @@
             height: 100%;
             overflow: auto;
 
+            .heading {
+                width: 100%;
+            }
             .sidebar-content {
                 overflow: auto;
 
-                .projects-in-country {
+                .country-list {
                     display: flex;
                     flex-direction: column;
                     gap: var(--go-ui-spacing-sm);
 
-                    .project-in-country-item {
-                        display: flex;
+                    .country-sector {
+                        padding: var(--go-ui-spacing-sm) 0;
+                        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
 
-                        .name {
-                            flex-grow: 1;
-                        }
-
-                        .action {
-                            flex-shrink: 0;
-                            font-size: var(--go-ui-font-size-icon-multiplier);
+                        .country-sector-title {
+                            display: flex;
+                            justify-content: space-between
                         }
                     }
                 }
             }
         }
     }
+}
+
+
+.scale {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    font-weight: var(--go-ui-font-weight-normal);
+    font-size: var(--go-ui-font-size-sm);
+    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
 }

@@ -9,6 +9,7 @@
         "totalProjects": "Total Activities",
         "movementActivities": "Movement Activities",
         "export": "Export",
-        "addThreeW": "Add"
+        "addThreeW": "Add",
+        "projectsCount": "{count} Projects"
     }
 }
