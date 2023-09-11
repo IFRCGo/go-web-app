@@ -134,20 +134,6 @@ export function Component() {
                     {strings.cataloguePMER}
                 </NavigationTab>
                 <NavigationTab
-                    to="surgeCatalogueShelter"
-                    parentRoute
-                >
-                    <ShelterIcon className={styles.icon} />
-                    {strings.catalogueShelter}
-                </NavigationTab>
-                <NavigationTab
-                    to="surgeCatalogueWash"
-                    parentRoute
-                >
-                    <WaterSanitationAndHygieneIcon className={styles.icon} />
-                    {strings.catalogueWater}
-                </NavigationTab>
-                <NavigationTab
                     to="surgeCatalogueRelief"
                     parentRoute
                 >
@@ -160,6 +146,20 @@ export function Component() {
                 >
                     <SafetyAndSecurityIcon className={styles.icon} />
                     {strings.catalogueSecurity}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueShelter"
+                    parentRoute
+                >
+                    <ShelterIcon className={styles.icon} />
+                    {strings.catalogueShelter}
+                </NavigationTab>
+                <NavigationTab
+                    to="surgeCatalogueWash"
+                    parentRoute
+                >
+                    <WaterSanitationAndHygieneIcon className={styles.icon} />
+                    {strings.catalogueWater}
                 </NavigationTab>
                 <NavigationTab
                     to="surgeCatalogueOther"

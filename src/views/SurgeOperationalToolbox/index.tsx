@@ -23,7 +23,7 @@ const operationTimelineContent: OperationTimelineContent[] = [
     {
         id: 'surge_table/element1_31',
         url: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?RootFolder=/sites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FOPERATIONAL%20TOOLBOX%2F1%2E%20Timeline%20documents%2F01%2E%20Assessments&View=%7BA0DF7B8D%2DD671%2D4C77%2DA464%2D720655A5403E%7D',
-        name: 'Design, Collect, Annalyze And Share',
+        name: 'Design, Collect, Analyze And Share',
     },
     {
         id: 'surge_table/element4',

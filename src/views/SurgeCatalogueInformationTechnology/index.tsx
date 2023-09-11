@@ -12,13 +12,13 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.catalogueITCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fitt%2FRapid%20Response%20Profile%20IT%20and%20Telecom%20Coordinator%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fitt&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EdRtpzYtoFhNnrXHDiEc74ABKv7njX3cz1-jPl1SxWqWSg',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueITOfficer,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fitt%2FRapid%20Response%20Profile%20IT%20and%20Telecom%20Officer%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fitt&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETEdR5wmWSdHqw2o2nJRMeYBN9M7VZBZJ5blIgn67vFdzQ',
             external: true,
             withExternalLinkIcon: true,
         },

@@ -30,7 +30,7 @@ export function Component() {
                     {
                         link: (
                             <Link
-                                to="https://surgelearning.ifrc.org/resources/minimum-training-required-surge-personnel"
+                                to="https://docs.google.com/spreadsheets/d/1IGxQVIRF0PkNXNXUcEA9_dz66-U2MCPRzN5O1hol1Mg/edit#gid=1206256283"
                                 external
                             >
                                 {strings.thisSpreadsheetLink}
@@ -139,7 +139,21 @@ export function Component() {
                         <li>{strings.satelliteUNOSATTItemTwoListFive}</li>
                         <li>{strings.satelliteUNOSATTItemTwoListSix}</li>
                     </ol>
-                    <li>{strings.satelliteUNOSATTItemThree}</li>
+                    <li>
+                        {resolveToComponent(
+                            strings.satelliteUNOSATTItemThree,
+                            {
+                                link: (
+                                    <Link
+                                        to="https://unosat.org/products/"
+                                        external
+                                    >
+                                        {strings.satelliteUNOSATTItemThreeLink}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    </li>
                     <li>{strings.satelliteUNOSATTItemFour}</li>
                 </ol>
             </SurgeContentContainer>

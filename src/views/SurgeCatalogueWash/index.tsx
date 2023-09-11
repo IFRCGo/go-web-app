@@ -12,25 +12,25 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.washCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash%2FRapid%20Response%20Profile%20WASH%20Coordinator%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea1oxcI_tcdGqisMk7IDnawBRBn5eDX9kKbW8ciNO6AgHw',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.washOfficer,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash%2FRapid%20Response%20Profile%20WASH%20Officer%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EftnI72a0LtPqfT6ukpqEv8Bqi8DN83FTw9oFXhYIkC1EA',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.washOfficerPromotion,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash%2FRapid%20Response%20Profile%20WASH%20Officer%20%2D%20Hygiene%20Promotion%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EaOPwYRaFehOmcfw5Tnaq5MBppJ1wZ7VwkxeRjN-G0-DKA',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.washOfficerSanitation,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash%2FRapid%20Response%20Profile%20WASH%20Officer%20%2D%20Sanitation%20Engineer%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWM7iFH2papCtEWNJZtHZaQB44rAuE8d6l3M8G4_BmCGiw',
             external: true,
             withExternalLinkIcon: true,
         },
@@ -39,7 +39,7 @@ export function Component() {
     const frameworkData: LinkData[] = [
         {
             title: strings.technicalWash,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash%2FIFRC%20WASH%20Competency%20Framework%20March%202020%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fwash&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Efan8Jv59RBLsNVfYvdCQTUBiG3ddAPkJkwxQq1PYyrlXw',
             external: true,
             withExternalLinkIcon: true,
         },

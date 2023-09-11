@@ -29,7 +29,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother%2FRapid%20Response%20Profile%20Migration%20and%20Displacement%20Coordinator%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother&p=true&ga=1"
+                                    to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ERx4Z-jYA-xMitizZbmbsnABWkZPy3Ivh59hXneO4XYY4Q"
                                     external
                                 >
                                     {strings.otherLink}

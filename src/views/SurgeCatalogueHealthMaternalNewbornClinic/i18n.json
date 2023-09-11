@@ -29,7 +29,7 @@
         "moduleFiveValue": "Contains equipment and supplies needed to set-up and maintain an inpatient/observation ward, including beds, bedding, nursing equipment and supplies for the postnatal care of mothers and their infants.",
         "moduleFiveLabel": "Maternity Ward/Observation Module:",
         "specifications": "Specifications",
-        "specificationsNationalSocietyLabel": "National Society",
+        "specificationsNationalSocietyLabel": "National societies providing this service",
         "specificationsNationalSocietyValue": "Canadian",
         "variation": "Variation on Configuration",
         "healthMaternalNewbornClinicVariationListItemOne": "110v or 230v configuration.",

@@ -29,6 +29,10 @@ export function Component() {
                 src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_04.jpg',
                 caption: strings.basecampEruSmallImageFour,
             },
+            {
+                src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/basecamp-basecamp_05.jpg',
+                caption: strings.basecampEruSmallImageFive,
+            },
         ]),
         [strings],
     );

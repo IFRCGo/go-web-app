@@ -4,6 +4,7 @@ import SurgeContentContainer from '#components/domain/SurgeContentContainer';
 import Link from '#components/Link';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
+import { resolveToComponent } from '#utils/translation';
 
 import i18n from './i18n.json';
 
@@ -199,22 +200,40 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.additionalResources}
             >
-                <Link
-                    to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=e3cabf24db361810d40e16f35b9619c7"
-                    external
-                    variant="tertiary"
-                    withExternalLinkIcon
-                >
-                    {strings.additionalResourcesListItemOne}
-                </Link>
-                <Link
-                    to="https://www.youtube.com/watch?v=TIW6nf-MPb0"
-                    external
-                    variant="tertiary"
-                    withExternalLinkIcon
-                >
-                    {strings.additionalResourcesListItemTwo}
-                </Link>
+                <ul>
+                    <li>
+                        {resolveToComponent(
+                            strings.additionalResourcesListItemOne,
+                            {
+                                link: (
+                                    <Link
+                                        to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=e3cabf24db361810d40e16f35b9619c7"
+                                        external
+                                        withExternalLinkIcon
+                                    >
+                                        {strings.additionalResourcesListItemOneLink}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    </li>
+                    <li>
+                        {resolveToComponent(
+                            strings.additionalResourcesListItemTwo,
+                            {
+                                link: (
+                                    <Link
+                                        to="https://www.youtube.com/watch?v=TIW6nf-MPb0"
+                                        external
+                                        withExternalLinkIcon
+                                    >
+                                        {strings.additionalResourcesListItemTwoLink}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    </li>
+                </ul>
             </SurgeContentContainer>
         </SurgeCatalogueContainer>
     );
