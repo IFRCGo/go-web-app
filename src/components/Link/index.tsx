@@ -101,7 +101,7 @@ export type Props<OMISSION extends string = never> = Omit<RouterLinkProps, 'to' 
     withForwardIcon?: boolean;
     withUnderline?: boolean;
 }, OMISSION> & ({
-    external?: false;
+    external?: never;
     to: keyof WrappedRoutes | undefined | null;
     urlParams?: UrlParams;
     urlSearch?: string;

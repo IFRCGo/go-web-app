@@ -504,7 +504,6 @@ function ActivityInput(props: Props) {
                                 {/* FIXME: Add translations */}
                                 Add Custom Supply
                             </Button>
-
                         )}
                     >
                         <NonFieldError error={getErrorString(error?.custom_supplies)} />

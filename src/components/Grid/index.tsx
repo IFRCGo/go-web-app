@@ -57,7 +57,7 @@ function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         filtered,
 
         // FIXME: use translations
-        errorMessage = 'Failed to show the data!',
+        errorMessage = 'Failed to fetch data!',
         emptyMessage = 'Data is not available!',
         pendingMessage = 'Fetching data...',
         filteredMessage = 'Data is not available for the selected filter!',

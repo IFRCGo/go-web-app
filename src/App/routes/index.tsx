@@ -1730,8 +1730,7 @@ const preparednessGlobalOperational = customWrapRoute({
 
 const globalThreeW = customWrapRoute({
     parent: rootLayout,
-    // TODO: rename to `three-w` and manage conflicting routes
-    path: 'global-three-w',
+    path: 'three-w/projects',
     component: {
         render: () => import('#views/GlobalThreeW'),
         props: {},
@@ -1801,7 +1800,7 @@ const newThreeWActivity = customWrapRoute({
 
 const threeWActivityDetail = customWrapRoute({
     parent: rootLayout,
-    path: 'three-w/activities/:activityId/',
+    path: 'three-w/activities/:activityId',
     component: {
         render: () => import('#views/ThreeWActivityDetail'),
         props: {},
