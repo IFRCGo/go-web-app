@@ -1,13 +1,10 @@
 import { useState, useCallback } from 'react';
 import {
-    listToMap,
     isDefined,
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
-import {
-    PencilFillIcon,
-} from '@ifrc-go/icons';
+import { PencilFillIcon } from '@ifrc-go/icons';
 
 import useUserMe from '#hooks/domain/useUserMe';
 import Container from '#components/Container';
@@ -17,7 +14,6 @@ import Pager from '#components/Pager';
 import TextOutput from '#components/TextOutput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
-import { SUBSCRIPTION_FOLLOWED_EVENTS } from '#utils/constants';
 
 import OperationInfoCard, { type Props as OperationInfoCardProps } from './OperationInfoCard';
 import ChangePasswordModal from './ChangePassword';
@@ -40,46 +36,28 @@ export function Component() {
     const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
     const {
-        error: operationResponseError,
-        response: operationsResponse,
-        pending: operationsPending,
+        error: subscribedEventsResponseError,
+        response: subscribedEventsResponse,
+        pending: subscribedEventsResponsePending,
+        retrigger: updateSubscribedEventsResponse,
     } = useRequest({
         url: '/api/v2/event/',
         query: {
-            // FIXME: add feature in server (medium priority)
-            // we should only fetch subscribed events
-            is_featured: true,
             limit: ITEM_PER_PAGE,
             offset: ITEM_PER_PAGE * (page - 1),
+            is_subscribed: true,
         },
         preserveResponse: true,
     });
 
     const meResponse = useUserMe();
 
-    // FIXME: we do not need this
-    const subscriptionMap = listToMap(
-        meResponse?.subscription?.map(
-            ({ rtype, event }) => {
-                if (rtype !== SUBSCRIPTION_FOLLOWED_EVENTS || isNotDefined(event)) {
-                    return undefined;
-                }
-
-                return event;
-            },
-        ).filter(isDefined) ?? [],
-        (event) => event,
-        () => true,
-    );
-
     const rendererParams = useCallback(
         (_: number, operation: NonNullable<OperationsResponse['results']>[number]): OperationInfoCardProps => ({
-            operationsData: operation,
-            subscriptionMap,
+            eventItem: operation,
+            updateSubscibedEvents: updateSubscribedEventsResponse,
         }),
-        [
-            subscriptionMap,
-        ],
+        [updateSubscribedEventsResponse],
     );
 
     const onEditProfileCancel = useCallback(() => {
@@ -90,7 +68,7 @@ export function Component() {
         setShowChangePasswordModal(false);
     }, []);
 
-    const eventList = operationsResponse?.results;
+    const eventList = subscribedEventsResponse?.results;
 
     return (
         <div className={styles.accountInformation}>
@@ -179,7 +157,7 @@ export function Component() {
                 footerActions={(
                     <Pager
                         activePage={page}
-                        itemsCount={operationsResponse?.count ?? 0}
+                        itemsCount={subscribedEventsResponse?.count ?? 0}
                         maxItemsPerPage={ITEM_PER_PAGE}
                         onActivePageChange={setPage}
                     />
@@ -188,8 +166,8 @@ export function Component() {
                 <List
                     className={styles.operationsList}
                     data={eventList}
-                    pending={operationsPending}
-                    errored={isDefined(operationResponseError)}
+                    pending={subscribedEventsResponsePending}
+                    errored={isDefined(subscribedEventsResponseError)}
                     filtered={false}
                     keySelector={keySelector}
                     renderer={OperationInfoCard}
