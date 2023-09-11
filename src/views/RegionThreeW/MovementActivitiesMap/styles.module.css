@@ -1,0 +1,72 @@
+.map {
+    display: flex;
+    gap: var(--go-ui-spacing-lg);
+    height: 40rem;
+    overflow: auto;
+
+    .map-with-legend {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        .map-container {
+            flex-grow: 1;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: flex-end;
+            background-color: var(--go-ui-color-background);
+            gap: var(--go-ui-spacing-lg);
+            padding: var(--go-ui-spacing-lg);
+        }
+    }
+
+    .sidebar {
+        flex-basis: calc(12vw + 14rem);
+        background-color: var(--go-ui-color-background);
+        overflow: auto;
+    }
+
+    @media screen and (max-width: 50rem) {
+        flex-direction: column;
+        height: initial;
+
+        .sidebar {
+            flex-basis: unset;
+        }
+
+        .map-with-legend {
+            height: min(40rem, 70vh);
+        }
+    }
+}
+
+.map-popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--go-ui-spacing-md);
+
+    .projects {
+        display: flex;
+        gap: var(--go-ui-spacing-sm);
+    }
+
+    .national-society-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-md);
+        border-top: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        padding-top: var(--go-ui-spacing-sm);
+
+        .national-society {
+            display: flex;
+            flex-shrink: 0;
+            flex-wrap: 0;
+
+            .label {
+                flex-basis: 40%;
+            }
+        }
+    }
+}

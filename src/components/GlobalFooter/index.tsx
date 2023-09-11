@@ -90,7 +90,7 @@ function GlobalFooter(props: Props) {
                 </Heading>
                 <div className={styles.subSection}>
                     <Link
-                        to="https://github.com/ifrcgo/go-frontend"
+                        to="https://github.com/ifrcgo/go-web-app"
                         external
                     >
                         {strings.footerOpenSourceCode}

@@ -1,0 +1,15 @@
+{
+    "namespace": "regionThreeW",
+    "strings": {
+        "nationalSocietyWithOngoingActivities": "NS with ongoing activities",
+        "totalBuget": "Total Budget",
+        "totalPeopleReached": "Total Number of People Reached",
+        "targetedPopulation": "Targeted Population",
+        "totalProjectsByStatus": "Total Activities By Status",
+        "totalProjects": "Total Activities",
+        "movementActivities": "Movement Activities",
+        "export": "Export",
+        "addThreeW": "Add",
+        "projectsCount": "{count} Projects"
+    }
+}

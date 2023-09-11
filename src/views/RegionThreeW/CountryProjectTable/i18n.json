@@ -1,0 +1,12 @@
+{
+    "namespace": "regionThreeW",
+    "strings": {
+        "reportingNationalSociety": "Reporting NS",
+        "activitySector": "Activity Sector",
+        "status": "Status",
+        "programmeType": "Programme Type",
+        "peopleTargeted": "Total People Targeted",
+        "peopleReached": "Total People Reached",
+        "budget": "Total Budget"
+    }
+}
