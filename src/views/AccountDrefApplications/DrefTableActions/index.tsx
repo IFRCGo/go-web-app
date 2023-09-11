@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { isDefined } from '@togglecorp/fujs';
 import {
     AddLineIcon,
     CaseManagementIcon,
@@ -15,16 +16,15 @@ import TableActions from '#components/Table/TableActions';
 import Link from '#components/Link';
 import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
+import { useLazyRequest } from '#utils/restRequest';
 import { type components } from '#generated/types';
-import {
-    DREF_STATUS_COMPLETED,
-    DREF_STATUS_IN_PROGRESS,
-} from '#utils/constants';
+import { DREF_STATUS_IN_PROGRESS } from '#utils/constants';
 
 import DrefExportModal from './DrefExportModal';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 import DrefShareModal from './DrefShareModal';
+import { exportDrefAllocation } from './drefAllocationExport';
 
 type DrefStatus = components<'read'>['schemas']['OperationTypeEnum'];
 
@@ -54,6 +54,76 @@ function DrefTableActions(props: Props) {
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
 
+    const {
+        trigger: fetchDref,
+    } = useLazyRequest({
+        url: '/api/v2/dref/{id}/',
+        pathVariables: (ctx: number) => (
+            isDefined(ctx) ? {
+                id: String(ctx),
+            } : undefined
+        ),
+        onSuccess: (response) => {
+            const exportData = {
+                allocationFor: response?.type_of_dref_display === 'Loan' ? 'Emergency Appeal' : 'DREF Operation',
+                appealManager: response?.ifrc_appeal_manager_name,
+                projectManager: response?.ifrc_project_manager_name,
+                affectedCountry: response?.country_details?.name,
+                name: response?.title,
+                disasterType: response?.disaster_type_details?.name,
+                responseType: response?.type_of_dref_display === 'Imminent' ? 'Imminent Crisis' : response?.type_of_onset_display,
+                noOfPeopleTargeted: response?.num_assisted,
+                nsRequestDate: response?.ns_request_date,
+                disasterStartDate: response?.event_date,
+                implementationPeriod: response?.operation_timeframe,
+                allocationRequested: response?.amount_requested,
+                previousAllocation: undefined,
+                totalDREFAllocation: response?.amount_requested,
+                toBeAllocatedFrom: response?.type_of_dref_display === 'Imminent' ? 'Anticipatory Pillar' : 'Response Pillar',
+                focalPointName: response?.regional_focal_point_name,
+            };
+            exportDrefAllocation(exportData);
+        },
+    });
+
+    const {
+        trigger: fetchOpsUpdate,
+    } = useLazyRequest({
+        url: '/api/v2/dref-op-update/{id}/',
+        pathVariables: (ctx: number) => (
+            isDefined(ctx) ? {
+                id: String(ctx),
+            } : undefined
+        ),
+        onSuccess: (response) => {
+            const exportData = {
+                allocationFor: 'DREF Operation',
+                appealManager: response?.ifrc_appeal_manager_name,
+                projectManager: response?.ifrc_project_manager_name,
+                affectedCountry: response?.country_details?.name,
+                name: response?.title,
+                disasterType: response?.disaster_type_details?.name,
+                responseType:
+                    response?.type_of_dref_display === 'Imminent'
+                        ? 'Imminent Crisis'
+                        : response?.type_of_onset_display,
+                noOfPeopleTargeted: response?.number_of_people_targeted,
+                nsRequestDate: response?.ns_request_date,
+                disasterStartDate: response?.event_date,
+                implementationPeriod: response?.total_operation_timeframe,
+                allocationRequested: response?.additional_allocation,
+                previousAllocation: response?.dref_allocated_so_far ?? 0,
+                totalDREFAllocation: response?.total_dref_allocation,
+                toBeAllocatedFrom:
+                    response?.type_of_dref_display === 'Imminent'
+                        ? 'Anticipatory Pillar'
+                        : 'Response Pillar',
+                focalPointName: response?.regional_focal_point_name,
+            };
+            exportDrefAllocation(exportData);
+        },
+    });
+
     const [showShareModal, {
         setTrue: setShowShareModalTrue,
         setFalse: setShowShareModalFalse,
@@ -75,8 +145,15 @@ function DrefTableActions(props: Props) {
         [setShowShareModalTrue],
     );
 
-    const canDownloadAllocation = status === DREF_STATUS_COMPLETED
-        && (applicationType === 'DREF' || applicationType === 'OPS_UPDATE');
+    const handleDrefAllocationExport = useCallback(() => {
+        if (applicationType === 'DREF') {
+            fetchDref(id);
+        } else if (applicationType === 'OPS_UPDATE') {
+            fetchOpsUpdate(id);
+        }
+    }, [fetchDref, fetchOpsUpdate, applicationType, id]);
+
+    const canDownloadAllocation = (applicationType === 'DREF' || applicationType === 'OPS_UPDATE');
 
     // TODO: check permission
     const canApprove = status === DREF_STATUS_IN_PROGRESS;
@@ -99,6 +176,7 @@ function DrefTableActions(props: Props) {
                         <DropdownMenuItem
                             name={undefined}
                             type="button"
+                            onClick={handleDrefAllocationExport}
                             icons={<DownloadLineIcon className={styles.icon} />}
                         >
                             {strings.dropdownActionAllocationFormLabel}
