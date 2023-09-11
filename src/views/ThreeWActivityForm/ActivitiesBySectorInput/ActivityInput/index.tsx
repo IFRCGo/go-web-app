@@ -139,46 +139,6 @@ function ActivityInput(props: Props) {
         ), mainIndex);
     }, [onChange, mainIndex]);
 
-    const pointCountInputShown = value?.is_simplified_report && (
-        (
-            type === 'custom'
-        ) || (
-            type === 'action'
-            && !actionDetails?.is_cash_type
-            && actionDetails?.has_location
-        )
-    );
-
-    const locationsInputShown = !value?.is_simplified_report && (
-        (
-            type === 'custom'
-        ) || (
-            type === 'action'
-            && !actionDetails?.is_cash_type
-            && actionDetails?.has_location
-        )
-    );
-
-    const customSupplyInputShown = (
-        type === 'custom'
-        || (type === 'action' && !actionDetails?.is_cash_type)
-    );
-
-    const actionSupplyInputShown = (
-        type === 'action'
-        && !actionDetails?.is_cash_type
-        && (actionDetails?.supplies_details?.length ?? 0) > 0
-    );
-
-    const budgetInputsShown = (
-        type === 'action'
-        && actionDetails?.is_cash_type
-    );
-
-    // NOTE: This should be shown only if data is not filled by the user
-    const showNoDataAvailable = error?.has_no_data_on_people_reached
-        || value?.has_no_data_on_people_reached;
-
     const {
         setValue: setPoint,
         removeValue: removePoint,
@@ -367,7 +327,11 @@ function ActivityInput(props: Props) {
                         setFieldValue={setFieldValue}
                     />
                 )}
-                {showNoDataAvailable && (
+                {(
+                    // NOTE: This should be shown only if data is not filled by the user
+                    error?.has_no_data_on_people_reached
+                    || value?.has_no_data_on_people_reached
+                ) && (
                     <Switch
                         // FIXME: Add translations
                         label="No data on people reached"
@@ -378,7 +342,10 @@ function ActivityInput(props: Props) {
                         error={error?.has_no_data_on_people_reached}
                     />
                 )}
-                {budgetInputsShown && (
+                {(
+                    type === 'action'
+                    && actionDetails?.is_cash_type
+                ) && (
                     <div className={styles.cashInput}>
                         <NumberInput
                             // FIXME: Add translations
@@ -401,7 +368,10 @@ function ActivityInput(props: Props) {
                     </div>
                 )}
 
-                {pointCountInputShown && (
+                {(
+                    type === 'custom'
+                    || (type === 'action' && !actionDetails?.is_cash_type && actionDetails?.has_location)
+                ) && (
                     <NumberInput
                         name="point_count"
                         // FIXME: Add translations
@@ -412,7 +382,10 @@ function ActivityInput(props: Props) {
                         error={error?.point_count}
                     />
                 )}
-                {locationsInputShown && (
+                {(
+                    type === 'custom'
+                    || (type === 'action' && !actionDetails?.is_cash_type && actionDetails?.has_location)
+                ) && (
                     <Container
                         className={styles.customLocations}
                         // FIXME: Add translations
@@ -449,7 +422,11 @@ function ActivityInput(props: Props) {
 
                     </Container>
                 )}
-                {actionSupplyInputShown && (
+                {(
+                    type === 'action'
+                    && !actionDetails?.is_cash_type
+                    && (actionDetails?.supplies_details?.length ?? 0) > 0
+                ) && (
                     <Container
                         className={styles.actionSupplies}
                         // FIXME: Add translations
@@ -484,7 +461,10 @@ function ActivityInput(props: Props) {
                         ))}
                     </Container>
                 )}
-                {customSupplyInputShown && (
+                {(
+                    type === 'custom'
+                    || (type === 'action' && !actionDetails?.is_cash_type)
+                ) && (
                     <Container
                         className={styles.customSupplies}
                         // FIXME: Add translations
