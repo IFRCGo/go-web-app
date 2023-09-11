@@ -7,6 +7,12 @@
         font-size: var(--go-ui-font-size-icon-multiplier);
     }
 
+    .content {
+        flex-direction: column;
+        gap: 0;
+        line-height: var(--go-ui-line-height-sm);
+    }
+
     .description {
         color: var(--go-ui-color-text-light);
         font-size: var(--go-ui-font-size-sm);
@@ -27,7 +33,6 @@
     }
 
     &:not(.disabled) {
-
         &:focus,
         &:hover {
             .icon {

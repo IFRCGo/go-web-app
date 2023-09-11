@@ -17,7 +17,6 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
-
 import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export

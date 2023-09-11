@@ -49,6 +49,7 @@ function Radio<N, IN>(props: Props<N, IN>) {
         ) : (
             <CheckboxBlankCircleLineIcon className={styles.icon} />
         ),
+        childrenContainerClassName: styles.content,
         children: (
             <>
                 {label}
