@@ -56,7 +56,9 @@ export function Component() {
     const title = emergencyResponse?.title || '--';
     const modifiedAt = emergencyResponse?.modified_at;
     const modifiedBy = emergencyResponse?.modified_by_details;
+    const eventId = emergencyResponse?.event;
     const eventName = emergencyResponse?.event_details?.name;
+    const countryId = emergencyResponse?.country;
     const countryName = emergencyResponse?.country_details?.name;
     const districtsName = emergencyResponse?.districts_details
         ?.map((district) => district.name)
@@ -145,12 +147,26 @@ export function Component() {
                     >
                         <TextOutput
                             label={strings.emergencyIFRCSupportedOperation}
-                            value={eventName}
+                            value={(
+                                <Link
+                                    to="emergencyDetails"
+                                    urlParams={{ emergencyId: eventId }}
+                                >
+                                    {eventName}
+                                </Link>
+                            )}
                             strongLabel
                         />
                         <TextOutput
                             label={strings.emergencyCountry}
-                            value={countryName}
+                            value={(
+                                <Link
+                                    to="countriesLayout"
+                                    urlParams={{ countryId }}
+                                >
+                                    {countryName}
+                                </Link>
+                            )}
                             strongLabel
                         />
                         <TextOutput
