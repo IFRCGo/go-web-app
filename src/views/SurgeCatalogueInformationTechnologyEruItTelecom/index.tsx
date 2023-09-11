@@ -31,7 +31,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fitt%2FITT%20Service%20Catalogue%20January%202023%20Final%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fitt&p=true&ga=1"
+                                    to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed9M59SwliBMvgVU3I7XilwBG7EYMGvXuvResKhy9ut5TA"
                                     external
                                     withUnderline
                                     withExternalLinkIcon

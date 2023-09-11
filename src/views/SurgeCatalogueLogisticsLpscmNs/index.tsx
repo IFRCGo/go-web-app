@@ -87,7 +87,7 @@ export function Component() {
                 <ul>
                     <li>
                         <Link
-                            to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/mobilization-of-goods/"
+                            to="https://fednet.ifrc.org/en/resources/logistics/mobilization-of-goods/"
                             external
                             variant="tertiary"
                             withExternalLinkIcon
@@ -97,7 +97,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/procurement/"
+                            to="https://fednet.ifrc.org/en/resources/logistics/procurement/"
                             external
                             variant="tertiary"
                             withExternalLinkIcon
@@ -107,7 +107,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/our-global-structure/DubaiLPSCM/global-fleet-base/vehicle-rental-programme/"
+                            to="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/DubaiLPSCM/global-fleet-base/vehicle-rental-programme/"
                             external
                             variant="tertiary"
                             withExternalLinkIcon
@@ -117,7 +117,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
+                            to="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
                             external
                             variant="tertiary"
                             withExternalLinkIcon
@@ -127,7 +127,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/contingency-stock/"
+                            to="https://fednet.ifrc.org/en/resources/logistics/contingency-stock/"
                             external
                             variant="tertiary"
                             withExternalLinkIcon
@@ -137,7 +137,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/logistics-training-and-workshop/"
+                            to="https://fednet.ifrc.org/en/resources/logistics/logistics-training-and-workshop/"
                             external
                             variant="tertiary"
                             withExternalLinkIcon
@@ -152,7 +152,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
+                                    to="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
                                     external
                                     withExternalLinkIcon
                                     withUnderline

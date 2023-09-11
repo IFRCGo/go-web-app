@@ -57,11 +57,15 @@ export function Component() {
                 heading={strings.healthPSSStandardComponentsLabel}
             >
                 <div>{strings.healthPSSStandardComponentsDetail}</div>
-                <TextOutput
-                    value={strings.healthPSSStandardComponentsItemOneValue}
-                    label={strings.healthPSSStandardComponentsItemOneLabel}
-                    strongLabel
-                />
+                <ul>
+                    <li>
+                        <TextOutput
+                            value={strings.healthPSSStandardComponentsItemOneValue}
+                            label={strings.healthPSSStandardComponentsItemOneLabel}
+                            strongLabel
+                        />
+                    </li>
+                </ul>
             </SurgeContentContainer>
             <SurgeContentContainer
                 heading={strings.healthPSSSpecificationsTitle}

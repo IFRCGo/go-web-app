@@ -12,13 +12,13 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.catalogueLivelihoodCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/_layouts/15/AccessDenied.aspx?Source=https%3A%2F%2Fifrcorg.sharepoint.com%2Fsites%2FIFRCSharing%2FShared%2520Documents%2FForms%2FAllItems.aspx%3Fid%3D%252Fsites%252FIFRCSharing%252FShared%2520Documents%252FGLOBAL%2520SURGE%252FCatalogue%2520of%2520Surge%2520services%2520%2528final%2529%252Flivelihoods%252FRapid%2520Response%2520Profile%2520Livelihoods%2520and%2520Basic%2520Needs%2520Coordinator%252Epdf%26parent%3D%252Fsites%252FIFRCSharing%252FShared%2520Documents%252FGLOBAL%2520SURGE%252FCatalogue%2520of%2520Surge%2520services%2520%2528final%2529%252Flivelihoods%26p%3Dtrue%26ga%3D1&Type=list&correlation=a244d5a0-60ad-7000-32a6-7f3dd4d91a1f',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfES4Wzw9FhMuuheDrmLAgUB6hOMdb4Q_PxRvZNHI4PS9g',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueLivelihoodOfficer,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Flivelihoods%2FRapid%20Response%20Profile%20Livelihoods%20and%20Basic%20Needs%20Officer%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Flivelihoods&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed_cp5Q9QVhBvX4Z2Awb0tYBirpsEI4ApLByl_X3HBX8eA',
             external: true,
             withExternalLinkIcon: true,
         },
@@ -80,7 +80,7 @@ export function Component() {
     const foodSecurityData: LinkData[] = [
         {
             title: strings.catalogueLivelihoodLearnMore,
-            to: 'https://go-stage.ifrc.org/deployments/catalogue/livelihoods',
+            to: 'https://www.ifrc.org/Global/global-fsa-guidelines-en.pdf',
             external: true,
             withExternalLinkIcon: true,
         },

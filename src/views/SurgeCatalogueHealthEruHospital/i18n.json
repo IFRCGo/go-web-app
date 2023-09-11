@@ -59,7 +59,9 @@
         "healthEruHospitalVariationListItemTwo": "With or without heating/cooling.",
         "healthEruHospitalVariationListItemThree": "Can deploy specific stand-alone modules.",
         "additionalResources": "Additional Resources",
-        "additionalResourcesListItemOne": "Norwegian Red Cross Emergency Hospital Handbook",
-        "additionalResourcesListItemTwo": "Norwegian Red Cross Emergency Hospital Film"
+        "additionalResourcesListItemOne": "Norwegian Red Cross {link}",
+        "additionalResourcesListItemOneLink": "Emergency Hospital Handbook",
+        "additionalResourcesListItemTwo": "Norwegian Red Cross {link}",
+        "additionalResourcesListItemTwoLink": "Emergency Hospital Film"
     }
 }

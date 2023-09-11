@@ -12,25 +12,25 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.catalogueShelterProgrammeCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/_layouts/15/AccessDenied.aspx?Source=https%3A%2F%2Fifrcorg.sharepoint.com%2Fsites%2FIFRCSharing%2FShared%2520Documents%2FForms%2FAllItems.aspx%3Fid%3D%252Fsites%252FIFRCSharing%252FShared%2520Documents%252FGLOBAL%2520SURGE%252FCatalogue%2520of%2520Surge%2520services%2520%2528final%2529%252Fshelter%252FRapid%2520Response%2520Profile%2520Shelter%2520Programme%2520Coordinator%252Epdf%26parent%3D%252Fsites%252FIFRCSharing%252FShared%2520Documents%252FGLOBAL%2520SURGE%252FCatalogue%2520of%2520Surge%2520services%2520%2528final%2529%252Fshelter%26p%3Dtrue%26ga%3D1&Type=list&correlation=bd17d6a0-9078-7000-3982-6509de14755b',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EYHx8KJbzVxIqAwtECnKMFcBNXyLPfKyn73kN1mTPBCKJQ',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueShelterProgrammeLeader,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fshelter%2FRapid%20Response%20Profile%20Shelter%20Programme%20Team%20Leader%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fshelter&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EY7PPODOBZtPjywd_TVgFEcBmd3r0IAQj-6FKEz4tO00zA',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueShelterProgrammeTechnical,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fshelter%2FRapid%20Response%20Profile%20Shelter%20Programme%20Technical%20Officer%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fshelter&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUBrQE-_aatMvfUaBR69XWMBMuR6n3YEFoUgyhbsOayvhQ',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueClusterCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fshelter%2FRapid%20Response%20Profile%20Shelter%20Cluster%20Coordinator%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fshelter&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXP0VQ7Tpn1Er_QH8bOk-IYBdqlK7oVvx470Vi9v-7YNAg',
             external: true,
             withExternalLinkIcon: true,
         },
@@ -39,7 +39,7 @@ export function Component() {
     const technicalData: LinkData[] = [
         {
             title: strings.catalogueShelterAndSettlement,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fshelter%2FShelter%20and%20Settlements%20Technical%20Competency%20Framework%20March%202020%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fshelter&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXP0VQ7Tpn1Er_QH8bOk-IYBdqlK7oVvx470Vi9v-7YNAg',
             external: true,
             withExternalLinkIcon: true,
         },

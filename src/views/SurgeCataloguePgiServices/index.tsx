@@ -65,6 +65,9 @@ export function Component() {
                     <li>
                         {strings.protectionEmergencyServicesItemFive}
                     </li>
+                    <li>
+                        {strings.protectionEmergencyServicesItemSix}
+                    </li>
                 </ul>
                 <div>{strings.protectionStandalone}</div>
                 <ul>

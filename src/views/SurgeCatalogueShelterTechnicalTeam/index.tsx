@@ -21,7 +21,7 @@ export function Component() {
             },
             {
                 src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/shelter-stt_06.jpg',
-                caption: strings.shelterImageOneCaption,
+                caption: strings.shelterImageTwoCaption,
             },
             {
                 src: 'https://prddsgofilestorage.blob.core.windows.net/api/documents/surge/shelter-stt_07.jpg',
@@ -138,7 +138,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/disasters/shelter/"
+                            to="https://fednet.ifrc.org/en/resources/disasters/shelter/"
                             external
                             withExternalLinkIcon
                         >
@@ -183,7 +183,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://ifrc.csod.com/client/ifrc/default.aspx?ReturnUrl=https%3a%2f%2fifrc.csod.com%2fui%2flms-learning-details%2fapp%2fcourse%2f6bcddb4f-0e33-471c-93fb-281764be8092"
+                                        to="https://ifrc.csod.com/ui/lms-learning-details/app/course/6bcddb4f-0e33-471c-93fb-281764be8092"
                                         external
                                         withExternalLinkIcon
                                     >

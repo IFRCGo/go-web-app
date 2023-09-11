@@ -12,37 +12,37 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.catalogueOperationHead,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement%2FHead%20of%20Emergency%20Operations%20Role%20Profile%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXmRSeiCej5FlHSHdKs_n6IBvNwGxdq8CgtcLJylpx6bLw',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueOperationsManager,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement%2FRapid%20Response%20Profile%20Operations%20Manager%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWrzsdwVG6pEhbhNv5PlsDEBLSaG5q6YFqPKFTBGlKHQoQ',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueDeputyOperationsManager,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement%2FRapid%20Response%20Profile%20Deputy%20Operations%20Manager%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVvCVFM_cU1Ouwt6iymFoM0Bmj2JPD6NM0UpBm8hXsrirA',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueFieldCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement%2FRapid%20Response%20Profile%20Field%20Coordinator%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ESBim_zWozdBh09lcTgzHPYBhIWBQ0PSGwttOhirgja1XA',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueCoordinatorOfficer,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement%2FMovement%20Coordination%20Officer%20Role%20Profile%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbdT87auio1KuOgx6Ibkb4MBxM7Al1a36Jm_RR0DGA_vnQ',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.catalogueRecoveryCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement%2FRapid%20Response%20Profile%20Recovery%20Coordinator%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVN6HhU7YJxOilcAxOGWiLwBxyAZhqJlgYmMw7OFdPPD2w',
             external: true,
             withExternalLinkIcon: true,
         },

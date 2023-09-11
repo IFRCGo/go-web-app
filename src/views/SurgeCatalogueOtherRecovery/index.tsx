@@ -29,7 +29,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother%2FRecovery%20Technical%20Competency%20Framework%20March%202020%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother&p=true&ga=1"
+                                    to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVGjsDkuPN1AjuiHEIPBAtIBeylQYJbOGqrUKoYZGBBsRg"
                                     external
                                 >
                                     {strings.technicalLink}
@@ -46,7 +46,7 @@ export function Component() {
                 <ul>
                     <li>
                         <Link
-                            to="https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother%2FRapid%20Response%20Profile%20Recovery%20Coordinator%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother&p=true&ga=1"
+                            to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUbjt_mT-4tIr9UcmCRhLs4B71WUl7dazEtiTGccC-3rsQ"
                             external
                         >
                             {strings.otherLinkOne}
@@ -54,7 +54,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother%2FRapid%20Response%20Profile%20Early%20Recovery%20Officer%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fother&p=true&ga=1"
+                            to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ebi1UtwPTMtKhNoPY0fh9QYBuzsLVRy_nGLss1E0NCSkSA"
                             external
                         >
                             {strings.otherLinkTwo}

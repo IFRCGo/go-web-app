@@ -3,6 +3,7 @@ import SurgeContentContainer from '#components/domain/SurgeContentContainer';
 import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
+import { resolveToComponent } from '#utils/translation';
 
 import i18n from './i18n.json';
 
@@ -99,22 +100,40 @@ export function Component() {
             <SurgeContentContainer
                 heading={strings.communityBasedAdditionalResources}
             >
-                <Link
-                    to="https://www.cbsrc.org/"
-                    external
-                    variant="tertiary"
-                    withExternalLinkIcon
-                >
-                    {strings.communityBasedAdditionalResourcesListItemOne}
-                </Link>
-                <Link
-                    to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=09f973a8db15f4103408d7b2f39619ee"
-                    variant="tertiary"
-                    external
-                    withExternalLinkIcon
-                >
-                    {strings.communityBasedAdditionalResourcesListItemTwo}
-                </Link>
+                <ul>
+                    <li>
+                        {resolveToComponent(
+                            strings.communityBasedAdditionalResourcesListItemOne,
+                            {
+                                link: (
+                                    <Link
+                                        to="https://www.cbsrc.org/"
+                                        external
+                                        withExternalLinkIcon
+                                    >
+                                        {strings.communityBasedAdditionalResourcesListItemOneLink}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    </li>
+                    <li>
+                        {resolveToComponent(
+                            strings.communityBasedAdditionalResourcesListItemTwo,
+                            {
+                                link: (
+                                    <Link
+                                        to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=09f973a8db15f4103408d7b2f39619ee"
+                                        external
+                                        withExternalLinkIcon
+                                    >
+                                        {strings.communityBasedAdditionalResourcesListItemTwoLink}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    </li>
+                </ul>
             </SurgeContentContainer>
         </SurgeCatalogueContainer>
     );

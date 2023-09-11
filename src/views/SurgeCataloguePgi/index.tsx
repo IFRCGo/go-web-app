@@ -12,13 +12,13 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.cataloguePGICoordinator,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fpgi%2FRapid%20Response%20Profile%20Protection%2C%20Gender%20and%20Inclusion%20Coordinator%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fpgi&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EU4km4Q5WBFIltLi-YiN4oQBPyI_sGUoOKNL_thTbCc-BQ',
             external: true,
             withExternalLinkIcon: true,
         },
         {
             title: strings.cataloguePGIOfficer,
-            to: 'https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fpgi%2FRapid%20Response%20Profile%20Protection%2C%20Gender%20and%20Inclusion%20Officer%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fpgi&p=true&ga=1',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXAvSIocmO9HuTVxaSKchzQBajb88vIfI9_2K_Od2HN-kg',
             external: true,
             withExternalLinkIcon: true,
         },

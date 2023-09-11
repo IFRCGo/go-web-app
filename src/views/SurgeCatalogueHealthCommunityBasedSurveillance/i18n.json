@@ -32,7 +32,9 @@
         "communityBasedSpecificationsAdditionalResources": "Additional Resources",
         "communityBasedSpecificationsAdditionalResourcesListItemOne": "Community based surveillance (CBS",
         "communityBasedAdditionalResources": "Additional Resources",
-        "communityBasedAdditionalResourcesListItemOne": "Community based surveillance (CBS)",
-        "communityBasedAdditionalResourcesListItemTwo": "Public Health ERU Community Base Surveillance"
+        "communityBasedAdditionalResourcesListItemOne": "Community based surveillance (CBS) {link}",
+        "communityBasedAdditionalResourcesListItemOneLink": "website",
+        "communityBasedAdditionalResourcesListItemTwo": "Public Health ERU Community Base Surveillance {link}",
+        "communityBasedAdditionalResourcesListItemTwoLink": "Handbook"
     }
 }

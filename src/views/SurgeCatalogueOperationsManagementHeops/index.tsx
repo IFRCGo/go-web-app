@@ -78,7 +78,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/disasters/disaster-and-crisis-mangement/disaster-response/surge-capacity/heops/"
+                                        to="https://fednet.ifrc.org/en/resources/disasters/disaster-and-crisis-mangement/disaster-response/surge-capacity/heops/"
                                         external
                                         withExternalLinkIcon
                                     >
@@ -94,7 +94,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://ifrcorg.sharepoint.com/sites/IFRCSharing/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement%2FHeOps%20bios%20%2D%202020%2002%2Epdf&parent=%2Fsites%2FIFRCSharing%2FShared%20Documents%2FGLOBAL%20SURGE%2FCatalogue%20of%20Surge%20services%20%28final%29%2Fopsmanagement&p=true&ga=1"
+                                        to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcMxBMin_YBLnyvZX9fqapwBo1W4KIVqvDfVH98Y2gy_2A"
                                         external
                                         withExternalLinkIcon
                                     >

@@ -11,7 +11,7 @@ export function Component() {
 
     const clinic: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.healthServicesEruClinicDetailsLink,
             to: 'surgeCatalogueHealthEruClinic',
             withForwardIcon: true,
         },
@@ -19,7 +19,7 @@ export function Component() {
 
     const hospital: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.healthServicesEruHospitalTitleLink,
             to: 'surgeCatalogueHealthEruHospital',
             withForwardIcon: true,
         },
@@ -27,7 +27,7 @@ export function Component() {
 
     const surgical: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.healthServicesEruSurgicalTitleLink,
             to: 'surgeCatalogueHealthEruSurgical',
             withForwardIcon: true,
         },
@@ -35,7 +35,7 @@ export function Component() {
 
     const maternalNewbornClinic: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.maternalNewbornClinicTitleLink,
             to: 'surgeCatalogueHealthMaternalNewbornClinic',
             withForwardIcon: true,
         },
@@ -43,7 +43,7 @@ export function Component() {
 
     const emergencyClinic: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.emergencyClinicTitleLink,
             to: 'surgeCatalogueHealthEmergencyClinic',
             withForwardIcon: true,
         },
@@ -51,7 +51,7 @@ export function Component() {
 
     const emergencyChloreaTreatment: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.emergencyCholeraTreatmentTitleLink,
             to: 'surgeCatalogueHealthEruChloreaTreatment',
             withForwardIcon: true,
         },
@@ -59,7 +59,7 @@ export function Component() {
 
     const healthCCMC: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.healthCCMCLink,
             to: 'surgeCatalogueHealthCommunityCaseManagementChlorea',
             withForwardIcon: true,
         },
@@ -67,7 +67,7 @@ export function Component() {
 
     const healthCBS: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.healthCBSLink,
             to: 'surgeCatalogueHealthCommunityBasedSurveillance',
             withForwardIcon: true,
         },
@@ -75,7 +75,7 @@ export function Component() {
 
     const healthBurials: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.healthBurialsTitle,
             to: 'surgeCatalogueHealthSafeDignifiedBurials',
             withForwardIcon: true,
         },
@@ -83,7 +83,7 @@ export function Component() {
 
     const healthCCMM: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.communityCaseLink,
             to: 'surgeCatalogueHealthCommunityManagementMalnutrition',
             withForwardIcon: true,
         },
@@ -91,7 +91,7 @@ export function Component() {
 
     const healthPSS: LinkData[] = [
         {
-            title: strings.learnMore,
+            title: strings.pssModuleLink,
             to: 'surgeCatalogueHealthEruPsychosocialSupport',
             withForwardIcon: true,
         },
@@ -169,7 +169,7 @@ export function Component() {
         },
         {
             title: strings.eruPublicHealth,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETuQ0_ZUXEhEhG4cNFvlQxMBdgYsR3juNpBsB_O5PY608w',
+            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EmuhNZ7JWjNHtwmW6cCWrFYBjklsiPNM4vqHc2PYUOIE2w',
             external: true,
             withExternalLinkIcon: true,
         },
@@ -221,48 +221,48 @@ export function Component() {
                     description={strings.healthServicesEruClinicDetails}
                 />
                 <CatalogueInfoCard
-                    title={strings.healthServicesEruHospitalTitle}
+                    title={strings.healthServicesEruClinicTitle}
                     data={hospital}
                     description={strings.healthServicesEruHospitalDetails}
                 />
                 <CatalogueInfoCard
-                    title={strings.healthServicesEruSurgicalTitle}
+                    title={strings.healthClinical}
                     data={surgical}
                     description={strings.healthServicesEruSurgicalDetails}
                 />
                 <CatalogueInfoCard
-                    title={strings.maternalNewbornClinicTitle}
+                    title={strings.healthClinical}
                     data={maternalNewbornClinic}
                     description={strings.maternalNewbornClinicTitleDetails}
                 />
                 <CatalogueInfoCard
-                    title={strings.emergencyClinicTitle}
+                    title={strings.healthClinical}
                     data={emergencyClinic}
                     description={strings.emergencyClinicDetails}
                 />
                 <CatalogueInfoCard
-                    title={strings.emergencyChloreaTreatmentTitle}
+                    title={strings.healthServicesEruClinicTitle}
                     data={emergencyChloreaTreatment}
-                    description={strings.emergencyChloreaTreatmentDetails}
+                    description={strings.emergencyCholeraTreatmentDetails}
                 />
                 <CatalogueInfoCard
-                    title={strings.healthCCMCTitle}
+                    title={strings.publicHealth}
                     data={healthCCMC}
                 />
                 <CatalogueInfoCard
-                    title={strings.healthCBSTitle}
+                    title={strings.publicHealth}
                     data={healthCBS}
                 />
                 <CatalogueInfoCard
-                    title={strings.healthBurialsTitle}
+                    title={strings.publicHealth}
                     data={healthBurials}
                 />
                 <CatalogueInfoCard
-                    title={strings.healthCCMMTitle}
+                    title={strings.publicHealth}
                     data={healthCCMM}
                 />
                 <CatalogueInfoCard
-                    title={strings.healthPSSTitle}
+                    title={strings.nonClinicalTitle}
                     data={healthPSS}
                     description={strings.healthPSSDetails}
                 />
