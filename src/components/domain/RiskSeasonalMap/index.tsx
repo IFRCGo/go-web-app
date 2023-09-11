@@ -97,12 +97,12 @@ function RiskSeasonalMap(props: Props) {
         response: seasonalResponse,
         pending: seasonalResponsePending,
     } = useRiskRequest({
-        skip: isNotDefined(regionId),
+        skip: variant === 'region' && isNotDefined(regionId),
         apiType: 'risk',
         url: '/api/v1/seasonal/',
-        query: {
-            region: isDefined(regionId) ? Number(regionId) : undefined,
-        },
+        query: variant === 'region'
+            ? { region: regionId }
+            : undefined,
     });
 
     const countryList = useCountry(
@@ -115,13 +115,12 @@ function RiskSeasonalMap(props: Props) {
         response: riskScoreResponse,
         pending: riskScoreResponsePending,
     } = useRiskRequest({
-        skip: isNotDefined(regionId),
+        skip: variant === 'region' && isNotDefined(regionId),
         apiType: 'risk',
         url: '/api/v1/risk-score/',
-        query: {
-            region: isDefined(regionId) ? Number(regionId) : undefined,
-            limit: 500,
-        },
+        query: variant === 'region'
+            ? { region: regionId }
+            : undefined,
     });
 
     // NOTE: We get single element as array in response

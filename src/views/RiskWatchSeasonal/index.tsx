@@ -1,18 +1,15 @@
-import UnderConstructionMessage from '#components/UnderConstructionMessage';
-import useTranslation from '#hooks/useTranslation';
+import RiskSeasonalMap from '#components/domain/RiskSeasonalMap';
+import { type LngLatBoundsLike } from 'mapbox-gl';
 
-import i18n from './i18n.json';
+const defaultBounds: LngLatBoundsLike = [-160, -60, 190, 80];
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation(i18n);
-
     return (
-        <div>
-            <UnderConstructionMessage
-                title={strings.title}
-            />
-        </div>
+        <RiskSeasonalMap
+            variant="global"
+            bbox={defaultBounds}
+        />
     );
 }
 
