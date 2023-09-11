@@ -21,7 +21,7 @@ import {
 import ExpandableContainer from '#components/ExpandableContainer';
 import Container from '#components/Container';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import Switch from '#components/parked/Switch';
+import Switch from '#components/Switch';
 import InputSection from '#components/InputSection';
 import RadioInput from '#components/RadioInput';
 import NumberInput from '#components/NumberInput';

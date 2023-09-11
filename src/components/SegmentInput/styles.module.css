@@ -1,9 +1,10 @@
 .segment-input {
     width: fit-content;
 
-    .list {
-        border: var(--go-ui-width-separator-sm) solid var(--go-ui-color-black);
-        border-radius: calc(var(--go-ui-spacing-md) + 1em);
+    .segment-list {
+        flex-wrap: nowrap;
+        border: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
+        border-radius: var(--go-ui-border-radius-full);
         background-color: var(--go-ui-color-background);
         padding: 0;
         width: fit-content;
@@ -11,12 +12,12 @@
     }
 
     .segment {
-        border-color: transparent;
-        padding: calc(var(--go-ui-spacing-md) / 3) var(--go-ui-spacing-md)*2;
+        border-radius: var(--go-ui-border-radius-full);
+        padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-md);
 
         &.active {
             background-color: var(--go-ui-color-primary-red);
-            color: var(--go-ui-color-black);
+            color: var(--go-ui-color-white);
         }
     }
 
@@ -24,7 +25,7 @@
         .segment {
             &.active {
                 background-color: var(--go-ui-color-blue-90);
-                color: var(--go-ui-color-black);
+                color: var(--go-ui-color-white);
             }
         }
     }

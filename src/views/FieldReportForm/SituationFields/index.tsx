@@ -10,7 +10,7 @@ import InputSection from '#components/InputSection';
 import NumberInput from '#components/NumberInput';
 import TextArea from '#components/TextArea';
 // FIXME: move this
-import RichTextArea from '#components/parked/RichTextArea';
+import RichTextArea from '#components/RichTextArea';
 import DateInput from '#components/DateInput';
 import SelectInput from '#components/SelectInput';
 import useTranslation from '#hooks/useTranslation';

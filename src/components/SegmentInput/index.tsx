@@ -78,7 +78,7 @@ function SegmentInput<
             {...otherProps}
             renderer={Segment}
             rendererParams={rendererParams}
-            listContainerClassName={_cs(listContainerClassName, styles.list)}
+            listContainerClassName={_cs(listContainerClassName, styles.segmentList)}
             keySelector={keySelector}
             labelSelector={labelSelector}
         />

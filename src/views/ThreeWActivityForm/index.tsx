@@ -46,7 +46,7 @@ import RadioInput from '#components/RadioInput';
 import NonFieldError from '#components/NonFieldError';
 import Checklist from '#components/Checklist';
 import Button from '#components/Button';
-import SegmentInput from '#components/parked/SegmentInput';
+import SegmentInput from '#components/SegmentInput';
 import TextInput from '#components/TextInput';
 import useAlert from '#hooks/useAlert';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
