@@ -3,3 +3,21 @@
     width: 0;
     height: 0;
 }
+
+.tooltip-content {
+    opacity: 0;
+    padding: 0;
+    animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
+    animation-delay: var(--go-ui-duration-transition-fast);
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateY(-5pt);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

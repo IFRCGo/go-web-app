@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { InformationLineIcon, PencilFillIcon } from '@ifrc-go/icons';
+import { PencilFillIcon } from '@ifrc-go/icons';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
@@ -10,7 +10,7 @@ import Link from '#components/Link';
 import Page from '#components/Page';
 import TextOutput from '#components/TextOutput';
 import Container from '#components/Container';
-import Tooltip from '#components/Tooltip';
+import InfoPopup from '#components/InfoPopup';
 import DateOutput from '#components/DateOutput';
 import BlockLoading from '#components/BlockLoading';
 import List from '#components/List';
@@ -107,9 +107,8 @@ export function Component() {
                 />
             )}
         >
-            {projectPending ? (
-                <BlockLoading />
-            ) : (
+            {projectPending && <BlockLoading />}
+            {!projectPending && (
                 <div className={styles.projectList}>
                     <Container childrenContainerClassName={styles.projectDetails}>
                         <TextOutput
@@ -178,16 +177,15 @@ export function Component() {
                             label={(
                                 <>
                                     {strings.programmeTypeLabel}
-                                    <span>
-                                        <InformationLineIcon />
-                                        <Tooltip className={styles.tooltip}>
+                                    <InfoPopup
+                                        description={(
                                             <TextOutput
                                                 label={strings.projectTypeToolTipLabel}
                                                 value={strings.projectTypeToolTipValue}
                                                 strongLabel
                                             />
-                                        </Tooltip>
-                                    </span>
+                                        )}
+                                    />
                                 </>
                             )}
                             value={projectResponse?.programme_type_display}
@@ -222,16 +220,15 @@ export function Component() {
                             label={(
                                 <>
                                     {strings.tagsTitle}
-                                    <span>
-                                        <InformationLineIcon />
-                                        <Tooltip className={styles.tooltip}>
+                                    <InfoPopup
+                                        description={(
                                             <TextOutput
                                                 label={strings.peopleReachedToolTipLabel}
                                                 value={strings.peopleReachedToolTipValue}
                                                 strongLabel
                                             />
-                                        </Tooltip>
-                                    </span>
+                                        )}
+                                    />
                                 </>
                             )}
                             value={projectResponse?.secondary_sectors_display}

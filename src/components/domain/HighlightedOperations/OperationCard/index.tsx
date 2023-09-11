@@ -111,22 +111,26 @@ function OperationCard(props: Props) {
             withoutWrapInHeading
             icons={ifrc_severity_level ? (
                 <>
-                    <Tooltip className={styles.tooltip}>
-                        <TextOutput
-                            label={(
-                                <SeverityIndicator
-                                    level={ifrc_severity_level}
+                    <Tooltip
+                        description={(
+                            <>
+                                <TextOutput
+                                    label={(
+                                        <SeverityIndicator
+                                            level={ifrc_severity_level}
+                                        />
+                                    )}
+                                    value={ifrc_severity_level_display}
+                                    withoutLabelColon
                                 />
-                            )}
-                            value={ifrc_severity_level_display}
-                            withoutLabelColon
-                        />
-                        <TextOutput
-                            label={<FocusLineIcon />}
-                            value={countriesInfoDisplay}
-                            withoutLabelColon
-                        />
-                    </Tooltip>
+                                <TextOutput
+                                    label={<FocusLineIcon />}
+                                    value={countriesInfoDisplay}
+                                    withoutLabelColon
+                                />
+                            </>
+                        )}
+                    />
                     <SeverityIndicator
                         className={styles.severityIndicator}
                         level={ifrc_severity_level}
