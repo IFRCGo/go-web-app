@@ -61,6 +61,7 @@ export default defineConfig(({ mode }) => {
                     manualChunks: {
                         'mapbox-gl': ['mapbox-gl'],
                         'docx4js': ['docx4js'],
+                        'exceljs': ['exceljs'],
                     }
                     // experimentalMinChunkSize: 500_000,
                 },
