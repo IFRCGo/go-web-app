@@ -6,7 +6,7 @@ import {
 
 import NumberOutput from '#components/NumberOutput';
 import NumberInput from '#components/NumberInput';
-import Switch from '#components/parked/Switch';
+import Switch from '#components/Switch';
 import { sumSafe } from '#utils/common';
 
 import {

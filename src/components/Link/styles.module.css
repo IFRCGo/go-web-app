@@ -39,6 +39,11 @@
         align-items: center;
         flex-grow: 1;
         text-decoration: var(--decoration);
+
+        &:focus {
+            outline: var(--go-ui-width-separator-thin) dashed var(--go-ui-color-gray-40);
+            outline-offset: -4px;
+        }
     }
 
     .external-link-icon,

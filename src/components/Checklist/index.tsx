@@ -27,6 +27,7 @@ export interface Props<
     labelContainerClassName?: string;
     labelSelector: (option: OPTION) => string;
     listContainerClassName?: string;
+    descriptionSelector?: (option: OPTION) => React.ReactNode;
     name: NAME;
     onChange: (newValue: KEY[], name: NAME) => void;
     options: OPTION[] | undefined;
@@ -52,6 +53,7 @@ function CheckList<
         labelContainerClassName,
         labelSelector,
         listContainerClassName,
+        descriptionSelector,
         checkboxClassName,
         name,
         onChange,
@@ -73,6 +75,7 @@ function CheckList<
         value: (value ?? []).some((v) => v === key),
         onChange: handleCheck,
         label: labelSelector(data),
+        description: descriptionSelector ? descriptionSelector(data) : undefined,
         disabled,
         readOnly,
         className: checkboxClassName,
@@ -80,6 +83,7 @@ function CheckList<
         value,
         handleCheck,
         labelSelector,
+        descriptionSelector,
         disabled,
         readOnly,
         checkboxClassName,

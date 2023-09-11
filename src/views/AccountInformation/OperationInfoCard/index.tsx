@@ -1,7 +1,5 @@
-import { useContext } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import DomainContext from '#contexts/domain';
 import Header from '#components/Header';
 import Button from '#components/Button';
 import TextOutput from '#components/TextOutput';
@@ -11,44 +9,27 @@ import { type GoApiResponse, useLazyRequest } from '#utils/restRequest';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type OperationsGet = GoApiResponse<'/api/v2/event/'>;
-type OperationsResponse = NonNullable<OperationsGet['results']>[number];
+type EventGet = GoApiResponse<'/api/v2/event/'>;
+type EventResponseItem = NonNullable<EventGet['results']>[number];
 
 export interface Props {
     className?: string;
-    operationsData: OperationsResponse;
-    subscriptionMap: Record<number, boolean>,
+    eventItem: EventResponseItem;
+    updateSubscibedEvents: () => void;
 }
 
 function OperationInfoCard(props: Props) {
     const {
         className,
-        operationsData: {
+        eventItem: {
             id,
             name,
             updated_at,
         },
-        subscriptionMap,
+        updateSubscibedEvents: updateSubscribedEvents,
     } = props;
 
     const strings = useTranslation(i18n);
-
-    const { invalidate } = useContext(DomainContext);
-
-    const {
-        pending: addSubscriptionPending,
-        trigger: triggerAddSubscription,
-    } = useLazyRequest({
-        method: 'POST',
-        body: (eventId: number) => ([{
-            type: 'followedEvent',
-            value: eventId,
-        }]),
-        url: '/api/v2/add_subscription/',
-        onSuccess: () => {
-            invalidate('user-me');
-        },
-    });
 
     const {
         pending: removeSubscriptionPending,
@@ -59,13 +40,10 @@ function OperationInfoCard(props: Props) {
             value: eventId,
         }]),
         url: '/api/v2/del_subscription/',
-        onSuccess: () => {
-            invalidate('user-me');
-        },
+        onSuccess: updateSubscribedEvents,
     });
 
-    const subscriptionPending = addSubscriptionPending || removeSubscriptionPending;
-    const isSubscribed = subscriptionMap[id] ?? false;
+    const subscriptionPending = removeSubscriptionPending;
 
     return (
         <Header
@@ -73,16 +51,15 @@ function OperationInfoCard(props: Props) {
             heading={name}
             headingLevel={4}
             ellipsizeHeading
+            spacing="compact"
             actions={(
                 <Button
                     name={id}
                     variant="secondary"
                     disabled={subscriptionPending}
-                    onClick={isSubscribed ? triggerRemoveSubscription : triggerAddSubscription}
+                    onClick={triggerRemoveSubscription}
                 >
-                    {isSubscribed
-                        ? strings.operationUnfollowButtonLabel
-                        : strings.operationFollowButtonLabel}
+                    {strings.operationUnfollowButtonLabel}
                 </Button>
             )}
         >

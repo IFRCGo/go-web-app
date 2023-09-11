@@ -9,7 +9,7 @@ export function Component() {
     const url = 'https://app.powerbi.com/view?r=eyJrIjoiMTExYTlmZDMtMTNkZi00MmY5LTkyYTYtNTczZGU0MmQxYjE3IiwidCI6ImEyYjUzYmU1LTczNGUtNGU2Yy1hYjBkLWQxODRmNjBmZDkxNyIsImMiOjh9';
 
     return (
-        <div className={styles.summaryContainer}>
+        <div className={styles.preparednessGlobalSummary}>
             <iframe
                 title={strings.globalSummaryTitle}
                 className={styles.summaryIframe}

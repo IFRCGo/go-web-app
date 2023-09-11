@@ -6,6 +6,7 @@ interface Props {
     children?: React.ReactNode;
     className?: string;
     elementRef?: Ref<HTMLDivElement>;
+    variant?: 'light' | 'dark';
 }
 
 function Overlay(props: Props) {
@@ -13,12 +14,17 @@ function Overlay(props: Props) {
         children,
         className,
         elementRef,
+        variant = 'light',
     } = props;
 
     return (
         <div
             ref={elementRef}
-            className={_cs(className, styles.overlay)}
+            className={_cs(
+                className,
+                styles.overlay,
+                variant === 'dark' && styles.dark,
+            )}
         >
             {children}
         </div>

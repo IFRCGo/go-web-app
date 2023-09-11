@@ -86,8 +86,8 @@
     --go-ui-box-shadow-md: 0 1pt 6pt -2pt rgb(0 0 0 / 0.375);
     --go-ui-box-shadow-lg: 0 2pt 10pt -4pt rgb(0 0 0 / 0.5);
     --go-ui-box-shadow-xl: 0 3pt 16pt -6pt rgb(0 0 0 / 0.5);
-    --go-ui-box-shadow-2xl: 0 4pt 24pt -8pt rgb(0 0 0 / 0.625);
-    --go-ui-box-shadow-inner: inset 0 2pt 4pt 0 rgb(0 0 0 / 0.625);
+    --go-ui-box-shadow-2xl: 0 4pt 16pt -6pt rgb(0 0 0 / 1);
+    --go-ui-box-shadow-inner: inset 0 2pt 4pt 0 rgb(0 0 0 / 0.375);
     --go-ui-box-shadow-none: 0 0 #0000;
 
     --go-ui-duration-transition-fast: .1s;
@@ -160,6 +160,7 @@
 
     --go-ui-color-element-background: rgb(0 0 0 / .06);
     --go-ui-color-background-overlay: rgb(255 255 255 / .88);
+    --go-ui-color-background-overlay-dark: rgb(0 0 0 / .5);
     --go-ui-color-background-hover: rgb(0 0 0 / .06);
 
     --go-ui-opacity-disabled-element: 0.5;

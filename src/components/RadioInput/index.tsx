@@ -138,6 +138,7 @@ function RadioInput<
         descriptionSelector,
     ]);
 
+    // FIXME: improve styling
     return (
         <div
             className={_cs(

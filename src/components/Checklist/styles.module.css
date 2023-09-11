@@ -5,7 +5,7 @@
     gap: var(--spacing);
 
     &.vertical {
-        .check-list-container {
+        .checklist-container {
             display: flex;
             flex-direction: column;
             gap: var(--spacing);
@@ -13,9 +13,9 @@
     }
 
     &.horizontal {
-        .check-list-container {
+        .checklist-container {
             display: grid;
-            grid-gap: var(--go-ui-spacing-lg);
+            grid-gap: var(--spacing);
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
         }
     }

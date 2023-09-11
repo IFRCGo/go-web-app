@@ -1,0 +1,55 @@
+.risk-seasonal-map-container {
+    display: flex;
+    flex-direction: column;
+
+    .content {
+        display: flex;
+        height: 40rem;
+        gap: var(--go-ui-spacing-xl);
+
+        .map-container {
+            flex-grow: 1;
+        }
+
+        .country-list {
+            flex-basis: calc(14vw + 16rem);
+            background-color: var(--go-ui-color-background);
+
+            .content {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-md);
+                overflow: auto;
+
+                .country {
+                    .name {
+                        font-size: var(--go-ui-font-size-xs);
+                    }
+
+                    .track {
+                        display: flex;
+                        background-color: var(--go-ui-color-background);
+                        height: 0.5rem;
+
+                        .bar {
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width: 50rem) {
+            flex-direction: column;
+            height: initial;
+
+            .map-container {
+                height: min(40rem, 70vh);
+            }
+
+            .country-list {
+                flex-basis: unset;
+            }
+        }
+    }
+}

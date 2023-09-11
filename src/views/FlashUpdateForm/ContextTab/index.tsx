@@ -19,7 +19,7 @@ import {
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
-import RichTextArea from '#components/parked/RichTextArea';
+import RichTextArea from '#components/RichTextArea';
 import useTranslation from '#hooks/useTranslation';
 import useCountry from '#hooks/domain/useCountry';
 import useDisasterType from '#hooks/domain/useDisasterType';

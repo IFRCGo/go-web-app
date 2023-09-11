@@ -58,7 +58,7 @@ function CountryProjectTable(props: Props) {
         createStringColumn<Project, number>(
             'reporting_ns',
             strings.reportingNationalSociety,
-            (item) => item.reporting_ns_detail.name,
+            (item) => item.reporting_ns_detail.society_name,
         ),
         createStringColumn<Project, number>(
             'name',

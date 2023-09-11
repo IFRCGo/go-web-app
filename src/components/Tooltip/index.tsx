@@ -1,19 +1,22 @@
 import { useRef, useState, useEffect } from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
 
+import Container from '#components/Container';
 import Popup from '#components/Popup';
 
 import styles from './styles.module.css';
 
 interface Props {
     className?: string;
-    children?: React.ReactNode;
+    title?: React.ReactNode;
+    description?: React.ReactNode;
 }
 
 function Tooltip(props: Props) {
     const {
         className,
-        children,
+        title,
+        description,
     } = props;
 
     const [hasParentRef, setHasParentRef] = useState(false);
@@ -69,10 +72,16 @@ function Tooltip(props: Props) {
             )}
             {showPopup && (
                 <Popup
-                    className={className}
+                    className={_cs(styles.tooltipContent, className)}
                     parentRef={parentRef as React.RefObject<HTMLElement>}
                 >
-                    {children}
+                    <Container
+                        heading={title}
+                        childrenContainerClassName={styles.content}
+                        withInternalPadding
+                    >
+                        {description}
+                    </Container>
                 </Popup>
             )}
         </>

@@ -4,7 +4,10 @@
 
     :global {
         .tox-tinymce {
+            margin: unset;
             border: unset;
+            border-radius: unset;
+            width: 100%;
 
             .tox-editor-container {
                 .tox-editor-header {

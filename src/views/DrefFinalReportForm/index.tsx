@@ -29,7 +29,6 @@ import NonFieldError from '#components/NonFieldError';
 import Message from '#components/Message';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
-import { type Props as ButtonProps } from '#components/Button';
 import {
     useRequest,
     useLazyRequest,
@@ -239,6 +238,8 @@ export function Component() {
         },
     });
 
+    const drefId = finalReportResponse?.dref;
+
     const {
         pending: updateFinalReportPending,
         trigger: updateFinalReport,
@@ -326,13 +327,6 @@ export function Component() {
         setActiveTab(newTab);
     }, []);
 
-    const handleShareClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
-        () => {
-            setShowShareModalTrue();
-        },
-        [setShowShareModalTrue],
-    );
-
     const nextStep = getNextStep(activeTab, 1);
     const prevStep = getNextStep(activeTab, -1);
     const saveFinalReportPending = updateFinalReportPending;
@@ -360,7 +354,8 @@ export function Component() {
                 actions={isTruthyString(finalReportId) && (
                     <Button
                         name={undefined}
-                        onClick={handleShareClick}
+                        onClick={setShowShareModalTrue}
+                        disabled={isNotDefined(drefId)}
                     >
                         {strings.formShareButtonLabel}
                     </Button>
@@ -517,11 +512,11 @@ export function Component() {
                         onCancelButtonClick={setShowObsoletePayloadModal}
                     />
                 )}
-                {showShareModal && (
+                {showShareModal && isDefined(drefId) && (
                     <DrefShareModal
                         onCancel={setShowShareModalFalse}
                         onSuccess={setShowShareModalFalse}
-                        drefId={Number(finalReportId)}
+                        drefId={drefId}
                     />
                 )}
             </Page>

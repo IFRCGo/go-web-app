@@ -283,15 +283,17 @@ export function Component() {
         },
     });
 
+    const drefId = opsUpdateResponse?.dref;
+
     const {
         pending: fetchingDref,
         response: drefResponse,
     } = useRequest({
         url: '/api/v2/dref/{id}/',
-        pathVariables: isDefined(opsUpdateResponse) && isDefined(opsUpdateResponse.dref) ? {
-            id: String(opsUpdateResponse.dref),
+        pathVariables: isDefined(drefId) ? {
+            id: String(drefId),
         } : undefined,
-        skip: isNotDefined(opsUpdateResponse?.dref),
+        skip: isNotDefined(drefId),
     });
 
     const prevOperationalUpdateId = useMemo(() => {
@@ -552,6 +554,7 @@ export function Component() {
                     <Button
                         name={undefined}
                         onClick={handleShareClick}
+                        disabled={isNotDefined(drefId)}
                     >
                         {strings.formShareButtonLabel}
                     </Button>
@@ -742,11 +745,11 @@ export function Component() {
                         onCancelButtonClick={setShowObsoletePayloadModal}
                     />
                 )}
-                {showShareModal && (
+                {showShareModal && isDefined(drefId) && (
                     <DrefShareModal
                         onCancel={setShowShareModalFalse}
                         onSuccess={setShowShareModalFalse}
-                        drefId={Number(opsUpdateId)}
+                        drefId={drefId}
                     />
                 )}
             </Page>

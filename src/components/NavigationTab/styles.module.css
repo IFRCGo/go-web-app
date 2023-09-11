@@ -190,4 +190,9 @@
         pointer-events: none;
         opacity: var(--go-ui-opacity-disabled-element);
     }
+
+    &:focus {
+        outline: var(--go-ui-width-separator-thin) dashed var(--go-ui-color-gray-40);
+        outline-offset: -4px;
+    }
 }
