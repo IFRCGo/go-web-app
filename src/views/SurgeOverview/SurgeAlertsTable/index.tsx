@@ -116,6 +116,11 @@ function SurgeAlertsTable() {
                 return duration;
             },
         ),
+        createDateColumn<SurgeAlertListItem, number>(
+            'start',
+            strings.surgeAlertsTableStartDate,
+            (surgeAlert) => surgeAlert.start,
+        ),
         createStringColumn<SurgeAlertListItem, number>(
             'name',
             strings.surgeAlertsTablePosition,
