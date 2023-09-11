@@ -3,9 +3,7 @@
     "strings": {
         "emergencyDetailsHeading": "IFRC GO - Emergency 3W Details",
         "emergencyEditProject": "Edit Project",
-        "emergencyLastModifiedOnTitle": "Last Modified On",
-        "emergencyLastModifiedDetail": "{date}",
-        "emergencyLastModifiedDetailByUser": "by {user}",
+        "emergencyLastModifiedOnTitle": "Last modified on {date} by {user}",
         "emergencyEdit": "Edit",
         "emergencyIFRCSupportedOperation": "IFRC supported Operation",
         "emergencyCountry": "Country",

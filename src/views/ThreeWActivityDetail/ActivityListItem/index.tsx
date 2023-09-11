@@ -1,10 +1,8 @@
-import { useMemo } from 'react';
-import { isDefined, listToMap } from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 
 import TextOutput from '#components/TextOutput';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
-import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -17,7 +15,7 @@ export type Props = {
     title: string | null | undefined;
     customAction: string | null | undefined;
     sectorDetails: string | null | undefined;
-    peopleHouseholds: 'people' | 'households' | '' | null | undefined;
+    peopleHouseholds: 'people' | 'households' | null | undefined;
     customSupply: {
         [key: string]: number;
     };
@@ -26,6 +24,10 @@ export type Props = {
     } | undefined;
     activityDetails: string | null | undefined;
     isSimplifiedReport: boolean | null | undefined;
+
+    supplyMapping: {
+        [key: number]: { id: number, title: string };
+    } | undefined;
 }
 
 function ActivityListItem(props: Props) {
@@ -42,24 +44,9 @@ function ActivityListItem(props: Props) {
         activitySupply,
         activityDetails,
         isSimplifiedReport,
+        supplyMapping,
     } = props;
     const strings = useTranslation(i18n);
-
-    const {
-        response: optionsResponse,
-    } = useRequest({
-        url: '/api/v2/emergency-project/options/',
-    });
-
-    const supplyIdToTitleMap = useMemo(() => (
-        listToMap(
-            optionsResponse?.actions?.flatMap(
-                (detail) => detail.supplies_details,
-            ).filter(isDefined),
-            ((detail) => detail.id),
-            ((detail) => detail.title),
-        )
-    ), [optionsResponse?.actions]);
 
     return (
         <Container
@@ -68,19 +55,18 @@ function ActivityListItem(props: Props) {
             headingLevel={3}
             childrenContainerClassName={styles.actionContent}
         >
-            <TextOutput
-                label={strings.emergencySector}
-                value={sectorDetails}
-                strongLabel
-            />
-            <div>
-                {activityDetails}
-            </div>
-            {isSimplifiedReport && peopleHouseholds === 'people' && (
-                <>
-                    {(isDefined(maleCount)
-                        || isDefined(femaleCount))
-                        && (
+            <div className={styles.activityDetails}>
+                <TextOutput
+                    label={strings.emergencySector}
+                    value={sectorDetails}
+                    strongLabel
+                />
+                <p>
+                    {activityDetails}
+                </p>
+                {isSimplifiedReport && peopleHouseholds === 'people' && (
+                    <>
+                        {(isDefined(maleCount) || isDefined(femaleCount)) && (
                             <>
                                 <TextOutput
                                     label={strings.emergencyMale}
@@ -94,55 +80,53 @@ function ActivityListItem(props: Props) {
                                 />
                             </>
                         )}
+                        <TextOutput
+                            label={strings.emergencyTotalPeople}
+                            value={peopleCount}
+                            strongLabel
+                        />
+                    </>
+                )}
+                {peopleHouseholds === 'households' && (
                     <TextOutput
-                        label={strings.emergencyTotalPeople}
-                        value={peopleCount}
+                        label={strings.emergencyTotalHouseholds}
+                        value={householdCount}
                         strongLabel
                     />
-                </>
-            )}
-            {peopleHouseholds === 'households' && (
-                <TextOutput
-                    label={strings.emergencyTotalHouseholds}
-                    value={householdCount}
-                    strongLabel
-                />
-            )}
+                )}
+            </div>
+            {/* TODO: only show if action type and not cash type */}
             {isDefined(activitySupply) && Object.keys(activitySupply).length > 0 && (
-                <Container childrenContainerClassName={styles.supplyContent}>
-                    <div className={styles.supplyHeader}>
-                        {strings.emergencySupplies}
-                    </div>
-                    {(Object.keys(
-                        activitySupply,
-                    ) as unknown as number[]).map((supply) => (
+                <Container
+                    childrenContainerClassName={styles.supplyContent}
+                    heading={strings.emergencySupplies}
+                    headingLevel={4}
+                >
+                    {Object.entries(activitySupply).map(([supply, value]) => (
                         <TextOutput
                             key={supply}
-                            label={supplyIdToTitleMap?.[supply]}
-                            value={activitySupply?.[supply]}
+                            label={supplyMapping?.[Number(supply)]?.title}
+                            value={value}
                             strongLabel
                         />
                     ))}
                 </Container>
             )}
+            {/* TODO: only show if custom type or action type and not cash type */}
             {Object.keys(customSupply).length > 0 && (
                 <Container
                     childrenContainerClassName={styles.supplyContent}
+                    heading={strings.emergencyCustomSupplies}
+                    headingLevel={4}
                 >
-                    <div className={styles.supplyHeader}>
-                        {strings.emergencyCustomSupplies}
-                    </div>
-                    {customSupply
-                        && Object.entries(customSupply).map(
-                            ([supply, value]) => (
-                                <TextOutput
-                                    key={supply}
-                                    label={supply}
-                                    value={value}
-                                    strongLabel
-                                />
-                            ),
-                        )}
+                    {Object.entries(customSupply).map(([supply, value]) => (
+                        <TextOutput
+                            key={supply}
+                            label={supply}
+                            value={value}
+                            strongLabel
+                        />
+                    ))}
                 </Container>
             )}
         </Container>

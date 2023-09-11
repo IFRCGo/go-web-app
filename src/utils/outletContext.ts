@@ -1,5 +1,7 @@
 import type { GoApiResponse } from '#utils/restRequest';
 
+// FIXME: move this to context
+
 type EmergencyResponse = GoApiResponse<'/api/v2/event/{id}/'>;
 
 type EmergencySnippetsResponse = GoApiResponse<'/api/v2/event_snippet/'>;

@@ -1,20 +1,19 @@
 .activity-list {
-    .activity-content {
+    .action-content {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-lg);
-    }
+        gap: var(--go-ui-spacing-md);
 
-    .supply-content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-xs);
-        width: 100%;
-    }
+        .activity-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-sm);
+        }
 
-    .supply-header {
-        padding: var(--go-ui-spacing-xs) 0 var(--go-ui-spacing-xs) 0;
-        color: var(--go-ui-color-primary-red);
-        font-size: var(--go-ui-font-size-xl);
+        .supply-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-sm);
+        }
     }
 }

@@ -1,20 +1,33 @@
 .emergency-details {
-    padding-top: var(--go-ui-spacing-md);
-
     .modified-on-value {
         display: flex;
         gap: var(--go-ui-spacing-xs);
     }
 
-    .emergency-three-w-details {
-        background-color: var(--go-ui-color-white);
-        padding: var(--go-ui-spacing-md);
+    .description {
+        display: flex;
+        gap: 1ch;
+    }
 
-        .operation-details {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-lg);
-            padding: var(--go-ui-spacing-lg);
+    .main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-2xl);
+
+        .emergency-three-w-details {
+            .operation-details {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-sm);
+            }
+        }
+
+        .activity-content {
+            .list {
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-xl);
+            }
         }
     }
 }

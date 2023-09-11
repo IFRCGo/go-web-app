@@ -118,7 +118,7 @@ export function Component() {
         pathVariables: isDefined(regionId) ? {
             id: regionId,
         } : undefined,
-        query: filter, // TODO: fix typings in the server
+        query: filter as never, // TODO: fix typings in the server
     });
 
     const projectByStatus = useMemo(() => (

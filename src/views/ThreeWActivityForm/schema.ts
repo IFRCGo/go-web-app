@@ -227,6 +227,7 @@ const finalSchema: FormSchema = {
             (props): Pick<FormSchemaFields, 'activities'> => {
                 if ((props?.sectors?.length ?? 0) <= 0) {
                     return {
+                        // FIXME: Why do we send undefinedValue instead of []
                         activities: { forceValue: undefinedValue },
                     };
                 }
@@ -356,11 +357,9 @@ const finalSchema: FormSchema = {
                                     'amount',
                                     'supplies',
                                 ] as const;
-
                                 type ActionSpecificFields = Pick<
                                     ActivityItemSchemaFields, (typeof actionSpecificFields)[number]
                                 >;
-
                                 activitySchema = addCondition(
                                     activitySchema,
                                     activityValue,
@@ -552,6 +551,7 @@ const finalSchema: FormSchema = {
                                     },
                                 );
 
+                                // FIXME: why not merge this with the above condition?
                                 activitySchema = addCondition(
                                     activitySchema,
                                     activityValue,
