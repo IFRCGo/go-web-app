@@ -9,6 +9,12 @@
     padding: 0;
     animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
     animation-delay: var(--go-ui-duration-transition-fast);
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--go-ui-spacing-sm);
+    }
 }
 
 @keyframes slide-down {
