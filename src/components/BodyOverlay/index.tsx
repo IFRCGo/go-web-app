@@ -18,7 +18,10 @@ function BodyOverlay(props: Props) {
 
     return (
         <Portal>
-            <Overlay className={_cs(className, styles.bodyOverlay)}>
+            <Overlay
+                variant="dark"
+                className={_cs(className, styles.bodyOverlay)}
+            >
                 {children}
             </Overlay>
         </Portal>

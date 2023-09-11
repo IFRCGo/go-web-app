@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import BodyOverlay from '#components/BodyOverlay';
@@ -43,6 +43,18 @@ function Modal(props: Props) {
         ...containerProps
     } = props;
 
+    useEffect(
+        () => {
+            const prevValue = document.documentElement.style.scrollbarGutter;
+            document.documentElement.style.scrollbarGutter = 'initial';
+
+            return () => {
+                document.documentElement.style.scrollbarGutter = prevValue;
+            };
+        },
+        [],
+    );
+
     const sizeStyle = sizeToStyleMap[size];
 
     const handleClickOutside = useCallback(() => {
@@ -58,11 +70,13 @@ function Modal(props: Props) {
     }, [onClose, closeOnEscape]);
 
     return (
-        <BodyOverlay className={overlayClassName}>
+        <BodyOverlay className={_cs(styles.overlay, overlayClassName)}>
             <FocusOn
                 className={_cs(styles.modalContainer, sizeStyle)}
                 onClickOutside={handleClickOutside}
                 onEscapeKey={handleEscape}
+                gapMode="padding"
+                // gapMode={null}
             >
                 <Container
                     // eslint-disable-next-line react/jsx-props-no-spreading
