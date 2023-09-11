@@ -1985,7 +1985,7 @@ const accountThreeWForms = customWrapRoute({
 
 const resources = customWrapRoute({
     parent: rootLayout,
-    path: 'resources',
+    path: 'about',
     component: {
         render: () => import('#views/Resources'),
         props: {},

@@ -2,10 +2,11 @@
     "namespace": "accountInformation",
     "strings": {
         "operationFollowingHeading": "Operations Following",
+        "operationFollowingHeadingDescription": "Operations Currently Following",
         "accountInformationHeading": "Account Information",
         "usernameLabel": "Username",
         "fullNameLabel": "Full Name",
-        "locationLabel": "Location",
+        "cityLabel": "City",
         "emailLabel": "Email",
         "phoneNumberLabel": "Phone Number",
         "organizationLabel": "Organization",

@@ -50,6 +50,14 @@ function ThreeWTableActions(props: Props) {
                         >
                             {strings.threeWEdit}
                         </DropdownMenuItem>
+                        <DropdownMenuItem
+                            type="link"
+                            to="newThreeWActivity"
+                            state={{ activityId }}
+                            icons={<CopyLineIcon />}
+                        >
+                            {strings.threeWDuplicate}
+                        </DropdownMenuItem>
                     </>
                 )}
             />
@@ -75,14 +83,6 @@ function ThreeWTableActions(props: Props) {
                         icons={<PencilFillIcon />}
                     >
                         {strings.threeWEdit}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        type="link"
-                        to="newThreeWProject"
-                        state={{ projectId }}
-                        icons={<CopyLineIcon />}
-                    >
-                        {strings.threeWDuplicate}
                     </DropdownMenuItem>
                 </>
             )}

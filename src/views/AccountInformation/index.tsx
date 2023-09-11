@@ -114,11 +114,6 @@ export function Component() {
                         }
                     />
                     <TextOutput
-                        strongLabel
-                        label={strings.locationLabel}
-                        value={meResponse?.profile?.city}
-                    />
-                    <TextOutput
                         label={strings.emailLabel}
                         value={meResponse?.email}
                         strongLabel
@@ -127,6 +122,11 @@ export function Component() {
                         label={strings.phoneNumberLabel}
                         value={meResponse?.profile?.phone_number}
                         strongLabel
+                    />
+                    <TextOutput
+                        strongLabel
+                        label={strings.cityLabel}
+                        value={meResponse?.profile?.city}
                     />
                     <TextOutput
                         label={strings.organizationLabel}
@@ -153,6 +153,7 @@ export function Component() {
             <Container
                 className={styles.operationsFollowing}
                 heading={strings.operationFollowingHeading}
+                headerDescription={strings.operationFollowingHeadingDescription}
                 withHeaderBorder
                 footerActions={(
                     <Pager

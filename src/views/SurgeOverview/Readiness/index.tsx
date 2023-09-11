@@ -81,10 +81,6 @@ function Readiness() {
     return (
         <Container
             className={styles.eruOwnersTable}
-            heading={resolveToString(
-                strings.eruOwnersTableHeading,
-                { count: eruOwnersResponse?.count },
-            )}
             withHeaderBorder
             footerActions={(
                 <Pager
@@ -97,9 +93,11 @@ function Readiness() {
             childrenContainerClassName={styles.content}
             filtersContainerClassName={styles.filters}
             filters={(
-                <>
+                <Container
+                    heading={strings.eruOwnersTableFilterReady}
+                    headingLevel={3}
+                >
                     <CheckList
-                        label={strings.eruOwnersTableFilterReady}
                         listContainerClassName={styles.checklistContainer}
                         name="eruType"
                         options={deployments_eru_type}
@@ -116,19 +114,27 @@ function Readiness() {
                     >
                         {strings.eruOwnersTableFilterClear}
                     </Button>
-                </>
+                </Container>
             )}
         >
-            <Grid
-                numPreferredColumns={3}
-                data={eruOwnersResponse?.results}
-                pending={eruOwnersPending}
-                errored={isDefined(eruOwnersError)}
-                filtered={isDefined(selectedERUTypes)}
-                keySelector={eruOwnerKeySelector}
-                renderer={EmergencyResponseUnitOwnerCard}
-                rendererParams={rendererParams}
-            />
+            <Container
+                heading={resolveToString(
+                    strings.eruOwnersTableHeading,
+                    { count: eruOwnersResponse?.count },
+                )}
+                headingLevel={3}
+            >
+                <Grid
+                    numPreferredColumns={3}
+                    data={eruOwnersResponse?.results}
+                    pending={eruOwnersPending}
+                    errored={isDefined(eruOwnersError)}
+                    filtered={isDefined(selectedERUTypes)}
+                    keySelector={eruOwnerKeySelector}
+                    renderer={EmergencyResponseUnitOwnerCard}
+                    rendererParams={rendererParams}
+                />
+            </Container>
         </Container>
     );
 }

@@ -12,7 +12,7 @@
         "timelineLabel": "Timeline",
         "overviewSectionFooter": "The timeline below outlines the expected actions throughout the first four months of the response cycle. This timeline functions as a guide for RCRC operations practitioners and represents key milestones, deliverables and documents linked to them.",
         "weAreLookingFor": "We are looking forward to receiving your feedback and improvement suggestions, please share them with us {here}. For additional questions please email: {emailOne} and {emailTwo}.",
-        "here": "here",
+        "here": "approach can be found here",
         "perSectionHeading": "The {per} Mechanism provides a structure against which operational leadership can better determine and identify:",
         "per": "Preparedness for Effective Response (PER)",
         "perSectionOne": "the existing response capacity* of the National Society (NS)",
@@ -24,7 +24,7 @@
         "bottlenecks": "bottlenecks",
         "framework": "standard framework",
         "learnings": "learnings",
-        "perSectionFooter": "General information about the NS Preparedness for Effective Response approach can be found {here}. The PER country-level details* can provide {information} on the {capacity} of a NS to implement, and the absorption capacity of a NS. For access to details on the NS existing response capacity and guidance on implementation of response capacity strengthening interventions please contact {emailThree}",
+        "perSectionFooter": "General information about the NS Preparedness for Effective Response {here}. The PER country-level details* can provide {information} on the {capacity} of a NS to implement, and the absorption capacity of a NS. For access to details on the NS existing response capacity and guidance on implementation of response capacity strengthening interventions please contact {emailThree}",
         "capacity": "capacity",
         "information": "information"
     }
