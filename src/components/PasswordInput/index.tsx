@@ -16,12 +16,16 @@ function PasswordInput<const T>(props: Props<T>) {
         className,
         disabled,
         error,
+        errorOnTooltip,
         hint,
         icons,
+        inputClassName,
+        inputSectionClassName,
         label,
         readOnly,
-        inputElementRef,
-        inputClassName,
+        required,
+        variant,
+        withAsterisk,
         ...rawInputProps
     } = props;
 
@@ -35,10 +39,15 @@ function PasswordInput<const T>(props: Props<T>) {
             className={className}
             disabled={disabled}
             error={error}
+            errorOnTooltip={errorOnTooltip}
             hint={hint}
             icons={icons}
+            inputSectionClassName={inputSectionClassName}
             label={label}
+            required={required}
             readOnly={readOnly}
+            variant={variant}
+            withAsterisk={withAsterisk}
             actions={(
                 <>
                     {actions}
@@ -58,7 +67,6 @@ function PasswordInput<const T>(props: Props<T>) {
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     {...rawInputProps}
                     className={inputClassName}
-                    elementRef={inputElementRef}
                     readOnly={readOnly}
                     disabled={disabled}
                     type={showPassword ? 'text' : 'password'}

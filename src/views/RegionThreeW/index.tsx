@@ -12,7 +12,9 @@ import {
 import BlockLoading from '#components/BlockLoading';
 import Button from '#components/Button';
 import Container from '#components/Container';
-import ExpandableContainer from '#components/ExpandableContainer';
+import ExpandableContainer, {
+    type Props as ExpandableContainerProps,
+} from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import List from '#components/List';
@@ -151,21 +153,27 @@ export function Component() {
         [countriesCount],
     );
 
-    const countryRendererParams = useCallback((_: number, country: CountryActivity) => ({
-        heading: country.name,
-        headingDescription: resolveToString(
-            strings.projectsCount,
-            { count: country.projects_count },
-        ),
-        children: (
-            <CountryProjectTable
-                country={country.iso3 ?? country.iso}
-                filters={filter}
-                page={page}
-                setPage={setPage}
-            />
-        ),
-    }), [strings.projectsCount, filter, page, setPage]);
+    const countryRendererParams = useCallback(
+        (_: number, country: CountryActivity): ExpandableContainerProps => ({
+            heading: country.name,
+            headingLevel: 4,
+            spacing: 'cozy',
+            withHeaderBorder: true,
+            headingDescription: resolveToString(
+                strings.projectsCount,
+                { count: country.projects_count },
+            ),
+            children: (
+                <CountryProjectTable
+                    country={country.iso3 ?? country.iso}
+                    filters={filter}
+                    page={page}
+                    setPage={setPage}
+                />
+            ),
+        }),
+        [strings.projectsCount, filter, page, setPage],
+    );
 
     const countrySectorRendererParams = useCallback((_: number, country: CountryActivity) => ({
         title: (
@@ -310,19 +318,19 @@ export function Component() {
                         </Container>
                     )}
                 />
-                <List
-                    className={styles.countryList}
-                    data={countriesCount}
-                    renderer={ExpandableContainer}
-                    rendererParams={countryRendererParams}
-                    keySelector={numericIdSelector}
-                    withoutMessage
-                    compact
-                    pending={regionalMovementActivitiesResponsePending}
-                    errored={false}
-                    filtered={filtered}
-                />
             </Container>
+            <List
+                className={styles.countryTableList}
+                data={countriesCount}
+                renderer={ExpandableContainer}
+                rendererParams={countryRendererParams}
+                keySelector={numericIdSelector}
+                withoutMessage
+                compact
+                pending={regionalMovementActivitiesResponsePending}
+                errored={false}
+                filtered={filtered}
+            />
         </div>
     );
 }

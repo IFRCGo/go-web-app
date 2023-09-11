@@ -182,7 +182,11 @@ function Link(props: Props) {
     const children = useMemo(
         () => {
             if (isNotDefined(toLink)) {
-                return content;
+                return (
+                    <div className={containerClassName}>
+                        {content}
+                    </div>
+                );
             }
             // eslint-disable-next-line react/destructuring-assignment
             if (props.external) {
