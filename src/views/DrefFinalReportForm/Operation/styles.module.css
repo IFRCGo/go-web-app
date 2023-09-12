@@ -4,7 +4,7 @@
     gap: var(--go-ui-spacing-2xl);
 
     .icon {
-        font-size: var(--go-ui-font-size-icon-multiplier);
+        font-size: var(--go-ui-height-icon-multiplier);
     }
 
     .intervention-selection-container {

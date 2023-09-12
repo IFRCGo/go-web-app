@@ -671,7 +671,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                 <NonFieldError error={admin2Error} />
                 <DistrictSearchMultiSelectInput
                     error={districtsError}
-                    // FIXME: Use strings
+                    // FIXME: Use translations
                     label="Districts"
                     name="project_districts"
                     countryId={countryId}
@@ -687,7 +687,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     renderer={DistrictListItem}
                     keySelector={districtKeySelector}
                     rendererParams={districtRendererParams}
-                    // FIXME: use translation
+                    // FIXME: Use translations
                     emptyMessage="Select districts by click on map or from the select input above"
                     errored={false}
                     pending={false}

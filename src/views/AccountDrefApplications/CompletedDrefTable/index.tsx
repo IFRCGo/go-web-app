@@ -59,11 +59,12 @@ function CompletedDrefTable(props: Props) {
         query: {
             offset,
             limit,
+            // FIXME server should accept country
             country: filter.country,
             type_of_dref: filter.type_of_dref,
             disaster_type: filter.disaster_type,
             appeal_code: filter.appeal_code,
-        } as never,
+        },
     });
 
     type DrefResultItem = NonNullable<NonNullable<typeof completedDrefResponse>['results']>[number];

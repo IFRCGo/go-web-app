@@ -1,5 +1,4 @@
 import {
-    useState,
     useMemo,
     useCallback,
 } from 'react';
@@ -11,9 +10,7 @@ import {
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import {
-    useSortState,
     SortContext,
-    getOrdering,
 } from '#components/Table/useSorting';
 import {
     createStringColumn,
@@ -23,11 +20,11 @@ import {
 import Table from '#components/Table';
 import Link from '#components/Link';
 import { numericIdSelector } from '#utils/selectors';
+import useFilterState from '#hooks/useFilterState';
 
 import i18n from './i18n.json';
 
 type PersonnelTableItem = NonNullable<GoApiResponse<'/api/v2/personnel/'>['results']>[number];
-const PAGE_SIZE = 10;
 const now = new Date().toISOString();
 
 interface Props {
@@ -36,10 +33,22 @@ interface Props {
 
 export default function RapidResponsePersonnelTable(props: Props) {
     const { emergencyId } = props;
-    const [page, setPage] = useState(1);
+
+    const {
+        page,
+        setPage,
+        sortState,
+        ordering,
+        offset,
+        limit,
+    } = useFilterState<object>(
+        {},
+        undefined,
+        1,
+        10,
+    );
+
     const strings = useTranslation(i18n);
-    const sortState = useSortState();
-    const { sorting } = sortState;
 
     const getTypeName = useCallback((type: PersonnelTableItem['type']) => {
         if (type === 'rr') {
@@ -48,7 +57,6 @@ export default function RapidResponsePersonnelTable(props: Props) {
         return type.toUpperCase();
     }, [strings]);
 
-    // FIXME: use useFilterState
     const {
         response: personnelResponse,
         pending: personnelPending,
@@ -56,9 +64,9 @@ export default function RapidResponsePersonnelTable(props: Props) {
         url: '/api/v2/personnel/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
-            ordering: getOrdering(sorting),
+            limit,
+            offset,
+            ordering,
             event_deployed_to: Number(emergencyId),
             end_date__gt: now,
         },
@@ -130,7 +138,7 @@ export default function RapidResponsePersonnelTable(props: Props) {
             actions={(
                 <Link
                     to="allDeployedPersonnel"
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {strings.deployedPersonnelViewAll}
@@ -140,7 +148,7 @@ export default function RapidResponsePersonnelTable(props: Props) {
                 <Pager
                     activePage={page}
                     itemsCount={personnelResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

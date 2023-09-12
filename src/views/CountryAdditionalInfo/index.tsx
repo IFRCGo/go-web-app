@@ -60,7 +60,7 @@ export function Component() {
         (_: number, data: CountryLinksType): LinkProps => ({
             to: data.url,
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
             children: data.title,
         }),
         [],
@@ -151,4 +151,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'CountryAdditionalData';
+Component.displayName = 'CountryAdditionalInfo';

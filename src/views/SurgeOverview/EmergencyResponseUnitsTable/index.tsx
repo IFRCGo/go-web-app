@@ -24,19 +24,15 @@ import { type components } from '#generated/types';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type EruTypeEnum = components<'read'>['schemas']['Key187Enum'];
+type DeploymentsEruTypeEnum = components<'read'>['schemas']['DeploymentsEruTypeEnum'];
 
 type GetEmergencyResponseUnitsResponse = GoApiResponse<'/api/v2/eru/'>;
 type EmergencyResponseUnitListItem = NonNullable<GetEmergencyResponseUnitsResponse['results']>[number];
 
-interface EmergencyResponseUnitType {
-    key: EruTypeEnum;
-    label?: string;
-}
 const emergencyResponseUnitKeySelector = (item: EmergencyResponseUnitListItem) => item.id;
 
-const emergencyResponseUnitTypeKeySelector = (item: EmergencyResponseUnitType) => item.key;
-const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType) => item.label ?? '?';
+const emergencyResponseUnitTypeKeySelector = (item: DeploymentsEruTypeEnum) => item.key;
+const emergencyResponseUnitTypeLabelSelector = (item: DeploymentsEruTypeEnum) => item.value ?? '?';
 
 function EmergencyResponseUnitsTable() {
     const strings = useTranslation(i18n);
@@ -51,7 +47,7 @@ function EmergencyResponseUnitsTable() {
         limit,
         offset,
     } = useFilterState<{
-        type?: EmergencyResponseUnitType['key'],
+        type?: DeploymentsEruTypeEnum['key'],
     }>(
         {},
         undefined,
@@ -159,7 +155,7 @@ function EmergencyResponseUnitsTable() {
             actions={(
                 <Link
                     to="allDeployedEmergencyResponseUnits"
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {strings.emergencyResponseUnitsViewAll}

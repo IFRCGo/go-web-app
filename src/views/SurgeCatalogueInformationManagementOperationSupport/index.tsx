@@ -28,7 +28,7 @@ export function Component() {
                             <Link
                                 to="https://ifrcgoproject.medium.com/information-saves-lives-scaling-data-analytics-in-the-ifrc-network-fd3686718f9c"
                                 withUnderline
-                                withExternalLinkIcon
+                                withLinkIcon
                                 external
                             >
                                 {strings.iMOperationSupportDescriptionLink}

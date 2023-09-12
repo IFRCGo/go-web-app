@@ -146,7 +146,6 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                             return null;
                         }
 
-                        // TODO: improve styling
                         return (
                             <div
                                 // FIXME: create a component for preview

@@ -105,7 +105,7 @@ export function Component() {
                             urlParams={{
                                 regionId: countryResponse.regions_details.id,
                             }}
-                            withForwardIcon
+                            withLinkIcon
                         >
                             {countryResponse?.regions_details?.region_name}
                         </Link>
@@ -198,7 +198,7 @@ export function Component() {
                 </NavigationTab>
                 {hasAdditionalInfoData && (
                     <NavigationTab
-                        to="countryAdditionalData"
+                        to="countryAdditionalInfo"
                         urlParams={{ countryId }}
                     >
                         {additionalInfoTabName}
@@ -214,7 +214,7 @@ export function Component() {
                         <Link
                             to={`https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}`}
                             external
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {strings.nationalSocietyPageOnFDRS}
                         </Link>
@@ -223,7 +223,7 @@ export function Component() {
                         <Link
                             to={countryResponse.url_ifrc}
                             external
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {resolveToString(
                                 strings.countryOnIFRC,
@@ -235,7 +235,7 @@ export function Component() {
                         <Link
                             to={`https://reliefweb.int/country/${countryResponse.iso3}`}
                             external
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {resolveToString(
                                 strings.countryOnReliefWeb,
@@ -247,7 +247,7 @@ export function Component() {
                         <Link
                             to={countryResponse?.society_url}
                             external
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {resolveToString(
                                 strings.countryRCHomepage,

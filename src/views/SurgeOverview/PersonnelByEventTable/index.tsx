@@ -100,7 +100,7 @@ function PersonnelByEventTable() {
             actions={(
                 <Link
                     to="allDeployedPersonnel"
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {strings.personnelViewAll}

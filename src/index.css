@@ -29,8 +29,7 @@
     }
 
 
-    /* TODO: rename to --go-ui-height-icon-multiplier */
-    --go-ui-font-size-icon-multiplier: 1.5em;
+    --go-ui-height-icon-multiplier: 1.5em;
 
     --go-ui-height-brand-icon: 3rem;
     --go-ui-height-social-icon: 3rem;

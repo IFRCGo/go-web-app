@@ -133,7 +133,7 @@ function EventItemsTable(props: Props) {
                 <Link
                     to="allEmergencies"
                     urlSearch={`region=${regionId}`}
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {strings.regionEmergenciesTableViewAll}

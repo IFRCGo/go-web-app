@@ -176,7 +176,7 @@ function SurgeAlertsTable() {
             actions={(
                 <Link
                     to="allSurgeAlerts"
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {strings.surgeAlertsViewAll}

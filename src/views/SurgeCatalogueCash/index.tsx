@@ -13,7 +13,7 @@ export function Component() {
         {
             title: strings.cvaServicesLinkTitle,
             to: 'surgeCatalogueCashRapidResponse',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -22,7 +22,7 @@ export function Component() {
             title: strings.cashInEmergencyToolkitTitle,
             to: 'https://www.cash-hub.org/guidance-and-tools/cash-in-emergencies-toolkit',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -31,7 +31,7 @@ export function Component() {
             title: strings.cashHubTitle,
             to: 'https://cash-hub.org/',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -40,19 +40,19 @@ export function Component() {
             title: strings.cashAndVoucherAssistanceCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EY4PZ_4Zt01AkY8aAyTD_84BJIYbk78-E9lu310swDYeZg',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.cashAndVoucherAssistanceOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb-QC0lSSSVKkcqqGs1uER4BSlltRKy-prrfR0AAxg4cpQ',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.cashAndVoucherAssistanceImOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ec5qjRdtWQRDkIgNhvtPbHIByntzDCXX1dyPLVQhojvMsQ',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -61,7 +61,7 @@ export function Component() {
             title: strings.technicalFrameworkCVA,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUuruzZd9bZDmMjeTqWsKHMBgXywwtj586i7nN6LNI9pow',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 

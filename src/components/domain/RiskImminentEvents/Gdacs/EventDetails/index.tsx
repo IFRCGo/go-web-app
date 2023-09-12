@@ -111,7 +111,7 @@ function EventDetails(props: Props) {
                         <Link
                             to={eventDetails?.url.details}
                             external
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {/* FIXME: use translation */}
                             More Details
@@ -121,7 +121,7 @@ function EventDetails(props: Props) {
                         <Link
                             to={eventDetails?.url.geometry}
                             external
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {/* FIXME: use translation */}
                             Geometry
@@ -131,7 +131,7 @@ function EventDetails(props: Props) {
                         <Link
                             to={eventDetails?.url.report}
                             external
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {/* FIXME: use translation */}
                             Report

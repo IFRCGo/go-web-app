@@ -18,7 +18,6 @@ import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';
 
-// FIXME: is this type correct?
 type Value = {
     client_id: string;
     id?: number;

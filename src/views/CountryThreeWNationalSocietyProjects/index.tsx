@@ -331,7 +331,7 @@ export function Component() {
                         <Link
                             to="allThreeWActivity"
                             urlSearch={`country=${countryResponse?.id}`}
-                            withForwardIcon
+                            withLinkIcon
                         >
                             {strings.viewAllProjects}
                         </Link>
@@ -399,7 +399,8 @@ export function Component() {
                                 );
                             })}
                             {/* FIXME: Show empty message for when filter is applied */}
-                            {/* FIXME: Show empty message for when filter is applied */}
+                            {/* FIXME: Show empty message for when filter is not applied */}
+                            {/* FIXME: Use List component instead? */}
                             {countryIdList.length === 0 && (
                                 <Message
                                     // FIXME: use translations

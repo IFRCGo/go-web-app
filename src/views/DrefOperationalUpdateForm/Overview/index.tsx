@@ -131,7 +131,6 @@ function Overview(props: Props) {
     }, [setFieldValue, value.dref_allocated_so_far]);
 
     const handleNSChange = useCallback((nationalSociety: number | undefined, name: 'national_society') => {
-        // FIXME: should we also change national_society when country is changed?
         setFieldValue(nationalSociety, name);
         setFieldValue(nationalSociety, 'country');
     }, [setFieldValue]);

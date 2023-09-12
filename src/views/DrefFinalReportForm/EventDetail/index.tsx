@@ -112,7 +112,7 @@ function EventDetail(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {/* FIXME: The logic is not present in Final Form */}
+                {/* NOTE: The logic is not present in Final Form */}
                 {value.type_of_dref !== TYPE_ASSESSMENT && (
                     <InputSection
                         title={strings.drefFormScopeAndScaleEvent}

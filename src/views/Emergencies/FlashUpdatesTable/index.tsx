@@ -132,7 +132,7 @@ function FlashUpdateTable() {
                 <Link
                     to="allFlashUpdates"
                     withUnderline
-                    withForwardIcon
+                    withLinkIcon
                 >
                     {strings.flashUpdateTableViewAllReports}
                 </Link>

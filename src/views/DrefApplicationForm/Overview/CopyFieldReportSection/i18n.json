@@ -1,7 +1,6 @@
 {
     "namespace": "drefApplicationForm",
     "strings": {
-        "drefFormCopyFRFailureMessage": "Failed to get details for selected field report",
         "drefFormCopyFRSuccessMessage": "Successfully copied some data from the selected field report",
         "drefFormEventDetailsTitle": "Import data from existing field report",
         "drefFormEventDescription": "These field reports have already been filtered by the National Society that you have selected. Selecting a field report will pre-fill matching fields in this request, which you can modify.",

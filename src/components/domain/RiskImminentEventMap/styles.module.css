@@ -13,7 +13,7 @@
         background-color: var(--go-ui-color-background);
 
         .icon {
-            font-size: var(--go-ui-font-size-icon-multiplier);
+            font-size: var(--go-ui-height-icon-multiplier);
         }
 
         .content {

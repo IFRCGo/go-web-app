@@ -32,11 +32,11 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
     const values = renderData.map((d) => d.value);
     const total = sumSafe(values) ?? 1;
 
-    // TODO: Discuss UI of this component
     return (
         <div className={_cs(styles.stackedBarChart, className)}>
             <div className={styles.barInfoContainer}>
                 {renderData.map((datum) => {
+                    // FIXME: use percent function
                     const percentage = (100 * datum.value) / total;
                     return (
                         <div

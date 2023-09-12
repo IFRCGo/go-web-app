@@ -168,6 +168,7 @@ function EventDetails(props: Props) {
                             <div
                                 key={point.id}
                                 className={styles.bar}
+                                // FIXME: Use percent function
                                 style={{ height: `${100 * (point.windSpeed / maxWindSpeed)}%` }}
                                 title={`${point.windSpeed} Km/h on ${point.date.toLocaleString()}`}
                             />
@@ -188,7 +189,7 @@ function EventDetails(props: Props) {
                         <Link
                             to={dashboardUrl}
                             external
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {/* FIXME: use translation */}
                             Dashboard
@@ -200,7 +201,7 @@ function EventDetails(props: Props) {
                                 <Link
                                     to={eventDetails?.url.shakemap}
                                     external
-                                    withExternalLinkIcon
+                                    withLinkIcon
                                 >
                                     {/* FIXME: use translation */}
                                     Shakemap
@@ -210,7 +211,7 @@ function EventDetails(props: Props) {
                                 <Link
                                     to={eventDetails.url.population}
                                     external
-                                    withExternalLinkIcon
+                                    withLinkIcon
                                 >
                                     {/* FIXME: use translation */}
                                     Population table
@@ -220,7 +221,7 @@ function EventDetails(props: Props) {
                                 <Link
                                     to={eventDetails.url.wind}
                                     external
-                                    withExternalLinkIcon
+                                    withLinkIcon
                                 >
                                     {/* FIXME: use translation */}
                                     Wind
@@ -230,7 +231,7 @@ function EventDetails(props: Props) {
                                 <Link
                                     to={eventDetails.url.rainfall}
                                     external
-                                    withExternalLinkIcon
+                                    withLinkIcon
                                 >
                                     {/* FIXME: use translation */}
                                     Rainfall
@@ -240,7 +241,7 @@ function EventDetails(props: Props) {
                                 <Link
                                     to={eventDetails.url.shapefile}
                                     external
-                                    withExternalLinkIcon
+                                    withLinkIcon
                                 >
                                     {/* FIXME: use translation */}
                                     Shapefile

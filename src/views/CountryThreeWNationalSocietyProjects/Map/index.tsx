@@ -410,7 +410,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                                         key={project.id}
                                         to="threeWProjectDetail"
                                         urlParams={{ projectId: project.id }}
-                                        withForwardIcon
+                                        withLinkIcon
                                     >
                                         {project.name}
                                     </Link>

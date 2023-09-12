@@ -13,7 +13,7 @@ export function Component() {
         {
             title: strings.learnMore,
             to: 'surgeCatalogueCommunicationErtOne',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -21,7 +21,7 @@ export function Component() {
         {
             title: strings.learnMore,
             to: 'surgeCatalogueCommunicationErtTwo',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -29,7 +29,7 @@ export function Component() {
         {
             title: strings.learnMore,
             to: 'surgeCatalogueCommunicationErtThree',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -38,37 +38,37 @@ export function Component() {
             title: strings.communicationCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbAlam4vsydNjvuNJmy3EPkBuCeRgBZz7vnk_nipfrHFsw',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.communicationTeamLeader,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ef561fqNVm9Bh1w9i7LLBfcBk7WIkZA4YwHBXehXSoyE3g',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.communicationOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EZiWRknC3m5GmDsFMB1u-QwBz2A7qBFMCD6mvn6m4rStUA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.communicationAudioVisualOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWNylwoAPp1Hm48-MqA3_YEBmlfuxMgBf7NRSGVSMd51lA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.communicationPhotographer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVtNMghwDthPi7juFr_s-dQBqouRL8aZ8PyHY8bvN09oWQ',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.communicationVideographer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ee33uW7nBMFFrME7ECn5rDcBhaztPNu92KAV2jL_asDjkg',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -77,7 +77,7 @@ export function Component() {
             title: strings.technicalCompetencyFrameworkItemTitle,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EeWVVZqp8-9Evr8GxSrsrBgBeU_aXT-B9hX8O-nS3fIL1g',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 

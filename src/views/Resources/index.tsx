@@ -109,7 +109,7 @@ export function Component() {
                                 EN
                             </span>
                         )}
-                        withForwardIcon
+                        withLinkIcon
                     >
                         GO user guide
                     </Link>
@@ -121,7 +121,7 @@ export function Component() {
                                 EN
                             </span>
                         )}
-                        withForwardIcon
+                        withLinkIcon
                     >
                         Administrative Guides
                     </Link>
@@ -133,7 +133,7 @@ export function Component() {
                                 FR
                             </span>
                         )}
-                        withForwardIcon
+                        withLinkIcon
                     >
                         Guides d&quot;Utilisation
                     </Link>
@@ -146,7 +146,7 @@ export function Component() {
                                 FR
                             </span>
                         )}
-                        withForwardIcon
+                        withLinkIcon
                     >
                         Guides Administratifs
                     </Link>
@@ -158,7 +158,7 @@ export function Component() {
                                 ES
                             </span>
                         )}
-                        withForwardIcon
+                        withLinkIcon
                     >
                         Guías de Usuario
                     </Link>
@@ -172,7 +172,7 @@ export function Component() {
                                 ES
                             </span>
                         )}
-                        withForwardIcon
+                        withLinkIcon
                     >
                         Guías Administrativas
                     </Link>
@@ -184,7 +184,7 @@ export function Component() {
                                 AR
                             </span>
                         )}
-                        withForwardIcon
+                        withLinkIcon
                     >
                         أدلة المستخدم
                     </Link>
@@ -196,7 +196,7 @@ export function Component() {
                                 AR
                             </span>
                         )}
-                        withForwardIcon
+                        withLinkIcon
                     >
                         أدلة إدارية
                     </Link>
@@ -212,7 +212,7 @@ export function Component() {
                     <Link
                         to="https://go-user-library.ifrc.org/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutGoUserLibrary}
                     </Link>
@@ -220,42 +220,42 @@ export function Component() {
                     <Link
                         to="https://ifrcgoproject.medium.com/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.goBlog}
                     </Link>
                     <Link
                         to="https://app.powerbi.com/view?r=eyJrIjoiY2RlOTRkOGQtMDU5Yy00OWIwLWE2NmYtNTQ5NTQ3YjEwY2ZmIiwidCI6ImEyYjUzYmU1LTczNGUtNGU2Yy1hYjBkLWQxODRmNjBmZDkxNyIsImMiOjh9&pageName=ReportSectione263ecb5066f3105a8fa"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.goUserAnalytics}
                     </Link>
                     <Link
                         to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ESX7S_-kp-FAuPP_yXIcLQkB6zE6t2hVhKxGgWbSXZXOFg?e=RsWNSa"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.goInfoArchitecture}
                     </Link>
                     <Link
                         to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea0TfruyRiZGhyGT3XCEnPMBxZSYqlwLLgEHx1VqeBT9Tg?e=nrpLmz"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.goWorkplan}
                     </Link>
                     <Link
                         to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUqbJHWGW8xLjFJgwG-x4GABfUD5UCS3DS6uwW74tufs9Q?e=HwsqbI"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.goSystemAnalysis}
                     </Link>
                     <Link
                         to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUV7xJOyEZtDmecIH6uS9SIBwl3gv1cbxVjwS6m79gx7TQ?e=b2AgU3"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.goUserStudies}
                     </Link>
@@ -263,7 +263,7 @@ export function Component() {
                     <Link
                         to="https://ifrcgoproject.medium.com/information-saves-lives-scaling-data-analytics-in-the-ifrc-network-fd3686718f9c"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.ifrcStrategicDirection}
                     </Link>
@@ -290,21 +290,21 @@ export function Component() {
                     <Link
                         to="https://docs.google.com/spreadsheets/d/1F-78qDc8vdh5hli5FLFeyTvlFQgw19OqZXMR50TQ1C0/edit?usp=sharing"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutSurgeEvents}
                     </Link>
                     <Link
                         to="https://rcrcsims.org/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutSurgeNetwork}
                     </Link>
                     <Link
                         to="https://www.cbsrc.org/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutCommunitySurveillance}
                     </Link>
@@ -319,28 +319,28 @@ export function Component() {
                     <Link
                         to="https://www.cash-hub.org/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutCashHub}
                     </Link>
                     <Link
                         to="https://www.communityengagementhub.org/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutCommunityHub}
                     </Link>
                     <Link
                         to="https://preparecenter.org/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutDisasterPreparednessCenter}
                     </Link>
                     <Link
                         to="https://preparecenter.org/toolkit/data-playbook-toolkit/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutDataPlaybook}
                     </Link>
@@ -355,7 +355,7 @@ export function Component() {
                     <Link
                         to="https://www.ifrc.org/reference-centres/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutReferenceCenters}
                     </Link>
@@ -363,21 +363,21 @@ export function Component() {
                     <Link
                         to="https://www.missingmaps.org/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutMissingMaps}
                     </Link>
                     <Link
                         to="https://data.ifrc.org/fdrs/"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutReportingSystem}
                     </Link>
                     <Link
                         to="https://ifrc.csod.com/client/ifrc/default.aspx"
                         external
-                        withForwardIcon
+                        withLinkIcon
                     >
                         {strings.aboutLearningPlatform}
                     </Link>
@@ -405,7 +405,7 @@ export function Component() {
                                 to={`mailto:${contact.email}`}
                                 external
                                 className={styles.contactEmail}
-                                withExternalLinkIcon
+                                withLinkIcon
                             >
                                 {contact.email}
                             </Link>

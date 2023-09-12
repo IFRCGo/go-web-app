@@ -14,37 +14,37 @@ export function Component() {
             title: strings.catalogueOperationHead,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXmRSeiCej5FlHSHdKs_n6IBvNwGxdq8CgtcLJylpx6bLw',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.catalogueOperationsManager,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWrzsdwVG6pEhbhNv5PlsDEBLSaG5q6YFqPKFTBGlKHQoQ',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.catalogueDeputyOperationsManager,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVvCVFM_cU1Ouwt6iymFoM0Bmj2JPD6NM0UpBm8hXsrirA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.catalogueFieldCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ESBim_zWozdBh09lcTgzHPYBhIWBQ0PSGwttOhirgja1XA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.catalogueCoordinatorOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbdT87auio1KuOgx6Ibkb4MBxM7Al1a36Jm_RR0DGA_vnQ',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.catalogueRecoveryCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVN6HhU7YJxOilcAxOGWiLwBxyAZhqJlgYmMw7OFdPPD2w',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -52,7 +52,7 @@ export function Component() {
         {
             title: strings.catalogueOperationLearnMore,
             to: 'surgeCatalogueOperationManagementHeops',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 

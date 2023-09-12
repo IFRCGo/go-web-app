@@ -141,7 +141,7 @@ function EmergenciesOperationTable(props: Props) {
                 <Link
                     to="allEmergencies"
                     urlSearch={`country=${countryId}`}
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {viewAllEmergenciesLinkLabel}

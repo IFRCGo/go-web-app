@@ -90,7 +90,7 @@ export function Component() {
                             to="https://fednet.ifrc.org/en/resources/logistics/mobilization-of-goods/"
                             external
                             variant="tertiary"
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {strings.logisticsMobilizationOfReliefItems}
                         </Link>
@@ -100,7 +100,7 @@ export function Component() {
                             to="https://fednet.ifrc.org/en/resources/logistics/procurement/"
                             external
                             variant="tertiary"
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {strings.logisticsProcurement}
                         </Link>
@@ -110,7 +110,7 @@ export function Component() {
                             to="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/DubaiLPSCM/global-fleet-base/vehicle-rental-programme/"
                             external
                             variant="tertiary"
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {strings.logisticsFleetServices}
                         </Link>
@@ -120,7 +120,7 @@ export function Component() {
                             to="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
                             external
                             variant="tertiary"
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {strings.logisticsWarehousing}
                         </Link>
@@ -130,7 +130,7 @@ export function Component() {
                             to="https://fednet.ifrc.org/en/resources/logistics/contingency-stock/"
                             external
                             variant="tertiary"
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {strings.logisticsContingency}
                         </Link>
@@ -140,7 +140,7 @@ export function Component() {
                             to="https://fednet.ifrc.org/en/resources/logistics/logistics-training-and-workshop/"
                             external
                             variant="tertiary"
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {strings.logisticsSpecialized}
                         </Link>
@@ -154,7 +154,7 @@ export function Component() {
                                 <Link
                                     to="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
                                     external
-                                    withExternalLinkIcon
+                                    withLinkIcon
                                     withUnderline
                                 >
                                     {strings.logisticsAdditionalResourcesContact}

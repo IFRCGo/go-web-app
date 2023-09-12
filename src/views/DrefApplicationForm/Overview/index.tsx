@@ -107,7 +107,6 @@ function Overview(props: Props) {
     const disasterTypes = useDisasterType();
 
     const handleNSChange = useCallback((nationalSociety: number | undefined) => {
-        // FIXME: should we also change national_society when country is changed?
         setFieldValue(nationalSociety, 'national_society');
         setFieldValue(nationalSociety, 'country');
     }, [setFieldValue]);

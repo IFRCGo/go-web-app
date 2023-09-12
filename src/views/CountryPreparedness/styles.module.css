@@ -79,7 +79,7 @@
 
             .icon {
                 color: var(--go-ui-color-green);
-                font-size: var(--go-ui-font-size-icon-multiplier);
+                font-size: var(--go-ui-height-icon-multiplier);
             }
         }
 
@@ -98,7 +98,7 @@
 
             .icon {
                 color: var(--go-ui-color-primary-red);
-                font-size: var(--go-ui-font-size-icon-multiplier);
+                font-size: var(--go-ui-height-icon-multiplier);
             }
         }
 

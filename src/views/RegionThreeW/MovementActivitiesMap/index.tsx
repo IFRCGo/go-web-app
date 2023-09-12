@@ -240,7 +240,7 @@ function MovementActivitiesMap(props: Props) {
                                     to="countriesLayout"
                                     urlParams={{ countryId: clickedPointProperties.feature.id }}
                                     withUnderline
-                                    withForwardIcon
+                                    withLinkIcon
                                 >
                                     {clickedPointProperties.feature.properties.name}
                                 </Link>

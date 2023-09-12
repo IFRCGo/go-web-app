@@ -1,13 +1,12 @@
 import { createContext } from 'react';
 
-// FIXME: need information related to profile
 export interface UserAuth {
     id: number;
+    // FIXME: why do we not use displayName for other users?
     displayName: string;
     token: string;
     expires: string;
 
-    // TODO: we don't need to store following details
     username: string;
     firstName: string | undefined;
     lastName: string | undefined;

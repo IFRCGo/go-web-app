@@ -104,7 +104,7 @@ function HighlightedOperations(props: Props) {
                 <Link
                     to="allEmergencies"
                     urlSearch={variant === 'region' ? `region=${regionId}` : undefined}
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {variant === 'region'

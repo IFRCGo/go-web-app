@@ -1,5 +1,5 @@
-import { useState, useMemo, useCallback } from 'react';
-import { sumSafe, hasSomeDefinedValue } from '#utils/common';
+import { useMemo } from 'react';
+import { sumSafe } from '#utils/common';
 import { useOutletContext } from 'react-router-dom';
 import {
     compareNumber,
@@ -9,6 +9,7 @@ import {
 } from '@togglecorp/fujs';
 import { InformationLineIcon } from '@ifrc-go/icons';
 
+import useFilterState from '#hooks/useFilterState';
 import BlockLoading from '#components/BlockLoading';
 import Button from '#components/Button';
 import Container from '#components/Container';
@@ -120,17 +121,27 @@ export function Component() {
 
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
 
-    // FIXME: use useFilteredState
-    const [activePage, setActivePage] = useState(1);
-    const [filters, setFilters] = useState<FilterValue>({
-        reporting_ns: [],
-        deployed_eru: [],
-        sector: [],
-        status: [],
-        country: [],
-        districts: [],
-    });
-    const isFiltered = hasSomeDefinedValue(filters);
+    const {
+        filter: filters,
+        setFilter: setFilters,
+        page: activePage,
+        setPage: setActivePage,
+        filtered: isFiltered,
+        limit,
+        offset,
+    } = useFilterState<FilterValue>(
+        {
+            reporting_ns: [],
+            deployed_eru: [],
+            sector: [],
+            status: [],
+            country: [],
+            districts: [],
+        },
+        undefined,
+        1,
+        9999,
+    );
 
     const {
         response: emergencyProjectListResponse,
@@ -144,11 +155,6 @@ export function Component() {
             limit: 9999,
         } : undefined,
     });
-
-    const handleFilterValuesChange = useCallback((...args: Parameters<typeof setFilters>) => {
-        setActivePage(1);
-        setFilters(...args);
-    }, []);
 
     const filteredProjectList = filterEmergencyProjects(
         emergencyProjectListResponse?.results ?? [],
@@ -244,10 +250,9 @@ export function Component() {
         getAggregatedValues(emergencyProjectCountListByStatus)
     ), [emergencyProjectCountListByStatus]);
 
-    const paginatedEmergencyProjectList = useMemo(() => {
-        const offset = ITEM_PER_PAGE * (activePage - 1);
-        return filteredProjectList.slice(offset, offset + ITEM_PER_PAGE);
-    }, [filteredProjectList, activePage]);
+    const paginatedEmergencyProjectList = useMemo(() => (
+        filteredProjectList.slice(offset, offset + limit)
+    ), [filteredProjectList, offset, limit]);
 
     const sectorGroupedEmergencyProjectList = useMemo(() => (
         mapToList(
@@ -348,7 +353,7 @@ export function Component() {
                 filters={(
                     <Filters
                         value={filters}
-                        onChange={handleFilterValuesChange}
+                        onChange={setFilters}
                     />
                 )}
                 footerActions={(

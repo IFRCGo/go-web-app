@@ -25,7 +25,6 @@ export const DISASTER_FLASH_FLOOD = 27;
 export const DISASTER_FLOOD = 12;
 
 // TAB NAVIGATION
-// FIXME: update how we handle tab navigations
 
 export type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 type TabNumbers = 1 | 2 | 3 | 4 | 5;

@@ -166,11 +166,6 @@ export function Component() {
         method: 'PUT',
         body: (ctx: AssessmentResponse) => ctx,
         onSuccess: (response) => {
-            if (isNotDefined(response)) {
-                // TODO: show proper error message
-                return;
-            }
-
             alert.show(
                 strings.saveRequestSuccessMessage,
                 { variant: 'success' },

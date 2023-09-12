@@ -84,7 +84,7 @@ export function Component() {
                     to="http://pscentre.org/"
                     external
                     variant="tertiary"
-                    withExternalLinkIcon
+                    withLinkIcon
                 >
                     {strings.healthPSSAdditionalResourcesLink}
                 </Link>

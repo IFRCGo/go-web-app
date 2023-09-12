@@ -27,6 +27,7 @@ type DeepNonNullable<T> = T extends object ? (
     )
 ) : NonNullable<T>;
 
+// FIXME: we might not need this type utility
 type SanitizeKeys<T> = T extends string ? T : never;
 type CheckPattern<KEY, KEYS extends string | number | symbol, PATTERN extends string> = KEY extends `${SanitizeKeys<KEYS>}${PATTERN}` ? never : KEY;
 export type DeepRemoveKeyPattern<T, PATTERN extends string> = T extends object ? (
@@ -262,11 +263,11 @@ export function getDuration(start: Date, end: Date) {
     return formatTimeDurationForSecs(seconds);
 }
 
+// FIXME: add tests
 export function isWhitelistedEmail(
     email: string,
     whitelistedDomains: { domain_name: string; is_active?: boolean }[],
 ) {
-    // FIXME: add tests
     // Looking for an EXACT match in the domain whitelist
     // (it finds even if UPPERCASE letters were used)
     const userMailDomain = email
@@ -505,7 +506,6 @@ export function hasSomeDefinedValue(item: unknown) {
     return false;
 }
 
-// FIXME: how does this work?
 export function joinList(list: React.ReactNode[], separator: React.ReactNode) {
     const joinedList = Children.toArray(list).reduce<React.ReactNode[]>(
         (acc, child, index, children) => {
@@ -524,6 +524,7 @@ export function joinList(list: React.ReactNode[], separator: React.ReactNode) {
         [],
     );
 
+    // FIXME: Add note on how does this work?
     return createElement(
         Fragment,
         {},

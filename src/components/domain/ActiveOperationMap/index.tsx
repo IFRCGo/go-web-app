@@ -330,7 +330,7 @@ function ActiveOperationMap(props: Props) {
                 <Link
                     to="allAppeals"
                     urlSearch={isDefined(regionId) ? `region=${regionId}` : undefined}
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {variant === 'region'
@@ -459,8 +459,8 @@ function ActiveOperationMap(props: Props) {
                 <div className={styles.legend}>
                     {legendOptions.map((legendItem) => (
                         <LegendItem
-                            className={styles.legendItem}
                             key={legendItem.value}
+                            className={styles.legendItem}
                             color={legendItem.color}
                             label={legendItem.label}
                         />

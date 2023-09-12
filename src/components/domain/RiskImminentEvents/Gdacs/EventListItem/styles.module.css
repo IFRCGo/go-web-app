@@ -2,7 +2,7 @@
     gap: 0;
 
     .icon {
-        font-size: var(--go-ui-font-size-icon-multiplier);
+        font-size: var(--go-ui-height-icon-multiplier);
     }
 
     &:hover {

@@ -58,7 +58,7 @@ export function Component() {
                             to={link.url}
                             external
                             withUnderline
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {link.title}
                         </Link>
@@ -86,7 +86,7 @@ export function Component() {
                                     <Link
                                         to={`mailto:${contact.email}`}
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {contact.email}
                                     </Link>

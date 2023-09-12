@@ -52,7 +52,9 @@ export function Component() {
     const {
         page: appealDocumentsPage,
         setPage: setAppealDocumentsPage,
-    } = useFilterState({}, undefined);
+        limit: appealDocumentsLimit,
+    } = useFilterState({}, undefined, 1, 10);
+
     const {
         page: fieldReportsPage,
         setPage: setFieldReportsPage,
@@ -71,7 +73,6 @@ export function Component() {
         } : undefined, // TODO: we need to add search filter in server
     });
 
-    // FIXME: use useFilterState
     const {
         pending: appealDocumentsPending,
         response: appealDocumentsResponse,
@@ -86,9 +87,9 @@ export function Component() {
              *  appeals document by emergency id
              */
             appeal: emergencyResponse.appeals.map((appeal) => appeal.id).filter(isDefined),
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (appealDocumentsPage - 1),
-        } : undefined, // TODO: fix typing issue in server
+            limit: appealDocumentsLimit,
+            offset: appealDocumentsPage,
+        } : undefined,
     });
 
     const regionsMap = useMemo(() => (
@@ -187,7 +188,7 @@ export function Component() {
                 (item) => item.name,
                 (item) => ({
                     external: true,
-                    withExternalLinkIcon: true,
+                    withLinkIcon: true,
                     to: item.document ?? item.document_url ?? undefined,
                 }),
             ),
@@ -242,7 +243,7 @@ export function Component() {
                                     <Link
                                         to={featuredDocument.file}
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {featuredDocument.title}
                                     </Link>

@@ -132,7 +132,7 @@ function FieldReportsTable() {
             actions={(
                 <Link
                     to="allFieldReports"
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {strings.fieldReportsTableViewAllReports}

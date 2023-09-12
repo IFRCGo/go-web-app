@@ -265,9 +265,8 @@ export function Component() {
                 'Successfully created a response activity.',
                 { variant: 'success' },
             );
-            // FIXME: Redirect to view page after its completed
             navigate(
-                'threeWActivityEdit',
+                'threeWActivityDetail',
                 { params: { activityId: response.id } },
             );
         },
@@ -339,9 +338,8 @@ export function Component() {
                 'Successfully updated activities',
                 { variant: 'success' },
             );
-            // FIXME: Redirect to view page after its completed
             navigate(
-                'threeWActivityEdit',
+                'threeWActivityDetail',
                 { params: { activityId } },
             );
         },

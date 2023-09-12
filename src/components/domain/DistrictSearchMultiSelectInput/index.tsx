@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { isNotDefined } from '@togglecorp/fujs';
+import { isNotDefined, unique } from '@togglecorp/fujs';
 
 import { CheckDoubleFillIcon } from '@ifrc-go/icons';
 import SearchMultiSelectInput, {
@@ -84,8 +84,13 @@ function DistrictSearchMultiSelectInput<const NAME>(
             if (allDistrictsKeys && allDistrictsKeys.length > 0) {
                 onChange(allDistrictsKeys, name);
                 if (onOptionsChange) {
-                    // FIXME: we should append instead of replacing options
-                    onOptionsChange(allDistricts.results);
+                    onOptionsChange(((existingOptions) => {
+                        const safeOptions = existingOptions ?? [];
+                        return unique(
+                            [...safeOptions, ...(allDistricts.results ?? [])],
+                            keySelector,
+                        );
+                    }));
                 }
             }
         },

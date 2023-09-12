@@ -7,7 +7,7 @@
     .checkmark-container {
         position: relative;
         line-height: 0;
-        font-size: var(--go-ui-font-size-icon-multiplier);
+        font-size: var(--go-ui-height-icon-multiplier);
 
         .input {
             margin: 0;

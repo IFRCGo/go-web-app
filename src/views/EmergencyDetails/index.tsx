@@ -252,7 +252,7 @@ export function Component() {
                                 <Link
                                     to={link.url}
                                     external
-                                    withExternalLinkIcon
+                                    withLinkIcon
                                     className={styles.link}
                                 >
                                     {link.title}
@@ -264,7 +264,6 @@ export function Component() {
                         ))}
                     </Container>
                 )}
-            {/* TODO: style it properly */}
             <div className={styles.mapKeyFigureContainer}>
                 {emergencyResponse && !emergencyResponse.hide_field_report_map && (
                     <Container
@@ -344,7 +343,7 @@ export function Component() {
                                                         <Link
                                                             to={`mailto:${contact.email}`}
                                                             external
-                                                            withExternalLinkIcon
+                                                            withLinkIcon
                                                         >
                                                             {contact.email}
                                                         </Link>
@@ -356,7 +355,7 @@ export function Component() {
                                                     value={(
                                                         <Link
                                                             to={`tel:${contact.phone}`}
-                                                            withExternalLinkIcon
+                                                            withLinkIcon
                                                             external
                                                         >
                                                             {contact.phone}

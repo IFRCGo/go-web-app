@@ -244,11 +244,46 @@ export function Component() {
                 { params: { flashUpdateId: response.id } },
             );
         },
-        onFailure: ({
-            value: { messageForNotification },
-            debugMessage,
-        }) => {
-            // FIXME: handle errors
+        onFailure: (err) => {
+            const {
+                value: {
+                    formErrors,
+                    messageForNotification,
+                },
+                debugMessage,
+            } = err;
+
+            setError(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['country_district', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.country_district?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['graphics_files', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.graphics_files?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['map_files', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.map_files?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['references', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.references?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['actions_taken', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.actions_taken?.[index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
             alert.show(
                 strings.flashUpdateFormSaveRequestFailureMessage,
                 {

@@ -191,7 +191,6 @@ function ContextTab(props: Props) {
             >
                 <TextInput
                     name="title"
-                    // TODO: Auto generate title
                     value={value.title}
                     onChange={onValueChange}
                     error={error?.title}

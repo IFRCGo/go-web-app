@@ -109,7 +109,7 @@ export function Component() {
                                     <Link
                                         to="https://www.cbsrc.org/"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.communityBasedAdditionalResourcesListItemOneLink}
                                     </Link>
@@ -125,7 +125,7 @@ export function Component() {
                                     <Link
                                         to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=09f973a8db15f4103408d7b2f39619ee"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.communityBasedAdditionalResourcesListItemTwoLink}
                                     </Link>

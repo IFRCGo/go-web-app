@@ -387,12 +387,11 @@ const countryPlan = customWrapRoute({
     },
 });
 
-// FIXME: rename this to countryAdditionalInfo
-const countryAdditionalData = customWrapRoute({
+const countryAdditionalInfo = customWrapRoute({
     parent: countriesLayout,
     path: 'additional-info',
     component: {
-        render: () => import('#views/CountryAdditionalData'),
+        render: () => import('#views/CountryAdditionalInfo'),
         props: {},
     },
     context: {
@@ -2478,7 +2477,7 @@ const wrappedRoutes = {
     countryRiskWatch,
     countryPreparedness,
     countryPlan,
-    countryAdditionalData,
+    countryAdditionalInfo,
     emergencies,
     emergenciesLayout,
     emergencyDetails,

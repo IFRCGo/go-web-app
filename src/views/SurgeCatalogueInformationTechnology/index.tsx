@@ -14,13 +14,13 @@ export function Component() {
             title: strings.catalogueITCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EdRtpzYtoFhNnrXHDiEc74ABKv7njX3cz1-jPl1SxWqWSg',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.catalogueITOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETEdR5wmWSdHqw2o2nJRMeYBN9M7VZBZJ5blIgn67vFdzQ',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -28,7 +28,7 @@ export function Component() {
         {
             title: strings.catalogueITLearnMore,
             to: 'surgeCatalogueInformationTechnologyEruItTelecom',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 

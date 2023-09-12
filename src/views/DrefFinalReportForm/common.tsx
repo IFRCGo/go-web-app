@@ -25,7 +25,6 @@ export const DISASTER_FLASH_FLOOD = 27;
 export const DISASTER_FLOOD = 12;
 
 // TAB NAVIGATION
-// FIXME: update how we handle tab navigations
 
 export type TabKeys = 'overview' | 'eventDetail' | 'actions' | 'operation' | 'submission';
 type TabNumbers = 1 | 2 | 3 | 4 | 5;
@@ -58,7 +57,6 @@ export function getPreviousStep(currentStep: TabKeys, minSteps: number, maxSteps
 
 // FORM ERROR
 
-// FIXME: check these
 const overviewFields: (keyof PartialFinalReport)[] = [
     'number_of_people_affected',
     'number_of_people_targeted',

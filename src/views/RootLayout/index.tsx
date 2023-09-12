@@ -107,8 +107,6 @@ export function Component() {
                     ...listToMap(
                         pages,
                         (key) => key,
-                        // TODO: set to pending
-                        // () => 'pending',
                         () => 'fetched',
                     ),
                 }),
@@ -204,6 +202,7 @@ export function Component() {
     } = useRequest({
         skip: !fetchDomainData['global-enums'],
         url: '/api/v2/global-enums/',
+        preserveResponse: true,
     });
 
     const {
@@ -214,6 +213,7 @@ export function Component() {
         skip: !fetchDomainData.country,
         url: '/api/v2/country/',
         query: { limit: 9999 },
+        preserveResponse: true,
     });
 
     const {
@@ -224,6 +224,7 @@ export function Component() {
         skip: !fetchDomainData.region,
         url: '/api/v2/region/',
         query: { limit: 9999 },
+        preserveResponse: true,
     });
 
     const {
@@ -234,6 +235,7 @@ export function Component() {
         skip: !fetchDomainData['disaster-type'],
         url: '/api/v2/disaster_type/',
         query: { limit: 9999 },
+        preserveResponse: true,
     });
 
     const userSkip = !fetchDomainData['user-me'] || !userDetails;
@@ -243,7 +245,7 @@ export function Component() {
         pending: userMePending,
         retrigger: userMeTrigger,
     } = useRequest({
-        // FIXME: check if the value is cleared when userDetails is cleared
+        // FIXME: check if the value is cleared when skip is called
         skip: userSkip,
         url: '/api/v2/user/me/',
         preserveResponse: true,
