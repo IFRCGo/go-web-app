@@ -53,6 +53,8 @@ function InputSection(props: Props) {
                     )}
                     actions={tooltip && <InfoPopup description={tooltip} />}
                     childrenContainerClassName={styles.description}
+                    headingLevel={4}
+                    spacing="cozy"
                 >
                     {description}
                 </Container>

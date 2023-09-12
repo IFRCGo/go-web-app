@@ -141,7 +141,7 @@ function ComponentInput(props: Props) {
                 ? `${component.component_num}(${component.component_letter}). ${component.title}`
                 : `${component.component_num}. ${component.title}`}
             headingLevel={4}
-            spacing="relaxed"
+            spacing="comfortable"
             icons={(
                 <Checkbox
                     name={index}

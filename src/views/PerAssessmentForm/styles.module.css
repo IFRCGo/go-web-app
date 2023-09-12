@@ -1,17 +1,17 @@
-.assessment-form {
+.per-assessment-form {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-3xl);
+    gap: var(--go-ui-spacing-xl);
 
     .content {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-xl);
+        gap: var(--go-ui-spacing-lg);
     }
 
     .footer-content {
         display: flex;
-        gap: var(--go-ui-spacing-xl);
+        gap: var(--go-ui-spacing-md);
         justify-content: center;
     }
 }

@@ -93,18 +93,20 @@ function Checkbox<const NAME>(props: Props<NAME>) {
                     {...otherProps} // eslint-disable-line react/jsx-props-no-spreading
                 />
             </div>
-            <div className={styles.content}>
-                {label && (
-                    <div className={labelContainerClassName}>
-                        {label}
-                    </div>
-                )}
-                {description && (
-                    <div className={styles.description}>
-                        {description}
-                    </div>
-                )}
-            </div>
+            {(label || description) && (
+                <div className={styles.content}>
+                    {label && (
+                        <div className={labelContainerClassName}>
+                            {label}
+                        </div>
+                    )}
+                    {description && (
+                        <div className={styles.description}>
+                            {description}
+                        </div>
+                    )}
+                </div>
+            )}
             {error && (
                 <InputError className={_cs(styles.inputError, errorContainerClassName)}>
                     {error}

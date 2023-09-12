@@ -25,6 +25,8 @@ import ConfirmButton from '#components/ConfirmButton';
 import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
 import Portal from '#components/Portal';
+import Message from '#components/Message';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import {
     useLazyRequest,
     useRequest,
@@ -58,6 +60,7 @@ export function Component() {
     const { navigate } = useRouting();
     const alert = useAlert();
     const {
+        fetchingStatus,
         statusResponse,
         actionDivRef,
         refetchStatusResponse,
@@ -86,14 +89,16 @@ export function Component() {
         },
     });
 
+    const workplanId = statusResponse?.workplan;
     const {
+        pending: fetchingWorkPlan,
         response: workPlanResponse,
-        pending: workPlanPending,
+        error: workPlanResponseError,
     } = useRequest({
-        skip: isNotDefined(statusResponse?.workplan),
+        skip: isNotDefined(workplanId),
         url: '/api/v2/per-work-plan/{id}/',
         pathVariables: {
-            id: Number(statusResponse?.workplan),
+            id: Number(workplanId),
         },
         onSuccess: (response) => {
             const {
@@ -274,7 +279,7 @@ export function Component() {
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
     const pending = prioritizationPending
-        || workPlanPending;
+        || fetchingWorkPlan;
 
     const componentResponseError = getErrorObject(error?.prioritized_action_responses);
     const customComponentError = getErrorObject(error?.additional_action_responses);
@@ -282,6 +287,31 @@ export function Component() {
     const readOnlyMode = isNotDefined(statusResponse)
         || isNotDefined(statusResponse.phase)
         || statusResponse.phase < PER_PHASE_WORKPLAN;
+
+    if (fetchingStatus || fetchingWorkPlan) {
+        return (
+            <Message
+                pending
+            />
+        );
+    }
+
+    if (isNotDefined(workplanId)) {
+        return (
+            <FormFailedToLoadMessage
+                // FIXME: use translation
+                description="Resource not found"
+            />
+        );
+    }
+
+    if (isDefined(workPlanResponseError)) {
+        return (
+            <FormFailedToLoadMessage
+                description={workPlanResponseError.value.messageForNotification}
+            />
+        );
+    }
 
     return (
         <Container
@@ -299,7 +329,7 @@ export function Component() {
                     {strings.saveAndFinalizeWorkPlan}
                 </ConfirmButton>
             )}
-            spacing="loose"
+            spacing="relaxed"
         >
             {pending && (
                 <BlockLoading />
@@ -337,7 +367,7 @@ export function Component() {
                         childrenContainerClassName={styles.componentList}
                         withHeaderBorder
                         withInternalPadding
-                        spacing="relaxed"
+                        spacing="comfortable"
                     >
                         {/* eslint-disable-next-line max-len */}
                         {prioritizationResponse?.prioritized_action_responses?.map((componentResponse) => (
@@ -358,7 +388,7 @@ export function Component() {
                         heading={strings.actionsHeading}
                         withHeaderBorder
                         withInternalPadding
-                        spacing="relaxed"
+                        spacing="comfortable"
                         actions={(
                             <Button
                                 name={undefined}
@@ -411,4 +441,4 @@ export function Component() {
     );
 }
 
-Component.displayName = 'PerWorkPlan';
+Component.displayName = 'PerWorkPlanForm';

@@ -55,6 +55,8 @@ import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import Message from '#components/Message';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 
 type SortKey = 'component' | 'rating' | 'benchmark';
 
@@ -67,6 +69,7 @@ export function Component() {
     const [sortBy, setSortBy] = useState<SortKey>('component');
 
     const {
+        fetchingStatus,
         statusResponse,
         refetchStatusResponse,
         actionDivRef,
@@ -112,11 +115,16 @@ export function Component() {
         },
     });
 
-    const { pending: prioritizationPending } = useRequest({
-        skip: isNotDefined(statusResponse?.prioritization),
+    const prioritizationId = statusResponse?.prioritization;
+
+    const {
+        pending: fetchingPrioritization,
+        error: prioritizationResponseError
+    } = useRequest({
+        skip: isNotDefined(prioritizationId),
         url: '/api/v2/per-prioritization/{id}/',
         pathVariables: {
-            id: Number(statusResponse?.prioritization),
+            id: Number(prioritizationId),
         },
         onSuccess: (response) => {
             setValue(removeNull(response));
@@ -278,7 +286,7 @@ export function Component() {
 
     const pending = formComponentPending
         || perAssesmentPending
-        || prioritizationPending;
+        || fetchingPrioritization;
 
     const areaIdToTitleMap = listToMap(
         questionsResponse?.results ?? [],
@@ -339,6 +347,31 @@ export function Component() {
         (sortOption) => sortOption.key,
         (sortOption) => sortOption.label,
     );
+
+    if (fetchingStatus || fetchingPrioritization) {
+        return (
+            <Message
+                pending
+            />
+        );
+    }
+
+    if (isNotDefined(prioritizationId)) {
+        return (
+            <FormFailedToLoadMessage
+                // FIXME: use translation
+                description="Resource not found"
+            />
+        );
+    }
+
+    if (isDefined(prioritizationResponseError)) {
+        return (
+            <FormFailedToLoadMessage
+                description={prioritizationResponseError.value.messageForNotification}
+            />
+        );
+    }
 
     return (
         <div className={styles.perPrioritizationForm}>

@@ -163,18 +163,20 @@ function PerAssessmentSummary(props: Props) {
         }),
     );
 
+    const description = isDefined(allAnsweredResponses) && isDefined(totalQuestionCount)
+        ? `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} benchmarks assessed.`
+        : undefined;
+
     // NOTE: We need to discuss UI of this component
     return (
         <ExpandableContainer
             className={_cs(styles.perAssessmentSummary, className)}
             heading="Summary"
             // FIXME: use translations
-            headerDescription={(
-                `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} benchmarks assessed.`
-            )}
+            headerDescription={description}
             childrenContainerClassName={styles.content}
             withHeaderBorder
-            spacing="relaxed"
+            spacing="comfortable"
         >
             <div className={styles.totalProgress}>
                 <ProgressBar

@@ -58,6 +58,10 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import TextOutput from '#components/TextOutput';
 import Modal from '#components/Modal';
+import Message from '#components/Message';
+import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
+import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import DistrictSearchMultiSelectInput, {
     type DistrictItem,
 } from '#components/domain/DistrictSearchMultiSelectInput';
@@ -79,10 +83,6 @@ import ActivitiesBySectorInput from './ActivitiesBySectorInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import Message from '#components/Message';
-import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
-import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
-import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 
 type EruResponse = GoApiResponse<'/api/v2/eru/'>;
 
@@ -575,7 +575,7 @@ export function Component() {
 
     const disabled = fetchingActivity || createActivityPending || updateActivityPending;
 
-    // FIXME: This property is missing from the server
+    // TODO: Use content language from server if applicable
     // const contentOriginalLanguage = activityResponse
     //     ?.translation_module_original_language ?? 'en';
     const contentOriginalLanguage = 'en';
