@@ -8,6 +8,7 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
+import Pager from '#components/Pager';
 import Table from '#components/Table';
 import {
     createNumberColumn,
@@ -47,12 +48,18 @@ export function Component() {
         filter,
         filtered,
         setFilterField,
+        limit,
+        offset,
+        page,
+        setPage,
     } = useFilterState<{
         region?: RegionOption['key'],
         country?: number,
     }>(
         {},
         { name: 'date_of_assessment', direction: 'dsc' },
+        1,
+        10,
     );
 
     const [expandedRow, setExpandedRow] = useState<PerProcessStatusItem | undefined>();
@@ -62,10 +69,13 @@ export function Component() {
         response: aggregatedStatusResponse,
     } = useRequest({
         url: '/api/v2/aggregated-per-process-status/',
+        preserveResponse: true,
         query: {
             ordering,
             country: isDefined(filter.country) ? [filter.country] : undefined,
             region: filter.region,
+            limit,
+            offset,
         },
     });
 
@@ -79,6 +89,7 @@ export function Component() {
             country: expandedRow?.country
                 ? [expandedRow.country]
                 : undefined,
+            limit: 9999,
         },
     });
 
@@ -219,6 +230,14 @@ export function Component() {
                         onChange={setFilterField}
                     />
                 </>
+            )}
+            footerActions={(
+                <Pager
+                    activePage={page}
+                    onActivePageChange={setPage}
+                    itemsCount={aggregatedStatusResponse?.count ?? 0}
+                    maxItemsPerPage={limit}
+                />
             )}
         >
             <SortContext.Provider value={sortState}>

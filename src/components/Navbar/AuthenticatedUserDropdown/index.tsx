@@ -21,9 +21,17 @@ function AuthenticatedUserDropdown(props: Props) {
 
     const { userAuth: userDetails, removeUserAuth: removeUser } = useContext(UserContext);
 
-    const handleLogoutClick = useCallback(() => {
+    const handleLogoutConfirm = useCallback(() => {
         removeUser();
+        window.location.reload();
     }, [removeUser]);
+
+    const handleLogoutClick = useCallback(
+        (_: undefined, e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+        },
+        [],
+    );
 
     if (isNotDefined(userDetails)) {
         return null;
@@ -43,8 +51,9 @@ function AuthenticatedUserDropdown(props: Props) {
             </DropdownMenuItem>
             <DropdownMenuItem
                 name={undefined}
-                type="button"
+                type="confirm-button"
                 onClick={handleLogoutClick}
+                onConfirm={handleLogoutConfirm}
             >
                 {strings.userMenuLogout}
             </DropdownMenuItem>

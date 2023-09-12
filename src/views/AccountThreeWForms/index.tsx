@@ -106,8 +106,6 @@ function DistrictNameOutput({ districtName }: { districtName: string }) {
     return districtName;
 }
 
-const ITEM_PER_PAGE = 5;
-
 interface Props {
     className?: string;
 }
@@ -119,17 +117,25 @@ export function Component(props: Props) {
     const {
         page: projectActivePage,
         setPage: setProjectActivePage,
+        limit: projectLimit,
+        offset: projectOffset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        5,
     );
 
     const {
         page: activityActivePage,
         setPage: setActivityActivePage,
+        limit: activityLimit,
+        offset: activityOffset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        5,
     );
 
     const {
@@ -139,8 +145,8 @@ export function Component(props: Props) {
         url: '/api/v2/project/',
         preserveResponse: true,
         query: {
-            limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (projectActivePage - 1),
+            limit: projectLimit,
+            offset: projectOffset,
         },
     });
 
@@ -151,8 +157,8 @@ export function Component(props: Props) {
         url: '/api/v2/emergency-project/',
         preserveResponse: true,
         query: {
-            limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (activityActivePage - 1),
+            limit: activityLimit,
+            offset: activityOffset,
         },
     });
 
@@ -300,7 +306,7 @@ export function Component(props: Props) {
                         activePage={projectActivePage}
                         onActivePageChange={setProjectActivePage}
                         itemsCount={projectResponse?.count ?? 0}
-                        maxItemsPerPage={ITEM_PER_PAGE}
+                        maxItemsPerPage={projectLimit}
                     />
                 )}
             >
@@ -321,7 +327,7 @@ export function Component(props: Props) {
                         activePage={activityActivePage}
                         onActivePageChange={setActivityActivePage}
                         itemsCount={activityResponse?.count ?? 0}
-                        maxItemsPerPage={ITEM_PER_PAGE}
+                        maxItemsPerPage={activityLimit}
                     />
                 )}
             >

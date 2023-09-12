@@ -38,9 +38,13 @@ function FieldReportsTable() {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         { name: 'created_at', direction: 'dsc' },
+        1,
+        5,
     );
 
     const columns = useMemo(
@@ -91,7 +95,6 @@ function FieldReportsTable() {
         [strings],
     );
 
-    const PAGE_SIZE = 5;
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
@@ -99,8 +102,8 @@ function FieldReportsTable() {
         url: '/api/v2/field-report/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
             created_at__gte: thirtyDaysAgo.toISOString(),
         },
@@ -139,7 +142,7 @@ function FieldReportsTable() {
                 <Pager
                     activePage={page}
                     itemsCount={fieldReportResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

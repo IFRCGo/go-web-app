@@ -82,7 +82,7 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/event/',
         query: {
-            limit: 500,
+            limit: 9999,
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
             ordering: '-disaster_start_date',
         },

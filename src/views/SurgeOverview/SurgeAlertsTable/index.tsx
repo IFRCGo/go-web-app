@@ -29,8 +29,6 @@ const aMonthAgo = new Date();
 aMonthAgo.setMonth(aMonthAgo.getMonth() - 1);
 aMonthAgo.setHours(0, 0, 0, 0);
 
-const PAGE_SIZE = 5;
-
 const today = new Date().getTime();
 
 // If alert comes from Molnix, only show first part of message as position.
@@ -69,9 +67,13 @@ function SurgeAlertsTable() {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        5,
     );
 
     const {
@@ -81,8 +83,8 @@ function SurgeAlertsTable() {
         url: '/api/v2/surge_alert/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             is_active: true,
             created_at__gte: aMonthAgo.toISOString(),
             ordering,
@@ -162,7 +164,7 @@ function SurgeAlertsTable() {
                 <Pager
                     activePage={page}
                     itemsCount={surgeAlertsResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

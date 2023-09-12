@@ -95,7 +95,7 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/per-formcomponent/',
         query: {
-            limit: 500,
+            limit: 9999,
         },
     });
 
@@ -104,7 +104,7 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/per-formquestion/',
         query: {
-            limit: 500,
+            limit: 9999,
         },
     });
 

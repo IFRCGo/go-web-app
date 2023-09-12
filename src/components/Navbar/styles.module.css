@@ -12,10 +12,18 @@
             flex-wrap: wrap;
 
             .brand {
+                display: flex;
+                align-items: top;
                 flex-grow: 1;
+                gap: var(--go-ui-spacing-sm);
 
                 .go-icon {
                     height: var(--go-ui-height-brand-icon);
+                }
+
+                .env {
+                    color: var(--go-ui-color-text-light);
+                    font-size: var(--go-ui-font-size-sm);
                 }
             }
 

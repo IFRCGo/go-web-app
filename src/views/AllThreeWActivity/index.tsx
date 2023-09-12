@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -11,6 +12,7 @@ import {
     createListDisplayColumn,
     createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
+import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -26,7 +28,6 @@ type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
 type ActivityListItem = NonNullable<ProjectListItem['activities']>[number];
 type DistrictListItem = NonNullable<ProjectListItem['districts_details']>[number];
 
-const ITEM_PER_PAGE = 15;
 type TableKey = number;
 
 interface DistrictNameOutputProps {
@@ -105,12 +106,26 @@ function getPeopleReached(project: ProjectListItem) {
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+
+    const [filterCountry] = useUrlSearchState<number | undefined>(
+        'country',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
+
     const {
         page: projectActivePage,
         setPage: setProjectActivePage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        15,
     );
     const {
         response: projectResponse,
@@ -119,8 +134,9 @@ export function Component() {
         url: '/api/v2/emergency-project/',
         preserveResponse: true,
         query: {
-            limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (projectActivePage - 1),
+            limit,
+            offset,
+            country: isDefined(filterCountry) ? [filterCountry] : undefined,
         },
     });
 
@@ -206,7 +222,7 @@ export function Component() {
                         activePage={projectActivePage}
                         onActivePageChange={setProjectActivePage}
                         itemsCount={projectResponse?.count ?? 0}
-                        maxItemsPerPage={ITEM_PER_PAGE}
+                        maxItemsPerPage={limit}
                     />
                 )}
             >

@@ -61,7 +61,7 @@ function ComponentInput(props: Props) {
         skip: !expanded,
         url: '/api/v2/per-formquestion/',
         query: {
-            limit: 500,
+            limit: 9999,
             component: component.id,
         },
     });

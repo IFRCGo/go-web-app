@@ -23,7 +23,6 @@ import styles from './styles.module.css';
 type SurgeResponse = GoApiResponse<'/api/v2/surge_alert/'>;
 type SurgeListItem = NonNullable<SurgeResponse['results']>[number];
 
-const ITEM_PER_PAGE = 15;
 type TableKey = number;
 const today = new Date().getTime();
 
@@ -49,9 +48,13 @@ export function Component() {
     const {
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        15,
     );
 
     const {
@@ -61,8 +64,8 @@ export function Component() {
         url: '/api/v2/surge_alert/',
         preserveResponse: true,
         query: {
-            limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (page - 1),
+            limit,
+            offset,
         },
     });
 
@@ -175,7 +178,7 @@ export function Component() {
                         activePage={page}
                         onActivePageChange={setPage}
                         itemsCount={surgeResponse?.count ?? 0}
-                        maxItemsPerPage={ITEM_PER_PAGE}
+                        maxItemsPerPage={limit}
                     />
                 )}
             >

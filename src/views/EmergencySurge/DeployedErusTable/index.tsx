@@ -32,8 +32,6 @@ import i18n from './i18n.json';
 
 type EruTableItem = NonNullable<GoApiResponse<'/api/v2/eru/'>['results']>[number];
 
-const PAGE_SIZE = 10;
-
 interface Props {
     emergencyId?: string;
 }
@@ -46,7 +44,14 @@ export default function DeployedErusTable(props: Props) {
         setPage,
         sortState,
         ordering,
-    } = useFilterState<object>({}, undefined);
+        limit,
+        offset,
+    } = useFilterState<object>(
+        {},
+        undefined,
+        1,
+        10,
+    );
 
     const {
         deployments_eru_type,
@@ -80,8 +85,8 @@ export default function DeployedErusTable(props: Props) {
         url: '/api/v2/eru/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
             deployed_to__isnull: false,
             event: Number(emergencyId),
@@ -167,7 +172,7 @@ export default function DeployedErusTable(props: Props) {
                 <Pager
                     activePage={page}
                     itemsCount={eruResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

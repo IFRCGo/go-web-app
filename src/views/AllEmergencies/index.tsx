@@ -33,8 +33,6 @@ import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput'
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const PAGE_SIZE = 15;
-
 type RegionResponse = GoApiResponse<'/api/v2/region/'>;
 type RegionListItem = NonNullable<RegionResponse['results']>[number];
 
@@ -52,9 +50,13 @@ export function Component() {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         { name: 'created_at', direction: 'dsc' },
+        1,
+        15,
     );
 
     const columns = useMemo(
@@ -140,14 +142,14 @@ export function Component() {
 
     const query = useMemo<EventQueryParams>(
         () => ({
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
             dtype: filterDisasterType,
             region: filterRegion,
             countries__in: filterCountry,
         }),
-        [page, ordering, filterDisasterType, filterRegion, filterCountry],
+        [limit, offset, ordering, filterDisasterType, filterRegion, filterCountry],
     );
 
     const {
@@ -216,7 +218,7 @@ export function Component() {
                     <Pager
                         activePage={page}
                         itemsCount={eventResponse?.count ?? 0}
-                        maxItemsPerPage={PAGE_SIZE}
+                        maxItemsPerPage={limit}
                         onActivePageChange={setPage}
                     />
                 )}

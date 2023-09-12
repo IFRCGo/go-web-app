@@ -22,17 +22,19 @@ type PersonnelByEventListItem = NonNullable<GetPersonnelByEventResponse['results
 
 const personnelByEventKeySelector = (item: PersonnelByEventListItem) => item.id;
 
-const PAGE_SIZE = 25;
-
 function PersonnelByEventTable() {
     const {
         sortState,
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        25,
     );
 
     const strings = useTranslation(i18n);
@@ -44,8 +46,8 @@ function PersonnelByEventTable() {
         url: '/api/v2/personnel_by_event/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
         },
     });
@@ -91,7 +93,7 @@ function PersonnelByEventTable() {
                 <Pager
                     activePage={page}
                     itemsCount={personnelByEventResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

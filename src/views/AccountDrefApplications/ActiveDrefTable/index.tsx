@@ -44,9 +44,13 @@ function ActiveDrefTable(props: Props) {
         filter,
         filtered,
         setFilterField,
+        limit,
+        offset,
     } = useFilterState<FilterValue>(
         {},
         undefined,
+        1,
+        6,
     );
 
     const {
@@ -57,8 +61,8 @@ function ActiveDrefTable(props: Props) {
         preserveResponse: true,
         // FIXME server should handle this issue
         query: {
-            offset: NUM_ITEMS_PER_PAGE * (page - 1),
-            limit: NUM_ITEMS_PER_PAGE,
+            offset,
+            limit,
             country: filter.country,
             type_of_dref: filter.type_of_dref,
             disaster_type: filter.disaster_type,

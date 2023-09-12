@@ -20,26 +20,27 @@ import EmergencyResponseUnitOwnerCard from './EmergencyResponseUnitOwnerCard';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type EruTypeEnum = components<'read'>['schemas']['Key187Enum'];
+type DeploymentsEruTypeEnum = components<'read'>['schemas']['DeploymentsEruTypeEnum'];
 
 type GetERUOwnersResponse = GoApiResponse<'/api/v2/eru_owner/'>;
 type ERUOwnerListItem = NonNullable<GetERUOwnersResponse['results']>[number];
 
-interface EmergencyResponseUnitType {
-    key: EruTypeEnum;
-    label?: string;
-}
 const PAGE_SIZE = 10;
+
 const eruOwnerKeySelector = (item: ERUOwnerListItem) => item.id;
-const emergencyResponseUnitTypeKeySelector = (item: EmergencyResponseUnitType) => item.key;
-const emergencyResponseUnitTypeLabelSelector = (item: EmergencyResponseUnitType) => item.label ?? '?';
+
+const emergencyResponseUnitTypeKeySelector = (item: DeploymentsEruTypeEnum) => item.key;
+const emergencyResponseUnitTypeLabelSelector = (item: DeploymentsEruTypeEnum) => item.value ?? '?';
 
 function Readiness() {
+    const [selectedERUTypes, setSelectedERUTypes] = useInputState<
+        Array<DeploymentsEruTypeEnum['key']> | undefined
+    >(undefined);
     const [page, setPage] = useState(1);
-    const [selectedERUTypes, setSelectedERUTypes] = useInputState<Array<EmergencyResponseUnitType['key']> | undefined>(undefined);
 
     const strings = useTranslation(i18n);
 
+    // FIXME: use useFilterState
     const {
         error: eruOwnersError,
         pending: eruOwnersPending,
@@ -60,7 +61,7 @@ function Readiness() {
         deployments_eru_type,
     } = useGlobalEnums();
 
-    const handleERUOwnerTypesChange = useCallback((values: EmergencyResponseUnitType['key'][] | undefined) => {
+    const handleERUOwnerTypesChange = useCallback((values: DeploymentsEruTypeEnum['key'][] | undefined) => {
         if (isDefined(values) && values.length > 0) {
             setSelectedERUTypes(values);
         } else {

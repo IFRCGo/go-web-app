@@ -27,8 +27,6 @@ type PossibleEarlyActionsResponse = RiskApiResponse<'/api/v1/early-actions/'>;
 type ResponseItem = NonNullable<PossibleEarlyActionsResponse['results']>[number];
 type CountryResponse = GoApiResponse<'/api/v2/country/{id}/'>;
 
-const ITEM_PER_PAGE = 5;
-
 interface Props {
     countryId: number;
     countryResponse: CountryResponse | undefined;
@@ -46,6 +44,8 @@ function PossibleEarlyActionTable(props: Props) {
         filter,
         filtered,
         setFilterField,
+        limit,
+        offset,
     } = useFilterState<{
         // FIXME hazardType should be HazardType
         // hazardType?: HazardType,
@@ -54,6 +54,8 @@ function PossibleEarlyActionTable(props: Props) {
     }>(
         {},
         undefined,
+        1,
+        5,
     );
 
     const columns = useMemo(
@@ -122,8 +124,8 @@ function PossibleEarlyActionTable(props: Props) {
         apiType: 'risk',
         url: '/api/v1/early-actions/',
         query: {
-            limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (page - 1),
+            limit,
+            offset,
             iso3: countryResponse?.iso3 ?? undefined,
             hazard_type: isDefined(filter.hazardType)
                 ? [filter.hazardType] as HazardType[]
@@ -164,7 +166,7 @@ function PossibleEarlyActionTable(props: Props) {
                 <Pager
                     activePage={page}
                     itemsCount={possibleEarlyActionResponse?.count ?? 0}
-                    maxItemsPerPage={ITEM_PER_PAGE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

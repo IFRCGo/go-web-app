@@ -139,7 +139,10 @@ test('Denormalize List', () => {
 
     const userToPostsSelector = (user: User) => posts.filter((post) => post.userId === user.id);
     const combineUserAndPost = (user: User, post: Post) => ({
-        userId: user.id, userName: user.name, postId: post.id, postTitle: post.title,
+        userId: user.id,
+        userName: user.name,
+        postId: post.id,
+        postTitle: post.title,
     });
 
     const denormalizedData = denormalizeList(users, userToPostsSelector, combineUserAndPost);

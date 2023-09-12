@@ -2,23 +2,27 @@ import { useState, useCallback } from 'react';
 import Button, { Props as ButtonProps } from '#components/Button';
 import Modal from '#components/Modal';
 
-interface Props<NAME> extends Omit<ButtonProps<NAME>, 'onClick'>{
+export interface Props<NAME> extends ButtonProps<NAME> {
     confirmMessage?: React.ReactNode;
     confirmHeading?: React.ReactNode;
+    onClick?: (name: NAME, e: React.MouseEvent<HTMLButtonElement>) => void;
     onConfirm: (name: NAME) => void;
 }
 
 function ConfirmButton<NAME>(props: Props<NAME>) {
     const {
-        confirmHeading,
-        confirmMessage,
+        // FIXME: use translations
+        confirmHeading = 'Confirmation',
+        // FIXME: use translations
+        confirmMessage = 'Are you sure you want to continue?',
         name,
         onConfirm,
-        // onClick,
+        onClick,
         ...buttonProps
     } = props;
 
     const [showConfirmation, setShowConfirmation] = useState(false);
+
     const handleConfirmClick = useCallback(
         (confirmName: NAME) => {
             setShowConfirmation(false);
@@ -27,13 +31,23 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
         [onConfirm],
     );
 
+    const handleOnClick = useCallback(
+        (confirmName: NAME, e: React.MouseEvent<HTMLButtonElement>) => {
+            if (onClick) {
+                onClick(confirmName, e);
+            }
+            setShowConfirmation(true);
+        },
+        [onClick],
+    );
+
     return (
         <>
             <Button
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...buttonProps}
-                name
-                onClick={setShowConfirmation}
+                name={name}
+                onClick={handleOnClick}
             />
             {showConfirmation && (
                 <Modal

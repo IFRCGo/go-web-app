@@ -35,8 +35,6 @@ type EruTableItem = NonNullable<GoApiResponse<'/api/v2/eru/'>['results']>[number
 function keySelector(personnel: EruTableItem) {
     return personnel.id;
 }
-const PAGE_SIZE = 10;
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -45,9 +43,13 @@ export function Component() {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        10,
     );
 
     const {
@@ -82,8 +84,8 @@ export function Component() {
         url: '/api/v2/eru/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
             deployed_to__isnull: false,
         },
@@ -168,7 +170,7 @@ export function Component() {
                     <Pager
                         activePage={page}
                         itemsCount={eruResponse?.count ?? 0}
-                        maxItemsPerPage={PAGE_SIZE}
+                        maxItemsPerPage={limit}
                         onActivePageChange={setPage}
                     />
                 )}

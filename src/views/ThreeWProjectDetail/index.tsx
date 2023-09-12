@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { PencilFillIcon } from '@ifrc-go/icons';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
+import { getUserName } from '#utils/domain/user';
 import { useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
@@ -98,7 +99,7 @@ export function Component() {
                             })}
                             {projectResponse?.modified_by_detail && (
                                 resolveToComponent(strings.lastModifiedDetailByUser, {
-                                    user: projectResponse?.modified_by_detail?.username,
+                                    user: getUserName(projectResponse?.modified_by_detail),
                                 })
                             )}
                         </>

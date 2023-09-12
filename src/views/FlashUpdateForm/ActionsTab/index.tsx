@@ -47,7 +47,7 @@ function ActionsInput(props: Props) {
     } = useRequest({
         url: '/api/v2/flash-update-action/',
         query: {
-            limit: 500,
+            limit: 9999,
         },
     });
 

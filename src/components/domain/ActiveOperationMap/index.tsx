@@ -113,13 +113,13 @@ function ActiveOperationMap(props: Props) {
             if (variant === 'global') {
                 return {
                     end_date__gt: today,
-                    limit: 200,
+                    limit: 9999,
                 };
             }
 
             return {
                 end_date__gt: today,
-                limit: 200,
+                limit: 9999,
                 region: regionId,
             };
         },

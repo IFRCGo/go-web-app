@@ -88,6 +88,8 @@ export function Component() {
         filter,
         filtered,
         setFilterField,
+        limit,
+        offset,
     } = useFilterState<FilterValue>(
         {
             operation_type: [],
@@ -97,6 +99,8 @@ export function Component() {
             status: [],
         },
         undefined,
+        1,
+        20,
     );
 
     const {
@@ -120,7 +124,10 @@ export function Component() {
         pathVariables: isDefined(regionId) ? {
             id: regionId,
         } : undefined,
-        query: filter as never, // TODO: fix typings in the server
+        query: {
+            ...filter,
+            limit: 9999,
+        } as never, // TODO: fix typings in the server
     });
 
     const projectByStatus = useMemo(() => (
@@ -159,20 +166,24 @@ export function Component() {
             headingLevel: 4,
             spacing: 'cozy',
             withHeaderBorder: true,
+            // FIXME: passing components in renderer params will render the
+            // child components every time
             headingDescription: resolveToString(
                 strings.projectsCount,
                 { count: country.projects_count },
             ),
             children: (
                 <CountryProjectTable
-                    country={country.iso3 ?? country.iso}
+                    countryIso3={country.iso3 ?? country.iso}
                     filters={filter}
                     page={page}
                     setPage={setPage}
+                    limit={limit}
+                    offset={offset}
                 />
             ),
         }),
-        [strings.projectsCount, filter, page, setPage],
+        [strings.projectsCount, filter, page, setPage, limit, offset],
     );
 
     const countrySectorRendererParams = useCallback((_: number, country: CountryActivity) => ({

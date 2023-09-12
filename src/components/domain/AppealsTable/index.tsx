@@ -34,8 +34,6 @@ const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 
-const PAGE_SIZE = 5;
-
 const endDate = (new Date()).toISOString();
 type BaseProps = {
     className?: string;
@@ -66,12 +64,16 @@ function AppealsTable(props: Props) {
         filter,
         filtered,
         setFilterField,
+        limit,
+        offset,
     } = useFilterState<{
         appeal?: AppealTypeOption['key'],
         displacement?: number,
     }>(
         {},
         undefined,
+        1,
+        5,
     );
 
     const strings = useTranslation(i18n);
@@ -151,8 +153,8 @@ function AppealsTable(props: Props) {
     const query = useMemo<AppealQueryParams>(
         () => {
             const baseQuery: AppealQueryParams = {
-                limit: PAGE_SIZE,
-                offset: PAGE_SIZE * (page - 1),
+                limit,
+                offset,
                 ordering,
                 atype: filter.appeal,
                 dtype: filter.displacement,
@@ -168,7 +170,7 @@ function AppealsTable(props: Props) {
                 region: regionId,
             };
         },
-        [variant, regionId, page, ordering, filter],
+        [variant, regionId, ordering, filter, limit, offset],
     );
 
     const {
@@ -209,7 +211,7 @@ function AppealsTable(props: Props) {
                 <Pager
                     activePage={page}
                     itemsCount={appealsResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

@@ -34,8 +34,6 @@ type TableKey = number;
 
 const keySelector = (item: FlashUpdateListItem) => item.id;
 
-const PAGE_SIZE = 15;
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -44,9 +42,13 @@ export function Component() {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         { name: 'created_at', direction: 'dsc' },
+        1,
+        15,
     );
 
     const columns = useMemo(
@@ -109,8 +111,8 @@ export function Component() {
         url: '/api/v2/flash-update/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
         },
     });
@@ -142,7 +144,7 @@ export function Component() {
                     <Pager
                         activePage={page}
                         itemsCount={flashUpdateResponse?.count ?? 0}
-                        maxItemsPerPage={PAGE_SIZE}
+                        maxItemsPerPage={limit}
                         onActivePageChange={setPage}
                     />
                 )}

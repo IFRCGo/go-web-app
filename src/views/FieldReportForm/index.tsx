@@ -111,7 +111,7 @@ function getNextStep(
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const { reportId } = useParams<{ reportId: string }>();
+    const { fieldReportId } = useParams<{ fieldReportId: string }>();
 
     const alert = useAlert();
 
@@ -206,11 +206,11 @@ export function Component() {
     const {
         pending: fieldReportPending,
     } = useRequest({
-        // FIXME: need to check if reportId can be ''
+        // FIXME: need to check if fieldReportId can be ''
         url: '/api/v2/field-report/{id}/',
-        skip: isNotDefined(reportId),
-        pathVariables: reportId
-            ? { id: Number(reportId) }
+        skip: isNotDefined(fieldReportId),
+        pathVariables: fieldReportId
+            ? { id: Number(fieldReportId) }
             : undefined,
         onSuccess: (response) => {
             const formValue = transformAPIFieldsToFormFields(
@@ -236,7 +236,7 @@ export function Component() {
         trigger: editSubmitRequest,
     } = useLazyRequest({
         url: '/api/v2/field-report/{id}/',
-        pathVariables: isDefined(reportId) ? { id: Number(reportId) } : undefined,
+        pathVariables: isDefined(fieldReportId) ? { id: Number(fieldReportId) } : undefined,
         method: 'PUT',
         body: (ctx: FieldReportBody) => ctx,
         onSuccess: (response) => {
@@ -412,7 +412,7 @@ export function Component() {
                 isDefined(value.country)
                 && isDefined(value.start_date)
                 && isDefined(value.dtype)
-                && isNotDefined(reportId)
+                && isNotDefined(fieldReportId)
             ) {
                 return getTitle(
                     value.country,
@@ -426,7 +426,7 @@ export function Component() {
         },
         [
             getTitle,
-            reportId,
+            fieldReportId,
             value.country,
             value.is_covid_report,
             value.start_date,
@@ -448,7 +448,7 @@ export function Component() {
                 formValues as FormValue,
             );
 
-            if (reportId) {
+            if (fieldReportId) {
                 editSubmitRequest({
                     ...sanitizedValues,
                 } as FieldReportBody);
@@ -469,7 +469,7 @@ export function Component() {
         },
         [
             getTitle,
-            reportId,
+            fieldReportId,
             editSubmitRequest,
             createSubmitRequest,
         ],
@@ -558,7 +558,7 @@ export function Component() {
                 className={styles.fieldReportForm}
                 title={strings.title}
                 heading={(
-                    isDefined(reportId)
+                    isDefined(fieldReportId)
                         ? strings.updateHeading
                         : strings.createHeading
                 )}

@@ -29,7 +29,6 @@ type PersonnelTableItem = NonNullable<GoApiResponse<'/api/v2/personnel/'>['resul
 function keySelector(personnel: PersonnelTableItem) {
     return personnel.id;
 }
-const PAGE_SIZE = 10;
 const now = new Date().toISOString();
 
 // eslint-disable-next-line import/prefer-default-export
@@ -40,9 +39,13 @@ export function Component() {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        10,
     );
 
     const getTypeName = useCallback((type: PersonnelTableItem['type']) => {
@@ -59,8 +62,8 @@ export function Component() {
         url: '/api/v2/personnel/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
             end_date__gt: now,
         },
@@ -165,7 +168,7 @@ export function Component() {
                     <Pager
                         activePage={page}
                         itemsCount={personnelResponse?.count ?? 0}
-                        maxItemsPerPage={PAGE_SIZE}
+                        maxItemsPerPage={limit}
                         onActivePageChange={setPage}
                     />
                 )}

@@ -7,6 +7,7 @@ import {
 } from '@togglecorp/fujs';
 import { PencilFillIcon } from '@ifrc-go/icons';
 
+import { getUserName } from '#utils/domain/user';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -132,7 +133,7 @@ export function Component() {
                                 value={modifiedAt}
                             /> ?? '?'
                         ),
-                        user: modifiedBy?.username ?? '?',
+                        user: getUserName(modifiedBy),
                     },
                 )
             )}

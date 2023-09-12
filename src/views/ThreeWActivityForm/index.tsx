@@ -227,7 +227,7 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/eru/',
         query: {
-            limit: 500,
+            limit: 9999,
             deployed_to__isnull: false,
         },
     });

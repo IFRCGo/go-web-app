@@ -3,6 +3,7 @@ import {
     useState,
 } from 'react';
 import {
+    isTruthyString,
     isNotDefined,
     listToGroupList,
     listToMap,
@@ -111,6 +112,8 @@ export function Component() {
 
     const isFiltered = hasSomeDefinedValue(filters);
 
+    const iso3 = countryResponse?.iso;
+
     const {
         pending: projectListPending,
         response: projectListResponse,
@@ -119,8 +122,10 @@ export function Component() {
         skip: isNotDefined(countryResponse?.iso),
         url: '/api/v2/project/',
         query: {
-            limit: 500,
-            country: countryResponse?.iso ?? undefined,
+            limit: 9999,
+            country_iso3: isTruthyString(iso3)
+                ? [iso3]
+                : undefined,
         },
     });
 
@@ -131,7 +136,7 @@ export function Component() {
         url: '/api/v2/district/',
         query: {
             country: countryResponse?.id,
-            limit: 200,
+            limit: 9999,
         },
     });
 
@@ -378,8 +383,8 @@ export function Component() {
                             {strings.exportProjects}
                         </Button>
                         <Link
-                            to="countryAllThreeW"
-                            urlParams={{ countryId: countryResponse?.id }}
+                            to="allThreeWProject"
+                            urlSearch={`country=${countryResponse?.id}`}
                             withForwardIcon
                         >
                             {strings.viewAllProjects}

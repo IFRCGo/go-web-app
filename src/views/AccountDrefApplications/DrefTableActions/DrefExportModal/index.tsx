@@ -4,8 +4,12 @@ import Message from '#components/Message';
 import Modal from '#components/Modal';
 import { GoApiResponse, useRequest } from '#utils/restRequest';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import { type components } from '#generated/types';
 import Link from '#components/Link';
 
+type ExportTypeEnum = components<'read'>['schemas']['ExportTypeEnum'];
+
+// FIXME: use typescript satisfies here
 const EXPORT_STATUS_PENDING = 0;
 const EXPORT_STATUS_COMPLETED = 1;
 const EXPORT_STATUS_ERRORED = 2;
@@ -27,19 +31,18 @@ function DrefExportModal(props: Props) {
 
     const exportTriggerBody = useMemo(
         () => {
-            let url = '';
-
-            // FIXME: use urls from route
-            if (applicationType === 'DREF') {
-                url = `https://ifrc-go-nightly.surge.sh/dref-applications/${id}/export/`;
-            } else if (applicationType === 'OPS_UPDATE') {
-                url = `https://ifrc-go-nightly.surge.sh/dref-operational-updates/${id}/export/`;
+            let type: ExportTypeEnum;
+            if (applicationType === 'OPS_UPDATE') {
+                type = 'dref-ops-updates';
             } else if (applicationType === 'FINAL_REPORT') {
-                url = `https://ifrc-go-nightly.surge.sh/dref-final-reports/${id}/export/`;
+                type = 'dref-final-reports';
+            } else {
+                type = 'dref-applications';
             }
 
             return {
-                url,
+                export_id: id,
+                export_type: type,
                 selector: '#pdf-preview-ready',
             };
         },

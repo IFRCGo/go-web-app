@@ -24,8 +24,6 @@ import Filters, { type FilterValue } from '../Filters';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const NUM_ITEMS_PER_PAGE = 6;
-
 interface Props {
     className?: string;
     actions?: React.ReactNode;
@@ -44,9 +42,13 @@ function CompletedDrefTable(props: Props) {
         filter,
         filtered,
         setFilterField,
+        limit,
+        offset,
     } = useFilterState<FilterValue>(
         {},
         undefined,
+        1,
+        6,
     );
 
     const {
@@ -55,8 +57,8 @@ function CompletedDrefTable(props: Props) {
     } = useRequest({
         url: '/api/v2/completed-dref/',
         query: {
-            offset: NUM_ITEMS_PER_PAGE * (page - 1),
-            limit: NUM_ITEMS_PER_PAGE,
+            offset,
+            limit,
             country: filter.country,
             type_of_dref: filter.type_of_dref,
             disaster_type: filter.disaster_type,
@@ -211,7 +213,7 @@ function CompletedDrefTable(props: Props) {
                 <Pager
                     activePage={page}
                     itemsCount={completedDrefResponse?.count ?? 0}
-                    maxItemsPerPage={NUM_ITEMS_PER_PAGE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

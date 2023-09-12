@@ -114,7 +114,7 @@ export function Component() {
         skip: isNotDefined(countryResponse?.id),
         url: '/api/v2/project/',
         query: {
-            limit: 500,
+            limit: 9999,
             reporting_ns: isDefined(countryResponse) ? [countryResponse.id] : undefined,
         },
     });
@@ -329,8 +329,8 @@ export function Component() {
                             {strings.exportProjects}
                         </Button>
                         <Link
-                            to="countryAllThreeWNationalSocietyProjects"
-                            urlParams={{ countryId: countryResponse?.id }}
+                            to="allThreeWActivity"
+                            urlSearch={`country=${countryResponse?.id}`}
                             withForwardIcon
                         >
                             {strings.viewAllProjects}
