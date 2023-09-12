@@ -387,15 +387,16 @@ const countryPlan = customWrapRoute({
     },
 });
 
+// FIXME: rename this to countryAdditionalInfo
 const countryAdditionalData = customWrapRoute({
     parent: countriesLayout,
-    path: 'additional-data',
+    path: 'additional-info',
     component: {
         render: () => import('#views/CountryAdditionalData'),
         props: {},
     },
     context: {
-        title: 'Country Additional Data',
+        title: 'Country Additional Info',
         visibility: 'anything',
     },
 });
@@ -498,12 +499,42 @@ const emergencySurge = customWrapRoute({
     },
 });
 
-const emergencyAdditionalTab = customWrapRoute({
+const emergencyAdditionalInfoOne = customWrapRoute({
     parent: emergenciesLayout,
-    path: 'additional-tab/:routeName',
+    path: 'additional-info-1',
     component: {
         render: () => import('#views/EmergencyAdditionalTab'),
-        props: {},
+        props: {
+            infoPageId: 1,
+        },
+    },
+    context: {
+        title: 'Emergency Additional Tab',
+        visibility: 'anything',
+    },
+});
+const emergencyAdditionalInfoTwo = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'additional-info-2',
+    component: {
+        render: () => import('#views/EmergencyAdditionalTab'),
+        props: {
+            infoPageId: 2,
+        },
+    },
+    context: {
+        title: 'Emergency Additional Tab',
+        visibility: 'anything',
+    },
+});
+const emergencyAdditionalInfoThree = customWrapRoute({
+    parent: emergenciesLayout,
+    path: 'additional-info-3',
+    component: {
+        render: () => import('#views/EmergencyAdditionalTab'),
+        props: {
+            infoPageId: 3,
+        },
     },
     context: {
         title: 'Emergency Additional Tab',
@@ -1702,7 +1733,7 @@ const preparednessGlobalPerformance = customWrapRoute({
 
 const preparednessGlobalCatalogue = customWrapRoute({
     parent: preparednessLayout,
-    path: 'catalogue-learning',
+    path: 'resources-catalogue',
     component: {
         render: () => import('#views/PreparednessCatalogueResources'),
         props: {},
@@ -1959,7 +1990,7 @@ const accountPerForms = customWrapRoute({
 
 const accountDrefApplications = customWrapRoute({
     parent: accountLayout,
-    path: 'dref-applications',
+    path: 'dref-application-forms',
     component: {
         render: () => import('#views/AccountDrefApplications'),
         props: {},
@@ -2039,36 +2070,6 @@ const allThreeWActivity = customWrapRoute({
     },
 });
 
-// FIXME: We should instead use allThreeW with search parameter
-const countryAllThreeW = customWrapRoute({
-    parent: rootLayout,
-    path: 'countries/:countryId/three-w/projects/all',
-    component: {
-        render: () => import('#views/CountryAllThreeW'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'All 3W Projects in the Country',
-        visibility: 'anything',
-    },
-});
-
-// FIXME: We should instead use allThreeW with search parameter
-const countryAllThreeWNationalSocietyProjects = customWrapRoute({
-    parent: rootLayout,
-    path: 'countries/:countryId/three-w/ns-projects/all',
-    component: {
-        render: () => import('#views/CountryAllThreeWNationalSocietyProjects'),
-        props: {},
-    },
-    wrapperComponent: Auth,
-    context: {
-        title: 'All 3W Projects by the Country National Society',
-        visibility: 'anything',
-    },
-});
-
 const allAppeals = customWrapRoute({
     parent: rootLayout,
     path: 'appeals/all',
@@ -2107,7 +2108,7 @@ const allFieldReports = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'All Field Reports',
-        visibility: 'anything',
+        visibility: 'is-authenticated',
     },
 });
 
@@ -2308,7 +2309,7 @@ const drefFinalReportExport = customWrapRoute({
 
 const fieldReportFormNew = customWrapRoute({
     parent: rootLayout,
-    path: 'field-report/new',
+    path: 'field-reports/new',
     component: {
         render: () => import('#views/FieldReportForm'),
         props: {},
@@ -2344,7 +2345,7 @@ const fieldReportDetails = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'Field Report Details',
-        visibility: 'anything',
+        visibility: 'is-authenticated',
     },
 });
 
@@ -2485,7 +2486,9 @@ const wrappedRoutes = {
     emergencyReportsAndDocuments,
     emergencyActivities,
     emergencySurge,
-    emergencyAdditionalTab,
+    emergencyAdditionalInfoOne,
+    emergencyAdditionalInfoTwo,
+    emergencyAdditionalInfoThree,
     surgeLayout,
     surgeOverview,
     surgeOperationalToolbox,
@@ -2513,8 +2516,6 @@ const wrappedRoutes = {
     accountThreeWForms,
     resources,
     search,
-    countryAllThreeW,
-    countryAllThreeWNationalSocietyProjects,
     allThreeWProject,
     allThreeWActivity,
     allAppeals,

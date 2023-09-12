@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { isDefined } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -8,6 +9,7 @@ import {
     createStringColumn,
     createNumberColumn,
 } from '#components/Table/ColumnShortcuts';
+import useUrlSearchState from '#hooks/useUrlSearchState';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
@@ -21,18 +23,29 @@ import styles from './styles.module.css';
 type ProjectsResponse = GoApiResponse<'/api/v2/project/'>;
 type ProjectListItem = NonNullable<ProjectsResponse['results']>[number];
 
-const ITEM_PER_PAGE = 15;
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
 
+    const [filterCountry] = useUrlSearchState<number | undefined>(
+        'country',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (country) => country,
+    );
+
     const {
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        15,
     );
 
     const {
@@ -42,8 +55,9 @@ export function Component() {
         url: '/api/v2/project/',
         preserveResponse: true,
         query: {
-            limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (page - 1),
+            limit,
+            offset,
+            country: isDefined(filterCountry) ? [filterCountry] : undefined,
         },
     });
 
@@ -118,7 +132,7 @@ export function Component() {
                         activePage={page}
                         onActivePageChange={setPage}
                         itemsCount={projectResponse?.count ?? 0}
-                        maxItemsPerPage={ITEM_PER_PAGE}
+                        maxItemsPerPage={limit}
                     />
                 )}
             >

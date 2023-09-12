@@ -118,8 +118,10 @@ function getAggregatedValues(values: { title: string, count: number }[]) {
 export function Component() {
     const strings = useTranslation(i18n);
 
-    const [activePage, setActivePage] = useState(1);
     const { emergencyResponse } = useOutletContext<EmergencyOutletContext>();
+
+    // FIXME: use useFilteredState
+    const [activePage, setActivePage] = useState(1);
     const [filters, setFilters] = useState<FilterValue>({
         reporting_ns: [],
         deployed_eru: [],
@@ -128,7 +130,6 @@ export function Component() {
         country: [],
         districts: [],
     });
-
     const isFiltered = hasSomeDefinedValue(filters);
 
     const {
@@ -140,7 +141,7 @@ export function Component() {
         skip: (isNotDefined(emergencyResponse?.id)),
         query: isDefined(emergencyResponse) ? {
             event: [emergencyResponse.id],
-            limit: 100,
+            limit: 9999,
         } : undefined,
     });
 

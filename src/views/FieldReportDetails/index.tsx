@@ -11,6 +11,7 @@ import {
 } from '@togglecorp/fujs';
 import { CheckboxCircleLineIcon } from '@ifrc-go/icons';
 
+import { getUserName } from '#utils/domain/user';
 import useTranslation from '#hooks/useTranslation';
 import Page from '#components/Page';
 import Link from '#components/Link';
@@ -133,7 +134,7 @@ export function Component() {
     const reportDate = fieldReportResponse?.report_date;
 
     // FIXME use common function for display name
-    const user = fieldReportResponse?.user_details?.username ?? 'Unknown User';
+    const user = getUserName(fieldReportResponse?.user_details);
 
     const lastTouchedAt = fieldReportResponse?.updated_at ?? fieldReportResponse?.created_at;
     const rdrt = fieldReportResponse?.rdrt;

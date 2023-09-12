@@ -33,8 +33,6 @@ interface EmergencyResponseUnitType {
     key: EruTypeEnum;
     label?: string;
 }
-const PAGE_SIZE = 5;
-
 const emergencyResponseUnitKeySelector = (item: EmergencyResponseUnitListItem) => item.id;
 
 const emergencyResponseUnitTypeKeySelector = (item: EmergencyResponseUnitType) => item.key;
@@ -50,11 +48,15 @@ function EmergencyResponseUnitsTable() {
         filter,
         filtered,
         setFilterField,
+        limit,
+        offset,
     } = useFilterState<{
         type?: EmergencyResponseUnitType['key'],
     }>(
         {},
         undefined,
+        1,
+        5,
     );
 
     const {
@@ -64,8 +66,8 @@ function EmergencyResponseUnitsTable() {
         url: '/api/v2/eru/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             deployed_to__isnull: false,
             ordering,
             type: isDefined(filter.type) ? filter.type : undefined,
@@ -150,7 +152,7 @@ function EmergencyResponseUnitsTable() {
                 <Pager
                     activePage={page}
                     itemsCount={emergencyResponseUnitsResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

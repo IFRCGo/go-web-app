@@ -48,6 +48,7 @@ export default function RapidResponsePersonnelTable(props: Props) {
         return type.toUpperCase();
     }, [strings]);
 
+    // FIXME: use useFilterState
     const {
         response: personnelResponse,
         pending: personnelPending,

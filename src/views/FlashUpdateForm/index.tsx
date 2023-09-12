@@ -21,6 +21,7 @@ import {
     useParams,
 } from 'react-router-dom';
 
+import { transformObjectError } from '#utils/restRequest/error';
 import useRouting from '#hooks/useRouting';
 import useAlert from '#hooks/useAlert';
 import Page from '#components/Page';
@@ -164,11 +165,19 @@ export function Component() {
                 { params: { flashUpdateId: response.id } },
             );
         },
-        onFailure: ({
-            value: { messageForNotification },
-            debugMessage,
-        }) => {
-            // FIXME: handle errors
+        onFailure: (err) => {
+            const {
+                value: {
+                    formErrors,
+                    messageForNotification,
+                },
+                debugMessage,
+            } = err;
+
+            // FIXME:
+            // getKey for (not updated)
+            setError(transformObjectError(formErrors, () => undefined));
+
             alert.show(
                 strings.flashUpdateFormSaveRequestFailureMessage,
                 {

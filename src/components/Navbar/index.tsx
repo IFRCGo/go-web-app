@@ -16,6 +16,7 @@ import useInputState from '#hooks/useInputState';
 import { KEY_URL_SEARCH, SEARCH_TEXT_LENGTH_MIN } from '#utils/constants';
 import UserContext from '#contexts/user';
 import goLogo from '#assets/icons/go-logo-2020.svg';
+import { environment } from '#config';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import LangaugeDropdown from './LanguageDropdown';
@@ -68,6 +69,11 @@ function Navbar(props: Props) {
                             alt={strings.headerLogoAltText}
                         />
                     </Link>
+                    {environment !== 'production' && (
+                        <div className={styles.env}>
+                            {environment}
+                        </div>
+                    )}
                 </div>
                 <NavigationTabList
                     className={styles.actions}

@@ -164,6 +164,10 @@ const schema: DrefFormSchema = {
             ifrc_project_manager_email: { validations: [emailCondition] },
             ifrc_project_manager_title: {},
             ifrc_project_manager_phone_number: {},
+            regional_focal_point_name: {},
+            regional_focal_point_title: {},
+            regional_focal_point_email: { validations: [emailCondition] },
+            regional_focal_point_phone_number: {},
 
             // government_requested_assistance_date: {}, // NOTE: Not found in the UI
             // community_involved: {}, // NOTE: Not found in the UI
@@ -714,10 +718,6 @@ const schema: DrefFormSchema = {
             'ifrc_emergency_title',
             'ifrc_emergency_email',
             'ifrc_emergency_phone_number',
-            'regional_focal_point_name',
-            'regional_focal_point_title',
-            'regional_focal_point_email',
-            'regional_focal_point_phone_number',
             'media_contact_name',
             'media_contact_title',
             'media_contact_email',
@@ -745,10 +745,6 @@ const schema: DrefFormSchema = {
                     ifrc_emergency_title: { forceValue: nullValue },
                     ifrc_emergency_email: { forceValue: nullValue },
                     ifrc_emergency_phone_number: { forceValue: nullValue },
-                    regional_focal_point_name: { forceValue: nullValue },
-                    regional_focal_point_title: { forceValue: nullValue },
-                    regional_focal_point_email: { forceValue: nullValue },
-                    regional_focal_point_phone_number: { forceValue: nullValue },
                     media_contact_name: { forceValue: nullValue },
                     media_contact_title: { forceValue: nullValue },
                     media_contact_email: { forceValue: nullValue },
@@ -779,13 +775,7 @@ const schema: DrefFormSchema = {
                     };
                 }
 
-                return {
-                    ...baseSubmissionFields,
-                    regional_focal_point_name: {},
-                    regional_focal_point_title: {},
-                    regional_focal_point_email: { validations: [emailCondition] },
-                    regional_focal_point_phone_number: {},
-                };
+                return baseSubmissionFields;
             },
         );
 

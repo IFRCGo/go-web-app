@@ -4,6 +4,18 @@
     flex-direction: column;
     min-height: 100vh;
 
+    .banner {
+        position: sticky;
+        bottom: 0;
+        background-color: var(--go-ui-color-orange);
+        padding: var(--go-ui-spacing-xs);
+        text-align: center;
+        text-transform: uppercase;
+        color: var(--go-ui-color-white);
+        font-size: var(--go-ui-font-size-sm);
+        font-weight: var(--go-ui-font-weight-bold);
+    }
+
     .navigation-loader {
         position: fixed;
         transition: var(--go-ui-duration-animation-medium) width ease-out;

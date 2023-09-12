@@ -6,8 +6,8 @@ import {
     getErrorObject,
     createSubmitHandler,
 } from '@togglecorp/toggle-form';
-import { isFalsyString } from '@togglecorp/fujs';
 
+import { getUserName } from '#utils/domain/user';
 import Page from '#components/Page';
 import TextInput from '#components/TextInput';
 import PasswordInput from '#components/PasswordInput';
@@ -53,21 +53,6 @@ const formSchema: ObjectSchema<FormFields> = {
     }),
 };
 
-function getDisplayName(
-    firstName: string | null | undefined,
-    lastName: string | null | undefined,
-    username: string,
-) {
-    if (isFalsyString(firstName) && isFalsyString(lastName)) {
-        return username;
-    }
-
-    return [
-        firstName,
-        lastName,
-    ].filter(Boolean).join(' ');
-}
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -95,11 +80,11 @@ export function Component() {
                 username: response.username,
                 firstName: response.first ?? undefined,
                 lastName: response.last ?? undefined,
-                displayName: getDisplayName(
-                    response.first,
-                    response.last,
-                    response.username,
-                ),
+                displayName: getUserName({
+                    first_name: response.first,
+                    last_name: response.last,
+                    username: response.username,
+                }),
                 token: response.token,
             });
         },

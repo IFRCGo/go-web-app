@@ -22,7 +22,6 @@ import i18n from './i18n.json';
 
 type SurgeResponse = GoApiResponse<'/api/v2/surge_alert/'>;
 type SurgeListItem = NonNullable<SurgeResponse['results']>[number];
-const ITEM_PER_PAGE = 5;
 const today = new Date().getTime();
 
 function getPositionString(alert: SurgeListItem) {
@@ -50,7 +49,14 @@ export default function SurgeTable(props: Props) {
     const {
         page: projectActivePage,
         setPage: setProjectActivePage,
-    } = useFilterState<object>({}, undefined);
+        limit,
+        offset,
+    } = useFilterState<object>(
+        {},
+        undefined,
+        1,
+        5,
+    );
 
     const {
         response: surgeResponse,
@@ -60,8 +66,8 @@ export default function SurgeTable(props: Props) {
         preserveResponse: true,
         query: {
             event: Number(emergencyId),
-            limit: ITEM_PER_PAGE,
-            offset: ITEM_PER_PAGE * (projectActivePage - 1),
+            limit,
+            offset,
         },
     });
 
@@ -175,7 +181,7 @@ export default function SurgeTable(props: Props) {
                     activePage={projectActivePage}
                     onActivePageChange={setProjectActivePage}
                     itemsCount={surgeResponse?.count ?? 0}
-                    maxItemsPerPage={ITEM_PER_PAGE}
+                    maxItemsPerPage={limit}
                 />
             )}
         >

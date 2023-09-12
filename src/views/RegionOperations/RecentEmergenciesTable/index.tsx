@@ -31,7 +31,6 @@ const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
 
-const PAGE_SIZE = 5;
 const keySelector = (item: EventListItem) => item.id;
 
 interface Props {
@@ -46,9 +45,13 @@ function EventItemsTable(props: Props) {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         { name: 'created_at', direction: 'dsc' },
+        1,
+        5,
     );
 
     const columns = useMemo(
@@ -104,8 +107,8 @@ function EventItemsTable(props: Props) {
         url: '/api/v2/event/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
             regions__in: regionId,
@@ -140,7 +143,7 @@ function EventItemsTable(props: Props) {
                 <Pager
                     activePage={page}
                     itemsCount={eventResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

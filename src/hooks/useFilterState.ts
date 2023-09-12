@@ -61,7 +61,8 @@ function useFilterState<FILTER extends object>(
     initialFilter: FILTER,
     initialOrdering: SortParameter | undefined,
     initialPage = 1,
-    debounceTime = 300,
+    pageSize = 10,
+    debounceTime = 200,
 ) {
     type Reducer = (
         prevState: FilterState<FILTER>,
@@ -175,6 +176,8 @@ function useFilterState<FILTER extends object>(
         setFilterField,
 
         page: debouncedState.page,
+        offset: pageSize * (debouncedState.page - 1),
+        limit: pageSize,
         setPage,
 
         ordering: getOrdering(debouncedState.ordering),

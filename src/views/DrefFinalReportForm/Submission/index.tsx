@@ -314,6 +314,42 @@ function Submission(props: Props) {
                     />
                 </InputSection>
                 <InputSection
+                    title={strings.drefFormDrefRegionalPoint}
+                >
+                    <TextInput
+                        // FIXME: use translations
+                        label="Name"
+                        name="regional_focal_point_name"
+                        value={value.regional_focal_point_name}
+                        onChange={setFieldValue}
+                        error={error?.regional_focal_point_name}
+                    />
+                    <TextInput
+                        // FIXME: use translations
+                        label="Title"
+                        name="regional_focal_point_title"
+                        value={value.regional_focal_point_title}
+                        onChange={setFieldValue}
+                        error={error?.regional_focal_point_title}
+                    />
+                    <TextInput
+                        // FIXME: use translations
+                        label="Email"
+                        name="regional_focal_point_email"
+                        value={value.regional_focal_point_email}
+                        onChange={setFieldValue}
+                        error={error?.regional_focal_point_email}
+                    />
+                    <TextInput
+                        // FIXME: use translations
+                        label="Phone Number"
+                        name="regional_focal_point_phone_number"
+                        value={value.regional_focal_point_phone_number}
+                        onChange={setFieldValue}
+                        error={error?.regional_focal_point_phone_number}
+                    />
+                </InputSection>
+                <InputSection
                     title={strings.drefFormMediaContact}
                     numPreferredColumns={2}
                 >

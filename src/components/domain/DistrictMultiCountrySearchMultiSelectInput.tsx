@@ -53,7 +53,7 @@ function MultiCountryDistrictSearchMultiSelectInput<const NAME>(
     const query: GetDistrictParams = {
         country__in: countryIds,
         search: debouncedSearchText,
-        limit: 40,
+        limit: 20,
     };
 
     const {

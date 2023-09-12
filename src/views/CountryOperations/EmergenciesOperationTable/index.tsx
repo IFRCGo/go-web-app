@@ -27,8 +27,6 @@ function keySelector(emergency: EmergenciesTableItem) {
     return emergency.id;
 }
 
-const PAGE_SIZE = 10;
-
 // FIXME: use a separate utility
 const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -58,9 +56,13 @@ function EmergenciesOperationTable(props: Props) {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        10,
     );
 
     const columns = useMemo(
@@ -113,8 +115,8 @@ function EmergenciesOperationTable(props: Props) {
         url: '/api/v2/event/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             countries__in: countryId,
             ordering,
             disaster_start_date__gte: disasterStartDate,
@@ -149,7 +151,7 @@ function EmergenciesOperationTable(props: Props) {
                 <Pager
                     activePage={page}
                     itemsCount={countryEmergenciesResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

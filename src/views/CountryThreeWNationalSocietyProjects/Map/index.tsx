@@ -9,6 +9,7 @@ import {
     listToGroupList,
     mapToList,
     isNotDefined,
+    isTruthyString,
     listToMap,
 } from '@togglecorp/fujs';
 import Map, {
@@ -221,6 +222,8 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         id: Number(clickedPointProperties?.feature?.id ?? -1),
     });
 
+    const iso3 = clickedPointCountry?.iso3;
+
     const {
         response: clickedPointProjectsResponse,
         pending: clickedPointProjectsResponsePending,
@@ -228,7 +231,9 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         skip: isNotDefined(clickedPointCountry?.iso3),
         url: '/api/v2/project/',
         query: {
-            country: clickedPointCountry?.iso3,
+            country_iso3: isTruthyString(iso3)
+                ? [iso3]
+                : undefined,
         },
     });
 

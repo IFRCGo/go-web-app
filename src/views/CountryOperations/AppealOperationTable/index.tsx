@@ -36,7 +36,6 @@ function keySelector(appeal: AppealTableItem) {
 }
 
 const now = new Date().toISOString();
-const PAGE_SIZE = 10;
 
 interface Props {
     countryId: number;
@@ -54,9 +53,13 @@ function AppealOperationTable(props: Props) {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        10,
     );
 
     const strings = useTranslation(i18n);
@@ -70,8 +73,8 @@ function AppealOperationTable(props: Props) {
         url: '/api/v2/appeal/',
         query: {
             end_date__gt: now,
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
             country: countryId,
         },
@@ -168,7 +171,7 @@ function AppealOperationTable(props: Props) {
                 <Pager
                     activePage={page}
                     itemsCount={countryAppealResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

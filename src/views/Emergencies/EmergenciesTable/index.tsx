@@ -30,7 +30,6 @@ const thirtyDaysAgo = new Date();
 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 thirtyDaysAgo.setHours(0, 0, 0, 0);
 
-const PAGE_SIZE = 5;
 const keySelector = (item: EventListItem) => item.id;
 
 function EventItemsTable() {
@@ -40,9 +39,13 @@ function EventItemsTable() {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         { name: 'created_at', direction: 'dsc' },
+        1,
+        5,
     );
 
     const columns = useMemo(
@@ -93,12 +96,12 @@ function EventItemsTable() {
 
     const query = useMemo<EventQueryParams>(
         () => ({
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
             disaster_start_date__gt: thirtyDaysAgo.toISOString(),
         }),
-        [page, ordering],
+        [limit, offset, ordering],
     );
     const {
         pending: eventPending,
@@ -116,7 +119,7 @@ function EventItemsTable() {
                 <Pager
                     activePage={page}
                     itemsCount={eventResponse?.count ?? 0}
-                    maxItemsPerPage={PAGE_SIZE}
+                    maxItemsPerPage={limit}
                     onActivePageChange={setPage}
                 />
             )}

@@ -11,6 +11,7 @@ export type ResponseObjectError = {
     [key: string]: ResponseObjectError | ResponseArrayError | ResponseLeafError | undefined;
 } & {
     non_field_errors?: string[] | undefined;
+    internal_non_field_errors?: string[] | undefined;
 };
 
 type ResponseArrayError = (ResponseObjectError | ResponseArrayError | ResponseLeafError)[];
@@ -141,6 +142,8 @@ export function transformObjectError(
     }
     const {
         non_field_errors,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        internal_non_field_errors,
         ...fieldErrors
     } = error;
 

@@ -46,8 +46,6 @@ const appealKeySelector = (option: AppealListItem) => option.id;
 const appealTypeKeySelector = (option: AppealTypeOption) => option.key;
 const appealTypeLabelSelector = (option: AppealTypeOption) => option.value;
 
-const PAGE_SIZE = 10;
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -57,9 +55,13 @@ export function Component() {
         ordering,
         page,
         setPage,
+        limit,
+        offset,
     } = useFilterState<object>(
         {},
         undefined,
+        1,
+        10,
     );
 
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
@@ -118,8 +120,8 @@ export function Component() {
 
     const query = useMemo<AppealQueryParams>(
         () => ({
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
+            limit,
+            offset,
             ordering,
             atype: filterAppealType,
             dtype: filterDisasterType,
@@ -131,7 +133,15 @@ export function Component() {
             start_date__gte: undefined,
             */
         }),
-        [page, ordering, filterAppealType, filterDisasterType, filterCountry, filterRegion],
+        [
+            limit,
+            offset,
+            ordering,
+            filterAppealType,
+            filterDisasterType,
+            filterCountry,
+            filterRegion,
+        ],
     );
     const {
         pending: appealsPending,
@@ -280,7 +290,7 @@ export function Component() {
                     <Pager
                         activePage={page}
                         itemsCount={appealsResponse?.count ?? 0}
-                        maxItemsPerPage={PAGE_SIZE}
+                        maxItemsPerPage={limit}
                         onActivePageChange={setPage}
                     />
                 )}

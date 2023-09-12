@@ -51,7 +51,7 @@ function Pdc(props: Props) {
             || (variant === 'country' && isNotDefined(props.iso3)),
         url: '/api/v1/pdc/',
         query: {
-            limit: 500,
+            limit: 9999,
             // eslint-disable-next-line react/destructuring-assignment
             iso3: variant === 'country' ? props.iso3 : undefined,
             // eslint-disable-next-line react/destructuring-assignment

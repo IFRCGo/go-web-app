@@ -27,6 +27,7 @@ import {
     useLocation,
 } from 'react-router-dom';
 
+import { transformObjectError } from '#utils/restRequest/error';
 import useRouting from '#hooks/useRouting';
 import useTranslation from '#hooks/useTranslation';
 import NavigationTab from '#components/NavigationTab';
@@ -227,7 +228,7 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/eru/',
         query: {
-            limit: 500,
+            limit: 9999,
             deployed_to__isnull: false,
         },
     });
@@ -259,11 +260,19 @@ export function Component() {
                 { params: { activityId: response.id } },
             );
         },
-        onFailure: ({
-            value: { messageForNotification },
-            debugMessage,
-        }) => {
-            // FIXME: Add appropriate error handling
+        onFailure: (err) => {
+            const {
+                value: {
+                    formErrors,
+                    messageForNotification,
+                },
+                debugMessage,
+            } = err;
+
+            // FIXME:
+            // getKey for (not updated)
+            onErrorSet(transformObjectError(formErrors, () => undefined));
+
             alert.show(
                 // FIXME: Add translations
                 'Failed to create a response activity.',
@@ -298,10 +307,18 @@ export function Component() {
                 { params: { activityId } },
             );
         },
-        onFailure: ({
-            value: { messageForNotification },
-            debugMessage,
-        }) => {
+        onFailure: (err) => {
+            const {
+                value: {
+                    formErrors,
+                    messageForNotification,
+                },
+                debugMessage,
+            } = err;
+
+            // FIXME:
+            // getKey for (not updated)
+            onErrorSet(transformObjectError(formErrors, () => undefined));
             // FIXME: Add appropriate error handling
             alert.show(
                 // FIXME: Add translations

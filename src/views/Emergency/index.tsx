@@ -19,9 +19,11 @@ import { type EmergencyOutletContext } from '#utils/outletContext';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+/*
 function getRouteIdFromName(text: string) {
     return text.toLowerCase().trim().split(' ').join('-');
 }
+*/
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -82,17 +84,20 @@ export function Component() {
         return [
             {
                 name: tabOneTitle,
-                routeName: getRouteIdFromName(tabOneTitle),
+                routeName: 'emergencyAdditionalInfoOne' as const,
+                infoPageId: 1 as const,
                 snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 1),
             },
             {
                 name: tabTwoTitle,
-                routeName: getRouteIdFromName(tabTwoTitle),
+                routeName: 'emergencyAdditionalInfoTwo' as const,
+                infoPageId: 2 as const,
                 snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 2),
             },
             {
                 name: tabThreeTitle,
-                routeName: getRouteIdFromName(tabThreeTitle),
+                routeName: 'emergencyAdditionalInfoThree' as const,
+                infoPageId: 3 as const,
                 snippets: emergencySnippetResponse.results.filter((snippet) => snippet.tab === 3),
             },
         ].filter((tabInfo) => tabInfo.snippets.length > 0);
@@ -164,12 +169,10 @@ export function Component() {
                     {strings.emergencyTabSurge}
                 </NavigationTab>
                 {emergencyAdditionalTabs.map((tab) => (
-                    // FIXME all mapped tabs are selected at once
                     <NavigationTab
                         key={tab.routeName}
-                        to="emergencyAdditionalTab"
+                        to={tab.routeName}
                         urlParams={{
-                            routeName: tab.routeName,
                             emergencyId,
                         }}
                     >

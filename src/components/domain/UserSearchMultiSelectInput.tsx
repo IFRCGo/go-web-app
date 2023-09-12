@@ -7,18 +7,12 @@ import SearchMultiSelectInput, {
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import useDebouncedValue from '#hooks/useDebouncedValue';
+import { getUserName } from '#utils/domain/user';
 
 type UserDetails = NonNullable<GoApiResponse<'/api/v2/user/'>['results']>[number];
 export type User = Pick<UserDetails, 'id' | 'first_name' | 'last_name' | 'username'>;
 
 const keySelector = (d: User) => d.id;
-const labelSelector = (user: User) => {
-    if (user.first_name || user.last_name) {
-        return `${user.first_name} ${user.last_name}`;
-    }
-
-    return user.username;
-};
 
 type Def = { containerClassName?: string;}
 type UserMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
@@ -62,7 +56,7 @@ function UserSearchMultiSelectInput<const NAME>(
             {...otherProps}
             className={className}
             keySelector={keySelector}
-            labelSelector={labelSelector}
+            labelSelector={getUserName}
             onSearchValueChange={setSearchText}
             searchOptions={response?.results}
             optionsPending={pending}

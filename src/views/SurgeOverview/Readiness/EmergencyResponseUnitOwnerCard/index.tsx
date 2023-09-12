@@ -15,7 +15,7 @@ import styles from './styles.module.css';
 type GetERUOwnersResponse = GoApiResponse<'/api/v2/eru_owner/'>;
 type ERUOwnerListItem = NonNullable<GetERUOwnersResponse['results']>[number];
 
-const emergencyResponseUnitKeySelector = (item: ERUOwnerListItem['eru_set'][number]) => item.id;
+const emergencyResponseUnitKeySelector = (item: ERUOwnerListItem['eru'][number]) => item.id;
 
 interface Props {
     className?: string;
@@ -27,19 +27,19 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
         className,
         data: {
             national_society_country,
-            eru_set,
+            eru,
             updated_at,
         },
     } = props;
 
     const strings = useTranslation(i18n);
-    const readyEmergencyResponseUnits = eru_set.filter((eru) => eru.available);
-    const deployedEmergencyResponseUnits = eru_set?.filter((eru) => eru.deployed_to);
+    const readyEmergencyResponseUnits = eru.filter((e) => e.available);
+    const deployedEmergencyResponseUnits = eru.filter((e) => e.deployed_to);
 
     const rendererParams = useCallback(
-        (_: number, eru: NonNullable<ERUOwnerListItem['eru_set']>[number]) => ({
-            value: eru.units,
-            label: eru.type_display,
+        (_: number, e: NonNullable<ERUOwnerListItem['eru']>[number]) => ({
+            value: e.units,
+            label: e.type_display,
             strongValue: true,
             withoutLabelColon: true,
             className: styles.textOutput,
@@ -49,17 +49,17 @@ function EmergencyResponseUnitOwnerCard(props: Props) {
     );
 
     const rendererDeployedParams = useCallback(
-        (_: number, eru: NonNullable<ERUOwnerListItem['eru_set']>[number]) => ({
+        (_: number, e: NonNullable<ERUOwnerListItem['eru']>[number]) => ({
             value: (
                 <Link
                     to="countriesLayout"
-                    urlParams={{ countryId: eru.deployed_to.id }}
+                    urlParams={{ countryId: e.deployed_to.id }}
                     withUnderline
                 >
-                    {eru.deployed_to.name}
+                    {e.deployed_to.name}
                 </Link>
             ),
-            label: eru.type_display,
+            label: e.type_display,
             labelClassName: styles.label,
             strongValue: true,
         }),

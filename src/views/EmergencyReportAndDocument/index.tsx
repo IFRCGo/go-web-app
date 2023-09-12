@@ -67,10 +67,11 @@ export function Component() {
         url: '/api/v2/situation_report/',
         query: isDefined(emergencyResponse) ? {
             event: emergencyResponse.id,
-            limit: 1000, // FIXME: we should not use this unbounded request
+            limit: 9999,
         } : undefined, // TODO: we need to add search filter in server
     });
 
+    // FIXME: use useFilterState
     const {
         pending: appealDocumentsPending,
         response: appealDocumentsResponse,
