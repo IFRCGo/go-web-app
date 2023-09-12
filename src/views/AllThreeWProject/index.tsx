@@ -7,6 +7,7 @@ import Table from '#components/Table';
 import {
     createStringColumn,
     createNumberColumn,
+    createElementColumn,
 } from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
@@ -14,6 +15,10 @@ import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import { numericIdSelector } from '#utils/selectors';
+
+import ThreeWProjectTableActions, {
+    type Props as ThreeWProjectTableActionsProps,
+} from './AllThreeWProjectTableActions';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -96,6 +101,18 @@ export function Component() {
                 strings.allThreeWPeopleReached,
                 (item) => item.reached_total,
                 undefined,
+            ),
+            createElementColumn<
+            ProjectListItem,
+                number,
+                ThreeWProjectTableActionsProps
+            >(
+                'actions',
+                '',
+                ThreeWProjectTableActions,
+                (projectId) => ({
+                    projectId,
+                }),
             ),
         ]),
         [strings],
