@@ -182,7 +182,7 @@ export function Component() {
                     const match = matchArray(locations, ['prioritized_action_responses', NUM]);
                     if (isDefined(match)) {
                         const [response_index] = match;
-                        return value?.prioritized_action_responses?.[response_index]?.client_id;
+                        return value?.prioritized_action_responses?.[response_index]?.component;
                     }
                     return undefined;
                 },

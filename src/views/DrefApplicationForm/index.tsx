@@ -42,7 +42,11 @@ import useAlert from '#hooks/useAlert';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useBooleanState from '#hooks/useBooleanState';
 import { injectClientId } from '#utils/common';
-import { transformObjectError } from '#utils/restRequest/error';
+import {
+    transformObjectError,
+    matchArray,
+    NUM,
+} from '#utils/restRequest/error';
 
 import drefSchema, {
     type DrefRequestBody,
@@ -269,15 +273,43 @@ export function Component() {
             value: { formErrors, messageForNotification },
             debugMessage,
         }) => {
-            // FIXME:
-            // getKey for
-            // 1. national_society_actions
-            // 2. risk_security
-            // 3. planned_interventions
-            // 4. indicators
-            // 5. images_file
-            // 6. needs_identified
-            setError(transformObjectError(formErrors, () => undefined));
+            setError(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['images_file', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.images_file?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['national_society_actions', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.national_society_actions?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['needs_identified', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.needs_identified?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['risk_security', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.risk_security?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM, 'indicators', NUM]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.planned_interventions?.[planned_intervention_index]?.indicators?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.planned_interventions?.[index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
 
             /*
             FIXME: this should be an array
@@ -323,7 +355,43 @@ export function Component() {
             value: { formErrors, messageForNotification },
             debugMessage,
         }) => {
-            setError(transformObjectError(formErrors, () => undefined));
+            setError(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['images_file', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.images_file?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['national_society_actions', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.national_society_actions?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['needs_identified', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.needs_identified?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['risk_security', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.risk_security?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM, 'indicators', NUM]);
+                    if (isDefined(match)) {
+                        const [planned_intervention_index, index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.planned_interventions?.[planned_intervention_index]?.indicators?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['planned_interventions', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.planned_interventions?.[index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
 
             /*
             FIXME: this should be an array
