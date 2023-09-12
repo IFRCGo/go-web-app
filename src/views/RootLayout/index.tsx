@@ -27,6 +27,7 @@ import { useLazyRequest, useRequest } from '#utils/restRequest';
 import DomainContext, { type CacheKey, type Domain } from '#contexts/domain';
 import UserContext from '#contexts/user';
 import LanguageContext from '#contexts/language';
+import { environment } from '#config';
 
 import styles from './styles.module.css';
 
@@ -315,6 +316,13 @@ export function Component() {
         ],
     );
 
+    // FIXME: use translations
+    const environmentTexts = {
+        prod: 'Production Site',
+        dev: 'Development Site',
+        stage: 'Staging Site',
+    };
+
     return (
         <DomainContext.Provider value={domainContextValue}>
             <div className={styles.root}>
@@ -332,6 +340,11 @@ export function Component() {
                 </div>
                 <GlobalFooter className={styles.footer} />
                 <AlertContainer />
+                {environment !== 'prod' && (
+                    <div className={styles.banner}>
+                        {environmentTexts[environment]}
+                    </div>
+                )}
             </div>
         </DomainContext.Provider>
     );
