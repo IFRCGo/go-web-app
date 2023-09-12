@@ -11,10 +11,10 @@ import PageHeader from '#components/PageHeader';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
+import { languageNameMapEn } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import { languageNameMapEn } from '#utils/common';
 
 interface Props {
     className?: string;

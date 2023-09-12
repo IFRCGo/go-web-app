@@ -687,6 +687,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     renderer={DistrictListItem}
                     keySelector={districtKeySelector}
                     rendererParams={districtRendererParams}
+                    // FIXME: use translation
                     emptyMessage="Select districts by click on map or from the select input above"
                     errored={false}
                     pending={false}

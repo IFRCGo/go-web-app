@@ -192,21 +192,20 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     const user = getFromStorage<UserAuth | undefined>(KEY_USER_STORAGE);
     const token = user?.token;
 
-    const defaultHeaders = {
+    const defaultHeaders: HeadersInit = {
         Authorization: token ? `Token ${token}` : '',
-
-        // Use current language by default for query, english for mutation
-        'Accept-Language': method === 'GET' ? currentLanguage : 'en',
     };
 
-    // Force english language for query
-    if (method === 'GET' && enforceEnglishForQuery) {
-        defaultHeaders['Accept-Language'] = 'en';
-    }
-
-    // Force current language for mutation
-    if (method !== 'GET' && useCurrentLanguageForMutation) {
-        defaultHeaders['Accept-Language'] = currentLanguage;
+    if (method === 'GET') {
+        // Query
+        defaultHeaders['Accept-Language'] = enforceEnglishForQuery
+            ? 'en'
+            : currentLanguage;
+    } else {
+        // Mutation
+        defaultHeaders['Accept-Language'] = useCurrentLanguageForMutation
+            ? currentLanguage
+            : 'en';
     }
 
     if (formData) {

@@ -446,8 +446,9 @@ export function Component() {
                         </Container>
                     )}
                     {actionsTaken?.map((actionTaken) => {
-                        if (actionTaken.actions_details.length <= 0
-                            && isFalsyString(actionTaken.summary)
+                        if (
+                            actionTaken.actions_details.length <= 0
+                                && isFalsyString(actionTaken.summary)
                         ) {
                             return null;
                         }

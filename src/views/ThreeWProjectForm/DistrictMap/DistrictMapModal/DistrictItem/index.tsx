@@ -4,7 +4,7 @@ import {
     isDefined,
     listToMap,
 } from '@togglecorp/fujs';
-import { CloseFillIcon, DeleteBinFillIcon } from '@ifrc-go/icons';
+import { DeleteBinFillIcon } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
 import { type DistrictItem as DistrictSearchItem } from '#components/domain/DistrictSearchMultiSelectInput';
@@ -64,9 +64,10 @@ function DistrictItem(props: Props) {
                 </div>
                 <Button
                     name={districtId}
+                    className={styles.removeButton}
                     onClick={onDistrictRemove}
                     variant="tertiary"
-                    className={styles.removeButton}
+                    // FIXME: add title
                 >
                     <DeleteBinFillIcon />
                 </Button>
@@ -82,10 +83,11 @@ function DistrictItem(props: Props) {
                                 {admin2ObjectMap?.[item].name ?? '?'}
                             </div>
                             <Button
+                                className={styles.removeButton}
                                 name={item}
                                 onClick={onAdmin2Remove}
                                 variant="tertiary"
-                                className={styles.removeButton}
+                                // FIXME: add title
                             >
                                 <DeleteBinFillIcon />
                             </Button>

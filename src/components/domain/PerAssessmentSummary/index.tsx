@@ -163,6 +163,7 @@ function PerAssessmentSummary(props: Props) {
         }),
     );
 
+    // FIXME: use translation
     const description = isDefined(allAnsweredResponses) && isDefined(totalQuestionCount)
         ? `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} benchmarks assessed.`
         : undefined;

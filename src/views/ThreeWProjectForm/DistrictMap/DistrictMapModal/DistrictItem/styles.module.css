@@ -6,8 +6,8 @@
 
     .district {
         display: flex;
-        font-weight: var(--go-ui-font-weight-medium);
         padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+        font-weight: var(--go-ui-font-weight-medium);
 
         .name {
             flex-grow: 1;

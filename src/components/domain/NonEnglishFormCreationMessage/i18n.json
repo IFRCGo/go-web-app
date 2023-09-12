@@ -2,7 +2,7 @@
     "namespace":"common",
     "strings":{
         "formNonEnglishErrorTitle": "Not Available!",
-        "formNonEnglishErrorMessage": "This form can only be create in English at the moment!",
+        "formNonEnglishErrorMessage": "This form can only be created in English at the moment!",
         "formNonEnglishHelpMessage": "Please change the language to English to use it!"
     }
 }

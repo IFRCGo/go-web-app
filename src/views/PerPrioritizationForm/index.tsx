@@ -31,6 +31,8 @@ import BlockLoading from '#components/BlockLoading';
 import PerAssessmentSummary from '#components/domain/PerAssessmentSummary';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
+import Message from '#components/Message';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { resolveToString } from '#utils/translation';
@@ -55,8 +57,6 @@ import ComponentInput from './ComponentInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-import Message from '#components/Message';
-import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 
 type SortKey = 'component' | 'rating' | 'benchmark';
 
@@ -119,7 +119,7 @@ export function Component() {
 
     const {
         pending: fetchingPrioritization,
-        error: prioritizationResponseError
+        error: prioritizationResponseError,
     } = useRequest({
         skip: isNotDefined(prioritizationId),
         url: '/api/v2/per-prioritization/{id}/',
