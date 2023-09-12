@@ -49,10 +49,12 @@ function isListTypeResult(
     return resultKey === 'regions' || resultKey === 'countries' || resultKey === 'district_province_response';
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const defaultRanking: Record<SearchResponseKeys, number> = {
     regions: 1,
     countries: 2,
     district_province_response: 3,
+
     emergencies: 4,
     projects: 5,
     surge_alerts: 6,

@@ -16,7 +16,7 @@ import {
     type GoApiResponse,
 } from '#utils/restRequest';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import { KEY_URL_SEARCH, SEARCH_TEXT_LENGTH_MIN } from '#utils/constants';
+import { KEY_URL_SEARCH } from '#utils/constants';
 import { defaultRanking } from '#views/Search';
 
 import { type WrappedRoutes } from '../../../App/routes';
@@ -37,8 +37,12 @@ interface Route {
     route: keyof WrappedRoutes,
     routeParams: string;
 }
-const keySelector = (d: SearchItem) => d.pk;
-const labelSelector = (d: SearchItem) => `${d.name}`;
+function keySelector(d: SearchItem) {
+    return d.pk;
+}
+function labelSelector(d: SearchItem) {
+    return d.name;
+}
 const searchTypeToRouteMap: Record<SearchResponseKeys, Route> = {
     regions: {
         route: 'regionsLayout',
@@ -84,15 +88,17 @@ function KeywordSearchSelectInput() {
     const debouncedSearchText = useDebouncedValue(searchText);
     const { navigate } = useRouting();
 
-    const query: GetSearchParams | undefined = debouncedSearchText ? {
-        keyword: debouncedSearchText,
+    const trimmedSearchText = debouncedSearchText?.trim();
+
+    const query: GetSearchParams | undefined = trimmedSearchText ? {
+        keyword: trimmedSearchText,
     } : undefined;
 
     const {
         pending,
         response,
     } = useRequest({
-        skip: !opened || (isNotDefined(debouncedSearchText)) || (debouncedSearchText.length === 0),
+        skip: !opened || isNotDefined(trimmedSearchText) || trimmedSearchText.length === 0,
         url: '/api/v1/search/',
         query,
         preserveResponse: true,
@@ -149,77 +155,104 @@ function KeywordSearchSelectInput() {
     const sortByRankedKeys = useCallback((a: SearchItem, b: SearchItem) => {
         const indexA = rankedSearchResponseKeys.indexOf(a.type);
         const indexB = rankedSearchResponseKeys.indexOf(b.type);
-        // Compare the indices to determine the sorting order
-        if (indexA < indexB) {
-            return -1;
-        } if (indexA > indexB) {
-            return 1;
-        }
-        return 0;
+
+        return compareNumber(indexA, indexB);
     }, [rankedSearchResponseKeys]);
 
-    const {
-        surge_alerts,
-        surge_deployments,
-        rapid_response_deployments,
-        ...others
-    } = response ?? {};
+    const options = useMemo(
+        (): SearchItem[] => {
+            if (isNotDefined(response)) {
+                return [];
+            }
+            const {
+                surge_alerts,
+                surge_deployments,
+                rapid_response_deployments,
+                district_province_response,
+                ...others
+            } = response;
 
-    const results = mapToList(
-        (others),
-        (value, key) => (
-            value?.map((val) => ({
-                id: val.id,
-                name: val.name,
-                type: key as keyof SearchResponse,
-                pk: `${val.id}-${key}`,
-                score: val.score,
-            }))
-        ),
-    )?.flat().filter(isDefined);
+            const results = mapToList(
+                (others),
+                (value, key) => (
+                    value?.map((val) => ({
+                        id: val.id,
+                        name: val.name,
+                        type: key as keyof SearchResponse,
+                        pk: `${val.id}-${key}`,
+                        score: val.score,
+                    }))
+                ),
+            )?.flat().filter(isDefined);
 
-    const surgeResults = mapToList(
-        { surge_alerts, surge_deployments, rapid_response_deployments },
-        (value, key) => (
-            value?.map((val) => ({
-                id: val.event_id,
-                name: val.event_name,
-                type: key as keyof SearchResponse,
-                pk: `${val.id}-${key}`,
-                score: val.score,
-            }))
-        ),
-    )?.flat().filter(isDefined);
+            const surgeResults = mapToList(
+                {
+                    surge_alerts,
+                    surge_deployments,
+                    rapid_response_deployments,
+                },
+                (value, key) => (
+                    value?.map((val) => ({
+                        id: val.event_id,
+                        name: val.event_name,
+                        type: key as keyof SearchResponse,
+                        pk: `${val.id}-${key}`,
+                        score: val.score,
+                    }))
+                ),
+            )?.flat().filter(isDefined);
 
-    const options: SearchItem[] = [...(results ?? []), ...(surgeResults ?? [])]
-        .sort(sortByRankedKeys);
+            const districtProvinceResults = mapToList(
+                {
+                    district_province_response,
+                },
+                (value, key) => (
+                    value?.map((val) => ({
+                        id: val.country_id,
+                        name: val.name,
+                        type: key as keyof SearchResponse,
+                        pk: `${val.id}-${key}`,
+                        score: val.score,
+                    }))
+                ),
+            )?.flat().filter(isDefined);
+
+            return [
+                ...(results ?? []),
+                ...(surgeResults ?? []),
+                ...(districtProvinceResults ?? []),
+            ].sort(sortByRankedKeys);
+        },
+        [response, sortByRankedKeys],
+    );
 
     const handleOptionSelect = useCallback((
         _: string | undefined,
         __: string,
         option: SearchItem | undefined,
     ) => {
-        if (option) {
-            const route = searchTypeToRouteMap[option.type];
-            navigate(
-                route.route,
-                {
-                    params: {
-                        [route.routeParams]: option.id,
-                    },
-                },
-            );
+        if (!option) {
+            return;
         }
+
+        const route = searchTypeToRouteMap[option.type];
+        navigate(
+            route.route,
+            {
+                params: {
+                    [route.routeParams]: option.id,
+                },
+            },
+        );
     }, [navigate]);
 
     const handleSearchInputEnter = useCallback(() => {
+        // NOTE: We are not deliberately not using debouncedSearchText here
         const searchStringSafe = searchText?.trim() ?? '';
-        if (searchStringSafe.length >= SEARCH_TEXT_LENGTH_MIN) {
+        if (searchStringSafe.length > 0) {
             navigate(
                 'search',
-                {
-                    search: `${KEY_URL_SEARCH}=${searchText}`,
-                },
+                { search: `${KEY_URL_SEARCH}=${searchText}` },
             );
         }
     }, [
@@ -231,7 +264,7 @@ function KeywordSearchSelectInput() {
         <SearchSelectInput
             // eslint-disable-next-line react/jsx-props-no-spreading
             name="keyword"
-            options={[]}
+            options={undefined}
             value={undefined}
             keySelector={keySelector}
             labelSelector={labelSelector}
@@ -239,13 +272,11 @@ function KeywordSearchSelectInput() {
             searchOptions={options}
             optionsPending={pending}
             onChange={handleOptionSelect}
-            totalOptionsCount={results?.length ?? 0}
+            totalOptionsCount={options?.length ?? 0}
             onShowDropdownChange={setOpened}
             icons={<SearchLineIcon />}
-            selectedOnTop
-            onEnterWithoutOption={() => {
-                handleSearchInputEnter();
-            }}
+            selectedOnTop={false}
+            onEnterWithoutOption={handleSearchInputEnter}
         />
     );
 }
