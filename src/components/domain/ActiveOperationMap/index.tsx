@@ -306,8 +306,8 @@ function ActiveOperationMap(props: Props) {
                         value={filter.endDate}
                     />
                     <SelectInput
-                        placeholder={strings.appealsTableFilterTypePlaceholder}
-                        label={strings.appealsTableType}
+                        placeholder={strings.operationFilterTypePlaceholder}
+                        label={strings.operationType}
                         name="appeal"
                         value={filter.appeal}
                         onChange={setFilterField}
@@ -316,8 +316,8 @@ function ActiveOperationMap(props: Props) {
                         options={appealTypeOptions}
                     />
                     <DisasterTypeSelectInput
-                        placeholder={strings.appealsTableFilterDisastersPlaceholder}
-                        label={strings.appealsTableDisastertype}
+                        placeholder={strings.operationFilterDisastersPlaceholder}
+                        label={strings.operationDisastertype}
                         name="displacement"
                         value={filter.displacement}
                         onChange={setFilterField}

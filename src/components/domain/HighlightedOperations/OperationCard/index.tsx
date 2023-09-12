@@ -3,6 +3,7 @@ import { _cs, isDefined } from '@togglecorp/fujs';
 import { FocusLineIcon } from '@ifrc-go/icons';
 
 import DomainContext from '#contexts/domain';
+import UserContext from '#contexts/user';
 import Container from '#components/Container';
 import Button from '#components/Button';
 import NumberOutput from '#components/NumberOutput';
@@ -45,6 +46,7 @@ function OperationCard(props: Props) {
     } = props;
 
     const { invalidate } = useContext(DomainContext);
+    const { userAuth: userDetails } = useContext(UserContext);
 
     const {
         pending: addSubscriptionPending,
@@ -143,7 +145,7 @@ function OperationCard(props: Props) {
                     />
                 </>
             ) : undefined}
-            actions={(
+            actions={isDefined(userDetails) && (
                 <Button
                     name={id}
                     variant="secondary"
@@ -170,6 +172,7 @@ function OperationCard(props: Props) {
                 compactValue
             />
             <div className={styles.separator} />
+            {/* FIXME This keyFigure should route to emergencies/id/report */}
             <KeyFigure
                 className={styles.figure}
                 value={amountRequested}

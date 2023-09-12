@@ -178,14 +178,13 @@ function AppealsTable(props: Props) {
         [
             variant,
             regionId,
-            page,
             ordering,
             filter.appeal,
             filter.displacement,
             filter.startDate,
             filter.endDate,
             limit,
-            offset
+            offset,
         ],
     );
 
