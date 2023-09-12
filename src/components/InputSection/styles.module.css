@@ -12,18 +12,14 @@
         padding: var(--go-ui-spacing-lg);
     }
 
-    .title-section {
+    .asterisk {
+        color: var(--go-ui-color-primary-red);
+    }
+
+    .description {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-sm);
-
-        .title {
-            font-weight: var(--go-ui-font-weight-semibold);
-        }
-
-        .asterisk {
-            color: var(--go-ui-color-primary-red);
-        }
+        gap: var(--go-ui-spacing-xs);
     }
 
     .content-section {
@@ -44,6 +40,10 @@
 
         &.three-column {
             grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        }
+
+        &.four-column {
+            grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
         }
     }
 
