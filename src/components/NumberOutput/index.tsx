@@ -55,7 +55,7 @@ function NumberOutput(props: Props) {
         unit,
         prefix,
         suffix,
-        maximumFractionDigits,
+        maximumFractionDigits = 1,
     } = props;
 
     const { currentLanguage } = useContext(LanguageContext);

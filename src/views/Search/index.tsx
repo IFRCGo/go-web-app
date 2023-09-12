@@ -30,7 +30,6 @@ import { KEY_URL_SEARCH, SEARCH_TEXT_LENGTH_MIN } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
-
 import ResultTable from './ResultTable';
 import ResultList from './ResultList';
 
@@ -50,10 +49,12 @@ function isListTypeResult(
     return resultKey === 'regions' || resultKey === 'countries' || resultKey === 'district_province_response';
 }
 
-const defaultRanking: Record<SearchResponseKeys, number> = {
+// eslint-disable-next-line react-refresh/only-export-components
+export const defaultRanking: Record<SearchResponseKeys, number> = {
     regions: 1,
     countries: 2,
     district_province_response: 3,
+
     emergencies: 4,
     projects: 5,
     surge_alerts: 6,

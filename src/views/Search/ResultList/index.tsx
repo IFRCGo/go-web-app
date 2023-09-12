@@ -84,7 +84,7 @@ function ResultList(props: Props) {
                                 <Link
                                     to="regionsLayout"
                                     urlParams={{
-                                        countryId: result.id,
+                                        regionId: result.id,
                                     }}
                                 >
                                     {result.name}

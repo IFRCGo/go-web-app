@@ -262,7 +262,7 @@ function ActiveOperationMap(props: Props) {
             actions={(
                 <Link
                     to="allAppeals"
-                    urlSearch={`region=${regionId}`}
+                    urlSearch={isDefined(regionId) ? `region=${regionId}` : undefined}
                     withForwardIcon
                     withUnderline
                 >

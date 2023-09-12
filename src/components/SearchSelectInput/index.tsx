@@ -111,6 +111,7 @@ function SearchSelectInput<
         onShowDropdownChange,
         hideOptionFilter,
         selectedOnTop,
+        onEnterWithoutOption,
         ...otherProps
     } = props;
 
@@ -202,6 +203,16 @@ function SearchSelectInput<
         },
         [onSearchValueChange],
     );
+
+    const handleEnterWithoutOption = useCallback(() => {
+        setShowDropdown(false);
+        if (onShowDropdownChange) {
+            onShowDropdownChange(false);
+        }
+        if (onEnterWithoutOption) {
+            onEnterWithoutOption();
+        }
+    }, [onShowDropdownChange, onEnterWithoutOption]);
 
     const handleChangeDropdown = useCallback(
         (myVal: boolean) => {
@@ -302,6 +313,7 @@ function SearchSelectInput<
             onFocusedKeyChange={setFocusedKey}
             hasValue={isDefined(value)}
             persistentOptionPopup={false}
+            onEnterWithoutOption={handleEnterWithoutOption}
         />
     );
 }

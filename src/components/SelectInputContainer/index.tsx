@@ -60,9 +60,10 @@ export type SelectInputContainerProps<
         nonClearable?: boolean;
         onClearButtonClick: () => void;
         onSelectAllButtonClick?: () => void;
+        onEnterWithoutOption?: () => void;
     }, OMISSION>
-    & Omit<InputContainerProps, 'input'>
-);
+        & Omit<InputContainerProps, 'input'>
+    );
 
 const emptyList: unknown[] = [];
 
@@ -118,6 +119,7 @@ function SelectInputContainer<
         totalOptionsCount = 0,
         hasValue,
         autoFocus,
+        onEnterWithoutOption,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
@@ -240,6 +242,7 @@ function SelectInputContainer<
         handleHideDropdown,
         handleShowDropdown,
         handleOptionClick,
+        onEnterWithoutOption,
     );
 
     const optionsCount = options.length;
