@@ -4,11 +4,14 @@ import {
     FundingIcon,
     FundingCoverageIcon,
     TargetedPopulationIcon,
+    AlertInformationLineIcon,
 } from '@ifrc-go/icons';
 
+import { isNotDefined } from '@togglecorp/fujs';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
+import Tooltip from '#components/Tooltip';
 import HighlightedOperations from '#components/domain/HighlightedOperations';
 import ActiveOperationMap from '#components/domain/ActiveOperationMap';
 import AppealsTable from '#components/domain/AppealsTable';
@@ -18,6 +21,13 @@ import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+function percent(value: number, total: number) {
+    if (isNotDefined(value) || isNotDefined(total)) {
+        return 0;
+    }
+    return (value / total) * 100;
+}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -48,13 +58,35 @@ export function Component() {
                                 icon={<DrefIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.active_drefs}
-                                description={strings.homeKeyFiguresActiveDrefs}
+                                description={(
+                                    <div className={styles.description}>
+                                        {strings.homeKeyFiguresActiveDrefs}
+                                        <div className={styles.descriptionIcon}>
+                                            <AlertInformationLineIcon />
+                                            <Tooltip
+                                                description={strings.keyFiguresDrefDescription}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
                             />
                             <KeyFigure
                                 icon={<AppealsIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.active_appeals}
-                                description={strings.homeKeyFiguresActiveAppeals}
+                                description={(
+                                    <div className={styles.description}>
+                                        {strings.homeKeyFiguresActiveAppeals}
+                                        <div className={styles.descriptionIcon}>
+                                            <AlertInformationLineIcon />
+                                            <Tooltip
+                                                description={
+                                                    strings.keyFigureActiveAppealDescription
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                )}
                             />
                             <KeyFigure
                                 icon={<FundingIcon />}
@@ -66,7 +98,11 @@ export function Component() {
                             <KeyFigure
                                 icon={<FundingCoverageIcon />}
                                 className={styles.keyFigure}
-                                value={aggregatedAppealResponse.amount_funded}
+                                value={percent(
+                                    aggregatedAppealResponse?.amount_funded,
+                                    aggregatedAppealResponse?.amount_requested_dref_included,
+                                )}
+                                suffix="%"
                                 compactValue
                                 description={strings.homeKeyFiguresAppealsFunding}
                             />

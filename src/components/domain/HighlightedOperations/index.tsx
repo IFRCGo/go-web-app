@@ -83,10 +83,13 @@ function HighlightedOperations(props: Props) {
     );
 
     const rendererParams = useCallback(
-        (_: number, emergency: EventListItem) => ({
-            data: emergency,
-            subscriptionMap,
-        }),
+        (_: number, emergency: EventListItem) => {
+            const isSubscribed = subscriptionMap[emergency.id] ?? false;
+            return {
+                data: emergency,
+                isSubscribed,
+            };
+        },
         [subscriptionMap],
     );
 

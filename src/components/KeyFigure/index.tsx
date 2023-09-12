@@ -17,6 +17,7 @@ interface Props {
     progress?: number;
     progressDescription?: React.ReactNode;
     icon?: React.ReactNode;
+    suffix?: React.ReactNode;
 }
 
 function KeyFigure(props: Props) {
@@ -32,6 +33,7 @@ function KeyFigure(props: Props) {
         progressTitle,
         progressDescription,
         icon,
+        suffix,
     } = props;
 
     return (
@@ -51,6 +53,7 @@ function KeyFigure(props: Props) {
                 className={styles.value}
                 value={value}
                 compact={compactValue}
+                suffix={suffix}
             />
             {description && (
                 <div className={descriptionClassName}>

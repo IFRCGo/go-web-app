@@ -15,6 +15,7 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import { SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
+import DateInput from '#components/DateInput';
 import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
@@ -69,6 +70,8 @@ function AppealsTable(props: Props) {
     } = useFilterState<{
         appeal?: AppealTypeOption['key'],
         displacement?: number,
+        startDate?: string,
+        endDate?: string,
     }>(
         {},
         undefined,
@@ -159,6 +162,8 @@ function AppealsTable(props: Props) {
                 atype: filter.appeal,
                 dtype: filter.displacement,
                 end_date__gt: endDate,
+                start_date__gte: filter.startDate,
+                start_date__lte: filter.endDate,
             };
 
             if (variant === 'global') {
@@ -170,7 +175,18 @@ function AppealsTable(props: Props) {
                 region: regionId,
             };
         },
-        [variant, regionId, ordering, filter, limit, offset],
+        [
+            variant,
+            regionId,
+            page,
+            ordering,
+            filter.appeal,
+            filter.displacement,
+            filter.startDate,
+            filter.endDate,
+            limit,
+            offset
+        ],
     );
 
     const {
@@ -188,6 +204,18 @@ function AppealsTable(props: Props) {
             headerDescriptionContainerClassName={styles.filters}
             headerDescription={(
                 <>
+                    <DateInput
+                        name="startDate"
+                        label={strings.appealsTableStartDate}
+                        onChange={setFilterField}
+                        value={filter.startDate}
+                    />
+                    <DateInput
+                        name="endDate"
+                        label={strings.appealsTableEndDate}
+                        onChange={setFilterField}
+                        value={filter.endDate}
+                    />
                     <SelectInput
                         placeholder={strings.appealsTableFilterTypePlaceholder}
                         label={strings.appealsTableType}

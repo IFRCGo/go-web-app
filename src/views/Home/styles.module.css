@@ -8,6 +8,16 @@
             border-radius: var(--go-ui-border-radius-lg);
             background-color: var(--go-ui-color-white);
             height: 100%;
+
+            .description {
+                display: flex;
+
+                .description-icon {
+                        display: flex;
+                        align-items: center;
+                        font-size: var(--go-ui-font-size-2xl);
+                }
+            }
         }
     }
 

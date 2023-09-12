@@ -79,13 +79,24 @@ export default function RapidResponsePersonnelTable(props: Props) {
                 { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(
-                'deployed_to',
+                'country_from',
+                strings.personnelTableDeployedParty,
+                (item) => item.country_from?.society_name,
+                (item) => ({
+                    to: 'countriesLayout',
+                    urlParams: { countryId: item.country_from?.id },
+                }),
+                { sortable: true },
+            ),
+            createLinkColumn<PersonnelTableItem, number>(
+                'deployment',
                 strings.personnelTableDeployedTo,
                 (item) => item.country_to?.name,
                 (item) => ({
                     to: 'countriesLayout',
                     urlParams: { countryId: item.country_to?.id },
                 }),
+                { sortable: true },
             ),
             createStringColumn<PersonnelTableItem, number>(
                 'name',
