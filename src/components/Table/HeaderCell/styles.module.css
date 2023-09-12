@@ -3,7 +3,7 @@
     align-items: center;
     color: var(--go-ui-color-text-black);
     font-weight: var(--go-ui-font-weight-semibold);
-    gap: var(--go-ui-spacing-sm);
+    gap: var(--go-ui-spacing-2xs);
 
     .sort-button {
         flex-shrink: 0;

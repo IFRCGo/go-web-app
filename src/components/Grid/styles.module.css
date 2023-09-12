@@ -1,9 +1,11 @@
 .grid {
     --spacing: var(--go-ui-spacing-md);
     --num-columns: 2;
+    --max-width: calc(var(--go-ui-page-width-max) * 0.8);
+
     display: grid;
     grid-gap: var(--spacing);
-    grid-template-columns: repeat(auto-fill, minmax(calc(0.8 * var(--go-ui-page-width-max) / var(--num-columns)), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(calc(var(--max-width) / var(--num-columns)), 1fr));
     position: relative;
     min-height: var(--go-ui-content-min-height);
 
@@ -32,10 +34,18 @@
     &.two-columns {
         /* TODO: adjust minmax for 2 columns */
         --num-columns: 2;
+
+        @media screen and (max-width: 55rem) {
+            --max-width: 60rem;
+        }
     }
 
     &.three-columns {
         --num-columns: 3;
+
+        @media screen and (max-width: 55rem) {
+            --max-width: 60rem;
+        }
     }
 
     &.four-columns {

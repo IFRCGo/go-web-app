@@ -307,8 +307,6 @@ export function Component() {
         [prioritizationResponse, assessmentStats],
     );
 
-    // FIXME: fill this value
-    const perTeamEmail = '';
     const hasPer = isDefined(latestPerResponse);
     const limitedAccess = hasPer && isNotDefined(processStatusResponse);
 
@@ -412,7 +410,7 @@ export function Component() {
                 />
                 <div className={styles.contactContainer}>
                     <Link
-                        to={perTeamEmail}
+                        to="mailto:PER.Team@ifrc.org"
                         external
                         variant="secondary"
                     >

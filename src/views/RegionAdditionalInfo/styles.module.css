@@ -11,7 +11,7 @@
 
     .key-figure-list {
         display: grid;
-        grid-gap: var(--go-ui-spacing-xl);
+        grid-gap: var(--go-ui-spacing-md);
         grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 
         @media screen and (max-width: 30rem) {
@@ -19,8 +19,8 @@
         }
 
         .region-key-figure {
-            border-radius: var(--go-ui-border-radius-md);
-            box-shadow: var(--go-ui-box-shadow-lg);
+            border-radius: var(--go-ui-border-radius-lg);
+            box-shadow: var(--go-ui-box-shadow-md);
         }
     }
 }

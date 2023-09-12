@@ -147,6 +147,7 @@ export function Component(props: Props) {
         query: {
             limit: projectLimit,
             offset: projectOffset,
+            // TODO: filter by user (logged in user)
         },
     });
 
@@ -159,6 +160,7 @@ export function Component(props: Props) {
         query: {
             limit: activityLimit,
             offset: activityOffset,
+            // TODO: filter by user (logged in user)
         },
     });
 
