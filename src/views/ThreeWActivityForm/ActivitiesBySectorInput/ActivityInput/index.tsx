@@ -214,9 +214,9 @@ function ActivityInput(props: Props) {
     return (
         <ExpandableContainer
             className={styles.activityInput}
-            headingLevel={4}
+            headingLevel={5}
             headingClassName={errorFromProps && styles.error}
-            spacing="compact"
+            spacing="cozy"
             actions={type === 'custom' && (
                 <Button
                     name={clientId}
@@ -238,278 +238,280 @@ function ActivityInput(props: Props) {
             withHeaderBorder
         >
             <InputSection
-                title={actionDetails?.description}
-                contentSectionClassName={styles.inputSectionContent}
+                description={actionDetails?.description}
+                withoutPadding
             >
-                {type === 'custom' && (
-                    <TextInput
-                        value={value?.custom_action}
-                        name="custom_action"
-                        onChange={setFieldValue}
-                        // FIXME: Add translations
-                        label="Activity Title"
-                        disabled={disabled}
-                        error={error?.custom_action}
-                    />
-                )}
-                <Switch
-                    // FIXME: Add translations
-                    label="Detailed Reporting"
-                    name="is_simplified_report"
-                    value={value?.is_simplified_report}
-                    disabled={disabled}
-                    onChange={setFieldValue}
-                    error={error?.is_simplified_report}
-                    invertedLogic
-                />
-                {value?.is_simplified_report && (
-                    <RadioInput
-                        name="people_households"
-                        value={value?.people_households}
-                        disabled={disabled}
-                        onChange={setFieldValue}
-                        options={peopleHouseholdOptions}
-                        listContainerClassName={styles.radio}
-                        keySelector={peopleHouseholdsKeySelector}
-                        labelSelector={peopleHouseholdsLabelSelector}
-                        error={error?.people_households}
-                    />
-                )}
-                {value?.is_simplified_report && value?.people_households === 'households' && (
-                    <NumberInput
-                        name="household_count"
-                        // FIXME: Add translations
-                        label="Households"
-                        value={value?.household_count}
-                        disabled={disabled}
-                        onChange={setFieldValue}
-                        error={error?.household_count}
-                    />
-                )}
-                {value?.is_simplified_report && value?.people_households === 'people' && (
-                    <div className={styles.row}>
-                        <NumberInput
-                            name="people_count"
-                            // FIXME: Add translations
-                            label="People"
-                            value={value?.people_count}
+                <div className={styles.inputSectionContent}>
+                    {type === 'custom' && (
+                        <TextInput
+                            value={value?.custom_action}
+                            name="custom_action"
                             onChange={setFieldValue}
-                            error={error?.people_count}
-                            disabled={peopleCountDisabled || disabled}
-                        />
-                        {/* FIXME: Add translations */}
-                        OR
-                        <NumberInput
-                            name="male_count"
                             // FIXME: Add translations
-                            label="Male"
-                            value={value?.male_count}
-                            onChange={handleMaleCountChange}
-                            error={error?.male_count}
-                            disabled={genderDisaggregationDisabled || disabled}
+                            label="Activity Title"
+                            disabled={disabled}
+                            error={error?.custom_action}
                         />
-                        <NumberInput
-                            name="female_count"
-                            // FIXME: Add translations
-                            label="Female"
-                            value={value?.female_count}
-                            onChange={handleFemaleCountChange}
-                            error={error?.female_count}
-                            disabled={genderDisaggregationDisabled || disabled}
-                        />
-                    </div>
-                )}
-                {!value?.is_simplified_report && (
-                    <DisaggregationInput
-                        value={value}
-                        disabled={disabled}
-                        error={error}
-                        setFieldValue={setFieldValue}
-                    />
-                )}
-                {(
-                    // NOTE: This should be shown only if data is not filled by the user
-                    error?.has_no_data_on_people_reached
-                    || value?.has_no_data_on_people_reached
-                ) && (
+                    )}
                     <Switch
                         // FIXME: Add translations
-                        label="No data on people reached"
-                        name="has_no_data_on_people_reached"
-                        value={value?.has_no_data_on_people_reached}
+                        label="Detailed Reporting"
+                        name="is_simplified_report"
+                        value={value?.is_simplified_report}
                         disabled={disabled}
                         onChange={setFieldValue}
-                        error={error?.has_no_data_on_people_reached}
+                        error={error?.is_simplified_report}
+                        invertedLogic
                     />
-                )}
-                {(
-                    type === 'action'
-                    && actionDetails?.is_cash_type
-                ) && (
-                    <div className={styles.cashInput}>
-                        <NumberInput
-                            // FIXME: Add translations
-                            label="Number of Beneficiaries"
-                            name="beneficiaries_count"
-                            value={value?.beneficiaries_count}
-                            onChange={setFieldValue}
-                            disabled={disabled}
-                            error={error?.beneficiaries_count}
-                        />
-                        <NumberInput
-                            // FIXME: Add translations
-                            label="Amount in CHF"
-                            name="amount"
-                            value={value?.amount}
+                    {value?.is_simplified_report && (
+                        <RadioInput
+                            name="people_households"
+                            value={value?.people_households}
                             disabled={disabled}
                             onChange={setFieldValue}
-                            error={error?.amount}
+                            options={peopleHouseholdOptions}
+                            listContainerClassName={styles.radio}
+                            keySelector={peopleHouseholdsKeySelector}
+                            labelSelector={peopleHouseholdsLabelSelector}
+                            error={error?.people_households}
                         />
-                    </div>
-                )}
+                    )}
+                    {value?.is_simplified_report && value?.people_households === 'households' && (
+                        <NumberInput
+                            name="household_count"
+                            // FIXME: Add translations
+                            label="Households"
+                            value={value?.household_count}
+                            disabled={disabled}
+                            onChange={setFieldValue}
+                            error={error?.household_count}
+                        />
+                    )}
+                    {value?.is_simplified_report && value?.people_households === 'people' && (
+                        <div className={styles.row}>
+                            <NumberInput
+                                name="people_count"
+                                // FIXME: Add translations
+                                label="People"
+                                value={value?.people_count}
+                                onChange={setFieldValue}
+                                error={error?.people_count}
+                                disabled={peopleCountDisabled || disabled}
+                            />
+                            {/* FIXME: Add translations */}
+                            OR
+                            <NumberInput
+                                name="male_count"
+                                // FIXME: Add translations
+                                label="Male"
+                                value={value?.male_count}
+                                onChange={handleMaleCountChange}
+                                error={error?.male_count}
+                                disabled={genderDisaggregationDisabled || disabled}
+                            />
+                            <NumberInput
+                                name="female_count"
+                                // FIXME: Add translations
+                                label="Female"
+                                value={value?.female_count}
+                                onChange={handleFemaleCountChange}
+                                error={error?.female_count}
+                                disabled={genderDisaggregationDisabled || disabled}
+                            />
+                        </div>
+                    )}
+                    {!value?.is_simplified_report && (
+                        <DisaggregationInput
+                            value={value}
+                            disabled={disabled}
+                            error={error}
+                            setFieldValue={setFieldValue}
+                        />
+                    )}
+                    {(
+                        // NOTE: This should be shown only if data is not filled by the user
+                        error?.has_no_data_on_people_reached
+                        || value?.has_no_data_on_people_reached
+                    ) && (
+                        <Switch
+                            // FIXME: Add translations
+                            label="No data on people reached"
+                            name="has_no_data_on_people_reached"
+                            value={value?.has_no_data_on_people_reached}
+                            disabled={disabled}
+                            onChange={setFieldValue}
+                            error={error?.has_no_data_on_people_reached}
+                        />
+                    )}
+                    {(
+                        type === 'action'
+                        && actionDetails?.is_cash_type
+                    ) && (
+                        <div className={styles.cashInput}>
+                            <NumberInput
+                                // FIXME: Add translations
+                                label="Number of Beneficiaries"
+                                name="beneficiaries_count"
+                                value={value?.beneficiaries_count}
+                                onChange={setFieldValue}
+                                disabled={disabled}
+                                error={error?.beneficiaries_count}
+                            />
+                            <NumberInput
+                                // FIXME: Add translations
+                                label="Amount in CHF"
+                                name="amount"
+                                value={value?.amount}
+                                disabled={disabled}
+                                onChange={setFieldValue}
+                                error={error?.amount}
+                            />
+                        </div>
+                    )}
 
-                {(
-                    type === 'custom'
-                    || (type === 'action' && !actionDetails?.is_cash_type && actionDetails?.has_location)
-                ) && (
-                    <NumberInput
-                        name="point_count"
-                        // FIXME: Add translations
-                        label="No of Locations"
-                        onChange={setFieldValue}
-                        value={value?.point_count}
+                    {(
+                        type === 'custom'
+                        || (type === 'action' && !actionDetails?.is_cash_type && actionDetails?.has_location)
+                    ) && (
+                        <NumberInput
+                            name="point_count"
+                            // FIXME: Add translations
+                            label="No of Locations"
+                            onChange={setFieldValue}
+                            value={value?.point_count}
+                            disabled={disabled}
+                            error={error?.point_count}
+                        />
+                    )}
+                    {(
+                        type === 'custom'
+                        || (type === 'action' && !actionDetails?.is_cash_type && actionDetails?.has_location)
+                    ) && (
+                        <Container
+                            className={styles.customLocations}
+                            // FIXME: Add translations
+                            heading="Locations"
+                            actions={(
+                                <Button
+                                    name={undefined}
+                                    disabled={disabled}
+                                    variant="secondary"
+                                    icons={(
+                                        <AddLineIcon />
+                                    )}
+                                    // FIXME: Add translations
+                                    title="Add locations"
+                                    onClick={handleAddPointButtonClick}
+                                >
+                                    {/* FIXME: Add translations */}
+                                    Add Location
+                                </Button>
+
+                            )}
+                        >
+                            {value?.points?.map((point, index) => (
+                                <PointInput
+                                    index={index}
+                                    key={point.client_id}
+                                    value={point}
+                                    disabled={disabled}
+                                    onChange={setPoint}
+                                    error={getErrorObject(error?.points)}
+                                    onRemove={removePoint}
+                                />
+                            ))}
+
+                        </Container>
+                    )}
+                    {(
+                        type === 'action'
+                        && !actionDetails?.is_cash_type
+                        && (actionDetails?.supplies_details?.length ?? 0) > 0
+                    ) && (
+                        <Container
+                            className={styles.actionSupplies}
+                            // FIXME: Add translations
+                            heading="Supplies"
+                            actions={(
+                                <Button
+                                    name={undefined}
+                                    variant="secondary"
+                                    disabled={disabled}
+                                    icons={(
+                                        <AddLineIcon />
+                                    )}
+                                    onClick={handleAddActionSupplyClick}
+                                >
+                                    {/* FIXME: Add translations */}
+                                    Add Action Supply
+                                </Button>
+                            )}
+                        >
+                            <NonFieldError error={getErrorString(error?.supplies)} />
+                            {value?.supplies?.map((p, i) => (
+                                <ActionSupplyInput
+                                    index={i}
+                                    key={p.client_id}
+                                    value={p}
+                                    disabled={disabled}
+                                    options={actionDetails?.supplies_details}
+                                    error={getErrorObject(error?.supplies)}
+                                    onChange={setActionSupply}
+                                    onRemove={removeActionSupply}
+                                />
+                            ))}
+                        </Container>
+                    )}
+                    {(
+                        type === 'custom'
+                        || (type === 'action' && !actionDetails?.is_cash_type)
+                    ) && (
+                        <Container
+                            className={styles.customSupplies}
+                            // FIXME: Add translations
+                            heading="Custom Supplies"
+                            actions={(
+                                <Button
+                                    name={undefined}
+                                    variant="secondary"
+                                    disabled={disabled}
+                                    icons={(
+                                        <AddLineIcon />
+                                    )}
+                                    // FIXME: Add translations
+                                    title="Add custom supply"
+                                    onClick={handleAddCustomSupplyClick}
+                                >
+                                    {/* FIXME: Add translations */}
+                                    Add Custom Supply
+                                </Button>
+                            )}
+                        >
+                            <NonFieldError error={getErrorString(error?.custom_supplies)} />
+                            {value?.custom_supplies?.map((p, i) => (
+                                <CustomSupplyInput
+                                    index={i}
+                                    key={p.client_id}
+                                    value={p}
+                                    disabled={disabled}
+                                    error={getErrorObject(error?.custom_supplies)}
+                                    onChange={setCustomSupply}
+                                    onRemove={removeCustomSupply}
+                                />
+                            ))}
+
+                        </Container>
+                    )}
+                    <TextArea
+                        value={value?.details}
                         disabled={disabled}
-                        error={error?.point_count}
+                        name="details"
+                        onChange={setFieldValue}
+                        // FIXME: Add translations
+                        label="Activity Details"
+                        error={error?.details}
                     />
-                )}
-                {(
-                    type === 'custom'
-                    || (type === 'action' && !actionDetails?.is_cash_type && actionDetails?.has_location)
-                ) && (
-                    <Container
-                        className={styles.customLocations}
-                        // FIXME: Add translations
-                        heading="Locations"
-                        actions={(
-                            <Button
-                                name={undefined}
-                                disabled={disabled}
-                                variant="secondary"
-                                icons={(
-                                    <AddLineIcon />
-                                )}
-                                // FIXME: Add translations
-                                title="Add locations"
-                                onClick={handleAddPointButtonClick}
-                            >
-                                {/* FIXME: Add translations */}
-                                Add Location
-                            </Button>
-
-                        )}
-                    >
-                        {value?.points?.map((point, index) => (
-                            <PointInput
-                                index={index}
-                                key={point.client_id}
-                                value={point}
-                                disabled={disabled}
-                                onChange={setPoint}
-                                error={getErrorObject(error?.points)}
-                                onRemove={removePoint}
-                            />
-                        ))}
-
-                    </Container>
-                )}
-                {(
-                    type === 'action'
-                    && !actionDetails?.is_cash_type
-                    && (actionDetails?.supplies_details?.length ?? 0) > 0
-                ) && (
-                    <Container
-                        className={styles.actionSupplies}
-                        // FIXME: Add translations
-                        heading="Supplies"
-                        actions={(
-                            <Button
-                                name={undefined}
-                                variant="secondary"
-                                disabled={disabled}
-                                icons={(
-                                    <AddLineIcon />
-                                )}
-                                onClick={handleAddActionSupplyClick}
-                            >
-                                {/* FIXME: Add translations */}
-                                Add Action Supply
-                            </Button>
-                        )}
-                    >
-                        <NonFieldError error={getErrorString(error?.supplies)} />
-                        {value?.supplies?.map((p, i) => (
-                            <ActionSupplyInput
-                                index={i}
-                                key={p.client_id}
-                                value={p}
-                                disabled={disabled}
-                                options={actionDetails?.supplies_details}
-                                error={getErrorObject(error?.supplies)}
-                                onChange={setActionSupply}
-                                onRemove={removeActionSupply}
-                            />
-                        ))}
-                    </Container>
-                )}
-                {(
-                    type === 'custom'
-                    || (type === 'action' && !actionDetails?.is_cash_type)
-                ) && (
-                    <Container
-                        className={styles.customSupplies}
-                        // FIXME: Add translations
-                        heading="Custom Supplies"
-                        actions={(
-                            <Button
-                                name={undefined}
-                                variant="secondary"
-                                disabled={disabled}
-                                icons={(
-                                    <AddLineIcon />
-                                )}
-                                // FIXME: Add translations
-                                title="Add custom supply"
-                                onClick={handleAddCustomSupplyClick}
-                            >
-                                {/* FIXME: Add translations */}
-                                Add Custom Supply
-                            </Button>
-                        )}
-                    >
-                        <NonFieldError error={getErrorString(error?.custom_supplies)} />
-                        {value?.custom_supplies?.map((p, i) => (
-                            <CustomSupplyInput
-                                index={i}
-                                key={p.client_id}
-                                value={p}
-                                disabled={disabled}
-                                error={getErrorObject(error?.custom_supplies)}
-                                onChange={setCustomSupply}
-                                onRemove={removeCustomSupply}
-                            />
-                        ))}
-
-                    </Container>
-                )}
-                <TextArea
-                    value={value?.details}
-                    disabled={disabled}
-                    name="details"
-                    onChange={setFieldValue}
-                    // FIXME: Add translations
-                    label="Activity Details"
-                    error={error?.details}
-                />
+                </div>
             </InputSection>
         </ExpandableContainer>
     );

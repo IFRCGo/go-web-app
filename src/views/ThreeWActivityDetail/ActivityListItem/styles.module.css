@@ -2,18 +2,18 @@
     .action-content {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-md);
+        gap: var(--go-ui-spacing-sm);
 
         .activity-details {
             display: flex;
             flex-direction: column;
-            gap: var(--go-ui-spacing-sm);
+            gap: var(--go-ui-spacing-3xs);
         }
 
         .supply-content {
             display: flex;
             flex-direction: column;
-            gap: var(--go-ui-spacing-sm);
+            gap: 0;
         }
     }
 }

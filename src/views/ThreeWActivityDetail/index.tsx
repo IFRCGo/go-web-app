@@ -11,10 +11,11 @@ import { getUserName } from '#utils/domain/user';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import Container from '#components/Container';
-import BlockLoading from '#components/BlockLoading';
+import Message from '#components/Message';
 import TextOutput from '#components/TextOutput';
 import List from '#components/List';
 import DateOutput from '#components/DateOutput';
+import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
 import useTranslation from '#hooks/useTranslation';
 import { type GoApiResponse, useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
@@ -38,8 +39,9 @@ export function Component() {
     const { activityId } = useParams<{ activityId: string }>();
 
     const {
-        response: emergencyResponse,
-        pending: emergencyPending,
+        pending: fetchingActivity,
+        response: activityResponse,
+        error: activityResponseError,
     } = useRequest({
         skip: isNotDefined(activityId),
         url: '/api/v2/emergency-project/{id}/',
@@ -54,29 +56,29 @@ export function Component() {
         url: '/api/v2/emergency-project/options/',
     });
 
-    const title = emergencyResponse?.title || '--';
-    const modifiedAt = emergencyResponse?.modified_at;
-    const modifiedBy = emergencyResponse?.modified_by_details;
-    const eventId = emergencyResponse?.event;
-    const eventName = emergencyResponse?.event_details?.name;
-    const countryId = emergencyResponse?.country;
-    const countryName = emergencyResponse?.country_details?.name;
-    const districtsName = emergencyResponse?.districts_details
+    const heading = activityResponse?.title || strings.activityHeading;
+    const modifiedAt = activityResponse?.modified_at;
+    const modifiedBy = activityResponse?.modified_by_details;
+    const eventId = activityResponse?.event;
+    const eventName = activityResponse?.event_details?.name;
+    const countryId = activityResponse?.country;
+    const countryName = activityResponse?.country_details?.name;
+    const districtsName = activityResponse?.districts_details
         ?.map((district) => district.name)
         .join(', ');
-    const startDate = emergencyResponse?.start_date;
-    const statusName = emergencyResponse?.status_display;
-    const activityLead = emergencyResponse?.activity_lead;
-    const activityLeadName = emergencyResponse?.activity_lead_display;
+    const startDate = activityResponse?.start_date;
+    const statusName = activityResponse?.status_display;
+    const activityLead = activityResponse?.activity_lead;
+    const activityLeadName = activityResponse?.activity_lead_display;
 
     // activity_lead = deployed_eru
-    const eruNationalSocietyName = emergencyResponse?.deployed_eru_details
+    const eruNationalSocietyName = activityResponse?.deployed_eru_details
         ?.eru_owner_details
         ?.national_society_country_details
         ?.society_name;
 
     // activity_lead = national_society
-    const nationalSocietyName = emergencyResponse?.reporting_ns_details.society_name;
+    const nationalSocietyName = activityResponse?.reporting_ns_details.society_name;
 
     const supplyMapping = useMemo(() => (
         listToMap(
@@ -108,23 +110,27 @@ export function Component() {
         supplyMapping,
     }), [supplyMapping]);
 
+    const shouldHideDetails = fetchingActivity
+        || isDefined(activityResponseError);
+
     return (
         <Page
-            title={strings.emergencyDetailsHeading}
-            className={styles.emergencyDetails}
-            heading={title}
+            title={strings.activityPageTitle}
+            className={styles.threeWActivityDetail}
+            heading={heading}
             actions={(
                 <Link
                     variant="secondary"
                     to="threeWActivityEdit"
                     urlParams={{ activityId }}
                     icons={<PencilFillIcon />}
+                    disabled={shouldHideDetails}
                 >
                     {strings.emergencyEdit}
                 </Link>
             )}
             descriptionContainerClassName={styles.description}
-            description={(
+            description={!shouldHideDetails && (
                 resolveToComponent(
                     strings.emergencyLastModifiedOnTitle,
                     {
@@ -137,10 +143,19 @@ export function Component() {
                     },
                 )
             )}
-            mainSectionClassName={styles.main}
+            mainSectionClassName={styles.content}
         >
-            {emergencyPending && <BlockLoading />}
-            {!emergencyPending && emergencyResponse && (
+            {fetchingActivity && (
+                <Message
+                    pending
+                />
+            )}
+            {isDefined(activityResponseError) && (
+                <DetailsFailedToLoadMessage
+                    description={activityResponseError.value.messageForNotification}
+                />
+            )}
+            {!shouldHideDetails && (
                 <>
                     <Container
                         className={styles.emergencyThreeWDetails}
@@ -152,6 +167,7 @@ export function Component() {
                                 <Link
                                     to="emergencyDetails"
                                     urlParams={{ emergencyId: eventId }}
+                                    withUnderline
                                 >
                                     {eventName}
                                 </Link>
@@ -164,6 +180,7 @@ export function Component() {
                                 <Link
                                     to="countriesLayout"
                                     urlParams={{ countryId }}
+                                    withUnderline
                                 >
                                     {countryName}
                                 </Link>
@@ -208,17 +225,16 @@ export function Component() {
                     </Container>
                     <Container
                         heading={strings.emergencyActivities}
-                        headingLevel={2}
                         withHeaderBorder
                         childrenContainerClassName={styles.activityContent}
                     >
                         <List
                             className={styles.list}
-                            data={emergencyResponse?.activities}
+                            data={activityResponse?.activities}
                             renderer={ActivityListItem}
                             rendererParams={simplifiedReportListRendererParams}
                             keySelector={simplifiedKeySelector}
-                            pending={emergencyPending}
+                            pending={fetchingActivity}
                             errored={false}
                             filtered={false}
                         />

@@ -629,7 +629,7 @@ export function Component() {
     const languageMismatch = isDefined(projectId)
         && isDefined(projectResponse)
         && currentLanguage !== projectResponse?.translation_module_original_language;
-    const shouldHideform = languageMismatch
+    const shouldHideForm = languageMismatch
         || nonEnglishCreate
         || fetchingProject
         || isDefined(projectResponseError);
@@ -641,7 +641,7 @@ export function Component() {
             heading={strings.threeWFormHeading}
             description={strings.threeWFormDescription}
             withBackgroundColorInMainSection
-            info={!shouldHideform && (
+            info={!shouldHideForm && isNotDefined(projectId) && (
                 <NavigationTabList
                     className={styles.tabList}
                     variant="secondary"
@@ -680,7 +680,7 @@ export function Component() {
                     description={projectResponseError.value.messageForNotification}
                 />
             )}
-            {!shouldHideform && (
+            {!shouldHideForm && (
                 <>
                     <InputSection
                         title={strings.projectFormReportingNational}

@@ -1,8 +1,8 @@
 {
     "namespace": "threeWProjectForm",
     "strings": {
-        "threeWFormTitle": "IFRC GO - Three W",
-        "threeWFormHeading": "3W Monitoring Form",
+        "threeWFormTitle": "IFRC GO - 3W Project",
+        "threeWFormHeading": "3W Project",
         "threeWFormDescription": "The information you provide will be used to inform the operational planning and to communicate about our work. The numbers will be made public but your personal information will never be shared.",
         "newThreeWProjectTabLabel": "Project",
         "newThreeWActivityTabLabel": "Response Activity",

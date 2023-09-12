@@ -52,8 +52,9 @@ function ActivityListItem(props: Props) {
         <Container
             className={styles.activityList}
             heading={title ?? customAction}
-            headingLevel={3}
+            headingLevel={4}
             childrenContainerClassName={styles.actionContent}
+            spacing="condensed"
         >
             <div className={styles.activityDetails}>
                 <TextOutput
@@ -100,14 +101,14 @@ function ActivityListItem(props: Props) {
                 <Container
                     childrenContainerClassName={styles.supplyContent}
                     heading={strings.emergencySupplies}
-                    headingLevel={4}
+                    headingLevel={5}
+                    spacing="none"
                 >
                     {Object.entries(activitySupply).map(([supply, value]) => (
                         <TextOutput
                             key={supply}
                             label={supplyMapping?.[Number(supply)]?.title}
                             value={value}
-                            strongLabel
                         />
                     ))}
                 </Container>
@@ -117,14 +118,14 @@ function ActivityListItem(props: Props) {
                 <Container
                     childrenContainerClassName={styles.supplyContent}
                     heading={strings.emergencyCustomSupplies}
-                    headingLevel={4}
+                    headingLevel={5}
+                    spacing="none"
                 >
                     {Object.entries(customSupply).map(([supply, value]) => (
                         <TextOutput
                             key={supply}
                             label={supply}
                             value={value}
-                            strongLabel
                         />
                     ))}
                 </Container>
