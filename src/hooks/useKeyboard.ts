@@ -61,6 +61,7 @@ function useKeyboard<T, Q extends OptionKey>(
     onHideOptions: () => void,
     onShowOptions: () => void,
     onOptionSelect: (key: Q, value: T) => void,
+    onEnterWithoutOption?: () => void,
 ) {
     const handleKeyDown = useCallback(
         (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -87,6 +88,12 @@ function useKeyboard<T, Q extends OptionKey>(
                     if (focusedOption) {
                         onOptionSelect(myKey, focusedOption);
                     }
+                } else {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if (onEnterWithoutOption) {
+                        onEnterWithoutOption();
+                    }
                 }
             } else if (keyCode === Keys.Up) {
                 e.stopPropagation();
@@ -108,6 +115,7 @@ function useKeyboard<T, Q extends OptionKey>(
             onHideOptions,
             onOptionSelect,
             onShowOptions,
+            onEnterWithoutOption,
             options,
         ],
     );

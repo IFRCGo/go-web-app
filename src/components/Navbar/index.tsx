@@ -1,21 +1,17 @@
-import { useCallback, useContext } from 'react';
+import { useContext } from 'react';
 import { isNotDefined, _cs } from '@togglecorp/fujs';
-import { SearchLineIcon } from '@ifrc-go/icons';
 
-import useRouting from '#hooks/useRouting';
 import PageContainer from '#components/PageContainer';
 import Link from '#components/Link';
-import TextInput from '#components/TextInput';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import RegionDropdown from '#components/domain/RegionDropdown';
 import useTranslation from '#hooks/useTranslation';
-import useInputState from '#hooks/useInputState';
-import { KEY_URL_SEARCH, SEARCH_TEXT_LENGTH_MIN } from '#utils/constants';
 import UserContext from '#contexts/user';
 import goLogo from '#assets/icons/go-logo-2020.svg';
+import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import { environment } from '#config';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
@@ -34,26 +30,6 @@ function Navbar(props: Props) {
 
     const { userAuth: userDetails } = useContext(UserContext);
     const strings = useTranslation(i18n);
-    const [searchText, setSearchText] = useInputState<string | undefined>(undefined);
-
-    const { navigate } = useRouting();
-
-    const handleSearchInputEnter = useCallback(() => {
-        const searchStringSafe = searchText?.trim() ?? '';
-        if (searchStringSafe.length >= SEARCH_TEXT_LENGTH_MIN) {
-            setSearchText(undefined);
-            navigate(
-                'search',
-                {
-                    search: `${KEY_URL_SEARCH}=${searchText}`,
-                },
-            );
-        }
-    }, [
-        searchText,
-        setSearchText,
-        navigate,
-    ]);
 
     return (
         <nav className={_cs(styles.navbar, className)}>
@@ -189,20 +165,7 @@ function Navbar(props: Props) {
                         </NavigationTab>
                     </NavigationTabList>
                     <div className={styles.searchContainer}>
-                        <TextInput
-                            placeholder="Search"
-                            value={searchText}
-                            name={undefined}
-                            onChange={setSearchText}
-                            icons={<SearchLineIcon />}
-                            // FIXME: do not inline functions
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    handleSearchInputEnter();
-                                }
-                            }}
-                        />
+                        <KeywordSearchSelectInput />
                     </div>
                 </div>
             </PageContainer>
