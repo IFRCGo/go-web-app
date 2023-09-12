@@ -15,6 +15,7 @@
                 display: flex;
                 align-items: top;
                 flex-grow: 1;
+                flex-wrap: wrap;
                 gap: var(--go-ui-spacing-sm);
 
                 .go-icon {

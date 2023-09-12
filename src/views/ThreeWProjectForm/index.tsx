@@ -24,6 +24,7 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
+import { transformObjectError } from '#utils/restRequest/error';
 import useRouting from '#hooks/useRouting';
 import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
@@ -516,10 +517,19 @@ export function Component() {
                 { params: { projectId: response.id } },
             );
         },
-        onFailure: ({
-            value: { messageForNotification },
-            debugMessage,
-        }) => {
+        onFailure: (err) => {
+            const {
+                value: {
+                    formErrors,
+                    messageForNotification,
+                },
+                debugMessage,
+            } = err;
+
+            // FIXME:
+            // getKey for (not updated)
+            onErrorSet(transformObjectError(formErrors, () => undefined));
+
             alert.show(
                 strings.projectFormUpdateRequestFailure,
                 {
@@ -547,10 +557,19 @@ export function Component() {
                 { variant: 'success' },
             );
         },
-        onFailure: ({
-            value: { messageForNotification },
-            debugMessage,
-        }) => {
+        onFailure: (err) => {
+            const {
+                value: {
+                    formErrors,
+                    messageForNotification,
+                },
+                debugMessage,
+            } = err;
+
+            // FIXME:
+            // getKey for (not updated)
+            onErrorSet(transformObjectError(formErrors, () => undefined));
+
             alert.show(
                 strings.projectFormUpdateRequestFailure,
                 {

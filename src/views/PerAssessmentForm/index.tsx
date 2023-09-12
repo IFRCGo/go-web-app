@@ -25,7 +25,11 @@ import {
 } from '@togglecorp/toggle-form';
 
 import useRouting from '#hooks/useRouting';
-import { transformObjectError } from '#utils/restRequest/error';
+import {
+    transformObjectError,
+    matchArray,
+    NUM,
+} from '#utils/restRequest/error';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import Portal from '#components/Portal';
@@ -188,12 +192,30 @@ export function Component() {
             },
             debugMessage,
         }) => {
-            // FIXME:
-            // getKey for
-            // 1. area_responses
-            // 2. component_responses
-            // 3. question_responses
-            setError(transformObjectError(formErrors, () => undefined));
+            setError(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['area_responses', NUM, 'component_responses', NUM, 'question_responses', NUM]);
+                    if (isDefined(match)) {
+                        const [response_index, component_index, question_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.area_responses?.[response_index]?.component_responses?.[component_index]?.question_responses?.[question_index]?.client_id;
+                    }
+                    match = matchArray(locations, ['area_responses', NUM, 'component_responses', NUM]);
+                    if (isDefined(match)) {
+                        const [response_index, component_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.area_responses?.[response_index]?.component_responses?.[component_index]?.client_id;
+                    }
+                    match = matchArray(locations, ['area_responses', NUM]);
+                    if (isDefined(match)) {
+                        const [response_index] = match;
+                        return value?.area_responses?.[response_index]?.client_id;
+                    }
+                    return undefined;
+                },
+
+            ));
             alert.show(
                 strings.saveRequestFailureMessage,
                 {

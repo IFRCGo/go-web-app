@@ -40,7 +40,11 @@ import {
     useLazyRequest,
     useRequest,
 } from '#utils/restRequest';
-import { transformObjectError } from '#utils/restRequest/error';
+import {
+    transformObjectError,
+    matchArray,
+    NUM,
+} from '#utils/restRequest/error';
 
 import {
     prioritizationSchema,
@@ -172,10 +176,17 @@ export function Component() {
             },
             debugMessage,
         }) => {
-            // FIXME:
-            // getKey for
-            // 1. prioritized_action_responses
-            setError(transformObjectError(formErrors, () => undefined));
+            setError(transformObjectError(
+                formErrors,
+                (locations) => {
+                    const match = matchArray(locations, ['prioritized_action_responses', NUM]);
+                    if (isDefined(match)) {
+                        const [response_index] = match;
+                        return value?.prioritized_action_responses?.[response_index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
             alert.show(
                 strings.saveRequestFailureMessage,
                 {

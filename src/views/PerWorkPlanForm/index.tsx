@@ -33,7 +33,11 @@ import { type PerProcessOutletContext } from '#utils/outletContext';
 import { PER_PHASE_WORKPLAN } from '#utils/domain/per';
 import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
-import { transformObjectError } from '#utils/restRequest/error';
+import {
+    transformObjectError,
+    matchArray,
+    NUM,
+} from '#utils/restRequest/error';
 
 import PrioritizedActionInput from './PrioritizedActionInput';
 import AdditionalActionInput from './AdditionalActionInput';
@@ -175,7 +179,22 @@ export function Component() {
             // getKey for (names have changed)
             // 1. prioritized_action_responses
             // 2. additional_action_responses
-            setError(transformObjectError(formErrors, () => undefined));
+            setError(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['prioritized_action_responses', NUM]);
+                    if (isDefined(match)) {
+                        const [response_index] = match;
+                        return value?.prioritized_action_responses?.[response_index]?.client_id;
+                    }
+                    match = matchArray(locations, ['additional_action_responses', NUM]);
+                    if (isDefined(match)) {
+                        const [response_index] = match;
+                        return value?.additional_action_responses?.[response_index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
             alert.show(
                 strings.saveRequestFailureMessage,
                 {

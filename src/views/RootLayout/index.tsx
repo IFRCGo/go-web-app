@@ -318,9 +318,10 @@ export function Component() {
 
     // FIXME: use translations
     const environmentTexts = {
-        prod: 'Production Site',
-        dev: 'Development Site',
-        stage: 'Staging Site',
+        production: 'Production Site',
+        development: 'Development Site',
+        staging: 'Staging Site',
+        testing: 'Testing Site',
     };
 
     return (
@@ -340,7 +341,7 @@ export function Component() {
                 </div>
                 <GlobalFooter className={styles.footer} />
                 <AlertContainer />
-                {environment !== 'prod' && (
+                {environment !== 'production' && (
                     <div className={styles.banner}>
                         {environmentTexts[environment]}
                     </div>

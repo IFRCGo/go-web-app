@@ -69,7 +69,7 @@ function Navbar(props: Props) {
                             alt={strings.headerLogoAltText}
                         />
                     </Link>
-                    {environment !== 'prod' && (
+                    {environment !== 'production' && (
                         <div className={styles.env}>
                             {environment}
                         </div>
