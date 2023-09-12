@@ -100,7 +100,7 @@ function transformLeafError(error: ResponseLeafError | undefined) {
 }
 
 export type Location = (string | number)[];
-type GetKey = (location: Location) => string | undefined;
+type GetKey = (location: Location) => string | number | undefined;
 
 function transformArrayError(
     error: ResponseArrayError | undefined,

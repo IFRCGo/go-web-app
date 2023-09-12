@@ -199,18 +199,18 @@ export function Component() {
                     if (isDefined(match)) {
                         const [response_index, component_index, question_index] = match;
                         // eslint-disable-next-line max-len
-                        return value?.area_responses?.[response_index]?.component_responses?.[component_index]?.question_responses?.[question_index]?.client_id;
+                        return value?.area_responses?.[response_index]?.component_responses?.[component_index]?.question_responses?.[question_index]?.question;
                     }
                     match = matchArray(locations, ['area_responses', NUM, 'component_responses', NUM]);
                     if (isDefined(match)) {
                         const [response_index, component_index] = match;
                         // eslint-disable-next-line max-len
-                        return value?.area_responses?.[response_index]?.component_responses?.[component_index]?.client_id;
+                        return value?.area_responses?.[response_index]?.component_responses?.[component_index]?.component;
                     }
                     match = matchArray(locations, ['area_responses', NUM]);
                     if (isDefined(match)) {
                         const [response_index] = match;
-                        return value?.area_responses?.[response_index]?.client_id;
+                        return value?.area_responses?.[response_index]?.area;
                     }
                     return undefined;
                 },

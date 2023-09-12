@@ -24,7 +24,11 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 
-import { transformObjectError } from '#utils/restRequest/error';
+import {
+    transformObjectError,
+    matchArray,
+    NUM,
+} from '#utils/restRequest/error';
 import useRouting from '#hooks/useRouting';
 import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
@@ -526,9 +530,17 @@ export function Component() {
                 debugMessage,
             } = err;
 
-            // FIXME:
-            // getKey for (not updated)
-            onErrorSet(transformObjectError(formErrors, () => undefined));
+            onErrorSet(transformObjectError(
+                formErrors,
+                (locations) => {
+                    const match = matchArray(locations, ['annual_splits', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.annual_splits?.[index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
 
             alert.show(
                 strings.projectFormUpdateRequestFailure,
@@ -566,9 +578,17 @@ export function Component() {
                 debugMessage,
             } = err;
 
-            // FIXME:
-            // getKey for (not updated)
-            onErrorSet(transformObjectError(formErrors, () => undefined));
+            onErrorSet(transformObjectError(
+                formErrors,
+                (locations) => {
+                    const match = matchArray(locations, ['annual_splits', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.annual_splits?.[index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
 
             alert.show(
                 strings.projectFormUpdateRequestFailure,

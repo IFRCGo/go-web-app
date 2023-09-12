@@ -27,7 +27,11 @@ import {
     useLocation,
 } from 'react-router-dom';
 
-import { transformObjectError } from '#utils/restRequest/error';
+import {
+    transformObjectError,
+    matchArray,
+    NUM,
+} from '#utils/restRequest/error';
 import useRouting from '#hooks/useRouting';
 import useTranslation from '#hooks/useTranslation';
 import NavigationTab from '#components/NavigationTab';
@@ -269,9 +273,36 @@ export function Component() {
                 debugMessage,
             } = err;
 
-            // FIXME:
-            // getKey for (not updated)
-            onErrorSet(transformObjectError(formErrors, () => undefined));
+            onErrorSet(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['activities', NUM, 'supplies', NUM]);
+                    if (isDefined(match)) {
+                        const [activity_index, supply_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.activities?.[activity_index]?.supplies?.[supply_index]?.client_id;
+                    }
+                    match = matchArray(locations, ['activities', NUM, 'custom_supplies', NUM]);
+                    if (isDefined(match)) {
+                        const [activity_index, supply_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.activities?.[activity_index]?.custom_supplies?.[supply_index]?.client_id;
+                    }
+                    match = matchArray(locations, ['activities', NUM, 'points', NUM]);
+                    if (isDefined(match)) {
+                        const [activity_index, point_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.activities?.[activity_index]?.points?.[point_index]?.client_id;
+                    }
+                    match = matchArray(locations, ['activities', NUM]);
+                    if (isDefined(match)) {
+                        const [activity_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.activities?.[activity_index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
 
             alert.show(
                 // FIXME: Add translations
@@ -316,10 +347,37 @@ export function Component() {
                 debugMessage,
             } = err;
 
-            // FIXME:
-            // getKey for (not updated)
-            onErrorSet(transformObjectError(formErrors, () => undefined));
-            // FIXME: Add appropriate error handling
+            onErrorSet(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['activities', NUM, 'supplies', NUM]);
+                    if (isDefined(match)) {
+                        const [activity_index, supply_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.activities?.[activity_index]?.supplies?.[supply_index]?.client_id;
+                    }
+                    match = matchArray(locations, ['activities', NUM, 'custom_supplies', NUM]);
+                    if (isDefined(match)) {
+                        const [activity_index, supply_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.activities?.[activity_index]?.custom_supplies?.[supply_index]?.client_id;
+                    }
+                    match = matchArray(locations, ['activities', NUM, 'points', NUM]);
+                    if (isDefined(match)) {
+                        const [activity_index, point_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.activities?.[activity_index]?.points?.[point_index]?.client_id;
+                    }
+                    match = matchArray(locations, ['activities', NUM]);
+                    if (isDefined(match)) {
+                        const [activity_index] = match;
+                        // eslint-disable-next-line max-len
+                        return value?.activities?.[activity_index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
+
             alert.show(
                 // FIXME: Add translations
                 'Failed to update project activities',

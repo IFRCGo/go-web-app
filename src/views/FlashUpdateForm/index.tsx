@@ -21,7 +21,11 @@ import {
     useParams,
 } from 'react-router-dom';
 
-import { transformObjectError } from '#utils/restRequest/error';
+import {
+    transformObjectError,
+    matchArray,
+    NUM,
+} from '#utils/restRequest/error';
 import useRouting from '#hooks/useRouting';
 import useAlert from '#hooks/useAlert';
 import Page from '#components/Page';
@@ -174,10 +178,37 @@ export function Component() {
                 debugMessage,
             } = err;
 
-            // FIXME:
-            // getKey for (not updated)
-            setError(transformObjectError(formErrors, () => undefined));
-
+            setError(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['country_district', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.country_district?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['graphics_files', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.graphics_files?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['map_files', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.map_files?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['references', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.references?.[index]?.client_id;
+                    }
+                    match = matchArray(locations, ['actions_taken', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.actions_taken?.[index]?.client_id;
+                    }
+                    return undefined;
+                },
+            ));
             alert.show(
                 strings.flashUpdateFormSaveRequestFailureMessage,
                 {
