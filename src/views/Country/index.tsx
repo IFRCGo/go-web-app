@@ -95,6 +95,13 @@ export function Component() {
             className={styles.country}
             title={pageTitle}
             heading={countryResponse?.name ?? '--'}
+            description={(
+                <Link
+                    to={countryResponse.regions_details?.id}
+                >
+                    {countryResponse?.regions_details?.region_name}
+                </Link>
+            )}
             infoContainerClassName={styles.keyFigureList}
             info={(
                 <>
