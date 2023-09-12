@@ -188,12 +188,12 @@ export function Component() {
                     to: 'emergenciesLayout',
                     urlParams: { emergencyId: item?.event },
                 }),
+                { sortable: true },
             ),
             createStringColumn<AppealListItem, string>(
                 'dtype',
                 strings.allAppealsDisasterType,
                 (item) => item.dtype?.name,
-                { sortable: true },
             ),
             createNumberColumn<AppealListItem, string>(
                 'amount_requested',
