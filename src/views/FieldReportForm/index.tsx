@@ -5,9 +5,7 @@ import {
     useRef,
     type ElementRef,
 } from 'react';
-import {
-    useParams,
-} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
     isDefined,
     isNotDefined,
@@ -33,12 +31,16 @@ import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
 import Page from '#components/Page';
+import Message from '#components/Message';
+import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import { type EventItem } from '#components/domain/EventSearchSelectInput';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useDisasterType from '#hooks/domain/useDisasterType';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import { resolveToString } from '#utils/translation';
 import { formatDate } from '#utils/common';
 import { useRequest, useLazyRequest } from '#utils/restRequest';
@@ -116,22 +118,17 @@ function getNextStep(
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { fieldReportId } = useParams<{ fieldReportId: string }>();
-
-    const alert = useAlert();
-
     const { navigate } = useRouting();
-
+    const alert = useAlert();
     const strings = useTranslation(i18n);
-
     const formContentRef = useRef<ElementRef<'div'>>(null);
+    const countries = useCountryRaw();
+    const disasterTypeOptions = useDisasterType();
+    const currentLanguage = useCurrentLanguage();
 
     const [activeTab, setActiveTab] = useState<TabKeys>('context');
     const [eventOptions, setEventOptions] = useState<EventItem[] | null | undefined>([]);
     const [districtOptions, setDistrictOptions] = useState<DistrictItem[] | null | undefined>([]);
-
-    const countries = useCountryRaw();
-
-    const disasterTypeOptions = useDisasterType();
 
     const {
         value,
@@ -209,6 +206,8 @@ export function Component() {
 
     const {
         pending: fieldReportPending,
+        error: fieldReportResponseError,
+        response: fieldReportResponse,
     } = useRequest({
         // FIXME: need to check if fieldReportId can be ''
         url: '/api/v2/field-report/{id}/',
@@ -242,6 +241,8 @@ export function Component() {
         url: '/api/v2/field-report/{id}/',
         pathVariables: isDefined(fieldReportId) ? { id: Number(fieldReportId) } : undefined,
         method: 'PUT',
+        // NOTE: Field report can be submitted in non-english languages as well
+        useCurrentLanguageForMutation: true,
         body: (ctx: FieldReportBody) => ctx,
         onSuccess: (response) => {
             alert.show(
@@ -282,14 +283,9 @@ export function Component() {
             ));
 
             alert.show(
-                <p>
-                    {strings.formErrorLabel}
-                    &nbsp;
-                    <strong>
-                        {messageForNotification}
-                    </strong>
-                </p>,
+                strings.formErrorLabel,
                 {
+                    description: messageForNotification,
                     variant: 'danger',
                     debugMessage,
                 },
@@ -303,6 +299,8 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/field-report/',
         method: 'POST',
+        // NOTE: Field report can be submitted in non-english languages as well
+        useCurrentLanguageForMutation: true,
         body: (ctx: FieldReportBody) => ctx,
         onSuccess: (response) => {
             alert.show(
@@ -328,14 +326,9 @@ export function Component() {
         }) => {
             onErrorSet(transformObjectError(formErrors, () => undefined));
             alert.show(
-                <p>
-                    {strings.formErrorLabel}
-                    &nbsp;
-                    <strong>
-                        {messageForNotification}
-                    </strong>
-                </p>,
+                strings.formErrorLabel,
                 {
+                    description: messageForNotification,
                     variant: 'danger',
                     debugMessage,
                 },
@@ -455,55 +448,6 @@ export function Component() {
         ],
     );
 
-    const handleTabChange = useCallback((newTab: TabKeys) => {
-        formContentRef.current?.scrollIntoView();
-        setActiveTab(newTab);
-    }, []);
-
-    const handleSubmit = useCallback(
-        (formValues: PartialFormValue) => {
-            formContentRef.current?.scrollIntoView();
-
-            const sanitizedValues = transformFormFieldsToAPIFields(
-                formValues as FormValue,
-            );
-
-            if (fieldReportId) {
-                editSubmitRequest({
-                    ...sanitizedValues,
-                } as FieldReportBody);
-            } else {
-                const summary = getTitle(
-                    formValues.country,
-                    sanitizedValues.is_covid_report,
-                    sanitizedValues.start_date,
-                    sanitizedValues.dtype,
-                    sanitizedValues.summary,
-                );
-
-                createSubmitRequest({
-                    ...sanitizedValues,
-                    summary,
-                } as FieldReportBody);
-            }
-        },
-        [
-            getTitle,
-            fieldReportId,
-            editSubmitRequest,
-            createSubmitRequest,
-        ],
-    );
-
-    const handleFormSubmit = createSubmitHandler(validate, onErrorSet, handleSubmit);
-
-    const pending = fieldReportPending
-        || fieldReportEditSubmitPending
-        || fieldReportCreateSubmitPending;
-
-    const nextStep = getNextStep(activeTab, 1, value.status);
-    const prevStep = getNextStep(activeTab, -1, value.status);
-
     const isReviewCountry = useMemo(() => {
         if (isNotDefined(value.country)) {
             return false;
@@ -566,6 +510,62 @@ export function Component() {
         [actionsResponse, filterActions],
     );
 
+    const handleTabChange = useCallback((newTab: TabKeys) => {
+        formContentRef.current?.scrollIntoView();
+        setActiveTab(newTab);
+    }, []);
+
+    const handleSubmit = useCallback(
+        (formValues: PartialFormValue) => {
+            formContentRef.current?.scrollIntoView();
+
+            const sanitizedValues = transformFormFieldsToAPIFields(
+                formValues as FormValue,
+            );
+
+            if (fieldReportId) {
+                editSubmitRequest({
+                    ...sanitizedValues,
+                } as FieldReportBody);
+            } else {
+                const summary = getTitle(
+                    formValues.country,
+                    sanitizedValues.is_covid_report,
+                    sanitizedValues.start_date,
+                    sanitizedValues.dtype,
+                    sanitizedValues.summary,
+                );
+
+                createSubmitRequest({
+                    ...sanitizedValues,
+                    summary,
+                } as FieldReportBody);
+            }
+        },
+        [
+            getTitle,
+            fieldReportId,
+            editSubmitRequest,
+            createSubmitRequest,
+        ],
+    );
+
+    const handleFormSubmit = createSubmitHandler(validate, onErrorSet, handleSubmit);
+
+    const pending = fieldReportPending
+        || fieldReportEditSubmitPending
+        || fieldReportCreateSubmitPending;
+
+    const nextStep = getNextStep(activeTab, 1, value.status);
+    const prevStep = getNextStep(activeTab, -1, value.status);
+
+    const languageMismatch = isDefined(fieldReportId)
+        && isDefined(fieldReportResponse)
+        && currentLanguage !== fieldReportResponse?.translation_module_original_language;
+    const shouldHideForm = languageMismatch
+        || fieldReportPending
+        || isDefined(fieldReportResponseError);
+
     return (
         <Tabs
             value={activeTab}
@@ -583,7 +583,7 @@ export function Component() {
                         : strings.createHeading
                 )}
                 // FIXME: Add link to wiki
-                info={(
+                info={!shouldHideForm && (
                     <TabList className={styles.tabList}>
                         <Tab
                             name="context"
@@ -647,100 +647,121 @@ export function Component() {
                 withBackgroundColorInMainSection
                 mainSectionClassName={styles.content}
             >
-                <TabPanel name="context">
-                    <ContextFields
-                        error={error}
-                        onValueChange={onValueChange}
-                        value={value}
-                        reportType={reportType}
-                        setDistrictOptions={setDistrictOptions}
-                        districtOptions={districtOptions}
-                        setEventOptions={setEventOptions}
-                        eventOptions={eventOptions}
-                        disabled={pending}
-                        titlePreview={titlePreview}
+                {fieldReportPending && (
+                    <Message
+                        pending
+                        title={strings.formLoadingMessage}
                     />
-                </TabPanel>
-                <TabPanel name="risk-analysis">
-                    <RiskAnalysisFields
-                        error={error}
-                        onValueChange={onValueChange}
-                        value={value}
-                        disabled={pending}
+                )}
+                {languageMismatch && (
+                    <LanguageMismatchMessage
+                        originalLanguage={fieldReportResponse.translation_module_original_language}
                     />
-                </TabPanel>
-                <TabPanel name="situation">
-                    <SituationFields
-                        error={error}
-                        onValueChange={onValueChange}
-                        value={value}
-                        reportType={reportType}
-                        disabled={pending}
+                )}
+                {isDefined(fieldReportResponseError) && (
+                    <FormFailedToLoadMessage
+                        title={strings.formLoadErrorTitle}
+                        description={fieldReportResponseError.value.messageForNotification}
                     />
-                </TabPanel>
-                <TabPanel name="early-actions">
-                    <EarlyActionsFields
-                        reportType={reportType}
-                        error={error}
-                        onValueChange={onValueChange}
-                        value={value}
-                        actionOptions={actionsByOrganizationType}
-                        disabled={pending}
-                    />
-                </TabPanel>
-                <TabPanel name="actions">
-                    <ActionsFields
-                        reportType={reportType}
-                        error={error}
-                        onValueChange={onValueChange}
-                        value={value}
-                        actionOptions={actionsByOrganizationType}
-                        externalPartnerOptions={externalPartnersResponse?.results}
-                        supportedActivityOptions={supportedActivitiesResponse?.results}
-                        disabled={pending}
-                    />
-                </TabPanel>
-                <TabPanel name="response">
-                    <ResponseFields
-                        error={error}
-                        onValueChange={onValueChange}
-                        value={value}
-                        reportType={reportType}
-                        isReviewCountry={isReviewCountry}
-                        disabled={pending}
-                    />
-                </TabPanel>
-                <NonFieldError
-                    error={error}
-                    message={strings.formNonFieldError}
-                />
-                <div className={styles.actions}>
-                    <div className={styles.pageActions}>
-                        <Button
-                            name={prevStep ?? activeTab}
-                            onClick={handleTabChange}
-                            disabled={isNotDefined(prevStep)}
-                            variant="secondary"
-                        >
-                            {strings.backButtonLabel}
-                        </Button>
-                        <Button
-                            name={nextStep ?? activeTab}
-                            onClick={handleTabChange}
-                            disabled={isNotDefined(nextStep)}
-                            variant="secondary"
-                        >
-                            {strings.continueButtonLabel}
-                        </Button>
-                    </div>
-                    <Button
-                        name={undefined}
-                        onClick={handleFormSubmit}
-                        disabled={activeTab !== 'response'}
-                    >
-                        {strings.submitButtonLabel}
-                    </Button>
-                </div>
+                )}
+                {!shouldHideForm && (
+                    <>
+                        <NonFieldError
+                            error={error}
+                            message={strings.formNonFieldError}
+                        />
+                        <TabPanel name="context">
+                            <ContextFields
+                                error={error}
+                                onValueChange={onValueChange}
+                                value={value}
+                                reportType={reportType}
+                                setDistrictOptions={setDistrictOptions}
+                                districtOptions={districtOptions}
+                                setEventOptions={setEventOptions}
+                                eventOptions={eventOptions}
+                                disabled={pending}
+                                titlePreview={titlePreview}
+                            />
+                        </TabPanel>
+                        <TabPanel name="risk-analysis">
+                            <RiskAnalysisFields
+                                error={error}
+                                onValueChange={onValueChange}
+                                value={value}
+                                disabled={pending}
+                            />
+                        </TabPanel>
+                        <TabPanel name="situation">
+                            <SituationFields
+                                error={error}
+                                onValueChange={onValueChange}
+                                value={value}
+                                reportType={reportType}
+                                disabled={pending}
+                            />
+                        </TabPanel>
+                        <TabPanel name="early-actions">
+                            <EarlyActionsFields
+                                reportType={reportType}
+                                error={error}
+                                onValueChange={onValueChange}
+                                value={value}
+                                actionOptions={actionsByOrganizationType}
+                                disabled={pending}
+                            />
+                        </TabPanel>
+                        <TabPanel name="actions">
+                            <ActionsFields
+                                reportType={reportType}
+                                error={error}
+                                onValueChange={onValueChange}
+                                value={value}
+                                actionOptions={actionsByOrganizationType}
+                                externalPartnerOptions={externalPartnersResponse?.results}
+                                supportedActivityOptions={supportedActivitiesResponse?.results}
+                                disabled={pending}
+                            />
+                        </TabPanel>
+                        <TabPanel name="response">
+                            <ResponseFields
+                                error={error}
+                                onValueChange={onValueChange}
+                                value={value}
+                                reportType={reportType}
+                                isReviewCountry={isReviewCountry}
+                                disabled={pending}
+                            />
+                        </TabPanel>
+                        <div className={styles.actions}>
+                            <div className={styles.pageActions}>
+                                <Button
+                                    name={prevStep ?? activeTab}
+                                    onClick={handleTabChange}
+                                    disabled={isNotDefined(prevStep)}
+                                    variant="secondary"
+                                >
+                                    {strings.backButtonLabel}
+                                </Button>
+                                <Button
+                                    name={nextStep ?? activeTab}
+                                    onClick={handleTabChange}
+                                    disabled={isNotDefined(nextStep)}
+                                    variant="secondary"
+                                >
+                                    {strings.continueButtonLabel}
+                                </Button>
+                            </div>
+                            <Button
+                                name={undefined}
+                                onClick={handleFormSubmit}
+                                disabled={activeTab !== 'response'}
+                            >
+                                {strings.submitButtonLabel}
+                            </Button>
+                        </div>
+                    </>
+                )}
             </Page>
         </Tabs>
     );

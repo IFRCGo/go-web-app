@@ -4,15 +4,17 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 import { ContextInterface } from '@togglecorp/toggle-request';
-import { UserAuth } from '#contexts/user';
-import { KEY_USER_STORAGE } from '#utils/constants';
-import { resolveUrl } from '#utils/resolveUrl';
 
+import { KEY_LANGUAGE_STORAGE, KEY_USER_STORAGE } from '#utils/constants';
+import { resolveUrl } from '#utils/resolveUrl';
+import { getFromStorage } from '#utils/localStorage';
 import {
     riskApi,
     api,
 } from '#config';
-import { getFromStorage } from '#utils/localStorage';
+import { type UserAuth } from '#contexts/user';
+import { type Language } from '#contexts/language';
+
 import { type ResponseObjectError } from './error';
 
 const CONTENT_TYPE_JSON = 'application/json';
@@ -37,7 +39,8 @@ export interface AdditionalOptions {
     apiType?: 'go' | 'risk';
     formData?: boolean;
     isCsvRequest?: boolean;
-    enforceEnglish?: boolean;
+    enforceEnglishForQuery?: boolean;
+    useCurrentLanguageForMutation?: boolean;
 }
 
 function transformError(
@@ -181,17 +184,30 @@ export const processGoOptions: GoContextInterface['transformOptions'] = (
     const {
         formData,
         isCsvRequest,
-        enforceEnglish,
+        enforceEnglishForQuery = false,
+        useCurrentLanguageForMutation = false,
     } = extraOptions;
 
-    const currentLanguage = 'en';
+    const currentLanguage = getFromStorage<Language>(KEY_LANGUAGE_STORAGE) ?? 'en';
     const user = getFromStorage<UserAuth | undefined>(KEY_USER_STORAGE);
     const token = user?.token;
 
     const defaultHeaders = {
         Authorization: token ? `Token ${token}` : '',
-        'Accept-Language': (enforceEnglish || method !== 'GET') ? 'en' : currentLanguage,
+
+        // Use current language by default for query, english for mutation
+        'Accept-Language': method === 'GET' ? currentLanguage : 'en',
     };
+
+    // Force english language for query
+    if (method === 'GET' && enforceEnglishForQuery) {
+        defaultHeaders['Accept-Language'] = 'en';
+    }
+
+    // Force current language for mutation
+    if (method !== 'GET' && useCurrentLanguageForMutation) {
+        defaultHeaders['Accept-Language'] = currentLanguage;
+    }
 
     if (formData) {
         const requestBody = getFormData(body as FormDataCompatibleObj);

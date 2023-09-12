@@ -2,11 +2,19 @@ import { useEffect, ElementRef, RefObject } from 'react';
 import {
     _cs,
     isDefined,
+    isNotDefined,
 } from '@togglecorp/fujs';
 
+import { type Language } from '#contexts/language';
 import PageContainer from '#components/PageContainer';
 import PageHeader from '#components/PageHeader';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
+import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
+import { languageNameMapEn } from '#utils/common';
 
 interface Props {
     className?: string;
@@ -23,6 +31,10 @@ interface Props {
     wikiLink?: React.ReactNode;
     withBackgroundColorInMainSection?: boolean;
     elementRef?: RefObject<ElementRef<'div'>>;
+    blockingContent?: React.ReactNode;
+
+    // FIXME: Language should be used as typings here
+    contentOriginalLanguage?: string;
 }
 
 function Page(props: Props) {
@@ -41,13 +53,21 @@ function Page(props: Props) {
         wikiLink,
         withBackgroundColorInMainSection,
         elementRef,
+        blockingContent,
+        contentOriginalLanguage,
     } = props;
+
+    const currentLanguage = useCurrentLanguage();
+    const strings = useTranslation(i18n);
 
     useEffect(() => {
         if (isDefined(title)) {
             document.title = title;
         }
     }, [title]);
+
+    const showMachineTranslationWarning = isDefined(contentOriginalLanguage)
+        && contentOriginalLanguage !== currentLanguage;
 
     const showPageContainer = !!breadCrumbs
         || !!heading
@@ -64,7 +84,18 @@ function Page(props: Props) {
             )}
             ref={elementRef}
         >
-            {showPageContainer && (
+            {isNotDefined(blockingContent)
+                && showMachineTranslationWarning
+                && (
+                    <div className={styles.machineTranslationWarning}>
+                        {resolveToString(
+                            strings.machineTranslatedContentWarning,
+                            // eslint-disable-next-line max-len
+                            { contentOriginalLanguage: languageNameMapEn[contentOriginalLanguage as Language] },
+                        )}
+                    </div>
+                )}
+            {isNotDefined(blockingContent) && showPageContainer && (
                 <PageHeader
                     className={_cs(
                         styles.pageHeader,
@@ -79,19 +110,21 @@ function Page(props: Props) {
                     infoContainerClassName={infoContainerClassName}
                 />
             )}
-            <PageContainer
-                contentAs="main"
-                className={_cs(
-                    styles.mainSectionContainer,
-                    withBackgroundColorInMainSection && styles.withBackgroundColor,
-                )}
-                contentClassName={_cs(
-                    styles.mainSection,
-                    mainSectionClassName,
-                )}
-            >
-                { children }
-            </PageContainer>
+            {isNotDefined(blockingContent) && (
+                <PageContainer
+                    contentAs="main"
+                    className={_cs(
+                        styles.mainSectionContainer,
+                        withBackgroundColorInMainSection && styles.withBackgroundColor,
+                    )}
+                    contentClassName={_cs(
+                        styles.mainSection,
+                        mainSectionClassName,
+                    )}
+                >
+                    { children }
+                </PageContainer>
+            )}
         </div>
     );
 }

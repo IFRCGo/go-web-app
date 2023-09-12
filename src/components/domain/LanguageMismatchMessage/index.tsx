@@ -15,11 +15,12 @@ interface Props {
 }
 
 function LanguageMismatchMessage(props: Props) {
+    const strings = useTranslation(i18n);
+
     const {
-        title,
+        title = strings.languageMismatchErrorTitle,
         originalLanguage,
     } = props;
-    const strings = useTranslation(i18n);
 
     return (
         <Message

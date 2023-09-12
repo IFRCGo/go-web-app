@@ -186,8 +186,8 @@
     --go-ui-opacity-chart-point: 0.8;
     --go-ui-opacity-message: 0.8;
 
-    --go-ui-content-min-height: 15rem;
-    --go-ui-compact-content-min-height: 8rem;
+    --go-ui-content-min-height: 13rem;
+    --go-ui-compact-content-min-height: 7rem;
 
     --go-ui-width-min-modal: 18rem;
     --go-ui-height-min-modal: 11rem;

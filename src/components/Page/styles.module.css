@@ -3,6 +3,13 @@
     flex-direction: column;
     flex-grow: 1;
 
+    .machine-translation-warning {
+        background-color: var(--go-ui-color-warning);
+        padding: var(--go-ui-spacing-sm);
+        text-align: center;
+        color: var(--go-ui-color-white);
+    }
+
     .page-header {
         background-color: var(--go-ui-color-background);
     }
