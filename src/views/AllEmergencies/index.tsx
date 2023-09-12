@@ -76,6 +76,7 @@ export function Component() {
                     to: 'emergenciesLayout',
                     urlParams: { emergencyId: item.id },
                 }),
+                { sortable: true },
             ),
             createStringColumn<EventListItem, number>(
                 'dtype',
@@ -86,6 +87,7 @@ export function Component() {
                 'glide',
                 strings.allEmergenciesGlide,
                 (item) => item.glide,
+                { sortable: true },
             ),
             createNumberColumn<EventListItem, number>(
                 'amount_requested',
@@ -93,6 +95,13 @@ export function Component() {
                 (item) => sumSafe(
                     item.appeals.map((appeal) => appeal.amount_requested),
                 ),
+                { sortable: true },
+            ),
+            createNumberColumn<EventListItem, number>(
+                'num_affected',
+                strings.allEmergenciesAffected,
+                (item) => item.num_affected,
+                { sortable: true },
             ),
             createCountryListColumn<EventListItem, number>(
                 'countries',

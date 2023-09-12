@@ -3,6 +3,7 @@ import {
     ShieldCrossLineIcon,
     RedCrossNationalSocietyIcon,
     TargetedPopulationIcon,
+    AddFillIcon,
 } from '@ifrc-go/icons';
 
 import Page from '#components/Page';
@@ -25,6 +26,7 @@ import {
     projectPerSectorKeySelector,
 } from './common';
 import Map from './Map';
+
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -115,6 +117,7 @@ export function Component() {
                 <Link
                     to="newThreeWProject"
                     variant="secondary"
+                    icons={<AddFillIcon />}
                 >
                     {strings.globalThreeWAddProjectButtonLabel}
                 </Link>
@@ -202,7 +205,7 @@ export function Component() {
                         </Container>
                     </div>
                     <Container
-                        heading={strings.globalThreeWKeyFigureOngoingProjectsTitle}
+                        heading={strings.globalThreeWNSOngoingProjectsTitle}
                         withHeaderBorder
                         filters={(
                             <Filter
