@@ -5,6 +5,7 @@
     align-items: flex-start;
     flex-wrap: nowrap;
     width: fit-content;
+    overflow: auto;
 
     &.dropdown-item {
         width: 100%;

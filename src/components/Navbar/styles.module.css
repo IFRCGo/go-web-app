@@ -23,8 +23,13 @@
                 }
 
                 .env {
-                    color: var(--go-ui-color-text-light);
-                    font-size: var(--go-ui-font-size-sm);
+                    align-self: flex-start;
+                    border-radius: var(--go-ui-border-radius-full);
+                    background-color: var(--go-ui-color-primary-blue);
+                    padding: 0 var(--go-ui-spacing-xs);
+                    color: var(--go-ui-color-white);
+                    font-size: var(--go-ui-font-size-xs);
+                    font-weight: var(--go-ui-font-weight-semibold);
                 }
             }
 

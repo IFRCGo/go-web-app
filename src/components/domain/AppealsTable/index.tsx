@@ -200,8 +200,8 @@ function AppealsTable(props: Props) {
     return (
         <Container
             className={_cs(styles.appealsTable, className)}
-            headerDescriptionContainerClassName={styles.filters}
-            headerDescription={(
+            filtersContainerClassName={styles.filters}
+            filters={(
                 <>
                     <DateInput
                         name="startDate"

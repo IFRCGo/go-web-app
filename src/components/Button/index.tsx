@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import { SpacingType } from '#components/types';
@@ -39,6 +39,7 @@ export interface ButtonFeatureProps {
     icons?: React.ReactNode;
     iconsContainerClassName?: string;
     spacing?: SpacingType;
+    ellipsize?: boolean;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -46,7 +47,7 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
     const {
         actions,
         actionsContainerClassName: actionsClassName,
-        children,
+        children: childrenFromProps,
         childrenContainerClassName: childrenClassName,
         className,
         disabled,
@@ -54,6 +55,7 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
         iconsContainerClassName: iconsClassName,
         variant = 'primary',
         spacing = 'default',
+        ellipsize,
     } = props;
 
     const buttonClassName = _cs(
@@ -61,7 +63,23 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
         buttonVariantToClassNameMap[variant],
         spacingTypeToClassNameMap[spacing],
         disabled && styles.disabled,
+        ellipsize && styles.ellipsized,
         className,
+    );
+
+    const children = useMemo(
+        () => {
+            if (!ellipsize) {
+                return childrenFromProps;
+            }
+
+            return (
+                <div className={styles.overflowWrapper}>
+                    {childrenFromProps}
+                </div>
+            );
+        },
+        [ellipsize, childrenFromProps],
     );
 
     const {
@@ -73,7 +91,7 @@ export function useButtonFeatures(props: ButtonFeatureProps) {
         children,
         actions,
         iconsContainerClassName: iconsClassName,
-        childrenContainerClassName: childrenClassName,
+        childrenContainerClassName: _cs(styles.children, childrenClassName),
         actionsContainerClassName: actionsClassName,
         spacing,
         withoutWrap: true,

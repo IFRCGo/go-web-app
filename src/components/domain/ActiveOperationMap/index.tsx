@@ -128,7 +128,8 @@ function ActiveOperationMap(props: Props) {
     }>(
         {},
         undefined,
-        200,
+        1,
+        9999,
     );
 
     // eslint-disable-next-line react/destructuring-assignment
@@ -290,8 +291,8 @@ function ActiveOperationMap(props: Props) {
             className={_cs(styles.activeOperationMap, className)}
             heading={heading}
             withHeaderBorder
-            headerDescriptionContainerClassName={styles.filters}
-            headerDescription={(
+            filtersContainerClassName={styles.filters}
+            filters={(
                 <>
                     <DateInput
                         name="startDate"

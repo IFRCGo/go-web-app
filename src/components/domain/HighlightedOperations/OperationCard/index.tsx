@@ -3,7 +3,6 @@ import { _cs, isDefined } from '@togglecorp/fujs';
 import { FocusLineIcon } from '@ifrc-go/icons';
 
 import DomainContext from '#contexts/domain';
-import UserContext from '#contexts/user';
 import Container from '#components/Container';
 import Button from '#components/Button';
 import NumberOutput from '#components/NumberOutput';
@@ -13,6 +12,7 @@ import TextOutput from '#components/TextOutput';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
+import useAuth from '#hooks/domain/useAuth';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -46,7 +46,7 @@ function OperationCard(props: Props) {
     } = props;
 
     const { invalidate } = useContext(DomainContext);
-    const { userAuth: userDetails } = useContext(UserContext);
+    const isAuthenticated = useAuth();
 
     const {
         pending: addSubscriptionPending,
@@ -104,16 +104,17 @@ function OperationCard(props: Props) {
     return (
         <Container
             className={_cs(styles.operationCard, className)}
+            // heading={name}
             heading={(
                 <Link
                     to="emergenciesLayout"
                     urlParams={{ emergencyId: id }}
+                    ellipsize
                 >
                     {name}
                 </Link>
             )}
             headingLevel={4}
-            ellipsizeHeading
             withInternalPadding
             withHeaderBorder
             withoutWrapInHeading
@@ -145,7 +146,7 @@ function OperationCard(props: Props) {
                     />
                 </>
             ) : undefined}
-            actions={isDefined(userDetails) && (
+            actions={isAuthenticated && (
                 <Button
                     name={id}
                     variant="secondary"

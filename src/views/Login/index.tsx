@@ -86,6 +86,7 @@ export function Component() {
                     username: response.username,
                 }),
                 token: response.token,
+                expires: response.expires,
             });
         },
         onFailure: (error) => {
