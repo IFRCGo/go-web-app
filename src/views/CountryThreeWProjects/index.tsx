@@ -112,7 +112,7 @@ export function Component() {
 
     const isFiltered = hasSomeDefinedValue(filters);
 
-    const iso3 = countryResponse?.iso;
+    const iso3 = countryResponse?.iso3;
 
     const {
         pending: projectListPending,

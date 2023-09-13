@@ -13,9 +13,9 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 import Map, {
+    MapBounds,
     MapSource,
     MapLayer,
-    MapImage,
 } from '@togglecorp/re-map';
 import {
     LineLayout,
@@ -23,6 +23,7 @@ import {
     SymbolLayout,
     SymbolPaint,
 } from 'mapbox-gl';
+import getBbox from '@turf/bbox';
 
 import LegendItem from '#components/LegendItem';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
@@ -40,23 +41,18 @@ import {
     COLOR_RED,
     COLOR_BLUE,
     COLOR_BLACK,
+    DURATION_MAP_ZOOM,
+    DEFAULT_MAP_PADDING,
 } from '#utils/constants';
 
 import useCountry from '#hooks/domain/useCountry';
 import Message from '#components/Message';
 import Link from '#components/Link';
 
-// FIXME: we should move this image to assets
-import image from './arrow.png';
-
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
-
-const arrowImageOptions = {
-    sdf: true,
-};
 
 const linePaint: LinePaint = {
     'line-color': COLOR_BLACK,
@@ -68,22 +64,19 @@ const lineLayout: LineLayout = {
     'line-join': 'round',
     'line-cap': 'round',
 };
-const hiddenLayout: LineLayout = {
-    visibility: 'none',
-};
 
 const arrowPaint: SymbolPaint = {
     'icon-color': COLOR_BLACK,
     'icon-opacity': 0.6,
 };
+
 const arrowLayout: SymbolLayout = {
     visibility: 'visible',
-    'icon-image': 'equilateral-arrow-icon',
-    'icon-size': 0.4,
+    'icon-allow-overlap': true,
     'symbol-placement': 'line-center',
+    'icon-image': 'triangle-11',
+    'icon-size': 1,
     'icon-rotate': 90,
-    'icon-rotation-alignment': 'map',
-    'icon-ignore-placement': true,
 };
 
 const redPointCirclePaint = getPointCirclePaint(COLOR_RED);
@@ -112,7 +105,7 @@ type ProjectLineGeoJson = GeoJSON.FeatureCollection<GeoJSON.LineString, {
 function generateProjectsLineGeoJson(
     countries: Country[],
     projectList: Project[],
-): ProjectLineGeoJson {
+): ProjectLineGeoJson | undefined {
     const relationsMap = listToMap(
         projectList,
         (project) => `${project.project_country}-${project.reporting_ns}`,
@@ -130,6 +123,10 @@ function generateProjectsLineGeoJson(
     );
 
     const relationsList = mapToList(relationsMap);
+
+    if (relationsList.length < 1) {
+        return undefined;
+    }
 
     return {
         type: 'FeatureCollection' as const,
@@ -164,8 +161,12 @@ function generateProjectGeoJson(
     countries: Country[],
     projectList: Project[],
     keySelector: (item: Project) => number,
-): ProjectGeoJson {
+): ProjectGeoJson | undefined {
     const groupedProjects = listToGroupList(projectList, keySelector);
+
+    if (countries.length < 1) {
+        return undefined;
+    }
 
     return {
         type: 'FeatureCollection' as const,
@@ -211,7 +212,6 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
 
     const strings = useTranslation(i18n);
     const countries = useCountryRaw();
-    const [iconReady, setIconReady] = useState(false);
 
     const [
         clickedPointProperties,
@@ -261,6 +261,13 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         [countries, projectList],
     );
 
+    const bounds = useMemo(() => {
+        if (isDefined(projectsLineGeoJson)) {
+            return getBbox(projectsLineGeoJson);
+        }
+        return undefined;
+    }, [projectsLineGeoJson]);
+
     const maxScaleValue = projectList?.length ?? 0;
 
     const {
@@ -292,10 +299,6 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         [setClickedPointProperties],
     );
 
-    const handleIconLoad = useCallback(() => {
-        setIconReady(true);
-    }, []);
-
     return (
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
@@ -307,7 +310,6 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                     navControlPosition="top-right"
                     debug={false}
                 >
-                    {/* FIXME: Add bounds */}
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
                     {receivingCountryProjectGeoJson && (
                         <MapSource
@@ -357,12 +359,6 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                             />
                         </MapSource>
                     )}
-                    <MapImage
-                        name="equilateral-arrow-icon"
-                        url={image}
-                        imageOptions={arrowImageOptions}
-                        onLoad={handleIconLoad}
-                    />
                     {projectsLineGeoJson && (
                         <MapSource
                             sourceKey="lines"
@@ -382,7 +378,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                                 layerOptions={{
                                     type: 'symbol',
                                     paint: arrowPaint,
-                                    layout: iconReady ? arrowLayout : hiddenLayout,
+                                    layout: arrowLayout,
                                 }}
                             />
                         </MapSource>
@@ -396,7 +392,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                             childrenContainerClassName={styles.mapPopupContent}
                         >
                             {(clickedPointProjectsResponsePending
-                                || clickedPointProjectsResponse?.count === 0) && (
+                            || clickedPointProjectsResponse?.count === 0) && (
                                 <Message
                                     pending={clickedPointProjectsResponsePending}
                                     description={!clickedPointProjectsResponsePending && 'Data not available!'}
@@ -417,6 +413,13 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                                 ),
                             )}
                         </MapPopup>
+                    )}
+                    {isDefined(bounds) && (
+                        <MapBounds
+                            duration={DURATION_MAP_ZOOM}
+                            bounds={bounds}
+                            padding={DEFAULT_MAP_PADDING}
+                        />
                     )}
                 </Map>
                 <div className={styles.legend}>
