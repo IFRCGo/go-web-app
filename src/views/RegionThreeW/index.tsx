@@ -174,7 +174,7 @@ export function Component() {
             ),
             children: (
                 <CountryProjectTable
-                    countryIso3={country.iso3 ?? country.iso}
+                    countryIso3={country.iso3}
                     filters={filter}
                     page={page}
                     setPage={setPage}
