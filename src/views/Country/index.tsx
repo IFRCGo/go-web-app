@@ -9,6 +9,7 @@ import {
     AppealsTwoIcon,
 } from '@ifrc-go/icons';
 import { isDefined, isNotDefined, isTruthyString } from '@togglecorp/fujs';
+
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
@@ -95,6 +96,17 @@ export function Component() {
             className={styles.country}
             title={pageTitle}
             heading={countryResponse?.name ?? '--'}
+            description={isDefined(countryResponse?.regions_details?.id) && (
+                <Link
+                    to="regionsLayout"
+                    urlParams={{
+                        regionId: countryResponse.regions_details.id,
+                    }}
+                    withForwardIcon
+                >
+                    {countryResponse?.regions_details?.region_name}
+                </Link>
+            )}
             infoContainerClassName={styles.keyFigureList}
             info={(
                 <>

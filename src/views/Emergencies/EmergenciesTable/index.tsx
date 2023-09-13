@@ -67,16 +67,19 @@ function EventItemsTable() {
                     to: 'emergenciesLayout',
                     urlParams: { emergencyId: item.id },
                 }),
+                { sortable: true },
             ),
             createStringColumn<EventListItem, number>(
                 'dtype',
                 strings.emergenciesTableDisasterType,
                 (item) => item.dtype?.name,
+                { sortable: true },
             ),
             createStringColumn<EventListItem, number>(
                 'glide',
                 strings.emergenciesTableGlide,
                 (item) => item.glide,
+                { sortable: true },
             ),
             createNumberColumn<EventListItem, number>(
                 'amount_requested',
@@ -84,6 +87,13 @@ function EventItemsTable() {
                 (item) => sumSafe(
                     item.appeals.map((appeal) => appeal.amount_requested),
                 ),
+                { sortable: true },
+            ),
+            createNumberColumn<EventListItem, number>(
+                'amount_requested',
+                strings.emergenciesTableAffected,
+                (item) => item?.num_affected,
+                { sortable: true },
             ),
             createCountryListColumn<EventListItem, number>(
                 'countries',

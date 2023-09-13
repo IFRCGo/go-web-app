@@ -346,6 +346,7 @@ function EmergenciesMap(props: Props) {
                     />
                 </div>
                 <div className={styles.legend}>
+                    {strings.emergenciesKey}
                     {legendOptions.map((legendItem) => (
                         <LegendItem
                             className={styles.legendItem}

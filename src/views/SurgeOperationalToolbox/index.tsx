@@ -514,7 +514,7 @@ export function Component() {
         {
             bottlenecks: (
                 <Link
-                    to="preparednessLayout" // FIXME: must be https://go.ifrc.org/preparedness#resources-catalogue
+                    to="preparednessGlobalCatalogue"
                 >
                     {strings.bottlenecks}
                 </Link>
@@ -527,7 +527,7 @@ export function Component() {
         {
             learnings: (
                 <Link
-                    to="preparednessLayout" // FIXME: must be https://go.ifrc.org/preparedness#operational-learning
+                    to="preparednessGlobalOperational"
                 >
                     {strings.learnings}
                 </Link>
@@ -556,14 +556,14 @@ export function Component() {
             ),
             information: (
                 <Link
-                    to="preparednessLayout" // FIXME: must be https://go.ifrc.org/preparedness#global-summary
+                    to="preparednessLayout"
                 >
                     {strings.information}
                 </Link>
             ),
             capacity: (
                 <Link
-                    to="preparednessLayout" // FIXME: must be https://go.ifrc.org/preparedness#global-performance
+                    to="preparednessGlobalPerformance"
                 >
                     {strings.capacity}
                 </Link>
@@ -592,13 +592,13 @@ export function Component() {
                 heading={strings.operationalToolboxOverviewHeading}
                 spacing="comfortable"
                 initiallyExpanded
-                headerDescription={strings.overviewSectionHeader}
-                footerContent={strings.overviewSectionFooter}
             >
                 <Container
                     heading={strings.overviewNavigationHowTo}
                     headingLevel={5}
+                    childrenContainerClassName={styles.expandableContainerContent}
                 >
+                    <div>{strings.overviewSectionHeader}</div>
                     <TextOutput
                         value={strings.toolboxValue}
                         label={strings.toolboxLabel}
@@ -609,6 +609,7 @@ export function Component() {
                         label={strings.timelineLabel}
                         strongLabel
                     />
+                    <div>{strings.overviewSectionFooter}</div>
                 </Container>
             </ExpandableContainer>
             <div className={styles.svgContainer}>
