@@ -24,7 +24,7 @@ function BarChart<D>(props: Props<D>) {
         maxValue: maxValueFromProps,
     } = props;
 
-    const renderData = useMemo(
+    const renderingData = useMemo(
         () => (
             data?.map((datum) => {
                 const value = valueSelector(datum);
@@ -38,6 +38,7 @@ function BarChart<D>(props: Props<D>) {
                     value,
                     label: labelSelector(datum),
                 };
+                // FIXME: use compareNumber
             }).filter(isDefined).sort((a, b) => b.value - a.value).slice(0, 5) ?? []
         ),
         [data, keySelector, valueSelector, labelSelector],
@@ -47,12 +48,13 @@ function BarChart<D>(props: Props<D>) {
     // loop will not run
     const maxValue = isDefined(maxValueFromProps)
         ? maxValueFromProps
-        : Math.max(...renderData.map((datum) => datum.value));
+        : Math.max(...renderingData.map((datum) => datum.value));
+
     const maxValueSafe = maxValue === 0 ? 1 : maxValue;
 
     return (
         <div className={_cs(styles.barChart, className)}>
-            {renderData.map((datum) => {
+            {renderingData.map((datum) => {
                 const isStringLabel = typeof datum.label === 'string';
                 let fontSize = 12;
 
@@ -78,6 +80,7 @@ function BarChart<D>(props: Props<D>) {
                             <div
                                 className={styles.bar}
                                 style={{
+                                    // FIXME: use percent function
                                     width: `${100 * (datum.value / maxValueSafe)}%`,
                                 }}
                             />

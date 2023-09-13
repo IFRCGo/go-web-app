@@ -87,7 +87,7 @@ function PieChart<D>(props: Props<D>) {
     const totalValue = sumSafe(data?.map((datum) => valueSelector(datum)));
     const totalValueSafe = isNotDefined(totalValue) || totalValue === 0 ? 1 : totalValue;
 
-    const renderData = useMemo(
+    const renderingData = useMemo(
         () => {
             let endAngle = 0;
             return data?.map((datum) => {
@@ -121,7 +121,7 @@ function PieChart<D>(props: Props<D>) {
                 }}
             >
                 <g style={{ transform: `translate(${chartPadding / 2}px, ${chartPadding / 2}px)` }}>
-                    {renderData.map((datum, i) => (
+                    {renderingData.map((datum, i) => (
                         <path
                             key={datum.key}
                             className={styles.path}
@@ -136,7 +136,7 @@ function PieChart<D>(props: Props<D>) {
                 </g>
             </svg>
             <div className={_cs(styles.legend, legendClassName)}>
-                {renderData.map((datum, i) => (
+                {renderingData.map((datum, i) => (
                     <LegendItem
                         className={styles.legendItem}
                         key={datum.key}

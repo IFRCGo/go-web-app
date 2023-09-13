@@ -98,6 +98,8 @@ export default function Tab<T extends TabKey>(props: Props<T>) {
             name={name}
             disabled={disabled}
             type="button"
+            // FIXME: use translations
+            title={typeof children === 'string' ? children : 'Tab'}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...otherProps}
         >
