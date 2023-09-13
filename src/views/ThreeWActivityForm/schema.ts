@@ -8,6 +8,7 @@ import {
     lessThanOrEqualToCondition,
     addCondition,
     nullValue,
+    requiredStringCondition,
 } from '@togglecorp/toggle-form';
 import {
     isDefined,
@@ -127,9 +128,13 @@ const finalSchema: FormSchema = {
             country: { required: true },
             districts: { defaultValue: [] },
             start_date: { required: true },
-            title: { required: true },
-            activity_lead: { required: true },
+            // Note: Even though status is required field,
+            // it's not marked required in the schema
+            // because it is calculated automatically
+            // using value start_date and end_date
             status: {},
+            title: { required: true, requiredValidation: requiredStringCondition },
+            activity_lead: { required: true },
         };
 
         schema = addCondition(
@@ -199,12 +204,19 @@ const finalSchema: FormSchema = {
                     return {
                         ...baseReportingNsSchema,
                         reporting_ns: { required: true },
-                        reporting_ns_contact_name: { required: true },
+                        reporting_ns_contact_name: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        reporting_ns_contact_role: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                         reporting_ns_contact_email: {
                             required: true,
+                            requiredValidation: requiredStringCondition,
                             validations: [emailCondition],
                         },
-                        reporting_ns_contact_role: { required: true },
                     };
                 }
                 if (props?.activity_lead === 'deployed_eru') {
@@ -225,8 +237,7 @@ const finalSchema: FormSchema = {
             (props): Pick<FormSchemaFields, 'activities'> => {
                 if ((props?.sectors?.length ?? 0) <= 0) {
                     return {
-                        // FIXME: Why do we send undefinedValue instead of []
-                        activities: { forceValue: undefinedValue },
+                        activities: { forceValue: [] },
                     };
                 }
                 return {
@@ -244,18 +255,26 @@ const finalSchema: FormSchema = {
                                     client_id: { forceValue: undefinedValue },
                                     // id: {},
                                     details: {},
-                                    is_simplified_report: { defaultValue: true },
+                                    is_simplified_report: { defaultValue: false },
                                     sector: { required: true },
                                     action: {},
 
-                                    // TODO: write validation for duplicate labels
+                                    // TODO: write validation for duplicate labesl
                                     custom_supplies: {
                                         keySelector: (supply) => supply.client_id,
                                         member: (): CustomSupplyItemsSchemaMember => ({
                                             fields: (): CustomSupplyItemSchemaFields => ({
                                                 client_id: { forceValue: undefinedValue },
-                                                supply_label: { required: true },
-                                                supply_value: { required: true },
+                                                supply_label: {
+                                                    required: true,
+                                                    requiredValidation: requiredStringCondition,
+                                                },
+                                                supply_value: {
+                                                    required: true,
+                                                    validations: [
+                                                        positiveIntegerCondition,
+                                                    ],
+                                                },
                                             }),
                                         }),
                                     },
@@ -266,7 +285,6 @@ const finalSchema: FormSchema = {
                                     activityValue,
                                     [
                                         'is_simplified_report',
-                                        'is_disaggregated_for_disabled',
                                         'people_count',
                                         'household_count',
                                         'male_0_1_count',
@@ -369,7 +387,9 @@ const finalSchema: FormSchema = {
                                         if (isDefined(val?.action)) {
                                             return {
                                                 custom_action: { forceValue: nullValue },
-                                                beneficiaries_count: {},
+                                                beneficiaries_count: {
+                                                    validations: [positiveIntegerCondition],
+                                                },
                                                 amount: {
                                                     validations: [positiveIntegerCondition],
                                                 },
@@ -383,7 +403,12 @@ const finalSchema: FormSchema = {
                                                                 forceValue: undefinedValue,
                                                             },
                                                             supply_action: { required: true },
-                                                            supply_value: { required: true },
+                                                            supply_value: {
+                                                                required: true,
+                                                                validations: [
+                                                                    positiveIntegerCondition,
+                                                                ],
+                                                            },
                                                         }),
                                                     }),
                                                 },
@@ -393,7 +418,7 @@ const finalSchema: FormSchema = {
                                             custom_action: {},
                                             beneficiaries_count: { forceValue: nullValue },
                                             amount: { forceValue: nullValue },
-                                            supplies: { forceValue: nullValue },
+                                            supplies: { forceValue: [] },
                                         };
                                     },
                                 );
@@ -401,10 +426,13 @@ const finalSchema: FormSchema = {
                                 activitySchema = addCondition(
                                     activitySchema,
                                     activityValue,
-                                    ['action', 'is_simplified_report'] as const,
+                                    ['is_simplified_report'] as const,
                                     ['point_count'] as const,
                                     (val): Pick<ActivityItemSchemaFields, 'point_count'> => {
-                                        if (isDefined(val?.action) && val?.is_simplified_report) {
+                                    /* NOTE: if action type is custom or action type is action
+                                     * and not is_cash_type and has_location
+                                     */
+                                        if (val?.is_simplified_report) {
                                             return {
                                                 point_count: {},
                                             };
@@ -533,7 +561,11 @@ const finalSchema: FormSchema = {
                                                             // id: {},
                                                             longitude: { required: true },
                                                             latitude: { required: true },
-                                                            description: { required: true },
+                                                            description: {
+                                                                required: true,
+                                                                // eslint-disable-next-line max-len
+                                                                requiredValidation: requiredStringCondition,
+                                                            },
                                                         }),
                                                     }),
                                                 },
@@ -603,7 +635,7 @@ const finalSchema: FormSchema = {
                                                 },
 
                                                 is_disaggregated_for_disabled: {
-                                                    defaultValue: undefinedValue,
+                                                    defaultValue: false,
                                                 },
                                             };
                                         }
