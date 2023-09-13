@@ -189,7 +189,7 @@ export function Component() {
                 (item) => ({
                     external: true,
                     withLinkIcon: true,
-                    to: item.document ?? item.document_url ?? undefined,
+                    href: item.document ?? item.document_url ?? undefined,
                 }),
             ),
         ]),
@@ -210,7 +210,7 @@ export function Component() {
         (_: number, value: SituationReportType): LinkProps => ({
             icons: <DownloadLineIcon className={styles.icon} />,
             external: true,
-            to: value.document ?? value.document_url,
+            href: value.document ?? value.document_url,
             children: value.name,
         }),
         [],
@@ -241,7 +241,7 @@ export function Component() {
                                 />
                                 <div className={styles.details}>
                                     <Link
-                                        to={featuredDocument.file}
+                                        href={featuredDocument.file}
                                         external
                                         withLinkIcon
                                     >
@@ -267,7 +267,7 @@ export function Component() {
                         <Link
                             variant="secondary"
                             external
-                            to={resolveUrl(adminUrl, `api/event/${emergencyResponse?.id}/change`)}
+                            href={resolveUrl(adminUrl, `api/event/${emergencyResponse?.id}/change`)}
                             title={strings.addAReportLink}
                         >
                             {strings.addAReportLink}

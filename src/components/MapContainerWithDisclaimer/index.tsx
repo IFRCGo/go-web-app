@@ -23,7 +23,7 @@ function MapContainerWithDisclaimer(props: Props) {
         {
             uncodsLink: (
                 <Link
-                    to="https://cod.unocha.org/"
+                    href="https://cod.unocha.org/"
                     external
                     withLinkIcon
                 >
@@ -52,7 +52,7 @@ function MapContainerWithDisclaimer(props: Props) {
                             role="list"
                         >
                             <Link
-                                to="https://www.mapbox.com/about/maps/"
+                                href="https://www.mapbox.com/about/maps/"
                                 external
                                 title="Mapbox"
                                 aria-label="Mapbox"
@@ -62,7 +62,7 @@ function MapContainerWithDisclaimer(props: Props) {
                                 {strings.copyrightMapbox}
                             </Link>
                             <Link
-                                to="https://www.openstreetmap.org/about/"
+                                href="https://www.openstreetmap.org/about/"
                                 external
                                 title="OpenStreetMap"
                                 aria-label="OpenStreetMap"
@@ -73,7 +73,7 @@ function MapContainerWithDisclaimer(props: Props) {
                             </Link>
                             <Link
                                 className="mapbox-improve-map"
-                                to={`https://apps.mapbox.com/feedback/?owner=go-ifrc&amp;id=ckrfe16ru4c8718phmckdfjh0&amp;access_token=${mbtoken}`}
+                                href={`https://apps.mapbox.com/feedback/?owner=go-ifrc&amp;id=ckrfe16ru4c8718phmckdfjh0&amp;access_token=${mbtoken}`}
                                 external
                                 title="Map feedback"
                                 aria-label={strings.feedbackAriaLabel}

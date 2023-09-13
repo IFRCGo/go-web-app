@@ -55,7 +55,7 @@ export function Component() {
                     {regionResponse?.links.map((link) => (
                         <Link
                             key={link.id}
-                            to={link.url}
+                            href={link.url}
                             external
                             withUnderline
                             withLinkIcon
@@ -84,7 +84,7 @@ export function Component() {
                                 <div>{contact.ctype}</div>
                                 {isValidEmail(contact.email) ? (
                                     <Link
-                                        to={`mailto:${contact.email}`}
+                                        href={`mailto:${contact.email}`}
                                         external
                                         withLinkIcon
                                     >

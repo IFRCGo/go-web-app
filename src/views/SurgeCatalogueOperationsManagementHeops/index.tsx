@@ -78,7 +78,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://fednet.ifrc.org/en/resources/disasters/disaster-and-crisis-mangement/disaster-response/surge-capacity/heops/"
+                                        href="https://fednet.ifrc.org/en/resources/disasters/disaster-and-crisis-mangement/disaster-response/surge-capacity/heops/"
                                         external
                                         withLinkIcon
                                     >
@@ -94,7 +94,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcMxBMin_YBLnyvZX9fqapwBo1W4KIVqvDfVH98Y2gy_2A"
+                                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcMxBMin_YBLnyvZX9fqapwBo1W4KIVqvDfVH98Y2gy_2A"
                                         external
                                         withLinkIcon
                                     >

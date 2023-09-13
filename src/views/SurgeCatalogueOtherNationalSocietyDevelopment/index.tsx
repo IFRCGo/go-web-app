@@ -27,7 +27,7 @@ export function Component() {
                 <ul>
                     <li>
                         <Link
-                            to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWKlMwewWThHg7IHiTsuUYcBt5CfR_5KvaWLaDGUbETEvw"
+                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWKlMwewWThHg7IHiTsuUYcBt5CfR_5KvaWLaDGUbETEvw"
                             external
                         >
                             {strings.otherLinkOne}
@@ -35,7 +35,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ef5VINFI_29Mkjh9ccWS-_wBrenVKw4wYi5ZgJea7GQ2Vg"
+                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ef5VINFI_29Mkjh9ccWS-_wBrenVKw4wYi5ZgJea7GQ2Vg"
                             external
                         >
                             {strings.otherLinkTwo}

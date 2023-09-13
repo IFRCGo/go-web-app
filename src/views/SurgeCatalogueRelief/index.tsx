@@ -12,7 +12,7 @@ export function Component() {
     const reliefTechnical: LinkData[] = [
         {
             title: strings.catalogueReliefTitle,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfyJmGf6d9NEniDFNg3KqAMBK9J0_iE2Ff-hAdR4HGJKgw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfyJmGf6d9NEniDFNg3KqAMBK9J0_iE2Ff-hAdR4HGJKgw',
             external: true,
             withLinkIcon: true,
         },

@@ -29,7 +29,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EZgW1LWU_rpOpbe9pT7NnFQBVL8GL9r0JGjlJmleC4ujuA"
+                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EZgW1LWU_rpOpbe9pT7NnFQBVL8GL9r0JGjlJmleC4ujuA"
                                     external
                                     withUnderline
                                 >
@@ -45,7 +45,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://surgelearning.ifrc.org/resources/minimum-training-required-surge-personnel"
+                                    href="https://surgelearning.ifrc.org/resources/minimum-training-required-surge-personnel"
                                     external
                                     withUnderline
                                 >

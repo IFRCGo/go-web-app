@@ -100,61 +100,61 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.healthCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUT_voU9qbNMm4qju7cLpSYBHUbqfjOAjqnkE9Tgj2_XKA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUT_voU9qbNMm4qju7cLpSYBHUbqfjOAjqnkE9Tgj2_XKA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.medicalCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed8efoyRbQtHkU6XR5daOuMBxj9n_DqaE_gADCuspNUTmQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed8efoyRbQtHkU6XR5daOuMBxj9n_DqaE_gADCuspNUTmQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.publicHealthCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQQznuV_sHtGi7HH1PJ96Q0BWaetAeQgBdZlNg9vFsXOhw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQQznuV_sHtGi7HH1PJ96Q0BWaetAeQgBdZlNg9vFsXOhw',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.publicHealthOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQI_KH-MiBVIiYUuCTZdN0wB3RvRGeSRoUdJtzt1DKK8YA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQI_KH-MiBVIiYUuCTZdN0wB3RvRGeSRoUdJtzt1DKK8YA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.safeBurialCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EdiLb6_d41JKiiD_TjSNK1kBfVHb_j4F4WDox7lKbxmLxg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EdiLb6_d41JKiiD_TjSNK1kBfVHb_j4F4WDox7lKbxmLxg',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.psychoSocialCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXnFbcXuGx9Ji7Po-Krtap8B_FneBhqcx-lq1NZupfZA7Q',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXnFbcXuGx9Ji7Po-Krtap8B_FneBhqcx-lq1NZupfZA7Q',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.psychoSocialOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcVhELHbH-VDv8qHNK_03B4BbEJ-FiAL-TIswYju_mNMUg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcVhELHbH-VDv8qHNK_03B4BbEJ-FiAL-TIswYju_mNMUg',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.communityOutreachOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUmGi0NkR7BMrpiRyCG-JA8Bvgkd_iGRNcgCsspKZ3WzSA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUmGi0NkR7BMrpiRyCG-JA8Bvgkd_iGRNcgCsspKZ3WzSA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.psychoSocialSupportOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETfznq8SFXJCmfMt7C3145wBjPPorxLNryy9t4YDXgM9VQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETfznq8SFXJCmfMt7C3145wBjPPorxLNryy9t4YDXgM9VQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.healthInformationManagement,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXjPQtXpM7tGpAk6QSaMCAkBMQjlA4EVwZRJT1_zPGVKFw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXjPQtXpM7tGpAk6QSaMCAkBMQjlA4EVwZRJT1_zPGVKFw',
             external: true,
             withLinkIcon: true,
         },
@@ -163,13 +163,13 @@ export function Component() {
     const eruRoleProfiles: LinkData[] = [
         {
             title: strings.eruClinicalCare,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ElDuDGQxA49PmjfwgXVsJUMBxWdRfhpKt8caXnaTF6NdJA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ElDuDGQxA49PmjfwgXVsJUMBxWdRfhpKt8caXnaTF6NdJA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.eruPublicHealth,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EmuhNZ7JWjNHtwmW6cCWrFYBjklsiPNM4vqHc2PYUOIE2w',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EmuhNZ7JWjNHtwmW6cCWrFYBjklsiPNM4vqHc2PYUOIE2w',
             external: true,
             withLinkIcon: true,
         },
@@ -178,13 +178,13 @@ export function Component() {
     const frameworkData: LinkData[] = [
         {
             title: strings.technicalCompetencyFrameworkItemOneTitle,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETuQ0_ZUXEhEhG4cNFvlQxMBdgYsR3juNpBsB_O5PY608w',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETuQ0_ZUXEhEhG4cNFvlQxMBdgYsR3juNpBsB_O5PY608w',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.technicalCompetencyFrameworkItemTwoTitle,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb-Q-qToQQxAj6mZZ6RXs74BJXbj1-8PUODAscOIVxVv8g',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb-Q-qToQQxAj6mZZ6RXs74BJXbj1-8PUODAscOIVxVv8g',
             external: true,
             withLinkIcon: true,
         },

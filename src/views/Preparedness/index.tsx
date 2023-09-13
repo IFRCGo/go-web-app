@@ -30,7 +30,7 @@ export function Component() {
                 childrenContainerClassName={styles.approachContent}
                 actions={(
                     <Link
-                        to="mailto:PER.Team@ifrc.org"
+                        href="mailto:PER.Team@ifrc.org"
                         external
                         variant="primary"
                     >
@@ -44,7 +44,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://www.ifrc.org/our-work/disasters-climate-and-crises/disaster-preparedness"
+                                    href="https://www.ifrc.org/our-work/disasters-climate-and-crises/disaster-preparedness"
                                     external
                                     className={styles.approachLink}
                                 >

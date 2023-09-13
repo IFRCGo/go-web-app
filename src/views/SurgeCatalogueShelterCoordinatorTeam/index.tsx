@@ -120,7 +120,7 @@ export function Component() {
                 <ul>
                     <li>
                         <Link
-                            to="https://sheltercluster.org/"
+                            href="https://sheltercluster.org/"
                             external
                         >
                             {strings.additionalResourcesGlobal}
@@ -132,7 +132,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://sheltercluster.org/about-us/pages/shelter-coordination-team"
+                                        href="https://sheltercluster.org/about-us/pages/shelter-coordination-team"
                                         external
                                     >
                                         {strings.additionalResourcesTeam}
@@ -147,7 +147,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://sheltercluster.org/global-shelter-cluster/pages/humanitarian-shelter-coordination-master-level-short-course"
+                                        href="https://sheltercluster.org/global-shelter-cluster/pages/humanitarian-shelter-coordination-master-level-short-course"
                                         external
                                     >
                                         {strings.additionalResourcesHumanitarian}
@@ -162,7 +162,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://sheltercluster.org/resources/pages/more-just-roof"
+                                        href="https://sheltercluster.org/resources/pages/more-just-roof"
                                         external
                                     >
                                         {strings.additionalResourcesProgramming}
@@ -177,7 +177,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://buildingabetterresponse.org/"
+                                        href="https://buildingabetterresponse.org/"
                                         external
                                     >
                                         {strings.additionalResourcesCoordinationLink}

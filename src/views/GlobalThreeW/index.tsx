@@ -99,7 +99,7 @@ export function Component() {
         {
             contactLink: (
                 <Link
-                    to="mailto:im@ifrc.org"
+                    href="mailto:im@ifrc.org"
                     external
                 >
                     IM@ifrc.org

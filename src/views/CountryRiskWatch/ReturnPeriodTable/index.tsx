@@ -88,7 +88,7 @@ function ReturnPeriodTable(props: Props) {
                     {
                         source: (
                             <Link
-                                to="https://www.internal-displacement.org/database/global-displacement-risk-model"
+                                href="https://www.internal-displacement.org/database/global-displacement-risk-model"
                                 external
                             >
                                 {strings.returnPeriodTableDisplacementSource}
@@ -110,7 +110,7 @@ function ReturnPeriodTable(props: Props) {
                     {
                         source: (
                             <Link
-                                to="https://www.gfdrr.org/en/disaster-risk-country-profiles"
+                                href="https://www.gfdrr.org/en/disaster-risk-country-profiles"
                                 external
                             >
                                 {strings.returnPeriodTableEconomicLossesSource}

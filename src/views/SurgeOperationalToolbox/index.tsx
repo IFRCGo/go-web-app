@@ -470,7 +470,7 @@ export function Component() {
         {
             here: (
                 <Link
-                    to="https://ifrcorg.sharepoint.com/:x:/s/IFRCSharing/EZrYT-ysYfFFn9skPZxClN8B2sQPuY-GVvi3ddwdc5ZPHw"
+                    href="https://ifrcorg.sharepoint.com/:x:/s/IFRCSharing/EZrYT-ysYfFFn9skPZxClN8B2sQPuY-GVvi3ddwdc5ZPHw"
                     external
                 >
                     {strings.here}
@@ -478,7 +478,7 @@ export function Component() {
             ),
             emailOne: (
                 <Link
-                    to="mailto:antoine.belair@ifrc.org"
+                    href="mailto:antoine.belair@ifrc.org"
                     external
                 >
                     antoine.belair@ifrc.org
@@ -486,7 +486,7 @@ export function Component() {
             ),
             emailTwo: (
                 <Link
-                    to="mailto:betisa.egea@ifrc.org"
+                    href="mailto:betisa.egea@ifrc.org"
                     external
                 >
                     betisa.egea@ifrc.org
@@ -500,7 +500,7 @@ export function Component() {
         {
             per: (
                 <Link
-                    to="https://ifrcorg.sharepoint.com/:f:/s/IFRCSharing/EkiQndccd4ZIqMyUn983XiUBRfA14qW_CojCjibdG_Tmcw?e=My2KYE"
+                    href="https://ifrcorg.sharepoint.com/:f:/s/IFRCSharing/EkiQndccd4ZIqMyUn983XiUBRfA14qW_CojCjibdG_Tmcw?e=My2KYE"
                     external
                 >
                     {strings.per}
@@ -534,7 +534,7 @@ export function Component() {
             ),
             framework: (
                 <Link
-                    to="https://eur02.safelinks.protection.outlook.com/ap/w-59584e83/?url=https%3A%2F%2Fifrcorg.sharepoint.com%2F%3Aw%3A%2Fr%2Fsites%2FIFRCSharing%2F_layouts%2F15%2FDoc.aspx%3Fsourcedoc%3D%257B649265AA-DCEE-467D-99FC-EEA27C53B2B1%257D%26file%3D3.4%2520Discussion%2520points%2520for%2520DREF%2520operations%2520Lessons%2520Learnt%2520exercise.docx%26action%3Ddefault%26mobileredirect%3Dtrue&data=04%7C01%7CAnaMaria.ESCOBAR%40ifrc.org%7Ced517ec29d684796fe4908d99aefff43%7Ca2b53be5734e4e6cab0dd184f60fd917%7C0%7C0%7C637711177887192449%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=Qgqny5AAgYRT4jV5mrfSxXZENXUMO4ufXeexPr0Dkg8%3D&reserved=0"
+                    href="https://eur02.safelinks.protection.outlook.com/ap/w-59584e83/?url=https%3A%2F%2Fifrcorg.sharepoint.com%2F%3Aw%3A%2Fr%2Fsites%2FIFRCSharing%2F_layouts%2F15%2FDoc.aspx%3Fsourcedoc%3D%257B649265AA-DCEE-467D-99FC-EEA27C53B2B1%257D%26file%3D3.4%2520Discussion%2520points%2520for%2520DREF%2520operations%2520Lessons%2520Learnt%2520exercise.docx%26action%3Ddefault%26mobileredirect%3Dtrue&data=04%7C01%7CAnaMaria.ESCOBAR%40ifrc.org%7Ced517ec29d684796fe4908d99aefff43%7Ca2b53be5734e4e6cab0dd184f60fd917%7C0%7C0%7C637711177887192449%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=Qgqny5AAgYRT4jV5mrfSxXZENXUMO4ufXeexPr0Dkg8%3D&reserved=0"
                     external
                 >
                     {strings.framework}
@@ -548,7 +548,7 @@ export function Component() {
         {
             here: (
                 <Link
-                    to="https://www.ifrc.org/disaster-preparedness"
+                    href="https://www.ifrc.org/disaster-preparedness"
                     external
                 >
                     {strings.here}
@@ -570,7 +570,7 @@ export function Component() {
             ),
             emailThree: (
                 <Link
-                    to="mailto:Marjorie.sotofranco@ifrc.org"
+                    href="mailto:Marjorie.sotofranco@ifrc.org"
                     external
                 >
                     Marjorie.sotofranco@ifrc.org

@@ -12,19 +12,19 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.communityEngagementCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXAstfnsq_pCm5CuEyvJvysBVi-gibREICY9z0SUdu2dTQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXAstfnsq_pCm5CuEyvJvysBVi-gibREICY9z0SUdu2dTQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.communityEngagementAccountabilityOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb48pk6Vcg1HgFH8ozFenTsB-xZemh857EM83RmEEshYUw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb48pk6Vcg1HgFH8ozFenTsB-xZemh857EM83RmEEshYUw',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.communityEngagementOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVvAq-WQHhBAn9sQ7cdrBQgB3lsiYM49ACcIStzrBO1KUA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVvAq-WQHhBAn9sQ7cdrBQgB3lsiYM49ACcIStzrBO1KUA',
             external: true,
             withLinkIcon: true,
         },
@@ -33,7 +33,7 @@ export function Component() {
     const frameworkData: LinkData[] = [
         {
             title: strings.technicalFrameworkCEA,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ee1IPzmxf_1BoQProDcc86oBacCbOpO2uycPa0Y5qoRElA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ee1IPzmxf_1BoQProDcc86oBacCbOpO2uycPa0Y5qoRElA',
             external: true,
             withLinkIcon: true,
         },
@@ -42,7 +42,7 @@ export function Component() {
     const ceaData: LinkData[] = [
         {
             title: strings.ifrcCEA,
-            to: 'https://www.ifrc.org/CEA',
+            href: 'https://www.ifrc.org/CEA',
             external: true,
             withLinkIcon: true,
         },
@@ -51,7 +51,7 @@ export function Component() {
     const ceaHubData: LinkData[] = [
         {
             title: strings.ceaHubData,
-            to: 'https://www.communityengagementhub.org/',
+            href: 'https://www.communityengagementhub.org/',
             external: true,
             withLinkIcon: true,
         },

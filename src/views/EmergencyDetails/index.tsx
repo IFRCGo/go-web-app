@@ -250,7 +250,7 @@ export function Component() {
                                 className={styles.linkContainer}
                             >
                                 <Link
-                                    to={link.url}
+                                    href={link.url}
                                     external
                                     withLinkIcon
                                     className={styles.link}
@@ -341,7 +341,7 @@ export function Component() {
                                                 <TextOutput
                                                     value={(
                                                         <Link
-                                                            to={`mailto:${contact.email}`}
+                                                            href={`mailto:${contact.email}`}
                                                             external
                                                             withLinkIcon
                                                         >
@@ -354,7 +354,7 @@ export function Component() {
                                                 <TextOutput
                                                     value={(
                                                         <Link
-                                                            to={`tel:${contact.phone}`}
+                                                            href={`tel:${contact.phone}`}
                                                             withLinkIcon
                                                             external
                                                         >

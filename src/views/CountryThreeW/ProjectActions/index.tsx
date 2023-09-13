@@ -96,7 +96,7 @@ function ProjectActions(props: Props) {
                 <DropdownMenuItem
                     type="link"
                     icons={<HistoryLineIcon />}
-                    to={resolveUrl(adminUrl, `deployments/project/${project.id}/history/`)}
+                    href={resolveUrl(adminUrl, `deployments/project/${project.id}/history/`)}
                     external
                 >
                     {strings.projectHistory}

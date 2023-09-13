@@ -207,7 +207,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=e3cabf24db361810d40e16f35b9619c7"
+                                        href="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=e3cabf24db361810d40e16f35b9619c7"
                                         external
                                         withLinkIcon
                                     >
@@ -223,7 +223,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://www.youtube.com/watch?v=TIW6nf-MPb0"
+                                        href="https://www.youtube.com/watch?v=TIW6nf-MPb0"
                                         external
                                         withLinkIcon
                                     >

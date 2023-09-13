@@ -187,7 +187,7 @@ function EventDetails(props: Props) {
                 >
                     {isDefined(dashboardUrl) && (
                         <Link
-                            to={dashboardUrl}
+                            href={dashboardUrl}
                             external
                             withLinkIcon
                         >
@@ -199,7 +199,7 @@ function EventDetails(props: Props) {
                         <>
                             {isDefined(eventDetails.url.shakemap) && (
                                 <Link
-                                    to={eventDetails?.url.shakemap}
+                                    href={eventDetails?.url.shakemap}
                                     external
                                     withLinkIcon
                                 >
@@ -209,7 +209,7 @@ function EventDetails(props: Props) {
                             )}
                             {isDefined(eventDetails.url.population) && (
                                 <Link
-                                    to={eventDetails.url.population}
+                                    href={eventDetails.url.population}
                                     external
                                     withLinkIcon
                                 >
@@ -219,7 +219,7 @@ function EventDetails(props: Props) {
                             )}
                             {isDefined(eventDetails.url.wind) && (
                                 <Link
-                                    to={eventDetails.url.wind}
+                                    href={eventDetails.url.wind}
                                     external
                                     withLinkIcon
                                 >
@@ -229,7 +229,7 @@ function EventDetails(props: Props) {
                             )}
                             {isDefined(eventDetails.url.rainfall) && (
                                 <Link
-                                    to={eventDetails.url.rainfall}
+                                    href={eventDetails.url.rainfall}
                                     external
                                     withLinkIcon
                                 >
@@ -239,7 +239,7 @@ function EventDetails(props: Props) {
                             )}
                             {isDefined(eventDetails.url.shapefile) && (
                                 <Link
-                                    to={eventDetails.url.shapefile}
+                                    href={eventDetails.url.shapefile}
                                     external
                                     withLinkIcon
                                 >

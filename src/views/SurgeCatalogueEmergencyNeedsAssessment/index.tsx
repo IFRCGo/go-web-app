@@ -14,25 +14,25 @@ export function Component() {
     const rapidResponseRoleProfiles: LinkData[] = useMemo(() => ([
         {
             title: strings.assessmentCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQ9QFbNL6cxNnLmDUT166lYBFZ-nDf5Pn6Z79NnrAJAuSw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EQ9QFbNL6cxNnLmDUT166lYBFZ-nDf5Pn6Z79NnrAJAuSw',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.informationAnalysisOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWavntSyEd9CsehUObMQOJ0B9R8xDouAJOgTAgPvzcLOpw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWavntSyEd9CsehUObMQOJ0B9R8xDouAJOgTAgPvzcLOpw',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.primaryDataCollectionOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETQ2bJvxaQNGoXzEjf2IjNcB16FwnTxS-Jct1yf539FZ3A',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETQ2bJvxaQNGoXzEjf2IjNcB16FwnTxS-Jct1yf539FZ3A',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.mappingAndVisualizationOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfRPUaQzIH1Emzi0mrJq5S8BzQZs4vvXQjKq3gfAzqMrJg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfRPUaQzIH1Emzi0mrJq5S8BzQZs4vvXQjKq3gfAzqMrJg',
             external: true,
             withLinkIcon: true,
         },
@@ -41,7 +41,7 @@ export function Component() {
     const technicalCompetencyFrameworkInfo: LinkData[] = useMemo(() => ([
         {
             title: strings.technicalCompetencyFrameworkAssesment,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbmgwMFvUHtFkkc26GZhAo0BIuwI2UWSkrFyehAq7ZfT6g',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbmgwMFvUHtFkkc26GZhAo0BIuwI2UWSkrFyehAq7ZfT6g',
             external: true,
             withLinkIcon: true,
         },
@@ -58,7 +58,7 @@ export function Component() {
     const assessmentAndPlanningInfo: LinkData[] = useMemo(() => ([
         {
             title: strings.fedNet,
-            to: 'https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/disasters/disaster-and-crisis-mangement/assessment--planning/',
+            href: 'https://idp.ifrc.org/SSO/SAMLLogin?loginToSp=https://fednet.ifrc.org&returnUrl=https://fednet.ifrc.org/en/resources/disasters/disaster-and-crisis-mangement/assessment--planning/',
             external: true,
             withLinkIcon: true,
         },

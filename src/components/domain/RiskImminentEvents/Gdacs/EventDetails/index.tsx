@@ -109,7 +109,7 @@ function EventDetails(props: Props) {
                 >
                     {isDefined(eventDetails?.url.details) && (
                         <Link
-                            to={eventDetails?.url.details}
+                            href={eventDetails?.url.details}
                             external
                             withLinkIcon
                         >
@@ -119,7 +119,7 @@ function EventDetails(props: Props) {
                     )}
                     {isDefined(eventDetails?.url.geometry) && (
                         <Link
-                            to={eventDetails?.url.geometry}
+                            href={eventDetails?.url.geometry}
                             external
                             withLinkIcon
                         >
@@ -129,7 +129,7 @@ function EventDetails(props: Props) {
                     )}
                     {isDefined(eventDetails?.url.report) && (
                         <Link
-                            to={eventDetails?.url.report}
+                            href={eventDetails?.url.report}
                             external
                             withLinkIcon
                         >

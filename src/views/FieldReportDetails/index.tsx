@@ -617,7 +617,7 @@ export function Component() {
                                                 : undefined,
                                             isTruthyString(contact.email) ? (
                                                 <Link
-                                                    to={`mailto:${contact.email}`}
+                                                    href={`mailto:${contact.email}`}
                                                     external
                                                 >
                                                     {contact.email}

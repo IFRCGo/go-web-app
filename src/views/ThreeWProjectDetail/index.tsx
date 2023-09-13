@@ -175,7 +175,7 @@ export function Component() {
                                     label={strings.nsContactLabel}
                                     value={(
                                         <Link
-                                            to={`mailto:${projectResponse?.reporting_ns_contact_email}`}
+                                            href={`mailto:${projectResponse?.reporting_ns_contact_email}`}
                                             external
                                         >
                                             {projectResponse?.reporting_ns_contact_email}

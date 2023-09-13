@@ -20,7 +20,7 @@ export function Component() {
     const cashInEmergencyToolkitData: LinkData[] = [
         {
             title: strings.cashInEmergencyToolkitTitle,
-            to: 'https://www.cash-hub.org/guidance-and-tools/cash-in-emergencies-toolkit',
+            href: 'https://www.cash-hub.org/guidance-and-tools/cash-in-emergencies-toolkit',
             external: true,
             withLinkIcon: true,
         },
@@ -29,7 +29,7 @@ export function Component() {
     const cashHubData: LinkData[] = [
         {
             title: strings.cashHubTitle,
-            to: 'https://cash-hub.org/',
+            href: 'https://cash-hub.org/',
             external: true,
             withLinkIcon: true,
         },
@@ -38,19 +38,19 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.cashAndVoucherAssistanceCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EY4PZ_4Zt01AkY8aAyTD_84BJIYbk78-E9lu310swDYeZg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EY4PZ_4Zt01AkY8aAyTD_84BJIYbk78-E9lu310swDYeZg',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.cashAndVoucherAssistanceOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb-QC0lSSSVKkcqqGs1uER4BSlltRKy-prrfR0AAxg4cpQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb-QC0lSSSVKkcqqGs1uER4BSlltRKy-prrfR0AAxg4cpQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.cashAndVoucherAssistanceImOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ec5qjRdtWQRDkIgNhvtPbHIByntzDCXX1dyPLVQhojvMsQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ec5qjRdtWQRDkIgNhvtPbHIByntzDCXX1dyPLVQhojvMsQ',
             external: true,
             withLinkIcon: true,
         },
@@ -59,7 +59,7 @@ export function Component() {
     const frameworkData: LinkData[] = [
         {
             title: strings.technicalFrameworkCVA,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUuruzZd9bZDmMjeTqWsKHMBgXywwtj586i7nN6LNI9pow',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUuruzZd9bZDmMjeTqWsKHMBgXywwtj586i7nN6LNI9pow',
             external: true,
             withLinkIcon: true,
         },

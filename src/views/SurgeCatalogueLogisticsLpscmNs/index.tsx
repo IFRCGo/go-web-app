@@ -87,7 +87,7 @@ export function Component() {
                 <ul>
                     <li>
                         <Link
-                            to="https://fednet.ifrc.org/en/resources/logistics/mobilization-of-goods/"
+                            href="https://fednet.ifrc.org/en/resources/logistics/mobilization-of-goods/"
                             external
                             variant="tertiary"
                             withLinkIcon
@@ -97,7 +97,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://fednet.ifrc.org/en/resources/logistics/procurement/"
+                            href="https://fednet.ifrc.org/en/resources/logistics/procurement/"
                             external
                             variant="tertiary"
                             withLinkIcon
@@ -107,7 +107,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/DubaiLPSCM/global-fleet-base/vehicle-rental-programme/"
+                            href="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/DubaiLPSCM/global-fleet-base/vehicle-rental-programme/"
                             external
                             variant="tertiary"
                             withLinkIcon
@@ -117,7 +117,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
+                            href="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
                             external
                             variant="tertiary"
                             withLinkIcon
@@ -127,7 +127,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://fednet.ifrc.org/en/resources/logistics/contingency-stock/"
+                            href="https://fednet.ifrc.org/en/resources/logistics/contingency-stock/"
                             external
                             variant="tertiary"
                             withLinkIcon
@@ -137,7 +137,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://fednet.ifrc.org/en/resources/logistics/logistics-training-and-workshop/"
+                            href="https://fednet.ifrc.org/en/resources/logistics/logistics-training-and-workshop/"
                             external
                             variant="tertiary"
                             withLinkIcon
@@ -152,7 +152,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
+                                    href="https://fednet.ifrc.org/en/resources/logistics/our-global-structure/"
                                     external
                                     withLinkIcon
                                     withUnderline

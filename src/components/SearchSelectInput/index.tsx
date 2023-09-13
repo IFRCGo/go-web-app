@@ -32,6 +32,7 @@ export type Props<
         searchOptions?: OPTION[] | undefined | null;
         keySelector: (option: OPTION) => OPTION_KEY;
         labelSelector: (option: OPTION) => string;
+        descriptionSelector?: (option: OPTION) => string;
         hideOptionFilter?: (option: OPTION) => boolean;
         name: NAME;
         disabled?: boolean;
@@ -98,6 +99,7 @@ function SearchSelectInput<
     const {
         keySelector,
         labelSelector,
+        descriptionSelector,
         name,
         onChange,
         onOptionsChange,
@@ -246,7 +248,10 @@ function SearchSelectInput<
             const isActive = key === value;
 
             return {
-                children: labelSelector(option),
+                label: labelSelector(option),
+                description: descriptionSelector
+                    ? descriptionSelector(option)
+                    : undefined,
                 containerClassName: _cs(styles.optionContainer, isActive && styles.active),
                 title: labelSelector(option),
 
@@ -254,7 +259,7 @@ function SearchSelectInput<
                 iconClassName: styles.icon,
             };
         },
-        [value, labelSelector],
+        [value, labelSelector, descriptionSelector],
     );
 
     const handleOptionClick = useCallback(

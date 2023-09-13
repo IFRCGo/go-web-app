@@ -104,6 +104,7 @@ export function Component() {
         skip: isNotDefined(urlSearchValue),
         url: '/api/v1/search/',
         query: { [KEY_URL_SEARCH]: urlSearchValue ?? '' },
+        preserveResponse: true,
     });
 
     const headingStringMap = useMemo<Record<SearchResponseKeys, string>>(
@@ -277,7 +278,7 @@ export function Component() {
                             {strings.searchPageFeedbackLinkText}
                         </div>
                         <Link
-                            to={feedbackLink}
+                            href={feedbackLink}
                             external
                             variant="secondary"
                         >

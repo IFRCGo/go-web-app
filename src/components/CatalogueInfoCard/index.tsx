@@ -33,7 +33,7 @@ function CatalogueInfoCard(props: Props) {
         (_: string, value: LinkData): LinkProps => {
             if (value.external) {
                 return {
-                    to: value.to,
+                    href: value.href,
                     children: value.title,
                     external: true,
                     withLinkIcon: value.withLinkIcon,

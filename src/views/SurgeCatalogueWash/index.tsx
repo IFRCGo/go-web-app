@@ -12,25 +12,25 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.washCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea1oxcI_tcdGqisMk7IDnawBRBn5eDX9kKbW8ciNO6AgHw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea1oxcI_tcdGqisMk7IDnawBRBn5eDX9kKbW8ciNO6AgHw',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.washOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EftnI72a0LtPqfT6ukpqEv8Bqi8DN83FTw9oFXhYIkC1EA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EftnI72a0LtPqfT6ukpqEv8Bqi8DN83FTw9oFXhYIkC1EA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.washOfficerPromotion,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EaOPwYRaFehOmcfw5Tnaq5MBppJ1wZ7VwkxeRjN-G0-DKA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EaOPwYRaFehOmcfw5Tnaq5MBppJ1wZ7VwkxeRjN-G0-DKA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.washOfficerSanitation,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWM7iFH2papCtEWNJZtHZaQB44rAuE8d6l3M8G4_BmCGiw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWM7iFH2papCtEWNJZtHZaQB44rAuE8d6l3M8G4_BmCGiw',
             external: true,
             withLinkIcon: true,
         },
@@ -39,7 +39,7 @@ export function Component() {
     const frameworkData: LinkData[] = [
         {
             title: strings.technicalWash,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Efan8Jv59RBLsNVfYvdCQTUBiG3ddAPkJkwxQq1PYyrlXw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Efan8Jv59RBLsNVfYvdCQTUBiG3ddAPkJkwxQq1PYyrlXw',
             external: true,
             withLinkIcon: true,
         },
@@ -104,7 +104,7 @@ export function Component() {
     const additionalData: LinkData[] = [
         {
             title: strings.learnMore,
-            to: 'https://watsanmissionassistant.org/',
+            href: 'https://watsanmissionassistant.org/',
             external: true,
             withLinkIcon: true,
         },

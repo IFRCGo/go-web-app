@@ -410,7 +410,7 @@ export function Component() {
                 />
                 <div className={styles.contactContainer}>
                     <Link
-                        to="mailto:PER.Team@ifrc.org"
+                        href="mailto:PER.Team@ifrc.org"
                         external
                         variant="secondary"
                     >

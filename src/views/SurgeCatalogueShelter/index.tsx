@@ -12,25 +12,25 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.catalogueShelterProgrammeCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EYHx8KJbzVxIqAwtECnKMFcBNXyLPfKyn73kN1mTPBCKJQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EYHx8KJbzVxIqAwtECnKMFcBNXyLPfKyn73kN1mTPBCKJQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueShelterProgrammeLeader,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EY7PPODOBZtPjywd_TVgFEcBmd3r0IAQj-6FKEz4tO00zA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EY7PPODOBZtPjywd_TVgFEcBmd3r0IAQj-6FKEz4tO00zA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueShelterProgrammeTechnical,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUBrQE-_aatMvfUaBR69XWMBMuR6n3YEFoUgyhbsOayvhQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUBrQE-_aatMvfUaBR69XWMBMuR6n3YEFoUgyhbsOayvhQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueClusterCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXP0VQ7Tpn1Er_QH8bOk-IYBdqlK7oVvx470Vi9v-7YNAg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXP0VQ7Tpn1Er_QH8bOk-IYBdqlK7oVvx470Vi9v-7YNAg',
             external: true,
             withLinkIcon: true,
         },
@@ -39,7 +39,7 @@ export function Component() {
     const technicalData: LinkData[] = [
         {
             title: strings.catalogueShelterAndSettlement,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXP0VQ7Tpn1Er_QH8bOk-IYBdqlK7oVvx470Vi9v-7YNAg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXP0VQ7Tpn1Er_QH8bOk-IYBdqlK7oVvx470Vi9v-7YNAg',
             external: true,
             withLinkIcon: true,
         },
