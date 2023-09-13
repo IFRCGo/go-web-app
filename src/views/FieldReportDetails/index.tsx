@@ -252,14 +252,18 @@ export function Component() {
                                 </Fragment>
                             ))}
                         </span>
-                        <span className={styles.separator} />
-                        <Link
-                            className={styles.titleLink}
-                            to="emergencies"
-                            urlParams={{ emergencyId: eventDetails?.id }}
-                        >
-                            {eventDetails?.name}
-                        </Link>
+                        {eventDetails?.id && (
+                            <>
+                                <span className={styles.separator} />
+                                <Link
+                                    className={styles.titleLink}
+                                    to="emergenciesLayout"
+                                    urlParams={{ emergencyId: eventDetails?.id }}
+                                >
+                                    {eventDetails?.name}
+                                </Link>
+                            </>
+                        )}
                     </div>
                     <div className={styles.latestUpdatedDetail}>
                         {resolveToComponent(strings.lastUpdatedByLabel, {
@@ -446,7 +450,7 @@ export function Component() {
                     {actionsTaken?.map((actionTaken) => {
                         if (
                             actionTaken.actions_details.length <= 0
-                                && isFalsyString(actionTaken.summary)
+                            && isFalsyString(actionTaken.summary)
                         ) {
                             return null;
                         }

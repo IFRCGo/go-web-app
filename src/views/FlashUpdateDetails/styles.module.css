@@ -95,36 +95,31 @@
                 }
             }
         }
+    }
+    .reference {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: var(--go-ui-spacing-md);
+        gap: var(--go-ui-spacing-md);
 
-        .reference {
-            display: flex;
-            align-items: center;
-            padding: var(--go-ui-spacing-md);
-            gap: var(--go-ui-spacing-md);
+        .date {
+            flex-basis: 10rem;
+            flex-shrink: 0;
+        }
 
-            .date {
-                flex-basis: 10rem;
-                flex-shrink: 0;
-            }
+        .description {
+            flex-grow: 1;
+        }
 
-            .description {
-                flex-grow: 1;
-            }
+        .download-link {
+            flex-basis: 12rem;
+            flex-shrink: 0;
+        }
 
-            .url {
-                flex-basis: 20rem;
-                word-break: break-all;
-            }
-
-            .download-link {
-                flex-basis: 12rem;
-                flex-shrink: 0;
-            }
-
-            .not-download-link {
-                flex-basis: 12rem;
-                flex-shrink: 0;
-            }
+        .not-download-link {
+            flex-basis: 12rem;
+            flex-shrink: 0;
         }
     }
 }
