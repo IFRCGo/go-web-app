@@ -65,19 +65,19 @@ function GlobalFooter(props: Props) {
                 </Heading>
                 <div className={styles.subSection}>
                     <Link
-                        to="https://ifrc.org"
+                        href="https://ifrc.org"
                         external
                     >
                         ifrc.org
                     </Link>
                     <Link
-                        to="https://rcrcsims.org"
+                        href="https://rcrcsims.org"
                         external
                     >
                         rcrcsims.org
                     </Link>
                     <Link
-                        to="https://data.ifrc.org"
+                        href="https://data.ifrc.org"
                         external
                     >
                         data.ifrc.org
@@ -90,13 +90,13 @@ function GlobalFooter(props: Props) {
                 </Heading>
                 <div className={styles.subSection}>
                     <Link
-                        to="https://github.com/ifrcgo/go-web-app"
+                        href="https://github.com/ifrcgo/go-web-app"
                         external
                     >
                         {strings.footerOpenSourceCode}
                     </Link>
                     <Link
-                        to={resolve(adminUrl, 'docs')}
+                        href={resolve(adminUrl, 'docs')}
                         external
                     >
                         {strings.footerApiDocumentation}
@@ -113,7 +113,7 @@ function GlobalFooter(props: Props) {
                     {strings.footerContactUs}
                 </Heading>
                 <Link
-                    to="mailto:im@ifrc.org"
+                    href="mailto:im@ifrc.org"
                     variant="primary"
                     external
                 >
@@ -122,28 +122,28 @@ function GlobalFooter(props: Props) {
                 <div className={styles.socialIcons}>
                     <Link
                         className={styles.socialIcon}
-                        to="https://ifrcgoproject.medium.com"
+                        href="https://ifrcgoproject.medium.com"
                         external
                     >
                         <SocialMediumIcon />
                     </Link>
                     <Link
                         className={styles.socialIcon}
-                        to="https://www.facebook.com/IFRC"
+                        href="https://www.facebook.com/IFRC"
                         external
                     >
                         <SocialFacebookIcon />
                     </Link>
                     <Link
                         className={styles.socialIcon}
-                        to="https://twitter.com/ifrcgo"
+                        href="https://twitter.com/ifrcgo"
                         external
                     >
                         <SocialTwitterIcon />
                     </Link>
                     <Link
                         className={styles.socialIcon}
-                        to="https://www.youtube.com/watch?v=dwPsQzla9A4"
+                        href="https://www.youtube.com/watch?v=dwPsQzla9A4"
                         external
                     >
                         <SocialYoutubeIcon />

@@ -55,8 +55,10 @@ const searchTypeToLabelMap: Record<SearchResponseKeys, string> = {
 };
 
 function labelSelector(d: SearchItem) {
-    // FIXME: use separate component to render search result properly
-    return `[${searchTypeToLabelMap[d.type]}] ${d.name}`;
+    return d.name;
+}
+function descriptionSelector(d: SearchItem) {
+    return searchTypeToLabelMap[d.type];
 }
 
 const searchTypeToRouteMap: Record<SearchResponseKeys, Route> = {
@@ -284,6 +286,7 @@ function KeywordSearchSelectInput() {
             value={undefined}
             keySelector={keySelector}
             labelSelector={labelSelector}
+            descriptionSelector={descriptionSelector}
             onSearchValueChange={setSearchText}
             searchOptions={options}
             optionsPending={pending}

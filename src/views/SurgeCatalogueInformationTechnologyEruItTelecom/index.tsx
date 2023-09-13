@@ -31,7 +31,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed9M59SwliBMvgVU3I7XilwBG7EYMGvXuvResKhy9ut5TA"
+                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed9M59SwliBMvgVU3I7XilwBG7EYMGvXuvResKhy9ut5TA"
                                     external
                                     withUnderline
                                     withLinkIcon

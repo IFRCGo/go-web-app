@@ -12,13 +12,13 @@ export function Component() {
     const rapidResponsePersonnel: LinkData[] = [
         {
             title: strings.cataloguePMERCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EagyYJ2dxJtJodnkN7u-KGABUEDjjQR8iGbFP3_BNl3Fgw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EagyYJ2dxJtJodnkN7u-KGABUEDjjQR8iGbFP3_BNl3Fgw',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.cataloguePMEROfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ESQt4ETNFoJKlgdxpZsN-0ABhzfPBsBZzWHGnn1Cl923JA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ESQt4ETNFoJKlgdxpZsN-0ABhzfPBsBZzWHGnn1Cl923JA',
             external: true,
             withLinkIcon: true,
         },

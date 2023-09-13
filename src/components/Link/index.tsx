@@ -51,22 +51,27 @@ export function resolvePath(
 // eslint-disable-next-line react-refresh/only-export-components
 export function useLink(props: {
     external: true,
-    to: string | undefined | null,
+    href: string | undefined | null,
+    to?: never,
     urlParams?: never,
 } | {
     external: false | undefined,
     to: keyof WrappedRoutes | undefined | null,
     urlParams?: UrlParams,
+    href?: never,
 }) {
     const { userAuth: userDetails } = useContext(UserContext);
     const routes = useContext(RouteContext);
 
-    if (isNotDefined(props.to)) {
-        return { disabled: true, to: undefined };
+    if (props.external) {
+        if (isNotDefined(props.href)) {
+            return { disabled: true, to: undefined };
+        }
+        return { disabled: false, to: props.to };
     }
 
-    if (props.external) {
-        return { disabled: false, to: props.to };
+    if (isNotDefined(props.to)) {
+        return { disabled: true, to: undefined };
     }
 
     // eslint-disable-next-line react/destructuring-assignment
@@ -105,12 +110,14 @@ export type Props<OMISSION extends string = never> = Omit<RouterLinkProps, 'to' 
     urlParams?: UrlParams;
     urlSearch?: string;
     urlHash?: string;
+    href?: never;
 } | {
     external: true;
-    to: string | undefined | null;
+    href: string | undefined | null;
     urlParams?: never;
     urlSearch?: never;
     urlHash?: never;
+    to?: never;
 })
 
 function Link(props: Props) {
@@ -148,9 +155,9 @@ function Link(props: Props) {
         // eslint-disable-next-line react/destructuring-assignment
         props.external
             // eslint-disable-next-line react/destructuring-assignment
-            ? { to: props.to, external: props.external, urlParams: undefined }
+            ? { href: props.href, external: true }
             // eslint-disable-next-line react/destructuring-assignment
-            : { to: props.to, external: props.external, urlParams: props.urlParams },
+            : { to: props.to, external: false, urlParams: props.urlParams },
     );
 
     // eslint-disable-next-line react/destructuring-assignment
@@ -197,16 +204,16 @@ function Link(props: Props) {
             if (props.external) {
                 return (
                     <a
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        {...otherProps}
                         className={_cs(
                             linkElementClassName,
                             styles.linkElement,
                             containerClassName,
                         )}
-                        href={toLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        // eslint-disable-next-line react/jsx-props-no-spreading
-                        {...otherProps}
+                        href={toLink}
                     >
                         {content}
                     </a>
@@ -215,13 +222,13 @@ function Link(props: Props) {
 
             return (
                 <InternalLink
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...otherProps}
                     className={_cs(
                         linkElementClassName,
                         styles.linkElement,
                         containerClassName,
                     )}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...otherProps}
                     to={{
                         pathname: toLink,
                         // eslint-disable-next-line react/destructuring-assignment

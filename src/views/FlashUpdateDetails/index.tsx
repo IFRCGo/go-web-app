@@ -241,7 +241,7 @@ export function Component() {
                                         {reference.source_description}
                                     </div>
                                     <Link
-                                        to={reference.url}
+                                        href={reference.url}
                                         external
                                     >
                                         {reference.url}

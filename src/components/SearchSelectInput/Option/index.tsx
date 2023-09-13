@@ -6,15 +6,17 @@ import styles from './styles.module.css';
 
 export interface Props {
     className?: string;
-    children: ReactNode;
+    label: ReactNode;
     iconClassName?: string;
     labelClassName?: string;
+    description?: ReactNode;
 }
 
 function Option(props: Props) {
     const {
         className,
-        children,
+        label,
+        description,
         iconClassName,
         labelClassName,
     } = props;
@@ -26,7 +28,10 @@ function Option(props: Props) {
             </div>
             <div className={_cs(styles.label, labelClassName)}>
                 <div className={styles.overflowContainer}>
-                    { children }
+                    { label }
+                </div>
+                <div className={_cs(styles.overflowContainer, styles.description)}>
+                    { description }
                 </div>
             </div>
         </div>

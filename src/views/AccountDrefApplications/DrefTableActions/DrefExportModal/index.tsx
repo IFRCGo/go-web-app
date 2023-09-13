@@ -123,7 +123,7 @@ function DrefExportModal(props: Props) {
                     actions={(
                         <Link
                             variant="secondary"
-                            to={exportStatusResponse?.pdf_file}
+                            href={exportStatusResponse?.pdf_file}
                             external
                         >
                             {/* FIXME: use translations */}

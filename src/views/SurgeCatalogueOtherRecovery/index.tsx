@@ -29,7 +29,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVGjsDkuPN1AjuiHEIPBAtIBeylQYJbOGqrUKoYZGBBsRg"
+                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVGjsDkuPN1AjuiHEIPBAtIBeylQYJbOGqrUKoYZGBBsRg"
                                     external
                                 >
                                     {strings.technicalLink}
@@ -46,7 +46,7 @@ export function Component() {
                 <ul>
                     <li>
                         <Link
-                            to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUbjt_mT-4tIr9UcmCRhLs4B71WUl7dazEtiTGccC-3rsQ"
+                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUbjt_mT-4tIr9UcmCRhLs4B71WUl7dazEtiTGccC-3rsQ"
                             external
                         >
                             {strings.otherLinkOne}
@@ -54,7 +54,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ebi1UtwPTMtKhNoPY0fh9QYBuzsLVRy_nGLss1E0NCSkSA"
+                            href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ebi1UtwPTMtKhNoPY0fh9QYBuzsLVRy_nGLss1E0NCSkSA"
                             external
                         >
                             {strings.otherLinkTwo}

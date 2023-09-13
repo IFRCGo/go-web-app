@@ -81,7 +81,7 @@ export function Component() {
                 heading={strings.healthPSSAdditionalResources}
             >
                 <Link
-                    to="http://pscentre.org/"
+                    href="http://pscentre.org/"
                     external
                     variant="tertiary"
                     withLinkIcon

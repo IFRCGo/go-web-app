@@ -12,13 +12,13 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.catalogueLivelihoodCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfES4Wzw9FhMuuheDrmLAgUB6hOMdb4Q_PxRvZNHI4PS9g',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfES4Wzw9FhMuuheDrmLAgUB6hOMdb4Q_PxRvZNHI4PS9g',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueLivelihoodOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed_cp5Q9QVhBvX4Z2Awb0tYBirpsEI4ApLByl_X3HBX8eA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed_cp5Q9QVhBvX4Z2Awb0tYBirpsEI4ApLByl_X3HBX8eA',
             external: true,
             withLinkIcon: true,
         },
@@ -35,7 +35,7 @@ export function Component() {
     const resourceCenterData: LinkData[] = [
         {
             title: strings.catalogueLivelihoodLearnMore,
-            to: 'https://www.livelihoodscentre.org/',
+            href: 'https://www.livelihoodscentre.org/',
             external: true,
             withLinkIcon: true,
         },
@@ -44,7 +44,7 @@ export function Component() {
     const toolboxData: LinkData[] = [
         {
             title: strings.catalogueLivelihoodLearnMore,
-            to: 'https://www.livelihoodscentre.org/toolbox-intro/',
+            href: 'https://www.livelihoodscentre.org/toolbox-intro/',
             external: true,
             withLinkIcon: true,
         },
@@ -53,7 +53,7 @@ export function Component() {
     const indicatorData: LinkData[] = [
         {
             title: strings.catalogueLivelihoodLearnMore,
-            to: 'https://www.livelihoodscentre.org/indi/',
+            href: 'https://www.livelihoodscentre.org/indi/',
             external: true,
             withLinkIcon: true,
         },
@@ -62,7 +62,7 @@ export function Component() {
     const householdData: LinkData[] = [
         {
             title: strings.catalogueLivelihoodLearnMore,
-            to: 'https://www.livelihoodscentre.org/documents/20720/100145/HES_Guidelines+3.0+(2014)/92cb5220-9278-4cd2-9fa7-1f5af063f3b7/',
+            href: 'https://www.livelihoodscentre.org/documents/20720/100145/HES_Guidelines+3.0+(2014)/92cb5220-9278-4cd2-9fa7-1f5af063f3b7/',
             external: true,
             withLinkIcon: true,
         },
@@ -71,7 +71,7 @@ export function Component() {
     const guidelinesData: LinkData[] = [
         {
             title: strings.catalogueLivelihoodLearnMore,
-            to: 'https://www.livelihoodscentre.org/documents/20720/100145/IFRC+Livelihoods+Guidelines_EN.PDF/9d230644-9b02-4249-8252-0d37e79ad346',
+            href: 'https://www.livelihoodscentre.org/documents/20720/100145/IFRC+Livelihoods+Guidelines_EN.PDF/9d230644-9b02-4249-8252-0d37e79ad346',
             external: true,
             withLinkIcon: true,
         },
@@ -80,7 +80,7 @@ export function Component() {
     const foodSecurityData: LinkData[] = [
         {
             title: strings.catalogueLivelihoodLearnMore,
-            to: 'https://www.ifrc.org/Global/global-fsa-guidelines-en.pdf',
+            href: 'https://www.ifrc.org/Global/global-fsa-guidelines-en.pdf',
             external: true,
             withLinkIcon: true,
         },
@@ -89,7 +89,7 @@ export function Component() {
     const centerData: LinkData[] = [
         {
             title: strings.catalogueLivelihoodLearnMore,
-            to: 'https://www.livelihoodscentre.org/list-training',
+            href: 'https://www.livelihoodscentre.org/list-training',
             external: true,
             withLinkIcon: true,
         },

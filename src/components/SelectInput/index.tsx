@@ -32,7 +32,6 @@ function SelectInput<
     const {
         name,
         options,
-        labelSelector,
         // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
         nonClearable,
         // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -54,7 +53,6 @@ function SelectInput<
                 nonClearable={props.nonClearable}
                 name={name}
                 options={options}
-                labelSelector={labelSelector}
                 sortFunction={rankedSearchOnList}
                 searchOptions={options}
                 selectedOnTop={false}
@@ -71,7 +69,6 @@ function SelectInput<
             nonClearable={props.nonClearable}
             name={name}
             options={options}
-            labelSelector={labelSelector}
             sortFunction={rankedSearchOnList}
             searchOptions={options}
             selectedOnTop={false}

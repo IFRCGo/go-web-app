@@ -107,7 +107,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://www.cbsrc.org/"
+                                        href="https://www.cbsrc.org/"
                                         external
                                         withLinkIcon
                                     >
@@ -123,7 +123,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=09f973a8db15f4103408d7b2f39619ee"
+                                        href="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=09f973a8db15f4103408d7b2f39619ee"
                                         external
                                         withLinkIcon
                                     >

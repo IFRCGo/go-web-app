@@ -14,7 +14,7 @@ export function Component() {
     const simsLink: LinkData[] = [
         {
             title: strings.catalogueIMServicesSimsLink,
-            to: 'https://rcrcsims.org/',
+            href: 'https://rcrcsims.org/',
             external: true,
             withLinkIcon: true,
         },
@@ -23,7 +23,7 @@ export function Component() {
     const userLibraryLink: LinkData[] = [
         {
             title: strings.catalogueIMUserLibraryLink,
-            to: 'https://go-user-library.ifrc.org/',
+            href: 'https://go-user-library.ifrc.org/',
             external: true,
             withLinkIcon: true,
         },
@@ -32,7 +32,7 @@ export function Component() {
     const koboToolboxLink: LinkData[] = [
         {
             title: strings.catalogueIMIFRCToolboxLink,
-            to: 'https://www.ifrc.org/ifrc-kobo',
+            href: 'https://www.ifrc.org/ifrc-kobo',
             external: true,
             withLinkIcon: true,
         },
@@ -41,7 +41,7 @@ export function Component() {
     const deepLink: LinkData[] = [
         {
             title: strings.catalogueIMDEEPLink,
-            to: 'https://deephelp.zendesk.com/auth/v2/login/signin?return_to=https%3A%2F%2Fdeephelp.zendesk.com%2Fhc%2Fen-us%2Farticles%2F360041904812-4-DEEP-Using-the-DEEP-Platform-&theme=hc&locale=en-us&brand_id=360000501911&auth_origin=360000501911%2Cfalse%2Ctrue/',
+            href: 'https://deephelp.zendesk.com/auth/v2/login/signin?return_to=https%3A%2F%2Fdeephelp.zendesk.com%2Fhc%2Fen-us%2Farticles%2F360041904812-4-DEEP-Using-the-DEEP-Platform-&theme=hc&locale=en-us&brand_id=360000501911&auth_origin=360000501911%2Cfalse%2Ctrue/',
             external: true,
             withLinkIcon: true,
         },
@@ -50,25 +50,25 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.catalogueIMCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea_YRhCI_IJHkhISEh5zH2YBCUtMAdWUqiC8JH7g1Jj8AQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea_YRhCI_IJHkhISEh5zH2YBCUtMAdWUqiC8JH7g1Jj8AQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueIMHumanitarianInformation,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EYUNi8qR395Oq3Ng3SHbsXMBUbS4XdfVw03tECGEb828Nw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EYUNi8qR395Oq3Ng3SHbsXMBUbS4XdfVw03tECGEb828Nw',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueIMPrimaryData,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EdB7tgvjH5dApy5PcFNZcx0BzGKQJfS2nP-L3CFKRdr5Ow',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EdB7tgvjH5dApy5PcFNZcx0BzGKQJfS2nP-L3CFKRdr5Ow',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueIMMapping,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ER92aBZKBpxHrH61MJf4hLEBxwEnqzfqjLVR7cscPlxDKA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ER92aBZKBpxHrH61MJf4hLEBxwEnqzfqjLVR7cscPlxDKA',
             external: true,
             withLinkIcon: true,
         },
@@ -77,7 +77,7 @@ export function Component() {
     const frameworkData: LinkData[] = [
         {
             title: strings.catalogueIMAssessment,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbmgwMFvUHtFkkc26GZhAo0BIuwI2UWSkrFyehAq7ZfT6g',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbmgwMFvUHtFkkc26GZhAo0BIuwI2UWSkrFyehAq7ZfT6g',
             external: true,
             withLinkIcon: true,
         },

@@ -183,7 +183,7 @@ function RiskTable(props: Props) {
                                     {
                                         moreInfoLink: (
                                             <Link
-                                                to="https://drmkc.jrc.ec.europa.eu/inform-index/INFORM-Covid-19/INFORM-Covid-19-Warning-beta-version"
+                                                href="https://drmkc.jrc.ec.europa.eu/inform-index/INFORM-Covid-19/INFORM-Covid-19-Warning-beta-version"
                                                 external
                                             >
                                                 {strings.riskTableInformDescriptionHereLabel}

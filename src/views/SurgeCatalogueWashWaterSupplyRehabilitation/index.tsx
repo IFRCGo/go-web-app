@@ -99,7 +99,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=d1b744c1db45b810f15e3423f39619c4"
+                                        href="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=d1b744c1db45b810f15e3423f39619c4"
                                         external
                                         withLinkIcon
                                     >

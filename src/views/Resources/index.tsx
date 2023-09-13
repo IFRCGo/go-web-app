@@ -60,7 +60,7 @@ export function Component() {
         {
             contactLink: (
                 <Link
-                    to="mailto:im@ifrc.org"
+                    href="mailto:im@ifrc.org"
                     external
                 >
                     im@ifrc.org
@@ -102,7 +102,7 @@ export function Component() {
                 >
                     {/* NOTE: We do not need to translate these links */}
                     <Link
-                        to="https://github.com/IFRCGo/go-frontend/files/4415370/GoUserGuide_MediumRes.pdf"
+                        href="https://github.com/IFRCGo/go-frontend/files/4415370/GoUserGuide_MediumRes.pdf"
                         external
                         icons={(
                             <span className={styles.iconCircle}>
@@ -114,7 +114,7 @@ export function Component() {
                         GO user guide
                     </Link>
                     <Link
-                        to="https://github.com/IFRCGo/go-frontend/files/4415371/GoAdminGuide_MediumRes.pdf"
+                        href="https://github.com/IFRCGo/go-frontend/files/4415371/GoAdminGuide_MediumRes.pdf"
                         external
                         icons={(
                             <span className={styles.iconCircle}>
@@ -127,7 +127,8 @@ export function Component() {
                     </Link>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <Link
-                        to={undefined}
+                        // FIXME: add link
+                        to={null}
                         icons={(
                             <span className={styles.iconCircle}>
                                 FR
@@ -151,7 +152,7 @@ export function Component() {
                         Guides Administratifs
                     </Link>
                     <Link
-                        to="https://drive.google.com/file/d/1FnmBm_8K52eTKWa8xWK52eebhgOz60SO/view"
+                        href="https://drive.google.com/file/d/1FnmBm_8K52eTKWa8xWK52eebhgOz60SO/view"
                         external
                         icons={(
                             <span className={styles.iconCircle}>
@@ -165,7 +166,7 @@ export function Component() {
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <Link
                         // FIXME: add link
-                        to={null}
+                        href={null}
                         external
                         icons={(
                             <span className={styles.iconCircle}>
@@ -177,7 +178,7 @@ export function Component() {
                         Guías Administrativas
                     </Link>
                     <Link
-                        to="https://github.com/IFRCGo/go-frontend/files/4818646/GoUserGuide_MediumRes_AR.pdf.pdf"
+                        href="https://github.com/IFRCGo/go-frontend/files/4818646/GoUserGuide_MediumRes_AR.pdf.pdf"
                         external
                         icons={(
                             <span className={styles.iconCircle}>
@@ -189,7 +190,7 @@ export function Component() {
                         أدلة المستخدم
                     </Link>
                     <Link
-                        to="https://github.com/IFRCGo/go-frontend/files/4818648/GoAdminGuide_MediumRes_AR.pdf.pdf"
+                        href="https://github.com/IFRCGo/go-frontend/files/4818648/GoAdminGuide_MediumRes_AR.pdf.pdf"
                         external
                         icons={(
                             <span className={styles.iconCircle}>
@@ -210,7 +211,7 @@ export function Component() {
                     withInternalPadding
                 >
                     <Link
-                        to="https://go-user-library.ifrc.org/"
+                        href="https://go-user-library.ifrc.org/"
                         external
                         withLinkIcon
                     >
@@ -218,42 +219,42 @@ export function Component() {
                     </Link>
 
                     <Link
-                        to="https://ifrcgoproject.medium.com/"
+                        href="https://ifrcgoproject.medium.com/"
                         external
                         withLinkIcon
                     >
                         {strings.goBlog}
                     </Link>
                     <Link
-                        to="https://app.powerbi.com/view?r=eyJrIjoiY2RlOTRkOGQtMDU5Yy00OWIwLWE2NmYtNTQ5NTQ3YjEwY2ZmIiwidCI6ImEyYjUzYmU1LTczNGUtNGU2Yy1hYjBkLWQxODRmNjBmZDkxNyIsImMiOjh9&pageName=ReportSectione263ecb5066f3105a8fa"
+                        href="https://app.powerbi.com/view?r=eyJrIjoiY2RlOTRkOGQtMDU5Yy00OWIwLWE2NmYtNTQ5NTQ3YjEwY2ZmIiwidCI6ImEyYjUzYmU1LTczNGUtNGU2Yy1hYjBkLWQxODRmNjBmZDkxNyIsImMiOjh9&pageName=ReportSectione263ecb5066f3105a8fa"
                         external
                         withLinkIcon
                     >
                         {strings.goUserAnalytics}
                     </Link>
                     <Link
-                        to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ESX7S_-kp-FAuPP_yXIcLQkB6zE6t2hVhKxGgWbSXZXOFg?e=RsWNSa"
+                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ESX7S_-kp-FAuPP_yXIcLQkB6zE6t2hVhKxGgWbSXZXOFg?e=RsWNSa"
                         external
                         withLinkIcon
                     >
                         {strings.goInfoArchitecture}
                     </Link>
                     <Link
-                        to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea0TfruyRiZGhyGT3XCEnPMBxZSYqlwLLgEHx1VqeBT9Tg?e=nrpLmz"
+                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea0TfruyRiZGhyGT3XCEnPMBxZSYqlwLLgEHx1VqeBT9Tg?e=nrpLmz"
                         external
                         withLinkIcon
                     >
                         {strings.goWorkplan}
                     </Link>
                     <Link
-                        to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUqbJHWGW8xLjFJgwG-x4GABfUD5UCS3DS6uwW74tufs9Q?e=HwsqbI"
+                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUqbJHWGW8xLjFJgwG-x4GABfUD5UCS3DS6uwW74tufs9Q?e=HwsqbI"
                         external
                         withLinkIcon
                     >
                         {strings.goSystemAnalysis}
                     </Link>
                     <Link
-                        to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUV7xJOyEZtDmecIH6uS9SIBwl3gv1cbxVjwS6m79gx7TQ?e=b2AgU3"
+                        href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUV7xJOyEZtDmecIH6uS9SIBwl3gv1cbxVjwS6m79gx7TQ?e=b2AgU3"
                         external
                         withLinkIcon
                     >
@@ -261,7 +262,7 @@ export function Component() {
                     </Link>
 
                     <Link
-                        to="https://ifrcgoproject.medium.com/information-saves-lives-scaling-data-analytics-in-the-ifrc-network-fd3686718f9c"
+                        href="https://ifrcgoproject.medium.com/information-saves-lives-scaling-data-analytics-in-the-ifrc-network-fd3686718f9c"
                         external
                         withLinkIcon
                     >
@@ -288,21 +289,21 @@ export function Component() {
                     withInternalPadding
                 >
                     <Link
-                        to="https://docs.google.com/spreadsheets/d/1F-78qDc8vdh5hli5FLFeyTvlFQgw19OqZXMR50TQ1C0/edit?usp=sharing"
+                        href="https://docs.google.com/spreadsheets/d/1F-78qDc8vdh5hli5FLFeyTvlFQgw19OqZXMR50TQ1C0/edit?usp=sharing"
                         external
                         withLinkIcon
                     >
                         {strings.aboutSurgeEvents}
                     </Link>
                     <Link
-                        to="https://rcrcsims.org/"
+                        href="https://rcrcsims.org/"
                         external
                         withLinkIcon
                     >
                         {strings.aboutSurgeNetwork}
                     </Link>
                     <Link
-                        to="https://www.cbsrc.org/"
+                        href="https://www.cbsrc.org/"
                         external
                         withLinkIcon
                     >
@@ -317,28 +318,28 @@ export function Component() {
                     withInternalPadding
                 >
                     <Link
-                        to="https://www.cash-hub.org/"
+                        href="https://www.cash-hub.org/"
                         external
                         withLinkIcon
                     >
                         {strings.aboutCashHub}
                     </Link>
                     <Link
-                        to="https://www.communityengagementhub.org/"
+                        href="https://www.communityengagementhub.org/"
                         external
                         withLinkIcon
                     >
                         {strings.aboutCommunityHub}
                     </Link>
                     <Link
-                        to="https://preparecenter.org/"
+                        href="https://preparecenter.org/"
                         external
                         withLinkIcon
                     >
                         {strings.aboutDisasterPreparednessCenter}
                     </Link>
                     <Link
-                        to="https://preparecenter.org/toolkit/data-playbook-toolkit/"
+                        href="https://preparecenter.org/toolkit/data-playbook-toolkit/"
                         external
                         withLinkIcon
                     >
@@ -353,7 +354,7 @@ export function Component() {
                     withInternalPadding
                 >
                     <Link
-                        to="https://www.ifrc.org/reference-centres/"
+                        href="https://www.ifrc.org/reference-centres/"
                         external
                         withLinkIcon
                     >
@@ -361,21 +362,21 @@ export function Component() {
                     </Link>
 
                     <Link
-                        to="https://www.missingmaps.org/"
+                        href="https://www.missingmaps.org/"
                         external
                         withLinkIcon
                     >
                         {strings.aboutMissingMaps}
                     </Link>
                     <Link
-                        to="https://data.ifrc.org/fdrs/"
+                        href="https://data.ifrc.org/fdrs/"
                         external
                         withLinkIcon
                     >
                         {strings.aboutReportingSystem}
                     </Link>
                     <Link
-                        to="https://ifrc.csod.com/client/ifrc/default.aspx"
+                        href="https://ifrc.csod.com/client/ifrc/default.aspx"
                         external
                         withLinkIcon
                     >
@@ -402,7 +403,7 @@ export function Component() {
                                 {contact.name}
                             </div>
                             <Link
-                                to={`mailto:${contact.email}`}
+                                href={`mailto:${contact.email}`}
                                 external
                                 className={styles.contactEmail}
                                 withLinkIcon
@@ -420,7 +421,7 @@ export function Component() {
                 childrenContainerClassName={styles.supportSection}
             >
                 <Link
-                    to="https://www.redcross.org/"
+                    href="https://www.redcross.org/"
                     external
                     className={styles.link}
                 >
@@ -432,7 +433,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.redcross.org.au/"
+                    href="https://www.redcross.org.au/"
                     external
                     className={styles.link}
                 >
@@ -444,7 +445,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.redcross.org.uk/"
+                    href="https://www.redcross.org.uk/"
                     external
                     className={styles.link}
                 >
@@ -456,7 +457,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.redcross.ca/"
+                    href="https://www.redcross.ca/"
                     external
                     className={styles.link}
                 >
@@ -469,7 +470,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://en.rodekors.dk/"
+                    href="https://en.rodekors.dk/"
                     external
                     className={styles.link}
                 >
@@ -481,7 +482,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.redcross.fi/"
+                    href="https://www.redcross.fi/"
                     external
                     className={styles.link}
                 >
@@ -493,7 +494,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.jrc.or.jp/english/"
+                    href="https://www.jrc.or.jp/english/"
                     external
                     className={styles.link}
                 >
@@ -505,7 +506,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.rodekruis.nl/"
+                    href="https://www.rodekruis.nl/"
                     external
                     className={styles.link}
                 >
@@ -517,7 +518,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www2.cruzroja.es/"
+                    href="https://www2.cruzroja.es/"
                     external
                     className={styles.link}
                 >
@@ -529,7 +530,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.ericsson.com/en"
+                    href="https://www.ericsson.com/en"
                     external
                     className={styles.link}
                 >
@@ -541,7 +542,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.admin.ch/gov/de/start.html"
+                    href="https://www.admin.ch/gov/de/start.html"
                     external
                     className={styles.link}
                 >
@@ -553,7 +554,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.usaid.gov/"
+                    href="https://www.usaid.gov/"
                     external
                     className={styles.link}
                 >
@@ -565,7 +566,7 @@ export function Component() {
                     />
                 </Link>
                 <Link
-                    to="https://www.pdc.org/"
+                    href="https://www.pdc.org/"
                     external
                     className={styles.link}
                 >

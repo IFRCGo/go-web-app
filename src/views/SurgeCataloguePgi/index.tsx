@@ -12,13 +12,13 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.cataloguePGICoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EU4km4Q5WBFIltLi-YiN4oQBPyI_sGUoOKNL_thTbCc-BQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EU4km4Q5WBFIltLi-YiN4oQBPyI_sGUoOKNL_thTbCc-BQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.cataloguePGIOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXAvSIocmO9HuTVxaSKchzQBajb88vIfI9_2K_Od2HN-kg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXAvSIocmO9HuTVxaSKchzQBajb88vIfI9_2K_Od2HN-kg',
             external: true,
             withLinkIcon: true,
         },
@@ -27,7 +27,7 @@ export function Component() {
     const technicalProfiles: LinkData[] = [
         {
             title: strings.cataloguePGI,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbXcICqULRhBss7nNlI-YUwB0JMTv-_fqTQlUpT2H0Cr7g',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbXcICqULRhBss7nNlI-YUwB0JMTv-_fqTQlUpT2H0Cr7g',
             external: true,
             withLinkIcon: true,
         },
@@ -44,7 +44,7 @@ export function Component() {
     const standardData: LinkData[] = [
         {
             title: strings.catalogueProtectionLearnMore,
-            to: 'https://www.ifrc.org/document/minimum-standards-pgi-emergencies',
+            href: 'https://www.ifrc.org/document/minimum-standards-pgi-emergencies',
             external: true,
             withLinkIcon: true,
         },
@@ -53,7 +53,7 @@ export function Component() {
     const roofData: LinkData[] = [
         {
             title: strings.catalogueProtectionLearnMore,
-            to: 'https://www.ifrc.org/media/48958',
+            href: 'https://www.ifrc.org/media/48958',
             external: true,
             withLinkIcon: true,
         },

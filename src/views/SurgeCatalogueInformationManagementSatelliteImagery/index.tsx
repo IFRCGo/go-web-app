@@ -19,7 +19,7 @@ export function Component() {
             <div>{strings.satelliteImageryTextOne}</div>
             <div>{strings.satelliteImageryTextTwo}</div>
             <Link
-                to="https://americanredcross.github.io/images-from-above/index.html"
+                href="https://americanredcross.github.io/images-from-above/index.html"
                 external
             >
                 {strings.satelliteImageryTextThree}
@@ -30,7 +30,7 @@ export function Component() {
                     {
                         link: (
                             <Link
-                                to="https://docs.google.com/spreadsheets/d/1IGxQVIRF0PkNXNXUcEA9_dz66-U2MCPRzN5O1hol1Mg/edit#gid=1206256283"
+                                href="https://docs.google.com/spreadsheets/d/1IGxQVIRF0PkNXNXUcEA9_dz66-U2MCPRzN5O1hol1Mg/edit#gid=1206256283"
                                 external
                             >
                                 {strings.thisSpreadsheetLink}
@@ -48,7 +48,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://americanredcross.github.io/images-from-above/index.html"
+                                    href="https://americanredcross.github.io/images-from-above/index.html"
                                     external
                                 >
                                     {strings.imagesFromAboveLink}
@@ -74,7 +74,7 @@ export function Component() {
                 heading={strings.satelliteImageryUNOSATTitle}
             >
                 <Link
-                    to="https://www.unitar.org/maps"
+                    href="https://www.unitar.org/maps"
                     external
                 >
                     {strings.satelliteImageryUnitarLink}
@@ -91,7 +91,7 @@ export function Component() {
                                 {
                                     link: (
                                         <Link
-                                            to="https://www.unitar.org/maps"
+                                            href="https://www.unitar.org/maps"
                                             external
                                         >
                                             {strings.satelliteTheirWebsiteLink}
@@ -106,7 +106,7 @@ export function Component() {
                                 {
                                     link: (
                                         <Link
-                                            to="https://smcs.unosat.org/home"
+                                            href="https://smcs.unosat.org/home"
                                             external
                                         >
                                             {strings.satelliteMappingCoordinationLink}
@@ -122,7 +122,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="mailto:im@ifrc.org"
+                                        href="mailto:im@ifrc.org"
                                         external
                                     >
                                         {strings.imageryImEmailLink}
@@ -145,7 +145,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://unosat.org/products/"
+                                        href="https://unosat.org/products/"
                                         external
                                     >
                                         {strings.satelliteUNOSATTItemThreeLink}
@@ -161,7 +161,7 @@ export function Component() {
                 heading={strings.satelliteImageryAnalysis}
             >
                 <Link
-                    to="https://mapswipe.org"
+                    href="https://mapswipe.org"
                     external
                 >
                     {strings.satelliteMapSwipeLink}
@@ -177,7 +177,7 @@ export function Component() {
                         {
                             emailLink: (
                                 <Link
-                                    to="mailto:info@mapswipe.org"
+                                    href="mailto:info@mapswipe.org"
                                     external
                                 >
                                     {strings.satelliteMapSwipeDescriptionEmailLink}
@@ -185,7 +185,7 @@ export function Component() {
                             ),
                             link: (
                                 <Link
-                                    to="https://mapswipe.org/en/index.html"
+                                    href="https://mapswipe.org/en/index.html"
                                     external
                                 >
                                     {strings.satelliteMapSwipeDescriptionOnTheWebsite}
@@ -210,7 +210,7 @@ export function Component() {
                     <li>
                         {strings.imagerySourcesSubTitleItemOne}
                         <Link
-                            to="https://www.maxar.com/open-data"
+                            href="https://www.maxar.com/open-data"
                             external
                         >
                             {strings.imagerySourcesSubTitleItemLink}
@@ -219,7 +219,7 @@ export function Component() {
                     <li>
                         {strings.imagerySourcesSubTitleItemTwo}
                         <Link
-                            to="https://www.planet.com/disasterdata"
+                            href="https://www.planet.com/disasterdata"
                             external
                         >
                             {strings.imagerySourcesSubTitleItemTwoLink}
@@ -232,7 +232,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://openaerialmap.org/"
+                                    href="https://openaerialmap.org/"
                                     external
                                 >
                                     {strings.imagerySourcesSubTitleDetailLink}
@@ -251,7 +251,7 @@ export function Component() {
                 heading={strings.imagerySourcesInternationalSpaceTitle}
             >
                 <Link
-                    to="https://disasterscharter.org/web/guest/home"
+                    href="https://disasterscharter.org/web/guest/home"
                     external
                 >
                     {strings.imagerySourcesDisastersCharterHomeLink}
@@ -262,7 +262,7 @@ export function Component() {
                     label={strings.imagerySourcesInternationalSpaceTextThree}
                     value={(
                         <Link
-                            to="https://disasterscharter.org/web/guest/charter-activations"
+                            href="https://disasterscharter.org/web/guest/charter-activations"
                             external
                         >
                             {strings.imagerySourcesDisastersCharterLink}
@@ -275,7 +275,7 @@ export function Component() {
                 heading={strings.imageryAirbusFoundation}
             >
                 <Link
-                    to="https://www.intelligence-airbusds.com/airbus-foundation/"
+                    href="https://www.intelligence-airbusds.com/airbus-foundation/"
                     external
                 >
                     {strings.imageryAirbusFoundationLink}
@@ -287,7 +287,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="mailto:im@ifrc.org"
+                                    href="mailto:im@ifrc.org"
                                     external
                                 >
                                     {strings.imageryImEmailLink}
@@ -304,7 +304,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://www.intelligence-airbusds.com/airbus-foundation/"
+                                        href="https://www.intelligence-airbusds.com/airbus-foundation/"
                                         external
                                     >
                                         {strings.imageryAirbusFoundationListOneLink}
@@ -337,7 +337,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="mailto:im@ifrc.org"
+                                        href="mailto:im@ifrc.org"
                                         external
                                     >
                                         {strings.imageryImEmailLink}

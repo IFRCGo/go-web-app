@@ -12,13 +12,13 @@ export function Component() {
     const securityRoleProfiles : LinkData[] = [
         {
             title: strings.catalogueSecurityCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfKdzU-bjxtGsCcf-d4FEQYBNrd7PpGbogU3IFxWSISX7A',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfKdzU-bjxtGsCcf-d4FEQYBNrd7PpGbogU3IFxWSISX7A',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueSecurityOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ET_mtrUE-8BHqSGRgt302CYB8OY8rh1mYOwDmLybD3v1mg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ET_mtrUE-8BHqSGRgt302CYB8OY8rh1mYOwDmLybD3v1mg',
             external: true,
             withLinkIcon: true,
         },
@@ -27,7 +27,7 @@ export function Component() {
     const securityTechnical: LinkData[] = [
         {
             title: strings.catalogueSecurityTitle,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EYV496KJyh9BnYymU2B3d9kBvX_9Zo1wHkOJnynT9CTTBQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EYV496KJyh9BnYymU2B3d9kBvX_9Zo1wHkOJnynT9CTTBQ',
             external: true,
             withLinkIcon: true,
         },

@@ -220,7 +220,7 @@ function Overview(props: Props) {
                                 : strings.drefFormDisasterCategoryLabel}
                             <Link
                                 title={strings.drefFormClickEmergencyResponseFramework}
-                                to={disasterCategoryLink}
+                                href={disasterCategoryLink}
                                 external
                                 variant="tertiary"
                             >
@@ -301,7 +301,7 @@ function Overview(props: Props) {
                             {strings.drefFormRiskPeopleLabel}
                             <Link
                                 title={strings.drefFormClickEmergencyResponseFramework}
-                                to={totalPopulationRiskImminentLink}
+                                href={totalPopulationRiskImminentLink}
                                 external
                             >
                                 <WikiHelpSectionLineIcon />
@@ -312,7 +312,7 @@ function Overview(props: Props) {
                             {strings.drefFormPeopleAffected}
                             <Link
                                 title={strings.drefFormClickEmergencyResponseFramework}
-                                to={totalPeopleAffectedSlowSuddenLink}
+                                href={totalPeopleAffectedSlowSuddenLink}
                                 external
                             >
                                 <WikiHelpSectionLineIcon />
@@ -339,7 +339,7 @@ function Overview(props: Props) {
                             }
                             <Link
                                 title={strings.drefFormClickEmergencyResponseFramework}
-                                to={peopleInNeedLink}
+                                href={peopleInNeedLink}
                                 external
                             >
                                 <WikiHelpSectionLineIcon />
@@ -364,7 +364,7 @@ function Overview(props: Props) {
                             <Link
                                 // FIXME: use translations
                                 title="Click to view Emergency Response Framework"
-                                to={peopleTargetedLink}
+                                href={peopleTargetedLink}
                                 external
                             >
                                 <WikiHelpSectionLineIcon />
@@ -384,7 +384,7 @@ function Overview(props: Props) {
                             {strings.drefFormPeopleTargeted}
                             <Link
                                 title={strings.drefFormClickEmergencyResponseFramework}
-                                to={peopleTargetedLink}
+                                href={peopleTargetedLink}
                                 external
                             >
                                 <WikiHelpSectionLineIcon />

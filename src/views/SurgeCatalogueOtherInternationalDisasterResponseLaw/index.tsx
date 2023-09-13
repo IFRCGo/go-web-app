@@ -29,7 +29,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbPlgWopXL9JmKb6Pz0didgB8XKBb3RhIo6g--XB9wD5sw"
+                                    href="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EbPlgWopXL9JmKb6Pz0didgB8XKBb3RhIo6g--XB9wD5sw"
                                     external
                                 >
                                     {strings.otherLink}

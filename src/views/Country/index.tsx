@@ -212,7 +212,7 @@ export function Component() {
                 <div className={styles.links}>
                     {isTruthyString(countryResponse.fdrs) && (
                         <Link
-                            to={`https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}`}
+                            href={`https://data.ifrc.org/FDRS/national-society/${countryResponse.fdrs}`}
                             external
                             withLinkIcon
                         >
@@ -221,7 +221,7 @@ export function Component() {
                     )}
                     {isTruthyString(countryResponse.url_ifrc) && (
                         <Link
-                            to={countryResponse.url_ifrc}
+                            href={countryResponse.url_ifrc}
                             external
                             withLinkIcon
                         >
@@ -233,7 +233,7 @@ export function Component() {
                     )}
                     {isTruthyString(countryResponse.iso3) && (
                         <Link
-                            to={`https://reliefweb.int/country/${countryResponse.iso3}`}
+                            href={`https://reliefweb.int/country/${countryResponse.iso3}`}
                             external
                             withLinkIcon
                         >
@@ -245,7 +245,7 @@ export function Component() {
                     )}
                     {isTruthyString(countryResponse.society_url) && (
                         <Link
-                            to={countryResponse?.society_url}
+                            href={countryResponse?.society_url}
                             external
                             withLinkIcon
                         >

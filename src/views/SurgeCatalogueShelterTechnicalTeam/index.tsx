@@ -126,7 +126,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://www.ifrc.org/our-work/disasters-climate-and-crises/shelter-and-settlements"
+                                        href="https://www.ifrc.org/our-work/disasters-climate-and-crises/shelter-and-settlements"
                                         external
                                         withLinkIcon
                                     >
@@ -138,7 +138,7 @@ export function Component() {
                     </li>
                     <li>
                         <Link
-                            to="https://fednet.ifrc.org/en/resources/disasters/shelter/"
+                            href="https://fednet.ifrc.org/en/resources/disasters/shelter/"
                             external
                             withLinkIcon
                         >
@@ -151,7 +151,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://itemscatalogue.redcross.int/relief--4/shelter-and-construction-materials--23.aspx"
+                                        href="https://itemscatalogue.redcross.int/relief--4/shelter-and-construction-materials--23.aspx"
                                         external
                                         withLinkIcon
                                     >
@@ -167,7 +167,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://www.ifrc.org/media/48901"
+                                        href="https://www.ifrc.org/media/48901"
                                         external
                                         withLinkIcon
                                     >
@@ -183,7 +183,7 @@ export function Component() {
                             {
                                 link: (
                                     <Link
-                                        to="https://ifrc.csod.com/ui/lms-learning-details/app/course/6bcddb4f-0e33-471c-93fb-281764be8092"
+                                        href="https://ifrc.csod.com/ui/lms-learning-details/app/course/6bcddb4f-0e33-471c-93fb-281764be8092"
                                         external
                                         withLinkIcon
                                     >

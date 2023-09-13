@@ -907,7 +907,7 @@ export function Component() {
                     childrenContainerClassName={styles.content}
                     actions={(
                         <Link
-                            to={drefResponse?.budget_file_details?.file}
+                            href={drefResponse?.budget_file_details?.file}
                             external
                         >
                             <DownloadLineIcon className={styles.downloadIcon} />

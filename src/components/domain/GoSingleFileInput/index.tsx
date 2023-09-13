@@ -132,7 +132,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
             {/* FIXME: use translation, implement remove */}
             {!withoutPreview && isDefined(selectedFileUrl) ? (
                 <Link
-                    to={selectedFileUrl}
+                    href={selectedFileUrl}
                     external
                 >
                     1 file selected

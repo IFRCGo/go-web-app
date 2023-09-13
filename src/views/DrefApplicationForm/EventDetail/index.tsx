@@ -61,7 +61,7 @@ function EventDetail(props: Props) {
                     className={styles.previousOperations}
                     headerDescription={(
                         <Link
-                            to={operationalLearningPlatformUrl}
+                            href={operationalLearningPlatformUrl}
                             external
                         >
                             {strings.drefOperationalLearningPlatformLabel}

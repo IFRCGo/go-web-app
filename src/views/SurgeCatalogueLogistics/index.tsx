@@ -14,67 +14,67 @@ export function Component() {
     const roleProfiles: LinkData[] = [
         {
             title: strings.catalogueLogisticsSupplyChainCoordinator,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETRk5roTyxpGu2HPqfkLbpMBbeOkEaT9s9DPYZ51Noy0UQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETRk5roTyxpGu2HPqfkLbpMBbeOkEaT9s9DPYZ51Noy0UQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueLogisticsSupplyERUTeamLeader,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfcAEr1nBFFNk3QP8ua2jgsBBaDL0_NuHQOFg7BZupd_PA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfcAEr1nBFFNk3QP8ua2jgsBBaDL0_NuHQOFg7BZupd_PA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueAirOpsOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETM7ujekPvNJoWcbtS6RInABsV_dyosFDLoPWWt_MAUduQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ETM7ujekPvNJoWcbtS6RInABsV_dyosFDLoPWWt_MAUduQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueCashLogisticsOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EZpGoAagDcdMg2ZNaMBU490BowF4HzWtRsB7R0ICoTCm0w',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EZpGoAagDcdMg2ZNaMBU490BowF4HzWtRsB7R0ICoTCm0w',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueFleetOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcGXWeVvcDhHmoN7oNC0_OYB58AaKzD_vCv_-Elio2bn0g',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcGXWeVvcDhHmoN7oNC0_OYB58AaKzD_vCv_-Elio2bn0g',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueLogisticsOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcO7pbdSG4tFsqiCFfPqs1cBdymaJMSB08kw7QWMyMeIgA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcO7pbdSG4tFsqiCFfPqs1cBdymaJMSB08kw7QWMyMeIgA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueMedicalLogisticsOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfqRwUiHJVFMvhyQyUa9E7ABceClyPx8tsqhMBL9skqDjQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfqRwUiHJVFMvhyQyUa9E7ABceClyPx8tsqhMBL9skqDjQ',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.cataloguePipelineOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ET-zqWDMVgpAqlviy2ZNXNkBndCVtu0vj2cfFXVbSkc4wA',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ET-zqWDMVgpAqlviy2ZNXNkBndCVtu0vj2cfFXVbSkc4wA',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueProcurementOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUKgWdUOCLNAu0qEJmlUdUwBfnrU12iYljd4dB1VCifrLg',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUKgWdUOCLNAu0qEJmlUdUwBfnrU12iYljd4dB1VCifrLg',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueLogisticsSupplyChainAdminOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVisch-yFKNFjnr3YyQvsVYBN_lXDoGSsy_WDqT1Gr9_Ww',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVisch-yFKNFjnr3YyQvsVYBN_lXDoGSsy_WDqT1Gr9_Ww',
             external: true,
             withLinkIcon: true,
         },
         {
             title: strings.catalogueWarehouseOfficer,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ERrzk5zy9TNKp6GUOlJqJ0QBhVUFo18-n7sW4MwE5vKDFw',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ERrzk5zy9TNKp6GUOlJqJ0QBhVUFo18-n7sW4MwE5vKDFw',
             external: true,
             withLinkIcon: true,
         },
@@ -83,7 +83,7 @@ export function Component() {
     const technicalCompetency: LinkData[] = [
         {
             title: strings.catalogueLogisticsFramework,
-            to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb3r3PF2eWpAk_tNLRQwyHoB_zJJRYshXYw9Kd3YSwrNjQ',
+            href: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb3r3PF2eWpAk_tNLRQwyHoB_zJJRYshXYw9Kd3YSwrNjQ',
             external: true,
             withLinkIcon: true,
         },
@@ -108,7 +108,7 @@ export function Component() {
     const logisticsStandards: LinkData[] = useMemo(() => ([
         {
             title: strings.catalogueLogisticsStandardTitle,
-            to: 'https://fednet.ifrc.org/en/resources/logistics/logistics-standards-and-tools/lso/',
+            href: 'https://fednet.ifrc.org/en/resources/logistics/logistics-standards-and-tools/lso/',
             external: true,
             withLinkIcon: true,
         },
@@ -117,7 +117,7 @@ export function Component() {
     const standardsProducts: LinkData[] = useMemo(() => ([
         {
             title: strings.catalogueLogisticsStandardProductsDetailLink,
-            to: 'https://itemscatalogue.redcross.int/',
+            href: 'https://itemscatalogue.redcross.int/',
             external: true,
             withLinkIcon: true,
         },

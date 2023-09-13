@@ -196,7 +196,7 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                                 key={valueUrl.id}
                             >
                                 <Link
-                                    to={valueUrl.url}
+                                    href={valueUrl.url}
                                     external
                                 >
                                     {getFileNameFromUrl(valueUrl.url)}

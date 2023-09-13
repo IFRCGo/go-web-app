@@ -55,7 +55,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="https://www.livelihoodscentre.org/"
+                                    href="https://www.livelihoodscentre.org/"
                                     external
                                     withUnderline
                                 >
@@ -64,7 +64,7 @@ export function Component() {
                             ),
                             livelihoodLink: (
                                 <Link
-                                    to="https://www.livelihoodscentre.org/-/inundaciones-en-la-region-sur-de-paragu-1"
+                                    href="https://www.livelihoodscentre.org/-/inundaciones-en-la-region-sur-de-paragu-1"
                                     external
                                     withUnderline
                                 >
@@ -81,7 +81,7 @@ export function Component() {
                         {
                             link: (
                                 <Link
-                                    to="mailto: livelihoods@cruzroja.es"
+                                    href="mailto: livelihoods@cruzroja.es"
                                     external
                                     withUnderline
                                 >
