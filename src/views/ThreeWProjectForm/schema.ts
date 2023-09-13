@@ -7,6 +7,7 @@ import {
     undefinedValue,
     requiredCondition,
     requiredStringCondition,
+    emailCondition,
 } from '@togglecorp/toggle-form';
 import {
     positiveIntegerCondition,
@@ -47,29 +48,29 @@ type AnnualSplitsSchemaMember = ReturnType<AnnualSplitsSchema['member']>; // plu
 const finalSchema: FormSchema = {
     fields: (value): FormSchemaFields => {
         let schema: FormSchemaFields = {
-            dtype: { required: true },
-            is_project_completed: {},
-            name: { required: true, validations: [requiredStringCondition] },
-            description: {},
-            operation_type: { required: true },
-            primary_sector: { required: true },
-            programme_type: { required: true },
-            project_country: { required: true },
-            project_districts: { defaultValue: [] },
-            project_admin2: { defaultValue: [] },
             reporting_ns: { required: true },
             reporting_ns_contact_name: {},
             reporting_ns_contact_role: {},
-            reporting_ns_contact_email: {},
-            secondary_sectors: {},
+            reporting_ns_contact_email: { validations: [emailCondition] },
+            project_country: { required: true },
+            project_districts: { defaultValue: [] },
+            project_admin2: { defaultValue: [] },
+            operation_type: { required: true },
+            programme_type: { required: true },
+            dtype: { required: true },
+            name: { required: true, requiredValidation: requiredStringCondition },
+            description: {},
+            primary_sector: { required: true },
+            secondary_sectors: { defaultValue: [] },
             start_date: { required: true },
+            is_project_completed: {},
             // Note: Even though status is required field,
             // it's not marked required in the schema
             // because it is calculated automatically
             // using value of other required fields
             status: {},
-            visibility: { required: true },
             is_annual_report: {},
+            visibility: { required: true },
         };
 
         schema = addCondition(
@@ -160,7 +161,7 @@ const finalSchema: FormSchema = {
                 },
             } : {
                 annual_splits: {
-                    forceValue: nullValue,
+                    forceValue: [],
                 },
             }),
         );
@@ -193,12 +194,12 @@ const finalSchema: FormSchema = {
                     };
                 }
                 return {
-                    reached_female: { validations: [positiveIntegerCondition] },
-                    reached_male: { validations: [positiveIntegerCondition] },
-                    reached_other: { validations: [positiveIntegerCondition] },
-                    target_female: { validations: [positiveIntegerCondition] },
                     target_male: { validations: [positiveIntegerCondition] },
+                    target_female: { validations: [positiveIntegerCondition] },
                     target_other: { validations: [positiveIntegerCondition] },
+                    reached_male: { validations: [positiveIntegerCondition] },
+                    reached_female: { validations: [positiveIntegerCondition] },
+                    reached_other: { validations: [positiveIntegerCondition] },
                 };
             },
         );
@@ -222,7 +223,7 @@ const finalSchema: FormSchema = {
                         target_total: { forceValue: nullValue },
                     };
                 }
-                if (val?.is_project_completed) {
+                if (!val?.is_project_completed) {
                     return {
                         reached_total: {
                             validations: [positiveIntegerCondition],
