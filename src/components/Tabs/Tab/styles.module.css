@@ -72,7 +72,7 @@
         }
 
         .children-wrapper {
-            padding: 0 var(--go-ui-spacing-2xl);
+            padding: 0 var(--go-ui-spacing-lg);
         }
 
         &:hover {
@@ -145,7 +145,7 @@
         .children-wrapper {
             border-bottom-color: var(--border-color);
             background-color: var(--go-ui-color-background);
-            padding: var(--go-ui-spacing-md) var(--go-ui-spacing-3xl);
+            padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
         }
 
         &.active {
@@ -155,7 +155,6 @@
                 border-color: var(--border-color);
                 border-bottom-color: transparent;
                 background-color: var(--go-ui-color-white);
-                padding: var(--go-ui-spacing-md) var(--go-ui-spacing-3xl);
             }
         }
 
@@ -168,7 +167,7 @@
 
     &.secondary {
         border-radius: var(--go-ui-border-radius-full);
-        padding: var(--go-ui-spacing-md) var(--go-ui-spacing-3xl);
+        padding: var(--go-ui-spacing-md) var(--go-ui-spacing-xl);
 
         &.active {
             background-color: var(--go-ui-color-primary-red);

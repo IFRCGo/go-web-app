@@ -1,14 +1,15 @@
 .info-popup {
     .label {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: var(--go-ui-spacing-sm);
+        gap: var(--go-ui-spacing-xs);
+
+        .icon {
+            display: inline-flex;
+            font-size: var(--go-ui-font-size-icon-multiplier);
+        }
     }
 
-    .icon {
-        display: flex;
-        font-size: var(--go-ui-font-size-lg);
-    }
 }
 
 .dropdown-container {
@@ -17,6 +18,10 @@
     max-width: 25rem;
 
     .content {
+        display: flex;
+        flex-direction: column;
+        white-space: pre-wrap;
+        gap: var(--go-ui-spacing-xs);
         font-size: var(--go-ui-font-size-sm);
     }
 }

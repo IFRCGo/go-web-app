@@ -29,6 +29,7 @@ import RawFileInput from '#components/RawFileInput';
 import NonFieldError from '#components/NonFieldError';
 import Message from '#components/Message';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import { type Props as ButtonProps } from '#components/Button';
@@ -581,8 +582,7 @@ export function Component() {
                     />
                 )}
                 {isDefined(drefResponseError) && (
-                    <Message
-                        variant="error"
+                    <FormFailedToLoadMessage
                         title={strings.formLoadErrorTitle}
                         description={drefResponseError.value.messageForNotification}
                     />

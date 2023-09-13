@@ -2,7 +2,9 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
     isDefined,
+    isFalsyString,
     isNotDefined,
+    isTruthyString,
 } from '@togglecorp/fujs';
 import { PencilFillIcon } from '@ifrc-go/icons';
 
@@ -10,7 +12,10 @@ import Link from '#components/Link';
 import Page from '#components/Page';
 import Button from '#components/Button';
 import Container from '#components/Container';
-import BlockLoading from '#components/BlockLoading';
+import Image from '#components/Image';
+import Message from '#components/Message';
+import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
+import TextOutput from '#components/TextOutput';
 import DateOutput from '#components/DateOutput';
 import HtmlOutput from '#components/HtmlOutput';
 import useTranslation from '#hooks/useTranslation';
@@ -25,8 +30,9 @@ export function Component() {
     const { flashUpdateId } = useParams<{ flashUpdateId: string }>();
 
     const {
+        pending: fetchingFlashUpdate,
         response: flashUpdateResponse,
-        pending: flashUpdatePending,
+        error: flashUpdateResponseError,
     } = useRequest({
         skip: isNotDefined(flashUpdateId),
         url: '/api/v2/flash-update/{id}/',
@@ -35,18 +41,49 @@ export function Component() {
         },
     });
 
-    const hasActions = useMemo(
-        () => flashUpdateResponse?.actions_taken?.map(
-            (action) => action?.actions?.length !== 0 || action.summary,
-        ),
+    const definedActions = useMemo(
+        () => {
+            if (isNotDefined(flashUpdateResponse)
+                || isNotDefined(flashUpdateResponse.actions_taken)
+            ) {
+                return undefined;
+            }
+
+            return flashUpdateResponse.actions_taken.map(
+                (actionsTaken) => {
+                    const {
+                        actions,
+                        summary,
+                    } = actionsTaken;
+
+                    if (
+                        (isNotDefined(actions) || actions.length === 0)
+                            && isFalsyString(summary)
+                    ) {
+                        return undefined;
+                    }
+
+                    return {
+                        ...actionsTaken,
+                        actions,
+                        summary,
+                    };
+                },
+            ).filter(isDefined);
+        },
         [flashUpdateResponse],
     );
 
+    const shouldHideDetails = fetchingFlashUpdate
+        || isDefined(flashUpdateResponseError);
+
+    const countryDistricts = flashUpdateResponse?.country_district;
+
     return (
         <Page
-            title={strings.flashUpdateDetailsHeading}
+            title={strings.flashUpdateDetailsPageTitle}
             className={styles.flashUpdateDetails}
-            heading={flashUpdateResponse?.title}
+            heading={flashUpdateResponse?.title ?? strings.flashUpdateDetailsHeading}
             actions={flashUpdateResponse && (
                 <>
                     <Button
@@ -65,28 +102,40 @@ export function Component() {
                         urlParams={{ flashUpdateId }}
                         icons={<PencilFillIcon />}
                         variant="secondary"
+                        disabled={shouldHideDetails}
                     >
                         {strings.flashUpdateEdit}
                     </Link>
                 </>
             )}
-            descriptionContainerClassName={styles.pageDescription}
-            description={
-                (flashUpdateResponse?.country_district?.map((country) => (
-                    <Link
-                        key={country.country_details.id}
-                        to="countriesLayout"
-                        urlParams={{ countryId: country?.country_details.id }}
-                    >
-                        {country.country_details.name}
-                    </Link>
-                )))
-            }
-            withBackgroundColorInMainSection
+            description={!shouldHideDetails && countryDistricts && countryDistricts.map(
+                (country, i) => (
+                    <>
+                        <Link
+                            key={country.country_details.id}
+                            to="countriesLayout"
+                            urlParams={{ countryId: country?.country_details.id }}
+                        >
+                            {country.country_details.name}
+                        </Link>
+                        {i !== countryDistricts.length - 1 && ', '}
+                    </>
+                ),
+            )}
+            mainSectionClassName={styles.content}
         >
-            {flashUpdatePending && <BlockLoading />}
-            {!flashUpdatePending && flashUpdateResponse && (
-                <Container childrenContainerClassName={styles.reportDetails}>
+            {fetchingFlashUpdate && (
+                <Message
+                    pending
+                />
+            )}
+            {isDefined(flashUpdateResponseError) && (
+                <DetailsFailedToLoadMessage
+                    description={flashUpdateResponseError.value.messageForNotification}
+                />
+            )}
+            {!shouldHideDetails && flashUpdateResponse && (
+                <>
                     {flashUpdateResponse.situational_overview && (
                         <Container
                             heading={strings.flashUpdateSituationalOverviewHeading}
@@ -107,19 +156,11 @@ export function Component() {
                             withHeaderBorder
                         >
                             {flashUpdateResponse.map_files.map((item) => (
-                                <div
-                                    className={styles.mapItem}
+                                <Image
                                     key={item.id}
-                                >
-                                    <img
-                                        className={styles.image}
-                                        src={item.file}
-                                        alt={strings.flashUpdateMapImage}
-                                    />
-                                    <div className={styles.caption}>
-                                        {item.caption}
-                                    </div>
-                                </div>
+                                    src={item.file}
+                                    caption={item.caption}
+                                />
                             ))}
                         </Container>
                     )}
@@ -132,68 +173,52 @@ export function Component() {
                             withHeaderBorder
                         >
                             {flashUpdateResponse?.graphics_files?.map((item) => (
-                                <div
+                                <Image
                                     key={item.id}
-                                    className={styles.graphicItem}
-                                >
-                                    <img
-                                        className={styles.image}
-                                        src={item.file}
-                                        alt={strings.flashUpdateFile}
-                                    />
-                                    <div className={styles.caption}>
-                                        {item.caption}
-                                    </div>
-                                </div>
+                                    src={item.file}
+                                    caption={item.caption}
+                                />
                             ))}
                         </Container>
                     )}
-                    {hasActions && (
+                    {isDefined(definedActions) && (
                         <Container
                             heading={strings.flashUpdateActionTakenHeading}
-                            className={styles.contentHeader}
-                            childrenContainerClassName={styles.actionsTaken}
+                            childrenContainerClassName={styles.actionsTakenContent}
                             withHeaderBorder
                         >
-                            {flashUpdateResponse?.actions_taken?.map((actionTaken) => (
-                                (actionTaken?.actions?.length !== 0
-                                    || isDefined(actionTaken?.summary)) && (
-                                    <Container
-                                        className={styles.containerWithShadow}
-                                        childrenContainerClassName={styles.actionTakenContent}
-                                        heading={actionTaken.organization_display}
-                                        headingLevel={4}
-                                        headerClassName={styles.headerWithBackground}
-                                        key={actionTaken.id}
-                                        withHeaderBorder
-                                    >
-                                        {actionTaken.summary && (
-                                            <div className={styles.summary}>
-                                                <div className={styles.title}>
-                                                    {strings.flashUpdateActionDescription}
+                            {definedActions.map((actionTaken) => (
+                                <Container
+                                    childrenContainerClassName={styles.actionContent}
+                                    heading={actionTaken.organization_display}
+                                    headingLevel={4}
+                                    key={actionTaken.id}
+                                >
+                                    {isTruthyString(actionTaken.summary) && (
+                                        <TextOutput
+                                            label={strings.flashUpdateActionDescription}
+                                            value={actionTaken.summary}
+                                            strongLabel
+                                        />
+                                    )}
+                                    {actionTaken.action_details.length > 0 && (
+                                        <Container
+                                            heading={strings.flashUpdateActions}
+                                            headingLevel={5}
+                                            childrenContainerClassName={styles.actionList}
+                                            spacing="condensed"
+                                        >
+                                            {actionTaken.action_details.map((actionDetail) => (
+                                                <div
+                                                    key={actionDetail.id}
+                                                    className={styles.action}
+                                                >
+                                                    {actionDetail.name}
                                                 </div>
-                                                <div className={styles.text}>
-                                                    {actionTaken.summary}
-                                                </div>
-                                            </div>
-                                        )}
-                                        <div className={styles.actions}>
-                                            <div className={styles.title}>
-                                                {strings.flashUpdateActions}
-                                            </div>
-                                            <div className={styles.list}>
-                                                {actionTaken.action_details.map((actionDetail) => (
-                                                    <div
-                                                        key={actionDetail.id}
-                                                        className={styles.action}
-                                                    >
-                                                        {actionDetail.name}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </Container>
-                                )
+                                            ))}
+                                        </Container>
+                                    )}
+                                </Container>
                             ))}
                         </Container>
                     )}
@@ -236,7 +261,7 @@ export function Component() {
                             ))}
                         </Container>
                     )}
-                </Container>
+                </>
             )}
         </Page>
     );

@@ -96,17 +96,21 @@ export function Component() {
             className={styles.country}
             title={pageTitle}
             heading={countryResponse?.name ?? '--'}
-            description={isDefined(countryResponse?.regions_details?.id) && (
-                <Link
-                    to="regionsLayout"
-                    urlParams={{
-                        regionId: countryResponse.regions_details.id,
-                    }}
-                    withForwardIcon
-                >
-                    {countryResponse?.regions_details?.region_name}
-                </Link>
-            )}
+            description={
+                isDefined(countryResponse)
+                    && isDefined(countryResponse.regions_details?.id)
+                    && (
+                        <Link
+                            to="regionsLayout"
+                            urlParams={{
+                                regionId: countryResponse.regions_details.id,
+                            }}
+                            withForwardIcon
+                        >
+                            {countryResponse?.regions_details?.region_name}
+                        </Link>
+                    )
+            }
             infoContainerClassName={styles.keyFigureList}
             info={(
                 <>

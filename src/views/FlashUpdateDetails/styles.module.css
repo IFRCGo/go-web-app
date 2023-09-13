@@ -1,21 +1,21 @@
 .flash-update-details {
-    .page-description {
+    .content {
         display: flex;
-        gap: var(--go-ui-spacing-sm);
+        flex-direction: column;
+        gap: var(--go-ui-spacing-2xl);
+
+        .actions-taken-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-lg);
+        }
     }
 
     .report-details {
-        box-shadow: var(--go-ui-box-shadow-md);
-
-        .content-header {
-            padding: var(--go-ui-spacing-lg);
-        }
-
         .maps {
             display: flex;
             flex-wrap: wrap;
-            gap: var(--go-ui-box-shadow-md);
-            padding: var(--go-ui-box-shadow-md);
+            gap: var(--go-ui-spacing-md);
 
             .map-item {
                 flex-basis: 33%;
@@ -125,15 +125,6 @@
                 flex-basis: 12rem;
                 flex-shrink: 0;
             }
-        }
-
-        .container-with-shadow {
-            box-shadow: var(--go-ui-box-shadow-md);
-        }
-
-        .header-with-background {
-            background-color: var(--go-ui-color-gray-10);
-            padding: var(--go-ui-spacing-lg);
         }
     }
 }

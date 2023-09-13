@@ -1,7 +1,8 @@
 {
     "namespace": "emergencyThreeWDetails",
     "strings": {
-        "emergencyDetailsHeading": "IFRC GO - Emergency 3W Details",
+        "activityPageTitle": "IFRC GO - Emergency 3W Details",
+        "activityHeading": "3W Activity",
         "emergencyEditProject": "Edit Project",
         "emergencyLastModifiedOnTitle": "Last modified on {date} by {user}",
         "emergencyEdit": "Edit",

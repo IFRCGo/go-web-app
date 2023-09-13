@@ -12,8 +12,7 @@
         text-align: center;
         text-transform: uppercase;
         color: var(--go-ui-color-white);
-        font-size: var(--go-ui-font-size-sm);
-        font-weight: var(--go-ui-font-weight-bold);
+        font-weight: var(--go-ui-font-weight-medium);
     }
 
     .navigation-loader {

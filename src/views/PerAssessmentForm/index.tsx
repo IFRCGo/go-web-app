@@ -31,7 +31,6 @@ import {
     NUM,
 } from '#utils/restRequest/error';
 import Container from '#components/Container';
-import BlockLoading from '#components/BlockLoading';
 import Portal from '#components/Portal';
 import Tabs from '#components/Tabs';
 import TabList from '#components/Tabs/TabList';
@@ -40,6 +39,8 @@ import TabPanel from '#components/Tabs/TabPanel';
 import Button from '#components/Button';
 import PerAssessmentSummary from '#components/domain/PerAssessmentSummary';
 import ConfirmButton from '#components/ConfirmButton';
+import Message from '#components/Message';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import useAlert from '#hooks/useAlert';
 import useTranslation from '#hooks/useTranslation';
 import {
@@ -78,6 +79,7 @@ export function Component() {
     const alert = useAlert();
     const { navigate } = useRouting();
     const {
+        fetchingStatus,
         statusResponse,
         refetchStatusResponse,
         actionDivRef,
@@ -138,9 +140,10 @@ export function Component() {
     });
 
     const {
-        pending: perAssesmentPending,
+        pending: fetchingPerAssessment,
+        error: perAssessmentResponseError,
     } = useRequest({
-        skip: isNotDefined(statusResponse?.id),
+        skip: isNotDefined(assessmentId),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {
             id: Number(assessmentId),
@@ -303,16 +306,41 @@ export function Component() {
 
     const pending = questionsPending
         || perOptionsPending
-        || perAssesmentPending;
+        || fetchingPerAssessment;
 
     const readOnlyMode = currentPerStep !== PER_PHASE_ASSESSMENT;
 
+    if (fetchingStatus || fetchingPerAssessment) {
+        return (
+            <Message
+                pending
+            />
+        );
+    }
+
+    if (isNotDefined(assessmentId)) {
+        return (
+            <FormFailedToLoadMessage
+                // FIXME: use translation
+                description="Resource not found"
+            />
+        );
+    }
+
+    if (isDefined(perAssessmentResponseError)) {
+        return (
+            <FormFailedToLoadMessage
+                description={perAssessmentResponseError.value.messageForNotification}
+            />
+        );
+    }
+
     return (
         <div
-            className={styles.assessmentForm}
+            className={styles.perAssessmentForm}
         >
             {pending && (
-                <BlockLoading />
+                <Message pending />
             )}
             {!pending && (
                 <PerAssessmentSummary
@@ -356,7 +384,7 @@ export function Component() {
                             confirmMessage={strings.submitAssessmentConfirmMessage}
                             disabled={isNotDefined(currentPerStep)
                                 || savePerPending
-                                || perAssesmentPending
+                                || fetchingPerAssessment
                                 || currentPerStep !== PER_PHASE_ASSESSMENT}
                         >
                             {strings.submitAssessmentButtonLabel}
@@ -421,7 +449,7 @@ export function Component() {
                                 onClick={handleFormSubmit}
                                 disabled={isNotDefined(currentPerStep)
                                     || savePerPending
-                                    || perAssesmentPending
+                                    || fetchingPerAssessment
                                     || readOnlyMode}
                             >
                                 {strings.saveAssessmentButtonLabel}

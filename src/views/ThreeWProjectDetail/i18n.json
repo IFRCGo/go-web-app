@@ -1,7 +1,8 @@
 {
     "namespace": "threeWProjectDetail",
     "strings": {
-        "threeWDetailsHeading": "3W Details",
+        "threeWDetailsTitle": "3W Project Details",
+        "threeWDetailsHeading": "3W Project",
         "editProject": "Edit Project",
         "lastModifiedOnTitle": "Last modified on",
         "lastModifiedDetail": "{date}",

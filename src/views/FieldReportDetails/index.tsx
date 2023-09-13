@@ -19,6 +19,8 @@ import DateOutput from '#components/DateOutput';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import HtmlOutput from '#components/HtmlOutput';
+import Message from '#components/Message';
+import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
 import { useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import {
@@ -76,7 +78,9 @@ export function Component() {
     );
 
     const {
+        pending: fetchingFieldReport,
         response: fieldReportResponse,
+        error: fieldReportResponseError,
     } = useRequest({
         skip: isNotDefined(fieldReportId),
         url: '/api/v2/field-report/{id}/',
@@ -208,23 +212,27 @@ export function Component() {
     // FIXME: Translation Warning Banner should be shown
     // FIXME: Breadcrumbs
 
+    const shouldHideDetails = fetchingFieldReport
+        || isDefined(fieldReportResponseError);
+
     return (
         <Page
             title={strings.fieldReportTitle}
             className={styles.fieldReportDetails}
-            heading={summary}
+            heading={shouldHideDetails ? strings.fieldReportDefaultHeading : summary}
             actions={(
                 <Link
                     className={styles.editLink}
                     to="fieldReportFormEdit"
                     urlParams={{ fieldReportId }}
                     variant="secondary"
+                    disabled={shouldHideDetails}
                 >
                     {strings.editReportButtonLabel}
                 </Link>
             )}
             descriptionContainerClassName={styles.description}
-            description={(
+            description={!shouldHideDetails && (
                 <>
                     <div className={styles.basicInfo}>
                         <span>
@@ -278,330 +286,353 @@ export function Component() {
                 </>
             )}
             mainSectionClassName={styles.content}
+            // FIXME: typing should be fixed in server (Language instead of string)
+            contentOriginalLanguage={fieldReportResponse?.translation_module_original_language}
         >
-            <div className={styles.basicDetails}>
-                <TextOutput
-                    label={strings.visibilityLabel}
-                    value={visibility}
-                    strongValue
+            {fetchingFieldReport && (
+                <Message
+                    pending
                 />
-                {reportType === 'EW' ? (
-                    <TextOutput
-                        label={strings.forecastedDateLabel}
-                        value={startDate}
-                        valueType="date"
-                        strongValue
-                    />
-                ) : (
-                    <TextOutput
-                        label={strings.startDateLabel}
-                        value={startDate}
-                        valueType="date"
-                        strongValue
-                    />
-                )}
-                <TextOutput
-                    label={strings.reportDateLabel}
-                    value={reportDate}
-                    valueType="date"
-                    strongValue
+            )}
+            {isDefined(fieldReportResponseError) && (
+                <DetailsFailedToLoadMessage
+                    description={fieldReportResponseError.value.messageForNotification}
                 />
-                {reportType === 'COVID' && (
-                    <TextOutput
-                        label={strings.covidFieldReportLabel}
-                        value
-                        valueType="boolean"
-                        strongValue
-                    />
-                )}
-            </div>
-            <Container
-                childrenContainerClassName={styles.numericDetails}
-                heading={strings.numericDetailsTitle}
-                withHeaderBorder
-                headerDescription={(
-                    <>
-                        {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(sitFieldsDate) && (
-                            <TextOutput
-                                label={strings.dateOfData}
-                                value={sitFieldsDate}
-                                valueType="date"
-                            />
-                        )}
-                        {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(epiSources) && (
-                            <TextOutput
-                                label={strings.epiSource}
-                                value={epiSources}
-                            />
-                        )}
-                        {/* FIXME: We need to add more content here */}
-                        <div />
-                    </>
-                )}
-            >
-                {/* FIXME: Confirm the fields for these numeric details */}
-                {reportType === 'COVID' && (
-                    <CovidNumericDetails
-                        value={fieldReportResponse}
-                    />
-                )}
-                {reportType === 'EPI' && (
-                    <EpidemicNumericDetails
-                        value={fieldReportResponse}
-                    />
-                )}
-                {reportType === 'EVT' && (
-                    <EventNumericDetails
-                        value={fieldReportResponse}
-                    />
-                )}
-                {reportType === 'EW' && (
-                    <EarlyWarningNumericDetails
-                        value={fieldReportResponse}
-                    />
-                )}
-            </Container>
-            {/* FIXME: there was no condition in old details */}
-            {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(epiNotesSinceLastFr) && (
-                <Container
-                    heading={strings.notesLabel}
-                    withHeaderBorder
-                    childrenContainerClassName={styles.requestForAssistanceContent}
-                >
-                    <HtmlOutput
-                        value={epiNotesSinceLastFr}
-                    />
-                </Container>
             )}
-            {isTruthyString(otherSources) && (
-                <Container
-                    heading={strings.sourcesForDataMarkedLabel}
-                    withHeaderBorder
-                    childrenContainerClassName={styles.requestForAssistanceContent}
-                >
-                    <HtmlOutput
-                        value={otherSources}
-                    />
-                </Container>
-            )}
-
-            {isTruthyString(description) && (
-                <Container
-                    heading={reportType === 'EW' ? strings.riskAnalysisTitle : strings.descriptionTitle}
-                    withHeaderBorder
-                >
-                    <HtmlOutput
-                        value={description}
-                    />
-                </Container>
-            )}
-
-            <Container
-                heading={strings.requestForAssistanceHeading}
-                withHeaderBorder
-                childrenContainerClassName={styles.requestForAssistanceContent}
-            >
-                <TextOutput
-                    label={strings.governmentAssistanceLabel}
-                    value={requestAssistance}
-                    valueType="boolean"
-                    strongValue
-                />
-                <TextOutput
-                    label={strings.nsAssistanceLabel}
-                    value={nsRequestAssistance}
-                    valueType="boolean"
-                    strongValue
-                />
-            </Container>
-
-            {isDefined(bulletin) && reportType !== 'COVID' && (
-                <Container
-                    heading={strings.informationBulletinPublishedLabel}
-                    withHeaderBorder
-                >
-                    {bulletinMap?.[bulletin] ?? '--'}
-                </Container>
-            )}
-            {actionsTaken?.map((actionTaken) => {
-                if (actionTaken.actions_details.length <= 0 && isFalsyString(actionTaken.summary)) {
-                    return null;
-                }
-
-                const actionsGroupedByCategory = listToGroupList(
-                    actionTaken.actions_details,
-                    (item) => item.category ?? '<no-key>',
-                    (item) => item,
-                );
-                const categoryItems = mapToList(
-                    actionsGroupedByCategory,
-                    (item, key) => ({
-                        category: key as CategoryType,
-                        actions: item,
-                    }),
-                );
-
-                return (
-                    <Container
-                        key={actionTaken.id}
-                        heading={resolveToComponent(
-                            strings.actionsTakenHeading,
-                            { organization: organizationMap?.[actionTaken.organization] },
-                        )}
-                        withHeaderBorder
-                        className={styles.actionsTaken}
-                    >
-                        {categoryItems?.map((value) => (
-                            <Container
-                                key={value.category}
-                                heading={value.category}
-                                headingLevel={5}
-                                spacing="compact"
-                            >
-                                {value.actions.map((action) => (
-                                    <div
-                                        key={action.id}
-                                        className={styles.actionCategory}
-                                    >
-                                        <CheckboxCircleLineIcon className={styles.icon} />
-                                        <div className={styles.label}>
-                                            {action.name}
-                                        </div>
-                                    </div>
-                                ))}
-                                {reportType === 'COVID' && value.category === 'Health' && (
-                                    <TextOutput
-                                        // FIXME: use translations
-                                        label="Notes"
-                                        value={notesHealth}
-                                    />
-                                )}
-                                {reportType === 'COVID' && value.category === 'NS Institutional Strengthening' && (
-                                    <TextOutput
-                                        // FIXME: use translations
-                                        label="Notes"
-                                        value={notesNs}
-                                    />
-                                )}
-                                {reportType === 'COVID' && value.category === 'Socioeconomic Interventions' && (
-                                    <TextOutput
-                                        // FIXME: use translations
-                                        label="Notes"
-                                        value={notesSocioeco}
-                                    />
-                                )}
-                            </Container>
-                        ))}
+            {!shouldHideDetails && (
+                <>
+                    <div className={styles.basicDetails}>
                         <TextOutput
-                            // FIXME: use translations
-                            label="Summary"
-                            value={actionTaken.summary}
+                            label={strings.visibilityLabel}
+                            value={visibility}
+                            strongValue
+                        />
+                        {reportType === 'EW' ? (
+                            <TextOutput
+                                label={strings.forecastedDateLabel}
+                                value={startDate}
+                                valueType="date"
+                                strongValue
+                            />
+                        ) : (
+                            <TextOutput
+                                label={strings.startDateLabel}
+                                value={startDate}
+                                valueType="date"
+                                strongValue
+                            />
+                        )}
+                        <TextOutput
+                            label={strings.reportDateLabel}
+                            value={reportDate}
+                            valueType="date"
+                            strongValue
+                        />
+                        {reportType === 'COVID' && (
+                            <TextOutput
+                                label={strings.covidFieldReportLabel}
+                                value
+                                valueType="boolean"
+                                strongValue
+                            />
+                        )}
+                    </div>
+                    <Container
+                        childrenContainerClassName={styles.numericDetails}
+                        heading={strings.numericDetailsTitle}
+                        withHeaderBorder
+                        headerDescription={(
+                            <>
+                                {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(sitFieldsDate) && (
+                                    <TextOutput
+                                        label={strings.dateOfData}
+                                        value={sitFieldsDate}
+                                        valueType="date"
+                                    />
+                                )}
+                                {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(epiSources) && (
+                                    <TextOutput
+                                        label={strings.epiSource}
+                                        value={epiSources}
+                                    />
+                                )}
+                                {/* FIXME: We need to add more content here */}
+                                <div />
+                            </>
+                        )}
+                    >
+                        {/* FIXME: Confirm the fields for these numeric details */}
+                        {reportType === 'COVID' && (
+                            <CovidNumericDetails
+                                value={fieldReportResponse}
+                            />
+                        )}
+                        {reportType === 'EPI' && (
+                            <EpidemicNumericDetails
+                                value={fieldReportResponse}
+                            />
+                        )}
+                        {reportType === 'EVT' && (
+                            <EventNumericDetails
+                                value={fieldReportResponse}
+                            />
+                        )}
+                        {reportType === 'EW' && (
+                            <EarlyWarningNumericDetails
+                                value={fieldReportResponse}
+                            />
+                        )}
+                    </Container>
+                    {/* FIXME: there was no condition in old details */}
+                    {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(epiNotesSinceLastFr) && (
+                        <Container
+                            heading={strings.notesLabel}
+                            withHeaderBorder
+                            childrenContainerClassName={styles.requestForAssistanceContent}
+                        >
+                            <HtmlOutput
+                                value={epiNotesSinceLastFr}
+                            />
+                        </Container>
+                    )}
+                    {isTruthyString(otherSources) && (
+                        <Container
+                            heading={strings.sourcesForDataMarkedLabel}
+                            withHeaderBorder
+                            childrenContainerClassName={styles.requestForAssistanceContent}
+                        >
+                            <HtmlOutput
+                                value={otherSources}
+                            />
+                        </Container>
+                    )}
+
+                    {isTruthyString(description) && (
+                        <Container
+                            heading={reportType === 'EW' ? strings.riskAnalysisTitle : strings.descriptionTitle}
+                            withHeaderBorder
+                        >
+                            <HtmlOutput
+                                value={description}
+                            />
+                        </Container>
+                    )}
+
+                    <Container
+                        heading={strings.requestForAssistanceHeading}
+                        withHeaderBorder
+                        childrenContainerClassName={styles.requestForAssistanceContent}
+                    >
+                        <TextOutput
+                            label={strings.governmentAssistanceLabel}
+                            value={requestAssistance}
+                            valueType="boolean"
+                            strongValue
+                        />
+                        <TextOutput
+                            label={strings.nsAssistanceLabel}
+                            value={nsRequestAssistance}
+                            valueType="boolean"
+                            strongValue
                         />
                     </Container>
-                );
-            })}
-            {isTruthyString(actionsOthers) && (
-                <Container
-                    heading={strings.actionsTakenByOthersHeading}
-                    withHeaderBorder
-                >
-                    <HtmlOutput
-                        value={actionsOthers}
-                    />
-                </Container>
-            )}
-            {/* NOTE: There was not condition on old details */}
-            {isDefined(externalPartners) && externalPartners.length > 0 && reportType === 'COVID' && (
-                <Container
-                    heading={strings.externalPartnersLabel}
-                    withHeaderBorder
-                >
-                    <ul>
-                        {externalPartners.map((partner) => (
-                            <li key={partner.id}>
-                                {partner?.name || '--'}
-                            </li>
-                        ))}
-                    </ul>
-                </Container>
-            )}
-            {/* NOTE: There was not condition on old details */}
-            {isDefined(supportedActivities) && supportedActivities.length > 0 && reportType === 'COVID' && (
-                <Container
-                    heading={strings.supportedActivitiesLabel}
-                    withHeaderBorder
-                >
-                    <ul>
-                        {supportedActivities.map((supportedActivity) => (
-                            <li key={supportedActivity.id}>
-                                {supportedActivity?.name || '--'}
-                            </li>
-                        ))}
-                    </ul>
-                </Container>
-            )}
-            {plannedResponses.length > 0 && (
-                <Container
-                    heading={strings.plannedResponsesLabel}
-                    withHeaderBorder
-                >
-                    {plannedResponses.map((plannedResponse) => (
-                        <TextOutput
-                            key={plannedResponse.key}
-                            label={plannedResponse.title}
-                            value={isDefined(plannedResponse.value)
-                                ? requestChoicesMap?.[plannedResponse.value]
-                                : undefined}
-                        />
-                    ))}
-                </Container>
-            )}
-            {isDefined(sources) && sources.length > 0 && (
-                <Container
-                    heading={strings.sourcesTitle}
-                    withHeaderBorder
-                >
-                    {sources.map((source) => (
-                        <TextOutput
-                            key={source.id}
-                            label={source.stype}
-                            value={source.spec}
-                        />
-                    ))}
-                </Container>
-            )}
-            {isDefined(contacts) && contacts.length > 0 && (
-                <Container
-                    heading={strings.contactTitle}
-                    withHeaderBorder
-                    childrenContainerClassName={styles.contactList}
-                >
-                    {contacts?.map((contact) => (
-                        <div
-                            key={contact.id}
-                            className={styles.contact}
+
+                    {isDefined(bulletin) && reportType !== 'COVID' && (
+                        <Container
+                            heading={strings.informationBulletinPublishedLabel}
+                            withHeaderBorder
                         >
-                            <div className={styles.type}>
-                                {contact.ctype}
-                            </div>
-                            <div className={styles.information}>
-                                {/* FIXME: We can skip joinList */}
-                                {joinList([
-                                    isTruthyString(contact.name) ? contact.name : undefined,
-                                    isTruthyString(contact.title) ? contact.title : undefined,
-                                    isTruthyString(contact.email) ? (
-                                        <Link
-                                            to={`mailto:${contact.email}`}
-                                            external
-                                        >
-                                            {contact.email}
-                                        </Link>
-                                    ) : undefined,
-                                ].filter(isDefined), ', ')}
-                            </div>
-                        </div>
-                    ))}
-                </Container>
+                            {bulletinMap?.[bulletin] ?? '--'}
+                        </Container>
+                    )}
+                    {actionsTaken?.map((actionTaken) => {
+                        if (
+                            actionTaken.actions_details.length <= 0
+                                && isFalsyString(actionTaken.summary)
+                        ) {
+                            return null;
+                        }
+
+                        const actionsGroupedByCategory = listToGroupList(
+                            actionTaken.actions_details,
+                            (item) => item.category ?? '<no-key>',
+                            (item) => item,
+                        );
+                        const categoryItems = mapToList(
+                            actionsGroupedByCategory,
+                            (item, key) => ({
+                                category: key as CategoryType,
+                                actions: item,
+                            }),
+                        );
+
+                        return (
+                            <Container
+                                key={actionTaken.id}
+                                heading={resolveToComponent(
+                                    strings.actionsTakenHeading,
+                                    { organization: organizationMap?.[actionTaken.organization] },
+                                )}
+                                withHeaderBorder
+                                className={styles.actionsTaken}
+                            >
+                                {categoryItems?.map((value) => (
+                                    <Container
+                                        key={value.category}
+                                        heading={value.category}
+                                        headingLevel={5}
+                                        spacing="compact"
+                                    >
+                                        {value.actions.map((action) => (
+                                            <div
+                                                key={action.id}
+                                                className={styles.actionCategory}
+                                            >
+                                                <CheckboxCircleLineIcon className={styles.icon} />
+                                                <div className={styles.label}>
+                                                    {action.name}
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {reportType === 'COVID' && value.category === 'Health' && (
+                                            <TextOutput
+                                                // FIXME: use translations
+                                                label="Notes"
+                                                value={notesHealth}
+                                            />
+                                        )}
+                                        {reportType === 'COVID' && value.category === 'NS Institutional Strengthening' && (
+                                            <TextOutput
+                                                // FIXME: use translations
+                                                label="Notes"
+                                                value={notesNs}
+                                            />
+                                        )}
+                                        {reportType === 'COVID' && value.category === 'Socioeconomic Interventions' && (
+                                            <TextOutput
+                                                // FIXME: use translations
+                                                label="Notes"
+                                                value={notesSocioeco}
+                                            />
+                                        )}
+                                    </Container>
+                                ))}
+                                <TextOutput
+                                    // FIXME: use translations
+                                    label="Summary"
+                                    value={actionTaken.summary}
+                                />
+                            </Container>
+                        );
+                    })}
+                    {isTruthyString(actionsOthers) && (
+                        <Container
+                            heading={strings.actionsTakenByOthersHeading}
+                            withHeaderBorder
+                        >
+                            <HtmlOutput
+                                value={actionsOthers}
+                            />
+                        </Container>
+                    )}
+                    {/* NOTE: There was not condition on old details */}
+                    {isDefined(externalPartners) && externalPartners.length > 0 && reportType === 'COVID' && (
+                        <Container
+                            heading={strings.externalPartnersLabel}
+                            withHeaderBorder
+                        >
+                            <ul>
+                                {externalPartners.map((partner) => (
+                                    <li key={partner.id}>
+                                        {partner?.name || '--'}
+                                    </li>
+                                ))}
+                            </ul>
+                        </Container>
+                    )}
+                    {/* NOTE: There was not condition on old details */}
+                    {isDefined(supportedActivities) && supportedActivities.length > 0 && reportType === 'COVID' && (
+                        <Container
+                            heading={strings.supportedActivitiesLabel}
+                            withHeaderBorder
+                        >
+                            <ul>
+                                {supportedActivities.map((supportedActivity) => (
+                                    <li key={supportedActivity.id}>
+                                        {supportedActivity?.name || '--'}
+                                    </li>
+                                ))}
+                            </ul>
+                        </Container>
+                    )}
+                    {plannedResponses.length > 0 && (
+                        <Container
+                            heading={strings.plannedResponsesLabel}
+                            withHeaderBorder
+                        >
+                            {plannedResponses.map((plannedResponse) => (
+                                <TextOutput
+                                    key={plannedResponse.key}
+                                    label={plannedResponse.title}
+                                    value={isDefined(plannedResponse.value)
+                                        ? requestChoicesMap?.[plannedResponse.value]
+                                        : undefined}
+                                />
+                            ))}
+                        </Container>
+                    )}
+                    {isDefined(sources) && sources.length > 0 && (
+                        <Container
+                            heading={strings.sourcesTitle}
+                            withHeaderBorder
+                        >
+                            {sources.map((source) => (
+                                <TextOutput
+                                    key={source.id}
+                                    label={source.stype}
+                                    value={source.spec}
+                                />
+                            ))}
+                        </Container>
+                    )}
+                    {isDefined(contacts) && contacts.length > 0 && (
+                        <Container
+                            heading={strings.contactTitle}
+                            withHeaderBorder
+                            childrenContainerClassName={styles.contactList}
+                        >
+                            {contacts?.map((contact) => (
+                                <div
+                                    key={contact.id}
+                                    className={styles.contact}
+                                >
+                                    <div className={styles.type}>
+                                        {contact.ctype}
+                                    </div>
+                                    <div className={styles.information}>
+                                        {/* FIXME: We can skip joinList */}
+                                        {joinList([
+                                            isTruthyString(contact.name)
+                                                ? contact.name
+                                                : undefined,
+                                            isTruthyString(contact.title)
+                                                ? contact.title
+                                                : undefined,
+                                            isTruthyString(contact.email) ? (
+                                                <Link
+                                                    to={`mailto:${contact.email}`}
+                                                    external
+                                                >
+                                                    {contact.email}
+                                                </Link>
+                                            ) : undefined,
+                                        ].filter(isDefined), ', ')}
+                                    </div>
+                                </div>
+                            ))}
+                        </Container>
+                    )}
+                </>
             )}
         </Page>
     );

@@ -96,10 +96,8 @@ function InterventionInput(props: Props) {
     return (
         <InputSection
             className={styles.interventionInput}
-            titleClassName={styles.titleContainer}
             title={interventionLabel ?? '--'}
             numPreferredColumns={1}
-            descriptionContainerClassName={styles.descriptionContainer}
             description={(
                 <>
                     <NumberInput

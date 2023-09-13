@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 import {
     _cs,
+    isDefined,
     listToMap,
 } from '@togglecorp/fujs';
-import { CloseFillIcon } from '@ifrc-go/icons';
+import { DeleteBinFillIcon } from '@ifrc-go/icons';
 
 import Button from '#components/Button';
-import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import { type DistrictItem as DistrictSearchItem } from '#components/domain/DistrictSearchMultiSelectInput';
 
 import styles from './styles.module.css';
 
@@ -16,7 +17,7 @@ interface Props {
     admin2Selections: number[] | undefined;
     onDistrictRemove: (item: number) => void;
     onAdmin2Remove: (item: number) => void;
-    districtOptions: DistrictItem[] | undefined | null;
+    districtOptions: DistrictSearchItem[] | undefined | null;
     admin2Options: {id: number; name: string; district_id: number }[] | undefined | null;
 }
 
@@ -57,31 +58,43 @@ function DistrictItem(props: Props) {
 
     return (
         <div className={_cs(className, styles.districtItem)}>
-            <Button
-                className={styles.button}
-                name={districtId}
-                onClick={onDistrictRemove}
-                variant="tertiary"
-                actionsContainerClassName={styles.actions}
-                actions={(<CloseFillIcon />)}
-            >
-                {districtItem?.name}
-            </Button>
-            <div className={styles.admin2Items}>
-                {admin2InCurrentDistrict?.map((item) => (
-                    <Button
-                        key={item}
-                        className={styles.button}
-                        name={item}
-                        onClick={onAdmin2Remove}
-                        variant="tertiary"
-                        actionsContainerClassName={styles.actions}
-                        actions={(<CloseFillIcon />)}
-                    >
-                        {admin2ObjectMap?.[item].name}
-                    </Button>
-                ))}
+            <div className={styles.district}>
+                <div className={styles.name}>
+                    {districtItem?.name}
+                </div>
+                <Button
+                    name={districtId}
+                    className={styles.removeButton}
+                    onClick={onDistrictRemove}
+                    variant="tertiary"
+                    // FIXME: add title
+                >
+                    <DeleteBinFillIcon />
+                </Button>
             </div>
+            {isDefined(admin2InCurrentDistrict) && admin2InCurrentDistrict?.length > 0 && (
+                <div className={styles.admin2Items}>
+                    {admin2InCurrentDistrict.map((item) => (
+                        <div
+                            key={item}
+                            className={styles.admin2Item}
+                        >
+                            <div className={styles.name}>
+                                {admin2ObjectMap?.[item].name ?? '?'}
+                            </div>
+                            <Button
+                                className={styles.removeButton}
+                                name={item}
+                                onClick={onAdmin2Remove}
+                                variant="tertiary"
+                                // FIXME: add title
+                            >
+                                <DeleteBinFillIcon />
+                            </Button>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

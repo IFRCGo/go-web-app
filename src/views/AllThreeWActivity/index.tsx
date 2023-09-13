@@ -154,10 +154,14 @@ export function Component() {
                 strings.allThreeWActivityNS,
                 (item) => item.reporting_ns_details?.society_name,
             ),
-            createStringColumn<ProjectListItem, TableKey>(
+            createLinkColumn<ProjectListItem, TableKey>(
                 'title',
                 strings.allThreeWActivityTitle,
                 (item) => item.title,
+                (item) => ({
+                    to: 'threeWActivityDetail',
+                    urlParams: { activityId: item.id },
+                }),
             ),
             createDateColumn<ProjectListItem, TableKey>(
                 'start_date',

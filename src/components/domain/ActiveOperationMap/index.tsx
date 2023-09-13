@@ -22,6 +22,7 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import RadioInput from '#components/RadioInput';
 import Container from '#components/Container';
 import Link from '#components/Link';
+import LegendItem from '#components/LegendItem';
 import MapPopup from '#components/MapPopup';
 import TextOutput from '#components/TextOutput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
@@ -457,18 +458,12 @@ function ActiveOperationMap(props: Props) {
                 />
                 <div className={styles.legend}>
                     {legendOptions.map((legendItem) => (
-                        <div
-                            key={legendItem.value}
+                        <LegendItem
                             className={styles.legendItem}
-                        >
-                            <div
-                                className={styles.color}
-                                style={{ backgroundColor: legendItem.color }}
-                            />
-                            <div className={styles.label}>
-                                {legendItem.label}
-                            </div>
-                        </div>
+                            key={legendItem.value}
+                            color={legendItem.color}
+                            label={legendItem.label}
+                        />
                     ))}
                 </div>
             </div>

@@ -8,14 +8,14 @@ interface Props {
 }
 
 function NonEnglishFormCreationMessage(props: Props) {
-    const { title } = props;
     const strings = useTranslation(i18n);
+    const { title = strings.formNonEnglishErrorTitle } = props;
 
     return (
         <Message
             variant="error"
             title={title}
-            description={strings.fonNonEnglishErrorMessage}
+            description={strings.formNonEnglishErrorMessage}
             actions={strings.formNonEnglishHelpMessage}
         />
     );

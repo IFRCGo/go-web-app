@@ -33,7 +33,6 @@ import useRouting from '#hooks/useRouting';
 import NavigationTab from '#components/NavigationTab';
 import NavigationTabList from '#components/NavigationTabList';
 import Page from '#components/Page';
-import BlockLoading from '#components/BlockLoading';
 import InputSection from '#components/InputSection';
 import Button from '#components/Button';
 import TextInput from '#components/TextInput';
@@ -48,10 +47,18 @@ import RichTextArea from '#components/RichTextArea';
 import RadioInput from '#components/RadioInput';
 import Checkbox from '#components/Checkbox';
 import TextOutput from '#components/TextOutput';
+import Message from '#components/Message';
+import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
+import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import EventSearchSelectInput, { type EventItem } from '#components/domain/EventSearchSelectInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import useTranslation from '#hooks/useTranslation';
+import useUserMe from '#hooks/domain/useUserMe';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import {
     PROJECT_STATUS_COMPLETED,
@@ -66,12 +73,9 @@ import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
-import { type GoApiResponse } from '#utils/restRequest';
-import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
-import useTranslation from '#hooks/useTranslation';
-import type { GlobalEnums } from '#contexts/domain';
 import { injectClientId } from '#utils/common';
-import useUserMe from '#hooks/domain/useUserMe';
+import { type GoApiResponse } from '#utils/restRequest';
+import type { GlobalEnums } from '#contexts/domain';
 
 import schema, {
     type ProjectResponseBody,
@@ -203,6 +207,7 @@ export function Component() {
     const alert = useAlert();
     const { state } = useLocation();
     const { projectId: projectIdFromParams } = useParams<{ projectId: string }>();
+    const currentLanguage = useCurrentLanguage();
 
     const {
         value,
@@ -228,7 +233,11 @@ export function Component() {
     >([]);
 
     const projectId = projectIdFromParams ?? state?.projectId as string | undefined;
-    const { pending: pendingProjectDetails } = useRequest({
+    const {
+        pending: fetchingProject,
+        response: projectResponse,
+        error: projectResponseError,
+    } = useRequest({
         skip: isFalsyString(projectId),
         url: '/api/v2/project/{id}/',
         pathVariables: isTruthyString(projectId) ? {
@@ -613,19 +622,26 @@ export function Component() {
     ]);
 
     const submitPending = updateSubmitPending || createSubmitPending;
-
-    const pending = submitPending || pendingProjectDetails;
-
+    const pending = submitPending || fetchingProject;
     const disabled = pending;
+
+    const nonEnglishCreate = isNotDefined(projectId) && currentLanguage !== 'en';
+    const languageMismatch = isDefined(projectId)
+        && isDefined(projectResponse)
+        && currentLanguage !== projectResponse?.translation_module_original_language;
+    const shouldHideForm = languageMismatch
+        || nonEnglishCreate
+        || fetchingProject
+        || isDefined(projectResponseError);
 
     return (
         <Page
-            className={styles.threeWProjectPage}
+            className={styles.threeWProjectForm}
             title={strings.threeWFormTitle}
             heading={strings.threeWFormHeading}
             description={strings.threeWFormDescription}
             withBackgroundColorInMainSection
-            info={(
+            info={!shouldHideForm && isNotDefined(projectId) && (
                 <NavigationTabList
                     className={styles.tabList}
                     variant="secondary"
@@ -644,519 +660,527 @@ export function Component() {
                     </NavigationTab>
                 </NavigationTabList>
             )}
+            mainSectionClassName={styles.content}
         >
-            <div className={styles.threeWProjectForm}>
-                {/* FIXME: Let's not block the UI during loading */}
-                {pending ? <BlockLoading /> : (
-                    <>
-                        <InputSection
-                            title={strings.projectFormReportingNational}
-                            description={strings.projectFormReportingHelpText}
-                            tooltip={strings.projectFormReportingTooltip}
-                        >
-                            <NationalSocietySelectInput
-                                error={error?.reporting_ns}
-                                name="reporting_ns"
-                                onChange={setFieldValue}
-                                value={value.reporting_ns}
-                                disabled={disabled}
+            {fetchingProject && (
+                <Message
+                    pending
+                />
+            )}
+            {nonEnglishCreate && (
+                <NonEnglishFormCreationMessage />
+            )}
+            {languageMismatch && (
+                <LanguageMismatchMessage
+                    originalLanguage={projectResponse.translation_module_original_language}
+                />
+            )}
+            {isDefined(projectResponseError) && (
+                <FormFailedToLoadMessage
+                    description={projectResponseError.value.messageForNotification}
+                />
+            )}
+            {!shouldHideForm && (
+                <>
+                    <InputSection
+                        title={strings.projectFormReportingNational}
+                        description={strings.projectFormReportingHelpText}
+                        tooltip={strings.projectFormReportingTooltip}
+                    >
+                        <NationalSocietySelectInput
+                            error={error?.reporting_ns}
+                            name="reporting_ns"
+                            onChange={setFieldValue}
+                            value={value.reporting_ns}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.projectFormReportingNationalContact}
+                        description={strings.projectFormReportingNationalContactText}
+                        numPreferredColumns={3}
+                    >
+                        <TextInput
+                            name="reporting_ns_contact_name"
+                            label={strings.projectFormReportingNsName}
+                            onChange={setFieldValue}
+                            value={value.reporting_ns_contact_name}
+                            error={error?.reporting_ns_contact_name}
+                            disabled={disabled}
+                        />
+                        <TextInput
+                            name="reporting_ns_contact_role"
+                            label={strings.projectFormReportingNsRole}
+                            onChange={setFieldValue}
+                            value={value.reporting_ns_contact_role}
+                            error={error?.reporting_ns_contact_role}
+                            disabled={disabled}
+                        />
+                        <TextInput
+                            name="reporting_ns_contact_email"
+                            label={strings.projectFormReportingNsEmail}
+                            onChange={setFieldValue}
+                            value={value.reporting_ns_contact_email}
+                            error={error?.reporting_ns_contact_email}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.projectFormCountryTitle}
+                        description={strings.projectFormCountryHelpText}
+                        tooltip={strings.projectFormCountryTooltip}
+                        numPreferredColumns={2}
+                    >
+                        <CountrySelectInput
+                            error={error?.project_country}
+                            label={strings.projectFormCountryLabel}
+                            name="project_country"
+                            onChange={handleProjectCountryChange}
+                            value={value.project_country}
+                            disabled={disabled}
+                        />
+                        <DistrictMap
+                            className={styles.districtMapButton}
+                            districtsName="project_districts"
+                            districtsValue={value.project_districts}
+                            admin2Name="project_admin2"
+                            admin2Value={value.project_admin2}
+                            onDistrictsChange={setFieldValue}
+                            districtOptions={districtOptions}
+                            onDistrictsOptionsChange={setDistrictOptions}
+                            onAdmin2Change={setFieldValue}
+                            admin2Options={admin2Options}
+                            onAdmin2OptionsChange={setAdmin2Options}
+                            countryId={value?.project_country}
+                            disabled={disabled}
+                            districtsError={getErrorString(error?.project_districts)}
+                            admin2Error={getErrorString(error?.project_districts)}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.projectFormTypeOfOperation}
+                        tooltip={strings.projectFormTypeOfOperationTooltip}
+                        description={(
+                            <TextOutput
+                                label={strings.projectFormProgrammeType}
+                                value={strings.projectFormProgrammeTooltip}
+                                strongLabel
                             />
-                        </InputSection>
-                        <InputSection
-                            title={strings.projectFormReportingNationalContact}
-                            description={strings.projectFormReportingNationalContactText}
-                        >
-                            <TextInput
-                                name="reporting_ns_contact_name"
-                                label={strings.projectFormReportingNsName}
-                                onChange={setFieldValue}
-                                value={value.reporting_ns_contact_name}
-                                error={error?.reporting_ns_contact_name}
-                                disabled={disabled}
-                            />
-                            <TextInput
-                                name="reporting_ns_contact_role"
-                                label={strings.projectFormReportingNsRole}
-                                onChange={setFieldValue}
-                                value={value.reporting_ns_contact_role}
-                                error={error?.reporting_ns_contact_role}
-                                disabled={disabled}
-                            />
-                            <TextInput
-                                name="reporting_ns_contact_email"
-                                label={strings.projectFormReportingNsEmail}
-                                onChange={setFieldValue}
-                                value={value.reporting_ns_contact_email}
-                                error={error?.reporting_ns_contact_email}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
-                            title={strings.projectFormCountryTitle}
-                            description={strings.projectFormCountryHelpText}
-                            tooltip={strings.projectFormCountryTooltip}
-                        >
-                            <CountrySelectInput
-                                error={error?.project_country}
-                                label={strings.projectFormCountryLabel}
-                                name="project_country"
-                                onChange={handleProjectCountryChange}
-                                value={value.project_country}
-                                disabled={disabled}
-                            />
-                            <DistrictMap
-                                className={styles.districtMapButton}
-                                districtsName="project_districts"
-                                districtsValue={value.project_districts}
-                                admin2Name="project_admin2"
-                                admin2Value={value.project_admin2}
-                                onDistrictsChange={setFieldValue}
-                                districtOptions={districtOptions}
-                                onDistrictsOptionsChange={setDistrictOptions}
-                                onAdmin2Change={setFieldValue}
-                                admin2Options={admin2Options}
-                                onAdmin2OptionsChange={setAdmin2Options}
+                        )}
+                        numPreferredColumns={2}
+                    >
+                        <SelectInput
+                            error={error?.operation_type}
+                            label={strings.projectFormOperationType}
+                            name="operation_type"
+                            onChange={setFieldValue}
+                            options={operationTypeOptions}
+                            value={value.operation_type}
+                            keySelector={operationTypeKeySelector}
+                            labelSelector={operationTypeLabelSelector}
+                            disabled={disabled}
+                        />
+                        <SelectInput
+                            error={error?.programme_type}
+                            label={strings.projectFormProgrammeTypeLabel}
+                            name="programme_type"
+                            onChange={setFieldValue}
+                            options={programmeTypeOptions}
+                            value={value.programme_type}
+                            keySelector={programmeTypeKeySelector}
+                            labelSelector={programmeTypeLabelSelector}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    {shouldShowCurrentOperation && (
+                        <InputSection title={strings.projectFormCurrentOperation}>
+                            <EventSearchSelectInput
+                                error={error?.event}
+                                name="event"
+                                placeholder={strings.projectFormOperationDefaultPlaceholder}
+                                value={value.event}
+                                onChange={handleEventChange}
+                                options={eventOptions}
+                                onOptionsChange={setEventOptions}
                                 countryId={value?.project_country}
                                 disabled={disabled}
-                                districtsError={getErrorString(error?.project_districts)}
-                                admin2Error={getErrorString(error?.project_districts)}
                             />
                         </InputSection>
+                    )}
+                    {shouldShowCurrentEmergencyOperation && (
                         <InputSection
-                            title={strings.projectFormTypeOfOperation}
-                            tooltip={strings.projectFormTypeOfOperationTooltip}
-                            description={(
-                                <>
-                                    <strong>{strings.projectFormProgrammeType}</strong>
-                                    &nbsp;
-                                    {strings.projectFormProgrammeTooltip}
-                                </>
-                            )}
+                            title={strings.projectFormCurrentEmergency}
+                            description={strings.projectFormCurrentEmergencyHelpText}
                         >
-                            <SelectInput
-                                error={error?.operation_type}
-                                label={strings.projectFormOperationType}
-                                name="operation_type"
-                                onChange={setFieldValue}
-                                options={operationTypeOptions}
-                                value={value.operation_type}
-                                keySelector={operationTypeKeySelector}
-                                labelSelector={operationTypeLabelSelector}
-                                disabled={disabled}
-                            />
-                            <SelectInput
-                                error={error?.programme_type}
-                                label={strings.projectFormProgrammeTypeLabel}
-                                name="programme_type"
-                                onChange={setFieldValue}
-                                options={programmeTypeOptions}
-                                value={value.programme_type}
-                                keySelector={programmeTypeKeySelector}
-                                labelSelector={programmeTypeLabelSelector}
+                            <EventSearchSelectInput
+                                error={error?.event}
+                                name="event"
+                                options={eventOptions}
+                                onOptionsChange={setEventOptions}
+                                placeholder={strings.projectFormOperationDefaultPlaceholder}
+                                value={value.event}
+                                onChange={handleEventChange}
+                                countryId={value?.project_country}
+                                // FIXME: Add to constants
+                                autoGeneratedSource="New field report"
                                 disabled={disabled}
                             />
                         </InputSection>
-                        {shouldShowCurrentOperation && (
-                            <InputSection title={strings.projectFormCurrentOperation}>
-                                <EventSearchSelectInput
-                                    error={error?.event}
-                                    name="event"
-                                    placeholder={strings.projectFormOperationDefaultPlaceholder}
-                                    value={value.event}
-                                    onChange={handleEventChange}
-                                    options={eventOptions}
-                                    onOptionsChange={setEventOptions}
-                                    countryId={value?.project_country}
-                                    disabled={disabled}
-                                />
-                            </InputSection>
-                        )}
-                        {shouldShowCurrentEmergencyOperation && (
-                            <InputSection
-                                title={strings.projectFormCurrentEmergency}
-                                description={strings.projectFormCurrentEmergencyHelpText}
-                            >
-                                <EventSearchSelectInput
-                                    error={error?.event}
-                                    name="event"
-                                    options={eventOptions}
-                                    onOptionsChange={setEventOptions}
-                                    placeholder={strings.projectFormOperationDefaultPlaceholder}
-                                    value={value.event}
-                                    onChange={handleEventChange}
-                                    countryId={value?.project_country}
-                                    autoGeneratedSource="New field report"
-                                    disabled={disabled}
-                                />
-                            </InputSection>
-                        )}
-                        <InputSection
-                            title={
-                                value.operation_type === OPERATION_TYPE_PROGRAMME
-                                    ? strings.projectFormDisasterType
-                                    : strings.projectFormDisasterTypeMandatory
-                            }
-                        >
-                            <DisasterTypeSelectInput
-                                error={error?.dtype}
-                                name="dtype"
-                                disabled={shouldDisableDisasterType || disabled}
-                                placeholder={disasterTypePlaceholder}
-                                value={value.dtype}
-                                onChange={setFieldValue}
-                            />
-                        </InputSection>
-                        <InputSection
-                            title={strings.projectFormProjectName}
-                            description={strings.projectFormHelpText}
-                            tooltip={strings.projectFormTooltip}
-                        >
-                            <TextInput
-                                name="name"
-                                value={value.name}
-                                onChange={setFieldValue}
-                                error={error?.name}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
-                            title={strings.projectFormDescription}
-                            // description={strings.projectFormDescriptionHelpText}
-                            // tooltip={strings.projectFormDescriptionTooltip}
-                            // These texts are moved into the area as placeholder:
-                        >
-                            <RichTextArea
-                                name="description"
-                                value={isNotDefined(value.description) ? '' : value.description}
-                                onChange={setFieldValue}
-                                error={error?.description}
-                                placeholder={`${strings.projectFormDescriptionHelpText} ${strings.projectFormDescriptionTooltip}`}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
-                            className="multi-input-section"
-                            title={strings.projectFormSectorTitle}
-                            description={(
-                                <>
-                                    <p>
-                                        <strong>
-                                            {strings.projectFormPrimarySector}
-                                        </strong>
-                                        &nbsp;
-                                        {strings.projectFormPrimarySectorText}
-                                    </p>
-                                    <p>
-                                        <strong>
-                                            {strings.projectFormTagging}
-                                        </strong>
-                                        &nbsp;
-                                        {strings.projectFormTaggingText}
-                                    </p>
-                                </>
-                            )}
-                            tooltip={strings.projectFormTaggingTooltip}
-                        >
-                            <SelectInput
-                                error={error?.primary_sector}
-                                label={strings.projectFormPrimarySectorSelect}
-                                name="primary_sector"
-                                onChange={setFieldValue}
-                                options={primarySectorOptions}
-                                value={value.primary_sector}
-                                keySelector={primarySectorKeySelector}
-                                labelSelector={primarySectorLabelSelector}
-                                disabled={fetchingPrimarySectors || disabled}
-                            />
-                            <MultiSelectInput
-                                error={getErrorString(error?.secondary_sectors)}
-                                label={strings.projectFormSecondarySectorLabel}
-                                name="secondary_sectors"
-                                onChange={setFieldValue}
-                                options={secondarySectorOptions}
-                                value={value.secondary_sectors}
-                                keySelector={secondarySectorKeySelector}
-                                labelSelector={secondarySectorLabelSelector}
-                                disabled={fetchingSecondarySectors || disabled}
-                            />
-                        </InputSection>
-                        <InputSection
-                            title={strings.projectFormMultiLabel}
-                            description={strings.projectFormMultiLabelHelpText}
-                            tooltip={strings.projectFormMultiLabelTooltip}
-                        >
-                            <DateInput
-                                error={error?.start_date}
-                                label={strings.projectFormStartDate}
-                                name="start_date"
-                                onChange={handleStartDateChange}
-                                value={value.start_date}
-                                disabled={disabled}
-                            />
-                            <DateInput
-                                error={error?.end_date}
-                                label={strings.projectFormEndDate}
-                                name="end_date"
-                                onChange={handleEndDateChange}
-                                value={value.end_date}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <InputSection
-                            className="multi-input-section"
-                            title={strings.projectFormBudgetTitle}
-                            description={(
-                                <>
-                                    <p>
-                                        <strong>
-                                            {strings.projectFormBudget}
-                                        </strong>
-                                        &nbsp;
-                                        {strings.projectFormBudgetText}
-                                    </p>
-                                    <p>
-                                        <strong>
-                                            {strings.projectFormProjectStatus}
-                                        </strong>
-                                        &nbsp;
-                                        {strings.projectFormProjectStatusText}
-                                    </p>
-                                </>
-                            )}
-                            tooltip={strings.projectFormProjectTooltip}
-                        >
-                            { value.is_project_completed ? (
-                                // FIXME: Wouldn't it be better if we showed budget_amount here?
-                                <NumberInput
-                                    error={error?.actual_expenditure}
-                                    label={strings.projectFormActualExpenditure}
-                                    name="actual_expenditure"
-                                    value={value.actual_expenditure}
-                                    onChange={handleActualExpenditureChange}
-                                    disabled={disabled}
-                                />
-                            ) : (
-                                <NumberInput
-                                    error={error?.budget_amount}
-                                    label={strings.projectFormProjectBudget}
-                                    name="budget_amount"
-                                    value={value.budget_amount}
-                                    onChange={handleBudgetAmountChange}
-                                    disabled={disabled}
-                                />
-                            )}
-                            <div>
-                                <Checkbox
-                                    label={strings.projectFormProjectCompleted}
-                                    name="is_project_completed"
-                                    value={value?.is_project_completed}
-                                    onChange={handleProjectStatusChange}
-                                    error={error?.is_project_completed}
-                                    disabled={disabled}
+                    )}
+                    <InputSection
+                        title={
+                            value.operation_type === OPERATION_TYPE_PROGRAMME
+                                ? strings.projectFormDisasterType
+                                : strings.projectFormDisasterTypeMandatory
+                        }
+                        numPreferredColumns={2}
+                    >
+                        <DisasterTypeSelectInput
+                            error={error?.dtype}
+                            name="dtype"
+                            disabled={shouldDisableDisasterType || disabled}
+                            placeholder={disasterTypePlaceholder}
+                            value={value.dtype}
+                            onChange={setFieldValue}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.projectFormProjectName}
+                        description={strings.projectFormHelpText}
+                        tooltip={strings.projectFormTooltip}
+                    >
+                        <TextInput
+                            name="name"
+                            value={value.name}
+                            onChange={setFieldValue}
+                            error={error?.name}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.projectFormDescription}
+                        // description={strings.projectFormDescriptionHelpText}
+                        // tooltip={strings.projectFormDescriptionTooltip}
+                        // These texts are moved into the area as placeholder:
+                    >
+                        <RichTextArea
+                            name="description"
+                            value={isNotDefined(value.description) ? '' : value.description}
+                            onChange={setFieldValue}
+                            error={error?.description}
+                            placeholder={`${strings.projectFormDescriptionHelpText} ${strings.projectFormDescriptionTooltip}`}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        className="multi-input-section"
+                        title={strings.projectFormSectorTitle}
+                        description={(
+                            <>
+                                <TextOutput
+                                    label={strings.projectFormPrimarySector}
+                                    value={strings.projectFormPrimarySectorText}
+                                    strongLabel
                                 />
                                 <TextOutput
-                                    label={strings.projectFormProjectStatusTitle}
-                                    value={(
-                                        value.status
-                                            ? projectStatusOptionsMap?.[value.status]
-                                            : undefined
-                                    )}
+                                    label={strings.projectFormTagging}
+                                    value={strings.projectFormTaggingText}
+                                    strongLabel
                                 />
-                            </div>
-                            <div>
-                                <Switch
-                                    label={strings.projectFormAnnualReportingLabel}
-                                    name="is_annual_report"
-                                    value={value?.is_annual_report}
-                                    onChange={setFieldValue}
-                                    disabled={disabled}
-                                    error={error?.is_annual_report}
-                                />
-                            </div>
-                        </InputSection>
-                        {value?.is_annual_report ? (
-                            <InputSection
-                                description={strings.projectFormPeopleTargetedHelpText}
-                                title={`${strings.projectFormPeopleTargeted} ${strings.projectFormAnnually}`}
-                                tooltip={
-                                    strings.projectFormPeopleTargetedTooltip
-                                    + strings.projectFormAnnually
-                                }
-                            >
-                                {value?.annual_splits?.map((annual_split, i) => (
-                                    <AnnualSplitInput
-                                        key={annual_split.client_id}
-                                        index={i}
-                                        value={annual_split}
-                                        onChange={setAnnualSplit}
-                                        error={annualSplitErrors?.[annual_split.client_id]}
-                                        onRemove={removeAnnualSplit}
-                                        disabled={disabled}
-                                    />
-                                ))}
-                                <div>
-                                    <Button
-                                        onClick={handleAddAnnualSplitButtonClick}
-                                        name={undefined}
-                                        variant="secondary"
-                                        disabled={disabled}
-                                    >
-                                        {strings.addNewSplit}
-                                    </Button>
-                                </div>
-                            </InputSection>
-                        ) : (
-                            <>
-                                <InputSection
-                                    description={strings.projectFormPeopleTargetedHelpText}
-                                    title={strings.projectFormPeopleTargeted}
-                                    tooltip={strings.projectFormPeopleTargetedTooltip}
-                                >
-                                    <NumberInput
-                                        name="target_male"
-                                        label={strings.projectFormMale}
-                                        value={value.target_male}
-                                        error={error?.target_male}
-                                        onChange={handleTargetMaleChange}
-                                        disabled={disabled}
-                                    />
-                                    <NumberInput
-                                        name="target_female"
-                                        label={strings.projectFormFemale}
-                                        value={value.target_female}
-                                        error={error?.target_female}
-                                        onChange={handleTargetFemaleChange}
-                                        disabled={disabled}
-                                    />
-                                    <NumberInput
-                                        name="target_other"
-                                        label={strings.projectFormOther}
-                                        value={value.target_other}
-                                        error={error?.target_other}
-                                        onChange={handleTargetOtherChange}
-                                        disabled={disabled}
-                                    />
-                                    <NumberInput
-                                        disabled={
-                                            shouldDisableTotalTarget
-                                            || value?.is_annual_report
-                                            || disabled
-                                        }
-                                        name="target_total"
-                                        label={
-                                            (isTotalRequired && !shouldDisableTotalTarget)
-                                                ? strings.projectFormTotalRequired
-                                                : strings.projectFormTotal
-                                        }
-                                        value={value.target_total}
-                                        error={error?.target_total}
-                                        onChange={setFieldValue}
-                                        className={
-                                            shouldDisableTotalTarget
-                                                ? styles.disable : styles.normal
-                                        }
-                                    />
-                                </InputSection>
-                                <InputSection
-                                    title={strings.projectFormPeopleReached2}
-                                    description={strings.projectFormPeopleReachedHelpText}
-                                    tooltip={strings.projectFormPeopleReachedTooltip}
-                                >
-                                    <NumberInput
-                                        name="reached_male"
-                                        label={strings.projectFormPeopleReachedMale}
-                                        value={value.reached_male}
-                                        error={error?.reached_male}
-                                        onChange={handleReachedMaleChange}
-                                        disabled={disabled}
-                                    />
-                                    <NumberInput
-                                        name="reached_female"
-                                        label={strings.projectFormPeopleReachedFemale}
-                                        value={value.reached_female}
-                                        error={error?.reached_female}
-                                        onChange={handleReachedFemaleChange}
-                                        disabled={disabled}
-                                    />
-                                    <NumberInput
-                                        name="reached_other"
-                                        label={strings.projectFormPeopleReachedOther}
-                                        value={value.reached_other}
-                                        error={error?.reached_other}
-                                        onChange={handleReachedOtherChange}
-                                        disabled={disabled}
-                                    />
-                                    <NumberInput
-                                        disabled={
-                                            shouldDisableTotalReached
-                                            || value?.is_annual_report
-                                            || disabled
-                                        }
-                                        name="reached_total"
-                                        label={
-                                            isTotalRequired && !shouldDisableTotalReached
-                                                ? strings.projectFormTotalRequired
-                                                : strings.projectFormTotal
-                                        }
-                                        value={value.reached_total}
-                                        error={error?.reached_total}
-                                        onChange={setFieldValue}
-                                        className={
-                                            shouldDisableTotalReached
-                                                ? styles.disable
-                                                : styles.normal
-                                        }
-                                    />
-                                </InputSection>
                             </>
                         )}
-                        <InputSection
-                            title={strings.projectFormProjectVisibility}
-                            description={strings.projectFormProjectVisibilityHelpText}
-                            tooltip={strings.projectFormProjectVisibilityTooltip}
-                        >
-                            <RadioInput
-                                name="visibility"
-                                value={value.visibility}
-                                onChange={setFieldValue}
-                                error={error?.visibility}
-                                options={visibilityOptions}
-                                keySelector={visibilityKeySelector}
-                                labelSelector={visibilityLabelSelector}
-                                disabled={disabled}
-                            />
-                        </InputSection>
-                        <div className={styles.formActions}>
-                            {/*
-                                The first hidden and disabled submit button is to disable
-                                form submission on enter
-                                more details on: https://www.w3.org/TR/2018/SPSD-html5-20180327/forms.html#implicit-submission
-                                <button
-                                className={styles.fakeSubmitButton}
-                                type="submit"
-                                disabled
+                        tooltip={strings.projectFormTaggingTooltip}
+                        numPreferredColumns={2}
+                    >
+                        <SelectInput
+                            error={error?.primary_sector}
+                            label={strings.projectFormPrimarySectorSelect}
+                            name="primary_sector"
+                            onChange={setFieldValue}
+                            options={primarySectorOptions}
+                            value={value.primary_sector}
+                            keySelector={primarySectorKeySelector}
+                            labelSelector={primarySectorLabelSelector}
+                            disabled={fetchingPrimarySectors || disabled}
+                        />
+                        <MultiSelectInput
+                            error={getErrorString(error?.secondary_sectors)}
+                            label={strings.projectFormSecondarySectorLabel}
+                            name="secondary_sectors"
+                            onChange={setFieldValue}
+                            options={secondarySectorOptions}
+                            value={value.secondary_sectors}
+                            keySelector={secondarySectorKeySelector}
+                            labelSelector={secondarySectorLabelSelector}
+                            disabled={fetchingSecondarySectors || disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        title={strings.projectFormMultiLabel}
+                        description={strings.projectFormMultiLabelHelpText}
+                        tooltip={strings.projectFormMultiLabelTooltip}
+                        numPreferredColumns={2}
+                    >
+                        <DateInput
+                            error={error?.start_date}
+                            label={strings.projectFormStartDate}
+                            name="start_date"
+                            onChange={handleStartDateChange}
+                            value={value.start_date}
+                            disabled={disabled}
+                        />
+                        <DateInput
+                            error={error?.end_date}
+                            label={strings.projectFormEndDate}
+                            name="end_date"
+                            onChange={handleEndDateChange}
+                            value={value.end_date}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <InputSection
+                        className="multi-input-section"
+                        title={strings.projectFormBudgetTitle}
+                        description={(
+                            <>
+                                <TextOutput
+                                    label={strings.projectFormBudget}
+                                    value={strings.projectFormBudgetText}
+                                    strongLabel
                                 />
-                              */}
-                            <NonFieldError
-                                className={styles.nonFieldError}
-                                error={error}
-                                message={strings.projectFormNonFieldError}
-                            />
-                            <Button
-                                name={undefined}
-                                onClick={createSubmitHandler(validate, onErrorSet, handleSubmit)}
-                                type="submit"
+                                <TextOutput
+                                    label={strings.projectFormProjectStatus}
+                                    value={strings.projectFormProjectStatusText}
+                                    strongLabel
+                                />
+                            </>
+                        )}
+                        tooltip={strings.projectFormProjectTooltip}
+                        numPreferredColumns={2}
+                    >
+                        {value.is_project_completed ? (
+                            // FIXME: Wouldn't it be better if we showed budget_amount here?
+                            <NumberInput
+                                error={error?.actual_expenditure}
+                                label={strings.projectFormActualExpenditure}
+                                name="actual_expenditure"
+                                value={value.actual_expenditure}
+                                onChange={handleActualExpenditureChange}
                                 disabled={disabled}
-                                variant="secondary"
-                            >
-                                {submitPending
-                                    ? strings.projectFormSubmitting
-                                    : strings.projectFormSubmit}
-                            </Button>
+                            />
+                        ) : (
+                            <NumberInput
+                                error={error?.budget_amount}
+                                label={strings.projectFormProjectBudget}
+                                name="budget_amount"
+                                value={value.budget_amount}
+                                onChange={handleBudgetAmountChange}
+                                disabled={disabled}
+                            />
+                        )}
+                        <div>
+                            <Checkbox
+                                label={strings.projectFormProjectCompleted}
+                                name="is_project_completed"
+                                value={value?.is_project_completed}
+                                onChange={handleProjectStatusChange}
+                                error={error?.is_project_completed}
+                                disabled={disabled}
+                            />
+                            <TextOutput
+                                label={strings.projectFormProjectStatusTitle}
+                                value={(
+                                    value.status
+                                        ? projectStatusOptionsMap?.[value.status]
+                                        : undefined
+                                )}
+                            />
                         </div>
-                    </>
-                )}
-            </div>
+                        <div>
+                            <Switch
+                                label={strings.projectFormAnnualReportingLabel}
+                                name="is_annual_report"
+                                value={value?.is_annual_report}
+                                onChange={setFieldValue}
+                                disabled={disabled}
+                                error={error?.is_annual_report}
+                            />
+                        </div>
+                    </InputSection>
+                    {value?.is_annual_report ? (
+                        <InputSection
+                            description={strings.projectFormPeopleTargetedHelpText}
+                            title={`${strings.projectFormPeopleTargeted} ${strings.projectFormAnnually}`}
+                            tooltip={
+                                strings.projectFormPeopleTargetedTooltip
+                                + strings.projectFormAnnually
+                            }
+                        >
+                            {value?.annual_splits?.map((annual_split, i) => (
+                                <AnnualSplitInput
+                                    key={annual_split.client_id}
+                                    index={i}
+                                    value={annual_split}
+                                    onChange={setAnnualSplit}
+                                    error={annualSplitErrors?.[annual_split.client_id]}
+                                    onRemove={removeAnnualSplit}
+                                    disabled={disabled}
+                                />
+                            ))}
+                            <div>
+                                <Button
+                                    onClick={handleAddAnnualSplitButtonClick}
+                                    name={undefined}
+                                    variant="secondary"
+                                    disabled={disabled}
+                                >
+                                    {strings.addNewSplit}
+                                </Button>
+                            </div>
+                        </InputSection>
+                    ) : (
+                        <>
+                            <InputSection
+                                description={strings.projectFormPeopleTargetedHelpText}
+                                title={strings.projectFormPeopleTargeted}
+                                tooltip={strings.projectFormPeopleTargetedTooltip}
+                                numPreferredColumns={4}
+                            >
+                                <NumberInput
+                                    name="target_male"
+                                    label={strings.projectFormMale}
+                                    value={value.target_male}
+                                    error={error?.target_male}
+                                    onChange={handleTargetMaleChange}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    name="target_female"
+                                    label={strings.projectFormFemale}
+                                    value={value.target_female}
+                                    error={error?.target_female}
+                                    onChange={handleTargetFemaleChange}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    name="target_other"
+                                    label={strings.projectFormOther}
+                                    value={value.target_other}
+                                    error={error?.target_other}
+                                    onChange={handleTargetOtherChange}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    disabled={
+                                        shouldDisableTotalTarget
+                                        || value?.is_annual_report
+                                        || disabled
+                                    }
+                                    name="target_total"
+                                    label={
+                                        (isTotalRequired && !shouldDisableTotalTarget)
+                                            ? strings.projectFormTotalRequired
+                                            : strings.projectFormTotal
+                                    }
+                                    value={value.target_total}
+                                    error={error?.target_total}
+                                    onChange={setFieldValue}
+                                    className={
+                                        shouldDisableTotalTarget
+                                            ? styles.disable : styles.normal
+                                    }
+                                />
+                            </InputSection>
+                            <InputSection
+                                title={strings.projectFormPeopleReached2}
+                                description={strings.projectFormPeopleReachedHelpText}
+                                tooltip={strings.projectFormPeopleReachedTooltip}
+                                numPreferredColumns={4}
+                            >
+                                <NumberInput
+                                    name="reached_male"
+                                    label={strings.projectFormPeopleReachedMale}
+                                    value={value.reached_male}
+                                    error={error?.reached_male}
+                                    onChange={handleReachedMaleChange}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    name="reached_female"
+                                    label={strings.projectFormPeopleReachedFemale}
+                                    value={value.reached_female}
+                                    error={error?.reached_female}
+                                    onChange={handleReachedFemaleChange}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    name="reached_other"
+                                    label={strings.projectFormPeopleReachedOther}
+                                    value={value.reached_other}
+                                    error={error?.reached_other}
+                                    onChange={handleReachedOtherChange}
+                                    disabled={disabled}
+                                />
+                                <NumberInput
+                                    disabled={
+                                        shouldDisableTotalReached
+                                        || value?.is_annual_report
+                                        || disabled
+                                    }
+                                    name="reached_total"
+                                    label={
+                                        isTotalRequired && !shouldDisableTotalReached
+                                            ? strings.projectFormTotalRequired
+                                            : strings.projectFormTotal
+                                    }
+                                    value={value.reached_total}
+                                    error={error?.reached_total}
+                                    onChange={setFieldValue}
+                                    className={
+                                        shouldDisableTotalReached
+                                            ? styles.disable
+                                            : styles.normal
+                                    }
+                                />
+                            </InputSection>
+                        </>
+                    )}
+                    <InputSection
+                        title={strings.projectFormProjectVisibility}
+                        description={strings.projectFormProjectVisibilityHelpText}
+                        tooltip={strings.projectFormProjectVisibilityTooltip}
+                    >
+                        <RadioInput
+                            name="visibility"
+                            value={value.visibility}
+                            onChange={setFieldValue}
+                            error={error?.visibility}
+                            options={visibilityOptions}
+                            keySelector={visibilityKeySelector}
+                            labelSelector={visibilityLabelSelector}
+                            disabled={disabled}
+                        />
+                    </InputSection>
+                    <div className={styles.formActions}>
+                        <NonFieldError
+                            className={styles.nonFieldError}
+                            error={error}
+                            message={strings.projectFormNonFieldError}
+                        />
+                        <Button
+                            name={undefined}
+                            onClick={createSubmitHandler(validate, onErrorSet, handleSubmit)}
+                            type="submit"
+                            disabled={disabled}
+                            variant="secondary"
+                        >
+                            {submitPending
+                                ? strings.projectFormSubmitting
+                                : strings.projectFormSubmit}
+                        </Button>
+                    </div>
+                </>
+            )}
         </Page>
     );
 }

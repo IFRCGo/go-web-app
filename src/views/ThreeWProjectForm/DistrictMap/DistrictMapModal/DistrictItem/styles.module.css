@@ -1,29 +1,56 @@
 .district-item {
     display: flex;
     flex-direction: column;
+    background-color: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-xs) 0;
 
-    .button {
+    .district {
         display: flex;
-        justify-content: space-between;
         padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
-        width: 100%;
+        font-weight: var(--go-ui-font-weight-medium);
 
-        .actions {
+        .name {
+            flex-grow: 1;
+        }
+
+        .remove-button {
+            flex-shrink: 0;
             opacity: 0;
         }
 
         &:hover {
-            background-color: var(--go-ui-color-background);
-
-            .actions {
+            background-color: var(--go-ui-color-background-hover);
+            .remove-button {
                 opacity: 1;
             }
         }
     }
 
-    .admin-2-items {
+    .admin2-items {
         display: flex;
         flex-direction: column;
-        padding-left: var(--go-ui-spacing-lg);
+
+        .admin-2-item {
+            display: flex;
+            padding: var(--go-ui-spacing-3xs) var(--go-ui-spacing-md);
+            font-size: var(--go-ui-font-size-sm);
+
+            .name {
+                flex-grow: 1;
+            }
+
+            .remove-button {
+                flex-shrink: 0;
+                opacity: 0;
+            }
+
+            &:hover {
+                background-color: var(--go-ui-color-background-hover);
+
+                .remove-button {
+                    opacity: 1;
+                }
+            }
+        }
     }
 }

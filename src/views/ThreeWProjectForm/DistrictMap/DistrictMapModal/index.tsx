@@ -46,6 +46,8 @@ import {
     COLOR_DARK_GREY,
     COLOR_TEXT,
     COLOR_TEXT_ON_DARK,
+    DURATION_MAP_ZOOM,
+    DEFAULT_MAP_PADDING,
 } from '#utils/constants';
 import DistrictSearchMultiSelectInput, {
     type DistrictItem,
@@ -580,10 +582,10 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     Save
                 </Button>
             )}
-            childrenContainerClassName={styles.body}
+            childrenContainerClassName={styles.content}
             size="xl"
         >
-            <div className={styles.leftContainer}>
+            <div className={styles.mapSection}>
                 {selectedDistrict && (
                     <Button
                         name={undefined}
@@ -623,8 +625,8 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                         />
                         {bounds && (
                             <MapBounds
-                                duration={3000}
-                                padding={50}
+                                duration={DURATION_MAP_ZOOM}
+                                padding={DEFAULT_MAP_PADDING}
                                 bounds={bounds}
                             />
                         )}
@@ -665,7 +667,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     )}
                 </Map>
             </div>
-            <div className={styles.rightPane}>
+            <div className={styles.sidePanel}>
                 <NonFieldError error={admin2Error} />
                 <DistrictSearchMultiSelectInput
                     error={districtsError}
@@ -680,13 +682,17 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     disabled={disabled}
                 />
                 <List
+                    className={styles.districtList}
                     data={districts}
                     renderer={DistrictListItem}
                     keySelector={districtKeySelector}
                     rendererParams={districtRendererParams}
+                    // FIXME: use translation
+                    emptyMessage="Select districts by click on map or from the select input above"
                     errored={false}
                     pending={false}
                     filtered={false}
+                    compact
                 />
             </div>
         </Modal>

@@ -29,6 +29,8 @@ import ConfirmButton from '#components/ConfirmButton';
 import NumberInput from '#components/NumberInput';
 import GoMultiFileInput from '#components/domain/GoMultiFileInput';
 import NonFieldError from '#components/NonFieldError';
+import Message from '#components/Message';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
 import useTranslation from '#hooks/useTranslation';
 import useAlertContext from '#hooks/useAlert';
 import { useLazyRequest, useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -71,7 +73,6 @@ export function Component() {
         actionDivRef,
         refetchStatusResponse,
     } = useOutletContext<PerProcessOutletContext>();
-
     const { per_overviewassessmentmethods } = useGlobalEnums();
 
     const {
@@ -95,7 +96,11 @@ export function Component() {
         url: '/api/v2/per-options/',
     });
 
-    useRequest({
+    const {
+        pending: fetchingPerOverview,
+        // response: perOverviewResponse,
+        error: perOverviewResponseError,
+    } = useRequest({
         skip: isNotDefined(perId),
         url: '/api/v2/per-overview/{id}/',
         pathVariables: {
@@ -300,12 +305,28 @@ export function Component() {
     );
     const error = getErrorObject(formError);
 
-    const readOnlyMode = value?.is_draft === false;
+    const partiallyEditable = value?.is_draft === false;
+
+    if (fetchingPerOverview) {
+        return (
+            <Message
+                pending
+            />
+        );
+    }
+
+    if (isDefined(perOverviewResponseError)) {
+        return (
+            <FormFailedToLoadMessage
+                description={perOverviewResponseError.value.messageForNotification}
+            />
+        );
+    }
 
     return (
         <Container
             className={styles.overviewForm}
-            heading={readOnlyMode ? strings.overviewEditHeading : strings.overviewSetupHeading}
+            heading={partiallyEditable ? strings.overviewEditHeading : strings.overviewSetupHeading}
             headingLevel={2}
             childrenContainerClassName={styles.content}
             withHeaderBorder
@@ -322,13 +343,13 @@ export function Component() {
                     {strings.submitButtonLabel}
                 </ConfirmButton>
             )}
+            spacing="comfortable"
         >
             <NonFieldError error={formError} />
             <Container
                 className={styles.container}
                 childrenContainerClassName={styles.sectionContent}
                 withInternalPadding
-                spacing="comfortable"
             >
                 <InputSection
                     title={strings.nationalSocietyInputLabel}
@@ -341,7 +362,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.country}
                         error={getErrorString(error?.country)}
-                        readOnly={readOnlyMode}
+                        readOnly={partiallyEditable}
                     />
                 </InputSection>
             </Container>
@@ -351,7 +372,6 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withInternalPadding
                 withHeaderBorder
-                spacing="comfortable"
             >
                 <InputSection
                     title={strings.dateOfOrientationInputLabel}
@@ -365,7 +385,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_orientation}
                         error={error?.date_of_orientation}
-                        readOnly={readOnlyMode}
+                        readOnly={partiallyEditable}
                     />
                 </InputSection>
                 <InputSection
@@ -392,7 +412,6 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="comfortable"
             >
                 <InputSection
                     numPreferredColumns={2}
@@ -406,7 +425,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_assessment}
                         error={error?.date_of_assessment}
-                        readOnly={readOnlyMode}
+                        readOnly={partiallyEditable}
                     />
                 </InputSection>
                 <InputSection
@@ -423,7 +442,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
-                        readOnly={readOnlyMode}
+                        readOnly={partiallyEditable}
                     />
                 </InputSection>
                 <InputSection
@@ -463,7 +482,7 @@ export function Component() {
                         value={value?.branches_involved}
                         onChange={setFieldValue}
                         error={error?.branches_involved}
-                        readOnly={readOnlyMode}
+                        readOnly={partiallyEditable}
                     />
                 </InputSection>
                 <InputSection
@@ -479,7 +498,7 @@ export function Component() {
                         labelSelector={stringValueSelector}
                         onChange={setFieldValue}
                         error={error?.assessment_method}
-                        readOnly={readOnlyMode}
+                        readOnly={partiallyEditable}
                     />
                 </InputSection>
                 <InputSection
@@ -492,7 +511,7 @@ export function Component() {
                         value={value?.assess_preparedness_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_preparedness_of_country}
-                        readOnly={readOnlyMode}
+                        readOnly={partiallyEditable}
                     />
                 </InputSection>
                 <InputSection
@@ -505,11 +524,12 @@ export function Component() {
                         value={value.assess_urban_aspect_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_urban_aspect_of_country}
-                        readOnly={readOnlyMode}
+                        readOnly={partiallyEditable}
                     />
                 </InputSection>
                 <InputSection
                     title={strings.climateAndEnvironmentalConsiderationsInputLabel}
+                    // eslint-disable-next-line max-len
                     description={strings.climateAndEnvironmentalConsiderationsInputDescription}
                     withoutPadding
                 >
@@ -518,7 +538,7 @@ export function Component() {
                         value={value?.assess_climate_environment_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_climate_environment_of_country}
-                        readOnly={readOnlyMode}
+                        readOnly={partiallyEditable}
                     />
                 </InputSection>
             </Container>
@@ -528,7 +548,6 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="comfortable"
             >
                 <InputSection
                     title={strings.perProcessCycleNumberInputLabel}
@@ -551,7 +570,6 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="comfortable"
             >
                 <InputSection
                     title={strings.workPlanDevelopmentDateInputLabel}
@@ -584,12 +602,11 @@ export function Component() {
                 childrenContainerClassName={styles.sectionContent}
                 withHeaderBorder
                 withInternalPadding
-                spacing="comfortable"
             >
                 <InputSection
                     title={strings.nsFocalPointInputLabel}
                     description={strings.nsFocalPointInputDescription}
-                    numPreferredColumns={2}
+                    numPreferredColumns={4}
                     withoutPadding
                 >
                     <TextInput
@@ -617,7 +634,7 @@ export function Component() {
                 <InputSection
                     title={strings.nsSecondFocalPointInputLabel}
                     description={strings.nsSecondFocalPointInputDescription}
-                    numPreferredColumns={2}
+                    numPreferredColumns={4}
                     withoutPadding
                 >
                     <TextInput
@@ -644,7 +661,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.partnerFocalPointInputLabel}
-                    numPreferredColumns={2}
+                    numPreferredColumns={4}
                     withoutPadding
                 >
                     <TextInput
@@ -678,7 +695,7 @@ export function Component() {
                 </InputSection>
                 <InputSection
                     title={strings.perFacilitatorInputLabel}
-                    numPreferredColumns={2}
+                    numPreferredColumns={4}
                     withoutPadding
                 >
                     <TextInput

@@ -4,16 +4,30 @@
     --go-ui-font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     --base-font-size: 0.875rem;
+    --font-multiplier: 1.5;
 
     --go-ui-font-size-2xs: calc(var(--base-font-size) * 0.625);
     --go-ui-font-size-xs: calc(var(--base-font-size) * 0.75);
     --go-ui-font-size-sm: calc(var(--base-font-size) * 0.875);
-    --go-ui-font-size-md: calc(var(--base-font-size) * 1);
+    --go-ui-font-size-md: var(--base-font-size);
     --go-ui-font-size-lg: calc(var(--base-font-size) * 1.125);
     --go-ui-font-size-xl: calc(var(--base-font-size) * 1.25);
     --go-ui-font-size-2xl: calc(var(--base-font-size) * 1.5);
     --go-ui-font-size-3xl: calc(var(--base-font-size) * 1.875);
     --go-ui-font-size-4xl: calc(var(--base-font-size) * 2.375);
+
+    @media screen and (max-width: 40rem) {
+        --go-ui-font-size-2xs: calc(var(--base-font-size) * 0.625);
+        --go-ui-font-size-xs: calc(var(--base-font-size) * 0.75);
+        --go-ui-font-size-sm: calc(var(--base-font-size) * 0.875);
+        --go-ui-font-size-md: calc(var(--base-font-size) * 1);
+        --go-ui-font-size-lg: calc(var(--base-font-size) * 1.125);
+        --go-ui-font-size-xl: calc(var(--base-font-size) * 1.25);
+        --go-ui-font-size-2xl: calc(var(--base-font-size) * 1.4);
+        --go-ui-font-size-3xl: calc(var(--base-font-size) * 1.6);
+        --go-ui-font-size-4xl: calc(var(--base-font-size) * 1.8);
+    }
+
 
     /* TODO: rename to --go-ui-height-icon-multiplier */
     --go-ui-font-size-icon-multiplier: 1.5em;
@@ -46,6 +60,11 @@
     --go-ui-width-screen-2xl: 1536px;
 
     --base-spacing: 1rem;
+
+    @media screen and (max-width: 40rem) {
+        --base-spacing: 0.625rem;
+    }
+
     --go-ui-spacing-4xs: calc(var(--base-spacing) * 0.0625);
     --go-ui-spacing-3xs: calc(var(--base-spacing) * 0.125);
     --go-ui-spacing-2xs: calc(var(--base-spacing) * 0.25);
@@ -167,8 +186,8 @@
     --go-ui-opacity-chart-point: 0.8;
     --go-ui-opacity-message: 0.8;
 
-    --go-ui-content-min-height: 15rem;
-    --go-ui-compact-content-min-height: 8rem;
+    --go-ui-content-min-height: 13rem;
+    --go-ui-compact-content-min-height: 7rem;
 
     --go-ui-width-min-modal: 18rem;
     --go-ui-height-min-modal: 11rem;

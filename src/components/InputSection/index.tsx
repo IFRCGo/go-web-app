@@ -1,8 +1,11 @@
 import { _cs } from '@togglecorp/fujs';
 
+import InfoPopup from '#components/InfoPopup';
+import Container from '#components/Container';
+
 import styles from './styles.module.css';
 
-type NumColumn = 1 | 2 | 3;
+type NumColumn = 1 | 2 | 3 | 4;
 export interface Props {
     className?: string;
     title?: React.ReactNode;
@@ -10,9 +13,7 @@ export interface Props {
     description?: React.ReactNode;
     contentSectionClassName?: string;
     tooltip?: string;
-    descriptionContainerClassName?: string;
     withoutTitleSection?: boolean;
-    titleClassName?: string;
     withoutPadding?: boolean;
     withAsteriskOnTitle?: boolean;
     numPreferredColumns?: NumColumn;
@@ -27,8 +28,6 @@ function InputSection(props: Props) {
         description,
         tooltip,
         contentSectionClassName,
-        descriptionContainerClassName,
-        titleClassName,
         withoutTitleSection = false,
         withoutPadding = false,
         withAsteriskOnTitle,
@@ -45,24 +44,20 @@ function InputSection(props: Props) {
             )}
         >
             {!withoutTitleSection && (
-                <div
-                    className={styles.titleSection}
-                    title={tooltip}
-                >
-                    {title && (
-                        <div className={_cs(styles.title, titleClassName)}>
-                            {title}
-                            {withAsteriskOnTitle && (
-                                <span aria-hidden className={styles.asterisk}>
-                                    *
-                                </span>
-                            )}
-                        </div>
+                <Container
+                    heading={title}
+                    headingDescription={withAsteriskOnTitle && (
+                        <span aria-hidden className={styles.asterisk}>
+                            *
+                        </span>
                     )}
-                    <div className={_cs(styles.description, descriptionContainerClassName)}>
-                        {description}
-                    </div>
-                </div>
+                    actions={tooltip && <InfoPopup description={tooltip} />}
+                    childrenContainerClassName={styles.description}
+                    headingLevel={4}
+                    spacing="cozy"
+                >
+                    {description}
+                </Container>
             )}
             <div
                 className={_cs(
@@ -70,6 +65,7 @@ function InputSection(props: Props) {
                     numPreferredColumns === 1 && styles.oneColumn,
                     numPreferredColumns === 2 && styles.twoColumn,
                     numPreferredColumns === 3 && styles.threeColumn,
+                    numPreferredColumns === 4 && styles.fourColumn,
                     contentSectionClassName,
                 )}
             >

@@ -6,7 +6,7 @@
         "generatedTitleFormatForCovid": "{iso3}: COVID-19 #{fieldReportNumber} ({fullDate})",
         "generatedTitleFormatForCovidOld": "{iso3}: COVID-19",
         "formRedirectMessage": "Field report updated, redirecting...",
-        "formErrorLabel": "Error:",
+        "formErrorLabel": "Failed to create/update!",
         "title": "IFRC GO - Field Report",
         "updateHeading": "Update Field Report",
         "createHeading": "Create Field Report",
@@ -19,7 +19,9 @@
         "formNonFieldError": "Please fill in required fields first!",
         "submitButtonLabel": "Submit",
         "backButtonLabel": "Back",
-        "continueButtonLabel": "Continue"
+        "continueButtonLabel": "Continue",
+        "formLoadingMessage": "Loading Field Report...",
+        "formLoadErrorTitle": "Failed to load Field Report!"
     }
 }
 

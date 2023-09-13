@@ -17,34 +17,35 @@ import {
     createSubmitHandler,
     removeNull,
 } from '@togglecorp/toggle-form';
-import {
-    useParams,
-} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import {
     transformObjectError,
     matchArray,
     NUM,
 } from '#utils/restRequest/error';
-import useRouting from '#hooks/useRouting';
-import useAlert from '#hooks/useAlert';
-import Page from '#components/Page';
-import useTranslation from '#hooks/useTranslation';
 import Tab from '#components/Tabs/Tab';
 import Tabs from '#components/Tabs';
 import Button from '#components/Button';
 import TabList from '#components/Tabs/TabList';
 import TabPanel from '#components/Tabs/TabPanel';
+import NonFieldError from '#components/NonFieldError';
+import Message from '#components/Message';
+import NonEnglishFormCreationMessage from '#components/domain/NonEnglishFormCreationMessage';
+import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
+import FormFailedToLoadMessage from '#components/domain/FormFailedToLoadMessage';
+import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
+import useRouting from '#hooks/useRouting';
+import useAlert from '#hooks/useAlert';
+import Page from '#components/Page';
+import useTranslation from '#hooks/useTranslation';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import {
     useRequest,
     useLazyRequest,
 } from '#utils/restRequest';
-import {
-    type DistrictItem,
-} from '#components/domain/DistrictSearchMultiSelectInput';
 import { injectClientId } from '#utils/common';
 
-import i18n from './i18n.json';
 import {
     checkTabErrors,
     getNextStep,
@@ -57,6 +58,7 @@ import schema, {
 import ActionsTab from './ActionsTab';
 import ContextTab from './ContextTab';
 import FocalPointsTab from './FocalPointsTab';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const defaultFormValues: FormType = {
@@ -99,7 +101,9 @@ export function Component() {
     const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const {
-        pending: pendingFlashUpdateDetails,
+        pending: fetchingFlashUpdate,
+        response: flashUpdateResponse,
+        error: flashUpdateResponseError,
     } = useRequest({
         skip: isFalsyString(flashUpdateId),
         url: '/api/v2/flash-update/{id}/',
@@ -275,13 +279,22 @@ export function Component() {
     }, []);
 
     const submitPending = createSubmitPending || updateSubmitPending;
-
-    const pending = submitPending || pendingFlashUpdateDetails;
-
+    const pending = submitPending || fetchingFlashUpdate;
     const disabled = pending;
 
     const prevTab = getNextStep(activeTab, -1);
     const nextTab = getNextStep(activeTab, 1);
+
+    const currentLanguage = useCurrentLanguage();
+
+    const nonEnglishCreate = isNotDefined(flashUpdateId) && currentLanguage !== 'en';
+    const languageMismatch = isDefined(flashUpdateId)
+        && isDefined(flashUpdateResponse)
+        && currentLanguage !== flashUpdateResponse?.translation_module_original_language;
+    const shouldHideForm = languageMismatch
+        || nonEnglishCreate
+        || fetchingFlashUpdate
+        || isDefined(flashUpdateResponseError);
 
     // TODO:
     // Handle permission: Only ifrc user should be able do edit this page
@@ -300,7 +313,7 @@ export function Component() {
                 heading={strings.flashUpdateFormPageHeading}
                 description={strings.flashUpdateFormPageDescription}
                 mainSectionClassName={styles.content}
-                info={(
+                info={!shouldHideForm && (
                     <TabList className={styles.tabList}>
                         <Tab
                             name="context"
@@ -327,67 +340,92 @@ export function Component() {
                 )}
                 withBackgroundColorInMainSection
             >
-                <TabPanel name="context">
-                    <ContextTab
-                        error={error}
-                        onValueChange={setFieldValue}
-                        fileIdToUrlMap={fileIdToUrlMap}
-                        setFileIdToUrlMap={setFileIdToUrlMap}
-                        value={value}
-                        disabled={disabled}
-                        districtOptions={districtOptions}
-                        setDistrictOptions={setDistrictOptions}
+                {fetchingFlashUpdate && (
+                    <Message
+                        pending
                     />
-                </TabPanel>
-                <TabPanel name="actions">
-                    <ActionsTab
-                        error={error}
-                        onValueChange={setFieldValue}
-                        value={value}
-                        disabled={disabled}
+                )}
+                {nonEnglishCreate && (
+                    <NonEnglishFormCreationMessage />
+                )}
+                {languageMismatch && (
+                    <LanguageMismatchMessage
+                        originalLanguage={flashUpdateResponse.translation_module_original_language ?? 'en'}
                     />
-                </TabPanel>
-                <TabPanel name="focal">
-                    <FocalPointsTab
-                        error={error}
-                        onValueChange={setFieldValue}
-                        value={value}
-                        disabled={disabled}
+                )}
+                {isDefined(flashUpdateResponseError) && (
+                    <FormFailedToLoadMessage
+                        description={flashUpdateResponseError.value.messageForNotification}
                     />
-                </TabPanel>
-                <div className={styles.actions}>
-                    <div className={styles.pageActions}>
-                        <Button
-                            name={prevTab ?? activeTab}
-                            onClick={handleTabChange}
-                            disabled={isNotDefined(prevTab)}
-                            variant="secondary"
-                        >
-                            {strings.flashUpdateBackButtonLabel}
-                        </Button>
-                        <Button
-                            name={nextTab ?? activeTab}
-                            onClick={handleTabChange}
-                            disabled={isNotDefined(nextTab)}
-                            variant="secondary"
-                        >
-                            {strings.flashUpdateContinueButtonLabel}
-                        </Button>
-                    </div>
-                    <Button
-                        name={undefined}
-                        onClick={createSubmitHandler(
-                            validate,
-                            setError,
-                            handleSubmit,
-                        )}
-                        disabled={activeTab !== 'focal' || submitPending}
-                        variant="secondary"
-                    >
-                        {/* FIXME: Use translations */}
-                        Submit
-                    </Button>
-                </div>
+                )}
+                {!shouldHideForm && (
+                    <>
+                        <TabPanel name="context">
+                            <ContextTab
+                                error={error}
+                                onValueChange={setFieldValue}
+                                fileIdToUrlMap={fileIdToUrlMap}
+                                setFileIdToUrlMap={setFileIdToUrlMap}
+                                value={value}
+                                disabled={disabled}
+                                districtOptions={districtOptions}
+                                setDistrictOptions={setDistrictOptions}
+                            />
+                        </TabPanel>
+                        <TabPanel name="actions">
+                            <ActionsTab
+                                error={error}
+                                onValueChange={setFieldValue}
+                                value={value}
+                                disabled={disabled}
+                            />
+                        </TabPanel>
+                        <TabPanel name="focal">
+                            <FocalPointsTab
+                                error={error}
+                                onValueChange={setFieldValue}
+                                value={value}
+                                disabled={disabled}
+                            />
+                        </TabPanel>
+                        <NonFieldError
+                            error={error}
+                        />
+                        <div className={styles.actions}>
+                            <div className={styles.pageActions}>
+                                <Button
+                                    name={prevTab ?? activeTab}
+                                    onClick={handleTabChange}
+                                    disabled={isNotDefined(prevTab)}
+                                    variant="secondary"
+                                >
+                                    {strings.flashUpdateBackButtonLabel}
+                                </Button>
+                                <Button
+                                    name={nextTab ?? activeTab}
+                                    onClick={handleTabChange}
+                                    disabled={isNotDefined(nextTab)}
+                                    variant="secondary"
+                                >
+                                    {strings.flashUpdateContinueButtonLabel}
+                                </Button>
+                            </div>
+                            <Button
+                                name={undefined}
+                                onClick={createSubmitHandler(
+                                    validate,
+                                    setError,
+                                    handleSubmit,
+                                )}
+                                disabled={activeTab !== 'focal' || submitPending}
+                                variant="secondary"
+                            >
+                                {/* FIXME: Use translations */}
+                                Submit
+                            </Button>
+                        </div>
+                    </>
+                )}
             </Page>
         </Tabs>
     );

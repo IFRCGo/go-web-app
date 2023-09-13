@@ -35,6 +35,7 @@ export interface RegionOutletContext {
 
 type PerProcessStatusResponse = GoApiResponse<'/api/v2/per-process-status/{id}/'>;
 export interface PerProcessOutletContext {
+    fetchingStatus: boolean,
     statusResponse: PerProcessStatusResponse | undefined,
     refetchStatusResponse: () => void,
     actionDivRef: React.RefObject<HTMLDivElement>,

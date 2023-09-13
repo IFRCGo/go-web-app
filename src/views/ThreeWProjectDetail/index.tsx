@@ -4,21 +4,20 @@ import { PencilFillIcon } from '@ifrc-go/icons';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
 
 import { getUserName } from '#utils/domain/user';
-import { useRequest } from '#utils/restRequest';
-import { resolveToComponent } from '#utils/translation';
-import useTranslation from '#hooks/useTranslation';
 import Link from '#components/Link';
 import Page from '#components/Page';
 import TextOutput from '#components/TextOutput';
-import Container from '#components/Container';
 import InfoPopup from '#components/InfoPopup';
 import DateOutput from '#components/DateOutput';
-import BlockLoading from '#components/BlockLoading';
 import List from '#components/List';
+import Message from '#components/Message';
+import DetailsFailedToLoadMessage from '#components/domain/DetailsFailedToLoadMessage';
+import useTranslation from '#hooks/useTranslation';
 import type { GoApiResponse } from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
+import { resolveToComponent } from '#utils/translation';
 
-import AnnualSplitListItem, { type Props as AnnualSplitProps } from './AnnualSplitListItem';
-
+import DisaggregatedPeopleOutput, { type Props as DisaggregatedPeopleOutputProps } from './DisaggregatedPeopleOutput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -27,6 +26,8 @@ type AnnualSplitItem = NonNullable<ProjectItem['annual_splits']>[number];
 
 const annualSplitKeySelector = (item: AnnualSplitItem) => item.id;
 
+// TODO: Improve className and tooltips
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -34,8 +35,9 @@ export function Component() {
 
     // TODO: Show appropriate message if item is not present in server
     const {
+        pending: fetchingProject,
         response: projectResponse,
-        pending: projectPending,
+        error: projectResponseError,
     } = useRequest({
         skip: isNotDefined(projectId),
         url: '/api/v2/project/{id}/',
@@ -50,40 +52,45 @@ export function Component() {
             ?.map((district) => district?.name).join(', ')
     ), [projectResponse]);
 
-    const annualSplitListRendererParams = useCallback((
-        _: number,
-        data: AnnualSplitItem,
-    ): AnnualSplitProps => ({
-        year: data.year,
-        budgetAmount: data.budget_amount,
-        targetMale: data.target_male,
-        targetFemale: data.target_female,
-        targetOther: data.target_other,
-        targetTotal: data.target_total,
-        reachedMale: data.reached_male,
-        reachedFemale: data.reached_female,
-        reachedOther: data.reached_other,
-        reachedTotal: data.reached_total,
+    const annualSplitListRendererParams = useCallback(
+        (
+            _: number,
+            data: AnnualSplitItem,
+        ): DisaggregatedPeopleOutputProps => ({
+            year: data.year,
+            budgetAmount: data.budget_amount,
+            targetMale: data.target_male,
+            targetFemale: data.target_female,
+            targetOther: data.target_other,
+            targetTotal: data.target_total,
+            reachedMale: data.reached_male,
+            reachedFemale: data.reached_female,
+            reachedOther: data.reached_other,
+            reachedTotal: data.reached_total,
+        }),
+        [],
+    );
 
-        isAnnualSplit: true,
-    }), []);
+    const shouldHideDetails = fetchingProject
+        || isDefined(projectResponseError);
 
     return (
         <Page
-            className={styles.projectThreeW}
-            title={strings.threeWDetailsHeading}
-            heading={projectResponse?.name}
+            className={styles.threeWProjectDetail}
+            title={strings.threeWDetailsTitle}
+            heading={projectResponse?.name ?? strings.threeWDetailsHeading}
             actions={(
                 <Link
                     variant="secondary"
                     to="threeWProjectEdit"
                     urlParams={{ projectId }}
                     icons={<PencilFillIcon />}
+                    disabled={shouldHideDetails}
                 >
                     {strings.editProject}
                 </Link>
             )}
-            description={(
+            description={!shouldHideDetails && (
                 <TextOutput
                     valueClassName={styles.modifiedOnValue}
                     label={strings.lastModifiedOnTitle}
@@ -107,24 +114,37 @@ export function Component() {
                     strongLabel
                 />
             )}
+            // FIXME: typing should be fixed in server (Language instead of string)
+            contentOriginalLanguage={projectResponse?.translation_module_original_language}
+            mainSectionClassName={styles.content}
         >
-            {projectPending && <BlockLoading />}
-            {!projectPending && (
-                <div className={styles.projectList}>
-                    <Container childrenContainerClassName={styles.projectDetails}>
+            {fetchingProject && (
+                <Message
+                    pending
+                />
+            )}
+            {isDefined(projectResponseError) && (
+                <DetailsFailedToLoadMessage
+                    description={projectResponseError.value.messageForNotification}
+                />
+            )}
+            {!shouldHideDetails && (
+                <>
+                    <div className={styles.projectDetails}>
                         <TextOutput
                             label={strings.reportingNationalSocietyTitle}
-                            value={(
+                            value={isDefined(projectResponse?.reporting_ns_detail?.iso3) ? (
                                 <Link
-                                    className={styles.countryLink}
-                                    withForwardIcon
                                     to="countriesThreeWLayout"
                                     urlParams={{
                                         countryId: projectResponse?.reporting_ns_detail.id,
                                     }}
+                                    withUnderline
                                 >
                                     {projectResponse?.reporting_ns_detail?.society_name}
                                 </Link>
+                            ) : (
+                                projectResponse?.reporting_ns_detail?.society_name
                             )}
                             strongValue
                         />
@@ -132,8 +152,7 @@ export function Component() {
                             label={strings.countryAndRegionTitle}
                             value={(
                                 <Link
-                                    className={styles.countryLink}
-                                    withForwardIcon
+                                    withUnderline
                                     to="countriesLayout"
                                     urlParams={{
                                         countryId: projectResponse?.project_country_detail.id,
@@ -175,20 +194,13 @@ export function Component() {
                             strongValue
                         />
                         <TextOutput
-                            label={(
-                                <>
-                                    {strings.programmeTypeLabel}
-                                    <InfoPopup
-                                        description={(
-                                            <TextOutput
-                                                label={strings.projectTypeToolTipLabel}
-                                                value={strings.projectTypeToolTipValue}
-                                                strongLabel
-                                            />
-                                        )}
-                                    />
-                                </>
+                            description={(
+                                <InfoPopup
+                                    title={strings.projectTypeToolTipLabel}
+                                    description={strings.projectTypeToolTipValue}
+                                />
                             )}
+                            label={strings.programmeTypeLabel}
                             value={projectResponse?.programme_type_display}
                             strongValue
                         />
@@ -196,11 +208,11 @@ export function Component() {
                             label={strings.linkedOperationLabel}
                             value={(
                                 <Link
-                                    className={styles.countryLink}
                                     to="emergenciesLayout"
                                     urlParams={{
                                         emergencyId: projectResponse?.event_detail?.id,
                                     }}
+                                    withUnderline
                                 >
                                     {projectResponse?.event_detail?.name}
                                 </Link>
@@ -218,21 +230,14 @@ export function Component() {
                             strongValue
                         />
                         <TextOutput
-                            label={(
-                                <>
-                                    {strings.tagsTitle}
-                                    <InfoPopup
-                                        description={(
-                                            <TextOutput
-                                                label={strings.peopleReachedToolTipLabel}
-                                                value={strings.peopleReachedToolTipValue}
-                                                strongLabel
-                                            />
-                                        )}
-                                    />
-                                </>
+                            label={strings.tagsTitle}
+                            // FIXME typing should be fixed in server
+                            value={(projectResponse?.secondary_sectors_display as string[] | undefined)?.join(', ')}
+                            description={(
+                                <InfoPopup
+                                    description={strings.threeWTagsTooltip}
+                                />
                             )}
-                            value={projectResponse?.secondary_sectors_display}
                             strongValue
                         />
                         <TextOutput
@@ -252,26 +257,21 @@ export function Component() {
                             value={projectResponse?.status_display}
                             strongValue
                         />
-                        <TextOutput
-                            label={strings.budgetAmountLabel}
-                            value={projectResponse?.budget_amount}
-                            valueType="number"
-                            strongValue
-                        />
-                    </Container>
+                    </div>
                     {(projectResponse?.annual_splits?.length ?? 0) > 0 ? (
                         <List
                             data={projectResponse?.annual_splits}
                             className={styles.yearDetail}
-                            renderer={AnnualSplitListItem}
+                            renderer={DisaggregatedPeopleOutput}
                             rendererParams={annualSplitListRendererParams}
                             keySelector={annualSplitKeySelector}
-                            pending={projectPending}
+                            pending={fetchingProject}
                             errored={false}
                             filtered={false}
                         />
                     ) : (
-                        <AnnualSplitListItem
+                        <DisaggregatedPeopleOutput
+                            budgetAmount={projectResponse?.budget_amount}
                             targetMale={projectResponse?.target_male}
                             targetFemale={projectResponse?.target_female}
                             targetOther={projectResponse?.target_other}
@@ -282,7 +282,7 @@ export function Component() {
                             reachedTotal={projectResponse?.reached_total}
                         />
                     )}
-                </div>
+                </>
             )}
         </Page>
     );
