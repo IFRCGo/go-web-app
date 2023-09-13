@@ -1,8 +1,8 @@
 .key-figure {
     display: flex;
     flex-direction: column;
-    padding: var(--go-ui-spacing-lg);
-    gap: var(--go-ui-spacing-sm);
+    padding: var(--go-ui-spacing-md);
+    gap: var(--go-ui-spacing-xs);
 
     .icon-section {
         display: flex;

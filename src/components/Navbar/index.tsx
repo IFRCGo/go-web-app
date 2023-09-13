@@ -109,64 +109,64 @@ function Navbar(props: Props) {
                     </DropdownMenu>
                 </NavigationTabList>
             </PageContainer>
-            <PageContainer>
-                <div className={styles.bottom}>
-                    <NavigationTabList
-                        className={styles.menuItems}
-                        variant="tertiary"
+            <PageContainer
+                contentClassName={styles.bottom}
+            >
+                <NavigationTabList
+                    className={styles.menuItems}
+                    variant="tertiary"
+                >
+                    <NavigationTab
+                        to="home"
+                        className={styles.menuItem}
+                        title={strings.headerMenuHomeTooltip}
                     >
-                        <NavigationTab
-                            to="home"
-                            className={styles.menuItem}
-                            title={strings.headerMenuHomeTooltip}
-                        >
-                            {strings.headerMenuHome}
-                        </NavigationTab>
-                        <RegionDropdown />
-                        <NavigationTab
-                            to="emergencies"
-                            className={styles.menuItem}
-                            title={strings.headerMenuEmergenciesTooltip}
-                            parentRoute
-                        >
-                            {strings.headerMenuEmergencies}
-                        </NavigationTab>
-                        <NavigationTab
-                            to="surgeLayout"
-                            className={styles.menuItem}
-                            title={strings.headerMenuSurgeTooltip}
-                            parentRoute
-                        >
-                            {strings.headerMenuSurge}
-                        </NavigationTab>
-                        <NavigationTab
-                            to="preparednessLayout"
-                            className={styles.menuItem}
-                            title={strings.headerMenuPreparednessTooltip}
-                            parentRoute
-                        >
-                            {strings.headerMenuPreparedness}
-                        </NavigationTab>
-                        <NavigationTab
-                            to="globalThreeW"
-                            className={styles.menuItem}
-                            title={strings.headerMenuThreeWTooltip}
-                            parentRoute
-                        >
-                            {strings.headerMenuThreeW}
-                        </NavigationTab>
-                        <NavigationTab
-                            to="riskWatchLayout"
-                            className={styles.menuItem}
-                            title={strings.headerMenuThreeWTooltip}
-                            parentRoute
-                        >
-                            {strings.headerMenuRiskWatch}
-                        </NavigationTab>
-                    </NavigationTabList>
-                    <div className={styles.searchContainer}>
-                        <KeywordSearchSelectInput />
-                    </div>
+                        {strings.headerMenuHome}
+                    </NavigationTab>
+                    <RegionDropdown />
+                    <NavigationTab
+                        to="emergencies"
+                        className={styles.menuItem}
+                        title={strings.headerMenuEmergenciesTooltip}
+                        parentRoute
+                    >
+                        {strings.headerMenuEmergencies}
+                    </NavigationTab>
+                    <NavigationTab
+                        to="surgeLayout"
+                        className={styles.menuItem}
+                        title={strings.headerMenuSurgeTooltip}
+                        parentRoute
+                    >
+                        {strings.headerMenuSurge}
+                    </NavigationTab>
+                    <NavigationTab
+                        to="preparednessLayout"
+                        className={styles.menuItem}
+                        title={strings.headerMenuPreparednessTooltip}
+                        parentRoute
+                    >
+                        {strings.headerMenuPreparedness}
+                    </NavigationTab>
+                    <NavigationTab
+                        to="globalThreeW"
+                        className={styles.menuItem}
+                        title={strings.headerMenuThreeWTooltip}
+                        parentRoute
+                    >
+                        {strings.headerMenuThreeW}
+                    </NavigationTab>
+                    <NavigationTab
+                        to="riskWatchLayout"
+                        className={styles.menuItem}
+                        title={strings.headerMenuThreeWTooltip}
+                        parentRoute
+                    >
+                        {strings.headerMenuRiskWatch}
+                    </NavigationTab>
+                </NavigationTabList>
+                <div className={styles.searchContainer}>
+                    <KeywordSearchSelectInput />
                 </div>
             </PageContainer>
         </nav>

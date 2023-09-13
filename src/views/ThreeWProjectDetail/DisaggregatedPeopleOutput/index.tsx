@@ -49,6 +49,7 @@ function DisaggregatedPeopleOutput(props: Props) {
                 />
             )}
             headingLevel={4}
+            spacing="compact"
             headerDescription={(
                 <TextOutput
                     label={strings.threeWBudgetAmount}
@@ -63,6 +64,7 @@ function DisaggregatedPeopleOutput(props: Props) {
                 childrenContainerClassName={styles.peopleTargetedContent}
                 heading={strings.threeWPeopleTargeted}
                 headingLevel={5}
+                spacing="condensed"
             >
                 <TextOutput
                     label={strings.threeWMale}
@@ -97,6 +99,7 @@ function DisaggregatedPeopleOutput(props: Props) {
                 childrenContainerClassName={styles.peopleTargetedContent}
                 heading={strings.threeWPeopleReached1}
                 headingLevel={5}
+                spacing="condensed"
             >
                 <TextOutput
                     label={strings.threeWMale}

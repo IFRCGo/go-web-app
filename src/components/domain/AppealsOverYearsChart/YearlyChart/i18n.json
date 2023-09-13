@@ -1,7 +1,8 @@
 {
     "namespace": "common",
     "strings": {
-        "homeYearlyChartTitle":"Appeals over the last 10 years",
-        "homeYearlyChartViewMonthlyLabel": "View monthly"
+        "yearlyAppealChartTitle":"Appeals over the last 10 years",
+        "yearlyAppealChartNotAvailableMessage":"Chart not available",
+        "yearlyAppealChartViewMonthlyLabel": "View monthly"
     }
 }

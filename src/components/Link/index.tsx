@@ -154,7 +154,10 @@ function Link(props: Props) {
     );
 
     // eslint-disable-next-line react/destructuring-assignment
-    const disabled = isFalsyString(toLink) || disabledFromProps || disabledLink;
+    const disabled = disabledFromProps || disabledLink;
+
+    // eslint-disable-next-line react/destructuring-assignment
+    const nonLink = isFalsyString(toLink);
 
     const {
         children: content,
@@ -165,7 +168,7 @@ function Link(props: Props) {
         children: childrenFromProps,
         variant,
         ellipsize,
-        disabled,
+        disabled: disabled && !nonLink,
         actions: (isDefined(actions) || withLinkIcon) ? (
             <>
                 {actions}
@@ -250,8 +253,7 @@ function Link(props: Props) {
         <div
             className={_cs(
                 styles.link,
-                // eslint-disable-next-line react/destructuring-assignment
-                isNotDefined(props.to) && styles.nonLink,
+                nonLink && styles.nonLink,
                 withUnderline && styles.underline,
                 disabled && styles.disabled,
                 variant === 'dropdown-item' && styles.dropdownItem,

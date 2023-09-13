@@ -1,15 +1,16 @@
 .navbar {
-    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-gray-20);
+    border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
     background-color: var(--go-ui-color-white);
 
     .top {
-        border-bottom: var(--go-ui-width-separator-md) solid var(--go-ui-color-primary-red);
+        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-primary-red);
 
         .top-content {
             display: flex;
             align-items: center;
-            gap: var(--go-ui-spacing-xl);
+            gap: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
             flex-wrap: wrap;
+            padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
 
             .brand {
                 display: flex;
@@ -49,7 +50,8 @@
     .bottom {
         display: flex;
         flex-wrap: wrap;
-        gap: var(--go-ui-spacing-xl);
+        gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-lg);
+        padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
 
         .menu-items {
             display: flex;

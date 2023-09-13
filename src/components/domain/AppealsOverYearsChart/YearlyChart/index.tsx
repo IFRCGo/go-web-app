@@ -1,11 +1,17 @@
 import { useMemo, useState, useCallback } from 'react';
-import { encodeDate, listToMap, isNotDefined } from '@togglecorp/fujs';
+import {
+    encodeDate,
+    listToMap,
+    isNotDefined,
+    isDefined,
+} from '@togglecorp/fujs';
 import { useRequest } from '#utils/restRequest';
 
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TimeSeriesChart from '#components/TimeSeriesChart';
 import Button from '#components/Button';
+import Message from '#components/Message';
 import { getDatesSeparatedByYear } from '#utils/chart';
 import useTranslation from '#hooks/useTranslation';
 import { formatDate } from '#utils/common';
@@ -75,6 +81,7 @@ function YearlyChart(props: Props) {
     const {
         pending: monthlyEmergencyAppealPending,
         response: monthlyEmergencyAppealResponse,
+        error: appealResponseError,
     } = useRequest({
         url: '/api/v1/aggregate/',
         query: {
@@ -142,15 +149,22 @@ function YearlyChart(props: Props) {
         [combinedData],
     );
 
+    const shouldHideChart = pending && isDefined(appealResponseError);
+
     return (
         <Container
             className={styles.yearlyChart}
             childrenContainerClassName={styles.chartContainer}
-            heading={strings.homeYearlyChartTitle}
+            heading={strings.yearlyAppealChartTitle}
             withHeaderBorder
         >
             {pending && <BlockLoading className={styles.loading} />}
-            {!pending && (
+            {isDefined(appealResponseError) && (
+                <Message
+                    title={strings.yearlyAppealChartNotAvailableMessage}
+                />
+            )}
+            {!shouldHideChart && (
                 <>
                     <TimeSeriesChart
                         className={styles.timelineChart}
@@ -171,7 +185,7 @@ function YearlyChart(props: Props) {
                                 onClick={onYearClick}
                                 variant="secondary"
                             >
-                                {strings.homeYearlyChartViewMonthlyLabel}
+                                {strings.yearlyAppealChartViewMonthlyLabel}
                             </Button>
                         )}
                     />

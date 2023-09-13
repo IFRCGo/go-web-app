@@ -18,7 +18,7 @@ import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import { numericIdSelector } from '#utils/selectors';
-import { sumSafe } from '#utils/common';
+import { formatNumber, sumSafe } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -211,7 +211,7 @@ export function Component() {
 
     const heading = resolveToComponent(
         strings.allThreeWActivityHeading,
-        { numThreeWs: projectResponse?.count ?? '--' },
+        { numThreeWs: formatNumber(projectResponse?.count) ?? '--' },
     );
 
     return (

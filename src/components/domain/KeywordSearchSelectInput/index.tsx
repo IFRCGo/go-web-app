@@ -37,12 +37,28 @@ interface Route {
     route: keyof WrappedRoutes,
     routeParams: string;
 }
+
 function keySelector(d: SearchItem) {
     return d.pk;
 }
+
+const searchTypeToLabelMap: Record<SearchResponseKeys, string> = {
+    countries: 'Country',
+    district_province_response: 'District',
+    regions: 'Region',
+    surge_deployments: 'Surge Deployment',
+    surge_alerts: 'Surge Alert',
+    rapid_response_deployments: 'RR Deployment',
+    emergencies: 'Emergency',
+    projects: '3W Project',
+    reports: 'Field Report',
+};
+
 function labelSelector(d: SearchItem) {
-    return d.name;
+    // FIXME: use separate component to render search result properly
+    return `[${searchTypeToLabelMap[d.type]}] ${d.name}`;
 }
+
 const searchTypeToRouteMap: Record<SearchResponseKeys, Route> = {
     regions: {
         route: 'regionsLayout',
