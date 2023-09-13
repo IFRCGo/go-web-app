@@ -44,7 +44,7 @@
             justify-content: flex-start;
             width: fit-content;
             overflow-x: auto;
-            gap: var(--go-ui-spacing-md);
+            gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
         }
 
         .start-dummy-content,

@@ -18,6 +18,8 @@
         "threeWEmergencyCountryName": "Country",
         "threeWEmergencyRegion": "Province/Region",
         "threeWEmergencyStatus": "Status",
-        "threeWEmergencyServices": "Services provided to people in need"
+        "threeWEmergencyServices": "Services provided to people in need",
+        "threeWViewAllProjectLabel": "View all Projects",
+        "threeWViewAllActivityLabel": "View all Activities"
     }
 }

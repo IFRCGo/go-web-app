@@ -17,6 +17,7 @@ import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
 import { numericIdSelector } from '#utils/selectors';
+import { formatNumber } from '#utils/common';
 
 import ThreeWProjectTableActions, {
     type Props as ThreeWProjectTableActionsProps,
@@ -134,7 +135,7 @@ export function Component() {
 
     const heading = resolveToComponent(
         strings.allThreeWHeading,
-        { numThreeWs: projectResponse?.count ?? '--' },
+        { numThreeWs: formatNumber(projectResponse?.count) ?? '--' },
     );
 
     return (

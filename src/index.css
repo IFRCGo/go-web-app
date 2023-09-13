@@ -31,10 +31,10 @@
 
     --go-ui-height-icon-multiplier: 1.5em;
 
-    --go-ui-height-brand-icon: 3rem;
-    --go-ui-height-social-icon: 3rem;
-    --go-ui-height-key-figure-icon: 3.5rem;
-    --go-ui-height-status-icon: 3rem;
+    --go-ui-height-brand-icon: 2.5rem;
+    --go-ui-height-social-icon: 2.5rem;
+    --go-ui-height-key-figure-icon: 3rem;
+    --go-ui-height-status-icon: 2.5rem;
     --go-ui-height-compact-status-icon: 2rem;
 
     --go-ui-line-height-none: 1;
@@ -60,10 +60,6 @@
 
     --base-spacing: 1rem;
 
-    @media screen and (max-width: 40rem) {
-        --base-spacing: 0.625rem;
-    }
-
     --go-ui-spacing-4xs: calc(var(--base-spacing) * 0.0625);
     --go-ui-spacing-3xs: calc(var(--base-spacing) * 0.125);
     --go-ui-spacing-2xs: calc(var(--base-spacing) * 0.25);
@@ -76,6 +72,21 @@
     --go-ui-spacing-3xl: calc(var(--base-spacing) * 5.0625);
     --go-ui-spacing-4xl: calc(var(--base-spacing) * 7.5937);
     --go-ui-spacing-5xl: calc(var(--base-spacing) * 11.39);
+
+    @media screen and (max-width: 40rem) {
+        --go-ui-spacing-4xs: calc(var(--base-spacing) * 0.0625);
+        --go-ui-spacing-3xs: calc(var(--base-spacing) * 0.125);
+        --go-ui-spacing-2xs: calc(var(--base-spacing) * 0.25);
+        --go-ui-spacing-xs: calc(var(--base-spacing) * 0.4);
+        --go-ui-spacing-sm: calc(var(--base-spacing) * 0.625);
+        --go-ui-spacing-md: calc(var(--base-spacing) * 1);
+        --go-ui-spacing-lg: calc(var(--base-spacing) * 1.25);
+        --go-ui-spacing-xl: calc(var(--base-spacing) * 1.5625);
+        --go-ui-spacing-2xl: calc(var(--base-spacing) * 1.95);
+        --go-ui-spacing-3xl: calc(var(--base-spacing) * 2.44);
+        --go-ui-spacing-4xl: calc(var(--base-spacing) * 3);
+        --go-ui-spacing-5xl: calc(var(--base-spacing) * 3.8);
+    }
 
     --go-ui-width-separator-sm: 1pt;
     --go-ui-width-separator-md: 2pt;
@@ -101,8 +112,8 @@
 
     --go-ui-box-shadow-xs: 0 1pt 2pt rgb(0 0 0 / 0.2);
     --go-ui-box-shadow-sm: 0 1pt 4pt rgb(0 0 0 / 0.2);
-    --go-ui-box-shadow-md: 0 1pt 6pt -2pt rgb(0 0 0 / 0.375);
-    --go-ui-box-shadow-lg: 0 2pt 10pt -4pt rgb(0 0 0 / 0.5);
+    --go-ui-box-shadow-md: 0 1pt 5pt -2pt rgb(0 0 0 / 0.375);
+    --go-ui-box-shadow-lg: 0 2pt 8pt -4pt rgb(0 0 0 / 0.5);
     --go-ui-box-shadow-xl: 0 3pt 16pt -6pt rgb(0 0 0 / 0.5);
     --go-ui-box-shadow-2xl: 0 4pt 16pt -6pt rgb(0 0 0 / 1);
     --go-ui-box-shadow-inner: inset 0 2pt 4pt 0 rgb(0 0 0 / 0.375);

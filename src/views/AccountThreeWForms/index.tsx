@@ -11,7 +11,9 @@ import {
     createNumberColumn,
     createListDisplayColumn,
     createElementColumn,
+    createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
+import Link from '#components/Link';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -168,20 +170,28 @@ export function Component(props: Props) {
 
     const projectColumns = useMemo(
         () => ([
-            createStringColumn<ProjectListItem, number>(
+            createLinkColumn<ProjectListItem, number>(
                 'country',
                 strings.threeWTableCountry,
                 (item) => item.project_country_detail?.name,
+                (item) => ({
+                    to: 'countryThreeWProjects',
+                    urlParams: { countryId: item.project_country },
+                }),
             ),
             createStringColumn<ProjectListItem, number>(
                 'ns',
                 strings.threeWTableNS,
                 (item) => item.reporting_ns_detail?.society_name,
             ),
-            createStringColumn<ProjectListItem, number>(
+            createLinkColumn<ProjectListItem, number>(
                 'name',
                 strings.threeWTableProjectName,
                 (item) => item.name,
+                (item) => ({
+                    to: 'threeWProjectDetail',
+                    urlParams: { projectId: item.id },
+                }),
             ),
             createStringColumn<ProjectListItem, number>(
                 'sector',
@@ -243,20 +253,28 @@ export function Component(props: Props) {
                         : item.reporting_ns_details?.society_name
                 ),
             ),
-            createStringColumn<ActivityListItem, number>(
+            createLinkColumn<ActivityListItem, number>(
                 'title',
                 strings.threeWEmergencyTitle,
                 (item) => item.title,
+                (item) => ({
+                    to: 'threeWActivityDetail',
+                    urlParams: { activityId: item.id },
+                }),
             ),
             createDateColumn<ActivityListItem, number>(
                 'start_date',
                 strings.threeWEmergencyStartDate,
                 (item) => item.start_date,
             ),
-            createStringColumn<ActivityListItem, number>(
+            createLinkColumn<ActivityListItem, number>(
                 'country',
                 strings.threeWEmergencyCountryName,
                 (item) => item.country_details?.name,
+                (item) => ({
+                    to: 'countriesLayout',
+                    urlParams: { countryId: item.id },
+                }),
             ),
             createListDisplayColumn<
                 ActivityListItem,
@@ -305,6 +323,15 @@ export function Component(props: Props) {
             <Container
                 heading={strings.threeWProjects}
                 withHeaderBorder
+                actions={(
+                    <Link
+                        to="allThreeWProject"
+                        withUnderline
+                        withLinkIcon
+                    >
+                        {strings.threeWViewAllProjectLabel}
+                    </Link>
+                )}
                 footerActions={(
                     <Pager
                         activePage={projectActivePage}
@@ -325,6 +352,15 @@ export function Component(props: Props) {
             </Container>
             <Container
                 heading={strings.threeWActivities}
+                actions={(
+                    <Link
+                        to="allThreeWActivity"
+                        withLinkIcon
+                        withUnderline
+                    >
+                        {strings.threeWViewAllActivityLabel}
+                    </Link>
+                )}
                 withHeaderBorder
                 footerActions={(
                     <Pager
@@ -348,4 +384,4 @@ export function Component(props: Props) {
     );
 }
 
-Component.displayName = 'AccountThreeWFroms';
+Component.displayName = 'AccountThreeWForms';

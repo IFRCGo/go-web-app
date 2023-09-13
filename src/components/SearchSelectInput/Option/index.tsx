@@ -4,14 +4,14 @@ import { _cs } from '@togglecorp/fujs';
 
 import styles from './styles.module.css';
 
-interface OptionProps {
+export interface Props {
     className?: string;
     children: ReactNode;
     iconClassName?: string;
     labelClassName?: string;
 }
 
-function Option(props: OptionProps) {
+function Option(props: Props) {
     const {
         className,
         children,

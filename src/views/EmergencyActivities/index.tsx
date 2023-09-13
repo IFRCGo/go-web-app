@@ -302,11 +302,12 @@ export function Component() {
                                 className={styles.keyFigure}
                                 value={peopleReached}
                                 description={strings.peopleInNeedReached}
-                            >
-                                <InfoPopup
-                                    description={strings.peopleReachedTooltip}
-                                />
-                            </KeyFigure>
+                                info={(
+                                    <InfoPopup
+                                        description={strings.peopleReachedTooltip}
+                                    />
+                                )}
+                            />
                         </div>
                         <div className={styles.keyFigureCard}>
                             <KeyFigure
