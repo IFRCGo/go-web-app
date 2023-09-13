@@ -258,7 +258,7 @@ export function Component() {
                     {(projectResponse?.annual_splits?.length ?? 0) > 0 ? (
                         <List
                             data={projectResponse?.annual_splits}
-                            className={styles.yearDetail}
+                            className={styles.yearlyDisaggregatedPeopleList}
                             renderer={DisaggregatedPeopleOutput}
                             rendererParams={annualSplitListRendererParams}
                             keySelector={annualSplitKeySelector}
