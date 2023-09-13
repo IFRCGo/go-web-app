@@ -5,6 +5,8 @@ import {
     type PurgeNull,
     ObjectSchema,
     emailCondition,
+    requiredStringCondition,
+    undefinedValue,
 } from '@togglecorp/toggle-form';
 
 import { type DeepReplace, type DeepRemoveKeyPattern } from '#utils/common';
@@ -21,8 +23,8 @@ type ActionRaw = NonNullable<NonNullable<FlashUpdateBody['actions_taken']>>[numb
 
 type CountryDistrictType = CountryDistrictRaw & { client_id: string };
 type ReferenceType = Omit<ReferenceRaw, 'client_id'> & { client_id: string };
-type MapType = MapRaw & { client_id: string };
-type GraphicType = GraphicRaw & { client_id: string };
+type MapType = Omit<MapRaw, 'file'> & { client_id: string, id: number };
+type GraphicType = Omit<GraphicRaw, 'file'> & { client_id: string, id: number };
 type ActionType = ActionRaw & { client_id: string };
 
 type FlashUpdateFormFields = (
@@ -90,6 +92,7 @@ export type ActionsSchemaMember = ReturnType<ActionsSchema['member']>;
 const finalSchema: FormSchema = {
     fields: (): FormSchemaFields => {
         const schema: FormSchemaFields = {
+            // CONTEXT
             country_district: {
                 keySelector: (country) => country.client_id,
                 member: (): CountryDistrictsSchemaMember => ({
@@ -97,8 +100,6 @@ const finalSchema: FormSchema = {
                         client_id: {},
                         country: {
                             required: true,
-                            // NOTE: Validation yet to be written
-                            // validations: [blacklistCondition(countryIds ?? [])],
                         },
                         district: { defaultValue: [] },
                     }),
@@ -123,13 +124,19 @@ const finalSchema: FormSchema = {
                 },
             },
             hazard_type: { required: true },
-            title: { required: true },
-            situational_overview: { required: true },
+            title: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            situational_overview: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             graphics_files: {
                 keySelector: (graphic) => graphic.client_id,
                 member: (): GraphicsSchemaMember => ({
                     fields: (): GraphicSchemaFields => ({
-                        // id: { defaultValue: undefinedValue },
+                        id: { defaultValue: undefinedValue },
                         client_id: {},
                         caption: {},
                     }),
@@ -145,7 +152,7 @@ const finalSchema: FormSchema = {
                 keySelector: (mapFile) => mapFile.client_id,
                 member: (): MapsSchemaMember => ({
                     fields: (): MapSchemaFields => ({
-                        // id: { defaultValue: undefinedValue },
+                        id: { defaultValue: undefinedValue },
                         client_id: {},
                         caption: {},
                     }),
@@ -161,10 +168,12 @@ const finalSchema: FormSchema = {
                 keySelector: (reference) => reference.client_id,
                 member: (): ReferencesSchemaMember => ({
                     fields: (): ReferenceSchemaFields => ({
-                        // id: { defaultValue: undefinedValue },
                         client_id: {},
                         date: { required: true },
-                        source_description: { required: true },
+                        source_description: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                         url: {},
                         document: {},
                     }),
@@ -178,19 +187,22 @@ const finalSchema: FormSchema = {
                     fields: (): ActionSchemaFields => ({
                         // id: { defaultValue: undefinedValue },
                         client_id: {},
-                        organization: {},
-                        actions: {},
+                        organization: { required: true },
+                        actions: { defaultValue: [] },
                         summary: {},
                     }),
                 }),
             },
 
             // FOCAL POINTS
-            originator_name: { required: true },
+            originator_name: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
             originator_email: { required: true, validations: [emailCondition] },
             originator_phone: {},
             originator_title: {},
-            ifrc_email: {},
+            ifrc_email: { validations: [emailCondition] },
             ifrc_name: {},
             ifrc_phone: {},
             ifrc_title: {},
