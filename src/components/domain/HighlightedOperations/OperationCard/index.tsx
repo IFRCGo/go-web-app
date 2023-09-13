@@ -54,7 +54,7 @@ function OperationCard(props: Props) {
     } = props;
 
     const { invalidate } = useContext(DomainContext);
-    const isAuthenticated = useAuth();
+    const { isAuthenticated } = useAuth();
 
     const {
         pending: addSubscriptionPending,

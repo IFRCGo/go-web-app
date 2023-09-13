@@ -249,7 +249,6 @@ function Link(props: Props) {
     return (
         <div
             className={_cs(
-                className,
                 styles.link,
                 // eslint-disable-next-line react/destructuring-assignment
                 isNotDefined(props.to) && styles.nonLink,
@@ -257,6 +256,8 @@ function Link(props: Props) {
                 disabled && styles.disabled,
                 variant === 'dropdown-item' && styles.dropdownItem,
                 variant === 'tertiary' && styles.tertiary,
+                ellipsize && styles.ellipsized,
+                className,
             )}
         >
             {children}
