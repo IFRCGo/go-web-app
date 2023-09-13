@@ -14,19 +14,19 @@ export function Component() {
             title: strings.communityEngagementCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXAstfnsq_pCm5CuEyvJvysBVi-gibREICY9z0SUdu2dTQ',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.communityEngagementAccountabilityOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Eb48pk6Vcg1HgFH8ozFenTsB-xZemh857EM83RmEEshYUw',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.communityEngagementOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EVvAq-WQHhBAn9sQ7cdrBQgB3lsiYM49ACcIStzrBO1KUA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -35,7 +35,7 @@ export function Component() {
             title: strings.technicalFrameworkCEA,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ee1IPzmxf_1BoQProDcc86oBacCbOpO2uycPa0Y5qoRElA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -44,7 +44,7 @@ export function Component() {
             title: strings.ifrcCEA,
             to: 'https://www.ifrc.org/CEA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -53,7 +53,7 @@ export function Component() {
             title: strings.ceaHubData,
             to: 'https://www.communityengagementhub.org/',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -61,7 +61,7 @@ export function Component() {
         {
             title: strings.ceaTitle,
             to: 'surgeCatalogueCommunityEngagementRapidResponse',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 

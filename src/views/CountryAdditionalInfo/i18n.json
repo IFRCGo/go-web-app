@@ -1,5 +1,5 @@
 {
-    "namespace": "countryAdditionalData",
+    "namespace": "countryAdditionalInfo",
     "strings": {
         "contactTitle": "Contacts",
         "columnName": "Name",

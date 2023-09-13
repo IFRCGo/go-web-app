@@ -17,7 +17,7 @@ function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, disa
             const contentRect = entry?.contentRect;
 
             if (contentRect) {
-                // TODO: throttle
+                // TODO: throttle callback
                 setSize({
                     width: contentRect.width,
                     height: contentRect.height,
@@ -25,14 +25,13 @@ function useSizeTracking(ref: React.RefObject<HTMLElement | SVGSVGElement>, disa
             }
         });
 
-        // FIXME: need to only unobserve when we observe
         const el = ref.current;
         if (!disabled && isDefined(el)) {
             resizeObserver.observe(el);
         }
 
         return () => {
-            if (el) {
+            if (!disabled && isDefined(el)) {
                 resizeObserver.unobserve(el);
             }
         };

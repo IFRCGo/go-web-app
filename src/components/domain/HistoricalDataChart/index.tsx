@@ -47,8 +47,7 @@ type DisasterType = Omit<PartialDisasterType, 'name'> & {
 }
 
 // FIXME: how can we guarantee that these disaster type ids do not change
-// TODO: Add a flag in database to mark these
-// disaster as risk hazards
+// TODO: Add a flag in database to mark these disaster as risk hazards
 const DISASTER_FLOOD = 12;
 const DISASTER_FLASH_FLOOD = 27;
 const DISASTER_CYCLONE = 4;
@@ -80,16 +79,10 @@ function isValidDisaster(
     if (isNotDefined(disaster)) {
         return false;
     }
-
     if (isFalsyString(disaster.name)) {
         return false;
     }
-
-    // FIXME: this looks like an anti-pattern
-    if (!validDisastersForChart[disaster.id]) {
-        return false;
-    }
-    return true;
+    return validDisastersForChart[disaster.id];
 }
 
 const hazardIdToColorMap: Record<number, string> = {
@@ -130,8 +123,7 @@ function chartPointSelector(chartPoint: ChartPoint) {
     return chartPoint;
 }
 
-// FIXME: rename this formatDate
-function formatDate(date: Date) {
+function localeFormatDate(date: Date) {
     return date.toLocaleString(
         navigator.language,
         { month: 'short' },
@@ -316,7 +308,7 @@ function HistoricalDataChart(props: Props) {
                     return {
                         x: xScale(key),
                         y: chartBounds.height - X_AXIS_HEIGHT + CHART_OFFSET,
-                        label: formatDate(date),
+                        label: localeFormatDate(date),
                     };
                 },
             );

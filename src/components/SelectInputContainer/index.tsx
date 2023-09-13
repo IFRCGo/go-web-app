@@ -153,8 +153,7 @@ function SelectInputContainer<
 
     const handleShowDropdown = useCallback(
         () => {
-            // FIXME: this is not atomic
-            // FIXME: call only once
+            // FIXME: this is not atomic. Call only once
             if (!dropdownShown) {
                 onDropdownShownChange(true);
             }

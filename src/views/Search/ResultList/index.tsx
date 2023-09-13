@@ -11,7 +11,7 @@ type SearchResponse = GoApiResponse<'/api/v1/search/'>;
 type DistrictProvinceResult = NonNullable<SearchResponse['district_province_response']>[number];
 
 type SearchResponseKey = keyof SearchResponse;
-// FIXME: add a note why we are using extract here
+// NOTE: We are extracting these enum keys because others are handled by ResultTable
 type ResultKey = Extract<SearchResponseKey, 'regions' | 'countries' | 'district_province_response'>;
 
 function isDistrictProvinceResult(

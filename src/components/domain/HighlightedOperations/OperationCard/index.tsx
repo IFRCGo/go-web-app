@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { _cs, isDefined } from '@togglecorp/fujs';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
 import { FocusLineIcon } from '@ifrc-go/icons';
 
 import DomainContext from '#contexts/domain';
@@ -23,6 +23,14 @@ import styles from './styles.module.css';
 
 type EventResponse = GoApiResponse<'/api/v2/event/'>;
 type EventListItem = NonNullable<EventResponse['results']>[number];
+
+// FIXME: move this to utils
+function getPercent(value: number | undefined, total: number | undefined) {
+    if (isNotDefined(value) || isNotDefined(total)) {
+        return undefined;
+    }
+    return (value / total) * 100;
+}
 
 interface Props {
     className?: string;
@@ -84,10 +92,7 @@ function OperationCard(props: Props) {
     const amountRequested = sumSafe(appeals.map((appeal) => appeal.amount_requested));
     const amountFunded = sumSafe(appeals.map((appeal) => appeal.amount_funded));
 
-    // FIXME: let's use progress utility
-    const coverage = isDefined(amountRequested)
-        ? ((100 * (amountFunded ?? 0)) / amountRequested)
-        : undefined;
+    const coverage = getPercent(amountFunded, amountRequested);
 
     const fundingCoverageDescription = resolveToComponent(
         strings.operationCardFundingCoverage,

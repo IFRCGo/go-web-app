@@ -27,7 +27,6 @@ type Props<NAME> = SelectInputProps<
     optionsFilter?: (item: DisasterTypeItem) => boolean;
 }
 
-// FIXME: filer out name with undefined name
 function DisasterTypeSelectInput<const NAME>(props: Props<NAME>) {
     const {
         className,

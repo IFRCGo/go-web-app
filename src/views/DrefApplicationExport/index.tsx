@@ -24,13 +24,6 @@ import ifrcLogo from '#assets/icons/ifrc-square.png';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-/*
-TODO:
-- Footer with page number and logo
-- Separate font for headings
-- Translation
-*/
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { drefId } = useParams<{ drefId: string }>();
@@ -686,23 +679,21 @@ export function Component() {
                 )}
                 <BlockTextOutput
                     label={strings.ruralLabel}
-                    // FIXME: this is currently sent as string
-                    value={drefResponse?.people_per_local || undefined}
+                    value={drefResponse?.people_per_local}
                     valueType="number"
                     suffix="%"
                     strongValue
                 />
                 <BlockTextOutput
                     label={strings.urbanLabel}
-                    // FIXME: this is currently sent as string
-                    value={drefResponse?.people_per_urban || undefined}
+                    value={drefResponse?.people_per_urban}
                     suffix="%"
                     valueType="number"
                     strongValue
                 />
                 <BlockTextOutput
                     label={strings.peopleWithDisabilitesLabel}
-                    value={drefResponse?.disability_people_per || undefined}
+                    value={drefResponse?.disability_people_per}
                     labelClassName={styles.disabilityLabel}
                     valueClassName={styles.disabilityValue}
                     suffix="%"

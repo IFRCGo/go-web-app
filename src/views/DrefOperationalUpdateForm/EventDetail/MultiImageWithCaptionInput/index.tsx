@@ -18,7 +18,6 @@ import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';
 
-// FIXME: is this type correct?
 type Value = {
     client_id: string;
     id?: number;
@@ -134,8 +133,6 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                         if (isNotDefined(fileValue.id)) {
                             return null;
                         }
-
-                        // TODO: improve styling
                         return (
                             <div
                                 // FIXME: create a component for preview, implement remove

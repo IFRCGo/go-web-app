@@ -4,6 +4,7 @@ import ExpandableContainer from '#components/ExpandableContainer';
 import TextOutput from '#components/TextOutput';
 import HtmlOutput from '#components/HtmlOutput';
 import useTranslation from '#hooks/useTranslation';
+import Link from '#components/Link';
 
 import { type GoApiResponse, type ListResponseItem } from '#utils/restRequest';
 import i18n from './i18n.json';
@@ -20,8 +21,14 @@ function FieldReportListItem(props: Props) {
 
     return (
         <ExpandableContainer
-            // FIXME: Add link to field report details page
-            heading={data.summary}
+            heading={(
+                <Link
+                    to="fieldReportDetails"
+                    urlParams={{ fieldReportId: data.id }}
+                >
+                    {data.summary}
+                </Link>
+            )}
             headingLevel={4}
             headingDescription={(
                 <TextOutput

@@ -14,25 +14,25 @@ export function Component() {
             title: strings.catalogueShelterProgrammeCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EYHx8KJbzVxIqAwtECnKMFcBNXyLPfKyn73kN1mTPBCKJQ',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.catalogueShelterProgrammeLeader,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EY7PPODOBZtPjywd_TVgFEcBmd3r0IAQj-6FKEz4tO00zA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.catalogueShelterProgrammeTechnical,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EUBrQE-_aatMvfUaBR69XWMBMuR6n3YEFoUgyhbsOayvhQ',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.catalogueClusterCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXP0VQ7Tpn1Er_QH8bOk-IYBdqlK7oVvx470Vi9v-7YNAg',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -41,7 +41,7 @@ export function Component() {
             title: strings.catalogueShelterAndSettlement,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EXP0VQ7Tpn1Er_QH8bOk-IYBdqlK7oVvx470Vi9v-7YNAg',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -49,7 +49,7 @@ export function Component() {
         {
             title: strings.catalogueServiceShelterLink,
             to: 'surgeCatalogueShelterCoordinatorTeam',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -57,7 +57,7 @@ export function Component() {
         {
             title: strings.catalogueShelterProgrammingLink,
             to: 'surgeCatalogueShelterTechnicalTeam',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 

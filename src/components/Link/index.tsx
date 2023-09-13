@@ -96,9 +96,7 @@ export type Props<OMISSION extends string = never> = Omit<RouterLinkProps, 'to' 
     linkElementClassName?: string;
     // to?: RouterLinkProps['to'];
     variant?: ButtonFeatureProps['variant'];
-    // FIXME: Do we need this when we have external?
-    withExternalLinkIcon?: boolean;
-    withForwardIcon?: boolean;
+    withLinkIcon?: boolean;
     withUnderline?: boolean;
     ellipsize?: boolean;
 }, OMISSION> & ({
@@ -126,8 +124,7 @@ function Link(props: Props) {
         iconsContainerClassName,
         linkElementClassName,
         withUnderline,
-        withForwardIcon,
-        withExternalLinkIcon,
+        withLinkIcon,
         variant = 'tertiary',
         ellipsize,
 
@@ -169,13 +166,15 @@ function Link(props: Props) {
         variant,
         ellipsize,
         disabled,
-        actions: (isDefined(actions) || withForwardIcon || withExternalLinkIcon) ? (
+        actions: (isDefined(actions) || withLinkIcon) ? (
             <>
                 {actions}
-                {withExternalLinkIcon && (
+                {withLinkIcon && external && (
                     <ExternalLinkLineIcon className={styles.externalLinkIcon} />
                 )}
-                {withForwardIcon && <ChevronRightLineIcon className={styles.forwardIcon} />}
+                {withLinkIcon && !external && (
+                    <ChevronRightLineIcon className={styles.forwardIcon} />
+                )}
             </>
         ) : null,
         iconsContainerClassName,

@@ -161,7 +161,7 @@ function AppealOperationTable(props: Props) {
                 <Link
                     to="allAppeals"
                     urlSearch={`country=${countryId}`}
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {viewAllOperationsLinkLabel}

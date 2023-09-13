@@ -13,7 +13,7 @@ export function Component() {
         {
             title: strings.basecampEruSmallTitle,
             to: 'surgeCatalogueBasecampEruSmall',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -21,7 +21,7 @@ export function Component() {
         {
             title: strings.basecampEruMediumTitle,
             to: 'surgeCatalogueBasecampEruMedium',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -29,7 +29,7 @@ export function Component() {
         {
             title: strings.basecampEruLargeTitle,
             to: 'surgeCatalogueBasecampEruLarge',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -37,7 +37,7 @@ export function Component() {
         {
             title: strings.learnMore,
             to: 'surgeCatalogueBasecampFacilityManagement',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 

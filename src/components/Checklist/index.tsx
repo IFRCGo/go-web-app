@@ -115,7 +115,7 @@ function CheckList<
             <InputError className={errorContainerClassName}>
                 {error}
             </InputError>
-            {/* FIXME: Do we need to check for error here */}
+            {/* FIXME: Do we need to check for error here? */}
             {isFalsyString(error) && hint && (
                 <InputHint className={hintContainerClassName}>
                     {hint}

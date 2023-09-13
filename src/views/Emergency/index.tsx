@@ -59,12 +59,12 @@ export function Component() {
     );
     const fundingRequirements = sumSafe(
         emergencyResponse?.appeals.map(
-            (appeal) => Number(appeal.amount_requested),
+            (appeal) => appeal.amount_requested,
         ),
     );
     const funding = sumSafe(
         emergencyResponse?.appeals.map(
-            (appeal) => Number(appeal.amount_funded),
+            (appeal) => appeal.amount_funded,
         ),
     );
 

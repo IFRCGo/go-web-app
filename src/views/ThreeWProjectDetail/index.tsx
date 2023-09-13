@@ -26,14 +26,11 @@ type AnnualSplitItem = NonNullable<ProjectItem['annual_splits']>[number];
 
 const annualSplitKeySelector = (item: AnnualSplitItem) => item.id;
 
-// TODO: Improve className and tooltips
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const { projectId } = useParams<{ projectId: string }>();
 
-    // TODO: Show appropriate message if item is not present in server
     const {
         pending: fetchingProject,
         response: projectResponse,

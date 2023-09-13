@@ -31,7 +31,7 @@ export function Component() {
                                 <Link
                                     to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EViKjU_w21dBpQtGEr9CtgQBvljB_2I52J51BhljrUg8Ow"
                                     external
-                                    withExternalLinkIcon
+                                    withLinkIcon
                                 >
                                     {strings.civilLink}
                                 </Link>

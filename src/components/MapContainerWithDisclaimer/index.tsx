@@ -25,7 +25,7 @@ function MapContainerWithDisclaimer(props: Props) {
                 <Link
                     to="https://cod.unocha.org/"
                     external
-                    withExternalLinkIcon
+                    withLinkIcon
                 >
                     {strings.mapSourceUNCODsLabel}
                 </Link>
@@ -57,7 +57,7 @@ function MapContainerWithDisclaimer(props: Props) {
                                 title="Mapbox"
                                 aria-label="Mapbox"
                                 role="listitem"
-                                withExternalLinkIcon
+                                withLinkIcon
                             >
                                 {strings.copyrightMapbox}
                             </Link>
@@ -67,7 +67,7 @@ function MapContainerWithDisclaimer(props: Props) {
                                 title="OpenStreetMap"
                                 aria-label="OpenStreetMap"
                                 role="listitem"
-                                withExternalLinkIcon
+                                withLinkIcon
                             >
                                 {strings.copyrightOSM}
                             </Link>
@@ -78,7 +78,7 @@ function MapContainerWithDisclaimer(props: Props) {
                                 title="Map feedback"
                                 aria-label={strings.feedbackAriaLabel}
                                 role="listitem"
-                                withExternalLinkIcon
+                                withLinkIcon
                             >
                                 {strings.improveMapLabel}
                             </Link>

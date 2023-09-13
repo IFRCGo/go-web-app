@@ -8,7 +8,7 @@
 
     .icon {
         display: flex;
-        font-size: var(--go-ui-font-size-icon-multiplier);
+        font-size: var(--go-ui-height-icon-multiplier);
     }
 
     &:hover {

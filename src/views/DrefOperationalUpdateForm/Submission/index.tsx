@@ -20,21 +20,20 @@ import { type PartialOpsUpdate } from '../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-// FIXME: update these variable names
 function calculateEndDate(
-    dateOfApproval: string | undefined,
-    operationTimeframe: number | undefined,
+    startDate: string | undefined,
+    duration: number | undefined,
 ) {
-    if (isNotDefined(dateOfApproval) || isNotDefined(operationTimeframe)) {
+    if (isNotDefined(startDate) || isNotDefined(duration)) {
         return undefined;
     }
-    const approvalDate = new Date(dateOfApproval);
+    const approvalDate = new Date(startDate);
     if (Number.isNaN(approvalDate)) {
         return undefined;
     }
     // FIXME: use a separate utility
     approvalDate.setMonth(
-        approvalDate.getMonth() + operationTimeframe + 1,
+        approvalDate.getMonth() + duration + 1,
     );
     approvalDate.setDate(0);
     approvalDate.setHours(0, 0, 0, 0);

@@ -60,11 +60,6 @@ function CopyFieldReportSection(props: Props) {
             id: Number(value.field_report),
         },
         onSuccess: (fr) => {
-            // FIXME: Do we need to check this?
-            if (isNotDefined(fr)) {
-                return;
-            }
-
             setFieldReportOptions(
                 (oldOptions) => unique(
                     [...(oldOptions ?? []), fr],
@@ -83,15 +78,6 @@ function CopyFieldReportSection(props: Props) {
             ? { id: fieldReport }
             : undefined,
         onSuccess: (rawFieldReportResponse) => {
-            // FIXME: do we need to check if the response is not defined?
-            if (isNotDefined(rawFieldReportResponse)) {
-                alert.show(
-                    strings.drefFormCopyFRFailureMessage,
-                    { variant: 'danger' },
-                );
-                return;
-            }
-
             const fieldReportResponse = removeNull(rawFieldReportResponse);
 
             // const frDate = fieldReportResponse.created_at?.split('T')[0];

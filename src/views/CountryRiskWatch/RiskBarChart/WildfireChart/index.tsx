@@ -33,8 +33,7 @@ const chartMargin = {
     bottom: X_AXIS_HEIGHT + CHART_OFFSET,
 };
 
-// FIXME: rename this formatDate
-const formatDate = (date: Date) => date.toLocaleString(
+const localeFormatDate = (date: Date) => date.toLocaleString(
     navigator.language,
     { month: 'short' },
 );
@@ -165,7 +164,7 @@ function WildfireChart(props: Props) {
                 (dataItem) => ({
                     x: xScale(dataItem.month),
                     y: chartBounds.height - X_AXIS_HEIGHT,
-                    label: formatDate(dataItem.date),
+                    label: localeFormatDate(dataItem.date),
                 }),
             );
 

@@ -41,6 +41,7 @@ export const CATEGORY_RISK_MEDIUM = 3;
 export const CATEGORY_RISK_HIGH = 4;
 export const CATEGORY_RISK_VERY_HIGH = 5;
 
+// FIXME: should these constants satisfy an existing enum?
 export const FORECAST_SEVERITY_UNKNOWN = 0;
 export const FORECAST_SEVERITY_INFO = 1;
 export const FORECAST_SEVERITY_WARNING = 2;

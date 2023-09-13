@@ -261,10 +261,6 @@ export function Component() {
             },
             debugMessage,
         }) => {
-            // FIXME:
-            // getKey for
-            // 1. contacts
-            // 2. actions_taken
             onErrorSet(transformObjectError(
                 formErrors,
                 (locations) => {

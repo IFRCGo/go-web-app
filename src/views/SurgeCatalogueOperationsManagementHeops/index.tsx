@@ -80,7 +80,7 @@ export function Component() {
                                     <Link
                                         to="https://fednet.ifrc.org/en/resources/disasters/disaster-and-crisis-mangement/disaster-response/surge-capacity/heops/"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.surgeOperationsFedNet}
                                     </Link>
@@ -96,7 +96,7 @@ export function Component() {
                                     <Link
                                         to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EcMxBMin_YBLnyvZX9fqapwBo1W4KIVqvDfVH98Y2gy_2A"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.surgeOperationsShort}
                                     </Link>

@@ -4,7 +4,7 @@
 
     .icon {
         transition: var(--go-ui-duration-transition-medium) color ease-in-out;
-        font-size: var(--go-ui-font-size-icon-multiplier);
+        font-size: var(--go-ui-height-icon-multiplier);
     }
 
     .content {

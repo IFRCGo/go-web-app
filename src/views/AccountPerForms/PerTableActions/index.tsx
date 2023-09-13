@@ -109,7 +109,6 @@ function PerTableActions(props: Props) {
                 </>
             )}
         >
-            {/* FIXME: fix typing in server (low priority) */}
             {isDefined(phase) && phase <= PER_PHASE_WORKPLAN && (
                 <Link
                     to={getRouteUrl(phase)}

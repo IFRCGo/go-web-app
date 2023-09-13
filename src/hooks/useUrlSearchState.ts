@@ -60,7 +60,6 @@ function useUrlSearchState<VALUE>(
                         if (typeof newValue === 'number') {
                             serializedValue = String(newValue);
                         } else if (typeof newValue === 'boolean') {
-                            // TODO: verify this
                             serializedValue = newValue ? 'true' : 'false';
                         } else if (newValue instanceof Date) {
                             serializedValue = encodeDate(newValue);

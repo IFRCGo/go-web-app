@@ -16,8 +16,9 @@ import PointDetails from '../PointDetails';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const APPEAL_TYPE_EMERGENCY = 1;
+// FIXME: these must be a constant defined somewhere else
 const APPEAL_TYPE_DREF = 0;
+const APPEAL_TYPE_EMERGENCY = 1;
 
 type DATA_KEY = 'dref' | 'emergencyAppeal';
 

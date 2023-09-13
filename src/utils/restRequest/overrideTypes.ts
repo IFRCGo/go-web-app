@@ -129,7 +129,6 @@ type PatchResponse<SCHEMA, PATH extends keyof SCHEMA> = (
 
 // Options
 
-// FIXME: is this common between lazy and non-lazy?
 type CommonOptions<METHOD, PARAMETERS, RESPONSES, CONTEXT> = {
     pathVariables?: ResolvePath<PARAMETERS>
         | ((context: CONTEXT) => ResolvePath<PARAMETERS> | undefined),
@@ -137,12 +136,14 @@ type CommonOptions<METHOD, PARAMETERS, RESPONSES, CONTEXT> = {
     // query?: ResolveQuery<PARAMETERS>,
     mockResponse?: ResolveResponseContent<RESPONSES, METHOD>,
     shouldRetry?: (
-        val: ResolveResponseContent<RESPONSES, METHOD>,
+        // eslint-disable-next-line max-len
+        val: { errored: true, value: TransformedError } | { errored: false, value: ResolveResponseContent<RESPONSES, METHOD> },
         run: number,
         context: CONTEXT,
     ) => number;
     shouldPoll?: (
-        val: ResolveResponseContent<RESPONSES, METHOD> | undefined,
+        // eslint-disable-next-line max-len
+        val: { errored: true, value: TransformedError } | { errored: false, value: ResolveResponseContent<RESPONSES, METHOD> },
         context: CONTEXT
     ) => number;
     onSuccess?: (val: ResolveResponseContent<RESPONSES, METHOD>, context: CONTEXT) => void;

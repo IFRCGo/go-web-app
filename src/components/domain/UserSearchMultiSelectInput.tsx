@@ -24,7 +24,6 @@ type UserMultiSelectInputProps<NAME> = SearchMultiSelectInputProps<
     | 'selectedOnTop'
 >;
 
-// FIXME: better state handling, better popup messages
 function UserSearchMultiSelectInput<const NAME>(
     props: UserMultiSelectInputProps<NAME>,
 ) {

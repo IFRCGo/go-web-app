@@ -13,7 +13,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherCivilMilitaryRelations',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -21,7 +21,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherDisasterRiskReduction',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -29,7 +29,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherHumanResources',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -37,7 +37,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherInternationalDisasterResponseLaw',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -45,7 +45,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherMigration',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -53,7 +53,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherNationalSocietyDevelopment',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -61,7 +61,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherPartnershipResourceDevelopment',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -69,7 +69,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherPreparednessEffectiveResponse',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -77,7 +77,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherRecovery',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -85,7 +85,7 @@ export function Component() {
         {
             title: strings.otherLearnMore,
             to: 'surgeCatalogueOtherGreenResponse',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 

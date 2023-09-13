@@ -385,7 +385,7 @@ export function Component() {
                         <Link
                             to="allThreeWProject"
                             urlSearch={`country=${countryResponse?.id}`}
-                            withForwardIcon
+                            withLinkIcon
                         >
                             {strings.viewAllProjects}
                         </Link>

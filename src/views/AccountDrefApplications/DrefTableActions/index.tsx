@@ -160,7 +160,6 @@ function DrefTableActions(props: Props) {
 
     return (
         <TableActions
-            // TODO: Implement actions
             extraActions={(
                 <>
                     {canApprove && (

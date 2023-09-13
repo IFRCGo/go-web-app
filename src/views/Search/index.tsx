@@ -36,12 +36,10 @@ import ResultList from './ResultList';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-// TODO missing query params
 type SearchResponse = GoApiResponse<'/api/v1/search/'>;
 
 const MAX_VIEW_PER_SECTION = 5;
-// FIXME: Why do we need to add NonNullable on keyof
-type SearchResponseKeys = NonNullable<keyof SearchResponse>;
+type SearchResponseKeys = keyof SearchResponse;
 
 function isListTypeResult(
     resultKey: SearchResponseKeys,
@@ -67,8 +65,8 @@ const feedbackLink = 'https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    // FIXME: we can use useUrlSearchState instead of useState
     const [activeView, setActiveView] = useState<SearchResponseKeys | undefined>();
+
     const [urlSearchValue, setUrlSearchValue] = useUrlSearchState<string | undefined>(
         KEY_URL_SEARCH,
         (searchString) => searchString ?? undefined,

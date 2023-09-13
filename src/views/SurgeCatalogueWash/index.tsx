@@ -14,25 +14,25 @@ export function Component() {
             title: strings.washCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ea1oxcI_tcdGqisMk7IDnawBRBn5eDX9kKbW8ciNO6AgHw',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.washOfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EftnI72a0LtPqfT6ukpqEv8Bqi8DN83FTw9oFXhYIkC1EA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.washOfficerPromotion,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EaOPwYRaFehOmcfw5Tnaq5MBppJ1wZ7VwkxeRjN-G0-DKA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.washOfficerSanitation,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EWM7iFH2papCtEWNJZtHZaQB44rAuE8d6l3M8G4_BmCGiw',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -41,7 +41,7 @@ export function Component() {
             title: strings.technicalWash,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Efan8Jv59RBLsNVfYvdCQTUBiG3ddAPkJkwxQq1PYyrlXw',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -49,7 +49,7 @@ export function Component() {
         {
             title: strings.technicalEquipmentOneLink,
             to: 'surgeCatalogueWashKit2',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -57,7 +57,7 @@ export function Component() {
         {
             title: strings.technicalEquipmentFive,
             to: 'surgeCatalogueWashKit5',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -65,7 +65,7 @@ export function Component() {
         {
             title: strings.technicalEquipmentM15Link,
             to: 'surgeCatalogueWashKitM15Eru',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -73,7 +73,7 @@ export function Component() {
         {
             title: strings.technicalEquipmentM20Link,
             to: 'surgeCatalogueWashKitMsm20Eru',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -81,7 +81,7 @@ export function Component() {
         {
             title: strings.technicalEquipmentM40Link,
             to: 'surgeCatalogueWashKitM40Eru',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -89,7 +89,7 @@ export function Component() {
         {
             title: strings.technicalEquipmentWaterSupplyLink,
             to: 'surgeCatalogueWashWaterSupplyRehabilitation',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -97,7 +97,7 @@ export function Component() {
         {
             title: strings.technicalEquipmentWaterTreatmentLink,
             to: 'surgeCatalogueWashHwts',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -106,7 +106,7 @@ export function Component() {
             title: strings.learnMore,
             to: 'https://watsanmissionassistant.org/',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 

@@ -238,7 +238,7 @@ function EmergenciesMap(props: Props) {
                 <Link
                     to="allEmergencies"
                     withUnderline
-                    withForwardIcon
+                    withLinkIcon
                 >
                     {strings.emergenciesMapViewAll}
                 </Link>

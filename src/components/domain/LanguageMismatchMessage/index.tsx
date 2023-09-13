@@ -10,7 +10,7 @@ interface Props {
     title?: React.ReactNode;
 
     // FIXME: typings should be fixed in the server
-    // FIXME: this should be of type Language
+    // this should be of type Language
     originalLanguage: string;
 }
 

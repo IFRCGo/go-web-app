@@ -2,17 +2,17 @@ import { useMemo, useState } from 'react';
 
 import Message from '#components/Message';
 import Modal from '#components/Modal';
-import { GoApiResponse, useRequest } from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import { type components } from '#generated/types';
 import Link from '#components/Link';
 
 type ExportTypeEnum = components<'read'>['schemas']['ExportTypeEnum'];
+type ExportStatusEnum = components<'read'>['schemas']['Status1d2Enum'];
 
-// FIXME: use typescript satisfies here
-const EXPORT_STATUS_PENDING = 0;
-const EXPORT_STATUS_COMPLETED = 1;
-const EXPORT_STATUS_ERRORED = 2;
+const EXPORT_STATUS_PENDING = 0 satisfies ExportStatusEnum;
+const EXPORT_STATUS_COMPLETED = 1 satisfies ExportStatusEnum;
+const EXPORT_STATUS_ERRORED = 2 satisfies ExportStatusEnum;
 
 interface Props {
     id: number;
@@ -73,13 +73,7 @@ function DrefExportModal(props: Props) {
         url: '/api/v2/pdf-export/{id}/',
         pathVariables: isDefined(exportId) ? ({ id: exportId }) : undefined,
         shouldPoll: (poll) => {
-            // FIXME: typings should be fixed in lib
-            const pollSafe = poll as {
-                errored: boolean;
-                value: GoApiResponse<'/api/v2/pdf-export/{id}/'>;
-            } | undefined;
-
-            if (pollSafe?.errored || pollSafe?.value?.status !== EXPORT_STATUS_PENDING) {
+            if (poll?.errored || poll?.value?.status !== EXPORT_STATUS_PENDING) {
                 return -1;
             }
 

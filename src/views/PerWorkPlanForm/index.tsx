@@ -157,11 +157,6 @@ export function Component() {
         method: 'PUT',
         body: (ctx: WorkPlanBody) => ctx,
         onSuccess: (response) => {
-            if (isNotDefined(response)) {
-                // TODO: show proper error message
-                return;
-            }
-
             refetchStatusResponse();
 
             alert.show(

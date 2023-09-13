@@ -451,7 +451,6 @@ function Operation(props: Props) {
                         value={value?.budget_file}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        // FIXME: make this change to other forms as well
                         error={value?.budget_file}
                         disabled={disabled}
                     >

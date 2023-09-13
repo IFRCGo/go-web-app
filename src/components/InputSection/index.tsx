@@ -19,7 +19,6 @@ export interface Props {
     numPreferredColumns?: NumColumn;
 }
 
-// FIXME: simplify props, responsive styling
 function InputSection(props: Props) {
     const {
         className,

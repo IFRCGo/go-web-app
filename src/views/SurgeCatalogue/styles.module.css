@@ -13,7 +13,7 @@
 
         .icon {
             flex-shrink: 0;
-            font-size: var(--go-ui-font-size-icon-multiplier);
+            font-size: var(--go-ui-height-icon-multiplier);
         }
     }
 

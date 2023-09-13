@@ -24,12 +24,6 @@ import ifrcLogo from '#assets/icons/ifrc-square.png';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-/*
-TODO:
-- Footer with page number and logo
-- Separate font for headings
-*/
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const { finalReportId } = useParams<{ finalReportId: string }>();

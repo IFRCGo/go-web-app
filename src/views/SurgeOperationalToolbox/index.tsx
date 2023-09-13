@@ -556,7 +556,7 @@ export function Component() {
             ),
             information: (
                 <Link
-                    to="preparednessLayout"
+                    to="preparednessGlobalSummary"
                 >
                     {strings.information}
                 </Link>

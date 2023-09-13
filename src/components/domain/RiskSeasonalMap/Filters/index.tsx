@@ -23,7 +23,6 @@ import { getMonthList } from '#utils/common';
 
 import styles from './styles.module.css';
 
-// FIXME: use selectors
 function countryKeySelector(country: { iso3: string }) {
     return country.iso3;
 }

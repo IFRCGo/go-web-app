@@ -47,9 +47,8 @@ export const hazardTypeToColorMap: Record<HazardType, string> = {
     WF: COLOR_HAZARD_WILDFIRE,
 };
 
-// FIXME: fix typings in server (medium priority)
 export function getDataWithTruthyHazardType<
-    HAZARD_TYPE extends HazardType | '',
+    HAZARD_TYPE extends HazardType,
     DATA extends { hazard_type?: HAZARD_TYPE | undefined | null }
 >(data: DATA) {
     if (isFalsyString(data.hazard_type)) {
@@ -347,7 +346,6 @@ export function isValidFeatureCollection(
     }
 
     // TODO: validate each feature?
-
     return true;
 }
 

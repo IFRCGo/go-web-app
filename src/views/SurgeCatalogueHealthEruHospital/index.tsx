@@ -209,7 +209,7 @@ export function Component() {
                                     <Link
                                         to="https://rodekors.service-now.com/drm?id=hb_catalog&handbook=e3cabf24db361810d40e16f35b9619c7"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.additionalResourcesListItemOneLink}
                                     </Link>
@@ -225,7 +225,7 @@ export function Component() {
                                     <Link
                                         to="https://www.youtube.com/watch?v=TIW6nf-MPb0"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.additionalResourcesListItemTwoLink}
                                     </Link>

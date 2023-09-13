@@ -35,8 +35,6 @@ function useSanitizedHtml(rawHtml: string | null | undefined) {
                     // 'area', 'map', 'label', 'meter', // can be switched on when need occurs
                     // forbid: 'input', 'textarea', 'button',
                 ],
-                // TODO: create comprehensive list of the attributes used
-                // to improve security
                 allowedAttributes: {
                     p: ['style'],
                     span: ['style'],

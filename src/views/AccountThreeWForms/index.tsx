@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import useTranslation from '#hooks/useTranslation';
@@ -16,6 +16,7 @@ import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
 import { numericIdSelector } from '#utils/selectors';
+import UserContext from '#contexts/user';
 
 import ThreeWTableActions, {
     type Props as ThreeWTableActionsProps,
@@ -114,6 +115,7 @@ interface Props {
 export function Component(props: Props) {
     const { className } = props;
     const strings = useTranslation(i18n);
+    const { userAuth: userDetails } = useContext(UserContext);
     const {
         page: projectActivePage,
         setPage: setProjectActivePage,
@@ -147,7 +149,7 @@ export function Component(props: Props) {
         query: {
             limit: projectLimit,
             offset: projectOffset,
-            // TODO: filter by user (logged in user)
+            user: userDetails?.id,
         },
     });
 
@@ -160,7 +162,7 @@ export function Component(props: Props) {
         query: {
             limit: activityLimit,
             offset: activityOffset,
-            // TODO: filter by user (logged in user)
+            user: userDetails?.id,
         },
     });
 

@@ -34,7 +34,7 @@ export function Component() {
                                     to="https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/Ed9M59SwliBMvgVU3I7XilwBG7EYMGvXuvResKhy9ut5TA"
                                     external
                                     withUnderline
-                                    withExternalLinkIcon
+                                    withLinkIcon
                                 >
                                     {strings.surgeITEmergencyServicesDetailTextTwoLink}
                                 </Link>

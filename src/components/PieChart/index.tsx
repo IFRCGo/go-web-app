@@ -10,8 +10,8 @@ const DEFAULT_PIE_RADIUS = 70;
 const DEFAULT_CHART_PADDING = 40;
 
 // FIXME: Let's move this to utils
-function round(n: number) {
-    return Math.round(n * 10) / 10;
+function round(n: number, precision = 1) {
+    return Math.round(n * (10 ** precision)) / (10 ** precision);
 }
 
 // FIXME: Let's move this to utils

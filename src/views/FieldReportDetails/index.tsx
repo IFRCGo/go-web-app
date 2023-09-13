@@ -137,7 +137,6 @@ export function Component() {
     const regions = fieldReportResponse?.regions_details;
     const reportDate = fieldReportResponse?.report_date;
 
-    // FIXME use common function for display name
     const user = getUserName(fieldReportResponse?.user_details);
 
     const lastTouchedAt = fieldReportResponse?.updated_at ?? fieldReportResponse?.created_at;
@@ -361,7 +360,6 @@ export function Component() {
                             </>
                         )}
                     >
-                        {/* FIXME: Confirm the fields for these numeric details */}
                         {reportType === 'COVID' && (
                             <CovidNumericDetails
                                 value={fieldReportResponse}
@@ -383,7 +381,7 @@ export function Component() {
                             />
                         )}
                     </Container>
-                    {/* FIXME: there was no condition in old details */}
+                    {/* NOTE: there was no condition in old details */}
                     {(reportType === 'EPI' || reportType === 'COVID') && isTruthyString(epiNotesSinceLastFr) && (
                         <Container
                             heading={strings.notesLabel}
@@ -610,7 +608,6 @@ export function Component() {
                                         {contact.ctype}
                                     </div>
                                     <div className={styles.information}>
-                                        {/* FIXME: We can skip joinList */}
                                         {joinList([
                                             isTruthyString(contact.name)
                                                 ? contact.name

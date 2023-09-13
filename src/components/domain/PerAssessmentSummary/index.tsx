@@ -210,7 +210,9 @@ function PerAssessmentSummary(props: Props) {
                         statusGroupedComponent.components.length
                     )
                 }
+                // FIXME: don't use inline selectors
                 colorSelector={(_, i) => colors[i]}
+                // FIXME: don't use inline selectors
                 labelSelector={
                     (statusGroupedComponent) => `${statusGroupedComponent.ratingValue}-${statusGroupedComponent.ratingDisplay}`
                 }
@@ -230,6 +232,7 @@ function PerAssessmentSummary(props: Props) {
                                 <div
                                     className={styles.filledBar}
                                     style={{
+                                        // FIXME: Use percent function
                                         height: `${(100 * (rating.rating ?? 0)) / (averageRatingByAreaList.length ?? 1)}%`,
                                     }}
                                 />

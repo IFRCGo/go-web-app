@@ -36,8 +36,7 @@ function CatalogueInfoCard(props: Props) {
                     to: value.to,
                     children: value.title,
                     external: true,
-                    withExternalLinkIcon: value.withExternalLinkIcon,
-                    withForwardIcon: value.withForwardIcon,
+                    withLinkIcon: value.withLinkIcon,
                 };
             }
 
@@ -47,8 +46,7 @@ function CatalogueInfoCard(props: Props) {
                 urlSearch: value.urlSearch,
                 urlHash: value.urlHash,
                 children: value.title,
-                withExternalLinkIcon: value.withExternalLinkIcon,
-                withForwardIcon: value.withForwardIcon,
+                withLinkIcon: value.withLinkIcon,
             };
         },
         [],

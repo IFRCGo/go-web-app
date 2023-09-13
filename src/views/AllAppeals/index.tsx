@@ -204,7 +204,7 @@ export function Component() {
             createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.allAppealsFundedAmount,
-                // FIXME: use progress bar here
+                // FIXME: use progress function
                 (item) => 100 * (Number(item.amount_funded) / Number(item.amount_requested)),
                 {
                     sortable: true,

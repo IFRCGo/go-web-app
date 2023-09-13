@@ -17,8 +17,8 @@ function DateRangeOutput(props: Props) {
         endDate,
     } = props;
 
+    // TODO: Add startDate and endDate validation
     return (
-        // TODO: Add startDate and endDate validation
         <div className={_cs(styles.dateRange, className)}>
             <DateOutput
                 value={startDate}

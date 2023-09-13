@@ -128,7 +128,7 @@ export function Component() {
                                     <Link
                                         to="https://www.ifrc.org/our-work/disasters-climate-and-crises/shelter-and-settlements"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.additionalResourcesGlobal}
                                     </Link>
@@ -140,7 +140,7 @@ export function Component() {
                         <Link
                             to="https://fednet.ifrc.org/en/resources/disasters/shelter/"
                             external
-                            withExternalLinkIcon
+                            withLinkIcon
                         >
                             {strings.additionalResourcesFednet}
                         </Link>
@@ -153,7 +153,7 @@ export function Component() {
                                     <Link
                                         to="https://itemscatalogue.redcross.int/relief--4/shelter-and-construction-materials--23.aspx"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.additionalResourcesHumanitarian}
                                     </Link>
@@ -169,7 +169,7 @@ export function Component() {
                                     <Link
                                         to="https://www.ifrc.org/media/48901"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.additionalResourcesProgramming}
                                     </Link>
@@ -185,7 +185,7 @@ export function Component() {
                                     <Link
                                         to="https://ifrc.csod.com/ui/lms-learning-details/app/course/6bcddb4f-0e33-471c-93fb-281764be8092"
                                         external
-                                        withExternalLinkIcon
+                                        withLinkIcon
                                     >
                                         {strings.additionalResourcesCoordinationLink}
                                     </Link>

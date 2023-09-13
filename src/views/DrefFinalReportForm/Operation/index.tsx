@@ -272,7 +272,7 @@ function Operation(props: Props) {
             </Container>
             <Container
                 heading={strings.drefFormAssistedPopulation}
-                // FIXME: This condition was not present
+                // NOTE: This condition was not present
                 headerDescription={(
                     value?.type_of_dref !== TYPE_ASSESSMENT
                     && warnings?.map((w) => (
@@ -290,7 +290,7 @@ function Operation(props: Props) {
                     title={strings.drefFormTargetedPopulation}
                     numPreferredColumns={2}
                 >
-                    {/* FIXME: This condition was not present */}
+                    {/* NOTE: This condition was not present */}
                     {value?.type_of_dref !== TYPE_ASSESSMENT && (
                         <>
                             <NumberInput

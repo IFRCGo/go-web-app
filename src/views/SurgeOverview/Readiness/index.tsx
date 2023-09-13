@@ -1,15 +1,14 @@
 import {
-    useState,
     useCallback,
 } from 'react';
-import { isNotDefined, isDefined } from '@togglecorp/fujs';
+import { isDefined } from '@togglecorp/fujs';
 
+import useFilterState from '#hooks/useFilterState';
 import Button from '#components/Button';
 import CheckList from '#components/Checklist';
 import Grid from '#components/Grid';
 import Pager from '#components/Pager';
 import Container from '#components/Container';
-import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -33,14 +32,26 @@ const emergencyResponseUnitTypeKeySelector = (item: DeploymentsEruTypeEnum) => i
 const emergencyResponseUnitTypeLabelSelector = (item: DeploymentsEruTypeEnum) => item.value ?? '?';
 
 function Readiness() {
-    const [selectedERUTypes, setSelectedERUTypes] = useInputState<
-        Array<DeploymentsEruTypeEnum['key']> | undefined
-    >(undefined);
-    const [page, setPage] = useState(1);
-
     const strings = useTranslation(i18n);
 
-    // FIXME: use useFilterState
+    const {
+        page,
+        setPage,
+        filter,
+        setFilterField,
+        setFilter,
+        filtered,
+        limit,
+        offset,
+    } = useFilterState<{
+        selectedERUTypes?: DeploymentsEruTypeEnum['key'][],
+    }>(
+        {},
+        undefined,
+        1,
+        10,
+    );
+
     const {
         error: eruOwnersError,
         pending: eruOwnersPending,
@@ -49,11 +60,12 @@ function Readiness() {
         url: '/api/v2/eru_owner/',
         preserveResponse: true,
         query: {
-            limit: PAGE_SIZE,
-            offset: PAGE_SIZE * (page - 1),
-            eru_type: selectedERUTypes,
-            available: isDefined(selectedERUTypes)
-                && selectedERUTypes.length > 0 ? true : undefined,
+            limit,
+            offset,
+            eru_type: filter.selectedERUTypes,
+            available: isDefined(filter.selectedERUTypes) && filter.selectedERUTypes.length > 0
+                ? true
+                : undefined,
         },
     });
 
@@ -61,23 +73,13 @@ function Readiness() {
         deployments_eru_type,
     } = useGlobalEnums();
 
-    const handleERUOwnerTypesChange = useCallback((values: DeploymentsEruTypeEnum['key'][] | undefined) => {
-        if (isDefined(values) && values.length > 0) {
-            setSelectedERUTypes(values);
-        } else {
-            setSelectedERUTypes(undefined);
-        }
-        setPage(1);
-    }, [setSelectedERUTypes]);
-
     const rendererParams = useCallback((_: number, eruOwner: ERUOwnerListItem) => ({
         data: eruOwner,
     }), []);
 
     const handleClearFilter = useCallback(() => {
-        setSelectedERUTypes(undefined);
-        setPage(1);
-    }, [setSelectedERUTypes]);
+        setFilter({});
+    }, [setFilter]);
 
     return (
         <Container
@@ -100,18 +102,18 @@ function Readiness() {
                 >
                     <CheckList
                         listContainerClassName={styles.checklistContainer}
-                        name="eruType"
+                        name="selectedERUTypes"
                         options={deployments_eru_type}
-                        value={selectedERUTypes}
+                        value={filter.selectedERUTypes}
                         keySelector={emergencyResponseUnitTypeKeySelector}
                         labelSelector={emergencyResponseUnitTypeLabelSelector}
-                        onChange={handleERUOwnerTypesChange}
+                        onChange={setFilterField}
                     />
                     <Button
                         name={undefined}
                         variant="secondary"
                         onClick={handleClearFilter}
-                        disabled={isNotDefined(selectedERUTypes)}
+                        disabled={!filtered}
                     >
                         {strings.eruOwnersTableFilterClear}
                     </Button>
@@ -130,7 +132,7 @@ function Readiness() {
                     data={eruOwnersResponse?.results}
                     pending={eruOwnersPending}
                     errored={isDefined(eruOwnersError)}
-                    filtered={isDefined(selectedERUTypes)}
+                    filtered={filtered}
                     keySelector={eruOwnerKeySelector}
                     renderer={EmergencyResponseUnitOwnerCard}
                     rendererParams={rendererParams}

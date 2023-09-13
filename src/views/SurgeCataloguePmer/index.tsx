@@ -14,13 +14,13 @@ export function Component() {
             title: strings.cataloguePMERCoordinator,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EagyYJ2dxJtJodnkN7u-KGABUEDjjQR8iGbFP3_BNl3Fgw',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
         {
             title: strings.cataloguePMEROfficer,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/ESQt4ETNFoJKlgdxpZsN-0ABhzfPBsBZzWHGnn1Cl923JA',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -28,7 +28,7 @@ export function Component() {
         {
             title: strings.cataloguePMEREPoA,
             to: 'surgeCataloguePmerEmergencyPlanAction',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -36,7 +36,7 @@ export function Component() {
         {
             title: strings.cataloguePMERRTE,
             to: 'surgeCataloguePmerRealTimeEvaluation',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 

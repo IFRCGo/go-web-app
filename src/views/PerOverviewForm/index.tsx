@@ -82,7 +82,6 @@ export function Component() {
         error: formError,
         setError,
         validate,
-        // FIXME: use enum constatnt
     } = useForm(overviewSchema, { value: { assessment_method: 'per' } });
 
     const [
@@ -157,35 +156,31 @@ export function Component() {
         } : undefined,
         body: (ctx: PerOverviewRequestBody) => ctx,
         onSuccess: (response) => {
-            // FIXME: do we need to check this
-            if (response && isDefined(response.id)) {
-                alert.show(
-                    strings.saveRequestSuccessMessage,
-                    { variant: 'success' },
+            alert.show(
+                strings.saveRequestSuccessMessage,
+                { variant: 'success' },
+            );
+
+            refetchStatusResponse();
+
+            // Redirect from new form to edit route
+            if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
+                navigate(
+                    'perOverviewForm',
+                    { params: { perId: response.id } },
+                );
+            }
+
+            // Redirect to assessment form
+            if (response.phase === PER_PHASE_ASSESSMENT && value?.is_draft !== false) {
+                navigate(
+                    'perAssessmentForm',
+                    { params: { perId: response.id } },
                 );
 
-                refetchStatusResponse();
-
-                // Redirect from new form to edit route
-                if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
-                    navigate(
-                        'perOverviewForm',
-                        { params: { perId: response.id } },
-                    );
-                }
-
-                // Redirect to assessment form
-                if (response.phase === PER_PHASE_ASSESSMENT && value?.is_draft !== false) {
-                    navigate(
-                        'perAssessmentForm',
-                        { params: { perId: response.id } },
-                    );
-
-                    // Move the page position to top when moving on to next step
-                    window.scrollTo(0, 0);
-                }
+                // Move the page position to top when moving on to next step
+                window.scrollTo(0, 0);
             }
-            // TODO: log error?
         },
         onFailure: ({
             value: {
@@ -238,7 +233,6 @@ export function Component() {
                     );
                 }
             }
-            // TODO: log error?
         },
         onFailure: ({
             value: {

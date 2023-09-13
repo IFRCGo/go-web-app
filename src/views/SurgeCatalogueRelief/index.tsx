@@ -14,7 +14,7 @@ export function Component() {
             title: strings.catalogueReliefTitle,
             to: 'https://ifrcorg.sharepoint.com/:b:/s/IFRCSharing/EfyJmGf6d9NEniDFNg3KqAMBK9J0_iE2Ff-hAdR4HGJKgw',
             external: true,
-            withExternalLinkIcon: true,
+            withLinkIcon: true,
         },
     ];
 
@@ -22,7 +22,7 @@ export function Component() {
         {
             title: strings.eruReliefTitle,
             to: 'surgeCatalogueReliefEru',
-            withForwardIcon: true,
+            withLinkIcon: true,
         },
     ];
 

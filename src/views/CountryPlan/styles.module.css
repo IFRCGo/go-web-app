@@ -6,7 +6,7 @@
         flex-wrap: wrap;
 
         .icon {
-            font-size: var(--go-ui-font-size-icon-multiplier);
+            font-size: var(--go-ui-height-icon-multiplier);
         }
     }
 

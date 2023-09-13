@@ -58,8 +58,7 @@ const xAxisFormatter = (date: Date) => date.toLocaleString(
     { month: 'short' },
 );
 
-// FIXME: rename this formatDate
-const formatDate = (date: Date) => date.toLocaleString(
+const localeFormatDate = (date: Date) => date.toLocaleString(
     navigator.language,
     {
         year: 'numeric',
@@ -269,7 +268,7 @@ function FoodInsecurityChart(props: Props) {
                                                     ? COLOR_PRIMARY_RED : colors[i]}
                                             >
                                                 <title>
-                                                    {`${formatDate(point.date)}: ${formatNumber(point.value[year])}`}
+                                                    {`${localeFormatDate(point.date)}: ${formatNumber(point.value[year])}`}
                                                 </title>
                                             </circle>
                                         );

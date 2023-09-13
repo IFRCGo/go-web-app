@@ -162,7 +162,7 @@ export default function DeployedErusTable(props: Props) {
             actions={(
                 <Link
                     to="allDeployedEmergencyResponseUnits"
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {strings.deployedErusViewAll}

@@ -264,7 +264,7 @@ function Actions(props: Props) {
                     </InputSection>
                 )}
             </Container>
-            {/* FIXME: This condition was not there before */}
+            {/* NOTE: This condition was not there before */}
             {value?.type_of_dref !== TYPE_ASSESSMENT && (
                 <Container
                     className={styles.needsIdentified}

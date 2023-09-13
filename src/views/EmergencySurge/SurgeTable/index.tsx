@@ -118,8 +118,7 @@ export default function SurgeTable(props: Props) {
                     // FIXME: use translations
                     const duration = startDate.getTime() < nowMs
                         ? 'Immediately'
-                        // FIXME: we should use toLocaleString instead
-                        : startDate.toISOString();
+                        : startDate.toLocaleString();
 
                     return duration;
                 },
@@ -170,7 +169,7 @@ export default function SurgeTable(props: Props) {
             actions={(
                 <Link
                     to="allSurgeAlerts"
-                    withForwardIcon
+                    withLinkIcon
                     withUnderline
                 >
                     {strings.surgeAlertsViewAll}
