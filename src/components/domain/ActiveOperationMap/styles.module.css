@@ -3,6 +3,12 @@
         height: 40rem;
     }
 
+    .filters {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    }
+
     .footer {
         display: flex;
         align-items: flex-end;

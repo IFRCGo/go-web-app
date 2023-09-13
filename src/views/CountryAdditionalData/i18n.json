@@ -6,7 +6,7 @@
         "columnTitle": "Title",
         "columnType": "Type",
         "columnEmail": "Email",
-        "linkTitle": "Additional link",
+        "linkTitle": "Additional links",
         "noDataMessage": "No data to display"
     }
 }

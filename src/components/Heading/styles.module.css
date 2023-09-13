@@ -1,7 +1,6 @@
 .heading {
     --font-size: var(--go-ui-font-size-xl);
     --line-height: var(--go-ui-line-height-sm);
-    display: flex;
     margin: 0;
     line-height: var(--line-height);
     font-size: var(--font-size);

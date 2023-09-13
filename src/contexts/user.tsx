@@ -5,6 +5,7 @@ export interface UserAuth {
     id: number;
     displayName: string;
     token: string;
+    expires: string;
 
     // TODO: we don't need to store following details
     username: string;

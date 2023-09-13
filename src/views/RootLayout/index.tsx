@@ -246,6 +246,7 @@ export function Component() {
         // FIXME: check if the value is cleared when userDetails is cleared
         skip: userSkip,
         url: '/api/v2/user/me/',
+        preserveResponse: true,
     });
 
     const invalidateDomainData = useCallback(

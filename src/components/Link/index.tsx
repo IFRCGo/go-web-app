@@ -100,6 +100,7 @@ export type Props<OMISSION extends string = never> = Omit<RouterLinkProps, 'to' 
     withExternalLinkIcon?: boolean;
     withForwardIcon?: boolean;
     withUnderline?: boolean;
+    ellipsize?: boolean;
 }, OMISSION> & ({
     external?: never;
     to: keyof WrappedRoutes | undefined | null;
@@ -128,6 +129,7 @@ function Link(props: Props) {
         withForwardIcon,
         withExternalLinkIcon,
         variant = 'tertiary',
+        ellipsize,
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         external,
@@ -165,6 +167,7 @@ function Link(props: Props) {
         icons,
         children: childrenFromProps,
         variant,
+        ellipsize,
         disabled,
         actions: (isDefined(actions) || withForwardIcon || withExternalLinkIcon) ? (
             <>

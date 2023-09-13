@@ -1,4 +1,5 @@
-import { _cs } from '@togglecorp/fujs';
+import { useMemo } from 'react';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import Heading, { Props as HeadingProps } from '#components/Heading';
 import useBasicLayout from '#hooks/useBasicLayout';
@@ -66,21 +67,41 @@ function Header(props: Props) {
         spacing = 'default',
     } = props;
 
-    const headingComp = heading ? (
-        <Heading
-            level={headingLevel}
-            className={_cs(styles.heading, headingClassName)}
-        >
-            {ellipsizeHeading ? (
-                <div
-                    className={styles.overflowWrapper}
-                    title={typeof heading === 'string' ? heading : undefined}
-                >
-                    {heading}
-                </div>
-            ) : heading}
-        </Heading>
-    ) : undefined;
+    const headingChildren = useMemo(
+        () => {
+            if (isNotDefined(heading) && isNotDefined(headingDescription)) {
+                return null;
+            }
+
+            return (
+                <>
+                    <Heading
+                        level={headingLevel}
+                        className={_cs(styles.heading, headingClassName)}
+                    >
+                        {heading}
+                    </Heading>
+                    {headingDescription && (
+                        <div
+                            className={_cs(
+                                styles.headingDescription,
+                                headingDescriptionContainerClassName,
+                            )}
+                        >
+                            {headingDescription}
+                        </div>
+                    )}
+                </>
+            );
+        },
+        [
+            heading,
+            headingDescription,
+            headingClassName,
+            headingDescriptionContainerClassName,
+            headingLevel,
+        ],
+    );
 
     const {
         content,
@@ -88,21 +109,7 @@ function Header(props: Props) {
     } = useBasicLayout({
         actions,
         actionsContainerClassName,
-        children: (
-            <>
-                {headingComp}
-                {headingDescription && (
-                    <div
-                        className={_cs(
-                            styles.headingDescription,
-                            headingDescriptionContainerClassName,
-                        )}
-                    >
-                        {headingDescription}
-                    </div>
-                )}
-            </>
-        ),
+        children: headingChildren,
         childrenContainerClassName: _cs(styles.headingContainer, headingContainerClassName),
         className: headingSectionClassName,
         icons,

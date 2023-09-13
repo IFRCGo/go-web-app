@@ -4,12 +4,21 @@
     padding: var(--go-ui-spacing-lg);
     gap: var(--go-ui-spacing-sm);
 
-    .icon {
+    .icon-section {
         display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        color: var(--go-ui-color-primary-red);
-        font-size: var(--go-ui-height-key-figure-icon);
+
+        .icon {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: flex-start;
+            color: var(--go-ui-color-primary-red);
+            font-size: var(--go-ui-height-key-figure-icon);
+        }
+
+        .info {
+            flex-shrink: 0;
+        }
     }
 
     .value {

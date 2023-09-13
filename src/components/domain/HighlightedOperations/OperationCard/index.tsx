@@ -10,7 +10,9 @@ import KeyFigure from '#components/KeyFigure';
 import Tooltip from '#components/Tooltip';
 import TextOutput from '#components/TextOutput';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
+import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
+import useAuth from '#hooks/domain/useAuth';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
 import { sumSafe } from '#utils/common';
@@ -25,7 +27,7 @@ type EventListItem = NonNullable<EventResponse['results']>[number];
 interface Props {
     className?: string;
     data: EventListItem;
-    subscriptionMap: Record<number, boolean>,
+    isSubscribed: boolean;
 }
 
 function OperationCard(props: Props) {
@@ -40,10 +42,11 @@ function OperationCard(props: Props) {
             appeals,
             countries = [],
         },
-        subscriptionMap,
+        isSubscribed = false,
     } = props;
 
     const { invalidate } = useContext(DomainContext);
+    const isAuthenticated = useAuth();
 
     const {
         pending: addSubscriptionPending,
@@ -91,8 +94,6 @@ function OperationCard(props: Props) {
         { coverage: <NumberOutput value={coverage} /> },
     );
 
-    const isSubscribed = subscriptionMap[id] ?? false;
-
     let countriesInfoDisplay = strings.operationCardNoCountryInvolved;
     if (countries.length === 1) {
         countriesInfoDisplay = countries[0].name ?? '?';
@@ -103,9 +104,17 @@ function OperationCard(props: Props) {
     return (
         <Container
             className={_cs(styles.operationCard, className)}
-            heading={name}
+            // heading={name}
+            heading={(
+                <Link
+                    to="emergenciesLayout"
+                    urlParams={{ emergencyId: id }}
+                    ellipsize
+                >
+                    {name}
+                </Link>
+            )}
             headingLevel={4}
-            ellipsizeHeading
             withInternalPadding
             withHeaderBorder
             withoutWrapInHeading
@@ -137,7 +146,7 @@ function OperationCard(props: Props) {
                     />
                 </>
             ) : undefined}
-            actions={(
+            actions={isAuthenticated && (
                 <Button
                     name={id}
                     variant="secondary"
@@ -164,6 +173,7 @@ function OperationCard(props: Props) {
                 compactValue
             />
             <div className={styles.separator} />
+            {/* FIXME This keyFigure should route to emergencies/id/report */}
             <KeyFigure
                 className={styles.figure}
                 value={amountRequested}
