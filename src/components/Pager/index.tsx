@@ -175,6 +175,8 @@ function Pager(props: Props) {
                 onClick={onActivePageChange}
                 className={styles.pageButton}
                 disabled={activePage <= 1 || disabled}
+                // FIXME: use translations
+                title={`Go to page ${activePage - 1}`}
             >
                 <ChevronLeftLineIcon className={styles.icon} />
             </RawButton>
@@ -187,6 +189,8 @@ function Pager(props: Props) {
                             name={page.index}
                             onClick={onActivePageChange}
                             disabled={disabled}
+                            // FIXME: use translations
+                            title={`Go to ${page.index}`}
                         >
                             {page.index}
                         </RawButton>
@@ -221,6 +225,8 @@ function Pager(props: Props) {
                 onClick={onActivePageChange}
                 disabled={activePage >= numPages || disabled}
                 className={styles.pageButton}
+                // FIXME: use translations
+                title={`Go to page ${activePage - 1}`}
             >
                 <ChevronRightLineIcon className={styles.icon} />
             </RawButton>

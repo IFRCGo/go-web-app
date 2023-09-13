@@ -206,6 +206,8 @@ function GoMultiFileInput<T extends NameType>(props: Props<T>) {
                                     variant="tertiary"
                                     className={styles.deleteIcon}
                                     onClick={handleFileRemove}
+                                    // FIXME: use translations
+                                    title="Delete"
                                 >
                                     <DeleteBinFillIcon />
                                 </Button>

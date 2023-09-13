@@ -54,6 +54,8 @@ function MapPopup(props: Props) {
                             name={undefined}
                             variant="tertiary"
                             onClick={onCloseButtonClick}
+                            // FIXME: use translations
+                            title="Close"
                         >
                             <CloseLineIcon />
                         </Button>

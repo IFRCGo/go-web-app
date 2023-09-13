@@ -37,6 +37,15 @@ const alertTypeToClassNameMap: {
     info: styles.info,
 };
 
+const icon: {
+    [key in AlertType]: React.ReactNode;
+} = {
+    success: <CheckboxCircleLineIcon className={styles.icon} />,
+    danger: <ErrorWarningLineIcon className={styles.icon} />,
+    info: <InformationLineIcon className={styles.icon} />,
+    warning: <QuestionLineIcon className={styles.icon} />,
+};
+
 function Alert<N extends string>(props: Props<N>) {
     const {
         name,
@@ -50,15 +59,6 @@ function Alert<N extends string>(props: Props<N>) {
     } = props;
 
     const strings = useTranslation(i18n);
-
-    const icon: {
-        [key in AlertType]: React.ReactNode;
-    } = {
-        success: <CheckboxCircleLineIcon className={styles.icon} />,
-        danger: <ErrorWarningLineIcon className={styles.icon} />,
-        info: <InformationLineIcon className={styles.icon} />,
-        warning: <QuestionLineIcon className={styles.icon} />,
-    };
 
     const handleCloseButtonClick = useCallback(
         () => {

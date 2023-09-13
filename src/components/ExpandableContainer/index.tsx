@@ -54,7 +54,8 @@ function ExpandableContainer(props: Props) {
 
     return (
         <Container
-            {...otherProps} // eslint-disable-line react/jsx-props-no-spreading
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...otherProps}
             className={_cs(styles.expandableContainer, className)}
             headerClassName={_cs(styles.header, headerClassName)}
             childrenContainerClassName={_cs(styles.content, childrenContainerClassName)}
@@ -67,6 +68,8 @@ function ExpandableContainer(props: Props) {
                         variant="tertiary"
                         name={undefined}
                         onClick={toggleExpanded}
+                        // FIXME: use translations
+                        title={expanded ? 'Collapse' : 'Expand'}
                     >
                         {expanded ? (
                             <ChevronUpLineIcon className={styles.icon} />

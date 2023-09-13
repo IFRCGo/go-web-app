@@ -23,19 +23,20 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
         colorSelector,
     } = props;
 
-    const renderData = data.map((datum, i) => ({
+    const renderingData = data.map((datum, i) => ({
         value: valueSelector(datum, i),
         color: colorSelector(datum, i),
         label: labelSelector(datum, i),
     }));
 
-    const values = renderData.map((d) => d.value);
+    const values = renderingData.map((d) => d.value);
+
     const total = sumSafe(values) ?? 1;
 
     return (
         <div className={_cs(styles.stackedBarChart, className)}>
             <div className={styles.barInfoContainer}>
-                {renderData.map((datum) => {
+                {renderingData.map((datum) => {
                     // FIXME: use percent function
                     const percentage = (100 * datum.value) / total;
                     return (
@@ -59,11 +60,12 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                 })}
             </div>
             <div className={styles.track}>
-                {renderData.map((datum) => (
+                {renderingData.map((datum) => (
                     <div
                         key={datum.color}
                         className={styles.bar}
                         style={{
+                            // FIXME: Use progress function
                             width: `${(100 * datum.value) / total}%`,
                             backgroundColor: datum.color,
                         }}
@@ -71,7 +73,7 @@ function StackedProgressBar<VALUE>(props: Props<VALUE>) {
                 ))}
             </div>
             <div className={styles.labelList}>
-                {renderData.map((datum) => (
+                {renderingData.map((datum) => (
                     <div
                         className={styles.labelContainer}
                         key={datum.color}

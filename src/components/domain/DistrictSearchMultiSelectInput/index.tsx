@@ -126,6 +126,8 @@ function DistrictSearchMultiSelectInput<const NAME>(
                     onClick={handleSelectAllClick}
                     disabled={isNotDefined(countryId) || pendingSelectAll}
                     variant="tertiary"
+                    // FIXME: use translations
+                    title="Select All"
                 >
                     <CheckDoubleFillIcon className={styles.icon} />
                 </Button>

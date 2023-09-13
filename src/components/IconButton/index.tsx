@@ -6,11 +6,11 @@ import type { ButtonVariant, Props as RawButtonProps } from '#components/Button'
 import styles from './styles.module.css';
 
 export interface Props<N> extends RawButtonProps<N> {
-  ariaLabel: string;
-  disabled?: boolean;
-  round?: boolean;
-  title: string;
-  variant: ButtonVariant;
+    ariaLabel: string;
+    disabled?: boolean;
+    round?: boolean;
+    title: string;
+    variant: ButtonVariant;
 }
 
 function IconButton<N>(props: Props<N>) {

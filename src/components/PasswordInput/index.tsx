@@ -56,6 +56,7 @@ function PasswordInput<const T>(props: Props<T>) {
                         variant="tertiary"
                         disabled={disabled}
                         name={undefined}
+                        // FIXME: use translations
                         title={showPassword ? 'Hide password' : 'Show password'}
                     >
                         {showPassword ? <EyeFillIcon /> : <EyeOffLineIcon />}
