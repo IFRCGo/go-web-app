@@ -78,7 +78,7 @@ export function Component() {
         ?.society_name;
 
     // activity_lead = national_society
-    const nationalSocietyName = activityResponse?.reporting_ns_details.society_name;
+    const nationalSocietyName = activityResponse?.reporting_ns_details?.society_name;
 
     const supplyMapping = useMemo(() => (
         listToMap(

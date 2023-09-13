@@ -168,6 +168,7 @@ export function Component() {
                 strings.allAppealsType,
                 (item) => item.atype_display,
                 {
+                    sortable: true,
                     columnClassName: styles.appealType,
                 },
             ),

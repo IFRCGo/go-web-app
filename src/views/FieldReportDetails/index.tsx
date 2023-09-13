@@ -252,15 +252,15 @@ export function Component() {
                                 </Fragment>
                             ))}
                         </span>
-                        {eventDetails?.id && (
+                        {eventDetails && (
                             <>
                                 <span className={styles.separator} />
                                 <Link
                                     className={styles.titleLink}
                                     to="emergenciesLayout"
-                                    urlParams={{ emergencyId: eventDetails?.id }}
+                                    urlParams={{ emergencyId: eventDetails.id }}
                                 >
-                                    {eventDetails?.name}
+                                    {eventDetails.name}
                                 </Link>
                             </>
                         )}
