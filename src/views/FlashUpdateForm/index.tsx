@@ -126,21 +126,31 @@ export function Component() {
 
             // NOTE: Setting files and its urls
             const files = [
-                ...(response.map_files ?? []).map((item) => ({
-                    id: item.id,
-                    file: item.file,
-                })),
-                ...(response.graphics_files ?? []).map((item) => ({
-                    id: item.id,
-                    file: item.file,
-                })),
+                ...(response.map_files ?? []).map((item) => {
+                    if (isDefined(item.file)) {
+                        return {
+                            id: item.id,
+                            file: item.file,
+                        };
+                    }
+                    return undefined;
+                }),
+                ...(response.graphics_files ?? []).map((item) => {
+                    if (isDefined(item.file)) {
+                        return {
+                            id: item.id,
+                            file: item.file,
+                        };
+                    }
+                    return undefined;
+                }),
                 ...(response.references ?? []).map((item) => (
-                    item.document ? ({
+                    item.document && item.document_details && item.document_details.file ? ({
                         id: item.document,
                         file: item.document_details?.file,
                     }) : undefined
-                )).filter(isDefined),
-            ];
+                )),
+            ].filter(isDefined);
             setFileIdToUrlMap(
                 listToMap(
                     files,

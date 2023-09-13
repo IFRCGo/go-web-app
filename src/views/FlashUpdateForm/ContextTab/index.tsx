@@ -210,7 +210,7 @@ function ContextTab(props: Props) {
             </InputSection>
             <InputSection
                 title={strings.flashUpdateFormContextSituationalTitle}
-                // Moved into the area as placeholder: description={...}
+            // Moved into the area as placeholder: description={...}
             >
                 <RichTextArea
                     name="situational_overview"

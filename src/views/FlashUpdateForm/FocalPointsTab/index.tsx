@@ -55,8 +55,6 @@ function FocalPoints(props: Props) {
                         label={strings.flashUpdateFormFocalOriginatorTitleLabel}
                         disabled={disabled}
                     />
-                </InputSection>
-                <InputSection>
                     <TextInput
                         name="originator_email"
                         value={value.originator_email}
@@ -94,8 +92,6 @@ function FocalPoints(props: Props) {
                         label={strings.flashUpdateFormFocalIfrcTitleLabel}
                         disabled={disabled}
                     />
-                </InputSection>
-                <InputSection>
                     <TextInput
                         name="ifrc_email"
                         value={value.ifrc_email}
