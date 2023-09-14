@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isDefined } from '@togglecorp/fujs';
 
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse, GoApiUrlQuery } from '#utils/restRequest';
@@ -131,13 +131,18 @@ function AppealsTable(props: Props) {
             createNumberColumn<AppealListItem, string>(
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
-                (item) => Number(item.amount_requested),
+                (item) => item.amount_requested,
                 { sortable: true },
             ),
             createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
-                (item) => 100 * (Number(item.amount_funded) / Number(item.amount_requested)),
+                // FIXME: use progress function
+                (item) => (
+                    isDefined(item.amount_funded) && isDefined(item.amount_requested)
+                        ? 100 * (item.amount_funded / item.amount_requested)
+                        : 0
+                ),
                 { sortable: true },
             ),
             createLinkColumn<AppealListItem, string>(

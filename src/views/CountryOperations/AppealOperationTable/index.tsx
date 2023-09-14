@@ -4,7 +4,6 @@ import {
 import {
     isDefined,
     isNotDefined,
-    isTruthyString,
 } from '@togglecorp/fujs';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
@@ -115,22 +114,13 @@ function AppealOperationTable(props: Props) {
             createNumberColumn<AppealTableItem, string>(
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
-                // FIXME: fix typing in server (medium priority)
-                (item) => (
-                    isTruthyString(item.amount_requested)
-                        ? Number(item.amount_requested)
-                        : undefined
-                ),
+                (item) => item.amount_requested,
                 { sortable: true },
             ),
             createNumberColumn<AppealTableItem, string>(
                 'amount_funded',
                 strings.appealsTableFundedAmount,
-                (item) => (
-                    isTruthyString(item.amount_funded)
-                        ? Number(item.amount_funded)
-                        : undefined
-                ),
+                (item) => item.amount_funded,
                 { sortable: true },
             ),
             createStringColumn<AppealTableItem, string>(

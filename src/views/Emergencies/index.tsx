@@ -140,7 +140,7 @@ export function Component() {
             const amountRequestedCalculated = sumSafe(
                 events?.map(
                     (event) => (
-                        sumSafe(event.appeals.map((appeal) => Number(appeal.amount_requested)))
+                        sumSafe(event.appeals.map((appeal) => appeal.amount_requested))
                     ),
                 ),
             );
@@ -149,7 +149,7 @@ export function Component() {
             const fundingCalculated = sumSafe(
                 events?.map(
                     (event) => (
-                        sumSafe(event.appeals.map((appeal) => Number(appeal.amount_funded)))
+                        sumSafe(event.appeals.map((appeal) => appeal.amount_funded))
                     ),
                 ),
             );
