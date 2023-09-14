@@ -201,10 +201,10 @@ function ActiveOperationMap(props: Props) {
                     );
 
                     const peopleTargeted = sumSafe(
-                        appealList.map((appeal) => Number(appeal.num_beneficiaries)),
+                        appealList.map((appeal) => appeal.num_beneficiaries),
                     );
                     const financialRequirements = sumSafe(
-                        appealList.map((appeal) => Number(appeal.amount_requested)),
+                        appealList.map((appeal) => appeal.amount_requested),
                     );
 
                     if (uniqueAppealList.length > 1) {
@@ -414,17 +414,17 @@ function ActiveOperationMap(props: Props) {
                                     headingLevel={5}
                                 >
                                     <TextOutput
-                                        value={Number(appeal.num_beneficiaries)}
+                                        value={appeal.num_beneficiaries}
                                         description={strings.operationPopoverPeopleAffected}
                                         valueType="number"
                                     />
                                     <TextOutput
-                                        value={Number(appeal.amount_requested)}
+                                        value={appeal.amount_requested}
                                         description={strings.operationPopoverAmountRequested}
                                         valueType="number"
                                     />
                                     <TextOutput
-                                        value={Number(appeal.amount_funded)}
+                                        value={appeal.amount_funded}
                                         description={strings.operationPopoverAmountFunded}
                                         valueType="number"
                                     />

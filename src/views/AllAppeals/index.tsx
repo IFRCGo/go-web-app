@@ -198,14 +198,18 @@ export function Component() {
             createNumberColumn<AppealListItem, string>(
                 'amount_requested',
                 strings.allAppealsRequestedAmount,
-                (item) => Number(item.amount_requested),
+                (item) => item.amount_requested,
                 { sortable: true },
             ),
             createProgressColumn<AppealListItem, string>(
                 'amount_funded',
                 strings.allAppealsFundedAmount,
                 // FIXME: use progress function
-                (item) => 100 * (Number(item.amount_funded) / Number(item.amount_requested)),
+                (item) => (
+                    isDefined(item.amount_funded) && isDefined(item.amount_requested)
+                        ? 100 * (item.amount_funded / item.amount_requested)
+                        : 0
+                ),
                 {
                     sortable: true,
                     columnClassName: styles.funding,

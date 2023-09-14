@@ -130,10 +130,21 @@ function Overview(props: Props) {
         );
     }, [setFieldValue, value.dref_allocated_so_far]);
 
-    const handleNSChange = useCallback((nationalSociety: number | undefined, name: 'national_society') => {
-        setFieldValue(nationalSociety, name);
-        setFieldValue(nationalSociety, 'country');
+    const handleNSChange = useCallback((nationalSociety: number | undefined) => {
+        setFieldValue(nationalSociety, 'national_society');
+        if (nationalSociety) {
+            setFieldValue(nationalSociety, 'country');
+            setFieldValue(undefined, 'district');
+        }
     }, [setFieldValue]);
+
+    const handleCountryChange = useCallback(
+        (val: number | undefined, name: 'country') => {
+            setFieldValue(val, name);
+            setFieldValue(undefined, 'district');
+        },
+        [setFieldValue],
+    );
 
     const handleGenerateTitleButtonClick = useCallback(
         () => {
@@ -275,7 +286,7 @@ function Overview(props: Props) {
                     name="country"
                     label={strings.drefFormAddCountry}
                     value={value?.country}
-                    onChange={setFieldValue}
+                    onChange={handleCountryChange}
                     error={error?.country}
                     disabled={disabled}
                 />

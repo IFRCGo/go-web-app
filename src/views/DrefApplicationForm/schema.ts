@@ -119,11 +119,11 @@ const schema: DrefFormSchema = {
             // OVERVIEW
             national_society: { required: true },
             type_of_dref: { required: true },
+            disaster_type: {},
             type_of_onset: { required: true },
             disaster_category: {},
             country: {},
             district: { defaultValue: [] },
-            disaster_type: {},
             title: {
                 required: true,
                 requiredValidation: requiredStringCondition,
@@ -215,7 +215,7 @@ const schema: DrefFormSchema = {
                 const conditionalFields: OverviewDrefTypeRelatedFields = {
                     people_in_need: { forceValue: nullValue },
                     emergency_appeal_planned: { forceValue: nullValue },
-                    event_map_file: { forceValue: nullValue },
+                    event_map_file: { forceValue: nullValue }, // NOTE: check if this works
                     cover_image_file: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
@@ -223,20 +223,20 @@ const schema: DrefFormSchema = {
                 }
                 return {
                     ...conditionalFields,
-                    people_in_need: {},
+                    people_in_need: { validations: [positiveIntegerCondition] },
                     emergency_appeal_planned: {},
                     event_map_file: {
                         fields: () => ({
                             client_id: {},
                             id: { defaultValue: undefinedValue },
-                            caption: { defaultValue: undefinedValue },
+                            caption: {},
                         }),
                     },
                     cover_image_file: {
                         fields: () => ({
                             client_id: {},
                             id: { defaultValue: undefinedValue },
-                            caption: { defaultValue: undefinedValue },
+                            caption: {},
                         }),
                     },
                 };
@@ -281,7 +281,7 @@ const schema: DrefFormSchema = {
                     supporting_document: { forceValue: nullValue },
                     event_date: { forceValue: nullValue },
                     event_description: { forceValue: nullValue },
-                    images_file: { forceValue: nullValue },
+                    images_file: { forceValue: [] },
                 };
 
                 if (
@@ -329,8 +329,6 @@ const schema: DrefFormSchema = {
                                     },
                                 }),
                             }),
-                            // FIXME: this is not defined on array schema type
-                            defaultValue: [],
                             validations: [lessThanEqualToTwoImagesCondition],
                         },
                     };
@@ -348,8 +346,8 @@ const schema: DrefFormSchema = {
             (val): Pick<DrefFormSchemaFields, 'ns_request_text'> => {
                 if (
                     val?.type_of_dref !== TYPE_ASSESSMENT
-                && val?.type_of_dref !== TYPE_LOAN
-                && val?.did_ns_request_fund
+                        && val?.type_of_dref !== TYPE_LOAN
+                        && val?.did_ns_request_fund
                 ) {
                     return {
                         ns_request_text: {},
@@ -453,10 +451,10 @@ const schema: DrefFormSchema = {
             (val): ActionsDrefTypeRelatedFields => {
                 let conditionalFields: ActionsDrefTypeRelatedFields = {
                     assessment_report: { forceValue: nullValue },
-                    needs_identified: { forceValue: nullValue },
+                    needs_identified: { forceValue: [] },
                     identified_gaps: { forceValue: nullValue },
                     did_national_society: { forceValue: nullValue },
-                    national_society_actions: { forceValue: nullValue },
+                    national_society_actions: { forceValue: [] },
                     ifrc: { forceValue: nullValue },
                     icrc: { forceValue: nullValue },
                     partner_national_society: { forceValue: nullValue },
@@ -503,8 +501,14 @@ const schema: DrefFormSchema = {
                             member: () => ({
                                 fields: () => ({
                                     client_id: {},
-                                    title: { required: true },
-                                    description: { required: true },
+                                    title: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
+                                    description: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
                                 }),
                             }),
                         },
@@ -579,10 +583,10 @@ const schema: DrefFormSchema = {
                     people_per_urban: { forceValue: nullValue },
                     people_per_local: { forceValue: nullValue },
                     displaced_people: { forceValue: nullValue },
-                    risk_security: { forceValue: nullValue },
+                    risk_security: { forceValue: [] },
                     risk_security_concern: { forceValue: nullValue },
                     budget_file: { forceValue: nullValue },
-                    planned_interventions: { forceValue: nullValue },
+                    planned_interventions: { forceValue: [] },
                     human_resource: { forceValue: nullValue },
                     is_surge_personnel_deployed: { forceValue: nullValue },
                 };
@@ -624,19 +628,28 @@ const schema: DrefFormSchema = {
                         member: () => ({
                             fields: () => ({
                                 client_id: {},
-                                risk: { required: true },
-                                mitigation: { required: true },
+                                risk: {
+                                    required: true,
+                                    requiredValidation: requiredStringCondition,
+                                },
+                                mitigation: {
+                                    required: true,
+                                    requiredValidation: requiredStringCondition,
+                                },
                             }),
                         }),
                     },
                     risk_security_concern: {},
-                    budget_file: {}, // FIXME: may need to check if this exits
+                    budget_file: {},
                     planned_interventions: {
                         keySelector: (n) => n.client_id,
                         member: () => ({
                             fields: () => ({
                                 client_id: {},
-                                title: { required: true },
+                                title: {
+                                    required: true,
+                                    requiredValidation: requiredStringCondition,
+                                },
                                 budget: {
                                     validations: [
                                         positiveIntegerCondition,
@@ -649,6 +662,7 @@ const schema: DrefFormSchema = {
                                         lessThanOrEqualToCondition(MAX_INT_LIMIT),
                                     ],
                                 },
+                                description: {},
                                 indicators: {
                                     keySelector: (indicator) => indicator.client_id,
                                     member: () => ({
@@ -659,7 +673,6 @@ const schema: DrefFormSchema = {
                                         }),
                                     }),
                                 },
-                                description: {},
                             }),
                         }),
                     },

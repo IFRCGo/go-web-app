@@ -353,12 +353,12 @@ function HistoricalDataChart(props: Props) {
                     (point) => {
                         const funded = sumSafe(
                             point.event.appeals.map(
-                                (appeal) => Number(appeal.amount_funded),
+                                (appeal) => appeal.amount_funded,
                             ),
                         ) ?? 0;
                         const requested = sumSafe(
                             point.event.appeals.map(
-                                (appeal) => Number(appeal.amount_requested),
+                                (appeal) => appeal.amount_requested,
                             ),
                         ) ?? 0;
 

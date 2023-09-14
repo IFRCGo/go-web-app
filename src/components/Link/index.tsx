@@ -67,7 +67,7 @@ export function useLink(props: {
         if (isNotDefined(props.href)) {
             return { disabled: true, to: undefined };
         }
-        return { disabled: false, to: props.to };
+        return { disabled: false, to: props.href };
     }
 
     if (isNotDefined(props.to)) {

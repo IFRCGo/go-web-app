@@ -130,19 +130,19 @@ const schema: FinalReportFormSchema = {
                 requiredValidation: requiredStringCondition,
             },
             num_assisted: { validations: [positiveIntegerCondition] },
-            people_in_need: {},
+            people_in_need: { validations: [positiveIntegerCondition] },
             event_map_file: {
                 fields: () => ({
                     client_id: {},
                     id: { defaultValue: undefinedValue },
-                    caption: { defaultValue: undefinedValue },
+                    caption: {},
                 }),
             },
             cover_image_file: {
                 fields: () => ({
                     client_id: {},
                     id: { defaultValue: undefinedValue },
-                    caption: { defaultValue: undefinedValue },
+                    caption: {},
                 }),
             },
             number_of_people_affected: {
@@ -177,8 +177,6 @@ const schema: FinalReportFormSchema = {
                         },
                     }),
                 }),
-                // FIXME: this is not defined on array schema type
-                defaultValue: [],
                 validations: [lessThanEqualToTwoImagesCondition],
             },
 
@@ -226,8 +224,14 @@ const schema: FinalReportFormSchema = {
                 member: () => ({
                     fields: () => ({
                         client_id: {},
-                        risk: { required: true },
-                        mitigation: { required: true },
+                        risk: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        mitigation: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                     }),
                 }),
             },
@@ -237,7 +241,10 @@ const schema: FinalReportFormSchema = {
                 member: () => ({
                     fields: () => ({
                         client_id: {},
-                        title: { required: true },
+                        title: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
                         budget: {
                             required: true,
                             validations: [
@@ -411,15 +418,21 @@ const schema: FinalReportFormSchema = {
                             member: () => ({
                                 fields: () => ({
                                     client_id: {},
-                                    title: { required: true },
-                                    description: { required: true },
+                                    title: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
+                                    description: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
                                 }),
                             }),
                         },
                     };
                 }
                 return {
-                    needs_identified: { forceValue: nullValue },
+                    needs_identified: { forceValue: [] },
                 };
             },
         );
