@@ -21,7 +21,7 @@ function InputError(props: Props) {
 
     const [hasParentRef, setHasParentRef] = useState(false);
 
-    const parentRef = useRef<HTMLElement>();
+    const parentRef = useRef<HTMLElement | undefined>();
     const dummyRef = useRef<HTMLDivElement>(null);
 
     useEffect(
@@ -32,15 +32,15 @@ function InputError(props: Props) {
 
             const {
                 current: {
-                    parentNode,
+                    parentElement,
                 },
             } = dummyRef;
 
-            if (isNotDefined(parentNode)) {
+            if (isNotDefined(parentElement)) {
                 return;
             }
 
-            parentRef.current = parentNode as HTMLElement;
+            parentRef.current = parentElement;
             setHasParentRef(true);
         },
         [],
@@ -58,7 +58,7 @@ function InputError(props: Props) {
                 <Popup
                     className={_cs(styles.inputError, className)}
                     pointerClassName={styles.pointer}
-                    parentRef={parentRef as React.RefObject<HTMLElement>}
+                    parentRef={parentRef}
                 >
                     <AlertLineIcon className={styles.icon} />
                     {children}

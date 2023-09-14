@@ -9,7 +9,7 @@ interface Props {
     className?: string;
     pointerClassName?: string;
     elementRef?: React.RefObject<HTMLDivElement>;
-    parentRef: React.RefObject<HTMLElement>;
+    parentRef: React.RefObject<HTMLElement | undefined>;
     children?: React.ReactNode;
 }
 
