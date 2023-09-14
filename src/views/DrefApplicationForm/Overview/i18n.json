@@ -20,6 +20,7 @@
         "drefFormAddRegion": "Region/Province",
         "drefFormTitle": "DREF Title",
         "drefFormGenerateTitle": "Generate title",
+        "numericDetailsSectionTitle": "Numeric Details",
         "drefFormRiskPeopleLabel": "Total population at risk",
         "drefFormPeopleAffected": "Total affected population",
         "drefFormPeopleAffectedDescriptionImminent": "Includes all those whose lives and livelihoods are at risk as a direct result of the shock or stress.",

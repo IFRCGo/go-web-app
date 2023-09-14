@@ -74,6 +74,7 @@ function Tooltip(props: Props) {
                 <Popup
                     className={_cs(styles.tooltipContent, className)}
                     parentRef={parentRef as React.RefObject<HTMLElement>}
+                    pointerClassName={styles.pointer}
                 >
                     <Container
                         heading={title}

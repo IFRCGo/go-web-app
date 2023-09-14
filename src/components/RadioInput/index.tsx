@@ -21,7 +21,6 @@ export interface BaseProps<N, O, V, RRP extends RadioProps<V, N>> {
     error?: React.ReactNode;
     labelContainerClassName?: string;
     hintContainerClassName?: string;
-    errorContainerClassName?: string;
     listContainerClassName?: string;
     disabled?: boolean;
     readOnly?: boolean;
@@ -76,7 +75,6 @@ function RadioInput<
         hintContainerClassName,
         listContainerClassName,
         error,
-        errorContainerClassName,
         renderer = Radio,
         rendererParams: radioRendererParamsFromProps,
         disabled,
@@ -165,7 +163,7 @@ function RadioInput<
                     {hint}
                 </div>
             )}
-            <InputError className={errorContainerClassName}>
+            <InputError>
                 {error}
             </InputError>
         </div>

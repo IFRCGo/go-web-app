@@ -6,12 +6,12 @@ import InputError from '../InputError';
 
 import styles from './styles.module.css';
 
+// FIXME extend with input prop
 export interface Props<NAME> {
     className?: string;
     checkmark?: (p: CheckmarkProps) => React.ReactElement;
     checkmarkClassName?: string;
     checkmarkContainerClassName?: string;
-    errorContainerClassName?: string;
     disabled?: boolean;
     error?: React.ReactNode;
     indeterminate?: boolean;
@@ -34,7 +34,6 @@ function Checkbox<const NAME>(props: Props<NAME>) {
         checkmarkClassName,
         checkmarkContainerClassName,
         disabled,
-        errorContainerClassName,
         error,
         indeterminate,
         inputClassName,
@@ -108,7 +107,7 @@ function Checkbox<const NAME>(props: Props<NAME>) {
                 </div>
             )}
             {error && (
-                <InputError className={_cs(styles.inputError, errorContainerClassName)}>
+                <InputError>
                     {error}
                 </InputError>
             )}
