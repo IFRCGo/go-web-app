@@ -501,7 +501,10 @@ const schema: DrefFormSchema = {
                             member: () => ({
                                 fields: () => ({
                                     client_id: {},
-                                    title: { required: true },
+                                    title: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
                                     description: {
                                         required: true,
                                         requiredValidation: requiredStringCondition,

@@ -225,20 +225,20 @@ const schema: OpsUpdateFormSchema = {
                 }
                 return {
                     ...conditionalFields,
-                    people_in_need: {},
+                    people_in_need: { validations: [positiveIntegerCondition] },
                     emergency_appeal_planned: {},
                     event_map_file: {
                         fields: () => ({
                             client_id: {},
                             id: { defaultValue: undefinedValue },
-                            caption: { defaultValue: undefinedValue },
+                            caption: {},
                         }),
                     },
                     cover_image_file: {
                         fields: () => ({
                             client_id: {},
                             id: { defaultValue: undefinedValue },
-                            caption: { defaultValue: undefinedValue },
+                            caption: {},
                         }),
                     },
                 };
@@ -331,8 +331,6 @@ const schema: OpsUpdateFormSchema = {
                                     },
                                 }),
                             }),
-                            // FIXME: this is not defined on array schema type
-                            defaultValue: [],
                             // FIXME: this is not defined on array schema type
                             validations: [lessThanEqualToTwoImagesCondition],
                         },
@@ -431,7 +429,7 @@ const schema: OpsUpdateFormSchema = {
             (val): ActionsDrefTypeRelatedFields => {
                 let conditionalFields: ActionsDrefTypeRelatedFields = {
                     assessment_report: { forceValue: nullValue },
-                    needs_identified: { forceValue: nullValue },
+                    needs_identified: { forceValue: [] },
                     identified_gaps: { forceValue: nullValue },
                     did_national_society: { forceValue: nullValue },
                     national_society_actions: { forceValue: nullValue },
@@ -484,8 +482,14 @@ const schema: OpsUpdateFormSchema = {
                             member: () => ({
                                 fields: () => ({
                                     client_id: {},
-                                    title: { required: true },
-                                    description: { required: true },
+                                    title: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
+                                    description: {
+                                        required: true,
+                                        requiredValidation: requiredStringCondition,
+                                    },
                                 }),
                             }),
                         },
@@ -605,8 +609,14 @@ const schema: OpsUpdateFormSchema = {
                         member: () => ({
                             fields: () => ({
                                 client_id: {},
-                                risk: { required: true },
-                                mitigation: { required: true },
+                                risk: {
+                                    required: true,
+                                    requiredValidation: requiredStringCondition,
+                                },
+                                mitigation: {
+                                    required: true,
+                                    requiredValidation: requiredStringCondition,
+                                },
                             }),
                         }),
                     },
@@ -617,7 +627,10 @@ const schema: OpsUpdateFormSchema = {
                         member: () => ({
                             fields: () => ({
                                 client_id: {},
-                                title: { required: true },
+                                title: {
+                                    required: true,
+                                    requiredValidation: requiredStringCondition,
+                                },
                                 budget: {
                                     required: true,
                                     validations: [
