@@ -78,11 +78,11 @@ export function Component() {
                 strings.allFieldReportsName,
                 (item) => item.summary,
                 (item) => ({
-                    sortable: true,
                     columnClassName: styles.summary,
                     to: 'fieldReportDetails',
                     urlParams: { fieldReportId: item.id },
                 }),
+                { sortable: true },
             ),
             createLinkColumn<FieldReportListItem, number>(
                 'event_name',

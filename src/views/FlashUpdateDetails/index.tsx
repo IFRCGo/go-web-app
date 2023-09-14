@@ -6,7 +6,7 @@ import {
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
-import { PencilFillIcon } from '@ifrc-go/icons';
+import { PencilFillIcon, DownloadCloudTwoLineIcon } from '@ifrc-go/icons';
 
 import Link from '#components/Link';
 import Page from '#components/Page';
@@ -225,7 +225,6 @@ export function Component() {
                     {flashUpdateResponse?.references
                         && flashUpdateResponse.references.length > 0 && (
                         <Container
-                            className={styles.contentHeader}
                             heading={strings.flashUpdateResourcesHeading}
                             withHeaderBorder
                         >
@@ -251,6 +250,7 @@ export function Component() {
                                             variant="secondary"
                                             className={styles.downloadLink}
                                             name={undefined}
+                                            icons={<DownloadCloudTwoLineIcon />}
                                         >
                                             {strings.flashUpdateDownloadDocument}
                                         </Button>
