@@ -164,6 +164,7 @@ function ResponseFields(props: Props) {
                 >
                     <InputSection
                         title={strings.fieldsStep4PlannedResponseRowsDREFEVTEPILabel}
+                        numPreferredColumns={2}
                     >
                         <RadioInput
                             error={error?.dref}
@@ -188,6 +189,7 @@ function ResponseFields(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.fieldsStep4PlannedResponseRowsEmergencyAppealEVTEPIEWLabel}
+                        numPreferredColumns={2}
                     >
                         <RadioInput
                             error={error?.appeal}
@@ -213,6 +215,7 @@ function ResponseFields(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.fieldsStep4PlannedResponseRowsFactEVTEPIEWLabel}
+                        numPreferredColumns={2}
                     >
                         <RadioInput
                             error={error?.fact}
@@ -237,6 +240,7 @@ function ResponseFields(props: Props) {
                     </InputSection>
                     <InputSection
                         title={strings.fieldsStep4PlannedResponseRowsIFRCStaffEVTEPIEWLabel}
+                        numPreferredColumns={2}
                     >
                         <RadioInput
                             error={error?.ifrc_staff}
@@ -263,6 +267,7 @@ function ResponseFields(props: Props) {
                     {reportType === 'EW' && (
                         <InputSection
                             title={strings.fieldsStep4PlannedResponseRowsForecastBasedActionEWLabel}
+                            numPreferredColumns={2}
                         >
                             <RadioInput
                                 error={error?.forecast_based_action}

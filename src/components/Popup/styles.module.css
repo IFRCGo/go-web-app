@@ -17,6 +17,7 @@
     transform: translateX(-50%);
     background-color: transparent;
     line-height: 0;
+    color: var(--go-ui-color-white);
     font-size: 0.5rem;
     pointer-events: none;
     filter: drop-shadow(0 -1pt 1pt rgb(0 0 0 / .1));
@@ -24,7 +25,7 @@
     .icon {
         width: 2em;
         height: 1em;
-        fill: white;
+        fill: currentColor;
     }
 
     &.top-orientation {

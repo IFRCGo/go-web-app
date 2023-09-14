@@ -23,6 +23,47 @@
         text-align: center;
     }
 
+    &.vertical {
+        .children-wrapper {
+            display: flex;
+            gap: var(--go-ui-spacing-md);
+            padding: var(--go-ui-spacing-md) 0;
+            text-align: left;
+        }
+
+        &.active {
+            text-decoration: underline;
+            color: var(--go-ui-color-primary-red);
+        }
+    }
+
+    &.primary {
+        position: relative;
+        font-size: var(--go-ui-font-size-lg);
+
+        .children-wrapper {
+            border-bottom-color: var(--border-color);
+            background-color: var(--go-ui-color-background);
+            padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
+        }
+
+        &.active {
+            color: var(--go-ui-color-primary-red);
+
+            .children-wrapper {
+                border-color: var(--border-color);
+                border-bottom-color: transparent;
+                background-color: var(--go-ui-color-white);
+            }
+        }
+
+        &:not(.active) {
+            .active-border {
+                display: none;
+            }
+        }
+    }
+
     &.step {
         display: flex;
         align-items: center;
@@ -71,8 +112,15 @@
             }
         }
 
+        /* stylelint-disable-next-line no-descending-specificity */
         .children-wrapper {
             padding: 0 var(--go-ui-spacing-lg);
+        }
+
+        &.errored {
+            .children-wrapper {
+                text-decoration: underline wavy var(--go-ui-color-primary-red);
+            }
         }
 
         &:hover {
@@ -120,47 +168,6 @@
                 .progress-bar-end {
                     background-color: transparent;
                 }
-            }
-        }
-    }
-
-    &.vertical {
-        .children-wrapper {
-            display: flex;
-            gap: var(--go-ui-spacing-md);
-            padding: var(--go-ui-spacing-md) 0;
-            text-align: left;
-        }
-
-        &.active {
-            text-decoration: underline;
-            color: var(--go-ui-color-primary-red);
-        }
-    }
-
-    &.primary {
-        position: relative;
-        font-size: var(--go-ui-font-size-lg);
-
-        .children-wrapper {
-            border-bottom-color: var(--border-color);
-            background-color: var(--go-ui-color-background);
-            padding: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
-        }
-
-        &.active {
-            color: var(--go-ui-color-primary-red);
-
-            .children-wrapper {
-                border-color: var(--border-color);
-                border-bottom-color: transparent;
-                background-color: var(--go-ui-color-white);
-            }
-        }
-
-        &:not(.active) {
-            .active-border {
-                display: none;
             }
         }
     }

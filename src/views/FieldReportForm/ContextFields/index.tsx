@@ -212,6 +212,7 @@ function ContextFields(props: Props) {
             <InputSection
                 title={countrySectionTitle}
                 description={countrySectionDescription}
+                numPreferredColumns={2}
             >
                 <CountrySelectInput
                     error={error?.country}

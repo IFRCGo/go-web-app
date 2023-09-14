@@ -17,6 +17,12 @@
     }
 }
 
+.pointer {
+    opacity: 0;
+    animation: fade-in var(--go-ui-duration-transition-medium) ease-in forwards;
+    animation-delay: var(--go-ui-duration-transition-medium);
+}
+
 @keyframes slide-down {
     from {
         transform: translateY(-5pt);
@@ -24,6 +30,15 @@
     }
     to {
         transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
         opacity: 1;
     }
 }

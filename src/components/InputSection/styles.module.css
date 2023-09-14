@@ -25,6 +25,7 @@
     .content-section {
         display: grid;
         grid-gap: var(--go-ui-spacing-sm);
+        align-items: start;
 
         &.one-column {
             grid-template-columns: 1fr;

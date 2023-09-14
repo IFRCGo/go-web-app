@@ -43,7 +43,7 @@ const defaultPlacement: Placement = {
     bottom: 'unset',
 };
 
-function useFloatPlacement(parentRef: React.RefObject<HTMLElement>) {
+function useFloatPlacement(parentRef: React.RefObject<HTMLElement | undefined>) {
     const [placements, setPlacements] = useState<{
         content: Placement,
         pointer: Placement,

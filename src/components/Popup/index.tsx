@@ -7,8 +7,9 @@ import styles from './styles.module.css';
 
 interface Props {
     className?: string;
+    pointerClassName?: string;
     elementRef?: React.RefObject<HTMLDivElement>;
-    parentRef: React.RefObject<HTMLElement>;
+    parentRef: React.RefObject<HTMLElement | undefined>;
     children?: React.ReactNode;
 }
 
@@ -18,6 +19,7 @@ function Popup(props: Props) {
         elementRef,
         children,
         className,
+        pointerClassName,
     } = props;
 
     const {
@@ -47,10 +49,9 @@ function Popup(props: Props) {
                 className={_cs(
                     styles.pointer,
                     orientation.vertical === 'bottom' && styles.topOrientation,
+                    pointerClassName,
                 )}
-                style={{
-                    ...pointer,
-                }}
+                style={{ ...pointer }}
             >
                 <svg
                     className={styles.icon}

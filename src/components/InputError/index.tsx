@@ -1,5 +1,8 @@
-import { _cs } from '@togglecorp/fujs';
+import { useEffect, useRef, useState } from 'react';
 import { AlertLineIcon } from '@ifrc-go/icons';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
+
+import Popup from '#components/Popup';
 
 import styles from './styles.module.css';
 
@@ -7,7 +10,6 @@ export interface Props {
     className?: string;
     children?: React.ReactNode;
     disabled?: boolean;
-    style?: React.CSSProperties;
 }
 
 function InputError(props: Props) {
@@ -15,28 +17,54 @@ function InputError(props: Props) {
         children,
         className,
         disabled,
-        style,
     } = props;
 
-    if (!children) {
-        return null;
-    }
+    const [hasParentRef, setHasParentRef] = useState(false);
+
+    const parentRef = useRef<HTMLElement | undefined>();
+    const dummyRef = useRef<HTMLDivElement>(null);
+
+    useEffect(
+        () => {
+            if (isNotDefined(dummyRef.current)) {
+                return;
+            }
+
+            const {
+                current: {
+                    parentElement,
+                },
+            } = dummyRef;
+
+            if (isNotDefined(parentElement)) {
+                return;
+            }
+
+            parentRef.current = parentElement;
+            setHasParentRef(true);
+        },
+        [],
+    );
 
     return (
-        <div
-            style={style}
-            className={_cs(
-                styles.inputError,
-                disabled && styles.disabled,
-                className,
+        <>
+            {!hasParentRef && (
+                <div
+                    className={styles.tooltipDummy}
+                    ref={dummyRef}
+                />
             )}
-        >
-            <div className={styles.tip} />
-            <div className={styles.content}>
-                <AlertLineIcon className={styles.icon} />
-                {children}
-            </div>
-        </div>
+            {children && !disabled && (
+                <Popup
+                    className={_cs(styles.inputError, className)}
+                    pointerClassName={styles.pointer}
+                    parentRef={parentRef}
+                >
+                    <AlertLineIcon className={styles.icon} />
+                    {children}
+                </Popup>
+            )}
+        </>
     );
 }
 
