@@ -74,6 +74,34 @@ const register = customWrapRoute({
     },
 });
 
+const recoverAccount = customWrapRoute({
+    parent: rootLayout,
+    path: 'recover-account',
+    component: {
+        render: () => import('#views/RecoverAccount'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Recover Account',
+        visibility: 'is-not-authenticated',
+    },
+});
+
+const resendValidationEmail = customWrapRoute({
+    parent: rootLayout,
+    path: 'resend-validation-email',
+    component: {
+        render: () => import('#views/ResendValidationEmail'),
+        props: {},
+    },
+    wrapperComponent: Auth,
+    context: {
+        title: 'Resend validation email',
+        visibility: 'is-not-authenticated',
+    },
+});
+
 const home = customWrapRoute({
     parent: rootLayout,
     index: true,
@@ -2455,6 +2483,8 @@ const wrappedRoutes = {
     rootLayout,
     login,
     register,
+    recoverAccount,
+    resendValidationEmail,
     home,
     regionsLayout,
     regionIndex,

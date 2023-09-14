@@ -1,0 +1,12 @@
+{
+    "namespace": "resendValidationEmail",
+    "strings": {
+        "pageTitle": "IFRC GO - Resend Validation Email",
+        "pageHeading": "Resend Validation Email",
+        "pageDescription": "Enter the email/username you used during registration",
+        "emailInputLabel": "Email/Username",
+        "submitButtonLabel": "Resend",
+        "successfulMessageTitle": "Submitted successfully!",
+        "successfulMessageDescription": "You should recieve an email shortly on the submitted address."
+    }
+}

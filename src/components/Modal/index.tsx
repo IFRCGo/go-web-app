@@ -39,6 +39,7 @@ function Modal(props: Props) {
 
         className,
         actions,
+        childrenContainerClassName,
 
         ...containerProps
     } = props;
@@ -84,6 +85,7 @@ function Modal(props: Props) {
                     withInternalPadding
                     withoutWrapInHeading
                     className={_cs(styles.modal, className)}
+                    childrenContainerClassName={_cs(styles.content, childrenContainerClassName)}
                     actions={(!withoutCloseButton || actions) ? (
                         <>
                             {actions}

@@ -1,9 +1,12 @@
 .overlay {
+    overflow: auto;
     animation: fade-in var(--go-ui-duration-transition-medium) ease-in forwards;
 
     .modal-container {
         display: block;
-        width: 100%;
+        width: calc(100% - var(--go-ui-spacing-md) * 2);
+        max-height: calc(100% - var(--go-ui-spacing-md) * 2);
+        overflow: auto;
         animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
 
         &.size-sm {
@@ -40,9 +43,15 @@
             min-width: var(--go-ui-width-min-modal);
             height: 100%;
             min-height: var(--go-ui-height-min-modal);
+            overflow: auto;
 
             .close-icon {
                 font-size: var(--go-ui-height-icon-multiplier);
+            }
+
+            .content {
+                flex-grow: 1;
+                overflow: auto;
             }
         }
     }
