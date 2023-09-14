@@ -35,7 +35,7 @@ function StrategicPrioritiesTable(props: Props) {
             ),
             createNumberColumn<StrategicPriority, number>(
                 'priority',
-                strings.countryPlanStrategicPriority,
+                strings.countryPlanKeyFigurePeopleTargeted,
                 (strategic) => strategic?.people_targeted,
             ),
         ]),

@@ -42,6 +42,15 @@ export function Component() {
         (country) => country,
     );
 
+    const [filterReportingNS] = useUrlSearchState<number | undefined>(
+        'reporting_ns',
+        (searchValue) => {
+            const potentialValue = isDefined(searchValue) ? Number(searchValue) : undefined;
+            return potentialValue;
+        },
+        (reportingNs) => reportingNs,
+    );
+
     const {
         page,
         setPage,
@@ -64,6 +73,7 @@ export function Component() {
             limit,
             offset,
             country: isDefined(filterCountry) ? [filterCountry] : undefined,
+            reporting_ns: isDefined(filterReportingNS) ? [filterReportingNS] : undefined,
         },
     });
 

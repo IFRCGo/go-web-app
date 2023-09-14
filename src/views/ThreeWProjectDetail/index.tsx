@@ -232,6 +232,7 @@ export function Component() {
                             value={(projectResponse?.secondary_sectors_display as string[] | undefined)?.join(', ')}
                             description={(
                                 <InfoPopup
+                                    title={strings.tagsTitle}
                                     description={strings.threeWTagsTooltip}
                                 />
                             )}

@@ -13,8 +13,7 @@ export function Component() {
     return (
         <Page
             title={strings.riskPageTitle}
-            // FIXME: use translation
-            heading="Risk Watch"
+            heading={strings.riskPageHeading}
             description={(
                 <NavigationTabList variant="secondary">
                     <NavigationTab
