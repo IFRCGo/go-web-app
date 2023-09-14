@@ -320,7 +320,22 @@ export function Component() {
             },
             debugMessage,
         }) => {
-            onErrorSet(transformObjectError(formErrors, () => undefined));
+            onErrorSet(transformObjectError(
+                formErrors,
+                (locations) => {
+                    let match = matchArray(locations, ['contacts', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.contacts?.[index]?.ctype;
+                    }
+                    match = matchArray(locations, ['actions_taken', NUM]);
+                    if (isDefined(match)) {
+                        const [index] = match;
+                        return value?.actions_taken?.[index]?.organization;
+                    }
+                    return undefined;
+                },
+            ));
             alert.show(
                 strings.formErrorLabel,
                 {

@@ -8,6 +8,7 @@ import {
     addCondition,
     nullValue,
     undefinedValue,
+    emailCondition,
 } from '@togglecorp/toggle-form';
 
 import {
@@ -154,7 +155,7 @@ export const reportSchema: FormSchema = {
             is_covid_report: { required: true },
             event: {},
             country: { required: true },
-            districts: {},
+            districts: { defaultValue: [] },
             dtype: { required: true },
             start_date: { required: true },
             summary: { required: true, requiredValidation: requiredStringCondition },
@@ -170,7 +171,7 @@ export const reportSchema: FormSchema = {
                         ctype: { required: true },
                         name: {},
                         title: {},
-                        email: {},
+                        email: { validations: [emailCondition] },
                         phone: {},
                     }),
                 }),
@@ -271,12 +272,12 @@ export const reportSchema: FormSchema = {
                 if (reportType === 'EW') {
                     return {
                         ...baseSchemaTwo,
-                        num_potentially_affected: {},
-                        gov_num_potentially_affected: {},
-                        other_num_potentially_affected: {},
-                        num_highest_risk: {},
-                        gov_num_highest_risk: {},
-                        other_num_highest_risk: {},
+                        num_potentially_affected: { validations: [positiveIntegerCondition] },
+                        gov_num_potentially_affected: { validations: [positiveIntegerCondition] },
+                        other_num_potentially_affected: { validations: [positiveIntegerCondition] },
+                        num_highest_risk: { validations: [positiveIntegerCondition] },
+                        gov_num_highest_risk: { validations: [positiveIntegerCondition] },
+                        other_num_highest_risk: { validations: [positiveIntegerCondition] },
                         affected_pop_centres: {},
                         gov_affected_pop_centres: {},
                         other_affected_pop_centres: {},
@@ -359,19 +360,19 @@ export const reportSchema: FormSchema = {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
 
                 const baseSchemaTwo: ActionSchema = {
-                    actions_others: {},
                     gov_num_assisted: { validations: [positiveIntegerCondition] },
                     num_assisted: { validations: [positiveIntegerCondition] },
+                    actions_others: {},
 
-                    actions_taken: { forceValue: nullValue },
+                    num_localstaff: { forceValue: nullValue },
+                    num_volunteers: { forceValue: nullValue },
+                    num_expats_delegates: { forceValue: nullValue },
+                    actions_taken: { forceValue: [] },
                     bulletin: { forceValue: nullValue },
                     external_partners: { forceValue: [] },
                     notes_health: { forceValue: nullValue },
                     notes_ns: { forceValue: nullValue },
                     notes_socioeco: { forceValue: nullValue },
-                    num_expats_delegates: { forceValue: nullValue },
-                    num_localstaff: { forceValue: nullValue },
-                    num_volunteers: { forceValue: nullValue },
                     supported_activities: { forceValue: [] },
                 };
 
@@ -384,7 +385,7 @@ export const reportSchema: FormSchema = {
                             member: (): ActionTakenListMember => ({
                                 fields: (): ActionTakenField => ({
                                     organization: { required: true },
-                                    actions: {},
+                                    actions: { defaultValue: [] },
                                     id: { defaultValue: undefinedValue },
                                     summary: {},
                                 }),
@@ -403,23 +404,23 @@ export const reportSchema: FormSchema = {
                                 fields: (): ActionTakenField => {
                                     const baseThree: ActionTakenField = {
                                         organization: { required: true },
-                                        actions: {},
+                                        actions: { defaultValue: [] },
                                         id: { defaultValue: undefinedValue },
                                         summary: {},
                                     };
                                     // TODO:
                                     // Add condition on the actions.
-                                    // The actions should only be submittable
-                                    // when organization is NTLS
+                                    // The actions should not be submitable when report
+                                    // type COVID and organization type is not NTLS
                                     return baseThree;
                                 },
                             }),
                         },
-                        num_localstaff: { validations: [positiveIntegerCondition] },
-                        num_volunteers: { validations: [positiveIntegerCondition] },
                         notes_health: {},
                         notes_ns: {},
                         notes_socioeco: {},
+                        num_localstaff: { validations: [positiveIntegerCondition] },
+                        num_volunteers: { validations: [positiveIntegerCondition] },
                         external_partners: { defaultValue: [] },
                         supported_activities: { defaultValue: [] },
                     };
@@ -432,7 +433,7 @@ export const reportSchema: FormSchema = {
                         member: (): ActionTakenListMember => ({
                             fields: (): ActionTakenField => ({
                                 organization: { required: true },
-                                actions: {},
+                                actions: { defaultValue: [] },
                                 id: { defaultValue: undefinedValue },
                                 summary: {},
                             }),
