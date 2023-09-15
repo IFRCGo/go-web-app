@@ -151,8 +151,6 @@ const schema: OpsUpdateFormSchema = {
             // none
 
             // SUBMISSION
-            ns_request_date: {},
-            date_of_approval: {},
             appeal_code: {},
             ifrc_appeal_manager_name: {},
             ifrc_appeal_manager_email: { validations: [emailCondition] },
@@ -203,6 +201,8 @@ const schema: OpsUpdateFormSchema = {
             'emergency_appeal_planned',
             'event_map_file',
             'cover_image_file',
+            'ns_request_date',
+            'date_of_approval',
         ] as const;
         type OverviewDrefTypeRelatedFields = Pick<
             OpsUpdateFormSchemaFields,
@@ -221,7 +221,11 @@ const schema: OpsUpdateFormSchema = {
                     cover_image_file: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
-                    return conditionalFields;
+                    return {
+                        ...conditionalFields,
+                        ns_request_date: {},
+                        date_of_approval: {},
+                    };
                 }
                 return {
                     ...conditionalFields,
@@ -280,7 +284,7 @@ const schema: OpsUpdateFormSchema = {
                     anticipatory_actions: { forceValue: nullValue },
                     event_date: { forceValue: nullValue },
                     event_description: { forceValue: nullValue },
-                    images_file: { forceValue: nullValue },
+                    images_file: { forceValue: [] },
 
                     summary_of_change: { forceValue: nullValue },
                     changing_timeframe_operation: { forceValue: nullValue },
@@ -432,9 +436,8 @@ const schema: OpsUpdateFormSchema = {
                     needs_identified: { forceValue: [] },
                     identified_gaps: { forceValue: nullValue },
                     did_national_society: { forceValue: nullValue },
-                    national_society_actions: { forceValue: nullValue },
-                    // FIXME: Should this be force array?
-                    photos_file: { forceValue: nullValue },
+                    national_society_actions: { forceValue: [] },
+                    photos_file: { forceValue: [] },
                     ifrc: { forceValue: nullValue },
                     icrc: { forceValue: nullValue },
                     partner_national_society: { forceValue: nullValue },
@@ -471,8 +474,8 @@ const schema: OpsUpdateFormSchema = {
                     partner_national_society: {},
                     government_requested_assistance: {},
                     national_authorities: {},
-                    un_or_other_actor: {},
                     is_there_major_coordination_mechanism: {},
+                    un_or_other_actor: {},
                 };
                 if (val?.type_of_dref !== TYPE_ASSESSMENT) {
                     conditionalFields = {
@@ -564,10 +567,10 @@ const schema: OpsUpdateFormSchema = {
                     people_per_urban: { forceValue: nullValue },
                     people_per_local: { forceValue: nullValue },
                     displaced_people: { forceValue: nullValue },
-                    risk_security: { forceValue: nullValue },
+                    risk_security: { forceValue: [] },
                     risk_security_concern: { forceValue: nullValue },
                     budget_file: { forceValue: nullValue },
-                    planned_interventions: { forceValue: nullValue },
+                    planned_interventions: { forceValue: [] },
                     human_resource: { forceValue: nullValue },
                     is_surge_personnel_deployed: { forceValue: nullValue },
                 };
@@ -583,21 +586,18 @@ const schema: OpsUpdateFormSchema = {
                     selection_criteria: {},
                     total_targeted_population: { validations: [positiveIntegerCondition] },
                     disability_people_per: {
-                        // FIXME: shouldn't these be integer?
                         validations: [
                             greaterThanOrEqualToCondition(0),
                             lessThanOrEqualToCondition(100),
                         ],
                     },
                     people_per_urban: {
-                        // FIXME: shouldn't these be integer?
                         validations: [
                             greaterThanOrEqualToCondition(0),
                             lessThanOrEqualToCondition(100),
                         ],
                     },
                     people_per_local: {
-                        // FIXME: shouldn't these be integer?
                         validations: [
                             greaterThanOrEqualToCondition(0),
                             lessThanOrEqualToCondition(100),
@@ -645,9 +645,20 @@ const schema: OpsUpdateFormSchema = {
                                         lessThanOrEqualToCondition(MAX_INT_LIMIT),
                                     ],
                                 },
+                                male: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                        lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                    ],
+                                },
+                                female: {
+                                    validations: [
+                                        positiveIntegerCondition,
+                                        lessThanOrEqualToCondition(MAX_INT_LIMIT),
+                                    ],
+                                },
+                                description: {},
                                 progress_towards_outcome: {},
-                                male: {},
-                                female: {},
                                 indicators: {
                                     keySelector: (indicator) => indicator.client_id,
                                     member: () => ({
@@ -655,11 +666,10 @@ const schema: OpsUpdateFormSchema = {
                                             client_id: {},
                                             title: {},
                                             target: { validations: [positiveNumberCondition] },
-                                            actual: {},
+                                            actual: { validations: [positiveNumberCondition] },
                                         }),
                                     }),
                                 },
-                                description: {},
                             }),
                         }),
                     },
@@ -774,6 +784,10 @@ const schema: OpsUpdateFormSchema = {
                         ifrc_emergency_title: {},
                         ifrc_emergency_email: { validations: [emailCondition] },
                         ifrc_emergency_phone_number: {},
+                        media_contact_name: {},
+                        media_contact_title: {},
+                        media_contact_email: { validations: [emailCondition] },
+                        media_contact_phone_number: {},
                     };
                 }
 
