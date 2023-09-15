@@ -27,11 +27,14 @@ interface FormFields {
 const defaultFormValue: FormFields = {
 };
 
-const formSchema: ObjectSchema<FormFields> = {
-    fields: () => ({
+type FormSchema = ObjectSchema<FormFields>;
+type FormSchemaFields = ReturnType<FormSchema['fields']>
+
+const formSchema: FormSchema = {
+    fields: (): FormSchemaFields => ({
         username: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
     }),
 };
@@ -41,6 +44,7 @@ export function Component() {
     const strings = useTranslation(i18n);
     const alert = useAlert();
     const { navigate } = useRouting();
+
     const {
         value: formValue,
         error: formError,
@@ -51,6 +55,7 @@ export function Component() {
 
     const {
         trigger: requestPasswordRecovery,
+        pending,
     } = useLazyRequest({
         method: 'POST',
         url: '/resend_validation',
@@ -73,10 +78,14 @@ export function Component() {
             } = error;
 
             setError(transformObjectError(formErrors, () => undefined));
+
+            alert.show(
+                strings.failureMessageTitle,
+                { variant: 'danger' },
+            );
         },
     });
 
-    const fieldError = getErrorObject(formError);
     const handleFormSubmit = useMemo(
         () => createSubmitHandler(
             validate,
@@ -85,6 +94,8 @@ export function Component() {
         ),
         [validate, setError, requestPasswordRecovery],
     );
+
+    const fieldError = getErrorObject(formError);
 
     return (
         <Page
@@ -104,12 +115,15 @@ export function Component() {
                     value={formValue.username}
                     onChange={setFieldValue}
                     error={fieldError?.username}
+                    disabled={pending}
                     withAsterisk
+                    autoFocus
                 />
                 <Button
                     name={undefined}
                     type="submit"
                     className={styles.submitButton}
+                    disabled={pending}
                 >
                     {strings.submitButtonLabel}
                 </Button>

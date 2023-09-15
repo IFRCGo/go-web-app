@@ -16,6 +16,7 @@
         "loginButton":"Login",
         "loginDontHaveAccount":"Don’t have an account? {signUpLink}",
         "loginCreateAccountTitle":"Create new account",
-        "loginSignUp":"Sign up"
+        "loginSignUp":"Sign up",
+        "loginFailureMessage": "Sorry, failed to login!"
     }
 }

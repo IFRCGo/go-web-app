@@ -11,7 +11,10 @@ import {
     type ObjectSchema,
     type PartialForm,
 } from '@togglecorp/toggle-form';
-import { isDefined } from '@togglecorp/fujs';
+import {
+    isDefined,
+    isFalsyString,
+} from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import Modal from '#components/Modal';
@@ -35,15 +38,16 @@ import { transformObjectError } from '#utils/restRequest/error';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type UserMeResponse = GoApiResponse<'/api/v2/user/me/'>;
+type AccountRequestBody = GoApiBody<'/api/v2/user/{id}/', 'PATCH'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type OrganizationTypeOption = {
     key: NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number]['key'];
     value: string;
 }
 
-type UserMeResponse = GoApiResponse<'/api/v2/user/me/'>;
-
-type AccountRequestBody = GoApiBody<'/api/v2/user/{id}/', 'PATCH'>;
+const organizationTypeKeySelector = (item: OrganizationTypeOption) => item.key;
+const nsLabelSelector = (item: NationalSociety) => item.society_name;
 
 type PartialFormFields = PartialForm<AccountRequestBody>;
 
@@ -52,9 +56,6 @@ type FormSchemaFields = ReturnType<FormSchema['fields']>
 
 type ProfileSchema = ObjectSchema<PartialFormFields['profile']>;
 type ProfileSchemaFields = ReturnType<ProfileSchema['fields']>
-
-const organizationTypeKeySelector = (item: OrganizationTypeOption) => item.key;
-const nsLabelSelector = (item: NationalSociety) => item.society_name;
 
 const formSchema: FormSchema = {
     fields: (): FormSchemaFields => ({
@@ -68,8 +69,14 @@ const formSchema: FormSchema = {
         },
         profile: {
             fields: (): ProfileSchemaFields => ({
-                org: {},
-                org_type: {},
+                org: {
+                    // FIXME: Server does not accept null as empty value
+                    defaultValue: '',
+                },
+                org_type: {
+                    // FIXME: Server does not accept null as empty value
+                    defaultValue: '' as never,
+                },
                 city: {},
                 department: {},
                 position: {},
@@ -78,6 +85,14 @@ const formSchema: FormSchema = {
         },
     }),
 };
+
+// FIXME: move this to utils
+function clearEmptyString<T extends string>(value: T | null | undefined) {
+    if (isFalsyString(value)) {
+        return undefined;
+    }
+    return value;
+}
 
 interface Props {
     userDetails: UserMeResponse | undefined;
@@ -95,14 +110,17 @@ function EditAccountInfo(props: Props) {
         last_name: userDetails?.last_name,
         profile: {
             city: userDetails?.profile?.city,
-            org_type: userDetails?.profile?.org_type,
-            org: userDetails?.profile?.org,
+            // FIXME: The server sends empty string as org_type
+            org_type: clearEmptyString(userDetails?.profile?.org_type),
+            // FIXME: The server sends empty string as org
+            org: clearEmptyString(userDetails?.profile?.org),
             department: userDetails?.profile?.department,
             phone_number: userDetails?.profile?.phone_number,
         },
     };
 
     const strings = useTranslation(i18n);
+    const alert = useAlert();
     const { userAuth } = useContext(UserContext);
     const { invalidate } = useContext(DomainContext);
     const { api_profile_org_types: organizationTypeOptions } = useGlobalEnums();
@@ -115,17 +133,11 @@ function EditAccountInfo(props: Props) {
         validate,
     } = useForm(formSchema, { value: defaultFormValue });
 
-    const alert = useAlert();
-
     const setProfileFieldValue = useFormObject<'profile', NonNullable<PartialFormFields['profile']>>(
         'profile' as const,
         setFieldValue,
         {},
     );
-
-    const fieldError = getErrorObject(formError);
-
-    const isNationalSociety = formValue.profile?.org_type === 'NTLS';
 
     const {
         pending: updateAccountPending,
@@ -163,19 +175,28 @@ function EditAccountInfo(props: Props) {
 
     const nationalSocietyOptions = useNationalSociety();
 
-    const handleConfirmProfileEdit = useCallback((formValues: PartialFormFields) => {
-        updateAccountInfo(formValues as AccountRequestBody);
-    }, [updateAccountInfo]);
-
-    const handleFormSubmit = createSubmitHandler(validate, setError, handleConfirmProfileEdit);
+    const handleConfirmProfileEdit = useCallback(
+        (formValues: PartialFormFields) => {
+            updateAccountInfo(formValues as AccountRequestBody);
+        },
+        [updateAccountInfo],
+    );
 
     const handleOrganizationNameChange = useCallback(
         (val: OrganizationTypeOption['key'] | undefined) => {
-            setProfileFieldValue(undefined, 'org');
             setProfileFieldValue(val, 'org_type');
+            if (val === 'NTLS') {
+                setProfileFieldValue(undefined, 'org');
+            }
         },
         [setProfileFieldValue],
     );
+
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleConfirmProfileEdit);
+
+    const fieldError = getErrorObject(formError);
+
+    const isNationalSociety = formValue.profile?.org_type === 'NTLS';
 
     const profileError = getErrorObject(fieldError?.profile);
 
@@ -210,12 +231,19 @@ function EditAccountInfo(props: Props) {
                 className={styles.nonFieldError}
                 error={formError}
             />
+            <NonFieldError
+                className={styles.nonFieldError}
+                error={profileError}
+            />
             <TextInput
                 name="first_name"
                 label={strings.firstNameInputLabel}
                 value={formValue.first_name}
                 onChange={setFieldValue}
                 error={fieldError?.first_name}
+                disabled={updateAccountPending}
+                withAsterisk
+                autoFocus
             />
             <TextInput
                 name="last_name"
@@ -223,6 +251,8 @@ function EditAccountInfo(props: Props) {
                 value={formValue.last_name}
                 onChange={setFieldValue}
                 error={fieldError?.last_name}
+                disabled={updateAccountPending}
+                withAsterisk
             />
             <TextInput
                 name="city"
@@ -230,6 +260,7 @@ function EditAccountInfo(props: Props) {
                 value={formValue?.profile?.city}
                 onChange={setProfileFieldValue}
                 error={profileError?.city}
+                disabled={updateAccountPending}
             />
             <SelectInput
                 label={strings.organizationTypeInputLabel}
@@ -240,6 +271,7 @@ function EditAccountInfo(props: Props) {
                 labelSelector={stringValueSelector}
                 options={organizationTypeOptions}
                 error={profileError?.org_type}
+                disabled={updateAccountPending}
             />
             {isNationalSociety ? (
                 <SelectInput
@@ -250,6 +282,7 @@ function EditAccountInfo(props: Props) {
                     keySelector={nsLabelSelector}
                     labelSelector={nsLabelSelector}
                     options={nationalSocietyOptions}
+                    disabled={updateAccountPending}
                     error={profileError?.org}
                 />
             ) : (
@@ -258,6 +291,7 @@ function EditAccountInfo(props: Props) {
                     label={strings.organizationNameInputLabel}
                     value={formValue?.profile?.org}
                     onChange={setProfileFieldValue}
+                    disabled={updateAccountPending}
                     error={profileError?.org}
                 />
             )}
@@ -267,6 +301,7 @@ function EditAccountInfo(props: Props) {
                 value={formValue?.profile?.department}
                 onChange={setProfileFieldValue}
                 error={profileError?.department}
+                disabled={updateAccountPending}
             />
             <TextInput
                 name="phone_number"
@@ -274,6 +309,7 @@ function EditAccountInfo(props: Props) {
                 value={formValue?.profile?.phone_number}
                 onChange={setProfileFieldValue}
                 error={profileError?.phone_number}
+                disabled={updateAccountPending}
             />
         </Modal>
     );

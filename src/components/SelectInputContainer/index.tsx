@@ -120,6 +120,7 @@ function SelectInputContainer<
         hasValue,
         autoFocus,
         onEnterWithoutOption,
+        withAsterisk,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
@@ -328,6 +329,7 @@ function SelectInputContainer<
                         autoFocus={autoFocus}
                     />
                 )}
+                withAsterisk={withAsterisk}
             />
             {dropdownShown && (
                 <Popup

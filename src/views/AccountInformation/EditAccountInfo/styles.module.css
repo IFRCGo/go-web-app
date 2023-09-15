@@ -1,7 +1,7 @@
 .edit-account-info {
     .content {
         display: grid;
-        grid-gap: var(--go-ui-spacing-2xl);
+        grid-gap: var(--go-ui-spacing-xl);
         grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
         background-color: var(--go-ui-color-white);
 

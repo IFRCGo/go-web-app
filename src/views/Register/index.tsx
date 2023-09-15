@@ -9,10 +9,10 @@ import {
     getErrorObject,
     type PartialForm,
     createSubmitHandler,
-    undefinedValue,
     addCondition,
+    undefinedValue,
 } from '@togglecorp/toggle-form';
-import { isDefined, isValidEmail } from '@togglecorp/fujs';
+import { isTruthyString, isDefined, isValidEmail } from '@togglecorp/fujs';
 
 import useRouting from '#hooks/useRouting';
 import { transformObjectError } from '#utils/restRequest/error';
@@ -40,35 +40,34 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type RegisterRequestBody = GoApiBody<'/register', 'POST'>;
+type WhiteListResponse = GoApiResponse<'/api/v2/domainwhitelist/'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
 
-type RegisterRequestBody = GoApiBody<'/register', 'POST'>;
-type WhiteListResponse = GoApiResponse<'/api/v2/domainwhitelist/'>;
+const nsLabelSelector = (item: NationalSociety) => item.society_name;
+const keySelector = (item: OrganizationTypeOption) => item.key;
+const labelSelector = (item: OrganizationTypeOption) => item.value;
+
+function getPasswordMatchCondition(referenceVal: string | undefined) {
+    function passwordMatchCondition(val: string | undefined) {
+        if (isTruthyString(val) && isTruthyString(referenceVal) && val !== referenceVal) {
+            return 'Passwords do not match';
+        }
+        return undefined;
+    }
+
+    return passwordMatchCondition;
+}
 
 type FormFields = PartialForm<RegisterRequestBody & { confirm_password: string }>;
+
+const defaultFormValue: FormFields = {};
 
 type FormSchema = ObjectSchema<FormFields, FormFields, { whitelistedDomains: WhiteListResponse['results'] }>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
 
-const nsLabelSelector = (item: NationalSociety) => item.society_name;
-const defaultFormValue: FormFields = {};
-const keySelector = (item: OrganizationTypeOption) => item.key;
-const labelSelector = (item: OrganizationTypeOption) => item.value;
-
 const formSchema: FormSchema = {
-    validation: (value) => {
-        if (
-            value?.password
-            && value?.confirm_password
-            && value.password !== value.confirm_password
-        ) {
-            // FIXME: use translations
-            return 'Passwords do not match!';
-        }
-        return undefined;
-    },
-
     fields: (value, _, context): FormSchemaFields => {
         let fields: FormSchemaFields = {
             first_name: {
@@ -88,11 +87,6 @@ const formSchema: FormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            confirm_password: {
-                required: true,
-                requiredValidation: requiredStringCondition,
-                forceValue: undefinedValue,
-            },
             organization: {
                 required: true,
                 requiredValidation: requiredStringCondition,
@@ -107,22 +101,50 @@ const formSchema: FormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            department: {},
-            position: {},
-            phone_number: {},
+            department: {
+                // FIXME: server does not support null
+                defaultValue: undefinedValue,
+            },
+            position: {
+                // FIXME: server does not support null
+                defaultValue: undefinedValue,
+            },
+            phone_number: {
+                // FIXME: server does not support null
+                defaultValue: undefinedValue,
+            },
         };
+
+        fields = addCondition(
+            fields,
+            value,
+            ['password'],
+            ['confirm_password'],
+            (val) => ({
+                confirm_password: {
+                    required: true,
+                    requiredValidation: requiredStringCondition,
+                    forceValue: undefinedValue,
+                    validations: [getPasswordMatchCondition(val?.password)],
+                },
+            }),
+        );
+
         fields = addCondition(
             fields,
             value,
             ['email'],
             ['justification'],
             (safeValue) => {
-                const isValidIfrcEmail = isDefined(safeValue)
-                    && isDefined(safeValue.email)
+                const justificationNotNeeded = (
+                    isDefined(safeValue)
+                    && isTruthyString(safeValue.email)
                     && isValidEmail(safeValue.email)
                     && context.whitelistedDomains
-                    && isWhitelistedEmail(safeValue.email, context.whitelistedDomains);
-                return isValidIfrcEmail
+                    && isWhitelistedEmail(safeValue.email, context.whitelistedDomains)
+                );
+
+                return justificationNotNeeded
                     ? {
                         justification: {
                             forceValue: undefinedValue,
@@ -145,7 +167,13 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { api_profile_org_types: organizationTypes } = useGlobalEnums();
 
-    const { response: whiteListDomainResponse } = useRequest({
+    const alert = useAlert();
+    const { navigate } = useRouting();
+
+    const {
+        response: whiteListDomainResponse,
+        pending: whiteListDomainPending,
+    } = useRequest({
         url: '/api/v2/domainwhitelist/',
         query: { limit: 9999 },
     });
@@ -163,12 +191,6 @@ export function Component() {
         { value: defaultFormValue },
         { whitelistedDomains },
     );
-
-    const alert = useAlert();
-    const { navigate } = useRouting();
-
-    const fieldError = getErrorObject(formError);
-    const isNationalSociety = formValue.organization_type === 'NTLS';
 
     const {
         pending: registerPending,
@@ -194,33 +216,43 @@ export function Component() {
 
             setError(transformObjectError(formErrors, () => undefined));
 
-            const message = strings.registrationFailure;
             alert.show(
-                message,
+                strings.registrationFailure,
                 { variant: 'danger' },
             );
         },
     });
 
-    const nationalSocietyOptions = useNationalSociety();
-
-    const isValidIfrcEmail = isDefined(formValue.email)
-        && isValidEmail(formValue.email)
-        && whitelistedDomains
-        && isWhitelistedEmail(formValue.email, whitelistedDomains);
-
-    const handleRegister = useCallback((formValues: FormFields) => {
-        register(formValues as RegisterRequestBody);
-    }, [register]);
-
-    const handleFormSubmit = createSubmitHandler(validate, setError, handleRegister);
+    const handleRegister = useCallback(
+        (formValues: FormFields) => {
+            register(formValues as RegisterRequestBody);
+        },
+        [register],
+    );
 
     const handleOrganizationTypeChange = useCallback(
         (val: string | undefined) => {
-            setFieldValue(undefined, 'organization');
             setFieldValue(val, 'organization_type');
+            if (val === 'NTLS') {
+                setFieldValue(undefined, 'organization');
+            }
         },
         [setFieldValue],
+    );
+
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleRegister);
+
+    const fieldError = getErrorObject(formError);
+
+    const isNationalSociety = formValue.organization_type === 'NTLS';
+
+    const nationalSocietyOptions = useNationalSociety();
+
+    const justificationNeeded = (
+        isTruthyString(formValue.email)
+        && isValidEmail(formValue.email)
+        && whitelistedDomains
+        && !isWhitelistedEmail(formValue.email, whitelistedDomains)
     );
 
     const loginInfo = resolveToComponent(
@@ -236,6 +268,8 @@ export function Component() {
             ),
         },
     );
+
+    const pending = whiteListDomainPending || registerPending;
 
     return (
         <Page
@@ -256,8 +290,9 @@ export function Component() {
                     value={formValue.first_name}
                     onChange={setFieldValue}
                     error={fieldError?.first_name}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
+                    autoFocus
                 />
                 <TextInput
                     name="last_name"
@@ -265,7 +300,7 @@ export function Component() {
                     value={formValue.last_name}
                     onChange={setFieldValue}
                     error={fieldError?.last_name}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <TextInput
@@ -275,7 +310,7 @@ export function Component() {
                     value={formValue.email}
                     onChange={setFieldValue}
                     error={fieldError?.email}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <TextInput
@@ -285,7 +320,7 @@ export function Component() {
                     value={formValue.password}
                     onChange={setFieldValue}
                     error={fieldError?.password}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <TextInput
@@ -295,7 +330,7 @@ export function Component() {
                     value={formValue.confirm_password}
                     onChange={setFieldValue}
                     error={fieldError?.confirm_password}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <div className={styles.formBorder} />
@@ -305,7 +340,7 @@ export function Component() {
                     value={formValue?.country}
                     onChange={setFieldValue}
                     error={fieldError?.country}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <TextInput
@@ -314,7 +349,7 @@ export function Component() {
                     value={formValue.city}
                     onChange={setFieldValue}
                     error={fieldError?.city}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <SelectInput
@@ -326,7 +361,7 @@ export function Component() {
                     labelSelector={labelSelector}
                     options={organizationTypes}
                     error={fieldError?.organization_type}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 {isNationalSociety ? (
@@ -339,7 +374,7 @@ export function Component() {
                         value={formValue.organization}
                         onChange={setFieldValue}
                         error={fieldError?.organization}
-                        disabled={registerPending}
+                        disabled={pending}
                         withAsterisk
                     />
                 ) : (
@@ -349,7 +384,7 @@ export function Component() {
                         value={formValue.organization}
                         onChange={setFieldValue}
                         error={fieldError?.organization}
-                        disabled={registerPending}
+                        disabled={pending}
                         withAsterisk
                     />
                 )}
@@ -359,7 +394,7 @@ export function Component() {
                     value={formValue.department}
                     onChange={setFieldValue}
                     error={fieldError?.department}
-                    disabled={registerPending}
+                    disabled={pending}
                 />
                 <TextInput
                     name="position"
@@ -367,7 +402,7 @@ export function Component() {
                     value={formValue.position}
                     onChange={setFieldValue}
                     error={fieldError?.position}
-                    disabled={registerPending}
+                    disabled={pending}
                 />
                 <TextInput
                     name="phone_number"
@@ -375,10 +410,9 @@ export function Component() {
                     value={formValue.phone_number}
                     onChange={setFieldValue}
                     error={fieldError?.phone_number}
-                    disabled={registerPending}
-                    withAsterisk
+                    disabled={pending}
                 />
-                {!isValidIfrcEmail && (
+                {justificationNeeded && (
                     <>
                         <div className={styles.justifyNote}>
                             {strings.registerJustify}
@@ -389,8 +423,11 @@ export function Component() {
                             labelClassName={styles.textLabel}
                             label={strings.registerJustification}
                             value={formValue.justification}
+                            error={fieldError?.justification}
                             onChange={setFieldValue}
+                            disabled={pending}
                             rows={5}
+                            withAsterisk
                         />
                     </>
                 )}
@@ -399,9 +436,9 @@ export function Component() {
                 <Button
                     name={undefined}
                     onClick={handleFormSubmit}
-                    disabled={registerPending}
+                    disabled={pending}
                 >
-                    {!isValidIfrcEmail
+                    {justificationNeeded
                         ? strings.requestAccess
                         : strings.registerSubmit}
                 </Button>
