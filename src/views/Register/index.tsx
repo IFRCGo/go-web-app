@@ -136,13 +136,15 @@ const formSchema: FormSchema = {
             ['email'],
             ['justification'],
             (safeValue) => {
-                const isValidIfrcEmail = isDefined(safeValue)
-                    && isDefined(safeValue.email)
+                const justificationNotNeeded = (
+                    isDefined(safeValue)
+                    && isTruthyString(safeValue.email)
                     && isValidEmail(safeValue.email)
                     && context.whitelistedDomains
-                    && isWhitelistedEmail(safeValue.email, context.whitelistedDomains);
+                    && isWhitelistedEmail(safeValue.email, context.whitelistedDomains)
+                );
 
-                return isValidIfrcEmail
+                return justificationNotNeeded
                     ? {
                         justification: {
                             forceValue: undefinedValue,
@@ -168,7 +170,10 @@ export function Component() {
     const alert = useAlert();
     const { navigate } = useRouting();
 
-    const { response: whiteListDomainResponse } = useRequest({
+    const {
+        response: whiteListDomainResponse,
+        pending: whiteListDomainPending,
+    } = useRequest({
         url: '/api/v2/domainwhitelist/',
         query: { limit: 9999 },
     });
@@ -243,10 +248,12 @@ export function Component() {
 
     const nationalSocietyOptions = useNationalSociety();
 
-    const isValidIfrcEmail = isDefined(formValue.email)
+    const justificationNeeded = (
+        isTruthyString(formValue.email)
         && isValidEmail(formValue.email)
         && whitelistedDomains
-        && isWhitelistedEmail(formValue.email, whitelistedDomains);
+        && !isWhitelistedEmail(formValue.email, whitelistedDomains)
+    );
 
     const loginInfo = resolveToComponent(
         strings.registerAccountPresent,
@@ -261,6 +268,8 @@ export function Component() {
             ),
         },
     );
+
+    const pending = whiteListDomainPending || registerPending;
 
     return (
         <Page
@@ -281,7 +290,7 @@ export function Component() {
                     value={formValue.first_name}
                     onChange={setFieldValue}
                     error={fieldError?.first_name}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                     autoFocus
                 />
@@ -291,7 +300,7 @@ export function Component() {
                     value={formValue.last_name}
                     onChange={setFieldValue}
                     error={fieldError?.last_name}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <TextInput
@@ -301,7 +310,7 @@ export function Component() {
                     value={formValue.email}
                     onChange={setFieldValue}
                     error={fieldError?.email}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <TextInput
@@ -311,7 +320,7 @@ export function Component() {
                     value={formValue.password}
                     onChange={setFieldValue}
                     error={fieldError?.password}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <TextInput
@@ -321,7 +330,7 @@ export function Component() {
                     value={formValue.confirm_password}
                     onChange={setFieldValue}
                     error={fieldError?.confirm_password}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <div className={styles.formBorder} />
@@ -331,7 +340,7 @@ export function Component() {
                     value={formValue?.country}
                     onChange={setFieldValue}
                     error={fieldError?.country}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <TextInput
@@ -340,7 +349,7 @@ export function Component() {
                     value={formValue.city}
                     onChange={setFieldValue}
                     error={fieldError?.city}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 <SelectInput
@@ -352,7 +361,7 @@ export function Component() {
                     labelSelector={labelSelector}
                     options={organizationTypes}
                     error={fieldError?.organization_type}
-                    disabled={registerPending}
+                    disabled={pending}
                     withAsterisk
                 />
                 {isNationalSociety ? (
@@ -365,7 +374,7 @@ export function Component() {
                         value={formValue.organization}
                         onChange={setFieldValue}
                         error={fieldError?.organization}
-                        disabled={registerPending}
+                        disabled={pending}
                         withAsterisk
                     />
                 ) : (
@@ -375,7 +384,7 @@ export function Component() {
                         value={formValue.organization}
                         onChange={setFieldValue}
                         error={fieldError?.organization}
-                        disabled={registerPending}
+                        disabled={pending}
                         withAsterisk
                     />
                 )}
@@ -385,7 +394,7 @@ export function Component() {
                     value={formValue.department}
                     onChange={setFieldValue}
                     error={fieldError?.department}
-                    disabled={registerPending}
+                    disabled={pending}
                 />
                 <TextInput
                     name="position"
@@ -393,7 +402,7 @@ export function Component() {
                     value={formValue.position}
                     onChange={setFieldValue}
                     error={fieldError?.position}
-                    disabled={registerPending}
+                    disabled={pending}
                 />
                 <TextInput
                     name="phone_number"
@@ -401,9 +410,9 @@ export function Component() {
                     value={formValue.phone_number}
                     onChange={setFieldValue}
                     error={fieldError?.phone_number}
-                    disabled={registerPending}
+                    disabled={pending}
                 />
-                {!isValidIfrcEmail && (
+                {justificationNeeded && (
                     <>
                         <div className={styles.justifyNote}>
                             {strings.registerJustify}
@@ -416,7 +425,7 @@ export function Component() {
                             value={formValue.justification}
                             error={fieldError?.justification}
                             onChange={setFieldValue}
-                            disabled={registerPending}
+                            disabled={pending}
                             rows={5}
                             withAsterisk
                         />
@@ -427,9 +436,9 @@ export function Component() {
                 <Button
                     name={undefined}
                     onClick={handleFormSubmit}
-                    disabled={registerPending}
+                    disabled={pending}
                 >
-                    {!isValidIfrcEmail
+                    {justificationNeeded
                         ? strings.requestAccess
                         : strings.registerSubmit}
                 </Button>
