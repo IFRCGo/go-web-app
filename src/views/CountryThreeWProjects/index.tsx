@@ -3,7 +3,7 @@ import {
     useState,
 } from 'react';
 import {
-    isTruthyString,
+    isDefined,
     isNotDefined,
     listToGroupList,
     listToMap,
@@ -112,7 +112,7 @@ export function Component() {
 
     const isFiltered = hasSomeDefinedValue(filters);
 
-    const iso3 = countryResponse?.iso3;
+    const countryId = countryResponse?.id;
 
     const {
         pending: projectListPending,
@@ -123,8 +123,8 @@ export function Component() {
         url: '/api/v2/project/',
         query: {
             limit: 9999,
-            country_iso3: isTruthyString(iso3)
-                ? [iso3]
+            country: isDefined(countryId)
+                ? [countryId]
                 : undefined,
         },
     });

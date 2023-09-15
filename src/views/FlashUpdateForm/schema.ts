@@ -199,7 +199,10 @@ const finalSchema: FormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            originator_email: { required: true, validations: [emailCondition] },
+            originator_email: {
+                required: true,
+                validations: [emailCondition],
+            },
             originator_phone: {},
             originator_title: {},
             ifrc_email: { validations: [emailCondition] },
@@ -207,7 +210,7 @@ const finalSchema: FormSchema = {
             ifrc_phone: {},
             ifrc_title: {},
 
-            // ?
+            // FIXME: do we need this?
             share_with: {},
         };
 

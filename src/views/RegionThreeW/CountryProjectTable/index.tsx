@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
     isNotDefined,
-    isTruthyString,
+    isDefined,
 } from '@togglecorp/fujs';
 
 import Container from '#components/Container';
@@ -24,7 +24,7 @@ import { type FilterValue } from '../Filters';
 type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
 
 interface Props {
-    countryIso3: string;
+    country: number;
     filters: FilterValue;
     page: number;
     setPage: (value: number) => void;
@@ -34,7 +34,7 @@ interface Props {
 
 function CountryProjectTable(props: Props) {
     const {
-        countryIso3,
+        country,
         filters,
         page,
         setPage,
@@ -48,13 +48,13 @@ function CountryProjectTable(props: Props) {
         pending: projectsResponsePending,
     } = useRequest({
         url: '/api/v2/project/',
-        skip: isNotDefined(countryIso3),
+        skip: isNotDefined(country),
         query: {
             ...filters,
             limit,
             offset,
-            country_iso3: isTruthyString(countryIso3)
-                ? [countryIso3]
+            country: isDefined(country)
+                ? [country]
                 : undefined,
         },
     });
