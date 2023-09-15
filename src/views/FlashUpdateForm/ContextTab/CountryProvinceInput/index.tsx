@@ -26,6 +26,7 @@ import styles from './styles.module.css';
 
 interface Props {
     value: PartialCountryDistrict;
+    // FIXME: Only pass error for this object
     error: ArrayError<PartialCountryDistrict> | undefined;
     onChange: (value: PartialCountryDistrict, index: number) => void;
     onRemove: (index: number) => void;
@@ -88,6 +89,7 @@ function CountryProvinceInput(props: Props) {
                 onChange={handleCountryChange}
                 value={value.country}
                 disabled={disabled}
+                withAsterisk
             />
             <DistrictSearchMultiSelectInput
                 error={getErrorString(error?.district)}

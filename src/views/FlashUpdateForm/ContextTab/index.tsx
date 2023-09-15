@@ -146,6 +146,7 @@ function ContextTab(props: Props) {
             <InputSection
                 title={strings.flashUpdateFormContextCountryTitle}
                 description={strings.flashUpdateFormContextCountryDescription}
+                withAsteriskOnTitle
             >
                 <NonFieldError error={getErrorObject(error?.country_district)} />
                 {value.country_district?.map((countryDistrict, index) => (
@@ -176,6 +177,7 @@ function ContextTab(props: Props) {
             </InputSection>
             <InputSection
                 title={strings.flashUpdateFormContextHazardTypeTitle}
+                withAsteriskOnTitle
             >
                 <DisasterTypeSelectInput
                     error={error?.hazard_type}
@@ -183,11 +185,13 @@ function ContextTab(props: Props) {
                     value={value.hazard_type}
                     onChange={onValueChange}
                     disabled={disabled}
+                    // withAsterisk
                 />
             </InputSection>
             <InputSection
                 title={strings.flashUpdateFormContextTitle}
                 description={strings.flashUpdateFormContextTitleDescription}
+                withAsteriskOnTitle
             >
                 <TextInput
                     name="title"
@@ -206,11 +210,13 @@ function ContextTab(props: Props) {
                     )}
                     placeholder={strings.flashUpdateFormContextTitlePlaceholder}
                     disabled={disabled}
+                    // withAsterisk
                 />
             </InputSection>
             <InputSection
                 title={strings.flashUpdateFormContextSituationalTitle}
-            // Moved into the area as placeholder: description={...}
+                withAsteriskOnTitle
+                // Moved into the area as placeholder: description={...}
             >
                 <RichTextArea
                     name="situational_overview"
@@ -219,6 +225,7 @@ function ContextTab(props: Props) {
                     error={error?.situational_overview}
                     placeholder={strings.flashUpdateFormContextSituationalDescription}
                     disabled={disabled}
+                    // withAsterisk
                 />
             </InputSection>
             <InputSection

@@ -3,7 +3,7 @@
     align-items: center;
     opacity: 0;
     background-color: var(--go-ui-color-primary-red);
-    padding: var(--go-ui-spacing-md);
+    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
     animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
     animation-delay: var(--go-ui-duration-transition-fast);
     color: var(--go-ui-color-white);

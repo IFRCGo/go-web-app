@@ -86,7 +86,8 @@ export function Component() {
     } = useForm(
         schema,
         {
-            value: () => ({
+            // FIXME: use function later
+            value: {
                 country_district: [{
                     client_id: randomString(),
                 }],
@@ -96,7 +97,7 @@ export function Component() {
                     { client_id: randomString(), organization: 'FDRN', actions: [] },
                     { client_id: randomString(), organization: 'GOV', actions: [] },
                 ],
-            }),
+            },
         },
     );
 
@@ -348,7 +349,8 @@ export function Component() {
     return (
         <Tabs
             value={activeTab}
-            onChange={handleTabChange}
+            // NOTE: Not using handleTabChange
+            onChange={setActiveTab}
             variant="step"
         >
             <Page

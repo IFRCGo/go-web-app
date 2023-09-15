@@ -22,6 +22,7 @@ import styles from './styles.module.css';
 
 interface Props {
     value: PartialReferenceType;
+    // FIXME: Only pass error for this object
     error: ArrayError<PartialReferenceType> | undefined;
     onChange: (value: SetValueArg<PartialReferenceType>, index: number) => void;
     onRemove: (index: number) => void;
@@ -64,6 +65,7 @@ function ReferenceInput(props: Props) {
                     error={error?.date}
                     label={strings.flashUpdateFormContextReferenceDateLabel}
                     disabled={disabled}
+                    withAsterisk
                 />
                 <TextInput
                     className={styles.inputName}
@@ -73,6 +75,7 @@ function ReferenceInput(props: Props) {
                     error={error?.source_description}
                     label={strings.flashUpdateFormContextReferenceNameLabel}
                     disabled={disabled}
+                    withAsterisk
                 />
                 <TextInput
                     className={styles.inputUrl}
@@ -92,6 +95,7 @@ function ReferenceInput(props: Props) {
                     onChange={onValueChange}
                     fileIdToUrlMap={fileIdToUrlMap}
                     setFileIdToUrlMap={setFileIdToUrlMap}
+                    error={error?.document}
                     disabled={disabled}
                 >
                     {strings.uploadDocumentButtonTitle}

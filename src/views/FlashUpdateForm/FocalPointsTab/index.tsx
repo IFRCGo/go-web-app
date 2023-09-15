@@ -46,6 +46,7 @@ function FocalPoints(props: Props) {
                         error={error?.originator_name}
                         label={strings.flashUpdateFormFocalOriginatorNameLabel}
                         disabled={disabled}
+                        withAsterisk
                     />
                     <TextInput
                         name="originator_title"
@@ -62,6 +63,7 @@ function FocalPoints(props: Props) {
                         error={error?.originator_email}
                         label={strings.flashUpdateFormFocalOriginatorEmailLabel}
                         disabled={disabled}
+                        withAsterisk
                     />
                     <TextInput
                         name="originator_phone"

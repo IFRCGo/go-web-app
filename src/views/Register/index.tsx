@@ -136,15 +136,15 @@ const formSchema: FormSchema = {
             ['email'],
             ['justification'],
             (safeValue) => {
-                const justificationNotNeeded = (
+                const justificationNeeded = (
                     isDefined(safeValue)
                     && isTruthyString(safeValue.email)
                     && isValidEmail(safeValue.email)
                     && context.whitelistedDomains
-                    && isWhitelistedEmail(safeValue.email, context.whitelistedDomains)
+                    && !isWhitelistedEmail(safeValue.email, context.whitelistedDomains)
                 );
 
-                return justificationNotNeeded
+                return !justificationNeeded
                     ? {
                         justification: {
                             forceValue: undefinedValue,

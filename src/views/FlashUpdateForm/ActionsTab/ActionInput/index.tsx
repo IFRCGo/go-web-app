@@ -27,6 +27,7 @@ const defaultValue: PartialActionTaken = {
 
 interface Props {
     value: PartialActionTaken;
+    // FIXME: Only pass error for this object
     error: ArrayError<PartialActionTaken> | undefined;
     onChange: (value: SetValueArg<PartialActionTaken>, index: number) => void;
     index: number;

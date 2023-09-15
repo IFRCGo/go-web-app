@@ -3,9 +3,9 @@
     "strings": {
         "flashUpdateFormFocalOriginatorTitle":"Originator",
         "flashUpdateFormFocalOriginatorDescription":"IFRC staff completing the Flash Update",
-        "flashUpdateFormFocalOriginatorNameLabel":"Name *",
+        "flashUpdateFormFocalOriginatorNameLabel":"Name",
         "flashUpdateFormFocalOriginatorTitleLabel":"Title",
-        "flashUpdateFormFocalOriginatorEmailLabel":"Email *",
+        "flashUpdateFormFocalOriginatorEmailLabel":"Email",
         "flashUpdateFormFocalOriginatorPhoneLabel":"Phone",
         "flashUpdateFormFocalIfrcTitle":"IFRC Focal Point",
         "flashUpdateFormFocalIfrcDescription":"IFRC staff who is overall responsible for supporting the NS in its response to the disaster event.",
