@@ -7,6 +7,7 @@
         "emailInputLabel": "Email/Username",
         "submitButtonLabel": "Resend",
         "successfulMessageTitle": "Submitted successfully!",
-        "successfulMessageDescription": "You should recieve an email shortly on the submitted address."
+        "successfulMessageDescription": "You should recieve an email shortly on the submitted address.",
+        "failureMessageTitle": "Could not submit!"
     }
 }

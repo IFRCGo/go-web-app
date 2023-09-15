@@ -15,6 +15,7 @@ import Link from '#components/Link';
 import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
+import useAlert from '#hooks/useAlert';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
 import UserContext from '#contexts/user';
@@ -36,19 +37,21 @@ interface FormFields {
     username?: string;
     password?: string;
 }
+type FormSchema = ObjectSchema<FormFields>;
+type FormSchemaFields = ReturnType<FormSchema['fields']>;
 
 const defaultFormValue: FormFields = {
 };
 
-const formSchema: ObjectSchema<FormFields> = {
-    fields: () => ({
+const formSchema: FormSchema = {
+    fields: (): FormSchemaFields => ({
         username: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
         password: {
             required: true,
-            requiredCondition: requiredStringCondition,
+            requiredValidation: requiredStringCondition,
         },
     }),
 };
@@ -66,8 +69,11 @@ export function Component() {
         validate,
     } = useForm(formSchema, { value: defaultFormValue });
 
+    const alert = useAlert();
+
     const {
         trigger: login,
+        pending: loginPending,
     } = useLazyRequest({
         method: 'POST',
         url: '/get_auth_token',
@@ -97,10 +103,25 @@ export function Component() {
             } = error;
 
             setError(transformObjectError(formErrors, () => undefined));
+
+            alert.show(
+                strings.loginFailureMessage,
+                { variant: 'danger' },
+            );
         },
     });
 
+    const handleFormSubmit = useMemo(
+        () => createSubmitHandler(
+            validate,
+            setError,
+            login,
+        ),
+        [validate, setError, login],
+    );
+
     const fieldError = getErrorObject(formError);
+
     const signupInfo = resolveToComponent(
         strings.loginDontHaveAccount,
         {
@@ -113,15 +134,6 @@ export function Component() {
                 </Link>
             ),
         },
-    );
-
-    const handleFormSubmit = useMemo(
-        () => createSubmitHandler(
-            validate,
-            setError,
-            login,
-        ),
-        [validate, setError, login],
     );
 
     return (
@@ -145,6 +157,8 @@ export function Component() {
                         onChange={setFieldValue}
                         error={fieldError?.username}
                         withAsterisk
+                        disabled={loginPending}
+                        autoFocus
                     />
                     <PasswordInput
                         name="password"
@@ -153,6 +167,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={fieldError?.password}
                         withAsterisk
+                        disabled={loginPending}
                     />
                 </div>
                 <div className={styles.utilityLinks}>
@@ -175,6 +190,7 @@ export function Component() {
                     <Button
                         name={undefined}
                         type="submit"
+                        disabled={loginPending}
                     >
                         {strings.loginButton}
                     </Button>

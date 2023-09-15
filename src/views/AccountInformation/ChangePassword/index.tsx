@@ -7,7 +7,11 @@ import {
     PartialForm,
     createSubmitHandler,
     undefinedValue,
+    addCondition,
 } from '@togglecorp/toggle-form';
+import {
+    isTruthyString,
+} from '@togglecorp/fujs';
 
 import Button from '#components/Button';
 import Modal from '#components/Modal';
@@ -25,40 +29,58 @@ import styles from './styles.module.css';
 
 type PasswordChangeRequestBody = GoApiBody<'/change_password', 'POST'>;
 
-type PartialFormValue = PartialForm<PasswordChangeRequestBody & { confirmNewPassword: string }>;
-
-const defaultFormValue: PartialFormValue = {};
-
-const formSchema: ObjectSchema<PartialFormValue> = {
-    validation: (value) => {
-        if (
-            value?.new_password
-            && value?.confirmNewPassword
-            && value.new_password !== value.confirmNewPassword
-        ) {
-            return 'Passwords do not match!';
+function getPasswordMatchCondition(referenceVal: string | undefined) {
+    function passwordMatchCondition(val: string | undefined) {
+        if (isTruthyString(val) && isTruthyString(referenceVal) && val !== referenceVal) {
+            return 'Passwords do not match';
         }
         return undefined;
+    }
+
+    return passwordMatchCondition;
+}
+
+type PartialFormValue = PartialForm<PasswordChangeRequestBody & { confirmNewPassword: string }>;
+const defaultFormValue: PartialFormValue = {};
+
+type FormSchema = ObjectSchema<PartialFormValue>;
+type FormSchemaFields = ReturnType<FormSchema['fields']>;
+const formSchema: FormSchema = {
+    fields: (value): FormSchemaFields => {
+        let fields: FormSchemaFields = {
+            username: {},
+            token: {},
+            password: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            new_password: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+            },
+            confirmNewPassword: {
+                required: true,
+                requiredValidation: requiredStringCondition,
+                forceValue: undefinedValue,
+            },
+        };
+
+        fields = addCondition(
+            fields,
+            value,
+            ['new_password'],
+            ['confirmNewPassword'],
+            (val) => ({
+                confirmNewPassword: {
+                    required: true,
+                    requiredValidation: requiredStringCondition,
+                    forceValue: undefinedValue,
+                    validations: [getPasswordMatchCondition(val?.new_password)],
+                },
+            }),
+        );
+        return fields;
     },
-    fields: () => ({
-        username: {},
-        token: {},
-        password: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-        },
-        new_password: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-        },
-        confirmNewPassword: {
-            required: true,
-            requiredValidation: requiredStringCondition,
-            // NOTE: forcing undefined value will not send this value to the
-            // server
-            forceValue: undefinedValue,
-        },
-    }),
 };
 
 interface Props {
@@ -66,7 +88,9 @@ interface Props {
 }
 
 function ChangePasswordModal(props: Props) {
-    const { handleModalCloseButton } = props;
+    const {
+        handleModalCloseButton,
+    } = props;
 
     const strings = useTranslation(i18n);
     const alert = useAlert();
@@ -79,8 +103,6 @@ function ChangePasswordModal(props: Props) {
         setError,
         validate,
     } = useForm(formSchema, { value: defaultFormValue });
-
-    const fieldError = getErrorObject(formError);
 
     const {
         pending: updatePasswordPending,
@@ -113,6 +135,7 @@ function ChangePasswordModal(props: Props) {
     });
 
     const handleConfirmPasswordChange = useCallback((formValues: PartialFormValue) => {
+        // FIXME: We should not pass username and token to server
         const passwordFormValues = {
             ...formValues,
             username: userAuth?.username,
@@ -126,6 +149,8 @@ function ChangePasswordModal(props: Props) {
         setError,
         handleConfirmPasswordChange,
     );
+
+    const fieldError = getErrorObject(formError);
 
     return (
         <Modal
@@ -165,6 +190,9 @@ function ChangePasswordModal(props: Props) {
                 value={formValue.password}
                 onChange={setFieldValue}
                 error={fieldError?.password}
+                disabled={updatePasswordPending}
+                withAsterisk
+                autoFocus
             />
             <TextInput
                 name="new_password"
@@ -173,6 +201,8 @@ function ChangePasswordModal(props: Props) {
                 value={formValue.new_password}
                 onChange={setFieldValue}
                 error={fieldError?.new_password}
+                disabled={updatePasswordPending}
+                withAsterisk
             />
             <TextInput
                 name="confirmNewPassword"
@@ -181,6 +211,8 @@ function ChangePasswordModal(props: Props) {
                 value={formValue.confirmNewPassword}
                 onChange={setFieldValue}
                 error={fieldError?.confirmNewPassword}
+                disabled={updatePasswordPending}
+                withAsterisk
             />
         </Modal>
     );

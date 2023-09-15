@@ -7,6 +7,7 @@
         "emailInputLabel": "Email/Username",
         "submitButtonLabel": "Submit recovery request",
         "successfulMessageTitle": "Account recovery submitted!",
-        "successfulMessageDescription": "Please check you email for further action!"
+        "successfulMessageDescription": "Please check you email for further action!",
+        "failureMessageTitle": "Could not recover account!"
     }
 }

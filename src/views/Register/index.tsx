@@ -9,10 +9,10 @@ import {
     getErrorObject,
     type PartialForm,
     createSubmitHandler,
-    undefinedValue,
     addCondition,
+    undefinedValue,
 } from '@togglecorp/toggle-form';
-import { isDefined, isValidEmail } from '@togglecorp/fujs';
+import { isTruthyString, isDefined, isValidEmail } from '@togglecorp/fujs';
 
 import useRouting from '#hooks/useRouting';
 import { transformObjectError } from '#utils/restRequest/error';
@@ -40,35 +40,34 @@ import CountrySelectInput from '#components/domain/CountrySelectInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+type RegisterRequestBody = GoApiBody<'/register', 'POST'>;
+type WhiteListResponse = GoApiResponse<'/api/v2/domainwhitelist/'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
 
-type RegisterRequestBody = GoApiBody<'/register', 'POST'>;
-type WhiteListResponse = GoApiResponse<'/api/v2/domainwhitelist/'>;
+const nsLabelSelector = (item: NationalSociety) => item.society_name;
+const keySelector = (item: OrganizationTypeOption) => item.key;
+const labelSelector = (item: OrganizationTypeOption) => item.value;
+
+function getPasswordMatchCondition(referenceVal: string | undefined) {
+    function passwordMatchCondition(val: string | undefined) {
+        if (isTruthyString(val) && isTruthyString(referenceVal) && val !== referenceVal) {
+            return 'Passwords do not match';
+        }
+        return undefined;
+    }
+
+    return passwordMatchCondition;
+}
 
 type FormFields = PartialForm<RegisterRequestBody & { confirm_password: string }>;
+
+const defaultFormValue: FormFields = {};
 
 type FormSchema = ObjectSchema<FormFields, FormFields, { whitelistedDomains: WhiteListResponse['results'] }>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>
 
-const nsLabelSelector = (item: NationalSociety) => item.society_name;
-const defaultFormValue: FormFields = {};
-const keySelector = (item: OrganizationTypeOption) => item.key;
-const labelSelector = (item: OrganizationTypeOption) => item.value;
-
 const formSchema: FormSchema = {
-    validation: (value) => {
-        if (
-            value?.password
-            && value?.confirm_password
-            && value.password !== value.confirm_password
-        ) {
-            // FIXME: use translations
-            return 'Passwords do not match!';
-        }
-        return undefined;
-    },
-
     fields: (value, _, context): FormSchemaFields => {
         let fields: FormSchemaFields = {
             first_name: {
@@ -88,11 +87,6 @@ const formSchema: FormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            confirm_password: {
-                required: true,
-                requiredValidation: requiredStringCondition,
-                forceValue: undefinedValue,
-            },
             organization: {
                 required: true,
                 requiredValidation: requiredStringCondition,
@@ -107,10 +101,35 @@ const formSchema: FormSchema = {
                 required: true,
                 requiredValidation: requiredStringCondition,
             },
-            department: {},
-            position: {},
-            phone_number: {},
+            department: {
+                // FIXME: server does not support null
+                defaultValue: undefinedValue,
+            },
+            position: {
+                // FIXME: server does not support null
+                defaultValue: undefinedValue,
+            },
+            phone_number: {
+                // FIXME: server does not support null
+                defaultValue: undefinedValue,
+            },
         };
+
+        fields = addCondition(
+            fields,
+            value,
+            ['password'],
+            ['confirm_password'],
+            (val) => ({
+                confirm_password: {
+                    required: true,
+                    requiredValidation: requiredStringCondition,
+                    forceValue: undefinedValue,
+                    validations: [getPasswordMatchCondition(val?.password)],
+                },
+            }),
+        );
+
         fields = addCondition(
             fields,
             value,
@@ -122,6 +141,7 @@ const formSchema: FormSchema = {
                     && isValidEmail(safeValue.email)
                     && context.whitelistedDomains
                     && isWhitelistedEmail(safeValue.email, context.whitelistedDomains);
+
                 return isValidIfrcEmail
                     ? {
                         justification: {
@@ -145,6 +165,9 @@ export function Component() {
     const strings = useTranslation(i18n);
     const { api_profile_org_types: organizationTypes } = useGlobalEnums();
 
+    const alert = useAlert();
+    const { navigate } = useRouting();
+
     const { response: whiteListDomainResponse } = useRequest({
         url: '/api/v2/domainwhitelist/',
         query: { limit: 9999 },
@@ -163,12 +186,6 @@ export function Component() {
         { value: defaultFormValue },
         { whitelistedDomains },
     );
-
-    const alert = useAlert();
-    const { navigate } = useRouting();
-
-    const fieldError = getErrorObject(formError);
-    const isNationalSociety = formValue.organization_type === 'NTLS';
 
     const {
         pending: registerPending,
@@ -194,13 +211,35 @@ export function Component() {
 
             setError(transformObjectError(formErrors, () => undefined));
 
-            const message = strings.registrationFailure;
             alert.show(
-                message,
+                strings.registrationFailure,
                 { variant: 'danger' },
             );
         },
     });
+
+    const handleRegister = useCallback(
+        (formValues: FormFields) => {
+            register(formValues as RegisterRequestBody);
+        },
+        [register],
+    );
+
+    const handleOrganizationTypeChange = useCallback(
+        (val: string | undefined) => {
+            setFieldValue(val, 'organization_type');
+            if (val === 'NTLS') {
+                setFieldValue(undefined, 'organization');
+            }
+        },
+        [setFieldValue],
+    );
+
+    const handleFormSubmit = createSubmitHandler(validate, setError, handleRegister);
+
+    const fieldError = getErrorObject(formError);
+
+    const isNationalSociety = formValue.organization_type === 'NTLS';
 
     const nationalSocietyOptions = useNationalSociety();
 
@@ -208,20 +247,6 @@ export function Component() {
         && isValidEmail(formValue.email)
         && whitelistedDomains
         && isWhitelistedEmail(formValue.email, whitelistedDomains);
-
-    const handleRegister = useCallback((formValues: FormFields) => {
-        register(formValues as RegisterRequestBody);
-    }, [register]);
-
-    const handleFormSubmit = createSubmitHandler(validate, setError, handleRegister);
-
-    const handleOrganizationTypeChange = useCallback(
-        (val: string | undefined) => {
-            setFieldValue(undefined, 'organization');
-            setFieldValue(val, 'organization_type');
-        },
-        [setFieldValue],
-    );
 
     const loginInfo = resolveToComponent(
         strings.registerAccountPresent,
@@ -258,6 +283,7 @@ export function Component() {
                     error={fieldError?.first_name}
                     disabled={registerPending}
                     withAsterisk
+                    autoFocus
                 />
                 <TextInput
                     name="last_name"
@@ -376,7 +402,6 @@ export function Component() {
                     onChange={setFieldValue}
                     error={fieldError?.phone_number}
                     disabled={registerPending}
-                    withAsterisk
                 />
                 {!isValidIfrcEmail && (
                     <>
@@ -389,8 +414,11 @@ export function Component() {
                             labelClassName={styles.textLabel}
                             label={strings.registerJustification}
                             value={formValue.justification}
+                            error={fieldError?.justification}
                             onChange={setFieldValue}
+                            disabled={registerPending}
                             rows={5}
+                            withAsterisk
                         />
                     </>
                 )}

@@ -61,33 +61,20 @@ import FocalPointsTab from './FocalPointsTab';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-const defaultFormValues: FormType = {
-    country_district: [{
-        client_id: randomString(),
-    }],
-    actions_taken: [
-        { client_id: randomString(), organization: 'NTLS', actions: [] },
-        { client_id: randomString(), organization: 'PNS', actions: [] },
-        { client_id: randomString(), organization: 'FDRN', actions: [] },
-        { client_id: randomString(), organization: 'GOV', actions: [] },
-    ],
-};
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
-    const strings = useTranslation(i18n);
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
+    const strings = useTranslation(i18n);
     const { flashUpdateId } = useParams<{ flashUpdateId: string }>();
+    const alert = useAlert();
+    const { navigate } = useRouting();
 
     const [activeTab, setActiveTab] = useState<TabKeys>('context');
     const [districtOptions, setDistrictOptions] = useState<
         DistrictItem[] | undefined | null
     >([]);
     const [fileIdToUrlMap, setFileIdToUrlMap] = useState<Record<number, string>>({});
-
-    const alert = useAlert();
-
-    const { navigate } = useRouting();
 
     const {
         value,
@@ -96,9 +83,22 @@ export function Component() {
         validate,
         setError,
         setValue,
-    } = useForm(schema, { value: defaultFormValues });
-
-    const formContentRef = useRef<ElementRef<'div'>>(null);
+    } = useForm(
+        schema,
+        {
+            value: () => ({
+                country_district: [{
+                    client_id: randomString(),
+                }],
+                actions_taken: [
+                    { client_id: randomString(), organization: 'NTLS', actions: [] },
+                    { client_id: randomString(), organization: 'PNS', actions: [] },
+                    { client_id: randomString(), organization: 'FDRN', actions: [] },
+                    { client_id: randomString(), organization: 'GOV', actions: [] },
+                ],
+            }),
+        },
+    );
 
     const {
         pending: fetchingFlashUpdate,
