@@ -4,6 +4,7 @@
     margin: 0;
 
     .img-element {
+        background-color: var(--go-ui-color-background);
         width: 100%;
         height: auto;
         object-fit: cover;

@@ -101,7 +101,11 @@ function ReducedListDisplay<LIST_ITEM, RENDERER_PROPS>(props: Props<LIST_ITEM, R
                 infoLabel={infoLabel}
                 withoutIcon
                 title={title}
-                description={allItemList}
+                description={(
+                    <div>
+                        {allItemList}
+                    </div>
+                )}
             />
         </div>
     );

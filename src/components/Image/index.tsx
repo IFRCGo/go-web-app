@@ -1,7 +1,9 @@
 import { _cs, isDefined } from '@togglecorp/fujs';
-import styles from './styles.module.css';
-import useBooleanState from '#hooks/useBooleanState';
+
 import Modal from '#components/Modal';
+import useBooleanState from '#hooks/useBooleanState';
+
+import styles from './styles.module.css';
 
 interface Props {
     className?: string;

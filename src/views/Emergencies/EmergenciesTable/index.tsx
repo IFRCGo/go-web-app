@@ -90,7 +90,7 @@ function EventItemsTable() {
                 { sortable: true },
             ),
             createNumberColumn<EventListItem, number>(
-                'amount_requested',
+                'num_affected',
                 strings.emergenciesTableAffected,
                 (item) => item?.num_affected,
                 { sortable: true },

@@ -1,6 +1,7 @@
 .chart-axis-x {
     .x-axis-tick-text {
         transition: var(--go-ui-duration-transition-medium) ease-in-out transform;
+        background-color: blue;
         padding: var(--go-ui-spacing-xs) 0;
         text-align: center;
         word-break: break-word;
