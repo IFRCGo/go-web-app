@@ -303,13 +303,13 @@ function ActiveDrefTable(props: Props) {
                 />
             )}
             withHeaderBorder
-            filtersContainerClassName={styles.filters}
             filters={(
                 <Filters
                     value={filter}
                     onChange={setFilterField}
                 />
             )}
+            withGridViewInFilter
         >
             <Table
                 className={styles.table}

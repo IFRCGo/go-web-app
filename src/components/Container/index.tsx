@@ -7,6 +7,14 @@ import type { SpacingType } from '#components/types';
 
 import styles from './styles.module.css';
 
+type NumColumn = 2 | 3 | 4 | 5;
+const numColumnToClassNameMap: Record<NumColumn, string> = {
+    2: styles.twoColumn,
+    3: styles.threeColumn,
+    4: styles.fourColumn,
+    5: styles.fiveColumn,
+};
+
 const spacingTypeToClassNameMap: Record<SpacingType, string> = {
     none: styles.noSpacing,
     condensed: styles.condensedSpacing,
@@ -24,6 +32,7 @@ export interface Props {
     children: React.ReactNode;
     childrenContainerClassName?: string,
     className?: string;
+    contentViewType?: 'grid' | 'vertical' | 'default';
     ellipsizeHeading?: boolean;
     filters?: React.ReactNode;
     filtersContainerClassName?: string;
@@ -36,16 +45,18 @@ export interface Props {
     headerClassName?: string;
     headerDescription?: React.ReactNode;
     headerDescriptionContainerClassName?: string;
-    headingDescription?: React.ReactNode;
-    headingDescriptionContainerClassName?: string;
     headerElementRef?: HeaderProps['elementRef'];
     heading?: React.ReactNode;
     headingClassName?: string;
-    headingSectionClassName?: string;
     headingContainerClassName?: string;
+    headingDescription?: React.ReactNode;
+    headingDescriptionContainerClassName?: string;
     headingLevel?: HeadingProps['level'],
+    headingSectionClassName?: string;
     icons?: React.ReactNode;
+    numPreferredGridContentColumns?: NumColumn;
     spacing?: SpacingType;
+    withGridViewInFilter?: boolean;
     withHeaderBorder?: boolean;
     withInternalPadding?: boolean;
     withoutWrapInHeading?: boolean;
@@ -58,6 +69,7 @@ function Container(props: Props) {
         children,
         childrenContainerClassName,
         className,
+        contentViewType = 'default',
         ellipsizeHeading,
         filters,
         filtersContainerClassName,
@@ -70,18 +82,20 @@ function Container(props: Props) {
         headerClassName,
         headerDescription,
         headerDescriptionContainerClassName,
-        headingDescription,
-        headingDescriptionContainerClassName,
         headerElementRef,
         heading,
         headingClassName,
-        headingSectionClassName,
         headingContainerClassName,
+        headingDescription,
+        headingDescriptionContainerClassName,
         headingLevel,
+        headingSectionClassName,
         icons,
+        numPreferredGridContentColumns = 2,
         spacing = 'default',
-        withHeaderBorder,
-        withInternalPadding,
+        withGridViewInFilter = false,
+        withHeaderBorder = false,
+        withInternalPadding = false,
         withoutWrapInHeading = false,
     } = props;
 
@@ -98,6 +112,9 @@ function Container(props: Props) {
                 styles.container,
                 spacingTypeToClassNameMap[spacing],
                 withInternalPadding && styles.withInternalPadding,
+                contentViewType === 'grid' && styles.withGridView,
+                contentViewType === 'grid' && numColumnToClassNameMap[numPreferredGridContentColumns],
+                contentViewType === 'vertical' && styles.withVerticalView,
                 className,
             )}
         >
@@ -125,7 +142,13 @@ function Container(props: Props) {
             )}
             {withHeaderBorder && <div className={styles.border} />}
             {filters && (
-                <div className={_cs(styles.filter, filtersContainerClassName)}>
+                <div
+                    className={_cs(
+                        styles.filter,
+                        withGridViewInFilter && styles.withGridViewInFilter,
+                        filtersContainerClassName,
+                    )}
+                >
                     {filters}
                 </div>
             )}

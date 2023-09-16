@@ -195,9 +195,9 @@ export function Component() {
             heading={heading}
         >
             <Container
-                className={styles.emergenciesTable}
-                headerDescriptionContainerClassName={styles.filters}
-                headerDescription={(
+                contentViewType="vertical"
+                withGridViewInFilter
+                filters={(
                     <>
                         <DisasterTypeSelectInput
                             placeholder={strings.allEmergenciesFilterDisastersPlaceholder}

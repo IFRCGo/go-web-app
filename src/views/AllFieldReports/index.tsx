@@ -148,9 +148,9 @@ export function Component() {
             heading={heading}
         >
             <Container
-                className={styles.fieldReportsTable}
-                headerDescriptionContainerClassName={styles.filters}
-                headerDescription={(
+                contentViewType="vertical"
+                withGridViewInFilter
+                filters={(
                     <>
                         <DisasterTypeSelectInput
                             placeholder={strings.allFieldReportsFilterDisastersPlaceholder}
@@ -166,7 +166,6 @@ export function Component() {
                             value={filterCountry}
                             onChange={setFilterCountry}
                         />
-                        <div />
                     </>
                 )}
                 footerActions={(

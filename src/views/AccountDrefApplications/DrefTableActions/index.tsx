@@ -54,9 +54,7 @@ function DrefTableActions(props: Props) {
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
 
-    const {
-        trigger: fetchDref,
-    } = useLazyRequest({
+    const { trigger: fetchDref } = useLazyRequest({
         url: '/api/v2/dref/{id}/',
         pathVariables: (ctx: number) => (
             isDefined(ctx) ? {
@@ -86,9 +84,7 @@ function DrefTableActions(props: Props) {
         },
     });
 
-    const {
-        trigger: fetchOpsUpdate,
-    } = useLazyRequest({
+    const { trigger: fetchOpsUpdate } = useLazyRequest({
         url: '/api/v2/dref-op-update/{id}/',
         pathVariables: (ctx: number) => (
             isDefined(ctx) ? {

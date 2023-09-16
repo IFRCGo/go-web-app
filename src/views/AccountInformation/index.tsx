@@ -73,7 +73,6 @@ export function Component() {
     return (
         <div className={styles.accountInformation}>
             <Container
-                className={styles.userInformation}
                 heading={strings.accountInformationHeading}
                 withHeaderBorder
                 actions={(
@@ -97,58 +96,56 @@ export function Component() {
                         </Button>
                     </>
                 )}
-                childrenContainerClassName={styles.content}
+                contentViewType="vertical"
             >
-                <>
-                    <TextOutput
-                        label={strings.usernameLabel}
-                        value={meResponse?.username}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.fullNameLabel}
-                        strongLabel
-                        value={
-                            [meResponse?.first_name, meResponse?.last_name]
-                                .filter(isTruthyString).join(' ')
-                        }
-                    />
-                    <TextOutput
-                        label={strings.emailLabel}
-                        value={meResponse?.email}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.phoneNumberLabel}
-                        value={meResponse?.profile?.phone_number}
-                        strongLabel
-                    />
-                    <TextOutput
-                        strongLabel
-                        label={strings.cityLabel}
-                        value={meResponse?.profile?.city}
-                    />
-                    <TextOutput
-                        label={strings.organizationLabel}
-                        value={meResponse?.profile?.org}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.organizationTypeLabel}
-                        value={meResponse?.profile?.org_type}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.departmentLabel}
-                        value={meResponse?.profile?.department}
-                        strongLabel
-                    />
-                    <TextOutput
-                        label={strings.positionLabel}
-                        value={meResponse?.profile?.position}
-                        strongLabel
-                    />
-                </>
+                <TextOutput
+                    label={strings.usernameLabel}
+                    value={meResponse?.username}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.fullNameLabel}
+                    strongLabel
+                    value={
+                        [meResponse?.first_name, meResponse?.last_name]
+                            .filter(isTruthyString).join(' ')
+                    }
+                />
+                <TextOutput
+                    label={strings.emailLabel}
+                    value={meResponse?.email}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.phoneNumberLabel}
+                    value={meResponse?.profile?.phone_number}
+                    strongLabel
+                />
+                <TextOutput
+                    strongLabel
+                    label={strings.cityLabel}
+                    value={meResponse?.profile?.city}
+                />
+                <TextOutput
+                    label={strings.organizationLabel}
+                    value={meResponse?.profile?.org}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.organizationTypeLabel}
+                    value={meResponse?.profile?.org_type}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.departmentLabel}
+                    value={meResponse?.profile?.department}
+                    strongLabel
+                />
+                <TextOutput
+                    label={strings.positionLabel}
+                    value={meResponse?.profile?.position}
+                    strongLabel
+                />
             </Container>
             <Container
                 className={styles.operationsFollowing}

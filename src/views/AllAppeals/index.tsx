@@ -253,9 +253,9 @@ export function Component() {
             heading={heading}
         >
             <Container
-                className={styles.appealsTable}
-                headerDescriptionContainerClassName={styles.filters}
-                headerDescription={(
+                contentViewType="vertical"
+                withGridViewInFilter
+                filters={(
                     <>
                         <SelectInput
                             placeholder={strings.allAppealsFilterAppealsPlaceholder}
