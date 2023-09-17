@@ -42,11 +42,18 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
         icons,
         error,
         label,
+        labelClassName,
         disabled,
         readOnly,
         name,
         value,
         onChange,
+        inputSectionClassName,
+        hint,
+        withAsterisk,
+        errorOnTooltip,
+        required,
+        variant,
         ...otherInputProps
     } = props;
 
@@ -74,12 +81,20 @@ function RichTextArea<T extends string | undefined>(props: Props<T>) {
 
     return (
         <InputContainer
-            className={_cs(styles.richTextArea, className)}
             actions={actions}
-            icons={icons}
-            error={error}
-            label={label}
+            className={_cs(styles.richTextArea, className)}
             disabled={disabled}
+            error={error}
+            errorOnTooltip={errorOnTooltip}
+            hint={hint}
+            icons={icons}
+            inputSectionClassName={inputSectionClassName}
+            labelClassName={labelClassName}
+            label={label}
+            readOnly={readOnly}
+            required={required}
+            variant={variant}
+            withAsterisk={withAsterisk}
             input={(
                 <Editor
                     // eslint-disable-next-line react/jsx-props-no-spreading

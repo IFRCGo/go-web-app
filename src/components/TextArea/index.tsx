@@ -29,6 +29,7 @@ function TextArea<const N>(props: Props<N>) {
         readOnly,
         required,
         variant,
+        inputSectionClassName,
         withAsterisk,
         onChange,
         name,
@@ -59,15 +60,17 @@ function TextArea<const N>(props: Props<N>) {
 
     return (
         <InputContainer
-            className={className}
             actions={actions}
+            className={className}
             disabled={disabled}
             error={error}
             errorOnTooltip={errorOnTooltip}
             hint={hint}
             icons={icons}
-            label={label}
+            inputSectionClassName={inputSectionClassName}
             labelClassName={labelClassName}
+            label={label}
+            readOnly={readOnly}
             required={required}
             variant={variant}
             withAsterisk={withAsterisk}

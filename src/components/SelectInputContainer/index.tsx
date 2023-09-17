@@ -121,6 +121,8 @@ function SelectInputContainer<
         autoFocus,
         onEnterWithoutOption,
         withAsterisk,
+        required,
+        variant,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
@@ -255,8 +257,25 @@ function SelectInputContainer<
     return (
         <>
             <InputContainer
+                actionsContainerClassName={actionsContainerClassName}
+                className={className}
                 containerRef={containerRef}
+                disabled={disabled}
+                errorContainerClassName={errorContainerClassName}
+                error={error}
+                errorOnTooltip={errorOnTooltip}
+                hintContainerClassName={hintContainerClassName}
+                hint={hint}
+                iconsContainerClassName={iconsContainerClassName}
+                icons={icons}
+                inputSectionClassName={inputSectionClassName}
                 inputSectionRef={inputSectionRef}
+                labelClassName={labelClassName}
+                label={label}
+                readOnly={readOnly}
+                required={required}
+                variant={variant}
+                withAsterisk={withAsterisk}
                 actions={(
                     <>
                         {actions}
@@ -299,19 +318,6 @@ function SelectInputContainer<
                         )}
                     </>
                 )}
-                actionsContainerClassName={actionsContainerClassName}
-                className={className}
-                disabled={disabled}
-                error={error}
-                errorContainerClassName={errorContainerClassName}
-                hint={hint}
-                hintContainerClassName={hintContainerClassName}
-                icons={icons}
-                iconsContainerClassName={iconsContainerClassName}
-                inputSectionClassName={inputSectionClassName}
-                label={label}
-                labelClassName={labelClassName}
-                readOnly={readOnly}
                 input={(
                     <RawInput
                         name={name}
@@ -329,7 +335,6 @@ function SelectInputContainer<
                         autoFocus={autoFocus}
                     />
                 )}
-                withAsterisk={withAsterisk}
             />
             {dropdownShown && (
                 <Popup
