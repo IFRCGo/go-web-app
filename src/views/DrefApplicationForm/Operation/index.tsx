@@ -437,7 +437,7 @@ function Operation(props: Props) {
                         value={value?.budget_file}
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
-                        error={value?.budget_file}
+                        error={error?.budget_file}
                         disabled={disabled}
                     >
                         {strings.drefFormBudgetTemplateUploadButtonLabel}

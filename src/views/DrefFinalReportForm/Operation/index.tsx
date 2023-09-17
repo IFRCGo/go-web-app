@@ -256,7 +256,7 @@ function Operation(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {value.change_in_operational_strategy_text && (
+                {value.change_in_operational_strategy && (
                     <InputSection
                         title={strings.finalReportChangeToOperationStrategyExplain}
                     >

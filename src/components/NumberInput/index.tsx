@@ -31,6 +31,7 @@ function NumberInput<const T>(props: Props<T>) {
         inputClassName,
         value: valueFromProps,
         errorOnTooltip,
+        withAsterisk,
         onChange,
         ...otherInputProps
     } = props;
@@ -70,6 +71,7 @@ function NumberInput<const T>(props: Props<T>) {
             readOnly={readOnly}
             inputSectionClassName={inputSectionClassName}
             errorOnTooltip={errorOnTooltip}
+            withAsterisk={withAsterisk}
             input={(
                 <RawInput
                     {...otherInputProps} /* eslint-disable-line react/jsx-props-no-spreading */

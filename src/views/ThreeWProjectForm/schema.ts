@@ -57,7 +57,7 @@ const finalSchema: FormSchema = {
             project_admin2: { defaultValue: [] },
             operation_type: { required: true },
             programme_type: { required: true },
-            dtype: { required: true },
+            // dtype: { required: true },
             name: { required: true, requiredValidation: requiredStringCondition },
             description: {},
             primary_sector: { required: true },
@@ -140,7 +140,8 @@ const finalSchema: FormSchema = {
                             // If you force it as undefined type it will not be sent to the server
                             client_id: { forceValue: undefinedValue },
                             year: {
-                                validations: [requiredCondition, positiveIntegerCondition],
+                                required: true,
+                                validations: [positiveIntegerCondition],
                             },
                             // id: {},
                             budget_amount: { validations: [positiveNumberCondition] },
@@ -148,13 +149,15 @@ const finalSchema: FormSchema = {
                             target_female: { validations: [positiveIntegerCondition] },
                             target_other: { validations: [positiveIntegerCondition] },
                             target_total: {
-                                validations: [positiveIntegerCondition, requiredCondition],
+                                required: true,
+                                validations: [positiveIntegerCondition],
                             },
                             reached_male: { validations: [positiveIntegerCondition] },
                             reached_female: { validations: [positiveIntegerCondition] },
                             reached_other: { validations: [positiveIntegerCondition] },
                             reached_total: {
-                                validations: [positiveIntegerCondition, requiredCondition],
+                                required: true,
+                                validations: [positiveIntegerCondition],
                             },
                         }),
                     }),

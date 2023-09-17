@@ -151,8 +151,6 @@ function Actions(props: Props) {
                 )}
             </Container>
 
-            {/* HERE */}
-
             <Container
                 heading={strings.ifrcNetworkActionsHeading}
             >

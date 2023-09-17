@@ -156,6 +156,8 @@ function AnnualSplitInput(props: Props) {
 
     return (
         <div className={_cs(styles.annualSplitInput, className)}>
+            <NonFieldError error={error} />
+            <div className="break" />
             <span className={styles.bold}>
                 <NumberInput
                     label={strings.threeWYear}
@@ -164,6 +166,7 @@ function AnnualSplitInput(props: Props) {
                     onChange={setFieldValue}
                     error={error?.year}
                     disabled={disabled}
+                    withAsterisk
                 />
             </span>
             <NumberInput
@@ -218,6 +221,7 @@ function AnnualSplitInput(props: Props) {
                     onChange={setFieldValue}
                     disabled={shouldDisableTargetTotal || disabled}
                     error={error?.target_total}
+                    withAsterisk
                 />
             </span>
             <NumberInput
@@ -252,14 +256,9 @@ function AnnualSplitInput(props: Props) {
                     onChange={setFieldValue}
                     disabled={shouldDisableReachedTotal || disabled}
                     error={error?.reached_total}
+                    withAsterisk
                 />
             </span>
-            <div className="break" />
-            <NonFieldError
-                error={error}
-                // FIMXE: use translations
-                message="Please correct all the errors above before submission"
-            />
         </div>
     );
 }
