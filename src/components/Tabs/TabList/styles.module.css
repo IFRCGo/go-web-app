@@ -67,6 +67,7 @@
         }
     }
 
+    &.vertical-compact,
     &.vertical {
         .content {
             display: flex;
@@ -76,6 +77,12 @@
         .start-dummy-content,
         .end-dummy-content {
             display: none;
+        }
+    }
+
+    &.vertical-compact {
+        .content {
+            gap: var(--go-ui-spacing-xs);
         }
     }
 }

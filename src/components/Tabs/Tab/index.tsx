@@ -90,6 +90,7 @@ export default function Tab<T extends TabKey>(props: Props<T>) {
                 variant === 'tertiary' && styles.tertiary,
                 variant === 'step' && styles.step,
                 variant === 'vertical' && styles.vertical,
+                variant === 'vertical-compact' && styles.verticalCompact,
                 stepCompleted && styles.completed,
                 errored && styles.errored,
                 className,

@@ -18,6 +18,7 @@ import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import LangaugeDropdown from './LanguageDropdown';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import CountryDropdown from './CountryDropdown';
 
 interface Props {
     className?: string;
@@ -123,6 +124,7 @@ function Navbar(props: Props) {
                     >
                         {strings.headerMenuHome}
                     </NavigationTab>
+                    <CountryDropdown />
                     <RegionDropdown />
                     <NavigationTab
                         to="emergencies"

@@ -1,14 +1,9 @@
-import {
-    useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import { max } from '@togglecorp/fujs';
+
 import useTranslation from '#hooks/useTranslation';
 import Link from '#components/Link';
-import { useRequest, type GoApiResponse } from '#utils/restRequest';
-import { resolveToComponent } from '#utils/translation';
-import {
-    SortContext,
-} from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import {
     createStringColumn,
     createNumberColumn,
@@ -19,6 +14,9 @@ import Table from '#components/Table';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import useFilterState from '#hooks/useFilterState';
+import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import { resolveToComponent } from '#utils/translation';
+import { formatNumber } from '#utils/common';
 
 import i18n from './i18n.json';
 
@@ -130,7 +128,7 @@ function EmergenciesOperationTable(props: Props) {
 
     const emergenciesHeading = resolveToComponent(
         strings.emergenciesTableHeading,
-        { count: countryEmergenciesResponse?.count },
+        { count: formatNumber(countryEmergenciesResponse?.count) ?? '--' },
     );
 
     return (

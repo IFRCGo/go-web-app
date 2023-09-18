@@ -5,8 +5,9 @@ import { TabContext } from '#components/Tabs/TabContext';
 import styles from './styles.module.css';
 
 export interface Props extends React.HTMLProps<HTMLDivElement> {
-  children: React.ReactNode;
-  className?: string;
+    children: React.ReactNode;
+    className?: string;
+    contentClassName?: string;
 }
 
 export default function TabList(props: Props) {
@@ -19,6 +20,7 @@ export default function TabList(props: Props) {
     const {
         children,
         className,
+        contentClassName,
         ...otherProps
     } = props;
 
@@ -35,11 +37,14 @@ export default function TabList(props: Props) {
                 variant === 'tertiary' && styles.tertiary,
                 variant === 'step' && styles.step,
                 variant === 'vertical' && styles.vertical,
+                variant === 'vertical-compact' && styles.verticalCompact,
             )}
             role="tablist"
         >
             <div className={styles.startDummyContent} />
-            <div className={styles.content}>
+            <div
+                className={_cs(styles.content, contentClassName)}
+            >
                 {children}
             </div>
             <div className={styles.endDummyContent} />
