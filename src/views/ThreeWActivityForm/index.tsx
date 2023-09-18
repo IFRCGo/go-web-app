@@ -633,6 +633,11 @@ export function Component() {
             )}
             {!shouldHideForm && (
                 <>
+                    <NonFieldError
+                        className={styles.nonFieldError}
+                        error={error}
+                        withFallbackError
+                    />
                     <InputSection
                         // FIXME: Add translation
                         title="IFRC supported Operation"
@@ -888,12 +893,6 @@ export function Component() {
                         </div>
                     </Container>
                     <div className={styles.footer}>
-                        <NonFieldError
-                            className={styles.nonFieldError}
-                            error={error}
-                            // FIXME: Add translation
-                            message="Please correct all the errors above before submission."
-                        />
                         <Button
                             name={undefined}
                             onClick={handleSubmitClick}

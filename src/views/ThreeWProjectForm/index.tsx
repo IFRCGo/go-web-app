@@ -683,6 +683,11 @@ export function Component() {
             )}
             {!shouldHideForm && (
                 <>
+                    <NonFieldError
+                        className={styles.nonFieldError}
+                        error={error}
+                        withFallbackError
+                    />
                     <InputSection
                         title={strings.projectFormReportingNational}
                         description={strings.projectFormReportingHelpText}
@@ -1181,11 +1186,6 @@ export function Component() {
                         />
                     </InputSection>
                     <div className={styles.formActions}>
-                        <NonFieldError
-                            className={styles.nonFieldError}
-                            error={error}
-                            message={strings.projectFormNonFieldError}
-                        />
                         <Button
                             name={undefined}
                             onClick={createSubmitHandler(validate, onErrorSet, handleSubmit)}

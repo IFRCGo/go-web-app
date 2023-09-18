@@ -407,6 +407,10 @@ export function Component() {
                 )}
                 {!shouldHideForm && (
                     <>
+                        <NonFieldError
+                            error={error}
+                            withFallbackError
+                        />
                         <TabPanel name="context">
                             <ContextTab
                                 error={error}
@@ -435,9 +439,6 @@ export function Component() {
                                 disabled={disabled}
                             />
                         </TabPanel>
-                        <NonFieldError
-                            error={error}
-                        />
                         <div className={styles.actions}>
                             <div className={styles.pageActions}>
                                 <Button

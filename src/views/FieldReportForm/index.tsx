@@ -42,7 +42,9 @@ import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import { resolveToString } from '#utils/translation';
-import { formatDate } from '#utils/common';
+import {
+    formatDate,
+} from '#utils/common';
 import { useRequest, useLazyRequest } from '#utils/restRequest';
 import {
     type FieldReportStatusEnum,
@@ -69,11 +71,11 @@ import {
     type FieldReportBody,
     type PartialFormValue,
     type FormValue,
+    type TabKeys,
+    checkTabErrors,
 } from './common';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
-
-type TabKeys = 'context' | 'situation' | 'risk-analysis' | 'actions' | 'early-actions' | 'response';
 
 function getNextStep(
     current: TabKeys,
@@ -251,7 +253,7 @@ export function Component() {
             );
             navigate(
                 'fieldReportDetails',
-                { params: { id: response.id } },
+                { params: { fieldReportId: response.id } },
             );
         },
         onFailure: ({
@@ -307,7 +309,7 @@ export function Component() {
                 () => {
                     navigate(
                         'fieldReportDetails',
-                        { params: { id: response.id } },
+                        { params: { fieldReportId: response.id } },
                     );
                 },
                 250,
@@ -521,6 +523,10 @@ export function Component() {
         [actionsResponse, filterActions],
     );
 
+    const handleFormError = useCallback(() => {
+        formContentRef.current?.scrollIntoView();
+    }, []);
+
     const handleTabChange = useCallback((newTab: TabKeys) => {
         formContentRef.current?.scrollIntoView();
         setActiveTab(newTab);
@@ -561,7 +567,12 @@ export function Component() {
         ],
     );
 
-    const handleFormSubmit = createSubmitHandler(validate, onErrorSet, handleSubmit);
+    const handleFormSubmit = createSubmitHandler(
+        validate,
+        onErrorSet,
+        handleSubmit,
+        handleFormError,
+    );
 
     const pending = fieldReportPending
         || fieldReportEditSubmitPending
@@ -600,7 +611,7 @@ export function Component() {
                             name="context"
                             step={1}
                             disabled={pending}
-                            // errored
+                            errored={checkTabErrors(error, 'context')}
                         >
                             {strings.formItemContextLabel}
                         </Tab>
@@ -609,7 +620,7 @@ export function Component() {
                                 name="risk-analysis"
                                 step={2}
                                 disabled={pending}
-                                // errored
+                                errored={checkTabErrors(error, 'risk-analysis')}
                             >
                                 {strings.formItemRiskAnalysisLabel}
                             </Tab>
@@ -619,7 +630,7 @@ export function Component() {
                                 name="situation"
                                 step={2}
                                 disabled={pending}
-                                // errored
+                                errored={checkTabErrors(error, 'situation')}
                             >
                                 {strings.formItemSituationLabel}
                             </Tab>
@@ -629,7 +640,7 @@ export function Component() {
                                 name="early-actions"
                                 step={3}
                                 disabled={pending}
-                                // errored
+                                errored={checkTabErrors(error, 'early-actions')}
                             >
                                 {strings.formItemEarlyActionsLabel}
                             </Tab>
@@ -639,7 +650,7 @@ export function Component() {
                                 name="actions"
                                 step={3}
                                 disabled={pending}
-                                // errored
+                                errored={checkTabErrors(error, 'actions')}
                             >
                                 {strings.formItemActionsLabel}
                             </Tab>
@@ -648,7 +659,7 @@ export function Component() {
                             name="response"
                             step={4}
                             disabled={pending}
-                            // errored
+                            errored={checkTabErrors(error, 'response')}
                         >
                             {strings.formItemResponseLabel}
                         </Tab>
@@ -679,7 +690,7 @@ export function Component() {
                     <>
                         <NonFieldError
                             error={error}
-                            message={strings.formNonFieldError}
+                            withFallbackError
                         />
                         <TabPanel name="context">
                             <ContextFields
@@ -766,7 +777,7 @@ export function Component() {
                             <Button
                                 name={undefined}
                                 onClick={handleFormSubmit}
-                                disabled={activeTab !== 'response'}
+                                disabled={activeTab !== 'response' || pending}
                             >
                                 {strings.submitButtonLabel}
                             </Button>

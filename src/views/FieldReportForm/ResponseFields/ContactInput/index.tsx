@@ -7,6 +7,7 @@ import {
 } from '@togglecorp/toggle-form';
 
 import useTranslation from '#hooks/useTranslation';
+import NonFieldError from '#components/NonFieldError';
 import TextInput from '#components/TextInput';
 import { type ContactType } from '#utils/constants';
 
@@ -50,9 +51,9 @@ function ContactInput(props: ContactInputProps) {
         [formError],
     );
 
-    // FIXME: add non-field errors
     return (
         <>
+            <NonFieldError error={getErrorObject(error)} />
             <TextInput
                 name="name"
                 value={value?.name}

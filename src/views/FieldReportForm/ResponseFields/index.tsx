@@ -7,6 +7,7 @@ import {
     useFormArray,
 } from '@togglecorp/toggle-form';
 
+import NonFieldError from '#components/NonFieldError';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import NumberInput from '#components/NumberInput';
@@ -165,6 +166,7 @@ function ResponseFields(props: Props) {
                     <InputSection
                         title={strings.fieldsStep4PlannedResponseRowsDREFEVTEPILabel}
                         numPreferredColumns={2}
+                        withAsteriskOnTitle={isDefined(value.dref_amount) || isDefined(value.dref)}
                     >
                         <RadioInput
                             error={error?.dref}
@@ -177,6 +179,7 @@ function ResponseFields(props: Props) {
                             value={value.dref}
                             disabled={disabled}
                             clearable
+                            // withAsterisk={isDefined(value.dref_amount) || isDefined(value.dref)}
                         />
                         <NumberInput
                             label={strings.fieldsStep4PlannedResponseRowsDREFValueFieldLabel}
@@ -185,11 +188,14 @@ function ResponseFields(props: Props) {
                             onChange={onValueChange}
                             disabled={disabled}
                             error={error?.dref_amount}
+                            withAsterisk={isDefined(value.dref_amount) || isDefined(value.dref)}
                         />
                     </InputSection>
                     <InputSection
                         title={strings.fieldsStep4PlannedResponseRowsEmergencyAppealEVTEPIEWLabel}
                         numPreferredColumns={2}
+                        // eslint-disable-next-line max-len
+                        withAsteriskOnTitle={isDefined(value.appeal_amount) || isDefined(value.appeal)}
                     >
                         <RadioInput
                             error={error?.appeal}
@@ -202,6 +208,8 @@ function ResponseFields(props: Props) {
                             value={value.appeal}
                             clearable
                             disabled={disabled}
+                            // eslint-disable-next-line max-len
+                            // withAsterisk={isDefined(value.appeal_amount) || isDefined(value.appeal)}
                         />
                         <NumberInput
                             // eslint-disable-next-line max-len
@@ -211,11 +219,13 @@ function ResponseFields(props: Props) {
                             onChange={onValueChange}
                             error={error?.appeal_amount}
                             disabled={disabled}
+                            withAsterisk={isDefined(value.appeal_amount) || isDefined(value.appeal)}
                         />
                     </InputSection>
                     <InputSection
                         title={strings.fieldsStep4PlannedResponseRowsFactEVTEPIEWLabel}
                         numPreferredColumns={2}
+                        withAsteriskOnTitle={isDefined(value.num_fact) || isDefined(value.fact)}
                     >
                         <RadioInput
                             error={error?.fact}
@@ -228,6 +238,7 @@ function ResponseFields(props: Props) {
                             value={value.fact}
                             clearable
                             disabled={disabled}
+                            // withAsterisk={isDefined(value.num_fact) || isDefined(value.fact)}
                         />
                         <NumberInput
                             label={strings.fieldsStep4PlannedResponseRowsFactValueFieldLabel}
@@ -236,11 +247,14 @@ function ResponseFields(props: Props) {
                             onChange={onValueChange}
                             error={error?.num_fact}
                             disabled={disabled}
+                            withAsterisk={isDefined(value.num_fact) || isDefined(value.fact)}
                         />
                     </InputSection>
                     <InputSection
                         title={strings.fieldsStep4PlannedResponseRowsIFRCStaffEVTEPIEWLabel}
                         numPreferredColumns={2}
+                        // eslint-disable-next-line max-len
+                        withAsteriskOnTitle={isDefined(value.num_ifrc_staff) || isDefined(value.ifrc_staff)}
                     >
                         <RadioInput
                             error={error?.ifrc_staff}
@@ -253,6 +267,8 @@ function ResponseFields(props: Props) {
                             value={value.ifrc_staff}
                             clearable
                             disabled={disabled}
+                            // eslint-disable-next-line max-len
+                            // withAsterisk={isDefined(value.num_ifrc_staff) || isDefined(value.ifrc_staff)}
                         />
                         <NumberInput
                             // eslint-disable-next-line max-len
@@ -262,12 +278,16 @@ function ResponseFields(props: Props) {
                             onChange={onValueChange}
                             error={error?.num_ifrc_staff}
                             disabled={disabled}
+                            // eslint-disable-next-line max-len
+                            withAsterisk={isDefined(value.num_ifrc_staff) || isDefined(value.ifrc_staff)}
                         />
                     </InputSection>
                     {reportType === 'EW' && (
                         <InputSection
                             title={strings.fieldsStep4PlannedResponseRowsForecastBasedActionEWLabel}
                             numPreferredColumns={2}
+                            // eslint-disable-next-line max-len
+                            withAsteriskOnTitle={isDefined(value.forecast_based_action) || isDefined(value.forecast_based_action_amount)}
                         >
                             <RadioInput
                                 error={error?.forecast_based_action}
@@ -280,6 +300,8 @@ function ResponseFields(props: Props) {
                                 value={value.forecast_based_action}
                                 clearable
                                 disabled={disabled}
+                                // eslint-disable-next-line max-len
+                                // withAsterisk={isDefined(value.forecast_based_action) || isDefined(value.forecast_based_action_amount)}
                             />
                             <NumberInput
                                 // eslint-disable-next-line max-len
@@ -289,6 +311,8 @@ function ResponseFields(props: Props) {
                                 onChange={onValueChange}
                                 error={error?.forecast_based_action_amount}
                                 disabled={disabled}
+                                // eslint-disable-next-line max-len
+                                withAsterisk={isDefined(value.forecast_based_action) || isDefined(value.forecast_based_action_amount)}
                             />
                         </InputSection>
                     )}
@@ -299,6 +323,7 @@ function ResponseFields(props: Props) {
                 className={styles.contactsSection}
                 childrenContainerClassName={styles.content}
             >
+                <NonFieldError error={getErrorObject(error?.contacts)} />
                 {contacts.map((contact) => {
                     const index = mapping?.[contact.key];
                     return (
@@ -331,6 +356,7 @@ function ResponseFields(props: Props) {
                             </p>
                         ))
                     )}
+                    withAsteriskOnTitle
                 >
                     <RadioInput
                         error={error?.visibility}

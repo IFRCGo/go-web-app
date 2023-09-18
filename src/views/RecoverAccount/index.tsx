@@ -109,7 +109,10 @@ export function Component() {
                 className={styles.form}
                 onSubmit={handleFormSubmit}
             >
-                <NonFieldError error={formError} />
+                <NonFieldError
+                    error={formError}
+                    withFallbackError
+                />
                 <TextInput
                     name="email"
                     label={strings.emailInputLabel}

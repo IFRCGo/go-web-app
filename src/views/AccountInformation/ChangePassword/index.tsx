@@ -182,6 +182,7 @@ function ChangePasswordModal(props: Props) {
             <NonFieldError
                 className={styles.serverError}
                 error={formError}
+                withFallbackError
             />
             <TextInput
                 name="password"

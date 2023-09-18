@@ -339,7 +339,10 @@ export function Component() {
             )}
             spacing="comfortable"
         >
-            <NonFieldError error={formError} />
+            <NonFieldError
+                error={formError}
+                withFallbackError
+            />
             <Container
                 className={styles.container}
                 childrenContainerClassName={styles.sectionContent}

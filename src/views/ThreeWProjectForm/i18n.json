@@ -27,7 +27,6 @@
         "projectFormMultiLabel":"Start and End Dates",
         "projectFormMultiLabelHelpText":"Choose the date when the work on the activity or project begins",
         "projectFormMultiLabelTooltip":"Choose the date when the project is likely to end. Remember, you can easily return and edit this data if plans evolve.",
-        "projectFormNonFieldError":"Please correct all the errors above before submission",
         "projectFormOperationType":"Operation Type",
         "projectFormOther":"Other",
         "projectFormPeopleReached2":"Services provided to people in need",

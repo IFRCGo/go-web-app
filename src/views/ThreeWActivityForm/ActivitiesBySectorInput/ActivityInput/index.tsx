@@ -214,6 +214,7 @@ function ActivityInput(props: Props) {
     return (
         <ExpandableContainer
             className={styles.activityInput}
+            childrenContainerClassName={styles.content}
             headingLevel={5}
             headingClassName={errorFromProps && styles.error}
             spacing="cozy"
@@ -237,6 +238,7 @@ function ActivityInput(props: Props) {
             heading={type === 'custom' ? `Custom Activity #${itemNumber}` : actionDetails?.title}
             withHeaderBorder
         >
+            <NonFieldError error={error} />
             <InputSection
                 description={actionDetails?.description || '-'}
                 withoutPadding

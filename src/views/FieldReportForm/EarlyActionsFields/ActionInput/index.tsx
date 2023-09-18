@@ -7,6 +7,7 @@ import {
     getErrorString as listErrorToString,
 } from '@togglecorp/toggle-form';
 
+import NonFieldError from '#components/NonFieldError';
 import useTranslation from '#hooks/useTranslation';
 import Container from '#components/Container';
 import TextArea from '#components/TextArea';
@@ -78,6 +79,7 @@ function ActionInput(props: ActionInputProps) {
     // FIXME: add non-field errors
     return (
         <div className={styles.actionInput}>
+            <NonFieldError error={error} />
             {reportType === 'COVID' && organizationType === 'NTLS' && (
                 <>
                     <Container

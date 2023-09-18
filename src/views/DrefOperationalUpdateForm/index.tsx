@@ -661,7 +661,7 @@ export function Component() {
                     <>
                         <NonFieldError
                             error={formError}
-                            message={strings.formGeneralError}
+                            withFallbackError
                         />
                         {hasAnyWarning && (
                             <div className={styles.warnings}>

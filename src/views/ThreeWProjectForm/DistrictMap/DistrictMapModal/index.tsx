@@ -668,6 +668,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                 </Map>
             </div>
             <div className={styles.sidePanel}>
+                {/* FIXME: DistrictSearchMultiSelectInput should handle error itself */}
                 <NonFieldError error={admin2Error} />
                 <DistrictSearchMultiSelectInput
                     error={districtsError}

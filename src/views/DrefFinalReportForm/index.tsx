@@ -453,7 +453,7 @@ export function Component() {
                     <>
                         <NonFieldError
                             error={formError}
-                            message={strings.formGeneralError}
+                            withFallbackError
                         />
                         <TabPanel name="overview">
                             <Overview
