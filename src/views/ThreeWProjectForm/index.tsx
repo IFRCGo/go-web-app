@@ -112,6 +112,7 @@ function calculateStatus(
 
     if (isDefined(endDate)) {
         const end = new Date(endDate);
+        // FIXME: why is this undefined?
         if (end.getTime() < now.getTime()) {
             return undefined;
         }
@@ -992,34 +993,34 @@ export function Component() {
                                 disabled={disabled}
                             />
                         )}
-                        <div>
-                            <Checkbox
-                                label={strings.projectFormProjectCompleted}
-                                name="is_project_completed"
-                                value={value?.is_project_completed}
-                                onChange={handleProjectStatusChange}
-                                error={error?.is_project_completed}
-                                disabled={disabled}
-                            />
-                            <TextOutput
-                                label={strings.projectFormProjectStatusTitle}
-                                value={(
-                                    value.status
-                                        ? projectStatusOptionsMap?.[value.status]
-                                        : undefined
-                                )}
-                            />
-                        </div>
-                        <div>
-                            <Switch
-                                label={strings.projectFormAnnualReportingLabel}
-                                name="is_annual_report"
-                                value={value?.is_annual_report}
-                                onChange={setFieldValue}
-                                disabled={disabled}
-                                error={error?.is_annual_report}
-                            />
-                        </div>
+                        <TextInput
+                            label={strings.projectFormProjectStatusTitle}
+                            value={(
+                                isDefined(value.status)
+                                    ? projectStatusOptionsMap?.[value.status]
+                                    : undefined
+                            )}
+                            readOnly
+                            name={undefined}
+                            // eslint-disable-next-line @typescript-eslint/no-empty-function
+                            onChange={() => {}}
+                        />
+                        <Checkbox
+                            label={strings.projectFormProjectCompleted}
+                            name="is_project_completed"
+                            value={value?.is_project_completed}
+                            onChange={handleProjectStatusChange}
+                            error={error?.is_project_completed}
+                            disabled={disabled}
+                        />
+                        <Switch
+                            label={strings.projectFormAnnualReportingLabel}
+                            name="is_annual_report"
+                            value={value?.is_annual_report}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            error={error?.is_annual_report}
+                        />
                     </InputSection>
                     {value?.is_annual_report ? (
                         <InputSection

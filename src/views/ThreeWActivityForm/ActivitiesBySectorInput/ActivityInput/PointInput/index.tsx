@@ -37,6 +37,7 @@ function PointInput(props: Props) {
     const setFieldValue = useFormObject(index, onChange, () => ({
         client_id: randomString(),
     }));
+
     const error = (value && value.client_id && errorFromProps)
         ? getErrorObject(errorFromProps[value.client_id])
         : undefined;
@@ -53,6 +54,7 @@ function PointInput(props: Props) {
                 error={error?.description}
                 onChange={setFieldValue}
                 disabled={disabled}
+                withAsterisk
             />
             <NumberInput
                 className={styles.locationInput}
@@ -63,6 +65,7 @@ function PointInput(props: Props) {
                 error={error?.latitude}
                 onChange={setFieldValue}
                 disabled={disabled}
+                withAsterisk
             />
             <NumberInput
                 className={styles.locationInput}
@@ -73,6 +76,7 @@ function PointInput(props: Props) {
                 error={error?.longitude}
                 onChange={setFieldValue}
                 disabled={disabled}
+                withAsterisk
             />
             <IconButton
                 className={styles.removeButton}

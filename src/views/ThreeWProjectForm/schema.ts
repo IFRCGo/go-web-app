@@ -5,7 +5,6 @@ import {
     nullValue,
     addCondition,
     undefinedValue,
-    requiredCondition,
     requiredStringCondition,
     emailCondition,
 } from '@togglecorp/toggle-form';

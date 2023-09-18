@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {
     useState,
     useEffect,
@@ -631,6 +630,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                             />
                         )}
                     </MapSource>
+                    {/* eslint-disable-next-line max-len */}
                     {adminTwoFillLayerOptions && adminTwoLineLayerOptions && adminTwoLabelLayerOptions && (
                         <>
                             <MapSource

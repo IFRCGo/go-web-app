@@ -215,7 +215,7 @@ function AnnualSplitInput(props: Props) {
             />
             <span className={styles.bold}>
                 <NumberInput
-                    label={strings.threeWTargetTotal + (shouldDisableTargetTotal ? '' : '*')}
+                    label={strings.threeWTargetTotal}
                     name="target_total"
                     value={value?.target_total}
                     onChange={setFieldValue}
@@ -250,7 +250,7 @@ function AnnualSplitInput(props: Props) {
             />
             <span className={styles.bold}>
                 <NumberInput
-                    label={strings.threeWReachedTotal + (shouldDisableReachedTotal ? '' : '*')}
+                    label={strings.threeWReachedTotal}
                     name="reached_total"
                     value={value?.reached_total}
                     onChange={setFieldValue}

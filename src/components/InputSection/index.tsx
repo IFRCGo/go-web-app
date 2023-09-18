@@ -50,6 +50,9 @@ function InputSection(props: Props) {
                             *
                         </span>
                     )}
+                    headerClassName={styles.header}
+                    headingClassName={styles.heading}
+                    headingContainerClassName={styles.headingContainer}
                     actions={tooltip && <InfoPopup description={tooltip} />}
                     childrenContainerClassName={styles.description}
                     headingLevel={4}

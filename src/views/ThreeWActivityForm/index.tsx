@@ -638,6 +638,7 @@ export function Component() {
                         title="IFRC supported Operation"
                         // FIXME: Add translation
                         description="If operation does not appear in the dropdown, the operation does not yet exist in GO. In that case, please submit a new Field Report to generate the operation, then come back to this form"
+                        withAsteriskOnTitle
                     >
                         <ActivityEventSearchSelectInput
                             name="event"
@@ -655,6 +656,7 @@ export function Component() {
                         // FIXME: Add translation
                         description="Select areas where activities reported in this form are occurring"
                         numPreferredColumns={2}
+                        withAsteriskOnTitle
                     >
                         <CountrySelectInput
                             error={error?.country}
@@ -664,6 +666,7 @@ export function Component() {
                             onChange={handleProjectCountryChange}
                             value={value.country}
                             disabled={disabled}
+                            withAsterisk
                         />
                         <DistrictSearchMultiSelectInput
                             error={getErrorString(error?.districts)}
@@ -705,6 +708,7 @@ export function Component() {
                             disabled={disabled}
                             error={error?.start_date}
                             onChange={handleStartDateChange}
+                            withAsterisk
                         />
                         <DateInput
                             name="end_date"
@@ -714,18 +718,24 @@ export function Component() {
                             disabled={disabled}
                             error={error?.end_date}
                             onChange={handleEndDateChange}
+                            withAsterisk
                         />
-                        <TextOutput
+                        <TextInput
                             className={styles.statusDisplay}
                             // FIXME: Add translation
                             label="Project Status"
                             value={isDefined(value?.status) ? projectStatusOptionsMap?.[value?.status] : '--'}
-                            strongValue
+                            readOnly
+                            name={undefined}
+                            // eslint-disable-next-line @typescript-eslint/no-empty-function
+                            onChange={() => {}}
+                            // strongValue
                         />
                     </InputSection>
                     <InputSection
                         // FIXME: Add translation
                         title="Activity Description"
+                        withAsteriskOnTitle
                     >
                         <TextInput
                             name="title"
@@ -740,6 +750,7 @@ export function Component() {
                     <InputSection
                         // FIXME: Add translation
                         title="Who is Leading the Activity?"
+                        withAsteriskOnTitle
                     >
                         <SegmentInput
                             name="activity_lead"
@@ -759,6 +770,7 @@ export function Component() {
                                 title="National Society"
                                 // FIXME: Add translation
                                 description="Which RCRC actor (NS/IFRC/ICRC) is conducting the activity?"
+                                withAsteriskOnTitle
                             >
                                 <NationalSocietySelectInput
                                     name="reporting_ns"
@@ -774,6 +786,7 @@ export function Component() {
                                 // FIXME: Add translation
                                 description="Who should be contacted for any coordination matters related to this response activity?"
                                 numPreferredColumns={3}
+                                withAsteriskOnTitle
                             >
                                 <TextInput
                                     name="reporting_ns_contact_name"
@@ -783,6 +796,7 @@ export function Component() {
                                     disabled={disabled}
                                     onChange={setFieldValue}
                                     error={error?.reporting_ns_contact_name}
+                                    withAsterisk
                                 />
                                 <TextInput
                                     name="reporting_ns_contact_role"
@@ -792,6 +806,7 @@ export function Component() {
                                     disabled={disabled}
                                     onChange={setFieldValue}
                                     error={error?.reporting_ns_contact_role}
+                                    withAsterisk
                                 />
                                 <TextInput
                                     name="reporting_ns_contact_email"
@@ -801,6 +816,7 @@ export function Component() {
                                     disabled={disabled}
                                     onChange={setFieldValue}
                                     error={error?.reporting_ns_contact_email}
+                                    withAsterisk
                                 />
                             </InputSection>
                         </>
@@ -811,6 +827,7 @@ export function Component() {
                             title="Name of ERU"
                             // FIXME: Add translation
                             description="Which ERU is conducting the response activity?"
+                            withAsteriskOnTitle
                         >
                             <RadioInput
                                 name="deployed_eru"
@@ -882,7 +899,7 @@ export function Component() {
                             onClick={handleSubmitClick}
                             type="submit"
                             variant="secondary"
-                            disabled={createActivityPending || updateActivityPending}
+                            disabled={disabled}
                         >
                             Submit
                         </Button>
@@ -901,7 +918,7 @@ export function Component() {
                                     <Button
                                         name={undefined}
                                         onClick={handleFinalSubmitClick}
-                                        disabled={createActivityPending || updateActivityPending}
+                                        disabled={disabled}
                                     >
                                         {/* FIXME: Use translations */}
                                         Submit

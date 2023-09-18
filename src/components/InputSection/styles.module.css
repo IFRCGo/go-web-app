@@ -4,6 +4,14 @@
     grid-template-columns: 1fr 2fr;
     background-color: var(--go-ui-color-white);
 
+    .header {
+        .heading-container {
+            .heading {
+                flex-grow: unset;
+            }
+        }
+    }
+
     @media screen and (max-width: 60rem) {
         grid-template-columns: 1fr;
     }

@@ -123,6 +123,7 @@ function SelectInputContainer<
         withAsterisk,
         required,
         variant,
+        errorOnTooltip,
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
