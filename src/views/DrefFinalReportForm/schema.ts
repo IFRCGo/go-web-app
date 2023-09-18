@@ -116,6 +116,7 @@ const schema: FinalReportFormSchema = {
             // OVERVIEW
             national_society: { required: true },
             type_of_dref: { required: true },
+            disaster_type: {},
             type_of_onset: { required: true },
             disaster_category: {},
             country: { required: true },
@@ -124,7 +125,6 @@ const schema: FinalReportFormSchema = {
                 requiredValidation: requiredListCondition,
                 defaultValue: [],
             },
-            disaster_type: {},
             title: {
                 required: true,
                 requiredValidation: requiredStringCondition,
@@ -151,9 +151,7 @@ const schema: FinalReportFormSchema = {
             number_of_people_targeted: {
                 validations: [positiveIntegerCondition],
             },
-            total_dref_allocation: {
-                validations: [],
-            },
+            total_dref_allocation: {},
             main_donors: {
                 validations: [max500CharCondition],
             },
@@ -163,7 +161,6 @@ const schema: FinalReportFormSchema = {
 
             // EVENT DETAILS
 
-            event_scope: {},
             event_description: {},
             images_file: {
                 keySelector: (image_file) => image_file.client_id,
@@ -196,23 +193,21 @@ const schema: FinalReportFormSchema = {
             operation_objective: {},
             response_strategy: {},
             people_assisted: {},
+            selection_criteria: {},
             total_targeted_population: { validations: [positiveIntegerCondition] },
             disability_people_per: {
-                // FIXME: shouldn't these be integer?
                 validations: [
                     greaterThanOrEqualToCondition(0),
                     lessThanOrEqualToCondition(100),
                 ],
             },
             people_per_urban: {
-                // FIXME: shouldn't these be integer?
                 validations: [
                     greaterThanOrEqualToCondition(0),
                     lessThanOrEqualToCondition(100),
                 ],
             },
             people_per_local: {
-                // FIXME: shouldn't these be integer?
                 validations: [
                     greaterThanOrEqualToCondition(0),
                     lessThanOrEqualToCondition(100),
@@ -241,10 +236,6 @@ const schema: FinalReportFormSchema = {
                 member: () => ({
                     fields: () => ({
                         client_id: {},
-                        title: {
-                            required: true,
-                            requiredValidation: requiredStringCondition,
-                        },
                         budget: {
                             required: true,
                             validations: [
@@ -272,6 +263,11 @@ const schema: FinalReportFormSchema = {
                         female: {
                             validations: [positiveIntegerCondition],
                         },
+                        title: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                        },
+                        description: {},
                         narrative_description_of_achievements: {},
                         lessons_learnt: {},
                         challenges: {},
@@ -289,7 +285,6 @@ const schema: FinalReportFormSchema = {
                                 }),
                             }),
                         },
-                        description: {},
                     }),
                 }),
             },
@@ -404,15 +399,19 @@ const schema: FinalReportFormSchema = {
             },
         );
 
-        type ActionsDrefTypeRelatedFields = Pick<FinalReportFormSchemaFields, 'needs_identified'>;
+        type ActionsDrefTypeRelatedFields = Pick<FinalReportFormSchemaFields, 'needs_identified' | 'event_scope'>;
         formFields = addCondition(
             formFields,
             formValue,
             ['type_of_dref'],
-            ['needs_identified'],
+            [
+                'needs_identified',
+                'event_scope',
+            ],
             (val): ActionsDrefTypeRelatedFields => {
                 if (val?.type_of_dref !== TYPE_ASSESSMENT) {
                     return {
+                        event_scope: {},
                         needs_identified: {
                             keySelector: (need) => need.client_id,
                             member: () => ({
@@ -432,6 +431,7 @@ const schema: FinalReportFormSchema = {
                     };
                 }
                 return {
+                    event_scope: { forceValue: nullValue },
                     needs_identified: { forceValue: [] },
                 };
             },
