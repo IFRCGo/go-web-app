@@ -28,11 +28,11 @@ import Button from '#components/Button';
 import NonFieldError from '#components/NonFieldError';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import { getCurrentMonthYear } from '#utils/common';
+import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
 
 import i18n from './i18n.json';
 import ReferenceInput from './ReferenceInput';
 import CountryProvinceInput from './CountryProvinceInput';
-import MultiImageWithCaptionInput from './MultiImageWithCaptionInput';
 import {
     type FormType,
     type PartialReferenceType,

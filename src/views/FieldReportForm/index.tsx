@@ -246,14 +246,10 @@ export function Component() {
         // NOTE: Field report can be submitted in non-english languages as well
         useCurrentLanguageForMutation: true,
         body: (ctx: FieldReportBody) => ctx,
-        onSuccess: (response) => {
+        onSuccess: () => {
             alert.show(
                 strings.formRedirectMessage,
                 { variant: 'success' },
-            );
-            navigate(
-                'fieldReportDetails',
-                { params: { fieldReportId: response.id } },
             );
         },
         onFailure: ({
@@ -305,14 +301,9 @@ export function Component() {
                 strings.formRedirectMessage,
                 { variant: 'success' },
             );
-            window.setTimeout(
-                () => {
-                    navigate(
-                        'fieldReportDetails',
-                        { params: { fieldReportId: response.id } },
-                    );
-                },
-                250,
+            navigate(
+                'fieldReportFormEdit',
+                { params: { fieldReportId: response.id } },
             );
         },
         onFailure: ({

@@ -174,7 +174,7 @@ export function checkTabErrors(error: Error<PartialFinalReport> | undefined, tab
     const hasErrorOnAnyField = fields.some(
         (field) => {
             const fieldError = fieldErrors?.[field];
-            const isErrored = analyzeErrors<unknown>(fieldError);
+            const isErrored = analyzeErrors<PartialFinalReport>(fieldError);
             return isErrored;
         },
     );

@@ -3,6 +3,7 @@ import {
     useMemo,
     useState,
     useCallback,
+    type ElementRef,
 } from 'react';
 import { LegendIcon } from '@ifrc-go/icons';
 import {
@@ -133,6 +134,7 @@ export function Component() {
     // NOTE: We are only showing has_no_data_on_people_reached after the user
     // submits for the first time. This is to force/enable user to add data
     const beforeSubmitRef = useRef(true);
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const {
         value,
@@ -266,7 +268,7 @@ export function Component() {
                 { variant: 'success' },
             );
             navigate(
-                'threeWActivityDetail',
+                'threeWActivityEdit',
                 { params: { activityId: response.id } },
             );
         },
@@ -337,10 +339,6 @@ export function Component() {
                 // FIXME: Add translations
                 'Successfully updated activities',
                 { variant: 'success' },
-            );
-            navigate(
-                'threeWActivityDetail',
-                { params: { activityId } },
             );
         },
         onFailure: (err) => {
@@ -492,6 +490,7 @@ export function Component() {
             validate,
             onErrorSet,
             (valFromArgs) => {
+                formContentRef.current?.scrollIntoView();
                 const val = valFromArgs as FormFields;
                 const finalValue = {
                     ...val,
@@ -511,6 +510,9 @@ export function Component() {
                 };
                 setFinalValues(finalValue);
                 showSubmitConfirmation();
+            },
+            () => {
+                formContentRef.current?.scrollIntoView();
             },
         );
         submit();
@@ -589,6 +591,7 @@ export function Component() {
 
     return (
         <Page
+            elementRef={formContentRef}
             className={styles.threeWActivityForm}
             title={strings.threeWFormTitle}
             heading={strings.threeWFormHeading}

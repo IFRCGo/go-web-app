@@ -13,7 +13,7 @@ import useAlert from '#hooks/useAlert';
 
 import styles from './styles.module.css';
 
-type supportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/';
+export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/';
 
 export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 'value' | 'onChange' | 'children'| 'inputRef'> & {
     actions?: React.ReactNode;
@@ -24,7 +24,7 @@ export type Props<T extends NameType> = Omit<RawFileInputProps<T>, 'multiple' | 
     onChange: (value: number | undefined, name: T) => void;
     fileIdToUrlMap: Record<number, string>;
     setFileIdToUrlMap?: React.Dispatch<React.SetStateAction<Record<number, string>>>;
-    url: supportedPaths;
+    url: SupportedPaths;
     value: number | undefined | null;
     variant?: ButtonVariant;
     withoutPreview?: boolean;

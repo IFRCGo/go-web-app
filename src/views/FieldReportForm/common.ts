@@ -1,4 +1,4 @@
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import {
     type ArraySchema,
     type ObjectSchema,
@@ -226,7 +226,7 @@ const tabToFieldsMap = {
 };
 
 export function checkTabErrors(error: Error<PartialFormValue> | undefined, tabKey: TabKeys) {
-    if (!analyzeErrors(error)) {
+    if (isNotDefined(analyzeErrors(error))) {
         return false;
     }
 
@@ -236,7 +236,7 @@ export function checkTabErrors(error: Error<PartialFormValue> | undefined, tabKe
     const hasErrorOnAnyField = fields.some(
         (field) => {
             const fieldError = fieldErrors?.[field];
-            const isErrored = analyzeErrors(getErrorObject(fieldError));
+            const isErrored = analyzeErrors<PartialFormValue>(fieldError);
             return isErrored;
         },
     );

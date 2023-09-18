@@ -1,7 +1,9 @@
 import {
+    useRef,
     useMemo,
     useState,
     useCallback,
+    type ElementRef,
 } from 'react';
 import {
     useForm,
@@ -209,6 +211,8 @@ export function Component() {
     const { state } = useLocation();
     const { projectId: projectIdFromParams } = useParams<{ projectId: string }>();
     const currentLanguage = useCurrentLanguage();
+
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const {
         value,
@@ -610,7 +614,13 @@ export function Component() {
             );
         },
     });
+
+    const handleFormError = useCallback(() => {
+        formContentRef.current?.scrollIntoView();
+    }, []);
+
     const handleSubmit = useCallback((data: FormType) => {
+        formContentRef.current?.scrollIntoView();
         if (isNotDefined(projectId)) {
             submitRequest(data as ProjectResponseBody);
         } else {
@@ -637,6 +647,7 @@ export function Component() {
 
     return (
         <Page
+            elementRef={formContentRef}
             className={styles.threeWProjectForm}
             title={strings.threeWFormTitle}
             heading={strings.threeWFormHeading}
@@ -1188,7 +1199,12 @@ export function Component() {
                     <div className={styles.formActions}>
                         <Button
                             name={undefined}
-                            onClick={createSubmitHandler(validate, onErrorSet, handleSubmit)}
+                            onClick={createSubmitHandler(
+                                validate,
+                                onErrorSet,
+                                handleSubmit,
+                                handleFormError,
+                            )}
                             type="submit"
                             disabled={disabled}
                             variant="secondary"

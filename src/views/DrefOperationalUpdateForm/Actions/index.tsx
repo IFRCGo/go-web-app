@@ -28,13 +28,13 @@ import useTranslation from '#hooks/useTranslation';
 import { stringValueSelector } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
+import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
 
 import {
     TYPE_IMMINENT,
     TYPE_ASSESSMENT,
 } from '../common';
 // FIXME: move common components together
-import MultiImageWithCaptionInput from '../EventDetail/MultiImageWithCaptionInput';
 import { type PartialOpsUpdate } from '../schema';
 
 import NeedInput from './NeedInput';
@@ -233,6 +233,7 @@ function Actions(props: Props) {
                 <InputSection>
                     <MultiImageWithCaptionInput
                         name="photos_file"
+                        url="/api/v2/dref-files/multiple/"
                         value={value?.photos_file}
                         onChange={setFieldValue}
                         error={getErrorObject(error?.photos_file)}

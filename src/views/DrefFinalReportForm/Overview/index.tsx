@@ -36,12 +36,12 @@ import DistrictSearchMultiSelectInput, {
     type DistrictItem,
 } from '#components/domain/DistrictSearchMultiSelectInput';
 import useDisasterType from '#hooks/domain/useDisasterType';
+import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 
 import {
     TYPE_IMMINENT,
 } from '../common';
 import { type PartialFinalReport } from '../schema';
-import ImageWithCaptionInput from './ImageWithCaptionInput';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
@@ -427,6 +427,7 @@ function Overview(props: Props) {
             >
                 <ImageWithCaptionInput
                     name="event_map_file"
+                    url="/api/v2/dref-files/"
                     value={value?.event_map_file}
                     onChange={setFieldValue}
                     error={getErrorObject(error?.event_map_file)}
@@ -444,6 +445,7 @@ function Overview(props: Props) {
             >
                 <ImageWithCaptionInput
                     name="cover_image_file"
+                    url="/api/v2/dref-files/"
                     value={value?.cover_image_file}
                     onChange={setFieldValue}
                     error={getErrorObject(error?.cover_image_file)}

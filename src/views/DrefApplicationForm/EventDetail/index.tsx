@@ -14,6 +14,7 @@ import DateInput from '#components/DateInput';
 import useTranslation from '#hooks/useTranslation';
 import GoSingleFileInput from '#components/domain/GoSingleFileInput';
 import Link from '#components/Link';
+import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
 
 import {
     TYPE_IMMINENT,
@@ -23,7 +24,6 @@ import {
 } from '../common';
 import { type PartialDref } from '../schema';
 
-import MultiImageWithCaptionInput from './MultiImageWithCaptionInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -250,6 +250,7 @@ function EventDetail(props: Props) {
                         <MultiImageWithCaptionInput
                             // FIXME: use translation
                             label="Select images"
+                            url="/api/v2/dref-files/multiple/"
                             name="images_file"
                             value={value.images_file}
                             onChange={setFieldValue}
