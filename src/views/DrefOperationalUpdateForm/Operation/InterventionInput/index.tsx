@@ -13,6 +13,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 
+import NonFieldError from '#components/NonFieldError';
 import TextArea from '#components/TextArea';
 import Button from '#components/Button';
 import NumberInput from '#components/NumberInput';
@@ -107,6 +108,7 @@ function InterventionInput(props: Props) {
                         onChange={onFieldChange}
                         error={error?.budget}
                         disabled={disabled}
+                        withAsterisk
                     />
                     <NumberInput
                         label={strings.drefFormInterventionPersonTargetedLabel}
@@ -115,6 +117,7 @@ function InterventionInput(props: Props) {
                         onChange={onFieldChange}
                         error={error?.person_targeted}
                         disabled={disabled}
+                        withAsterisk
                     />
                     <NumberInput
                         label={strings.drefOperationalUpdateIndicatorMaleLabel}
@@ -148,6 +151,7 @@ function InterventionInput(props: Props) {
                     Remove Intervention
                 </Button>
             </div>
+            <NonFieldError error={error} />
             <TextArea
                 label={strings.drefFormListOfActivities}
                 name="description"
@@ -173,6 +177,7 @@ function InterventionInput(props: Props) {
                 )}
                 childrenContainerClassName={styles.indicatorContent}
             >
+                <NonFieldError error={getErrorObject(error?.indicators)} />
                 {value?.indicators?.map((indicator, i) => (
                     <IndicatorInput
                         key={indicator.client_id}

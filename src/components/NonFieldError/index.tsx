@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { AlertLineIcon } from '@ifrc-go/icons';
 import { _cs, isNotDefined, isFalsyString } from '@togglecorp/fujs';
 import {
     getErrorObject,
@@ -47,7 +48,10 @@ function NonFieldError<T>(props: Props<T>) {
             className,
         )}
         >
-            {stringError}
+            <AlertLineIcon className={styles.icon} />
+            <div>
+                {stringError}
+            </div>
         </div>
     );
 }

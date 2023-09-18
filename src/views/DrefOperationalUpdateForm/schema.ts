@@ -69,6 +69,7 @@ type ImagesFileFormFields = ImagesFileResponse & { client_id: string };
 type EventMapFileResponse = NonNullable<OpsUpdateRequestBody['event_map_file']>;
 type EventMapFileFormField = Omit<EventMapFileResponse, 'client_id'> & {
     client_id: string;
+    id: number;
 };
 
 type OpsUpdateFormFields = (
@@ -114,6 +115,15 @@ export type PartialOpsUpdate = PartialForm<
 
 type OpsUpdateFormSchema = ObjectSchema<PartialOpsUpdate>;
 type OpsUpdateFormSchemaFields = ReturnType<OpsUpdateFormSchema['fields']>;
+
+type EventMapFileFields = ReturnType<ObjectSchema<PartialOpsUpdate['event_map_file'], PartialOpsUpdate>['fields']>;
+type CoverImageFileFields = ReturnType<ObjectSchema<PartialOpsUpdate['cover_image_file'], PartialOpsUpdate>['fields']>;
+type ImageFileFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['images_file']>[number], PartialOpsUpdate>['fields']>;
+type NationalSocietyFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['national_society_actions']>[number], PartialOpsUpdate>['fields']>;
+type NeedsIdentifiedFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['needs_identified']>[number], PartialOpsUpdate>['fields']>;
+type RiskSecurityFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['risk_security']>[number], PartialOpsUpdate>['fields']>;
+type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['planned_interventions']>[number], PartialOpsUpdate>['fields']>;
+type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialOpsUpdate['planned_interventions']>[number]['indicators']>[number], PartialOpsUpdate>['fields']>;
 
 const schema: OpsUpdateFormSchema = {
     fields: (formValue): OpsUpdateFormSchemaFields => {
@@ -232,14 +242,14 @@ const schema: OpsUpdateFormSchema = {
                     people_in_need: { validations: [positiveIntegerCondition] },
                     emergency_appeal_planned: {},
                     event_map_file: {
-                        fields: () => ({
+                        fields: (): EventMapFileFields => ({
                             client_id: {},
                             id: { defaultValue: undefinedValue },
                             caption: {},
                         }),
                     },
                     cover_image_file: {
-                        fields: () => ({
+                        fields: (): CoverImageFileFields => ({
                             client_id: {},
                             id: { defaultValue: undefinedValue },
                             caption: {},
@@ -326,7 +336,7 @@ const schema: OpsUpdateFormSchema = {
                         images_file: {
                             keySelector: (image_file) => image_file.client_id,
                             member: () => ({
-                                fields: () => ({
+                                fields: (): ImageFileFields => ({
                                     client_id: {},
                                     id: { defaultValue: undefinedValue },
                                     caption: {},
@@ -452,7 +462,7 @@ const schema: OpsUpdateFormSchema = {
                     national_society_actions: {
                         keySelector: (nsAction) => nsAction.client_id,
                         member: () => ({
-                            fields: () => ({
+                            fields: (): NationalSocietyFields => ({
                                 client_id: {},
                                 title: {
                                     required: true,
@@ -480,7 +490,7 @@ const schema: OpsUpdateFormSchema = {
                         needs_identified: {
                             keySelector: (need) => need.client_id,
                             member: () => ({
-                                fields: () => ({
+                                fields: (): NeedsIdentifiedFields => ({
                                     client_id: {},
                                     title: {
                                         required: true,
@@ -604,7 +614,7 @@ const schema: OpsUpdateFormSchema = {
                     risk_security: {
                         keySelector: (riskSecurity) => riskSecurity.client_id,
                         member: () => ({
-                            fields: () => ({
+                            fields: (): RiskSecurityFields => ({
                                 client_id: {},
                                 risk: {
                                     required: true,
@@ -622,7 +632,7 @@ const schema: OpsUpdateFormSchema = {
                     planned_interventions: {
                         keySelector: (n) => n.client_id,
                         member: () => ({
-                            fields: () => ({
+                            fields: (): PlannedInterventionFields => ({
                                 client_id: {},
                                 title: {
                                     required: true,
@@ -659,7 +669,7 @@ const schema: OpsUpdateFormSchema = {
                                 indicators: {
                                     keySelector: (indicator) => indicator.client_id,
                                     member: () => ({
-                                        fields: () => ({
+                                        fields: (): IndicatorFields => ({
                                             client_id: {},
                                             title: {},
                                             target: { validations: [positiveNumberCondition] },

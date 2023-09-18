@@ -110,7 +110,7 @@ function useFloatPlacement(parentRef: React.RefObject<HTMLElement | undefined>) 
                 right: orientation.horizontal === 'right' ? `${window.innerWidth - x2}px` : 'unset',
             },
             pointer: {
-                left: `${parentCenterX}px`,
+                left: `calc(${parentX}px + 4em)`,
                 top: orientation.vertical === 'top' ? `${parentY + parentHeight}px` : `${parentY - VERTICAL_OFFSET}px`,
                 right: 'unset',
                 bottom: 'unset',

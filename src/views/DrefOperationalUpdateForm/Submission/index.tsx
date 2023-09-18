@@ -108,6 +108,7 @@ function Submission(props: Props) {
                             value={value.new_operational_start_date}
                             onChange={handleNewOperationalStartDate}
                             error={error?.new_operational_start_date}
+                            disabled={disabled}
                             readOnly
                         />
                     )}
@@ -118,6 +119,7 @@ function Submission(props: Props) {
                             value={value.ns_request_date}
                             onChange={setFieldValue}
                             error={error?.ns_request_date}
+                            disabled={disabled}
                         />
                     )}
                     <NumberInput
@@ -126,6 +128,7 @@ function Submission(props: Props) {
                         value={value.total_operation_timeframe}
                         onChange={handleTotalOperationTimeframeChange}
                         error={error?.total_operation_timeframe}
+                        disabled={disabled}
                     />
                     {value.type_of_dref !== TYPE_LOAN && (
                         <DateInput
@@ -134,6 +137,7 @@ function Submission(props: Props) {
                             value={value.new_operational_end_date}
                             onChange={setFieldValue}
                             error={error?.new_operational_end_date}
+                            disabled={disabled}
                         />
                     )}
                     {value.type_of_dref === TYPE_LOAN && (
@@ -143,6 +147,7 @@ function Submission(props: Props) {
                             value={value.date_of_approval}
                             onChange={setFieldValue}
                             error={error?.date_of_approval}
+                            disabled={disabled}
                         />
                     )}
                     {value.type_of_dref !== TYPE_LOAN && (
@@ -154,6 +159,7 @@ function Submission(props: Props) {
                                 value={value.reporting_start_date}
                                 onChange={setFieldValue}
                                 error={error?.reporting_start_date}
+                                disabled={disabled}
                             />
                             <DateInput
                                 label={strings.drefOperationalUpdateTimeFrameReportingTimeFrameEnd}
@@ -161,6 +167,7 @@ function Submission(props: Props) {
                                 value={value.reporting_end_date}
                                 onChange={setFieldValue}
                                 error={error?.reporting_end_date}
+                                disabled={disabled}
                             />
                         </>
                     )}
@@ -362,6 +369,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_name}
+                        disabled={disabled}
                     />
                     <TextInput
                         // FIXME: use translations
@@ -370,6 +378,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_title}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_title}
+                        disabled={disabled}
                     />
                     <TextInput
                         // FIXME: use translations
@@ -378,6 +387,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_email}
+                        disabled={disabled}
                     />
                     <TextInput
                         // FIXME: use translations
@@ -386,6 +396,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_phone_number}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_phone_number}
+                        disabled={disabled}
                     />
                 </InputSection>
                 {value?.type_of_dref !== TYPE_LOAN && (

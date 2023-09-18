@@ -67,6 +67,7 @@ type ImagesFileFormFields = ImagesFileResponse & { client_id: string };
 type EventMapFileResponse = NonNullable<DrefRequestBody['event_map_file']>;
 type EventMapFileFormField = Omit<EventMapFileResponse, 'client_id'> & {
     client_id: string;
+    id: number;
 };
 
 type DrefFormFields = (
@@ -112,6 +113,15 @@ export type PartialDref = PartialForm<
 
 type DrefFormSchema = ObjectSchema<PartialDref>;
 type DrefFormSchemaFields = ReturnType<DrefFormSchema['fields']>;
+
+type EventMapFileFields = ReturnType<ObjectSchema<PartialDref['event_map_file'], PartialDref>['fields']>;
+type CoverImageFileFields = ReturnType<ObjectSchema<PartialDref['cover_image_file'], PartialDref>['fields']>;
+type ImageFileFields = ReturnType<ObjectSchema<NonNullable<PartialDref['images_file']>[number], PartialDref>['fields']>;
+type NationalSocietyFields = ReturnType<ObjectSchema<NonNullable<PartialDref['national_society_actions']>[number], PartialDref>['fields']>;
+type NeedsIdentifiedFields = ReturnType<ObjectSchema<NonNullable<PartialDref['needs_identified']>[number], PartialDref>['fields']>;
+type RiskSecurityFields = ReturnType<ObjectSchema<NonNullable<PartialDref['risk_security']>[number], PartialDref>['fields']>;
+type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialDref['planned_interventions']>[number], PartialDref>['fields']>;
+type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialDref['planned_interventions']>[number]['indicators']>[number], PartialDref>['fields']>;
 
 const schema: DrefFormSchema = {
     fields: (formValue): DrefFormSchemaFields => {
@@ -226,14 +236,14 @@ const schema: DrefFormSchema = {
                     people_in_need: { validations: [positiveIntegerCondition] },
                     emergency_appeal_planned: {},
                     event_map_file: {
-                        fields: () => ({
+                        fields: (): EventMapFileFields => ({
                             client_id: {},
                             id: { defaultValue: undefinedValue },
                             caption: {},
                         }),
                     },
                     cover_image_file: {
-                        fields: () => ({
+                        fields: (): CoverImageFileFields => ({
                             client_id: {},
                             id: { defaultValue: undefinedValue },
                             caption: {},
@@ -320,7 +330,7 @@ const schema: DrefFormSchema = {
                         images_file: {
                             keySelector: (image_file) => image_file.client_id,
                             member: () => ({
-                                fields: () => ({
+                                fields: (): ImageFileFields => ({
                                     client_id: {},
                                     id: { defaultValue: undefinedValue },
                                     caption: {},
@@ -469,7 +479,7 @@ const schema: DrefFormSchema = {
                     national_society_actions: {
                         keySelector: (nsAction) => nsAction.client_id,
                         member: () => ({
-                            fields: () => ({
+                            fields: (): NationalSocietyFields => ({
                                 client_id: {},
                                 title: {
                                     required: true,
@@ -496,7 +506,7 @@ const schema: DrefFormSchema = {
                         needs_identified: {
                             keySelector: (need) => need.client_id,
                             member: () => ({
-                                fields: () => ({
+                                fields: (): NeedsIdentifiedFields => ({
                                     client_id: {},
                                     title: {
                                         required: true,
@@ -623,7 +633,7 @@ const schema: DrefFormSchema = {
                     risk_security: {
                         keySelector: (riskSecurity) => riskSecurity.client_id,
                         member: () => ({
-                            fields: () => ({
+                            fields: (): RiskSecurityFields => ({
                                 client_id: {},
                                 risk: {
                                     required: true,
@@ -641,7 +651,7 @@ const schema: DrefFormSchema = {
                     planned_interventions: {
                         keySelector: (n) => n.client_id,
                         member: () => ({
-                            fields: () => ({
+                            fields: (): PlannedInterventionFields => ({
                                 client_id: {},
                                 title: {
                                     required: true,
@@ -663,7 +673,7 @@ const schema: DrefFormSchema = {
                                 indicators: {
                                     keySelector: (indicator) => indicator.client_id,
                                     member: () => ({
-                                        fields: () => ({
+                                        fields: (): IndicatorFields => ({
                                             client_id: {},
                                             title: {},
                                             target: { validations: [positiveNumberCondition] },
