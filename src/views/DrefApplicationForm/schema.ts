@@ -323,10 +323,7 @@ const schema: DrefFormSchema = {
                                 fields: () => ({
                                     client_id: {},
                                     id: { defaultValue: undefinedValue },
-                                    caption: {
-                                        required: true,
-                                        requiredValidation: requiredStringCondition,
-                                    },
+                                    caption: {},
                                 }),
                             }),
                             validations: [lessThanEqualToTwoImagesCondition],

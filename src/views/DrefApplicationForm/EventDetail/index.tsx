@@ -233,6 +233,7 @@ function EventDetail(props: Props) {
                             onChange={setFieldValue}
                             url="/api/v2/dref-files/"
                             value={value.supporting_document}
+                            error={error?.supporting_document}
                             setFileIdToUrlMap={setFileIdToUrlMap}
                             disabled={disabled}
                         >

@@ -329,10 +329,7 @@ const schema: OpsUpdateFormSchema = {
                                 fields: () => ({
                                     client_id: {},
                                     id: { defaultValue: undefinedValue },
-                                    caption: {
-                                        required: true,
-                                        requiredValidation: requiredStringCondition,
-                                    },
+                                    caption: {},
                                 }),
                             }),
                             // FIXME: this is not defined on array schema type

@@ -113,7 +113,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                 error={error}
             />
             <GoMultiFileInput
-                name="id"
+                name={undefined}
                 accept="image/*"
                 value={fileInputValue}
                 onChange={handleFileInputChange}

@@ -506,7 +506,8 @@ export function Component() {
                     <RawFileInput
                         name={undefined}
                         onChange={handleImport}
-                        disabled={disabled || shouldHideForm}
+                        disabled
+                        // disabled={disabled || shouldHideForm}
                     >
                         {strings.formImportFromDocument}
                     </RawFileInput>

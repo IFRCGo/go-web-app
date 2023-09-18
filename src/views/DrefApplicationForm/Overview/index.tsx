@@ -155,6 +155,7 @@ function Overview(props: Props) {
             <InputSection
                 title={strings.drefFormNationalSociety}
                 numPreferredColumns={2}
+                withAsteriskOnTitle
             >
                 <NationalSocietySelectInput
                     error={error?.national_society}
@@ -174,6 +175,7 @@ function Overview(props: Props) {
             <InputSection
                 title={strings.drefFormDrefTypeTitle}
                 numPreferredColumns={2}
+                withAsteriskOnTitle
             >
                 <SelectInput
                     name="type_of_dref"
@@ -217,6 +219,7 @@ function Overview(props: Props) {
                     onChange={setFieldValue}
                     error={error?.type_of_onset}
                     disabled={disabled}
+                    withAsterisk
                 />
                 {(value?.disaster_type === DISASTER_FIRE
                     || value?.disaster_type === DISASTER_FLASH_FLOOD
@@ -288,7 +291,10 @@ function Overview(props: Props) {
                     error={getErrorString(error?.district)}
                 />
             </InputSection>
-            <InputSection title={strings.drefFormTitle}>
+            <InputSection
+                title={strings.drefFormTitle}
+                withAsteriskOnTitle
+            >
                 <div className={styles.titleContainer}>
                     <TextInput
                         name="title"
