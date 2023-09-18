@@ -8,11 +8,11 @@ import DropdownMenuItem from '#components/DropdownMenuItem';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import RegionDropdown from '#components/domain/RegionDropdown';
+import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import UserContext from '#contexts/user';
-import goLogo from '#assets/icons/go-logo-2020.svg';
-import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import { environment } from '#config';
+import goLogo from '#assets/icons/go-logo-2020.svg';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import LangaugeDropdown from './LanguageDropdown';

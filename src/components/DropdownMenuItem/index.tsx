@@ -1,6 +1,14 @@
+import { useCallback, useContext } from 'react';
+import { isDefined } from '@togglecorp/fujs';
+
 import Link, { Props as LinkProps } from '#components/Link';
 import Button, { Props as ButtonProps } from '#components/Button';
 import ConfirmButton, { Props as ConfirmButtonProps } from '#components/ConfirmButton';
+import DropdownMenuContext from '#contexts/dropdown-menu';
+
+type CommonProp = {
+    persist?: boolean;
+}
 
 type ButtonTypeProps<NAME> = Omit<ButtonProps<NAME>, 'variant' | 'type'> & {
     type: 'button';
@@ -14,10 +22,37 @@ type ConfirmButtonTypeProps<NAME> = Omit<ConfirmButtonProps<NAME>, 'variant' | '
     type: 'confirm-button',
 }
 
-type Props<N> = (ButtonTypeProps<N> | LinkTypeProps | ConfirmButtonTypeProps<N>);
+type Props<N> = CommonProp & (ButtonTypeProps<N> | LinkTypeProps | ConfirmButtonTypeProps<N>);
 
 function DropdownMenuItem<NAME>(props: Props<NAME>) {
-    const { type } = props;
+    const {
+        type,
+        onClick,
+        persist = false,
+    } = props;
+    const { setShowDropdown } = useContext(DropdownMenuContext);
+
+    const handleLinkClick = useCallback(
+        () => {
+            if (!persist) {
+                setShowDropdown(false);
+            }
+            // TODO: maybe add onClick here?
+        },
+        [setShowDropdown, persist],
+    );
+
+    const handleButtonClick = useCallback(
+        (name: NAME, e: React.MouseEvent<HTMLButtonElement>) => {
+            if (!persist) {
+                setShowDropdown(false);
+            }
+            if (isDefined(onClick) && type !== 'link') {
+                onClick(name, e);
+            }
+        },
+        [setShowDropdown, type, onClick, persist],
+    );
 
     if (type === 'link') {
         const {
@@ -31,6 +66,7 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...otherProps}
                 variant="dropdown-item"
+                onClick={handleLinkClick}
             />
         );
     }
@@ -47,6 +83,7 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...otherProps}
                 variant="dropdown-item"
+                onClick={handleButtonClick}
             />
         );
     }
@@ -63,6 +100,7 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...otherProps}
                 variant="dropdown-item"
+                onClick={handleButtonClick}
             />
         );
     }
