@@ -164,6 +164,7 @@ function Container(props: Props) {
                     childrenContainerClassName={footerContentClassName}
                     className={_cs(styles.footer, footerClassName)}
                     actionsContainerClassName={footerActionsContainerClassName}
+                    spacing={spacing}
                 >
                     {footerContent}
                 </Footer>

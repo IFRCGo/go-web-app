@@ -44,7 +44,7 @@
             height: initial;
 
             .map-container {
-                height: min(40rem, 70vh);
+                height: min(40rem, 60vh);
             }
 
             .country-list {

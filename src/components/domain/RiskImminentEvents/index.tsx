@@ -123,7 +123,7 @@ function RiskImminentEvents(props: Props) {
             heading={strings.imminentEventsHeading}
             headerDescription={strings.imminentEventsDescription}
             withHeaderBorder
-            footerIcons={(
+            footerContent={(
                 <div className={styles.legend}>
                     {riskHazards.map((hazard) => (
                         <div
@@ -145,6 +145,7 @@ function RiskImminentEvents(props: Props) {
                     ))}
                 </div>
             )}
+            footerActionsContainerClassName={styles.footerActions}
             footerActions={(
                 <RadioInput
                     name={undefined}
