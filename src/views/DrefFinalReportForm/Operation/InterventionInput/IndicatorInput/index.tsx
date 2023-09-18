@@ -6,6 +6,7 @@ import {
     type SetValueArg,
 } from '@togglecorp/toggle-form';
 
+import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
 import NumberInput from '#components/NumberInput';
 import TextInput from '#components/TextInput';
@@ -51,6 +52,7 @@ function IndicatorInput(props: Props) {
 
     return (
         <div className={styles.indicator}>
+            <NonFieldError error={error} />
             <TextInput
                 className={styles.titleInput}
                 label={strings.drefFormIndicatorTitleLabel}
@@ -59,6 +61,7 @@ function IndicatorInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.title}
                 disabled={disabled}
+                withAsterisk
             />
             <NumberInput
                 className={styles.numberInput}

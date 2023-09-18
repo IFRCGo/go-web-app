@@ -8,6 +8,7 @@ import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 
 import { randomString } from '@togglecorp/fujs';
 
+import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
 import TextArea from '#components/TextArea';
 import useTranslation from '#hooks/useTranslation';
@@ -53,6 +54,7 @@ function RiskSecurityInput(props: Props) {
 
     return (
         <div className={styles.riskSecurityInput}>
+            <NonFieldError error={error} />
             <TextArea
                 className={styles.input}
                 label={strings.drefFormRiskSecurityRiskLabel}
@@ -61,6 +63,7 @@ function RiskSecurityInput(props: Props) {
                 error={error?.risk}
                 onChange={onFieldChange}
                 disabled={disabled}
+                withAsterisk
             />
             <TextArea
                 className={styles.input}
@@ -70,6 +73,7 @@ function RiskSecurityInput(props: Props) {
                 error={error?.mitigation}
                 onChange={onFieldChange}
                 disabled={disabled}
+                withAsterisk
             />
             <Button
                 className={styles.removeButton}

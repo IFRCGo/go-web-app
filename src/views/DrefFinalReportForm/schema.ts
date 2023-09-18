@@ -64,6 +64,7 @@ type ImagesFileFormFields = ImagesFileResponse & { client_id: string };
 type EventMapFileResponse = NonNullable<FinalReportRequestBody['event_map_file']>;
 type EventMapFileFormField = Omit<EventMapFileResponse, 'client_id'> & {
     client_id: string;
+    id: number;
 };
 
 type FinalReportFormFields = (
@@ -110,6 +111,14 @@ export type PartialFinalReport = PartialForm<
 type FinalReportFormSchema = ObjectSchema<PartialFinalReport>;
 type FinalReportFormSchemaFields = ReturnType<FinalReportFormSchema['fields']>;
 
+type EventMapFileFields = ReturnType<ObjectSchema<PartialFinalReport['event_map_file'], PartialFinalReport>['fields']>;
+type CoverImageFileFields = ReturnType<ObjectSchema<PartialFinalReport['cover_image_file'], PartialFinalReport>['fields']>;
+type ImageFileFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['images_file']>[number], PartialFinalReport>['fields']>;
+type NeedsIdentifiedFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['needs_identified']>[number], PartialFinalReport>['fields']>;
+type RiskSecurityFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['risk_security']>[number], PartialFinalReport>['fields']>;
+type PlannedInterventionFields = ReturnType<ObjectSchema<NonNullable<PartialFinalReport['planned_interventions']>[number], PartialFinalReport>['fields']>;
+type IndicatorFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialFinalReport['planned_interventions']>[number]['indicators']>[number], PartialFinalReport>['fields']>;
+
 const schema: FinalReportFormSchema = {
     fields: (formValue): FinalReportFormSchemaFields => {
         let formFields: FinalReportFormSchemaFields = {
@@ -132,14 +141,14 @@ const schema: FinalReportFormSchema = {
             num_assisted: { validations: [positiveIntegerCondition] },
             people_in_need: { validations: [positiveIntegerCondition] },
             event_map_file: {
-                fields: () => ({
+                fields: (): EventMapFileFields => ({
                     client_id: {},
                     id: { defaultValue: undefinedValue },
                     caption: {},
                 }),
             },
             cover_image_file: {
-                fields: () => ({
+                fields: (): CoverImageFileFields => ({
                     client_id: {},
                     id: { defaultValue: undefinedValue },
                     caption: {},
@@ -165,7 +174,7 @@ const schema: FinalReportFormSchema = {
             images_file: {
                 keySelector: (image_file) => image_file.client_id,
                 member: () => ({
-                    fields: () => ({
+                    fields: (): ImageFileFields => ({
                         client_id: {},
                         id: { defaultValue: undefinedValue },
                         caption: {},
@@ -214,7 +223,7 @@ const schema: FinalReportFormSchema = {
             risk_security: {
                 keySelector: (riskSecurity) => riskSecurity.client_id,
                 member: () => ({
-                    fields: () => ({
+                    fields: (): RiskSecurityFields => ({
                         client_id: {},
                         risk: {
                             required: true,
@@ -231,7 +240,7 @@ const schema: FinalReportFormSchema = {
             planned_interventions: {
                 keySelector: (n) => n.client_id,
                 member: () => ({
-                    fields: () => ({
+                    fields: (): PlannedInterventionFields => ({
                         client_id: {},
                         budget: {
                             required: true,
@@ -271,7 +280,7 @@ const schema: FinalReportFormSchema = {
                         indicators: {
                             keySelector: (indicator) => indicator.client_id,
                             member: () => ({
-                                fields: () => ({
+                                fields: (): IndicatorFields => ({
                                     client_id: {},
                                     title: {
                                         required: true,
@@ -412,7 +421,7 @@ const schema: FinalReportFormSchema = {
                         needs_identified: {
                             keySelector: (need) => need.client_id,
                             member: () => ({
-                                fields: () => ({
+                                fields: (): NeedsIdentifiedFields => ({
                                     client_id: {},
                                     title: {
                                         required: true,
