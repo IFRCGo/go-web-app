@@ -72,6 +72,7 @@ function ActivitiesBySectorInput(props: Props) {
                     {
                         client_id: randomString(),
                         is_simplified_report: true,
+                        people_households: 'people',
                         sector: sectorKey,
                         action: actionId,
                     },
@@ -96,6 +97,7 @@ function ActivitiesBySectorInput(props: Props) {
                 {
                     client_id: randomString(),
                     is_simplified_report: true,
+                    people_households: 'people',
                     sector: sectorKey,
                 },
             ];

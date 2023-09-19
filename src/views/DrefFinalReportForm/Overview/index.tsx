@@ -36,12 +36,12 @@ import DistrictSearchMultiSelectInput, {
     type DistrictItem,
 } from '#components/domain/DistrictSearchMultiSelectInput';
 import useDisasterType from '#hooks/domain/useDisasterType';
+import ImageWithCaptionInput from '#components/domain/ImageWithCaptionInput';
 
 import {
     TYPE_IMMINENT,
 } from '../common';
 import { type PartialFinalReport } from '../schema';
-import ImageWithCaptionInput from './ImageWithCaptionInput';
 import styles from './styles.module.css';
 import i18n from './i18n.json';
 
@@ -139,6 +139,7 @@ function Overview(props: Props) {
             <InputSection
                 title={strings.drefFormNationalSociety}
                 numPreferredColumns={2}
+                withAsteriskOnTitle
             >
                 <NationalSocietySelectInput
                     error={error?.national_society}
@@ -151,6 +152,7 @@ function Overview(props: Props) {
             <InputSection
                 title={strings.drefFormDrefTypeTitle}
                 numPreferredColumns={2}
+                withAsteriskOnTitle
             >
                 <SelectInput
                     name="type_of_dref"
@@ -194,6 +196,7 @@ function Overview(props: Props) {
                     onChange={setFieldValue}
                     error={error?.type_of_onset}
                     disabled={disabled}
+                    withAsterisk
                 />
                 {/* (value?.disaster_type === DISASTER_FIRE
                     || value?.disaster_type === DISASTER_FLASH_FLOOD
@@ -244,6 +247,7 @@ function Overview(props: Props) {
                         : strings.drefFormRiskCountryLabel
                 }
                 numPreferredColumns={2}
+                withAsteriskOnTitle
             >
                 <CountrySelectInput
                     name="country"
@@ -252,6 +256,7 @@ function Overview(props: Props) {
                     onChange={setFieldValue}
                     error={error?.country}
                     disabled={disabled}
+                    withAsterisk
                 />
                 <DistrictSearchMultiSelectInput
                     name="district"
@@ -422,6 +427,7 @@ function Overview(props: Props) {
             >
                 <ImageWithCaptionInput
                     name="event_map_file"
+                    url="/api/v2/dref-files/"
                     value={value?.event_map_file}
                     onChange={setFieldValue}
                     error={getErrorObject(error?.event_map_file)}
@@ -439,6 +445,7 @@ function Overview(props: Props) {
             >
                 <ImageWithCaptionInput
                     name="cover_image_file"
+                    url="/api/v2/dref-files/"
                     value={value?.cover_image_file}
                     onChange={setFieldValue}
                     error={getErrorObject(error?.cover_image_file)}

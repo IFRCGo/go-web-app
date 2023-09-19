@@ -21,6 +21,7 @@ function PasswordInput<const T>(props: Props<T>) {
         icons,
         inputClassName,
         inputSectionClassName,
+        labelClassName,
         label,
         readOnly,
         required,
@@ -43,9 +44,10 @@ function PasswordInput<const T>(props: Props<T>) {
             hint={hint}
             icons={icons}
             inputSectionClassName={inputSectionClassName}
+            labelClassName={labelClassName}
             label={label}
-            required={required}
             readOnly={readOnly}
+            required={required}
             variant={variant}
             withAsterisk={withAsterisk}
             actions={(

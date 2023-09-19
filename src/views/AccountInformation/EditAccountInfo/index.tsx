@@ -230,6 +230,7 @@ function EditAccountInfo(props: Props) {
             <NonFieldError
                 className={styles.nonFieldError}
                 error={formError}
+                withFallbackError
             />
             <NonFieldError
                 className={styles.nonFieldError}

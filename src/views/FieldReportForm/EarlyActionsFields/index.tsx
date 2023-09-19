@@ -7,6 +7,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { isDefined, listToMap } from '@togglecorp/fujs';
 
+import NonFieldError from '#components/NonFieldError';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
 import NumberInput from '#components/NumberInput';
@@ -125,6 +126,7 @@ function EarlyActionFields(props: Props) {
                 />
             </div>
             <div className={styles.otherSection}>
+                <NonFieldError error={getErrorObject(error?.actions_taken)} />
                 {organizations.map((organization) => {
                     const index = mapping?.[organization.key];
                     return (

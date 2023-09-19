@@ -15,6 +15,7 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
+import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
@@ -137,6 +138,7 @@ function Actions(props: Props) {
                         onChange={setFieldValue}
                         value={value?.has_national_society_conducted}
                         error={error?.has_national_society_conducted}
+                        disabled={disabled}
                     />
                 </InputSection>
                 {value.has_national_society_conducted && (
@@ -146,12 +148,11 @@ function Actions(props: Props) {
                             value={value.national_society_conducted_description}
                             onChange={setFieldValue}
                             error={error?.national_society_conducted_description}
+                            disabled={disabled}
                         />
                     </InputSection>
                 )}
             </Container>
-
-            {/* HERE */}
 
             <Container
                 heading={strings.ifrcNetworkActionsHeading}
@@ -298,6 +299,7 @@ function Actions(props: Props) {
                             </Button>
                         </div>
                     </InputSection>
+                    <NonFieldError error={getErrorObject(error?.needs_identified)} />
                     {value?.needs_identified?.map((need, i) => (
                         <NeedInput
                             key={need.client_id}

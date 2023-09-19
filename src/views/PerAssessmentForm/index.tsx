@@ -24,6 +24,7 @@ import {
     removeNull,
 } from '@togglecorp/toggle-form';
 
+import NonFieldError from '#components/NonFieldError';
 import useRouting from '#hooks/useRouting';
 import {
     transformObjectError,
@@ -91,6 +92,7 @@ export function Component() {
         setFieldValue,
         setError,
         setValue,
+        error,
     } = useForm(
         assessmentSchema,
         { value: defaultFormValue },
@@ -386,6 +388,10 @@ export function Component() {
                         </ConfirmButton>
                     )}
                 >
+                    <NonFieldError
+                        error={error}
+                        withFallbackError
+                    />
                     <div
                         ref={formContentRef}
                         className={styles.content}

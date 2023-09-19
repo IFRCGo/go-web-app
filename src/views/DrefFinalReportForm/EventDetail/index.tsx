@@ -9,6 +9,7 @@ import InputSection from '#components/InputSection';
 import TextArea from '#components/TextArea';
 import DateInput from '#components/DateInput';
 import useTranslation from '#hooks/useTranslation';
+import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
 
 import {
     TYPE_IMMINENT,
@@ -17,7 +18,6 @@ import {
 } from '../common';
 import { type PartialFinalReport } from '../schema';
 
-import MultiImageWithCaptionInput from './MultiImageWithCaptionInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
@@ -103,6 +103,7 @@ function EventDetail(props: Props) {
                     <MultiImageWithCaptionInput
                         // FIXME: use translation
                         label="Select images"
+                        url="/api/v2/dref-files/multiple/"
                         name="images_file"
                         value={value.images_file}
                         onChange={setFieldValue}
@@ -112,7 +113,7 @@ function EventDetail(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {/* NOTE: The logic is not present in Final Form */}
+                {/* FIXME: The logic is not present in Final Form */}
                 {value.type_of_dref !== TYPE_ASSESSMENT && (
                     <InputSection
                         title={strings.drefFormScopeAndScaleEvent}

@@ -1,9 +1,17 @@
 .non-field-error {
+    display: inline-flex;
+    align-items: baseline;
     animation: flash var(--go-ui-duration-animation-fast) ease-in-out;
     animation-delay: var(--go-ui-duration-animation-slow);
+    gap: var(--go-ui-spacing-sm);
     color: var(--go-ui-color-red);
     font-size: var(--go-ui-font-size-lg);
     font-weight: var(--go-ui-font-weight-medium);
+
+    .icon {
+        flex-shrink: 0;
+        /* font-size: var(--go-ui-height-icon-multiplier); */
+    }
 }
 
 @keyframes flash {

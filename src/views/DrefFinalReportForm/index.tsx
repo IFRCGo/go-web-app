@@ -18,7 +18,6 @@ import {
     isTruthyString,
 } from '@togglecorp/fujs';
 
-import useRouting from '#hooks/useRouting';
 import Page from '#components/Page';
 import Tab from '#components/Tabs/Tab';
 import Tabs from '#components/Tabs';
@@ -92,7 +91,6 @@ export function Component() {
     const { finalReportId } = useParams<{ finalReportId: string }>();
 
     const alert = useAlert();
-    const { navigate } = useRouting();
     const strings = useTranslation(i18n);
 
     const formContentRef = useRef<ElementRef<'div'>>(null);
@@ -257,14 +255,7 @@ export function Component() {
                 strings.formSaveRequestSuccessMessage,
                 { variant: 'success' },
             );
-            if (isTruthyString(finalReportId)) {
-                handleFinalReportLoad(response);
-            } else {
-                navigate(
-                    'drefFinalReportForm',
-                    { params: { drefId: response.id } },
-                );
-            }
+            handleFinalReportLoad(response);
         },
         onFailure: ({
             value: { formErrors, messageForNotification },
@@ -453,7 +444,7 @@ export function Component() {
                     <>
                         <NonFieldError
                             error={formError}
-                            message={strings.formGeneralError}
+                            withFallbackError
                         />
                         <TabPanel name="overview">
                             <Overview

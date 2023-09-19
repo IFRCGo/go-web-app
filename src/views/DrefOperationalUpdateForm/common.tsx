@@ -198,7 +198,7 @@ export function checkTabErrors(error: Error<PartialOpsUpdate> | undefined, tabKe
     const hasErrorOnAnyField = fields.some(
         (field) => {
             const fieldError = fieldErrors?.[field];
-            const isErrored = analyzeErrors<unknown>(fieldError);
+            const isErrored = analyzeErrors<PartialOpsUpdate>(fieldError);
             return isErrored;
         },
     );

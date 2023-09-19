@@ -180,7 +180,7 @@ export function Component() {
                 { variant: 'success' },
             );
             navigate(
-                'flashUpdateFormDetails',
+                'flashUpdateFormEdit',
                 { params: { flashUpdateId: response.id } },
             );
         },
@@ -245,14 +245,10 @@ export function Component() {
             id: Number(flashUpdateId),
         },
         body: (ctx: FlashUpdateBody) => ctx,
-        onSuccess: (response) => {
+        onSuccess: () => {
             alert.show(
                 strings.flashUpdateFormRedirectMessage,
                 { variant: 'success' },
-            );
-            navigate(
-                'flashUpdateFormDetails',
-                { params: { flashUpdateId: response.id } },
             );
         },
         onFailure: (err) => {
@@ -305,6 +301,10 @@ export function Component() {
             );
         },
     });
+
+    const handleFormError = useCallback(() => {
+        formContentRef.current?.scrollIntoView();
+    }, []);
 
     const handleSubmit = useCallback((data: FormType) => {
         formContentRef.current?.scrollIntoView();
@@ -407,6 +407,10 @@ export function Component() {
                 )}
                 {!shouldHideForm && (
                     <>
+                        <NonFieldError
+                            error={error}
+                            withFallbackError
+                        />
                         <TabPanel name="context">
                             <ContextTab
                                 error={error}
@@ -435,9 +439,6 @@ export function Component() {
                                 disabled={disabled}
                             />
                         </TabPanel>
-                        <NonFieldError
-                            error={error}
-                        />
                         <div className={styles.actions}>
                             <div className={styles.pageActions}>
                                 <Button
@@ -463,6 +464,7 @@ export function Component() {
                                     validate,
                                     setError,
                                     handleSubmit,
+                                    handleFormError,
                                 )}
                                 disabled={activeTab !== 'focal' || submitPending}
                                 variant="secondary"

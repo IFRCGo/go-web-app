@@ -2,7 +2,8 @@
     display: flex;
     align-items: center;
     opacity: 0;
-    background-color: var(--go-ui-color-primary-red);
+
+    background-color: var(--go-ui-color-red);
     padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
     animation: slide-down var(--go-ui-duration-transition-medium) ease-in forwards;
     animation-delay: var(--go-ui-duration-transition-fast);
@@ -14,7 +15,7 @@
     opacity: 0;
     animation: fade-in var(--go-ui-duration-transition-medium) ease-in forwards;
     animation-delay: var(--go-ui-duration-transition-medium);
-    color: var(--go-ui-color-primary-red);
+    color: var(--go-ui-color-red);
 }
 
 @keyframes slide-down {

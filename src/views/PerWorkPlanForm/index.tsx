@@ -17,6 +17,7 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
+import NonFieldError from '#components/NonFieldError';
 import useRouting from '#hooks/useRouting';
 import Button from '#components/Button';
 import Container from '#components/Container';
@@ -326,6 +327,10 @@ export function Component() {
             )}
             spacing="relaxed"
         >
+            <NonFieldError
+                error={formError}
+                withFallbackError
+            />
             {pending && (
                 <BlockLoading />
             )}

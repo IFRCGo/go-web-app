@@ -449,14 +449,17 @@ export function Component() {
             const prevValue = prevOpsUpdateResponse?.total_operation_timeframe
                 ?? drefResponse?.operation_timeframe;
 
-            if (value.changing_timeframe_operation && currentValue === prevValue) {
+            if (
+                value.changing_timeframe_operation
+                && currentValue === prevValue
+            ) {
                 // FIXME: use translations
                 return 'Please select a different timeframe when selected yes on changing the operation timeframe';
             }
 
             if (
-                value.total_operation_timeframe !== prevValue
-                && value.changing_timeframe_operation
+                !value.changing_timeframe_operation
+                && currentValue !== prevValue
             ) {
                 // FIXME: use translations
                 return 'Please select yes on changing the operation timeframe';
@@ -661,7 +664,7 @@ export function Component() {
                     <>
                         <NonFieldError
                             error={formError}
-                            message={strings.formGeneralError}
+                            withFallbackError
                         />
                         {hasAnyWarning && (
                             <div className={styles.warnings}>

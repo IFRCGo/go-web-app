@@ -15,6 +15,7 @@ import {
     getErrorObject,
 } from '@togglecorp/toggle-form';
 
+import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
@@ -27,13 +28,13 @@ import useTranslation from '#hooks/useTranslation';
 import { stringValueSelector } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { type GoApiResponse } from '#utils/restRequest';
+import MultiImageWithCaptionInput from '#components/domain/MultiImageWithCaptionInput';
 
 import {
     TYPE_IMMINENT,
     TYPE_ASSESSMENT,
 } from '../common';
 // FIXME: move common components together
-import MultiImageWithCaptionInput from '../EventDetail/MultiImageWithCaptionInput';
 import { type PartialOpsUpdate } from '../schema';
 
 import NeedInput from './NeedInput';
@@ -232,6 +233,7 @@ function Actions(props: Props) {
                 <InputSection>
                     <MultiImageWithCaptionInput
                         name="photos_file"
+                        url="/api/v2/dref-files/multiple/"
                         value={value?.photos_file}
                         onChange={setFieldValue}
                         error={getErrorObject(error?.photos_file)}
@@ -263,6 +265,7 @@ function Actions(props: Props) {
                         </Button>
                     </div>
                 </InputSection>
+                <NonFieldError error={getErrorObject(error?.national_society_actions)} />
                 {value?.national_society_actions?.map((nsAction, i) => (
                     <NsActionInput
                         key={nsAction.client_id}
@@ -405,6 +408,7 @@ function Actions(props: Props) {
                                 onChange={setFieldValue}
                                 url="/api/v2/dref-files/"
                                 value={value?.assessment_report}
+                                error={error?.assessment_report}
                                 fileIdToUrlMap={fileIdToUrlMap}
                                 setFileIdToUrlMap={setFileIdToUrlMap}
                                 disabled={disabled}
@@ -437,6 +441,7 @@ function Actions(props: Props) {
                             </Button>
                         </div>
                     </InputSection>
+                    <NonFieldError error={getErrorObject(error?.needs_identified)} />
                     {value?.needs_identified?.map((need, i) => (
                         <NeedInput
                             key={need.client_id}

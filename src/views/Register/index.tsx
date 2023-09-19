@@ -283,6 +283,7 @@ export function Component() {
                 <NonFieldError
                     className={styles.nonFieldError}
                     error={formError}
+                    withFallbackError
                 />
                 <TextInput
                     name="first_name"

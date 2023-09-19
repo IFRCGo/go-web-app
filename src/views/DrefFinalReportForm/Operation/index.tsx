@@ -16,6 +16,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { ErrorWarningFillIcon } from '@ifrc-go/icons';
 
+import NonFieldError from '#components/NonFieldError';
 import Button from '#components/Button';
 import Container from '#components/Container';
 import InputSection from '#components/InputSection';
@@ -256,7 +257,7 @@ function Operation(props: Props) {
                         disabled={disabled}
                     />
                 </InputSection>
-                {value.change_in_operational_strategy_text && (
+                {value.change_in_operational_strategy && (
                     <InputSection
                         title={strings.finalReportChangeToOperationStrategyExplain}
                     >
@@ -266,6 +267,7 @@ function Operation(props: Props) {
                             onChange={setFieldValue}
                             value={value.change_in_operational_strategy_text}
                             error={error?.change_in_operational_strategy_text}
+                            disabled={disabled}
                         />
                     </InputSection>
                 )}
@@ -399,6 +401,7 @@ function Operation(props: Props) {
                     description={value?.type_of_dref === TYPE_ASSESSMENT
                         && strings.drefFormRiskSecurityPotentialRiskDescription}
                 >
+                    <NonFieldError error={getErrorObject(error?.risk_security)} />
                     {value.risk_security?.map((rs, i) => (
                         <RiskSecurityInput
                             key={rs.client_id}
@@ -461,6 +464,7 @@ function Operation(props: Props) {
                         </Button>
                     </div>
                 </InputSection>
+                <NonFieldError error={getErrorObject(error?.planned_interventions)} />
                 {value?.planned_interventions?.map((intervention, i) => (
                     <InterventionInput
                         key={intervention.client_id}

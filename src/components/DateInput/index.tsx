@@ -19,20 +19,30 @@ function DateInput<const T>(props: Props<T>) {
         readOnly,
         errorOnTooltip,
         inputClassName,
+        withAsterisk,
+        inputSectionClassName,
+        labelClassName,
+        required,
+        variant,
         ...otherInputProps
     } = props;
 
     return (
         <InputContainer
-            className={className}
             actions={actions}
-            icons={icons}
-            error={error}
-            label={label}
-            hint={hint}
+            className={className}
             disabled={disabled}
+            error={error}
             errorOnTooltip={errorOnTooltip}
+            hint={hint}
+            icons={icons}
+            inputSectionClassName={inputSectionClassName}
+            labelClassName={labelClassName}
+            label={label}
             readOnly={readOnly}
+            required={required}
+            variant={variant}
+            withAsterisk={withAsterisk}
             input={(
                 <RawInput
                     {...otherInputProps} /* eslint-disable-line react/jsx-props-no-spreading */

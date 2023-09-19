@@ -148,7 +148,10 @@ export function Component() {
                 className={styles.form}
                 onSubmit={handleFormSubmit}
             >
-                <NonFieldError error={formError} />
+                <NonFieldError
+                    error={formError}
+                    withFallbackError
+                />
                 <div className={styles.fields}>
                     <TextInput
                         name="username"

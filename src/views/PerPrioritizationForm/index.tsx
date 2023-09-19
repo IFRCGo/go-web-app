@@ -22,6 +22,7 @@ import {
 } from '@togglecorp/fujs';
 import { CheckLineIcon } from '@ifrc-go/icons';
 
+import NonFieldError from '#components/NonFieldError';
 import useRouting from '#hooks/useRouting';
 import Container from '#components/Container';
 import Portal from '#components/Portal';
@@ -81,6 +82,7 @@ export function Component() {
         setValue,
         setFieldValue,
         setError,
+        error,
     } = useForm(
         prioritizationSchema,
         {
@@ -435,6 +437,10 @@ export function Component() {
                         ) : undefined}
                         childrenContainerClassName={styles.componentList}
                     >
+                        <NonFieldError
+                            error={error}
+                            withFallbackError
+                        />
                         {!pending && sortedFormComponents.map((component) => {
                             const rating = assessmentComponentResponseMap
                                 ?.[component.id]?.rating_details;

@@ -1,10 +1,11 @@
-import { useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import {
-    type ArrayError,
     getErrorObject,
     useFormArray,
+    type ArrayError,
     type SetValueArg,
 } from '@togglecorp/toggle-form';
+import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import {
     _cs,
     isDefined,
@@ -12,8 +13,11 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
+import IconButton from '#components/IconButton';
 import NonFieldError from '#components/NonFieldError';
-import GoMultiFileInput from '#components/domain/GoMultiFileInput';
+import GoMultiFileInput, {
+    type SupportedPaths,
+} from '#components/domain/GoMultiFileInput';
 import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';
@@ -27,6 +31,7 @@ type Value = {
 interface Props<N> {
     className?: string;
     name: N;
+    url: SupportedPaths;
     value: Value[] | null | undefined;
     onChange: (value: SetValueArg<Value[] | undefined>, name: N) => void;
     error: ArrayError<Value> | undefined;
@@ -44,6 +49,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
         className,
         name,
         value,
+        url,
         fileIdToUrlMap,
         setFileIdToUrlMap,
         onChange,
@@ -58,6 +64,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
 
     const {
         setValue: setFieldValue,
+        removeValue,
     } = useFormArray(name, onChange);
 
     const handleFileInputChange = useCallback(
@@ -105,19 +112,21 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
         [setFieldValue],
     );
 
-    const fileInputValue = value?.map((v) => v.id).filter(isDefined);
+    const fileInputValue = useMemo(() => (
+        value
+            ?.map((fileValue) => fileValue.id)
+            .filter(isDefined)
+    ), [value]);
 
     return (
         <div className={_cs(styles.multiImageWithCaptionInput, className)}>
-            <NonFieldError
-                error={error}
-            />
+            <NonFieldError error={error} />
             <GoMultiFileInput
-                name="id"
+                name={undefined}
                 accept="image/*"
                 value={fileInputValue}
                 onChange={handleFileInputChange}
-                url="/api/v2/dref-files/multiple/"
+                url={url}
                 fileIdToUrlMap={fileIdToUrlMap}
                 setFileIdToUrlMap={setFileIdToUrlMap}
                 icons={icons}
@@ -127,20 +136,40 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
             >
                 {label}
             </GoMultiFileInput>
-            {value && (
+            {value && value.length > 0 && (
                 <div className={styles.fileList}>
                     {value?.map((fileValue, index) => {
+                        // NOTE: Not sure why this is here, need to
+                        // talk with @frozenhelium
                         if (isNotDefined(fileValue.id)) {
                             return null;
                         }
 
-                        // TODO: improve styling
+                        const imageError = getErrorObject(error?.[fileValue.client_id]);
+
                         return (
                             <div
-                                // FIXME: create a component for preview, implement remove
+                                // FIXME: create a component for preview
                                 className={styles.previewAndCaption}
                                 key={fileValue.id}
                             >
+                                <IconButton
+                                    className={styles.removeButton}
+                                    name={index}
+                                    onClick={removeValue}
+                                    // FIXME: Use translations
+                                    title="Remove"
+                                    // FIXME: Use translations
+                                    ariaLabel="Remove"
+                                    variant="secondary"
+                                    spacing="none"
+                                    disabled={disabled}
+                                >
+                                    <DeleteBinLineIcon />
+                                </IconButton>
+                                <NonFieldError
+                                    error={imageError}
+                                />
                                 <img
                                     className={styles.preview}
                                     alt="preview"
@@ -151,7 +180,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     name={index}
                                     value={fileValue?.caption}
                                     onChange={handleCaptionChange}
-                                    error={getErrorObject(error?.[fileValue.client_id])?.caption}
+                                    error={imageError?.caption}
                                     // FIXME: use translation
                                     placeholder="Enter Caption"
                                     disabled={disabled}

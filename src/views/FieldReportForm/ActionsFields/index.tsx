@@ -11,6 +11,7 @@ import {
     isDefined,
 } from '@togglecorp/fujs';
 
+import NonFieldError from '#components/NonFieldError';
 import { type GoApiResponse } from '#utils/restRequest';
 import Container from '#components/Container';
 import MultiSelectInput from '#components/MultiSelectInput';
@@ -160,6 +161,7 @@ function ActionsFields(props: Props) {
                     />
                 </div>
                 <div className={styles.otherSection}>
+                    <NonFieldError error={getErrorObject(error?.actions_taken)} />
                     {organizations.map((organization) => {
                         const index = mapping?.[organization.key];
                         return (
@@ -226,6 +228,7 @@ function ActionsFields(props: Props) {
                             onChange={onValueChange}
                             error={error?.actions_others}
                             placeholder={strings.othersActionsPlaceholder}
+                            disabled={disabled}
                         />
                     </InputSection>
                     <InputSection
@@ -309,6 +312,7 @@ function ActionsFields(props: Props) {
                 />
             </div>
             <div className={styles.otherSection}>
+                <NonFieldError error={getErrorObject(error?.actions_taken)} />
                 {organizations.map((organization) => {
                     const index = mapping?.[organization.key];
                     return (

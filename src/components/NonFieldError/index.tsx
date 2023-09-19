@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { _cs, isFalsyString, isNotDefined } from '@togglecorp/fujs';
+import { AlertLineIcon } from '@ifrc-go/icons';
+import { _cs, isNotDefined, isFalsyString } from '@togglecorp/fujs';
 import {
     getErrorObject,
     analyzeErrors,
@@ -12,14 +13,14 @@ import styles from './styles.module.css';
 export interface Props<T> {
     className?: string;
     error?: Error<T>;
-    message?: React.ReactNode;
+    withFallbackError?: boolean;
 }
 
 function NonFieldError<T>(props: Props<T>) {
     const {
         className,
         error,
-        message,
+        withFallbackError,
     } = props;
 
     const errorObject = useMemo(() => getErrorObject(error), [error]);
@@ -33,7 +34,10 @@ function NonFieldError<T>(props: Props<T>) {
         return null;
     }
 
-    const stringError = errorObject?.[nonFieldError] ?? message;
+    // FIXME: use translations
+    const stringError = errorObject?.[nonFieldError] || (
+        withFallbackError ? 'Please correct all the errors before submission!' : undefined);
+
     if (isFalsyString(stringError)) {
         return null;
     }
@@ -44,7 +48,10 @@ function NonFieldError<T>(props: Props<T>) {
             className,
         )}
         >
-            {stringError}
+            <AlertLineIcon className={styles.icon} />
+            <div>
+                {stringError}
+            </div>
         </div>
     );
 }

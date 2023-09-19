@@ -10,12 +10,14 @@ import {
     randomString,
 } from '@togglecorp/fujs';
 
-import GoSingleFileInput from '#components/domain/GoSingleFileInput';
+import NonFieldError from '#components/NonFieldError';
+import GoSingleFileInput, {
+    type SupportedPaths,
+} from '#components/domain/GoSingleFileInput';
 import TextInput from '#components/TextInput';
 
 import styles from './styles.module.css';
 
-// FIXME: is this type correct?
 type Value = {
     id?: number | undefined;
     client_id: string;
@@ -25,6 +27,7 @@ type Value = {
 interface Props<N> {
     className?: string;
     name: N;
+    url: SupportedPaths;
     value: Value | null | undefined;
     onChange: (value: SetValueArg<Value>, name: N) => void;
     error: ObjectError<Value> | undefined;
@@ -42,6 +45,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
         className,
         name,
         value,
+        url,
         fileIdToUrlMap,
         setFileIdToUrlMap,
         onChange,
@@ -66,15 +70,18 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
 
     return (
         <div className={_cs(styles.imageWithCaptionInput, className)}>
+            <NonFieldError
+                error={error}
+            />
             <GoSingleFileInput
                 name="id"
                 accept="image/*"
                 value={value?.id}
                 onChange={setFieldValue}
-                url="/api/v2/dref-files/"
+                // url="/api/v2/dref-files/"
+                url={url}
                 fileIdToUrlMap={fileIdToUrlMap}
                 setFileIdToUrlMap={setFileIdToUrlMap}
-                error={error?.id}
                 icons={icons}
                 actions={actions}
                 disabled={disabled}

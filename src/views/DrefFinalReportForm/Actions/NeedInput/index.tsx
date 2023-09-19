@@ -8,6 +8,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { DeleteBinTwoLineIcon } from '@ifrc-go/icons';
 
+import NonFieldError from '#components/NonFieldError';
 import TextArea from '#components/TextArea';
 import Button from '#components/Button';
 import InputSection from '#components/InputSection';
@@ -57,7 +58,9 @@ function NeedInput(props: Props) {
             className={styles.needInput}
             title={needLabel}
             contentSectionClassName={styles.content}
+            withAsteriskOnTitle
         >
+            <NonFieldError error={error} />
             <TextArea
                 className={styles.descriptionInput}
                 name="description"
@@ -65,6 +68,7 @@ function NeedInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.description}
                 disabled={disabled}
+                // withAsterisk
             />
             <Button
                 className={styles.removeButton}

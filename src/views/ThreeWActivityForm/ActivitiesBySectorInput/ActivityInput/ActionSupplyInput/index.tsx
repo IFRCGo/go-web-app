@@ -64,6 +64,7 @@ function ActionSupplyInput(props: Props) {
                 labelSelector={labelSelector}
                 onChange={setFieldValue}
                 disabled={disabled}
+                withAsterisk
             />
             <NumberInput
                 // FIXME: Add translation
@@ -73,6 +74,7 @@ function ActionSupplyInput(props: Props) {
                 error={error?.supply_value}
                 onChange={setFieldValue}
                 disabled={disabled}
+                withAsterisk
             />
             <IconButton
                 name={index}

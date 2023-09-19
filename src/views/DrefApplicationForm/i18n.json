@@ -15,7 +15,6 @@
         "formTabOperationLabel": "Operation",
         "formTabSubmissionLabel": "Submission/Contact",
         "formLoadErrorTitle": "Failed to load DREF Application!",
-        "formGeneralError": "Please correct all the errors before submission!",
         "formBackButtonLabel": "Back",
         "formImportFromDocument": "Import from Document",
         "formLoadingMessage": "Loading DREF Application...",

@@ -16,6 +16,7 @@ import {
     type Maybe,
 } from '@togglecorp/fujs';
 
+import { getDuplicates } from '#utils/common';
 import {
     positiveIntegerCondition,
     dateGreaterThanOrEqualCondition,
@@ -259,7 +260,6 @@ const finalSchema: FormSchema = {
                                     sector: { required: true },
                                     action: {},
 
-                                    // TODO: write validation for duplicate labesl
                                     custom_supplies: {
                                         keySelector: (supply) => supply.client_id,
                                         member: (): CustomSupplyItemsSchemaMember => ({
@@ -277,6 +277,19 @@ const finalSchema: FormSchema = {
                                                 },
                                             }),
                                         }),
+                                        validation: (val) => {
+                                            const dups = getDuplicates(
+                                                // eslint-disable-next-line max-len
+                                                (val ?? []).map((item) => item.supply_label).filter(isDefined),
+                                                (item) => item,
+                                                (count) => count > 1,
+                                            );
+                                            if (dups.length >= 1) {
+                                                return 'Duplicate supply items are not allowed';
+                                            }
+
+                                            return undefined;
+                                        },
                                     },
                                 };
 
@@ -393,7 +406,7 @@ const finalSchema: FormSchema = {
                                                 amount: {
                                                     validations: [positiveIntegerCondition],
                                                 },
-                                                // TODO: write validation for duplicate labels
+                                                // FIXME: write validation for duplicate labels
                                                 supplies: {
                                                     keySelector: (supply) => supply.client_id,
                                                     member: (): ActionSupplyItemsSchemaMember => ({
@@ -411,6 +424,19 @@ const finalSchema: FormSchema = {
                                                             },
                                                         }),
                                                     }),
+                                                    validation: (actionItem) => {
+                                                        const dups = getDuplicates(
+                                                            // eslint-disable-next-line max-len
+                                                            (actionItem ?? []).map((item) => item.supply_action).filter(isDefined),
+                                                            (item) => item,
+                                                            (count) => count > 1,
+                                                        );
+                                                        if (dups.length >= 1) {
+                                                            return 'Duplicate supply items are not allowed';
+                                                        }
+
+                                                        return undefined;
+                                                    },
                                                 },
                                             };
                                         }
@@ -419,26 +445,6 @@ const finalSchema: FormSchema = {
                                             beneficiaries_count: { forceValue: nullValue },
                                             amount: { forceValue: nullValue },
                                             supplies: { forceValue: [] },
-                                        };
-                                    },
-                                );
-
-                                activitySchema = addCondition(
-                                    activitySchema,
-                                    activityValue,
-                                    ['is_simplified_report'] as const,
-                                    ['point_count'] as const,
-                                    (val): Pick<ActivityItemSchemaFields, 'point_count'> => {
-                                    /* NOTE: if action type is custom or action type is action
-                                     * and not is_cash_type and has_location
-                                     */
-                                        if (val?.is_simplified_report) {
-                                            return {
-                                                point_count: {},
-                                            };
-                                        }
-                                        return {
-                                            point_count: { forceValue: nullValue },
                                         };
                                     },
                                 );
@@ -514,6 +520,50 @@ const finalSchema: FormSchema = {
                                     },
                                 );
 
+                                const locationFields = [
+                                    'points',
+                                    'point_count',
+                                ] as const;
+                                type LocationSchema = Pick<
+                                    ActivityItemSchemaFields, (typeof locationFields)[number]
+                                >;
+                                activitySchema = addCondition(
+                                    activitySchema,
+                                    activityValue,
+                                    ['is_simplified_report'],
+                                    locationFields,
+                                    (val): LocationSchema => {
+                                        if (val?.is_simplified_report) {
+                                            return {
+                                                point_count: {},
+                                                points: { forceValue: [] },
+                                            };
+                                        }
+                                        return {
+                                            point_count: { forceValue: nullValue },
+                                            points: {
+                                                // FIXME: Have at least one point
+                                                keySelector: (point) => point.client_id,
+                                                member: (): PointItemsSchemaMember => ({
+                                                    fields: (): PointItemSchemaFields => ({
+                                                        client_id: {
+                                                            forceValue: undefinedValue,
+                                                        },
+                                                        // id: {},
+                                                        longitude: { required: true },
+                                                        latitude: { required: true },
+                                                        description: {
+                                                            required: true,
+                                                            // eslint-disable-next-line max-len
+                                                            requiredValidation: requiredStringCondition,
+                                                        },
+                                                    }),
+                                                }),
+                                            },
+                                        };
+                                    },
+                                );
+
                                 const disaggregationFields = [
                                     'male_0_1_count',
                                     'male_2_5_count',
@@ -537,7 +587,6 @@ const finalSchema: FormSchema = {
                                     'other_60_plus_count',
                                     'other_unknown_age_count',
                                     'is_disaggregated_for_disabled',
-                                    'points',
                                 ] as const;
                                 type DisaggregationSchema = Pick<
                                     ActivityItemSchemaFields, (typeof disaggregationFields)[number]
@@ -550,26 +599,6 @@ const finalSchema: FormSchema = {
                                     (val): DisaggregationSchema => {
                                         if (!val?.is_simplified_report) {
                                             return {
-                                                points: {
-                                                    // FIXME: Have at least one point
-                                                    keySelector: (point) => point.client_id,
-                                                    member: (): PointItemsSchemaMember => ({
-                                                        fields: (): PointItemSchemaFields => ({
-                                                            client_id: {
-                                                                forceValue: undefinedValue,
-                                                            },
-                                                            // id: {},
-                                                            longitude: { required: true },
-                                                            latitude: { required: true },
-                                                            description: {
-                                                                required: true,
-                                                                // eslint-disable-next-line max-len
-                                                                requiredValidation: requiredStringCondition,
-                                                            },
-                                                        }),
-                                                    }),
-                                                },
-
                                                 male_0_1_count: {
                                                     validations: [positiveIntegerCondition],
                                                 },
@@ -640,8 +669,6 @@ const finalSchema: FormSchema = {
                                             };
                                         }
                                         return {
-                                            points: { forceValue: [] },
-
                                             male_0_1_count: { forceValue: nullValue },
                                             male_2_5_count: { forceValue: nullValue },
                                             male_6_12_count: { forceValue: nullValue },
@@ -697,7 +724,7 @@ const finalSchema: FormSchema = {
 
                                 type DependentOn = (typeof disaggregationCountDeps)[number][0];
                                 type Dependent = (typeof disaggregationCountDeps)[number][1];
-                                function updatePartialSchema(
+                                function updateSchemaForDisabledDisaggregation(
                                     dependentOn: DependentOn,
                                     dependent: Dependent,
                                 ) {
@@ -738,7 +765,8 @@ const finalSchema: FormSchema = {
                                     );
                                 }
                                 disaggregationCountDeps.forEach(([dependentOn, dependent]) => {
-                                    activitySchema = updatePartialSchema(dependentOn, dependent);
+                                    // eslint-disable-next-line max-len
+                                    activitySchema = updateSchemaForDisabledDisaggregation(dependentOn, dependent);
                                 });
 
                                 return activitySchema;

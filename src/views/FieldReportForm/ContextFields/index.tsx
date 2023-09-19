@@ -166,6 +166,7 @@ function ContextFields(props: Props) {
         >
             <InputSection
                 title={strings.statusSectionTitle}
+                withAsteriskOnTitle
             >
                 <RadioInput
                     name="status"
@@ -182,6 +183,7 @@ function ContextFields(props: Props) {
             </InputSection>
             <InputSection
                 title={strings.covidSectionTitle}
+                withAsteriskOnTitle
             >
                 <BooleanInput
                     name="is_covid_report"
@@ -194,7 +196,7 @@ function ContextFields(props: Props) {
 
             <InputSection
                 // FIXME: use translations
-                title="Search for existing emergency *"
+                title="Search for existing emergency"
                 description="Type the name of the country you want to report on in the box above to begin the search."
             >
                 <EventSearchSelectInput
@@ -213,6 +215,7 @@ function ContextFields(props: Props) {
                 title={countrySectionTitle}
                 description={countrySectionDescription}
                 numPreferredColumns={2}
+                withAsteriskOnTitle
             >
                 <CountrySelectInput
                     error={error?.country}
@@ -221,6 +224,7 @@ function ContextFields(props: Props) {
                     onChange={handleCountryChange}
                     value={value.country}
                     disabled={disabled}
+                    withAsterisk
                 />
                 <DistrictSearchMultiSelectInput
                     error={getErrorString(error?.districts)}
@@ -238,6 +242,7 @@ function ContextFields(props: Props) {
                 title={strings.disasterTypeLabel}
                 description={strings.disasterTypeDescription}
                 numPreferredColumns={2}
+                withAsteriskOnTitle
             >
                 <DisasterTypeSelectInput
                     name="dtype"
@@ -256,17 +261,20 @@ function ContextFields(props: Props) {
                 title={startDateSectionTitle}
                 description={startDateSectionDescription}
                 numPreferredColumns={2}
+                withAsteriskOnTitle
             >
                 <DateInput
                     name="start_date"
                     value={value.start_date}
                     onChange={onValueChange}
                     error={error?.start_date || disabled}
+                    disabled={disabled}
                 />
             </InputSection>
             <InputSection
                 title={strings.summaryLabel}
                 description={strings.summaryDescription}
+                withAsteriskOnTitle
             >
                 <TextInput
                     label={strings.titleSecondaryLabel}

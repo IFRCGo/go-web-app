@@ -506,7 +506,8 @@ export function Component() {
                     <RawFileInput
                         name={undefined}
                         onChange={handleImport}
-                        disabled={disabled || shouldHideForm}
+                        disabled
+                        // disabled={disabled || shouldHideForm}
                     >
                         {strings.formImportFromDocument}
                     </RawFileInput>
@@ -591,7 +592,7 @@ export function Component() {
                     <>
                         <NonFieldError
                             error={formError}
-                            message={strings.formGeneralError}
+                            withFallbackError
                         />
                         <TabPanel name="overview">
                             <Overview

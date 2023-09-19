@@ -214,6 +214,7 @@ function ActivityInput(props: Props) {
     return (
         <ExpandableContainer
             className={styles.activityInput}
+            childrenContainerClassName={styles.content}
             headingLevel={5}
             headingClassName={errorFromProps && styles.error}
             spacing="cozy"
@@ -237,8 +238,9 @@ function ActivityInput(props: Props) {
             heading={type === 'custom' ? `Custom Activity #${itemNumber}` : actionDetails?.title}
             withHeaderBorder
         >
+            <NonFieldError error={error} />
             <InputSection
-                description={actionDetails?.description}
+                description={actionDetails?.description || '-'}
                 withoutPadding
             >
                 <div className={styles.inputSectionContent}>
@@ -274,6 +276,7 @@ function ActivityInput(props: Props) {
                             keySelector={peopleHouseholdsKeySelector}
                             labelSelector={peopleHouseholdsLabelSelector}
                             error={error?.people_households}
+                            withAsterisk
                         />
                     )}
                     {value?.is_simplified_report && value?.people_households === 'households' && (
@@ -369,7 +372,7 @@ function ActivityInput(props: Props) {
                         </div>
                     )}
 
-                    {(
+                    {value?.is_simplified_report && (
                         type === 'custom'
                         || (type === 'action' && !actionDetails?.is_cash_type && actionDetails?.has_location)
                     ) && (
@@ -383,7 +386,7 @@ function ActivityInput(props: Props) {
                             error={error?.point_count}
                         />
                     )}
-                    {(
+                    {!value?.is_simplified_report && (
                         type === 'custom'
                         || (type === 'action' && !actionDetails?.is_cash_type && actionDetails?.has_location)
                     ) && (
@@ -409,6 +412,7 @@ function ActivityInput(props: Props) {
 
                             )}
                         >
+                            <NonFieldError error={getErrorObject(error?.points)} />
                             {value?.points?.map((point, index) => (
                                 <PointInput
                                     index={index}

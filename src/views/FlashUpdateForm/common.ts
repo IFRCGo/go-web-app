@@ -1,3 +1,4 @@
+import { isNotDefined } from '@togglecorp/fujs';
 import {
     analyzeErrors,
     getErrorObject,
@@ -56,7 +57,7 @@ const tabToFieldsMap = {
 };
 
 export function checkTabErrors(error: Error<FormType> | undefined, tabKey: TabKeys) {
-    if (!analyzeErrors(error)) {
+    if (isNotDefined(analyzeErrors(error))) {
         return false;
     }
 
@@ -66,7 +67,7 @@ export function checkTabErrors(error: Error<FormType> | undefined, tabKey: TabKe
     const hasErrorOnAnyField = fields.some(
         (field) => {
             const fieldError = fieldErrors?.[field];
-            const isErrored = analyzeErrors(fieldError);
+            const isErrored = analyzeErrors<FormType>(fieldError);
             return isErrored;
         },
     );

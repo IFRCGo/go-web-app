@@ -184,7 +184,7 @@ export function checkTabErrors(error: Error<PartialDref> | undefined, tabKey: Ta
     const hasErrorOnAnyField = fields.some(
         (field) => {
             const fieldError = fieldErrors?.[field];
-            const isErrored = analyzeErrors<unknown>(fieldError);
+            const isErrored = analyzeErrors<PartialDref>(fieldError);
             return isErrored;
         },
     );

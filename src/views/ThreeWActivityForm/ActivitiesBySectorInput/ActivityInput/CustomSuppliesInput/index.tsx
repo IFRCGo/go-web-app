@@ -52,6 +52,7 @@ function CustomSupplyInput(props: Props) {
                 error={error?.supply_label}
                 onChange={setFieldValue}
                 disabled={disabled}
+                withAsterisk
             />
             <NumberInput
                 // FIXME: Add translation
@@ -61,6 +62,7 @@ function CustomSupplyInput(props: Props) {
                 error={error?.supply_value}
                 onChange={setFieldValue}
                 disabled={disabled}
+                withAsterisk
             />
             <IconButton
                 name={index}

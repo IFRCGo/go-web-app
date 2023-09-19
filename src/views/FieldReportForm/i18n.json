@@ -16,7 +16,6 @@
         "formItemResponseLabel": "Response",
         "formItemRiskAnalysisLabel": "Risk Analysis",
         "formItemSituationLabel": "Situation",
-        "formNonFieldError": "Please fill in required fields first!",
         "submitButtonLabel": "Submit",
         "backButtonLabel": "Back",
         "continueButtonLabel": "Continue",

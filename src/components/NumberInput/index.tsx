@@ -31,6 +31,10 @@ function NumberInput<const T>(props: Props<T>) {
         inputClassName,
         value: valueFromProps,
         errorOnTooltip,
+        withAsterisk,
+        labelClassName,
+        required,
+        variant,
         onChange,
         ...otherInputProps
     } = props;
@@ -60,16 +64,20 @@ function NumberInput<const T>(props: Props<T>) {
 
     return (
         <InputContainer
-            className={className}
             actions={actions}
-            icons={icons}
-            error={error}
-            hint={hint}
-            label={label}
+            className={className}
             disabled={disabled}
-            readOnly={readOnly}
-            inputSectionClassName={inputSectionClassName}
+            error={error}
             errorOnTooltip={errorOnTooltip}
+            hint={hint}
+            icons={icons}
+            inputSectionClassName={inputSectionClassName}
+            labelClassName={labelClassName}
+            label={label}
+            readOnly={readOnly}
+            required={required}
+            variant={variant}
+            withAsterisk={withAsterisk}
             input={(
                 <RawInput
                     {...otherInputProps} /* eslint-disable-line react/jsx-props-no-spreading */

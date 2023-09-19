@@ -323,6 +323,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_name}
+                        disabled={disabled}
                     />
                     <TextInput
                         // FIXME: use translations
@@ -331,6 +332,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_title}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_title}
+                        disabled={disabled}
                     />
                     <TextInput
                         // FIXME: use translations
@@ -339,6 +341,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_email}
+                        disabled={disabled}
                     />
                     <TextInput
                         // FIXME: use translations
@@ -347,6 +350,7 @@ function Submission(props: Props) {
                         value={value.regional_focal_point_phone_number}
                         onChange={setFieldValue}
                         error={error?.regional_focal_point_phone_number}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection

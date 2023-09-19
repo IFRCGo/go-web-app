@@ -1,14 +1,17 @@
-import { isDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import {
     type ArraySchema,
     type ObjectSchema,
     type PartialForm,
     type PurgeNull,
+    type Error,
     requiredStringCondition,
     addCondition,
     nullValue,
     undefinedValue,
     emailCondition,
+    analyzeErrors,
+    getErrorObject,
 } from '@togglecorp/toggle-form';
 
 import {
@@ -131,6 +134,115 @@ export function transformAPIFieldsToFormFields(
     };
 }
 
+export type TabKeys = 'context' | 'situation' | 'risk-analysis' | 'actions' | 'early-actions' | 'response';
+
+const fieldsInContext = [
+    'status',
+    'is_covid_report',
+    'event',
+    'country',
+    'districts',
+    'dtype',
+    'start_date',
+    'summary',
+    'request_assistance',
+    'ns_request_assistance',
+] satisfies (keyof PartialFormValue)[];
+const fieldsInSituation = [
+    'affected_pop_centres',
+    'description',
+    'epi_cases',
+    'epi_cases_since_last_fr',
+    'epi_confirmed_cases',
+    'epi_deaths_since_last_fr',
+    'epi_figures_source',
+    'epi_notes_since_last_fr',
+    'epi_num_dead',
+    'epi_probable_cases',
+    'epi_suspected_cases',
+    'gov_affected_pop_centres',
+    'gov_num_affected',
+    'gov_num_dead',
+    'gov_num_displaced',
+    'gov_num_highest_risk',
+    'gov_num_injured',
+    'gov_num_missing',
+    'gov_num_potentially_affected',
+    'num_affected',
+    'num_dead',
+    'num_displaced',
+    'num_highest_risk',
+    'num_injured',
+    'num_missing',
+    'num_potentially_affected',
+    'other_affected_pop_centres',
+    'other_num_affected',
+    'other_num_dead',
+    'other_num_displaced',
+    'other_num_highest_risk',
+    'other_num_injured',
+    'other_num_missing',
+    'other_num_potentially_affected',
+    'other_sources',
+    'sit_fields_date',
+] satisfies (keyof PartialFormValue)[];
+const fieldsInActions = [
+    'actions_others',
+    'actions_taken',
+    'bulletin',
+    'external_partners',
+    'gov_num_assisted',
+    'notes_health',
+    'notes_ns',
+    'notes_socioeco',
+    'num_assisted',
+    'num_expats_delegates',
+    'num_localstaff',
+    'num_volunteers',
+    'supported_activities',
+] satisfies (keyof PartialFormValue)[];
+const fieldsInResponse = [
+    'contacts',
+    'visibility',
+    'dref',
+    'dref_amount',
+    'appeal',
+    'appeal_amount',
+    'fact',
+    'num_fact',
+    'ifrc_staff',
+    'num_ifrc_staff',
+    'forecast_based_action',
+    'forecast_based_action_amount',
+] satisfies (keyof PartialFormValue)[];
+
+const tabToFieldsMap = {
+    context: fieldsInContext,
+    situation: fieldsInSituation,
+    'risk-analysis': fieldsInSituation,
+    actions: fieldsInActions,
+    'early-actions': fieldsInActions,
+    response: fieldsInResponse,
+};
+
+export function checkTabErrors(error: Error<PartialFormValue> | undefined, tabKey: TabKeys) {
+    if (isNotDefined(analyzeErrors(error))) {
+        return false;
+    }
+
+    const fields = tabToFieldsMap[tabKey];
+    const fieldErrors = getErrorObject(error);
+
+    const hasErrorOnAnyField = fields.some(
+        (field) => {
+            const fieldError = fieldErrors?.[field];
+            const isErrored = analyzeErrors<PartialFormValue>(fieldError);
+            return isErrored;
+        },
+    );
+
+    return hasErrorOnAnyField;
+}
 function validStatusCondition(value: number | string | null | undefined) {
     if (value === FIELD_REPORT_STATUS_EARLY_WARNING || value === FIELD_REPORT_STATUS_EVENT) {
         return undefined;
@@ -454,7 +566,7 @@ export const reportSchema: FormSchema = {
             value,
             ['dref', 'dref_amount', 'status', 'is_covid_report', 'dtype'],
             ['dref', 'dref_amount'],
-            (val) => {
+            (val): Pick<FormSchemaFields, 'dref' | 'dref_amount'> => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
                 if (reportType === 'COVID') {
                     return {
@@ -484,7 +596,7 @@ export const reportSchema: FormSchema = {
             value,
             ['appeal', 'appeal_amount', 'status', 'is_covid_report', 'dtype'],
             ['appeal', 'appeal_amount'],
-            (val) => {
+            (val): Pick<FormSchemaFields, 'appeal' | 'appeal_amount'> => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
                 if (reportType === 'COVID') {
                     return {
@@ -514,7 +626,7 @@ export const reportSchema: FormSchema = {
             value,
             ['fact', 'num_fact', 'status', 'is_covid_report', 'dtype'],
             ['fact', 'num_fact'],
-            (val) => {
+            (val): Pick<FormSchemaFields, 'fact' | 'num_fact'> => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
                 if (reportType === 'COVID') {
                     return {
@@ -544,7 +656,7 @@ export const reportSchema: FormSchema = {
             value,
             ['ifrc_staff', 'num_ifrc_staff', 'status', 'is_covid_report', 'dtype'],
             ['ifrc_staff', 'num_ifrc_staff'],
-            (val) => {
+            (val): Pick<FormSchemaFields, 'ifrc_staff' | 'num_ifrc_staff'> => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
                 if (reportType === 'COVID') {
                     return {
@@ -569,7 +681,7 @@ export const reportSchema: FormSchema = {
             value,
             ['forecast_based_action', 'forecast_based_action_amount', 'status', 'is_covid_report', 'dtype'],
             ['forecast_based_action', 'forecast_based_action_amount'],
-            (val) => {
+            (val): Pick<FormSchemaFields, 'forecast_based_action' | 'forecast_based_action_amount'> => {
                 const reportType = getReportType(val?.status, val?.is_covid_report, val?.dtype);
                 if (reportType !== 'EW') {
                     return {

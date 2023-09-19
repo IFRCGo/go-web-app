@@ -1,7 +1,9 @@
 import {
+    useRef,
     useMemo,
     useState,
     useCallback,
+    type ElementRef,
 } from 'react';
 import {
     useForm,
@@ -112,6 +114,7 @@ function calculateStatus(
 
     if (isDefined(endDate)) {
         const end = new Date(endDate);
+        // FIXME: why is this undefined?
         if (end.getTime() < now.getTime()) {
             return undefined;
         }
@@ -208,6 +211,8 @@ export function Component() {
     const { state } = useLocation();
     const { projectId: projectIdFromParams } = useParams<{ projectId: string }>();
     const currentLanguage = useCurrentLanguage();
+
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const {
         value,
@@ -609,7 +614,13 @@ export function Component() {
             );
         },
     });
+
+    const handleFormError = useCallback(() => {
+        formContentRef.current?.scrollIntoView();
+    }, []);
+
     const handleSubmit = useCallback((data: FormType) => {
+        formContentRef.current?.scrollIntoView();
         if (isNotDefined(projectId)) {
             submitRequest(data as ProjectResponseBody);
         } else {
@@ -636,6 +647,7 @@ export function Component() {
 
     return (
         <Page
+            elementRef={formContentRef}
             className={styles.threeWProjectForm}
             title={strings.threeWFormTitle}
             heading={strings.threeWFormHeading}
@@ -682,10 +694,16 @@ export function Component() {
             )}
             {!shouldHideForm && (
                 <>
+                    <NonFieldError
+                        className={styles.nonFieldError}
+                        error={error}
+                        withFallbackError
+                    />
                     <InputSection
                         title={strings.projectFormReportingNational}
                         description={strings.projectFormReportingHelpText}
                         tooltip={strings.projectFormReportingTooltip}
+                        withAsteriskOnTitle
                     >
                         <NationalSocietySelectInput
                             error={error?.reporting_ns}
@@ -730,6 +748,7 @@ export function Component() {
                         description={strings.projectFormCountryHelpText}
                         tooltip={strings.projectFormCountryTooltip}
                         numPreferredColumns={2}
+                        withAsteriskOnTitle
                     >
                         <CountrySelectInput
                             error={error?.project_country}
@@ -754,7 +773,7 @@ export function Component() {
                             countryId={value?.project_country}
                             disabled={disabled}
                             districtsError={getErrorString(error?.project_districts)}
-                            admin2Error={getErrorString(error?.project_districts)}
+                            admin2Error={getErrorString(error?.project_admin2)}
                         />
                     </InputSection>
                     <InputSection
@@ -768,6 +787,7 @@ export function Component() {
                             />
                         )}
                         numPreferredColumns={2}
+                        withAsteriskOnTitle
                     >
                         <SelectInput
                             error={error?.operation_type}
@@ -779,6 +799,7 @@ export function Component() {
                             keySelector={operationTypeKeySelector}
                             labelSelector={operationTypeLabelSelector}
                             disabled={disabled}
+                            withAsterisk
                         />
                         <SelectInput
                             error={error?.programme_type}
@@ -790,6 +811,7 @@ export function Component() {
                             keySelector={programmeTypeKeySelector}
                             labelSelector={programmeTypeLabelSelector}
                             disabled={disabled}
+                            withAsterisk
                         />
                     </InputSection>
                     {shouldShowCurrentOperation && (
@@ -811,6 +833,7 @@ export function Component() {
                         <InputSection
                             title={strings.projectFormCurrentEmergency}
                             description={strings.projectFormCurrentEmergencyHelpText}
+                            withAsteriskOnTitle
                         >
                             <EventSearchSelectInput
                                 error={error?.event}
@@ -833,6 +856,7 @@ export function Component() {
                                 ? strings.projectFormDisasterType
                                 : strings.projectFormDisasterTypeMandatory
                         }
+                        withAsteriskOnTitle={value.operation_type !== OPERATION_TYPE_PROGRAMME}
                         numPreferredColumns={2}
                     >
                         <DisasterTypeSelectInput
@@ -842,12 +866,14 @@ export function Component() {
                             placeholder={disasterTypePlaceholder}
                             value={value.dtype}
                             onChange={setFieldValue}
+                            // withAsterisk
                         />
                     </InputSection>
                     <InputSection
                         title={strings.projectFormProjectName}
                         description={strings.projectFormHelpText}
                         tooltip={strings.projectFormTooltip}
+                        withAsteriskOnTitle
                     >
                         <TextInput
                             name="name"
@@ -865,7 +891,7 @@ export function Component() {
                     >
                         <RichTextArea
                             name="description"
-                            value={isNotDefined(value.description) ? '' : value.description}
+                            value={value.description ?? ''}
                             onChange={setFieldValue}
                             error={error?.description}
                             placeholder={`${strings.projectFormDescriptionHelpText} ${strings.projectFormDescriptionTooltip}`}
@@ -902,6 +928,7 @@ export function Component() {
                             keySelector={primarySectorKeySelector}
                             labelSelector={primarySectorLabelSelector}
                             disabled={fetchingPrimarySectors || disabled}
+                            withAsterisk
                         />
                         <MultiSelectInput
                             error={getErrorString(error?.secondary_sectors)}
@@ -920,6 +947,7 @@ export function Component() {
                         description={strings.projectFormMultiLabelHelpText}
                         tooltip={strings.projectFormMultiLabelTooltip}
                         numPreferredColumns={2}
+                        withAsteriskOnTitle
                     >
                         <DateInput
                             error={error?.start_date}
@@ -928,6 +956,7 @@ export function Component() {
                             onChange={handleStartDateChange}
                             value={value.start_date}
                             disabled={disabled}
+                            withAsterisk
                         />
                         <DateInput
                             error={error?.end_date}
@@ -936,6 +965,7 @@ export function Component() {
                             onChange={handleEndDateChange}
                             value={value.end_date}
                             disabled={disabled}
+                            withAsterisk
                         />
                     </InputSection>
                     <InputSection
@@ -967,6 +997,7 @@ export function Component() {
                                 value={value.actual_expenditure}
                                 onChange={handleActualExpenditureChange}
                                 disabled={disabled}
+                                withAsterisk
                             />
                         ) : (
                             <NumberInput
@@ -978,34 +1009,34 @@ export function Component() {
                                 disabled={disabled}
                             />
                         )}
-                        <div>
-                            <Checkbox
-                                label={strings.projectFormProjectCompleted}
-                                name="is_project_completed"
-                                value={value?.is_project_completed}
-                                onChange={handleProjectStatusChange}
-                                error={error?.is_project_completed}
-                                disabled={disabled}
-                            />
-                            <TextOutput
-                                label={strings.projectFormProjectStatusTitle}
-                                value={(
-                                    value.status
-                                        ? projectStatusOptionsMap?.[value.status]
-                                        : undefined
-                                )}
-                            />
-                        </div>
-                        <div>
-                            <Switch
-                                label={strings.projectFormAnnualReportingLabel}
-                                name="is_annual_report"
-                                value={value?.is_annual_report}
-                                onChange={setFieldValue}
-                                disabled={disabled}
-                                error={error?.is_annual_report}
-                            />
-                        </div>
+                        <TextInput
+                            label={strings.projectFormProjectStatusTitle}
+                            value={(
+                                isDefined(value.status)
+                                    ? projectStatusOptionsMap?.[value.status]
+                                    : undefined
+                            )}
+                            readOnly
+                            name={undefined}
+                            // eslint-disable-next-line @typescript-eslint/no-empty-function
+                            onChange={() => {}}
+                        />
+                        <Checkbox
+                            label={strings.projectFormProjectCompleted}
+                            name="is_project_completed"
+                            value={value?.is_project_completed}
+                            onChange={handleProjectStatusChange}
+                            error={error?.is_project_completed}
+                            disabled={disabled}
+                        />
+                        <Switch
+                            label={strings.projectFormAnnualReportingLabel}
+                            name="is_annual_report"
+                            value={value?.is_annual_report}
+                            onChange={setFieldValue}
+                            disabled={disabled}
+                            error={error?.is_annual_report}
+                        />
                     </InputSection>
                     {value?.is_annual_report ? (
                         <InputSection
@@ -1016,6 +1047,7 @@ export function Component() {
                                 + strings.projectFormAnnually
                             }
                         >
+                            <NonFieldError error={getErrorObject(error?.annual_splits)} />
                             {value?.annual_splits?.map((annual_split, i) => (
                                 <AnnualSplitInput
                                     key={annual_split.client_id}
@@ -1089,6 +1121,7 @@ export function Component() {
                                         shouldDisableTotalTarget
                                             ? styles.disable : styles.normal
                                     }
+                                    withAsterisk={value?.is_project_completed}
                                 />
                             </InputSection>
                             <InputSection
@@ -1141,6 +1174,7 @@ export function Component() {
                                             ? styles.disable
                                             : styles.normal
                                     }
+                                    withAsterisk={value?.is_project_completed}
                                 />
                             </InputSection>
                         </>
@@ -1149,6 +1183,7 @@ export function Component() {
                         title={strings.projectFormProjectVisibility}
                         description={strings.projectFormProjectVisibilityHelpText}
                         tooltip={strings.projectFormProjectVisibilityTooltip}
+                        withAsteriskOnTitle
                     >
                         <RadioInput
                             name="visibility"
@@ -1162,14 +1197,14 @@ export function Component() {
                         />
                     </InputSection>
                     <div className={styles.formActions}>
-                        <NonFieldError
-                            className={styles.nonFieldError}
-                            error={error}
-                            message={strings.projectFormNonFieldError}
-                        />
                         <Button
                             name={undefined}
-                            onClick={createSubmitHandler(validate, onErrorSet, handleSubmit)}
+                            onClick={createSubmitHandler(
+                                validate,
+                                onErrorSet,
+                                handleSubmit,
+                                handleFormError,
+                            )}
                             type="submit"
                             disabled={disabled}
                             variant="secondary"
