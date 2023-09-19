@@ -7,7 +7,7 @@ import {
     createSubmitHandler,
 } from '@togglecorp/toggle-form';
 
-import { getUserName } from '#utils/domain/user';
+import BlockLoading from '#components/BlockLoading';
 import Page from '#components/Page';
 import TextInput from '#components/TextInput';
 import PasswordInput from '#components/PasswordInput';
@@ -18,8 +18,9 @@ import useTranslation from '#hooks/useTranslation';
 import useAlert from '#hooks/useAlert';
 import { resolveToComponent } from '#utils/translation';
 import { useLazyRequest } from '#utils/restRequest';
-import UserContext from '#contexts/user';
+import { getUserName } from '#utils/domain/user';
 import { transformObjectError } from '#utils/restRequest/error';
+import UserContext from '#contexts/user';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -144,64 +145,67 @@ export function Component() {
             description={strings.loginSubHeader}
             mainSectionClassName={styles.mainSection}
         >
-            <form
-                className={styles.form}
-                onSubmit={handleFormSubmit}
-            >
-                <NonFieldError
-                    error={formError}
-                    withFallbackError
-                />
-                <div className={styles.fields}>
-                    <TextInput
-                        name="username"
-                        label={strings.loginEmailUsername}
-                        value={formValue.username}
-                        onChange={setFieldValue}
-                        error={fieldError?.username}
-                        withAsterisk
-                        disabled={loginPending}
-                        autoFocus
+            {loginPending && <BlockLoading />}
+            {!loginPending && (
+                <form
+                    className={styles.form}
+                    onSubmit={handleFormSubmit}
+                >
+                    <NonFieldError
+                        error={formError}
+                        withFallbackError
                     />
-                    <PasswordInput
-                        name="password"
-                        label={strings.loginPassword}
-                        value={formValue.password}
-                        onChange={setFieldValue}
-                        error={fieldError?.password}
-                        withAsterisk
-                        disabled={loginPending}
-                    />
-                </div>
-                <div className={styles.utilityLinks}>
-                    <Link
-                        to="recoverAccount"
-                        title={strings.loginRecoverTitle}
-                        withUnderline
-                    >
-                        {strings.loginForgotUserPass}
-                    </Link>
-                    <Link
-                        to="resendValidationEmail"
-                        title={strings.loginResendValidationTitle}
-                        withUnderline
-                    >
-                        {strings.loginResendValidation}
-                    </Link>
-                </div>
-                <div className={styles.actions}>
-                    <Button
-                        name={undefined}
-                        type="submit"
-                        disabled={loginPending}
-                    >
-                        {strings.loginButton}
-                    </Button>
-                    <div className={styles.signUp}>
-                        {signupInfo}
+                    <div className={styles.fields}>
+                        <TextInput
+                            name="username"
+                            label={strings.loginEmailUsername}
+                            value={formValue.username}
+                            onChange={setFieldValue}
+                            error={fieldError?.username}
+                            withAsterisk
+                            disabled={loginPending}
+                            autoFocus
+                        />
+                        <PasswordInput
+                            name="password"
+                            label={strings.loginPassword}
+                            value={formValue.password}
+                            onChange={setFieldValue}
+                            error={fieldError?.password}
+                            withAsterisk
+                            disabled={loginPending}
+                        />
                     </div>
-                </div>
-            </form>
+                    <div className={styles.utilityLinks}>
+                        <Link
+                            to="recoverAccount"
+                            title={strings.loginRecoverTitle}
+                            withUnderline
+                        >
+                            {strings.loginForgotUserPass}
+                        </Link>
+                        <Link
+                            to="resendValidationEmail"
+                            title={strings.loginResendValidationTitle}
+                            withUnderline
+                        >
+                            {strings.loginResendValidation}
+                        </Link>
+                    </div>
+                    <div className={styles.actions}>
+                        <Button
+                            name={undefined}
+                            type="submit"
+                            disabled={loginPending}
+                        >
+                            {strings.loginButton}
+                        </Button>
+                        <div className={styles.signUp}>
+                            {signupInfo}
+                        </div>
+                    </div>
+                </form>
+            )}
         </Page>
     );
 }

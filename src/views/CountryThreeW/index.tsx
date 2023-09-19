@@ -7,10 +7,10 @@ import {
 import type { CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
 import useTranslation from '#hooks/useTranslation';
+import Link from '#components/Link';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import Container from '#components/Container';
-import Button from '#components/Button';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -28,13 +28,12 @@ export function Component() {
         <Container
             className={styles.countryThreeW}
             actions={(
-                <Button
-                    name={undefined}
+                <Link
                     variant="primary"
-                    disabled
+                    to="newThreeWProject"
                 >
                     {strings.addThreeWProject}
-                </Button>
+                </Link>
             )}
         >
             <NavigationTabList variant="secondary">

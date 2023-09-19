@@ -297,7 +297,7 @@ export function Component() {
                         </Button>
                         <Link
                             variant="secondary"
-                            to="newThreeWActivity"
+                            to="newThreeWProject"
                         >
                             {strings.addThreeW}
                         </Link>

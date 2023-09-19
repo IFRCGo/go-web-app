@@ -1,0 +1,8 @@
+{
+    "namespace": "region3WDropdown",
+    "strings": {
+        "menu3WRegions":"Explore Regional 3W",
+        "menuRegionsTooltip":"View 3W Regions",
+        "menu3WRegionNotAvailable": "Not available"
+    }
+}

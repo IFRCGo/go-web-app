@@ -12,10 +12,11 @@ import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
 import Container from '#components/Container';
 import BarChart from '#components/BarChart';
+import Region3WDropdown from '#components/domain/Region3WDropdown';
+import PieChart from '#components/PieChart';
+import { useRequest } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToComponent } from '#utils/translation';
-import { useRequest } from '#utils/restRequest';
-import PieChart from '#components/PieChart';
 
 import Filter, { type FilterValue } from './Filters';
 
@@ -212,6 +213,9 @@ export function Component() {
                                 value={filters}
                                 onChange={setFilters}
                             />
+                        )}
+                        actions={(
+                            <Region3WDropdown />
                         )}
                     >
                         <Map projectList={nsProjectsResponse} />

@@ -1,0 +1,14 @@
+.region-dropdown {
+    &.active {
+        text-decoration: underline;
+        color: var(--go-ui-color-primary-red);
+    }
+}
+
+.dropdown {
+    .menu-item {
+        &.active {
+            color: var(--go-ui-color-primary-red);
+        }
+    }
+}

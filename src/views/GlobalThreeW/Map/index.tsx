@@ -42,12 +42,14 @@ import {
 } from '#utils/constants';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
+import useTranslation from '#hooks/useTranslation';
 
 import {
     countSelector,
     projectPerSectorLabelSelector,
     projectPerSectorKeySelector,
 } from '../common';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type CountryResponse = GoApiResponse<'/api/v2/country/'>;
@@ -145,6 +147,8 @@ function GlobalThreeWMap(props: Props) {
         className,
         projectList: projectListFromProps,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const {
         deployments_project_operation_type: operationTypeOptions,
@@ -273,6 +277,11 @@ function GlobalThreeWMap(props: Props) {
                             color={pointColorMap[d.key]}
                         />
                     ))}
+                    <LegendItem
+                        key={OPERATION_TYPE_MULTI}
+                        label={strings.multipleTypesLegend}
+                        color={pointColorMap[OPERATION_TYPE_MULTI]}
+                    />
                 </div>
             )}
             {programmesGeo && (
