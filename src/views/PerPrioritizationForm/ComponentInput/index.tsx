@@ -150,7 +150,6 @@ function ComponentInput(props: Props) {
                     readOnly={readOnly}
                 />
             )}
-            withoutWrapInHeading
             headerDescriptionContainerClassName={styles.headerDescription}
             headerDescription={(
                 <>

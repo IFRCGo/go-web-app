@@ -1,32 +1,20 @@
 .all-appeals {
-    .appeals-table {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-lg);
-
-        .filters {
-            display: grid;
-            grid-gap: var(--go-ui-spacing-md);
-            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    .table {
+        .start-date {
+            width: 0%;
+            min-width: 9rem;
         }
 
-        .table {
-            .start-date {
-                width: 0%;
-                min-width: 9rem;
-            }
+        .appeal-type {
+            width: 0%;
+        }
 
-            .appeal-type {
-                width: 0%;
-            }
+        .code {
+            width: 0%;
+        }
 
-            .code {
-                width: 0%;
-            }
-
-            .funding {
-                min-width: 10rem;
-            }
+        .funding {
+            min-width: 10rem;
         }
     }
 }

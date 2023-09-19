@@ -1,5 +1,6 @@
 .key-figure {
     display: flex;
+    position: relative;
     flex-direction: column;
     padding: var(--go-ui-spacing-md);
     gap: var(--go-ui-spacing-xs);
@@ -19,6 +20,12 @@
         .info {
             flex-shrink: 0;
         }
+    }
+
+    .info-section-without-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 
     .value {

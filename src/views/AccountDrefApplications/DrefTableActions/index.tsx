@@ -14,11 +14,14 @@ import { type Props as ButtonProps } from '#components/Button';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import TableActions from '#components/Table/TableActions';
 import Link from '#components/Link';
+import Modal from '#components/Modal';
+import Message from '#components/Message';
 import useBooleanState from '#hooks/useBooleanState';
 import useTranslation from '#hooks/useTranslation';
+import useAlert from '#hooks/useAlert';
 import { useLazyRequest } from '#utils/restRequest';
-import { type components } from '#generated/types';
 import { DREF_STATUS_IN_PROGRESS } from '#utils/constants';
+import { type components } from '#generated/types';
 
 import DrefExportModal from './DrefExportModal';
 import i18n from './i18n.json';
@@ -36,6 +39,9 @@ export interface Props {
     applicationType: 'DREF' | 'OPS_UPDATE' | 'FINAL_REPORT';
     canAddOpsUpdate: boolean;
     canCreateFinalReport: boolean;
+    isUserRegionCoordinator?: boolean;
+
+    onPublishSuccess?: () => void;
 }
 
 function DrefTableActions(props: Props) {
@@ -46,7 +52,11 @@ function DrefTableActions(props: Props) {
         applicationType,
         canAddOpsUpdate,
         canCreateFinalReport,
+        isUserRegionCoordinator,
+        onPublishSuccess,
     } = props;
+
+    const alert = useAlert();
 
     const strings = useTranslation(i18n);
     const [showExportModal, {
@@ -54,9 +64,7 @@ function DrefTableActions(props: Props) {
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
 
-    const {
-        trigger: fetchDref,
-    } = useLazyRequest({
+    const { trigger: fetchDref } = useLazyRequest({
         url: '/api/v2/dref/{id}/',
         pathVariables: (ctx: number) => (
             isDefined(ctx) ? {
@@ -86,9 +94,7 @@ function DrefTableActions(props: Props) {
         },
     });
 
-    const {
-        trigger: fetchOpsUpdate,
-    } = useLazyRequest({
+    const { trigger: fetchOpsUpdate } = useLazyRequest({
         url: '/api/v2/dref-op-update/{id}/',
         pathVariables: (ctx: number) => (
             isDefined(ctx) ? {
@@ -124,6 +130,99 @@ function DrefTableActions(props: Props) {
         },
     });
 
+    const {
+        trigger: publishDref,
+        pending: publishDrefPending,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/dref/{id}/publish/',
+        pathVariables: { id: String(id) },
+        // FIXME: typings should be fixed in the server
+        body: () => ({} as never),
+        onSuccess: () => {
+            alert.show(
+                strings.drefApprovalSuccessTitle,
+                { variant: 'success' },
+            );
+            if (onPublishSuccess) {
+                onPublishSuccess();
+            }
+        },
+        onFailure: ({
+            value: { messageForNotification },
+        }) => {
+            alert.show(
+                strings.drefApprovalFailureTitle,
+                {
+                    description: messageForNotification,
+                    variant: 'danger',
+                },
+            );
+        },
+    });
+
+    const {
+        trigger: publishOpsUpdate,
+        pending: publishOpsUpdatePending,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/dref-op-update/{id}/publish/',
+        pathVariables: { id: String(id) },
+        // FIXME: typings should be fixed in the server
+        body: () => ({} as never),
+        onSuccess: () => {
+            alert.show(
+                strings.drefApprovalSuccessTitle,
+                { variant: 'success' },
+            );
+            if (onPublishSuccess) {
+                onPublishSuccess();
+            }
+        },
+        onFailure: ({
+            value: { messageForNotification },
+        }) => {
+            alert.show(
+                strings.drefApprovalFailureTitle,
+                {
+                    description: messageForNotification,
+                    variant: 'danger',
+                },
+            );
+        },
+    });
+
+    const {
+        trigger: publishFinalReport,
+        pending: publishFinalReportPending,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/dref-final-report/{id}/publish/',
+        pathVariables: { id: String(id) },
+        // FIXME: typings should be fixed in the server
+        body: () => ({} as never),
+        onSuccess: () => {
+            alert.show(
+                strings.drefApprovalSuccessTitle,
+                { variant: 'success' },
+            );
+            if (onPublishSuccess) {
+                onPublishSuccess();
+            }
+        },
+        onFailure: ({
+            value: { messageForNotification },
+        }) => {
+            alert.show(
+                strings.drefApprovalFailureTitle,
+                {
+                    description: messageForNotification,
+                    variant: 'danger',
+                },
+            );
+        },
+    });
+
     const [showShareModal, {
         setTrue: setShowShareModalTrue,
         setFalse: setShowShareModalFalse,
@@ -145,18 +244,49 @@ function DrefTableActions(props: Props) {
         [setShowShareModalTrue],
     );
 
-    const handleDrefAllocationExport = useCallback(() => {
-        if (applicationType === 'DREF') {
-            fetchDref(id);
-        } else if (applicationType === 'OPS_UPDATE') {
-            fetchOpsUpdate(id);
-        }
-    }, [fetchDref, fetchOpsUpdate, applicationType, id]);
+    const handlePublishClick = useCallback(
+        () => {
+            if (applicationType === 'DREF') {
+                publishDref(null);
+            } else if (applicationType === 'OPS_UPDATE') {
+                publishOpsUpdate(null);
+            } else if (applicationType === 'FINAL_REPORT') {
+                publishFinalReport(null);
+            }
+        },
+        [
+            applicationType,
+            publishDref,
+            publishOpsUpdate,
+            publishFinalReport,
+        ],
+    );
+
+    const handleDrefAllocationExport = useCallback(
+        () => {
+            if (applicationType === 'DREF') {
+                fetchDref(id);
+            } else if (applicationType === 'OPS_UPDATE') {
+                fetchOpsUpdate(id);
+            }
+        },
+        [fetchDref, fetchOpsUpdate, applicationType, id],
+    );
+
+    const stopDropdownClickPropagation = useCallback(
+        (_: undefined, e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+        },
+        [],
+    );
+
+    const drefApprovalPending = publishDrefPending
+        || publishOpsUpdatePending
+        || publishFinalReportPending;
 
     const canDownloadAllocation = (applicationType === 'DREF' || applicationType === 'OPS_UPDATE');
 
-    // TODO: check permission
-    const canApprove = status === DREF_STATUS_IN_PROGRESS;
+    const canApprove = status === DREF_STATUS_IN_PROGRESS && isUserRegionCoordinator;
 
     return (
         <TableActions
@@ -165,8 +295,11 @@ function DrefTableActions(props: Props) {
                     {canApprove && (
                         <DropdownMenuItem
                             name={undefined}
-                            type="button"
+                            type="confirm-button"
                             icons={<CheckLineIcon className={styles.icon} />}
+                            confirmMessage="You're about to Approve this DREF. Once approved, it can no longer be edited. Are you sure, you want to Approve?"
+                            onClick={stopDropdownClickPropagation}
+                            onConfirm={handlePublishClick}
                         >
                             {strings.dropdownActionApproveLabel}
                         </DropdownMenuItem>
@@ -261,6 +394,14 @@ function DrefTableActions(props: Props) {
                     onSuccess={setShowShareModalFalse}
                     drefId={drefId}
                 />
+            )}
+            {drefApprovalPending && (
+                <Modal>
+                    <Message
+                        pending
+                        title={strings.drefApprovalInProgressTitle}
+                    />
+                </Modal>
             )}
         </TableActions>
     );

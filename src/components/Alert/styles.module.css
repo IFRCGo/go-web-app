@@ -2,7 +2,6 @@
     display: flex;
     border-radius: var(--go-ui-border-radius-md);
     box-shadow: var(--go-ui-box-shadow-2xl);
-    padding: var(--go-ui-spacing-xl);
     width: calc(14rem + 16vw);
     color: var(--go-ui-color-white);
 

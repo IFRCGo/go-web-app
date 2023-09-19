@@ -7,6 +7,9 @@
         "dropdownActionCreateFinalReportLabel": "Create Final Report",
         "dropdownActionShareLabel": "Share",
         "dropdownActionExportLabel": "Export",
-        "dropdownActionEditLabel": "Edit"
+        "dropdownActionEditLabel": "Edit",
+        "drefApprovalSuccessTitle": "Successfully approved the DREF!",
+        "drefApprovalFailureTitle": "Failed to approve the DREF!",
+        "drefApprovalInProgressTitle": "Approval in progress..."
     }
 }

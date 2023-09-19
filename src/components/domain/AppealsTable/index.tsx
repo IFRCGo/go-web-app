@@ -205,7 +205,6 @@ function AppealsTable(props: Props) {
     return (
         <Container
             className={_cs(styles.appealsTable, className)}
-            filtersContainerClassName={styles.filters}
             filters={(
                 <>
                     <DateInput
@@ -239,6 +238,7 @@ function AppealsTable(props: Props) {
                     />
                 </>
             )}
+            withGridViewInFilter
             footerActions={(
                 <Pager
                     activePage={page}
@@ -247,6 +247,7 @@ function AppealsTable(props: Props) {
                     onActivePageChange={setPage}
                 />
             )}
+            contentViewType="vertical"
         >
             <SortContext.Provider value={sortState}>
                 <Table

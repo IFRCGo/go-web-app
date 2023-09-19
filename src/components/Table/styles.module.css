@@ -1,29 +1,35 @@
 .table {
     display: flex;
     position: relative;
-    flex-direction: column;
-    min-height: 15rem;
+    min-height: var(--go-ui-content-min-height);
     overflow-x: auto;
 
-    .table-element {
-        /* NOTE: This will ensure that the z-index in
-         * children elements doesn't affect rest of the page */
-        position: relative;
-        z-index: 0;
+    .table-overflow-wrapper {
+        display: flex;
+        flex-grow: 1;
+        overflow-x: auto;
 
-        border-collapse: separate;
-        border-spacing: 0;
-        font-size: inherit;
+        .table-element {
+            /* NOTE: This will ensure that the z-index in
+             * children elements doesn't affect rest of the page */
+            position: relative;
+            flex-grow: 1;
+            z-index: 0;
 
-        .header-row {
-            .header-element {
-                position: sticky;
-                top: 0;
-                z-index: 1;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: inherit;
 
-                .header-component {
-                    padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
-                    font-size: var(--go-ui-font-size-sm);
+            .header-row {
+                .header-element {
+                    position: sticky;
+                    top: 0;
+                    z-index: 1;
+
+                    .header-component {
+                        padding: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
+                        font-size: var(--go-ui-font-size-sm);
+                    }
                 }
             }
         }

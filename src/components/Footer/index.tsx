@@ -1,4 +1,4 @@
-import useBasicLayout from '#hooks/useBasicLayout';
+import useBasicLayout, { type Props as BasicLayoutProps } from '#hooks/useBasicLayout';
 
 interface Props {
     actions?: React.ReactNode;
@@ -8,6 +8,7 @@ interface Props {
     className?: string;
     icons?: React.ReactNode;
     iconsContainerClassName?: string;
+    spacing?: BasicLayoutProps['spacing'];
 }
 
 function Footer(props: Props) {
@@ -19,6 +20,7 @@ function Footer(props: Props) {
         className,
         icons,
         iconsContainerClassName,
+        spacing,
     } = props;
 
     const {
@@ -32,6 +34,8 @@ function Footer(props: Props) {
         className,
         icons,
         iconsContainerClassName,
+        spacing,
+        variant: 'large',
     });
 
     return (

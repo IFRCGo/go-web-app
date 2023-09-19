@@ -275,7 +275,7 @@ export function Component() {
                 withHeaderBorder
                 footerContent={(
                     <div className={styles.chartDescription}>
-                        <InformationLineIcon />
+                        <InformationLineIcon className={styles.icon} />
                         {strings.chartDescription}
                     </div>
                 )}

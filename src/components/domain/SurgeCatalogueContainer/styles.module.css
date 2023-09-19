@@ -5,11 +5,11 @@
 
     .image-list {
         display: grid;
-        grid-gap: var(--go-ui-spacing-xs);
-        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        grid-gap: var(--go-ui-spacing-sm);
+        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
 
         .image {
-            height: 16rem;
+            height: 12rem;
         }
     }
 

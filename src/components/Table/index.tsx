@@ -33,7 +33,6 @@ export interface TableProps<D, K extends string | number, C extends Column<D, K,
     keySelector: (data: D, index: number) => K;
     columns: C[] & VerifyColumn<C, D, K>;
     data: D[] | undefined | null;
-    tableElementClassName?: string;
     captionClassName?: string;
     headerRowClassName?: string;
     headerCellClassName?: string | ((columnKey: string) => (string | undefined));
@@ -59,7 +58,6 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         keySelector,
         columns,
         caption,
-        tableElementClassName,
         className,
         captionClassName,
         headerRowClassName,
@@ -168,7 +166,9 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         sum(columns.map((c) => columnWidths[c.id]))
     ), [columnWidths, columns]);
 
-    const isEmpty = isNotDefined(data) || data.length === 0;
+    const isEmpty = isNotDefined(data)
+        || data.length === 0
+        || Object.keys(columnWidths).length === 0;
 
     const messageTitle = useMemo(
         () => {
@@ -191,102 +191,105 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
             ref={containerRef}
             className={_cs(styles.table, className)}
         >
-            {Object.keys(columnWidths).length > 0 && (
-                <table
-                    className={_cs(styles.tableElement, tableElementClassName)}
-                    style={fixedColumnWidth ? { width: `${width}px` } : undefined}
-                    id={tableName}
-                >
-                    {caption && (
-                        <caption className={captionClassName}>
-                            {caption}
-                        </caption>
-                    )}
-                    <colgroup>
-                        {columns.map((column) => {
-                            const {
-                                id,
-                                columnClassName,
-                            } = column;
+            {!isEmpty && (
+                <div className={styles.tableOverflowWrapper}>
+                    <table
+                        className={styles.tableElement}
+                        style={fixedColumnWidth ? { width: `${width}px` } : undefined}
+                        id={tableName}
+                    >
+                        {caption && (
+                            <caption className={captionClassName}>
+                                {caption}
+                            </caption>
+                        )}
+                        <colgroup>
+                            {columns.map((column) => {
+                                const {
+                                    id,
+                                    columnClassName,
+                                } = column;
 
-                            const columnWidth = columnWidths[id];
-                            const style = fixedColumnWidth ? { width: `${columnWidth}px` } : undefined;
+                                const columnWidth = columnWidths[id];
+                                const style = fixedColumnWidth ? { width: `${columnWidth}px` } : undefined;
 
-                            return (
-                                <col
-                                    id={`${tableName}-${id}`}
-                                    style={style}
-                                    key={id}
-                                    className={_cs(styles.column, columnClassName)}
-                                />
-                            );
-                        })}
-                    </colgroup>
-                    {!headersHidden && (
-                        <thead>
-                            <TableRow
-                                className={_cs(styles.headerRow, headerRowClassName)}
-                            >
-                                {columns.map((column, index) => {
-                                    const {
-                                        id,
-                                        title,
-                                        headerCellRenderer: Renderer,
-                                        headerCellRendererClassName,
-                                        headerCellRendererParams,
-                                        headerContainerClassName,
-                                    } = column;
+                                return (
+                                    <col
+                                        id={`${tableName}-${id}`}
+                                        style={style}
+                                        key={id}
+                                        className={_cs(styles.column, columnClassName)}
+                                    />
+                                );
+                            })}
+                        </colgroup>
+                        {!headersHidden && (
+                            <thead>
+                                <TableRow
+                                    className={_cs(styles.headerRow, headerRowClassName)}
+                                >
+                                    {columns.map((column, index) => {
+                                        const {
+                                            id,
+                                            title,
+                                            headerCellRenderer: Renderer,
+                                            headerCellRendererClassName,
+                                            headerCellRendererParams,
+                                            headerContainerClassName,
+                                        } = column;
 
-                                    const children = (
-                                        <Renderer
-                                            // eslint-disable-next-line react/jsx-props-no-spreading
-                                            {...headerCellRendererParams}
-                                            name={id}
-                                            title={title}
-                                            index={index}
-                                            className={_cs(
-                                                headerCellRendererClassName,
-                                                styles.headerComponent,
-                                            )}
-                                        />
-                                    );
-                                    return (
-                                        <TableHeader
-                                            key={id}
-                                            scope="col"
-                                            name={id}
-                                            onResize={resizableColumn
-                                                ? handleColumnResize
-                                                : undefined}
-                                            onResizeComplete={resizableColumn
-                                                ? handleColumnResizeComplete
-                                                : undefined}
-                                            className={_cs(
-                                                styles.headerElement,
-                                                typeof headerCellClassName === 'function'
-                                                    ? headerCellClassName(id)
-                                                    : headerCellClassName,
-                                                headerContainerClassName,
-                                            )}
-                                        >
-                                            {children}
-                                        </TableHeader>
-                                    );
-                                })}
-                            </TableRow>
-                        </thead>
-                    )}
-                    <tbody>
-                        <TableBodyContent
-                            data={data}
-                            keySelector={keySelector}
-                            columns={columns}
-                            rowClassName={rowClassName}
-                            cellClassName={cellClassName}
-                            rowModifier={rowModifier}
-                        />
-                    </tbody>
-                </table>
+                                        const children = (
+                                            <Renderer
+                                                // eslint-disable-next-line max-len
+                                                // eslint-disable-next-line react/jsx-props-no-spreading
+                                                {...headerCellRendererParams}
+                                                name={id}
+                                                title={title}
+                                                index={index}
+                                                className={_cs(
+                                                    headerCellRendererClassName,
+                                                    styles.headerComponent,
+                                                )}
+                                            />
+                                        );
+                                        return (
+                                            <TableHeader
+                                                key={id}
+                                                scope="col"
+                                                name={id}
+                                                onResize={resizableColumn
+                                                    ? handleColumnResize
+                                                    : undefined}
+                                                onResizeComplete={resizableColumn
+                                                    ? handleColumnResizeComplete
+                                                    : undefined}
+                                                className={_cs(
+                                                    styles.headerElement,
+                                                    typeof headerCellClassName === 'function'
+                                                        ? headerCellClassName(id)
+                                                        : headerCellClassName,
+                                                    headerContainerClassName,
+                                                )}
+                                            >
+                                                {children}
+                                            </TableHeader>
+                                        );
+                                    })}
+                                </TableRow>
+                            </thead>
+                        )}
+                        <tbody>
+                            <TableBodyContent
+                                data={data}
+                                keySelector={keySelector}
+                                columns={columns}
+                                rowClassName={rowClassName}
+                                cellClassName={cellClassName}
+                                rowModifier={rowModifier}
+                            />
+                        </tbody>
+                    </table>
+                </div>
             )}
             {(isEmpty || pending) && (
                 <Message

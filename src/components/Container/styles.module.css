@@ -1,6 +1,8 @@
 .container {
     --spacing: var(--go-ui-spacing-lg);
     --padding: 0;
+    --num-columns: 2;
+    --max-width: calc(var(--go-ui-page-width-max) * 0.8);
 
     display: flex;
     flex-direction: column;
@@ -13,8 +15,15 @@
     .border {
         flex-shrink: 0;
         margin: 0;
-        background-color: var(--go-ui-color-separator);
-        height: var(--go-ui-width-separator-thin);
+        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator)
+    }
+
+    .filter {
+        &.with-grid-view-in-filter {
+            display: grid;
+            grid-gap: var(--spacing);
+            grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+        }
     }
 
     .content {
@@ -23,6 +32,47 @@
 
     .footer {
         flex-shrink: 0;
+    }
+
+    &.with-grid-view {
+        .content {
+            display: grid;
+            grid-gap: var(--spacing);
+            grid-template-columns: repeat(auto-fill, minmax(calc(var(--max-width) / var(--num-columns)), 1fr));
+        }
+
+        &.two-columns {
+            /* TODO: adjust minmax for 2 columns */
+            --num-columns: 2;
+
+            @media screen and (max-width: 55rem) {
+                --max-width: 60rem;
+            }
+        }
+
+        &.three-columns {
+            --num-columns: 3;
+
+            @media screen and (max-width: 55rem) {
+                --max-width: 60rem;
+            }
+        }
+
+        &.four-columns {
+            --num-columns: 4;
+        }
+
+        &.five-columns {
+            --num-columns: 5;
+        }
+    }
+
+    &.with-vertical-view {
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing);
+        }
     }
 
     &:not(.with-internal-padding) {

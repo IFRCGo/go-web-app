@@ -10,13 +10,15 @@
 
 .x-axis-tick-text {
     transition: var(--go-ui-duration-transition-medium) ease-in-out transform;
-    padding: var(--go-ui-spacing-xs);
+    padding: var(--go-ui-spacing-xs) 0;
     text-align: center;
     word-break: break-word;
     font-size: var(--go-ui-font-size-xs);
 
     @media screen and (max-width: 30rem) {
-        transform: rotate(-30deg);
+        transform: rotate(-30deg) translateX(-10%) translateY(20%);
+        padding: 0;
+        font-size: var(--go-ui-font-size-2xs);
     }
 }
 

@@ -45,8 +45,8 @@ function ChartAxes<X, Y>(props: Props<X, Y>) {
     } = props;
 
     const xAxisTickWidth = Math.max(
-        (chartBounds.width - chartMargin.right - chartMargin.left) / xAxisPoints.length,
-        0,
+        Math.abs((chartBounds.width - chartMargin.right - chartMargin.left) / xAxisPoints.length),
+        30,
     );
     const yAxisTickHeight = Math.max(
         (chartBounds.height - chartMargin.top - chartMargin.bottom) / yAxisPoints.length,

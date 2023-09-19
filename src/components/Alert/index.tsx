@@ -88,7 +88,7 @@ function Alert<N extends string>(props: Props<N>) {
             icons={icon[type]}
             heading={title}
             headingLevel={5}
-            // ellipsizeHeading
+            withInternalPadding
             actions={nonDismissable && (
                 <Button
                     name={undefined}
@@ -100,7 +100,6 @@ function Alert<N extends string>(props: Props<N>) {
                 </Button>
             )}
             withoutWrapInHeading
-            spacing="compact"
             footerActions={debugMessage && (
                 <div className={styles.actions}>
                     <Button

@@ -26,8 +26,8 @@
         }
 
         &.size-full {
-            width: 100vw;
-            height: 100vh;
+            width: calc(100vw - var(--go-ui-spacing-md) * 2);
+            height: calc(100vh - var(--go-ui-spacing-md) * 2);
         }
 
         &.size-auto {

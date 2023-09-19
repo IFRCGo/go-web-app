@@ -46,7 +46,7 @@ function KeyFigure(props: Props) {
                 className,
             )}
         >
-            {(icon || info) && (
+            {icon && (
                 <div className={styles.iconSection}>
                     <div className={styles.icon}>
                         {icon}
@@ -56,6 +56,11 @@ function KeyFigure(props: Props) {
                             {info}
                         </div>
                     )}
+                </div>
+            )}
+            {!icon && info && (
+                <div className={styles.infoSectionWithoutIcon}>
+                    {info}
                 </div>
             )}
             <NumberOutput

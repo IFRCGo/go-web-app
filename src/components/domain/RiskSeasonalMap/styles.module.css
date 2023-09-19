@@ -5,7 +5,7 @@
     .content {
         display: flex;
         height: 40rem;
-        gap: var(--go-ui-spacing-xl);
+        gap: var(--go-ui-spacing-md);
 
         .map-container {
             flex-grow: 1;
@@ -44,7 +44,7 @@
             height: initial;
 
             .map-container {
-                height: min(40rem, 70vh);
+                height: min(40rem, 60vh);
             }
 
             .country-list {
