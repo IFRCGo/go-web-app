@@ -166,7 +166,7 @@ export function Component() {
             );
 
             if (response.is_draft === false) {
-                navigate('accountPerForms');
+                navigate('accountMyFormsPer');
             }
         },
         onFailure: ({

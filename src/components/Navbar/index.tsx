@@ -7,17 +7,17 @@ import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
-import RegionDropdown from '#components/domain/RegionDropdown';
+import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import UserContext from '#contexts/user';
-import goLogo from '#assets/icons/go-logo-2020.svg';
-import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import { environment } from '#config';
+import goLogo from '#assets/icons/go-logo-2020.svg';
 
 import AuthenticatedUserDropdown from './AuthenticatedUserDropdown';
 import LangaugeDropdown from './LanguageDropdown';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import CountryDropdown from './CountryDropdown';
 
 interface Props {
     className?: string;
@@ -123,7 +123,7 @@ function Navbar(props: Props) {
                     >
                         {strings.headerMenuHome}
                     </NavigationTab>
-                    <RegionDropdown />
+                    <CountryDropdown />
                     <NavigationTab
                         to="emergencies"
                         className={styles.menuItem}

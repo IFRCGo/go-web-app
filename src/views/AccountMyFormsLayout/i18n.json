@@ -1,0 +1,9 @@
+{
+    "namespace": "accountMyForms",
+    "strings": {
+        "fieldReportTabTitle": "Field Report",
+        "perTabTitle": "PER",
+        "drefTabTitle": "DREF",
+        "threeWTabTitle": "3W"
+    }
+}

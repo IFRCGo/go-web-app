@@ -1,7 +1,0 @@
-{
-    "namespace": "common",
-    "strings": {
-        "menuRegions":"Regions",
-        "menuRegionsTooltip":"View Regions"
-    }
-}

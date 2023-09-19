@@ -23,6 +23,7 @@
         text-align: center;
     }
 
+    &.vertical-compact,
     &.vertical {
         .children-wrapper {
             display: flex;
@@ -36,6 +37,13 @@
             color: var(--go-ui-color-primary-red);
         }
     }
+
+    &.vertical-compact {
+        .children-wrapper {
+            padding: 0;
+        }
+    }
+
 
     &.primary {
         position: relative;

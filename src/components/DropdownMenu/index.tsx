@@ -3,6 +3,7 @@ import {
     useCallback,
     useRef,
     useEffect,
+    useMemo,
 } from 'react';
 import { _cs } from '@togglecorp/fujs';
 import {
@@ -12,6 +13,7 @@ import {
 
 import Popup from '#components/Popup';
 import Button, { Props as ButtonProps } from '#components/Button';
+import DropdownMenuContext, { type DropdownMenuContextProps } from '#contexts/dropdown-menu';
 import useBlurEffect from '#hooks/useBlurEffect';
 
 import styles from './styles.module.css';
@@ -92,10 +94,17 @@ function DropdownMenu(props: Props) {
         buttonRef,
     );
 
+    const contextValue = useMemo<DropdownMenuContextProps>(
+        () => ({
+            setShowDropdown,
+        }),
+        [setShowDropdown],
+    );
+
     const hasActions = !!actions || !withoutDropdownIcon;
 
     return (
-        <>
+        <DropdownMenuContext.Provider value={contextValue}>
             <Button
                 name={undefined}
                 className={_cs(
@@ -131,7 +140,7 @@ function DropdownMenu(props: Props) {
                     {children}
                 </Popup>
             )}
-        </>
+        </DropdownMenuContext.Provider>
     );
 }
 

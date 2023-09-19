@@ -1,0 +1,54 @@
+.dropdown {
+    display: flex;
+    flex-direction: row;
+    padding: var(--go-ui-spacing-md);
+    width: calc(100% - var(--go-ui-spacing-md) * 2)!important;
+    max-width: 60rem;
+    gap: var(--go-ui-spacing-md);
+    overflow: auto;
+
+    .region-list {
+        flex-basis: 10rem;
+        flex-shrink: 0;
+
+        .region {
+            padding: 0;
+        }
+    }
+
+    .region-detail {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: auto;
+
+        .region-detail-content {
+            overflow: auto;
+
+            .country-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+                grid-gap: var(--go-ui-spacing-sm);
+                overflow: auto;
+            }
+        }
+    }
+
+    @media screen and (max-width: 50rem) {
+        flex-direction: column;
+
+        .region-list {
+            flex-basis: unset;
+
+            .region-list-content {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: var(--go-ui-spacing-2xs) var(--go-ui-spacing-md);
+            }
+        }
+
+        .region-detail {
+            overflow: unset;
+        }
+    }
+}

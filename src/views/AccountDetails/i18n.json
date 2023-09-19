@@ -1,8 +1,6 @@
 {
     "namespace": "accountInformation",
     "strings": {
-        "operationFollowingHeading": "Operations Following",
-        "operationFollowingHeadingDescription": "Operations Currently Following",
         "accountInformationHeading": "Account Information",
         "usernameLabel": "Username",
         "fullNameLabel": "Full Name",

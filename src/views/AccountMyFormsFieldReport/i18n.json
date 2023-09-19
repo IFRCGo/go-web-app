@@ -1,0 +1,12 @@
+{
+    "namespace": "accountMyFormsFieldReport",
+    "strings": {
+        "pageHeading":"Field Reports ({numFieldReports})",
+        "createdAtHeading":"Created At",
+        "nameHeading":"Name",
+        "emergencyHeading":"Emergency",
+        "disasterTypeHeading":"Disaster Type",
+        "countryHeading":"Countries",
+        "viewAllReportsButtonLabel":"View All Field Reports"
+    }
+}

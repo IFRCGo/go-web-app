@@ -1,17 +1,11 @@
-import {
-    useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import {
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
-import useTranslation from '#hooks/useTranslation';
-import useFilterState from '#hooks/useFilterState';
-import { resolveToComponent, resolveToString } from '#utils/translation';
+
 import Container from '#components/Container';
-import {
-    SortContext,
-} from '#components/Table/useSorting';
+import { SortContext } from '#components/Table/useSorting';
 import Pager from '#components/Pager';
 import Link from '#components/Link';
 import Table from '#components/Table';
@@ -21,11 +15,15 @@ import {
     createDateColumn,
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
+import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import {
     type GoApiResponse,
     type ListResponseItem,
     useRequest,
 } from '#utils/restRequest';
+import { resolveToComponent, resolveToString } from '#utils/translation';
+import { formatNumber } from '#utils/common';
 
 import i18n from './i18n.json';
 
@@ -140,7 +138,7 @@ function AppealOperationTable(props: Props) {
 
     const heading = resolveToString(
         strings.appealsTableHeading,
-        { numOperations: countryAppealResponse?.count },
+        { numOperations: formatNumber(countryAppealResponse?.count) ?? '--' },
     );
 
     return (
