@@ -2,6 +2,41 @@
     display: flex;
     flex-direction: column;
 
+    .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-lg);
+
+        .legend-content {
+            display: flex;
+            flex-direction: column;
+
+            .gradient {
+                width: calc(10 * var(--go-ui-border-radius-2xl));
+                height: var(--go-ui-border-radius-lg);
+            }
+
+            .label-list {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--go-ui-spacing-xs);
+
+            .icon-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: var(--go-ui-font-size-2xl);
+                height: var(--go-ui-font-size-2xl);
+            }
+        }
+    }
+
     .content {
         display: flex;
         height: 40rem;

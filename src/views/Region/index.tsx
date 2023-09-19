@@ -13,11 +13,13 @@ import { isNotDefined, isTruthyString } from '@togglecorp/fujs';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
+import InfoPopup from '#components/InfoPopup';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { type RegionOutletContext } from '#utils/outletContext';
+import { getPercentage } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -92,12 +94,24 @@ export function Component() {
                                 icon={<DrefIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.active_drefs}
+                                info={(
+                                    <InfoPopup
+                                        title={strings.regionKeyFiguresDrefTitle}
+                                        description={strings.regionKeyFiguresDrefDescription}
+                                    />
+                                )}
                                 description={strings.regionKeyFiguresActiveDrefs}
                             />
                             <KeyFigure
                                 icon={<AppealsIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.active_appeals}
+                                info={(
+                                    <InfoPopup
+                                        title={strings.regionKeyFiguresActiveAppealsTitle}
+                                        description={strings.regionKeyFigureActiveAppealDescription}
+                                    />
+                                )}
                                 description={strings.regionKeyFiguresActiveAppeals}
                             />
                             <KeyFigure
@@ -110,7 +124,11 @@ export function Component() {
                             <KeyFigure
                                 icon={<FundingCoverageIcon />}
                                 className={styles.keyFigure}
-                                value={aggregatedAppealResponse.amount_funded}
+                                value={getPercentage(
+                                    aggregatedAppealResponse?.amount_funded,
+                                    aggregatedAppealResponse?.amount_requested_dref_included,
+                                )}
+                                suffix="%"
                                 compactValue
                                 description={strings.regionKeyFiguresAppealsFunding}
                             />

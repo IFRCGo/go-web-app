@@ -29,6 +29,7 @@ import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
 import useInputState from '#hooks/useInputState';
 import useCountry from '#hooks/domain/useCountry';
+import useTranslation from '#hooks/useTranslation';
 import {
     getDataWithTruthyHazardType,
     getFiRiskDataItem,
@@ -60,6 +61,7 @@ import {
 } from '#utils/constants';
 
 import Filters, { type FilterValue } from './Filters';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const defaultFilterValue: FilterValue = {
@@ -84,6 +86,9 @@ type Props = BaseProps & ({
     regionId: number;
 });
 
+const RISK_LOW_COLOR = '#c7d3e0';
+const RISK_HIGH_COLOR = '#f5333f';
+
 function RiskSeasonalMap(props: Props) {
     const {
         className,
@@ -93,6 +98,8 @@ function RiskSeasonalMap(props: Props) {
     } = props;
 
     const [hazardTypeOptions, setHazardTypeOptions] = useInputState<HazardTypeOption[]>([]);
+    const strings = useTranslation(i18n);
+
     const {
         response: seasonalResponse,
         pending: seasonalResponsePending,
@@ -702,6 +709,45 @@ function RiskSeasonalMap(props: Props) {
             )}
             childrenContainerClassName={styles.content}
             withHeaderBorder
+            footerIcons={(
+                <div className={styles.legend}>
+                    <div>{strings.severity}</div>
+                    <div className={styles.legendContent}>
+                        <div
+                            className={styles.gradient}
+                            style={{
+                                background: `linear-gradient(90deg, ${RISK_LOW_COLOR}, ${RISK_HIGH_COLOR})`,
+                            }}
+                        />
+                        <div className={styles.labelList}>
+                            <div>
+                                {strings.severityLow}
+                            </div>
+                            <div>
+                                {strings.severityHigh}
+                            </div>
+                        </div>
+                    </div>
+                    {/* FIXME Add seperator if needed */}
+                    <div>{strings.hazardsType}</div>
+                    {hazardTypeOptions.map((hazard) => (
+                        <div
+                            key={hazard.hazard_type}
+                            className={styles.legendItem}
+                        >
+                            <div
+                                className={styles.iconContainer}
+                                style={{
+                                    backgroundColor: hazardTypeToColorMap[hazard.hazard_type],
+                                }}
+                            />
+                            <div>
+                                {hazard.hazard_type_display}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         >
             <Map
                 mapStyle={defaultMapStyle}

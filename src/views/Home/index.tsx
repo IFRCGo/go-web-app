@@ -6,7 +6,6 @@ import {
     TargetedPopulationIcon,
 } from '@ifrc-go/icons';
 
-import { isNotDefined } from '@togglecorp/fujs';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import InfoPopup from '#components/InfoPopup';
@@ -17,17 +16,10 @@ import AppealsTable from '#components/domain/AppealsTable';
 import AppealsOverYearsChart from '#components/domain/AppealsOverYearsChart';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import { getPercentage } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-function getPercentage(value: number, total: number) {
-    if (isNotDefined(value) || isNotDefined(total) || total === 0) {
-        return 0;
-    }
-
-    return (value * 100) / total;
-}
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -60,8 +52,7 @@ export function Component() {
                                 value={aggregatedAppealResponse.active_drefs}
                                 info={(
                                     <InfoPopup
-                                        // FIXME: use translation
-                                        title="DREF"
+                                        title={strings.keyFiguresDrefTitle}
                                         description={strings.keyFiguresDrefDescription}
                                     />
                                 )}
@@ -73,8 +64,7 @@ export function Component() {
                                 value={aggregatedAppealResponse.active_appeals}
                                 info={(
                                     <InfoPopup
-                                        // FIXME: use translation
-                                        title="Emergency Appeal"
+                                        title={strings.keyFiguresActiveAppealsTitle}
                                         description={strings.keyFigureActiveAppealDescription}
                                     />
                                 )}
