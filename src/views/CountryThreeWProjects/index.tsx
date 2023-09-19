@@ -424,7 +424,6 @@ export function Component() {
                                             headingLevel={5}
                                             initiallyExpanded
                                             childrenContainerClassName={styles.projectsInDistrict}
-                                            withoutWrapInHeading
                                         >
                                             {/* NOTE: projects array will always have an element
                                               * as we are using listToGroupList to get it.
@@ -464,7 +463,6 @@ export function Component() {
                                         )}
                                         headingLevel={5}
                                         childrenContainerClassName={styles.projectsInDistrict}
-                                        withoutWrapInHeading
                                     >
                                         {/* NOTE: projects array will always have an element
                                           * as we are using listToGroupList to get it.

@@ -1,5 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
-import { _cs, listToMap } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+    isNotDefined,
+    listToMap,
+} from '@togglecorp/fujs';
 
 import Container from '#components/Container';
 import {
@@ -18,6 +23,7 @@ import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { numericIdSelector } from '#utils/selectors';
 import { useRequest } from '#utils/restRequest';
+import useUserMe from '#hooks/domain/useUserMe';
 
 import DrefTableActions, { type Props as DrefTableActionsProps } from '../DrefTableActions';
 import Filters, { type FilterValue } from '../Filters';
@@ -56,6 +62,7 @@ function ActiveDrefTable(props: Props) {
     const {
         response: activeDrefResponse,
         pending: activeDrefResponsePending,
+        retrigger: refetchActiveDref,
     } = useRequest({
         url: '/api/v2/active-dref/',
         preserveResponse: true,
@@ -69,6 +76,26 @@ function ActiveDrefTable(props: Props) {
             appeal_code: filter.appeal_code,
         },
     });
+
+    const userMe = useUserMe();
+    const userRegionCoordinatorMap = useMemo(
+        () => {
+            if (
+                isNotDefined(userMe)
+                    || isNotDefined(userMe.is_dref_coordinator_for_regions)
+                    || userMe.is_dref_coordinator_for_regions.length === 0
+            ) {
+                return undefined;
+            }
+
+            return listToMap(
+                userMe.is_dref_coordinator_for_regions,
+                (region) => region,
+                () => true,
+            );
+        },
+        [userMe],
+    );
 
     type DrefItem = NonNullable<NonNullable<typeof activeDrefResponse>['results']>[number];
     type Key = DrefItem['id'];
@@ -191,6 +218,7 @@ function ActiveDrefTable(props: Props) {
                         is_published,
                         has_ops_update,
                         has_final_report,
+                        country_details,
                     } = originalDref;
 
                     const canAddOpsUpdate = (is_published ?? false)
@@ -206,6 +234,11 @@ function ActiveDrefTable(props: Props) {
                                 || (has_ops_update && unpublished_op_update_count === 0)
                         );
 
+                    const drefRegion = country_details.region;
+                    const isRegionCoordinator = isDefined(drefRegion)
+                        ? userRegionCoordinatorMap?.[drefRegion] ?? false
+                        : false;
+
                     return {
                         id,
                         drefId: originalDref.id,
@@ -213,11 +246,18 @@ function ActiveDrefTable(props: Props) {
                         applicationType,
                         canAddOpsUpdate,
                         canCreateFinalReport,
+                        isUserRegionCoordinator: isRegionCoordinator,
+                        onPublishSuccess: refetchActiveDref,
                     };
                 },
             ),
         ]),
-        [strings, latestDrefToOriginalMap],
+        [
+            strings,
+            latestDrefToOriginalMap,
+            userRegionCoordinatorMap,
+            refetchActiveDref,
+        ],
     );
 
     const columns = useMemo(

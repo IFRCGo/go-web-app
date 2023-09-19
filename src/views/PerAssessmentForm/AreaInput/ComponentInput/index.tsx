@@ -105,7 +105,6 @@ function ComponentInput(props: Props) {
             headingClassName={styles.heading}
             spacing="comfortable"
             headingDescriptionContainerClassName={styles.statusSelectionContainer}
-            withoutWrapInHeading
             headingDescription={(
                 <SelectInput
                     readOnly={readOnly}

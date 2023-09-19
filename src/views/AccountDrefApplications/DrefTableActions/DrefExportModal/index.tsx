@@ -71,7 +71,8 @@ function DrefExportModal(props: Props) {
     } = useRequest({
         skip: isNotDefined(exportId),
         url: '/api/v2/pdf-export/{id}/',
-        pathVariables: isDefined(exportId) ? ({ id: exportId }) : undefined,
+        // FIXME: typings should be fixed in the server
+        pathVariables: isDefined(exportId) ? ({ id: String(exportId) }) : undefined,
         shouldPoll: (poll) => {
             if (poll?.errored || poll?.value?.status !== EXPORT_STATUS_PENDING) {
                 return -1;
