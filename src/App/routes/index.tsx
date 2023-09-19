@@ -1943,11 +1943,11 @@ const riskWatchImminent = customWrapRoute({
     },
 });
 
-type DefaultAccountChild = 'account-information';
+type DefaultAccountChild = 'details';
 const accountLayout = customWrapRoute({
     parent: rootLayout,
     path: 'account',
-    forwardPath: 'account-information' satisfies DefaultAccountChild,
+    forwardPath: 'details' satisfies DefaultAccountChild,
     component: {
         render: () => import('#views/Account'),
         props: {},
@@ -1966,7 +1966,7 @@ const accountIndex = customWrapRoute({
         eagerLoad: true,
         render: Navigate,
         props: {
-            to: 'account-information' satisfies DefaultAccountChild,
+            to: 'details' satisfies DefaultAccountChild,
             replace: true,
         },
     },
@@ -1976,15 +1976,99 @@ const accountIndex = customWrapRoute({
     },
 });
 
-const accountInformation = customWrapRoute({
+const accountDetails = customWrapRoute({
     parent: accountLayout,
-    path: 'account-information' satisfies DefaultAccountChild,
+    path: 'details' satisfies DefaultAccountChild,
     component: {
-        render: () => import('#views/AccountInformation'),
+        render: () => import('#views/AccountDetails'),
         props: {},
     },
     context: {
         title: 'Account Information',
+        visibility: 'is-authenticated',
+    },
+});
+
+type DefaultAccountMyFormsChild = 'field-report';
+const accountMyFormsLayout = customWrapRoute({
+    parent: accountLayout,
+    path: 'my-forms',
+    forwardPath: 'field-report' satisfies DefaultAccountMyFormsChild,
+    component: {
+        render: () => import('#views/AccountMyFormsLayout'),
+        props: {},
+    },
+    context: {
+        title: 'Account - My Forms',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountMyFormsIndex = customWrapRoute({
+    parent: accountMyFormsLayout,
+    index: true,
+    component: {
+        eagerLoad: true,
+        render: Navigate,
+        props: {
+            to: 'field-report' satisfies DefaultAccountMyFormsChild,
+            replace: true,
+        },
+    },
+    context: {
+        title: 'Account - My Forms index',
+        visibility: 'anything',
+    },
+});
+
+const accountMyFormsFieldReport = customWrapRoute({
+    parent: accountMyFormsLayout,
+    path: 'field-report' satisfies DefaultAccountMyFormsChild,
+    component: {
+        render: () => import('#views/AccountMyFormsFieldReport'),
+        props: {},
+    },
+    context: {
+        title: 'Account Field Report Forms',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountMyFormsPer = customWrapRoute({
+    parent: accountMyFormsLayout,
+    path: 'per',
+    component: {
+        render: () => import('#views/AccountMyFormsPer'),
+        props: {},
+    },
+    context: {
+        title: 'Account PER Forms',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountMyFormsDref = customWrapRoute({
+    parent: accountMyFormsLayout,
+    path: 'dref',
+    component: {
+        render: () => import('#views/AccountMyFormsDref'),
+        props: {},
+    },
+    context: {
+        title: 'Account DREF Applications',
+        visibility: 'is-authenticated',
+    },
+});
+
+const accountMyFormsThreeW = customWrapRoute({
+    parent: accountMyFormsLayout,
+    path: 'three-w',
+    component: {
+        render: () => import('#views/AccountMyFormsThreeW'),
+        props: {},
+    },
+    context: {
+        title: 'Account 3W',
         visibility: 'is-authenticated',
     },
 });
@@ -1998,45 +2082,6 @@ const accountNotifications = customWrapRoute({
     },
     context: {
         title: 'Account Notifications',
-        visibility: 'is-authenticated',
-    },
-});
-
-const accountPerForms = customWrapRoute({
-    parent: accountLayout,
-    path: 'per-forms',
-    component: {
-        render: () => import('#views/AccountPerForms'),
-        props: {},
-    },
-    context: {
-        title: 'Account PER Forms',
-        visibility: 'is-authenticated',
-    },
-});
-
-const accountDrefApplications = customWrapRoute({
-    parent: accountLayout,
-    path: 'dref-application-forms',
-    component: {
-        render: () => import('#views/AccountDrefApplications'),
-        props: {},
-    },
-    context: {
-        title: 'Account DREF Applications',
-        visibility: 'is-authenticated',
-    },
-});
-
-const accountThreeWForms = customWrapRoute({
-    parent: accountLayout,
-    path: 'three-w-forms',
-    component: {
-        render: () => import('#views/AccountThreeWForms'),
-        props: {},
-    },
-    context: {
-        title: 'Account DREF Applications',
         visibility: 'is-authenticated',
     },
 });
@@ -2538,11 +2583,14 @@ const wrappedRoutes = {
     newThreeWActivity,
     accountLayout,
     accountIndex,
-    accountInformation,
+    accountDetails,
+    accountMyFormsLayout,
+    accountMyFormsIndex,
     accountNotifications,
-    accountPerForms,
-    accountDrefApplications,
-    accountThreeWForms,
+    accountMyFormsFieldReport,
+    accountMyFormsPer,
+    accountMyFormsDref,
+    accountMyFormsThreeW,
     resources,
     search,
     allThreeWProject,

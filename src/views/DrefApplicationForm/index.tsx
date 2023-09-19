@@ -49,6 +49,9 @@ import {
     NUM,
 } from '#utils/restRequest/error';
 
+// FIXME: We should not import from views
+import DrefShareModal from '#views/AccountMyFormsDref/DrefTableActions/DrefShareModal';
+
 import drefSchema, {
     type DrefRequestBody,
     type DrefResponse,
@@ -66,7 +69,6 @@ import Operation from './Operation';
 import Submission from './Submission';
 import ObsoletePayloadModal from './ObsoletePayloadModal';
 import i18n from './i18n.json';
-import DrefShareModal from '../AccountDrefApplications/DrefTableActions/DrefShareModal';
 import styles from './styles.module.css';
 
 type GetDrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;

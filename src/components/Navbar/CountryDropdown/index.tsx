@@ -23,12 +23,13 @@ import useTranslation from '#hooks/useTranslation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import RouteContext from '#contexts/route';
 
-import i18n from './i18n.json';
-import styles from './styles.module.css';
 import TextInput from '#components/TextInput';
 import useInputState from '#hooks/useInputState';
 import { SearchLineIcon } from '@ifrc-go/icons';
 import { rankedSearchOnList } from '#utils/common';
+
+import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 function CountryDropdown() {
     const location = useLocation();
@@ -75,20 +76,6 @@ function CountryDropdown() {
     );
 
     const isEmpty = isNotDefined(regionOptions) || regionOptions.length === 0;
-    /*
-    <DropdownMenuItem
-        type="link"
-        key={region.key}
-        to="regionsLayout"
-        urlParams={{ regionId: region.key }}
-        className={_cs(
-            styles.menuItem,
-            match?.params?.regionId === String(region.key)
-                && styles.active,
-        )}
-    >
-    </DropdownMenuItem>
-    */
 
     const [activeRegion, setActiveRegion] = useState<RegionKey>(regionIdFromMatch ?? 0);
     const [countrySearch, setCountrySearch] = useInputState<string | undefined>(undefined);
@@ -163,7 +150,8 @@ function CountryDropdown() {
                                             withLinkIcon
                                             variant="primary"
                                         >
-                                            Goto Regional Page
+                                            {/* FIXME: use translation */}
+                                            Go to Region
                                         </DropdownMenuItem>
                                     )}
                                     headingLevel={4}

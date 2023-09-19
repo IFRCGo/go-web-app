@@ -80,7 +80,7 @@ export function Component() {
             actions={(
                 <>
                     <Link
-                        to="accountPerForms"
+                        to="accountMyFormsPer"
                         variant="secondary"
                     >
                         {strings.perProcessBackButtonLabel}

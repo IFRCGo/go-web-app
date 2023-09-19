@@ -341,6 +341,13 @@ export function createLinkColumn<D, K>(
         }),
         valueSelector: () => '',
         valueComparator: () => 0,
+        cellRendererClassName: options?.cellRendererClassName,
+        columnClassName: options?.columnClassName,
+        headerCellRendererClassName: options?.headerCellRendererClassName,
+        cellContainerClassName: options?.cellContainerClassName,
+        columnWidth: options?.columnWidth,
+        columnStretch: options?.columnStretch,
+        columnStyle: options?.columnStyle,
     };
 
     return item;

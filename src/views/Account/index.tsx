@@ -16,34 +16,25 @@ export function Component() {
 
     return (
         <Page
-            title={strings.accountTitle}
+            title={strings.accountPageTitle}
             heading={userDetails?.displayName ?? '--'}
         >
             <NavigationTabList>
                 <NavigationTab
-                    to="accountInformation"
+                    to="accountDetails"
                 >
-                    {strings.accountInformation}
+                    {strings.accountDetailsTabTitle}
+                </NavigationTab>
+                <NavigationTab
+                    to="accountMyFormsLayout"
+                    parentRoute
+                >
+                    {strings.accountMyFormTabTitle}
                 </NavigationTab>
                 <NavigationTab
                     to="accountNotifications"
                 >
-                    {strings.accountNotification}
-                </NavigationTab>
-                <NavigationTab
-                    to="accountPerForms"
-                >
-                    {strings.accountPerForms}
-                </NavigationTab>
-                <NavigationTab
-                    to="accountDrefApplications"
-                >
-                    {strings.accountMyDrefApplications}
-                </NavigationTab>
-                <NavigationTab
-                    to="accountThreeWForms"
-                >
-                    {strings.accountThreeWForms}
+                    {strings.accountNotificationTabTitle}
                 </NavigationTab>
             </NavigationTabList>
             <Outlet />

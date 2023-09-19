@@ -1,7 +1,0 @@
-{
-    "namespace": "accountNotifications",
-    "strings": {
-        "fieldReportLastUpdatedLabel": "Last Updated",
-        "fieldReportNoDescriptionLabel": "Description not available!"
-    }
-}

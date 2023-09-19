@@ -44,7 +44,9 @@ import {
 } from '#utils/restRequest/error';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 
-import DrefShareModal from '../AccountDrefApplications/DrefTableActions/DrefShareModal';
+// FIXME: We should not import from views
+import DrefShareModal from '#views/AccountMyFormsDref/DrefTableActions/DrefShareModal';
+
 import finalReportSchema, {
     type FinalReportRequestBody,
 } from './schema';

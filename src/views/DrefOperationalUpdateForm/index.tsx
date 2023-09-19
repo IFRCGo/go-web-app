@@ -47,6 +47,9 @@ import {
 } from '#utils/restRequest/error';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 
+// FIXME: We should not import from views
+import DrefShareModal from '#views/AccountMyFormsDref/DrefTableActions/DrefShareModal';
+
 import opsUpdateSchema, {
     type OpsUpdateRequestBody,
 } from './schema';
@@ -55,7 +58,6 @@ import {
     TYPE_LOAN,
     type TypeOfDrefEnum,
 } from './common';
-import DrefShareModal from '../AccountDrefApplications/DrefTableActions/DrefShareModal';
 import Overview from './Overview';
 import EventDetail from './EventDetail';
 import Actions from './Actions';

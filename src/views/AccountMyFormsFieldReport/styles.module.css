@@ -1,0 +1,8 @@
+.account-my-forms-field-report {
+    .table {
+        .created-at {
+            width: 0%;
+            min-width: 9rem;
+        }
+    }
+}

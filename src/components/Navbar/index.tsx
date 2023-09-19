@@ -7,7 +7,6 @@ import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
-import RegionDropdown from '#components/domain/RegionDropdown';
 import KeywordSearchSelectInput from '#components/domain/KeywordSearchSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import UserContext from '#contexts/user';
@@ -125,7 +124,6 @@ function Navbar(props: Props) {
                         {strings.headerMenuHome}
                     </NavigationTab>
                     <CountryDropdown />
-                    <RegionDropdown />
                     <NavigationTab
                         to="emergencies"
                         className={styles.menuItem}

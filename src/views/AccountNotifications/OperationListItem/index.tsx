@@ -1,5 +1,3 @@
-import { _cs } from '@togglecorp/fujs';
-
 import Header from '#components/Header';
 import Button from '#components/Button';
 import TextOutput from '#components/TextOutput';
@@ -16,6 +14,7 @@ export interface Props {
     className?: string;
     eventItem: EventResponseItem;
     updateSubscibedEvents: () => void;
+    isLastItem: boolean;
 }
 
 function OperationInfoCard(props: Props) {
@@ -27,6 +26,7 @@ function OperationInfoCard(props: Props) {
             updated_at,
         },
         updateSubscibedEvents: updateSubscribedEvents,
+        isLastItem,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -46,29 +46,34 @@ function OperationInfoCard(props: Props) {
     const subscriptionPending = removeSubscriptionPending;
 
     return (
-        <Header
-            className={_cs(styles.operationInfoCard, className)}
-            heading={name}
-            headingLevel={4}
-            ellipsizeHeading
-            spacing="compact"
-            actions={(
-                <Button
-                    name={id}
-                    variant="secondary"
-                    disabled={subscriptionPending}
-                    onClick={triggerRemoveSubscription}
-                >
-                    {strings.operationUnfollowButtonLabel}
-                </Button>
+        <>
+            <Header
+                className={className}
+                heading={name}
+                headingLevel={5}
+                ellipsizeHeading
+                spacing="none"
+                actions={(
+                    <Button
+                        name={id}
+                        variant="secondary"
+                        disabled={subscriptionPending}
+                        onClick={triggerRemoveSubscription}
+                    >
+                        {strings.operationUnfollowButtonLabel}
+                    </Button>
+                )}
+            >
+                <TextOutput
+                    label={strings.operationLastUpdatedLabel}
+                    value={updated_at}
+                    valueType="date"
+                />
+            </Header>
+            {!isLastItem && (
+                <div className={styles.separator} />
             )}
-        >
-            <TextOutput
-                label={strings.operationLastUpdatedLabel}
-                value={updated_at}
-                valueType="date"
-            />
-        </Header>
+        </>
     );
 }
 
