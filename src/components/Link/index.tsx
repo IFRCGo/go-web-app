@@ -15,6 +15,7 @@ import {
     ExternalLinkLineIcon,
 } from '@ifrc-go/icons';
 
+import usePermissions from '#hooks/domain/usePermissions';
 import UserContext from '#contexts/user';
 import RouteContext from '#contexts/route';
 import { useButtonFeatures } from '#components/Button';
@@ -62,6 +63,7 @@ export function useLink(props: {
 }) {
     const { userAuth: userDetails } = useContext(UserContext);
     const routes = useContext(RouteContext);
+    const perms = usePermissions();
 
     if (props.external) {
         if (isNotDefined(props.href)) {
@@ -83,10 +85,10 @@ export function useLink(props: {
     }
 
     return {
-    // NOTE: disabling links if authentication is required
         disabled: (
             (route.visibility === 'is-authenticated' && isNotDefined(userDetails))
             || (route.visibility === 'is-not-authenticated' && isDefined(userDetails))
+            || (route.permissions && !route.permissions(perms, props.urlParams))
         ),
         to: resolvedPath,
     };

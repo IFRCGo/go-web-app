@@ -41,13 +41,6 @@ function LangaugeDropdown() {
         [currentLanguage],
     );
 
-    const handleLanguageChangeClick = useCallback(
-        (_: Language, e: React.MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-        },
-        [],
-    );
-
     const handleLanguageConfirm = useCallback(
         (newLanguage: Language) => {
             setCurrentLanguage(newLanguage);
@@ -60,6 +53,7 @@ function LangaugeDropdown() {
         <DropdownMenu
             label={languageNameMapEn[currentLanguage]}
             variant="tertiary"
+            persistent
         >
             {languageList.map(
                 (language) => (
@@ -67,7 +61,7 @@ function LangaugeDropdown() {
                         type="confirm-button"
                         key={language.key}
                         name={language.key}
-                        onClick={handleLanguageChangeClick}
+                        persist
                         onConfirm={handleLanguageConfirm}
                         icons={(
                             <CheckFillIcon

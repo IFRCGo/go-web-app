@@ -229,16 +229,14 @@ function DrefTableActions(props: Props) {
     }] = useBooleanState(false);
 
     const handleExportClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
-        (_, e) => {
-            e.stopPropagation();
+        () => {
             setShowExportModalTrue();
         },
         [setShowExportModalTrue],
     );
 
     const handleShareClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
-        (_, e) => {
-            e.stopPropagation();
+        () => {
             setShowShareModalTrue();
         },
         [setShowShareModalTrue],
@@ -273,13 +271,6 @@ function DrefTableActions(props: Props) {
         [fetchDref, fetchOpsUpdate, applicationType, id],
     );
 
-    const stopDropdownClickPropagation = useCallback(
-        (_: undefined, e: React.MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-        },
-        [],
-    );
-
     const drefApprovalPending = publishDrefPending
         || publishOpsUpdatePending
         || publishFinalReportPending;
@@ -290,6 +281,7 @@ function DrefTableActions(props: Props) {
 
     return (
         <TableActions
+            persistent
             extraActions={(
                 <>
                     {canApprove && (
@@ -298,7 +290,7 @@ function DrefTableActions(props: Props) {
                             type="confirm-button"
                             icons={<CheckLineIcon className={styles.icon} />}
                             confirmMessage="You're about to Approve this DREF. Once approved, it can no longer be edited. Are you sure, you want to Approve?"
-                            onClick={stopDropdownClickPropagation}
+                            persist
                             onConfirm={handlePublishClick}
                         >
                             {strings.dropdownActionApproveLabel}
@@ -337,6 +329,7 @@ function DrefTableActions(props: Props) {
                         type="button"
                         icons={<ShareLineIcon className={styles.icon} />}
                         onClick={handleShareClick}
+                        persist
                     >
                         {strings.dropdownActionShareLabel}
                     </DropdownMenuItem>
@@ -345,6 +338,7 @@ function DrefTableActions(props: Props) {
                         type="button"
                         icons={<DocumentPdfLineIcon className={styles.icon} />}
                         onClick={handleExportClick}
+                        persist
                     >
                         {strings.dropdownActionExportLabel}
                     </DropdownMenuItem>

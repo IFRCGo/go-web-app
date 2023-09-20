@@ -335,7 +335,7 @@ export function Component() {
         trigger: updateOpsUpdate,
     } = useLazyRequest({
         url: '/api/v2/dref-op-update/{id}/',
-        method: 'PUT',
+        method: 'PATCH',
         pathVariables: isDefined(opsUpdateId) ? { id: opsUpdateId } : undefined,
         body: (formFields: OpsUpdateRequestBody) => formFields,
         onSuccess: (response) => {
@@ -387,12 +387,13 @@ export function Component() {
                 },
             ));
 
-            /*
-            FIXME: this should be an array
-            if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
+            const modifiedAtError = formErrors.modified_at;
+            if (
+                (typeof modifiedAtError === 'string' && modifiedAtError === 'OBSOLETE_PAYLOAD')
+                || (Array.isArray(modifiedAtError) && modifiedAtError.includes('OBSOLETE_PAYLOAD'))
+            ) {
                 setShowObsoletePayloadModal(true);
             }
-            */
 
             alert.show(
                 strings.formSaveRequestFailureMessage,

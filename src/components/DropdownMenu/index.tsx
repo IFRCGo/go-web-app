@@ -65,7 +65,6 @@ function DropdownMenu(props: Props) {
 
     const handleMenuClick: NonNullable<ButtonProps<undefined>['onClick']> = useCallback(
         () => {
-            // e.stopPropagation();
             setShowDropdown((prevValue) => !prevValue);
         },
         [setShowDropdown],

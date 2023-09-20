@@ -53,6 +53,7 @@ import {
 import DrefShareModal from '#views/AccountMyFormsDref/DrefTableActions/DrefShareModal';
 
 import drefSchema, {
+    type DrefRequestPostBody,
     type DrefRequestBody,
     type DrefResponse,
 } from './schema';
@@ -255,7 +256,7 @@ export function Component() {
         trigger: updateDref,
     } = useLazyRequest({
         url: '/api/v2/dref/{id}/',
-        method: 'PUT',
+        method: 'PATCH',
         pathVariables: isDefined(drefId) ? { id: drefId } : undefined,
         body: (formFields: DrefRequestBody) => formFields,
         onSuccess: (response) => {
@@ -314,12 +315,13 @@ export function Component() {
                 },
             ));
 
-            /*
-            FIXME: this should be an array
-            if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
+            const modifiedAtError = formErrors.modified_at;
+            if (
+                (typeof modifiedAtError === 'string' && modifiedAtError === 'OBSOLETE_PAYLOAD')
+                || (Array.isArray(modifiedAtError) && modifiedAtError.includes('OBSOLETE_PAYLOAD'))
+            ) {
                 setShowObsoletePayloadModal(true);
             }
-            */
 
             alert.show(
                 strings.formSaveRequestFailureMessage,
@@ -338,7 +340,7 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/dref/',
         method: 'POST',
-        body: (formFields: DrefRequestBody) => formFields,
+        body: (formFields: DrefRequestPostBody) => formFields,
         onSuccess: (responseUnsafe) => {
             const response = responseUnsafe as DrefResponse;
             alert.show(
@@ -396,13 +398,6 @@ export function Component() {
                 },
             ));
 
-            /*
-            FIXME: this should be an array
-            if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
-                setShowObsoletePayloadModal(true);
-            }
-            */
-
             alert.show(
                 strings.formSaveRequestFailureMessage,
                 {
@@ -434,7 +429,7 @@ export function Component() {
                 createDref({
                     ...result.value,
                     modified_at: modifiedAt ?? lastModifiedAtRef.current,
-                } as DrefRequestBody);
+                } as DrefRequestPostBody);
             }
         },
         [validate, setError, updateDref, createDref, drefId],

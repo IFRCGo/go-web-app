@@ -37,7 +37,10 @@ export function Component() {
     const isLoading = state === 'loading';
     const isLoadingDebounced = useDebouncedValue(isLoading);
 
-    const { userAuth: userDetails } = useContext(UserContext);
+    const {
+        userAuth: userDetails,
+        removeUserAuth,
+    } = useContext(UserContext);
 
     const [fetchDomainData, setFetchDomainData] = useState<{ [key in CacheKey]?: boolean }>({});
 
@@ -238,7 +241,9 @@ export function Component() {
         preserveResponse: true,
     });
 
-    const userSkip = !fetchDomainData['user-me'] || !userDetails;
+    // NOTE: Always calling /api/v2/user/me to check validity of logged-in user
+    const userSkip = !userDetails;
+    // const userSkip = !fetchDomainData['user-me'] || !userDetails;
 
     const {
         response: userMe,
@@ -249,6 +254,14 @@ export function Component() {
         skip: userSkip,
         url: '/api/v2/user/me/',
         preserveResponse: true,
+        onFailure: (val) => {
+            // NOTE: Clearing authentication when token is invalid
+            if (val.status === 401) {
+                removeUserAuth();
+                // NOTE: Reloading as other requests might fail
+                window.location.reload();
+            }
+        },
     });
 
     const invalidateDomainData = useCallback(

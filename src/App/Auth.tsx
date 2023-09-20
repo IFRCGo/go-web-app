@@ -1,22 +1,23 @@
-import type { ReactElement } from 'react';
-import { useContext } from 'react';
+import { type ReactElement, useContext } from 'react';
 import { isNotDefined, isDefined } from '@togglecorp/fujs';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import UserContext from '#contexts/user';
+import usePermissions from '#hooks/domain/usePermissions';
+import { type ExtendedProps } from './routes';
 
 interface Props {
     children: ReactElement,
-    context: {
-        title: string,
-        visibility: 'is-authenticated' | 'is-not-authenticated' | 'anything',
-    },
+    context: ExtendedProps,
 }
 function Auth(props: Props) {
     const {
         context,
         children,
     } = props;
+
+    const urlParams = useParams();
+    const perms = usePermissions();
 
     const { userAuth: userDetails } = useContext(UserContext);
 
@@ -29,6 +30,19 @@ function Auth(props: Props) {
         return (
             <Navigate to="/" />
         );
+    }
+
+    if (context.permissions) {
+        const hasPermission = context.permissions(perms, urlParams);
+
+        if (!hasPermission) {
+            // TODO: Add a permission denied page
+            return (
+                <div>
+                    403
+                </div>
+            );
+        }
     }
 
     return children;
