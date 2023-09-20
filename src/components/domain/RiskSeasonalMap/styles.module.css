@@ -2,42 +2,53 @@
     display: flex;
     flex-direction: column;
 
-    .legend {
+    .footer {
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-md);
+    }
+
+    .footer-actions {
+        flex-shrink: unset;
+    }
+
+    .legend-label {
+        font-size: var(--go-ui-font-size-sm);
+        font-weight: var(--go-ui-font-weight-medium);
+    }
+
+    .severity-legend {
         display: flex;
         flex-wrap: wrap;
-        gap: var(--go-ui-spacing-lg);
+        gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
 
         .legend-content {
-            display: flex;
-            flex-direction: column;
-
-            .gradient {
-                width: calc(10 * var(--go-ui-border-radius-2xl));
-                height: var(--go-ui-border-radius-lg);
+            .severity-gradient {
+                width: 10rem;
+                height: 0.5rem;
             }
 
             .label-list {
                 display: flex;
                 justify-content: space-between;
-            }
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: var(--go-ui-spacing-xs);
-
-            .icon-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: var(--go-ui-font-size-2xl);
-                height: var(--go-ui-font-size-2xl);
+                font-size: var(--go-ui-font-size-xs);
+                font-weight: var(--go-ui-font-weight-medium);
             }
         }
     }
 
-    .content {
+    .type-of-hazard-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-md);
+
+        .legend-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--go-ui-spacing-xs) var(--go-ui-spacing-sm);
+        }
+    }
+
+    .main-content {
         display: flex;
         height: 40rem;
         gap: var(--go-ui-spacing-md);
@@ -51,19 +62,16 @@
             background-color: var(--go-ui-color-background);
 
             .content {
-                display: flex;
-                flex-direction: column;
-                gap: var(--go-ui-spacing-md);
                 overflow: auto;
 
                 .country {
                     .name {
-                        font-size: var(--go-ui-font-size-xs);
+                        font-size: var(--go-ui-font-size-sm);
                     }
 
                     .track {
                         display: flex;
-                        background-color: var(--go-ui-color-background);
+                        background-color: var(--go-ui-color-separator);
                         height: 0.5rem;
 
                         .bar {

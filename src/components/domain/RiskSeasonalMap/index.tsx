@@ -27,6 +27,8 @@ import {
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import Container from '#components/Container';
 import BlockLoading from '#components/BlockLoading';
+import LegendItem from '#components/LegendItem';
+import Link from '#components/Link';
 import useInputState from '#hooks/useInputState';
 import useCountry from '#hooks/domain/useCountry';
 import useTranslation from '#hooks/useTranslation';
@@ -116,6 +118,17 @@ function RiskSeasonalMap(props: Props) {
         variant === 'region'
             ? { region: regionId }
             : {},
+    );
+
+    const countryIso3ToIdMap = useMemo(
+        () => (
+            listToMap(
+                countryList,
+                ({ iso3 }) => iso3.toLowerCase(),
+                ({ id }) => id,
+            )
+        ),
+        [countryList],
     );
 
     const {
@@ -707,17 +720,16 @@ function RiskSeasonalMap(props: Props) {
                     riskMetricOptions={riskMetricOptions}
                 />
             )}
-            childrenContainerClassName={styles.content}
+            childrenContainerClassName={styles.mainContent}
             withHeaderBorder
-            footerIcons={(
-                <div className={styles.legend}>
-                    <div>{strings.severity}</div>
+            footerClassName={styles.footer}
+            footerContent={(
+                <div className={styles.severityLegend}>
+                    <div className={styles.legendLabel}>{strings.severity}</div>
                     <div className={styles.legendContent}>
                         <div
-                            className={styles.gradient}
-                            style={{
-                                background: `linear-gradient(90deg, ${RISK_LOW_COLOR}, ${RISK_HIGH_COLOR})`,
-                            }}
+                            className={styles.severityGradient}
+                            style={{ background: `linear-gradient(90deg, ${RISK_LOW_COLOR}, ${RISK_HIGH_COLOR})` }}
                         />
                         <div className={styles.labelList}>
                             <div>
@@ -728,24 +740,23 @@ function RiskSeasonalMap(props: Props) {
                             </div>
                         </div>
                     </div>
-                    {/* FIXME Add seperator if needed */}
-                    <div>{strings.hazardsType}</div>
-                    {hazardTypeOptions.map((hazard) => (
-                        <div
-                            key={hazard.hazard_type}
-                            className={styles.legendItem}
-                        >
-                            <div
-                                className={styles.iconContainer}
-                                style={{
-                                    backgroundColor: hazardTypeToColorMap[hazard.hazard_type],
-                                }}
+                </div>
+            )}
+            footerActionsContainerClassName={styles.footerActions}
+            footerActions={(
+                <div className={styles.typeOfHazardLegend}>
+                    <div className={styles.legendLabel}>
+                        {strings.hazardsType}
+                    </div>
+                    <div className={styles.legendContent}>
+                        {hazardTypeOptions.map((hazard) => (
+                            <LegendItem
+                                key={hazard.hazard_type}
+                                label={hazard.hazard_type_display}
+                                color={hazardTypeToColorMap[hazard.hazard_type]}
                             />
-                            <div>
-                                {hazard.hazard_type_display}
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             )}
         >
@@ -791,45 +802,67 @@ function RiskSeasonalMap(props: Props) {
                 withInternalPadding
                 // FIXME use translation
                 heading="Countries"
-                headingLevel={5}
-                spacing="cozy"
+                headingLevel={4}
                 withHeaderBorder
+                contentViewType="vertical"
             >
                 {dataPending && <BlockLoading />}
                 {/* FIXME: use List */}
                 {!dataPending && filteredData?.map(
-                    (dataItem) => (
-                        <div
-                            key={dataItem.iso3}
-                            className={styles.country}
-                        >
-                            <div className={styles.name}>
-                                {dataItem.country_details.name}
+                    (dataItem) => {
+                        const totalValuePercentage = 100 * dataItem.normalizedValue;
+                        if (totalValuePercentage < 1) {
+                            return null;
+                        }
+
+                        const countryId = countryIso3ToIdMap[dataItem.country_details.iso3];
+
+                        return (
+                            <div
+                                key={dataItem.iso3}
+                                className={styles.country}
+                            >
+                                <Link
+                                    className={styles.name}
+                                    to="countryRiskWatch"
+                                    urlParams={{ countryId }}
+                                >
+                                    {dataItem.country_details.name}
+                                </Link>
+                                <div className={styles.track}>
+                                    {dataItem.valueListByHazard.map(
+                                        ({
+                                            normalizedValue,
+                                            value,
+                                            hazard_type,
+                                            hazard_type_display,
+                                        }) => {
+                                            // eslint-disable-next-line max-len
+                                            const percentage = 100 * normalizedValue * dataItem.normalizedValue;
+
+                                            if (percentage < 1) {
+                                                return null;
+                                            }
+
+                                            return (
+                                                <div
+                                                    className={styles.bar}
+                                                    title={`${hazard_type_display}: ${filters.riskMetric === 'riskScore' ? riskCategoryToLabelMap[value] : formatNumber(value)}`}
+                                                    key={hazard_type}
+                                                    style={{
+                                                        width: `${percentage}%`,
+                                                        backgroundColor: hazardTypeToColorMap[
+                                                            hazard_type
+                                                        ],
+                                                    }}
+                                                />
+                                            );
+                                        },
+                                    )}
+                                </div>
                             </div>
-                            <div className={styles.track}>
-                                {dataItem.valueListByHazard.map(
-                                    ({
-                                        normalizedValue,
-                                        value,
-                                        hazard_type,
-                                        hazard_type_display,
-                                    }) => (
-                                        <div
-                                            className={styles.bar}
-                                            title={`${hazard_type_display}: ${filters.riskMetric === 'riskScore' ? riskCategoryToLabelMap[value] : formatNumber(value)}`}
-                                            key={hazard_type}
-                                            style={{
-                                                width: `${100 * normalizedValue * dataItem.normalizedValue}%`,
-                                                backgroundColor: hazardTypeToColorMap[
-                                                    hazard_type
-                                                ],
-                                            }}
-                                        />
-                                    ),
-                                )}
-                            </div>
-                        </div>
-                    ),
+                        );
+                    },
                 )}
             </Container>
         </Container>
