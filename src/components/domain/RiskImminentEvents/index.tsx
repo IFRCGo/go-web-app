@@ -8,6 +8,7 @@ import {
     FloodIcon,
 } from '@ifrc-go/icons';
 
+import wildfireIcon from '#assets/icons/risk/wildfire.png';
 import RadioInput from '#components/RadioInput';
 import { stringLabelSelector } from '#utils/selectors';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
@@ -58,7 +59,14 @@ const riskHazards: Array<{
     {
         key: 'WF',
         label: 'Wildfire',
-        icon: null,
+        icon: (
+            // FIXME: use icon from GO icons
+            <img
+                src={wildfireIcon}
+                className={styles.wildfireIcon}
+                alt="wildfire"
+            />
+        ),
     },
 ];
 

@@ -20,6 +20,10 @@
                 .icon {
                     color: var(--go-ui-color-white);
                 }
+
+                .wildfire-icon {
+                    height: 0.8rem;
+                }
             }
         }
     }

@@ -12,11 +12,12 @@ import BlockLoading from '#components/BlockLoading';
 import KeyFigure from '#components/KeyFigure';
 import Container from '#components/Container';
 import BarChart from '#components/BarChart';
-import useTranslation from '#hooks/useTranslation';
-import { resolveToComponent } from '#utils/translation';
-import { useRequest } from '#utils/restRequest';
 import PieChart from '#components/PieChart';
+import useTranslation from '#hooks/useTranslation';
+import { useRequest } from '#utils/restRequest';
+import { resolveToComponent } from '#utils/translation';
 
+import RegionDropdown from './RegionDropdown';
 import Filter, { type FilterValue } from './Filters';
 
 import {
@@ -30,6 +31,7 @@ import Map from './Map';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
+// FIXME: use predefined colors
 const PIE_COLORS = ['#f64752', '#fa999f', '#fdd6d9'];
 
 function projectPerSecondarySectorsLabelSelector(
@@ -212,6 +214,9 @@ export function Component() {
                                 value={filters}
                                 onChange={setFilters}
                             />
+                        )}
+                        actions={(
+                            <RegionDropdown />
                         )}
                     >
                         <Map projectList={nsProjectsResponse} />
