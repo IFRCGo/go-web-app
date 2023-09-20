@@ -467,6 +467,10 @@ export function Component() {
                     </Container>
                 </>
             )}
+            <NonFieldError
+                error={error}
+                withFallbackError
+            />
             {actionDivRef.current && (
                 <Portal container={actionDivRef?.current}>
                     {value.is_draft === false ? (

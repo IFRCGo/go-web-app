@@ -14,12 +14,14 @@ import BlockLoading from '#components/BlockLoading';
 import TextArea from '#components/TextArea';
 import TextOutput from '#components/TextOutput';
 import Checkbox from '#components/Checkbox';
+import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 
 import type { PartialPrioritization } from '../schema';
 import QuestionOutput from './QuestionOutput';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type AssessmentResponse = GoApiResponse<'/api/v2/per-assessment/{id}/'>;
@@ -52,6 +54,7 @@ function ComponentInput(props: Props) {
         readOnly,
     } = props;
 
+    const strings = useTranslation(i18n);
     const [expanded, setExpanded] = useState(false);
 
     const {
@@ -155,13 +158,11 @@ function ComponentInput(props: Props) {
                 <>
                     <div className={styles.additionalInformation}>
                         <div>
-                            {/* FIXME: use translations */}
-                            {ratingDisplay ?? '0 - Not reviewed'}
+                            {ratingDisplay ?? strings.notReviewed}
                         </div>
                         <div className={styles.separator} />
                         <div>
-                            {/* FIXME: use translations */}
-                            {`${numResponses} benchmarks assessed`}
+                            {`${numResponses} ${strings.benchmarksAssessed}`}
                         </div>
                         {expanded && answerStats.length > 0 && (
                             <div className={styles.answersByCount}>
@@ -179,10 +180,10 @@ function ComponentInput(props: Props) {
                         name="justification_text"
                         value={value?.justification_text}
                         onChange={setFieldValue}
-                        // FIXME: use translation
-                        placeholder="Enter Justification"
+                        placeholder={strings.perJustification}
                         disabled={isNotDefined(value)}
                         rows={2}
+                        error={value?.justification_text}
                         readOnly={readOnly}
                     />
                 </>
