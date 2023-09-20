@@ -1,0 +1,14 @@
+{
+    "namespace": "perAssessmentForm",
+    "strings": {
+        "epiConsiderationDescriptionOne": "NS has a clear and well recognised role in epidemic preparedness and response. This has been clarified with national authorities and is evident in government laws, policies and plans.  ",
+        "epiConsiderationDescriptionTwo": "NS role in epidemic risk management is reflected in NS policies, strategies, plans and procedures, and is disseminated and understood by staff and volunteers.",
+        "urbanConsiderationDescription": "NS mandate and auxiliary role to public authorities is well understood at the sub-national level among disaster management authorities within urban contexts and key entities that manage urban aspects (e.g., urban planning and housing office), including in relation to service providers (e.g., public transport, water and electricity services).",
+        "environmentConsiderationDescriptionOne": "NS has a long-term commitment, reflected in an environmental policy, guidelines, or management plans, to improve environmental sustainability of programmes, projects and activities.",
+        "environmentConsiderationDescriptionTwo": "NS policies and strategies are informed by, and adjusted where needed, based on weather information and climate change projections for the country and region",
+        "epiConsiderationTitle": "EPI Considerations",
+        "urbanConsiderationTitle": "Urban Considerations",
+        "environmentConsiderationTitle": "Climate and Environmental Considerations",
+        "notes": "Notes"
+    }
+}
