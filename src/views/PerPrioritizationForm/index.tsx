@@ -12,6 +12,7 @@ import {
     useForm,
     useFormArray,
     removeNull,
+    getErrorObject,
 } from '@togglecorp/toggle-form';
 import {
     _cs,
@@ -82,7 +83,7 @@ export function Component() {
         setValue,
         setFieldValue,
         setError,
-        error,
+        error: formError,
     } = useForm(
         prioritizationSchema,
         {
@@ -296,6 +297,16 @@ export function Component() {
         (question) => question.component.area.title,
     );
 
+    const error = useMemo(
+        () => getErrorObject(formError),
+        [formError],
+    );
+
+    const componentInputError = useMemo(
+        () => getErrorObject(error?.prioritized_action_responses),
+        [error],
+    );
+
     const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
     const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
 
@@ -458,6 +469,7 @@ export function Component() {
                                     value={componentResponseMapping[component.id]?.value}
                                     onChange={setComponentValue}
                                     component={component}
+                                    error={componentInputError?.[component.id]}
                                     onSelectionChange={handleSelectionChange}
                                     questionResponses={
                                         assessmentQuestionResponsesByComponent[component.id]

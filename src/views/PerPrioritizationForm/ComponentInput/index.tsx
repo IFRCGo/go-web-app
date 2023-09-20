@@ -7,10 +7,15 @@ import {
     isDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
-import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
+import {
+    SetValueArg,
+    useFormObject,
+    Error,
+} from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import BlockLoading from '#components/BlockLoading';
+import NonFieldError from '#components/NonFieldError';
 import TextArea from '#components/TextArea';
 import TextOutput from '#components/TextOutput';
 import Checkbox from '#components/Checkbox';
@@ -35,6 +40,7 @@ interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
+    error: Error<Value> | undefined;
     component: NonNullable<PerFormComponentResponse['results']>[number];
     onSelectionChange: (checked: boolean, index: number, componentId: number) => void;
     questionResponses: ComponentResponse['question_responses'];
@@ -52,6 +58,7 @@ function ComponentInput(props: Props) {
         questionResponses,
         ratingDisplay,
         readOnly,
+        error,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -192,6 +199,10 @@ function ComponentInput(props: Props) {
             {formQuestionsPending && (
                 <BlockLoading />
             )}
+            <NonFieldError
+                error={error}
+                withFallbackError
+            />
             {/* FIXME: use List */}
             {formQuestions && formQuestions.results?.map(
                 (perFormQuestion) => (
