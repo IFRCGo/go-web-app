@@ -626,6 +626,14 @@ export function Component() {
                                                     {contact.email}
                                                 </Link>
                                             ) : undefined,
+                                            isTruthyString(contact.phone) ? (
+                                                <Link
+                                                    href={`tel:${contact.phone}`}
+                                                    external
+                                                >
+                                                    {contact.phone}
+                                                </Link>
+                                            ) : undefined,
                                         ].filter(isDefined), ', ')}
                                     </div>
                                 </div>
