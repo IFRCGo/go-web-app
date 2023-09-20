@@ -59,11 +59,14 @@ const riskHazards: Array<{
     {
         key: 'WF',
         label: 'Wildfire',
-        icon: <img
-            src={wildfireIcon}
-            className={styles.wildfireIcon}
-            alt="wildfire"
-        />,
+        icon: (
+            // FIXME: use icon from GO icons
+            <img
+                src={wildfireIcon}
+                className={styles.wildfireIcon}
+                alt="wildfire"
+            />
+        ),
     },
 ];
 
