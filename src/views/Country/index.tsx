@@ -15,12 +15,14 @@ import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import KeyFigure from '#components/KeyFigure';
+import InfoPopup from '#components/InfoPopup';
 import Message from '#components/Message';
 import Link from '#components/Link';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
+import { getPercentage } from '#utils/common';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -121,18 +123,36 @@ export function Component() {
                                 icon={<DrefIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.active_drefs}
+                                info={(
+                                    <InfoPopup
+                                        title={strings.countryKeyFiguresDrefTitle}
+                                        description={strings.countryKeyFiguresDrefDescription}
+                                    />
+                                )}
                                 description={strings.countryKeyFiguresActiveDrefs}
                             />
                             <KeyFigure
                                 icon={<AppealsIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.active_appeals}
+                                info={(
+                                    <InfoPopup
+                                        title={strings.countryKeyFiguresActiveAppealsTitle}
+                                        description={
+                                            strings.countryKeyFigureActiveAppealDescription
+                                        }
+                                    />
+                                )}
                                 description={strings.countryKeyFiguresActiveAppeals}
                             />
                             <KeyFigure
                                 icon={<FundingIcon />}
                                 className={styles.keyFigure}
-                                value={aggregatedAppealResponse.amount_requested_dref_included}
+                                value={getPercentage(
+                                    aggregatedAppealResponse?.amount_funded,
+                                    aggregatedAppealResponse?.amount_requested_dref_included,
+                                )}
+                                suffix="%"
                                 compactValue
                                 description={strings.countryKeyFiguresBudget}
                             />

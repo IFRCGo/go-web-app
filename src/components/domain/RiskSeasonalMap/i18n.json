@@ -1,0 +1,9 @@
+{
+    "namespace": "riskSeasonalMap",
+    "strings": {
+        "severity": "Severity",
+        "severityLow": "Low",
+        "severityHigh": "High",
+        "hazardsType": "Type of hazards"
+    }
+}

@@ -72,6 +72,14 @@ export function roundSafe(value: number | undefined | null): number | undefined 
     return Math.round(value);
 }
 
+export function getPercentage(value: number, total: number) {
+    if (isNotDefined(value) || isNotDefined(total) || total === 0) {
+        return 0;
+    }
+
+    return (value * 100) / total;
+}
+
 function getNumberListSafe(list: UnsafeNumberList) {
     if (isNotDefined(list)) {
         return undefined;
