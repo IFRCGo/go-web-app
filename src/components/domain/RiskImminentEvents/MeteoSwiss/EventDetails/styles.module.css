@@ -1,7 +1,6 @@
 .event-details {
-    .content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-lg);
+    .estimation-note {
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-sm);
     }
 }
