@@ -9,6 +9,7 @@
         "perSelectAndAddToWorkPlan": "Select and add to Work-Plan",
         "saveRequestSuccessMessage": "PER Process created/updated successfully",
         "saveRequestFailureMessage": "Failed to create/update PER Process",
+        "resourceNotFound": "Resource not found",
         "saveLabel": "Save",
         "submitConfirmHeading": "Confirm Prioritization",
         "submitConfirmMessage": "You're about to submit the results of PER Prioritization. Once submitted, you'll be redirected to the Workplan form!",

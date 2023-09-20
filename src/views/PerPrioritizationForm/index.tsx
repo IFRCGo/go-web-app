@@ -361,8 +361,7 @@ export function Component() {
     if (isNotDefined(prioritizationId)) {
         return (
             <FormFailedToLoadMessage
-                // FIXME: use translation
-                description="Resource not found"
+                description={strings.resourceNotFound}
             />
         );
     }
@@ -382,6 +381,10 @@ export function Component() {
             )}
             {!pending && (
                 <>
+                    <NonFieldError
+                        error={error}
+                        withFallbackError
+                    />
                     <PerAssessmentSummary
                         perOptionsResponse={perOptionsResponse}
                         areaResponses={perAssessmentResponse?.area_responses}
@@ -467,10 +470,6 @@ export function Component() {
                     </Container>
                 </>
             )}
-            <NonFieldError
-                error={error}
-                withFallbackError
-            />
             {actionDivRef.current && (
                 <Portal container={actionDivRef?.current}>
                     {value.is_draft === false ? (
