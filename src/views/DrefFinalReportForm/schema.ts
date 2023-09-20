@@ -12,7 +12,7 @@ import {
     emailCondition,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
-import { type DeepReplace, type DeepRemoveKeyPattern } from '#utils/common';
+import { type DeepReplace } from '#utils/common';
 
 import {
     positiveNumberCondition,
@@ -44,7 +44,7 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
 }
 
 export type FinalReportResponse = GoApiResponse<'/api/v2/dref-final-report/{id}/'>;
-export type FinalReportRequestBody = GoApiBody<'/api/v2/dref-final-report/{id}/', 'PUT'>;
+export type FinalReportRequestBody = GoApiBody<'/api/v2/dref-final-report/{id}/', 'PATCH'>;
 
 type NeedIdentifiedResponse = NonNullable<FinalReportRequestBody['needs_identified']>[number];
 type NsActionResponse = NonNullable<FinalReportRequestBody['national_society_actions']>[number];
@@ -104,7 +104,7 @@ type FinalReportFormFields = (
 );
 
 export type PartialFinalReport = PartialForm<
-    PurgeNull<DeepRemoveKeyPattern<FinalReportFormFields, '_details' | '_display'>>,
+    PurgeNull<FinalReportFormFields>,
     'client_id'
 >;
 
@@ -326,9 +326,6 @@ const schema: FinalReportFormSchema = {
             media_contact_title: {},
             media_contact_email: { validations: [emailCondition] },
             media_contact_phone_number: {},
-
-            // government_requested_assistance_date: {}, // NOTE: Not found in the UI
-            // community_involved: {}, // NOTE: Not found in the UI
         };
 
         // OVERVIEW

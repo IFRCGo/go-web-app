@@ -249,7 +249,7 @@ export function Component() {
         trigger: updateFinalReport,
     } = useLazyRequest({
         url: '/api/v2/dref-final-report/{id}/',
-        method: 'PUT',
+        method: 'PATCH',
         pathVariables: isDefined(finalReportId) ? { id: finalReportId } : undefined,
         body: (formFields: FinalReportRequestBody) => formFields,
         onSuccess: (response) => {
@@ -296,12 +296,13 @@ export function Component() {
                 },
             ));
 
-            /*
-            FIXME: this should be an array
-            if (formErrors.modified_at === 'OBSOLETE_PAYLOAD') {
+            const modifiedAtError = formErrors.modified_at;
+            if (
+                (typeof modifiedAtError === 'string' && modifiedAtError === 'OBSOLETE_PAYLOAD')
+                || (Array.isArray(modifiedAtError) && modifiedAtError.includes('OBSOLETE_PAYLOAD'))
+            ) {
                 setShowObsoletePayloadModal(true);
             }
-            */
 
             alert.show(
                 strings.formSaveRequestFailureMessage,

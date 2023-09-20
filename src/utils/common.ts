@@ -53,7 +53,7 @@ export type DeepReplace<T, A, B> = (
 )
 
 type NotNevaKeys<T> = {
-    [key in keyof T]-?: T[key] extends never ? never : key
+    [key in keyof T]-?: NonNullable<T[key]> extends never ? never : key
 }[keyof T]
 
 export type DeepNevaRemove<T> = T extends (infer Z)[]

@@ -10,6 +10,7 @@ export interface Props {
     className?: string;
     children?: React.ReactNode;
     extraActions?: React.ReactNode;
+    persistent?: boolean;
 }
 
 function TableActions(props: Props) {
@@ -17,6 +18,7 @@ function TableActions(props: Props) {
         className,
         children,
         extraActions,
+        persistent,
     } = props;
 
     return (
@@ -27,6 +29,7 @@ function TableActions(props: Props) {
                     withoutDropdownIcon
                     variant="tertiary"
                     label={<MoreFillIcon className={styles.moreIcon} />}
+                    persistent={persistent}
                 >
                     {extraActions}
                 </DropdownMenu>

@@ -11,7 +11,7 @@ import {
     emailCondition,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
-import { type DeepReplace, type DeepRemoveKeyPattern } from '#utils/common';
+import { type DeepReplace } from '#utils/common';
 
 import {
     positiveNumberCondition,
@@ -47,7 +47,7 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
 }
 
 export type OpsUpdateResponse = GoApiResponse<'/api/v2/dref-op-update/{id}/'>;
-export type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/{id}/', 'PUT'> & {
+export type OpsUpdateRequestBody = GoApiBody<'/api/v2/dref-op-update/{id}/', 'PATCH'> & {
     operational_update_number: number | undefined;
 };
 
@@ -109,12 +109,14 @@ type OpsUpdateFormFields = (
 );
 
 export type PartialOpsUpdate = PartialForm<
-    PurgeNull<DeepRemoveKeyPattern<OpsUpdateFormFields, '_details' | '_display'>>,
+    PurgeNull<OpsUpdateFormFields>,
     'client_id'
 >;
 
 type OpsUpdateFormSchema = ObjectSchema<PartialOpsUpdate>;
 type OpsUpdateFormSchemaFields = ReturnType<OpsUpdateFormSchema['fields']>;
+
+type PhotoFileFields = ReturnType<ObjectSchema<NonNullable<PartialOpsUpdate['photos_file']>[number], PartialOpsUpdate>['fields']>;
 
 type EventMapFileFields = ReturnType<ObjectSchema<PartialOpsUpdate['event_map_file'], PartialOpsUpdate>['fields']>;
 type CoverImageFileFields = ReturnType<ObjectSchema<PartialOpsUpdate['cover_image_file'], PartialOpsUpdate>['fields']>;
@@ -175,12 +177,6 @@ const schema: OpsUpdateFormSchema = {
             regional_focal_point_title: {},
             regional_focal_point_email: { validations: [emailCondition] },
             regional_focal_point_phone_number: {},
-
-            // NOT IN UI
-
-            // government_requested_assistance_date: {}, // NOTE: Not found in the UI
-            dref: {},
-            has_event_occurred: {},
         };
 
         // OVERVIEW
@@ -229,6 +225,8 @@ const schema: OpsUpdateFormSchema = {
                     emergency_appeal_planned: { forceValue: nullValue },
                     event_map_file: { forceValue: nullValue },
                     cover_image_file: { forceValue: nullValue },
+                    ns_request_date: { forceValue: nullValue },
+                    date_of_approval: { forceValue: nullValue },
                 };
                 if (val?.type_of_dref === TYPE_LOAN) {
                     return {
@@ -475,7 +473,17 @@ const schema: OpsUpdateFormSchema = {
                             }),
                         }),
                     },
-                    photos_file: { validations: [lessThanEqualToTwoImagesCondition] },
+                    photos_file: {
+                        validations: [lessThanEqualToTwoImagesCondition],
+                        keySelector: (value) => value.client_id,
+                        member: () => ({
+                            fields: (): PhotoFileFields => ({
+                                client_id: {},
+                                id: { defaultValue: undefinedValue },
+                                caption: {},
+                            }),
+                        }),
+                    },
                     ifrc: {},
                     icrc: {},
                     partner_national_society: {},

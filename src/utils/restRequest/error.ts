@@ -5,7 +5,8 @@ import {
 } from '@togglecorp/fujs';
 import { nonFieldError } from '@togglecorp/toggle-form';
 
-type ResponseLeafError = string[];
+// NOTE: Some leaf can also have string error
+type ResponseLeafError = string | string[];
 
 export type ResponseObjectError = {
     [key: string]: ResponseObjectError | ResponseArrayError | ResponseLeafError | undefined;
@@ -72,6 +73,9 @@ function isLeafError(
     if (isObjectError(err)) {
         return false;
     }
+    if (typeof err === 'string') {
+        return true;
+    }
     const unsafeErr: unknown[] = err;
     return Array.isArray(unsafeErr) && unsafeErr.every(
         (e: unknown) => typeof e === 'string',
@@ -95,6 +99,9 @@ function isArrayError(
 function transformLeafError(error: ResponseLeafError | undefined) {
     if (isNotDefined(error)) {
         return undefined;
+    }
+    if (typeof error === 'string') {
+        return error;
     }
     return error.join(' ');
 }

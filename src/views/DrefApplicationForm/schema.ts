@@ -11,7 +11,7 @@ import {
     emailCondition,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
-import { type DeepReplace, type DeepRemoveKeyPattern } from '#utils/common';
+import { type DeepReplace } from '#utils/common';
 
 import {
     positiveNumberCondition,
@@ -47,7 +47,8 @@ function lessThanEqualToTwoImagesCondition<T>(value: T[] | undefined) {
 }
 
 export type DrefResponse = GoApiResponse<'/api/v2/dref/{id}/'>;
-export type DrefRequestBody = GoApiBody<'/api/v2/dref/{id}/', 'PUT'>;
+export type DrefRequestBody = GoApiBody<'/api/v2/dref/{id}/', 'PATCH'>;
+export type DrefRequestPostBody = GoApiBody<'/api/v2/dref/{id}/', 'POST'>;
 
 type NeedIdentifiedResponse = NonNullable<DrefRequestBody['needs_identified']>[number];
 type NsActionResponse = NonNullable<DrefRequestBody['national_society_actions']>[number];
@@ -107,7 +108,7 @@ type DrefFormFields = (
 );
 
 export type PartialDref = PartialForm<
-    PurgeNull<DeepRemoveKeyPattern<DrefFormFields, '_details' | '_display'>>,
+    PurgeNull<DrefFormFields>,
     'client_id'
 >;
 
@@ -178,9 +179,6 @@ const schema: DrefFormSchema = {
             regional_focal_point_title: {},
             regional_focal_point_email: { validations: [emailCondition] },
             regional_focal_point_phone_number: {},
-
-            // government_requested_assistance_date: {}, // NOTE: Not found in the UI
-            // community_involved: {}, // NOTE: Not found in the UI
         };
 
         // OVERVIEW

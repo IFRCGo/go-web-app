@@ -9,7 +9,7 @@ import {
     undefinedValue,
 } from '@togglecorp/toggle-form';
 
-import { type DeepReplace, type DeepRemoveKeyPattern } from '#utils/common';
+import { type DeepReplace } from '#utils/common';
 import { type GoApiBody } from '#utils/restRequest';
 import { getDuplicates } from '#utils/common';
 
@@ -52,7 +52,7 @@ type FlashUpdateFormFields = (
 );
 
 export type FormType = PartialForm<
-    PurgeNull<DeepRemoveKeyPattern<FlashUpdateFormFields, '_details' | '_display'>>,
+    PurgeNull<FlashUpdateFormFields>,
     'client_id'
     >;
 
