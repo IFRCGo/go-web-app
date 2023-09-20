@@ -63,7 +63,8 @@ type ActionSupplyItem = {
     supply_value: number;
 }
 
-export type ActivityRequestBody = GoApiBody<'/api/v2/emergency-project/{id}/', 'PUT'>;
+export type ActivityRequestBody = GoApiBody<'/api/v2/emergency-project/{id}/', 'PATCH'>;
+export type ActivityRequestPostBody = GoApiBody<'/api/v2/emergency-project/{id}/', 'POST'>;
 
 export type RawActivityItem = NonNullable<ActivityRequestBody['activities']>[number];
 

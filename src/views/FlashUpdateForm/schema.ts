@@ -13,7 +13,8 @@ import { type DeepReplace } from '#utils/common';
 import { type GoApiBody } from '#utils/restRequest';
 import { getDuplicates } from '#utils/common';
 
-export type FlashUpdateBody = GoApiBody<'/api/v2/flash-update/{id}/', 'PUT'>;
+export type FlashUpdateBody = GoApiBody<'/api/v2/flash-update/{id}/', 'PATCH'>;
+export type FlashUpdatePostBody = GoApiBody<'/api/v2/flash-update/{id}/', 'POST'>;
 
 type CountryDistrictRaw = NonNullable<NonNullable<FlashUpdateBody['country_district']>>[number];
 type ReferenceRaw = NonNullable<NonNullable<FlashUpdateBody['references']>>[number];

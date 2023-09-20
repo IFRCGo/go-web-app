@@ -78,6 +78,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 import schema, {
     type FormType,
     type ActivityRequestBody,
+    type ActivityRequestPostBody,
     type FormFields,
 } from './schema';
 import ActivitiesBySectorInput from './ActivitiesBySectorInput';
@@ -161,7 +162,9 @@ export function Component() {
     const currentLanguage = useCurrentLanguage();
 
     const error = getErrorObject(formError);
-    const [finalValues, setFinalValues] = useState<ActivityRequestBody | undefined>();
+    const [finalValues, setFinalValues] = useState<
+        ActivityRequestBody | ActivityRequestPostBody | undefined
+    >();
 
     const [eventOptions, setEventOptions] = useState<
         EventItem[] | undefined | null
@@ -260,7 +263,7 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/emergency-project/',
         method: 'POST',
-        body: (ctx: ActivityRequestBody) => ctx,
+        body: (ctx: ActivityRequestPostBody) => ctx,
         onSuccess: (response) => {
             alert.show(
                 // FIXME: Add translations
@@ -268,7 +271,7 @@ export function Component() {
                 { variant: 'success' },
             );
             navigate(
-                'threeWActivityEdit',
+                'threeWActivityDetail',
                 { params: { activityId: response.id } },
             );
         },
@@ -329,16 +332,20 @@ export function Component() {
         trigger: updateActivity,
     } = useLazyRequest({
         url: '/api/v2/emergency-project/{id}/',
-        method: 'PUT',
+        method: 'PATCH',
         body: (ctx: ActivityRequestBody) => ctx,
         pathVariables: {
             id: Number(activityId),
         },
-        onSuccess: () => {
+        onSuccess: (response) => {
             alert.show(
                 // FIXME: Add translations
                 'Successfully updated activities',
                 { variant: 'success' },
+            );
+            navigate(
+                'threeWActivityDetail',
+                { params: { activityId: response.id } },
             );
         },
         onFailure: (err) => {
@@ -527,9 +534,9 @@ export function Component() {
             return;
         }
         if (isNotDefined(activityId)) {
-            createActivity(finalValues);
+            createActivity(finalValues as ActivityRequestPostBody);
         } else {
-            updateActivity(finalValues);
+            updateActivity(finalValues as ActivityRequestBody);
         }
     }, [
         finalValues,

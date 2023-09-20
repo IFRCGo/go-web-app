@@ -5,7 +5,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { type GoApiBody } from '#utils/restRequest';
 
-export type WorkPlanBody = GoApiBody<'/api/v2/per-work-plan/{id}/', 'PUT'>;
+export type WorkPlanBody = GoApiBody<'/api/v2/per-work-plan/{id}/', 'PATCH'>;
 type ComponentResponse = NonNullable<WorkPlanBody['prioritized_action_responses']>[number];
 type CustomComponentResponse = NonNullable<WorkPlanBody['additional_action_responses']>[number];
 
@@ -24,6 +24,7 @@ type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
 export const workplanSchema: WorkPlanFormScheme = {
     fields: (): WorkPlanFormSchemeFields => ({
         is_draft: {},
+        // FIXME: do we need to pass overview now that request is PATCH?
         overview: {},
         prioritized_action_responses: {
             keySelector: (componentResponse) => componentResponse.component,

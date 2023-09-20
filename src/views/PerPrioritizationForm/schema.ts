@@ -5,7 +5,7 @@ import {
 
 import { type GoApiBody } from '#utils/restRequest';
 
-export type PrioritizationRequestBody = GoApiBody<'/api/v2/per-prioritization/{id}/', 'PUT'>;
+export type PrioritizationRequestBody = GoApiBody<'/api/v2/per-prioritization/{id}/', 'PATCH'>;
 
 type ComponentResponse = NonNullable<PrioritizationRequestBody['prioritized_action_responses']>[number];
 export type PrioritizationFormFields = Omit<PrioritizationRequestBody, 'id' | 'prioritized_action_responses'> & ({
@@ -17,6 +17,7 @@ type PrioritizationSchemaFields = ReturnType<PrioritizationSchema['fields']>;
 
 export const prioritizationSchema: PrioritizationSchema = {
     fields: (): PrioritizationSchemaFields => ({
+        // FIXME: do we need to pass overview now that request is PATCH?
         overview: {},
         is_draft: {},
         prioritized_action_responses: {

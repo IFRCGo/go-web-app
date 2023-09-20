@@ -157,7 +157,7 @@ export function Component() {
         pathVariables: statusResponse && isDefined(statusResponse.prioritization)
             ? { id: statusResponse.prioritization }
             : undefined,
-        method: 'PUT',
+        method: 'PATCH',
         body: (ctx: PrioritizationRequestBody) => ctx,
         onSuccess: (response) => {
             if (response && isDefined(response.id)) {

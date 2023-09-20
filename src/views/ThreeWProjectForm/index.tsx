@@ -81,6 +81,7 @@ import type { GlobalEnums } from '#contexts/domain';
 
 import schema, {
     type ProjectResponseBody,
+    type ProjectResponsePostBody,
     type FormType,
     type PartialAnnualType,
 } from './schema';
@@ -524,14 +525,14 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/project/',
         method: 'POST',
-        body: (ctx: ProjectResponseBody) => ctx,
+        body: (ctx: ProjectResponsePostBody) => ctx,
         onSuccess: (response) => {
             alert.show(
                 strings.threeWCreateSuccessMessage,
                 { variant: 'success' },
             );
             navigate(
-                'threeWProjectEdit',
+                'threeWProjectDetail',
                 { params: { projectId: response.id } },
             );
         },
@@ -572,15 +573,19 @@ export function Component() {
         trigger: submitUpdateRequest,
     } = useLazyRequest({
         url: '/api/v2/project/{id}/',
-        method: 'PUT',
+        method: 'PATCH',
         body: (ctx: ProjectResponseBody) => ctx,
         pathVariables: {
             id: Number(projectId),
         },
-        onSuccess: () => {
+        onSuccess: (response) => {
             alert.show(
                 strings.threeWUpdateSuccessMessage,
                 { variant: 'success' },
+            );
+            navigate(
+                'threeWProjectDetail',
+                { params: { projectId: response.id } },
             );
         },
         onFailure: (err) => {
@@ -622,7 +627,7 @@ export function Component() {
     const handleSubmit = useCallback((data: FormType) => {
         formContentRef.current?.scrollIntoView();
         if (isNotDefined(projectId)) {
-            submitRequest(data as ProjectResponseBody);
+            submitRequest(data as ProjectResponsePostBody);
         } else {
             submitUpdateRequest(data as ProjectResponseBody);
         }

@@ -54,6 +54,7 @@ import {
 import schema, {
     type FormType,
     type FlashUpdateBody,
+    type FlashUpdatePostBody,
 } from './schema';
 import ActionsTab from './ActionsTab';
 import ContextTab from './ContextTab';
@@ -173,14 +174,14 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/flash-update/',
         method: 'POST',
-        body: (ctx: FlashUpdateBody) => ctx,
+        body: (ctx: FlashUpdatePostBody) => ctx,
         onSuccess: (response) => {
             alert.show(
                 strings.flashUpdateFormRedirectMessage,
                 { variant: 'success' },
             );
             navigate(
-                'flashUpdateFormEdit',
+                'flashUpdateFormDetails',
                 { params: { flashUpdateId: response.id } },
             );
         },
@@ -240,15 +241,19 @@ export function Component() {
         trigger: updateSubmitRequest,
     } = useLazyRequest({
         url: '/api/v2/flash-update/{id}/',
-        method: 'PUT',
+        method: 'PATCH',
         pathVariables: {
             id: Number(flashUpdateId),
         },
         body: (ctx: FlashUpdateBody) => ctx,
-        onSuccess: () => {
+        onSuccess: (response) => {
             alert.show(
                 strings.flashUpdateFormRedirectMessage,
                 { variant: 'success' },
+            );
+            navigate(
+                'flashUpdateFormDetails',
+                { params: { flashUpdateId: response.id } },
             );
         },
         onFailure: (err) => {
@@ -309,7 +314,7 @@ export function Component() {
     const handleSubmit = useCallback((data: FormType) => {
         formContentRef.current?.scrollIntoView();
         if (!flashUpdateId) {
-            submitRequest(data as FlashUpdateBody);
+            submitRequest(data as FlashUpdatePostBody);
         } else {
             updateSubmitRequest(data as FlashUpdateBody);
         }

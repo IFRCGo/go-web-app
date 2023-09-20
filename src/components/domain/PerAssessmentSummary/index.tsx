@@ -20,7 +20,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 import styles from './styles.module.css';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
-type AssessmentRequestBody = GoApiResponse<'/api/v2/per-assessment/{id}/', 'PUT'>;
+type AssessmentRequestBody = GoApiResponse<'/api/v2/per-assessment/{id}/', 'PATCH'>;
 
 export type PartialAssessment = PartialForm<
     AssessmentRequestBody,

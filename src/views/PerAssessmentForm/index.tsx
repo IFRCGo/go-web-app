@@ -165,7 +165,7 @@ export function Component() {
         pathVariables: isDefined(assessmentId)
             ? { id: assessmentId }
             : undefined,
-        method: 'PUT',
+        method: 'PATCH',
         body: (ctx: AssessmentResponse) => ctx,
         onSuccess: (response) => {
             alert.show(
