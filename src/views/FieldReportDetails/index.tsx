@@ -289,7 +289,6 @@ export function Component() {
                 </>
             )}
             mainSectionClassName={styles.content}
-            // FIXME: typing should be fixed in server (Language instead of string)
             contentOriginalLanguage={fieldReportResponse?.translation_module_original_language}
         >
             {fetchingFieldReport && (

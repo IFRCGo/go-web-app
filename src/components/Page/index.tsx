@@ -12,9 +12,12 @@ import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import useTranslation from '#hooks/useTranslation';
 import { resolveToString } from '#utils/translation';
 import { languageNameMapEn } from '#utils/common';
+import { components } from '#generated/types';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+
+type TranslationModuleOriginalLanguageEnum = components<'read'>['schemas']['TranslationModuleOriginalLanguageEnum'];
 
 interface Props {
     className?: string;
@@ -32,9 +35,7 @@ interface Props {
     withBackgroundColorInMainSection?: boolean;
     elementRef?: RefObject<ElementRef<'div'>>;
     blockingContent?: React.ReactNode;
-
-    // FIXME: Language should be used as typings here
-    contentOriginalLanguage?: string;
+    contentOriginalLanguage?: TranslationModuleOriginalLanguageEnum;
 }
 
 function Page(props: Props) {

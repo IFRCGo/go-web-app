@@ -228,8 +228,7 @@ export function Component() {
                         />
                         <TextOutput
                             label={strings.tagsTitle}
-                            // FIXME typing should be fixed in server
-                            value={(projectResponse?.secondary_sectors_display as string[] | undefined)?.join(', ')}
+                            value={projectResponse?.secondary_sectors_display?.join(', ')}
                             description={(
                                 <InfoPopup
                                     title={strings.tagsTitle}

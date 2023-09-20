@@ -70,6 +70,7 @@ export function Component() {
                         label={strings.fullNameLabel}
                         strongLabel
                         value={
+                            // FIXME: use helper from utils
                             [meResponse?.first_name, meResponse?.last_name]
                                 .filter(isTruthyString).join(' ')
                         }

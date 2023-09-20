@@ -21,6 +21,7 @@ import KeyFigure from '#components/KeyFigure';
 import BarChart from '#components/BarChart';
 import Container from '#components/Container';
 import TimeSeriesChart from '#components/TimeSeriesChart';
+import usePermissions from '#hooks/domain/usePermissions';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { getDatesSeparatedByMonths } from '#utils/chart';
@@ -76,6 +77,7 @@ oneYearAgo.setHours(0, 0, 0, 0);
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
+    const { isIfrcAdmin } = usePermissions();
     const {
         pending: eventsPending,
         response: eventsResponse,
@@ -283,7 +285,9 @@ export function Component() {
                 )}
                 <EmergenciesTable />
             </div>
-            <FlashUpdateTable />
+            {isIfrcAdmin && (
+                <FlashUpdateTable />
+            )}
             <FieldReportTable />
         </Page>
     );

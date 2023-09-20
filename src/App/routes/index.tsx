@@ -15,9 +15,21 @@ import { Component as RootLayout } from '#views/RootLayout';
 import Auth from '../Auth';
 import PageError from '../PageError';
 
-type ExtendedProps = {
+interface Perms {
+    isDrefRegionalCoordinator: (regionId: number | undefined) => boolean,
+    isRegionAdmin: (regionId: number | undefined) => boolean,
+    isCountryAdmin: (countryId: number | undefined) => boolean,
+    isIfrcAdmin: boolean,
+    isSuperUser: boolean,
+}
+
+export type ExtendedProps = {
     title: string,
     visibility: 'is-authenticated' | 'is-not-authenticated' | 'anything',
+    permissions?: (
+        permissions: Perms,
+        params: Record<string, number | string | undefined | null> | undefined | null,
+    ) => boolean;
 };
 interface CustomWrapRoute {
     <T>(
@@ -2194,7 +2206,8 @@ const allFlashUpdates = customWrapRoute({
     wrapperComponent: Auth,
     context: {
         title: 'All Flash Updates',
-        visibility: 'anything',
+        visibility: 'is-authenticated',
+        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
     },
 });
 
@@ -2209,6 +2222,7 @@ const flashUpdateFormNew = customWrapRoute({
     context: {
         title: 'New Flash Update',
         visibility: 'is-authenticated',
+        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
     },
 });
 
@@ -2223,6 +2237,7 @@ const flashUpdateFormEdit = customWrapRoute({
     context: {
         title: 'Flash Update Edit',
         visibility: 'is-authenticated',
+        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
     },
 });
 
@@ -2237,6 +2252,7 @@ const flashUpdateFormDetails = customWrapRoute({
     context: {
         title: 'Flash Update Details',
         visibility: 'anything',
+        permissions: ({ isIfrcAdmin }) => isIfrcAdmin,
     },
 });
 
