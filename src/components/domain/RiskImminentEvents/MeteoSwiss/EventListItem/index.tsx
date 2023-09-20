@@ -19,16 +19,20 @@ function EventListItem(props: Props) {
     const {
         data: {
             id,
-            hazard_name,
+            hazard_type_display,
+            country_details,
             start_date,
+            hazard_name,
         },
         onExpandClick,
     } = props;
 
+    const hazardName = `${hazard_type_display} - ${country_details?.name ?? hazard_name}`;
+
     return (
         <Header
             className={styles.eventListItem}
-            heading={hazard_name}
+            heading={hazardName}
             headingLevel={5}
             actions={(
                 <Button

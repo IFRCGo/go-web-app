@@ -11,7 +11,10 @@
     .map-disclaimer {
         position: absolute;
         bottom: var(--go-ui-spacing-xs);
-        left: calc(var(--mapbox-icon-width) + var(--go-ui-spacing-xl));
+        left: calc(var(--mapbox-icon-width) + var(--go-ui-spacing-sm));
+        background-color: var(--go-ui-color-white);
+        padding: 0 var(--go-ui-spacing-2xs);
+        font-size: var(--go-ui-font-size-sm);
     }
 }
 

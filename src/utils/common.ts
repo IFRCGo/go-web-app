@@ -387,9 +387,12 @@ export function formatDate(
     }
 
     const formattedValueList = populateFormat(breakFormat(format), date);
-    const formattedDate = formattedValueList.find((d) => d.type === 'date');
+    // const formattedDate = formattedValueList.find((d) => d.type === 'date');
 
-    return formattedDate?.value;
+    const formattedDate = formattedValueList.map((valueItem) => valueItem.value).join('');
+
+    // return formattedDate?.value;
+    return formattedDate;
 }
 
 export function splitList<X, Y>(

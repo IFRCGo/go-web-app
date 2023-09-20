@@ -27,6 +27,7 @@ export interface BaseProps<N, O, V, RRP extends RadioProps<V, N>> {
     renderer?: (p: RRP) => React.ReactElement;
     rendererParams?: (o: O) => Omit<RRP, 'inputName' | 'label' | 'name' | 'onClick' | 'value'>;
     clearable?: boolean;
+    withAsterisk?: boolean;
 }
 
 type NonClearableProps<V, N> = {
@@ -80,6 +81,7 @@ function RadioInput<
         disabled,
         readOnly,
         onChange,
+        withAsterisk,
     } = props;
 
     const handleRadioClick = React.useCallback((radioKey: V | undefined) => {
@@ -147,6 +149,7 @@ function RadioInput<
             <InputLabel
                 className={labelContainerClassName}
                 disabled={disabled}
+                required={withAsterisk}
             >
                 {label}
             </InputLabel>

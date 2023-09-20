@@ -39,7 +39,7 @@
     }
 
     .link-element {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         flex-grow: 1;
         text-decoration: var(--decoration);
