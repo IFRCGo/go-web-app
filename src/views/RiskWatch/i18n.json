@@ -2,6 +2,7 @@
     "namespace": "riskWatch",
     "strings": {
         "riskPageTitle": "IFRC GO - Risk Watch",
+        "riskPageHeading": "Global Risk Watch",
         "imminentTabLabel": "Imminent",
         "seasonalTabLabel": "Seasonal"
     }

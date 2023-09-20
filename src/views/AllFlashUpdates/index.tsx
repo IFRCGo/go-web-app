@@ -79,6 +79,7 @@ export function Component() {
                 'hazard_type',
                 strings.allFlashUpdatesDisasterType,
                 (item) => item.hazard_type_details.name,
+                { sortable: true },
             ),
             createCountryListColumn<FlashUpdateListItem, TableKey>(
                 'country_district',

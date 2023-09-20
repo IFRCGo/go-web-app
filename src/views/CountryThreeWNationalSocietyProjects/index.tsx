@@ -329,8 +329,8 @@ export function Component() {
                             {strings.exportProjects}
                         </Button>
                         <Link
-                            to="allThreeWActivity"
-                            urlSearch={`country=${countryResponse?.id}`}
+                            to="allThreeWProject"
+                            urlSearch={`reporting_ns=${countryResponse?.id}`}
                             withLinkIcon
                         >
                             {strings.viewAllProjects}
