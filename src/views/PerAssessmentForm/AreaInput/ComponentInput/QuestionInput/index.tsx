@@ -1,6 +1,9 @@
+import { useMemo } from 'react';
 import {
     SetValueArg,
     useFormObject,
+    getErrorObject,
+    Error,
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
 
@@ -36,7 +39,9 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
+    error: Error<Value> | undefined;
     readOnly?: boolean;
+    disabled?: boolean;
 }
 
 function QuestionInput(props: Props) {
@@ -45,8 +50,10 @@ function QuestionInput(props: Props) {
         index,
         value,
         question,
+        error: formError,
         componentNumber,
         readOnly,
+        disabled,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -55,6 +62,11 @@ function QuestionInput(props: Props) {
         () => ({
             question: question.id,
         }),
+    );
+
+    const error = useMemo(
+        () => getErrorObject(formError),
+        [formError],
     );
 
     return (
@@ -75,6 +87,8 @@ function QuestionInput(props: Props) {
                 keySelector={answerKeySelector}
                 labelSelector={answerLabelSelector}
                 value={value?.answer}
+                error={error?.answer}
+                disabled={disabled}
                 onChange={setFieldValue}
                 clearable
                 readOnly={readOnly}
@@ -85,7 +99,9 @@ function QuestionInput(props: Props) {
                 placeholder="Notes and verification means"
                 name="notes"
                 value={value?.notes}
+                error={error?.notes}
                 onChange={setFieldValue}
+                disabled={disabled}
                 rows={2}
                 readOnly={readOnly}
             />

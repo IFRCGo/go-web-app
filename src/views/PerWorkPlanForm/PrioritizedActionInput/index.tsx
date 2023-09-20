@@ -106,6 +106,7 @@ function PrioritizedActionInput(props: Props) {
                 label={strings.componentStatusInputLabel}
                 placeholder={strings.componentStatusInputPlaceholder}
                 options={per_workplanstatus}
+                withAsterisk
                 onChange={onFieldChange}
                 keySelector={statusKeySelector}
                 labelSelector={stringValueSelector}

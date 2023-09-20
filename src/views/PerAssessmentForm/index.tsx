@@ -2,6 +2,7 @@ import {
     useState,
     useCallback,
     useRef,
+    useMemo,
     type ElementRef,
 } from 'react';
 import {
@@ -22,6 +23,7 @@ import {
     useForm,
     useFormArray,
     removeNull,
+    getErrorObject,
 } from '@togglecorp/toggle-form';
 
 import NonFieldError from '#components/NonFieldError';
@@ -92,7 +94,7 @@ export function Component() {
         setFieldValue,
         setError,
         setValue,
-        error,
+        error: formError,
     } = useForm(
         assessmentSchema,
         { value: defaultFormValue },
@@ -307,6 +309,16 @@ export function Component() {
 
     const readOnlyMode = currentPerStep !== PER_PHASE_ASSESSMENT;
 
+    const error = useMemo(
+        () => getErrorObject(formError),
+        [formError],
+    );
+
+    const areaInputError = useMemo(
+        () => getErrorObject(error?.area_responses),
+        [error],
+    );
+
     if (fetchingStatus || fetchingPerAssessment) {
         return (
             <Message
@@ -427,6 +439,8 @@ export function Component() {
                                         questions={areaIdGroupedQuestion[area.id]}
                                         index={areaResponseMapping[area.id]?.index}
                                         value={areaResponseMapping[area.id]?.value}
+                                        disabled={pending}
+                                        error={areaInputError?.[area.id]}
                                         onChange={setAreaResponsesValue}
                                         ratingOptions={perOptionsResponse?.componentratings}
                                         epi_considerations={perOverviewResponse

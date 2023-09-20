@@ -1,7 +1,10 @@
+import { useMemo } from 'react';
 import {
     SetValueArg,
     useFormArray,
     useFormObject,
+    getErrorObject,
+    Error,
 } from '@togglecorp/toggle-form';
 import {
     listToMap,
@@ -12,6 +15,7 @@ import {
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import InputSection from '#components/InputSection';
+import NonFieldError from '#components/NonFieldError';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
 import { numericIdSelector } from '#utils/selectors';
@@ -44,6 +48,8 @@ interface Props {
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number | undefined;
     value: Value | undefined | null;
+    error: Error<Value> | undefined;
+    disabled?: boolean;
     ratingOptions: PerOptionsResponse['componentratings'] | undefined;
     epi_considerations: boolean | null | undefined;
     urban_considerations: boolean | null | undefined;
@@ -57,10 +63,12 @@ function ComponentInput(props: Props) {
         onChange,
         index,
         value,
+        error: formError,
         component,
         questions,
         ratingOptions,
         epi_considerations,
+        disabled = false,
         urban_considerations,
         climate_environmental_considerations,
         readOnly,
@@ -74,6 +82,16 @@ function ComponentInput(props: Props) {
         () => ({
             component: component.id,
         }),
+    );
+
+    const error = useMemo(
+        () => getErrorObject(formError),
+        [formError],
+    );
+
+    const questionInputError = useMemo(
+        () => getErrorObject(error?.question_responses),
+        [error],
     );
 
     const {
@@ -117,16 +135,22 @@ function ComponentInput(props: Props) {
                     className={styles.statusSelection}
                     name="rating"
                     value={value?.rating}
+                    error={error?.rating}
                     onChange={setFieldValue}
                     // FIXME: use translation
                     placeholder={readOnly ? 'Rating: 0 - Not reviewed' : 'Select rating'}
                     options={ratingOptions}
+                    disabled={disabled}
                     keySelector={numericIdSelector}
                     labelSelector={ratingLabelSelector}
                 />
             )}
             initiallyExpanded
         >
+            <NonFieldError
+                error={error}
+                withFallbackError
+            />
             {questions?.map((question) => {
                 if (isNotDefined(question.question_num)) {
                     return null;
@@ -139,7 +163,9 @@ function ComponentInput(props: Props) {
                         question={question}
                         index={questionResponseMapping[question.id]?.index}
                         value={questionResponseMapping[question.id]?.value}
+                        error={questionInputError?.[question.id]}
                         onChange={setQuestionValue}
+                        disabled={disabled}
                         readOnly={readOnly}
                     />
                 );
@@ -148,7 +174,9 @@ function ComponentInput(props: Props) {
                 label={strings.notes}
                 name="notes"
                 value={value?.notes}
+                error={error?.notes}
                 onChange={setFieldValue}
+                disabled={disabled}
                 readOnly={readOnly}
             />
             {epi_considerations && (
@@ -168,7 +196,9 @@ function ComponentInput(props: Props) {
                     <TextArea
                         name="epi_considerations"
                         value={value?.epi_considerations}
+                        error={error?.epi_considerations}
                         onChange={setFieldValue}
+                        disabled={disabled}
                         readOnly={readOnly}
                     />
                 </InputSection>
@@ -182,7 +212,9 @@ function ComponentInput(props: Props) {
                     <TextArea
                         name="urban_considerations"
                         value={value?.urban_considerations}
+                        error={error?.urban_considerations}
                         onChange={setFieldValue}
+                        disabled={disabled}
                         readOnly={readOnly}
                     />
                 </InputSection>
@@ -205,7 +237,9 @@ function ComponentInput(props: Props) {
                     <TextArea
                         name="climate_environmental_considerations"
                         value={value?.climate_environmental_considerations}
+                        error={error?.climate_environmental_considerations}
                         onChange={setFieldValue}
+                        disabled={disabled}
                         readOnly={readOnly}
                     />
                 </InputSection>

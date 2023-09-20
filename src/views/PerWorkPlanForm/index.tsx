@@ -1,4 +1,9 @@
-import { useCallback, useMemo } from 'react';
+import {
+    useCallback,
+    useMemo,
+    useRef,
+    type ElementRef,
+} from 'react';
 import { AddLineIcon } from '@ifrc-go/icons';
 import {
     useOutletContext,
@@ -66,6 +71,7 @@ export function Component() {
         actionDivRef,
         refetchStatusResponse,
     } = useOutletContext<PerProcessOutletContext>();
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const {
         value,
@@ -272,8 +278,10 @@ export function Component() {
 
     const error = getErrorObject(formError);
 
-    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
-    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
+    const handleFormError = useCallback(() => {
+        formContentRef.current?.scrollIntoView();
+    }, []);
+
     const pending = prioritizationPending
         || fetchingWorkPlan;
 
@@ -311,13 +319,19 @@ export function Component() {
 
     return (
         <Container
+            headerElementRef={formContentRef}
             className={styles.perWorkPlanForm}
             childrenContainerClassName={styles.content}
             footerActions={value.is_draft !== false && (
                 <ConfirmButton
                     name={undefined}
                     variant="secondary"
-                    onConfirm={handleFormFinalSubmit}
+                    onConfirm={createSubmitHandler(
+                        validate,
+                        setError,
+                        handleFinalSubmit,
+                        handleFormError,
+                    )}
                     disabled={pending || savePerWorkPlanPending || readOnlyMode}
                     confirmHeading={strings.confirmHeading}
                     confirmMessage={strings.confirmMessage}
@@ -427,7 +441,12 @@ export function Component() {
                         <Portal container={actionDivRef.current}>
                             <Button
                                 name={undefined}
-                                onClick={handleFormSubmit}
+                                onClick={createSubmitHandler(
+                                    validate,
+                                    setError,
+                                    handleSubmit,
+                                    handleFormError,
+                                )}
                                 variant="secondary"
                                 disabled={readOnlyMode}
                             >

@@ -1,7 +1,10 @@
+import { useMemo } from 'react';
 import {
     type SetValueArg,
     useFormObject,
     useFormArray,
+    getErrorObject,
+    Error,
 } from '@togglecorp/toggle-form';
 import {
     listToMap,
@@ -15,6 +18,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 import { type PartialAssessment } from '../schema';
 import ComponentInput from './ComponentInput';
 import styles from './styles.module.css';
+import NonFieldError from '#components/NonFieldError';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
 type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;
@@ -26,7 +30,7 @@ type PerFormArea = PerFormQuestion['component']['area'];
 
 interface Props {
     className?: string;
-    // error: ArrayError<Value> | undefined;
+    error: Error<Value> | undefined;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     value: Value;
     index: number | undefined;
@@ -37,6 +41,7 @@ interface Props {
     urban_considerations: boolean | null | undefined;
     climate_environmental_considerations: boolean | null | undefined;
     readOnly?: boolean;
+    disabled?: boolean;
 }
 
 function AreaInput(props: Props) {
@@ -47,12 +52,13 @@ function AreaInput(props: Props) {
         index,
         area,
         questions,
-        // error,
+        error: formError,
         ratingOptions,
         epi_considerations,
         urban_considerations,
         climate_environmental_considerations,
         readOnly,
+        disabled = false,
     } = props;
 
     const setFieldValue = useFormObject(
@@ -67,35 +73,46 @@ function AreaInput(props: Props) {
         setValue: setQuestionResponseValue,
     } = useFormArray('component_responses', setFieldValue);
 
-    // FIXME: useMemo
-    const componentResponseMapping = listToMap(
+    const componentResponseMapping = useMemo(() => (listToMap(
         value?.component_responses ?? [],
         (componentResponse) => componentResponse.component,
         (componentResponse, _, questionResponseIndex) => ({
             index: questionResponseIndex,
             value: componentResponse,
         }),
-    );
+    )), [value?.component_responses]);
 
-    // FIXME: useMemo
-    const componentGroupedQuestions = listToGroupList(
+    const componentGroupedQuestions = useMemo(() => (listToGroupList(
         questions ?? [],
         (question) => question.component.id,
-    );
+    )), [questions]);
 
-    // FIXME: useMemo
-    const componentGroupedQuestionList = mapToList(
+    const componentGroupedQuestionList = useMemo(() => (mapToList(
         componentGroupedQuestions,
         (list) => ({
             component: list[0].component,
             questions: list,
         }),
+    )), [componentGroupedQuestions]);
+
+    const error = useMemo(
+        () => getErrorObject(formError),
+        [formError],
+    );
+
+    const componentInputError = useMemo(
+        () => getErrorObject(error?.component_responses),
+        [error],
     );
 
     return (
         <div
             className={_cs(styles.areaInput, className)}
         >
+            <NonFieldError
+                error={error}
+                withFallbackError
+            />
             {componentGroupedQuestionList.map((componentResponse) => (
                 <ComponentInput
                     key={componentResponse.component.id}
@@ -103,12 +120,14 @@ function AreaInput(props: Props) {
                     questions={componentResponse.questions}
                     index={componentResponseMapping[componentResponse.component.id]?.index}
                     value={componentResponseMapping[componentResponse.component.id]?.value}
+                    error={componentInputError?.[componentResponse.component.id]}
                     onChange={setQuestionResponseValue}
                     ratingOptions={ratingOptions}
                     epi_considerations={epi_considerations}
                     urban_considerations={urban_considerations}
                     climate_environmental_considerations={climate_environmental_considerations}
                     readOnly={readOnly}
+                    disabled={disabled}
                 />
             ))}
         </div>

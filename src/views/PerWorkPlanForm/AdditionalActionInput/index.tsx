@@ -99,6 +99,7 @@ function AdditionalActionInput(props: Props) {
                 onChange={onFieldChange}
                 placeholder={strings.actionInputActionsPlaceholder}
                 rows={2}
+                withAsterisk
                 error={error?.actions}
                 readOnly={readOnly}
             />
@@ -124,6 +125,7 @@ function AdditionalActionInput(props: Props) {
                 label={strings.actionInputStatusLabel}
                 placeholder={strings.actionInputStatusPlaceholder}
                 options={per_workplanstatus}
+                withAsterisk
                 onChange={onFieldChange}
                 keySelector={statusKeySelector}
                 labelSelector={stringValueSelector}

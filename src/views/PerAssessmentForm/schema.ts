@@ -9,7 +9,7 @@ import { DeepReplace } from '#utils/common';
 
 type AssessmentRequestBody = GoApiResponse<'/api/v2/per-assessment/{id}/', 'PATCH'>;
 
-type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
+export type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
 
 type AreaResponse = NonNullable<AssessmentFormFields['area_responses']>[number];
 type ComponentResponse = NonNullable<AreaResponse['component_responses']>[number];
