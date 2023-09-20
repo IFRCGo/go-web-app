@@ -22,7 +22,8 @@ import {
 import { type DeepReplace } from '#utils/common';
 import { type GoApiBody } from '#utils/restRequest';
 
-export type ProjectResponseBody = GoApiBody<'/api/v2/project/{id}/', 'PUT'>;
+export type ProjectResponseBody = GoApiBody<'/api/v2/project/{id}/', 'PATCH'>;
+export type ProjectResponsePostBody = GoApiBody<'/api/v2/project/{id}/', 'POST'>;
 
 type AnnualSplitRaw = NonNullable<ProjectResponseBody['annual_splits']>[number];
 type AnnualSplit = AnnualSplitRaw & { client_id: string };

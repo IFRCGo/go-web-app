@@ -150,7 +150,7 @@ export function Component() {
         pending: updatePerPending,
     } = useLazyRequest({
         url: '/api/v2/per-overview/{id}/',
-        method: 'PUT',
+        method: 'PATCH',
         pathVariables: isDefined(perId) ? {
             id: Number(perId),
         } : undefined,

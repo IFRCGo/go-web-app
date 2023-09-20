@@ -10,7 +10,7 @@ import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import { type GoApiResponse, type GoApiBody } from '#utils/restRequest';
 
 export type PerOverviewResponse = GoApiResponse<'/api/v2/per-overview/{id}/'>;
-export type PerOverviewRequestBody = GoApiBody<'/api/v2/per-overview/{id}/', 'PUT'>;
+export type PerOverviewRequestBody = GoApiBody<'/api/v2/per-overview/{id}/', 'PATCH'>;
 export type PerOverviewFormFields = Omit<
     PerOverviewRequestBody,
     'id'

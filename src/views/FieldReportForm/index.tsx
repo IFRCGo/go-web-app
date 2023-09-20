@@ -69,6 +69,7 @@ import {
     transformAPIFieldsToFormFields,
     transformFormFieldsToAPIFields,
     type FieldReportBody,
+    type FieldReportPostBody,
     type PartialFormValue,
     type FormValue,
     type TabKeys,
@@ -242,14 +243,18 @@ export function Component() {
     } = useLazyRequest({
         url: '/api/v2/field-report/{id}/',
         pathVariables: isDefined(fieldReportId) ? { id: Number(fieldReportId) } : undefined,
-        method: 'PUT',
+        method: 'PATCH',
         // NOTE: Field report can be submitted in non-english languages as well
         useCurrentLanguageForMutation: true,
         body: (ctx: FieldReportBody) => ctx,
-        onSuccess: () => {
+        onSuccess: (response) => {
             alert.show(
                 strings.formRedirectMessage,
                 { variant: 'success' },
+            );
+            navigate(
+                'fieldReportDetails',
+                { params: { fieldReportId: response.id } },
             );
         },
         onFailure: ({
@@ -295,14 +300,14 @@ export function Component() {
         method: 'POST',
         // NOTE: Field report can be submitted in non-english languages as well
         useCurrentLanguageForMutation: true,
-        body: (ctx: FieldReportBody) => ctx,
+        body: (ctx: FieldReportPostBody) => ctx,
         onSuccess: (response) => {
             alert.show(
                 strings.formRedirectMessage,
                 { variant: 'success' },
             );
             navigate(
-                'fieldReportFormEdit',
+                'fieldReportDetails',
                 { params: { fieldReportId: response.id } },
             );
         },
@@ -547,7 +552,7 @@ export function Component() {
                 createSubmitRequest({
                     ...sanitizedValues,
                     summary,
-                } as FieldReportBody);
+                } as FieldReportPostBody);
             }
         },
         [

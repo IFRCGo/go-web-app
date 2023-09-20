@@ -55,7 +55,6 @@ import DrefShareModal from '#views/AccountMyFormsDref/DrefTableActions/DrefShare
 import drefSchema, {
     type DrefRequestPostBody,
     type DrefRequestBody,
-    type DrefResponse,
 } from './schema';
 import {
     checkTabErrors,
@@ -264,14 +263,7 @@ export function Component() {
                 strings.formSaveRequestSuccessMessage,
                 { variant: 'success' },
             );
-            if (isTruthyString(drefId)) {
-                handleDrefLoad(response);
-            } else {
-                navigate(
-                    'drefApplicationForm',
-                    { params: { drefId: response.id } },
-                );
-            }
+            handleDrefLoad(response);
         },
         onFailure: ({
             value: { formErrors, messageForNotification },
@@ -341,20 +333,15 @@ export function Component() {
         url: '/api/v2/dref/',
         method: 'POST',
         body: (formFields: DrefRequestPostBody) => formFields,
-        onSuccess: (responseUnsafe) => {
-            const response = responseUnsafe as DrefResponse;
+        onSuccess: (response) => {
             alert.show(
                 strings.formSaveRequestSuccessMessage,
                 { variant: 'success' },
             );
-            if (isTruthyString(drefId)) {
-                handleDrefLoad(response);
-            } else {
-                navigate(
-                    'drefApplicationForm',
-                    { params: { drefId: response.id } },
-                );
-            }
+            navigate(
+                'drefApplicationForm',
+                { params: { drefId: response.id } },
+            );
         },
         onFailure: ({
             value: { formErrors, messageForNotification },

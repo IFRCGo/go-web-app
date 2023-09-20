@@ -21,7 +21,7 @@ import { type PartialWorkPlan } from '../schema';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
 
-type PrioritizationResponse = GoApiResponse<'/api/v2/per-prioritization/{id}/', 'PUT'>;
+type PrioritizationResponse = GoApiResponse<'/api/v2/per-prioritization/{id}/', 'PATCH'>;
 
 type Value = NonNullable<PartialWorkPlan['prioritized_action_responses']>[number];
 type ComponentResponse = NonNullable<PrioritizationResponse['prioritized_action_responses']>[number];

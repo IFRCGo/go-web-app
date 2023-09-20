@@ -74,6 +74,8 @@ function HighlightedOperations(props: Props) {
 
     const meResponse = useUserMe();
 
+    // FIXME: the subscription information should be sent from the server on
+    // the emergency
     const subscriptionMap = listToMap(
         meResponse?.subscription?.filter(
             (sub) => isDefined(sub.event),

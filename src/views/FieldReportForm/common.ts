@@ -31,7 +31,8 @@ import { type GoApiResponse } from '#utils/restRequest';
 // FORM
 
 type FieldReportResponse = GoApiResponse<'/api/v2/field-report/{id}/'>;
-export type FieldReportBody = GoApiResponse<'/api/v2/field-report/{id}/', 'PUT'>;
+export type FieldReportBody = GoApiResponse<'/api/v2/field-report/{id}/', 'PATCH'>;
+export type FieldReportPostBody = GoApiResponse<'/api/v2/field-report/{id}/', 'PATCH'>;
 
 type ContactRaw = NonNullable<FieldReportBody['contacts']>[number];
 type Contact = Omit<ContactRaw, 'ctype'> & {

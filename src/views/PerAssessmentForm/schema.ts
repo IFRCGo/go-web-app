@@ -7,7 +7,7 @@ import {
 import { type GoApiResponse } from '#utils/restRequest';
 import { DeepReplace } from '#utils/common';
 
-type AssessmentRequestBody = GoApiResponse<'/api/v2/per-assessment/{id}/', 'PUT'>;
+type AssessmentRequestBody = GoApiResponse<'/api/v2/per-assessment/{id}/', 'PATCH'>;
 
 type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
 
@@ -33,6 +33,7 @@ type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 export const assessmentSchema: AssessmentSchema = {
     fields: (): AssessmentSchemaFields => ({
         is_draft: {},
+        // FIXME: do we need to pass overview now that request is PATCH?
         overview: {},
         area_responses: {
             keySelector: (areaResponse) => areaResponse.area,

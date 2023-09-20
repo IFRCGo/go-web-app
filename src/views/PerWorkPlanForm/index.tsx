@@ -155,7 +155,7 @@ export function Component() {
         pathVariables: statusResponse && isDefined(statusResponse.workplan)
             ? { id: statusResponse.workplan }
             : undefined,
-        method: 'PUT',
+        method: 'PATCH',
         body: (ctx: WorkPlanBody) => ctx,
         onSuccess: (response) => {
             refetchStatusResponse();
