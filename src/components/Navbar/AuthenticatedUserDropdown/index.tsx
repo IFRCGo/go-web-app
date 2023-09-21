@@ -1,6 +1,8 @@
 import { useContext, useCallback } from 'react';
 import { isNotDefined } from '@togglecorp/fujs';
 
+import { getUserName } from '#utils/domain/user';
+import useUserMe from '#hooks/domain/useUserMe';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import useTranslation from '#hooks/useTranslation';
@@ -19,7 +21,11 @@ function AuthenticatedUserDropdown(props: Props) {
 
     const strings = useTranslation(i18n);
 
-    const { userAuth: userDetails, removeUserAuth: removeUser } = useContext(UserContext);
+    const {
+        userAuth: userDetails,
+        removeUserAuth: removeUser,
+    } = useContext(UserContext);
+    const userMe = useUserMe();
 
     const handleLogoutConfirm = useCallback(() => {
         removeUser();
@@ -33,7 +39,11 @@ function AuthenticatedUserDropdown(props: Props) {
     return (
         <DropdownMenu
             className={className}
-            label={userDetails.displayName ?? 'Anonymous'}
+            label={(
+                userMe
+                    ? getUserName(userMe)
+                    : userDetails.displayName ?? 'Anonymous'
+            )}
             variant="tertiary"
             persistent
         >

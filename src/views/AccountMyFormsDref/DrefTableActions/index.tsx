@@ -10,6 +10,7 @@ import {
     ShareLineIcon,
 } from '@ifrc-go/icons';
 
+import useRouting from '#hooks/useRouting';
 import { type Props as ButtonProps } from '#components/Button';
 import DropdownMenuItem from '#components/DropdownMenuItem';
 import TableActions from '#components/Table/TableActions';
@@ -47,7 +48,7 @@ export interface Props {
 function DrefTableActions(props: Props) {
     const {
         id,
-        drefId,
+        drefId: drefIdFromProps,
         status,
         applicationType,
         canAddOpsUpdate,
@@ -55,6 +56,8 @@ function DrefTableActions(props: Props) {
         isUserRegionCoordinator,
         onPublishSuccess,
     } = props;
+
+    const { navigate } = useRouting();
 
     const alert = useAlert();
 
@@ -64,7 +67,10 @@ function DrefTableActions(props: Props) {
         setFalse: setShowExportModalFalse,
     }] = useBooleanState(false);
 
-    const { trigger: fetchDref } = useLazyRequest({
+    const {
+        trigger: fetchDref,
+        pending: fetchingDref,
+    } = useLazyRequest({
         url: '/api/v2/dref/{id}/',
         pathVariables: (ctx: number) => (
             isDefined(ctx) ? {
@@ -94,7 +100,10 @@ function DrefTableActions(props: Props) {
         },
     });
 
-    const { trigger: fetchOpsUpdate } = useLazyRequest({
+    const {
+        trigger: fetchOpsUpdate,
+        pending: fetchingOpsUpdate,
+    } = useLazyRequest({
         url: '/api/v2/dref-op-update/{id}/',
         pathVariables: (ctx: number) => (
             isDefined(ctx) ? {
@@ -223,6 +232,76 @@ function DrefTableActions(props: Props) {
         },
     });
 
+    const {
+        trigger: createOpsUpdate,
+        pending: createOpsUpdatePending,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/dref-op-update/',
+        // FIXME: the type should be fixed on the server
+        body: (drefId: number) => ({ dref: drefId }),
+        onSuccess: (response) => {
+            navigate(
+                'drefOperationalUpdateForm',
+                { params: { opsUpdateId: response.id } },
+            );
+        },
+        onFailure: ({
+            value: { messageForNotification },
+        }) => {
+            alert.show(
+                // FIXME: use translations
+                'Could not create new operational update',
+                {
+                    description: messageForNotification,
+                    variant: 'danger',
+                },
+            );
+        },
+    });
+
+    const {
+        trigger: createFinalReport,
+        pending: createFinalReportPending,
+    } = useLazyRequest({
+        method: 'POST',
+        url: '/api/v2/dref-final-report/',
+        // FIXME: the type should be fixed on the server
+        body: (drefId: number) => ({ dref: drefId }),
+        onSuccess: (response) => {
+            navigate(
+                'drefFinalReportForm',
+                { params: { finalReportId: response.id } },
+            );
+        },
+        onFailure: ({
+            value: { messageForNotification },
+        }) => {
+            alert.show(
+                // FIXME: use translations
+                'Could not create final report',
+                {
+                    description: messageForNotification,
+                    variant: 'danger',
+                },
+            );
+        },
+    });
+
+    const handleAddOpsUpdate = useCallback(
+        () => {
+            createOpsUpdate(drefIdFromProps);
+        },
+        [drefIdFromProps, createOpsUpdate],
+    );
+
+    const handleAddFinalReport = useCallback(
+        () => {
+            createFinalReport(drefIdFromProps);
+        },
+        [drefIdFromProps, createFinalReport],
+    );
+
     const [showShareModal, {
         setTrue: setShowShareModalTrue,
         setFalse: setShowShareModalFalse,
@@ -279,6 +358,14 @@ function DrefTableActions(props: Props) {
 
     const canApprove = status === DREF_STATUS_IN_PROGRESS && isUserRegionCoordinator;
 
+    const disabled = fetchingDref
+        || fetchingOpsUpdate
+        || publishDrefPending
+        || publishOpsUpdatePending
+        || publishFinalReportPending
+        || createOpsUpdatePending
+        || createFinalReportPending;
+
     return (
         <TableActions
             persistent
@@ -290,8 +377,9 @@ function DrefTableActions(props: Props) {
                             type="confirm-button"
                             icons={<CheckLineIcon className={styles.icon} />}
                             confirmMessage="You're about to Approve this DREF. Once approved, it can no longer be edited. Are you sure, you want to Approve?"
-                            persist
                             onConfirm={handlePublishClick}
+                            disabled={disabled}
+                            persist
                         >
                             {strings.dropdownActionApproveLabel}
                         </DropdownMenuItem>
@@ -302,6 +390,8 @@ function DrefTableActions(props: Props) {
                             type="button"
                             onClick={handleDrefAllocationExport}
                             icons={<DownloadLineIcon className={styles.icon} />}
+                            disabled={disabled}
+                            persist
                         >
                             {strings.dropdownActionAllocationFormLabel}
                         </DropdownMenuItem>
@@ -311,6 +401,9 @@ function DrefTableActions(props: Props) {
                             name={undefined}
                             type="button"
                             icons={<AddLineIcon className={styles.icon} />}
+                            onClick={handleAddOpsUpdate}
+                            disabled={disabled}
+                            persist
                         >
                             {strings.dropdownActionAddOpsUpdateLabel}
                         </DropdownMenuItem>
@@ -319,7 +412,10 @@ function DrefTableActions(props: Props) {
                         <DropdownMenuItem
                             name={undefined}
                             type="button"
+                            onClick={handleAddFinalReport}
                             icons={<CaseManagementIcon className={styles.icon} />}
+                            disabled={disabled}
+                            persist
                         >
                             {strings.dropdownActionCreateFinalReportLabel}
                         </DropdownMenuItem>
@@ -329,6 +425,7 @@ function DrefTableActions(props: Props) {
                         type="button"
                         icons={<ShareLineIcon className={styles.icon} />}
                         onClick={handleShareClick}
+                        disabled={disabled}
                         persist
                     >
                         {strings.dropdownActionShareLabel}
@@ -338,6 +435,7 @@ function DrefTableActions(props: Props) {
                         type="button"
                         icons={<DocumentPdfLineIcon className={styles.icon} />}
                         onClick={handleExportClick}
+                        disabled={disabled}
                         persist
                     >
                         {strings.dropdownActionExportLabel}
@@ -386,7 +484,7 @@ function DrefTableActions(props: Props) {
                 <DrefShareModal
                     onCancel={setShowShareModalFalse}
                     onSuccess={setShowShareModalFalse}
-                    drefId={drefId}
+                    drefId={drefIdFromProps}
                 />
             )}
             {drefApprovalPending && (
