@@ -9,9 +9,7 @@ import {
 } from '@togglecorp/fujs';
 import { InformationLineIcon } from '@ifrc-go/icons';
 
-import useFilterState from '#hooks/useFilterState';
 import BlockLoading from '#components/BlockLoading';
-import Button from '#components/Button';
 import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
 import Message from '#components/Message';
@@ -19,10 +17,7 @@ import Pager from '#components/Pager';
 import InfoPopup from '#components/InfoPopup';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
-import type { EmergencyOutletContext } from '#utils/outletContext';
-import useTranslation from '#hooks/useTranslation';
-import { type GoApiResponse } from '#utils/restRequest';
-import { useRequest } from '#utils/restRequest';
+import Link from '#components/Link';
 import {
     createElementColumn,
     createDateColumn,
@@ -30,11 +25,16 @@ import {
     createNumberColumn,
     createStringColumn,
 } from '#components/Table/ColumnShortcuts';
+import useTranslation from '#hooks/useTranslation';
+import useFilterState from '#hooks/useFilterState';
 import {
     numericIdSelector,
     numericCountSelector,
     stringTitleSelector,
 } from '#utils/selectors';
+import type { EmergencyOutletContext } from '#utils/outletContext';
+import { type GoApiResponse } from '#utils/restRequest';
+import { useRequest } from '#utils/restRequest';
 
 import ActivityActions, { type Props as ActivityActionsProps } from './ActivityActions';
 import ActivityDetail from './ActivityDetail';
@@ -280,13 +280,13 @@ export function Component() {
                     </div>
                 )}
                 actions={(
-                    <Button
+                    <Link
                         variant="secondary"
-                        name={undefined}
                         title={strings.addThreeWActivity}
+                        to="newThreeWActivity"
                     >
                         {strings.addThreeWActivity}
-                    </Button>
+                    </Link>
                 )}
             >
                 {emergencyProjectListResponsePending && <BlockLoading />}

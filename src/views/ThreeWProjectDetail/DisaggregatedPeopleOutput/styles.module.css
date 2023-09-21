@@ -1,13 +1,7 @@
 .disaggregated-people-output {
-    .content {
+    .people-targeted-content {
         display: flex;
-        flex-direction: column;
-        gap: var(--go-ui-spacing-xs);
-
-        .people-targeted-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--go-ui-spacing-md);
-        }
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-md) var(--go-ui-spacing-lg);
     }
 }

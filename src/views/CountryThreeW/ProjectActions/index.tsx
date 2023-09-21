@@ -20,6 +20,7 @@ import { type GoApiResponse } from '#utils/restRequest';
 import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
+import styles from './styles.module.css';
 
 type Project = NonNullable<GoApiResponse<'/api/v2/project/'>['results']>[number];
 
@@ -66,7 +67,7 @@ function ProjectActions(props: Props) {
                 className={className}
                 variant="tertiary"
                 withoutDropdownIcon
-                label={<MoreFillIcon />}
+                label={<MoreFillIcon className={styles.icon} />}
                 persistent
             >
                 <DropdownMenuItem

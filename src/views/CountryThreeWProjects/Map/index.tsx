@@ -19,6 +19,7 @@ import Map, {
 import getBbox from '@turf/bbox';
 
 import MapPopup from '#components/MapPopup';
+import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import LegendItem from '#components/LegendItem';
@@ -361,18 +362,18 @@ function CountryThreeWMap(props: Props) {
                             heading={(
                                 selectedDistrictProjectDetail[0].project_district_detail.name
                             )}
+                            contentViewType="vertical"
                         >
                             {/* FIXME: use List */}
                             {selectedDistrictProjectDetail.map((project) => (
-                                <div
+                                <Container
                                     className={styles.projectDetailItem}
                                     key={project.id}
+                                    heading={project.name}
+                                    headerDescription={project.reporting_ns_detail.society_name}
+                                    headingLevel={4}
+                                    spacing="compact"
                                 >
-                                    <TextOutput
-                                        label={project.reporting_ns_detail.name}
-                                        value={project.name}
-                                        strongValue
-                                    />
                                     <TextOutput
                                         label={strings.threeWMapLastUpdate}
                                         value={project.modified_at}
@@ -391,7 +392,7 @@ function CountryThreeWMap(props: Props) {
                                         value={project.budget_amount}
                                         valueType="number"
                                     />
-                                </div>
+                                </Container>
                             ))}
                         </MapPopup>
                     )}

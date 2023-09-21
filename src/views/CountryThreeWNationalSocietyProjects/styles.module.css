@@ -7,7 +7,7 @@
     .key-figure-card-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
 
         @media screen and (max-width: 30rem) {
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -27,11 +27,14 @@
                 width: var(--go-ui-width-separator-sm);
             }
 
-            .pie-chart {
+            .pie-chart-container {
                 flex-basis: 0;
                 flex-grow: 1;
-                flex-wrap: wrap;
-                justify-content: center;
+
+                .pie-chart {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
             }
 
             .key-figure {

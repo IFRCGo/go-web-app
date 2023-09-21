@@ -2241,6 +2241,7 @@ const flashUpdateFormEdit = customWrapRoute({
     },
 });
 
+// FIXME: rename this route to flashUpdateDetails
 const flashUpdateFormDetails = customWrapRoute({
     parent: rootLayout,
     path: 'flash-updates/:flashUpdateId',

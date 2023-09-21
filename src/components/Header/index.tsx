@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import Heading, { Props as HeadingProps } from '#components/Heading';
-import useBasicLayout from '#hooks/useBasicLayout';
 import type { SpacingType } from '#components/types';
+import useBasicLayout from '#hooks/useBasicLayout';
+import useSpacingTokens from '#hooks/useSpacingTokens';
 
 import styles from './styles.module.css';
-import useSpacingTokens from '#hooks/useSpacingTokens';
 
 export interface Props {
     className?: string;

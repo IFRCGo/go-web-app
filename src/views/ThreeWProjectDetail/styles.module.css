@@ -7,7 +7,7 @@
     .content {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-md);
+        gap: var(--go-ui-spacing-lg);
 
         .project-details {
             display: grid;
@@ -22,6 +22,7 @@
         .yearly-disaggregated-people-list {
             display: flex;
             flex-direction: column;
+            border: 1px solid red;
             gap: var(--go-ui-spacing-lg);
         }
     }

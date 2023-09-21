@@ -31,7 +31,7 @@
     }
 
     &.with-grid-view {
-        .content {
+        >.content {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(calc(var(--max-width) / var(--num-columns)), 1fr));
         }
@@ -63,7 +63,7 @@
     }
 
     &.with-vertical-view {
-        .content {
+        >.content {
             display: flex;
             flex-direction: column;
         }

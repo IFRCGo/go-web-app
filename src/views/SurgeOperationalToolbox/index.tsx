@@ -586,19 +586,19 @@ export function Component() {
             className={styles.surgeOperationalToolbox}
             headerDescription={strings.surgeOperationalToolboxHeadingDescription}
             childrenContainerClassName={styles.content}
-            spacing="loose"
+            spacing="comfortable"
         >
             <ExpandableContainer
                 heading={strings.operationalToolboxOverviewHeading}
-                spacing="comfortable"
                 initiallyExpanded
             >
                 <Container
                     heading={strings.overviewNavigationHowTo}
-                    headingLevel={5}
-                    childrenContainerClassName={styles.expandableContainerContent}
+                    headingLevel={4}
+                    contentViewType="vertical"
+                    spacing="cozy"
+                    headerDescription={strings.overviewSectionHeader}
                 >
-                    <div>{strings.overviewSectionHeader}</div>
                     <TextOutput
                         value={strings.toolboxValue}
                         label={strings.toolboxLabel}

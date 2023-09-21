@@ -4,122 +4,22 @@
         flex-direction: column;
         gap: var(--go-ui-spacing-2xl);
 
-        .actions-taken-content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--go-ui-spacing-lg);
-        }
-    }
-
-    .report-details {
+        .graphics,
         .maps {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--go-ui-spacing-md);
-
-            .map-item {
-                flex-basis: 33%;
-                border: var(--go-ui-color-black) solid var(--go-ui-width-separator-thin);
-                border-radius: var(--go-ui-border-radius-md);
-
-                .image {
-                    background-color: var(--go-ui-color-gray-20);
-                    width: 100%;
-                    height: 20rem;
-                    object-fit: contain;
-                    object-position: center center;
-                }
-
-                .caption {
-                    padding:var(--go-ui-spacing-md);
-                }
+            .map-image-element {
+                height: 16rem;
             }
         }
 
-        .graphics {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--go-ui-spacing-md);
-            padding: var(--go-ui-spacing-md);
+        .icon {
+            font-size: var(--go-ui-height-icon-multiplier);
+        }
 
-            .graphic-item {
-                flex-basis: 33%;
-                border: var(--go-ui-color-gray-90) solid var(--go-ui-width-separator-thin);
-                border-radius: var(--go-ui-border-radius-md);
-
-                .image {
-                    background-color: var(--go-ui-color-gray-20);
-                    width: 100%;
-                    height: 20rem;
-                    object-fit: contain;
-                    object-position: center center;
-                }
-
-                .caption {
-                    padding:var(--go-ui-spacing-md);
-                }
+        .references {
+            .reference-item {
+                border-radius: var(--go-ui-border-radius-lg);
+                box-shadow: var(--go-ui-box-shadow-md);
             }
-        }
-
-        .actions-taken {
-            display: flex;
-            flex-direction: column;
-            gap:var(--go-ui-spacing-md);
-            padding: var(--go-ui-spacing-md);
-
-            .title {
-                font-size: var(--go-ui-font-size-sm);
-            }
-
-            .summary {
-                .text {
-                    white-space: pre-wrap;
-                }
-            }
-
-            .action-taken-content {
-                display: flex;
-                flex-direction: column;
-                gap: var(--go-ui-spacing-md);
-                padding: var(--go-ui-spacing-lg);
-
-                .actions {
-                    display: flex;
-                    flex-direction: column;
-                    padding: var(--go-ui-spacing-md) 0;
-                    gap: var(--go-ui-spacing-md);
-
-                    .action {
-                        font-weight: var(--go-ui-font-weight-medium);
-                    }
-                }
-            }
-        }
-    }
-    .reference {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: var(--go-ui-spacing-md);
-        gap: var(--go-ui-spacing-md);
-
-        .date {
-            flex-basis: 10rem;
-            flex-shrink: 0;
-        }
-
-        .description {
-            flex-grow: 1;
-        }
-
-        .download-link {
-            flex-basis: 12rem;
-            flex-shrink: 0;
-        }
-
-        .not-download-link {
-            flex-basis: 12rem;
-            flex-shrink: 0;
         }
     }
 }

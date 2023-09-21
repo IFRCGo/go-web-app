@@ -26,7 +26,6 @@ import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
-import TextOutput from '#components/TextOutput';
 import Message from '#components/Message';
 import type { CountryOutletContext } from '#utils/outletContext';
 import type { GoApiResponse } from '#utils/restRequest';
@@ -319,10 +318,10 @@ export function Component() {
                             descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
-                        <div>
-                            <TextOutput
-                                value={strings.programmeType}
-                            />
+                        <Container
+                            heading={strings.programmeType}
+                            headingLevel={5}
+                        >
                             <PieChart
                                 className={styles.pieChart}
                                 data={programmeTypeStats}
@@ -333,7 +332,7 @@ export function Component() {
                                 pieRadius={40}
                                 chartPadding={10}
                             />
-                        </div>
+                        </Container>
                     </div>
                     <div className={styles.keyFigureCard}>
                         <KeyFigure
@@ -343,10 +342,10 @@ export function Component() {
                             descriptionClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
-                        <div>
-                            <TextOutput
-                                value={strings.projectStatus}
-                            />
+                        <Container
+                            heading={strings.projectStatus}
+                            headingLevel={5}
+                        >
                             <PieChart
                                 className={styles.pieChart}
                                 data={projectStatusTypeStats}
@@ -357,7 +356,7 @@ export function Component() {
                                 pieRadius={40}
                                 chartPadding={10}
                             />
-                        </div>
+                        </Container>
                     </div>
                 </div>
             )}

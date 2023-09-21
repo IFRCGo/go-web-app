@@ -72,6 +72,21 @@ function Filters(props: Props) {
         }
     }, [onChange]);
 
+    const handleCountryInputChange = useCallback(
+        (newValue: number[]) => {
+            onChange((oldFilterValue) => {
+                const newFilterValue = {
+                    ...oldFilterValue,
+                    country: newValue,
+                    districts: [],
+                };
+
+                return newFilterValue;
+            });
+        },
+        [onChange],
+    );
+
     return (
         <div className={_cs(styles.filters, className)}>
             <NationalSocietyMultiSelectInput
@@ -112,7 +127,7 @@ function Filters(props: Props) {
                 name="country"
                 placeholder={strings.emergencyActivityFilterCountry}
                 value={value.country}
-                onChange={handleInputChange}
+                onChange={handleCountryInputChange}
                 disabled={disabled}
             />
             <DistrictMultiCountrySearchMultiSelectInput

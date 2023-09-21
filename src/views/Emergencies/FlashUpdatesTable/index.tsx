@@ -11,6 +11,7 @@ import {
     createStringColumn,
     createDateColumn,
     createCountryListColumn,
+    createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
@@ -61,10 +62,14 @@ function FlashUpdateTable() {
                     columnClassName: styles.createdAt,
                 },
             ),
-            createStringColumn<FlashUpdateListItem, TableKey>(
+            createLinkColumn<FlashUpdateListItem, TableKey>(
                 'title',
                 strings.flashUpdateTableReport,
                 (item) => item.title,
+                (item) => ({
+                    to: 'flashUpdateFormDetails',
+                    urlParams: { flashUpdateId: item.id },
+                }),
                 {
                     sortable: true,
                     columnClassName: styles.title,

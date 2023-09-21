@@ -2,5 +2,5 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: var(--go-ui-spacing-lg);
+    gap: var(--go-ui-spacing-sm);
 }

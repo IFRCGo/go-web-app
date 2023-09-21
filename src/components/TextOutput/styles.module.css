@@ -1,6 +1,5 @@
 .text-output {
     display: flex;
-    align-items: baseline;
     flex-wrap: wrap;
     gap: 0 var(--go-ui-spacing-sm);
 

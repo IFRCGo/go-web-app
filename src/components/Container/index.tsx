@@ -10,10 +10,10 @@ import styles from './styles.module.css';
 
 type NumColumn = 2 | 3 | 4 | 5;
 const numColumnToClassNameMap: Record<NumColumn, string> = {
-    2: styles.twoColumn,
-    3: styles.threeColumn,
-    4: styles.fourColumn,
-    5: styles.fiveColumn,
+    2: styles.twoColumns,
+    3: styles.threeColumns,
+    4: styles.fourColumns,
+    5: styles.fiveColumns,
 };
 
 export interface Props {

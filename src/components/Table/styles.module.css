@@ -1,7 +1,7 @@
 .table {
     display: flex;
-    flex-direction: column;
     position: relative;
+    flex-direction: column;
     min-height: var(--go-ui-content-min-height);
     overflow-x: auto;
 

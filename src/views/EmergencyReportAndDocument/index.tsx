@@ -235,7 +235,7 @@ export function Component() {
                             >
                                 <Image
                                     className={styles.imageContainer}
-                                    imageClassName={styles.img}
+                                    imgElementClassName={styles.img}
                                     src={featuredDocument.thumbnail}
                                     alt=""
                                 />
