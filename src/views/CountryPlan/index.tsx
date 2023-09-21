@@ -1,6 +1,6 @@
 import { useOutletContext, useParams } from 'react-router-dom';
 import { DownloadLineIcon } from '@ifrc-go/icons';
-import { isNotDefined } from '@togglecorp/fujs';
+import { isDefined, isNotDefined, isTruthyString } from '@togglecorp/fujs';
 
 import { type CountryOutletContext } from '#utils/outletContext';
 import KeyFigure from '#components/KeyFigure';
@@ -47,32 +47,36 @@ export function Component() {
             childrenContainerClassName={styles.content}
             actionsContainerClassName={styles.actions}
             withHeaderBorder
-            actions={(
+            actions={isDefined(countryPlanResponse) && (
                 <>
-                    <Link
-                        variant="secondary"
-                        href={countryPlanResponse?.public_plan_file ?? undefined}
-                        external
-                        className={styles.downloadLink}
-                        icons={<DownloadLineIcon className={styles.icon} />}
-                    >
-                        {resolveToString(
-                            strings.countryPlanDownloadPlan,
-                            { countryName: countryResponse?.name ?? '--' },
-                        )}
-                    </Link>
-                    <Link
-                        variant="secondary"
-                        href={countryPlanResponse?.internal_plan_file}
-                        external
-                        className={styles.downloadLink}
-                        icons={<DownloadLineIcon className={styles.icon} />}
-                    >
-                        {resolveToString(
-                            strings.countryPlanDownloadPlanInternal,
-                            { countryName: countryResponse?.name ?? '--' },
-                        )}
-                    </Link>
+                    {isDefined(countryPlanResponse.public_plan_file) && (
+                        <Link
+                            variant="secondary"
+                            href={countryPlanResponse.public_plan_file}
+                            external
+                            className={styles.downloadLink}
+                            icons={<DownloadLineIcon className={styles.icon} />}
+                        >
+                            {resolveToString(
+                                strings.countryPlanDownloadPlan,
+                                { countryName: countryResponse?.name ?? '--' },
+                            )}
+                        </Link>
+                    )}
+                    {isTruthyString(countryPlanResponse.internal_plan_file) && (
+                        <Link
+                            variant="secondary"
+                            href={countryPlanResponse.internal_plan_file}
+                            external
+                            className={styles.downloadLink}
+                            icons={<DownloadLineIcon className={styles.icon} />}
+                        >
+                            {resolveToString(
+                                strings.countryPlanDownloadPlanInternal,
+                                { countryName: countryResponse?.name ?? '--' },
+                            )}
+                        </Link>
+                    )}
                 </>
             )}
         >

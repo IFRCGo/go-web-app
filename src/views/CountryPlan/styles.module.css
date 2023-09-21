@@ -31,7 +31,7 @@
 
         .tables-section {
             display: flex;
-            gap: var(--go-ui-spacing-3xl);
+            gap: var(--go-ui-spacing-xl);
             flex-wrap: wrap;
 
             .strategic-priority-table,
