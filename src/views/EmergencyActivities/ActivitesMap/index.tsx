@@ -16,7 +16,6 @@ import Map, {
     MapBounds,
 } from '@togglecorp/re-map';
 
-import TextOutput from '#components/TextOutput';
 import LegendItem from '#components/LegendItem';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
@@ -166,10 +165,9 @@ function ActivitiesMap(props: Props) {
                     )}
                 </Map>
                 <div className={styles.legend}>
-                    <TextOutput
-                        value={strings.numberOfProjects}
-                        strongValue
-                    />
+                    <div className={styles.label}>
+                        {strings.numberOfProjects}
+                    </div>
                     <LegendItem
                         color={COLOR_SEVERITY_LOW}
                         label={strings.severityLow}

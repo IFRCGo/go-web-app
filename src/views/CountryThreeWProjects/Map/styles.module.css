@@ -1,6 +1,6 @@
 .map {
     display: flex;
-    gap: var(--go-ui-spacing-lg);
+    gap: var(--go-ui-spacing-md);
     height: 40rem;
     overflow: auto;
 

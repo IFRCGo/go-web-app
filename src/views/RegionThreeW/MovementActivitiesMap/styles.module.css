@@ -1,6 +1,6 @@
 .map {
     display: flex;
-    gap: var(--go-ui-spacing-lg);
+    gap: var(--go-ui-spacing-md);
     height: 40rem;
     overflow: auto;
 
@@ -11,14 +11,6 @@
 
         .map-container {
             flex-grow: 1;
-        }
-
-        .legend {
-            display: flex;
-            justify-content: flex-end;
-            background-color: var(--go-ui-color-background);
-            gap: var(--go-ui-spacing-lg);
-            padding: var(--go-ui-spacing-lg);
         }
     }
 
@@ -43,30 +35,15 @@
 }
 
 .map-popup-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--go-ui-spacing-md);
-
-    .projects {
+    .stats{
         display: flex;
-        gap: var(--go-ui-spacing-sm);
+        flex-wrap: wrap;
+        gap: var(--go-ui-spacing-2xs) var(--go-ui-spacing-sm);
     }
 
     .national-society-list {
         display: flex;
         flex-direction: column;
-        gap: var(--go-ui-spacing-md);
-        border-top: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-        padding-top: var(--go-ui-spacing-sm);
-
-        .national-society {
-            display: flex;
-            flex-shrink: 0;
-            flex-wrap: 0;
-
-            .label {
-                flex-basis: 40%;
-            }
-        }
+        gap: var(--go-ui-spacing-sm);
     }
 }

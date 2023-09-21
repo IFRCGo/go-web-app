@@ -1,8 +1,6 @@
 .header {
-    --gap: var(--go-ui-spacing-xs);
     display: flex;
     flex-direction: column;
-    gap: var(--gap);
 
     .heading-section {
         display: flex;
@@ -33,37 +31,5 @@
                 }
             }
         }
-    }
-
-    &.no-spacing {
-        --gap: 0;
-    }
-
-    &.condensed-spacing {
-        --gap: var(--go-ui-spacing-4xs);
-    }
-
-    &.compact-spacing {
-        --gap: var(--go-ui-spacing-3xs);
-    }
-
-    &.cozy-spacing {
-        --gap: var(--go-ui-spacing-2xs);
-    }
-
-    &.default-spacing {
-        --gap: var(--go-ui-spacing-xs);
-    }
-
-    &.comfortable-spacing {
-        --gap: var(--go-ui-spacing-sm);
-    }
-
-    &.relaxed-spacing {
-        --gap: var(--go-ui-spacing-md);
-    }
-
-    &.loose-spacing {
-        --gap: var(--go-ui-spacing-lg);
     }
 }

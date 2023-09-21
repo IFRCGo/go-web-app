@@ -58,6 +58,8 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
         const {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             type: _,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            persist: __,
             variant = 'dropdown-item',
             ...otherProps
         } = props;
@@ -76,6 +78,8 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
         const {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             type: _,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            persist: __,
             variant = 'dropdown-item',
             ...otherProps
         } = props;
@@ -94,6 +98,8 @@ function DropdownMenuItem<NAME>(props: Props<NAME>) {
         const {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             type: _,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            persist: __,
             variant = 'dropdown-item',
             ...otherProps
         } = props;

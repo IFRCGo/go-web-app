@@ -1,4 +1,3 @@
-import { _cs } from '@togglecorp/fujs';
 import { EntriesAsList } from '@togglecorp/toggle-form';
 
 import MultiSelectInput from '#components/MultiSelectInput';
@@ -12,7 +11,6 @@ import {
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import i18n from './i18n.json';
-import styles from './styles.module.css';
 
 type DeploymentsProjectStatus = NonNullable<GoApiResponse<'/api/v2/global-enums/'>['deployments_project_status']>[number];
 
@@ -37,7 +35,6 @@ export interface FilterValue {
 }
 
 interface Props {
-    className?: string;
     value: FilterValue;
     onChange: (...value: EntriesAsList<FilterValue>) => void;
     disabled?: boolean;
@@ -45,7 +42,6 @@ interface Props {
 
 function Filters(props: Props) {
     const {
-        className,
         value,
         onChange,
         disabled,
@@ -68,7 +64,7 @@ function Filters(props: Props) {
     });
 
     return (
-        <div className={_cs(styles.filters, className)}>
+        <>
             <MultiSelectInput
                 name="operation_type"
                 placeholder={strings.threeWFilterOperationTypes}
@@ -119,7 +115,7 @@ function Filters(props: Props) {
                 onChange={onChange}
                 disabled={disabled}
             />
-        </div>
+        </>
     );
 }
 

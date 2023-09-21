@@ -22,8 +22,11 @@ import Link from '#components/Link';
 import Message from '#components/Message';
 import PieChart from '#components/PieChart';
 import Table from '#components/Table';
-import TextOutput from '#components/TextOutput';
-import type { CountryOutletContext } from '#utils/outletContext';
+import {
+    createElementColumn,
+    createNumberColumn,
+    createStringColumn,
+} from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
@@ -31,11 +34,7 @@ import { resolveToString } from '#utils/translation';
 import { sumSafe } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
-import {
-    createElementColumn,
-    createNumberColumn,
-    createStringColumn,
-} from '#components/Table/ColumnShortcuts';
+import type { CountryOutletContext } from '#utils/outletContext';
 import {
     numericIdSelector,
     numericValueSelector,
@@ -237,75 +236,88 @@ export function Component() {
 
     const countryIdList = Object.keys(countryGroupedProjects);
 
+    const showCard1 = activeNSCount > 0 || targetedPopulation > 0;
+    const showCard2 = projectList.length > 0 || programmeTypeStats.length > 0;
+    const showCard3 = ongoingProjectBudget > 0 || projectStatusTypeStats.length > 0;
+
+    const showCardsSection = showCard1 || showCard2 || showCard3;
+
     return (
         <div className={styles.countryThreeWNationalSocietyProjects}>
-            {projectListPending ? (
-                <BlockLoading />
-            ) : (
+            {projectListPending && <BlockLoading />}
+            {!projectListPending && showCardsSection && (
                 <div className={styles.keyFigureCardList}>
-                    <div className={styles.keyFigureCard}>
-                        <KeyFigure
-                            className={styles.keyFigure}
-                            value={activeNSCount}
-                            description={strings.activeDeploymentsTitle}
-                            descriptionClassName={styles.keyFigureDescription}
-                        />
-                        <div className={styles.separator} />
-                        <KeyFigure
-                            className={styles.keyFigure}
-                            value={targetedPopulation}
-                            description={strings.targetedPopulationTitle}
-                            descriptionClassName={styles.keyFigureDescription}
-                        />
-                    </div>
-                    <div className={styles.keyFigureCard}>
-                        <KeyFigure
-                            className={styles.keyFigure}
-                            value={projectList.length}
-                            description={strings.totalProjectsTitle}
-                            descriptionClassName={styles.keyFigureDescription}
-                        />
-                        <div className={styles.separator} />
-                        <div>
-                            <TextOutput
-                                value={strings.programmeType}
+                    {showCard1 && (
+                        <div className={styles.keyFigureCard}>
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={activeNSCount}
+                                description={strings.activeDeploymentsTitle}
+                                descriptionClassName={styles.keyFigureDescription}
                             />
-                            <PieChart
-                                className={styles.pieChart}
-                                data={programmeTypeStats}
-                                valueSelector={numericValueSelector}
-                                labelSelector={stringLabelSelector}
-                                keySelector={stringLabelSelector}
-                                colors={primaryRedColorShades}
-                                pieRadius={40}
-                                chartPadding={10}
+                            <div className={styles.separator} />
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={targetedPopulation}
+                                description={strings.targetedPopulationTitle}
+                                descriptionClassName={styles.keyFigureDescription}
                             />
                         </div>
-                    </div>
-                    <div className={styles.keyFigureCard}>
-                        <KeyFigure
-                            className={styles.keyFigure}
-                            value={ongoingProjectBudget}
-                            description={strings.ongoingProjectBudgetTitle}
-                            descriptionClassName={styles.keyFigureDescription}
-                        />
-                        <div className={styles.separator} />
-                        <div>
-                            <TextOutput
-                                value={strings.projectStatus}
+                    )}
+                    {showCard2 && (
+                        <div className={styles.keyFigureCard}>
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={projectList.length}
+                                description={strings.totalProjectsTitle}
+                                descriptionClassName={styles.keyFigureDescription}
                             />
-                            <PieChart
-                                className={styles.pieChart}
-                                data={projectStatusTypeStats}
-                                valueSelector={numericValueSelector}
-                                labelSelector={stringLabelSelector}
-                                keySelector={stringLabelSelector}
-                                colors={primaryRedColorShades}
-                                pieRadius={40}
-                                chartPadding={10}
-                            />
+                            <div className={styles.separator} />
+                            <Container
+                                heading={strings.programmeType}
+                                headingLevel={5}
+                                className={styles.pieChartContainer}
+                            >
+                                <PieChart
+                                    className={styles.pieChart}
+                                    data={programmeTypeStats}
+                                    valueSelector={numericValueSelector}
+                                    labelSelector={stringLabelSelector}
+                                    keySelector={stringLabelSelector}
+                                    colors={primaryRedColorShades}
+                                    pieRadius={40}
+                                    chartPadding={10}
+                                />
+                            </Container>
                         </div>
-                    </div>
+                    )}
+                    {showCard3 && (
+                        <div className={styles.keyFigureCard}>
+                            <KeyFigure
+                                className={styles.keyFigure}
+                                value={ongoingProjectBudget}
+                                description={strings.ongoingProjectBudgetTitle}
+                                descriptionClassName={styles.keyFigureDescription}
+                            />
+                            <div className={styles.separator} />
+                            <Container
+                                heading={strings.projectStatus}
+                                headingLevel={5}
+                                className={styles.pieChartContainer}
+                            >
+                                <PieChart
+                                    className={styles.pieChart}
+                                    data={projectStatusTypeStats}
+                                    valueSelector={numericValueSelector}
+                                    labelSelector={stringLabelSelector}
+                                    keySelector={stringLabelSelector}
+                                    colors={primaryRedColorShades}
+                                    pieRadius={40}
+                                    chartPadding={10}
+                                />
+                            </Container>
+                        </div>
+                    )}
                 </div>
             )}
             <Container

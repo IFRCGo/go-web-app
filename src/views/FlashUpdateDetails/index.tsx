@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
     isDefined,
@@ -6,7 +6,7 @@ import {
     isNotDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
-import { PencilFillIcon, DownloadCloudTwoLineIcon } from '@ifrc-go/icons';
+import { PencilFillIcon, DownloadLineIcon } from '@ifrc-go/icons';
 
 import Link from '#components/Link';
 import Page from '#components/Page';
@@ -19,15 +19,33 @@ import TextOutput from '#components/TextOutput';
 import DateOutput from '#components/DateOutput';
 import HtmlOutput from '#components/HtmlOutput';
 import useTranslation from '#hooks/useTranslation';
+import useBooleanState from '#hooks/useBooleanState';
 import { useRequest } from '#utils/restRequest';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
+import FlashUpdateExportModal from './FlashUpdateExportModal';
+import FlashUpdateShareModal from './FlashUpdateShareModal';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
     const { flashUpdateId } = useParams<{ flashUpdateId: string }>();
+    const [
+        showExportModal,
+        {
+            setTrue: setShowExportModalTrue,
+            setFalse: setShowExportModalFalse,
+        },
+    ] = useBooleanState(false);
+
+    const [
+        showShareModal,
+        {
+            setTrue: setShowShareModalTrue,
+            setFalse: setShowShareModalFalse,
+        },
+    ] = useBooleanState(false);
 
     const {
         pending: fetchingFlashUpdate,
@@ -87,12 +105,16 @@ export function Component() {
             actions={flashUpdateResponse && (
                 <>
                     <Button
-                        name="export"
+                        name={undefined}
+                        onClick={setShowExportModalTrue}
+                        variant="secondary"
                     >
                         {strings.flashUpdateExport}
                     </Button>
                     <Button
-                        name="share"
+                        name={undefined}
+                        onClick={setShowShareModalTrue}
+                        variant="secondary"
                     >
                         {strings.flashUpdateShare}
                     </Button>
@@ -101,7 +123,7 @@ export function Component() {
                         to="flashUpdateFormEdit"
                         urlParams={{ flashUpdateId }}
                         icons={<PencilFillIcon />}
-                        variant="secondary"
+                        variant="primary"
                         disabled={shouldHideDetails}
                     >
                         {strings.flashUpdateEdit}
@@ -110,24 +132,21 @@ export function Component() {
             )}
             description={!shouldHideDetails && countryDistricts && countryDistricts.map(
                 (country, i) => (
-                    <>
+                    <Fragment key={country.country_details.id}>
                         <Link
-                            key={country.country_details.id}
                             to="countriesLayout"
                             urlParams={{ countryId: country?.country_details.id }}
                         >
                             {country.country_details.name}
                         </Link>
                         {i !== countryDistricts.length - 1 && ', '}
-                    </>
+                    </Fragment>
                 ),
             )}
             mainSectionClassName={styles.content}
         >
             {fetchingFlashUpdate && (
-                <Message
-                    pending
-                />
+                <Message pending />
             )}
             {isDefined(flashUpdateResponseError) && (
                 <DetailsFailedToLoadMessage
@@ -151,13 +170,15 @@ export function Component() {
                     {flashUpdateResponse.map_files && flashUpdateResponse.map_files.length > 0 && (
                         <Container
                             heading={strings.flashUpdateMapHeading}
-                            className={styles.contentHeader}
-                            childrenContainerClassName={styles.maps}
+                            className={styles.maps}
                             withHeaderBorder
+                            contentViewType="grid"
+                            numPreferredGridContentColumns={4}
                         >
                             {flashUpdateResponse.map_files.map((item) => (
                                 <Image
                                     key={item.id}
+                                    imgElementClassName={styles.mapImageElement}
                                     src={item.file}
                                     caption={item.caption}
                                 />
@@ -165,34 +186,39 @@ export function Component() {
                         </Container>
                     )}
                     {flashUpdateResponse.graphics_files
-                        && flashUpdateResponse.graphics_files.length > 0 && (
-                        <Container
-                            heading={strings.flashUpdateImagesHeading}
-                            className={styles.contentHeader}
-                            childrenContainerClassName={styles.graphics}
-                            withHeaderBorder
-                        >
-                            {flashUpdateResponse?.graphics_files?.map((item) => (
-                                <Image
-                                    key={item.id}
-                                    src={item.file}
-                                    caption={item.caption}
-                                />
-                            ))}
-                        </Container>
-                    )}
+                        && flashUpdateResponse.graphics_files.length > 0
+                        && (
+                            <Container
+                                heading={strings.flashUpdateImagesHeading}
+                                className={styles.graphics}
+                                withHeaderBorder
+                                contentViewType="grid"
+                                numPreferredGridContentColumns={4}
+                            >
+                                {flashUpdateResponse?.graphics_files?.map((item) => (
+                                    <Image
+                                        key={item.id}
+                                        src={item.file}
+                                        caption={item.caption}
+                                        imgElementClassName={styles.mapImageElement}
+                                    />
+                                ))}
+                            </Container>
+                        )}
                     {isDefined(definedActions) && (
                         <Container
                             heading={strings.flashUpdateActionTakenHeading}
-                            childrenContainerClassName={styles.actionsTakenContent}
                             withHeaderBorder
+                            contentViewType="vertical"
                         >
                             {definedActions.map((actionTaken) => (
                                 <Container
                                     childrenContainerClassName={styles.actionContent}
                                     heading={actionTaken.organization_display}
                                     headingLevel={4}
+                                    spacing="cozy"
                                     key={actionTaken.id}
+                                    contentViewType="vertical"
                                 >
                                     {isTruthyString(actionTaken.summary) && (
                                         <TextOutput
@@ -206,7 +232,7 @@ export function Component() {
                                             heading={strings.flashUpdateActions}
                                             headingLevel={5}
                                             childrenContainerClassName={styles.actionList}
-                                            spacing="condensed"
+                                            spacing="none"
                                         >
                                             {actionTaken.action_details.map((actionDetail) => (
                                                 <div
@@ -223,45 +249,61 @@ export function Component() {
                         </Container>
                     )}
                     {flashUpdateResponse?.references
-                        && flashUpdateResponse.references.length > 0 && (
-                        <Container
-                            heading={strings.flashUpdateResourcesHeading}
-                            withHeaderBorder
-                        >
-                            {flashUpdateResponse.references.map((reference) => (
-                                <div
-                                    className={styles.reference}
-                                    key={reference.id}
-                                >
-                                    <div className={styles.date}>
-                                        <DateOutput value={reference.date} />
-                                    </div>
-                                    <div className={styles.description}>
-                                        {reference.source_description}
-                                    </div>
-                                    <Link
-                                        href={reference.url}
-                                        external
+                        && flashUpdateResponse.references.length > 0
+                        && (
+                            <Container
+                                className={styles.references}
+                                heading={strings.flashUpdateResourcesHeading}
+                                withHeaderBorder
+                                contentViewType="grid"
+                                numPreferredGridContentColumns={3}
+                            >
+                                {flashUpdateResponse.references.map((reference) => (
+                                    <Container
+                                        key={reference.id}
+                                        className={styles.referenceItem}
+                                        heading={reference.source_description}
+                                        headerDescription={<DateOutput value={reference.date} />}
+                                        headingLevel={4}
+                                        withInternalPadding
+                                        contentViewType="vertical"
                                     >
-                                        {reference.url}
-                                    </Link>
-                                    {reference.document_details?.file ? (
-                                        <Button
-                                            variant="secondary"
-                                            className={styles.downloadLink}
-                                            name={undefined}
-                                            icons={<DownloadCloudTwoLineIcon />}
-                                        >
-                                            {strings.flashUpdateDownloadDocument}
-                                        </Button>
-                                    ) : (
-                                        <div className={styles.notDownloadLink} />
-                                    )}
-                                </div>
-                            ))}
-                        </Container>
-                    )}
+                                        {isTruthyString(reference.url) && (
+                                            <Link
+                                                href={reference.url}
+                                                external
+                                                withLinkIcon
+                                            >
+                                                Go to Reference
+                                            </Link>
+                                        )}
+                                        {reference.document_details?.file && (
+                                            <Link
+                                                href={reference.document_details.file}
+                                                external
+                                                icons={<DownloadLineIcon className={styles.icon} />}
+                                                variant="secondary"
+                                            >
+                                                {strings.flashUpdateDownloadDocument}
+                                            </Link>
+                                        )}
+                                    </Container>
+                                ))}
+                            </Container>
+                        )}
                 </>
+            )}
+            {showShareModal && isDefined(flashUpdateId) && (
+                <FlashUpdateShareModal
+                    onClose={setShowShareModalFalse}
+                    id={Number(flashUpdateId)}
+                />
+            )}
+            {showExportModal && isDefined(flashUpdateId) && (
+                <FlashUpdateExportModal
+                    onClose={setShowExportModalFalse}
+                    id={Number(flashUpdateId)}
+                />
             )}
         </Page>
     );

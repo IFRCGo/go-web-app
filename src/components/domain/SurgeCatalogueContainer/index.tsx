@@ -54,7 +54,7 @@ function SurgeCatalogueContainer(props: Props) {
                         key={image.src}
                         src={image.src}
                         caption={image.caption}
-                        imageClassName={styles.image}
+                        imgElementClassName={styles.image}
                         withCaptionHidden
                         expandable
                     />

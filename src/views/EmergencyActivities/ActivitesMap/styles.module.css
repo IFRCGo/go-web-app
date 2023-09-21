@@ -15,10 +15,14 @@
 
         .legend {
             display: flex;
-            justify-content: flex-end;
+            flex-wrap: wrap;
             background-color: var(--go-ui-color-background);
-            gap: var(--go-ui-spacing-lg);
-            padding: var(--go-ui-spacing-lg);
+            gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-md);
+            padding: var(--go-ui-spacing-md);
+
+            .label {
+                font-weight: var(--go-ui-font-weight-medium);
+            }
         }
     }
 

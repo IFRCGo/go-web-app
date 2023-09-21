@@ -2,21 +2,11 @@ import { useMemo } from 'react';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import Heading, { Props as HeadingProps } from '#components/Heading';
-import useBasicLayout from '#hooks/useBasicLayout';
 import type { SpacingType } from '#components/types';
+import useBasicLayout from '#hooks/useBasicLayout';
+import useSpacingTokens from '#hooks/useSpacingTokens';
 
 import styles from './styles.module.css';
-
-const spacingTypeToClassNameMap: Record<SpacingType, string> = {
-    none: styles.noSpacing,
-    condensed: styles.condensedSpacing,
-    compact: styles.compactSpacing,
-    cozy: styles.cozySpacing,
-    default: styles.defaultSpacing,
-    comfortable: styles.comfortableSpacing,
-    relaxed: styles.relaxedSpacing,
-    loose: styles.looseSpacing,
-};
 
 export interface Props {
     className?: string;
@@ -118,6 +108,11 @@ function Header(props: Props) {
         spacing,
     });
 
+    const gapSpacing = useSpacingTokens({
+        spacing,
+        inner: true,
+    });
+
     if (!content && !children) {
         return null;
     }
@@ -127,7 +122,7 @@ function Header(props: Props) {
             className={_cs(
                 styles.header,
                 ellipsizeHeading && styles.headingEllipsized,
-                spacingTypeToClassNameMap[spacing],
+                gapSpacing,
                 className,
             )}
             ref={elementRef}

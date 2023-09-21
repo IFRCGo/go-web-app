@@ -1,0 +1,5 @@
+.flash-update-share-modal {
+    .error {
+        color: var(--go-ui-color-red);
+    }
+}

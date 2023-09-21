@@ -39,17 +39,15 @@ function DisaggregatedPeopleOutput(props: Props) {
     return (
         <Container
             className={styles.disaggregatedPeopleOutput}
-            childrenContainerClassName={styles.content}
-            heading={isDefined(year) && (
+            heading={isDefined(year) ? (
                 <TextOutput
                     label={strings.threeWYear}
                     value={year}
                     strongValue
                     withoutLabelColon
                 />
-            )}
+            ) : undefined}
             headingLevel={4}
-            spacing="compact"
             headerDescription={(
                 <TextOutput
                     label={strings.threeWBudgetAmount}
@@ -59,12 +57,14 @@ function DisaggregatedPeopleOutput(props: Props) {
                     withoutLabelColon
                 />
             )}
+            contentViewType="vertical"
+            spacing="comfortable"
         >
             <Container
                 childrenContainerClassName={styles.peopleTargetedContent}
                 heading={strings.threeWPeopleTargeted}
                 headingLevel={5}
-                spacing="condensed"
+                spacing="compact"
             >
                 <TextOutput
                     label={strings.threeWMale}

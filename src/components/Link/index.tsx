@@ -182,7 +182,7 @@ function Link(props: Props) {
             <>
                 {actions}
                 {withLinkIcon && external && (
-                    <ExternalLinkLineIcon className={styles.externalLinkIcon} />
+                    <ExternalLinkLineIcon />
                 )}
                 {withLinkIcon && !external && (
                     <ChevronRightLineIcon className={styles.forwardIcon} />

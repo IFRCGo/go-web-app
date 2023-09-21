@@ -75,7 +75,9 @@
             }
 
             .sidebar-content {
-                position: relative;
+                display: flex;
+                flex-direction: column;
+                gap: var(--go-ui-spacing-md);
                 overflow: auto;
 
                 .scale {
@@ -94,12 +96,9 @@
                 .country-list {
                     display: flex;
                     flex-direction: column;
-                    gap: var(--go-ui-spacing-sm);
+                    gap: var(--go-ui-spacing-md);
 
                     .country-sector {
-                        border-bottom: var(--go-ui-width-separator-thin) solid var(--go-ui-color-separator);
-                        padding: var(--go-ui-spacing-sm) 0;
-
                         .country-sector-title {
                             display: flex;
                             justify-content: space-between

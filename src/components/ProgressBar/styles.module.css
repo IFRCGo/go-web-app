@@ -1,16 +1,17 @@
 .progress-wrapper {
     display: flex;
     flex-direction: column;
-    gap: var(--go-ui-spacing-sm);
+    gap: var(--go-ui-spacing-2xs);
 
     .total {
         display: flex;
+        flex-shrink: 0;
         border-radius: var(--go-ui-border-radius-md);
-        gap: var(--go-ui-spacing-md);
-        background-color: var(--go-ui-color-gray-20);
+        background-color: var(--go-ui-color-separator);
+        height: 0.5rem;
 
         .progress {
-            transition: 200ms width ease-in-out;
+            transition: var(--go-ui-duration-transition-medium) width ease-in-out;
             border-radius: var(--go-ui-border-radius-md);
             background-color: var(--go-ui-color-primary-red);
         }

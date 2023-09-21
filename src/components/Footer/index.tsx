@@ -35,7 +35,6 @@ function Footer(props: Props) {
         icons,
         iconsContainerClassName,
         spacing,
-        variant: 'large',
     });
 
     return (

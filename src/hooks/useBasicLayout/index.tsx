@@ -1,19 +1,12 @@
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 
-import type { SpacingType } from '#components/types';
+import {
+    type SpacingType,
+    type SpacingVariant,
+} from '#components/types';
+import useSpacingTokens from '#hooks/useSpacingTokens';
 
 import styles from './styles.module.css';
-
-const spacingTypeToClassNameMap: Record<SpacingType, string> = {
-    none: styles.noSpacing,
-    condensed: styles.condensed,
-    compact: styles.compactSpacing,
-    cozy: styles.cozySpacing,
-    default: styles.defaultSpacing,
-    comfortable: styles.comfortableSpacing,
-    relaxed: styles.relaxedSpacing,
-    loose: styles.looseSpacing,
-};
 
 export interface Props {
     className?: string;
@@ -25,9 +18,8 @@ export interface Props {
     childrenContainerClassName?: string;
     actionsContainerClassName?: string;
     spacing?: SpacingType;
+    variant?: SpacingVariant;
     withoutWrap?: boolean;
-    withPadding?: boolean;
-    variant?: 'small' | 'default' | 'large';
 }
 
 function useBasicLayout(props: Props) {
@@ -39,19 +31,27 @@ function useBasicLayout(props: Props) {
         iconsContainerClassName,
         childrenContainerClassName,
         actionsContainerClassName,
-        spacing = 'default',
         withoutWrap,
-        withPadding,
-        variant = 'default',
+        spacing = 'default',
+        variant = 'md',
     } = props;
+
+    const gapSpacing = useSpacingTokens({
+        spacing,
+        variant,
+        mode: 'gap',
+    });
+    const innerGapSpacing = useSpacingTokens({
+        spacing,
+        variant,
+        mode: 'gap',
+        inner: true,
+    });
 
     const containerClassName = _cs(
         styles.basicLayout,
-        spacingTypeToClassNameMap[spacing],
-        withoutWrap && styles.noWrap,
-        withPadding && styles.withpadding,
-        variant === 'large' && styles.large,
-        variant === 'small' && styles.small,
+        !withoutWrap && styles.withWrap,
+        gapSpacing,
         className,
     );
 
@@ -62,15 +62,33 @@ function useBasicLayout(props: Props) {
     const content = emptyContent ? null : (
         <>
             {icons && (
-                <div className={_cs(styles.iconsContainer, iconsContainerClassName)}>
+                <div
+                    className={_cs(
+                        styles.iconsContainer,
+                        innerGapSpacing,
+                        iconsContainerClassName,
+                    )}
+                >
                     {icons}
                 </div>
             )}
-            <div className={_cs(styles.childrenContainer, childrenContainerClassName)}>
+            <div
+                className={_cs(
+                    styles.childrenContainer,
+                    innerGapSpacing,
+                    childrenContainerClassName,
+                )}
+            >
                 {children}
             </div>
             {actions && (
-                <div className={_cs(styles.actionsContainer, actionsContainerClassName)}>
+                <div
+                    className={_cs(
+                        styles.actionsContainer,
+                        innerGapSpacing,
+                        actionsContainerClassName,
+                    )}
+                >
                     {actions}
                 </div>
             )}
