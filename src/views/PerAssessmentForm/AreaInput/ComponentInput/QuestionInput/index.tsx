@@ -11,9 +11,10 @@ import Container from '#components/Container';
 import TextArea from '#components/TextArea';
 import RadioInput from '#components/RadioInput';
 import { type GoApiResponse } from '#utils/restRequest';
+import useTranslation from '#hooks/useTranslation';
 
 import type { PartialAssessment } from '../../../schema';
-
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type AreaResponse = NonNullable<PartialAssessment['area_responses']>[number]
@@ -56,6 +57,7 @@ function QuestionInput(props: Props) {
         disabled,
     } = props;
 
+    const strings = useTranslation(i18n);
     const setFieldValue = useFormObject(
         index,
         onChange,
@@ -95,8 +97,7 @@ function QuestionInput(props: Props) {
             />
             <TextArea
                 className={styles.noteSection}
-                // FIXME: use translation
-                placeholder="Notes and verification means"
+                placeholder={strings.placeholderNotesAndVerification}
                 name="notes"
                 value={value?.notes}
                 error={error?.notes}

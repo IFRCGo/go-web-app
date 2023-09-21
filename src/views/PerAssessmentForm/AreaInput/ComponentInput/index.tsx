@@ -137,8 +137,9 @@ function ComponentInput(props: Props) {
                     value={value?.rating}
                     error={error?.rating}
                     onChange={setFieldValue}
-                    // FIXME: use translation
-                    placeholder={readOnly ? 'Rating: 0 - Not reviewed' : 'Select rating'}
+                    placeholder={readOnly
+                        ? strings.placeholderReviewedRating
+                        : strings.placeholderSelectRating}
                     options={ratingOptions}
                     disabled={disabled}
                     keySelector={numericIdSelector}
@@ -202,7 +203,6 @@ function ComponentInput(props: Props) {
                         readOnly={readOnly}
                     />
                 </InputSection>
-
             )}
             {urban_considerations && (
                 <InputSection
@@ -218,7 +218,6 @@ function ComponentInput(props: Props) {
                         readOnly={readOnly}
                     />
                 </InputSection>
-
             )}
             {climate_environmental_considerations && (
                 <InputSection

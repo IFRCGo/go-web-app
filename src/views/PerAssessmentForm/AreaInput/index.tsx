@@ -14,11 +14,11 @@ import {
 } from '@togglecorp/fujs';
 
 import { type GoApiResponse } from '#utils/restRequest';
+import NonFieldError from '#components/NonFieldError';
 
 import { type PartialAssessment } from '../schema';
 import ComponentInput from './ComponentInput';
 import styles from './styles.module.css';
-import NonFieldError from '#components/NonFieldError';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
 type PerFormQuestionResponse = GoApiResponse<'/api/v2/per-formquestion/'>;

@@ -330,8 +330,7 @@ export function Component() {
     if (isNotDefined(assessmentId)) {
         return (
             <FormFailedToLoadMessage
-                // FIXME: use translation
-                description="Resource not found"
+                description={strings.resourceNotFound}
             />
         );
     }
