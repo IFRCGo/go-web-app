@@ -61,8 +61,6 @@ function perAssessmentMethodsKeySelector(option: PerOverviewAssessmentMethods) {
     return option.key;
 }
 
-const emptyFileIdToUrlMap: Record<number, string> = {};
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -90,10 +88,11 @@ export function Component() {
     const [
         fileIdToUrlMap,
         setFileIdToUrlMap,
-    ] = useState<Record<number, string>>(emptyFileIdToUrlMap);
+    ] = useState<Record<number, string>>({});
 
     const {
         response: perOptionsResponse,
+        pending: perOptionsPending,
     } = useRequest({
         url: '/api/v2/per-options/',
     });
@@ -214,29 +213,27 @@ export function Component() {
         method: 'POST',
         body: (ctx: PerOverviewRequestBody) => ctx,
         onSuccess: (response) => {
-            if (response && isDefined(response.id)) {
-                alert.show(
-                    strings.saveRequestSuccessMessage,
-                    { variant: 'success' },
+            alert.show(
+                strings.saveRequestSuccessMessage,
+                { variant: 'success' },
+            );
+
+            refetchStatusResponse();
+
+            // Redirect from new form to edit route
+            if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
+                navigate(
+                    'perOverviewForm',
+                    { params: { perId: response.id } },
                 );
+            }
 
-                refetchStatusResponse();
-
-                // Redirect from new form to edit route
-                if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
-                    navigate(
-                        'perOverviewForm',
-                        { params: { perId: response.id } },
-                    );
-                }
-
-                // Redirect to assessment form
-                if (response.phase === PER_PHASE_ASSESSMENT) {
-                    navigate(
-                        'perAssessmentForm',
-                        { params: { perId: response.id } },
-                    );
-                }
+            // Redirect to assessment form
+            if (response.phase === PER_PHASE_ASSESSMENT) {
+                navigate(
+                    'perAssessmentForm',
+                    { params: { perId: response.id } },
+                );
             }
         },
         onFailure: ({
@@ -262,6 +259,7 @@ export function Component() {
 
     const handleSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
+            formContentRef.current?.scrollIntoView();
             if (isDefined(perId)) {
                 updatePerOverview({
                     ...formValues,
@@ -279,6 +277,7 @@ export function Component() {
 
     const handleFinalSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
+            formContentRef.current?.scrollIntoView();
             if (isDefined(perId)) {
                 updatePerOverview({
                     ...formValues,
@@ -297,6 +296,26 @@ export function Component() {
     const handleFormError = useCallback(() => {
         formContentRef.current?.scrollIntoView();
     }, []);
+
+    const handleSetupPerProcess = useCallback(() => {
+        const handler = createSubmitHandler(
+            validate,
+            setError,
+            handleSubmit,
+            handleFormError,
+        );
+        handler();
+    }, [handleFormError, handleSubmit, validate, setError]);
+
+    const handleSave = useCallback(() => {
+        const handler = createSubmitHandler(
+            validate,
+            setError,
+            handleFinalSubmit,
+            handleFormError,
+        );
+        handler();
+    }, [handleFormError, handleFinalSubmit, validate, setError]);
 
     const error = getErrorObject(formError);
 
@@ -331,15 +350,14 @@ export function Component() {
                     name={undefined}
                     confirmHeading={strings.submitConfirmHeading}
                     confirmMessage={strings.submitConfirmMessage}
-                    onConfirm={createSubmitHandler(
-                        validate,
-                        setError,
-                        handleFinalSubmit,
-                        handleFormError,
-                    )}
-                    disabled={(isDefined(statusResponse?.phase)
+                    onConfirm={handleSave}
+                    disabled={
+                        // FIXME: shoulnd't we use 'or' instead of 'and'?
+                        (isDefined(statusResponse?.phase)
                         && statusResponse?.phase !== PER_PHASE_OVERVIEW)
-                        || savePerPending}
+                        || savePerPending
+                        || fetchingPerOverview
+                    }
                 >
                     {strings.submitButtonLabel}
                 </ConfirmButton>
@@ -384,7 +402,7 @@ export function Component() {
                     description={strings.dateOfOrientationInputDescription}
                     numPreferredColumns={2}
                     withoutPadding
-                    withAsteriskOnTitle
+                    withAsteriskOnTitle={isNotDefined(value?.date_of_assessment)}
                 >
                     <DateInput
                         name="date_of_orientation"
@@ -426,7 +444,7 @@ export function Component() {
                     title={strings.dateOfAssessmentInputLabel}
                     description={strings.dateOfAssessmentInputDescription}
                     withoutPadding
-                    withAsteriskOnTitle
+                    withAsteriskOnTitle={isNotDefined(value?.date_of_orientation)}
                 >
                     <DateInput
                         name="date_of_assessment"
@@ -452,7 +470,7 @@ export function Component() {
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
                         readOnly={partiallyEditable}
-                        disabled={disabled}
+                        disabled={disabled || perOptionsPending}
                     />
                 </InputSection>
                 <InputSection
@@ -481,7 +499,8 @@ export function Component() {
                         labelSelector={stringNameSelector}
                         onChange={setFieldValue}
                         value={value?.type_of_previous_assessment}
-                        disabled={disabled}
+                        error={error?.type_of_previous_assessment}
+                        disabled={disabled || perOptionsPending}
                         readOnly
                     />
                 </InputSection>
@@ -770,12 +789,7 @@ export function Component() {
                     <Button
                         name={undefined}
                         variant="secondary"
-                        onClick={createSubmitHandler(
-                            validate,
-                            setError,
-                            handleSubmit,
-                            handleFormError,
-                        )}
+                        onClick={handleSetupPerProcess}
                         disabled={savePerPending}
                     >
                         {strings.saveButtonLabel}

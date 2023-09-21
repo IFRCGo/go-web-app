@@ -2,7 +2,7 @@
     "namespace": "componentInput",
     "strings": {
         "notReviewed": "0 - Not reviewed",
-        "benchmarksAssessed": "benchmarks assessed",
+        "benchmarksAssessed": "{count} benchmarks assessed",
         "perJustification": "Enter Justification"
     }
 }

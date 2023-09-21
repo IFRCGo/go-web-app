@@ -11,6 +11,7 @@ import {
     SetValueArg,
     useFormObject,
     Error,
+    getErrorObject,
 } from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
@@ -21,6 +22,7 @@ import TextOutput from '#components/TextOutput';
 import Checkbox from '#components/Checkbox';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import { resolveToComponent } from '#utils/translation';
 import type { GoApiResponse } from '#utils/restRequest';
 
 import type { PartialPrioritization } from '../schema';
@@ -46,6 +48,7 @@ interface Props {
     questionResponses: ComponentResponse['question_responses'];
     ratingDisplay?: string | undefined | null;
     readOnly?: boolean;
+    disabled?: boolean;
 }
 
 function ComponentInput(props: Props) {
@@ -58,7 +61,8 @@ function ComponentInput(props: Props) {
         questionResponses,
         ratingDisplay,
         readOnly,
-        error,
+        error: errorFromProps,
+        disabled,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -139,6 +143,8 @@ function ComponentInput(props: Props) {
 
     const componentNum = component.component_num;
 
+    const error = getErrorObject(errorFromProps);
+
     if (isNotDefined(componentNum)) {
         return null;
     }
@@ -169,7 +175,10 @@ function ComponentInput(props: Props) {
                         </div>
                         <div className={styles.separator} />
                         <div>
-                            {`${numResponses} ${strings.benchmarksAssessed}`}
+                            {resolveToComponent(
+                                strings.benchmarksAssessed,
+                                { count: numResponses },
+                            )}
                         </div>
                         {expanded && answerStats.length > 0 && (
                             <div className={styles.answersByCount}>
@@ -183,14 +192,15 @@ function ComponentInput(props: Props) {
                             </div>
                         )}
                     </div>
+                    <NonFieldError error={error} />
                     <TextArea
                         name="justification_text"
                         value={value?.justification_text}
                         onChange={setFieldValue}
                         placeholder={strings.perJustification}
-                        disabled={isNotDefined(value)}
+                        disabled={isNotDefined(value) || disabled}
                         rows={2}
-                        error={value?.justification_text}
+                        error={error?.justification_text}
                         readOnly={readOnly}
                     />
                 </>
