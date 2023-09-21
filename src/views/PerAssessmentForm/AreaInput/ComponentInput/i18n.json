@@ -9,6 +9,8 @@
         "epiConsiderationTitle": "EPI Considerations",
         "urbanConsiderationTitle": "Urban Considerations",
         "environmentConsiderationTitle": "Climate and Environmental Considerations",
+        "placeholderReviewedRating": "Rating: 0 - Not reviewed",
+        "placeholderSelectRating": "Select rating",
         "notes": "Notes"
     }
 }

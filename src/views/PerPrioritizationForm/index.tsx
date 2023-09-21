@@ -31,7 +31,6 @@ import Container from '#components/Container';
 import Portal from '#components/Portal';
 import Button from '#components/Button';
 import ConfirmButton from '#components/ConfirmButton';
-import BlockLoading from '#components/BlockLoading';
 import PerAssessmentSummary from '#components/domain/PerAssessmentSummary';
 import DropdownMenu from '#components/DropdownMenu';
 import DropdownMenuItem from '#components/DropdownMenuItem';
@@ -122,6 +121,7 @@ export function Component() {
     });
 
     const prioritizationId = statusResponse?.prioritization;
+    const assessmentId = statusResponse?.assessment;
 
     const {
         pending: fetchingPrioritization,
@@ -141,10 +141,10 @@ export function Component() {
         pending: perAssesmentPending,
         response: perAssessmentResponse,
     } = useRequest({
-        skip: isNotDefined(statusResponse?.assessment),
+        skip: isNotDefined(assessmentId),
         url: '/api/v2/per-assessment/{id}/',
         pathVariables: {
-            id: Number(statusResponse?.assessment),
+            id: Number(assessmentId),
         },
     });
 
@@ -158,8 +158,8 @@ export function Component() {
         trigger: savePerPrioritization,
     } = useLazyRequest({
         url: '/api/v2/per-prioritization/{id}/',
-        pathVariables: statusResponse && isDefined(statusResponse.prioritization)
-            ? { id: statusResponse.prioritization }
+        pathVariables: isDefined(prioritizationId)
+            ? { id: prioritizationId }
             : undefined,
         method: 'PATCH',
         body: (ctx: PrioritizationRequestBody) => ctx,
@@ -245,8 +245,7 @@ export function Component() {
     const handleSubmit = useCallback((formValues: PartialPrioritization) => {
         formContentRef.current?.scrollIntoView();
 
-        const prioritization = statusResponse?.prioritization;
-        if (isNotDefined(prioritization)) {
+        if (isNotDefined(prioritizationId)) {
             // eslint-disable-next-line no-console
             console.error('Prioritization id not defined');
         }
@@ -254,13 +253,12 @@ export function Component() {
             ...formValues,
             is_draft: formValues?.is_draft ?? true,
         } as PrioritizationRequestBody);
-    }, [savePerPrioritization, statusResponse]);
+    }, [savePerPrioritization, prioritizationId]);
 
     const handleFinalSubmit = useCallback((formValues: PartialPrioritization) => {
         formContentRef.current?.scrollIntoView();
 
-        const prioritization = statusResponse?.prioritization;
-        if (isNotDefined(prioritization)) {
+        if (isNotDefined(prioritizationId)) {
             // eslint-disable-next-line no-console
             console.error('Prioritization id not defined');
         }
@@ -268,7 +266,7 @@ export function Component() {
             ...formValues,
             is_draft: false,
         } as PrioritizationRequestBody);
-    }, [savePerPrioritization, statusResponse]);
+    }, [savePerPrioritization, prioritizationId]);
 
     const componentResponseMapping = listToMap(
         value?.prioritized_action_responses ?? [],
@@ -294,11 +292,12 @@ export function Component() {
         [removeComponentValue, setComponentValue],
     );
 
-    const pending = formComponentPending
+    const dataPending = formComponentPending
         || perAssesmentPending
-        || fetchingPrioritization;
+        || fetchingPrioritization
+        || fetchingStatus;
 
-    const disabled = pending || savePerPrioritizationPending;
+    const disabled = dataPending || savePerPrioritizationPending;
 
     const areaIdToTitleMap = listToMap(
         questionsResponse?.results ?? [],
@@ -333,9 +332,9 @@ export function Component() {
         handleFormError,
     );
 
-    const readOnlyMode = isNotDefined(statusResponse)
-        || isNotDefined(statusResponse.phase)
-        || statusResponse.phase < PER_PHASE_PRIORITIZATION;
+    const currentPerStep = statusResponse?.phase;
+    const readOnlyMode = isNotDefined(currentPerStep)
+        || currentPerStep < PER_PHASE_PRIORITIZATION;
 
     const sortedFormComponents = useMemo(
         () => (
@@ -384,7 +383,7 @@ export function Component() {
         (sortOption) => sortOption.label,
     );
 
-    if (fetchingStatus || fetchingPrioritization) {
+    if (dataPending) {
         return (
             <Message
                 pending
@@ -413,103 +412,6 @@ export function Component() {
             className={styles.perPrioritizationForm}
             ref={formContentRef}
         >
-            {pending && (
-                <BlockLoading />
-            )}
-            {!pending && (
-                <>
-                    <NonFieldError
-                        error={error}
-                        withFallbackError
-                    />
-                    <PerAssessmentSummary
-                        perOptionsResponse={perOptionsResponse}
-                        areaResponses={perAssessmentResponse?.area_responses}
-                        totalQuestionCount={questionsResponse?.count}
-                        areaIdToTitleMap={areaIdToTitleMap}
-                    />
-                    <Container
-                        heading={strings.prioritizationHeading}
-                        headingLevel={2}
-                        withHeaderBorder
-                        actions={(
-                            <DropdownMenu
-                                label={resolveToString(
-                                    strings.sortButtonLabel,
-                                    { sort: sortKeyToLabel[sortBy] },
-                                )}
-                                variant="tertiary"
-                                popupClassName={styles.sortByDropdownContent}
-                            >
-                                {sortOptions.map(
-                                    (sortOption) => (
-                                        <DropdownMenuItem
-                                            type="button"
-                                            key={sortOption.key}
-                                            name={sortOption.key}
-                                            onClick={setSortBy}
-                                            icons={(
-                                                <CheckLineIcon
-                                                    className={_cs(
-                                                        styles.checkmark,
-                                                        sortOption.key === sortBy && styles.active,
-                                                    )}
-                                                />
-                                            )}
-                                        >
-                                            {sortOption.label}
-                                        </DropdownMenuItem>
-                                    ),
-                                )}
-                            </DropdownMenu>
-                        )}
-                        footerActions={value?.is_draft !== false ? (
-                            <ConfirmButton
-                                name={undefined}
-                                variant="secondary"
-                                onConfirm={handleFormFinalSubmit}
-                                disabled={disabled || readOnlyMode}
-                                confirmHeading={strings.submitConfirmHeading}
-                                confirmMessage={strings.submitConfirmMessage}
-                            >
-                                {strings.perSelectAndAddToWorkPlan}
-                            </ConfirmButton>
-                        ) : undefined}
-                        childrenContainerClassName={styles.componentList}
-                    >
-                        <NonFieldError
-                            error={error}
-                            withFallbackError
-                        />
-                        <NonFieldError error={componentInputError} />
-                        {!pending && sortedFormComponents.map((component) => {
-                            const rating = assessmentComponentResponseMap
-                                ?.[component.id]?.rating_details;
-                            const ratingDisplay = isDefined(rating)
-                                ? `${rating.value} - ${rating.title}`
-                                : undefined;
-
-                            return (
-                                <ComponentInput
-                                    key={component.id}
-                                    index={componentResponseMapping[component.id]?.index}
-                                    value={componentResponseMapping[component.id]?.value}
-                                    onChange={setComponentValue}
-                                    component={component}
-                                    error={componentInputError?.[component.id]}
-                                    onSelectionChange={handleSelectionChange}
-                                    questionResponses={
-                                        assessmentQuestionResponsesByComponent[component.id]
-                                    }
-                                    ratingDisplay={ratingDisplay}
-                                    readOnly={readOnlyMode}
-                                    disabled={disabled}
-                                />
-                            );
-                        })}
-                    </Container>
-                </>
-            )}
             {actionDivRef.current && (
                 <Portal container={actionDivRef?.current}>
                     {value.is_draft === false ? (
@@ -535,6 +437,96 @@ export function Component() {
                     )}
                 </Portal>
             )}
+            <NonFieldError
+                error={error}
+                withFallbackError
+            />
+            <PerAssessmentSummary
+                perOptionsResponse={perOptionsResponse}
+                areaResponses={perAssessmentResponse?.area_responses}
+                totalQuestionCount={questionsResponse?.count}
+                areaIdToTitleMap={areaIdToTitleMap}
+            />
+            <Container
+                heading={strings.prioritizationHeading}
+                headingLevel={2}
+                withHeaderBorder
+                actions={(
+                    <DropdownMenu
+                        label={resolveToString(
+                            strings.sortButtonLabel,
+                            { sort: sortKeyToLabel[sortBy] },
+                        )}
+                        variant="tertiary"
+                        popupClassName={styles.sortByDropdownContent}
+                    >
+                        {sortOptions.map(
+                            (sortOption) => (
+                                <DropdownMenuItem
+                                    type="button"
+                                    key={sortOption.key}
+                                    name={sortOption.key}
+                                    onClick={setSortBy}
+                                    icons={(
+                                        <CheckLineIcon
+                                            className={_cs(
+                                                styles.checkmark,
+                                                sortOption.key === sortBy && styles.active,
+                                            )}
+                                        />
+                                    )}
+                                >
+                                    {sortOption.label}
+                                </DropdownMenuItem>
+                            ),
+                        )}
+                    </DropdownMenu>
+                )}
+                footerActions={value?.is_draft !== false ? (
+                    <ConfirmButton
+                        name={undefined}
+                        variant="secondary"
+                        onConfirm={handleFormFinalSubmit}
+                        disabled={disabled || readOnlyMode}
+                        confirmHeading={strings.submitConfirmHeading}
+                        confirmMessage={strings.submitConfirmMessage}
+                    >
+                        {strings.perSelectAndAddToWorkPlan}
+                    </ConfirmButton>
+                ) : undefined}
+                childrenContainerClassName={styles.componentList}
+            >
+                <NonFieldError
+                    error={error}
+                    withFallbackError
+                />
+                <NonFieldError error={componentInputError} />
+                {sortedFormComponents.map((component) => {
+                    const rating = assessmentComponentResponseMap
+                        ?.[component.id]?.rating_details;
+                    const ratingDisplay = isDefined(rating)
+                        ? `${rating.value} - ${rating.title}`
+                        : undefined;
+
+                    return (
+                        <ComponentInput
+                            key={component.id}
+                            index={componentResponseMapping[component.id]?.index}
+                            value={componentResponseMapping[component.id]?.value}
+                            onChange={setComponentValue}
+                            component={component}
+                            error={componentInputError?.[component.id]}
+                            onSelectionChange={handleSelectionChange}
+                            questionResponses={
+                                assessmentQuestionResponsesByComponent[component.id]
+                            }
+                            ratingDisplay={ratingDisplay}
+                            readOnly={readOnlyMode}
+                            disabled={disabled}
+                        />
+                    );
+                })}
+            </Container>
         </div>
     );
 }

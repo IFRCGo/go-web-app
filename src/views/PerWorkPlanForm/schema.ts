@@ -21,6 +21,9 @@ export type PartialWorkPlan = PartialForm<WorkPlanFormFields, 'component' | 'cli
 type WorkPlanFormScheme = ObjectSchema<PartialWorkPlan>;
 type WorkPlanFormSchemeFields = ReturnType<WorkPlanFormScheme['fields']>;
 
+type PrioritizedActionResponseFields = ReturnType<ObjectSchema<NonNullable<PartialWorkPlan['prioritized_action_responses']>[number], PartialWorkPlan>['fields']>;
+type AdditionalActionResponseFields = ReturnType<ObjectSchema<NonNullable<PartialWorkPlan['additional_action_responses']>[number], PartialWorkPlan>['fields']>;
+
 export const workplanSchema: WorkPlanFormScheme = {
     fields: (): WorkPlanFormSchemeFields => ({
         is_draft: {},
@@ -29,7 +32,7 @@ export const workplanSchema: WorkPlanFormScheme = {
         prioritized_action_responses: {
             keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
-                fields: () => ({
+                fields: (): PrioritizedActionResponseFields => ({
                     component: {},
                     actions: {},
                     due_date: {},
@@ -43,7 +46,7 @@ export const workplanSchema: WorkPlanFormScheme = {
         additional_action_responses: {
             keySelector: (customComponentResponse) => customComponentResponse.client_id,
             member: () => ({
-                fields: () => ({
+                fields: (): AdditionalActionResponseFields => ({
                     client_id: {},
                     actions: {
                         required: true,

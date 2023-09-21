@@ -9,7 +9,7 @@ import { DeepReplace } from '#utils/common';
 
 type AssessmentRequestBody = GoApiResponse<'/api/v2/per-assessment/{id}/', 'PATCH'>;
 
-type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
+export type AssessmentFormFields = PurgeNull<AssessmentRequestBody>
 
 type AreaResponse = NonNullable<AssessmentFormFields['area_responses']>[number];
 type ComponentResponse = NonNullable<AreaResponse['component_responses']>[number];
@@ -30,6 +30,10 @@ export type PartialAssessment = PartialForm<
 type AssessmentSchema = ObjectSchema<PartialAssessment>
 type AssessmentSchemaFields = ReturnType<AssessmentSchema['fields']>;
 
+type AssessmentResponseSchemaFields = ReturnType<ObjectSchema<NonNullable<PartialAssessment['area_responses']>[number], PartialAssessment>['fields']>;
+type ComponentResponseSchemaFields = ReturnType<ObjectSchema<NonNullable<NonNullable<PartialAssessment['area_responses']>[number]['component_responses']>[number], PartialAssessment>['fields']>;
+type QuestionResponseSchemaFields = ReturnType<ObjectSchema<NonNullable<NonNullable<NonNullable<PartialAssessment['area_responses']>[number]['component_responses']>[number]['question_responses']>[number], PartialAssessment>['fields']>;
+
 export const assessmentSchema: AssessmentSchema = {
     fields: (): AssessmentSchemaFields => ({
         is_draft: {},
@@ -38,18 +42,18 @@ export const assessmentSchema: AssessmentSchema = {
         area_responses: {
             keySelector: (areaResponse) => areaResponse.area,
             member: () => ({
-                fields: () => ({
+                fields: (): AssessmentResponseSchemaFields => ({
                     area: {},
                     component_responses: {
                         keySelector: (componentResponse) => componentResponse.component,
                         member: () => ({
-                            fields: () => ({
+                            fields: (): ComponentResponseSchemaFields => ({
                                 component: {},
                                 rating: {},
                                 question_responses: {
                                     keySelector: (questionResponse) => questionResponse.question,
                                     member: () => ({
-                                        fields: () => ({
+                                        fields: (): QuestionResponseSchemaFields => ({
                                             question: {},
                                             answer: {},
                                             notes: {},

@@ -4,6 +4,7 @@
         "assessmentHeading": "Assessment",
         "saveRequestSuccessMessage": "PER Process created/updated successfully",
         "saveRequestFailureMessage": "Failed to create/update PER Process",
+        "resourceNotFound": "Resource not found",
         "prevButtonLabel": "Prev",
         "nextButtonLabel": "Next",
         "saveAssessmentButtonLabel": "Save",

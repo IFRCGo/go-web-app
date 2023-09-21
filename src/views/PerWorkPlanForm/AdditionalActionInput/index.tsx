@@ -19,6 +19,7 @@ import { resolveToString } from '#utils/translation';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import { type GoApiResponse } from '#utils/restRequest';
+import NonFieldError from '#components/NonFieldError';
 
 import { PartialWorkPlan } from '../schema';
 
@@ -42,6 +43,7 @@ interface Props {
     onRemove: (index: number) => void;
     actionNumber: number;
     readOnly?: boolean;
+    disabled?: boolean;
 }
 
 function AdditionalActionInput(props: Props) {
@@ -53,6 +55,7 @@ function AdditionalActionInput(props: Props) {
         error: formError,
         actionNumber,
         readOnly,
+        disabled,
     } = props;
 
     const strings = useTranslation(i18n);
@@ -93,14 +96,17 @@ function AdditionalActionInput(props: Props) {
                 </Button>
             )}
         >
+            <NonFieldError error={error} />
             <TextArea
                 name="actions"
                 value={value?.actions}
                 onChange={onFieldChange}
                 placeholder={strings.actionInputActionsPlaceholder}
                 rows={2}
+                withAsterisk
                 error={error?.actions}
                 readOnly={readOnly}
+                disabled={disabled}
             />
             <DateInput
                 label={strings.actionInputDueDateLabel}
@@ -109,6 +115,7 @@ function AdditionalActionInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.due_date}
                 readOnly={readOnly}
+                disabled={disabled}
             />
             <NationalSocietySelectInput
                 name="supported_by"
@@ -118,18 +125,21 @@ function AdditionalActionInput(props: Props) {
                 value={value?.supported_by}
                 error={error?.supported_by}
                 readOnly={readOnly}
+                disabled={disabled}
             />
             <SelectInput
                 name="status"
                 label={strings.actionInputStatusLabel}
                 placeholder={strings.actionInputStatusPlaceholder}
                 options={per_workplanstatus}
+                withAsterisk
                 onChange={onFieldChange}
                 keySelector={statusKeySelector}
                 labelSelector={stringValueSelector}
                 value={value?.status}
                 error={error?.status}
                 readOnly={readOnly}
+                disabled={disabled}
             />
         </Container>
     );
