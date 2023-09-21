@@ -25,7 +25,7 @@ import Modal from '#components/Modal';
 import Button from '#components/Button';
 import List from '#components/List';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
-import useCountry from '#hooks/domain/useCountry';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 import { useRequest } from '#utils/restRequest';
 import {
     defaultMapStyle,
@@ -131,22 +131,22 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
         preserveResponse: true,
     });
 
-    const countryDetails = useCountry({
+    const countryDetails = useCountryRaw({
         id: countryId,
     });
 
     const iso3 = countryDetails?.iso3;
 
     const bounds = useMemo(() => {
-        if (!countryDetails) {
-            return undefined;
-        }
-
         if (selectedDistrict && districtResponse?.bbox) {
             return turfBbox(districtResponse.bbox);
         }
 
-        return turfBbox(countryDetails.bbox);
+        if (countryDetails?.bbox) {
+            return turfBbox(countryDetails.bbox);
+        }
+
+        return undefined;
     }, [
         selectedDistrict,
         districtResponse,

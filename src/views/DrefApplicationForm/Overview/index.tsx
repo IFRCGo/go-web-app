@@ -28,7 +28,7 @@ import {
     stringValueSelector,
 } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import useCountry from '#hooks/domain/useCountry';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
@@ -102,7 +102,7 @@ function Overview(props: Props) {
         dref_dref_onset_type: drefOnsetTypeOptions,
     } = useGlobalEnums();
 
-    const countryOptions = useCountry();
+    const countryOptions = useCountryRaw();
 
     const disasterTypes = useDisasterType();
 

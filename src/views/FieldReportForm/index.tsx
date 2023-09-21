@@ -345,29 +345,6 @@ export function Component() {
         },
     });
 
-    const countryIsoOptions = useMemo(
-        () => (
-            countries?.map((country) => {
-                // FIXME: why are we using this filter for independent and record_type
-                if (
-                    !country.independent
-                    // FIXME: Use named constant
-                    || country.record_type !== 1
-                    || isFalsyString(country.iso3)
-                ) {
-                    return undefined;
-                }
-                return {
-                    ...country,
-                    iso3: country.iso3,
-                    independent: country.independent,
-                    recort_type: country.record_type,
-                };
-            }).filter(isDefined)
-        ),
-        [countries],
-    );
-
     const getTitle = useCallback(
         (
             country: number | null | undefined,
@@ -378,7 +355,7 @@ export function Component() {
         ) => {
             const dateLabel = formatDate(new Date(), 'yyyy-MM-dd');
             const iso3Label = isDefined(country)
-                ? countryIsoOptions?.find(({ id }) => id === country)?.iso3
+                ? countries?.find(({ id }) => id === country)?.iso3
                 : undefined;
 
             // COVID-19
@@ -425,7 +402,7 @@ export function Component() {
                     },
                 );
         },
-        [countryIsoOptions, disasterTypeOptions, fieldReportNumber, strings],
+        [countries, disasterTypeOptions, fieldReportNumber, strings],
     );
 
     const titlePreview = useMemo(

@@ -4,6 +4,7 @@ import type {
     NavigationControl,
     Map,
 } from 'mapbox-gl';
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import getBbox from '@turf/bbox';
 
 import {
@@ -158,11 +159,20 @@ export function getCountryListBoundingBox(countryList: Country[]) {
 
     const collection = {
         type: 'FeatureCollection' as const,
-        features: countryList.map((country) => ({
-            type: 'Feature' as const,
-            geometry: country.bbox,
-        })),
+        features: countryList.map((country) => {
+            if (isNotDefined(country.bbox)) {
+                return undefined;
+            }
+            return {
+                type: 'Feature' as const,
+                geometry: country.bbox,
+            };
+        }).filter(isDefined),
     };
+
+    if (collection.features.length <= 0) {
+        return undefined;
+    }
 
     return getBbox(collection);
 }

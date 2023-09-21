@@ -6,7 +6,7 @@ import MultiSelectInput from '#components/MultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
+import NationalSocietyMultiSelectInput from '#components/domain/NationalSocietyMultiSelectInput';
 import {
     numericIdSelector,
     numericKeySelector,
@@ -28,10 +28,6 @@ export interface FilterValue {
     programme_type: number[];
     primary_sector: number[];
     secondary_sectors: number[];
-}
-
-function countrySocietyNameSelector(country: NationalSociety) {
-    return country.society_name;
 }
 
 interface Props {
@@ -66,8 +62,6 @@ function Filters(props: Props) {
         url: '/api/v2/secondarysector',
     });
 
-    const nsList = useNationalSociety();
-
     const handleInputChange = useCallback((...args: EntriesAsList<FilterValue>) => {
         const [val, key] = args;
         if (onChange) {
@@ -84,13 +78,10 @@ function Filters(props: Props) {
 
     return (
         <div className={_cs(styles.filters, className)}>
-            <MultiSelectInput
+            <NationalSocietyMultiSelectInput
                 name="reporting_ns"
                 placeholder={strings.threeWFilterReportingNs}
-                options={nsList}
                 value={value.reporting_ns}
-                keySelector={numericIdSelector}
-                labelSelector={countrySocietyNameSelector}
                 onChange={handleInputChange}
                 disabled={disabled}
             />

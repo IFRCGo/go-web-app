@@ -229,6 +229,7 @@ function ActiveOperationMap(props: Props) {
                 features: countryResponse
                     ?.map((country) => {
                         if (
+                            // NOTE: There is not country without record_type
                             (!country.independent && isNotDefined(country.record_type))
                             || isNotDefined(country.centroid)
                             || isNotDefined(country.iso3)

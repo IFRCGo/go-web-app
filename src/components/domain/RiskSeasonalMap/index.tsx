@@ -30,6 +30,7 @@ import BlockLoading from '#components/BlockLoading';
 import LegendItem from '#components/LegendItem';
 import Link from '#components/Link';
 import useInputState from '#hooks/useInputState';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useCountry from '#hooks/domain/useCountry';
 import useTranslation from '#hooks/useTranslation';
 import {
@@ -114,6 +115,9 @@ function RiskSeasonalMap(props: Props) {
             : undefined,
     });
 
+    const rawCountryList = useCountryRaw();
+
+    // NOTE: We are using CountryIsoMultiSelectInput in filter
     const countryList = useCountry(
         variant === 'region'
             ? { region: regionId }
@@ -123,12 +127,12 @@ function RiskSeasonalMap(props: Props) {
     const countryIso3ToIdMap = useMemo(
         () => (
             listToMap(
-                countryList,
-                ({ iso3 }) => iso3.toLowerCase(),
+                rawCountryList,
+                ({ iso3 }) => (isFalsyString(iso3) ? '<no-key>' : iso3.toLowerCase()),
                 ({ id }) => id,
             )
         ),
-        [countryList],
+        [rawCountryList],
     );
 
     const {
@@ -815,7 +819,7 @@ function RiskSeasonalMap(props: Props) {
                             return null;
                         }
 
-                        const countryId = countryIso3ToIdMap[dataItem.country_details.iso3];
+                        const countryId = countryIso3ToIdMap?.[dataItem.country_details.iso3];
 
                         return (
                             <div

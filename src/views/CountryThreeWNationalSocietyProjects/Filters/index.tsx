@@ -4,9 +4,8 @@ import { EntriesAsList } from '@togglecorp/toggle-form';
 import MultiSelectInput from '#components/MultiSelectInput';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
-import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
+import CountryMultiSelectInput from '#components/domain/CountryMultiSelectInput';
 import {
-    numericIdSelector,
     numericKeySelector,
     stringLabelSelector,
     stringValueSelector,
@@ -15,10 +14,6 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
-
-function countryNameSelector(country: Country) {
-    return country.name ?? country.id.toString();
-}
 
 export interface FilterValue {
     project_country?: number[];
@@ -58,17 +53,12 @@ function Filters(props: Props) {
         url: '/api/v2/secondarysector',
     });
 
-    const countries = useCountryRaw();
-
     return (
         <div className={_cs(styles.filters, className)}>
-            <MultiSelectInput
+            <CountryMultiSelectInput
                 name="project_country"
                 placeholder={strings.threeWFilterReportingNs}
-                options={countries}
                 value={value.project_country}
-                keySelector={numericIdSelector}
-                labelSelector={countryNameSelector}
                 onChange={onChange}
                 disabled={disabled}
             />

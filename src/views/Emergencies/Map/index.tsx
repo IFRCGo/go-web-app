@@ -113,10 +113,8 @@ function EmergenciesMap(props: Props) {
         }
 
         const countryCentroidMap = listToMap(
-            countryResponse?.filter(
-                (country) => isTruthyString(country.iso3) && isDefined(country.centroid),
-            ),
-            (country) => country.iso3 ?? 'unknown',
+            countryResponse,
+            (country) => country.iso3 ?? '<no-key>',
             (country) => country.centroid,
         );
 
@@ -125,14 +123,16 @@ function EmergenciesMap(props: Props) {
                 details: event,
                 country: {
                     ...country,
-                    centroid: country.iso3 ? countryCentroidMap?.[country.iso3] : undefined,
+                    centroid: country.iso3
+                        ? countryCentroidMap?.[country.iso3]
+                        : undefined,
                 },
             })),
         );
 
         return listToGroupList(
             allEventCountries,
-            (eventCountry) => eventCountry.country.iso3 ?? 'unknown',
+            (eventCountry) => eventCountry.country.iso3 ?? '<no-key>',
         );
     }, [eventList, countryResponse]);
 
@@ -146,7 +146,6 @@ function EmergenciesMap(props: Props) {
                     .filter((key) => {
                         const groupedEvents = countryGroupedEvents[key];
                         const currentCountry = groupedEvents[0].country;
-
                         return currentCountry.independent || currentCountry.record_type;
                     })
                     .map((key) => {

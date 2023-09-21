@@ -1,37 +1,35 @@
 import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
-import { numericIdSelector, stringNameSelector } from '#utils/selectors';
-import useCountry, { Country } from '#hooks/domain/useCountry';
+import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
 
-export type CountryOption = Country;
+function countrySocietyNameSelector(country: NationalSociety) {
+    return country.society_name;
+}
 
 type Props<NAME> = SelectInputProps<
-    number,
+    string,
     NAME,
-    Country,
+    NationalSociety,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     'value' | 'name' | 'options' | 'keySelector' | 'labelSelector'
 > & {
     className?: string;
     name: NAME;
-    onChange: (newValue: number | undefined, name: NAME) => void;
-    value: number | undefined | null;
-
-    regionFilter?: number;
+    onChange: (newValue: string | undefined, name: NAME) => void;
+    value: string | undefined | null;
 }
 
-function CountrySelectInput<const NAME>(props: Props<NAME>) {
+function NationalSocietySuggestionInput<const NAME>(props: Props<NAME>) {
     const {
         className,
         name,
         onChange,
         value,
-        regionFilter,
         ...otherProps
     } = props;
 
-    const countries = useCountry({ region: regionFilter });
+    const nationalSocieties = useNationalSociety();
 
     return (
         <SelectInput
@@ -39,13 +37,13 @@ function CountrySelectInput<const NAME>(props: Props<NAME>) {
             {...otherProps}
             className={className}
             name={name}
-            options={countries}
-            keySelector={numericIdSelector}
-            labelSelector={stringNameSelector}
+            options={nationalSocieties}
+            keySelector={countrySocietyNameSelector}
+            labelSelector={countrySocietyNameSelector}
             value={value}
             onChange={onChange}
         />
     );
 }
 
-export default CountrySelectInput;
+export default NationalSocietySuggestionInput;

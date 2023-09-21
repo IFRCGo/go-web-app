@@ -32,7 +32,7 @@ import {
 } from '#utils/restRequest';
 import { stringValueSelector } from '#utils/selectors';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import useNationalSociety, { type NationalSociety } from '#hooks/domain/useNationalSociety';
+import NationalSocietySuggestionInput from '#components/domain/NationalSocietySuggestionInput';
 import { transformObjectError } from '#utils/restRequest/error';
 
 import i18n from './i18n.json';
@@ -47,7 +47,6 @@ type OrganizationTypeOption = {
 }
 
 const organizationTypeKeySelector = (item: OrganizationTypeOption) => item.key;
-const nsLabelSelector = (item: NationalSociety) => item.society_name;
 
 type PartialFormFields = PartialForm<AccountRequestBody>;
 
@@ -173,8 +172,6 @@ function EditAccountInfo(props: Props) {
         },
     });
 
-    const nationalSocietyOptions = useNationalSociety();
-
     const handleConfirmProfileEdit = useCallback(
         (formValues: PartialFormFields) => {
             updateAccountInfo(formValues as AccountRequestBody);
@@ -275,14 +272,12 @@ function EditAccountInfo(props: Props) {
                 disabled={updateAccountPending}
             />
             {isNationalSociety ? (
-                <SelectInput
+                // NOTE: We cannot use NationalSocietySelectInput here
+                <NationalSocietySuggestionInput
                     label={strings.organizationNameInputLabel}
                     name="org"
                     value={formValue?.profile?.org}
                     onChange={setProfileFieldValue}
-                    keySelector={nsLabelSelector}
-                    labelSelector={nsLabelSelector}
-                    options={nationalSocietyOptions}
                     disabled={updateAccountPending}
                     error={profileError?.org}
                 />

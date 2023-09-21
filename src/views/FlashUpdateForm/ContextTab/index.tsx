@@ -21,7 +21,7 @@ import InputSection from '#components/InputSection';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import RichTextArea from '#components/RichTextArea';
 import useTranslation from '#hooks/useTranslation';
-import useCountry from '#hooks/domain/useCountry';
+import useCountryRaw from '#hooks/domain/useCountry';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import TextInput from '#components/TextInput';
 import Button from '#components/Button';
@@ -111,7 +111,7 @@ function ContextTab(props: Props) {
         );
     }, [onValueChange]);
 
-    const countryOptions = useCountry();
+    const countryOptions = useCountryRaw();
     const countryTitleMapById = useMemo(() => (
         listToMap(
             countryOptions,
