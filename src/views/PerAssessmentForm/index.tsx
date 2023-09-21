@@ -101,6 +101,7 @@ export function Component() {
     );
 
     const [currentArea, setCurrentArea] = useState<number | undefined>();
+    const id = statusResponse?.id;
     const assessmentId = statusResponse?.assessment;
     const [areas, setAreas] = useState<PerFormArea[]>(defaultFormAreas);
 
@@ -136,10 +137,10 @@ export function Component() {
     const {
         response: perOverviewResponse,
     } = useRequest({
-        skip: isNotDefined(statusResponse?.id),
+        skip: isNotDefined(id),
         url: '/api/v2/per-overview/{id}/',
         pathVariables: {
-            id: Number(statusResponse?.id),
+            id: Number(id),
         },
     });
 
@@ -237,6 +238,7 @@ export function Component() {
                 console.error('assesment id not defined');
                 return;
             }
+            formContentRef.current?.scrollIntoView();
 
             savePerAssessment({
                 ...formValues as AssessmentResponse,
@@ -255,6 +257,7 @@ export function Component() {
                 console.error('assesment id not defined');
                 return;
             }
+            formContentRef.current?.scrollIntoView();
 
             savePerAssessment({
                 ...(formValues as AssessmentResponse),
@@ -263,6 +266,10 @@ export function Component() {
         },
         [savePerAssessment, assessmentId, perId],
     );
+
+    const handleFormError = useCallback(() => {
+        formContentRef.current?.scrollIntoView();
+    }, []);
 
     const {
         setValue: setAreaResponsesValue,
@@ -299,15 +306,28 @@ export function Component() {
     const minArea = areas[0]?.area_num ?? 1;
     const maxArea = areas[areas.length - 1]?.area_num ?? areas.length;
 
+    const handleFormSubmit = createSubmitHandler(
+        validate,
+        setError,
+        handleSubmit,
+        handleFormError,
+    );
+    const handleFormFinalSubmit = createSubmitHandler(
+        validate,
+        setError,
+        handleFinalSubmit,
+        handleFormError,
+    );
+
     const currentPerStep = statusResponse?.phase;
-    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
-    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
 
-    const pending = questionsPending
+    const dataPending = questionsPending
         || perOptionsPending
-        || fetchingPerAssessment;
+        || fetchingPerAssessment
+        || fetchingStatus;
 
-    const readOnlyMode = currentPerStep !== PER_PHASE_ASSESSMENT;
+    const readOnlyMode = isNotDefined(currentPerStep)
+        || currentPerStep !== PER_PHASE_ASSESSMENT;
 
     const error = useMemo(
         () => getErrorObject(formError),
@@ -319,7 +339,7 @@ export function Component() {
         [error],
     );
 
-    if (fetchingStatus || fetchingPerAssessment) {
+    if (dataPending) {
         return (
             <Message
                 pending
@@ -344,21 +364,14 @@ export function Component() {
     }
 
     return (
-        <div
-            className={styles.perAssessmentForm}
-        >
-            {pending && (
-                <Message pending />
-            )}
-            {!pending && (
-                <PerAssessmentSummary
-                    perOptionsResponse={perOptionsResponse}
-                    areaResponses={value?.area_responses}
-                    totalQuestionCount={questionsResponse?.count}
-                    areaIdToTitleMap={areaIdToTitleMap}
-                />
-            )}
-            {!pending && isDefined(currentArea) && (
+        <div className={styles.perAssessmentForm}>
+            <PerAssessmentSummary
+                perOptionsResponse={perOptionsResponse}
+                areaResponses={value?.area_responses}
+                totalQuestionCount={questionsResponse?.count}
+                areaIdToTitleMap={areaIdToTitleMap}
+            />
+            {isDefined(currentArea) && (
                 <Container
                     heading={strings.assessmentHeading}
                     headingLevel={2}
@@ -390,15 +403,26 @@ export function Component() {
                             onConfirm={handleFormFinalSubmit}
                             confirmHeading={strings.submitAssessmentConfirmHeading}
                             confirmMessage={strings.submitAssessmentConfirmMessage}
-                            disabled={isNotDefined(currentPerStep)
-                                || savePerPending
-                                || fetchingPerAssessment
-                                || currentPerStep !== PER_PHASE_ASSESSMENT}
+                            disabled={savePerPending || readOnlyMode}
                         >
                             {strings.submitAssessmentButtonLabel}
                         </ConfirmButton>
                     )}
                 >
+                    {actionDivRef.current && (
+                        <Portal
+                            container={actionDivRef.current}
+                        >
+                            <Button
+                                name={undefined}
+                                variant="secondary"
+                                onClick={handleFormSubmit}
+                                disabled={savePerPending || readOnlyMode}
+                            >
+                                {strings.saveAssessmentButtonLabel}
+                            </Button>
+                        </Portal>
+                    )}
                     <NonFieldError
                         error={error}
                         withFallbackError
@@ -426,6 +450,7 @@ export function Component() {
                                     </Tab>
                                 ))}
                             </TabList>
+                            <NonFieldError error={areaInputError} />
                             {areas.map((area) => (
                                 <TabPanel
                                     name={area.id}
@@ -438,7 +463,7 @@ export function Component() {
                                         questions={areaIdGroupedQuestion[area.id]}
                                         index={areaResponseMapping[area.id]?.index}
                                         value={areaResponseMapping[area.id]?.value}
-                                        disabled={pending}
+                                        disabled={savePerPending}
                                         error={areaInputError?.[area.id]}
                                         onChange={setAreaResponsesValue}
                                         ratingOptions={perOptionsResponse?.componentratings}
@@ -453,23 +478,6 @@ export function Component() {
                             ))}
                         </Tabs>
                     </div>
-                    {actionDivRef.current && (
-                        <Portal
-                            container={actionDivRef.current}
-                        >
-                            <Button
-                                name={undefined}
-                                variant="secondary"
-                                onClick={handleFormSubmit}
-                                disabled={isNotDefined(currentPerStep)
-                                    || savePerPending
-                                    || fetchingPerAssessment
-                                    || readOnlyMode}
-                            >
-                                {strings.saveAssessmentButtonLabel}
-                            </Button>
-                        </Portal>
-                    )}
                 </Container>
             )}
         </div>

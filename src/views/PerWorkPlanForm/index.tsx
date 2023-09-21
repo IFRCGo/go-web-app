@@ -26,7 +26,6 @@ import NonFieldError from '#components/NonFieldError';
 import useRouting from '#hooks/useRouting';
 import Button from '#components/Button';
 import Container from '#components/Container';
-import BlockLoading from '#components/BlockLoading';
 import ConfirmButton from '#components/ConfirmButton';
 import TextOutput from '#components/TextOutput';
 import Link from '#components/Link';
@@ -85,18 +84,21 @@ export function Component() {
         { value: defaultValue },
     );
 
+    const id = statusResponse?.id;
+    const prioritizationId = statusResponse?.prioritization;
+    const workplanId = statusResponse?.workplan;
+
     const {
         pending: prioritizationPending,
         response: prioritizationResponse,
     } = useRequest({
-        skip: isNotDefined(statusResponse?.prioritization),
+        skip: isNotDefined(prioritizationId),
         url: '/api/v2/per-prioritization/{id}/',
         pathVariables: {
-            id: Number(statusResponse?.prioritization),
+            id: Number(prioritizationId),
         },
     });
 
-    const workplanId = statusResponse?.workplan;
     const {
         pending: fetchingWorkPlan,
         response: workPlanResponse,
@@ -158,8 +160,8 @@ export function Component() {
         trigger: savePerWorkPlan,
     } = useLazyRequest({
         url: '/api/v2/per-work-plan/{id}/',
-        pathVariables: statusResponse && isDefined(statusResponse.workplan)
-            ? { id: statusResponse.workplan }
+        pathVariables: isDefined(workplanId)
+            ? { id: workplanId }
             : undefined,
         method: 'PATCH',
         body: (ctx: WorkPlanBody) => ctx,
@@ -226,11 +228,12 @@ export function Component() {
 
     const handleSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
-            if (isNotDefined(statusResponse?.workplan)) {
+            if (isNotDefined(workplanId)) {
                 // eslint-disable-next-line no-console
                 console.error('WorkPlan id not defined');
                 return;
             }
+            formContentRef.current?.scrollIntoView();
 
             // TODO: we might have to revisit this logic
             savePerWorkPlan({
@@ -238,22 +241,24 @@ export function Component() {
                 is_draft: formValues?.is_draft ?? true,
             } as WorkPlanBody);
         },
-        [savePerWorkPlan, statusResponse?.workplan],
+        [savePerWorkPlan, workplanId],
     );
 
     const handleFinalSubmit = useCallback(
         (formValues: PartialWorkPlan) => {
-            if (isNotDefined(statusResponse?.workplan)) {
+            if (isNotDefined(workplanId)) {
                 // eslint-disable-next-line no-console
                 console.error('WorkPlan id not defined');
                 return;
             }
+            formContentRef.current?.scrollIntoView();
+
             savePerWorkPlan({
                 ...formValues,
                 is_draft: false,
             } as WorkPlanBody);
         },
-        [savePerWorkPlan, statusResponse?.workplan],
+        [savePerWorkPlan, workplanId],
     );
 
     const handleAddCustomActivity = useCallback(() => {
@@ -276,23 +281,39 @@ export function Component() {
         );
     }, [setFieldValue]);
 
-    const error = getErrorObject(formError);
-
     const handleFormError = useCallback(() => {
         formContentRef.current?.scrollIntoView();
     }, []);
 
-    const pending = prioritizationPending
-        || fetchingWorkPlan;
+    const handleSave = createSubmitHandler(
+        validate,
+        setError,
+        handleFinalSubmit,
+        handleFormError,
+    );
+    const handleFinalizeWorkplan = createSubmitHandler(
+        validate,
+        setError,
+        handleSubmit,
+        handleFormError,
+    );
+
+    const error = getErrorObject(formError);
+
+    const dataPending = prioritizationPending
+        || fetchingWorkPlan
+        || fetchingStatus;
 
     const componentResponseError = getErrorObject(error?.prioritized_action_responses);
     const customComponentError = getErrorObject(error?.additional_action_responses);
 
-    const readOnlyMode = isNotDefined(statusResponse)
-        || isNotDefined(statusResponse.phase)
-        || statusResponse.phase < PER_PHASE_WORKPLAN;
+    const currentPerStep = statusResponse?.phase;
+    const readOnlyMode = isNotDefined(currentPerStep)
+        || currentPerStep < PER_PHASE_WORKPLAN;
 
-    if (fetchingStatus || fetchingWorkPlan) {
+    const disabled = dataPending || savePerWorkPlanPending;
+
+    if (dataPending) {
         return (
             <Message
                 pending
@@ -326,13 +347,8 @@ export function Component() {
                 <ConfirmButton
                     name={undefined}
                     variant="secondary"
-                    onConfirm={createSubmitHandler(
-                        validate,
-                        setError,
-                        handleFinalSubmit,
-                        handleFormError,
-                    )}
-                    disabled={pending || savePerWorkPlanPending || readOnlyMode}
+                    onConfirm={handleSave}
+                    disabled={savePerWorkPlanPending || readOnlyMode}
                     confirmHeading={strings.confirmHeading}
                     confirmMessage={strings.confirmMessage}
                 >
@@ -341,121 +357,113 @@ export function Component() {
             )}
             spacing="relaxed"
         >
+            {actionDivRef?.current && (
+                <Portal container={actionDivRef.current}>
+                    <Button
+                        name={undefined}
+                        onClick={handleFinalizeWorkplan}
+                        variant="secondary"
+                        disabled={savePerWorkPlanPending || readOnlyMode}
+                    >
+                        {strings.saveButtonLabel}
+                    </Button>
+                </Portal>
+            )}
             <NonFieldError
                 error={formError}
                 withFallbackError
             />
-            {pending && (
-                <BlockLoading />
-            )}
-            {!pending && (
-                <>
-                    <div className={styles.overview}>
-                        <TextOutput
-                            label={strings.workPlanDate}
-                            value={workPlanResponse?.overview_details?.workplan_development_date}
-                            strongValue
-                        />
-                        <div className={styles.responsible}>
-                            <TextOutput
-                                label={strings.perResponsibleLabel}
-                                value={workPlanResponse?.overview_details?.ns_focal_point_name}
-                                // eslint-disable-next-line max-len
-                                description={workPlanResponse?.overview_details?.ns_focal_point_email}
-                                strongValue
-                            />
-                            {isDefined(statusResponse?.id) && (
-                                <Link
-                                    to="perOverviewForm"
-                                    urlParams={{ perId: statusResponse?.id }}
-                                    variant="secondary"
-                                >
-                                    {strings.editResponsibleButtonLabel}
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-                    <Container
-                        className={styles.prioritizedComponents}
-                        heading={strings.prioritizedComponentsHeading}
-                        childrenContainerClassName={styles.componentList}
-                        withHeaderBorder
-                        withInternalPadding
-                        spacing="comfortable"
-                    >
-                        {/* eslint-disable-next-line max-len */}
-                        {prioritizationResponse?.prioritized_action_responses?.map((componentResponse) => (
-                            <PrioritizedActionInput
-                                key={componentResponse.component}
-                                index={componentResponseMapping[componentResponse.component]?.index}
-                                value={componentResponseMapping[componentResponse.component]?.value}
-                                onChange={setComponentValue}
-                                component={componentResponse.component_details}
-                                error={componentResponseError?.[componentResponse.component]}
-                                readOnly={readOnlyMode}
-                            />
-                        ))}
-                    </Container>
-                    <Container
-                        className={styles.actions}
-                        childrenContainerClassName={styles.actionList}
-                        heading={strings.actionsHeading}
-                        withHeaderBorder
-                        withInternalPadding
-                        spacing="comfortable"
-                        actions={(
-                            <Button
-                                name={undefined}
-                                variant="secondary"
-                                onClick={handleAddCustomActivity}
-                                icons={<AddLineIcon />}
-                                disabled={readOnlyMode}
-                            >
-                                {strings.addActionButtonLabel}
-                            </Button>
-                        )}
-                    >
-                        {value?.additional_action_responses?.map((customComponent, i) => (
-                            <AdditionalActionInput
-                                key={customComponent.client_id}
-                                actionNumber={i + 1}
-                                index={
-                                    customComponentResponseMapping[customComponent.client_id]?.index
-                                }
-                                value={
-                                    customComponentResponseMapping[customComponent.client_id]?.value
-                                }
-                                onChange={setCustomComponentValue}
-                                onRemove={removeCustomComponentValue}
-                                error={customComponentError?.[customComponent.client_id]}
-                                readOnly={readOnlyMode}
-                            />
-                        ))}
-                        {(value?.additional_action_responses?.length ?? 0) === 0 && (
-                            <div>
-                                {strings.noActionsLabel}
-                            </div>
-                        )}
-                    </Container>
-                    {actionDivRef?.current && (
-                        <Portal container={actionDivRef.current}>
-                            <Button
-                                name={undefined}
-                                onClick={createSubmitHandler(
-                                    validate,
-                                    setError,
-                                    handleSubmit,
-                                    handleFormError,
-                                )}
-                                variant="secondary"
-                                disabled={readOnlyMode}
-                            >
-                                {strings.saveButtonLabel}
-                            </Button>
-                        </Portal>
+            <div className={styles.overview}>
+                <TextOutput
+                    label={strings.workPlanDate}
+                    value={workPlanResponse?.overview_details?.workplan_development_date}
+                    strongValue
+                />
+                <div className={styles.responsible}>
+                    <TextOutput
+                        label={strings.perResponsibleLabel}
+                        value={workPlanResponse?.overview_details?.ns_focal_point_name}
+                        // eslint-disable-next-line max-len
+                        description={workPlanResponse?.overview_details?.ns_focal_point_email}
+                        strongValue
+                    />
+                    {isDefined(id) && (
+                        <Link
+                            to="perOverviewForm"
+                            urlParams={{ perId: id }}
+                            variant="secondary"
+                        >
+                            {strings.editResponsibleButtonLabel}
+                        </Link>
                     )}
-                </>
-            )}
+                </div>
+            </div>
+            <Container
+                className={styles.prioritizedComponents}
+                heading={strings.prioritizedComponentsHeading}
+                childrenContainerClassName={styles.componentList}
+                withHeaderBorder
+                withInternalPadding
+                spacing="comfortable"
+            >
+                <NonFieldError error={componentResponseError} />
+                {/* eslint-disable-next-line max-len */}
+                {prioritizationResponse?.prioritized_action_responses?.map((componentResponse) => (
+                    <PrioritizedActionInput
+                        key={componentResponse.component}
+                        index={componentResponseMapping[componentResponse.component]?.index}
+                        value={componentResponseMapping[componentResponse.component]?.value}
+                        onChange={setComponentValue}
+                        component={componentResponse.component_details}
+                        error={componentResponseError?.[componentResponse.component]}
+                        readOnly={readOnlyMode}
+                        disabled={disabled}
+                    />
+                ))}
+            </Container>
+            <Container
+                className={styles.actions}
+                childrenContainerClassName={styles.actionList}
+                heading={strings.actionsHeading}
+                withHeaderBorder
+                withInternalPadding
+                spacing="comfortable"
+                actions={(
+                    <Button
+                        name={undefined}
+                        variant="secondary"
+                        onClick={handleAddCustomActivity}
+                        icons={<AddLineIcon />}
+                        disabled={readOnlyMode}
+                    >
+                        {strings.addActionButtonLabel}
+                    </Button>
+                )}
+            >
+                <NonFieldError error={customComponentError} />
+                {value?.additional_action_responses?.map((customComponent, i) => (
+                    <AdditionalActionInput
+                        key={customComponent.client_id}
+                        actionNumber={i + 1}
+                        index={
+                            customComponentResponseMapping[customComponent.client_id]?.index
+                        }
+                        value={
+                            customComponentResponseMapping[customComponent.client_id]?.value
+                        }
+                        onChange={setCustomComponentValue}
+                        onRemove={removeCustomComponentValue}
+                        error={customComponentError?.[customComponent.client_id]}
+                        readOnly={readOnlyMode}
+                        disabled={disabled}
+                    />
+                ))}
+                {(value?.additional_action_responses?.length ?? 0) === 0 && (
+                    <div>
+                        {strings.noActionsLabel}
+                    </div>
+                )}
+            </Container>
         </Container>
     );
 }

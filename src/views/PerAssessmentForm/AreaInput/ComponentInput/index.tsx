@@ -148,10 +148,8 @@ function ComponentInput(props: Props) {
             )}
             initiallyExpanded
         >
-            <NonFieldError
-                error={error}
-                withFallbackError
-            />
+            <NonFieldError error={error} />
+            <NonFieldError error={questionInputError} />
             {questions?.map((question) => {
                 if (isNotDefined(question.question_num)) {
                     return null;

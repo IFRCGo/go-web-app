@@ -128,8 +128,6 @@ export function Component() {
         },
     });
 
-    const disabled = fetchingPerOverview;
-
     useRequest({
         url: '/api/v2/latest-per-overview/',
         skip: isNotDefined(value?.country) || isDefined(value?.is_draft),
@@ -255,8 +253,6 @@ export function Component() {
         },
     });
 
-    const savePerPending = createPerPending || updatePerPending;
-
     const handleSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
             formContentRef.current?.scrollIntoView();
@@ -319,9 +315,17 @@ export function Component() {
 
     const error = getErrorObject(formError);
 
-    const partiallyEditable = value?.is_draft === false;
+    const currentPerStep = statusResponse?.phase;
+    const submissionDisabled = isNotDefined(currentPerStep)
+        || currentPerStep !== PER_PHASE_OVERVIEW;
 
-    if (fetchingPerOverview) {
+    const partialReadonlyMode = value?.is_draft === false;
+
+    const dataPending = fetchingPerOverview;
+    const savePerPending = createPerPending || updatePerPending;
+    const disabled = savePerPending;
+
+    if (dataPending) {
         return (
             <Message
                 pending
@@ -341,7 +345,9 @@ export function Component() {
         <Container
             headerElementRef={formContentRef}
             className={styles.overviewForm}
-            heading={partiallyEditable ? strings.overviewEditHeading : strings.overviewSetupHeading}
+            heading={partialReadonlyMode
+                ? strings.overviewEditHeading
+                : strings.overviewSetupHeading}
             headingLevel={2}
             childrenContainerClassName={styles.content}
             withHeaderBorder
@@ -351,19 +357,27 @@ export function Component() {
                     confirmHeading={strings.submitConfirmHeading}
                     confirmMessage={strings.submitConfirmMessage}
                     onConfirm={handleSave}
-                    disabled={
-                        // FIXME: shoulnd't we use 'or' instead of 'and'?
-                        (isDefined(statusResponse?.phase)
-                        && statusResponse?.phase !== PER_PHASE_OVERVIEW)
-                        || savePerPending
-                        || fetchingPerOverview
-                    }
+                    disabled={submissionDisabled || savePerPending}
                 >
                     {strings.submitButtonLabel}
                 </ConfirmButton>
             )}
             spacing="comfortable"
         >
+            {actionDivRef.current && (
+                <Portal
+                    container={actionDivRef.current}
+                >
+                    <Button
+                        name={undefined}
+                        variant="secondary"
+                        onClick={handleSetupPerProcess}
+                        disabled={savePerPending}
+                    >
+                        {strings.saveButtonLabel}
+                    </Button>
+                </Portal>
+            )}
             <NonFieldError
                 error={formError}
                 withFallbackError
@@ -384,7 +398,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.country}
                         error={getErrorString(error?.country)}
-                        readOnly={partiallyEditable}
+                        readOnly={partialReadonlyMode}
                         disabled={disabled}
                         autoFocus
                     />
@@ -409,7 +423,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_orientation}
                         error={error?.date_of_orientation}
-                        readOnly={partiallyEditable}
+                        readOnly={partialReadonlyMode}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -451,7 +465,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.date_of_assessment}
                         error={error?.date_of_assessment}
-                        readOnly={partiallyEditable}
+                        readOnly={partialReadonlyMode}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -469,7 +483,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
-                        readOnly={partiallyEditable}
+                        readOnly={partialReadonlyMode}
                         disabled={disabled || perOptionsPending}
                     />
                 </InputSection>
@@ -514,7 +528,7 @@ export function Component() {
                         value={value?.branches_involved}
                         onChange={setFieldValue}
                         error={error?.branches_involved}
-                        readOnly={partiallyEditable}
+                        readOnly={partialReadonlyMode}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -531,7 +545,7 @@ export function Component() {
                         labelSelector={stringValueSelector}
                         onChange={setFieldValue}
                         error={error?.assessment_method}
-                        readOnly={partiallyEditable}
+                        readOnly={partialReadonlyMode}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -545,7 +559,7 @@ export function Component() {
                         value={value?.assess_preparedness_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_preparedness_of_country}
-                        readOnly={partiallyEditable}
+                        readOnly={partialReadonlyMode}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -559,7 +573,7 @@ export function Component() {
                         value={value.assess_urban_aspect_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_urban_aspect_of_country}
-                        readOnly={partiallyEditable}
+                        readOnly={partialReadonlyMode}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -574,7 +588,7 @@ export function Component() {
                         value={value?.assess_climate_environment_of_country}
                         onChange={setFieldValue}
                         error={error?.assess_climate_environment_of_country}
-                        readOnly={partiallyEditable}
+                        readOnly={partialReadonlyMode}
                         disabled={disabled}
                     />
                 </InputSection>
@@ -782,20 +796,6 @@ export function Component() {
                     />
                 </InputSection>
             </Container>
-            {actionDivRef.current && (
-                <Portal
-                    container={actionDivRef.current}
-                >
-                    <Button
-                        name={undefined}
-                        variant="secondary"
-                        onClick={handleSetupPerProcess}
-                        disabled={savePerPending}
-                    >
-                        {strings.saveButtonLabel}
-                    </Button>
-                </Portal>
-            )}
         </Container>
     );
 }

@@ -15,6 +15,8 @@ export type PartialPrioritization = PartialForm<PrioritizationFormFields, 'compo
 type PrioritizationSchema = ObjectSchema<PartialPrioritization>;
 type PrioritizationSchemaFields = ReturnType<PrioritizationSchema['fields']>;
 
+type PrioritizedActionResponseFields = ReturnType<ObjectSchema<NonNullable<PartialPrioritization['prioritized_action_responses']>[number], PartialPrioritization>['fields']>;
+
 export const prioritizationSchema: PrioritizationSchema = {
     fields: (): PrioritizationSchemaFields => ({
         // FIXME: do we need to pass overview now that request is PATCH?
@@ -23,7 +25,7 @@ export const prioritizationSchema: PrioritizationSchema = {
         prioritized_action_responses: {
             keySelector: (componentResponse) => componentResponse.component,
             member: () => ({
-                fields: () => ({
+                fields: (): PrioritizedActionResponseFields => ({
                     component: {},
                     justification_text: {},
                 }),

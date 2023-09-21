@@ -7,6 +7,7 @@ import {
 } from '@togglecorp/toggle-form';
 import { isDefined } from '@togglecorp/fujs';
 
+import NonFieldError from '#components/NonFieldError';
 import Container from '#components/Container';
 import TextArea from '#components/TextArea';
 import RadioInput from '#components/RadioInput';
@@ -83,6 +84,7 @@ function QuestionInput(props: Props) {
             childrenContainerClassName={styles.content}
             headerDescription={question.description}
         >
+            <NonFieldError error={error} />
             <RadioInput
                 name="answer"
                 options={question.answers}

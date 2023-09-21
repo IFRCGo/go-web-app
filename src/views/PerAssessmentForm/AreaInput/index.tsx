@@ -109,10 +109,8 @@ function AreaInput(props: Props) {
         <div
             className={_cs(styles.areaInput, className)}
         >
-            <NonFieldError
-                error={error}
-                withFallbackError
-            />
+            <NonFieldError error={error} />
+            <NonFieldError error={componentInputError} />
             {componentGroupedQuestionList.map((componentResponse) => (
                 <ComponentInput
                     key={componentResponse.component.id}

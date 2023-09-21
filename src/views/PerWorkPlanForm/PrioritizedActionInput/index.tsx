@@ -15,6 +15,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import { stringValueSelector } from '#utils/selectors';
 import NationalSocietySelectInput from '#components/domain/NationalSocietySelectInput';
 import { type GoApiResponse } from '#utils/restRequest';
+import NonFieldError from '#components/NonFieldError';
 
 import { type PartialWorkPlan } from '../schema';
 
@@ -40,6 +41,7 @@ interface Props {
     error: Error<Value> | undefined;
     component: ComponentResponse['component_details'];
     readOnly?: boolean;
+    disabled?: boolean;
 }
 
 function PrioritizedActionInput(props: Props) {
@@ -50,6 +52,7 @@ function PrioritizedActionInput(props: Props) {
         component,
         error: formError,
         readOnly,
+        disabled,
     } = props;
 
     const { per_workplanstatus } = useGlobalEnums();
@@ -75,6 +78,7 @@ function PrioritizedActionInput(props: Props) {
             spacing="compact"
             childrenContainerClassName={styles.content}
         >
+            <NonFieldError error={error} />
             <TextArea
                 name="actions"
                 value={value?.actions}
@@ -83,6 +87,7 @@ function PrioritizedActionInput(props: Props) {
                 rows={2}
                 error={error?.actions}
                 readOnly={readOnly}
+                disabled={disabled}
             />
             <DateInput
                 label={strings.componentDueDateInputLabel}
@@ -91,6 +96,7 @@ function PrioritizedActionInput(props: Props) {
                 onChange={onFieldChange}
                 error={error?.due_date}
                 readOnly={readOnly}
+                disabled={disabled}
             />
             <NationalSocietySelectInput
                 name="supported_by"
@@ -100,6 +106,7 @@ function PrioritizedActionInput(props: Props) {
                 value={value?.supported_by}
                 error={error?.supported_by}
                 readOnly={readOnly}
+                disabled={disabled}
             />
             <SelectInput
                 name="status"
@@ -113,6 +120,7 @@ function PrioritizedActionInput(props: Props) {
                 value={value?.status}
                 error={error?.status}
                 readOnly={readOnly}
+                disabled={disabled}
             />
         </Container>
     );

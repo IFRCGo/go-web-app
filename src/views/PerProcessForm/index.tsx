@@ -32,7 +32,7 @@ export function Component() {
     const currentLanguage = useCurrentLanguage();
 
     const {
-        pending: fetchingStatus,
+        pending: statusResponsePending,
         response: statusResponse,
         retrigger: refetchStatusResponse,
         error: statusResponseError,
@@ -42,7 +42,12 @@ export function Component() {
         pathVariables: {
             id: Number(perId),
         },
+        preserveResponse: true,
     });
+
+    // NOTE: To prevent page layout change, fetchingStatus should only be true
+    // when there is not statusResponse
+    const fetchingStatus = statusResponsePending && !statusResponse;
 
     const currentStep = statusResponse?.phase
         ?? getCurrentPerProcessStep(statusResponse)
