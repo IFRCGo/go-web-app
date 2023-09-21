@@ -206,6 +206,12 @@ const secondarySectorLabelSelector = (
     item: SecondarySectorResponse[number],
 ) => item.label;
 
+interface AdminTwo {
+    id: number;
+    name: string;
+    district_id: number;
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -232,7 +238,7 @@ export function Component() {
     >([]);
 
     const [admin2Options, setAdmin2Options] = useState<
-    { id: number; name: string; district_id: number }[] | undefined | null
+    AdminTwo[] | undefined | null
     >([]);
 
     const [eventOptions, setEventOptions] = useState<
@@ -761,6 +767,7 @@ export function Component() {
                         />
                     </InputSection>
                     <InputSection
+                        contentSectionClassName={styles.countrySelect}
                         title={strings.projectFormCountryTitle}
                         description={strings.projectFormCountryHelpText}
                         tooltip={strings.projectFormCountryTooltip}
@@ -883,7 +890,7 @@ export function Component() {
                             placeholder={disasterTypePlaceholder}
                             value={value.dtype}
                             onChange={setFieldValue}
-                            // withAsterisk
+                        // withAsterisk
                         />
                     </InputSection>
                     <InputSection
@@ -902,9 +909,9 @@ export function Component() {
                     </InputSection>
                     <InputSection
                         title={strings.projectFormDescription}
-                        // description={strings.projectFormDescriptionHelpText}
-                        // tooltip={strings.projectFormDescriptionTooltip}
-                        // These texts are moved into the area as placeholder:
+                    // description={strings.projectFormDescriptionHelpText}
+                    // tooltip={strings.projectFormDescriptionTooltip}
+                    // These texts are moved into the area as placeholder:
                     >
                         <RichTextArea
                             name="description"
