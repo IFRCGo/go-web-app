@@ -3,6 +3,7 @@ import {
     useMemo,
     useCallback,
 } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import {
     _cs,
     isDefined,
@@ -10,9 +11,6 @@ import {
     listToGroupList,
     isNotDefined,
 } from '@togglecorp/fujs';
-import {
-    useOutletContext,
-} from 'react-router-dom';
 import Map, {
     MapSource,
     MapLayer,

@@ -50,8 +50,7 @@
         }
     }
 
-    .external-link-icon,
     .forward-icon {
-        font-size: var(--go-ui-font-size-xl);
+        font-size: var(--go-ui-height-icon-multiplier);
     }
 }

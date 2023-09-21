@@ -4,6 +4,7 @@ import Header, { Props as HeaderProps } from '#components/Header';
 import Footer from '#components/Footer';
 import { Props as HeadingProps } from '#components/Heading';
 import type { SpacingType } from '#components/types';
+import useSpacingTokens from '#hooks/useSpacingTokens';
 
 import styles from './styles.module.css';
 
@@ -13,17 +14,6 @@ const numColumnToClassNameMap: Record<NumColumn, string> = {
     3: styles.threeColumn,
     4: styles.fourColumn,
     5: styles.fiveColumn,
-};
-
-const spacingTypeToClassNameMap: Record<SpacingType, string> = {
-    none: styles.noSpacing,
-    condensed: styles.condensedSpacing,
-    compact: styles.compactSpacing,
-    cozy: styles.cozySpacing,
-    default: styles.defaultSpacing,
-    comfortable: styles.comfortableSpacing,
-    relaxed: styles.relaxedSpacing,
-    loose: styles.looseSpacing,
 };
 
 export interface Props {
@@ -101,6 +91,24 @@ function Container(props: Props) {
 
     const showFooter = footerIcons || footerContent || footerActions;
     const showHeader = heading || actions || icons || headerDescription || headingDescription;
+    const gapSpacingTokens = useSpacingTokens({ spacing });
+    const horizontalPaddingSpacingTokens = useSpacingTokens({
+        spacing,
+        mode: 'padding-h',
+    });
+    const verticalPaddingSpacingTokens = useSpacingTokens({
+        spacing,
+        mode: 'padding-v',
+    });
+    const childrenGapTokens = useSpacingTokens({
+        spacing,
+        mode: 'gap',
+        inner: true,
+    });
+    const filterGapTokens = useSpacingTokens({
+        spacing,
+        mode: 'grid-gap',
+    });
 
     if (!showHeader && !filters && !children && !showFooter) {
         return null;
@@ -110,8 +118,8 @@ function Container(props: Props) {
         <div
             className={_cs(
                 styles.container,
-                spacingTypeToClassNameMap[spacing],
-                withInternalPadding && styles.withInternalPadding,
+                gapSpacingTokens,
+                withInternalPadding && verticalPaddingSpacingTokens,
                 contentViewType === 'grid' && styles.withGridView,
                 contentViewType === 'grid' && numColumnToClassNameMap[numPreferredGridContentColumns],
                 contentViewType === 'vertical' && styles.withVerticalView,
@@ -121,7 +129,11 @@ function Container(props: Props) {
             {showHeader && (
                 <Header
                     actions={actions}
-                    className={_cs(styles.header, headerClassName)}
+                    className={_cs(
+                        styles.header,
+                        withInternalPadding && horizontalPaddingSpacingTokens,
+                        headerClassName,
+                    )}
                     elementRef={headerElementRef}
                     actionsContainerClassName={actionsContainerClassName}
                     ellipsizeHeading={ellipsizeHeading}
@@ -146,14 +158,23 @@ function Container(props: Props) {
                     className={_cs(
                         styles.filter,
                         withGridViewInFilter && styles.withGridViewInFilter,
+                        withGridViewInFilter && filterGapTokens,
                         filtersContainerClassName,
+                        withInternalPadding && horizontalPaddingSpacingTokens,
                     )}
                 >
                     {filters}
                 </div>
             )}
             {children && (
-                <div className={_cs(styles.content, childrenContainerClassName)}>
+                <div
+                    className={_cs(
+                        styles.content,
+                        contentViewType !== 'default' && childrenGapTokens,
+                        withInternalPadding && horizontalPaddingSpacingTokens,
+                        childrenContainerClassName,
+                    )}
+                >
                     {children}
                 </div>
             )}
@@ -162,7 +183,11 @@ function Container(props: Props) {
                     actions={footerActions}
                     icons={footerIcons}
                     childrenContainerClassName={footerContentClassName}
-                    className={_cs(styles.footer, footerClassName)}
+                    className={_cs(
+                        styles.footer,
+                        withInternalPadding && horizontalPaddingSpacingTokens,
+                        footerClassName,
+                    )}
                     actionsContainerClassName={footerActionsContainerClassName}
                     spacing={spacing}
                 >

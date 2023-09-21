@@ -1,30 +1,19 @@
 .basic-layout {
-    --gap: var(--go-ui-spacing-md);
-    --inner-gap: var(--go-ui-spacing-sm);
-
     display: flex;
     align-items: flex-start;
-    gap: var(--gap);
-    flex-wrap: wrap;
 
-    &.with-padding {
-        padding: var(--gap);
-    }
-
-    &.no-wrap {
-        flex-wrap: nowrap;
+    &.with-wrap {
+        flex-wrap: wrap;
     }
 
     .icons-container {
         display: flex;
         align-items: flex-start;
         flex-shrink: 0;
-        gap: var(--inner-gap);
     }
 
     .children-container {
         display: flex;
-        gap: var(--inner-gap);
         flex-grow: 1;
     }
 
@@ -32,119 +21,5 @@
         display: flex;
         align-items: flex-start;
         flex-shrink: 0;
-        gap: var(--inner-gap);
-    }
-
-    &.no-spacing {
-        --gap: 0;
-    }
-
-    &.condensed-spacing {
-        --inner-gap: var(--go-ui-spacing-4xs);
-        --gap: var(--go-ui-spacing-3xs);
-    }
-
-    &.compact-spacing {
-        --inner-gap: var(--go-ui-spacing-3xs);
-        --gap: var(--go-ui-spacing-2xs);
-    }
-
-    &.cozy-spacing {
-        --inner-gap: var(--go-ui-spacing-2xs);
-        --gap: var(--go-ui-spacing-xs);
-    }
-
-    &.default-spacing {
-        --inner-gap: var(--go-ui-spacing-xs);
-        --gap: var(--go-ui-spacing-sm);
-    }
-
-    &.comfortable-spacing {
-        --inner-gap: var(--go-ui-spacing-sm);
-        --gap: var(--go-ui-spacing-md);
-    }
-
-    &.relaxed-spacing {
-        --inner-gap: var(--go-ui-spacing-md);
-        --gap: var(--go-ui-spacing-lg);
-    }
-
-    &.loose-spacing {
-        --inner-gap: var(--go-ui-spacing-lg);
-        --gap: var(--go-ui-spacing-xl);
-    }
-
-    &.large {
-        &.condensed-spacing {
-            --inner-gap: var(--go-ui-spacing-2xs);
-            --gap: var(--go-ui-spacing-xs);
-        }
-
-        &.compact-spacing {
-            --inner-gap: var(--go-ui-spacing-xs);
-            --gap: var(--go-ui-spacing-sm);
-        }
-
-        &.cozy-spacing {
-            --inner-gap: var(--go-ui-spacing-sm);
-            --gap: var(--go-ui-spacing-md);
-        }
-
-        &.default-spacing {
-            --inner-gap: var(--go-ui-spacing-md);
-            --gap: var(--go-ui-spacing-lg);
-        }
-
-        &.comfortable-spacing {
-            --inner-gap: var(--go-ui-spacing-lg);
-            --gap: var(--go-ui-spacing-xl);
-        }
-
-        &.relaxed-spacing {
-            --inner-gap: var(--go-ui-spacing-xl);
-            --gap: var(--go-ui-spacing-2xl);
-        }
-
-        &.loose-spacing {
-            --inner-gap: var(--go-ui-spacing-2xl);
-            --gap: var(--go-ui-spacing-3xl);
-        }
-    }
-
-    &.small {
-        &.condensed-spacing {
-            --inner-gap: 0;
-            --gap: var(--go-ui-spacing-4xs);
-        }
-
-        &.compact-spacing {
-            --inner-gap: var(--go-ui-spacing-4xs);
-            --gap: var(--go-ui-spacing-3xs);
-        }
-
-        &.cozy-spacing {
-            --inner-gap: var(--go-ui-spacing-3xs);
-            --gap: var(--go-ui-spacing-2xs);
-        }
-
-        &.default-spacing {
-            --inner-gap: var(--go-ui-spacing-2xs);
-            --gap: var(--go-ui-spacing-xs);
-        }
-
-        &.comfortable-spacing {
-            --inner-gap: var(--go-ui-spacing-xs);
-            --gap: var(--go-ui-spacing-sm);
-        }
-
-        &.relaxed-spacing {
-            --inner-gap: var(--go-ui-spacing-sm);
-            --gap: var(--go-ui-spacing-md);
-        }
-
-        &.loose-spacing {
-            --inner-gap: var(--go-ui-spacing-md);
-            --gap: var(--go-ui-spacing-lg);
-        }
     }
 }

@@ -3,14 +3,12 @@ import {
     useMemo,
     useCallback,
 } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import {
     _cs,
     isDefined,
     isNotDefined,
 } from '@togglecorp/fujs';
-import {
-    useOutletContext,
-} from 'react-router-dom';
 import Map, {
     MapSource,
     MapLayer,
@@ -23,6 +21,7 @@ import Link from '#components/Link';
 import RawList from '#components/RawList';
 import MapPopup from '#components/MapPopup';
 import TextOutput from '#components/TextOutput';
+import Container, { Props as ContainerProps } from '#components/Container';
 import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
 import useTranslation from '#hooks/useTranslation';
 import { numericIdSelector } from '#utils/selectors';
@@ -169,20 +168,18 @@ function MovementActivitiesMap(props: Props) {
     );
 
     const nationalSocietyRendererParams = useCallback(
-        (_: number, val: ReportingNationalSociety) => ({
-            className: styles.nationalSociety,
-            labelClassName: styles.label,
-            label: val.name,
-            strongLabel: true,
-            withoutLabelColon: true,
+        (_: number, val: ReportingNationalSociety): ContainerProps => ({
+            heading: val.name,
+            headingLevel: 5 as const,
+            spacing: 'condensed',
+            contentViewType: 'vertical',
             // FIXME a separate component should be created
-            value: val.sectors.map((sector) => (
+            children: val.sectors.map((sector) => (
                 <TextOutput
                     key={sector.id}
                     label={sector.sector}
                     value={sector.count}
                     strongValue
-                    withoutLabelColon
                 />
             )),
         }),
@@ -247,38 +244,39 @@ function MovementActivitiesMap(props: Props) {
                             )}
                             childrenContainerClassName={styles.mapPopupContent}
                             withHeaderBorder
+                            contentViewType="vertical"
                         >
-                            <div className={styles.projects}>
-                                <span>
+                            <div className={styles.stats}>
+                                <div>
                                     {resolveToString(
                                         strings.plannedProjects,
                                         { count: selectedCountry?.planned_projects_count ?? '-' },
                                     )}
-                                </span>
-                                <span>
+                                </div>
+                                <div>
                                     {resolveToString(
                                         strings.ongoingProjects,
                                         { count: selectedCountry?.ongoing_projects_count ?? '-' },
                                     )}
-                                </span>
-                                <span>
+                                </div>
+                                <div>
                                     {resolveToString(
                                         strings.completedProjects,
                                         { count: selectedCountry?.completed_projects_count ?? '-' },
                                     )}
-                                </span>
-                            </div>
-                            <div>
-                                {resolveToString(
-                                    strings.activeNsCount,
-                                    { count: activeNSinSelectedCountry?.reporting_national_societies.length ?? '-' },
-                                )}
+                                </div>
+                                <div>
+                                    {resolveToString(
+                                        strings.activeNsCount,
+                                        { count: activeNSinSelectedCountry?.reporting_national_societies.length ?? '-' },
+                                    )}
+                                </div>
                             </div>
                             <div className={styles.nationalSocietyList}>
                                 <RawList
                                     data={activeNSinSelectedCountry
                                         ?.reporting_national_societies}
-                                    renderer={TextOutput}
+                                    renderer={Container}
                                     rendererParams={nationalSocietyRendererParams}
                                     keySelector={numericIdSelector}
                                 />

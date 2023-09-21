@@ -1,19 +1,15 @@
 .account-information {
     padding: var(--go-ui-spacing-2xl) 0;
 
-    .user-information {
-        .content {
-            .info-list-container {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-                margin: 0 auto;
-                border-radius: var(--go-ui-border-radius-lg);
-                box-shadow: var(--go-ui-box-shadow-md);
-                background-color: var(--go-ui-color-background);
-                padding: var(--go-ui-spacing-lg);
-                max-width: var(--go-ui-width-content-max);
-                gap: var(--go-ui-spacing-md);
-            }
-        }
+    .info-list-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        margin: 0 auto;
+        border-radius: var(--go-ui-border-radius-lg);
+        box-shadow: var(--go-ui-box-shadow-md);
+        background-color: var(--go-ui-color-background);
+        padding: var(--go-ui-spacing-lg);
+        max-width: var(--go-ui-width-content-max);
+        gap: var(--go-ui-spacing-md);
     }
 }

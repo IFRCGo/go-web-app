@@ -280,6 +280,7 @@ export function Component() {
                 childrenContainerClassName={styles.content}
                 heading={strings.movementActivities}
                 withHeaderBorder
+                withGridViewInFilter
                 filters={(
                     <Filters
                         value={filter}
@@ -312,6 +313,7 @@ export function Component() {
                             className={styles.sidebar}
                             withInternalPadding
                             childrenContainerClassName={styles.sidebarContent}
+                            contentViewType="vertical"
                         >
                             <Scale max={maxScaleValue} className={styles.scale} />
                             <List

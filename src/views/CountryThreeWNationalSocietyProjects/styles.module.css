@@ -7,7 +7,7 @@
     .key-figure-card-list {
         display: grid;
         grid-gap: var(--go-ui-spacing-md);
-        grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
 
         @media screen and (max-width: 30rem) {
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));

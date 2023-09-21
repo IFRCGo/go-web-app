@@ -1,19 +1,19 @@
 .table {
     display: flex;
+    flex-direction: column;
     position: relative;
     min-height: var(--go-ui-content-min-height);
     overflow-x: auto;
 
     .table-overflow-wrapper {
         display: flex;
-        flex-grow: 1;
+        flex-direction: column;
         overflow-x: auto;
 
         .table-element {
             /* NOTE: This will ensure that the z-index in
              * children elements doesn't affect rest of the page */
             position: relative;
-            flex-grow: 1;
             z-index: 0;
 
             border-collapse: separate;

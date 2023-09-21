@@ -6,7 +6,6 @@ import styles from './styles.module.css';
 
 export interface Props {
     className?: string;
-    barHeight?: number;
     title?: React.ReactNode;
     description?: React.ReactNode;
     value: number;
@@ -21,7 +20,6 @@ function ProgressBar(props: Props) {
         description,
         totalValue = 100,
         value,
-        barHeight = 8,
         showPercentageInTitle,
     } = props;
 
@@ -45,10 +43,7 @@ function ProgressBar(props: Props) {
                     )}
                 </div>
             )}
-            <div
-                className={styles.total}
-                style={{ height: `${barHeight}px` }}
-            >
+            <div className={styles.total}>
                 <div
                     className={styles.progress}
                     style={{

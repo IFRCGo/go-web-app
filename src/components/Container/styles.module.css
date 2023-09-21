@@ -1,12 +1,9 @@
 .container {
-    --spacing: var(--go-ui-spacing-lg);
-    --padding: 0;
     --num-columns: 2;
     --max-width: calc(var(--go-ui-page-width-max) * 0.8);
 
     display: flex;
     flex-direction: column;
-    gap: var(--spacing);
 
     .header {
         flex-shrink: 0;
@@ -21,7 +18,6 @@
     .filter {
         &.with-grid-view-in-filter {
             display: grid;
-            grid-gap: var(--spacing);
             grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
         }
     }
@@ -37,7 +33,6 @@
     &.with-grid-view {
         .content {
             display: grid;
-            grid-gap: var(--spacing);
             grid-template-columns: repeat(auto-fill, minmax(calc(var(--max-width) / var(--num-columns)), 1fr));
         }
 
@@ -71,64 +66,6 @@
         .content {
             display: flex;
             flex-direction: column;
-            gap: var(--spacing);
         }
-    }
-
-    &:not(.with-internal-padding) {
-        --padding: 0;
-    }
-
-    &.with-internal-padding {
-        --padding: var(--spacing);
-        padding: var(--padding) 0;
-
-        .header {
-            padding: 0 var(--padding);
-        }
-
-        .content {
-            padding: 0 var(--padding);
-        }
-
-        .filter {
-            padding: 0 var(--padding);
-        }
-
-        .footer {
-            padding: 0 var(--padding);
-        }
-    }
-
-    &.no-spacing {
-        --spacing: 0;
-    }
-
-    &.condensed-spacing {
-        --spacing: var(--go-ui-spacing-2xs);
-    }
-
-    &.compact-spacing {
-        --spacing: var(--go-ui-spacing-xs);
-    }
-
-    &.cozy-spacing {
-        --spacing: var(--go-ui-spacing-sm);
-    }
-
-    &.default-spacing {
-        --spacing: var(--go-ui-spacing-md);
-    }
-
-    &.comfortable-spacing {
-        --spacing: var(--go-ui-spacing-lg);
-    }
-
-    &.relaxed-spacing {
-        --spacing: var(--go-ui-spacing-xl);
-    }
-
-    &.loose-spacing {
-        --spacing: var(--go-ui-spacing-2xl);
     }
 }
