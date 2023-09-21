@@ -7,19 +7,28 @@ import {
     isDefined,
     isTruthyString,
 } from '@togglecorp/fujs';
-import { SetValueArg, useFormObject } from '@togglecorp/toggle-form';
+import {
+    SetValueArg,
+    useFormObject,
+    Error,
+    getErrorObject,
+} from '@togglecorp/toggle-form';
 
 import ExpandableContainer from '#components/ExpandableContainer';
 import BlockLoading from '#components/BlockLoading';
+import NonFieldError from '#components/NonFieldError';
 import TextArea from '#components/TextArea';
 import TextOutput from '#components/TextOutput';
 import Checkbox from '#components/Checkbox';
+import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import { resolveToComponent } from '#utils/translation';
 import type { GoApiResponse } from '#utils/restRequest';
 
 import type { PartialPrioritization } from '../schema';
 import QuestionOutput from './QuestionOutput';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type AssessmentResponse = GoApiResponse<'/api/v2/per-assessment/{id}/'>;
@@ -33,11 +42,13 @@ interface Props {
     value?: Value;
     onChange: (value: SetValueArg<Value>, index: number | undefined) => void;
     index: number;
+    error: Error<Value> | undefined;
     component: NonNullable<PerFormComponentResponse['results']>[number];
     onSelectionChange: (checked: boolean, index: number, componentId: number) => void;
     questionResponses: ComponentResponse['question_responses'];
     ratingDisplay?: string | undefined | null;
     readOnly?: boolean;
+    disabled?: boolean;
 }
 
 function ComponentInput(props: Props) {
@@ -50,8 +61,11 @@ function ComponentInput(props: Props) {
         questionResponses,
         ratingDisplay,
         readOnly,
+        error: errorFromProps,
+        disabled,
     } = props;
 
+    const strings = useTranslation(i18n);
     const [expanded, setExpanded] = useState(false);
 
     const {
@@ -129,6 +143,8 @@ function ComponentInput(props: Props) {
 
     const componentNum = component.component_num;
 
+    const error = getErrorObject(errorFromProps);
+
     if (isNotDefined(componentNum)) {
         return null;
     }
@@ -155,13 +171,14 @@ function ComponentInput(props: Props) {
                 <>
                     <div className={styles.additionalInformation}>
                         <div>
-                            {/* FIXME: use translations */}
-                            {ratingDisplay ?? '0 - Not reviewed'}
+                            {ratingDisplay ?? strings.notReviewed}
                         </div>
                         <div className={styles.separator} />
                         <div>
-                            {/* FIXME: use translations */}
-                            {`${numResponses} benchmarks assessed`}
+                            {resolveToComponent(
+                                strings.benchmarksAssessed,
+                                { count: numResponses },
+                            )}
                         </div>
                         {expanded && answerStats.length > 0 && (
                             <div className={styles.answersByCount}>
@@ -175,14 +192,15 @@ function ComponentInput(props: Props) {
                             </div>
                         )}
                     </div>
+                    <NonFieldError error={error} />
                     <TextArea
                         name="justification_text"
                         value={value?.justification_text}
                         onChange={setFieldValue}
-                        // FIXME: use translation
-                        placeholder="Enter Justification"
-                        disabled={isNotDefined(value)}
+                        placeholder={strings.perJustification}
+                        disabled={isNotDefined(value) || disabled}
                         rows={2}
+                        error={error?.justification_text}
                         readOnly={readOnly}
                     />
                 </>
@@ -191,6 +209,10 @@ function ComponentInput(props: Props) {
             {formQuestionsPending && (
                 <BlockLoading />
             )}
+            <NonFieldError
+                error={error}
+                withFallbackError
+            />
             {/* FIXME: use List */}
             {formQuestions && formQuestions.results?.map(
                 (perFormQuestion) => (

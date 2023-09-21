@@ -16,4 +16,8 @@
             width: 20rem;
         }
     }
+
+    .description {
+        padding: 0 0 0 var(--go-ui-spacing-md);
+    }
 }

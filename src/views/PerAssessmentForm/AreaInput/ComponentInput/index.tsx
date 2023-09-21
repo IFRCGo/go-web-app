@@ -11,13 +11,17 @@ import {
 } from '@togglecorp/fujs';
 
 import ExpandableContainer from '#components/ExpandableContainer';
+import InputSection from '#components/InputSection';
 import SelectInput from '#components/SelectInput';
 import TextArea from '#components/TextArea';
 import { numericIdSelector } from '#utils/selectors';
 import { type GoApiResponse } from '#utils/restRequest';
+import useTranslation from '#hooks/useTranslation';
 
 import { type PartialAssessment } from '../../schema';
 import QuestionInput from './QuestionInput';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
@@ -61,6 +65,8 @@ function ComponentInput(props: Props) {
         climate_environmental_considerations,
         readOnly,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const setFieldValue = useFormObject(
         index,
@@ -139,45 +145,70 @@ function ComponentInput(props: Props) {
                 );
             })}
             <TextArea
-                // FIXME: use Translations
-                label="Notes"
+                label={strings.notes}
                 name="notes"
                 value={value?.notes}
                 onChange={setFieldValue}
                 readOnly={readOnly}
             />
             {epi_considerations && (
-                <TextArea
-                    // TODO: add description
-                    // FIXME: use Translations
-                    label="EPI Considerations"
-                    name="epi_considerations"
-                    value={value?.epi_considerations}
-                    onChange={setFieldValue}
-                    readOnly={readOnly}
-                />
+                <InputSection
+                    title={strings.epiConsiderationTitle}
+                    description={(
+                        <ul className={styles.description}>
+                            <li>
+                                {strings.epiConsiderationDescriptionOne}
+                            </li>
+                            <li>
+                                {strings.epiConsiderationDescriptionTwo}
+                            </li>
+                        </ul>
+                    )}
+                >
+                    <TextArea
+                        name="epi_considerations"
+                        value={value?.epi_considerations}
+                        onChange={setFieldValue}
+                        readOnly={readOnly}
+                    />
+                </InputSection>
+
             )}
             {urban_considerations && (
-                <TextArea
-                    // TODO: add description
-                    // FIXME: use Translations
-                    label="Urban Considerations"
-                    name="urban_considerations"
-                    value={value?.urban_considerations}
-                    onChange={setFieldValue}
-                    readOnly={readOnly}
-                />
+                <InputSection
+                    title={strings.urbanConsiderationTitle}
+                    description={strings.urbanConsiderationDescription}
+                >
+                    <TextArea
+                        name="urban_considerations"
+                        value={value?.urban_considerations}
+                        onChange={setFieldValue}
+                        readOnly={readOnly}
+                    />
+                </InputSection>
+
             )}
             {climate_environmental_considerations && (
-                <TextArea
-                    // TODO: add description
-                    // FIXME: use Translations
-                    label="Climate and Environmental Considerations"
-                    name="climate_environmental_considerations"
-                    value={value?.climate_environmental_considerations}
-                    onChange={setFieldValue}
-                    readOnly={readOnly}
-                />
+                <InputSection
+                    title={strings.environmentConsiderationTitle}
+                    description={(
+                        <ul className={styles.description}>
+                            <li>
+                                {strings.environmentConsiderationDescriptionOne}
+                            </li>
+                            <li>
+                                {strings.environmentConsiderationDescriptionTwo}
+                            </li>
+                        </ul>
+                    )}
+                >
+                    <TextArea
+                        name="climate_environmental_considerations"
+                        value={value?.climate_environmental_considerations}
+                        onChange={setFieldValue}
+                        readOnly={readOnly}
+                    />
+                </InputSection>
             )}
         </ExpandableContainer>
     );

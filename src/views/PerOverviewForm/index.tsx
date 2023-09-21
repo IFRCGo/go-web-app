@@ -1,7 +1,8 @@
 import {
-    useMemo,
     useCallback,
     useState,
+    useRef,
+    type ElementRef,
 } from 'react';
 import {
     useParams,
@@ -60,8 +61,6 @@ function perAssessmentMethodsKeySelector(option: PerOverviewAssessmentMethods) {
     return option.key;
 }
 
-const emptyFileIdToUrlMap: Record<number, string> = {};
-
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
@@ -75,6 +74,8 @@ export function Component() {
     } = useOutletContext<PerProcessOutletContext>();
     const { per_overviewassessmentmethods } = useGlobalEnums();
 
+    const formContentRef = useRef<ElementRef<'div'>>(null);
+
     const {
         value,
         setValue,
@@ -87,10 +88,11 @@ export function Component() {
     const [
         fileIdToUrlMap,
         setFileIdToUrlMap,
-    ] = useState<Record<number, string>>(emptyFileIdToUrlMap);
+    ] = useState<Record<number, string>>({});
 
     const {
         response: perOptionsResponse,
+        pending: perOptionsPending,
     } = useRequest({
         url: '/api/v2/per-options/',
     });
@@ -125,6 +127,8 @@ export function Component() {
             setValue(formValues);
         },
     });
+
+    const disabled = fetchingPerOverview;
 
     useRequest({
         url: '/api/v2/latest-per-overview/',
@@ -209,29 +213,27 @@ export function Component() {
         method: 'POST',
         body: (ctx: PerOverviewRequestBody) => ctx,
         onSuccess: (response) => {
-            if (response && isDefined(response.id)) {
-                alert.show(
-                    strings.saveRequestSuccessMessage,
-                    { variant: 'success' },
+            alert.show(
+                strings.saveRequestSuccessMessage,
+                { variant: 'success' },
+            );
+
+            refetchStatusResponse();
+
+            // Redirect from new form to edit route
+            if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
+                navigate(
+                    'perOverviewForm',
+                    { params: { perId: response.id } },
                 );
+            }
 
-                refetchStatusResponse();
-
-                // Redirect from new form to edit route
-                if (isNotDefined(perId) && response.phase === PER_PHASE_OVERVIEW) {
-                    navigate(
-                        'perOverviewForm',
-                        { params: { perId: response.id } },
-                    );
-                }
-
-                // Redirect to assessment form
-                if (response.phase === PER_PHASE_ASSESSMENT) {
-                    navigate(
-                        'perAssessmentForm',
-                        { params: { perId: response.id } },
-                    );
-                }
+            // Redirect to assessment form
+            if (response.phase === PER_PHASE_ASSESSMENT) {
+                navigate(
+                    'perAssessmentForm',
+                    { params: { perId: response.id } },
+                );
             }
         },
         onFailure: ({
@@ -257,6 +259,7 @@ export function Component() {
 
     const handleSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
+            formContentRef.current?.scrollIntoView();
             if (isDefined(perId)) {
                 updatePerOverview({
                     ...formValues,
@@ -274,6 +277,7 @@ export function Component() {
 
     const handleFinalSubmit = useCallback(
         (formValues: PartialOverviewFormFields) => {
+            formContentRef.current?.scrollIntoView();
             if (isDefined(perId)) {
                 updatePerOverview({
                     ...formValues,
@@ -289,14 +293,30 @@ export function Component() {
         [perId, updatePerOverview, createPerOverview],
     );
 
-    const handleFormSubmit = useMemo(
-        () => createSubmitHandler(validate, setError, handleSubmit),
-        [validate, setError, handleSubmit],
-    );
-    const handleFormFinalSubmit = useMemo(
-        () => createSubmitHandler(validate, setError, handleFinalSubmit),
-        [validate, setError, handleFinalSubmit],
-    );
+    const handleFormError = useCallback(() => {
+        formContentRef.current?.scrollIntoView();
+    }, []);
+
+    const handleSetupPerProcess = useCallback(() => {
+        const handler = createSubmitHandler(
+            validate,
+            setError,
+            handleSubmit,
+            handleFormError,
+        );
+        handler();
+    }, [handleFormError, handleSubmit, validate, setError]);
+
+    const handleSave = useCallback(() => {
+        const handler = createSubmitHandler(
+            validate,
+            setError,
+            handleFinalSubmit,
+            handleFormError,
+        );
+        handler();
+    }, [handleFormError, handleFinalSubmit, validate, setError]);
+
     const error = getErrorObject(formError);
 
     const partiallyEditable = value?.is_draft === false;
@@ -319,6 +339,7 @@ export function Component() {
 
     return (
         <Container
+            headerElementRef={formContentRef}
             className={styles.overviewForm}
             heading={partiallyEditable ? strings.overviewEditHeading : strings.overviewSetupHeading}
             headingLevel={2}
@@ -329,10 +350,14 @@ export function Component() {
                     name={undefined}
                     confirmHeading={strings.submitConfirmHeading}
                     confirmMessage={strings.submitConfirmMessage}
-                    onConfirm={handleFormFinalSubmit}
-                    disabled={(isDefined(statusResponse?.phase)
+                    onConfirm={handleSave}
+                    disabled={
+                        // FIXME: shoulnd't we use 'or' instead of 'and'?
+                        (isDefined(statusResponse?.phase)
                         && statusResponse?.phase !== PER_PHASE_OVERVIEW)
-                        || savePerPending}
+                        || savePerPending
+                        || fetchingPerOverview
+                    }
                 >
                     {strings.submitButtonLabel}
                 </ConfirmButton>
@@ -360,6 +385,8 @@ export function Component() {
                         value={value?.country}
                         error={getErrorString(error?.country)}
                         readOnly={partiallyEditable}
+                        disabled={disabled}
+                        autoFocus
                     />
                 </InputSection>
             </Container>
@@ -375,7 +402,7 @@ export function Component() {
                     description={strings.dateOfOrientationInputDescription}
                     numPreferredColumns={2}
                     withoutPadding
-                    withAsteriskOnTitle
+                    withAsteriskOnTitle={isNotDefined(value?.date_of_assessment)}
                 >
                     <DateInput
                         name="date_of_orientation"
@@ -383,6 +410,7 @@ export function Component() {
                         value={value?.date_of_orientation}
                         error={error?.date_of_orientation}
                         readOnly={partiallyEditable}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -398,6 +426,7 @@ export function Component() {
                         fileIdToUrlMap={fileIdToUrlMap}
                         setFileIdToUrlMap={setFileIdToUrlMap}
                         error={getErrorString(error?.orientation_documents)}
+                        disabled={disabled}
                     >
                         {strings.uploadButtonLabel}
                     </GoMultiFileInput>
@@ -415,7 +444,7 @@ export function Component() {
                     title={strings.dateOfAssessmentInputLabel}
                     description={strings.dateOfAssessmentInputDescription}
                     withoutPadding
-                    withAsteriskOnTitle
+                    withAsteriskOnTitle={isNotDefined(value?.date_of_orientation)}
                 >
                     <DateInput
                         name="date_of_assessment"
@@ -423,6 +452,7 @@ export function Component() {
                         value={value?.date_of_assessment}
                         error={error?.date_of_assessment}
                         readOnly={partiallyEditable}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -440,6 +470,7 @@ export function Component() {
                         value={value?.type_of_assessment}
                         error={error?.type_of_assessment}
                         readOnly={partiallyEditable}
+                        disabled={disabled || perOptionsPending}
                     />
                 </InputSection>
                 <InputSection
@@ -451,6 +482,8 @@ export function Component() {
                         name="date_of_previous_assessment"
                         onChange={setFieldValue}
                         value={value?.date_of_previous_assessment}
+                        error={error?.date_of_previous_assessment}
+                        disabled={disabled}
                         readOnly
                     />
                 </InputSection>
@@ -466,6 +499,8 @@ export function Component() {
                         labelSelector={stringNameSelector}
                         onChange={setFieldValue}
                         value={value?.type_of_previous_assessment}
+                        error={error?.type_of_previous_assessment}
+                        disabled={disabled || perOptionsPending}
                         readOnly
                     />
                 </InputSection>
@@ -480,6 +515,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.branches_involved}
                         readOnly={partiallyEditable}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -496,6 +532,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.assessment_method}
                         readOnly={partiallyEditable}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -509,6 +546,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.assess_preparedness_of_country}
                         readOnly={partiallyEditable}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -522,6 +560,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.assess_urban_aspect_of_country}
                         readOnly={partiallyEditable}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -536,6 +575,7 @@ export function Component() {
                         onChange={setFieldValue}
                         error={error?.assess_climate_environment_of_country}
                         readOnly={partiallyEditable}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>
@@ -558,6 +598,7 @@ export function Component() {
                         value={value?.assessment_number}
                         onChange={setFieldValue}
                         error={error?.assessment_number}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>
@@ -574,10 +615,11 @@ export function Component() {
                     withoutPadding
                 >
                     <DateInput
-                        error={error?.workplan_development_date}
                         name="workplan_development_date"
-                        onChange={setFieldValue}
                         value={value?.workplan_development_date}
+                        error={error?.workplan_development_date}
+                        onChange={setFieldValue}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -590,6 +632,7 @@ export function Component() {
                         onChange={setFieldValue}
                         value={value?.workplan_revision_date}
                         error={error?.workplan_revision_date}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>
@@ -612,6 +655,7 @@ export function Component() {
                         value={value?.ns_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_name}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.focalPointEmailInputLabel}
@@ -619,6 +663,7 @@ export function Component() {
                         value={value?.ns_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_email}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.focalPointPhoneNumberInputLabel}
@@ -626,6 +671,7 @@ export function Component() {
                         value={value?.ns_focal_point_phone}
                         onChange={setFieldValue}
                         error={error?.ns_focal_point_phone}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -640,6 +686,7 @@ export function Component() {
                         value={value?.ns_second_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_name}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.focalPointEmailInputLabel}
@@ -647,6 +694,7 @@ export function Component() {
                         value={value?.ns_second_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_email}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.focalPointPhoneNumberInputLabel}
@@ -654,6 +702,7 @@ export function Component() {
                         value={value?.ns_second_focal_point_phone}
                         onChange={setFieldValue}
                         error={error?.ns_second_focal_point_phone}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -667,6 +716,7 @@ export function Component() {
                         value={value?.partner_focal_point_name}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_name}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.focalPointEmailInputLabel}
@@ -674,6 +724,7 @@ export function Component() {
                         value={value?.partner_focal_point_email}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_email}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.focalPointPhoneNumberInputLabel}
@@ -681,6 +732,7 @@ export function Component() {
                         value={value?.partner_focal_point_phone}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_phone}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.focalPointOrganizationInputLabel}
@@ -688,6 +740,7 @@ export function Component() {
                         value={value?.partner_focal_point_organization}
                         onChange={setFieldValue}
                         error={error?.partner_focal_point_organization}
+                        disabled={disabled}
                     />
                 </InputSection>
                 <InputSection
@@ -701,6 +754,7 @@ export function Component() {
                         value={value?.facilitator_name}
                         onChange={setFieldValue}
                         error={error?.facilitator_name}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.focalPointEmailInputLabel}
@@ -708,6 +762,7 @@ export function Component() {
                         value={value?.facilitator_email}
                         onChange={setFieldValue}
                         error={error?.facilitator_email}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.focalPointPhoneNumberInputLabel}
@@ -715,6 +770,7 @@ export function Component() {
                         value={value?.facilitator_phone}
                         onChange={setFieldValue}
                         error={error?.facilitator_phone}
+                        disabled={disabled}
                     />
                     <TextInput
                         label={strings.otherContactMethodInputLabel}
@@ -722,6 +778,7 @@ export function Component() {
                         value={value?.facilitator_contact}
                         onChange={setFieldValue}
                         error={error?.facilitator_contact}
+                        disabled={disabled}
                     />
                 </InputSection>
             </Container>
@@ -732,7 +789,7 @@ export function Component() {
                     <Button
                         name={undefined}
                         variant="secondary"
-                        onClick={handleFormSubmit}
+                        onClick={handleSetupPerProcess}
                         disabled={savePerPending}
                     >
                         {strings.saveButtonLabel}

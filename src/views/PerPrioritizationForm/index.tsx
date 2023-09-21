@@ -2,6 +2,8 @@ import {
     useCallback,
     useMemo,
     useState,
+    useRef,
+    type ElementRef,
 } from 'react';
 import {
     useParams,
@@ -12,6 +14,7 @@ import {
     useForm,
     useFormArray,
     removeNull,
+    getErrorObject,
 } from '@togglecorp/toggle-form';
 import {
     _cs,
@@ -68,6 +71,7 @@ export function Component() {
     const alert = useAlert();
     const strings = useTranslation(i18n);
     const [sortBy, setSortBy] = useState<SortKey>('component');
+    const formContentRef = useRef<ElementRef<'div'>>(null);
 
     const {
         fetchingStatus,
@@ -82,7 +86,7 @@ export function Component() {
         setValue,
         setFieldValue,
         setError,
-        error,
+        error: formError,
     } = useForm(
         prioritizationSchema,
         {
@@ -239,6 +243,8 @@ export function Component() {
     );
 
     const handleSubmit = useCallback((formValues: PartialPrioritization) => {
+        formContentRef.current?.scrollIntoView();
+
         const prioritization = statusResponse?.prioritization;
         if (isNotDefined(prioritization)) {
             // eslint-disable-next-line no-console
@@ -251,6 +257,8 @@ export function Component() {
     }, [savePerPrioritization, statusResponse]);
 
     const handleFinalSubmit = useCallback((formValues: PartialPrioritization) => {
+        formContentRef.current?.scrollIntoView();
+
         const prioritization = statusResponse?.prioritization;
         if (isNotDefined(prioritization)) {
             // eslint-disable-next-line no-console
@@ -290,14 +298,40 @@ export function Component() {
         || perAssesmentPending
         || fetchingPrioritization;
 
+    const disabled = pending || savePerPrioritizationPending;
+
     const areaIdToTitleMap = listToMap(
         questionsResponse?.results ?? [],
         (question) => question.component.area.id,
         (question) => question.component.area.title,
     );
 
-    const handleFormSubmit = createSubmitHandler(validate, setError, handleSubmit);
-    const handleFormFinalSubmit = createSubmitHandler(validate, setError, handleFinalSubmit);
+    const error = useMemo(
+        () => getErrorObject(formError),
+        [formError],
+    );
+
+    const componentInputError = useMemo(
+        () => getErrorObject(error?.prioritized_action_responses),
+        [error],
+    );
+
+    const handleFormError = useCallback(() => {
+        formContentRef.current?.scrollIntoView();
+    }, []);
+
+    const handleFormSubmit = createSubmitHandler(
+        validate,
+        setError,
+        handleSubmit,
+        handleFormError,
+    );
+    const handleFormFinalSubmit = createSubmitHandler(
+        validate,
+        setError,
+        handleFinalSubmit,
+        handleFormError,
+    );
 
     const readOnlyMode = isNotDefined(statusResponse)
         || isNotDefined(statusResponse.phase)
@@ -361,8 +395,7 @@ export function Component() {
     if (isNotDefined(prioritizationId)) {
         return (
             <FormFailedToLoadMessage
-                // FIXME: use translation
-                description="Resource not found"
+                description={strings.resourceNotFound}
             />
         );
     }
@@ -376,12 +409,19 @@ export function Component() {
     }
 
     return (
-        <div className={styles.perPrioritizationForm}>
+        <div
+            className={styles.perPrioritizationForm}
+            ref={formContentRef}
+        >
             {pending && (
                 <BlockLoading />
             )}
             {!pending && (
                 <>
+                    <NonFieldError
+                        error={error}
+                        withFallbackError
+                    />
                     <PerAssessmentSummary
                         perOptionsResponse={perOptionsResponse}
                         areaResponses={perAssessmentResponse?.area_responses}
@@ -428,7 +468,7 @@ export function Component() {
                                 name={undefined}
                                 variant="secondary"
                                 onConfirm={handleFormFinalSubmit}
-                                disabled={pending || savePerPrioritizationPending || readOnlyMode}
+                                disabled={disabled || readOnlyMode}
                                 confirmHeading={strings.submitConfirmHeading}
                                 confirmMessage={strings.submitConfirmMessage}
                             >
@@ -441,6 +481,7 @@ export function Component() {
                             error={error}
                             withFallbackError
                         />
+                        <NonFieldError error={componentInputError} />
                         {!pending && sortedFormComponents.map((component) => {
                             const rating = assessmentComponentResponseMap
                                 ?.[component.id]?.rating_details;
@@ -455,12 +496,14 @@ export function Component() {
                                     value={componentResponseMapping[component.id]?.value}
                                     onChange={setComponentValue}
                                     component={component}
+                                    error={componentInputError?.[component.id]}
                                     onSelectionChange={handleSelectionChange}
                                     questionResponses={
                                         assessmentQuestionResponsesByComponent[component.id]
                                     }
                                     ratingDisplay={ratingDisplay}
                                     readOnly={readOnlyMode}
+                                    disabled={disabled}
                                 />
                             );
                         })}
