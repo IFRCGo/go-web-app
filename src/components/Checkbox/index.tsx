@@ -76,12 +76,6 @@ function Checkbox<const NAME>(props: Props<NAME>) {
             title={tooltip}
         >
             <div className={_cs(styles.checkmarkContainer, checkmarkContainerClassName)}>
-                <Checkmark
-                    className={_cs(styles.checkmark, checkmarkClassName)}
-                    value={checked ?? false}
-                    indeterminate={indeterminate}
-                    aria-hidden="true"
-                />
                 <input
                     onChange={handleChange}
                     className={_cs(styles.input, inputClassName)}
@@ -90,6 +84,12 @@ function Checkbox<const NAME>(props: Props<NAME>) {
                     disabled={disabled || readOnly}
                     readOnly={readOnly}
                     {...otherProps} // eslint-disable-line react/jsx-props-no-spreading
+                />
+                <Checkmark
+                    className={_cs(styles.checkmark, checkmarkClassName)}
+                    value={checked ?? false}
+                    indeterminate={indeterminate}
+                    aria-hidden="true"
                 />
             </div>
             {(label || description) && (
