@@ -9,7 +9,7 @@
     font-family: inherit;
     font-size: inherit;
 
-    &:focus,
+    &:focus-visible,
     &.focused {
         outline: var(--go-ui-width-separator-thin) dashed var(--go-ui-color-gray-40);
         outline-offset: -4px;

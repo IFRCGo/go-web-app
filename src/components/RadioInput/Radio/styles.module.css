@@ -19,7 +19,19 @@
     }
 
     .input {
-        display: none;
+        position: absolute;
+        opacity: 0;
+        margin: 0;
+        padding: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+
+        &:focus-visible  + div {
+            outline: var(--go-ui-width-separator-thin) dashed var(--go-ui-color-gray-40);
+            outline-offset: 1px;
+            border-radius: 50%;
+        }
     }
 
     &.active {

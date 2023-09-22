@@ -16,10 +16,13 @@ import {
     type GoApiResponse,
 } from '#utils/restRequest';
 import useDebouncedValue from '#hooks/useDebouncedValue';
+import useTranslation from '#hooks/useTranslation';
 import { KEY_URL_SEARCH } from '#utils/constants';
 import { defaultRanking } from '#views/Search';
 
 import { type WrappedRoutes } from '../../../App/routes';
+
+import i18n from './i18n.json';
 
 type GetSearchParams = GoApiUrlQuery<'/api/v1/search/'>;
 type SearchResponse = GoApiResponse<'/api/v1/search/'>;
@@ -42,23 +45,8 @@ function keySelector(d: SearchItem) {
     return d.pk;
 }
 
-const searchTypeToLabelMap: Record<SearchResponseKeys, string> = {
-    countries: 'Country',
-    district_province_response: 'District',
-    regions: 'Region',
-    surge_deployments: 'Surge Deployment',
-    surge_alerts: 'Surge Alert',
-    rapid_response_deployments: 'RR Deployment',
-    emergencies: 'Emergency',
-    projects: '3W Project',
-    reports: 'Field Report',
-};
-
 function labelSelector(d: SearchItem) {
     return d.name;
-}
-function descriptionSelector(d: SearchItem) {
-    return searchTypeToLabelMap[d.type];
 }
 
 const searchTypeToRouteMap: Record<SearchResponseKeys, Route> = {
@@ -105,6 +93,23 @@ function KeywordSearchSelectInput() {
     const [searchText, setSearchText] = useState<string | undefined>(undefined);
     const debouncedSearchText = useDebouncedValue(searchText);
     const { navigate } = useRouting();
+    const strings = useTranslation(i18n);
+
+    const searchTypeToLabelMap: Record<SearchResponseKeys, string> = useMemo(() => ({
+        countries: strings.country,
+        district_province_response: strings.district,
+        regions: strings.region,
+        surge_deployments: strings.surgeDeployment,
+        surge_alerts: strings.surgeAlert,
+        rapid_response_deployments: strings.rrDeployment,
+        emergencies: strings.emergency,
+        projects: strings.project,
+        reports: strings.report,
+    }), [strings]);
+
+    const descriptionSelector = useCallback((d: SearchItem) => (
+        searchTypeToLabelMap[d.type]
+    ), [searchTypeToLabelMap]);
 
     const trimmedSearchText = debouncedSearchText?.trim();
 
@@ -284,6 +289,7 @@ function KeywordSearchSelectInput() {
             name="keyword"
             options={undefined}
             value={undefined}
+            placeholder={strings.search}
             keySelector={keySelector}
             labelSelector={labelSelector}
             descriptionSelector={descriptionSelector}

@@ -44,9 +44,8 @@
         flex-grow: 1;
         text-decoration: var(--decoration);
 
-        &:focus {
+        &:focus-visible {
             outline: var(--go-ui-width-separator-thin) dashed var(--go-ui-color-gray-40);
-            outline-offset: -4px;
         }
     }
 

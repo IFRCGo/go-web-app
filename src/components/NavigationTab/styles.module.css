@@ -191,8 +191,8 @@
         opacity: var(--go-ui-opacity-disabled-element);
     }
 
-    &:focus {
+    &:focus-visible {
         outline: var(--go-ui-width-separator-thin) dashed var(--go-ui-color-gray-40);
-        outline-offset: -4px;
+        outline-offset: -1px;
     }
 }
