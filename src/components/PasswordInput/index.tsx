@@ -3,6 +3,9 @@ import { EyeFillIcon, EyeOffLineIcon } from '@ifrc-go/icons';
 
 import InputContainer, { Props as InputContainerProps } from '#components/InputContainer';
 import RawInput, { Props as RawInputProps } from '#components/RawInput';
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import Button from '../Button';
 
 type InheritedProps<T> = (Omit<InputContainerProps, 'input'> & RawInputProps<T>);
@@ -31,6 +34,7 @@ function PasswordInput<const T>(props: Props<T>) {
     } = props;
 
     const [showPassword, setShowPassword] = useState(false);
+    const strings = useTranslation(i18n);
     const handleButtonClick = useCallback(() => {
         setShowPassword((show: boolean) => !show);
     }, []);
@@ -58,8 +62,7 @@ function PasswordInput<const T>(props: Props<T>) {
                         variant="tertiary"
                         disabled={disabled}
                         name={undefined}
-                        // FIXME: use translations
-                        title={showPassword ? 'Hide password' : 'Show password'}
+                        title={showPassword ? strings.hidePassword : strings.showPassword}
                     >
                         {showPassword ? <EyeFillIcon /> : <EyeOffLineIcon />}
                     </Button>

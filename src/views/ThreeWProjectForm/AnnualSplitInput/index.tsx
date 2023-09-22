@@ -182,8 +182,7 @@ function AnnualSplitInput(props: Props) {
                 name={index}
                 onClick={onRemove}
                 variant="secondary"
-                // FIXME: use translations
-                title="Delete Annual Split"
+                title={strings.deleteAnnualSplitTitle}
                 disabled={disabled}
             >
                 <DeleteBinLineIcon />

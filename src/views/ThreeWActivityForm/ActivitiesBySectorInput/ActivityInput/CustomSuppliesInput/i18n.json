@@ -1,0 +1,8 @@
+{
+    "namespace": "threeWActivityForm",
+    "strings": {
+        "supplyLabel": "Supply",
+        "supplyValueLabel": "Count",
+        "removeCustomSupplyLabel": "Remove custom supply"
+    }
+}

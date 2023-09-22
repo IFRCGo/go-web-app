@@ -10,7 +10,8 @@
         "threeWTargetTotal":"Total targeted",
         "threeWTargetOther":"Other targeted",
         "threeWTargetFemale":"Female targeted",
-        "threeWBudgetAmount":"Budget Amount (CHF)"
+        "threeWBudgetAmount":"Budget Amount (CHF)",
+        "deleteAnnualSplitTitle":"Delete Annual Split"
     }
 }
 

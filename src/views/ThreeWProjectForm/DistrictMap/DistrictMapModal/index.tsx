@@ -33,6 +33,7 @@ import {
     defaultNavControlPosition,
     defaultNavControlOptions,
 } from '#utils/map';
+import useTranslation from '#hooks/useTranslation';
 import Map, {
     MapSource,
     MapLayer,
@@ -55,6 +56,7 @@ import NonFieldError from '#components/NonFieldError';
 
 import DistrictListItem from './DistrictItem';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const districtKeySelector = (item: number) => item;
@@ -101,6 +103,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
     const waitingForDblClick = useRef<{
         [key: string]: number | undefined,
     }>({});
+    const strings = useTranslation(i18n);
 
     useEffect(
         // eslint-disable-next-line arrow-body-style
@@ -569,16 +572,14 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
     return (
         <Modal
             className={styles.districtMapModal}
-            // FIXME: Use translations
-            heading="Select Province / Region"
+            heading={strings.districtButtonSelectProvince}
             onClose={onModalClose}
             footerActions={(
                 <Button
                     name={undefined}
                     onClick={handleSaveClick}
                 >
-                    {/* FIXME: Use translations */}
-                    Save
+                    {strings.save}
                 </Button>
             )}
             childrenContainerClassName={styles.content}
@@ -594,8 +595,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                             <ChevronLeftLineIcon className={styles.backButton} />
                         )}
                     >
-                        {/* FIXME: Use translations */}
-                        Back to Country
+                        {strings.backToCountry}
                     </Button>
                 )}
                 <Map
@@ -672,8 +672,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                 <NonFieldError error={admin2Error} />
                 <DistrictSearchMultiSelectInput
                     error={districtsError}
-                    // FIXME: Use translations
-                    label="Districts"
+                    label={strings.labelDistricts}
                     name="project_districts"
                     countryId={countryId}
                     options={districtOptions}
@@ -688,8 +687,7 @@ function DistrictMap<const NAME, const ADMIN2_NAME>(props: Props<NAME, ADMIN2_NA
                     renderer={DistrictListItem}
                     keySelector={districtKeySelector}
                     rendererParams={districtRendererParams}
-                    // FIXME: Use translations
-                    emptyMessage="Select districts by click on map or from the select input above"
+                    emptyMessage={strings.listEmptyMessage}
                     errored={false}
                     pending={false}
                     filtered={false}

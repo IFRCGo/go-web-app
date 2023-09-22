@@ -2,7 +2,9 @@ import { ChevronRightLineIcon, ChevronLeftLineIcon } from '@ifrc-go/icons';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import RawButton from '#components/RawButton';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 function range(start: number, end: number) {
@@ -161,6 +163,8 @@ function Pager(props: Props) {
         totalCapacity = 7,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     // NOTE: activePage can never be 0
     const activePage = Math.max(activePageProps, 1);
     // NOTE: number of pages can never be 0
@@ -175,8 +179,7 @@ function Pager(props: Props) {
                 onClick={onActivePageChange}
                 className={styles.pageButton}
                 disabled={activePage <= 1 || disabled}
-                // FIXME: use translations
-                title={`Go to page ${activePage - 1}`}
+                title={`${strings.rawButtonGoToPage} ${activePage - 1}`}
             >
                 <ChevronLeftLineIcon className={styles.icon} />
             </RawButton>
@@ -189,8 +192,7 @@ function Pager(props: Props) {
                             name={page.index}
                             onClick={onActivePageChange}
                             disabled={disabled}
-                            // FIXME: use translations
-                            title={`Go to ${page.index}`}
+                            title={`${strings.rawButtonGoTo} ${page.index}`}
                         >
                             {page.index}
                         </RawButton>
@@ -225,8 +227,7 @@ function Pager(props: Props) {
                 onClick={onActivePageChange}
                 disabled={activePage >= numPages || disabled}
                 className={styles.pageButton}
-                // FIXME: use translations
-                title={`Go to page ${activePage - 1}`}
+                title={`${strings.rawButtonGoToPage} ${activePage - 1}`}
             >
                 <ChevronRightLineIcon className={styles.icon} />
             </RawButton>

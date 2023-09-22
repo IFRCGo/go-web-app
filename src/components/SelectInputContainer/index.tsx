@@ -14,12 +14,14 @@ import Button, { Props as ButtonProps } from '#components/Button';
 import List from '#components/List';
 import useBlurEffect from '#hooks/useBlurEffect';
 import useKeyboard from '#hooks/useKeyboard';
+import useTranslation from '#hooks/useTranslation';
 
 import GenericOption, {
     ContentBaseProps,
     OptionKey,
     Props as GenericOptionProps,
 } from './GenericOption';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export type SelectInputContainerProps<
@@ -127,6 +129,7 @@ function SelectInputContainer<
     } = props;
 
     const options = optionsFromProps ?? (emptyList as OPTION[]);
+    const strings = useTranslation(i18n);
 
     const containerRef = useRef<HTMLDivElement>(null);
     const inputSectionRef = useRef<HTMLDivElement>(null);
@@ -250,9 +253,8 @@ function SelectInputContainer<
 
     const optionsCount = options.length;
 
-    // FIXME: use translation
     const infoMessage = totalOptionsCount - optionsCount > 0
-        ? `and ${totalOptionsCount - optionsCount} more`
+        ? `${strings.infoMessageAnd} ${totalOptionsCount - optionsCount} ${strings.infoMessageMore}`
         : undefined;
 
     return (
@@ -286,8 +288,7 @@ function SelectInputContainer<
                                 disabled={disabled}
                                 variant="tertiary"
                                 name={undefined}
-                                // FIXME use translation
-                                title="Select all"
+                                title={strings.buttonTitleSelect}
                             >
                                 <CheckDoubleFillIcon className={styles.icon} />
                             </Button>
@@ -298,8 +299,7 @@ function SelectInputContainer<
                                 disabled={disabled}
                                 variant="tertiary"
                                 name={undefined}
-                                // FIXME use translation
-                                title="Clear"
+                                title={strings.buttonTitleClear}
                             >
                                 <CloseLineIcon className={styles.icon} />
                             </Button>
@@ -309,8 +309,9 @@ function SelectInputContainer<
                                 onClick={handleToggleDropdown}
                                 variant="tertiary"
                                 name={undefined}
-                                // FIXME use translation
-                                title={dropdownShown ? 'Close' : 'Open'}
+                                title={dropdownShown
+                                    ? strings.buttonTitleClose
+                                    : strings.buttonTitleOpen}
                             >
                                 {dropdownShown
                                     ? <ArrowUpSmallFillIcon className={styles.icon} />
@@ -352,14 +353,10 @@ function SelectInputContainer<
                         errored={optionsErrored}
                         filtered={optionsFiltered}
                         pending={optionsPending}
-                        // FIXME: use translations
-                        pendingMessage="Fetching options..."
-                        // FIXME: use translations
-                        emptyMessage="No option available"
-                        // FIXME: use translations
-                        filteredMessage="No option available for the search"
-                        // FIXME: use translations
-                        errorMessage="Could not load options"
+                        pendingMessage={strings.listPendingMessage}
+                        emptyMessage={strings.listEmptyMessage}
+                        filteredMessage={strings.listFilteredMessage}
+                        errorMessage={strings.listErrorMessage}
                         compact
                     />
                     {!optionsPending && !optionsErrored && !!infoMessage && (

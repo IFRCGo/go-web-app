@@ -7,8 +7,10 @@ import TextOutput from '#components/TextOutput';
 import useBooleanState from '#hooks/useBooleanState';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import { numericIdSelector } from '#utils/selectors';
+import useTranslation from '#hooks/useTranslation';
 
 import DistrictMapModal, { type Props as MapModalProps } from './DistrictMapModal';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface AdminTwo {
@@ -40,6 +42,7 @@ function DistrictMap<
         districtOptions,
         ...otherProps
     } = props;
+    const strings = useTranslation(i18n);
 
     const [
         modalShown,
@@ -83,8 +86,7 @@ function DistrictMap<
                 onClick={showModal}
                 variant="secondary"
             >
-                {/* FIXME: Use translations */}
-                Select Province / Region
+                {strings.buttonSelectProvince}
             </Button>
             <List
                 data={selectedDistricts}

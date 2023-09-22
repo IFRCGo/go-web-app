@@ -11,8 +11,10 @@ import IconButton from '#components/IconButton';
 import NonFieldError from '#components/NonFieldError';
 import NumberInput from '#components/NumberInput';
 import TextInput from '#components/TextInput';
+import useTranslation from '#hooks/useTranslation';
 import { type PartialCustomSupplyItem } from '../../../schema';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -34,6 +36,8 @@ function CustomSupplyInput(props: Props) {
         disabled,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const setFieldValue = useFormObject(index, onChange, () => ({
         client_id: randomString(),
     }));
@@ -45,8 +49,7 @@ function CustomSupplyInput(props: Props) {
         <div className={styles.customSupplyInput}>
             <NonFieldError error={error} />
             <TextInput
-                // FIXME: Add translation
-                label="Supply"
+                label={strings.supplyLabel}
                 name="supply_label"
                 value={value?.supply_label}
                 error={error?.supply_label}
@@ -55,8 +58,7 @@ function CustomSupplyInput(props: Props) {
                 withAsterisk
             />
             <NumberInput
-                // FIXME: Add translation
-                label="Count"
+                label={strings.supplyValueLabel}
                 name="supply_value"
                 value={value?.supply_value}
                 error={error?.supply_value}
@@ -67,10 +69,8 @@ function CustomSupplyInput(props: Props) {
             <IconButton
                 name={index}
                 variant="tertiary"
-                // FIXME: Add translation
-                title="Remove custom supply"
-                // FIXME: Add translation
-                ariaLabel="Remove custom supply"
+                title={strings.removeCustomSupplyLabel}
+                ariaLabel={strings.removeCustomSupplyLabel}
                 onClick={onRemove}
                 disabled={disabled}
             >

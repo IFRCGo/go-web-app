@@ -105,8 +105,7 @@ function CountryDropdown() {
         >
             {isEmpty && (
                 <Message
-                    // FIXME: use translation
-                    description="Not available!"
+                    description={strings.messageNotAvailable}
                     compact
                 />
             )}
@@ -150,8 +149,7 @@ function CountryDropdown() {
                                             withLinkIcon
                                             variant="primary"
                                         >
-                                            {/* FIXME: use translation */}
-                                            Go to Region
+                                            {strings.dropdownGoRegion}
                                         </DropdownMenuItem>
                                     )}
                                     headingLevel={4}

@@ -2,6 +2,7 @@
     "namespace": "common",
     "strings": {
         "userMenuAccount":"Account",
+        "userDisplayNameAnonymous": "Anonymous",
         "userMenuLogout":"Logout"
     }
 }

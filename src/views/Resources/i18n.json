@@ -37,6 +37,19 @@
         "aboutContacts": "GO Contacts",
         "aboutFurtherInfo": "For any further information, please contact {contactLink}",
         "aboutGoFundingTitle": "Funding & Support",
-        "aboutGoFundingDescription": "GO has received dedicated personnel and funding support from:"
+        "aboutGoFundingDescription": "GO has received dedicated personnel and funding support from:",
+        "redCrossImageAmericanAlt": "Visit American Red Cross Page",
+        "redCrossImageAustralianAlt": "Visit Australian Red Cross Page",
+        "redCrossImageBritishAlt": "Visit British Red Cross Page",
+        "redCrossImageCanadaAlt": "Visit Canadian Red Cross Page",
+        "redCrossImageFinnishAlt": "Visit Finnish Red Cross Page",
+        "redCrossImageJapaneseAlt": "Visit Japanese Red Cross Page",
+        "redCrossImageNetherlandAlt": "Visit Netherlands Red Cross Page",
+        "redCrossImageSpanishAlt": "Visit Spanish Red Cross Page",
+        "ericImageAlt": "Visit Ericsson Page",
+        "redCrossImageDanishAlt": "Visit Danish Red Cross Page",
+        "vistPDCImageAlt": "Vist PDC",
+        "visitUSAidImageAlt": "Visit US Aid",
+        "visitSwissImageAlt": "Visit Swiss Confederation"
     }
 }

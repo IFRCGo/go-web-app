@@ -11,8 +11,10 @@ import IconButton from '#components/IconButton';
 import NumberInput from '#components/NumberInput';
 import NonFieldError from '#components/NonFieldError';
 import SelectInput from '#components/SelectInput';
+import useTranslation from '#hooks/useTranslation';
 import { type PartialActionSupplyItem } from '../../../schema';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const keySelector = (item: { id: number }) => String(item.id);
@@ -42,6 +44,8 @@ function ActionSupplyInput(props: Props) {
         disabled,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const setFieldValue = useFormObject(index, onChange, () => ({
         client_id: randomString(),
     }));
@@ -54,8 +58,7 @@ function ActionSupplyInput(props: Props) {
         <div className={styles.actionSupplyInput}>
             <NonFieldError error={error} />
             <SelectInput
-                // FIXME: Add translation
-                label="Supply"
+                label={strings.actionSupplyLabel}
                 name="supply_action"
                 value={value?.supply_action}
                 error={error?.supply_action}
@@ -67,8 +70,7 @@ function ActionSupplyInput(props: Props) {
                 withAsterisk
             />
             <NumberInput
-                // FIXME: Add translation
-                label="Count"
+                label={strings.actionSupplyValueLabel}
                 name="supply_value"
                 value={value?.supply_value}
                 error={error?.supply_value}
@@ -79,10 +81,8 @@ function ActionSupplyInput(props: Props) {
             <IconButton
                 name={index}
                 variant="tertiary"
-                // FIXME: Add translation
-                ariaLabel="Remove"
-                // FIXME: Add translation
-                title="Remove"
+                ariaLabel={strings.actionRemoveLabel}
+                title={strings.actionRemoveLabel}
                 onClick={onRemove}
                 disabled={disabled}
             >

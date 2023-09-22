@@ -1,0 +1,15 @@
+{
+    "namespace": "common",
+    "strings": {
+        "infoMessageAnd":"and",
+        "infoMessageMore":"more",
+        "buttonTitleSelect":"Select all",
+        "buttonTitleClear":"Clear",
+        "buttonTitleClose":"Close",
+        "buttonTitleOpen":"Open",
+        "listPendingMessage":"Fetching options...",
+        "listEmptyMessage":"No option available",
+        "listFilteredMessage":"No option available for the search",
+        "listErrorMessage":"Could not load options"
+    }
+}

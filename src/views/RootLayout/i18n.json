@@ -1,0 +1,9 @@
+{
+    "namespace": "rootLayout",
+    "strings": {
+       "environmentTextProduction": "Production Site'",
+       "environmentTextDevelopment": "Development Site",
+       "environmentTextStaging": "Staging Site",
+       "environmentTextTesting": "Testing Site"
+    }
+}

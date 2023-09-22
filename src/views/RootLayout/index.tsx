@@ -23,12 +23,14 @@ import Navbar from '#components/Navbar';
 import GlobalFooter from '#components/GlobalFooter';
 import AlertContainer from '#components/AlertContainer';
 import useDebouncedValue from '#hooks/useDebouncedValue';
+import useTranslation from '#hooks/useTranslation';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
 import DomainContext, { type CacheKey, type Domain } from '#contexts/domain';
 import UserContext from '#contexts/user';
 import LanguageContext from '#contexts/language';
 import { environment } from '#config';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -36,6 +38,7 @@ export function Component() {
     const { state } = useNavigation();
     const isLoading = state === 'loading';
     const isLoadingDebounced = useDebouncedValue(isLoading);
+    const strings = useTranslation(i18n);
 
     const {
         userAuth: userDetails,
@@ -334,10 +337,10 @@ export function Component() {
 
     // FIXME: use translations
     const environmentTexts = {
-        production: 'Production Site',
-        development: 'Development Site',
-        staging: 'Staging Site',
-        testing: 'Testing Site',
+        production: strings.environmentTextProduction,
+        development: strings.environmentTextDevelopment,
+        staging: strings.environmentTextStaging,
+        testing: strings.environmentTextTesting,
     };
 
     return (

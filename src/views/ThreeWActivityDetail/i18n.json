@@ -1,5 +1,5 @@
 {
-    "namespace": "emergencyThreeWDetails",
+    "namespace": "threeWActivityDetail",
     "strings": {
         "activityPageTitle": "IFRC GO - Emergency 3W Details",
         "activityHeading": "3W Activity",
@@ -15,6 +15,5 @@
         "emergencyERU": "ERU",
         "emergencyNationalSociety": "National Society",
         "emergencyActivities": "Activity"
-
     }
 }

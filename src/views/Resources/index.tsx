@@ -428,8 +428,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={arcLogo}
-                        // FIXME: use translations
-                        alt="Visit American Red Cross Page"
+                        alt={strings.redCrossImageAmericanAlt}
                     />
                 </Link>
                 <Link
@@ -440,8 +439,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={aurcLogo}
-                        // FIXME: use translations
-                        alt="Visit Australian Red Cross Page"
+                        alt={strings.redCrossImageAustralianAlt}
                     />
                 </Link>
                 <Link
@@ -452,8 +450,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={brcLogo}
-                        // FIXME: use translations
-                        alt="Visit British Red Cross Page"
+                        alt={strings.redCrossImageBritishAlt}
                     />
                 </Link>
                 <Link
@@ -464,8 +461,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={crcLogo}
-                        // FIXME: use translations
-                        alt="Visit Canadian Red Cross Page"
+                        alt={strings.redCrossImageCanadaAlt}
                         width="120"
                     />
                 </Link>
@@ -477,8 +473,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={dnkLogo}
-                        // FIXME: use translations
-                        alt="Visit Danish Red Cross Page"
+                        alt={strings.redCrossImageDanishAlt}
                     />
                 </Link>
                 <Link
@@ -489,8 +484,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={frcLogo}
-                        // FIXME: use translations
-                        alt="Visit Finnish Red Cross Page"
+                        alt={strings.redCrossImageFinnishAlt}
                     />
                 </Link>
                 <Link
@@ -501,8 +495,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={jrcLogo}
-                        // FIXME: use translations
-                        alt="Visit Japanese Red Cross Page"
+                        alt={strings.redCrossImageJapaneseAlt}
                     />
                 </Link>
                 <Link
@@ -513,8 +506,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={nlrcLogo}
-                        // FIXME: use translations
-                        alt="Visit Netherlands Red Cross Page"
+                        alt={strings.redCrossImageNetherlandAlt}
                     />
                 </Link>
                 <Link
@@ -525,8 +517,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={esprcLogo}
-                        // FIXME: use translations
-                        alt="Visit Spanish Red Cross Page"
+                        alt={strings.redCrossImageSpanishAlt}
                     />
                 </Link>
                 <Link
@@ -537,8 +528,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={ericLogo}
-                        // FIXME: use translations
-                        alt="Visit Ericsson Page"
+                        alt={strings.ericImageAlt}
                     />
                 </Link>
                 <Link
@@ -549,8 +539,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={swissLogo}
-                        // FIXME: use translations
-                        alt="Visit Swiss Confederation"
+                        alt={strings.visitSwissImageAlt}
                     />
                 </Link>
                 <Link
@@ -561,8 +550,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={usAidLogo}
-                        // FIXME: use translations
-                        alt="Visit US Aid"
+                        alt={strings.visitUSAidImageAlt}
                     />
                 </Link>
                 <Link
@@ -573,8 +561,7 @@ export function Component() {
                     <img
                         className={styles.logo}
                         src={pdcLogo}
-                        // FIXME: use translations
-                        alt="Visit PDC"
+                        alt={strings.vistPDCImageAlt}
                     />
                 </Link>
             </Container>

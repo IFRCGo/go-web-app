@@ -15,11 +15,13 @@ import { AnalysisIcon } from '@ifrc-go/icons';
 
 import Message from '#components/Message';
 import { WIDTH_DEFAULT_TABLE_COLUMN } from '#utils/constants';
+import useTranslation from '#hooks/useTranslation';
 
 import TableBodyContent from './TableBodyContent';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import type { Column, VerifyColumn, RowOptions } from './types';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 function getColumnWidth<D, K, C, H>(column: Column<D, K, C, H>, width: number) {
@@ -72,6 +74,7 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
         filtered,
     } = props;
 
+    const strings = useTranslation(i18n);
     const containerRef = useRef<HTMLDivElement>(null);
     const [tableName] = React.useState(() => randomString());
     const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
@@ -172,18 +175,17 @@ function Table<D, K extends string | number, C extends Column<D, K, any, any>>(
 
     const messageTitle = useMemo(
         () => {
-            // FIXME: use translation
             if (pending) {
-                return 'Fetching data...';
+                return strings.messageTitleFetching;
             }
 
             if (filtered) {
-                return 'Data is not available for selected filter!';
+                return strings.messageTitleSelected;
             }
 
-            return 'Data is not available!';
+            return strings.messageTitleNotAvailable;
         },
-        [pending, filtered],
+        [pending, filtered, strings],
     );
 
     return (
