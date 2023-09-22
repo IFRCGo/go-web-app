@@ -299,23 +299,23 @@ export function Component() {
                         <KeyFigure
                             className={styles.keyFigure}
                             value={activeNSCount}
-                            description={strings.activeDeploymentsTitle}
-                            descriptionClassName={styles.keyFigureDescription}
+                            label={strings.activeDeploymentsTitle}
+                            labelClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
                         <KeyFigure
                             className={styles.keyFigure}
                             value={targetedPopulation}
-                            description={strings.targetedPopulationTitle}
-                            descriptionClassName={styles.keyFigureDescription}
+                            label={strings.targetedPopulationTitle}
+                            labelClassName={styles.keyFigureDescription}
                         />
                     </div>
                     <div className={styles.keyFigureCard}>
                         <KeyFigure
                             className={styles.keyFigure}
                             value={projectList.length}
-                            description={strings.totalProjectsTitle}
-                            descriptionClassName={styles.keyFigureDescription}
+                            label={strings.totalProjectsTitle}
+                            labelClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
                         <Container
@@ -338,8 +338,8 @@ export function Component() {
                         <KeyFigure
                             className={styles.keyFigure}
                             value={ongoingProjectBudget}
-                            description={strings.ongoingProjectBudgetTitle}
-                            descriptionClassName={styles.keyFigureDescription}
+                            label={strings.ongoingProjectBudgetTitle}
+                            labelClassName={styles.keyFigureDescription}
                         />
                         <div className={styles.separator} />
                         <Container

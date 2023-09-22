@@ -225,7 +225,7 @@ export function createNumberColumn<D, K extends string | number>(
         cellRendererParams: (_: K, datum: D): NumberOutputProps => ({
             value: accessor(datum),
             suffix: options?.suffix,
-            compact: true,
+            // compact: true,
             maximumFractionDigits: options?.maximumFractionDigits,
             invalidText: '--',
         }),

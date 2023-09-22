@@ -99,12 +99,14 @@ export function Component() {
                         <KeyFigure
                             className={styles.keyFigure}
                             value={countryPlanResponse.requested_amount}
-                            description={strings.countryPlanKeyFigureRequestedAmount}
+                            label={strings.countryPlanKeyFigureRequestedAmount}
+                            compactValue
                         />
                         <KeyFigure
                             className={styles.keyFigure}
                             value={countryPlanResponse.people_targeted}
-                            description={strings.countryPlanPeopleTargeted}
+                            label={strings.countryPlanPeopleTargeted}
+                            compactValue
                         />
                     </div>
                     <div className={styles.tablesSection}>

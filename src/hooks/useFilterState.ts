@@ -57,13 +57,26 @@ interface FilterState<FILTER> {
     page: number,
 }
 
-function useFilterState<FILTER extends object>(
-    initialFilter: FILTER,
-    initialOrdering: SortParameter | undefined,
-    initialPage = 1,
-    pageSize = 10,
-    debounceTime = 200,
-) {
+const defaultOrdering: SortParameter = {
+    name: 'id',
+    direction: 'dsc',
+};
+
+function useFilterState<FILTER extends object>(options: {
+    filter: FILTER,
+    ordering?: SortParameter | undefined,
+    page?: number,
+    pageSize?: number,
+    debounceTime?: number,
+}) {
+    const {
+        filter,
+        ordering = defaultOrdering,
+        page = 1,
+        pageSize = 10,
+        debounceTime = 200,
+    } = options;
+
     type Reducer = (
         prevState: FilterState<FILTER>,
         action: FilterActions<FILTER>,
@@ -73,9 +86,9 @@ function useFilterState<FILTER extends object>(
         (prevState, action) => {
             if (action.type === 'reset-filter') {
                 return {
-                    filter: initialFilter,
-                    ordering: initialOrdering,
-                    page: initialPage,
+                    filter,
+                    ordering,
+                    page,
                 };
             }
             if (action.type === 'set-filter') {
@@ -105,9 +118,9 @@ function useFilterState<FILTER extends object>(
             return prevState;
         },
         {
-            filter: initialFilter,
-            ordering: initialOrdering,
-            page: initialPage,
+            filter,
+            ordering,
+            page,
         },
     );
 

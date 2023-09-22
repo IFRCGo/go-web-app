@@ -47,12 +47,10 @@ function EventItemsTable(props: Props) {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        { name: 'created_at', direction: 'dsc' },
-        1,
-        5,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const columns = useMemo(
         () => ([
@@ -66,13 +64,14 @@ function EventItemsTable(props: Props) {
                 },
             ),
             createLinkColumn<EventListItem, number>(
-                'event_name',
+                'name',
                 strings.regionEmergenciesTableName,
                 (item) => item.name,
                 (item) => ({
                     to: 'emergenciesLayout',
                     urlParams: { emergencyId: item.id },
                 }),
+                { sortable: true },
             ),
             createStringColumn<EventListItem, number>(
                 'dtype',
@@ -83,6 +82,7 @@ function EventItemsTable(props: Props) {
                 'glide',
                 strings.regionEmergenciesTableGlide,
                 (item) => item.glide,
+                { sortable: true },
             ),
             createNumberColumn<EventListItem, number>(
                 'amount_requested',
@@ -90,6 +90,16 @@ function EventItemsTable(props: Props) {
                 (item) => sumSafe(
                     item.appeals.map((appeal) => appeal.amount_requested),
                 ),
+                {
+                    suffix: ' CHF',
+                },
+            ),
+            createNumberColumn<EventListItem, number>(
+                'num_affected',
+                // FIXME: use translations
+                '# Affected',
+                (item) => item.num_affected,
+                { sortable: true },
             ),
             createCountryListColumn<EventListItem, number>(
                 'countries',

@@ -51,12 +51,10 @@ export default function SurgeTable(props: Props) {
         setPage: setProjectActivePage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        5,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const {
         response: surgeResponse,

@@ -41,12 +41,10 @@ export default function RapidResponsePersonnelTable(props: Props) {
         ordering,
         offset,
         limit,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        10,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const strings = useTranslation(i18n);
 

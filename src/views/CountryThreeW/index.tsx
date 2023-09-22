@@ -31,6 +31,7 @@ export function Component() {
                 <Link
                     variant="primary"
                     to="newThreeWProject"
+                    state={{ reportingNsId: countryId }}
                 >
                     {strings.addThreeWProject}
                 </Link>

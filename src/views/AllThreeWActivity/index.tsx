@@ -121,12 +121,10 @@ export function Component() {
         setPage: setProjectActivePage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        15,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 15,
+    });
     const {
         response: projectResponse,
         pending: projectResponsePending,

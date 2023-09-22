@@ -51,12 +51,10 @@ function PossibleEarlyActionTable(props: Props) {
         // hazardType?: HazardType,
         hazardType?: string,
         sector?: string,
-    }>(
-        {},
-        undefined,
-        1,
-        5,
-    );
+    }>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const columns = useMemo(
         () => ([

@@ -30,12 +30,10 @@ function PersonnelByEventTable() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        25,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 25,
+    });
 
     const strings = useTranslation(i18n);
 

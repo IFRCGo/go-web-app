@@ -52,12 +52,10 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        { name: 'created_at', direction: 'dsc' },
-        1,
-        15,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 15,
+    });
 
     const columns = useMemo(
         () => ([
@@ -97,7 +95,9 @@ export function Component() {
                 (item) => sumSafe(
                     item.appeals.map((appeal) => appeal.amount_requested),
                 ),
-                { sortable: true },
+                {
+                    suffix: ' CHF',
+                },
             ),
             createNumberColumn<EventListItem, number>(
                 'num_affected',
@@ -155,7 +155,9 @@ export function Component() {
             offset,
             ordering,
             dtype: filterDisasterType,
-            region: filterRegion,
+            // FIXME: The server should actually accept array of number instead
+            // of just number
+            regions__in: isDefined(filterRegion) ? filterRegion : undefined,
             countries__in: filterCountry,
         }),
         [limit, offset, ordering, filterDisasterType, filterRegion, filterCountry],

@@ -52,12 +52,10 @@ function AppealOperationTable(props: Props) {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        10,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const strings = useTranslation(i18n);
 
@@ -113,7 +111,10 @@ function AppealOperationTable(props: Props) {
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
                 (item) => item.amount_requested,
-                { sortable: true },
+                {
+                    sortable: true,
+                    suffix: ' CHF',
+                },
             ),
             createNumberColumn<AppealTableItem, string>(
                 'amount_funded',

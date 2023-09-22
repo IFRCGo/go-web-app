@@ -9,6 +9,7 @@ import {
     createCountryListColumn,
     createDateColumn,
     createDateRangeColumn,
+    createListDisplayColumn,
 } from '#components/Table/ColumnShortcuts';
 import SeverityIndicator from '#components/domain/SeverityIndicator';
 import useTranslation from '#hooks/useTranslation';
@@ -105,6 +106,13 @@ function getFieldReportColumns(strings: Strings) {
     ];
 }
 
+interface DistrictNameOutputProps {
+    name: string;
+}
+function DistrictNameOutput({ name }: DistrictNameOutputProps) {
+    return name;
+}
+
 function getProjectColumns(strings: Strings) {
     return [
         createLinkColumn<ProjectResult, number>(
@@ -136,6 +144,23 @@ function getProjectColumns(strings: Strings) {
             (project) => ({
                 startDate: project.start_date,
                 endDate: project.end_date,
+            }),
+        ),
+        createListDisplayColumn<
+            ProjectResult,
+            number,
+            string,
+            { name: string }
+        >(
+            'districts',
+            // FIXME: use translation
+            'Province/Region',
+            (activity) => ({
+                // FIXME: type should be fixed on the server
+                list: activity.regions as string[],
+                renderer: DistrictNameOutput,
+                rendererParams: (districtDetail) => ({ name: districtDetail }),
+                keySelector: (districtDetail) => districtDetail,
             }),
         ),
         createStringColumn<ProjectResult, number>(

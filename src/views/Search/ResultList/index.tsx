@@ -86,6 +86,7 @@ function ResultList(props: Props) {
                                     urlParams={{
                                         regionId: result.id,
                                     }}
+                                    withLinkIcon
                                 >
                                     {result.name}
                                 </Link>
@@ -98,6 +99,7 @@ function ResultList(props: Props) {
                                             ? result.country_id
                                             : result.id,
                                     }}
+                                    withLinkIcon
                                 >
                                     {isDistrictProvinceResult(result, resultKey)
                                         ? result.country

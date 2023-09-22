@@ -27,7 +27,6 @@ interface RegionKeyFigureProps {
     figure: string;
     deck: string;
     source: string;
-    label: string;
 }
 
 function RegionKeyFigure(props: RegionKeyFigureProps) {
@@ -35,21 +34,18 @@ function RegionKeyFigure(props: RegionKeyFigureProps) {
         figure,
         deck,
         source,
-        label,
     } = props;
 
     return (
         <KeyFigure
             className={styles.regionKeyFigure}
             // FIXME: fix typings from server (medium priority)
+            // FIXME: Do we need to round this similar to EmergencyDetails/KeyFigure?
             value={Number.parseFloat(figure)}
-            description={deck}
-        >
-            <TextOutput
-                value={source}
-                label={label}
-            />
-        </KeyFigure>
+            label={deck}
+            // FIXME: use translations
+            description={`Source: ${source}`}
+        />
     );
 }
 // eslint-disable-next-line import/prefer-default-export
@@ -65,10 +61,9 @@ export function Component() {
         (_: number, data: RegionKeyFigureType): RegionKeyFigureProps => ({
             figure: data.figure,
             deck: data.deck,
-            label: strings.keyFigureLabel,
             source: data.source,
         }),
-        [strings.keyFigureLabel],
+        [],
     );
 
     const regionSnippetParams = useCallback(

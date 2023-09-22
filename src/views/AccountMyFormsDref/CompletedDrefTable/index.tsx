@@ -44,12 +44,10 @@ function CompletedDrefTable(props: Props) {
         setFilterField,
         limit,
         offset,
-    } = useFilterState<FilterValue>(
-        {},
-        undefined,
-        1,
-        6,
-    );
+    } = useFilterState<FilterValue>({
+        filter: {},
+        pageSize: 6,
+    });
 
     const {
         response: completedDrefResponse,

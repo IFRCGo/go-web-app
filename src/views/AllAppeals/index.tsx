@@ -57,12 +57,10 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        10,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
 
@@ -199,7 +197,10 @@ export function Component() {
                 'amount_requested',
                 strings.allAppealsRequestedAmount,
                 (item) => item.amount_requested,
-                { sortable: true },
+                {
+                    sortable: true,
+                    suffix: ' CHF',
+                },
             ),
             createProgressColumn<AppealListItem, string>(
                 'amount_funded',

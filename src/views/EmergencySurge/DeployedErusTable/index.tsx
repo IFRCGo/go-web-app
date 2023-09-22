@@ -46,12 +46,10 @@ export default function DeployedErusTable(props: Props) {
         ordering,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        10,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const {
         deployments_eru_type,

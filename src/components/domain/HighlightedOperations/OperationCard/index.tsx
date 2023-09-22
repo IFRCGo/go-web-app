@@ -174,7 +174,15 @@ function OperationCard(props: Props) {
             <KeyFigure
                 className={styles.figure}
                 value={targetedPopulation}
-                description={strings.operationCardTargetedPopulation}
+                label={(
+                    <Link
+                        to="emergenciesLayout"
+                        urlParams={{ emergencyId: id }}
+                        ellipsize
+                    >
+                        {strings.operationCardTargetedPopulation}
+                    </Link>
+                )}
                 compactValue
             />
             <div className={styles.separator} />
@@ -182,7 +190,15 @@ function OperationCard(props: Props) {
             <KeyFigure
                 className={styles.figure}
                 value={amountRequested}
-                description={strings.operationCardFunding}
+                label={(
+                    <Link
+                        to="emergencyReportsAndDocuments"
+                        urlParams={{ emergencyId: id }}
+                        ellipsize
+                    >
+                        {strings.operationCardFunding}
+                    </Link>
+                )}
                 compactValue
                 progress={coverage}
                 progressDescription={fundingCoverageDescription}

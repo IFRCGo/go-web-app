@@ -6,15 +6,18 @@ import {
     DroughtIcon,
     EarthquakeIcon,
     FloodIcon,
+    ForestFireIcon,
+    WikiHelpSectionLineIcon,
 } from '@ifrc-go/icons';
 
-import wildfireIcon from '#assets/icons/risk/wildfire.png';
+import Link from '#components/Link';
 import RadioInput from '#components/RadioInput';
 import { stringLabelSelector } from '#utils/selectors';
 import { hazardTypeToColorMap } from '#utils/domain/risk';
 import { type components } from '#generated/riskTypes';
 import Container from '#components/Container';
 import useTranslation from '#hooks/useTranslation';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 
 import Pdc from './Pdc';
 import WfpAdam from './WfpAdam';
@@ -59,14 +62,7 @@ const riskHazards: Array<{
     {
         key: 'WF',
         label: 'Wildfire',
-        icon: (
-            // FIXME: use icon from GO icons
-            <img
-                src={wildfireIcon}
-                className={styles.wildfireIcon}
-                alt="wildfire"
-            />
-        ),
+        icon: <ForestFireIcon className={styles.icon} />,
     },
 ];
 
@@ -91,6 +87,7 @@ function RiskImminentEvents(props: Props) {
     const { className, ...otherProps } = props;
 
     const strings = useTranslation(i18n);
+    const lang = useCurrentLanguage();
 
     const viewOptions = useMemo<Array<ViewOption>>(
         () => [
@@ -131,6 +128,17 @@ function RiskImminentEvents(props: Props) {
             heading={strings.imminentEventsHeading}
             headerDescription={strings.imminentEventsDescription}
             withHeaderBorder
+            actions={(
+                <Link
+                    className={styles.wikiIcon}
+                    external
+                    href={`https://go-wiki.ifrc.org/${lang}/user_guide/risk_module#imminent-events`}
+                    // FIXME: use translations
+                    title="Wiki"
+                >
+                    <WikiHelpSectionLineIcon />
+                </Link>
+            )}
             footerContent={(
                 <div className={styles.legend}>
                     {riskHazards.map((hazard) => (

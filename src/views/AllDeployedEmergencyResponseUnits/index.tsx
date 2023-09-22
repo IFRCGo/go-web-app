@@ -45,12 +45,10 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        10,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const {
         deployments_eru_type,

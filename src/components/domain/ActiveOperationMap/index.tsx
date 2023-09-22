@@ -124,14 +124,12 @@ function ActiveOperationMap(props: Props) {
     } = useFilterState<{
         appeal?: AppealTypeOption['key'],
         displacement?: number,
-        startDate?: string,
-        endDate?: string,
-    }>(
-        {},
-        undefined,
-        1,
-        9999,
-    );
+        startDateAfter?: string,
+        startDateBefore?: string,
+    }>({
+        filter: {},
+        pageSize: 9999,
+    });
 
     // eslint-disable-next-line react/destructuring-assignment
     const regionId = variant === 'region' ? props.regionId : undefined;
@@ -141,8 +139,8 @@ function ActiveOperationMap(props: Props) {
                 end_date__gt: today,
                 atype: filter.appeal,
                 dtype: filter.displacement,
-                start_date__gte: filter.startDate,
-                start_date__lte: filter.endDate,
+                start_date__gte: filter.startDateAfter,
+                start_date__lte: filter.startDateBefore,
                 limit,
             };
 
@@ -296,16 +294,16 @@ function ActiveOperationMap(props: Props) {
             filters={(
                 <>
                     <DateInput
-                        name="startDate"
-                        label={strings.mapStartDate}
+                        name="startDateAfter"
+                        label={strings.mapStartDateAfter}
                         onChange={setFilterField}
-                        value={filter.startDate}
+                        value={filter.startDateAfter}
                     />
                     <DateInput
-                        name="endDate"
-                        label={strings.mapEndDate}
+                        name="startDateBefore"
+                        label={strings.mapStartDateBefore}
                         onChange={setFilterField}
-                        value={filter.endDate}
+                        value={filter.startDateBefore}
                     />
                     <SelectInput
                         placeholder={strings.operationFilterTypePlaceholder}

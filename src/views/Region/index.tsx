@@ -100,7 +100,7 @@ export function Component() {
                                         description={strings.regionKeyFiguresDrefDescription}
                                     />
                                 )}
-                                description={strings.regionKeyFiguresActiveDrefs}
+                                label={strings.regionKeyFiguresActiveDrefs}
                             />
                             <KeyFigure
                                 icon={<AppealsIcon />}
@@ -112,14 +112,14 @@ export function Component() {
                                         description={strings.regionKeyFigureActiveAppealDescription}
                                     />
                                 )}
-                                description={strings.regionKeyFiguresActiveAppeals}
+                                label={strings.regionKeyFiguresActiveAppeals}
                             />
                             <KeyFigure
                                 icon={<FundingIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_requested_dref_included}
                                 compactValue
-                                description={strings.regionKeyFiguresBudget}
+                                label={strings.regionKeyFiguresBudget}
                             />
                             <KeyFigure
                                 icon={<FundingCoverageIcon />}
@@ -130,21 +130,21 @@ export function Component() {
                                 )}
                                 suffix="%"
                                 compactValue
-                                description={strings.regionKeyFiguresAppealsFunding}
+                                label={strings.regionKeyFiguresAppealsFunding}
                             />
                             <KeyFigure
                                 icon={<TargetedPopulationIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.target_population}
                                 compactValue
-                                description={strings.regionKeyFiguresTargetPop}
+                                label={strings.regionKeyFiguresTargetPop}
                             />
                             <KeyFigure
                                 icon={<AppealsTwoIcon />}
                                 className={styles.keyFigure}
                                 value={regionResponse.country_plan_count}
                                 compactValue
-                                description={strings.regionKeyFiguresCountryPlan}
+                                label={strings.regionKeyFiguresCountryPlan}
                             />
                         </>
                     )}

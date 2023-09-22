@@ -70,14 +70,12 @@ function AppealsTable(props: Props) {
     } = useFilterState<{
         appeal?: AppealTypeOption['key'],
         displacement?: number,
-        startDate?: string,
-        endDate?: string,
-    }>(
-        {},
-        undefined,
-        1,
-        5,
-    );
+        startDateAfter?: string,
+        startDateBefore?: string,
+    }>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const strings = useTranslation(i18n);
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
@@ -132,7 +130,10 @@ function AppealsTable(props: Props) {
                 'amount_requested',
                 strings.appealsTableRequestedAmount,
                 (item) => item.amount_requested,
-                { sortable: true },
+                {
+                    sortable: true,
+                    suffix: ' CHF',
+                },
             ),
             createProgressColumn<AppealListItem, string>(
                 'amount_funded',
@@ -167,8 +168,8 @@ function AppealsTable(props: Props) {
                 atype: filter.appeal,
                 dtype: filter.displacement,
                 end_date__gt: endDate,
-                start_date__gte: filter.startDate,
-                start_date__lte: filter.endDate,
+                start_date__gte: filter.startDateAfter,
+                start_date__lte: filter.startDateBefore,
             };
 
             if (variant === 'global') {
@@ -186,8 +187,8 @@ function AppealsTable(props: Props) {
             ordering,
             filter.appeal,
             filter.displacement,
-            filter.startDate,
-            filter.endDate,
+            filter.startDateAfter,
+            filter.startDateBefore,
             limit,
             offset,
         ],
@@ -208,16 +209,16 @@ function AppealsTable(props: Props) {
             filters={(
                 <>
                     <DateInput
-                        name="startDate"
-                        label={strings.appealsTableStartDate}
+                        name="startDateAfter"
+                        label={strings.appealsTableStartDateAfter}
                         onChange={setFilterField}
-                        value={filter.startDate}
+                        value={filter.startDateAfter}
                     />
                     <DateInput
-                        name="endDate"
-                        label={strings.appealsTableEndDate}
+                        name="startDateBefore"
+                        label={strings.appealsTableStartDateBefore}
                         onChange={setFilterField}
-                        value={filter.endDate}
+                        value={filter.startDateBefore}
                     />
                     <SelectInput
                         placeholder={strings.appealsTableFilterTypePlaceholder}

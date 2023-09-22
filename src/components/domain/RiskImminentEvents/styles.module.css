@@ -1,4 +1,8 @@
 .risk-imminent-events {
+    .wiki-icon {
+        font-size: var(--go-ui-font-size-3xl);
+    }
+
     .legend {
         display: flex;
         flex-wrap: wrap;

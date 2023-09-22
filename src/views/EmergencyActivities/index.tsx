@@ -129,8 +129,8 @@ export function Component() {
         filtered: isFiltered,
         limit,
         offset,
-    } = useFilterState<FilterValue>(
-        {
+    } = useFilterState<FilterValue>({
+        filter: {
             reporting_ns: [],
             deployed_eru: [],
             sector: [],
@@ -138,10 +138,8 @@ export function Component() {
             country: [],
             districts: [],
         },
-        undefined,
-        1,
-        9999,
-    );
+        pageSize: 9999,
+    });
 
     const {
         response: emergencyProjectListResponse,
@@ -296,24 +294,25 @@ export function Component() {
                             <KeyFigure
                                 className={styles.keyFigure}
                                 value={(uniqueNsCount + uniqueEruCount)}
-                                description={strings.uniqueEruAndNationalSocietyCount}
+                                label={strings.uniqueEruAndNationalSocietyCount}
                             />
                             <KeyFigure
                                 className={styles.keyFigure}
                                 value={peopleReached}
-                                description={strings.peopleInNeedReached}
+                                label={strings.peopleInNeedReached}
                                 info={(
                                     <InfoPopup
                                         description={strings.peopleReachedTooltip}
                                     />
                                 )}
+                                compactValue
                             />
                         </div>
                         <div className={styles.keyFigureCard}>
                             <KeyFigure
                                 className={styles.keyFigure}
                                 value={uniqueSectorCount}
-                                description={strings.uniqueSectorCount}
+                                label={strings.uniqueSectorCount}
                             />
                             <PieChart
                                 className={styles.pieChart}
@@ -330,7 +329,7 @@ export function Component() {
                             <KeyFigure
                                 className={styles.keyFigure}
                                 value={emergencyProjectListResponse?.count}
-                                description={strings.totalActivities}
+                                label={strings.totalActivities}
                             />
                             <PieChart
                                 className={styles.pieChart}

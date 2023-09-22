@@ -124,21 +124,21 @@ export function Component() {
                         className={styles.keyFigure}
                         value={peopleTargeted}
                         compactValue
-                        description={strings.emergencyPeopleTargetedLabel}
+                        label={strings.emergencyPeopleTargetedLabel}
                     />
                     <KeyFigure
                         icon={<FundingIcon />}
                         className={styles.keyFigure}
                         value={fundingRequirements}
                         compactValue
-                        description={strings.emergencyFundingRequirementsLabel}
+                        label={strings.emergencyFundingRequirementsLabel}
                     />
                     <KeyFigure
                         icon={<FundingCoverageIcon />}
                         className={styles.keyFigure}
                         value={funding}
                         compactValue
-                        description={strings.emergencyFundingLabel}
+                        label={strings.emergencyFundingLabel}
                     />
                 </>
             )}

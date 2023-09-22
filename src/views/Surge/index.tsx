@@ -38,19 +38,19 @@ export function Component() {
                                 className={styles.keyFigure}
                                 icon={<DeployedIcon />}
                                 value={surgeAggregatedResponse.active_deployments}
-                                description={strings.activeDeploymentsTitle}
+                                label={strings.activeDeploymentsTitle}
                             />
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<EmergencyResponseUnitIcon />}
                                 value={surgeAggregatedResponse.active_erus}
-                                description={strings.activeErusTitle}
+                                label={strings.activeErusTitle}
                             />
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<ClinicIcon />}
                                 value={surgeAggregatedResponse.deployment_this_year}
-                                description={strings.deploymentsThisYearTitle}
+                                label={strings.deploymentsThisYearTitle}
                             />
                         </>
                     )}

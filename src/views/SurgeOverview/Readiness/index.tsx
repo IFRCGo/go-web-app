@@ -43,14 +43,10 @@ function Readiness() {
         filtered,
         limit,
         offset,
-    } = useFilterState<{
-        selectedERUTypes?: DeploymentsEruTypeEnum['key'][],
-    }>(
-        {},
-        undefined,
-        1,
-        10,
-    );
+    } = useFilterState<{ selectedERUTypes?: DeploymentsEruTypeEnum['key'][] }>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const {
         error: eruOwnersError,
@@ -99,6 +95,7 @@ function Readiness() {
                 <Container
                     heading={strings.eruOwnersTableFilterReady}
                     headingLevel={3}
+                    childrenContainerClassName={styles.filterContainer}
                 >
                     <CheckList
                         listContainerClassName={styles.checklistContainer}

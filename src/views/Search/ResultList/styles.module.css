@@ -2,7 +2,7 @@
     .content {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
-        grid-gap: var(--go-ui-spacing-xl);
+        grid-gap: var(--go-ui-spacing-sm);
 
         @media screen and (max-width: 30rem) {
             grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -13,7 +13,7 @@
             align-items: center;
             border-radius: var(--go-ui-border-radius-md);
             background-color: var(--go-ui-color-background);
-            padding: var(--go-ui-spacing-lg);
+            padding: var(--go-ui-spacing-md);
             gap: var(--go-ui-spacing-sm);
         }
     }

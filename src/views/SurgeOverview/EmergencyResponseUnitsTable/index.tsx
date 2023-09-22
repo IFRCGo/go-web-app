@@ -46,14 +46,10 @@ function EmergencyResponseUnitsTable() {
         setFilterField,
         limit,
         offset,
-    } = useFilterState<{
-        type?: DeploymentsEruTypeEnum['key'],
-    }>(
-        {},
-        undefined,
-        1,
-        5,
-    );
+    } = useFilterState<{ type?: DeploymentsEruTypeEnum['key'] }>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const {
         pending: emergencyResponseUnitsPending,

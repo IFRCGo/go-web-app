@@ -40,12 +40,10 @@ function FieldReportsTable() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        { name: 'created_at', direction: 'dsc' },
-        1,
-        5,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const columns = useMemo(
         () => ([

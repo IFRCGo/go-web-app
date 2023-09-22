@@ -7,7 +7,7 @@
         "emergenciesTableDisasterType": "Disaster Type",
         "emergenciesTableGlide": "Glide",
         "emergenciesTableRequestedAmount": "Requested Amount",
-        "emergenciesTableAffected": "Affected",
+        "emergenciesTableAffected": "# Affected",
         "emergenciesTableAllEmergenciesLinkLabel": "View all Emergencies for {name}"
     }
 }

@@ -11,6 +11,8 @@ interface Props {
     contentClassName?: string;
     value: number | undefined | null;
     compactValue?: boolean;
+    label?: React.ReactNode;
+    labelClassName?: string;
     description?: React.ReactNode;
     descriptionClassName?: string;
     progressTitle?: React.ReactNode;
@@ -28,6 +30,8 @@ function KeyFigure(props: Props) {
         contentClassName,
         value,
         compactValue,
+        label,
+        labelClassName,
         description,
         descriptionClassName,
         progress,
@@ -69,8 +73,13 @@ function KeyFigure(props: Props) {
                 compact={compactValue}
                 suffix={suffix}
             />
+            {label && (
+                <div className={labelClassName}>
+                    {label}
+                </div>
+            )}
             {description && (
-                <div className={descriptionClassName}>
+                <div className={_cs(descriptionClassName, styles.description)}>
                     {description}
                 </div>
             )}

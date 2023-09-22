@@ -41,12 +41,10 @@ function EventItemsTable() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        { name: 'created_at', direction: 'dsc' },
-        1,
-        5,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const columns = useMemo(
         () => ([
@@ -60,7 +58,7 @@ function EventItemsTable() {
                 },
             ),
             createLinkColumn<EventListItem, number>(
-                'event_name',
+                'name',
                 strings.emergenciesTableName,
                 (item) => item.name,
                 (item) => ({
@@ -73,7 +71,6 @@ function EventItemsTable() {
                 'dtype',
                 strings.emergenciesTableDisasterType,
                 (item) => item.dtype?.name,
-                { sortable: true },
             ),
             createStringColumn<EventListItem, number>(
                 'glide',
@@ -87,7 +84,9 @@ function EventItemsTable() {
                 (item) => sumSafe(
                     item.appeals.map((appeal) => appeal.amount_requested),
                 ),
-                { sortable: true },
+                {
+                    suffix: ' CHF',
+                },
             ),
             createNumberColumn<EventListItem, number>(
                 'num_affected',
