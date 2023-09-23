@@ -3,6 +3,8 @@
     "strings": {
         "allThreeWTitle": "All 3W",
         "allThreeWHeading": "All 3W Projects ({numThreeWs})",
+        "exportTableButtonLabel": "Export Table",
+        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "allThreeWCountry": "Receiving Country",
         "allThreeWNS": "National Society",
         "allThreeWProjectName": "Project Name",

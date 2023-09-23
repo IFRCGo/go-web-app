@@ -1,5 +1,10 @@
 import { useCallback, useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import {
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -17,6 +22,9 @@ import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import Button from '#components/Button';
+import NumberOutput from '#components/NumberOutput';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import { numericIdSelector } from '#utils/selectors';
 import { formatNumber, sumSafe } from '#utils/common';
@@ -129,17 +137,24 @@ export function Component() {
         filter: {},
         pageSize: 15,
     });
+
+    const query = useMemo(() => ({
+        limit,
+        offset,
+        country: isDefined(filterCountry) ? [filterCountry] : undefined,
+    }), [
+        limit,
+        offset,
+        filterCountry,
+    ]);
+
     const {
         response: projectResponse,
         pending: projectResponsePending,
     } = useRequest({
         url: '/api/v2/emergency-project/',
         preserveResponse: true,
-        query: {
-            limit,
-            offset,
-            country: isDefined(filterCountry) ? [filterCountry] : undefined,
-        },
+        query,
     });
 
     const districtRendererParams = useCallback(
@@ -227,6 +242,61 @@ export function Component() {
         { numThreeWs: formatNumber(projectResponse?.count) ?? '--' },
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'all-3w-emergency-projects.csv');
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!projectResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/emergency-project/',
+            projectResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        projectResponse?.count,
+    ]);
     return (
         <Page
             className={styles.allThreeW}
@@ -234,6 +304,17 @@ export function Component() {
             heading={heading}
         >
             <Container
+                actions={(
+                    <Button
+                        name={undefined}
+                        onClick={handleExportClick}
+                        icons={<DownloadTwoLineIcon />}
+                        disabled={(projectResponse?.count ?? 0) < 1}
+                        variant="secondary"
+                    >
+                        {exportButtonLabel}
+                    </Button>
+                )}
                 footerActions={(
                     <Pager
                         activePage={projectActivePage}

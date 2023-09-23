@@ -3,6 +3,8 @@
     "strings": {
         "globalThreeWAddProjectButtonLabel": "Add 3W Project",
         "globalThreeWChartProjectPerSectorTitle": "Project Per Sector",
+        "exportTableButtonLabel": "Export",
+        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "globalThreeWKeyFigureActiveNSTitle": "Active National Societies",
         "globalThreeWKeyFigureOngoingProjectsTitle": "Ongoing Projects",
         "exploreRegional3WButton": "Explore Regional 3W",

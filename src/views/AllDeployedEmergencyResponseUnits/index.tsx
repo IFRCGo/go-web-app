@@ -2,10 +2,16 @@ import {
     useMemo,
     useCallback,
 } from 'react';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 import {
     isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
+import {
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
+
 import useTranslation from '#hooks/useTranslation';
 import {
     type GoApiResponse,
@@ -16,6 +22,8 @@ import Container from '#components/Container';
 import Pager from '#components/Pager';
 import Page from '#components/Page';
 import Button from '#components/Button';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
+import NumberOutput from '#components/NumberOutput';
 import {
     SortContext,
 } from '#components/Table/useSorting';
@@ -75,18 +83,24 @@ export function Component() {
         [eruTypes],
     );
 
+    const query = useMemo(() => ({
+        limit,
+        offset,
+        ordering,
+        deployed_to__isnull: false,
+    }), [
+        limit,
+        offset,
+        ordering,
+    ]);
+
     const {
         response: eruResponse,
         pending: eruPending,
     } = useRequest({
         url: '/api/v2/eru/',
         preserveResponse: true,
-        query: {
-            limit,
-            offset,
-            ordering,
-            deployed_to__isnull: false,
-        },
+        query,
     });
 
     const columns = useMemo(
@@ -150,18 +164,76 @@ export function Component() {
         },
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'deployed-erus.csv');
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!eruResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/eru/',
+            eruResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        eruResponse?.count,
+    ]);
+
     return (
         <Page>
             <Container
                 heading={containerHeading}
                 withHeaderBorder
                 actions={(
-                    // FIXME complete export table
                     <Button
                         name={undefined}
+                        onClick={handleExportClick}
+                        icons={<DownloadTwoLineIcon />}
+                        disabled={(eruResponse?.count ?? 0) < 1}
                         variant="secondary"
                     >
-                        {strings.exportTable}
+                        {exportButtonLabel}
                     </Button>
                 )}
                 footerActions={(

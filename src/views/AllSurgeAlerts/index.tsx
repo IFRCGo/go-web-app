@@ -1,5 +1,10 @@
 import { useMemo, useCallback } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
+import {
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -12,8 +17,11 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
+import NumberOutput from '#components/NumberOutput';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
+import Button from '#components/Button';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { getDuration } from '#utils/common';
 
@@ -157,6 +165,61 @@ export function Component() {
         [strings, getStatus],
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'surge-alerts.csv');
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!surgeResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/surge_alert/',
+            surgeResponse?.count,
+            {},
+        );
+    }, [
+        triggerExportStart,
+        surgeResponse?.count,
+    ]);
+
     const heading = resolveToComponent(
         strings.allSurgeAlertsHeading,
         { numSurgeAlerts: surgeResponse?.count ?? '--' },
@@ -176,6 +239,17 @@ export function Component() {
                         itemsCount={surgeResponse?.count ?? 0}
                         maxItemsPerPage={limit}
                     />
+                )}
+                actions={(
+                    <Button
+                        name={undefined}
+                        onClick={handleExportClick}
+                        variant="secondary"
+                        icons={<DownloadTwoLineIcon />}
+                        disabled={(surgeResponse?.count ?? 0) < 1}
+                    >
+                        {exportButtonLabel}
+                    </Button>
                 )}
             >
                 <Table

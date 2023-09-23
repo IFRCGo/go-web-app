@@ -1,6 +1,7 @@
 import {
     useMemo,
     useState,
+    useCallback,
 } from 'react';
 import {
     isDefined,
@@ -13,9 +14,11 @@ import {
 import {
     useOutletContext,
 } from 'react-router-dom';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 import {
     PencilFillIcon,
-    DownloadFillIcon,
+    DownloadTwoLineIcon,
 } from '@ifrc-go/icons';
 
 import BlockLoading from '#components/BlockLoading';
@@ -31,7 +34,12 @@ import ProjectActions, { Props as ProjectActionsProps } from '#components/domain
 import type { CountryOutletContext } from '#utils/outletContext';
 import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
-import { resolveToString } from '#utils/translation';
+import {
+    resolveToString,
+    resolveToComponent,
+} from '#utils/translation';
+import NumberOutput from '#components/NumberOutput';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { sumSafe, denormalizeList, hasSomeDefinedValue } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
@@ -290,6 +298,66 @@ export function Component() {
 
     const districtIdList = Object.keys(districtGroupedProject);
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, `${countryResponse?.name}-data-export.csv`);
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!projectListResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/project/',
+            projectListResponse?.count,
+            {
+                country: isDefined(countryId)
+                    ? [countryId]
+                    : undefined,
+            },
+        );
+    }, [
+        countryId,
+        triggerExportStart,
+        projectListResponse?.count,
+    ]);
+
     return (
         <div className={styles.countryThreeWProjects}>
             {projectListPending && <BlockLoading />}
@@ -377,11 +445,13 @@ export function Component() {
                 actions={(
                     <>
                         <Button
-                            variant="primary"
                             name={undefined}
-                            icons={(<DownloadFillIcon />)}
+                            onClick={handleExportClick}
+                            icons={<DownloadTwoLineIcon />}
+                            disabled={(projectListResponse?.count ?? 0) < 1}
+                            variant="secondary"
                         >
-                            {strings.exportProjects}
+                            {exportButtonLabel}
                         </Button>
                         <Link
                             to="allThreeWProject"

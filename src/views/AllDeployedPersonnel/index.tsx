@@ -2,12 +2,19 @@ import {
     useMemo,
     useCallback,
 } from 'react';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
+import {
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
+
 import useTranslation from '#hooks/useTranslation';
 import {
     type GoApiResponse,
     useRequest,
 } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
+import NumberOutput from '#components/NumberOutput';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import Page from '#components/Page';
@@ -20,6 +27,7 @@ import {
     createDateColumn,
     createLinkColumn,
 } from '#components/Table/ColumnShortcuts';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import Table from '#components/Table';
 import useFilterState from '#hooks/useFilterState';
 
@@ -53,18 +61,24 @@ export function Component() {
         return type.toUpperCase();
     }, [strings]);
 
+    const query = useMemo(() => ({
+        limit,
+        offset,
+        ordering,
+        end_date__gt: now,
+    }), [
+        limit,
+        offset,
+        ordering,
+    ]);
+
     const {
         response: personnelResponse,
         pending: personnelPending,
     } = useRequest({
         url: '/api/v2/personnel/',
         preserveResponse: true,
-        query: {
-            limit,
-            offset,
-            ordering,
-            end_date__gt: now,
-        },
+        query,
     });
 
     const columns = useMemo(
@@ -142,6 +156,7 @@ export function Component() {
             getTypeName,
         ],
     );
+
     const containerHeading = resolveToComponent(
         strings.containerHeading,
         {
@@ -149,18 +164,76 @@ export function Component() {
         },
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'all-deployed-personnel.csv');
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!personnelResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/personnel/',
+            personnelResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        personnelResponse?.count,
+    ]);
+
     return (
         <Page>
             <Container
                 heading={containerHeading}
                 withHeaderBorder
                 actions={(
-                    // FIXME complete export table
                     <Button
                         name={undefined}
+                        onClick={handleExportClick}
                         variant="secondary"
+                        icons={<DownloadTwoLineIcon />}
+                        disabled={(personnelResponse?.count ?? 0) < 1}
                     >
-                        {strings.exportTable}
+                        {exportButtonLabel}
                     </Button>
                 )}
                 footerActions={(

@@ -1,5 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
+import {
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
 
 import Page from '#components/Page';
 import Table from '#components/Table';
@@ -13,11 +18,13 @@ import {
     createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
 import { SortContext } from '#components/Table/useSorting';
-import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import { resolveToComponent } from '#utils/translation';
+import Button from '#components/Button';
+import NumberOutput from '#components/NumberOutput';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import {
     useRequest,
     type GoApiResponse,
@@ -243,6 +250,62 @@ export function Component() {
         [appealsResponse, strings],
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'Data Export.csv');
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!appealsResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/appeal/',
+            appealsResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        appealsResponse?.count,
+    ]);
+
     const isFilterApplied = isDefined(filterDisasterType)
         || isDefined(filterAppealType)
         || isDefined(filterCountry);
@@ -290,6 +353,17 @@ export function Component() {
                             onChange={setFilterCountry}
                         />
                     </>
+                )}
+                actions={(
+                    <Button
+                        name={undefined}
+                        onClick={handleExportClick}
+                        icons={<DownloadTwoLineIcon />}
+                        disabled={(appealsResponse?.count ?? 0) < 1}
+                        variant="secondary"
+                    >
+                        {exportButtonLabel}
+                    </Button>
                 )}
                 footerActions={(
                     <Pager

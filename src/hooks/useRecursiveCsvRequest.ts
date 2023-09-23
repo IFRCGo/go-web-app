@@ -6,7 +6,11 @@ import {
 } from '@togglecorp/fujs';
 import Papa from 'papaparse';
 
+import { KEY_LANGUAGE_STORAGE, KEY_USER_STORAGE } from '#utils/constants';
+import { getFromStorage } from '#utils/localStorage';
 import { resolveUrl } from '#utils/resolveUrl';
+import { type UserAuth } from '#contexts/user';
+import { type Language } from '#contexts/language';
 import {
     riskApi,
     api,
@@ -70,12 +74,18 @@ async function wait(time: number) {
 
 async function fetchData(url: string, urlParams: UrlParams) {
     const finalUrl = `${prepareUrl(url)}?${prepareUrlParams(urlParams)}`;
+    const currentLanguage = getFromStorage<Language>(KEY_LANGUAGE_STORAGE) ?? 'en';
+    const user = getFromStorage<UserAuth | undefined>(KEY_USER_STORAGE);
+    const token = user?.token;
+
     const response = await fetch(
         finalUrl,
         {
             method: 'GET',
             headers: {
                 'Content-Type': 'text/csv; charset=utf-8',
+                Authorization: token ? `Token ${token}` : '',
+                'Accept-Language': currentLanguage ?? 'en',
             },
         },
     );

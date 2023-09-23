@@ -1,5 +1,10 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import {
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -16,6 +21,9 @@ import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
+import Button from '#components/Button';
+import NumberOutput from '#components/NumberOutput';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { formatNumber } from '#utils/common';
 
@@ -61,18 +69,25 @@ export function Component() {
         pageSize: 15,
     });
 
+    const query = useMemo(() => ({
+        limit,
+        offset,
+        country: isDefined(filterCountry) ? [filterCountry] : undefined,
+        reporting_ns: isDefined(filterReportingNS) ? [filterReportingNS] : undefined,
+    }), [
+        limit,
+        offset,
+        filterCountry,
+        filterReportingNS,
+    ]);
+
     const {
         response: projectResponse,
         pending: projectResponsePending,
     } = useRequest({
         url: '/api/v2/project/',
         preserveResponse: true,
-        query: {
-            limit,
-            offset,
-            country: isDefined(filterCountry) ? [filterCountry] : undefined,
-            reporting_ns: isDefined(filterReportingNS) ? [filterReportingNS] : undefined,
-        },
+        query,
     });
 
     const projectColumns = useMemo(
@@ -146,6 +161,62 @@ export function Component() {
         { numThreeWs: formatNumber(projectResponse?.count) ?? '--' },
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'all-3w-projects.csv');
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!projectResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/project/',
+            projectResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        projectResponse?.count,
+    ]);
+
     return (
         <Page
             className={styles.allThreeW}
@@ -153,6 +224,17 @@ export function Component() {
             heading={heading}
         >
             <Container
+                actions={(
+                    <Button
+                        name={undefined}
+                        onClick={handleExportClick}
+                        icons={<DownloadTwoLineIcon />}
+                        disabled={(projectResponse?.count ?? 0) < 1}
+                        variant="secondary"
+                    >
+                        {exportButtonLabel}
+                    </Button>
+                )}
                 footerActions={(
                     <Pager
                         activePage={page}

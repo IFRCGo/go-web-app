@@ -3,6 +3,8 @@
     "strings": {
         "allAppealsTitle": "All Appeals",
         "allAppealsHeading": "All Appeals ({numAppeals})",
+        "exportTableButtonLabel": "Export Table",
+        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "allAppealsStartDate": "Start Date",
         "allAppealsType": "Type",
         "allAppealsCode": "Code",

@@ -3,6 +3,8 @@
     "strings": {
         "activeDeploymentsTitle": "Active National Societies",
         "targetedPopulationTitle": "Targeted Population",
+        "exportTableButtonLabel": "Export",
+        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "totalProjectsTitle": "Total Projects",
         "ongoingProjectBudgetTitle": "Total Budget (CHF) for Ongoing Projects",
         "threeWOngoingProjectsTitle": "Ongoing Projects",

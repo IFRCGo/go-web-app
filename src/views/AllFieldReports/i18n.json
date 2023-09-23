@@ -3,6 +3,8 @@
     "strings": {
         "allFieldReportsTitle": "All Field Reports",
         "allFieldReportsHeading": "All Field Reports ({numFieldReports})",
+        "exportTableButtonLabel": "Export Table",
+        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "allFieldReportsCreatedAt":"Created At",
         "allFieldReportsName":"Name",
         "allFieldReportsEmergency":"Emergency",

@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import {
+    useState,
+    useMemo,
+    useCallback,
+} from 'react';
 import {
     EducationIcon,
     RedCrossNationalSocietyIcon,
     TargetedPopulationIcon,
     AddFillIcon,
+    DownloadTwoLineIcon,
 } from '@ifrc-go/icons';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import Link from '#components/Link';
@@ -16,6 +23,9 @@ import PieChart from '#components/PieChart';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
+import Button from '#components/Button';
+import NumberOutput from '#components/NumberOutput';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 
 import RegionDropdown from './RegionDropdown';
 import Filter, { type FilterValue } from './Filters';
@@ -109,6 +119,71 @@ export function Component() {
             ),
         },
     );
+
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'all-projects.csv');
+        },
+    });
+
+    // NOTE: This request is made only to fetch the count
+    const {
+        response: projectsListResponse,
+    } = useRequest({
+        url: '/api/v2/project/',
+        query: {
+            limit: 1,
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!projectsListResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/project/',
+            projectsListResponse?.count,
+            {},
+        );
+    }, [
+        triggerExportStart,
+        projectsListResponse?.count,
+    ]);
 
     return (
         <Page
@@ -216,7 +291,18 @@ export function Component() {
                             />
                         )}
                         actions={(
-                            <RegionDropdown />
+                            <>
+                                <Button
+                                    name={undefined}
+                                    onClick={handleExportClick}
+                                    icons={<DownloadTwoLineIcon />}
+                                    disabled={(projectsListResponse?.count ?? 0) < 1}
+                                    variant="secondary"
+                                >
+                                    {exportButtonLabel}
+                                </Button>
+                                <RegionDropdown />
+                            </>
                         )}
                     >
                         <Map projectList={nsProjectsResponse} />

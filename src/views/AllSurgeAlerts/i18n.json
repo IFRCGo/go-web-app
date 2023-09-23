@@ -3,6 +3,8 @@
     "strings": {
         "allSurgeAlertsTitle": "All Surge Alerts",
         "allSurgeAlertsHeading": "All Surge Alerts ({numSurgeAlerts})",
+        "exportTableButtonLabel": "Export Table",
+        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "surgeAlertDate": "Alert Date",
         "surgeAlertDuration": "Duration",
         "surgeAlertPosition": "Position",

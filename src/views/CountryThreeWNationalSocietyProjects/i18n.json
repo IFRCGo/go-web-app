@@ -6,6 +6,8 @@
         "totalProjectsTitle": "Total Projects",
         "ongoingProjectBudgetTitle": "Total Budget (CHF) for Ongoing Projects",
         "threeWOngoingProjectsTitle": "Ongoing Projects",
+        "exportTableButtonLabel": "Export",
+        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "exportProjects": "Export",
         "viewAllProjects": "View All Projects",
         "threeWNSCountryMapSidebarTitle": "National Society Projects By Country",

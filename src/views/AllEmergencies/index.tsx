@@ -5,6 +5,9 @@ import {
 import { isDefined } from '@togglecorp/fujs';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
+import {
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
 
 import Page from '#components/Page';
 import { SortContext } from '#components/Table/useSorting';
@@ -17,12 +20,12 @@ import {
     createLinkColumn,
     createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
-import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
-import Button from '#components/Button';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
+import NumberOutput from '#components/NumberOutput';
+import Button from '#components/Button';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import {
@@ -206,7 +209,7 @@ export function Component() {
                 [unparseData],
                 { type: 'text/csv' },
             );
-            saveAs(blob, 'Data Export.csv');
+            saveAs(blob, 'all-emergencies.csv');
         },
     });
 
@@ -290,6 +293,8 @@ export function Component() {
                     <Button
                         name={undefined}
                         onClick={handleExportClick}
+                        icons={<DownloadTwoLineIcon />}
+                        disabled={(eventResponse?.count ?? 0) < 1}
                         variant="secondary"
                     >
                         {exportButtonLabel}

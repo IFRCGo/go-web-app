@@ -1,5 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
+import {
+    DownloadTwoLineIcon,
+} from '@ifrc-go/icons';
 
 import Page from '#components/Page';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -13,10 +18,12 @@ import {
     createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
+import Button from '#components/Button';
 import NumberOutput from '#components/NumberOutput';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
@@ -108,19 +115,27 @@ export function Component() {
         [strings],
     );
 
+    const query = useMemo(() => ({
+        limit,
+        offset,
+        ordering,
+        dtype: filterDisasterType,
+        countries__in: filterCountry,
+    }), [
+        limit,
+        offset,
+        ordering,
+        filterDisasterType,
+        filterCountry,
+    ]);
+
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
     } = useRequest({
         url: '/api/v2/field-report/',
         preserveResponse: true,
-        query: {
-            limit,
-            offset,
-            ordering,
-            dtype: filterDisasterType,
-            countries__in: filterCountry,
-        },
+        query,
     });
 
     const fieldReportFiltered = (
@@ -140,6 +155,62 @@ export function Component() {
         ),
         [fieldReportResponse, strings],
     );
+
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'field-reports.csv');
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!fieldReportResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/field-report/',
+            fieldReportResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        fieldReportResponse?.count,
+    ]);
 
     return (
         <Page
@@ -167,6 +238,17 @@ export function Component() {
                             onChange={setFilterCountry}
                         />
                     </>
+                )}
+                actions={(
+                    <Button
+                        name={undefined}
+                        onClick={handleExportClick}
+                        icons={<DownloadTwoLineIcon />}
+                        disabled={(fieldReportResponse?.count ?? 0) < 1}
+                        variant="secondary"
+                    >
+                        {exportButtonLabel}
+                    </Button>
                 )}
                 footerActions={(
                     <Pager
