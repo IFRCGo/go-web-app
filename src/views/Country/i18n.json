@@ -23,6 +23,7 @@
         "countryOnIFRC": "{countryName} on IFRC.org",
         "countryOnReliefWeb": "{countryName} on reliefweb.int",
         "countryRCHomepage": "{countryName} RC Homepage",
-        "countryLoadingErrorMessage": "Error loading data for the country!"
+        "countryLoadingErrorMessage": "Error loading data for the country!",
+        "home": "Home"
     }
 }

@@ -17,6 +17,7 @@
         "regionKeyFigureActiveAppealDescription": "These are medium to large scale emergency operations funded through a public appeal for funds.",
         "regionKeyFiguresBudget":"Funding Requirements (CHF)",
         "regionKeyFiguresAppealsFunding":"Funding Coverage",
-        "regionKeyFiguresTargetPop":"Targeted Population"
+        "regionKeyFiguresTargetPop":"Targeted Population",
+        "home": "Home"
     }
 }
