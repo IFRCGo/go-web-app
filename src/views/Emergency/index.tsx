@@ -142,6 +142,7 @@ export function Component() {
                     />
                 </>
             )}
+            contentOriginalLanguage={emergencyResponse?.translation_module_original_language}
         >
             <NavigationTabList>
                 <NavigationTab

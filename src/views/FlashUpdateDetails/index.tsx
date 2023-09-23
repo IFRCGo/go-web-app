@@ -144,6 +144,7 @@ export function Component() {
                 ),
             )}
             mainSectionClassName={styles.content}
+            contentOriginalLanguage={flashUpdateResponse?.translation_module_original_language}
         >
             {fetchingFlashUpdate && (
                 <Message pending />
