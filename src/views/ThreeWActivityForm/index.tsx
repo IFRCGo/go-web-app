@@ -45,8 +45,7 @@ import {
     useLazyRequest,
 } from '#utils/restRequest';
 import DateInput from '#components/DateInput';
-import useCountry from '#hooks/domain/useCountry';
-import useNationalSociety from '#hooks/domain/useNationalSociety';
+import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useBooleanState from '#hooks/useBooleanState';
 import RadioInput from '#components/RadioInput';
 import NonFieldError from '#components/NonFieldError';
@@ -552,20 +551,19 @@ export function Component() {
         value?.event,
     ]);
 
-    const countries = useCountry();
-    const nationalSocieties = useNationalSociety();
+    const countriesRaw = useCountryRaw();
 
     const selectedCountryDetail = useMemo(() => (
-        countries?.find((country) => country.id === value?.country)
+        countriesRaw?.find((country) => country.id === value?.country)
     ), [
-        countries,
+        countriesRaw,
         value?.country,
     ]);
 
     const selectedNationalSocietyDetail = useMemo(() => (
-        nationalSocieties?.find((country) => country.id === value?.reporting_ns)
+        countriesRaw?.find((country) => country.id === value?.reporting_ns)
     ), [
-        nationalSocieties,
+        countriesRaw,
         value?.reporting_ns,
     ]);
 

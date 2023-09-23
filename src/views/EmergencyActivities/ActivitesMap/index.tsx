@@ -5,6 +5,7 @@ import {
     isNotDefined,
     mapToList,
     unique,
+    listToMap,
 } from '@togglecorp/fujs';
 import {
     useOutletContext,
@@ -70,10 +71,15 @@ function ActivitiesMap(props: Props) {
 
     const emergencyCountryList = useMemo(() => {
         const emergencyCountryIdList = getEmergencyCountryIdList(emergencyResponse);
+        const countriesMap = listToMap(
+            countryList,
+            (item) => item.id,
+            (item) => item,
+        );
 
-        return emergencyCountryIdList.map((countryId) => (
-            countryList?.find((country) => country.id === countryId)
-        )).filter(isDefined);
+        return emergencyCountryIdList
+            .map((countryId) => countriesMap?.[countryId])
+            .filter(isDefined);
     }, [emergencyResponse, countryList]);
 
     const bounds = useMemo(

@@ -8,6 +8,7 @@ import {
     _cs,
     isDefined,
     isNotDefined,
+    listToMap,
 } from '@togglecorp/fujs';
 import Map, {
     MapSource,
@@ -48,6 +49,7 @@ type MovementActivityByCountry = NonNullable<MovementActivityResponse>['countrie
 type ReportingNationalSociety = NonNullable<MovementActivityResponse>['country_ns_sector_count'][number]['reporting_national_societies'][number];
 
 const redPointCirclePaint = getPointCirclePaint(COLOR_RED);
+
 const sourceOption: mapboxgl.GeoJSONSourceRaw = {
     type: 'geojson',
 };
@@ -70,19 +72,31 @@ function getGeoJson(
         };
     }
 
+    const countriesMapping = listToMap(
+        countries,
+        (item) => item.id,
+        (item) => item.centroid,
+    );
+
     return {
         type: 'FeatureCollection' as const,
-        features: actvities?.map((activity) => ({
-            type: 'Feature' as const,
-            id: activity.id,
-            geometry: countries?.find(
-                (country) => country.id === activity.id,
-            )?.centroid as {
-                type: 'Point',
-                coordinates: [number, number],
-            },
-            properties: activity,
-        })),
+        features: actvities.map((activity) => {
+            const centroid = countriesMapping?.[activity.id];
+            if (isNotDefined(centroid)) {
+                return undefined;
+            }
+            return ({
+                type: 'Feature' as const,
+                id: activity.id,
+                geometry: countries?.find(
+                    (country) => country.id === activity.id,
+                )?.centroid as {
+                    type: 'Point',
+                    coordinates: [number, number],
+                },
+                properties: activity,
+            });
+        }).filter(isDefined),
     };
 }
 

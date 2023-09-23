@@ -17,18 +17,21 @@ type Props<NAME> = MultiSelectInputProps<
     name: NAME;
     onChange: (newValue: number[], name: NAME) => void;
     value: number[] | undefined | null;
+
+    regionFilter?: number;
 }
 
-function CountrySelectInput<const NAME>(props: Props<NAME>) {
+function CountryMultiSelectInput<const NAME>(props: Props<NAME>) {
     const {
         className,
         name,
         onChange,
         value,
+        regionFilter,
         ...otherProps
     } = props;
 
-    const countries = useCountry();
+    const countries = useCountry({ region: regionFilter });
 
     return (
         <MultiSelectInput
@@ -45,4 +48,4 @@ function CountrySelectInput<const NAME>(props: Props<NAME>) {
     );
 }
 
-export default CountrySelectInput;
+export default CountryMultiSelectInput;

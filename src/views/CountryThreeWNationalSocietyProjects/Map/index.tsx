@@ -10,6 +10,7 @@ import {
     mapToList,
     isNotDefined,
     isTruthyString,
+    isFalsyString,
     listToMap,
 } from '@togglecorp/fujs';
 import Map, {
@@ -45,7 +46,6 @@ import {
     DEFAULT_MAP_PADDING,
 } from '#utils/constants';
 
-import useCountry from '#hooks/domain/useCountry';
 import Message from '#components/Message';
 import Link from '#components/Link';
 
@@ -218,7 +218,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         setClickedPointProperties,
     ] = useState<ClickedPoint | undefined>();
 
-    const clickedPointCountry = useCountry({
+    const clickedPointCountry = useCountryRaw({
         id: Number(clickedPointProperties?.feature?.id ?? -1),
     });
 
@@ -228,7 +228,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
         response: clickedPointProjectsResponse,
         pending: clickedPointProjectsResponsePending,
     } = useRequest({
-        skip: isNotDefined(clickedPointCountry?.iso3),
+        skip: isFalsyString(clickedPointCountry?.iso3),
         url: '/api/v2/project/',
         query: {
             country_iso3: isTruthyString(iso3)

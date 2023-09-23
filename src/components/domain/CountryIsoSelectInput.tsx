@@ -1,12 +1,18 @@
 import type { Props as SelectInputProps } from '#components/SelectInput';
 import SelectInput from '#components/SelectInput';
-import { numericIdSelector, stringNameSelector } from '#utils/selectors';
 import useCountry, { Country } from '#hooks/domain/useCountry';
+
+function keySelector(value: CountryOption) {
+    return value.iso3;
+}
+function labelSelector(value: CountryOption) {
+    return value.name;
+}
 
 export type CountryOption = Country;
 
 type Props<NAME> = SelectInputProps<
-    number,
+    string,
     NAME,
     Country,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,13 +21,13 @@ type Props<NAME> = SelectInputProps<
 > & {
     className?: string;
     name: NAME;
-    onChange: (newValue: number | undefined, name: NAME) => void;
-    value: number | undefined | null;
+    onChange: (newValue: string | undefined, name: NAME) => void;
+    value: string | undefined | null;
 
     regionFilter?: number;
 }
 
-function CountrySelectInput<const NAME>(props: Props<NAME>) {
+function CountryIsoSelectInput<const NAME>(props: Props<NAME>) {
     const {
         className,
         name,
@@ -40,12 +46,12 @@ function CountrySelectInput<const NAME>(props: Props<NAME>) {
             className={className}
             name={name}
             options={countries}
-            keySelector={numericIdSelector}
-            labelSelector={stringNameSelector}
+            keySelector={keySelector}
+            labelSelector={labelSelector}
             value={value}
             onChange={onChange}
         />
     );
 }
 
-export default CountrySelectInput;
+export default CountryIsoSelectInput;

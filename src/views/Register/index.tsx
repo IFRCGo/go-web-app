@@ -34,8 +34,8 @@ import {
     type GoApiBody,
 } from '#utils/restRequest';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
-import useNationalSociety, { NationalSociety } from '#hooks/domain/useNationalSociety';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
+import NationalSocietySuggestionInput from '#components/domain/NationalSocietySuggestionInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -45,7 +45,6 @@ type WhiteListResponse = GoApiResponse<'/api/v2/domainwhitelist/'>;
 type GlobalEnumsResponse = GoApiResponse<'/api/v2/global-enums/'>;
 type OrganizationTypeOption = NonNullable<GlobalEnumsResponse['api_profile_org_types']>[number];
 
-const nsLabelSelector = (item: NationalSociety) => item.society_name;
 const keySelector = (item: OrganizationTypeOption) => item.key;
 const labelSelector = (item: OrganizationTypeOption) => item.value;
 
@@ -246,8 +245,6 @@ export function Component() {
 
     const isNationalSociety = formValue.organization_type === 'NTLS';
 
-    const nationalSocietyOptions = useNationalSociety();
-
     const justificationNeeded = (
         isTruthyString(formValue.email)
         && isValidEmail(formValue.email)
@@ -366,12 +363,9 @@ export function Component() {
                     withAsterisk
                 />
                 {isNationalSociety ? (
-                    <SelectInput
+                    <NationalSocietySuggestionInput
                         label={strings.registerOrganizationName}
                         name="organization"
-                        options={nationalSocietyOptions}
-                        keySelector={nsLabelSelector}
-                        labelSelector={nsLabelSelector}
                         value={formValue.organization}
                         onChange={setFieldValue}
                         error={fieldError?.organization}

@@ -5,9 +5,7 @@ import { EntriesAsList } from '@togglecorp/toggle-form';
 import {
     numericKeySelector,
     stringLabelSelector,
-    stringNameSelector,
 } from '#utils/selectors';
-import useCountry from '#hooks/domain/useCountry';
 import {
     hazardTypeKeySelector,
     hazardTypeLabelSelector,
@@ -17,15 +15,12 @@ import {
     type RiskMetricOption,
     type RiskMetric,
 } from '#utils/domain/risk';
+import CountryIsoMultiSelectInput from '#components/domain/CountryIsoMultiSelectInput';
 import Checkbox from '#components/Checkbox';
 import SelectInput from '#components/SelectInput';
 import { getMonthList } from '#utils/common';
 
 import styles from './styles.module.css';
-
-function countryKeySelector(country: { iso3: string }) {
-    return country.iso3;
-}
 
 const monthList = getMonthList();
 
@@ -55,8 +50,6 @@ function Filters(props: Props) {
         hazardTypeOptions,
     } = props;
 
-    const countryList = useCountry({ region: regionId });
-
     const handleChange = useCallback(
         (...args: EntriesAsList<FilterValue>) => {
             const [val, key] = args;
@@ -70,15 +63,13 @@ function Filters(props: Props) {
 
     return (
         <div className={styles.filters}>
-            <MultiSelectInput
+            <CountryIsoMultiSelectInput
                 // FIXME: use translation
                 placeholder="All countries"
                 name="countries"
-                options={countryList}
-                keySelector={countryKeySelector}
-                labelSelector={stringNameSelector}
                 value={value.countries}
                 onChange={handleChange}
+                regionFilter={regionId}
                 withSelectAll
             />
             <SelectInput

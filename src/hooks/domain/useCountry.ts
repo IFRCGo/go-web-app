@@ -14,10 +14,9 @@ export type PartialCountry = NonNullable<Countries['results']>[number];
 
 export type Country = Omit<
     PartialCountry,
-    'id' | 'iso3' | 'iso3' | 'name' | 'is_deprecated' | 'independent'
+    'id' | 'iso3' | 'name' | 'is_deprecated' | 'independent'
 > & {
     id: number;
-    iso: string;
     iso3: string;
     name: string;
     is_deprecated: false | undefined;
@@ -26,11 +25,14 @@ export type Country = Omit<
 
 export function isValidCountry(country: PartialCountry): country is Country {
     return (
-        isDefined(country.id) // NOTE: This check is added
-        && isTruthyString(country.name)
-        && isTruthyString(country.iso)
-        && isTruthyString(country.iso3) // NOTE: This check is added
+        // NOTE: There are no countries without name
+        isTruthyString(country.name)
+        // NOTE: There are no indepdenent countries without iso3
+        // NOTE: There are non-independent countries without iso3
+        && isTruthyString(country.iso3)
+        // NOTE: We are only looking at independent countries
         && !!country.independent
+        // NOTE: There are not deprecated countries
         && !country.is_deprecated
     );
 }

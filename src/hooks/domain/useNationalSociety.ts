@@ -12,19 +12,17 @@ import DomainContext from '#contexts/domain';
 
 import {
     type PartialCountry,
-    type Country,
-    isValidCountry,
+    // type Country,
+    // isValidCountry,
 } from './useCountry';
 
-export type NationalSociety = Omit<Country, 'society_name'> & {
+export type NationalSociety = {
+    id: number;
     society_name: string;
 };
 
 export function isValidNationalSociety(country: PartialCountry): country is NationalSociety {
-    return (
-        isValidCountry(country)
-        && isTruthyString(country.society_name)
-    );
+    return isTruthyString(country.society_name);
 }
 
 type ListProps = {

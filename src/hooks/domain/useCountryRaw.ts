@@ -46,7 +46,8 @@ function useCountryRaw(
         [register],
     );
 
-    const countries = countriesUnsafe?.results;
+    // Filter out deprecated countries
+    const countries = countriesUnsafe?.results?.filter((item) => !item.is_deprecated);
 
     const returnValue = useMemo(
         () => {

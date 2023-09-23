@@ -53,6 +53,7 @@ function EmergencyMap(props: Props) {
         () => listToMap(
             countriesRaw,
             (country) => country.id,
+            (country) => country,
         ),
         [countriesRaw],
     );

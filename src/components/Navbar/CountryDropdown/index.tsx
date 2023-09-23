@@ -80,16 +80,17 @@ function CountryDropdown() {
     const [activeRegion, setActiveRegion] = useState<RegionKey>(regionIdFromMatch ?? 0);
     const [countrySearch, setCountrySearch] = useInputState<string | undefined>(undefined);
 
-    const allCountries = useCountry();
+    const allCountries = useCountry({ region: activeRegion });
+
     const countriesInSelectedRegion = useMemo(
         () => (
             rankedSearchOnList(
-                allCountries?.filter(({ region }) => region === activeRegion),
+                allCountries,
                 countrySearch,
                 ({ name }) => name,
             )
         ),
-        [activeRegion, allCountries, countrySearch],
+        [allCountries, countrySearch],
     );
 
     return (

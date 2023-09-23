@@ -7,7 +7,7 @@ import {
 import { type EntriesAsList } from '@togglecorp/toggle-form';
 import { isDefined, listToGroupList } from '@togglecorp/fujs';
 
-import MultiSelectInput from '#components/MultiSelectInput';
+import CountryMultiSelectInput from '#components/domain/CountryMultiSelectInput';
 import Container from '#components/Container';
 import CheckList from '#components/Checklist';
 import useCountry from '#hooks/domain/useCountry';
@@ -68,7 +68,6 @@ interface Value {
 type UpdateSubscriptionBody = GoApiBody<'/api/v2/update_subscriptions/', 'POST'>;
 
 function SubscriptionPreferences() {
-    const countryOptions = useCountry();
     const disasterTypeOptions = useDisasterTypes();
     const user = useUserMe();
     const alert = useAlert();
@@ -269,12 +268,9 @@ function SubscriptionPreferences() {
                 headerDescription={strings.subscriptionCountryLevelNotificationsDescription}
                 headingLevel={5}
             >
-                <MultiSelectInput
+                <CountryMultiSelectInput
                     name="country"
                     placeholder={strings.subscriptionCountryInputPlaceholder}
-                    options={countryOptions}
-                    keySelector={numericIdSelector}
-                    labelSelector={stringNameSelector}
                     value={value.country}
                     onChange={handleChange}
                 />
