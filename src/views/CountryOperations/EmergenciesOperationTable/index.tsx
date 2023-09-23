@@ -56,12 +56,10 @@ function EmergenciesOperationTable(props: Props) {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        10,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const columns = useMemo(
         () => ([
@@ -96,6 +94,9 @@ function EmergenciesOperationTable(props: Props) {
                 'amount_requested',
                 strings.emergenciesTableRequestedAmount,
                 (item) => item.appeals[0]?.amount_requested,
+                {
+                    suffix: ' CHF',
+                },
             ),
             createNumberColumn<EmergenciesTableItem, number>(
                 'num_affected',

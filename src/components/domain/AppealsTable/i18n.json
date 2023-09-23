@@ -2,7 +2,8 @@
     "namespace": "common",
     "strings": {
         "appealsTableStartDate": "Start Date",
-        "appealsTableEndDate": "End Date",
+        "appealsTableStartDateAfter": "Start After",
+        "appealsTableStartDateBefore": "Start Before",
         "appealsTableType": "Type of Appeal",
         "appealsTableCode": "Code",
         "appealsTableOperation": "Operation",

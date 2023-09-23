@@ -44,12 +44,10 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        { name: 'created_at', direction: 'dsc' },
-        1,
-        15,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 15,
+    });
 
     const columns = useMemo(
         () => ([

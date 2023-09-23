@@ -123,24 +123,20 @@ export function Component(props: Props) {
         setPage: setProjectActivePage,
         limit: projectLimit,
         offset: projectOffset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        5,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const {
         page: activityActivePage,
         setPage: setActivityActivePage,
         limit: activityLimit,
         offset: activityOffset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        5,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const {
         response: projectResponse,

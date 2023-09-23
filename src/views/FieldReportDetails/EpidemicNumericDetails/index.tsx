@@ -21,48 +21,48 @@ function EpidemicNumericDetails(props: Props) {
     return (
         <>
             <KeyFigure
-                description={strings.epidemicCumulativeCasesLabel}
+                label={strings.epidemicCumulativeCasesLabel}
                 value={value?.epi_cases}
             />
             <KeyFigure
-                description={strings.epidemicSuspectedCasesLabel}
+                label={strings.epidemicSuspectedCasesLabel}
                 value={value?.epi_suspected_cases}
             />
             <KeyFigure
-                description={strings.epidemicProbableCasesLabel}
+                label={strings.epidemicProbableCasesLabel}
                 value={value?.epi_probable_cases}
             />
             <KeyFigure
-                description={strings.epidemicConfirmedCasesLabel}
+                label={strings.epidemicConfirmedCasesLabel}
                 value={value?.epi_confirmed_cases}
             />
             <KeyFigure
-                description={strings.epidemicDeadLabel}
+                label={strings.epidemicDeadLabel}
                 value={value?.epi_num_dead}
             />
             <KeyFigure
-                description={strings.epidemicAssistedRCLabel}
+                label={strings.epidemicAssistedRCLabel}
                 value={value?.num_assisted}
             />
             <KeyFigure
-                description={strings.epidemicAssistedGovernmentLabel}
+                label={strings.epidemicAssistedGovernmentLabel}
                 value={value?.gov_num_assisted}
             />
             {/* FIXME: This is not in the form */}
             <KeyFigure
-                description={strings.epidemicAssistedOtherLabel}
+                label={strings.epidemicAssistedOtherLabel}
                 value={value?.other_num_assisted}
             />
             <KeyFigure
-                description={strings.epidemicVolunteersLabel}
+                label={strings.epidemicVolunteersLabel}
                 value={value?.num_localstaff}
             />
             <KeyFigure
-                description={strings.epidemicVolunteersLabel}
+                label={strings.epidemicVolunteersLabel}
                 value={value?.num_volunteers}
             />
             <KeyFigure
-                description={strings.epidemicDelegatesLabel}
+                label={strings.epidemicDelegatesLabel}
                 value={value?.num_expats_delegates}
             />
         </>

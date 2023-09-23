@@ -33,6 +33,11 @@
         font-weight: var(--go-ui-font-weight-medium);
     }
 
+    .description {
+        color: var(--go-ui-color-text-light);
+        font-size: var(--go-ui-font-size-sm);
+    }
+
     &.with-icon {
         .value {
             font-size: var(--go-ui-font-size-4xl);

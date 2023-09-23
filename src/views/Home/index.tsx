@@ -56,7 +56,7 @@ export function Component() {
                                         description={strings.keyFiguresDrefDescription}
                                     />
                                 )}
-                                description={strings.homeKeyFiguresActiveDrefs}
+                                label={strings.homeKeyFiguresActiveDrefs}
                             />
                             <KeyFigure
                                 icon={<AppealsIcon />}
@@ -68,14 +68,14 @@ export function Component() {
                                         description={strings.keyFigureActiveAppealDescription}
                                     />
                                 )}
-                                description={strings.homeKeyFiguresActiveAppeals}
+                                label={strings.homeKeyFiguresActiveAppeals}
                             />
                             <KeyFigure
                                 icon={<FundingIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.amount_requested_dref_included}
                                 compactValue
-                                description={strings.homeKeyFiguresBudget}
+                                label={strings.homeKeyFiguresBudget}
                             />
                             <KeyFigure
                                 icon={<FundingCoverageIcon />}
@@ -86,14 +86,14 @@ export function Component() {
                                 )}
                                 suffix="%"
                                 compactValue
-                                description={strings.homeKeyFiguresAppealsFunding}
+                                label={strings.homeKeyFiguresAppealsFunding}
                             />
                             <KeyFigure
                                 icon={<TargetedPopulationIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.target_population}
                                 compactValue
-                                description={strings.homeKeyFiguresTargetPop}
+                                label={strings.homeKeyFiguresTargetPop}
                             />
                         </>
                     )}

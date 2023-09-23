@@ -17,52 +17,52 @@ function EarlyWarningNumericDetails(props: Props) {
     return (
         <>
             <KeyFigure
-                description={strings.earlyPotentiallyAffectedRCLabel}
+                label={strings.earlyPotentiallyAffectedRCLabel}
                 value={value?.num_potentially_affected}
             />
             <KeyFigure
-                description={strings.earlyPeopleAtHighestRiskGovernmentLabel}
+                label={strings.earlyPeopleAtHighestRiskGovernmentLabel}
                 value={value?.gov_num_highest_risk}
             />
             <KeyFigure
-                description={strings.earlyAffectedPopCentresRCLabel}
+                label={strings.earlyAffectedPopCentresRCLabel}
                 value={Number(value?.affected_pop_centres)}
             />
             <KeyFigure
-                description={strings.earlyAssistedRCLabel}
+                label={strings.earlyAssistedRCLabel}
                 value={value?.num_assisted}
             />
             <KeyFigure
-                description={strings.earlyPotentiallyAffectedGovernmentLabel}
+                label={strings.earlyPotentiallyAffectedGovernmentLabel}
                 value={value?.gov_num_potentially_affected}
             />
             <KeyFigure
-                description={strings.earlyPeopleAtHighestRiskOtherLabel}
+                label={strings.earlyPeopleAtHighestRiskOtherLabel}
                 value={value?.other_num_highest_risk}
             />
             <KeyFigure
-                description={strings.earlyAffectedGovernmentLabel}
+                label={strings.earlyAffectedGovernmentLabel}
                 value={Number(value?.gov_affected_pop_centres)}
             />
             <KeyFigure
-                description={strings.earlyAssistedRCGovernmentLabel}
+                label={strings.earlyAssistedRCGovernmentLabel}
                 value={value?.gov_num_assisted}
             />
             <KeyFigure
-                description={strings.earlyPotentiallyAffectedOtherLabel}
+                label={strings.earlyPotentiallyAffectedOtherLabel}
                 value={value?.other_num_potentially_affected}
             />
             <KeyFigure
-                description={strings.earlyPeopleAtHighestRiskRcLabel}
+                label={strings.earlyPeopleAtHighestRiskRcLabel}
                 value={value?.num_highest_risk}
             />
             <KeyFigure
-                description={strings.earlyAffectedPopCentersOtherLabel}
+                label={strings.earlyAffectedPopCentersOtherLabel}
                 value={Number(value?.other_affected_pop_centres)}
             />
             {/* FIXME: This is not in the form */}
             <KeyFigure
-                description={strings.earlyAssistedOtherLabel}
+                label={strings.earlyAssistedOtherLabel}
                 value={value?.other_num_assisted}
             />
         </>

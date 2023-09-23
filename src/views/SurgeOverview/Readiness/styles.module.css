@@ -10,10 +10,16 @@
         flex-direction: column;
         gap: var(--go-ui-spacing-lg);
 
-        .checklist-container {
-            display: grid;
-            grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-2xl);
-            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        .filter-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-md);
+
+            .checklist-container {
+                display: grid;
+                grid-gap: var(--go-ui-spacing-sm) var(--go-ui-spacing-2xl);
+                grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+            }
         }
     }
 }

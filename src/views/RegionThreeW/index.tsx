@@ -90,18 +90,16 @@ export function Component() {
         setFilterField,
         limit,
         offset,
-    } = useFilterState<FilterValue>(
-        {
+    } = useFilterState<FilterValue>({
+        filter: {
             operation_type: [],
             programme_type: [],
             primary_sector: [],
             secondary_sectors: [],
             status: [],
         },
-        undefined,
-        1,
-        20,
-    );
+        pageSize: 20,
+    });
 
     const {
         response: regionProjectOverviewResponse,
@@ -219,13 +217,14 @@ export function Component() {
                         <KeyFigure
                             className={styles.keyFigure}
                             value={regionProjectOverviewResponse?.ns_with_ongoing_activities}
-                            description={strings.nationalSocietyWithOngoingActivities}
+                            label={strings.nationalSocietyWithOngoingActivities}
                         />
                         <div className={styles.separator} />
                         <KeyFigure
                             className={styles.keyFigure}
                             value={regionProjectOverviewResponse?.total_budget}
-                            description={strings.totalBuget}
+                            label={strings.totalBuget}
+                            compactValue
                         />
                     </div>
                     <div className={styles.peopleReachedCard}>
@@ -235,6 +234,7 @@ export function Component() {
                         <KeyFigure
                             className={styles.keyFigure}
                             value={regionProjectOverviewResponse?.reached_total}
+                            compactValue
                         />
                         {isDefined(regionProjectOverviewResponse?.reached_total)
                             && isDefined(regionProjectOverviewResponse?.target_total)
@@ -248,13 +248,14 @@ export function Component() {
                             valueType="number"
                             label={strings.targetedPopulation}
                             value={regionProjectOverviewResponse?.target_total}
+                            compact
                         />
                     </div>
                     <div className={styles.keyFigureCard}>
                         <KeyFigure
                             className={styles.keyFigure}
                             value={regionProjectOverviewResponse?.total_projects}
-                            description={strings.totalProjects}
+                            label={strings.totalProjects}
                         />
                         <div className={styles.separator} />
                         <div>

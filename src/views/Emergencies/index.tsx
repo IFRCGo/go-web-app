@@ -221,25 +221,25 @@ export function Component() {
                                 className={styles.keyFigure}
                                 icon={<EmergenciesIcon />}
                                 value={eventsResponse?.count}
-                                description={strings.emergenciesStatsTitle}
+                                label={strings.emergenciesStatsTitle}
                             />
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<TargetedPopulationIcon />}
                                 value={numAffected}
-                                description={strings.emergenciesStatsAffected}
+                                label={strings.emergenciesStatsAffected}
                             />
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<FundingCoverageIcon />}
                                 value={amountRequested}
-                                description={strings.emergenciesStatsRequested}
+                                label={strings.emergenciesStatsRequested}
                             />
                             <KeyFigure
                                 className={styles.keyFigure}
                                 icon={<FundingIcon />}
                                 value={funding}
-                                description={strings.emergenciesStatsFunding}
+                                label={strings.emergenciesStatsFunding}
                             />
                         </>
                     )}

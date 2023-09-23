@@ -55,12 +55,11 @@ export function Component() {
     } = useFilterState<{
         region?: RegionOption['key'],
         country?: number,
-    }>(
-        {},
-        { name: 'date_of_assessment', direction: 'dsc' },
-        1,
-        10,
-    );
+    }>({
+        filter: {},
+        ordering: { name: 'date_of_assessment', direction: 'dsc' },
+        pageSize: 10,
+    });
 
     const [expandedRow, setExpandedRow] = useState<PerProcessStatusItem | undefined>();
 

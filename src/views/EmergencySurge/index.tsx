@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import {
     EmergencyResponseUnitIcon,
-    ShieldUserLineIcon,
+    DeployedIcon,
 } from '@ifrc-go/icons';
 import {
     useRequest,
@@ -35,19 +35,18 @@ export function Component() {
         <div className={styles.emergencySurge}>
             <div className={styles.keyFigureList}>
                 <KeyFigure
-                    // FIXME use appropriate icon
-                    icon={<ShieldUserLineIcon />}
+                    icon={<DeployedIcon />}
                     className={styles.keyFigure}
                     value={deployementResponse?.active_deployments}
                     compactValue
-                    description={strings.emergencyActiveDeployments}
+                    label={strings.emergencyActiveDeployments}
                 />
                 <KeyFigure
                     icon={<EmergencyResponseUnitIcon />}
                     className={styles.keyFigure}
                     value={deployementResponse?.active_erus}
                     compactValue
-                    description={strings.emergencyActiveErus}
+                    label={strings.emergencyActiveErus}
                 />
             </div>
             <SurgeTable

@@ -101,29 +101,42 @@ export function Component() {
     const latestFieldReport = hasFieldReports
         ? getFieldReport(emergencyResponse.field_reports, compareDate) : undefined;
 
-    const groupedContacts = listToGroupList(
-        emergencyResponse?.contacts?.map(
-            (contact) => {
-                if (isNotDefined(contact)) {
-                    return undefined;
-                }
+    const emergencyContacts = emergencyResponse?.contacts;
 
-                const { ctype } = contact;
-                if (isNotDefined(ctype)) {
-                    return undefined;
-                }
+    const groupedContacts = useMemo(
+        () => {
+            type Contact = Omit<NonNullable<typeof emergencyContacts>[number], 'event'>;
+            let contactsToProcess: Contact[] | undefined = emergencyContacts;
+            if (!contactsToProcess || contactsToProcess.length <= 0) {
+                contactsToProcess = latestFieldReport?.contacts;
+            }
+            const grouped = listToGroupList(
+                contactsToProcess?.map(
+                    (contact) => {
+                        if (isNotDefined(contact)) {
+                            return undefined;
+                        }
 
-                return {
-                    ...contact,
-                    ctype,
-                };
-            },
-        ).filter(isDefined) ?? [],
-        (contact) => (
-            contact.email.endsWith('ifrc.org')
-                ? 'IFRC'
-                : 'National Societies'
-        ),
+                        const { ctype } = contact;
+                        if (isNotDefined(ctype)) {
+                            return undefined;
+                        }
+
+                        return {
+                            ...contact,
+                            ctype,
+                        };
+                    },
+                ).filter(isDefined) ?? [],
+                (contact) => (
+                    contact.email.endsWith('ifrc.org')
+                        ? 'IFRC'
+                        : 'National Societies'
+                ),
+            );
+            return grouped;
+        },
+        [emergencyContacts, latestFieldReport],
     );
 
     return (
@@ -141,14 +154,12 @@ export function Component() {
                                 key={keyFigure.id}
                                 className={styles.keyFigure}
                                 // FIXME: fix typing in server (medium priority)
-                                value={Number.parseFloat(keyFigure.number)}
-                                description={keyFigure.deck}
-                            >
-                                <TextOutput
-                                    label={strings.emergencyKeyFigureSource}
-                                    value={keyFigure.source}
-                                />
-                            </KeyFigure>
+                                // FIXME: Rounding this because it was previously rounded
+                                value={Math.round(Number.parseFloat(keyFigure.number))}
+                                label={keyFigure.deck}
+                                // FIXME: use translations
+                                description={`Source: ${keyFigure.source}`}
+                            />
                         ),
                     )}
                 </Container>
@@ -303,9 +314,7 @@ export function Component() {
                     </Container>
                 )}
             </div>
-            {isDefined(emergencyResponse)
-                && isDefined(emergencyResponse.contacts)
-                && emergencyResponse.contacts.length > 0
+            {isDefined(groupedContacts) && Object.keys(groupedContacts).length > 0
                 && (
                     <Container
                         heading={strings.contactsTitle}

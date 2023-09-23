@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-    ShieldCrossLineIcon,
+    EducationIcon,
     RedCrossNationalSocietyIcon,
     TargetedPopulationIcon,
     AddFillIcon,
@@ -139,21 +139,21 @@ export function Component() {
                 <>
                     <KeyFigure
                         className={styles.keyFigure}
-                        icon={<ShieldCrossLineIcon />}
+                        icon={<EducationIcon />}
                         value={numOngoingProjects}
-                        description={strings.globalThreeWKeyFigureOngoingProjectsTitle}
+                        label={strings.globalThreeWKeyFigureOngoingProjectsTitle}
                     />
                     <KeyFigure
                         className={styles.keyFigure}
                         icon={<RedCrossNationalSocietyIcon />}
                         value={numActiveSocieties}
-                        description={strings.globalThreeWKeyFigureActiveNSTitle}
+                        label={strings.globalThreeWKeyFigureActiveNSTitle}
                     />
                     <KeyFigure
                         className={styles.keyFigure}
                         icon={<TargetedPopulationIcon />}
                         value={numTargetedPopulation}
-                        description={strings.globalThreeWKeyTargetedPopulationTitle}
+                        label={strings.globalThreeWKeyTargetedPopulationTitle}
                         compactValue
                     />
                 </>

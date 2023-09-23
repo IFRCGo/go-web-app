@@ -56,12 +56,10 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        15,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 15,
+    });
 
     const {
         response: projectResponse,

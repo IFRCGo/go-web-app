@@ -16,6 +16,7 @@ import Map, {
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
+import { WikiHelpSectionLineIcon } from '@ifrc-go/icons';
 
 import {
     defaultMapStyle,
@@ -32,6 +33,7 @@ import Link from '#components/Link';
 import useInputState from '#hooks/useInputState';
 import useCountry from '#hooks/domain/useCountry';
 import useTranslation from '#hooks/useTranslation';
+import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import {
     getDataWithTruthyHazardType,
     getFiRiskDataItem,
@@ -101,6 +103,7 @@ function RiskSeasonalMap(props: Props) {
 
     const [hazardTypeOptions, setHazardTypeOptions] = useInputState<HazardTypeOption[]>([]);
     const strings = useTranslation(i18n);
+    const lang = useCurrentLanguage();
 
     const {
         response: seasonalResponse,
@@ -720,6 +723,28 @@ function RiskSeasonalMap(props: Props) {
                     riskMetricOptions={riskMetricOptions}
                 />
             )}
+            headerDescriptionContainerClassName={styles.headerDescription}
+            headerDescription={(
+                <>
+                    <div>
+                        {strings.seasonalEventsDescriptionOne}
+                    </div>
+                    <div>
+                        {strings.seasonalEventsDescriptionTwo}
+                    </div>
+                </>
+            )}
+            actions={(
+                <Link
+                    className={styles.wikiLink}
+                    external
+                    href={`https://go-wiki.ifrc.org/${lang}/user_guide/risk_module#seasonal-risk`}
+                    // FIXME: use translations
+                    title="Wiki"
+                >
+                    <WikiHelpSectionLineIcon />
+                </Link>
+            )}
             childrenContainerClassName={styles.mainContent}
             withHeaderBorder
             footerClassName={styles.footer}
@@ -801,7 +826,7 @@ function RiskSeasonalMap(props: Props) {
                 childrenContainerClassName={styles.content}
                 withInternalPadding
                 // FIXME use translation
-                heading="Countries"
+                heading="Countries by Risk"
                 headingLevel={4}
                 withHeaderBorder
                 contentViewType="vertical"

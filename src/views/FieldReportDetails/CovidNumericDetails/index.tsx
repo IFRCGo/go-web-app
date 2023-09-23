@@ -20,32 +20,32 @@ function CovidNumericDetails(props: Props) {
     return (
         <>
             <KeyFigure
-                description={strings.covidCumulativeCasesLabel}
+                label={strings.covidCumulativeCasesLabel}
                 value={value?.epi_cases}
             />
             <KeyFigure
-                description={strings.covidCumulativeDeadLabel}
+                label={strings.covidCumulativeDeadLabel}
                 value={value?.epi_num_dead}
             />
             <KeyFigure
-                description={strings.covidNumberOfCasesLabel}
+                label={strings.covidNumberOfCasesLabel}
                 value={value?.epi_cases_since_last_fr}
             />
             <KeyFigure
-                description={strings.covidNumberOfNewDeathsLabel}
+                label={strings.covidNumberOfNewDeathsLabel}
                 value={value?.epi_deaths_since_last_fr}
             />
             <KeyFigure
-                description={strings.covidAssistedRcLabel}
+                label={strings.covidAssistedRcLabel}
                 value={value?.num_assisted}
             />
             <KeyFigure
-                description={strings.covidAssistedGovernmentLabel}
+                label={strings.covidAssistedGovernmentLabel}
                 value={value?.gov_num_assisted}
             />
             {/* FIXME: This is not visible in the form */}
             <KeyFigure
-                description={strings.covidAssistedOtherLabel}
+                label={strings.covidAssistedOtherLabel}
                 value={value?.other_num_assisted}
             />
             {/* FIXME: This is not there in old details */}
@@ -55,11 +55,11 @@ function CovidNumericDetails(props: Props) {
                 strongLabel
             />
             <KeyFigure
-                description={strings.covidLocalStaff}
+                label={strings.covidLocalStaff}
                 value={value?.num_localstaff}
             />
             <KeyFigure
-                description={strings.covidVolunteersLabel}
+                label={strings.covidVolunteersLabel}
                 value={value?.num_volunteers}
             />
         </>

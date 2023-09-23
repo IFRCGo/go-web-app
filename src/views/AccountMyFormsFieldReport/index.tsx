@@ -25,7 +25,6 @@ import styles from './styles.module.css';
 
 type FieldReportResponse = GoApiResponse<'/api/v2/field-report/'>;
 type FieldReportListItem = NonNullable<FieldReportResponse['results']>[number];
-const ITEM_PER_PAGE = 10;
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
@@ -38,12 +37,10 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        { name: 'created_at', direction: 'dsc' },
-        1,
-        ITEM_PER_PAGE,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const {
         response: fieldReportResponse,
@@ -53,7 +50,7 @@ export function Component() {
         url: '/api/v2/field-report/',
         query: {
             user: userMe?.id,
-            limit: ITEM_PER_PAGE,
+            limit,
             ordering,
             offset,
         },

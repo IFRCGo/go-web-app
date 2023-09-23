@@ -3,6 +3,7 @@ import {
     useMemo,
     useState,
     useCallback,
+    useEffect,
     type ElementRef,
 } from 'react';
 import {
@@ -239,6 +240,17 @@ export function Component() {
     >([]);
 
     const projectId = projectIdFromParams ?? state?.projectId as string | undefined;
+    const reportingNsId = state?.reportingNsId as string | undefined;
+
+    useEffect(
+        () => {
+            if (isTruthyString(reportingNsId)) {
+                setFieldValue(Number(reportingNsId), 'reporting_ns');
+            }
+        },
+        [reportingNsId, setFieldValue],
+    );
+
     const {
         pending: fetchingProject,
         response: projectResponse,

@@ -198,7 +198,7 @@ function ActivityDetail(props: Props) {
                         totalValue={projectCount}
                     />
                     <NumberOutput
-                        value={completeProjectCount}
+                        value={projectCount}
                     />
                     <InfoPopup
                         description={resolveToString(

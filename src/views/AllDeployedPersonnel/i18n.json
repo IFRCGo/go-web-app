@@ -10,7 +10,7 @@
         "personnelTablePosition": "Position",
         "personnelTableType": "Type",
         "personnelTableDeployingParty": "Deploying Party",
-        "personnelTableDeployedTo": "Deploying To",
+        "personnelTableDeployedTo": "Deployed To",
         "personnelTableEmergency": "Emergency"
     }
 }

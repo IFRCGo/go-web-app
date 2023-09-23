@@ -17,92 +17,92 @@ function EventNumericDetails(props: Props) {
     return (
         <>
             <KeyFigure
-                description={strings.eventInjuredRCLabel}
+                label={strings.eventInjuredRCLabel}
                 value={value?.num_injured}
             />
             <KeyFigure
-                description={strings.eventInjuredGovernmentLabel}
+                label={strings.eventInjuredGovernmentLabel}
                 value={value?.gov_num_injured}
             />
             <KeyFigure
-                description={strings.eventInjuredOtherLabel}
+                label={strings.eventInjuredOtherLabel}
                 value={value?.other_num_injured}
             />
             <KeyFigure
-                description={strings.eventMissingRCLabel}
+                label={strings.eventMissingRCLabel}
                 value={value?.num_missing}
             />
             <KeyFigure
-                description={strings.eventMissingGovernmentLabel}
+                label={strings.eventMissingGovernmentLabel}
                 value={value?.gov_num_missing}
             />
             <KeyFigure
-                description={strings.eventMissingOtherLabel}
+                label={strings.eventMissingOtherLabel}
                 value={value?.other_num_missing}
             />
             <KeyFigure
-                description={strings.eventDeadRCLabel}
+                label={strings.eventDeadRCLabel}
                 value={value?.num_dead}
             />
             <KeyFigure
-                description={strings.eventDeadGovernmentLabel}
+                label={strings.eventDeadGovernmentLabel}
                 value={value?.gov_num_dead}
             />
             <KeyFigure
-                description={strings.eventDeadOtherLabel}
+                label={strings.eventDeadOtherLabel}
                 value={value?.other_num_dead}
             />
             <KeyFigure
-                description={strings.eventDisplacedRCLabel}
+                label={strings.eventDisplacedRCLabel}
                 value={value?.num_displaced}
             />
             <KeyFigure
-                description={strings.eventDisplacedGovernmentLabel}
+                label={strings.eventDisplacedGovernmentLabel}
                 value={value?.gov_num_displaced}
             />
             <KeyFigure
-                description={strings.eventDisplacedOtherLabel}
+                label={strings.eventDisplacedOtherLabel}
                 value={value?.other_num_displaced}
             />
             <KeyFigure
-                description={strings.eventAffectedRCLabel}
+                label={strings.eventAffectedRCLabel}
                 value={value?.num_affected}
             />
             <KeyFigure
-                description={strings.eventAffectedGovernmentLabel}
+                label={strings.eventAffectedGovernmentLabel}
                 value={value?.gov_num_affected}
             />
             <KeyFigure
-                description={strings.eventAffectedOtherLabel}
+                label={strings.eventAffectedOtherLabel}
                 value={value?.other_num_affected}
             />
             <KeyFigure
-                description={strings.eventAssistedRCLabel}
+                label={strings.eventAssistedRCLabel}
                 value={value?.num_assisted}
             />
             <KeyFigure
-                description={strings.eventAssistedGovernmentLabel}
+                label={strings.eventAssistedGovernmentLabel}
                 value={value?.gov_num_assisted}
             />
             {/* NOTE: This is not in the form */}
             <KeyFigure
-                description={strings.eventAssistedOtherLabel}
+                label={strings.eventAssistedOtherLabel}
                 value={value?.other_num_assisted}
             />
             <KeyFigure
-                description={strings.eventLocalStaffLabel}
+                label={strings.eventLocalStaffLabel}
                 value={value?.num_localstaff}
             />
             <KeyFigure
-                description={strings.eventVolunteersLabel}
+                label={strings.eventVolunteersLabel}
                 value={value?.num_volunteers}
             />
             <KeyFigure
-                description={strings.eventIfrcStaffLabel}
+                label={strings.eventIfrcStaffLabel}
                 value={value?.num_ifrc_staff}
             />
             <KeyFigure
-                description={strings.eventDelegatedLabel}
+                label={strings.eventDelegatedLabel}
                 value={value?.num_expats_delegates}
             />
         </>

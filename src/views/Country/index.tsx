@@ -7,9 +7,12 @@ import {
     FundingCoverageIcon,
     TargetedPopulationIcon,
     AppealsTwoIcon,
+    PencilFillIcon,
 } from '@ifrc-go/icons';
 import { isDefined, isNotDefined, isTruthyString } from '@togglecorp/fujs';
 
+import { resolveUrl } from '#utils/resolveUrl';
+import useAuth from '#hooks/domain/useAuth';
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
 import NavigationTabList from '#components/NavigationTabList';
@@ -23,6 +26,7 @@ import { useRequest } from '#utils/restRequest';
 import { type CountryOutletContext } from '#utils/outletContext';
 import { resolveToString } from '#utils/translation';
 import { getPercentage } from '#utils/common';
+import { adminUrl } from '#config';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -44,6 +48,8 @@ export function Component() {
             id: Number(countryId),
         },
     });
+
+    const { isAuthenticated } = useAuth();
 
     const {
         pending: aggregatedAppealPending,
@@ -129,7 +135,7 @@ export function Component() {
                                         description={strings.countryKeyFiguresDrefDescription}
                                     />
                                 )}
-                                description={strings.countryKeyFiguresActiveDrefs}
+                                label={strings.countryKeyFiguresActiveDrefs}
                             />
                             <KeyFigure
                                 icon={<AppealsIcon />}
@@ -143,10 +149,17 @@ export function Component() {
                                         }
                                     />
                                 )}
-                                description={strings.countryKeyFiguresActiveAppeals}
+                                label={strings.countryKeyFiguresActiveAppeals}
                             />
                             <KeyFigure
                                 icon={<FundingIcon />}
+                                className={styles.keyFigure}
+                                value={aggregatedAppealResponse?.amount_requested_dref_included}
+                                compactValue
+                                label={strings.countryKeyFiguresBudget}
+                            />
+                            <KeyFigure
+                                icon={<FundingCoverageIcon />}
                                 className={styles.keyFigure}
                                 value={getPercentage(
                                     aggregatedAppealResponse?.amount_funded,
@@ -154,21 +167,14 @@ export function Component() {
                                 )}
                                 suffix="%"
                                 compactValue
-                                description={strings.countryKeyFiguresBudget}
-                            />
-                            <KeyFigure
-                                icon={<FundingCoverageIcon />}
-                                className={styles.keyFigure}
-                                value={aggregatedAppealResponse.amount_funded}
-                                compactValue
-                                description={strings.countryKeyFiguresAppealsFunding}
+                                label={strings.countryKeyFiguresAppealsFunding}
                             />
                             <KeyFigure
                                 icon={<TargetedPopulationIcon />}
                                 className={styles.keyFigure}
                                 value={aggregatedAppealResponse.target_population}
                                 compactValue
-                                description={strings.countryKeyFiguresTargetPop}
+                                label={strings.countryKeyFiguresTargetPop}
                             />
                             {countryResponse?.has_country_plan && (
                                 <KeyFigure
@@ -176,12 +182,23 @@ export function Component() {
                                     className={styles.keyFigure}
                                     value={1}
                                     compactValue
-                                    description={strings.countryKeyFiguresCountryPlan}
+                                    label={strings.countryKeyFiguresCountryPlan}
                                 />
                             )}
                         </>
                     )}
                 </>
+            )}
+            actions={isAuthenticated && (
+                <Link
+                    external
+                    href={resolveUrl(adminUrl, `${adminUrl}api/country/${countryId}/change/`)}
+                    variant="secondary"
+                    icons={<PencilFillIcon />}
+                >
+                    {/* FIXME: use translations */}
+                    Edit Country
+                </Link>
             )}
         >
             <NavigationTabList>

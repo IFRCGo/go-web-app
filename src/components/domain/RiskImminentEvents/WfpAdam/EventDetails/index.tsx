@@ -262,7 +262,7 @@ function EventDetails(props: Props) {
                 {isDefined(populationImpact) && (
                     <TextOutput
                         // FIXME: use translation
-                        label="People Exposed / Potentiall Affected"
+                        label="People Exposed / Potentially Affected"
                         value={populationImpact}
                         valueType="number"
                         maximumFractionDigits={0}

@@ -69,12 +69,10 @@ function SurgeAlertsTable() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        5,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 5,
+    });
 
     const {
         pending: surgeAlertsPending,

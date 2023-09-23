@@ -53,12 +53,17 @@ export function Component() {
         page: appealDocumentsPage,
         setPage: setAppealDocumentsPage,
         limit: appealDocumentsLimit,
-    } = useFilterState({}, undefined, 1, 10);
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const {
         page: fieldReportsPage,
         setPage: setFieldReportsPage,
-    } = useFilterState({}, undefined);
+    } = useFilterState<object>({
+        filter: {},
+    });
 
     const regions = useRegion();
 

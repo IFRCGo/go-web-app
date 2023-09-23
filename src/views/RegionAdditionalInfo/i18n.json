@@ -3,7 +3,6 @@
     "strings": {
         "containerTitle": "Regional Content",
         "keyFigureHeading": "Key Figure",
-        "keyFigureLabel": "Source",
         "noDataMessage": "No data to display"
     }
 }

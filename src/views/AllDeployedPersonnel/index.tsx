@@ -41,12 +41,10 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>(
-        {},
-        undefined,
-        1,
-        10,
-    );
+    } = useFilterState<object>({
+        filter: {},
+        pageSize: 10,
+    });
 
     const getTypeName = useCallback((type: PersonnelTableItem['type']) => {
         if (type === 'rr') {
@@ -115,13 +113,14 @@ export function Component() {
                 { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(
-                'deployed_to',
+                'deployment',
                 strings.personnelTableDeployedTo,
                 (item) => item.country_to?.name,
                 (item) => ({
                     to: 'countriesLayout',
                     urlParams: { countryId: item.country_to?.id },
                 }),
+                { sortable: true },
             ),
             createLinkColumn<PersonnelTableItem, number>(
                 'deployment',

@@ -449,7 +449,7 @@ export function Component() {
                     <KeyFigure
                         className={styles.keyFigure}
                         value={assessmentStats?.averageRating}
-                        description={strings.averageComponentRatingLabel}
+                        label={strings.averageComponentRatingLabel}
                     />
                 </Container>
             )}
