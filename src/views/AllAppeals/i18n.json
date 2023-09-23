@@ -2,9 +2,8 @@
     "namespace": "allAppeals",
     "strings": {
         "allAppealsTitle": "All Appeals",
+        "failedToCreateExport": "Failed to generate export.",
         "allAppealsHeading": "All Appeals ({numAppeals})",
-        "exportTableButtonLabel": "Export Table",
-        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "allAppealsStartDate": "Start Date",
         "allAppealsType": "Type",
         "allAppealsCode": "Code",

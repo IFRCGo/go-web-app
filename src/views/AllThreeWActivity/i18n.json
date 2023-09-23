@@ -2,9 +2,8 @@
     "namespace": "allThreeWActivity",
     "strings": {
         "allThreeWTitle": "All 3W",
+        "failedToCreateExport": "Failed to generate export.",
         "allThreeWActivityHeading": "All 3W Activity ({numThreeWs})",
-        "exportTableButtonLabel": "Export Table",
-        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "allThreeWActivityNS": "National Society / ERU",
         "allThreeWActivityTitle": "Title",
         "allThreeWActivityStartDate": "Start Date",

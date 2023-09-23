@@ -2,13 +2,11 @@ import { useMemo, useCallback } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
-import {
-    DownloadTwoLineIcon,
-} from '@ifrc-go/icons';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
+import ExportButton from '#components/domain/ExportButton';
 import Table from '#components/Table';
 import {
     createStringColumn,
@@ -17,10 +15,9 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
-import NumberOutput from '#components/NumberOutput';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
-import Button from '#components/Button';
+import useAlert from '#hooks/useAlert';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { getDuration } from '#utils/common';
@@ -75,12 +72,14 @@ export function Component() {
         },
     });
 
+    const alert = useAlert();
     const getStatus = useCallback(
-        (alert: SurgeListItem) => {
-            if (alert.is_stood_down) {
+        (surgeAlert: SurgeListItem) => {
+            if (surgeAlert.is_stood_down) {
                 return strings.surgeAlertStoodDown;
             }
-            const closed = isDefined(alert.end) ? new Date(alert.end).getTime() < today : undefined;
+            const closed = isDefined(surgeAlert.end)
+                ? new Date(surgeAlert.end).getTime() < today : undefined;
             return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
         },
         [strings],
@@ -170,9 +169,11 @@ export function Component() {
         progress,
         triggerExportStart,
     ] = useRecursiveCsvExport({
-        onFailure: (err) => {
-            // eslint-disable-next-line no-console
-            console.error('Failed to download!', err);
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
         },
         onSuccess: (data) => {
             const unparseData = Papa.unparse(data);
@@ -183,28 +184,6 @@ export function Component() {
             saveAs(blob, 'surge-alerts.csv');
         },
     });
-
-    const exportButtonLabel = useMemo(() => {
-        if (!pendingExport) {
-            return strings.exportTableButtonLabel;
-        }
-        return resolveToComponent(
-            strings.exportTableDownloadingButtonLabel,
-            {
-                progress: (
-                    <NumberOutput
-                        value={progress * 100}
-                        maximumFractionDigits={0}
-                    />
-                ),
-            },
-        );
-    }, [
-        strings.exportTableButtonLabel,
-        strings.exportTableDownloadingButtonLabel,
-        progress,
-        pendingExport,
-    ]);
 
     const handleExportClick = useCallback(() => {
         if (!surgeResponse?.count) {
@@ -241,15 +220,12 @@ export function Component() {
                     />
                 )}
                 actions={(
-                    <Button
-                        name={undefined}
+                    <ExportButton
                         onClick={handleExportClick}
-                        variant="secondary"
-                        icons={<DownloadTwoLineIcon />}
-                        disabled={(surgeResponse?.count ?? 0) < 1}
-                    >
-                        {exportButtonLabel}
-                    </Button>
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={surgeResponse?.count}
+                    />
                 )}
             >
                 <Table

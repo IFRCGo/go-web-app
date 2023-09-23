@@ -2,9 +2,8 @@
     "namespace": "allFieldReports",
     "strings": {
         "allFieldReportsTitle": "All Field Reports",
+        "failedToCreateExport": "Failed to generate export.",
         "allFieldReportsHeading": "All Field Reports ({numFieldReports})",
-        "exportTableButtonLabel": "Export Table",
-        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "allFieldReportsCreatedAt":"Created At",
         "allFieldReportsName":"Name",
         "allFieldReportsEmergency":"Emergency",

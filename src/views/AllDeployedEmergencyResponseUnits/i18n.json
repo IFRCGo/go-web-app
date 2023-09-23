@@ -2,9 +2,7 @@
     "namespace": "allDeployedEmergencyResponseUnits",
     "strings": {
         "containerHeading": "All Deployed Erus ({count})",
-        "exportTable": "Export Table",
-        "exportTableButtonLabel": "Export Table",
-        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
+        "failedToCreateExport": "Failed to generate export.",
         "eruTableName": "Owner",
         "eruTableType": "Type",
         "eruTablePersonnel": "Personnel Units",

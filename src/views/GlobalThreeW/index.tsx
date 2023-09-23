@@ -1,6 +1,5 @@
 import {
     useState,
-    useMemo,
     useCallback,
 } from 'react';
 import {
@@ -8,7 +7,6 @@ import {
     RedCrossNationalSocietyIcon,
     TargetedPopulationIcon,
     AddFillIcon,
-    DownloadTwoLineIcon,
 } from '@ifrc-go/icons';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
@@ -22,9 +20,9 @@ import BarChart from '#components/BarChart';
 import PieChart from '#components/PieChart';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import ExportButton from '#components/domain/ExportButton';
 import { resolveToComponent } from '#utils/translation';
-import Button from '#components/Button';
-import NumberOutput from '#components/NumberOutput';
+import useAlert from '#hooks/useAlert';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 
 import RegionDropdown from './RegionDropdown';
@@ -82,6 +80,7 @@ export function Component() {
         secondary_sectors: [],
     });
 
+    const alert = useAlert();
     const {
         pending: nsProjectsPending,
         response: nsProjectsResponse,
@@ -125,9 +124,11 @@ export function Component() {
         progress,
         triggerExportStart,
     ] = useRecursiveCsvExport({
-        onFailure: (err) => {
-            // eslint-disable-next-line no-console
-            console.error('Failed to download!', err);
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
         },
         onSuccess: (data) => {
             const unparseData = Papa.unparse(data);
@@ -145,31 +146,9 @@ export function Component() {
     } = useRequest({
         url: '/api/v2/project/',
         query: {
-            limit: 1,
+            limit: 0,
         },
     });
-
-    const exportButtonLabel = useMemo(() => {
-        if (!pendingExport) {
-            return strings.exportTableButtonLabel;
-        }
-        return resolveToComponent(
-            strings.exportTableDownloadingButtonLabel,
-            {
-                progress: (
-                    <NumberOutput
-                        value={progress * 100}
-                        maximumFractionDigits={0}
-                    />
-                ),
-            },
-        );
-    }, [
-        strings.exportTableButtonLabel,
-        strings.exportTableDownloadingButtonLabel,
-        progress,
-        pendingExport,
-    ]);
 
     const handleExportClick = useCallback(() => {
         if (!projectsListResponse?.count) {
@@ -292,15 +271,12 @@ export function Component() {
                         )}
                         actions={(
                             <>
-                                <Button
-                                    name={undefined}
+                                <ExportButton
                                     onClick={handleExportClick}
-                                    icons={<DownloadTwoLineIcon />}
-                                    disabled={(projectsListResponse?.count ?? 0) < 1}
-                                    variant="secondary"
-                                >
-                                    {exportButtonLabel}
-                                </Button>
+                                    progress={progress}
+                                    pendingExport={pendingExport}
+                                    totalCount={projectsListResponse?.count}
+                                />
                                 <RegionDropdown />
                             </>
                         )}

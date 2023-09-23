@@ -11,20 +11,17 @@ import {
 } from 'react-router-dom';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
-import {
-    DownloadTwoLineIcon,
-} from '@ifrc-go/icons';
 
 import BlockLoading from '#components/BlockLoading';
-import Button from '#components/Button';
 import Container from '#components/Container';
 import ExpandableContainer from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
+import ExportButton from '#components/domain/ExportButton';
 import Message from '#components/Message';
 import PieChart from '#components/PieChart';
+import useAlert from '#hooks/useAlert';
 import Table from '#components/Table';
-import NumberOutput from '#components/NumberOutput';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import {
     createElementColumn,
@@ -37,7 +34,6 @@ import useFilterState from '#hooks/useFilterState';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
 import {
     resolveToString,
-    resolveToComponent,
 } from '#utils/translation';
 import { sumSafe } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
@@ -104,6 +100,7 @@ export function Component() {
     } = useFilterState<FilterValue>({
         filter: {},
     });
+    const alert = useAlert();
     const {
         countryResponse,
         countryResponsePending,
@@ -245,9 +242,11 @@ export function Component() {
         progress,
         triggerExportStart,
     ] = useRecursiveCsvExport({
-        onFailure: (err) => {
-            // eslint-disable-next-line no-console
-            console.error('Failed to download!', err);
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
         },
         onSuccess: (data) => {
             const unparseData = Papa.unparse(data);
@@ -258,28 +257,6 @@ export function Component() {
             saveAs(blob, `${countryResponse?.name}-data-export.csv`);
         },
     });
-
-    const exportButtonLabel = useMemo(() => {
-        if (!pendingExport) {
-            return strings.exportTableButtonLabel;
-        }
-        return resolveToComponent(
-            strings.exportTableDownloadingButtonLabel,
-            {
-                progress: (
-                    <NumberOutput
-                        value={progress * 100}
-                        maximumFractionDigits={0}
-                    />
-                ),
-            },
-        );
-    }, [
-        strings.exportTableButtonLabel,
-        strings.exportTableDownloadingButtonLabel,
-        progress,
-        pendingExport,
-    ]);
 
     const handleExportClick = useCallback(() => {
         if (!projectListResponse?.count) {
@@ -397,15 +374,12 @@ export function Component() {
                 )}
                 actions={(
                     <>
-                        <Button
-                            name={undefined}
+                        <ExportButton
                             onClick={handleExportClick}
-                            icons={<DownloadTwoLineIcon />}
-                            disabled={(projectListResponse?.count ?? 0) < 1}
-                            variant="secondary"
-                        >
-                            {exportButtonLabel}
-                        </Button>
+                            progress={progress}
+                            pendingExport={pendingExport}
+                            totalCount={projectListResponse?.count}
+                        />
                         <Link
                             to="allThreeWProject"
                             urlSearch={`reporting_ns=${countryResponse?.id}`}

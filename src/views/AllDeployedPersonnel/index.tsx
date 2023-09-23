@@ -4,9 +4,6 @@ import {
 } from 'react';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
-import {
-    DownloadTwoLineIcon,
-} from '@ifrc-go/icons';
 
 import useTranslation from '#hooks/useTranslation';
 import {
@@ -14,11 +11,11 @@ import {
     useRequest,
 } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
-import NumberOutput from '#components/NumberOutput';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import Page from '#components/Page';
-import Button from '#components/Button';
+import useAlert from '#hooks/useAlert';
+import ExportButton from '#components/domain/ExportButton';
 import {
     SortContext,
 } from '#components/Table/useSorting';
@@ -53,6 +50,7 @@ export function Component() {
         filter: {},
         pageSize: 10,
     });
+    const alert = useAlert();
 
     const getTypeName = useCallback((type: PersonnelTableItem['type']) => {
         if (type === 'rr') {
@@ -169,9 +167,11 @@ export function Component() {
         progress,
         triggerExportStart,
     ] = useRecursiveCsvExport({
-        onFailure: (err) => {
-            // eslint-disable-next-line no-console
-            console.error('Failed to download!', err);
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
         },
         onSuccess: (data) => {
             const unparseData = Papa.unparse(data);
@@ -182,28 +182,6 @@ export function Component() {
             saveAs(blob, 'all-deployed-personnel.csv');
         },
     });
-
-    const exportButtonLabel = useMemo(() => {
-        if (!pendingExport) {
-            return strings.exportTableButtonLabel;
-        }
-        return resolveToComponent(
-            strings.exportTableDownloadingButtonLabel,
-            {
-                progress: (
-                    <NumberOutput
-                        value={progress * 100}
-                        maximumFractionDigits={0}
-                    />
-                ),
-            },
-        );
-    }, [
-        strings.exportTableButtonLabel,
-        strings.exportTableDownloadingButtonLabel,
-        progress,
-        pendingExport,
-    ]);
 
     const handleExportClick = useCallback(() => {
         if (!personnelResponse?.count) {
@@ -226,15 +204,12 @@ export function Component() {
                 heading={containerHeading}
                 withHeaderBorder
                 actions={(
-                    <Button
-                        name={undefined}
+                    <ExportButton
                         onClick={handleExportClick}
-                        variant="secondary"
-                        icons={<DownloadTwoLineIcon />}
-                        disabled={(personnelResponse?.count ?? 0) < 1}
-                    >
-                        {exportButtonLabel}
-                    </Button>
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={personnelResponse?.count}
+                    />
                 )}
                 footerActions={(
                     <Pager

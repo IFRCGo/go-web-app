@@ -2,9 +2,6 @@ import { useMemo, useCallback } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
-import {
-    DownloadTwoLineIcon,
-} from '@ifrc-go/icons';
 
 import Page from '#components/Page';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -18,11 +15,12 @@ import {
     createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
-import Button from '#components/Button';
 import NumberOutput from '#components/NumberOutput';
+import ExportButton from '#components/domain/ExportButton';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
+import useAlert from '#hooks/useAlert';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
@@ -50,6 +48,7 @@ export function Component() {
         filter: {},
         pageSize: 15,
     });
+    const alert = useAlert();
     const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
         'dtype',
         (searchValue) => {
@@ -161,9 +160,11 @@ export function Component() {
         progress,
         triggerExportStart,
     ] = useRecursiveCsvExport({
-        onFailure: (err) => {
-            // eslint-disable-next-line no-console
-            console.error('Failed to download!', err);
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
         },
         onSuccess: (data) => {
             const unparseData = Papa.unparse(data);
@@ -174,28 +175,6 @@ export function Component() {
             saveAs(blob, 'field-reports.csv');
         },
     });
-
-    const exportButtonLabel = useMemo(() => {
-        if (!pendingExport) {
-            return strings.exportTableButtonLabel;
-        }
-        return resolveToComponent(
-            strings.exportTableDownloadingButtonLabel,
-            {
-                progress: (
-                    <NumberOutput
-                        value={progress * 100}
-                        maximumFractionDigits={0}
-                    />
-                ),
-            },
-        );
-    }, [
-        strings.exportTableButtonLabel,
-        strings.exportTableDownloadingButtonLabel,
-        progress,
-        pendingExport,
-    ]);
 
     const handleExportClick = useCallback(() => {
         if (!fieldReportResponse?.count) {
@@ -240,15 +219,12 @@ export function Component() {
                     </>
                 )}
                 actions={(
-                    <Button
-                        name={undefined}
+                    <ExportButton
                         onClick={handleExportClick}
-                        icons={<DownloadTwoLineIcon />}
-                        disabled={(fieldReportResponse?.count ?? 0) < 1}
-                        variant="secondary"
-                    >
-                        {exportButtonLabel}
-                    </Button>
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={fieldReportResponse?.count}
+                    />
                 )}
                 footerActions={(
                     <Pager

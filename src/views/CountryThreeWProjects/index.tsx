@@ -18,11 +18,10 @@ import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
 import {
     PencilFillIcon,
-    DownloadTwoLineIcon,
 } from '@ifrc-go/icons';
 
 import BlockLoading from '#components/BlockLoading';
-import Button from '#components/Button';
+import ExportButton from '#components/domain/ExportButton';
 import Container from '#components/Container';
 import ExpandableContainer from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
@@ -34,11 +33,10 @@ import ProjectActions, { Props as ProjectActionsProps } from '#components/domain
 import type { CountryOutletContext } from '#utils/outletContext';
 import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
+import useAlert from '#hooks/useAlert';
 import {
     resolveToString,
-    resolveToComponent,
 } from '#utils/translation';
-import NumberOutput from '#components/NumberOutput';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { sumSafe, denormalizeList, hasSomeDefinedValue } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
@@ -116,6 +114,7 @@ export function Component() {
         primary_sector: [],
         secondary_sectors: [],
     });
+    const alert = useAlert();
 
     const isFiltered = hasSomeDefinedValue(filters);
 
@@ -303,9 +302,11 @@ export function Component() {
         progress,
         triggerExportStart,
     ] = useRecursiveCsvExport({
-        onFailure: (err) => {
-            // eslint-disable-next-line no-console
-            console.error('Failed to download!', err);
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
         },
         onSuccess: (data) => {
             const unparseData = Papa.unparse(data);
@@ -316,28 +317,6 @@ export function Component() {
             saveAs(blob, `${countryResponse?.name}-data-export.csv`);
         },
     });
-
-    const exportButtonLabel = useMemo(() => {
-        if (!pendingExport) {
-            return strings.exportTableButtonLabel;
-        }
-        return resolveToComponent(
-            strings.exportTableDownloadingButtonLabel,
-            {
-                progress: (
-                    <NumberOutput
-                        value={progress * 100}
-                        maximumFractionDigits={0}
-                    />
-                ),
-            },
-        );
-    }, [
-        strings.exportTableButtonLabel,
-        strings.exportTableDownloadingButtonLabel,
-        progress,
-        pendingExport,
-    ]);
 
     const handleExportClick = useCallback(() => {
         if (!projectListResponse?.count) {
@@ -444,15 +423,12 @@ export function Component() {
                 )}
                 actions={(
                     <>
-                        <Button
-                            name={undefined}
+                        <ExportButton
                             onClick={handleExportClick}
-                            icons={<DownloadTwoLineIcon />}
-                            disabled={(projectListResponse?.count ?? 0) < 1}
-                            variant="secondary"
-                        >
-                            {exportButtonLabel}
-                        </Button>
+                            progress={progress}
+                            pendingExport={pendingExport}
+                            totalCount={projectListResponse?.count}
+                        />
                         <Link
                             to="allThreeWProject"
                             urlSearch={`country=${countryResponse?.id}`}

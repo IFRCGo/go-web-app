@@ -2,9 +2,6 @@ import { useMemo, useCallback } from 'react';
 import { isDefined } from '@togglecorp/fujs';
 import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
-import {
-    DownloadTwoLineIcon,
-} from '@ifrc-go/icons';
 
 import Page from '#components/Page';
 import Table from '#components/Table';
@@ -22,8 +19,9 @@ import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import { resolveToComponent } from '#utils/translation';
-import Button from '#components/Button';
+import ExportButton from '#components/domain/ExportButton';
 import NumberOutput from '#components/NumberOutput';
+import useAlert from '#hooks/useAlert';
 import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import {
     useRequest,
@@ -68,6 +66,7 @@ export function Component() {
         filter: {},
         pageSize: 10,
     });
+    const alert = useAlert();
 
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
 
@@ -255,9 +254,11 @@ export function Component() {
         progress,
         triggerExportStart,
     ] = useRecursiveCsvExport({
-        onFailure: (err) => {
-            // eslint-disable-next-line no-console
-            console.error('Failed to download!', err);
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
         },
         onSuccess: (data) => {
             const unparseData = Papa.unparse(data);
@@ -265,31 +266,9 @@ export function Component() {
                 [unparseData],
                 { type: 'text/csv' },
             );
-            saveAs(blob, 'Data Export.csv');
+            saveAs(blob, 'all-appeals.csv');
         },
     });
-
-    const exportButtonLabel = useMemo(() => {
-        if (!pendingExport) {
-            return strings.exportTableButtonLabel;
-        }
-        return resolveToComponent(
-            strings.exportTableDownloadingButtonLabel,
-            {
-                progress: (
-                    <NumberOutput
-                        value={progress * 100}
-                        maximumFractionDigits={0}
-                    />
-                ),
-            },
-        );
-    }, [
-        strings.exportTableButtonLabel,
-        strings.exportTableDownloadingButtonLabel,
-        progress,
-        pendingExport,
-    ]);
 
     const handleExportClick = useCallback(() => {
         if (!appealsResponse?.count) {
@@ -297,7 +276,7 @@ export function Component() {
         }
         triggerExportStart(
             '/api/v2/appeal/',
-            appealsResponse?.count,
+            appealsResponse.count,
             query,
         );
     }, [
@@ -355,15 +334,12 @@ export function Component() {
                     </>
                 )}
                 actions={(
-                    <Button
-                        name={undefined}
+                    <ExportButton
                         onClick={handleExportClick}
-                        icons={<DownloadTwoLineIcon />}
-                        disabled={(appealsResponse?.count ?? 0) < 1}
-                        variant="secondary"
-                    >
-                        {exportButtonLabel}
-                    </Button>
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={appealsResponse?.count}
+                    />
                 )}
                 footerActions={(
                     <Pager
