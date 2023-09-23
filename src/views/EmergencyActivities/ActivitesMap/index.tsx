@@ -10,8 +10,7 @@ import {
     useOutletContext,
 } from 'react-router-dom';
 import type { FillLayer } from 'mapbox-gl';
-import Map, {
-    MapSource,
+import {
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
@@ -22,10 +21,6 @@ import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useTranslation from '#hooks/useTranslation';
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import {
-    defaultMapStyle,
-    defaultMapOptions,
-    defaultNavControlPosition,
-    defaultNavControlOptions,
     getCountryListBoundingBox,
     adminLabelLayerOptions,
 } from '#utils/map';
@@ -34,6 +29,7 @@ import {
     DEFAULT_MAP_PADDING,
     COLOR_LIGHT_GREY,
 } from '#utils/constants';
+import BaseMap from '#components/domain/BaseMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -133,29 +129,22 @@ function ActivitiesMap(props: Props) {
     return (
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
-                <Map
-                    mapStyle={defaultMapStyle}
-                    mapOptions={defaultMapOptions}
-                    navControlShown
-                    navControlPosition={defaultNavControlPosition}
-                    navControlOptions={defaultNavControlOptions}
-                    scaleControlShown={false}
+                <BaseMap
+                    baseLayers={(
+                        <>
+                            <MapLayer
+                                layerKey="admin-1-highlight"
+                                hoverable
+                                layerOptions={adminOneHightlightLayerOptions}
+                            />
+                            <MapLayer
+                                layerKey="admin-1-label"
+                                layerOptions={adminLabelLayerOptions}
+                            />
+                        </>
+                    )}
                 >
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
-                    <MapSource
-                        sourceKey="composite"
-                        managed={false}
-                    >
-                        <MapLayer
-                            layerKey="admin-1-highlight"
-                            hoverable
-                            layerOptions={adminOneHightlightLayerOptions}
-                        />
-                        <MapLayer
-                            layerKey="admin-1-label"
-                            layerOptions={adminLabelLayerOptions}
-                        />
-                    </MapSource>
                     {isDefined(bounds) && (
                         <MapBounds
                             duration={DURATION_MAP_ZOOM}
@@ -163,7 +152,7 @@ function ActivitiesMap(props: Props) {
                             padding={DEFAULT_MAP_PADDING}
                         />
                     )}
-                </Map>
+                </BaseMap>
                 <div className={styles.legend}>
                     <div className={styles.label}>
                         {strings.numberOfProjects}

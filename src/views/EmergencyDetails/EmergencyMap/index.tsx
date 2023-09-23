@@ -6,9 +6,8 @@ import {
     listToMap,
 } from '@togglecorp/fujs';
 import type { FillLayer } from 'mapbox-gl';
-import Map, {
+import {
     MapBounds,
-    MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
 
@@ -16,10 +15,6 @@ import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import useTranslation from '#hooks/useTranslation';
 import { type GoApiResponse } from '#utils/restRequest';
 import {
-    defaultMapStyle,
-    defaultMapOptions,
-    defaultNavControlPosition,
-    defaultNavControlOptions,
     getCountryListBoundingBox,
 } from '#utils/map';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
@@ -29,6 +24,7 @@ import {
     DEFAULT_MAP_PADDING,
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
+import BaseMap from '#components/domain/BaseMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -145,33 +141,26 @@ function EmergencyMap(props: Props) {
 
     return (
         <div className={_cs(styles.emergencyMap, className)}>
-            <Map
-                mapStyle={defaultMapStyle}
-                mapOptions={defaultMapOptions}
-                navControlShown
-                navControlPosition={defaultNavControlPosition}
-                navControlOptions={defaultNavControlOptions}
-                scaleControlShown={false}
+            <BaseMap
+                baseLayers={(
+                    <>
+                        <MapLayer
+                            layerKey="admin-0-highlight"
+                            layerOptions={adminZeroHighlightLayerOptions}
+                        />
+                        <MapLayer
+                            layerKey="admin-1-highlight"
+                            hoverable
+                            layerOptions={adminOneHightlightLayerOptions}
+                        />
+                        <MapLayer
+                            layerKey="admin-1-label-selected"
+                            layerOptions={adminOneLabelSelectedLayerOptions}
+                        />
+                    </>
+                )}
             >
                 <MapContainerWithDisclaimer className={styles.mapContainer} />
-                <MapSource
-                    sourceKey="composite"
-                    managed={false}
-                >
-                    <MapLayer
-                        layerKey="admin-0-highlight"
-                        layerOptions={adminZeroHighlightLayerOptions}
-                    />
-                    <MapLayer
-                        layerKey="admin-1-highlight"
-                        hoverable
-                        layerOptions={adminOneHightlightLayerOptions}
-                    />
-                    <MapLayer
-                        layerKey="admin-1-label-selected"
-                        layerOptions={adminOneLabelSelectedLayerOptions}
-                    />
-                </MapSource>
                 {isDefined(bounds) && (
                     <MapBounds
                         duration={DURATION_MAP_ZOOM}
@@ -179,7 +168,7 @@ function EmergencyMap(props: Props) {
                         padding={DEFAULT_MAP_PADDING}
                     />
                 )}
-            </Map>
+            </BaseMap>
             <div className={styles.footer}>
                 {legendOptions.map((legendItem) => (
                     <div

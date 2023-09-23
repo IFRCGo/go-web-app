@@ -12,7 +12,7 @@ import {
     isTruthyString,
     listToMap,
 } from '@togglecorp/fujs';
-import Map, {
+import {
     MapBounds,
     MapSource,
     MapLayer,
@@ -32,8 +32,6 @@ import useCountryRaw, { Country } from '#hooks/domain/useCountryRaw';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import {
-    defaultMapStyle,
-    defaultMapOptions,
     getPointCirclePaint,
     getPointCircleHaloPaint,
 } from '#utils/map';
@@ -48,6 +46,7 @@ import {
 import useCountry from '#hooks/domain/useCountry';
 import Message from '#components/Message';
 import Link from '#components/Link';
+import BaseMap from '#components/domain/BaseMap';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -302,14 +301,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
     return (
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
-                <Map
-                    scaleControlShown
-                    mapStyle={defaultMapStyle}
-                    mapOptions={defaultMapOptions}
-                    navControlShown
-                    navControlPosition="top-right"
-                    debug={false}
-                >
+                <BaseMap>
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
                     {receivingCountryProjectGeoJson && (
                         <MapSource
@@ -421,7 +413,7 @@ function CountryThreeWNationalSocietyProjectsMap(props: Props) {
                             padding={DEFAULT_MAP_PADDING}
                         />
                     )}
-                </Map>
+                </BaseMap>
                 <div className={styles.legend}>
                     <LegendItem
                         color={COLOR_BLUE}

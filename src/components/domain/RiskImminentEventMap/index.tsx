@@ -5,7 +5,7 @@ import {
     isNotDefined,
     mapToList,
 } from '@togglecorp/fujs';
-import Map, {
+import {
     MapSource,
     MapLayer,
     MapImage,
@@ -19,12 +19,6 @@ import Container from '#components/Container';
 import Button from '#components/Button';
 import List from '#components/List';
 import useDebouncedValue from '#hooks/useDebouncedValue';
-import {
-    defaultMapOptions,
-    defaultMapStyle,
-    defaultNavControlOptions,
-    defaultNavControlPosition,
-} from '#utils/map';
 import { type components } from '#generated/riskTypes';
 import {
     COLOR_WHITE,
@@ -32,6 +26,7 @@ import {
     DURATION_MAP_ZOOM,
 } from '#utils/constants';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
+import BaseMap from '#components/domain/BaseMap';
 
 import {
     exposureFillLayer,
@@ -242,14 +237,7 @@ function RiskImminentEventMap<
 
     return (
         <div className={styles.riskImminentEventMap}>
-            <Map
-                mapStyle={defaultMapStyle}
-                mapOptions={defaultMapOptions}
-                navControlShown
-                navControlPosition={defaultNavControlPosition}
-                navControlOptions={defaultNavControlOptions}
-                scaleControlShown={false}
-            >
+            <BaseMap>
                 {hazardKeys.map((key) => {
                     const url = hazardKeyToIconmap[key];
 
@@ -315,7 +303,7 @@ function RiskImminentEventMap<
                         padding={DEFAULT_MAP_PADDING}
                     />
                 )}
-            </Map>
+            </BaseMap>
             <Container
                 heading={sidePanelHeading}
                 className={styles.sidePanel}

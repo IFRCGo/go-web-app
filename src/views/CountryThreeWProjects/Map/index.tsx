@@ -11,13 +11,14 @@ import {
     listToGroupList,
     isNotDefined,
 } from '@togglecorp/fujs';
-import Map, {
+import {
     MapSource,
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
 import getBbox from '@turf/bbox';
 
+import BaseMap from '#components/domain/BaseMap';
 import MapPopup from '#components/MapPopup';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
@@ -30,8 +31,6 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useTranslation from '#hooks/useTranslation';
 
 import {
-    defaultMapStyle,
-    defaultMapOptions,
     getPointCirclePaint,
     getPointCircleHaloPaint,
     pointColorMap,
@@ -271,14 +270,7 @@ function CountryThreeWMap(props: Props) {
     return (
         <div className={_cs(styles.map, className)}>
             <div className={styles.mapWithLegend}>
-                <Map
-                    scaleControlShown
-                    mapStyle={defaultMapStyle}
-                    mapOptions={defaultMapOptions}
-                    navControlShown
-                    navControlPosition="top-right"
-                    debug={false}
-                >
+                <BaseMap>
                     <MapContainerWithDisclaimer className={styles.mapContainer} />
                     {programmesGeo && (
                         <MapSource
@@ -396,7 +388,7 @@ function CountryThreeWMap(props: Props) {
                             ))}
                         </MapPopup>
                     )}
-                </Map>
+                </BaseMap>
                 {operationTypeOptions && operationTypeOptions.length > 0 && (
                     <div className={styles.legend}>
                         {operationTypeOptions.map((d) => (

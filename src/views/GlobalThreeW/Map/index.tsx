@@ -10,7 +10,7 @@ import {
     max,
     isNotDefined,
 } from '@togglecorp/fujs';
-import Map, {
+import {
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
@@ -24,13 +24,9 @@ import LegendItem from '#components/LegendItem';
 import BarChart from '#components/BarChart';
 import type { GoApiResponse } from '#utils/restRequest';
 import {
-    defaultMapStyle,
-    defaultMapOptions,
     getPointCirclePaint,
     getPointCircleHaloPaint,
     pointColorMap,
-    defaultNavControlPosition,
-    defaultNavControlOptions,
 } from '#utils/map';
 import {
     COLOR_RED,
@@ -43,6 +39,7 @@ import {
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
 import useTranslation from '#hooks/useTranslation';
+import BaseMap from '#components/domain/BaseMap';
 
 import {
     countSelector,
@@ -257,14 +254,7 @@ function GlobalThreeWMap(props: Props) {
     );
 
     return (
-        <Map
-            mapStyle={defaultMapStyle}
-            mapOptions={defaultMapOptions}
-            navControlShown
-            navControlPosition={defaultNavControlPosition}
-            navControlOptions={defaultNavControlOptions}
-            scaleControlShown={false}
-        >
+        <BaseMap>
             <MapContainerWithDisclaimer
                 className={_cs(styles.mapContainer, className)}
             />
@@ -399,7 +389,7 @@ function GlobalThreeWMap(props: Props) {
                     </Container>
                 </MapPopup>
             )}
-        </Map>
+        </BaseMap>
     );
 }
 

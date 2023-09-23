@@ -10,7 +10,7 @@ import {
     listToGroupList,
     mapToList,
 } from '@togglecorp/fujs';
-import Map, {
+import {
     MapSource,
     MapLayer,
 } from '@togglecorp/re-map';
@@ -24,14 +24,9 @@ import RadioInput from '#components/RadioInput';
 import TextOutput from '#components/TextOutput';
 import useInputState from '#hooks/useInputState';
 import useTranslation from '#hooks/useTranslation';
-import {
-    defaultMapStyle,
-    defaultMapOptions,
-    defaultNavControlPosition,
-    defaultNavControlOptions,
-} from '#utils/map';
 import { useRequest } from '#utils/restRequest';
 import useCountryRaw from '#hooks/domain/useCountryRaw';
+import BaseMap from '#components/domain/BaseMap';
 
 import { sumSafe } from '#utils/common';
 import {
@@ -41,7 +36,6 @@ import {
     optionLabelSelector,
     getLegendOptions,
     adminFillLayerOptions,
-    adminLabelLayerOptions,
     basePointLayerOptions,
     outerCircleLayerOptionsForEru,
     outerCircleLayerOptionsForPersonnel,
@@ -253,34 +247,17 @@ function SurgeMap(props: Props) {
         <Container
             className={_cs(styles.surgeMap, className)}
         >
-            <Map
-                mapStyle={defaultMapStyle}
-                mapOptions={defaultMapOptions}
-                navControlShown
-                navControlPosition={defaultNavControlPosition}
-                navControlOptions={defaultNavControlOptions}
-                scaleControlShown={false}
-            >
-                <MapContainerWithDisclaimer className={styles.mapContainer} />
-                <MapSource
-                    sourceKey="composite"
-                    managed={false}
-                >
+            <BaseMap
+                baseLayers={(
                     <MapLayer
                         layerKey="admin-0"
                         hoverable
                         layerOptions={adminFillLayerOptions}
                         onClick={handleCountryClick}
                     />
-                    <MapLayer
-                        layerKey="admin-0-label"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                    <MapLayer
-                        layerKey="admin-0-label-priority"
-                        layerOptions={adminLabelLayerOptions}
-                    />
-                </MapSource>
+                )}
+            >
+                <MapContainerWithDisclaimer className={styles.mapContainer} />
                 <MapSource
                     sourceKey="points"
                     sourceOptions={sourceOptions}
@@ -360,7 +337,7 @@ function SurgeMap(props: Props) {
                         )}
                     </MapPopup>
                 )}
-            </Map>
+            </BaseMap>
             <div className={styles.footer}>
                 <div className={styles.left}>
                     <RadioInput

@@ -30,7 +30,7 @@ export const defaultNavControlPosition: ControlPosition = 'top-right';
 export const defaultMapOptions: Omit<mapboxgl.MapboxOptions, 'style' | 'container'> = {
     logoPosition: 'bottom-left' as const,
     zoom: 1.5,
-    minZoom: 0,
+    minZoom: 1,
     maxZoom: 18,
     scrollZoom: false,
     pitchWithRotate: false,
@@ -133,9 +133,31 @@ export const defaultTooltipOptions: mapboxgl.PopupOptions = {
 export const adminLabelLayerOptions : Omit<SymbolLayer, 'id'> = {
     type: 'symbol',
     layout: {
-        'text-offset': [
-            0, 1,
+        visibility: 'none',
+    },
+};
+
+export const adminLabelOverrideOptions: Omit<SymbolLayer, 'id'> = {
+    type: 'symbol',
+    layout: {
+        'text-field': ['get', 'name'],
+        'text-font': ['Poppins Regular', 'Arial Unicode MS Regular'],
+        'text-letter-spacing': 0.15,
+        'text-line-height': 1.2,
+        'text-max-width': 8,
+        'text-justify': 'center',
+        'text-anchor': 'top',
+        'text-padding': 2,
+        'text-size': [
+            'interpolate', ['linear', 1], ['zoom'],
+            0, 6,
+            6, 16,
         ],
+    },
+    paint: {
+        'text-color': '#000000',
+        'text-halo-color': '#000000',
+        'text-halo-width': 0.2,
     },
 };
 
