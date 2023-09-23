@@ -9,7 +9,6 @@ import {
 import HtmlOutput, { type Props as HtmlOutputProps } from '#components/HtmlOutput';
 import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
-import TextOutput from '#components/TextOutput';
 import Message from '#components/Message';
 import List from '#components/List';
 import useTranslation from '#hooks/useTranslation';

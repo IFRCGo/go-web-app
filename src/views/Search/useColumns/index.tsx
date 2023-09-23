@@ -16,6 +16,7 @@ import useTranslation from '#hooks/useTranslation';
 import { getDuration } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import DistrictNameOutput from './DistrictNameOutput';
 import i18n from './i18n.json';
 
 type SearchResponse = GoApiResponse<'/api/v1/search/'>;
@@ -104,13 +105,6 @@ function getFieldReportColumns(strings: Strings) {
             }),
         ),
     ];
-}
-
-interface DistrictNameOutputProps {
-    name: string;
-}
-function DistrictNameOutput({ name }: DistrictNameOutputProps) {
-    return name;
 }
 
 function getProjectColumns(strings: Strings) {
