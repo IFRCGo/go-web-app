@@ -771,7 +771,7 @@ export function Component() {
                         title={strings.projectFormCountryTitle}
                         description={strings.projectFormCountryHelpText}
                         tooltip={strings.projectFormCountryTooltip}
-                        numPreferredColumns={2}
+                        // numPreferredColumns={2}
                         withAsteriskOnTitle
                     >
                         <CountrySelectInput

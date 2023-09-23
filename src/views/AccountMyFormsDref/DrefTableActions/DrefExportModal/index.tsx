@@ -33,7 +33,7 @@ function DrefExportModal(props: Props) {
         () => {
             let type: ExportTypeEnum;
             if (applicationType === 'OPS_UPDATE') {
-                type = 'dref-ops-updates';
+                type = 'dref-operational-updates';
             } else if (applicationType === 'FINAL_REPORT') {
                 type = 'dref-final-reports';
             } else {

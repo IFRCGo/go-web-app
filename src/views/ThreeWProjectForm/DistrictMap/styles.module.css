@@ -1,10 +1,14 @@
-.district-list {
+.input {
     display: flex;
     flex-direction: column;
-    padding-bottom: var(--go-ui-spacing-sm);
+    gap: var(--go-ui-spacing-sm);
 
-    .local-units {
-        padding-left: var(--go-ui-spacing-sm);
-        font-size: var(--go-ui-font-size-sm);
+    .district-list {
+        display: flex;
+        flex-direction: column;
+
+        .local-units {
+            font-size: var(--go-ui-font-size-sm);
+        }
     }
 }

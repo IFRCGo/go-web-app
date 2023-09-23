@@ -75,13 +75,13 @@ function DistrictMap<
     }), []);
 
     return (
-        <>
+        <div className={styles.input}>
             <Button
                 className={className}
                 name={undefined}
                 disabled={!countryId || disabled}
                 onClick={showModal}
-                variant="tertiary"
+                variant="secondary"
             >
                 {/* FIXME: Use translations */}
                 Select Province / Region
@@ -110,7 +110,7 @@ function DistrictMap<
                     onModalClose={hideModal}
                 />
             )}
-        </>
+        </div>
     );
 }
 
