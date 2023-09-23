@@ -17,3 +17,22 @@
         gap: var(--go-ui-spacing-2xl);
     }
 }
+
+.presentation-mode {
+    background-color: var(--go-ui-color-background);
+    padding: var(--go-ui-spacing-2xl);
+    width: 96vw;
+
+    .key-figure-list {
+        display: grid;
+        grid-gap: var(--go-ui-spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+
+        .key-figure {
+            border-radius: var(--go-ui-border-radius-lg);
+            background-color: var(--go-ui-color-white);
+            height: 100%;
+        }
+    }
+
+}

@@ -17,10 +17,14 @@ import {
     MapLayer,
     MapBounds,
 } from '@togglecorp/re-map';
+import {
+    ArtboardLineIcon,
+} from '@ifrc-go/icons';
 
 import BaseMap from '#components/domain/BaseMap';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import RadioInput from '#components/RadioInput';
+import Button from '#components/Button';
 import Container from '#components/Container';
 import Link from '#components/Link';
 import LegendItem from '#components/LegendItem';
@@ -92,6 +96,8 @@ interface ClickedPoint {
 
 type BaseProps = {
     className?: string;
+    onPresentationModeButtonClick?: () => void;
+    presentationMode?: boolean;
     bbox: LngLatBoundsLike | undefined;
 }
 
@@ -110,6 +116,8 @@ function ActiveOperationMap(props: Props) {
     const {
         className,
         variant,
+        onPresentationModeButtonClick,
+        presentationMode = false,
         bbox,
     } = props;
 
@@ -284,10 +292,11 @@ function ActiveOperationMap(props: Props) {
     return (
         <Container
             className={_cs(styles.activeOperationMap, className)}
-            heading={heading}
-            withHeaderBorder
+            heading={!presentationMode && heading}
+            withHeaderBorder={!presentationMode}
             filtersContainerClassName={styles.filters}
-            filters={(
+            childrenContainerClassName={styles.content}
+            filters={!presentationMode && (
                 <>
                     <DateInput
                         name="startDateAfter"
@@ -320,7 +329,7 @@ function ActiveOperationMap(props: Props) {
                     />
                 </>
             )}
-            actions={(
+            actions={!presentationMode && (
                 <Link
                     to="allAppeals"
                     urlSearch={isDefined(regionId) ? `region=${regionId}` : undefined}
@@ -423,6 +432,17 @@ function ActiveOperationMap(props: Props) {
                     />
                 )}
             </BaseMap>
+            {onPresentationModeButtonClick && !presentationMode && (
+                <Button
+                    className={styles.presentationModeButton}
+                    name={undefined}
+                    icons={<ArtboardLineIcon />}
+                    onClick={onPresentationModeButtonClick}
+                    variant="secondary"
+                >
+                    {strings.presentationModeButton}
+                </Button>
+            )}
             <div className={styles.footer}>
                 <RadioInput
                     label={strings.explanationBubbleScalePoints}

@@ -35,6 +35,7 @@ export interface Props {
     headerClassName?: string;
     headerDescription?: React.ReactNode;
     headerDescriptionContainerClassName?: string;
+    containerRef?: React.RefObject<HTMLDivElement>;
     headerElementRef?: HeaderProps['elementRef'];
     heading?: React.ReactNode;
     headingClassName?: string;
@@ -59,6 +60,7 @@ function Container(props: Props) {
         children,
         childrenContainerClassName,
         className,
+        containerRef,
         contentViewType = 'default',
         ellipsizeHeading,
         filters,
@@ -116,6 +118,7 @@ function Container(props: Props) {
 
     return (
         <div
+            ref={containerRef}
             className={_cs(
                 styles.container,
                 gapSpacingTokens,

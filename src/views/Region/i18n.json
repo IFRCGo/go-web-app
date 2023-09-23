@@ -3,6 +3,7 @@
     "strings": {
         "regionTitle": "IFRC GO - Region",
         "regionOperationsTab": "Operations",
+        "fullScreenHeading":"IFRC Disaster Response and Preparedness",
         "region3WTab":"3w",
         "regionRiskTab":"Risk Watch",
         "regionProfileTab":"Regional Profile",

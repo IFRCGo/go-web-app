@@ -2,6 +2,7 @@
     "namespace": "common",
     "strings": {
         "activeOperationsTitle":"Active Operations ({numAppeals})",
+        "presentationModeButton":"Presentation Mode",
         "operationMapViewAll":"View all Operations",
         "operationMapViewAllInRegion":"View all Operations in this Region",
         "operationPopoverPeopleAffected":"People Targeted",

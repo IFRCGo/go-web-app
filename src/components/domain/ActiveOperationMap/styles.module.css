@@ -1,4 +1,14 @@
 .active-operation-map {
+    .content {
+        position: relative;
+
+        .presentation-mode-button {
+            position: absolute;
+            top: var(--go-ui-spacing-md);
+            left: var(--go-ui-spacing-md);
+        }
+    }
+
     .map-container {
         height: 40rem;
     }
