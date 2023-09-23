@@ -3,6 +3,8 @@
     "strings": {
         "allEmergenciesTitle": "All Emergencies",
         "allEmergenciesHeading": "All Emergencies ({numEmergencies})",
+        "exportTableButtonLabel": "Export Table",
+        "exportTableDownloadingButtonLabel": "Downloading... ({progress}%)",
         "allEmergenciesDate":"Start Date",
         "allEmergenciesName":"Name",
         "allEmergenciesDisasterType":"Disaster Type",

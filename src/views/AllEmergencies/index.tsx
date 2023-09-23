@@ -1,7 +1,10 @@
 import {
     useMemo,
+    useCallback,
 } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import { SortContext } from '#components/Table/useSorting';
@@ -16,9 +19,11 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
+import Button from '#components/Button';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import {
     useRequest,
@@ -186,6 +191,62 @@ export function Component() {
         [eventResponse, strings],
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: (err) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to download!', err);
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'Data Export.csv');
+        },
+    });
+
+    const exportButtonLabel = useMemo(() => {
+        if (!pendingExport) {
+            return strings.exportTableButtonLabel;
+        }
+        return resolveToComponent(
+            strings.exportTableDownloadingButtonLabel,
+            {
+                progress: (
+                    <NumberOutput
+                        value={progress * 100}
+                        maximumFractionDigits={0}
+                    />
+                ),
+            },
+        );
+    }, [
+        strings.exportTableButtonLabel,
+        strings.exportTableDownloadingButtonLabel,
+        progress,
+        pendingExport,
+    ]);
+
+    const handleExportClick = useCallback(() => {
+        if (!eventResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/event/',
+            eventResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        eventResponse?.count,
+    ]);
+
     const isFiltered = isDefined(filterDisasterType)
         || isDefined(filterRegion)
         || isDefined(filterCountry);
@@ -224,6 +285,15 @@ export function Component() {
                         />
                         <div />
                     </>
+                )}
+                actions={(
+                    <Button
+                        name={undefined}
+                        onClick={handleExportClick}
+                        variant="secondary"
+                    >
+                        {exportButtonLabel}
+                    </Button>
                 )}
                 footerActions={(
                     <Pager
