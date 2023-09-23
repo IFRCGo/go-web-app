@@ -12,11 +12,14 @@ import { isNotDefined, isTruthyString } from '@togglecorp/fujs';
 
 import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
+import Breadcrumbs from '#components/Breadcrumbs';
 import KeyFigure from '#components/KeyFigure';
+import Link from '#components/Link';
 import InfoPopup from '#components/InfoPopup';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import useTranslation from '#hooks/useTranslation';
+import useRegion from '#hooks/domain/useRegion';
 import { useRequest } from '#utils/restRequest';
 import { type RegionOutletContext } from '#utils/outletContext';
 import { getPercentage } from '#utils/common';
@@ -28,6 +31,8 @@ import styles from './styles.module.css';
 export function Component() {
     const { regionId } = useParams<{ regionId: string }>();
     const strings = useTranslation(i18n);
+
+    const region = useRegion({ id: Number(regionId) });
 
     const {
         pending: regionPending,
@@ -83,7 +88,25 @@ export function Component() {
         <Page
             className={styles.region}
             title={strings.regionTitle}
-            heading={regionResponse?.region_name ?? '--'}
+            heading={region?.region_name ?? '--'}
+            breadCrumbs={(
+                <Breadcrumbs>
+                    <Link
+                        to="home"
+                    >
+                        {strings.home}
+                    </Link>
+                    <Link
+                        to="regionsLayout"
+                        disabled
+                        urlParams={{
+                            regionId,
+                        }}
+                    >
+                        {region?.region_name}
+                    </Link>
+                </Breadcrumbs>
+            )}
             infoContainerClassName={styles.keyFigureList}
             info={(
                 <>

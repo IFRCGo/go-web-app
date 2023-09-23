@@ -12,15 +12,18 @@ import {
 import { isDefined, isNotDefined, isTruthyString } from '@togglecorp/fujs';
 
 import { resolveUrl } from '#utils/resolveUrl';
-import useAuth from '#hooks/domain/useAuth';
-import Page from '#components/Page';
 import BlockLoading from '#components/BlockLoading';
-import NavigationTabList from '#components/NavigationTabList';
-import NavigationTab from '#components/NavigationTab';
-import KeyFigure from '#components/KeyFigure';
+import Breadcrumbs from '#components/Breadcrumbs';
 import InfoPopup from '#components/InfoPopup';
-import Message from '#components/Message';
+import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
+import Message from '#components/Message';
+import NavigationTab from '#components/NavigationTab';
+import NavigationTabList from '#components/NavigationTabList';
+import Page from '#components/Page';
+import useAuth from '#hooks/domain/useAuth';
+import useCountry from '#hooks/domain/useCountry';
+import useRegion from '#hooks/domain/useRegion';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
 import { type CountryOutletContext } from '#utils/outletContext';
@@ -36,6 +39,8 @@ export function Component() {
     const { countryId } = useParams<{ countryId: string }>();
 
     const strings = useTranslation(i18n);
+    const country = useCountry({ id: Number(countryId) });
+    const region = useRegion({ id: country?.region });
 
     const {
         pending: countryResponsePending,
@@ -82,7 +87,7 @@ export function Component() {
 
     const pageTitle = resolveToString(
         strings.countryPageTitle,
-        { countryName: countryResponse?.name ?? strings.countryPageTitleFallbackCountry },
+        { countryName: country?.name ?? strings.countryPageTitleFallbackCountry },
     );
 
     if (isDefined(countryResponseError)) {
@@ -103,21 +108,47 @@ export function Component() {
         <Page
             className={styles.country}
             title={pageTitle}
-            heading={countryResponse?.name ?? '--'}
+            heading={country?.name ?? '--'}
+            breadCrumbs={(
+                <Breadcrumbs>
+                    <Link
+                        to="home"
+                    >
+                        {strings.home}
+                    </Link>
+                    <Link
+                        to="regionsLayout"
+                        urlParams={{
+                            regionId: country?.region,
+                        }}
+                    >
+                        {region?.region_name}
+                    </Link>
+                    <Link
+                        to="countriesLayout"
+                        disabled
+                        urlParams={{
+                            countryId,
+                        }}
+                    >
+                        {country?.name}
+                    </Link>
+                </Breadcrumbs>
+            )}
             description={
                 isDefined(countryResponse)
-                    && isDefined(countryResponse.regions_details?.id)
-                    && (
-                        <Link
-                            to="regionsLayout"
-                            urlParams={{
-                                regionId: countryResponse.regions_details.id,
-                            }}
-                            withLinkIcon
-                        >
-                            {countryResponse?.regions_details?.region_name}
-                        </Link>
-                    )
+                && isDefined(countryResponse.regions_details?.id)
+                && (
+                    <Link
+                        to="regionsLayout"
+                        urlParams={{
+                            regionId: countryResponse.regions_details.id,
+                        }}
+                        withLinkIcon
+                    >
+                        {countryResponse?.regions_details?.region_name}
+                    </Link>
+                )
             }
             infoContainerClassName={styles.keyFigureList}
             info={(
