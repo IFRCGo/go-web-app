@@ -1,16 +1,18 @@
 import React, { useCallback } from 'react';
 import { _cs, isDefined } from '@togglecorp/fujs';
+import { nonFieldError } from '@togglecorp/toggle-form';
 
-import { transformObjectError } from '#utils/restRequest/error';
 import InputError from '#components/InputError';
 import { NameType } from '#components/types';
 import Link from '#components/Link';
 import type { ButtonVariant } from '#components/Button';
 import RawFileInput, { RawFileInputProps } from '#components/RawFileInput';
 import { useLazyRequest } from '#utils/restRequest';
-import { nonFieldError } from '@togglecorp/toggle-form';
+import { transformObjectError } from '#utils/restRequest/error';
 import useAlert from '#hooks/useAlert';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export type SupportedPaths = '/api/v2/per-file/' | '/api/v2/dref-files/' | '/api/v2/flash-update-file/';
@@ -55,6 +57,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
         description,
     } = props;
 
+    const strings = useTranslation(i18n);
     const alert = useAlert();
 
     const {
@@ -94,8 +97,7 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
                     : err?.file
             );
             alert.show(
-                // FIXME use translation
-                'Failed to upload the file!',
+                strings.failedUploadMessage,
                 {
                     variant: 'danger',
                     description: serverErrorMessage,
@@ -129,17 +131,16 @@ function GoSingleFileInput<T extends NameType>(props: Props<T>) {
             >
                 {children}
             </RawFileInput>
-            {/* FIXME: use translation, implement remove */}
             {!withoutPreview && isDefined(selectedFileUrl) ? (
                 <Link
                     href={selectedFileUrl}
                     external
                 >
-                    1 file selected
+                    {strings.oneFileSelected}
                 </Link>
             ) : (
                 <div className={styles.emptyMessage}>
-                    No file selected
+                    {strings.noFileSelected}
                 </div>
             )}
             {description && (

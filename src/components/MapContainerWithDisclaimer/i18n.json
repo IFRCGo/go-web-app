@@ -8,6 +8,8 @@
         "improveMapLabel": "Improve this map",
         "mapSourcesLabel": "Map Sources: ICRC, {uncodsLink}",
         "mapSourceUNCODsLabel": "UNCODs",
-        "feedbackAriaLabel" : "Map feedback"
+        "feedbackAriaLabel" : "Map feedback",
+        "mapContainerMapbox": "Mapbox",
+        "mapContainerOpenStreetMap": "OpenStreetMap"
     }
 }

@@ -1,0 +1,29 @@
+{
+    "namespace": "common",
+    "strings": {
+        "wfpEventDetailsPublishedOn": "Published on",
+        "wfpEventDetailsKm": "{point} Km/h on ${pointDate}",
+        "wfpUsefulLinks": "Useful Links:",
+        "wfpDashboard": "Dashboard",
+        "wfpShakemap": "Shakemap",
+        "wfpPopulationTable": "Population Table",
+        "wfpWind": "Wind",
+        "wfpRainfall": "Rainfall",
+        "wfpShapefile": "Shapefile",
+        "wfpWindSpeed": "Wind speed",
+        "wfpPeopleExposed": "People Exposed / Potentially Affected",
+        "wfpSource": "Source",
+        "wfpSitrep": "Sitrep",
+        "wfpMagnitude": "Magnitude",
+        "wfpDepth": "Depth (km)",
+        "wfpAlertType": "Alert Type",
+        "wfpEffective": "Effective",
+        "wfpFromDate": "From date",
+        "wfpToDate": "To Date",
+        "wfpExposed60": "Exposure (60km/h)",
+        "wfpExposed90": "Exposed (90km/h)",
+        "wfpExposed120": "Exposed (120km/h)",
+        "wfpFloodArea": "Flood Area",
+        "wfpFloodCropland": "Flood Cropland"
+    }
+}

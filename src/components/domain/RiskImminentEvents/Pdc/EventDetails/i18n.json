@@ -1,0 +1,14 @@
+{
+    "namespace": "common",
+    "strings": {
+        "eventDetailsViewDetails": "View Details",
+        "eventDetailsCreatedOn": "Created on",
+        "eventDetailsUpdatedOn": "Updated on",
+        "eventDetailsPeopleExposed": "People exposed / Potentially affected",
+        "eventDetailsHouseholdExposed": "Households exposed",
+        "eventDetailsPeopleGroups": "People in vulnerable groups exposed to the hazard",
+        "eventDetailsValueExposed": "Value (USD) of exposed buildings",
+        "eventDetailsSchoolExposed": "Schools exposed",
+        "eventHospitalsExposed": "Hospital exposed"
+    }
+}

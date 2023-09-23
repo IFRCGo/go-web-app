@@ -162,39 +162,33 @@ export function Component() {
     const plannedResponses = [
         {
             key: 'dref',
-            // FIXME: use translations
-            title: 'DREF',
+            title: strings.fieldReportDREFTitle,
             value: reportType !== 'COVID' ? dref : undefined,
         },
         {
             key: 'appeal',
-            // FIXME: use translations
-            title: 'Emergency Appeal',
+            title: strings.fieldReportEmergencyAppealTitle,
             value: reportType !== 'COVID' ? appeal : undefined,
         },
         {
             key: 'rdrt',
-            // FIXME: use translations
-            title: 'RDRT/RITS',
+            title: strings.fieldReportRDRTTitle,
             // FIXME: We do not know when to hide this field
             value: rdrt,
         },
         {
             key: 'fact',
-            // FIXME: use translations
-            title: 'Rapid Response Personnel',
+            title: strings.fieldReportRapidResponseTitle,
             value: reportType !== 'COVID' ? fact : undefined,
         },
         {
             key: 'ifrc-staff',
-            // FIXME: use translations
-            title: 'Emergency Response Units',
+            title: strings.fieldReportEmergencyResponseTitle,
             value: reportType !== 'COVID' ? ifrcStaff : undefined,
         },
         /*
         {
             key: 'forecast-based-response',
-            // FIXME: use translations
             title: 'Forecast Based Response',
             // FIXME: We do not know when to hide this field
             value: forecastBasedResponse,
@@ -202,8 +196,7 @@ export function Component() {
         */
         {
             key: 'forecast-based-action',
-            // FIXME: use translations
-            title: 'Forecast Based Action',
+            title: strings.fieldReportForecastBasedTitle,
             value: reportType === 'EW' ? forecastBasedAction : undefined,
         },
     ].filter((plannedResponse) => isDefined(plannedResponse.value) && plannedResponse.value !== 0);
@@ -497,30 +490,26 @@ export function Component() {
                                         ))}
                                         {reportType === 'COVID' && value.category === 'Health' && (
                                             <TextOutput
-                                                // FIXME: use translations
-                                                label="Notes"
+                                                label={strings.fieldReportDetailsNotes}
                                                 value={notesHealth}
                                             />
                                         )}
                                         {reportType === 'COVID' && value.category === 'NS Institutional Strengthening' && (
                                             <TextOutput
-                                                // FIXME: use translations
-                                                label="Notes"
+                                                label={strings.fieldReportDetailsNotes}
                                                 value={notesNs}
                                             />
                                         )}
                                         {reportType === 'COVID' && value.category === 'Socioeconomic Interventions' && (
                                             <TextOutput
-                                                // FIXME: use translations
-                                                label="Notes"
+                                                label={strings.fieldReportDetailsNotes}
                                                 value={notesSocioeco}
                                             />
                                         )}
                                     </Container>
                                 ))}
                                 <TextOutput
-                                    // FIXME: use translations
-                                    label="Summary"
+                                    label={strings.fieldReportDetailsSummary}
                                     value={actionTaken.summary}
                                 />
                             </Container>

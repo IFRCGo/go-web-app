@@ -242,7 +242,7 @@ export function Component() {
                                     className={styles.imageContainer}
                                     imgElementClassName={styles.img}
                                     src={featuredDocument.thumbnail}
-                                    alt=""
+                                    alt={strings.emergencyReportAndDocumentImageAlt}
                                 />
                                 <div className={styles.details}>
                                     <Link

@@ -14,7 +14,9 @@ import {
 } from '#utils/restRequest';
 import Button from '#components/Button';
 import useDebouncedValue from '#hooks/useDebouncedValue';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type GetDistrictParams = GoApiUrlQuery<'/api/v2/district/'>;
@@ -51,6 +53,8 @@ function DistrictSearchMultiSelectInput<const NAME>(
         readOnly,
         ...otherProps
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const [opened, setOpened] = useState(false);
     const [searchText, setSearchText] = useState<string | undefined>('');
@@ -126,8 +130,7 @@ function DistrictSearchMultiSelectInput<const NAME>(
                     onClick={handleSelectAllClick}
                     disabled={isNotDefined(countryId) || pendingSelectAll}
                     variant="tertiary"
-                    // FIXME: use translations
-                    title="Select All"
+                    title={strings.selectAll}
                 >
                     <CheckDoubleFillIcon className={styles.icon} />
                 </Button>

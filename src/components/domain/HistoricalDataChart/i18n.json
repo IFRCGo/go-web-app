@@ -1,9 +1,9 @@
 {
-    "namespace": "countryRiskWatch",
+    "namespace": "common",
     "strings": {
         "historicalChartHeading": "Past Events and Historical Impact",
-        "peopleAffectedLabel": "People Affected",
         "hazardFilterPlaceholder": "All Hazards",
+        "peopleAffectedLabel": "People Affected",
         "fundedLabel": "Funding (CHF)",
         "fundingCoverageLabel": "Funding Coverage"
     }

@@ -1,5 +1,5 @@
 {
-    "namespace": "accountDrefApplications",
+    "namespace": "accountMyFormsDref",
     "strings": {
         "completedDrefTitle": "Active DREF Operations",
         "completedDrefTableCreatedHeading": "Created",

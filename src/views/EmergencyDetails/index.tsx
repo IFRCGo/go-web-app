@@ -22,6 +22,7 @@ import useGlobalEnums from '#hooks/domain/useGlobalEnums';
 import useDisasterType from '#hooks/domain/useDisasterType';
 import { type EmergencyOutletContext } from '#utils/outletContext';
 import { type GoApiResponse } from '#utils/restRequest';
+import { resolveToString } from '#utils/translation';
 
 import EmergencyMap from './EmergencyMap';
 import FieldReportStats from './FieldReportStats';
@@ -79,7 +80,7 @@ export function Component() {
     );
 
     const hasKeyFigures = isDefined(emergencyResponse)
-                       && emergencyResponse.key_figures.length !== 0;
+        && emergencyResponse.key_figures.length !== 0;
 
     const disasterType = disasterTypes?.find(
         (typeOfDisaster) => typeOfDisaster.id === emergencyResponse?.dtype,
@@ -157,8 +158,12 @@ export function Component() {
                                 // FIXME: Rounding this because it was previously rounded
                                 value={Math.round(Number.parseFloat(keyFigure.number))}
                                 label={keyFigure.deck}
-                                // FIXME: use translations
-                                description={`Source: ${keyFigure.source}`}
+                                description={resolveToString(
+                                    strings.sourceLabel,
+                                    {
+                                        source: keyFigure.source,
+                                    },
+                                )}
                             />
                         ),
                     )}

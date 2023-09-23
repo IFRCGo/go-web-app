@@ -4,6 +4,9 @@ import Link from '#components/Link';
 import Message from '#components/Message';
 import Modal from '#components/Modal';
 import { useRequest } from '#utils/restRequest';
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 
 interface Props {
     id: number;
@@ -15,6 +18,8 @@ function FlashUpdateExportModal(props: Props) {
         id,
         onClose,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const {
         pending: exportPending,
@@ -38,38 +43,32 @@ function FlashUpdateExportModal(props: Props) {
 
     return (
         <Modal
-            // FIXME: use translation
-            heading="Export Flash Update"
+            heading={strings.flashUpdateExportTitle}
             onClose={onClose}
         >
             {exportPending && (
                 <Message
                     pending
-                    // FIXME: use translations
-                    title="Waiting for the export to complete..."
+                    title={strings.flashUpdateWaiting}
                 />
             )}
             {isDefined(exportResponseError) && (
                 <Message
-                    // FIXME: use translations
-                    title="Export failed!"
+                    title={strings.flashUpdateExportFailed}
                     description={exportResponseError.value.messageForNotification}
                 />
             )}
             {isDefined(exportResponse) && (
                 <Message
-                    // FIXME: use translations
-                    title="Export completed successfully"
-                    // FIXME: use translations
-                    description="Click on the download link below!"
+                    title={strings.flashUpdateExportCompleted}
+                    description={strings.flashUpdateExportCompletedDescription}
                     actions={(
                         <Link
                             variant="secondary"
                             href={exportResponse?.url}
                             external
                         >
-                            {/* FIXME: use translations */}
-                            Download PDF
+                            {strings.flashUpdateDownload}
                         </Link>
                     )}
                 />

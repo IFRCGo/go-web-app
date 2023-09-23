@@ -350,8 +350,7 @@ function Submission(props: Props) {
                     title={strings.drefFormDrefRegionalPoint}
                 >
                     <TextInput
-                        // FIXME: use translations
-                        label="Name"
+                        label={strings.drefFormFocalPointName}
                         name="regional_focal_point_name"
                         value={value.regional_focal_point_name}
                         onChange={setFieldValue}
@@ -359,8 +358,7 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                     <TextInput
-                        // FIXME: use translations
-                        label="Title"
+                        label={strings.drefFormFocalPointTitle}
                         name="regional_focal_point_title"
                         value={value.regional_focal_point_title}
                         onChange={setFieldValue}
@@ -368,8 +366,7 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                     <TextInput
-                        // FIXME: use translations
-                        label="Email"
+                        label={strings.drefFormFocalPointEmail}
                         name="regional_focal_point_email"
                         value={value.regional_focal_point_email}
                         onChange={setFieldValue}
@@ -377,8 +374,7 @@ function Submission(props: Props) {
                         disabled={disabled}
                     />
                     <TextInput
-                        // FIXME: use translations
-                        label="Phone Number"
+                        label={strings.drefFormFocalPointPhoneNumber}
                         name="regional_focal_point_phone_number"
                         value={value.regional_focal_point_phone_number}
                         onChange={setFieldValue}

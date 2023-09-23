@@ -15,7 +15,9 @@ import GoSingleFileInput, {
     type SupportedPaths,
 } from '#components/domain/GoSingleFileInput';
 import TextInput from '#components/TextInput';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Value = {
@@ -56,6 +58,8 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
         disabled,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const setFieldValue = useFormObject(
         name,
         onChange,
@@ -89,7 +93,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                 description={isDefined(fileUrl) ? (
                     <img
                         className={styles.preview}
-                        alt="preview"
+                        alt={strings.imageWithCaptionPreview}
                         src={fileUrl}
                     />
                 ) : undefined}
@@ -103,8 +107,7 @@ function ImageWithCaptionInput<const N extends string | number>(props: Props<N>)
                     value={value?.caption}
                     onChange={setFieldValue}
                     error={error?.caption}
-                    // FIXME: use translation
-                    placeholder="Enter Caption"
+                    placeholder={strings.imageWithCaptionEnterCaption}
                     disabled={disabled}
                 />
             )}

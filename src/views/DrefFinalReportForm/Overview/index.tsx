@@ -367,8 +367,7 @@ function Overview(props: Props) {
                         <>
                             {strings.finalReportPeopleTargeted}
                             <Link
-                                // FIXME: use translations
-                                title="Click to view Emergency Response Framework"
+                                title={strings.drefFinalReportEmergencyResponseFramework}
                                 href={peopleTargetedLink}
                                 external
                             >

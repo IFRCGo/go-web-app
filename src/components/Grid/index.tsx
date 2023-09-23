@@ -4,7 +4,9 @@ import { _cs, isNotDefined } from '@togglecorp/fujs';
 import Message from '#components/Message';
 import RawList, { type Props as RawListProps, type ListKey } from '#components/RawList';
 import type { SpacingType } from '#components/types';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type NumColumn = 2 | 3 | 4 | 5;
@@ -56,19 +58,24 @@ function Grid<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         errored,
         filtered,
 
-        // FIXME: use translations
-        errorMessage = 'Failed to fetch data!',
-        emptyMessage = 'Data is not available!',
-        pendingMessage = 'Fetching data...',
-        filteredMessage = 'Data is not available for the selected filter!',
+        errorMessage: errorMessageFromProps,
+        emptyMessage: emptyMessageFromProps,
+        pendingMessage: pendingMessageFromProps,
+        filteredMessage: filteredMessageFromProps,
 
         compact,
     } = props;
 
+    const strings = useTranslation(i18n);
+
+    const filteredMessage = filteredMessageFromProps ?? strings.gridFilteredMessage;
+    const pendingMessage = pendingMessageFromProps ?? strings.gridPendingMessage;
+    const emptyMessage = emptyMessageFromProps ?? strings.gridEmptyMessage;
+    const errorMessage = errorMessageFromProps ?? strings.gridFailedToFetch;
+
     const isEmpty = isNotDefined(data) || data.length === 0;
     const messageTitle = useMemo(
         () => {
-            // FIXME: use translation
             if (pending) {
                 return pendingMessage;
             }

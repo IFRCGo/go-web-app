@@ -1,0 +1,9 @@
+{
+    "namespace": "common",
+    "strings": {
+        "drefShareTitle": "Share DREF",
+        "drefShareDescription": "Add or remove users you with whom you want to share the DREF.",
+        "drefShareSuccessfully": "Successfully updated sharing preferences!",
+        "drefShareUpdate": "Update"
+    }
+}

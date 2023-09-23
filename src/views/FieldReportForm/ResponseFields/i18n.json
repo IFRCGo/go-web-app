@@ -30,7 +30,8 @@
         "fieldsStep4PlannedResponseRowsForecastBasedActionEWLabel": "Forecast Based Action",
         "fieldsStep4PlannedResponseRowsForecastBasedActionValueFieldLabel": "Amount CHF",
         "fieldsStep4PlannedResponseRowsIFRCStaffEVTEPIEWLabel": "Emergency Response Units",
-        "fieldsStep4PlannedResponseRowsIFRCStaffValueFieldLabel": "Units"
+        "fieldsStep4PlannedResponseRowsIFRCStaffValueFieldLabel": "Units",
+        "fieldReportFormVisibility": "{visibilityValue} - {visibility}"
     }
 }
 

@@ -105,8 +105,7 @@ function CountryDropdown() {
         >
             {isEmpty && (
                 <Message
-                    // FIXME: use translation
-                    description="Not available!"
+                    description={strings.messageNotAvailable}
                     compact
                 />
             )}

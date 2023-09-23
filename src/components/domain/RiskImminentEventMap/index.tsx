@@ -27,6 +27,7 @@ import {
 } from '#utils/constants';
 import MapContainerWithDisclaimer from '#components/MapContainerWithDisclaimer';
 import BaseMap from '#components/domain/BaseMap';
+import useTranslation from '#hooks/useTranslation';
 
 import {
     exposureFillLayer,
@@ -39,7 +40,7 @@ import {
     hazardPointIconLayout,
     trackArrowLayer,
 } from './mapStyles';
-
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const mapImageOption = {
@@ -109,6 +110,8 @@ function RiskImminentEventMap<
         onActiveEventChange,
         activeEventExposurePending,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const [activeEventId, setActiveEventId] = useState<KEY | undefined>(undefined);
     const activeEvent = useMemo(
@@ -319,8 +322,7 @@ function RiskImminentEventMap<
                             <ChevronLeftLineIcon className={styles.icon} />
                         )}
                     >
-                        {/* FIXME: use translation */}
-                        Back to events
+                        {strings.backToEventsLabel}
                     </Button>
                 )}
             >

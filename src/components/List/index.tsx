@@ -2,7 +2,9 @@ import { useMemo } from 'react';
 import { _cs, isNotDefined } from '@togglecorp/fujs';
 import Message from '#components/Message';
 import RawList, { type Props as RawListProps, type ListKey } from '#components/RawList';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props<
@@ -39,20 +41,25 @@ function List<DATUM, KEY extends ListKey, RENDERER_PROPS>(
         errored,
         filtered,
 
-        // FIXME: use translations
-        errorMessage = 'Failed to fetch data!',
-        emptyMessage = 'Data is not available!',
-        pendingMessage = 'Fetching data...',
-        filteredMessage = 'Data is not available for the selected filter!',
+        errorMessage: errorMessageFromProps,
+        emptyMessage: emptyMessageFromProps,
+        pendingMessage: pendingMessageFromProps,
+        filteredMessage: filteredMessageFromProps,
 
         compact,
         withoutMessage = false,
     } = props;
 
+    const strings = useTranslation(i18n);
+
+    const filteredMessage = filteredMessageFromProps ?? strings.listFilteredMessage;
+    const pendingMessage = pendingMessageFromProps ?? strings.listPendingMessage;
+    const emptyMessage = emptyMessageFromProps ?? strings.listEmptyMessage;
+    const errorMessage = errorMessageFromProps ?? strings.listFailedToFetch;
+
     const isEmpty = isNotDefined(data) || data.length === 0;
     const messageTitle = useMemo(
         () => {
-            // FIXME: use translation
             if (pending) {
                 return pendingMessage;
             }

@@ -13,6 +13,7 @@
         "emergenciesScaleByNumPeopleAffected":"Number of people affected",
         "emergenciesScaleByNumEmergencies":"Number of emergencies",
         "emergenciesScaleByLabel": "Scale points by",
-        "emergenciesKey": "Key"
+        "emergenciesKey": "Key",
+        "emergenciesPeopleAffected": "People Affected"
     }
 }

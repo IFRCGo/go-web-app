@@ -29,7 +29,8 @@ import { resolveToString } from '#utils/translation';
 import { KEY_URL_SEARCH, SEARCH_TEXT_LENGTH_MIN } from '#utils/constants';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
-import { sumSafe } from '#utils/common';
+import { sumSafe, defaultRanking } from '#utils/common';
+
 import ResultTable from './ResultTable';
 import ResultList from './ResultList';
 
@@ -46,20 +47,6 @@ function isListTypeResult(
 ): resultKey is Extract<SearchResponseKeys, 'regions' | 'countries' | 'district_province_response'> {
     return resultKey === 'regions' || resultKey === 'countries' || resultKey === 'district_province_response';
 }
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const defaultRanking: Record<SearchResponseKeys, number> = {
-    regions: 1,
-    countries: 2,
-    district_province_response: 3,
-
-    emergencies: 4,
-    projects: 5,
-    surge_alerts: 6,
-    surge_deployments: 7,
-    reports: 8,
-    rapid_response_deployments: 9,
-};
 
 const feedbackLink = 'https://forms.office.com/pages/responsepage.aspx?id=5Tu1ok5zbE6rDdGE9g_ZF6J45kKES69IsSyDatuGYF1UREdHUFlUWUY1TFg4TUEzNjNINkU1QUVEMi4u';
 

@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "imageWithCaptionEnterCaption": "Enter Caption",
+        "imageWithCaptionPreview": "preview"
+    }
+}

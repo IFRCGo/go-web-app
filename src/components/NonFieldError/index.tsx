@@ -7,7 +7,9 @@ import {
     nonFieldError,
     Error,
 } from '@togglecorp/toggle-form';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props<T> {
@@ -23,6 +25,7 @@ function NonFieldError<T>(props: Props<T>) {
         withFallbackError,
     } = props;
 
+    const strings = useTranslation(i18n);
     const errorObject = useMemo(() => getErrorObject(error), [error]);
 
     if (isNotDefined(errorObject)) {
@@ -34,9 +37,8 @@ function NonFieldError<T>(props: Props<T>) {
         return null;
     }
 
-    // FIXME: use translations
     const stringError = errorObject?.[nonFieldError] || (
-        withFallbackError ? 'Please correct all the errors before submission!' : undefined);
+        withFallbackError ? strings.fallbackMessage : undefined);
 
     if (isFalsyString(stringError)) {
         return null;

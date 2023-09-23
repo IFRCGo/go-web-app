@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
 
-import MultiSelectInput from '#components/MultiSelectInput';
 import { EntriesAsList } from '@togglecorp/toggle-form';
-import {
-    numericKeySelector,
-    stringLabelSelector,
-    stringNameSelector,
-} from '#utils/selectors';
+
+import MultiSelectInput from '#components/MultiSelectInput';
+import Checkbox from '#components/Checkbox';
+import SelectInput from '#components/SelectInput';
+import useTranslation from '#hooks/useTranslation';
 import useCountry from '#hooks/domain/useCountry';
+import { getMonthList } from '#utils/common';
 import {
     hazardTypeKeySelector,
     hazardTypeLabelSelector,
@@ -17,10 +17,13 @@ import {
     type RiskMetricOption,
     type RiskMetric,
 } from '#utils/domain/risk';
-import Checkbox from '#components/Checkbox';
-import SelectInput from '#components/SelectInput';
-import { getMonthList } from '#utils/common';
+import {
+    numericKeySelector,
+    stringLabelSelector,
+    stringNameSelector,
+} from '#utils/selectors';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 function countryKeySelector(country: { iso3: string }) {
@@ -55,6 +58,8 @@ function Filters(props: Props) {
         hazardTypeOptions,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     const countryList = useCountry({ region: regionId });
 
     const handleChange = useCallback(
@@ -71,8 +76,7 @@ function Filters(props: Props) {
     return (
         <div className={styles.filters}>
             <MultiSelectInput
-                // FIXME: use translation
-                placeholder="All countries"
+                placeholder={strings.riskAllCountries}
                 name="countries"
                 options={countryList}
                 keySelector={countryKeySelector}
@@ -93,8 +97,7 @@ function Filters(props: Props) {
             <MultiSelectInput
                 name="hazardTypes"
                 options={hazardTypeOptions}
-                // FIXME: use translation
-                placeholder="Select hazard types"
+                placeholder={strings.riskSelectHazardTypes}
                 keySelector={hazardTypeKeySelector}
                 labelSelector={hazardTypeLabelSelector}
                 value={value.hazardTypes}
@@ -104,8 +107,7 @@ function Filters(props: Props) {
             <MultiSelectInput
                 name="months"
                 options={monthList}
-                // FIXME: use translation
-                placeholder="Select months"
+                placeholder={strings.riskSelectMonths}
                 keySelector={numericKeySelector}
                 labelSelector={stringLabelSelector}
                 value={value.months}
@@ -116,15 +118,13 @@ function Filters(props: Props) {
                 <div className={styles.riskScoreAdditionalOptions}>
                     <Checkbox
                         name="normalizeByPopulation"
-                        // FIXME: use translation
-                        label="Normalize by population"
+                        label={strings.riskNormalize}
                         value={value.normalizeByPopulation}
                         onChange={handleChange}
                     />
                     <Checkbox
                         name="includeCopingCapacity"
-                        // FIXME: use translation
-                        label="Include coping capacity"
+                        label={strings.riskCopingCapacity}
                         value={value.includeCopingCapacity}
                         onChange={handleChange}
                     />

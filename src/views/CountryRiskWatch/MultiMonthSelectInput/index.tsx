@@ -3,7 +3,9 @@ import { _cs, listToMap, isNotDefined } from '@togglecorp/fujs';
 import type { SetValueArg } from '@togglecorp/toggle-form';
 
 import RawButton from '#components/RawButton';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const keyList = Array.from(Array(12).keys());
@@ -30,6 +32,8 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
         value,
         onChange,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const shiftPressedRef = useRef<boolean>(false);
 
@@ -155,8 +159,7 @@ function MultiMonthSelectInput<NAME>(props: Props<NAME>) {
                 className={_cs(styles.month, value?.[12] && styles.active)}
             >
                 <span className={styles.name}>
-                    {/* FIXME: use translation */}
-                    Yearly Average
+                    {strings.multiMonthYearlyAverage}
                 </span>
             </RawButton>
         </div>

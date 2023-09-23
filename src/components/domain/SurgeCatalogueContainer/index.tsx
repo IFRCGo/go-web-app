@@ -6,8 +6,10 @@ import Image from '#components/Image';
 import Button from '#components/Button';
 import Container from '#components/Container';
 import useRouting from '#hooks/useRouting';
-import { WrappedRoutes } from '../../../App/routes';
+import useTranslation from '#hooks/useTranslation';
 
+import { WrappedRoutes } from '../../../App/routes';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface ImageListItem {
@@ -31,6 +33,8 @@ function SurgeCatalogueContainer(props: Props) {
         goBackFallbackLink,
         imageList,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const { goBack } = useRouting();
     const handleBackButtonClick = useCallback(() => {
@@ -65,8 +69,7 @@ function SurgeCatalogueContainer(props: Props) {
                     name={undefined}
                     onClick={handleBackButtonClick}
                     variant="tertiary"
-                    // FIXME: use translation
-                    title="Go back"
+                    title={strings.surgeGoBack}
                 >
                     <ArrowLeftLineIcon className={styles.backIcon} />
                 </Button>

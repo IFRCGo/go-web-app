@@ -21,6 +21,7 @@ import {
 import ExpandableContainer from '#components/ExpandableContainer';
 import Container from '#components/Container';
 import useGlobalEnums from '#hooks/domain/useGlobalEnums';
+import useTranslation from '#hooks/useTranslation';
 import Switch from '#components/Switch';
 import InputSection from '#components/InputSection';
 import RadioInput from '#components/RadioInput';
@@ -42,6 +43,7 @@ import DisaggregationInput from './DisaggregationInput';
 import PointInput from './PointInput';
 import CustomSupplyInput from './CustomSuppliesInput';
 import ActionSupplyInput from './ActionSupplyInput';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Options = GoApiResponse<'/api/v2/emergency-project/options/'>;
@@ -102,6 +104,8 @@ function ActivityInput(props: Props) {
         type,
         disabled,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const setFieldValue = useFormObject(mainIndex, onChange, () => ({
         client_id: randomString(),
@@ -223,19 +227,16 @@ function ActivityInput(props: Props) {
                     name={clientId}
                     onClick={handleRemoveClick}
                     variant="secondary"
-                    // FIXME: Add translations
-                    title="Delete activity"
+                    title={strings.deleteActivityTitle}
                     disabled={disabled}
                     icons={(
                         <DeleteBinLineIcon />
                     )}
                 >
-                    {/* FIXME: Add translations */}
-                    Delete
+                    {strings.deleteButton}
                 </Button>
             )}
-            // FIXME: Add translations
-            heading={type === 'custom' ? `Custom Activity #${itemNumber}` : actionDetails?.title}
+            heading={type === 'custom' ? `${strings.customActivityHeading} #${itemNumber}` : actionDetails?.title}
             withHeaderBorder
         >
             <NonFieldError error={error} />
@@ -249,15 +250,13 @@ function ActivityInput(props: Props) {
                             value={value?.custom_action}
                             name="custom_action"
                             onChange={setFieldValue}
-                            // FIXME: Add translations
-                            label="Activity Title"
+                            label={strings.activityTitleLabel}
                             disabled={disabled}
                             error={error?.custom_action}
                         />
                     )}
                     <Switch
-                        // FIXME: Add translations
-                        label="Detailed Reporting"
+                        label={strings.detailedReportingLabel}
                         name="is_simplified_report"
                         value={value?.is_simplified_report}
                         disabled={disabled}
@@ -282,8 +281,7 @@ function ActivityInput(props: Props) {
                     {value?.is_simplified_report && value?.people_households === 'households' && (
                         <NumberInput
                             name="household_count"
-                            // FIXME: Add translations
-                            label="Households"
+                            label={strings.householdsCountLabel}
                             value={value?.household_count}
                             disabled={disabled}
                             onChange={setFieldValue}
@@ -294,19 +292,16 @@ function ActivityInput(props: Props) {
                         <div className={styles.row}>
                             <NumberInput
                                 name="people_count"
-                                // FIXME: Add translations
-                                label="People"
+                                label={strings.peopleCountLabel}
                                 value={value?.people_count}
                                 onChange={setFieldValue}
                                 error={error?.people_count}
                                 disabled={peopleCountDisabled || disabled}
                             />
-                            {/* FIXME: Add translations */}
-                            OR
+                            {strings.rowOrLabel}
                             <NumberInput
                                 name="male_count"
-                                // FIXME: Add translations
-                                label="Male"
+                                label={strings.maleCountLabel}
                                 value={value?.male_count}
                                 onChange={handleMaleCountChange}
                                 error={error?.male_count}
@@ -314,8 +309,7 @@ function ActivityInput(props: Props) {
                             />
                             <NumberInput
                                 name="female_count"
-                                // FIXME: Add translations
-                                label="Female"
+                                label={strings.femaleCountLabel}
                                 value={value?.female_count}
                                 onChange={handleFemaleCountChange}
                                 error={error?.female_count}
@@ -337,8 +331,7 @@ function ActivityInput(props: Props) {
                         || value?.has_no_data_on_people_reached
                     ) && (
                         <Switch
-                            // FIXME: Add translations
-                            label="No data on people reached"
+                            label={strings.peopleReachedLabel}
                             name="has_no_data_on_people_reached"
                             value={value?.has_no_data_on_people_reached}
                             disabled={disabled}
@@ -352,8 +345,7 @@ function ActivityInput(props: Props) {
                     ) && (
                         <div className={styles.cashInput}>
                             <NumberInput
-                                // FIXME: Add translations
-                                label="Number of Beneficiaries"
+                                label={strings.beneficiariesCountLabel}
                                 name="beneficiaries_count"
                                 value={value?.beneficiaries_count}
                                 onChange={setFieldValue}
@@ -361,8 +353,7 @@ function ActivityInput(props: Props) {
                                 error={error?.beneficiaries_count}
                             />
                             <NumberInput
-                                // FIXME: Add translations
-                                label="Amount in CHF"
+                                label={strings.amountLabel}
                                 name="amount"
                                 value={value?.amount}
                                 disabled={disabled}
@@ -378,8 +369,7 @@ function ActivityInput(props: Props) {
                     ) && (
                         <NumberInput
                             name="point_count"
-                            // FIXME: Add translations
-                            label="No of Locations"
+                            label={strings.pointCountLabel}
                             onChange={setFieldValue}
                             value={value?.point_count}
                             disabled={disabled}
@@ -392,8 +382,7 @@ function ActivityInput(props: Props) {
                     ) && (
                         <Container
                             className={styles.customLocations}
-                            // FIXME: Add translations
-                            heading="Locations"
+                            heading={strings.locationsContainerHeading}
                             actions={(
                                 <Button
                                     name={undefined}
@@ -402,12 +391,10 @@ function ActivityInput(props: Props) {
                                     icons={(
                                         <AddLineIcon />
                                     )}
-                                    // FIXME: Add translations
-                                    title="Add locations"
+                                    title={strings.locationsButtonTitle}
                                     onClick={handleAddPointButtonClick}
                                 >
-                                    {/* FIXME: Add translations */}
-                                    Add Location
+                                    {strings.addLocationButtonLabel}
                                 </Button>
 
                             )}
@@ -434,8 +421,7 @@ function ActivityInput(props: Props) {
                     ) && (
                         <Container
                             className={styles.actionSupplies}
-                            // FIXME: Add translations
-                            heading="Supplies"
+                            heading={strings.suppliesContainerHeading}
                             actions={(
                                 <Button
                                     name={undefined}
@@ -446,8 +432,7 @@ function ActivityInput(props: Props) {
                                     )}
                                     onClick={handleAddActionSupplyClick}
                                 >
-                                    {/* FIXME: Add translations */}
-                                    Add Action Supply
+                                    {strings.addActionButtonLabel}
                                 </Button>
                             )}
                         >
@@ -472,8 +457,7 @@ function ActivityInput(props: Props) {
                     ) && (
                         <Container
                             className={styles.customSupplies}
-                            // FIXME: Add translations
-                            heading="Custom Supplies"
+                            heading={strings.customSuppliesContainerHeading}
                             actions={(
                                 <Button
                                     name={undefined}
@@ -482,12 +466,10 @@ function ActivityInput(props: Props) {
                                     icons={(
                                         <AddLineIcon />
                                     )}
-                                    // FIXME: Add translations
-                                    title="Add custom supply"
+                                    title={strings.addCustomSupplyButtonTitle}
                                     onClick={handleAddCustomSupplyClick}
                                 >
-                                    {/* FIXME: Add translations */}
-                                    Add Custom Supply
+                                    {strings.addCustomSupplyButtonTitle}
                                 </Button>
                             )}
                         >
@@ -511,8 +493,7 @@ function ActivityInput(props: Props) {
                         disabled={disabled}
                         name="details"
                         onChange={setFieldValue}
-                        // FIXME: Add translations
-                        label="Activity Details"
+                        label={strings.activityDetailsLabel}
                         error={error?.details}
                     />
                 </div>

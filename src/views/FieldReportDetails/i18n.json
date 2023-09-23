@@ -27,6 +27,14 @@
         "sourcesForDataMarkedLabel": "Sources for data marked as Other",
         "epiSource": "Source",
         "notesLabel": "Notes",
-        "dateOfData": "Date of Data"
+        "dateOfData": "Date of Data",
+        "fieldReportDREFTitle": "DREF",
+        "fieldReportEmergencyAppealTitle": "Emergency Appeal",
+        "fieldReportRDRTTitle": "RDRT/RITS",
+        "fieldReportRapidResponseTitle": "Rapid Response Personnel",
+        "fieldReportEmergencyResponseTitle": "Emergency Response Units",
+        "fieldReportForecastBasedTitle": "Forecast Based Action",
+        "fieldReportDetailsNotes": "Notes",
+        "fieldReportDetailsSummary": "Summary"
     }
 }

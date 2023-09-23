@@ -12,8 +12,11 @@ import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
 import { maxSafe, roundSafe } from '#utils/common';
 import { type RiskApiResponse } from '#utils/restRequest';
-
+import useTranslation from '#hooks/useTranslation';
 import { isValidFeatureCollection, isValidPointFeature } from '#utils/domain/risk';
+import { resolveToString } from '#utils/translation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type WfpAdamResponse = RiskApiResponse<'/api/v1/adam-exposure/'>;
@@ -81,6 +84,8 @@ function EventDetails(props: Props) {
         exposure,
         pending,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const stormPoints = useMemo(
         () => {
@@ -151,8 +156,7 @@ function EventDetails(props: Props) {
             spacing="compact"
             headingDescription={(
                 <TextOutput
-                    // FIXME: use translation
-                    label="Published on"
+                    label={strings.wfpEventDetailsPublishedOn}
                     value={publish_date}
                     valueType="date"
                     strongValue
@@ -170,7 +174,13 @@ function EventDetails(props: Props) {
                                 className={styles.bar}
                                 // FIXME: Use percent function
                                 style={{ height: `${100 * (point.windSpeed / maxWindSpeed)}%` }}
-                                title={`${point.windSpeed} Km/h on ${point.date.toLocaleString()}`}
+                                title={resolveToString(
+                                    strings.wfpEventDetailsKm,
+                                    {
+                                        point: point.windSpeed,
+                                        pontDate: point.date.toLocaleString(),
+                                    },
+                                )}
                             />
                         ),
                     )}
@@ -179,8 +189,7 @@ function EventDetails(props: Props) {
             {isDefined(eventDetails)
                 && (isDefined(eventDetails.url) || isDefined(eventDetails.dashboard_url)) && (
                 <Container
-                    // FIXME: use translation
-                    heading="Useful links:"
+                    heading={strings.wfpUsefulLinks}
                     headingLevel={5}
                     childrenContainerClassName={styles.usefulLinksContent}
                     spacing="compact"
@@ -191,8 +200,7 @@ function EventDetails(props: Props) {
                             external
                             withLinkIcon
                         >
-                            {/* FIXME: use translation */}
-                            Dashboard
+                            {strings.wfpDashboard}
                         </Link>
                     )}
                     {isDefined(eventDetails?.url) && (
@@ -203,8 +211,7 @@ function EventDetails(props: Props) {
                                     external
                                     withLinkIcon
                                 >
-                                    {/* FIXME: use translation */}
-                                    Shakemap
+                                    {strings.wfpShakemap}
                                 </Link>
                             )}
                             {isDefined(eventDetails.url.population) && (
@@ -213,8 +220,7 @@ function EventDetails(props: Props) {
                                     external
                                     withLinkIcon
                                 >
-                                    {/* FIXME: use translation */}
-                                    Population table
+                                    {strings.wfpPopulationTable}
                                 </Link>
                             )}
                             {isDefined(eventDetails.url.wind) && (
@@ -223,8 +229,7 @@ function EventDetails(props: Props) {
                                     external
                                     withLinkIcon
                                 >
-                                    {/* FIXME: use translation */}
-                                    Wind
+                                    {strings.wfpWind}
                                 </Link>
                             )}
                             {isDefined(eventDetails.url.rainfall) && (
@@ -233,8 +238,7 @@ function EventDetails(props: Props) {
                                     external
                                     withLinkIcon
                                 >
-                                    {/* FIXME: use translation */}
-                                    Rainfall
+                                    {strings.wfpRainfall}
                                 </Link>
                             )}
                             {isDefined(eventDetails.url.shapefile) && (
@@ -243,8 +247,7 @@ function EventDetails(props: Props) {
                                     external
                                     withLinkIcon
                                 >
-                                    {/* FIXME: use translation */}
-                                    Shapefile
+                                    {strings.wfpShapefile}
                                 </Link>
                             )}
                         </>
@@ -254,15 +257,13 @@ function EventDetails(props: Props) {
             <div>
                 {isDefined(eventDetails?.wind_speed) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Wind speed"
+                        label={strings.wfpWindSpeed}
                         value={eventDetails?.wind_speed}
                     />
                 )}
                 {isDefined(populationImpact) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="People Exposed / Potentially Affected"
+                        label={strings.wfpPeopleExposed}
                         value={populationImpact}
                         valueType="number"
                         maximumFractionDigits={0}
@@ -272,61 +273,53 @@ function EventDetails(props: Props) {
             <div>
                 {isDefined(eventDetails?.source) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Source"
+                        label={strings.wfpSource}
                         value={eventDetails?.source}
                     />
                 )}
                 {isDefined(eventDetails?.sitrep) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Sitrep"
+                        label={strings.wfpSitrep}
                         value={eventDetails?.sitrep}
                     />
                 )}
                 {isDefined(eventDetails?.mag) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Magnitude"
+                        label={strings.wfpMagnitude}
                         value={eventDetails?.mag}
                         valueType="number"
                     />
                 )}
                 {isDefined(eventDetails?.depth) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Depth (km)"
+                        label={strings.wfpDepth}
                         value={eventDetails?.depth}
                         valueType="number"
                     />
                 )}
                 {isDefined(eventDetails?.alert_level) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Alert Type"
+                        label={strings.wfpAlertType}
                         value={eventDetails?.alert_level}
                     />
                 )}
                 {isDefined(eventDetails?.effective_date) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Effective"
+                        label={strings.wfpEffective}
                         value={eventDetails?.effective_date}
                         valueType="date"
                     />
                 )}
                 {isDefined(eventDetails?.from_date) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="From date"
+                        label={strings.wfpFromDate}
                         value={eventDetails?.from_date}
                         valueType="date"
                     />
                 )}
                 {isDefined(eventDetails?.to_date) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="To date"
+                        label={strings.wfpToDate}
                         value={eventDetails?.to_date}
                         valueType="date"
                     />
@@ -335,8 +328,7 @@ function EventDetails(props: Props) {
             <div>
                 {isDefined(populationExposure?.exposure_60_kmh) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Exposure (60km/h)"
+                        label={strings.wfpExposed60}
                         value={populationExposure?.exposure_60_kmh}
                         valueType="number"
                         maximumFractionDigits={0}
@@ -344,8 +336,7 @@ function EventDetails(props: Props) {
                 )}
                 {isDefined(populationExposure?.exposure_90_kmh) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Exposure (90km/h)"
+                        label={strings.wfpExposed90}
                         value={populationExposure?.exposure_90_kmh}
                         valueType="number"
                         maximumFractionDigits={0}
@@ -353,8 +344,7 @@ function EventDetails(props: Props) {
                 )}
                 {isDefined(populationExposure?.exposure_120_kmh) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Exposure (120km/h)"
+                        label={strings.wfpExposed120}
                         value={populationExposure?.exposure_120_kmh}
                         valueType="number"
                         maximumFractionDigits={0}
@@ -362,8 +352,7 @@ function EventDetails(props: Props) {
                 )}
                 {isDefined(eventDetails?.flood_area) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Flood Area"
+                        label={strings.wfpFloodArea}
                         value={eventDetails?.flood_area}
                         valueType="number"
                         suffix="hectares"
@@ -371,8 +360,7 @@ function EventDetails(props: Props) {
                 )}
                 {isDefined(eventDetails?.fl_croplnd) && (
                     <TextOutput
-                        // FIXME: use translation
-                        label="Flood Cropland"
+                        label={strings.wfpFloodCropland}
                         value={eventDetails?.fl_croplnd}
                         valueType="number"
                         suffix="hectares"

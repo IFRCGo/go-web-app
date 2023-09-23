@@ -1,11 +1,14 @@
 import { useCallback, useEffect } from 'react';
+import { FocusOn } from 'react-focus-on';
+import { CloseFillIcon } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
 
 import BodyOverlay from '#components/BodyOverlay';
 import Button from '#components/Button';
 import Container, { type Props as ContainerProps } from '#components/Container';
-import { CloseFillIcon } from '@ifrc-go/icons';
-import { FocusOn } from 'react-focus-on';
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export type SizeType = 'sm' | 'md' | 'lg' | 'xl' | 'full' | 'auto';
@@ -43,6 +46,8 @@ function Modal(props: Props) {
 
         ...containerProps
     } = props;
+
+    const strings = useTranslation(i18n);
 
     useEffect(
         () => {
@@ -93,8 +98,7 @@ function Modal(props: Props) {
                                 name={undefined}
                                 onClick={onClose}
                                 variant="tertiary"
-                                // FIXME: use translation
-                                title="Close"
+                                title={strings.closeButtonLabel}
                             >
                                 <CloseFillIcon className={styles.closeIcon} />
                             </Button>

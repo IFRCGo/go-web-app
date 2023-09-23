@@ -92,8 +92,7 @@ function AppealOperationTable(props: Props) {
             createLinkColumn<AppealTableItem, string>(
                 'event',
                 strings.appealsTableEmergency,
-                // FIXME: use translations
-                (item) => (isDefined(item.event) ? 'Link' : undefined),
+                (item) => (isDefined(item.event) ? strings.appealsTableLink : undefined),
                 (item) => ({
                     to: 'emergenciesLayout',
                     urlParams: {

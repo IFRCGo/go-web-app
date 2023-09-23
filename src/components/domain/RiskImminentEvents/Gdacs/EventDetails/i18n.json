@@ -1,0 +1,17 @@
+{
+    "namespace": "common",
+    "strings": {
+        "eventStartOnLabel": "Started on",
+        "usefulLinksHeading": "Useful links:",
+        "eventMoreDetailsLink": "More Details",
+        "eventGeometryLink": "Geometry",
+        "eventReportLink": "Report",
+        "eventSourceLabel": "Source",
+        "eventDeathLabel": "Death",
+        "eventDisplacedLabel": "Displaced",
+        "eventPopulationLabel": "Population exposed",
+        "eventPeopleAffectedLabel": "People affected",
+        "eventImpactLabel": "Impact",
+        "eventSeverityLabel": "Severity"
+    }
+}

@@ -19,7 +19,9 @@ import GoMultiFileInput, {
     type SupportedPaths,
 } from '#components/domain/GoMultiFileInput';
 import TextInput from '#components/TextInput';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type Value = {
@@ -59,6 +61,8 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
         actions,
         disabled,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const error = getErrorObject(formError);
 
@@ -157,10 +161,8 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     className={styles.removeButton}
                                     name={index}
                                     onClick={removeValue}
-                                    // FIXME: Use translations
-                                    title="Remove"
-                                    // FIXME: Use translations
-                                    ariaLabel="Remove"
+                                    title={strings.removeButtonTitle}
+                                    ariaLabel={strings.removeButtonTitle}
                                     variant="secondary"
                                     spacing="none"
                                     disabled={disabled}
@@ -172,7 +174,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                 />
                                 <img
                                     className={styles.preview}
-                                    alt="preview"
+                                    alt={strings.imagePreviewAlt}
                                     src={fileIdToUrlMap[fileValue.id]}
                                 />
                                 <TextInput
@@ -181,8 +183,7 @@ function MultiImageWithCaptionInput<const N extends string | number>(props: Prop
                                     value={fileValue?.caption}
                                     onChange={handleCaptionChange}
                                     error={imageError?.caption}
-                                    // FIXME: use translation
-                                    placeholder="Enter Caption"
+                                    placeholder={strings.enterCaptionPlaceholder}
                                     disabled={disabled}
                                 />
                             </div>

@@ -324,8 +324,7 @@ export function Component() {
     if (isNotDefined(workplanId)) {
         return (
             <FormFailedToLoadMessage
-                // FIXME: use translation
-                description="Resource not found"
+                description={strings.perWorkPlanResource}
             />
         );
     }

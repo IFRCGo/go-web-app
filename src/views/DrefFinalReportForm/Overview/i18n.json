@@ -38,6 +38,7 @@
         "drefFormUploadCoverImage": "Cover image",
         "drefFormUploadCoverImageDescription": "Upload a image for the cover page of the publicly published DREF application.",
         "drefFormDrefTypeTitle": "DREF Type",
-        "drefFormClickEmergencyResponseFramework": "Click to view Emergency Response Framework"
+        "drefFormClickEmergencyResponseFramework": "Click to view Emergency Response Framework",
+        "drefFinalReportEmergencyResponseFramework": "Click to view Emergency Response Framework"
     }
 }

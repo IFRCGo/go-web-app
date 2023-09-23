@@ -31,6 +31,7 @@ import Message from '#components/Message';
 import { type DistrictItem } from '#components/domain/DistrictSearchMultiSelectInput';
 import LanguageMismatchMessage from '#components/domain/LanguageMismatchMessage';
 import { type Props as ButtonProps } from '#components/Button';
+import DrefShareModal from '#components/domain/DrefShareModal';
 import {
     useRequest,
     useLazyRequest,
@@ -46,9 +47,6 @@ import {
     NUM,
 } from '#utils/restRequest/error';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
-
-// FIXME: We should not import from views
-import DrefShareModal from '#views/AccountMyFormsDref/DrefTableActions/DrefShareModal';
 
 import opsUpdateSchema, {
     type OpsUpdateRequestBody,
@@ -456,21 +454,20 @@ export function Component() {
                 value.changing_timeframe_operation
                 && currentValue === prevValue
             ) {
-                // FIXME: use translations
-                return 'Please select a different timeframe when selected yes on changing the operation timeframe';
+                return strings.drefOperationalUpdateFormTimeframe;
             }
 
             if (
                 !value.changing_timeframe_operation
                 && currentValue !== prevValue
             ) {
-                // FIXME: use translations
-                return 'Please select yes on changing the operation timeframe';
+                return strings.drefOperationalUpdateFormOperationTimeframe;
             }
 
             return undefined;
         },
         [
+            strings,
             value.total_operation_timeframe,
             value.changing_timeframe_operation,
             value.type_of_dref,
@@ -483,17 +480,16 @@ export function Component() {
         () => {
             if (isDefined(value.additional_allocation) && value.additional_allocation > 0) {
                 if (!value.changing_budget || !value.request_for_second_allocation) {
-                    // FIXME: use translations
-                    return 'When requesting for additional budget allocation, the fields "Are you making changes to the budget" and "Is this a request for a second allocation" both should be marked "Yes" in "Event Details" section';
+                    return strings.drefOperationAdditionalBudget;
                 }
             } else if (value.changing_budget || value.request_for_second_allocation) {
-                // FIXME: use translations
-                return 'The field "Additional Allocation Requested" should be filled in "Operation Overview" section to change the budget or for a second allocation';
+                return strings.drefOperationAdditionalAllocation;
             }
 
             return undefined;
         },
         [
+            strings,
             value.request_for_second_allocation,
             value.changing_budget,
             value.additional_allocation,
@@ -507,18 +503,17 @@ export function Component() {
             const areDistrictsSimilar = isSimilarArray(currentValue, prevValue);
 
             if (value.changing_geographic_location && areDistrictsSimilar) {
-                // FIXME: use translations
-                return 'Please select a different district when selected yes on changing geographic location';
+                return strings.drefOperationSelectDistrict;
             }
 
             if (!value.changing_geographic_location && !areDistrictsSimilar) {
-                // FIXME: use translations
-                return 'Please select yes on changing geographic location';
+                return strings.drefOperationSelectLocation;
             }
 
             return undefined;
         },
         [
+            strings,
             value.district,
             value.changing_geographic_location,
             prevOpsUpdateResponse,
@@ -533,18 +528,17 @@ export function Component() {
             const currentValue = value.total_targeted_population;
 
             if (value.changing_target_population_of_operation && currentValue === prevValue) {
-                // FIXME: use translations
-                return 'Please select a different value for targeted population when selected yes on changing target population';
+                return strings.drefOperationTargetedPopulation;
             }
 
             if (!value.changing_target_population_of_operation && currentValue !== prevValue) {
-                // FIXME: use translations
-                return 'Please select yes on changing target population';
+                return strings.drefOperationChangingTargetPopulation;
             }
 
             return undefined;
         },
         [
+            strings,
             value.total_targeted_population,
             value.changing_target_population_of_operation,
             prevOpsUpdateResponse,

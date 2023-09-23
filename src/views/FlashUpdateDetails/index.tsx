@@ -274,7 +274,7 @@ export function Component() {
                                                 external
                                                 withLinkIcon
                                             >
-                                                Go to Reference
+                                                {strings.flashUpdateReference}
                                             </Link>
                                         )}
                                         {reference.document_details?.file && (

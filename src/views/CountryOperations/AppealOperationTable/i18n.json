@@ -12,6 +12,7 @@
         "appealsTableFundedAmount": "Funding (CHF)",
         "appealsTableStatus": "Active",
         "appealsTableCountry": "Country",
-        "appealsTableAllOperationsLinkLabel": "View all Operations for {name}"
+        "appealsTableAllOperationsLinkLabel": "View all Operations for {name}",
+        "appealsTableLink": "Link"
     }
 }

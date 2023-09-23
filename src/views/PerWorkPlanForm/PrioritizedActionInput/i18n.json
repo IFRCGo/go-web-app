@@ -1,11 +1,13 @@
 {
-    "namespace": "perWorkPlanFormForm",
+    "namespace": "perWorkPlanForm",
     "strings": {
         "componentActionsInputPlaceholder": "Enter actions",
         "componentSupportedByInputLabel": "Supported by",
         "componentSupportedByInputPlaceholder": "Select NS",
         "componentDueDateInputLabel": "Due date",
         "componentStatusInputLabel": "Status",
-        "componentStatusInputPlaceholder": "Select"
+        "componentStatusInputPlaceholder": "Select",
+        "componentHeading": "{componentNumber} ({componentLetter}). {componentTitle}",
+        "componentHeadingOther": "{componentNumber}. {componentTitle}"
     }
 }

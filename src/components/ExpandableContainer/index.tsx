@@ -3,9 +3,11 @@ import { _cs } from '@togglecorp/fujs';
 import { ChevronDownLineIcon, ChevronUpLineIcon } from '@ifrc-go/icons';
 
 import useBooleanState from '#hooks/useBooleanState';
+import useTranslation from '#hooks/useTranslation';
 import Button from '#components/Button';
 
 import Container, { Props as ContainerProps } from '../Container';
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props extends Omit<ContainerProps, 'withInternalPadding' | 'withoutWrapInHeading'> {
@@ -29,6 +31,8 @@ function ExpandableContainer(props: Props) {
         withHeaderBorder,
         ...otherProps
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const [
         expanded,
@@ -69,8 +73,9 @@ function ExpandableContainer(props: Props) {
                         variant="tertiary"
                         name={undefined}
                         onClick={toggleExpanded}
-                        // FIXME: use translations
-                        title={expanded ? 'Collapse' : 'Expand'}
+                        title={expanded
+                            ? strings.expandableContainerCollapse
+                            : strings.expandableContainerExpand}
                     >
                         {expanded ? (
                             <ChevronUpLineIcon className={styles.icon} />

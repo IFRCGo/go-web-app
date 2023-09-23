@@ -1,0 +1,11 @@
+{
+    "namespace": "flashUpdateDetails",
+    "strings": {
+        "flashUpdateExportTitle": "Export Flash Update",
+        "flashUpdateWaiting": "Waiting for the export to complete...",
+        "flashUpdateExportFailed": "Export failed!",
+        "flashUpdateExportCompleted": "Export completed successfully",
+        "flashUpdateExportCompletedDescription": "Click on the download link below!",
+        "flashUpdateDownload": "Download PDF"
+    }
+}

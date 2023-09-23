@@ -106,10 +106,8 @@ function CountryProvinceInput(props: Props) {
                 className={styles.removeButton}
                 name={index}
                 onClick={onRemove}
-                // FIXME: Use translations
-                title="Remove"
-                // FIXME: Use translations
-                ariaLabel="Remove"
+                title={strings.flashUpdateRemove}
+                ariaLabel={strings.flashUpdateRemove}
                 variant="tertiary"
                 disabled={disabled}
             >

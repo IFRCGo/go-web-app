@@ -14,9 +14,12 @@ import ProgressBar from '#components/ProgressBar';
 import NumberOutput from '#components/NumberOutput';
 import StackedProgressBar from '#components/StackedProgressBar';
 import TextOutput from '#components/TextOutput';
+import useTranslation from '#hooks/useTranslation';
 import { sumSafe } from '#utils/common';
+import { resolveToString } from '#utils/translation';
 import { type GoApiResponse } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PerOptionsResponse = GoApiResponse<'/api/v2/per-options/'>;
@@ -52,6 +55,8 @@ function PerAssessmentSummary(props: Props) {
         totalQuestionCount,
         areaIdToTitleMap,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const ratingIdToTitleMap = listToMap(
         perOptionsResponse?.componentratings,
@@ -158,22 +163,25 @@ function PerAssessmentSummary(props: Props) {
         (_, areaId) => ({
             areaId,
             rating: averageRatingByAreaMap[Number(areaId)] ?? 0,
-            // FIXME: use translation
-            areaDisplay: `Area ${areaId}`,
+            areaDisplay: resolveToString(
+                strings.multiImageArea,
+                { areaId },
+            ),
         }),
     );
 
-    // FIXME: use translation
     const description = isDefined(allAnsweredResponses) && isDefined(totalQuestionCount)
-        ? `${allAnsweredResponses?.length ?? 0} / ${totalQuestionCount} benchmarks assessed.`
+        ? `${allAnsweredResponses?.length ?? 0} / ${resolveToString(
+            strings.benchmarksAssessed,
+            { totalQuestionCount },
+        )}`
         : undefined;
 
     // NOTE: We need to discuss UI of this component
     return (
         <ExpandableContainer
             className={_cs(styles.perAssessmentSummary, className)}
-            heading="Summary"
-            // FIXME: use translations
+            heading={strings.perAssessmentSummaryHeading}
             headerDescription={description}
             childrenContainerClassName={styles.content}
             withHeaderBorder
@@ -181,8 +189,15 @@ function PerAssessmentSummary(props: Props) {
         >
             <div className={styles.totalProgress}>
                 <ProgressBar
-                    // FIXME: use translation
-                    title={`Benchmarks assessed: ${allAnsweredResponses?.length ?? '--'}/${totalQuestionCount}`}
+                    title={resolveToString(
+                        strings.benchmarksAssessedTitle,
+                        {
+                            allAnsweredResponses: (
+                                allAnsweredResponses?.length ?? '--'
+                            ),
+                            totalQuestionCount,
+                        },
+                    )}
                     value={allAnsweredResponses?.length ?? 0}
                     totalValue={totalQuestionCount}
                     description={(

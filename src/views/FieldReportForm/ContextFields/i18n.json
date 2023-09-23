@@ -29,7 +29,10 @@
         "startDateLabelEW": "Forecasted Date of Impact",
         "startDateLabelStartDate": "Start Date",
         "summaryDescription": "The title is automatically populated based on your selection above with the date of this report. You may edit it with any required details. The report number will be automatically generated and added to the end of the title.",
-        "summaryLabel": "Title"
+        "summaryLabel": "Title",
+        "fieldReportFormContextTitle": "Context",
+        "fieldReportFormSearchTitle": "Search for existing emergency",
+        "fieldReportFormSearchDescription": "Type the name of the country you want to report on in the box above to begin the search."
     }
 }
 

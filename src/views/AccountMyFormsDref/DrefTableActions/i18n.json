@@ -1,5 +1,5 @@
 {
-    "namespace": "accountDrefApplications",
+    "namespace": "accountMyFormsDref",
     "strings": {
         "dropdownActionApproveLabel": "Approve",
         "dropdownActionAllocationFormLabel": "Allocation Form",
@@ -10,6 +10,9 @@
         "dropdownActionEditLabel": "Edit",
         "drefApprovalSuccessTitle": "Successfully approved the DREF!",
         "drefApprovalFailureTitle": "Failed to approve the DREF!",
-        "drefApprovalInProgressTitle": "Approval in progress..."
+        "drefApprovalInProgressTitle": "Approval in progress...",
+        "drefAccountCouldNotCreate": "Could not create new operational update",
+        "drefAccountCouldNotCreateFinalReport": "Could not create final report",
+        "drefAccountConfirmMessage": "You're about to Approve this DREF. Once approved, it can no longer be edited. Are you sure, you want to Approve?"
     }
 }

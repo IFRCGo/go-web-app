@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "meteoSwissEventListViewDetails": "View Details",
+        "meteoSwissEventListStartedOn": "Started On"
+    }
+}

@@ -1,5 +1,5 @@
 {
-    "namespace":"accountPerForms",
+    "namespace":"accountMyFormsPer",
     "strings":{
         "tableActionEditLabel": "Edit {phaseDisplay}",
         "tableActionViewLabel": "View {phaseDisplay}",

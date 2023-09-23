@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import {
     useForm,
     ObjectSchema,
@@ -29,59 +29,11 @@ import styles from './styles.module.css';
 
 type PasswordChangeRequestBody = GoApiBody<'/change_password', 'POST'>;
 
-function getPasswordMatchCondition(referenceVal: string | undefined) {
-    function passwordMatchCondition(val: string | undefined) {
-        if (isTruthyString(val) && isTruthyString(referenceVal) && val !== referenceVal) {
-            return 'Passwords do not match';
-        }
-        return undefined;
-    }
-
-    return passwordMatchCondition;
-}
-
 type PartialFormValue = PartialForm<PasswordChangeRequestBody & { confirmNewPassword: string }>;
 const defaultFormValue: PartialFormValue = {};
 
 type FormSchema = ObjectSchema<PartialFormValue>;
 type FormSchemaFields = ReturnType<FormSchema['fields']>;
-const formSchema: FormSchema = {
-    fields: (value): FormSchemaFields => {
-        let fields: FormSchemaFields = {
-            username: {},
-            token: {},
-            password: {
-                required: true,
-                requiredValidation: requiredStringCondition,
-            },
-            new_password: {
-                required: true,
-                requiredValidation: requiredStringCondition,
-            },
-            confirmNewPassword: {
-                required: true,
-                requiredValidation: requiredStringCondition,
-                forceValue: undefinedValue,
-            },
-        };
-
-        fields = addCondition(
-            fields,
-            value,
-            ['new_password'],
-            ['confirmNewPassword'],
-            (val) => ({
-                confirmNewPassword: {
-                    required: true,
-                    requiredValidation: requiredStringCondition,
-                    forceValue: undefinedValue,
-                    validations: [getPasswordMatchCondition(val?.new_password)],
-                },
-            }),
-        );
-        return fields;
-    },
-};
 
 interface Props {
     handleModalCloseButton: () => void;
@@ -95,6 +47,56 @@ function ChangePasswordModal(props: Props) {
     const strings = useTranslation(i18n);
     const alert = useAlert();
     const { userAuth } = useContext(UserContext);
+
+    const getPasswordMatchCondition = useCallback((referenceVal: string | undefined) => {
+        function passwordMatchCondition(val: string | undefined) {
+            if (isTruthyString(val) && isTruthyString(referenceVal) && val !== referenceVal) {
+                return strings.changePasswordDoNotMatch;
+            }
+            return undefined;
+        }
+        return passwordMatchCondition;
+    }, [strings]);
+
+    const formSchema: FormSchema = useMemo(() => (
+        {
+            fields: (value): FormSchemaFields => {
+                let fields: FormSchemaFields = {
+                    username: {},
+                    token: {},
+                    password: {
+                        required: true,
+                        requiredValidation: requiredStringCondition,
+                    },
+                    new_password: {
+                        required: true,
+                        requiredValidation: requiredStringCondition,
+                    },
+                    confirmNewPassword: {
+                        required: true,
+                        requiredValidation: requiredStringCondition,
+                        forceValue: undefinedValue,
+                    },
+                };
+
+                fields = addCondition(
+                    fields,
+                    value,
+                    ['new_password'],
+                    ['confirmNewPassword'],
+                    (val) => ({
+                        confirmNewPassword: {
+                            required: true,
+                            requiredValidation: requiredStringCondition,
+                            forceValue: undefinedValue,
+                            validations: [getPasswordMatchCondition(val?.new_password)],
+                        },
+                    }),
+                );
+                return fields;
+            },
+        }
+    ), [getPasswordMatchCondition]);
 
     const {
         value: formValue,

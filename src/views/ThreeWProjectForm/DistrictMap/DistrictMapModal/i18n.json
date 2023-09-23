@@ -1,0 +1,10 @@
+{
+    "namespace": "threeWProjectForm",
+    "strings": {
+        "districtButtonSelectProvince": "Select Province / Region",
+        "save": "Save",
+        "backToCountry": "Back to Country",
+        "labelDistricts": "Districts",
+        "listEmptyMessage":"Select districts by click on map or from the select input above"
+    }
+}

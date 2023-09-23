@@ -12,6 +12,7 @@ import KeyFigure from '#components/KeyFigure';
 import Message from '#components/Message';
 import List from '#components/List';
 import useTranslation from '#hooks/useTranslation';
+import { resolveToString } from '#utils/translation';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -35,6 +36,8 @@ function RegionKeyFigure(props: RegionKeyFigureProps) {
         source,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     return (
         <KeyFigure
             className={styles.regionKeyFigure}
@@ -42,15 +45,24 @@ function RegionKeyFigure(props: RegionKeyFigureProps) {
             // FIXME: Do we need to round this similar to EmergencyDetails/KeyFigure?
             value={Number.parseFloat(figure)}
             label={deck}
-            // FIXME: use translations
-            description={`Source: ${source}`}
+            description={resolveToString(
+                strings.sourceLabel,
+                {
+                    sourceValue: source,
+                },
+            )}
         />
     );
 }
+
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
     const strings = useTranslation(i18n);
-    const { regionResponse, regionKeyFigureResponse } = useOutletContext<RegionOutletContext>();
+    const {
+        regionResponse,
+        regionKeyFigureResponse,
+    } = useOutletContext<RegionOutletContext>();
+
     const hasKeyFigure = regionKeyFigureResponse?.results
         && regionKeyFigureResponse.results.length > 0;
     const hasRegionResponse = regionResponse

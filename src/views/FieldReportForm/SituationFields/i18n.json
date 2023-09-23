@@ -46,7 +46,8 @@
         "fieldsStep2SituationFieldsEVTInjuredLabel": "Injured",
         "fieldsStep2SituationFieldsEVTMissingDescription": "Number of people missing.",
         "fieldsStep2SituationFieldsEVTMissingLabel": "Missing",
-        "fieldsStep2SourceOfFiguresLabel": "Source (of figures)"
+        "fieldsStep2SourceOfFiguresLabel": "Source (of figures)",
+        "fieldReportFormNumericDetails": "Numeric Details (People)"
     }
 }
 

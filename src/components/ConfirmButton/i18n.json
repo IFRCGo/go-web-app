@@ -1,0 +1,9 @@
+{
+    "namespace": "common",
+    "strings": {
+        "confirmation": "Confirmation",
+        "confirmMessage": "Are you sure you want to continue?",
+        "buttonCancel": "Cancel",
+        "buttonOk": "Ok"
+    }
+}

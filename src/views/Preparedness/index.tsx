@@ -57,8 +57,7 @@ export function Component() {
                 <img
                     className={styles.approachImage}
                     src={perApproach}
-                    // FIXME: use translations
-                    alt="Per approach diagram"
+                    alt={strings.perApproachDiagramAlt}
                 />
             </Container>
             <NavigationTabList>

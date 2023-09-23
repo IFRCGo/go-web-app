@@ -1,5 +1,5 @@
 {
-    "namespace": "accountInformation",
+    "namespace": "accountNotifications",
     "strings": {
         "operationLastUpdatedLabel": "Last updated",
         "operationFollowButtonLabel": "Follow",

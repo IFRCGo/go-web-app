@@ -7,12 +7,14 @@ import {
 import { DeleteBinLineIcon } from '@ifrc-go/icons';
 import { randomString } from '@togglecorp/fujs';
 
+import useTranslation from '#hooks/useTranslation';
 import IconButton from '#components/IconButton';
 import NonFieldError from '#components/NonFieldError';
 import NumberInput from '#components/NumberInput';
 import TextInput from '#components/TextInput';
 import { type PartialPointItem } from '../../../schema';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 interface Props {
@@ -34,6 +36,7 @@ function PointInput(props: Props) {
         disabled,
     } = props;
 
+    const strings = useTranslation(i18n);
     const setFieldValue = useFormObject(index, onChange, () => ({
         client_id: randomString(),
     }));
@@ -47,8 +50,7 @@ function PointInput(props: Props) {
             <NonFieldError error={error} />
             <TextInput
                 className={styles.descriptionInput}
-                // FIXME: Add translations
-                label="Description"
+                label={strings.descriptionLabel}
                 name="description"
                 value={value?.description}
                 error={error?.description}
@@ -58,8 +60,7 @@ function PointInput(props: Props) {
             />
             <NumberInput
                 className={styles.locationInput}
-                // FIXME: Add translations
-                label="Latitude"
+                label={strings.latitudeLabel}
                 name="latitude"
                 value={value?.latitude}
                 error={error?.latitude}
@@ -69,8 +70,7 @@ function PointInput(props: Props) {
             />
             <NumberInput
                 className={styles.locationInput}
-                // FIXME: Add translations
-                label="Longitude"
+                label={strings.longitudeLabel}
                 name="longitude"
                 value={value?.longitude}
                 error={error?.longitude}
@@ -82,10 +82,8 @@ function PointInput(props: Props) {
                 className={styles.removeButton}
                 name={index}
                 variant="tertiary"
-                // FIXME: Add translations
-                title="Remove"
-                // FIXME: Add translations
-                ariaLabel="Remove"
+                title={strings.removeLabel}
+                ariaLabel={strings.removeLabel}
                 onClick={onRemove}
                 disabled={disabled}
             >

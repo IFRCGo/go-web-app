@@ -1,0 +1,10 @@
+{
+    "namespace": "common",
+    "strings": {
+        "riskAllCountries": "All countries",
+        "riskSelectHazardTypes": "Select Hazard types",
+        "riskSelectMonths": "Select months",
+        "riskNormalize": "Normalize by population",
+        "riskCopingCapacity": "Include coping capacity"
+    }
+}

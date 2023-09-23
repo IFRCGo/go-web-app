@@ -1,5 +1,5 @@
 {
-    "namespace": "CountryThreeWNationalSocietyProjects",
+    "namespace": "countryThreeWNationalSocietyProjects",
     "strings": {
         "activeDeploymentsTitle": "Countries where NS has Reported Projects",
         "targetedPopulationTitle": "Targeted Population",
@@ -21,6 +21,7 @@
         "otherNSProjects": "Projects by Other NS ({count})",
         "projects": "Projects ({count})",
         "programmeType": "Programme Type",
-        "projectStatus": "Project Status"
+        "projectStatus": "Project Status",
+        "projectDataNotAvailable": "Data not available!"
     }
 }

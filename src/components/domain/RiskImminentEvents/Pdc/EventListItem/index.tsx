@@ -4,7 +4,9 @@ import Button from '#components/Button';
 import Header from '#components/Header';
 import TextOutput from '#components/TextOutput';
 import { type RiskApiResponse } from '#utils/restRequest';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type ImminentEventResponse = RiskApiResponse<'/api/v1/pdc/'>;
@@ -25,6 +27,8 @@ function EventListItem(props: Props) {
         onExpandClick,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     return (
         <Header
             className={styles.eventListItem}
@@ -35,16 +39,14 @@ function EventListItem(props: Props) {
                     name={id}
                     onClick={onExpandClick}
                     variant="tertiary"
-                    // FIXME: use translation
-                    title="View Details"
+                    title={strings.eventListViewDetails}
                 >
                     <ChevronRightLineIcon className={styles.icon} />
                 </Button>
             )}
         >
             <TextOutput
-                // FIXME: use translation
-                label="Started on"
+                label={strings.eventListStartedOn}
                 value={start_date}
                 valueType="date"
             />

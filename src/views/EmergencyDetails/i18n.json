@@ -15,6 +15,7 @@
         "linksTitle": "Links",
         "emergencyMapTitle": "Affected Provinces",
         "exportMap": "Export",
-        "contactsTitle": "Contacts"
+        "contactsTitle": "Contacts",
+        "sourceLabel": "Source {source}"
     }
 }

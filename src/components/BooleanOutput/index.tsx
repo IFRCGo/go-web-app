@@ -2,6 +2,9 @@ import {
     _cs,
 } from '@togglecorp/fujs';
 
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 export interface Props {
@@ -17,13 +20,13 @@ function BooleanOutput(props: Props) {
         value,
     } = props;
 
+    const strings = useTranslation(i18n);
+
     let content;
     if (value === true) {
-        // FIXME: use translation
-        content = 'Yes';
+        content = strings.booleanYesLabel;
     } else if (value === false) {
-        // FIXME: use translation
-        content = 'No';
+        content = strings.booleanNoLabel;
     } else {
         content = invalidText;
     }

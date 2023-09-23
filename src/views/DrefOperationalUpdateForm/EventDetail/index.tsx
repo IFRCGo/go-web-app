@@ -231,8 +231,7 @@ function EventDetail(props: Props) {
                         contentSectionClassName={styles.imageInputContent}
                     >
                         <MultiImageWithCaptionInput
-                            // FIXME: use translation
-                            label="Select images"
+                            label={strings.drefOperationalUpdateFormSelectImages}
                             url="/api/v2/dref-files/multiple/"
                             name="images_file"
                             value={value.images_file}

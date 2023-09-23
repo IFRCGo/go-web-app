@@ -1,8 +1,10 @@
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import TextOutput from '#components/TextOutput';
+import useTranslation from '#hooks/useTranslation';
 import { type RiskApiResponse } from '#utils/restRequest';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type PdcResponse = RiskApiResponse<'/api/v1/pdc/'>;
@@ -27,6 +29,8 @@ function EventDetails(props: Props) {
         exposure,
         pending,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     interface Exposure {
         value?: number | null;
@@ -57,22 +61,19 @@ function EventDetails(props: Props) {
             headerDescription={(
                 <>
                     <TextOutput
-                        // FIXME: use translation
-                        label="Started on"
+                        label={strings.eventDetailsViewDetails}
                         value={start_date}
                         valueType="date"
                         strongValue
                     />
                     <TextOutput
-                        // FIXME: use translation
-                        label="Created on"
+                        label={strings.eventDetailsCreatedOn}
                         value={pdc_created_at}
                         valueType="date"
                         strongValue
                     />
                     <TextOutput
-                        // FIXME: use translation
-                        label="Updated on"
+                        label={strings.eventDetailsUpdatedOn}
                         value={pdc_updated_at}
                         valueType="date"
                         strongValue
@@ -85,32 +86,28 @@ function EventDetails(props: Props) {
                 <>
                     <div className={styles.exposureDetails}>
                         <TextOutput
-                            // FIXME: use translation
-                            label="People exposed / Potentially affected"
+                            label={strings.eventDetailsPeopleExposed}
                             value={popExposure?.total?.value}
                             valueType="number"
                             maximumFractionDigits={0}
                             strongValue
                         />
                         <TextOutput
-                            // FIXME: use translation
-                            label="Households exposed"
+                            label={strings.eventDetailsHouseholdExposed}
                             value={popExposure?.households?.value}
                             valueType="number"
                             maximumFractionDigits={0}
                             strongValue
                         />
                         <TextOutput
-                            // FIXME: use translation
-                            label="People in vulnerable groups exposed to the hazard"
+                            label={strings.eventDetailsPeopleGroups}
                             value={popExposure?.vulnerable?.value}
                             valueType="number"
                             maximumFractionDigits={0}
                             strongValue
                         />
                         <TextOutput
-                            // FIXME: use translation
-                            label="Value (USD) of exposed buildings"
+                            label={strings.eventDetailsValueExposed}
                             value={capitalExposure?.total?.value}
                             valueType="number"
                             maximumFractionDigits={0}
@@ -118,16 +115,14 @@ function EventDetails(props: Props) {
                             strongValue
                         />
                         <TextOutput
-                            // FIXME: use translation
-                            label="Schools exposed"
+                            label={strings.eventDetailsSchoolExposed}
                             value={capitalExposure?.school?.value}
                             valueType="number"
                             maximumFractionDigits={0}
                             strongValue
                         />
                         <TextOutput
-                            // FIXME: use translation
-                            label="Hospitals exposed"
+                            label={strings.eventHospitalsExposed}
                             value={capitalExposure?.hospital?.value}
                             valueType="number"
                             maximumFractionDigits={0}

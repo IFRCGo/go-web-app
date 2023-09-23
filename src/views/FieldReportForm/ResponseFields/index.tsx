@@ -25,9 +25,9 @@ import {
     VISIBILITY_RCRC_MOVEMENT,
     VISIBILITY_IFRC_NS,
 } from '#utils/constants';
+import { resolveToString } from '#utils/translation';
 
 import { type PartialFormValue } from '../common';
-
 import ContactInput, { type ContactValue } from './ContactInput';
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -79,7 +79,7 @@ function ResponseFields(props: Props) {
     ));
 
     // FIXME: use memo
-    const visibilityDescriptioMapping: { [key in Visibility]: string } = {
+    const visibilityDescriptionMapping: { [key in Visibility]: string } = {
         [VISIBILITY_PUBLIC]: strings.fieldReportConstantVisibilityPublicTooltipTitle,
         [VISIBILITY_RCRC_MOVEMENT]: strings.fieldReportConstantVisibilityRCRCMovementTooltipTitle,
         // eslint-disable-next-line max-len
@@ -351,8 +351,13 @@ function ResponseFields(props: Props) {
                             <p
                                 key={option.key}
                             >
-                                {/* FIXME: use translation */}
-                                {`${option.value} - ${visibilityDescriptioMapping[option.key]}`}
+                                {resolveToString(
+                                    strings.fieldReportFormVisibility,
+                                    {
+                                        visibilityOptions: option.value,
+                                        visibility: visibilityDescriptionMapping[option.key],
+                                    },
+                                )}
                             </p>
                         ))
                     )}

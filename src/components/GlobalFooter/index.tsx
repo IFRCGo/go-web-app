@@ -61,7 +61,7 @@ function GlobalFooter(props: Props) {
             </div>
             <div className={styles.section}>
                 <Heading>
-                    Find out more
+                    {strings.globalFindOut}
                 </Heading>
                 <div className={styles.subSection}>
                     <Link
@@ -86,7 +86,7 @@ function GlobalFooter(props: Props) {
             </div>
             <div className={styles.section}>
                 <Heading>
-                    Helpful links
+                    {strings.globalHelpfulLinks}
                 </Heading>
                 <div className={styles.subSection}>
                     <Link

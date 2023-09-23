@@ -1,10 +1,14 @@
+import { isDefined } from '@togglecorp/fujs';
+
 import Button from '#components/Button';
 import Modal from '#components/Modal';
 import UserSearchMultiSelectInput, { type User } from '#components/domain/UserSearchMultiSelectInput';
 import useAlert from '#hooks/useAlert';
 import useInputState from '#hooks/useInputState';
 import { useLazyRequest, useRequest } from '#utils/restRequest';
-import { isDefined } from '@togglecorp/fujs';
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 
 interface Props {
     drefId: number;
@@ -18,6 +22,8 @@ function DrefShareModal(props: Props) {
         onCancel,
         onSuccess,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const alert = useAlert();
     const [users, setUsers] = useInputState<number[]>([]);
@@ -35,8 +41,7 @@ function DrefShareModal(props: Props) {
         }),
         onSuccess: () => {
             alert.show(
-                // FIXME: use translation
-                'Successfully updated sharing preferences!',
+                strings.drefShareSuccessfully,
                 { variant: 'success' },
             );
             onSuccess();
@@ -60,18 +65,15 @@ function DrefShareModal(props: Props) {
 
     return (
         <Modal
-            // FIXME: use translations
-            heading="Share DREF"
-            // FIXME: use translations
-            headerDescription="Add or remove users you with whom you want to share the DREF."
+            heading={strings.drefShareTitle}
+            headerDescription={strings.drefShareDescription}
             onClose={onCancel}
             footerActions={(
                 <Button
                     name={null}
                     onClick={triggerUpdate}
                 >
-                    {/* FIXME: use translations */}
-                    Update
+                    {strings.drefShareUpdate}
                 </Button>
             )}
             size="sm"

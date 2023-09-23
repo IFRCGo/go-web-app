@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "rawButtonGoTo":"Go to",
+        "rawButtonGoToPage":"Go to page"
+    }
+}

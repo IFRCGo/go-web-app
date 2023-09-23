@@ -21,6 +21,10 @@
         "drefFormSubmissionNameLabel": "Name",
         "drefFormSubmissionTitleLabel": "Title",
         "drefFromSubmissionEmailLabel": "Email",
-        "drefFromSubmissionPhoneNumberLabel": "Phone Number"
+        "drefFromSubmissionPhoneNumberLabel": "Phone Number",
+        "drefFormFocalPointNameLabel": "Name",
+        "drefFormFocalPointTitleLabel": "Title",
+        "drefFromFocalPointEmailLabel": "Email",
+        "drefFromFocalPointPhoneNumberLabel": "Phone Number"
     }
 }

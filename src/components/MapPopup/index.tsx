@@ -1,9 +1,12 @@
 import { MapPopup as BasicMapPopup } from '@togglecorp/re-map';
 import { CloseLineIcon } from '@ifrc-go/icons';
 import { _cs } from '@togglecorp/fujs';
+
 import Container, { Props as ContainerProps } from '#components/Container';
+import useTranslation from '#hooks/useTranslation';
 import Button from '#components/Button';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 const popupOptions: mapboxgl.PopupOptions = {
@@ -31,6 +34,8 @@ function MapPopup(props: Props) {
         ...containerProps
     } = props;
 
+    const strings = useTranslation(i18n);
+
     return (
         <BasicMapPopup
             coordinates={coordinates}
@@ -54,8 +59,7 @@ function MapPopup(props: Props) {
                             name={undefined}
                             variant="tertiary"
                             onClick={onCloseButtonClick}
-                            // FIXME: use translations
-                            title="Close"
+                            title={strings.messagePopupClose}
                         >
                             <CloseLineIcon />
                         </Button>

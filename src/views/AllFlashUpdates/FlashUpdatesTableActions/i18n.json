@@ -1,5 +1,5 @@
 {
-    "namespace": "flashUpdatesForms",
+    "namespace": "allFlashUpdates",
     "strings": {
         "flashUpdateViewDetails": "View Details",
         "flashUpdateEdit": "Edit"

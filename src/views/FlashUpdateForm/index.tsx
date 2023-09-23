@@ -474,8 +474,7 @@ export function Component() {
                                 disabled={activeTab !== 'focal' || submitPending}
                                 variant="secondary"
                             >
-                                {/* FIXME: Use translations */}
-                                Submit
+                                {strings.flashUpdateSubmitButtonLabel}
                             </Button>
                         </div>
                     </>

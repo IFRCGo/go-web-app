@@ -1,0 +1,18 @@
+{
+    "namespace": "threeWActivityForm",
+    "strings": {
+        "genderAgeHeader": "Gender/Age",
+        "zeroOneHeader": "0-1",
+        "twoFiveHeader": "2-5",
+        "sixTwelveHeader": "6-12",
+        "thirteenSeventeenHeader": "13-17",
+        "eighteenFiftyNineHeader": "18-59",
+        "sixtyPlusHeader": "60+",
+        "unknownHeader": "Unknown",
+        "totalHeader": "Total",
+        "maleHeader": "Male",
+        "femaleHeader": "Female",
+        "otherHeader": "Other",
+        "disaggregationSwitchLabel": "Disaggregation for disabled available"
+    }
+}

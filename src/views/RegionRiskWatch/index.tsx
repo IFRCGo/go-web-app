@@ -11,11 +11,14 @@ import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
 import NavigationTabList from '#components/NavigationTabList';
 import NavigationTab from '#components/NavigationTab';
 import { RegionOutletContext } from '#utils/outletContext';
+import useTranslation from '#hooks/useTranslation';
 
+import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 // eslint-disable-next-line import/prefer-default-export
 export function Component() {
+    const strings = useTranslation(i18n);
     const { regionId } = useParams<{ regionId: string }>();
     const regionOutletContext = useOutletContext<RegionOutletContext>();
     const lang = useCurrentLanguage();
@@ -33,8 +36,7 @@ export function Component() {
                 className={styles.wikiLink}
                 external
                 href={`https://go-wiki.ifrc.org/${lang}/user_guide/risk_module`}
-                // FIXME: use translations
-                title="Wiki"
+                title={strings.regionRiskWatchLinkTitle}
             >
                 <WikiHelpSectionLineIcon />
             </Link>
@@ -45,8 +47,7 @@ export function Component() {
                         regionId: numericRegionId,
                     }}
                 >
-                    {/* FIXME: use translation */}
-                    Imminent
+                    {strings.regionRiskWatchImminent}
                 </NavigationTab>
                 <NavigationTab
                     to="regionSeasonalRiskWatch"
@@ -54,8 +55,7 @@ export function Component() {
                         regionId: numericRegionId,
                     }}
                 >
-                    {/* FIXME: use translation */}
-                    Seasonal
+                    {strings.regionRiskWatchSeasonal}
                 </NavigationTab>
             </NavigationTabList>
             <Outlet context={regionOutletContext} />

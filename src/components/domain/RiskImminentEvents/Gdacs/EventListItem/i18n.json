@@ -1,0 +1,7 @@
+{
+    "namespace": "common",
+    "strings": {
+        "gdacsEventViewDetails": "View Details",
+        "gdacsEventStartedOn": "Started On"
+    }
+}

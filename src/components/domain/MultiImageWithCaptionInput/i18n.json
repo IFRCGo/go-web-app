@@ -1,0 +1,8 @@
+{
+    "namespace": "common",
+    "strings": {
+        "removeButtonTitle": "Remove",
+        "imagePreviewAlt": "preview",
+        "enterCaptionPlaceholder": "Enter Caption"
+    }
+}

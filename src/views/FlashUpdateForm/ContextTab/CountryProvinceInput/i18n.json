@@ -2,6 +2,7 @@
     "namespace": "flashUpdateForm",
     "strings": {
         "flashUpdateFormContextCountryLabel":"Select a country",
-        "flashUpdateFormContextProvinceLabel":"Select region / province"
+        "flashUpdateFormContextProvinceLabel":"Select region / province",
+        "flashUpdateRemove": "Remove"
     }
 }

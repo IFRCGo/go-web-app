@@ -1,0 +1,10 @@
+{
+    "namespace": "flashUpdateDetails",
+    "strings": {
+        "flashUpdateSharedSuccessfully": "Flash Update shared successfully!",
+        "flashUpdateShareTitle": "Share Flash Update",
+        "flashUpdateShareButtonLabel": "Share",
+        "flashUpdateSelectDonors": "Select Donors",
+        "flashUpdateSelectDonorsGroup": "Select Donor Groups"
+    }
+}

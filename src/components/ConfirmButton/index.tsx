@@ -1,6 +1,9 @@
 import { useState, useCallback } from 'react';
 import Button, { Props as ButtonProps } from '#components/Button';
 import Modal from '#components/Modal';
+import useTranslation from '#hooks/useTranslation';
+
+import i18n from './i18n.json';
 
 export interface Props<NAME> extends ButtonProps<NAME> {
     confirmMessage?: React.ReactNode;
@@ -10,11 +13,11 @@ export interface Props<NAME> extends ButtonProps<NAME> {
 }
 
 function ConfirmButton<NAME>(props: Props<NAME>) {
+    const strings = useTranslation(i18n);
+
     const {
-        // FIXME: use translations
-        confirmHeading = 'Confirmation',
-        // FIXME: use translations
-        confirmMessage = 'Are you sure you want to continue?',
+        confirmHeading = strings.confirmation,
+        confirmMessage = strings.confirmMessage,
         name,
         onConfirm,
         onClick,
@@ -60,17 +63,15 @@ function ConfirmButton<NAME>(props: Props<NAME>) {
                                 name={false}
                                 onClick={setShowConfirmation}
                                 variant="secondary"
-                                // FIXME: use translations
                             >
-                                Cancel
+                                {strings.buttonCancel}
                             </Button>
                             <Button
                                 name={name}
                                 variant="primary"
                                 onClick={handleConfirmClick}
-                                // FIXME: use translations
                             >
-                                Ok
+                                {strings.buttonOk}
                             </Button>
                         </>
                     )}

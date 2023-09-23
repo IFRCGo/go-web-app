@@ -73,27 +73,6 @@ interface ClickedPoint {
 
 type NSProjectGeoJson = GeoJSON.FeatureCollection<GeoJSON.Point, GeoJsonProps>;
 
-function getPointType(projectStat: NonNullable<NsProjectsResponse>[number]) {
-    const {
-        operation_types,
-        operation_types_display,
-    } = projectStat;
-
-    // FIXME: what if operation_types length has zero length
-    if (operation_types?.length === 1) {
-        return {
-            id: operation_types[0],
-            title: operation_types_display?.[0] ?? '?',
-        };
-    }
-
-    return {
-        id: OPERATION_TYPE_MULTI,
-        // FIXME: use translation
-        title: 'Multiple types',
-    };
-}
-
 function getGeoJson(
     countries: CountryListItem[],
     nsProjectsMap: Record<number, {
@@ -147,6 +126,26 @@ function GlobalThreeWMap(props: Props) {
 
     const strings = useTranslation(i18n);
 
+    const getPointType = useCallback((projectStat: NonNullable<NsProjectsResponse>[number]) => {
+        const {
+            operation_types,
+            operation_types_display,
+        } = projectStat;
+
+        // FIXME: what if operation_types length has zero length
+        if (operation_types?.length === 1) {
+            return {
+                id: operation_types[0],
+                title: operation_types_display?.[0] ?? '?',
+            };
+        }
+
+        return {
+            id: OPERATION_TYPE_MULTI,
+            title: strings.multipleTypesLegend,
+        };
+    }, [strings]);
+
     const {
         deployments_project_operation_type: operationTypeOptions,
     } = useGlobalEnums();
@@ -179,7 +178,7 @@ function GlobalThreeWMap(props: Props) {
                 }),
             )
         ),
-        [projectList],
+        [projectList, getPointType],
     );
 
     const [
@@ -349,18 +348,15 @@ function GlobalThreeWMap(props: Props) {
                     <div className={styles.meta}>
                         <TextOutput
                             value={selectedNsProjectStats.ongoing_projects}
-                            // FIXME: use translations
-                            description="Ongoing Projects"
+                            description={strings.ongoingProjectsMap}
                         />
                         <TextOutput
                             value={selectedNsProjectStats.target_total}
-                            // FIXME: use translations
-                            description="Targeted Population"
+                            description={strings.mapTargetedPopulation}
                         />
                     </div>
                     <Container
-                        // FIXME: use translations
-                        heading="Top Project Sectors"
+                        heading={strings.mapTopProjectSectors}
                         headingLevel={4}
                     >
                         <BarChart

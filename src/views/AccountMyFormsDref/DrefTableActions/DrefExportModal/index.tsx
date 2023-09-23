@@ -1,11 +1,15 @@
 import { useMemo, useState } from 'react';
 
+import { isDefined, isNotDefined } from '@togglecorp/fujs';
+
 import Message from '#components/Message';
 import Modal from '#components/Modal';
-import { useRequest } from '#utils/restRequest';
-import { isDefined, isNotDefined } from '@togglecorp/fujs';
-import { type components } from '#generated/types';
 import Link from '#components/Link';
+import { type components } from '#generated/types';
+import useTranslation from '#hooks/useTranslation';
+import { useRequest } from '#utils/restRequest';
+
+import i18n from './i18n.json';
 
 type ExportTypeEnum = components<'read'>['schemas']['ExportTypeEnum'];
 type ExportStatusEnum = components<'read'>['schemas']['Status1d2Enum'];
@@ -26,6 +30,8 @@ function DrefExportModal(props: Props) {
         onCancel,
         applicationType,
     } = props;
+
+    const strings = useTranslation(i18n);
 
     const [exportId, setExportId] = useState<number | undefined>();
 
@@ -84,22 +90,19 @@ function DrefExportModal(props: Props) {
 
     return (
         <Modal
-            // FIXME: use translations
-            heading="Export DREF"
+            heading={strings.drefExportTitle}
             onClose={onCancel}
         >
             {pendingExportTrigger && (
                 <Message
                     pending
-                    // FIXME: use translations
-                    title="Preparing for export..."
+                    title={strings.drefPreparingExport}
                 />
             )}
             {(pendingExportStatus || exportStatusResponse?.status === EXPORT_STATUS_PENDING) && (
                 <Message
                     pending
-                    // FIXME: use translations
-                    title="Waiting for the export to complete..."
+                    title={strings.drefWaitingExport}
                 />
             )}
             {(exportStatusResponse?.status === EXPORT_STATUS_ERRORED
@@ -107,8 +110,7 @@ function DrefExportModal(props: Props) {
                 || isDefined(exportStatusError)
             ) && (
                 <Message
-                    // FIXME: use translations
-                    title="Export failed!"
+                    title={strings.drefExportFailed}
                     description={exportTriggerError?.value.messageForNotification
                             ?? exportStatusError?.value.messageForNotification}
                 />
@@ -117,18 +119,15 @@ function DrefExportModal(props: Props) {
                 && exportStatusResponse.status === EXPORT_STATUS_COMPLETED
                 && isDefined(exportStatusResponse.pdf_file) && (
                 <Message
-                    // FIXME: use translations
-                    title="Export completed successfully"
-                    // FIXME: use translations
-                    description="Click on the download link below!"
+                    title={strings.drefExportSuccessfully}
+                    description={strings.drefClickDownloadLink}
                     actions={(
                         <Link
                             variant="secondary"
                             href={exportStatusResponse?.pdf_file}
                             external
                         >
-                            {/* FIXME: use translations */}
-                            Download PDF
+                            {strings.drefDownloadPDF}
                         </Link>
                     )}
                 />

@@ -266,8 +266,7 @@ export function Component() {
         body: (ctx: ActivityRequestPostBody) => ctx,
         onSuccess: (response) => {
             alert.show(
-                // FIXME: Add translations
-                'Successfully created a response activity.',
+                strings.alertMessageSuccessful,
                 { variant: 'success' },
             );
             navigate(
@@ -649,10 +648,8 @@ export function Component() {
                         withFallbackError
                     />
                     <InputSection
-                        // FIXME: Add translation
-                        title="IFRC supported Operation"
-                        // FIXME: Add translation
-                        description="If operation does not appear in the dropdown, the operation does not yet exist in GO. In that case, please submit a new Field Report to generate the operation, then come back to this form"
+                        title={strings.supportedOperationTitle}
+                        description={strings.supportedOperationDescription}
                         withAsteriskOnTitle
                     >
                         <ActivityEventSearchSelectInput
@@ -666,17 +663,14 @@ export function Component() {
                         />
                     </InputSection>
                     <InputSection
-                        // FIXME: Add translation
-                        title="Country and Province/Region"
-                        // FIXME: Add translation
-                        description="Select areas where activities reported in this form are occurring"
+                        title={strings.countryProvinceTitle}
+                        description={strings.countryProvinceDescription}
                         numPreferredColumns={2}
                         withAsteriskOnTitle
                     >
                         <CountrySelectInput
                             error={error?.country}
-                            // FIXME: Add translation
-                            label="Country"
+                            label={strings.countryLabel}
                             name="country"
                             onChange={handleProjectCountryChange}
                             value={value.country}
@@ -685,8 +679,7 @@ export function Component() {
                         />
                         <DistrictSearchMultiSelectInput
                             error={getErrorString(error?.districts)}
-                            // FIXME: Add translation
-                            label="Region/Province"
+                            label={strings.regionProvinceLabel}
                             name="districts"
                             countryId={value?.country}
                             onChange={setFieldValue}
@@ -697,19 +690,14 @@ export function Component() {
                         />
                     </InputSection>
                     <InputSection
-                        // FIXME: Add translation
-                        title="Estimated Start and End Dates"
+                        title={strings.estimateDateTitle}
                         description={(
                             <>
                                 <p>
-                                    {/* FIXME: Add translation */}
-                                    Select the date when the work on the activity begins.
+                                    {strings.estimateDateDescriptionOne}
                                 </p>
                                 <p>
-                                    {/* FIXME: Add translation */}
-                                    The project status (planned and ongoing) is automatically
-                                    defined by the entered dates. If there is no End Date,
-                                    it can be left empty
+                                    {strings.estimateDateDescriptionTwo}
                                 </p>
                             </>
                         )}
@@ -717,8 +705,7 @@ export function Component() {
                     >
                         <DateInput
                             name="start_date"
-                            // FIXME: Add translation
-                            label="Start date"
+                            label={strings.startDateLabel}
                             value={value?.start_date}
                             disabled={disabled}
                             error={error?.start_date}
@@ -727,8 +714,7 @@ export function Component() {
                         />
                         <DateInput
                             name="end_date"
-                            // FIXME: Add translation
-                            label="End date"
+                            label={strings.endDateLabel}
                             value={value?.end_date}
                             disabled={disabled}
                             error={error?.end_date}
@@ -737,8 +723,7 @@ export function Component() {
                         />
                         <TextInput
                             className={styles.statusDisplay}
-                            // FIXME: Add translation
-                            label="Project Status"
+                            label={strings.projectStatusLabel}
                             value={isDefined(value?.status) ? projectStatusOptionsMap?.[value?.status] : '--'}
                             readOnly
                             name={undefined}
@@ -748,8 +733,7 @@ export function Component() {
                         />
                     </InputSection>
                     <InputSection
-                        // FIXME: Add translation
-                        title="Activity Description"
+                        title={strings.activityDescriptionTitle}
                         withAsteriskOnTitle
                     >
                         <TextInput
@@ -758,13 +742,11 @@ export function Component() {
                             disabled={disabled}
                             error={error?.title}
                             onChange={setFieldValue}
-                            // FIXME: Add translation
-                            placeholder="Enter brief description"
+                            placeholder={strings.enterDescriptionPlaceholder}
                         />
                     </InputSection>
                     <InputSection
-                        // FIXME: Add translation
-                        title="Who is Leading the Activity?"
+                        title={strings.leadingActivityTitle}
                         withAsteriskOnTitle
                     >
                         <SegmentInput
@@ -781,10 +763,8 @@ export function Component() {
                     {value?.activity_lead === 'national_society' && (
                         <>
                             <InputSection
-                                // FIXME: Add translation
-                                title="National Society"
-                                // FIXME: Add translation
-                                description="Which RCRC actor (NS/IFRC/ICRC) is conducting the activity?"
+                                title={strings.nationalSocietyInputTitle}
+                                description={strings.nationalSocietyInputDescription}
                                 withAsteriskOnTitle
                             >
                                 <NationalSocietySelectInput
@@ -796,17 +776,14 @@ export function Component() {
                                 />
                             </InputSection>
                             <InputSection
-                                // FIXME: Add translation
-                                title="Contact Information"
-                                // FIXME: Add translation
-                                description="Who should be contacted for any coordination matters related to this response activity?"
+                                title={strings.contactInformationTitle}
+                                description={strings.contactInformationDescription}
                                 numPreferredColumns={3}
                                 withAsteriskOnTitle
                             >
                                 <TextInput
                                     name="reporting_ns_contact_name"
-                                    // FIXME: Add translation
-                                    label="Name"
+                                    label={strings.nsNameLabel}
                                     value={value?.reporting_ns_contact_name}
                                     disabled={disabled}
                                     onChange={setFieldValue}
@@ -815,8 +792,7 @@ export function Component() {
                                 />
                                 <TextInput
                                     name="reporting_ns_contact_role"
-                                    // FIXME: Add translation
-                                    label="Role"
+                                    label={strings.nsRoleLabel}
                                     value={value?.reporting_ns_contact_role}
                                     disabled={disabled}
                                     onChange={setFieldValue}
@@ -825,8 +801,7 @@ export function Component() {
                                 />
                                 <TextInput
                                     name="reporting_ns_contact_email"
-                                    // FIXME: Add translation
-                                    label="Email"
+                                    label={strings.nsEmailLabel}
                                     value={value?.reporting_ns_contact_email}
                                     disabled={disabled}
                                     onChange={setFieldValue}
@@ -838,10 +813,8 @@ export function Component() {
                     )}
                     {value?.activity_lead === 'deployed_eru' && (
                         <InputSection
-                            // FIXME: Add translation
-                            title="Name of ERU"
-                            // FIXME: Add translation
-                            description="Which ERU is conducting the response activity?"
+                            title={strings.eruDeployedTitle}
+                            description={strings.eruDeployedDescription}
                             withAsteriskOnTitle
                         >
                             <RadioInput
@@ -859,15 +832,12 @@ export function Component() {
                         </InputSection>
                     )}
                     <Container
-                        // FIXME: Add translation
-                        heading="Activity Reporting"
+                        heading={strings.activityReportingheading}
                         childrenContainerClassName={styles.sectorsContainer}
                     >
                         <InputSection
-                            // FIXME: Add translation
-                            title="Types of Actions Taken"
-                            // FIXME: Add translation
-                            description="Select the actions that are being across all of the locations tagged above"
+                            title={strings.actionTakenTitle}
+                            description={strings.actionTakenDescription}
                         >
                             <NonFieldError
                                 error={getErrorObject(error?.activities)}
@@ -910,13 +880,12 @@ export function Component() {
                             variant="secondary"
                             disabled={disabled}
                         >
-                            Submit
+                            {strings.submitButton}
                         </Button>
                     </div>
                     {submitConfirmationShown && (
                         <Modal
-                            // FIXME: Use translations
-                            heading="3W Monitoring Form"
+                            heading={strings.monitoring3wHeading}
                             className={styles.confirmModal}
                             onClose={hideSubmitConfirmation}
                             footerClassName={styles.footer}
@@ -929,12 +898,10 @@ export function Component() {
                                         onClick={handleFinalSubmitClick}
                                         disabled={disabled}
                                     >
-                                        {/* FIXME: Use translations */}
-                                        Submit
+                                        {strings.submitButton}
                                     </Button>
                                     <div className={styles.note}>
-                                        {/* FIXME: Use translations */}
-                                        If you have any questions, contact the IM team &nbsp;
+                                        {strings.noteHeading}
                                         <a
                                             href={`mailto:${selectedEventDetail?.emergency_response_contact_email ?? 'im@ifrc.org'}`}
                                             target="_blank"
@@ -948,22 +915,19 @@ export function Component() {
                             )}
                         >
                             <div className={styles.message}>
-                                {/* FIXME: Use translations */}
-                                You are about to submit your entry for 3W for &nbsp;
+                                {strings.messageHeading}
                                 <span className={styles.eventName}>
                                     {selectedEventDetail?.name}
                                 </span>
-                                {/* FIXME: Use translations */}
-                                &nbsp;emergency.
-                                &nbsp;Please review your selections below before submission.
+                                {strings.messageEmergencyDescription}
+                                {strings.messageEmergencyDescriptionTwo}
                             </div>
                             <div className={styles.meta}>
                                 <TextOutput
                                     className={styles.metaItem}
                                     labelClassName={styles.metaLabel}
                                     valueClassName={styles.metaValue}
-                                    // FIXME: Use translations
-                                    label="Country"
+                                    label={strings.countryLabel}
                                     value={selectedCountryDetail?.name}
                                     strongValue
                                 />
@@ -971,8 +935,7 @@ export function Component() {
                                     className={styles.metaItem}
                                     labelClassName={styles.metaLabel}
                                     valueClassName={styles.metaValue}
-                                    // FIXME: Use translations
-                                    label="Start date"
+                                    label={strings.startDateLabel}
                                     value={value?.start_date}
                                     valueType="date"
                                     strongValue
@@ -981,8 +944,7 @@ export function Component() {
                                     className={styles.metaItem}
                                     labelClassName={styles.metaLabel}
                                     valueClassName={styles.metaValue}
-                                    // FIXME: Use translations
-                                    label="Who is leading the Activity?"
+                                    label={strings.leadingActivityTitle}
                                     strongValue
                                     value={(value?.activity_lead === 'deployed_eru') ? (
                                         selectedDeployedEruLabel
@@ -994,8 +956,7 @@ export function Component() {
                                     className={styles.metaItem}
                                     labelClassName={styles.metaLabel}
                                     valueClassName={styles.sectorsList}
-                                    // FIXME: Use translations
-                                    label="Actions Taken"
+                                    label={strings.actionTakenLabel}
                                     value={value?.sectors?.map((sectorId) => (
                                         <div
                                             className={styles.sector}

@@ -1,0 +1,9 @@
+{
+    "namespace": "common",
+    "strings": {
+        "listFailedToFetch": "Failed to fetch data!",
+        "listEmptyMessage": "Data is not available!",
+        "listPendingMessage": "Fetching data...",
+        "listFilteredMessage": "Data is not available for the selected filter!"
+    }
+}

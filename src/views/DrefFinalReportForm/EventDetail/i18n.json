@@ -10,6 +10,7 @@
         "drefFormSlowEventDate": "Date when the trigger was met",
         "drefFormUploadPhotos": "Upload photos (e.g. impact of the events, NS in the field, assessments)",
         "drefFormUploadPhotosLimitation": "Add maximum 2 photos",
-        "drefFormWhatWhereWhen": "What happened, where and when?"
+        "drefFormWhatWhereWhen": "What happened, where and when?",
+        "drefFinalReportFormSelectImages": "Select images"
     }
 }

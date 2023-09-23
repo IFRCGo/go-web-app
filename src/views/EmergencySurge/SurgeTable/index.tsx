@@ -113,9 +113,8 @@ export default function SurgeTable(props: Props) {
                     const startDate = new Date(item.start);
                     const nowMs = new Date().getTime();
 
-                    // FIXME: use translations
                     const duration = startDate.getTime() < nowMs
-                        ? 'Immediately'
+                        ? strings.emergencySurgeImmediately
                         : startDate.toLocaleString();
 
                     return duration;
