@@ -1,0 +1,15 @@
+{
+    "namespace": "common",
+    "strings": {
+        "search": "Search",
+        "country": "Country",
+        "district": "District",
+        "region": "Region",
+        "surgeDeployment": "Surge Deployment",
+        "surgeAlert": "Surge Alert",
+        "rrDeployment": "RR Deployment",
+        "emergency": "Emergency",
+        "project": "3W Project",
+        "report": "Field Report"
+    }
+}

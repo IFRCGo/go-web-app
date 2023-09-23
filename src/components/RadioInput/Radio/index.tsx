@@ -76,7 +76,6 @@ function Radio<N, IN>(props: Props<N, IN>) {
                 className,
             )}
         >
-            {content}
             <input
                 className={styles.input}
                 type="radio"
@@ -86,6 +85,7 @@ function Radio<N, IN>(props: Props<N, IN>) {
                 disabled={disabled}
                 readOnly
             />
+            {content}
         </label>
     );
 }
