@@ -166,7 +166,7 @@ export function Component() {
                             <IconButton
                                 name={undefined}
                                 onClick={handleFullScreenToggleClick}
-                                // FIXME: Add translations
+                                // FIXME: use translations
                                 title="Close"
                                 variant="secondary"
                                 ariaLabel="Close"
@@ -174,11 +174,8 @@ export function Component() {
                                 <CloseLineIcon />
                             </IconButton>
                         )}
-                        headerDescription={(
-                            <div className={styles.keyFigureList}>
-                                {infoBarElements}
-                            </div>
-                        )}
+                        headerDescriptionContainerClassName={styles.keyFigureList}
+                        headerDescription={infoBarElements}
                     >
                         <ActiveOperationMap
                             variant="global"

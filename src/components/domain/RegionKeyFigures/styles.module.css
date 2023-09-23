@@ -1,0 +1,5 @@
+.key-figure {
+    border-radius: var(--go-ui-border-radius-lg);
+    background-color: var(--go-ui-color-white);
+    height: 100%;
+}
