@@ -13,6 +13,11 @@
             justify-content: center;
             gap: var(--go-ui-spacing-md);
         }
+
+        .country-select {
+            align-items: center;
+        }
+        
     }
 
     .geo-select-content {
