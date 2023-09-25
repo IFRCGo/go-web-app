@@ -12,6 +12,16 @@
         "imminentEventsEarthquake": "Earthquake",
         "imminentEventsDrought": "Drought",
         "imminentEventsWildfire": "Wildfire",
-        "imminentEventLinkTitle": "Wiki"
+        "imminentEventLinkTitle": "Wiki",
+        "pdcTooltipTitle": "Source: Pacific Disaster Center",
+        "pdcTooltipDescription": "These impacts are produced by the Pacific Disaster Center's All-hazards Impact Model (AIM) 3.0. Click {here} for more information about the model and its inputs.",
+        "here": "here",
+        "wfpAdamTitle": "Source: WFP ADAM",
+        "wfpAdamDescription": "These data points are recieved from the WFP ADAM, which performs a 24/7 automated data harvesting, analysis and mapping of natural hazards events. Click {here} for more information.",
+        "gdacsTitle": "Source: GDACS",
+        "gdacsDescription": "Click {here} for more information about the model and its inputs.",
+        "meteoSwissTitle": "Source: MeteoSwiss",
+        "meteoSwissDescriptionOne": "This impact estimates are produced by MeteoSwiss HydroMet Impact Outlook. © 2022 MeteoSwiss. All Rights reserved.",
+        "meteoSwissDescriptionTwo": "Disclaimer: HydroMet Impact Outlook is in a pilot phase. MeteoSwiss makes no warranty with respect to the correctness or completeness of this information. This information does not replace the advice and guidance provided by the official meteorological and hydrological services for these regions. For further information click {here}."
     }
 }

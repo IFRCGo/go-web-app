@@ -36,3 +36,16 @@
         flex-shrink: unset;
     }
 }
+
+.popup {
+    .description {
+        display: inline;
+        .description-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--go-ui-spacing-xs);
+        }
+    }
+}
+
+

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import type { LngLatBoundsLike } from 'mapbox-gl';
 import { _cs } from '@togglecorp/fujs';
 import {
@@ -10,14 +10,15 @@ import {
     WikiHelpSectionLineIcon,
 } from '@ifrc-go/icons';
 
-import Link from '#components/Link';
-import RadioInput from '#components/RadioInput';
-import { stringLabelSelector } from '#utils/selectors';
-import { hazardTypeToColorMap } from '#utils/domain/risk';
-import { type components } from '#generated/riskTypes';
 import Container from '#components/Container';
-import useTranslation from '#hooks/useTranslation';
+import InfoPopup from '#components/InfoPopup';
+import Link from '#components/Link';
+import Radio from '#components/RadioInput/Radio';
 import useCurrentLanguage from '#hooks/domain/useCurrentLanguage';
+import useTranslation from '#hooks/useTranslation';
+import { hazardTypeToColorMap } from '#utils/domain/risk';
+import { resolveToComponent } from '#utils/translation';
+import { type components } from '#generated/riskTypes';
 
 import Pdc from './Pdc';
 import WfpAdam from './WfpAdam';
@@ -27,10 +28,6 @@ import i18n from './i18n.json';
 import styles from './styles.module.css';
 
 type ActiveView = 'pdc' | 'wfpAdam' | 'gdacs' | 'meteoSwiss';
-type ViewOption = { key: ActiveView, label: string };
-function viewKeySelector(option: ViewOption) {
-    return option.key;
-}
 
 type HazardType = components<'read'>['schemas']['HazardTypeEnum'];
 
@@ -56,16 +53,6 @@ function RiskImminentEvents(props: Props) {
 
     const strings = useTranslation(i18n);
     const lang = useCurrentLanguage();
-
-    const viewOptions = useMemo<Array<ViewOption>>(
-        () => [
-            { key: 'pdc', label: strings.imminentEventsSourcePdcLabel },
-            { key: 'wfpAdam', label: strings.imminentEventsSourceWfpAdamLabel },
-            { key: 'gdacs', label: strings.imminentEventsSourceGdacsLabel },
-            { key: 'meteoSwiss', label: strings.imminentEventsSourceMeteoSwissLabel },
-        ],
-        [strings],
-    );
 
     const riskHazards: Array<{
         key: HazardType,
@@ -125,6 +112,10 @@ function RiskImminentEvents(props: Props) {
         [activeView],
     );
 
+    const handleRadioClick = useCallback((key: ActiveView) => {
+        setActiveView(key);
+    }, []);
+
     return (
         <Container
             className={_cs(styles.riskImminentEvents, className)}
@@ -165,14 +156,119 @@ function RiskImminentEvents(props: Props) {
             )}
             footerActionsContainerClassName={styles.footerActions}
             footerActions={(
-                <RadioInput
-                    name={undefined}
-                    value={activeView}
-                    options={viewOptions}
-                    onChange={setActiveView}
-                    labelSelector={stringLabelSelector}
-                    keySelector={viewKeySelector}
-                />
+                <>
+                    <Radio
+                        name="pdc"
+                        value={activeView === 'pdc'}
+                        onClick={handleRadioClick}
+                        label={strings.imminentEventsSourcePdcLabel}
+                    />
+                    <InfoPopup
+                        className={styles.popup}
+                        title={strings.pdcTooltipTitle}
+                        popupClassName={styles.popup}
+                        descriptionClassName={styles.description}
+                        description={resolveToComponent(
+                            strings.pdcTooltipDescription,
+                            {
+                                here: (
+                                    <Link
+                                        href="https://www.pdc.org/wp-content/uploads/AIM-3-Fact-Sheet-Screen-1.pdf"
+                                        variant="tertiary"
+                                        external
+                                    >
+                                        {strings.here}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    />
+                    <Radio
+                        name="wfpAdam"
+                        value={activeView === 'wfpAdam'}
+                        onClick={handleRadioClick}
+                        label={strings.imminentEventsSourceWfpAdamLabel}
+                    />
+                    <InfoPopup
+                        title={strings.wfpAdamTitle}
+                        popupClassName={styles.popup}
+                        descriptionClassName={styles.description}
+                        description={resolveToComponent(
+                            strings.wfpAdamDescription,
+                            {
+                                here: (
+                                    <Link
+                                        href="https://gis.wfp.org/adam/"
+                                        variant="tertiary"
+                                        external
+                                    >
+                                        {strings.here}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    />
+                    <Radio
+                        name="gdacs"
+                        value={activeView === 'gdacs'}
+                        onClick={handleRadioClick}
+                        label={strings.imminentEventsSourceGdacsLabel}
+                    />
+                    <InfoPopup
+                        title={strings.gdacsTitle}
+                        popupClassName={styles.popup}
+                        descriptionClassName={styles.description}
+                        description={resolveToComponent(
+                            strings.gdacsDescription,
+                            {
+                                here: (
+                                    <Link
+                                        href="https://www.gdacs.org/default.aspx"
+                                        variant="tertiary"
+                                        external
+                                    >
+                                        {strings.here}
+                                    </Link>
+                                ),
+                            },
+                        )}
+                    />
+                    <Radio
+                        name="meteoSwiss"
+                        value={activeView === 'meteoSwiss'}
+                        onClick={handleRadioClick}
+                        label={strings.imminentEventsSourceMeteoSwissLabel}
+                    />
+                    <InfoPopup
+                        title={strings.meteoSwissTitle}
+                        popupClassName={styles.popup}
+                        descriptionClassName={styles.description}
+                        description={(
+                            <div className={styles.descriptionContent}>
+                                <div>
+                                    {strings.meteoSwissDescriptionOne}
+                                </div>
+                                <div>
+                                    {resolveToComponent(
+                                        strings.meteoSwissDescriptionTwo,
+                                        {
+                                            here: (
+
+                                                <Link
+                                                    href="https://www.meteoswiss.admin.ch/about-us/research-and-cooperation/projects/2021/weather4un.html"
+                                                    variant="tertiary"
+                                                    external
+                                                >
+                                                    {strings.here}
+                                                </Link>
+                                            ),
+                                        },
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    />
+                </>
             )}
         >
             {CurrentView && (

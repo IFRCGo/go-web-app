@@ -12,6 +12,8 @@ interface Props {
     infoLabel?: React.ReactNode;
     title?: React.ReactNode;
     description?: React.ReactNode;
+    descriptionClassName?: string;
+    popupClassName?: string;
     className?: string;
 }
 
@@ -23,6 +25,8 @@ function InfoPopup(props: Props) {
         title,
         description,
         withoutIcon,
+        popupClassName,
+        descriptionClassName,
     } = props;
 
     return (
@@ -37,14 +41,14 @@ function InfoPopup(props: Props) {
                     )}
                 </div>
             )}
-            popupClassName={styles.dropdownContainer}
+            popupClassName={_cs(styles.dropdownContainer, popupClassName)}
             className={_cs(styles.infoPopup, className)}
             variant="tertiary"
             withoutDropdownIcon
         >
             <Container
                 heading={title}
-                childrenContainerClassName={styles.content}
+                childrenContainerClassName={_cs(descriptionClassName, styles.content)}
                 withInternalPadding
             >
                 {description}
