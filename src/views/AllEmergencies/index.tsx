@@ -1,7 +1,10 @@
 import {
     useMemo,
+    useCallback,
 } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import { SortContext } from '#components/Table/useSorting';
@@ -14,11 +17,14 @@ import {
     createLinkColumn,
     createCountryListColumn,
 } from '#components/Table/ColumnShortcuts';
-import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
+import useAlert from '#hooks/useAlert';
 import useFilterState from '#hooks/useFilterState';
+import NumberOutput from '#components/NumberOutput';
+import ExportButton from '#components/domain/ExportButton';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import {
     useRequest,
@@ -56,6 +62,7 @@ export function Component() {
         filter: {},
         pageSize: 15,
     });
+    const alert = useAlert();
 
     const columns = useMemo(
         () => ([
@@ -186,6 +193,42 @@ export function Component() {
         [eventResponse, strings],
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'all-emergencies.csv');
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!eventResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/event/',
+            eventResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        eventResponse?.count,
+    ]);
+
     const isFiltered = isDefined(filterDisasterType)
         || isDefined(filterRegion)
         || isDefined(filterCountry);
@@ -224,6 +267,14 @@ export function Component() {
                         />
                         <div />
                     </>
+                )}
+                actions={(
+                    <ExportButton
+                        onClick={handleExportClick}
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={eventResponse?.count}
+                    />
                 )}
                 footerActions={(
                     <Pager

@@ -1,9 +1,12 @@
 import { useMemo, useCallback } from 'react';
 import { isDefined, isNotDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
+import ExportButton from '#components/domain/ExportButton';
 import Table from '#components/Table';
 import {
     createStringColumn,
@@ -14,6 +17,8 @@ import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
+import useAlert from '#hooks/useAlert';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { getDuration } from '#utils/common';
 
@@ -67,12 +72,14 @@ export function Component() {
         },
     });
 
+    const alert = useAlert();
     const getStatus = useCallback(
-        (alert: SurgeListItem) => {
-            if (alert.is_stood_down) {
+        (surgeAlert: SurgeListItem) => {
+            if (surgeAlert.is_stood_down) {
                 return strings.surgeAlertStoodDown;
             }
-            const closed = isDefined(alert.end) ? new Date(alert.end).getTime() < today : undefined;
+            const closed = isDefined(surgeAlert.end)
+                ? new Date(surgeAlert.end).getTime() < today : undefined;
             return closed ? strings.surgeAlertClosed : strings.surgeAlertOpen;
         },
         [strings],
@@ -157,6 +164,41 @@ export function Component() {
         [strings, getStatus],
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'surge-alerts.csv');
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!surgeResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/surge_alert/',
+            surgeResponse?.count,
+            {},
+        );
+    }, [
+        triggerExportStart,
+        surgeResponse?.count,
+    ]);
+
     const heading = resolveToComponent(
         strings.allSurgeAlertsHeading,
         { numSurgeAlerts: surgeResponse?.count ?? '--' },
@@ -175,6 +217,14 @@ export function Component() {
                         onActivePageChange={setPage}
                         itemsCount={surgeResponse?.count ?? 0}
                         maxItemsPerPage={limit}
+                    />
+                )}
+                actions={(
+                    <ExportButton
+                        onClick={handleExportClick}
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={surgeResponse?.count}
                     />
                 )}
             >

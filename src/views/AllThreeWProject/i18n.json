@@ -3,6 +3,7 @@
     "strings": {
         "allThreeWTitle": "All 3W",
         "allThreeWHeading": "All 3W Projects ({numThreeWs})",
+        "failedToCreateExport": "Failed to generate export.",
         "allThreeWCountry": "Receiving Country",
         "allThreeWNS": "National Society",
         "allThreeWProjectName": "Project Name",

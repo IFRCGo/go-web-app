@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import {
+    useState,
+    useCallback,
+} from 'react';
 import {
     EducationIcon,
     RedCrossNationalSocietyIcon,
     TargetedPopulationIcon,
     AddFillIcon,
 } from '@ifrc-go/icons';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import Link from '#components/Link';
@@ -15,7 +20,10 @@ import BarChart from '#components/BarChart';
 import PieChart from '#components/PieChart';
 import useTranslation from '#hooks/useTranslation';
 import { useRequest } from '#utils/restRequest';
+import ExportButton from '#components/domain/ExportButton';
 import { resolveToComponent } from '#utils/translation';
+import useAlert from '#hooks/useAlert';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 
 import RegionDropdown from './RegionDropdown';
 import Filter, { type FilterValue } from './Filters';
@@ -72,6 +80,7 @@ export function Component() {
         secondary_sectors: [],
     });
 
+    const alert = useAlert();
     const {
         pending: nsProjectsPending,
         response: nsProjectsResponse,
@@ -109,6 +118,51 @@ export function Component() {
             ),
         },
     );
+
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'all-projects.csv');
+        },
+    });
+
+    // NOTE: This request is made only to fetch the count
+    const {
+        response: projectsListResponse,
+    } = useRequest({
+        url: '/api/v2/project/',
+        query: {
+            limit: 0,
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!projectsListResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/project/',
+            projectsListResponse?.count,
+            {},
+        );
+    }, [
+        triggerExportStart,
+        projectsListResponse?.count,
+    ]);
 
     return (
         <Page
@@ -216,7 +270,15 @@ export function Component() {
                             />
                         )}
                         actions={(
-                            <RegionDropdown />
+                            <>
+                                <ExportButton
+                                    onClick={handleExportClick}
+                                    progress={progress}
+                                    pendingExport={pendingExport}
+                                    totalCount={projectsListResponse?.count}
+                                />
+                                <RegionDropdown />
+                            </>
                         )}
                     >
                         <Map projectList={nsProjectsResponse} />

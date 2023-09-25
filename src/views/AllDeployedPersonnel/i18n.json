@@ -2,7 +2,7 @@
     "namespace": "allDeployedPersonnel",
     "strings": {
         "containerHeading": "All Deployed Personnel ({count})",
-        "exportTable": "Export Table",
+        "failedToCreateExport": "Failed to generate export.",
         "rapidResponse": "Rapid Response",
         "personnelTableStartDate": "Start Date",
         "personnelTableEndDate": "End Date",

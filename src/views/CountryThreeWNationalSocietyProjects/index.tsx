@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import {
     isDefined,
     isNotDefined,
@@ -9,19 +9,20 @@ import {
 import {
     useOutletContext,
 } from 'react-router-dom';
-import {
-    DownloadFillIcon,
-} from '@ifrc-go/icons';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import BlockLoading from '#components/BlockLoading';
-import Button from '#components/Button';
 import Container from '#components/Container';
 import ExpandableContainer from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
 import Link from '#components/Link';
+import ExportButton from '#components/domain/ExportButton';
 import Message from '#components/Message';
 import PieChart from '#components/PieChart';
+import useAlert from '#hooks/useAlert';
 import Table from '#components/Table';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import {
     createElementColumn,
     createNumberColumn,
@@ -31,7 +32,9 @@ import ProjectActions, { Props as ProjectActionsProps } from '#components/domain
 import useTranslation from '#hooks/useTranslation';
 import useFilterState from '#hooks/useFilterState';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
-import { resolveToString } from '#utils/translation';
+import {
+    resolveToString,
+} from '#utils/translation';
 import { sumSafe } from '#utils/common';
 import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
@@ -97,6 +100,7 @@ export function Component() {
     } = useFilterState<FilterValue>({
         filter: {},
     });
+    const alert = useAlert();
     const {
         countryResponse,
         countryResponsePending,
@@ -233,6 +237,44 @@ export function Component() {
 
     const countryIdList = Object.keys(countryGroupedProjects);
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, `${countryResponse?.name}-data-export.csv`);
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!projectListResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/project/',
+            projectListResponse?.count,
+            {
+                reporting_ns: isDefined(countryResponse) ? [countryResponse.id] : undefined,
+            },
+        );
+    }, [
+        countryResponse,
+        triggerExportStart,
+        projectListResponse?.count,
+    ]);
+
     const showCard1 = activeNSCount > 0 || targetedPopulation > 0;
     const showCard2 = projectList.length > 0 || programmeTypeStats.length > 0;
     const showCard3 = ongoingProjectBudget > 0 || projectStatusTypeStats.length > 0;
@@ -332,13 +374,12 @@ export function Component() {
                 )}
                 actions={(
                     <>
-                        <Button
-                            variant="primary"
-                            name={undefined}
-                            icons={<DownloadFillIcon />}
-                        >
-                            {strings.exportProjects}
-                        </Button>
+                        <ExportButton
+                            onClick={handleExportClick}
+                            progress={progress}
+                            pendingExport={pendingExport}
+                            totalCount={projectListResponse?.count}
+                        />
                         <Link
                             to="allThreeWProject"
                             urlSearch={`reporting_ns=${countryResponse?.id}`}

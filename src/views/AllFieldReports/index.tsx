@@ -1,5 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
@@ -14,9 +16,12 @@ import {
 } from '#components/Table/ColumnShortcuts';
 import Pager from '#components/Pager';
 import NumberOutput from '#components/NumberOutput';
+import ExportButton from '#components/domain/ExportButton';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
+import useAlert from '#hooks/useAlert';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { resolveToComponent } from '#utils/translation';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
@@ -43,6 +48,7 @@ export function Component() {
         filter: {},
         pageSize: 15,
     });
+    const alert = useAlert();
     const [filterDisasterType, setFilterDisasterType] = useUrlSearchState<number | undefined>(
         'dtype',
         (searchValue) => {
@@ -108,19 +114,27 @@ export function Component() {
         [strings],
     );
 
+    const query = useMemo(() => ({
+        limit,
+        offset,
+        ordering,
+        dtype: filterDisasterType,
+        countries__in: filterCountry,
+    }), [
+        limit,
+        offset,
+        ordering,
+        filterDisasterType,
+        filterCountry,
+    ]);
+
     const {
         pending: fieldReportPending,
         response: fieldReportResponse,
     } = useRequest({
         url: '/api/v2/field-report/',
         preserveResponse: true,
-        query: {
-            limit,
-            offset,
-            ordering,
-            dtype: filterDisasterType,
-            countries__in: filterCountry,
-        },
+        query,
     });
 
     const fieldReportFiltered = (
@@ -140,6 +154,42 @@ export function Component() {
         ),
         [fieldReportResponse, strings],
     );
+
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'field-reports.csv');
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!fieldReportResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/field-report/',
+            fieldReportResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        fieldReportResponse?.count,
+    ]);
 
     return (
         <Page
@@ -167,6 +217,14 @@ export function Component() {
                             onChange={setFilterCountry}
                         />
                     </>
+                )}
+                actions={(
+                    <ExportButton
+                        onClick={handleExportClick}
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={fieldReportResponse?.count}
+                    />
                 )}
                 footerActions={(
                     <Pager

@@ -3,6 +3,7 @@
     "strings": {
         "activeDeploymentsTitle": "Active National Societies",
         "targetedPopulationTitle": "Targeted Population",
+        "failedToCreateExport": "Failed to generate export.",
         "totalProjectsTitle": "Total Projects",
         "ongoingProjectBudgetTitle": "Total Budget (CHF) for Ongoing Projects",
         "threeWOngoingProjectsTitle": "Ongoing Projects",

@@ -3,6 +3,7 @@
     "strings": {
         "allSurgeAlertsTitle": "All Surge Alerts",
         "allSurgeAlertsHeading": "All Surge Alerts ({numSurgeAlerts})",
+        "failedToCreateExport": "Failed to generate export.",
         "surgeAlertDate": "Alert Date",
         "surgeAlertDuration": "Duration",
         "surgeAlertPosition": "Position",

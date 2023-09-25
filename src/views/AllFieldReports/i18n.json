@@ -2,6 +2,7 @@
     "namespace": "allFieldReports",
     "strings": {
         "allFieldReportsTitle": "All Field Reports",
+        "failedToCreateExport": "Failed to generate export.",
         "allFieldReportsHeading": "All Field Reports ({numFieldReports})",
         "allFieldReportsCreatedAt":"Created At",
         "allFieldReportsName":"Name",

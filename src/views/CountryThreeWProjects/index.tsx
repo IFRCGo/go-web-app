@@ -1,6 +1,7 @@
 import {
     useMemo,
     useState,
+    useCallback,
 } from 'react';
 import {
     isDefined,
@@ -13,13 +14,14 @@ import {
 import {
     useOutletContext,
 } from 'react-router-dom';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 import {
     PencilFillIcon,
-    DownloadFillIcon,
 } from '@ifrc-go/icons';
 
 import BlockLoading from '#components/BlockLoading';
-import Button from '#components/Button';
+import ExportButton from '#components/domain/ExportButton';
 import Container from '#components/Container';
 import ExpandableContainer from '#components/ExpandableContainer';
 import KeyFigure from '#components/KeyFigure';
@@ -31,7 +33,11 @@ import ProjectActions, { Props as ProjectActionsProps } from '#components/domain
 import type { CountryOutletContext } from '#utils/outletContext';
 import type { GoApiResponse } from '#utils/restRequest';
 import useTranslation from '#hooks/useTranslation';
-import { resolveToString } from '#utils/translation';
+import useAlert from '#hooks/useAlert';
+import {
+    resolveToString,
+} from '#utils/translation';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { sumSafe, denormalizeList, hasSomeDefinedValue } from '#utils/common';
 import { useRequest } from '#utils/restRequest';
 import { PROJECT_STATUS_ONGOING } from '#utils/constants';
@@ -108,6 +114,7 @@ export function Component() {
         primary_sector: [],
         secondary_sectors: [],
     });
+    const alert = useAlert();
 
     const isFiltered = hasSomeDefinedValue(filters);
 
@@ -290,6 +297,46 @@ export function Component() {
 
     const districtIdList = Object.keys(districtGroupedProject);
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, `${countryResponse?.name}-data-export.csv`);
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!projectListResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/project/',
+            projectListResponse?.count,
+            {
+                country: isDefined(countryId)
+                    ? [countryId]
+                    : undefined,
+            },
+        );
+    }, [
+        countryId,
+        triggerExportStart,
+        projectListResponse?.count,
+    ]);
+
     return (
         <div className={styles.countryThreeWProjects}>
             {projectListPending && <BlockLoading />}
@@ -376,13 +423,12 @@ export function Component() {
                 )}
                 actions={(
                     <>
-                        <Button
-                            variant="primary"
-                            name={undefined}
-                            icons={(<DownloadFillIcon />)}
-                        >
-                            {strings.exportProjects}
-                        </Button>
+                        <ExportButton
+                            onClick={handleExportClick}
+                            progress={progress}
+                            pendingExport={pendingExport}
+                            totalCount={projectListResponse?.count}
+                        />
                         <Link
                             to="allThreeWProject"
                             urlSearch={`country=${countryResponse?.id}`}

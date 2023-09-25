@@ -1,5 +1,7 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -16,8 +18,11 @@ import useFilterState from '#hooks/useFilterState';
 import { useRequest } from '#utils/restRequest';
 import type { GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
+import ExportButton from '#components/domain/ExportButton';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import { numericIdSelector } from '#utils/selectors';
 import { formatNumber } from '#utils/common';
+import useAlert from '#hooks/useAlert';
 
 import ThreeWProjectTableActions, {
     type Props as ThreeWProjectTableActionsProps,
@@ -50,6 +55,7 @@ export function Component() {
         },
         (reportingNs) => reportingNs,
     );
+    const alert = useAlert();
 
     const {
         page,
@@ -61,18 +67,25 @@ export function Component() {
         pageSize: 15,
     });
 
+    const query = useMemo(() => ({
+        limit,
+        offset,
+        country: isDefined(filterCountry) ? [filterCountry] : undefined,
+        reporting_ns: isDefined(filterReportingNS) ? [filterReportingNS] : undefined,
+    }), [
+        limit,
+        offset,
+        filterCountry,
+        filterReportingNS,
+    ]);
+
     const {
         response: projectResponse,
         pending: projectResponsePending,
     } = useRequest({
         url: '/api/v2/project/',
         preserveResponse: true,
-        query: {
-            limit,
-            offset,
-            country: isDefined(filterCountry) ? [filterCountry] : undefined,
-            reporting_ns: isDefined(filterReportingNS) ? [filterReportingNS] : undefined,
-        },
+        query,
     });
 
     const projectColumns = useMemo(
@@ -146,6 +159,42 @@ export function Component() {
         { numThreeWs: formatNumber(projectResponse?.count) ?? '--' },
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'all-3w-projects.csv');
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!projectResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/project/',
+            projectResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        projectResponse?.count,
+    ]);
+
     return (
         <Page
             className={styles.allThreeW}
@@ -153,6 +202,14 @@ export function Component() {
             heading={heading}
         >
             <Container
+                actions={(
+                    <ExportButton
+                        onClick={handleExportClick}
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={projectResponse?.count}
+                    />
+                )}
                 footerActions={(
                     <Pager
                         activePage={page}

@@ -2,6 +2,7 @@
     "namespace": "allAppeals",
     "strings": {
         "allAppealsTitle": "All Appeals",
+        "failedToCreateExport": "Failed to generate export.",
         "allAppealsHeading": "All Appeals ({numAppeals})",
         "allAppealsStartDate": "Start Date",
         "allAppealsType": "Type",

@@ -1,17 +1,26 @@
-import { useMemo } from 'react';
+import {
+    useMemo,
+    useCallback,
+} from 'react';
 import { sumSafe } from '#utils/common';
 import { useOutletContext } from 'react-router-dom';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 import {
     compareNumber,
     isDefined,
     isNotDefined,
     mapToList,
 } from '@togglecorp/fujs';
-import { InformationLineIcon } from '@ifrc-go/icons';
+import {
+    InformationLineIcon,
+} from '@ifrc-go/icons';
 
 import BlockLoading from '#components/BlockLoading';
 import Container from '#components/Container';
 import KeyFigure from '#components/KeyFigure';
+import ExportButton from '#components/domain/ExportButton';
+import useAlert from '#hooks/useAlert';
 import Message from '#components/Message';
 import Pager from '#components/Pager';
 import InfoPopup from '#components/InfoPopup';
@@ -35,6 +44,7 @@ import {
 import type { EmergencyOutletContext } from '#utils/outletContext';
 import { type GoApiResponse } from '#utils/restRequest';
 import { useRequest } from '#utils/restRequest';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 
 import ActivityActions, { type Props as ActivityActionsProps } from './ActivityActions';
 import ActivityDetail from './ActivityDetail';
@@ -267,6 +277,41 @@ export function Component() {
         || (isDefined(sectorGroupedEmergencyProjectList)
             && (sectorGroupedEmergencyProjectList.length < 1)));
 
+    const alert = useAlert();
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'Data Export.csv');
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!emergencyProjectListResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/appeal/',
+            emergencyProjectListResponse.count,
+            {},
+        );
+    }, [
+        triggerExportStart,
+        emergencyProjectListResponse?.count,
+    ]);
     return (
         <div className={styles.emergencyActivities}>
             <Container
@@ -391,13 +436,24 @@ export function Component() {
                         </Container>
                     )}
                 />
-                <Table
-                    filtered={isFiltered}
-                    pending={emergencyProjectListResponsePending}
-                    data={paginatedEmergencyProjectList}
-                    columns={columns}
-                    keySelector={numericIdSelector}
-                />
+                <Container
+                    actions={(
+                        <ExportButton
+                            onClick={handleExportClick}
+                            progress={progress}
+                            pendingExport={pendingExport}
+                            totalCount={emergencyProjectListResponse?.count}
+                        />
+                    )}
+                >
+                    <Table
+                        filtered={isFiltered}
+                        pending={emergencyProjectListResponsePending}
+                        data={paginatedEmergencyProjectList}
+                        columns={columns}
+                        keySelector={numericIdSelector}
+                    />
+                </Container>
             </Container>
         </div>
     );

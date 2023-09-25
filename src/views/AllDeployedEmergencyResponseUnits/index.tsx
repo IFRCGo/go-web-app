@@ -2,10 +2,13 @@ import {
     useMemo,
     useCallback,
 } from 'react';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 import {
     isNotDefined,
     listToMap,
 } from '@togglecorp/fujs';
+
 import useTranslation from '#hooks/useTranslation';
 import {
     type GoApiResponse,
@@ -15,7 +18,9 @@ import { resolveToComponent } from '#utils/translation';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
 import Page from '#components/Page';
-import Button from '#components/Button';
+import ExportButton from '#components/domain/ExportButton';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
+import useAlert from '#hooks/useAlert';
 import {
     SortContext,
 } from '#components/Table/useSorting';
@@ -50,6 +55,7 @@ export function Component() {
         pageSize: 10,
     });
 
+    const alert = useAlert();
     const {
         deployments_eru_type,
     } = useGlobalEnums();
@@ -75,18 +81,24 @@ export function Component() {
         [eruTypes],
     );
 
+    const query = useMemo(() => ({
+        limit,
+        offset,
+        ordering,
+        deployed_to__isnull: false,
+    }), [
+        limit,
+        offset,
+        ordering,
+    ]);
+
     const {
         response: eruResponse,
         pending: eruPending,
     } = useRequest({
         url: '/api/v2/eru/',
         preserveResponse: true,
-        query: {
-            limit,
-            offset,
-            ordering,
-            deployed_to__isnull: false,
-        },
+        query,
     });
 
     const columns = useMemo(
@@ -150,19 +162,54 @@ export function Component() {
         },
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'deployed-erus.csv');
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!eruResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/eru/',
+            eruResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        eruResponse?.count,
+    ]);
+
     return (
         <Page>
             <Container
                 heading={containerHeading}
                 withHeaderBorder
                 actions={(
-                    // FIXME complete export table
-                    <Button
-                        name={undefined}
-                        variant="secondary"
-                    >
-                        {strings.exportTable}
-                    </Button>
+                    <ExportButton
+                        onClick={handleExportClick}
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={eruResponse?.count}
+                    />
                 )}
                 footerActions={(
                     <Pager

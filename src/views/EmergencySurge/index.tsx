@@ -21,7 +21,7 @@ export function Component() {
     const strings = useTranslation(i18n);
 
     const {
-        response: deployementResponse,
+        response: deploymentResponse,
     } = useRequest({
         url: '/api/v2/deployment/aggregated',
         preserveResponse: true,
@@ -37,14 +37,14 @@ export function Component() {
                 <KeyFigure
                     icon={<DeployedIcon />}
                     className={styles.keyFigure}
-                    value={deployementResponse?.active_deployments}
+                    value={deploymentResponse?.active_deployments}
                     compactValue
                     label={strings.emergencyActiveDeployments}
                 />
                 <KeyFigure
                     icon={<EmergencyResponseUnitIcon />}
                     className={styles.keyFigure}
-                    value={deployementResponse?.active_erus}
+                    value={deploymentResponse?.active_erus}
                     compactValue
                     label={strings.emergencyActiveErus}
                 />

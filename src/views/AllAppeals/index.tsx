@@ -1,5 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import Table from '#components/Table';
@@ -13,11 +15,14 @@ import {
     createProgressColumn,
 } from '#components/Table/ColumnShortcuts';
 import { SortContext } from '#components/Table/useSorting';
-import NumberOutput from '#components/NumberOutput';
 import Pager from '#components/Pager';
 import useTranslation from '#hooks/useTranslation';
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import { resolveToComponent } from '#utils/translation';
+import ExportButton from '#components/domain/ExportButton';
+import NumberOutput from '#components/NumberOutput';
+import useAlert from '#hooks/useAlert';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
 import {
     useRequest,
     type GoApiResponse,
@@ -61,6 +66,7 @@ export function Component() {
         filter: {},
         pageSize: 10,
     });
+    const alert = useAlert();
 
     const { api_appeal_type: appealTypeOptions } = useGlobalEnums();
 
@@ -243,6 +249,42 @@ export function Component() {
         [appealsResponse, strings],
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'all-appeals.csv');
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!appealsResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/appeal/',
+            appealsResponse.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        appealsResponse?.count,
+    ]);
+
     const isFilterApplied = isDefined(filterDisasterType)
         || isDefined(filterAppealType)
         || isDefined(filterCountry);
@@ -290,6 +332,14 @@ export function Component() {
                             onChange={setFilterCountry}
                         />
                     </>
+                )}
+                actions={(
+                    <ExportButton
+                        onClick={handleExportClick}
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={appealsResponse?.count}
+                    />
                 )}
                 footerActions={(
                     <Pager

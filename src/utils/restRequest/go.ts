@@ -6,8 +6,8 @@ import {
 import { ContextInterface } from '@togglecorp/toggle-request';
 
 import { KEY_LANGUAGE_STORAGE, KEY_USER_STORAGE } from '#utils/constants';
-import { resolveUrl } from '#utils/resolveUrl';
 import { getFromStorage } from '#utils/localStorage';
+import { resolveUrl } from '#utils/resolveUrl';
 import {
     riskApi,
     api,

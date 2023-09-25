@@ -1,5 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { isDefined } from '@togglecorp/fujs';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 import Page from '#components/Page';
 import Container from '#components/Container';
@@ -16,7 +18,10 @@ import {
 import useUrlSearchState from '#hooks/useUrlSearchState';
 import useFilterState from '#hooks/useFilterState';
 import useTranslation from '#hooks/useTranslation';
+import ExportButton from '#components/domain/ExportButton';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
+import useRecursiveCsvExport from '#hooks/useRecursiveCsvRequest';
+import useAlert from '#hooks/useAlert';
 import { resolveToComponent } from '#utils/translation';
 import { numericIdSelector } from '#utils/selectors';
 import { formatNumber, sumSafe } from '#utils/common';
@@ -120,6 +125,7 @@ export function Component() {
         (country) => country,
     );
 
+    const alert = useAlert();
     const {
         page: projectActivePage,
         setPage: setProjectActivePage,
@@ -129,17 +135,24 @@ export function Component() {
         filter: {},
         pageSize: 15,
     });
+
+    const query = useMemo(() => ({
+        limit,
+        offset,
+        country: isDefined(filterCountry) ? [filterCountry] : undefined,
+    }), [
+        limit,
+        offset,
+        filterCountry,
+    ]);
+
     const {
         response: projectResponse,
         pending: projectResponsePending,
     } = useRequest({
         url: '/api/v2/emergency-project/',
         preserveResponse: true,
-        query: {
-            limit,
-            offset,
-            country: isDefined(filterCountry) ? [filterCountry] : undefined,
-        },
+        query,
     });
 
     const districtRendererParams = useCallback(
@@ -227,6 +240,41 @@ export function Component() {
         { numThreeWs: formatNumber(projectResponse?.count) ?? '--' },
     );
 
+    const [
+        pendingExport,
+        progress,
+        triggerExportStart,
+    ] = useRecursiveCsvExport({
+        onFailure: () => {
+            alert.show(
+                strings.failedToCreateExport,
+                { variant: 'danger' },
+            );
+        },
+        onSuccess: (data) => {
+            const unparseData = Papa.unparse(data);
+            const blob = new Blob(
+                [unparseData],
+                { type: 'text/csv' },
+            );
+            saveAs(blob, 'all-3w-emergency-projects.csv');
+        },
+    });
+
+    const handleExportClick = useCallback(() => {
+        if (!projectResponse?.count) {
+            return;
+        }
+        triggerExportStart(
+            '/api/v2/emergency-project/',
+            projectResponse?.count,
+            query,
+        );
+    }, [
+        query,
+        triggerExportStart,
+        projectResponse?.count,
+    ]);
     return (
         <Page
             className={styles.allThreeW}
@@ -234,6 +282,14 @@ export function Component() {
             heading={heading}
         >
             <Container
+                actions={(
+                    <ExportButton
+                        onClick={handleExportClick}
+                        progress={progress}
+                        pendingExport={pendingExport}
+                        totalCount={projectResponse?.count}
+                    />
+                )}
                 footerActions={(
                     <Pager
                         activePage={projectActivePage}
