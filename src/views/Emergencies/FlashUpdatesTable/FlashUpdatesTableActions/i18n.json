@@ -1,0 +1,7 @@
+{
+    "namespace": "emergencies",
+    "strings": {
+        "flashUpdateViewDetails": "View Details",
+        "flashUpdateEdit": "Edit"
+    }
+}
