@@ -13,7 +13,9 @@
         "allFieldReportsRegions":"Regions",
         "allFieldReportsViewAllReports":"View All Field Reports",
         "allFieldReportsFilterCountryPlaceholder": "All Countries",
+        "allFieldReportsFilterRegionPlaceholder": "All Regions",
         "allFieldReportsFilterDisastersPlaceholder": "All Disaster Types",
-        "allFieldReportsFilterRegionPlaceholder": "All Regions"
+        "allFieldReportsFilterCreatedDateAfter": "Created After",
+        "allFieldReportsFilterCreatedDateBefore": "Created Before"
     }
 }

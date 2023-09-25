@@ -33,6 +33,7 @@ import useFilterState from '#hooks/useFilterState';
 import CountrySelectInput from '#components/domain/CountrySelectInput';
 import RegionSelectInput from '#components/domain/RegionSelectInput';
 import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
+import DateInput from '#components/DateInput';
 
 import i18n from './i18n.json';
 import styles from './styles.module.css';
@@ -62,7 +63,13 @@ export function Component() {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        startDateAfter?: string,
+        startDateBefore?: string,
+    }>({
         filter: {},
         pageSize: 10,
     });
@@ -131,11 +138,8 @@ export function Component() {
             dtype: filterDisasterType,
             country: filterCountry,
             region: filterRegion,
-            /*
-            // TODO:
-            start_date__gte: undefined,
-            start_date__gte: undefined,
-            */
+            start_date__gte: filter.startDateAfter,
+            start_date__lte: filter.startDateBefore,
         }),
         [
             limit,
@@ -145,6 +149,7 @@ export function Component() {
             filterDisasterType,
             filterCountry,
             filterRegion,
+            filter,
         ],
     );
     const {
@@ -287,7 +292,8 @@ export function Component() {
 
     const isFilterApplied = isDefined(filterDisasterType)
         || isDefined(filterAppealType)
-        || isDefined(filterCountry);
+        || isDefined(filterCountry)
+        || filtered;
 
     return (
         <Page
@@ -300,6 +306,18 @@ export function Component() {
                 withGridViewInFilter
                 filters={(
                     <>
+                        <DateInput
+                            name="startDateAfter"
+                            label={strings.allAppealsFilterStartDateAfter}
+                            onChange={setFilterField}
+                            value={filter.startDateAfter}
+                        />
+                        <DateInput
+                            name="startDateBefore"
+                            label={strings.allAppealsFilterStartDateBefore}
+                            onChange={setFilterField}
+                            value={filter.startDateBefore}
+                        />
                         <SelectInput
                             placeholder={strings.allAppealsFilterAppealsPlaceholder}
                             label={strings.allAppealsType}

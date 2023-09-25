@@ -8,6 +8,9 @@
         "emergenciesTableGlide": "Glide",
         "emergenciesTableRequestedAmount": "Requested Amount",
         "emergenciesTableAffected": "# Affected",
-        "emergenciesTableAllEmergenciesLinkLabel": "View all Emergencies for {name}"
+        "emergenciesTableAllEmergenciesLinkLabel": "View all Emergencies for {name}",
+        "emergenciesTableFilterStartAfter": "Start After",
+        "emergenciesTableFilterStartBefore": "Start Before",
+        "emergenciesTableFilterDisastersPlaceholder": "All Disaster Types"
     }
 }

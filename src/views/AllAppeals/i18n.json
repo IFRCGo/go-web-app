@@ -16,6 +16,8 @@
         "allAppealsFilterCountryPlaceholder": "All Countries",
         "allAppealsFilterRegionPlaceholder": "All Regions",
         "allAppealsFilterAppealsPlaceholder": "All Appeal Types",
-        "allAppealsFilterDisastersPlaceholder": "All Disaster Types"
+        "allAppealsFilterDisastersPlaceholder": "All Disaster Types",
+        "allAppealsFilterStartDateAfter": "Start After",
+        "allAppealsFilterStartDateBefore": "Start Before"
     }
 }

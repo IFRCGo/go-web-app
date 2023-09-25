@@ -13,6 +13,8 @@ import {
 import Table from '#components/Table';
 import Container from '#components/Container';
 import Pager from '#components/Pager';
+import DateInput from '#components/DateInput';
+import DisasterTypeSelectInput from '#components/domain/DisasterTypeSelectInput';
 import useFilterState from '#hooks/useFilterState';
 import { useRequest, type GoApiResponse } from '#utils/restRequest';
 import { resolveToComponent } from '#utils/translation';
@@ -56,7 +58,14 @@ function EmergenciesOperationTable(props: Props) {
         setPage,
         limit,
         offset,
-    } = useFilterState<object>({
+        filter,
+        setFilterField,
+        filtered,
+    } = useFilterState<{
+        startDateAfter?: string,
+        startDateBefore?: string,
+        dType?: number,
+    }>({
         filter: {},
         pageSize: 10,
     });
@@ -118,7 +127,9 @@ function EmergenciesOperationTable(props: Props) {
             offset,
             countries__in: countryId,
             ordering,
-            disaster_start_date__gte: disasterStartDate,
+            disaster_start_date__gte: filter.startDateAfter ?? disasterStartDate,
+            disaster_start_date__lte: filter.startDateBefore,
+            dtype: filter.dType,
         },
     });
 
@@ -136,6 +147,30 @@ function EmergenciesOperationTable(props: Props) {
         <Container
             heading={emergenciesHeading}
             withHeaderBorder
+            withGridViewInFilter
+            filters={(
+                <>
+                    <DateInput
+                        name="startDateAfter"
+                        label={strings.emergenciesTableFilterStartAfter}
+                        onChange={setFilterField}
+                        value={filter.startDateAfter}
+                    />
+                    <DateInput
+                        name="startDateBefore"
+                        label={strings.emergenciesTableFilterStartBefore}
+                        onChange={setFilterField}
+                        value={filter.startDateBefore}
+                    />
+                    <DisasterTypeSelectInput
+                        placeholder={strings.emergenciesTableFilterDisastersPlaceholder}
+                        label={strings.emergenciesTableDisasterType}
+                        name="dType"
+                        value={filter.dType}
+                        onChange={setFilterField}
+                    />
+                </>
+            )}
             actions={(
                 <Link
                     to="allEmergencies"
@@ -157,7 +192,7 @@ function EmergenciesOperationTable(props: Props) {
         >
             <SortContext.Provider value={sortState}>
                 <Table
-                    filtered={false}
+                    filtered={filtered}
                     pending={countryEmergenciesPending}
                     data={countryEmergenciesResponse?.results}
                     keySelector={keySelector}

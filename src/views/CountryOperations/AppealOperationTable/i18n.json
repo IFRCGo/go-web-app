@@ -13,6 +13,9 @@
         "appealsTableStatus": "Active",
         "appealsTableCountry": "Country",
         "appealsTableAllOperationsLinkLabel": "View all Operations for {name}",
-        "appealsTableLink": "Link"
+        "appealsTableLink": "Link",
+        "appealsTableFilterStartAfter": "Start After",
+        "appealsTableFilterStartBefore": "Start Before",
+        "appealsTableFilterDisastersPlaceholder": "All Disaster Types"
     }
 }
